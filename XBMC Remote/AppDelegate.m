@@ -260,6 +260,8 @@ NSMutableArray *hostRightMenuItems;
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
         LOCALIZED_STR(@"Play"),
+        LOCALIZED_STR(@"Play in shuffle mode"),
+        LOCALIZED_STR(@"Play in party mode"),
         LOCALIZED_STR(@"Show Content")
     ];
 }

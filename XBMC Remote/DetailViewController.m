@@ -1201,15 +1201,9 @@
     if ([parameters[@"isMusicPlaylist"] boolValue] ||
         [parameters[@"isVideoPlaylist"] boolValue]) { // NOTE: sheetActions objects must be moved outside from there
         if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
-            [sheetActions removeAllObjects];
-            [sheetActions addObject:LOCALIZED_STR(@"Queue after current")];
-            [sheetActions addObject:LOCALIZED_STR(@"Queue")];
-            [sheetActions addObject:LOCALIZED_STR(@"Play")];
-            [sheetActions addObject:LOCALIZED_STR(@"Play in shuffle mode")];
-            if ([[item[@"file"] pathExtension] isEqualToString:@"xsp"] && [AppDelegate instance].serverVersion > 11) {
-                [sheetActions addObject:LOCALIZED_STR(@"Play in party mode")];
+            if (![[item[@"file"] pathExtension] isEqualToString:@"xsp"] || [AppDelegate instance].serverVersion <= 11) {
+                [sheetActions removeObject:LOCALIZED_STR(@"Play in party mode")];
             }
-            [sheetActions addObject:LOCALIZED_STR(@"Show Content")];
         }
     }
     return sheetActions;
