@@ -1182,7 +1182,7 @@
 -(void)didSelectItemAtIndexPath:(NSIndexPath *)indexPath item:(NSDictionary *)item displayPoint:(CGPoint) point{
     mainMenu *MenuItem = self.detailItem;
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[MenuItem.subItem mainMethod][choosedTab]];
-    NSMutableArray *sheetActions = [self.detailItem sheetActions][choosedTab];
+    NSMutableArray *sheetActions = [[self.detailItem sheetActions][choosedTab] mutableCopy];
     NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[MenuItem.subItem mainParameters][choosedTab]];
     int rectOriginX = point.x;
     int rectOriginY = point.y;
@@ -3022,7 +3022,7 @@ NSIndexPath *selected;
         if (indexPath != nil) {
             selected = indexPath;
             
-            NSMutableArray *sheetActions = [self.detailItem sheetActions][choosedTab];
+            NSMutableArray *sheetActions = [[self.detailItem sheetActions][choosedTab] mutableCopy];
             if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
                 [sheetActions removeObject:NSLocalizedString(@"Play Trailer", nil)];
                 [sheetActions removeObject:NSLocalizedString(@"Mark as watched", nil)];
