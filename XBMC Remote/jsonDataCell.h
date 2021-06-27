@@ -8,8 +8,8 @@
 //    IBOutlet UIActivityIndicatorView *queueActivity;
 }
 
-@property(nonatomic, readonly) UIImageView *urlImageView;
-@property(nonatomic, readonly) UIImageView *lineSeparator;
-//@property(nonatomic, readonly) UIActivityIndicatorView *queueActivity;
+@property (nonatomic, readonly) UIImageView *urlImageView;
+@property (nonatomic, readonly) UIImageView *lineSeparator;
+//@property (nonatomic, readonly) UIActivityIndicatorView *queueActivity;
 
 @end
