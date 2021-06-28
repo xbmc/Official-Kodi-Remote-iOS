@@ -600,9 +600,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     CGFloat deltaY = [[UIApplication sharedApplication] statusBarFrame].size.height;
-    self.peekLeftAmount = 40;
+    self.peekLeftAmount = ANCHOR_RIGHT_PEEK;
     CGRect frame = [[UIScreen mainScreen] bounds];
-    CGFloat deltaX = 40;
+    CGFloat deltaX = ANCHOR_RIGHT_PEEK;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         frame.size.width = STACKSCROLL_WIDTH;
         deltaX = 0;
