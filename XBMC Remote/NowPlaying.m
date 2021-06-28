@@ -11,7 +11,6 @@
 #import "UIImageView+WebCache.h"
 #import <QuartzCore/QuartzCore.h>
 #import "GlobalData.h"
-#import "VolumeSliderView.h"
 #import "SDImageCache.h"
 #import "RemoteController.h"
 #import "AppDelegate.h"
@@ -97,26 +96,6 @@
 
 -(UIImage *)resizeToolbarThumb: (UIImage *)img {
     return [self resizeImage:img width:34 height:34 padding:0];
-}
-
--(void)toggleViewToolBar:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
-	[UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-	[UIView setAnimationDuration:seconds];
-    int actualPosY = view.frame.origin.y;
-    if (actualPosY == Y || hide) {
-        Y = -view.frame.size.height;
-    }
-    view.alpha = alphavalue;
-	CGRect frame;
-	frame = [view frame];
-	frame.origin.y = Y;
-    view.frame = frame;
-    [UIView commitAnimations];
-}
-
-- (void)toggleVolume{
-    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:NO];
 }
 
 -(IBAction)changePlaylist:(id)sender{
@@ -302,39 +281,8 @@
 	return result;
 }
 
-- (UIImage*)imageWithShadow:(UIImage *)source {
-    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + 20, source.size.height + 20, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
-    CGColorSpaceRelease(colourSpace);
-    
-    CGContextSetShadowWithColor(shadowContext, CGSizeZero, 10, [UIColor blackColor].CGColor);
-    CGContextDrawImage(shadowContext, CGRectMake(10, 10, source.size.width, source.size.height), source.CGImage);
-    
-    CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
-    CGContextRelease(shadowContext);
-    
-    UIImage * shadowedImage = [UIImage imageWithCGImage:shadowedCGImage];
-    CGImageRelease(shadowedCGImage);
-    
-    return shadowedImage;
-}
-
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source{
-    return [self imageWithShadow:source];
-//    CGSize size = [source size];
-//    UIGraphicsBeginImageContext(size);
-//    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-//    [source drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
-//    
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
-//    CGFloat borderWidth = 2.0;
-//	CGContextSetLineWidth(context, borderWidth);
-//    CGContextStrokeRect(context, rect);
-//    
-//    UIImage *Img = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    return [self imageWithShadow:Img];
+    return [Utilities imageWithShadow:source radius:10];
 }
 
 #pragma  mark - JSON management
@@ -427,10 +375,6 @@ int currentItemID;
     [PartyModeButton setSelected:NO];
     repeatButton.hidden = YES;
     shuffleButton.hidden = YES;
-    albumDetailsButton.hidden = YES;
-    albumTracksButton.hidden = YES;
-    artistDetailsButton.hidden = YES;
-    artistAlbumsButton.hidden = YES;
     musicPartyMode = 0;
     [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
@@ -1728,7 +1672,6 @@ int currentItemID;
             
         case 5:
             [self animViews];
-            [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:YES];
             break;
             
         case 6:
@@ -1855,7 +1798,6 @@ int currentItemID;
     }
     else if ([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView]) {
         [self toggleSongDetails];
-        [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:0 forceHide:YES];
     }
 }
 
@@ -2875,10 +2817,6 @@ int currentItemID;
     lastSelected = -1;
     storedItemID = -1;
     storeSelection = nil;
-    albumDetailsButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    albumTracksButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    artistDetailsButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    artistAlbumsButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self setIphoneInterface];
     }

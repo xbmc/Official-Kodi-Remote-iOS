@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-//#import "VolumeSliderView.h"
 //#import "RightMenuViewController.h"
 
 @interface RemoteController : UIViewController {

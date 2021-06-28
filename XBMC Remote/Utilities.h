@@ -71,5 +71,6 @@ typedef enum {
 + (NSString*)getClearArtFromDictionary:(NSDictionary*)dict type:(NSString*)type;
 + (NSString*)getThumbnailFromDictionary:(NSDictionary*)dict useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon;
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
++ (UIImage*)imageWithShadow:(UIImage*)source radius:(CGFloat)radius;
 
 @end

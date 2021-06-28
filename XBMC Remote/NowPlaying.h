@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-#import "VolumeSliderView.h"
 #import "UIImageView+WebCache.h"
 #import "RightMenuViewController.h"
 #import "OBSlider.h"
@@ -19,8 +18,6 @@
 
 @interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIGestureRecognizerDelegate>{
     IBOutlet UITableView *playlistTableView;
-    IBOutlet UITableViewCell *playlistTableViewCell;
-   // IBOutlet jsonDataCell *jsonCell;
     IBOutlet UILabel *albumName;
     IBOutlet UILabel *songName;
     IBOutlet UILabel *artistName;
@@ -37,7 +34,6 @@
     IBOutlet UIView *songDetailsView;
     UILabel *viewTitle;
     NSTimer* timer;
-    VolumeSliderView *volumeSliderView;
     NSMutableArray *playlistData;
     IBOutlet UILabel *songCodec;
     __weak IBOutlet UIImageView *songCodecImage;
@@ -87,11 +83,7 @@
     BOOL fromItself;
     IBOutlet UIButton *shuffleButton;
     IBOutlet UIButton *repeatButton;
-    IBOutlet UIButton *albumDetailsButton;
-    IBOutlet UIButton *albumTracksButton;
-    IBOutlet UIButton *artistDetailsButton;
-    IBOutlet UIButton *artistAlbumsButton;
-        BOOL shuffled;
+    BOOL shuffled;
     NSString *repeatStatus;
     BOOL updateProgressBar;
     int globalSeconds;

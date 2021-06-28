@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,7 +18,6 @@
                 <outlet property="button6" destination="kky-5P-ej6" id="qLo-W7-R8t"/>
                 <outlet property="button7" destination="17m-9l-ySa" id="S4d-wL-mvU"/>
                 <outlet property="buttonsView" destination="116" id="134"/>
-                <outlet property="buttonsViewBgImage" destination="115" id="TEb-eA-6e2"/>
                 <outlet property="buttonsViewBgToolbar" destination="sPd-OR-uGy" id="DhA-1U-cyk"/>
                 <outlet property="dataList" destination="37" id="93"/>
                 <outlet property="debugText" destination="160" id="162"/>
@@ -83,10 +84,6 @@
                             <rect key="frame" x="0.0" y="562" width="839" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="st_background" translatesAutoresizingMaskIntoConstraints="NO" id="115">
-                                    <rect key="frame" x="0.0" y="0.0" width="839" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                </imageView>
                                 <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="sPd-OR-uGy">
                                     <rect key="frame" x="0.0" y="0.0" width="839" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
@@ -225,9 +222,8 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_dark" width="128" height="128"/>
-        <image name="shiny_black_back" width="128" height="128"/>
-        <image name="st_background" width="128" height="128"/>
-        <image name="tableDown" width="128" height="128"/>
+        <image name="icon_dark" width="37.5" height="37.5"/>
+        <image name="shiny_black_back" width="240" height="408"/>
+        <image name="tableDown" width="480" height="8"/>
     </resources>
 </document>

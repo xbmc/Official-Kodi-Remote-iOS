@@ -580,53 +580,6 @@
     }
 }
 
-- (UIImage*)imageWithShadow:(UIImage *)source shadowRadius:(int)shadowRadius {
-    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + shadowRadius * 2, source.size.height + shadowRadius * 2, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
-    CGColorSpaceRelease(colourSpace);
-    
-    CGContextSetShadowWithColor(shadowContext, CGSizeZero, shadowRadius, [UIColor blackColor].CGColor);
-    CGContextDrawImage(shadowContext, CGRectMake(shadowRadius, shadowRadius, source.size.width, source.size.height), source.CGImage);
-    
-    CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
-    CGContextRelease(shadowContext);
-    
-    UIImage * shadowedImage = [UIImage imageWithCGImage:shadowedCGImage];
-    CGImageRelease(shadowedCGImage);
-    
-    return shadowedImage;
-}
-
-- (UIImage*)imageWithBorderFromImage:(UIImage*)source shadowRadius:(int)shadowRadius{
-    CGSize size = [source size];
-    UIGraphicsBeginImageContext(size);
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    [source drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
-    CGFloat borderWidth = 2;
-	CGContextSetLineWidth(context, borderWidth);
-    CGContextStrokeRect(context, rect);
-    
-    UIImage *Img = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return [self imageWithShadow:Img shadowRadius:shadowRadius];
-}
-
--(void)elaborateImage:(UIImage *)image shadowRadius:(int)shadowRadius destination:(UIImageView *)imageViewDestination{
-    UIImage *elabImage = [self imageWithBorderFromImage:image shadowRadius:shadowRadius];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:elabImage, @"image", imageViewDestination, @"destinationView", nil];
-    [self performSelectorOnMainThread:@selector(showImage:) withObject:params waitUntilDone:YES];
-}
-
--(void)showImage:(NSDictionary *)params{
-    UIImage *image = params[@"image"];
-    UIImageView *destinationView = params[@"destinationView"];
-    destinationView.image = image;
-    [self alphaView:destinationView AnimDuration:0.1 Alpha:1.0];
-}
-
 #pragma mark - Tabbar management
 
 -(IBAction)showMore:(id)sender{
@@ -3573,7 +3526,7 @@ NSIndexPath *selected;
                          animations:^{
                              collectionView.alpha = 0;
                              dataList.alpha = 0;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 1.0;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = 1.0;
                             
                          }
                          completion:^(BOOL finished) {
@@ -3626,7 +3579,7 @@ NSIndexPath *selected;
                          animations:^{
                              collectionView.alpha = 0;
                              dataList.alpha = 0;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = buttonsViewBgImage.alpha = 0.0;
+                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = 0.0;
                          }
                          completion:^(BOOL finished) {
                              button6.hidden = YES;
@@ -5595,7 +5548,6 @@ NSIndexPath *selected;
     CGRect frame = dataList.frame;
     frame.size.height = self.view.bounds.size.height;
     dataList.frame = frame;
-    buttonsViewBgImage.hidden = YES;
     buttonsViewBgToolbar.hidden = NO;
     
     __weak DetailViewController *weakSelf = self;

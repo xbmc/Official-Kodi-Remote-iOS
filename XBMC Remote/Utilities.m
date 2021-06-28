@@ -671,4 +671,21 @@
     return urlString;
 }
 
++ (UIImage*)imageWithShadow:(UIImage*)source radius:(CGFloat)radius {
+    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + radius * 2, source.size.height + radius * 2, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
+    CGColorSpaceRelease(colourSpace);
+
+    CGContextSetShadowWithColor(shadowContext, CGSizeZero, radius, [UIColor blackColor].CGColor);
+    CGContextDrawImage(shadowContext, CGRectMake(radius, radius, source.size.width, source.size.height), source.CGImage);
+
+    CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
+    CGContextRelease(shadowContext);
+
+    UIImage * shadowedImage = [UIImage imageWithCGImage:shadowedCGImage];
+    CGImageRelease(shadowedCGImage);
+
+    return shadowedImage;
+}
+
 @end

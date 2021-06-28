@@ -176,26 +176,6 @@
 
 # pragma mark - toolbar management
 
--(void)toggleViewToolBar:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue YPos:(int)Y forceHide:(BOOL)hide {
-	[UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-	[UIView setAnimationDuration:seconds];
-    int actualPosY = view.frame.origin.y;
-    CGRect frame;
-	frame = [view frame];
-    if (actualPosY < 667 || hide) {
-        Y = self.view.frame.size.height;
-    }
-    view.alpha = alphavalue;
-	frame.origin.y = Y;
-    view.frame = frame;
-    [UIView commitAnimations];
-}
-
-- (void)toggleVolume{
-    [self toggleViewToolBar:volumeSliderView AnimDuration:0.3 Alpha:1.0 YPos:volumeSliderView.frame.origin.y - volumeSliderView.frame.size.height - 42 forceHide:NO];
-}
-
 -(void)initHostManagemetPopOver{
     self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     [AppDelegate instance].navigationController = [[CustomNavigationController alloc] initWithRootViewController:_hostPickerViewController];
