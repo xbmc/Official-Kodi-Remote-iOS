@@ -24,6 +24,11 @@ typedef enum {
     bgTrans
 } LogoBackgroundType;
 
+typedef enum {
+    remoteTop,
+    remoteBottom
+} RemotePositionType;
+
 @interface Utilities : NSObject
 
 + (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse;
@@ -36,6 +41,7 @@ typedef enum {
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color;
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode;
 + (LogoBackgroundType)getLogoBackgroundMode;
++ (RemotePositionType)getRemotePositionMode;
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage;
 + (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode;
 + (CGFloat)getTransformX;
