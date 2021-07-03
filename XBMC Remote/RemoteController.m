@@ -19,11 +19,13 @@
 #import "DetailViewController.h"
 
 #define ROTATION_TRIGGER 0.015
-#define REMOTE_PADDING 120 // Space which is used up by footer, header and remote toolbar
+#define REMOTE_PADDING (44 + 20 + 44) // Space which is used up by footer, header and remote toolbar
+#define EMBEDDED_PADDING 44
 #define TOOLBAR_ICON_SIZE 36
-#define TOOLBAR_SPACING 8 // Space from icon to frame border
-#define TOOLBAR_PADDING 68
-#define TOOLBAR_START (3*TOOLBAR_PADDING + TOOLBAR_ICON_SIZE + TOOLBAR_SPACING) // Origin for first toolbar icon
+#define TOOLBAR_FIXED_OFFSET 8
+#define TOOLBAR_FLEX_SPACE ((self.view.bounds.size.width * [Utilities getTransformX] - 5 * TOOLBAR_ICON_SIZE) / 6)
+#define TOOLBAR_PADDING (TOOLBAR_ICON_SIZE + TOOLBAR_FLEX_SPACE)
+#define TOOLBAR_START (4*TOOLBAR_PADDING + TOOLBAR_ICON_SIZE + TOOLBAR_FLEX_SPACE) // Origin for first toolbar icon
 
 @interface RemoteController ()
 
@@ -43,6 +45,10 @@
     }
 }
 
+- (BOOL)hasRemoteToolBar {
+    return UIScreen.mainScreen.bounds.size.height >= 568;
+}
+
 - (void)moveButton:(NSArray*)buttonsToDo ypos:(int)y {
     for (UIButton *button in buttonsToDo) {
         [button setFrame:CGRectMake(button.frame.origin.x, button.frame.origin.y + y, button.frame.size.width, button.frame.size.height)];
@@ -58,6 +64,7 @@
 - (void)setEmbeddedView {
     CGRect frame = TransitionalView.frame;
     CGFloat newWidth = remoteControlView.frame.size.width - ANCHOR_RIGHT_PEEK;
+    CGFloat shift;
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton*)self.view viewWithTag:2],
                        [(UIButton*)self.view viewWithTag:3],
@@ -66,16 +73,18 @@
                        [(UIButton*)self.view viewWithTag:8],
                        nil]
                 hide:YES];
-    if ([[UIScreen mainScreen] bounds].size.height >= 568) {
+    if ([self hasRemoteToolBar]) {
+        shift = [self.view viewWithTag:21].frame.size.height;
         [self moveButton: [NSArray arrayWithObjects:
                            (UIButton*)[self.view viewWithTag:21],
                            (UIButton*)[self.view viewWithTag:22],
                            (UIButton*)[self.view viewWithTag:23],
                            (UIButton*)[self.view viewWithTag:24],
                            nil]
-                    ypos: -32];
+                    ypos: -shift];
     }
     else {
+        shift = 2.0 * [self.view viewWithTag:21].frame.size.height;
         [self hideButton: [NSArray arrayWithObjects:
                            [(UIButton*)self.view viewWithTag:21],
                            [(UIButton*)self.view viewWithTag:22],
@@ -84,6 +93,13 @@
                            nil]
                     hide: YES];
     }
+    // Keep the buttons out of the safe area
+    CGFloat bottomPadding = 0.0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
+    
     // Place the transitional view in the middle between the two button rows
     CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:21].frame);
     CGFloat upperButtonLowerBorder = CGRectGetMaxY([self.view viewWithTag:6].frame);
@@ -92,7 +108,16 @@
     
     // Maintain aspect ratio
     CGFloat newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
-    [remoteControlView setFrame:CGRectMake(-1, 0, newWidth, newHeight)];
+    CGFloat offset = 0;
+    RemotePositionType positionMode = [Utilities getRemotePositionMode];
+    if (positionMode == remoteBottom && [self hasRemoteToolBar]) {
+        offset = -newHeight + shift + EMBEDDED_PADDING - bottomPadding;
+        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    }
+    else {
+        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+    }
+    [remoteControlView setFrame:CGRectMake(-1, offset, newWidth, newHeight)];
     
     UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -129,44 +154,65 @@
     if (self.detailItem) {
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
+    RemotePositionType positionMode = [Utilities getRemotePositionMode];
+    CGFloat toolbarPadding = TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET;
+    if (![self hasRemoteToolBar]) {
+        toolbarPadding = 0;
+    }
     quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
     if (IS_IPHONE) {
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
-        frame.size.height = frame.size.height *transform;
-        frame.size.width = frame.size.width*transform;
+        frame.size.height *= transform;
+        frame.size.width *= transform;
+        if (positionMode == remoteBottom && [self hasRemoteToolBar]) {
+            frame.origin.y = remoteControlView.frame.size.height - frame.size.height - toolbarPadding;
+            remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        }
+        else {
+            frame.origin.y = 0;
+            remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+        }
         remoteControlView.frame = frame;
+        frame.origin.y = 0;
+        quickHelpView.frame = frame;
         frame = subsInfoLabel.frame;
         frame.size.width = [[UIScreen mainScreen] bounds].size.width;
         frame.origin.x = ((remoteControlView.frame.size.width - [[UIScreen mainScreen] bounds].size.width) / 2);
         subsInfoLabel.frame = frame;
     }
     else {
-        [quickHelpView setFrame:CGRectMake(quickHelpView.frame.origin.x, quickHelpView.frame.origin.y, quickHelpView.frame.size.width, quickHelpView.frame.size.height - 20)];
-        [quickHelpView
-         setAutoresizingMask:
-         UIViewAutoresizingFlexibleBottomMargin |
-         UIViewAutoresizingFlexibleTopMargin |
-         UIViewAutoresizingFlexibleLeftMargin |
-         UIViewAutoresizingFlexibleRightMargin |
-         UIViewAutoresizingFlexibleHeight |
-         UIViewAutoresizingFlexibleWidth
-         ];
-        
+        // Used to avoid drawing remote buttons into the safe area
+        CGFloat bottomPadding = 0.0;
+        if (@available(iOS 11.0, *)) {
+            UIWindow *window = UIApplication.sharedApplication.keyWindow;
+            bottomPadding = window.safeAreaInsets.bottom;
+        }
         // Calculate the maximum possible scaling for the remote
         CGFloat scaleFactorHorizontal = STACKSCROLL_WIDTH / CGRectGetWidth(remoteControlView.frame);
-        CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING;
+        CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING - bottomPadding;
         CGFloat scaleFactorVertical = minViewHeight / CGRectGetHeight(remoteControlView.frame);
         CGFloat transform = MIN(scaleFactorHorizontal, scaleFactorVertical);
 
-        CGFloat newWidth = CGRectGetWidth(remoteControlView.frame) * transform;
-        CGFloat newHeight = CGRectGetHeight(remoteControlView.frame) * transform;
-        [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
-        CGRect frame = subsInfoLabel.frame;
-        frame.size.width = newWidth;
+        CGRect frame = remoteControlView.frame;
+        frame.size.height *= transform;
+        frame.size.width *= transform;
+        frame.origin.x = (STACKSCROLL_WIDTH - frame.size.width)/2;
+        if (positionMode == remoteBottom && [self hasRemoteToolBar]) {
+            frame.origin.y = remoteControlView.frame.size.height - frame.size.height - toolbarPadding;
+            remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        }
+        else {
+            frame.origin.y = 0;
+            remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+        }
+        remoteControlView.frame = frame;
+        frame.origin = CGPointZero;
+        quickHelpView.frame = frame;
+        frame = subsInfoLabel.frame;
+        frame.size.width = remoteControlView.frame.size.width;
         frame.origin.x = 0;
         subsInfoLabel.frame = frame;
-        
     }
     UISwipeGestureRecognizer *gestureRightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     gestureRightSwipe.numberOfTouchesRequired = 1;
@@ -1124,8 +1170,8 @@ NSInteger buttonAction;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
-        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
+        UIImage* settingsImg = [UIImage imageNamed:@"default-right-menu-icon"];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(handleSettingsButton:)];
         [self.navigationController.navigationBar setBarTintColor:REMOTE_CONTROL_BAR_TINT_COLOR];
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -1171,7 +1217,7 @@ NSInteger buttonAction;
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
-- (void)revealUnderRight:(id)sender {
+- (void)revealUnderRight {
     [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
@@ -1241,25 +1287,25 @@ NSInteger buttonAction;
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
     }
-    torchIsOn = NO;
-    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
-    if (captureDeviceClass != nil) {
-        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        if ([device hasTorch] && [device hasFlash]) {
-            if ([device torchLevel]) {
-                torchIsOn = YES;
+    if ([self hasRemoteToolBar]) {
+        torchIsOn = NO;
+        Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+        if (captureDeviceClass != nil) {
+            AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+            if ([device hasTorch] && [device hasFlash]) {
+                if ([device torchLevel]) {
+                    torchIsOn = YES;
+                }
             }
         }
-    }
-    if (IS_IPAD) {
-        CGRect frame = CGRectMake(self.view.bounds.size.width - TOOLBAR_START, self.view.bounds.size.height - TOOLBAR_ICON_SIZE - TOOLBAR_SPACING, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
+        CGRect frame = CGRectMake(self.view.bounds.size.width - TOOLBAR_START, self.view.bounds.size.height - TOOLBAR_ICON_SIZE - TOOLBAR_FIXED_OFFSET, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
         UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
         settingButton.frame = frame;
         [settingButton setContentMode:UIViewContentModeRight];
         [settingButton setShowsTouchWhenHighlighted:YES];
         [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
         settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [settingButton addTarget:self action:@selector(addButtonToListIPad:) forControlEvents:UIControlEventTouchUpInside];
+        [settingButton addTarget:self action:@selector(handleSettingsButton:) forControlEvents:UIControlEventTouchUpInside];
         settingButton.alpha = 0.8;
         [self.view addSubview:settingButton];
         
@@ -1273,7 +1319,7 @@ NSInteger buttonAction;
         [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
         gestureButton.alpha = 0.8;
         [self.view addSubview:gestureButton];
-        
+            
         UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
         frame.origin.x += TOOLBAR_PADDING;
         keyboardButton.frame = frame;
@@ -1295,11 +1341,32 @@ NSInteger buttonAction;
         [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
         helpButton.alpha = 0.8;
         [self.view addSubview:helpButton];
+        
+        UIButton *torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        frame.origin.x += TOOLBAR_PADDING;
+        torchButton.frame = frame;
+        [torchButton setContentMode:UIViewContentModeRight];
+        [torchButton setShowsTouchWhenHighlighted:YES];
+        [torchButton setImage:[UIImage imageNamed:torchIsOn ? @"torch_on" : @"torch"] forState:UIControlStateNormal];
+        torchButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+        [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
+        torchButton.alpha = 0.8;
+        [self.view addSubview:torchButton];
     }
+    
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat"]]];
 }
 
-- (void)addButtonToListIPad:(id)sender {
+- (void)handleSettingsButton:(id)sender {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [self revealUnderRight];
+    }
+    else {
+        [self addButtonToListIPad];
+    }
+}
+
+- (void)addButtonToListIPad {
     if ([AppDelegate instance].serverVersion < 13) {
         UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
         [self presentViewController:alertView animated:YES completion:nil];
