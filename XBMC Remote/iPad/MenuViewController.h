@@ -40,16 +40,16 @@
 
 
 @interface MenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	UITableView*  _tableView;
+	UITableView *_tableView;
     NSMutableArray *mainMenuItems;
     IBOutlet UITableViewCell *resultMenuCell;
     int lastSelected;
 }
 
-- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu;
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu;
 - (void)setLastSelected:(int)selection;
 
-@property(nonatomic, retain) UITableView* tableView;
+@property (nonatomic, retain) UITableView* tableView;
 
 
 @end

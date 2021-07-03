@@ -64,7 +64,7 @@ typedef enum {
  *  methodResult will be the appropriate Objective-C object type based on the type set as the result on the server.
  *
 **/
-- (void)jsonRPC:(DSJSONRPC *)jsonRPC didFinishMethod:(NSString *)methodName forId:(NSInteger)aId withResult:(id)methodResult;
+- (void)jsonRPC:(DSJSONRPC*)jsonRPC didFinishMethod:(NSString*)methodName forId:(NSInteger)aId withResult:(id)methodResult;
 
 /**
  *  Invoked when the method is completed and the error key is set in the response.
@@ -72,7 +72,7 @@ typedef enum {
  *  methodError is an Objective-C object which contains all information provided by the offical JSON-RPC error response structure.
  *
 **/
-- (void)jsonRPC:(DSJSONRPC *)jsonRPC didFinishMethod:(NSStream *)methodName forId:(NSInteger)aId withError:(DSJSONRPCError *)methodError;
+- (void)jsonRPC:(DSJSONRPC*)jsonRPC didFinishMethod:(NSStream*)methodName forId:(NSInteger)aId withError:(DSJSONRPCError*)methodError;
 
 /**
  *  Invoked when an error occurs with the connection or when the JSON payload can't be (de)serialized.
@@ -81,7 +81,7 @@ typedef enum {
  *  localizedDescription is the value from the original error that was generated.
  *
 **/
-- (void)jsonRPC:(DSJSONRPC *)jsonRPC didFailMethod:(NSString *)methodName forId:(NSInteger)aId withError:(NSError *)error;
+- (void)jsonRPC:(DSJSONRPC*)jsonRPC didFailMethod:(NSString*)methodName forId:(NSInteger)aId withError:(NSError*)error;
 @end
 
 
@@ -105,16 +105,16 @@ typedef void (^DSJSONRPCCompletionHandler)(NSString *methodName, NSInteger callI
 
 @property (nonatomic, DS_WEAK) id<DSJSONRPCDelegate> delegate;
 
-- (id)initWithServiceEndpoint:(NSURL *)serviceEndpoint;
-- (id)initWithServiceEndpoint:(NSURL *)serviceEndpoint andHTTPHeaders:(NSDictionary *)httpHeaders;
+- (id)initWithServiceEndpoint:(NSURL*)serviceEndpoint;
+- (id)initWithServiceEndpoint:(NSURL*)serviceEndpoint andHTTPHeaders:(NSDictionary*)httpHeaders;
 
 #pragma mark - Web Service Invocation Methods
-- (NSInteger)callMethod:(NSString *)methodName;
-- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams;
+- (NSInteger)callMethod:(NSString*)methodName;
+- (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams;
 
 #pragma mark - Web Service Invocation Methods (Completion Handler Based)
-- (NSInteger)callMethod:(NSString *)methodName onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
-- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
-- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams withTimeout:(NSTimeInterval)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
+- (NSInteger)callMethod:(NSString*)methodName onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
+- (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
+- (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams withTimeout:(NSTimeInterval)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
 
 @end

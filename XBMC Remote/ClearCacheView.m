@@ -9,15 +9,15 @@
 #import "ClearCacheView.h"
 #import "PosterLabel.h"
 #import "Utilities.h"
+#import "AppDelegate.h"
 
 @implementation ClearCacheView
 
-- (id)initWithFrame:(CGRect)frame{
+- (id)initWithFrame:(CGRect)frame {
     return [self initWithFrame:frame border:0];
 }
 
-- (id)initWithFrame:(CGRect)frame border:(int)borderWidth
-{
+- (id)initWithFrame:(CGRect)frame border:(int)borderWidth {
     self = [super initWithFrame:frame];
     if (self) {
         [self setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
@@ -30,7 +30,7 @@
           UIViewAutoresizingFlexibleRightMargin |
           UIViewAutoresizingFlexibleTopMargin |
           UIViewAutoresizingFlexibleBottomMargin];
-        [label setText:NSLocalizedString(@"Clearing app disk cache...\n\nPlease wait, since this may take a while", nil)];
+        [label setText:LOCALIZED_STR(@"Clearing app disk cache...\n\nPlease wait, since this may take a while")];
         [label setShadowColor:[UIColor blackColor]];
         [label setShadowOffset:CGSizeMake(1, 1)];
         [label setTextAlignment:NSTextAlignmentCenter];
@@ -48,11 +48,11 @@
     return self;
 }
 
--(void)startActivityIndicator{
+- (void)startActivityIndicator {
     [busyView startAnimating];
 }
 
--(void)stopActivityIndicator{
+- (void)stopActivityIndicator {
     [busyView stopAnimating];
 }
 

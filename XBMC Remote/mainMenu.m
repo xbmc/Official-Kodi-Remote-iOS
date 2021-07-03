@@ -12,7 +12,7 @@
 
 @synthesize mainLabel, upperLabel, icon, family, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, originLabel, noConvertTime, chooseTab, disableNowPlaying, watchModes, currentWatchMode;
 
--(id) copyWithZone: (NSZone *) zone{
+- (id)copyWithZone:(NSZone*)zone {
     mainMenu *menuCopy = [[mainMenu allocWithZone: zone] init];
     [menuCopy setMainLabel:[self.mainLabel copy]];
     [menuCopy setUpperLabel:[self.upperLabel copy]];

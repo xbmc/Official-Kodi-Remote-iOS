@@ -12,6 +12,6 @@
     UIImageView *navBarHairlineImageView;
 }
 
--(void)hideNavBarBottomLine:(BOOL)hideBottomLine;
+- (void)hideNavBarBottomLine:(BOOL)hideBottomLine;
 
 @end

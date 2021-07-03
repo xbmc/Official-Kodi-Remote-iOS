@@ -54,11 +54,11 @@
 @synthesize delegate;
 @synthesize _serviceEndpoint, _httpHeaders, _activeConnections;
 
-- (id)initWithServiceEndpoint:(NSURL *)serviceEndpoint; {
+- (id)initWithServiceEndpoint:(NSURL*)serviceEndpoint; {
     return [self initWithServiceEndpoint:serviceEndpoint andHTTPHeaders:nil];
 }
 
-- (id)initWithServiceEndpoint:(NSURL *)serviceEndpoint andHTTPHeaders:(NSDictionary *)httpHeaders {
+- (id)initWithServiceEndpoint:(NSURL*)serviceEndpoint andHTTPHeaders:(NSDictionary*)httpHeaders {
     if (!(self = [super init])) {
         return self;
     }
@@ -82,27 +82,27 @@
 
 #pragma mark - Web Service Invocation Methods
 
-- (NSInteger)callMethod:(NSString *)methodName {
+- (NSInteger)callMethod:(NSString*)methodName {
     return [self callMethod:methodName withParameters:nil];
 }
 
-- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams {
+- (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams {
     return [self callMethod:methodName withParameters:methodParams onCompletion:nil];
 }
 
 
 #pragma mark - Web Service Invocation Methods (Completion Handler Based)
-- (NSInteger)callMethod:(NSString *)methodName onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
+- (NSInteger)callMethod:(NSString*)methodName onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
     return [self callMethod:methodName withParameters:nil onCompletion:completionHandler];
 }
 
-- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams onCompletion:(DSJSONRPCCompletionHandler)completionHandler{
+- (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
     return [self callMethod:methodName withParameters:methodParams withTimeout:0 onCompletion:completionHandler];
 }
 
 // (int)timeout PARAMETER ADDED BY JOE
 
-- (NSInteger)callMethod:(NSString *)methodName withParameters:(id)methodParams withTimeout:(NSTimeInterval)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
+- (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams withTimeout:(NSTimeInterval)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
     
     // Generate a random Id for the call
     NSInteger aId = arc4random();
@@ -177,8 +177,8 @@
     return aId;
 }
 
--(void)cancelRequest:(NSTimer*)theTimer {
-    NSURLConnection *connection = (NSURLConnection *)[theTimer userInfo];
+- (void)cancelRequest:(NSTimer*)theTimer {
+    NSURLConnection *connection = (NSURLConnection*)[theTimer userInfo];
     __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
     NSMutableDictionary *connectionInfo = self._activeConnections[connectionKey];
     DSJSONRPCCompletionHandler completionHandler = connectionInfo[@"completionHandler"];
@@ -196,7 +196,7 @@
 
 #pragma mark - Runtime Method Invocation Handling
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+- (NSMethodSignature*)methodSignatureForSelector:(SEL)aSelector {
     // Determine if we handle the method signature
     // If not, create one so it goes to forwardInvocation
     NSMethodSignature *aMethodSignature;
@@ -207,7 +207,7 @@
     return aMethodSignature;
 }
 
-- (void)forwardInvocation:(NSInvocation *)anInvocation {
+- (void)forwardInvocation:(NSInvocation*)anInvocation {
     // Get method name from invocation
     NSString *selectorName = NSStringFromSelector(anInvocation.selector);
     NSString *methodName = [selectorName componentsSeparatedByString:@":"][0];
@@ -231,22 +231,22 @@
 
 #pragma mark - NSURLConnection Delegate Methods
 
-- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+- (void)connection:(NSURLConnection*)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge*)challenge {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerAuthenticationFailed" object:nil userInfo:nil];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+- (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response {
     NSMutableDictionary *connectionInfo = self._activeConnections[[NSValue valueWithNonretainedObject:connection]];
     connectionInfo[@"data"] = [NSMutableData data];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data {
     NSMutableDictionary *connectionInfo = self._activeConnections[[NSValue valueWithNonretainedObject:connection]];
     NSMutableData *connectionData = connectionInfo[@"data"];
     [connectionData appendData:data];
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
     __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
     NSMutableDictionary *connectionInfo = self._activeConnections[connectionKey];
     DSJSONRPCCompletionHandler completionHandler = connectionInfo[@"completionHandler"];
@@ -267,7 +267,7 @@
     DS_RELEASE(connection)
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+- (void)connectionDidFinishLoading:(NSURLConnection*)connection {
     // Get information about the connection
     __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
     NSMutableDictionary *connectionInfo = self._activeConnections[connectionKey];

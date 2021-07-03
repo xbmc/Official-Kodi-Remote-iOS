@@ -19,16 +19,16 @@
 
 @synthesize mainMenu;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
 }
 
--(UIStatusBarStyle)preferredStatusBarStyle{
+- (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
 
--(void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [navController.view setClipsToBounds:NO];
     CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height + 22);
@@ -46,7 +46,7 @@
     [navController.view addSubview:shadowRight];
 }
 
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
     HostManagementViewController *hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     navController = [[CustomNavigationController alloc] initWithRootViewController:hostManagementViewController];
@@ -60,18 +60,18 @@
     self.topViewController = navController;
 }
 
-- (void)revealMenu:(id)sender{
+- (void)revealMenu:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName: @"RevealMenu" object: nil];
 }
-- (void)revealUnderRight:(id)sender{
+- (void)revealUnderRight:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName: @"revealUnderRight" object: nil];
 }
 
-- (void)didReceiveMemoryWarning{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
--(BOOL)shouldAutorotate{
+- (BOOL)shouldAutorotate {
     return YES;
 }
 

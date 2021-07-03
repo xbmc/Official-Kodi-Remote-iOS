@@ -11,8 +11,7 @@
 
 @implementation RecentlyAddedCell
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.restorationIdentifier = @"recentlyAddedCell";
@@ -99,7 +98,7 @@
     return self;
 }
 
--(void)setOverlayWatched:(BOOL)enable{
+- (void)setOverlayWatched:(BOOL)enable {
     if (enable) {
         if (overlayWatched == nil) {
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];

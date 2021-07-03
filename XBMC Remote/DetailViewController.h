@@ -23,13 +23,13 @@
 @class NowPlaying;
 //@class DetailViewController;
 
-@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, SFSafariViewControllerDelegate>{
+@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, SFSafariViewControllerDelegate> {
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
     NSMutableArray	*filteredListContent;
     NSMutableArray *storeRichResults;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
-    NSMutableDictionary *sections;  
+    NSMutableDictionary *sections;
     IBOutlet UILongPressGestureRecognizer *lpgr;
     int choosedTab;
     int numTabs;
@@ -144,11 +144,11 @@
 }
 
 - (id)initWithFrame:(CGRect)frame;
-- (id)initWithNibName:(NSString *)nibNameOrNil withItem:(mainMenu *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil;
+- (id)initWithNibName:(NSString*)nibNameOrNil withItem:(mainMenu*)item withFrame:(CGRect)frame bundle:(NSBundle*)nibBundleOrNil;
 
 @property (nonatomic, retain) NSMutableArray *filteredListContent;
 @property (strong, nonatomic) id detailItem;
-@property(nonatomic, readonly) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, readonly) UIActivityIndicatorView *activityIndicatorView;
 @property (strong, nonatomic) BDKCollectionIndexView *indexView;
 @property (nonatomic, retain) NSMutableDictionary *sections;
 @property (nonatomic, retain) NSMutableArray *richResults;

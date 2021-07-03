@@ -43,11 +43,11 @@
 
 @synthesize detailItem = _detailItem;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
 }
-- (void)AnimLabel:(UIView *)Lab AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
+- (void)AnimLabel:(UIView*)Lab AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	Lab.alpha = alphavalue;
@@ -59,7 +59,7 @@
     
 }
 
-- (void)AnimView:(UIView *)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X{
+- (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;
@@ -72,10 +72,10 @@
 
 - (void)configureView {
     if (self.detailItem == nil) {
-        self.navigationItem.title = NSLocalizedString(@"New XBMC Server", nil);
+        self.navigationItem.title = LOCALIZED_STR(@"New XBMC Server");
     }
     else {
-        self.navigationItem.title = NSLocalizedString(@"Modify XBMC Server", nil);
+        self.navigationItem.title = LOCALIZED_STR(@"Modify XBMC Server");
         NSIndexPath *idx = self.detailItem;
         descriptionUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverDescription"];
         usernameUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverUser"];
@@ -108,13 +108,13 @@
     }
 }
 
-- (void)setDetailItem:(id)newDetailItem{
+- (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
     }
 }
 
-- (IBAction) dismissView:(id)sender{
+- (IBAction) dismissView:(id)sender {
     
     [self textFieldDoneEditing:nil];
     
@@ -206,11 +206,12 @@
 
 #pragma mark - UITextFieldDelegate Methods
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
+- (void)textFieldDidBeginEditing:(UITextField*)textField {
     [textField setTextColor:[Utilities get1stLabelColor]];
     [self tailorViewContent:YES];
 }
--(void)resignKeyboard{
+
+- (void)resignKeyboard {
     [descriptionUI resignFirstResponder];
     [ipUI resignFirstResponder];
     [portUI resignFirstResponder];
@@ -226,9 +227,9 @@
     [self tailorViewContent:NO];
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+- (BOOL)textFieldShouldReturn:(UITextField*)theTextField {
     if (theTextField.tag < 12) {
-        UITextField *next = (UITextField*) [self.view viewWithTag:theTextField.tag + 1];
+        UITextField *next = (UITextField*)[self.view viewWithTag:theTextField.tag + 1];
         [next becomeFirstResponder];
         //[next selectAll:self];
         return NO;
@@ -240,16 +241,16 @@
     }
 }
 
--(IBAction)textFieldDoneEditing:(id)sender{
+- (IBAction)textFieldDoneEditing:(id)sender {
     [self resignKeyboard];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+- (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {
     NSUInteger newLength = [textField.text length] + [string length] - range.length;
     return (newLength > 2 && textField.tag >= 5 && textField.tag <= 10) ? NO : YES;
 }
 
-# pragma  mark - Gestures
+# pragma mark - Gestures
 
 - (void)handleSwipeFromRight:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -258,24 +259,24 @@
 
 # pragma mark - NSNetServiceBrowserDelegate Methods
 
-- (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)browser{
+- (void)netServiceBrowserWillSearch:(NSNetServiceBrowser*)browser {
     searching = YES;
     [self updateUI];
 }
 
-- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)browser{
+- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser*)browser {
     searching = NO;
     [self updateUI];
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didNotSearch:(NSDictionary *)errorDict{
+- (void)netServiceBrowser:(NSNetServiceBrowser*)browser didNotSearch:(NSDictionary*)errorDict {
     searching = NO;
     [self handleError:errorDict[NSNetServicesErrorCode]];
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)browser
-           didFindService:(NSNetService *)aNetService
-               moreComing:(BOOL)moreComing {    
+- (void)netServiceBrowser:(NSNetServiceBrowser*)browser
+           didFindService:(NSNetService*)aNetService
+               moreComing:(BOOL)moreComing {
     [services addObject:aNetService];
     if (!moreComing) {
         [self stopDiscovery];
@@ -283,23 +284,23 @@
     }
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)browser
-         didRemoveService:(NSNetService *)aNetService
-               moreComing:(BOOL)moreComing{
+- (void)netServiceBrowser:(NSNetServiceBrowser*)browser
+         didRemoveService:(NSNetService*)aNetService
+               moreComing:(BOOL)moreComing {
     [services removeObject:aNetService];
     if (!moreComing) {
         [self updateUI];
     }
 }
 
-- (void)handleError:(NSNumber *)error {
+- (void)handleError:(NSNumber*)error {
 //    NSLog(@"An error occurred. Error code = %d", [error intValue]);
     // Handle error here
 }
 
-- (void)updateUI{
+- (void)updateUI {
     if (!searching) {
-        NSInteger j = [services  count];
+        NSInteger j = [services count];
         if (j == 1) {
             [self resolveIPAddress:services[0]];
         }
@@ -332,7 +333,7 @@
     memset(buf2, 0, sizeof(buf2));
     
     sockfd = socket(AF_ROUTE, SOCK_RAW, 0);
-    rtm = (struct rt_msghdr *) buf;
+    rtm = (struct rt_msghdr*)buf;
     rtm->rtm_msglen = sizeof(struct rt_msghdr) + sizeof(struct sockaddr_in);
     rtm->rtm_version = RTM_VERSION;
     rtm->rtm_type = RTM_GET;
@@ -341,7 +342,7 @@
     rtm->rtm_pid = 1234;
     rtm->rtm_seq = SEQ;
     
-    sin = (struct sockaddr_in *) (rtm + 1);
+    sin = (struct sockaddr_in*)(rtm + 1);
     sin->sin_len = sizeof(struct sockaddr_in);
     sin->sin_family = AF_INET;
     sin->sin_addr.s_addr = host;
@@ -357,7 +358,7 @@
     return res;
 }
 
--(void)fillMacAddressInfo {
+- (void)fillMacAddressInfo {
     NSString *macAddress = [self resolveMacFromIP:ipUI.text];
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
     if ([macPart count] == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]) {
@@ -378,16 +379,17 @@
 
 # pragma mark - resolveIPAddress Methods
 
--(void) resolveIPAddress:(NSNetService *)service {    
+- (void)resolveIPAddress:(NSNetService*)service {
     NSNetService *remoteService = service;
     remoteService.delegate = self;
     [remoteService resolveWithTimeout:0];
 }
--(void)netServiceDidResolveAddress:(NSNetService *)service {
+
+- (void)netServiceDidResolveAddress:(NSNetService*)service {
 
     for (NSData* data in [service addresses]) {
         char addressBuffer[100];
-        struct sockaddr_in* socketAddress = (struct sockaddr_in*) [data bytes];
+        struct sockaddr_in* socketAddress = (struct sockaddr_in*)[data bytes];
         int sockFamily = socketAddress->sin_family;
         if (sockFamily == AF_INET) {//|| sockFamily == AF_INET6 should be considered
             const char* addressStr = inet_ntop(sockFamily,
@@ -412,13 +414,13 @@
     }
 }
 
--(void)stopDiscovery{
+- (void)stopDiscovery {
     [netServiceBrowser stop];
     [activityIndicatorView stopAnimating];
     startDiscover.enabled = YES;
 }
 
--(IBAction)startDiscover:(id)sender{
+- (IBAction)startDiscover:(id)sender {
     [self resignKeyboard];
     [activityIndicatorView startAnimating];
     [services removeAllObjects];
@@ -434,19 +436,19 @@
 
 #pragma mark - TableViewDelegate
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
 	return 1;
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
 	return [services count];
 }
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
 	static NSString *tableCellIdentifier = @"UITableViewCell";
-	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
+	UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
 	}
@@ -462,40 +464,40 @@
 	return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [self resolveIPAddress:services[indexPath.row]];
 }
 
 #pragma mark - NSURLConnection Delegate Methods
 
-- (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+- (void)connection:(NSURLConnection*)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge*)challenge {
     [self fillMacAddressInfo];
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
     [self fillMacAddressInfo];
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+- (void)connectionDidFinishLoading:(NSURLConnection*)connection {
     [self fillMacAddressInfo];
 }
 
 #pragma mark - LifeCycle
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
     CGSize size = CGSizeMake(320, 380);
     self.preferredContentSize = size;
     [super viewWillAppear:animated];
     [self configureView];
 }
 
--(void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    services = [[NSMutableArray alloc] init];
-    netServiceBrowser = [[NSNetServiceBrowser alloc] init];
+    services = [NSMutableArray new];
+    netServiceBrowser = [NSNetServiceBrowser new];
 }
 
--(void)viewDidDisappear:(BOOL)animated{
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [timer invalidate];
     timer = nil;
@@ -526,20 +528,20 @@
     [self AnimLabel:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
 }
 
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    [descriptionLabel setText:NSLocalizedString(@"Description", nil)];
-    [hostLabel setText:NSLocalizedString(@"Host : port /\nTCP port", nil)];
-    [macLabel setText:NSLocalizedString(@"MAC Address", nil)];
-    [userLabel setText:NSLocalizedString(@"Username and Password", nil)];
-    [preferLabel setText:NSLocalizedString(@"Prefer posters for TV shows", nil)];
-    [noInstancesLabel setText:NSLocalizedString(@"No XBMC instances were found :(", nil)];
-    [findLabel setText:NSLocalizedString(@"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled", nil)];
-    [howtoLabel setText:NSLocalizedString(@"How-to activate the remote app in Kodi", nil)];
-    [howtoLaterLabel setText:NSLocalizedString(@"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems", nil)];
+    [descriptionLabel setText:LOCALIZED_STR(@"Description")];
+    [hostLabel setText:LOCALIZED_STR(@"Host : port /\nTCP port")];
+    [macLabel setText:LOCALIZED_STR(@"MAC Address")];
+    [userLabel setText:LOCALIZED_STR(@"Username and Password")];
+    [preferLabel setText:LOCALIZED_STR(@"Prefer posters for TV shows")];
+    [noInstancesLabel setText:LOCALIZED_STR(@"No XBMC instances were found :(")];
+    [findLabel setText:LOCALIZED_STR(@"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled")];
+    [howtoLabel setText:LOCALIZED_STR(@"How-to activate the remote app in Kodi")];
+    [howtoLaterLabel setText:LOCALIZED_STR(@"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems")];
     
-    [saveButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];
-    [startDiscover setTitle:NSLocalizedString(@"Find XBMC", nil) forState:UIControlStateNormal];
+    [saveButton setTitle:LOCALIZED_STR(@"Save") forState:UIControlStateNormal];
+    [startDiscover setTitle:LOCALIZED_STR(@"Find XBMC") forState:UIControlStateNormal];
     startDiscover.titleLabel.numberOfLines = 1;
     startDiscover.titleLabel.adjustsFontSizeToFitWidth = YES;
     startDiscover.titleLabel.lineBreakMode = NSLineBreakByClipping;
@@ -549,10 +551,10 @@
     [saveButton setBackgroundImage:img forState:UIControlStateNormal];
     [startDiscover setBackgroundImage:img forState:UIControlStateNormal];
     
-    [descriptionUI setPlaceholder:NSLocalizedString(@"e.g. My XBMC", nil)];
-    [ipUI setPlaceholder:NSLocalizedString(@"e.g. 192.168.0.8", nil)];
-    [usernameUI setPlaceholder:NSLocalizedString(@"Username", nil)];
-    [passwordUI setPlaceholder:NSLocalizedString(@"Password", nil)];
+    [descriptionUI setPlaceholder:LOCALIZED_STR(@"e.g. My XBMC")];
+    [ipUI setPlaceholder:LOCALIZED_STR(@"e.g. 192.168.0.8")];
+    [usernameUI setPlaceholder:LOCALIZED_STR(@"Username")];
+    [passwordUI setPlaceholder:LOCALIZED_STR(@"Password")];
     self.edgesForExtendedLayout = 0;
     [descriptionUI setBackgroundColor:[Utilities getSystemGray6]];
     [ipUI setBackgroundColor:[Utilities getSystemGray6]];
@@ -588,7 +590,7 @@
     }
 }
 
--(BOOL)shouldAutorotate{
+- (BOOL)shouldAutorotate {
     return YES;
 }
 

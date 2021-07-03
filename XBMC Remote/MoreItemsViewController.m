@@ -14,7 +14,7 @@
 
 @synthesize tableView = _tableView;
 
-- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu{
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu {
     if (self = [super init]) {
         cellLabelOffset = 50;
 		[self.view setFrame:frame];
@@ -34,29 +34,29 @@
 #pragma mark -
 #pragma mark Table view data source
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
 //    return 64;
 //}
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
     // Return the number of sections.
     return 1;
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     //    return 10;
     return [mainMenuItems count];
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {    
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath { 
 	cell.backgroundColor = [Utilities getSystemGray6];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     static NSString *tableCellIdentifier = @"UITableViewCell";
-	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
+	UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
 	}
@@ -73,7 +73,7 @@
         CGRect iconImageViewRect = CGRectMake(8, 6, 34, 30);
         UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
         UIImage *image = [UIImage imageNamed:item[@"icon"]];
-        image = [[[Utilities alloc] init] colorizeImage:image withColor:[Utilities get1stLabelColor]];
+        image = [[Utilities new] colorizeImage:image withColor:[Utilities get1stLabelColor]];
         [iconImage setImage:image];
         [cell.contentView addSubview:iconImage];
     }
@@ -84,18 +84,18 @@
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [[NSNotificationCenter defaultCenter] postNotificationName: @"tabHasChanged" object: indexPath]; 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - LifeCycle
 
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
 }
 
--(BOOL)shouldAutorotate{
+- (BOOL)shouldAutorotate {
     return YES;
 }
 

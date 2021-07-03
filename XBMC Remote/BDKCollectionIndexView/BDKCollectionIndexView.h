@@ -42,13 +42,13 @@ typedef enum {
  *  @param indexTitles the index titles to be rendered out in the control.
  *  @return an instance of the class.
  */
-+ (id)indexViewWithFrame:(CGRect)frame indexTitles:(NSArray *)indexTitles;
++ (id)indexViewWithFrame:(CGRect)frame indexTitles:(NSArray*)indexTitles;
 
 /** A message to initialize and return an index view control, given a frame and a list of index titles.
  *  @param frame the frame to use when initializing the control.
  *  @param indexTitles the index titles to be rendered out in the control.
  *  @return an instance of the class.
  */
-- (id)initWithFrame:(CGRect)frame indexTitles:(NSArray *)indexTitles;
+- (id)initWithFrame:(CGRect)frame indexTitles:(NSArray*)indexTitles;
 
 @end

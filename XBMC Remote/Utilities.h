@@ -26,14 +26,14 @@ typedef enum {
 
 @interface Utilities : NSObject
 
-- (UIColor *)averageColor:(UIImage *)image inverse:(BOOL)inverse;
-- (UIColor *)limitSaturation:(UIColor *)c satmax:(CGFloat)satmax;
-- (UIColor *)slightLighterColorForColor:(UIColor *)c;
-- (UIColor *)lighterColorForColor:(UIColor *)c;
-- (UIColor *)darkerColorForColor:(UIColor *)c;
-- (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker;
-- (UIColor *)updateColor:(UIColor *) newColor lightColor:(UIColor *)lighter darkColor:(UIColor *)darker trigger:(CGFloat)trigger;
-- (UIImage*)colorizeImage:(UIImage *)image withColor:(UIColor*)color;
+- (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse;
+- (UIColor*)limitSaturation:(UIColor*)c satmax:(CGFloat)satmax;
+- (UIColor*)slightLighterColorForColor:(UIColor*)c;
+- (UIColor*)lighterColorForColor:(UIColor*)c;
+- (UIColor*)darkerColorForColor:(UIColor*)c;
+- (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker;
+- (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker trigger:(CGFloat)trigger;
+- (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color;
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode;
 + (LogoBackgroundType)getLogoBackgroundMode;
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage;
@@ -54,11 +54,11 @@ typedef enum {
 + (UIColor*)get3rdLabelColor;
 + (UIColor*)get4thLabelColor;
 + (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha;
-+ (CGRect)createXBMCInfoframe:(UIImage *)logo height:(CGFloat)height width:(CGFloat)width;
++ (CGRect)createXBMCInfoframe:(UIImage*)logo height:(CGFloat)height width:(CGFloat)width;
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(eJewelType)type;
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
-+ (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate> *)fromctrl;
++ (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate>*)fromctrl;
 + (DSJSONRPC*)getJsonRPC;
 + (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array;
 + (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array;

@@ -36,51 +36,51 @@
 @synthesize holdVolumeTimer;
 @synthesize panFallbackImageView;
 
-- (void)setDetailItem:(id)newDetailItem{
+- (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
         // Update the view.
     }
 }
 
--(void)moveButton:(NSArray *)buttonsToDo ypos:(int)y{
+- (void)moveButton:(NSArray*)buttonsToDo ypos:(int)y {
     for (UIButton *button in buttonsToDo) {
         [button setFrame:CGRectMake(button.frame.origin.x, button.frame.origin.y + y, button.frame.size.width, button.frame.size.height)];
     }
 }
 
--(void)hideButton:(NSArray *)buttonsToDo hide:(BOOL)hide{
+- (void)hideButton:(NSArray*)buttonsToDo hide:(BOOL)hide {
     for (UIButton *button in buttonsToDo) {
         [button setHidden:hide];
     }
 }
 
-- (void)setEmbeddedView{
+- (void)setEmbeddedView {
     CGRect frame = TransitionalView.frame;
     CGFloat newWidth = remoteControlView.frame.size.width - ANCHOR_RIGHT_PEEK;
     [self hideButton: [NSArray arrayWithObjects:
-                       [(UIButton *) self.view viewWithTag:2],
-                       [(UIButton *) self.view viewWithTag:3],
-                       [(UIButton *) self.view viewWithTag:4],
-                       [(UIButton *) self.view viewWithTag:5],
-                       [(UIButton *) self.view viewWithTag:8],
+                       [(UIButton*)self.view viewWithTag:2],
+                       [(UIButton*)self.view viewWithTag:3],
+                       [(UIButton*)self.view viewWithTag:4],
+                       [(UIButton*)self.view viewWithTag:5],
+                       [(UIButton*)self.view viewWithTag:8],
                        nil]
                 hide:YES];
     if ([[UIScreen mainScreen] bounds].size.height >= 568) {
         [self moveButton: [NSArray arrayWithObjects:
-                           (UIButton *)[self.view viewWithTag:21],
-                           (UIButton *)[self.view viewWithTag:22],
-                           (UIButton *)[self.view viewWithTag:23],
-                           (UIButton *)[self.view viewWithTag:24],
+                           (UIButton*)[self.view viewWithTag:21],
+                           (UIButton*)[self.view viewWithTag:22],
+                           (UIButton*)[self.view viewWithTag:23],
+                           (UIButton*)[self.view viewWithTag:24],
                            nil]
                     ypos: -32];
     }
     else {
         [self hideButton: [NSArray arrayWithObjects:
-                           [(UIButton *) self.view viewWithTag:21],
-                           [(UIButton *) self.view viewWithTag:22],
-                           [(UIButton *) self.view viewWithTag:23],
-                           [(UIButton *) self.view viewWithTag:24],
+                           [(UIButton*)self.view viewWithTag:21],
+                           [(UIButton*)self.view viewWithTag:22],
+                           [(UIButton*)self.view viewWithTag:23],
+                           [(UIButton*)self.view viewWithTag:24],
                            nil]
                     hide: YES];
     }
@@ -109,7 +109,7 @@
         buttonZoneView.alpha = 0;
     }
     // Overload "stop" button with gesture icon
-    UIButton *gestureButton = (UIButton *)[self.view viewWithTag:6];
+    UIButton *gestureButton = (UIButton*)[self.view viewWithTag:6];
     [gestureButton setContentMode:UIViewContentModeScaleAspectFit];
     [gestureButton setShowsTouchWhenHighlighted:NO];
     [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
@@ -125,7 +125,7 @@
     subsInfoLabel.frame = frame;
 }
 
-- (void)configureView{
+- (void)configureView {
     if (self.detailItem) {
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
@@ -156,7 +156,7 @@
         // Calculate the maximum possible scaling for the remote
         CGFloat scaleFactorHorizontal = STACKSCROLL_WIDTH / CGRectGetWidth(remoteControlView.frame);
         CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING;
-        CGFloat scaleFactorVertical =  minViewHeight / CGRectGetHeight(remoteControlView.frame);
+        CGFloat scaleFactorVertical = minViewHeight / CGRectGetHeight(remoteControlView.frame);
         CGFloat transform = MIN(scaleFactorHorizontal, scaleFactorVertical);
 
         CGFloat newWidth = CGRectGetWidth(remoteControlView.frame) * transform;
@@ -216,14 +216,14 @@
     [gestureZoneView addGestureRecognizer:twoFingersTap];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
 }
 
 #pragma mark - Touch
 
--(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer {
+- (void)handleSwipeFrom:(UISwipeGestureRecognizer*)recognizer {
     if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
         buttonAction = 14;
         [self sendAction];
@@ -242,17 +242,17 @@
     }
 }
 
--(void)handleTouchpadDoubleTap{
+- (void)handleTouchpadDoubleTap {
     buttonAction = 18;
     [self sendAction];
 }
 
--(void)handleTouchpadSingleTap{
+- (void)handleTouchpadSingleTap {
     buttonAction = 13;
     [self sendAction];
 }
 
--(void)twoFingersTap{
+- (void)twoFingersTap {
     [self GUIAction:@"Input.Home" params:[NSDictionary dictionary] httpAPIcallback:nil];
 }
 
@@ -270,13 +270,13 @@
                  NSNumber *visualisationActive = 0;
                  NSNumber *slideshowActive = 0;
 
-                 if (((NSNull *)methodResult[@"Window.IsActive(fullscreenvideo)"] != [NSNull null])) {
+                 if (((NSNull*)methodResult[@"Window.IsActive(fullscreenvideo)"] != [NSNull null])) {
                      fullscreenActive = methodResult[@"Window.IsActive(fullscreenvideo)"];
                  }
-                 if (((NSNull *)methodResult[@"Window.IsActive(visualisation)"] != [NSNull null])) {
+                 if (((NSNull*)methodResult[@"Window.IsActive(visualisation)"] != [NSNull null])) {
                      visualisationActive = methodResult[@"Window.IsActive(visualisation)"];
                  }
-                 if (((NSNull *)methodResult[@"Window.IsActive(slideshow)"] != [NSNull null])) {
+                 if (((NSNull*)methodResult[@"Window.IsActive(slideshow)"] != [NSNull null])) {
                      slideshowActive = methodResult[@"Window.IsActive(slideshow)"];
                  }
                  if ([fullscreenActive intValue] == 1 || [visualisationActive intValue] == 1 || [slideshowActive intValue] == 1) {
@@ -290,12 +290,12 @@
              else {
                  [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF043)"];
              }
-         }];   
+         }];
     }
 }
 
 
--(void)handleRotate:(id)sender {
+- (void)handleRotate:(id)sender {
     if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan) {
         [self volumeInfo];
     }
@@ -315,17 +315,17 @@
 	lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+- (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     [self stopHoldKey:nil];
 }
 
--(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
+- (void)touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)event {
     [self stopHoldKey:nil];
 }
         
 # pragma mark - view Effects
 
--(void)showSubInfo:(NSString *)message timeout:(NSTimeInterval)timeout color:(UIColor *)color{
+- (void)showSubInfo:(NSString*)message timeout:(NSTimeInterval)timeout color:(UIColor*)color {
     // first fadeout 
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -349,7 +349,7 @@
 }
 
 
--(void)fadeoutSubs{
+- (void)fadeoutSubs {
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.2];
@@ -361,7 +361,7 @@
 
 # pragma mark - ToolBar
 
--(void)toggleGestureZone:(id)sender{
+- (void)toggleGestureZone:(id)sender {
     NSString *imageName = @"blank";
     BOOL showGesture = (gestureZoneView.alpha == 0);
     if ([sender isKindOfClass:[NSNotification class]]) {
@@ -376,7 +376,7 @@
         frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
         [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];     
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [UIView setAnimationDuration:0.3];
         frame = [gestureZoneView frame];
         frame.origin.x = 0;
@@ -393,7 +393,7 @@
         CGRect frame;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        [UIView setAnimationDuration:0.3];      
+        [UIView setAnimationDuration:0.3];
         frame = [gestureZoneView frame];
         frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
@@ -411,7 +411,7 @@
 
     }
     else if ([sender isKindOfClass: [UIBarButtonItem class]]) {
-        [sender setImage:[UIImage imageNamed:imageName]];        
+        [sender setImage:[UIImage imageNamed:imageName]];
     }
 }
 
@@ -419,12 +419,12 @@
 
 /* method to show an action sheet for subs. */
 
--(void)subtitlesActionSheet {
+- (void)subtitlesActionSheet {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
             if ([methodResult count] > 0) {
                 NSNumber *response;
-                if (((NSNull *)methodResult[0][@"playerid"] != [NSNull null])) {
+                if (((NSNull*)methodResult[0][@"playerid"] != [NSNull null])) {
                     response = methodResult[0][@"playerid"];
                 }
                 [[Utilities getJsonRPC]
@@ -450,8 +450,8 @@
                                      NSMutableArray *actionSheetTitles = [NSMutableArray array];
                                      for (int i = 0; i < numSubs; i++) {
                                          NSString *language = @"?";
-                                         if (((NSNull *)subtitles[i][@"language"] != [NSNull null])) {
-                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
+                                         if (((NSNull*)subtitles[i][@"language"] != [NSNull null])) {
+                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
                                              NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:subtitles[i][@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0) {
@@ -461,7 +461,7 @@
                                                  language = subtitles[i][@"language"];
                                              }
                                              if ([language length] == 0) {
-                                                 language = NSLocalizedString(@"Unknown", nil);
+                                                 language = LOCALIZED_STR(@"Unknown");
                                              }
                                          }
                                          NSString *tickMark = @"";
@@ -474,7 +474,7 @@
                                      [self showActionSubtitles:actionSheetTitles];
                                 }
                                  else {
-                                     [self showSubInfo:NSLocalizedString(@"Subtitles not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
                                  }
                              }
                          }
@@ -482,18 +482,18 @@
                  }];
             }
             else {
-                [self showSubInfo:NSLocalizedString(@"Subtitles not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
             }
         }
     }];
 }
 
--(void)audioStreamActionSheet {
+- (void)audioStreamActionSheet {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
             if ([methodResult count] > 0) {
                 NSNumber *response;
-                if (((NSNull *)methodResult[0][@"playerid"] != [NSNull null])) {
+                if (((NSNull*)methodResult[0][@"playerid"] != [NSNull null])) {
                     response = methodResult[0][@"playerid"];
                 }
                 [[Utilities getJsonRPC]
@@ -517,8 +517,8 @@
                                      NSMutableArray *actionSheetTitles = [NSMutableArray array];
                                      for (int i = 0; i < numAudio; i++) {
                                          NSString *language = @"?";
-                                         if (((NSNull *)audiostreams[i][@"language"] != [NSNull null])) {
-                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
+                                         if (((NSNull*)audiostreams[i][@"language"] != [NSNull null])) {
+                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
                                              NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:audiostreams[i][@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0) {
@@ -528,7 +528,7 @@
                                                  language = audiostreams[i][@"language"];
                                              }
                                              if ([language length] == 0) {
-                                                 language = NSLocalizedString(@"Unknown", nil);
+                                                 language = LOCALIZED_STR(@"Unknown");
                                              }
                                          }
                                          NSString *tickMark = @"";
@@ -541,7 +541,7 @@
                                      [self showActionAudiostreams:actionSheetTitles];
                                  }
                                  else {
-                                     [self showSubInfo:NSLocalizedString(@"Audiostreams not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
                                  }
                              }
                         }
@@ -549,13 +549,13 @@
                  }];
             }
             else {
-                [self showSubInfo:NSLocalizedString(@"Audiostream not available", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                [self showSubInfo:LOCALIZED_STR(@"Audiostream not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
             }
         }
     }];
 }
 
--(void)playbackAction:(NSString *)action params:(NSArray *)parameters{
+- (void)playbackAction:(NSString*)action params:(NSArray*)parameters {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
             if ([methodResult count] > 0) {
@@ -580,7 +580,7 @@
     }];
 }
 
--(void)GUIAction:(NSString *)action params:(NSDictionary *)params httpAPIcallback:(NSString *)callback{
+- (void)GUIAction:(NSString*)action params:(NSDictionary*)params httpAPIcallback:(NSString*)callback {
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //        NSLog(@"Action %@ ok with %@ ", action, methodResult);
 //        if (methodError != nil || error != nil) {
@@ -592,16 +592,16 @@
     }];
 }
 
--(void)sendXbmcHttp:(NSString *) command{
+- (void)sendXbmcHttp:(NSString*)command {
     GlobalData *obj = [GlobalData getInstance];
     NSString *userPassword = [obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
 
     NSString *serverHTTP = [NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort, command];
-    NSURL *url = [NSURL  URLWithString:serverHTTP];
+    NSURL *url = [NSURL URLWithString:serverHTTP];
     [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
 }
 
--(void)volumeInfo{
+- (void)volumeInfo {
     if ([AppDelegate instance].serverVolume > -1) {
         audioVolume = [AppDelegate instance].serverVolume;
     }
@@ -621,13 +621,13 @@
 //     }];
 }
 
--(void)changeServerVolume{
+- (void)changeServerVolume {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(audioVolume), @"volume", nil]];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
     if ([touches count] == 1) {
         NSTimeInterval timeInterval = 1.5;
         if (buttonAction > 0) {
@@ -639,12 +639,12 @@
 
 #pragma mark - Action Sheet Method
 
--(void)showActionAudiostreams:(NSMutableArray *)sheetActions {
+- (void)showActionAudiostreams:(NSMutableArray*)sheetActions {
     NSInteger numActions = [sheetActions count];
     if (numActions) {
-        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Audio stream", nil) message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Audio stream") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
@@ -659,7 +659,7 @@
         [actionView addAction:action_cancel];
         [actionView setModalPresentationStyle:UIModalPresentationPopover];
         
-        UIButton *audioStreamsButton = (UIButton *)[self.view viewWithTag:20];
+        UIButton *audioStreamsButton = (UIButton*)[self.view viewWithTag:20];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
@@ -669,15 +669,15 @@
     }
 }
 
--(void)showActionSubtitles:(NSMutableArray *)sheetActions {
+- (void)showActionSubtitles:(NSMutableArray*)sheetActions {
     NSInteger numActions = [sheetActions count];
     if (numActions) {
-        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Subtitles", nil) message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Subtitles") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
-        UIAlertAction* action_disable = [UIAlertAction actionWithTitle:NSLocalizedString(@"Disable subtitles", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
-            [self showSubInfo:NSLocalizedString(@"Subtitles disabled", nil) timeout:2.0 color:[Utilities getSystemRed:1.0]];
+        UIAlertAction* action_disable = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Disable subtitles") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+            [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") timeout:2.0 color:[Utilities getSystemRed:1.0]];
             [self playbackAction:@"Player.SetSubtitle" params:@[@"off", @"subtitle"]];
         }];
         if ([subsDictionary[@"subtitleenabled"] boolValue]) {
@@ -698,7 +698,7 @@
         [actionView addAction:action_cancel];
         [actionView setModalPresentationStyle:UIModalPresentationPopover];
         
-        UIButton *subsButton = (UIButton *)[self.view viewWithTag:19];
+        UIButton *subsButton = (UIButton*)[self.view viewWithTag:19];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
@@ -712,7 +712,7 @@
 
 NSInteger buttonAction;
 
--(IBAction)holdKey:(id)sender{
+- (IBAction)holdKey:(id)sender {
     buttonAction = [sender tag];
     [self sendAction];
     if (self.holdVolumeTimer != nil) {
@@ -729,7 +729,7 @@ NSInteger buttonAction;
     }
 }
 
--(IBAction)stopHoldKey:(id)sender{
+- (IBAction)stopHoldKey:(id)sender {
     if (self.holdVolumeTimer != nil) {
         [self.holdVolumeTimer invalidate];
         self.holdVolumeTimer = nil;
@@ -737,7 +737,7 @@ NSInteger buttonAction;
     buttonAction = 0;
 }
 
--(void)sendActionNoRepeat{
+- (void)sendActionNoRepeat {
 //    NSString *action;
     switch (buttonAction) {
         case 15: // MENU OSD
@@ -748,7 +748,7 @@ NSInteger buttonAction;
     }
 }
 
--(void)playerStep:(NSString *)step musicPlayerGo:(NSString *)musicAction musicPlayerAction:(NSString *)musicMethod {
+- (void)playerStep:(NSString*)step musicPlayerGo:(NSString*)musicAction musicPlayerAction:(NSString*)musicMethod {
     if ([AppDelegate instance].serverVersion > 11) {
         [[Utilities getJsonRPC]
          callMethod:@"GUI.GetProperties"
@@ -759,10 +759,10 @@ NSInteger buttonAction;
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                  int winID = 0;
                  NSNumber *fullscreen = 0;
-                 if (((NSNull *)methodResult[@"fullscreen"] != [NSNull null])) {
+                 if (((NSNull*)methodResult[@"fullscreen"] != [NSNull null])) {
                      fullscreen = methodResult[@"fullscreen"];
                  }
-                 if (((NSNull *)methodResult[@"currentwindow"] != [NSNull null])) {
+                 if (((NSNull*)methodResult[@"currentwindow"] != [NSNull null])) {
                      winID = [methodResult[@"currentwindow"][@"id"] intValue];
                  }
                  // 12005: WINDOW_FULLSCREEN_VIDEO
@@ -777,10 +777,10 @@ NSInteger buttonAction;
                           if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                               NSNumber *VideoPlayerHasMenu = 0;
                               NSNumber *PvrIsPlayingTv = 0;
-                              if (((NSNull *)methodResult[@"VideoPlayer.HasMenu"] != [NSNull null])) {
+                              if (((NSNull*)methodResult[@"VideoPlayer.HasMenu"] != [NSNull null])) {
                                   VideoPlayerHasMenu = methodResult[@"VideoPlayer.HasMenu"];
                               }
-                              if (((NSNull *)methodResult[@"Pvr.IsPlayingTv"] != [NSNull null])) {
+                              if (((NSNull*)methodResult[@"Pvr.IsPlayingTv"] != [NSNull null])) {
                                   PvrIsPlayingTv = methodResult[@"Pvr.IsPlayingTv"];
                               }
                               if (winID == 12005 && ![PvrIsPlayingTv boolValue] && ![VideoPlayerHasMenu boolValue]) {
@@ -801,7 +801,7 @@ NSInteger buttonAction;
     return;
 }
 
--(void)sendAction{
+- (void)sendAction {
     if (!buttonAction) {
         return;
     }
@@ -809,12 +809,10 @@ NSInteger buttonAction;
         
         if (self.holdVolumeTimer.timeInterval == 1.5) {
             [self.holdVolumeTimer invalidate];
-            self.holdVolumeTimer = nil;
             self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
         }
         else {
             [self.holdVolumeTimer invalidate];
-            self.holdVolumeTimer = nil;
             self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendAction) userInfo:nil repeats:YES]; 
         }
     }
@@ -1003,9 +1001,9 @@ NSInteger buttonAction;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
-# pragma  mark - Gestures
+# pragma mark - Gestures
 
--(IBAction)handleButtonLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
+- (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         switch (gestureRecognizer.view.tag) {
             case 1:// FULLSCREEN BUTTON
@@ -1084,7 +1082,7 @@ NSInteger buttonAction;
 
 #pragma mark - Quick Help
 
--(IBAction)toggleQuickHelp:(id)sender{
+- (IBAction)toggleQuickHelp:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     if (quickHelpView.alpha == 0) {
         [UIView beginAnimations:nil context:nil];
@@ -1108,18 +1106,18 @@ NSInteger buttonAction;
 
 #pragma mark - Keyboard methods
 
--(void)toggleVirtualKeyboard:(id)sender{
+- (void)toggleVirtualKeyboard:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"toggleVirtualKeyboard" object:nil userInfo:nil];
 }
 
--(void) hideKeyboard:(id)sender{
+- (void)hideKeyboard:(id)sender {
     [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
 #pragma mark - Life Cycle
 
--(void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.slidingViewController.underRightViewController = nil;
@@ -1163,22 +1161,22 @@ NSInteger buttonAction;
                                                object: nil];
 }
 
--(void)handleECSlidingViewTopDidReset:(id)sender{
+- (void)handleECSlidingViewTopDidReset:(id)sender {
     [self.navigationController.view removeGestureRecognizer:self.slidingViewController.panGesture];
     [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
 }
 
-- (void)revealMenu:(id)sender{
+- (void)revealMenu:(id)sender {
     [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
-- (void)revealUnderRight:(id)sender{
+- (void)revealUnderRight:(id)sender {
     [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
--(void)resetRemote{
+- (void)resetRemote {
     [self stopHoldKey:nil];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
@@ -1186,12 +1184,12 @@ NSInteger buttonAction;
  
 }
 
--(void)viewWillDisappear:(BOOL)animated{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self resetRemote];
 }
 
-- (void)turnTorchOn:(UIButton *)sender {
+- (void)turnTorchOn:(UIButton*)sender {
     Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
     torchIsOn = !torchIsOn;
     if (captureDeviceClass != nil) {
@@ -1216,7 +1214,7 @@ NSInteger buttonAction;
     }
 }
 
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
     NSDictionary *httpHeaders = [AppDelegate instance].getServerHTTPHeaders;
@@ -1301,9 +1299,9 @@ NSInteger buttonAction;
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat"]]];
 }
 
--(void)addButtonToListIPad:(id)sender {
+- (void)addButtonToListIPad:(id)sender {
     if ([AppDelegate instance].serverVersion < 13) {
-        UIAlertController *alertView = [Utilities createAlertOK:@"" message:NSLocalizedString(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings", nil)];
+        UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
@@ -1318,11 +1316,11 @@ NSInteger buttonAction;
     }
 }
 
--(void)dealloc{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(BOOL)shouldAutorotate{
+- (BOOL)shouldAutorotate {
     return YES;
 }
 

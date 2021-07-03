@@ -51,9 +51,9 @@
 @property (nonatomic) BOOL isLandscape;
 @property (weak) id<KenBurnsViewDelegate> delegate;
 
-- (void) stopAnimation;
-- (void) animateWithImages:(NSArray *)images transitionDuration:(NSTimeInterval)time loop:(BOOL)isLoop isLandscape:(BOOL)isLandscape;
-- (void) animateWithURLs:(NSArray *)urls transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;
+- (void)stopAnimation;
+- (void)animateWithImages:(NSArray*)images transitionDuration:(NSTimeInterval)time loop:(BOOL)isLoop isLandscape:(BOOL)isLandscape;
+- (void)animateWithURLs:(NSArray*)urls transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;
 
 @end
 

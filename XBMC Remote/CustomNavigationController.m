@@ -14,7 +14,7 @@
 
 @implementation CustomNavigationController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         navBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationBar];
@@ -22,9 +22,9 @@
     return self;
 }
 
-- (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
+- (UIImageView*)findHairlineImageViewUnder:(UIView*)view {
     if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
-        return (UIImageView *)view;
+        return (UIImageView*)view;
     }
     for (UIView *subview in view.subviews) {
         UIImageView *imageView = [self findHairlineImageViewUnder:subview];
@@ -35,7 +35,7 @@
     return nil;
 }
 
--(void)hideNavBarBottomLine:(BOOL)hideBottomLine {
+- (void)hideNavBarBottomLine:(BOOL)hideBottomLine {
     if (navBarHairlineImageView == nil) {
         navBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationBar];
     }
@@ -54,7 +54,7 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
--(BOOL)shouldAutorotate {
+- (BOOL)shouldAutorotate {
     return NO;
 }
 

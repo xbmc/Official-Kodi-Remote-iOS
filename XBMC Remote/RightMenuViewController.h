@@ -13,7 +13,7 @@
 #import "VolumeSliderView.h"
 #import "MessagesView.h"
 
-@interface RightMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>{
+@interface RightMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     UITableView *menuTableView;
     NSMutableArray* _rightMenuItems;
     IBOutlet UITableViewCell *rightMenuCell;

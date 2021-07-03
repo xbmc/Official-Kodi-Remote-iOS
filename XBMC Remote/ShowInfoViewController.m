@@ -31,12 +31,12 @@
 @synthesize detailItem = _detailItem;
 @synthesize kenView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil withItem:(NSDictionary *)item withFrame:(CGRect)frame bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString*)nibNameOrNil withItem:(NSDictionary*)item withFrame:(CGRect)frame bundle:(NSBundle*)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.detailItem = item;
         [self.view setFrame:frame];
@@ -50,7 +50,7 @@ double round(double d) {
 
 int count = 0;
 
-- (void)configureView{
+- (void)configureView {
     if (self.detailItem) {
         NSMutableDictionary *item = self.detailItem;
         CGRect frame = CGRectMake(0, 0, 140, 40);
@@ -65,32 +65,32 @@ int count = 0;
         viewTitle.textColor = [UIColor whiteColor];
         viewTitle.text = item[@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
-        sheetActions = [[NSMutableArray alloc] initWithObjects:NSLocalizedString(@"Queue after current", nil), NSLocalizedString(@"Queue", nil), NSLocalizedString(@"Play", nil), nil];
+        sheetActions = [[NSMutableArray alloc] initWithObjects:LOCALIZED_STR(@"Queue after current"), LOCALIZED_STR(@"Queue"), LOCALIZED_STR(@"Play"), nil];
         NSDictionary *resumePointDict = item[@"resume"];
         if (resumePointDict != nil) {
-            if (((NSNull *)resumePointDict[@"position"] != [NSNull null])) {
+            if (((NSNull*)resumePointDict[@"position"] != [NSNull null])) {
                 if ([resumePointDict[@"position"] floatValue] > 0) {
                     resumePointPercentage = ([resumePointDict[@"position"] floatValue] * 100) / [resumePointDict[@"total"] floatValue];
-                    [sheetActions addObject:[NSString stringWithFormat:NSLocalizedString(@"Resume from %@", nil), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
+                    [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
                 }
             }
         }
 //        if ([item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"episodeid"]|| [item[@"family"] isEqualToString:@"musicvideoid"]) {
 //            NSString *actionString = @"";
 //            if ([item[@"playcount"] intValue] == 0) {
-//                actionString = NSLocalizedString(@"Mark as watched", nil);
+//                actionString = LOCALIZED_STR(@"Mark as watched");
 //            }
 //            else {
-//                actionString = NSLocalizedString(@"Mark as unwatched", nil);
+//                actionString = LOCALIZED_STR(@"Mark as unwatched");
 //            }
 //            [sheetActions addObject:actionString];
 //        }
         BOOL fromAlbumView = NO;
-        if (((NSNull *)item[@"fromAlbumView"] != [NSNull null])) {
+        if (((NSNull*)item[@"fromAlbumView"] != [NSNull null])) {
             fromAlbumView = [item[@"fromAlbumView"] boolValue];
         }
         BOOL fromEpisodesView = NO;
-        if (((NSNull *)item[@"fromEpisodesView"] != [NSNull null])) {
+        if (((NSNull*)item[@"fromEpisodesView"] != [NSNull null])) {
             fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         }
         UIBarButtonItem *extraButton = nil;
@@ -121,15 +121,15 @@ int count = 0;
             titleWidth = 350;
         }
         else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
-            NSString *pvrAction = [item[@"hastimer"] boolValue] ? NSLocalizedString(@"Stop Recording", nil) :  NSLocalizedString(@"Record", nil);
+            NSString *pvrAction = [item[@"hastimer"] boolValue] ? LOCALIZED_STR(@"Stop Recording") : LOCALIZED_STR(@"Record");
             sheetActions = [[NSMutableArray alloc] initWithObjects:
-                            NSLocalizedString(@"Play", nil),
+                            LOCALIZED_STR(@"Play"),
                             pvrAction,
                             nil];
             titleWidth = 350;
         }
 //        else if ([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"musicvideoid"]) {
-//            [sheetActions addObject:NSLocalizedString(@"Open with VLC", nil)];
+//            [sheetActions addObject:LOCALIZED_STR(@"Open with VLC")];
 //            titleWidth = 400;
 //        }
         else {
@@ -137,7 +137,7 @@ int count = 0;
         }
         if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
             if ([item[@"trailer"] length] > 0) {
-                [sheetActions addObject:NSLocalizedString(@"Play Trailer", nil)];
+                [sheetActions addObject:LOCALIZED_STR(@"Play Trailer")];
             }
         }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -171,7 +171,7 @@ int count = 0;
                               nil];
             toolbar.items = items;
             toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
-            toolbar.contentMode = UIViewContentModeScaleAspectFill;            
+            toolbar.contentMode = UIViewContentModeScaleAspectFill;
             [toolbar sizeToFit];
             CGFloat toolbarHeight = [toolbar frame].size.height;
             CGRect mainViewBounds = self.view.bounds;
@@ -215,11 +215,11 @@ int count = 0;
 
 #pragma mark - Utility
 
--(void)dismissModal:(id)sender {
+- (void)dismissModal:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-//-(BOOL)isModal {
+//- (BOOL)isModal {
 //    BOOL isModal = ((self.parentViewController && self.parentViewController.modalViewController == self) ||
 //                    (self.navigationController && self.navigationController.parentViewController && self.navigationController.parentViewController.modalViewController == self.navigationController) ||
 //                    [[[self tabBarController] parentViewController] isKindOfClass:[UITabBarController class]]);
@@ -238,7 +238,7 @@ int count = 0;
     || [self.tabBarController.presentingViewController isKindOfClass:[UITabBarController class]];
 }
 
--(void)goBack:(id)sender{
+- (void)goBack:(id)sender {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -249,7 +249,7 @@ int count = 0;
 
 #pragma mark - ToolBar button
 
--(void)showContent:(id)sender{
+- (void)showContent:(id)sender {
     NSDictionary *item = self.detailItem;
     mainMenu *MenuItem = nil;
     mainMenu *choosedMenuItem = nil;
@@ -281,7 +281,7 @@ int count = 0;
     }
     else if ([item[@"family"] isEqualToString:@"movieid"] && [AppDelegate instance].serverVersion > 11) {
         if ([sender isKindOfClass:[NSString class]]) {
-            NSString *actorName = (NSString *)sender;
+            NSString *actorName = (NSString*)sender;
             choosedTab = 2;
             MenuItem = [[AppDelegate instance].playlistMovies copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
@@ -292,7 +292,7 @@ int count = 0;
     }
     else if (([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"tvshowid"]) && [AppDelegate instance].serverVersion > 11) {
         if ([sender isKindOfClass:[NSString class]]) {
-            NSString *actorName = (NSString *)sender;
+            NSString *actorName = (NSString*)sender;
             choosedTab = 0;
             MenuItem = [[AppDelegate instance].playlistTvShows copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
@@ -379,13 +379,13 @@ int count = 0;
     }
 }
 
--(void)callbrowser:(id)sender{
+- (void)callbrowser:(id)sender {
     [Utilities SFloadURL:embedVideoURL fromctrl:self];
 }
 
 #pragma mark - ActionSheet
 
--(void)showActionSheet {
+- (void)showActionSheet {
     NSInteger numActions = [sheetActions count];
     if (numActions) {
         NSDictionary *item = self.detailItem;
@@ -396,7 +396,7 @@ int count = 0;
         
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:sheetTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
@@ -420,32 +420,32 @@ int count = 0;
 }
 
 - (void)actionSheetHandler:(NSString*)actiontitle {
-    if ([actiontitle isEqualToString:NSLocalizedString(@"Queue after current", nil)]) {
+    if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue after current")]) {
         [self addQueueAfterCurrent:YES];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Queue", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue")]) {
         [self addQueueAfterCurrent:NO];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Play", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play")]) {
         [self addPlayback:0.0];
     }
-    else if (([actiontitle isEqualToString:NSLocalizedString(@"Record", nil)] ||
-              [actiontitle isEqualToString:NSLocalizedString(@"Stop Recording", nil)])) {
+    else if (([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
+              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")])) {
         [self recordChannel];
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Open with VLC", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Open with VLC")]) {
         [self openWithVLC:self.detailItem];
     }
-    else if ([actiontitle rangeOfString:NSLocalizedString(@"Resume from", nil)].location != NSNotFound) {
+    else if ([actiontitle rangeOfString:LOCALIZED_STR(@"Resume from")].location != NSNotFound) {
         [self addPlayback:resumePointPercentage];
         return;
     }
-    else if ([actiontitle isEqualToString:NSLocalizedString(@"Play Trailer", nil)]) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
         [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"trailer"], @"file", nil], @"item", nil]];
     }
 }
 
--(void)animateRecordAction {
+- (void)animateRecordAction {
     [UIView animateWithDuration: 0.2
                           delay: 0.0
                         options: UIViewAnimationOptionCurveEaseOut
@@ -469,7 +469,7 @@ int count = 0;
                      }];
 }
 
--(void)recordChannel {
+- (void)recordChannel {
     NSNumber *channelid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]);
     if ([channelid isEqualToValue:@(0)]) {
         return;
@@ -485,7 +485,7 @@ int count = 0;
             return;
         }
         storeChannelid = itemid;
-        NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *xbmcDateFormatter = [NSDateFormatter new];
         [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
         NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", self.detailItem[@"starttime"]]];
         NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", self.detailItem[@"endtime"]]];
@@ -525,7 +525,7 @@ int count = 0;
                }
                else {
                    NSString *message = @"";
-                   message = [NSString stringWithFormat:NSLocalizedString(@"METHOD\n%@\n\nPARAMETERS\n%@\n", nil), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   message = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
@@ -533,13 +533,13 @@ int count = 0;
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
                        
                    }
-                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:NSLocalizedString(@"ERROR", nil) message:message];
+                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
                    [self presentViewController:alertView animated:YES completion:nil];
                }
            }];
 }
 
--(IBAction)scrollDown:(id)sender{
+- (IBAction)scrollDown:(id)sender {
     int height_content = scrollView.contentSize.height;
     int height_bounds = scrollView.bounds.size.height;
     int bottom_scroll = MAX(height_content - height_bounds, 0);
@@ -547,14 +547,14 @@ int count = 0;
     [scrollView setContentOffset:bottomOffset animated:YES];
 }
 
--(void)showNowPlaying{
+- (void)showNowPlaying {
     NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
     nowPlaying.detailItem = self.detailItem;
     [self.navigationController pushViewController:nowPlaying animated:YES];
     self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
--(void)moveLabel:(NSArray *)objects posY:(int)y{
+- (void)moveLabel:(NSArray*)objects posY:(int)y {
     NSInteger count = [objects count];
     CGRect frame;
     for (int i = 0; i < count; i++) {
@@ -574,7 +574,7 @@ int count = 0;
     }
 }
 
--(void)setAndMoveLabels:(NSArray *)arrayLabels size:(int)moveSize{
+- (void)setAndMoveLabels:(NSArray*)arrayLabels size:(int)moveSize {
     UIFont *fontFace = [UIFont systemFontOfSize:16];
 
     int offset = moveSize;
@@ -592,9 +592,7 @@ int count = 0;
     }
 }
 
-int h = 0;
-
--(void)setTvShowsToolbar{
+- (void)setTvShowsToolbar {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         NSInteger count = [toolbar.items count];
         NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
@@ -609,26 +607,26 @@ int h = 0;
     }
 }
 
-- (UIImage*)imageWithBorderFromImage:(UIImage*)source{
+- (UIImage*)imageWithBorderFromImage:(UIImage*)source {
     return [Utilities imageWithShadow:source radius:10];
 }
 
--(bool)enableJewelCases{
+- (BOOL)enableJewelCases {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 
--(void)startActivityIndicator {
+- (void)startActivityIndicator {
     [activityIndicatorView startAnimating];
 }
 
--(void)elaborateImage:(UIImage *)image{
+- (void)elaborateImage:(UIImage*)image {
     [self performSelectorOnMainThread:@selector(startActivityIndicator) withObject:nil waitUntilDone:YES];
     UIImage *elabImage = isRecordingDetail ? image : [self imageWithBorderFromImage:image];
-    [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];    
+    [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];
 }
 
--(void)showImage:(UIImage *)image{
+- (void)showImage:(UIImage*)image {
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
     jewelView.image = image;
@@ -644,12 +642,12 @@ int h = 0;
     [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
 }
 
--(void)setIOS7barTintColor:(UIColor *)tintColor{
+- (void)setIOS7barTintColor:(UIColor*)tintColor {
     self.navigationController.navigationBar.tintColor = tintColor;
     toolbar.tintColor = tintColor;
 }
 
--(void)createInfo{
+- (void)createInfo {
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
     NSMutableDictionary *item = self.detailItem;
     NSString *placeHolderImage = @"coverbox_back";
@@ -717,8 +715,8 @@ int h = 0;
         int coverHeight = 0;
         CGRect frame;
         placeHolderImage = @"coverbox_back_tvshows";
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NSLocalizedString(@"LocaleIdentifier", nil)];
-        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
+        NSDateFormatter *format = [NSDateFormatter new];
         [format setLocale:locale];
         if ([item[@"family"] isEqualToString:@"tvshowid"]) {
             GlobalData *obj = [GlobalData getInstance];
@@ -747,13 +745,13 @@ int h = 0;
             }
             coverView.autoresizingMask = UIViewAutoresizingNone;
             coverView.contentMode = UIViewContentModeScaleAspectFill;
-            label1.text = NSLocalizedString(@"EPISODES", nil);
-            label3.text = NSLocalizedString(@"GENRE", nil);
-            label4.text = NSLocalizedString(@"STUDIO", nil);
+            label1.text = LOCALIZED_STR(@"EPISODES");
+            label3.text = LOCALIZED_STR(@"GENRE");
+            label4.text = LOCALIZED_STR(@"STUDIO");
             directorLabel.text = [Utilities getStringFromDictionary:item key:@"episode" emptyString:@"-"];
             [format setDateFormat:@"yyyy-MM-dd"];
             NSDate *date = [format dateFromString:item[@"premiered"]];
-            [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
+            [format setDateFormat:LOCALIZED_STR(@"LongDateTimeFormat")];
             genreLabel.text = date == nil ? @"-" : [format stringFromDate:date];
             runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
             studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
@@ -771,9 +769,9 @@ int h = 0;
             deltaY = jewelView.frame.size.height - coverHeight;
             coverView.autoresizingMask = UIViewAutoresizingNone;
             coverView.contentMode = UIViewContentModeScaleAspectFill;
-            label1.text = NSLocalizedString(@"TV SHOW", nil);
-            label3.text = NSLocalizedString(@"DIRECTOR", nil);
-            label4.text = NSLocalizedString(@"WRITER", nil);
+            label1.text = LOCALIZED_STR(@"TV SHOW");
+            label3.text = LOCALIZED_STR(@"DIRECTOR");
+            label4.text = LOCALIZED_STR(@"WRITER");
             parentalRatingLabelUp.hidden = YES;
             parentalRatingLabel.hidden = YES;
             
@@ -793,7 +791,7 @@ int h = 0;
             if ([item[@"firstaired"] length] > 0) {
                 [format setDateFormat:@"yyyy-MM-dd"];
                 NSDate *date = [format dateFromString:item[@"firstaired"]];
-                [format setDateFormat:NSLocalizedString(@"LongDateTimeFormat", nil)];
+                [format setDateFormat:LOCALIZED_STR(@"LongDateTimeFormat")];
                 aired = [format stringFromDate:date];
             }
             genreLabel.text = aired;
@@ -803,8 +801,8 @@ int h = 0;
         }
         [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:deltaY];
         
-        label2.text = NSLocalizedString(@"FIRST AIRED", nil);
-        label5.text = NSLocalizedString(@"SUMMARY", nil);
+        label2.text = LOCALIZED_STR(@"FIRST AIRED");
+        label5.text = LOCALIZED_STR(@"SUMMARY");
         
         frame = starsView.frame;
         frame.origin.x = frame.origin.x+29;
@@ -823,11 +821,11 @@ int h = 0;
         [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:40];
         jewelView.hidden = NO;
         int deltaY = jewelView.frame.size.height - coverHeight;
-        label1.text = NSLocalizedString(@"ARTIST", nil);
-        label2.text = NSLocalizedString(@"YEAR", nil);
-        label3.text = NSLocalizedString(@"GENRE", nil);
-        label4.text = NSLocalizedString(@"ALBUM LABEL", nil);
-        label5.text = NSLocalizedString(@"DESCRIPTION", nil);
+        label1.text = LOCALIZED_STR(@"ARTIST");
+        label2.text = LOCALIZED_STR(@"YEAR");
+        label3.text = LOCALIZED_STR(@"GENRE");
+        label4.text = LOCALIZED_STR(@"ALBUM LABEL");
+        label5.text = LOCALIZED_STR(@"DESCRIPTION");
         label6.text = @"";
         
         starsView.hidden = YES;
@@ -864,12 +862,12 @@ int h = 0;
         int shiftY = 40;
         [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:shiftY];
         [self moveLabel:@[label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:40];
-        label1.text = NSLocalizedString(@"GENRE", nil);
-        label2.text = NSLocalizedString(@"STYLE", nil);
+        label1.text = LOCALIZED_STR(@"GENRE");
+        label2.text = LOCALIZED_STR(@"STYLE");
         label3.text = @"";
-        label4.text = NSLocalizedString(@"BORN / FORMED", nil);
-        label5.text = NSLocalizedString(@"DESCRIPTION", nil);
-        label6.text = NSLocalizedString(@"MUSIC ROLES", nil);
+        label4.text = LOCALIZED_STR(@"BORN / FORMED");
+        label5.text = LOCALIZED_STR(@"DESCRIPTION");
+        label6.text = LOCALIZED_STR(@"MUSIC ROLES");
         parentalRatingLabelUp.hidden = YES;
         parentalRatingLabel.hidden = YES;
         runtimeLabel.hidden = YES;
@@ -917,8 +915,8 @@ int h = 0;
         }
     }
     else if ([item[@"family"] isEqualToString:@"broadcastid"] || [item[@"family"] isEqualToString:@"recordingid"]) {
-        label1.text = NSLocalizedString(@"TIME", nil);
-        label5.text = NSLocalizedString(@"DESCRIPTION", nil);
+        label1.text = LOCALIZED_STR(@"TIME");
+        label5.text = LOCALIZED_STR(@"DESCRIPTION");
         [jewelView setAutoresizingMask:UIViewAutoresizingNone];
         [voteLabel setAutoresizingMask:UIViewAutoresizingNone];
         [numVotesLabel setAutoresizingMask:UIViewAutoresizingNone];
@@ -938,7 +936,7 @@ int h = 0;
         label5.frame = label2.frame;
         CGRect frame = genreLabel.frame;
         if ([self.detailItem[@"plotoutline"] length] > 0) {
-            label2.text = NSLocalizedString(@"PLOT OUTLINE", nil);
+            label2.text = LOCALIZED_STR(@"PLOT OUTLINE");
             label2.hidden = NO;
             genreLabel.hidden = NO;
             [genreLabel setText:self.detailItem[@"plotoutline"]];
@@ -994,9 +992,9 @@ int h = 0;
             item[@"thumbnail"] = item[@"pvrExtraInfo"][@"channel_icon"];
         }
         placeHolderImage = @"nocover_channels";
-        NSDateFormatter *xbmcDateFormatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *xbmcDateFormatter = [NSDateFormatter new];
         [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
-        NSDateFormatter *localFormatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *localFormatter = [NSDateFormatter new];
         [localFormatter setDateFormat:@"ccc dd MMM, HH:mm"];
         localFormatter.timeZone = [NSTimeZone systemTimeZone];
         NSDate *startTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
@@ -1008,7 +1006,7 @@ int h = 0;
             NSUInteger unitFlags = NSCalendarUnitMinute;
             NSDateComponents *components = [gregorian components:unitFlags fromDate:startTime toDate:endTime options:0];
             NSInteger minutes = [components minute];
-            directorLabel.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", directorLabel.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? NSLocalizedString(@"Mins.", nil) : NSLocalizedString(@"Min", nil)];
+            directorLabel.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", directorLabel.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
         }
         else {
             directorLabel.text = @"-";
@@ -1021,7 +1019,7 @@ int h = 0;
 //        frame.origin.x = label2.frame.origin.x;
 //        frame.origin.y = label2.frame.origin.y + 4;
 //        recordButton.frame = frame;
-//        [recordButton setTitle:NSLocalizedString(@"Record", nil) forState:UIControlStateNormal];
+//        [recordButton setTitle:LOCALIZED_STR(@"Record") forState:UIControlStateNormal];
 //        [recordButton.titleLabel setFont:[UIFont fontWithName:directorLabel.font.fontName size:directorLabel.font.pointSize]];
 //        [recordButton setTitleColor:label1.textColor forState:UIControlStateHighlighted];
 //        recordButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -1062,7 +1060,7 @@ int h = 0;
     }
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image != nil) {
-            Utilities *utils = [[Utilities alloc] init];
+            Utilities *utils = [Utilities new];
             UIColor *averageColor = [utils averageColor:image inverse:NO];
             foundTintColor = TINT_COLOR;
             CGFloat red, green, blue, alpha;
@@ -1090,7 +1088,7 @@ int h = 0;
                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                      if (error == nil) {
                          if (image != nil) {
-                             Utilities *utils = [[Utilities alloc] init];
+                             Utilities *utils = [Utilities new];
                              newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                              [sf setIOS7barTintColor:newColor];
                              foundTintColor = newColor;
@@ -1107,7 +1105,7 @@ int h = 0;
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                      if (image != nil) {
                                          if (error == nil) {
-                                             Utilities *utils = [[Utilities alloc] init];
+                                             Utilities *utils = [Utilities new];
                                              newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
                                              [sf setIOS7barTintColor:newColor];
                                              foundTintColor = newColor;
@@ -1151,7 +1149,7 @@ int h = 0;
     
     NSString *numVotes = [Utilities getStringFromDictionary:item key:@"votes" emptyString:@""];
     if ([numVotes length] != 0) {
-        NSString *numVotesPlus = NSLocalizedString(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes", nil);
+        NSString *numVotesPlus = LOCALIZED_STR(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes");
         numVotesLabel.text = [NSString stringWithFormat:@"(%@ %@)", numVotes, numVotesPlus];
     }
     CGRect frame = summaryLabel.frame;
@@ -1197,7 +1195,7 @@ int h = 0;
         
         newFrame = parentalRatingLabel.frame;
         newFrame.size.height = expectedLabelSize.height + size;
-        parentalRatingLabel.frame = newFrame;        
+        parentalRatingLabel.frame = newFrame;
         shiftParentalRating = parentalRatingLabel.frame.size.height;
     }
     
@@ -1245,7 +1243,7 @@ int h = 0;
             if (embedVideoURL != nil) {
                 startY = startY + 20;
                 UILabel *trailerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, label1.frame.size.height)];
-                [trailerLabel setText:NSLocalizedString(@"TRAILER", nil)];
+                [trailerLabel setText:LOCALIZED_STR(@"TRAILER")];
                 [trailerLabel setTextColor:label1.textColor];
                 [trailerLabel setFont:label1.font];
                 [trailerLabel setShadowColor:label1.shadowColor];
@@ -1325,11 +1323,11 @@ int h = 0;
     arrow_continue_down.hidden = (height_content <= height_bounds-height_navbar);
 }
 
--(void)buildTrailerView{
+- (void)buildTrailerView {
     
 }
 
--(CGRect)currentScreenBoundsDependOnOrientation {
+- (CGRect)currentScreenBoundsDependOnOrientation {
     return UIScreen.mainScreen.bounds;
 }
 
@@ -1441,7 +1439,7 @@ int h = 0;
     }
 }
 
-- (void) scrollViewDidScroll: (UIScrollView *) theScrollView{
+- (void)scrollViewDidScroll:(UIScrollView*)theScrollView {
     int height_content = theScrollView.contentSize.height;
     int height_bounds = theScrollView.bounds.size.height;
     int scrolled = theScrollView.contentOffset.y;
@@ -1462,7 +1460,7 @@ int h = 0;
     }
 }
 
--(void)alphaImage:(UIImageView *)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
+- (void)alphaImage:(UIImageView*)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -1473,7 +1471,7 @@ int h = 0;
     [UIView commitAnimations];
 }
 
--(void)alphaView:(UIView *)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue{
+- (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -1483,19 +1481,19 @@ int h = 0;
 
 #pragma mark - Actors UITableView data source & delegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     return castHeight + 10;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     return [cast count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     static NSString *CellIdentifier = @"CellActor";
     ActorCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -1516,7 +1514,7 @@ int h = 0;
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if ([AppDelegate instance].serverVersion > 11 && ![self isModal]) {
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
         cell.accessoryView.alpha = 0.5;
@@ -1526,7 +1524,7 @@ int h = 0;
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     if ([AppDelegate instance].serverVersion > 11 && ![self isModal]) {
         [self showContent:cast[indexPath.row][@"name"]];
     }
@@ -1534,7 +1532,7 @@ int h = 0;
 
 #pragma mark - Safari
 
-- (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
+- (void)safariViewControllerDidFinish:(SFSafariViewController*)controller {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -1547,15 +1545,15 @@ int h = 0;
     }
 }
 
-# pragma  mark - JSON Data
+# pragma mark - JSON Data
 
--(void)openWithVLC:(NSDictionary *)item {
+- (void)openWithVLC:(NSDictionary*)item {
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [activityIndicatorView startAnimating];
     if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]) {
         [activityIndicatorView stopAnimating];
         self.navigationItem.rightBarButtonItem.enabled = YES;
-        UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"VLC non installed", nil) message:nil];
+        UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"VLC non installed") message:nil];
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
@@ -1579,7 +1577,7 @@ int h = 0;
     }
 }
 
--(void)addQueueAfterCurrent:(BOOL)afterCurrent{
+- (void)addQueueAfterCurrent:(BOOL)afterCurrent {
     self.navigationItem.rightBarButtonItem.enabled = NO;
     NSDictionary *item = self.detailItem;
     NSString *param = item[@"family"];
@@ -1641,7 +1639,7 @@ int h = 0;
     }
 }
 
--(void)addPlayback:(float)resumePointLocal{
+- (void)addPlayback:(float)resumePointLocal {
     if ([self.detailItem[@"family"] isEqualToString:@"broadcastid"]) {
         [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"pvrExtraInfo"][@"channelid"], @"channelid", nil], @"item", nil]];
     }
@@ -1690,7 +1688,7 @@ int h = 0;
     }
 }
 
--(void)openFile:(NSDictionary *)params{
+- (void)openFile:(NSDictionary*)params {
     [activityIndicatorView startAnimating];
     [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [activityIndicatorView stopAnimating];
@@ -1701,11 +1699,11 @@ int h = 0;
     }];
 }
 
--(void)SimpleAction:(NSString *)action params:(NSDictionary *)parameters{
+- (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters {
     [[Utilities getJsonRPC] callMethod:action withParameters:parameters];
 }
 
-# pragma  mark - Gestures
+# pragma mark - Gestures
 
 - (void)handleSwipeFromRight:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -1713,10 +1711,9 @@ int h = 0;
 
 # pragma mark - Utility
 
--(void) elabKenBurns:(UIImage *)image{
+- (void)elabKenBurns:(UIImage*)image {
     [self.kenView stopAnimation];
     [self.kenView removeFromSuperview];
-    self.kenView = nil;
     self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
     self.kenView.autoresizingMask = fanartView.autoresizingMask;
     self.kenView.contentMode = fanartView.contentMode;
@@ -1737,16 +1734,16 @@ int h = 0;
     [self.view insertSubview:self.kenView atIndex:1];
 }
 
-# pragma  mark - Life Cycle
+# pragma mark - Life Cycle
 
-- (void)setDetailItem:(id)newDetailItem{
+- (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
         // Update the view.
     }
 }
 
--(void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.slidingViewController.underRightViewController = nil;
     self.slidingViewController.anchorLeftPeekAmount   = 0;
@@ -1761,7 +1758,7 @@ int h = 0;
     if ([self isModal]) {
         if (doneButton == nil) {
             NSMutableArray *items = [[toolbar items] mutableCopy];
-            doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
+            doneButton = [[UIBarButtonItem alloc] initWithTitle:LOCALIZED_STR(@"Done") style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
             [items insertObject:doneButton atIndex:0];
             [toolbar setItems:items];
         }
@@ -1775,7 +1772,7 @@ int h = 0;
     }
 }
 
--(void)viewDidAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleSwipeFromLeft:)
@@ -1808,13 +1805,13 @@ int h = 0;
     }
 }
 
--(void)viewWillDisappear:(BOOL)animated{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [self setIOS7barTintColor:TINT_COLOR];
 }
 
--(void)viewDidDisappear:(BOOL)animated{
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self alphaImage:fanartView AnimDuration:0.3 Alpha:0.0];
     if (self.kenView != nil) {
@@ -1831,16 +1828,16 @@ int h = 0;
     }
 }
 
-- (void) disableScrollsToTopPropertyOnAllSubviewsOf:(UIView *)view {
+- (void)disableScrollsToTopPropertyOnAllSubviewsOf:(UIView*)view {
     for (UIView *subview in view.subviews) {
         if ([subview isKindOfClass:[UIScrollView class]]) {
-            ((UIScrollView *)subview).scrollsToTop = NO;
+            ((UIScrollView*)subview).scrollsToTop = NO;
         }
         [self disableScrollsToTopPropertyOnAllSubviewsOf:subview];
     }
 }
 
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
     NSDictionary *httpHeaders = [AppDelegate instance].getServerHTTPHeaders;
@@ -1848,13 +1845,13 @@ int h = 0;
         [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
     isViewDidLoad = YES;
-    [label1 setText:NSLocalizedString(@"DIRECTED BY", nil)];
-    [label2 setText:NSLocalizedString(@"GENRE", nil)];
-    [label3 setText:NSLocalizedString(@"RUNTIME", nil)];
-    [label4 setText:NSLocalizedString(@"STUDIO", nil)];
-    [label5 setText:NSLocalizedString(@"SUMMARY", nil)];
-    [label6 setText:NSLocalizedString(@"CAST", nil)];
-    [parentalRatingLabelUp setText:NSLocalizedString(@"PARENTAL RATING", nil)];
+    [label1 setText:LOCALIZED_STR(@"DIRECTED BY")];
+    [label2 setText:LOCALIZED_STR(@"GENRE")];
+    [label3 setText:LOCALIZED_STR(@"RUNTIME")];
+    [label4 setText:LOCALIZED_STR(@"STUDIO")];
+    [label5 setText:LOCALIZED_STR(@"SUMMARY")];
+    [label6 setText:LOCALIZED_STR(@"CAST")];
+    [parentalRatingLabelUp setText:LOCALIZED_STR(@"PARENTAL RATING")];
     fanartView.tag = 1;
     fanartView.userInteractionEnabled = YES;
     UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];
@@ -1887,13 +1884,13 @@ int h = 0;
     [super didReceiveMemoryWarning];
 }
 
--(void)dealloc{
+- (void)dealloc {
     [kenView removeFromSuperview];
     [self.kenView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
--(BOOL)shouldAutorotate{
+- (BOOL)shouldAutorotate {
     return YES;
 }
 
@@ -1901,8 +1898,7 @@ int h = 0;
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     if (self.kenView != nil) {
         CGFloat alphaValue = 0.2;

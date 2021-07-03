@@ -13,7 +13,7 @@
 
 @synthesize pieLabel;
 
-- (id)initWithFrame:(CGRect)frame color:(UIColor *)aColor {
+- (id)initWithFrame:(CGRect)frame color:(UIColor*)aColor {
     self = [super init];
     if (self) {
         [self setFrame:frame];
@@ -29,7 +29,7 @@
     return self;
 }
 
--(void)pieCustomization:(UIColor *)color{
+- (void)pieCustomization:(UIColor*)color {
     padding = 8;
     lineWidth = 1.0/[[UIScreen mainScreen] scale];
     int pieLabelFontSize = 7;
@@ -60,12 +60,11 @@
     [self setNeedsLayout];
     CGFloat angle = (progresspercentage * 2 * M_PI) / 100;
     [progressShape removeFromSuperlayer];
-    progressShape = nil;
     progressShape = [self createPieSliceForRadian:angle];
     [self.layer addSublayer:progressShape];
 }
 
-- (CAShapeLayer *)createPieSliceForRadian:(CGFloat)angle {
+- (CAShapeLayer*)createPieSliceForRadian:(CGFloat)angle {
     CAShapeLayer *slice = [CAShapeLayer layer];
     slice.fillColor = pieColor.CGColor;
     slice.strokeColor = pieColor.CGColor;
@@ -81,11 +80,11 @@
     return slice;
 }
 
--(CGFloat)getPieRadius {
+- (CGFloat)getPieRadius {
     return radius;
 }
 
--(CGFloat)getPiePadding {
+- (CGFloat)getPiePadding {
     return padding;
 }
 

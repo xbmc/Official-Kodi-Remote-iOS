@@ -15,14 +15,14 @@
 
 @synthesize buttons;
 
-- (id) init {
+- (id)init {
     if (self = [super init]) {
         [self loadData];
     }
     return self;
 }
 
--(NSString *)getServerKey {
+- (NSString*)getServerKey {
     GlobalData *obj = [GlobalData getInstance];
     return [[NSString stringWithFormat:@"%@%@%@", obj.serverIP, obj.serverPort, obj.serverDescription] MD5String];
 }
@@ -38,7 +38,7 @@
         [self setButtons:tempArray];
     }
     else {
-        buttons = [[NSMutableArray alloc] init];
+        buttons = [NSMutableArray new];
     }
 }
 

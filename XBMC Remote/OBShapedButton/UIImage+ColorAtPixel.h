@@ -35,6 +35,6 @@
  */
 @interface UIImage (ColorAtPixel)
 
-- (UIColor *)colorAtPixel:(CGPoint)point;
+- (UIColor*)colorAtPixel:(CGPoint)point;
 
 @end

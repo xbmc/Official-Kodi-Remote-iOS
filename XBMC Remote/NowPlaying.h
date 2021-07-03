@@ -16,7 +16,7 @@
 @class RemoteController;
 @class DetailViewController;
 
-@interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIGestureRecognizerDelegate>{
+@interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIGestureRecognizerDelegate> {
     IBOutlet UITableView *playlistTableView;
     IBOutlet UILabel *albumName;
     IBOutlet UILabel *songName;
@@ -108,7 +108,7 @@
 }
 
 - (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS;
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil;
 - (IBAction)startVibrate:(id)sender;
 - (void)toggleSongDetails;
 - (void)updateCurrentLogo;

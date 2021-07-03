@@ -12,6 +12,6 @@
     CGFloat searchBarHeight;
 }
 
--(void)setSearchBarHeight:(CGFloat)height;
+- (void)setSearchBarHeight:(CGFloat)height;
 
 @end

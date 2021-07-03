@@ -38,7 +38,7 @@
 
 
 @implementation UIViewExt
-- (UIView *) hitTest: (CGPoint) pt withEvent: (UIEvent *) event {   
+- (UIView*)hitTest:(CGPoint)pt withEvent:(UIEvent*)event {
 	
 	UIView* viewToReturn = nil;
 	CGPoint pointToReturn;
@@ -85,7 +85,7 @@
 @synthesize appInfoView = _appInfoView;
 @synthesize tcpJSONRPCconnection;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -95,7 +95,7 @@
 
 #pragma mark - ServerManagement
 
--(void)selectServerAtIndexPath:(NSIndexPath *)indexPath{
+- (void)selectServerAtIndexPath:(NSIndexPath*)indexPath {
     storeServerSelection = indexPath;
     NSDictionary *item = [AppDelegate instance].arrayServerList[indexPath.row];
     [AppDelegate instance].obj.serverDescription = item[@"serverDescription"];
@@ -106,11 +106,11 @@
     [AppDelegate instance].obj.tcpPort = [item[@"tcpPort"] intValue];
 }
 
--(void)wakeUp:(NSString *)macAddress{
+- (void)wakeUp:(NSString*)macAddress {
     [[AppDelegate instance] sendWOL:macAddress withPort:9];
 }
 
--(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText icon:(NSString *)iconName {
+- (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    infoText, @"message",
                                    iconName, @"icon_connection",
@@ -129,9 +129,9 @@
                 cell.selectionStyle = UITableViewCellSelectionStyleBlue;
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
-                [(UIImageView*) [cell viewWithTag:1] setAlpha:1.0];
-                [(UIImageView*) [cell viewWithTag:2] setAlpha:1.0];
-                [(UIImageView*) [cell viewWithTag:3] setAlpha:1.0];
+                [(UIImageView*)[cell viewWithTag:1] setAlpha:1.0];
+                [(UIImageView*)[cell viewWithTag:2] setAlpha:1.0];
+                [(UIImageView*)[cell viewWithTag:3] setAlpha:1.0];
                 [UIView commitAnimations];
             }
         }
@@ -150,9 +150,9 @@
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
                 
-                [(UIImageView*) [cell viewWithTag:1] setAlpha:0.3];
-                [(UIImageView*) [cell viewWithTag:2] setAlpha:0.3];
-                [(UIImageView*) [cell viewWithTag:3] setAlpha:0.3];
+                [(UIImageView*)[cell viewWithTag:1] setAlpha:0.3];
+                [(UIImageView*)[cell viewWithTag:2] setAlpha:0.3];
+                [(UIImageView*)[cell viewWithTag:3] setAlpha:0.3];
                 [UIView commitAnimations];
             }
         }
@@ -161,7 +161,7 @@
     }
 }
 
--(void) offStackView{
+- (void)offStackView {
     if (![AppDelegate instance].serverOnLine) {
         [[AppDelegate instance].windowController.stackScrollViewController offView];
         NSIndexPath *selection = [menuViewController.tableView indexPathForSelectedRow];
@@ -176,7 +176,7 @@
 
 # pragma mark - toolbar management
 
--(void)initHostManagemetPopOver{
+- (void)initHostManagemetPopOver {
     self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     [AppDelegate instance].navigationController = [[CustomNavigationController alloc] initWithRootViewController:_hostPickerViewController];
     [[AppDelegate instance].navigationController hideNavBarBottomLine:YES];
@@ -197,7 +197,7 @@
     }
 }
 
--(void) showSetup:(BOOL)show{
+- (void)showSetup:(BOOL)show {
     firstRun = NO;
     if ([self.hostPickerViewController isViewLoaded]) {
         if (!show) {
@@ -224,7 +224,7 @@
 
 #pragma mark - power control action sheet
 
--(void)powerControl{
+- (void)powerControl {
     if ([[AppDelegate instance].obj.serverIP length] == 0) {
         [self toggleSetup];
         return;
@@ -233,67 +233,67 @@
     UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     if (![AppDelegate instance].serverOnLine) {
-        UIAlertAction* action_wake = [UIAlertAction actionWithTitle:NSLocalizedString(@"Wake On Lan", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Wake On Lan") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             if ([AppDelegate instance].obj.serverHWAddr != nil) {
                 [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
-                UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Command executed", nil) message:nil];
+                UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
                 [self presentViewController:alertView animated:YES completion:nil];
             }
             else {
-                UIAlertController *alertView = [Utilities createAlertOK:NSLocalizedString(@"Warning", nil) message:NSLocalizedString(@"No server MAC address defined", nil)];
+                UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Warning") message:LOCALIZED_STR(@"No server MAC address defined")];
                 [self presentViewController:alertView animated:YES completion:nil];
             }
         }];
         [actionView addAction:action_wake];
     }
     else {
-        UIAlertAction* action_pwr_off_system = [UIAlertAction actionWithTitle:NSLocalizedString(@"Power off System", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+        UIAlertAction* action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
             [self powerAction:@"System.Shutdown" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_pwr_off_system];
         
-        UIAlertAction* action_quit_kodi = [UIAlertAction actionWithTitle:NSLocalizedString(@"Quit XBMC application", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"Application.Quit" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_quit_kodi];
         
-        UIAlertAction* action_hibernate = [UIAlertAction actionWithTitle:NSLocalizedString(@"Hibernate", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"System.Hibernate" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_hibernate];
         
-        UIAlertAction* action_suspend = [UIAlertAction actionWithTitle:NSLocalizedString(@"Suspend", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"System.Suspend" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_suspend];
         
-        UIAlertAction* action_reboot = [UIAlertAction actionWithTitle:NSLocalizedString(@"Reboot", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_reboot = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Reboot") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"System.Reboot" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_reboot];
         
-        UIAlertAction* action_scan_audio_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update Audio Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_scan_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_scan_audio_lib];
         
-        UIAlertAction* action_clean_audio_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Clean Audio Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_clean_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"AudioLibrary.Clean" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_clean_audio_lib];
         
-        UIAlertAction* action_scan_video_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update Video Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_scan_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_scan_video_lib];
         
-        UIAlertAction* action_clean_video_lib = [UIAlertAction actionWithTitle:NSLocalizedString(@"Clean Video Library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_clean_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self powerAction:@"VideoLibrary.Clean" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_clean_video_lib];
     }
     
-    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
     [actionView addAction:cancelButton];
     [actionView setModalPresentationStyle:UIModalPresentationPopover];
     
@@ -305,14 +305,14 @@
     [self presentViewController:actionView animated:YES completion:nil];
 }
 
--(void)powerAction:(NSString *)action params:(NSDictionary *)params{
+- (void)powerAction:(NSString*)action params:(NSDictionary*)params {
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         NSString *alertTitle = nil;
         if (methodError == nil && error == nil) {
-            alertTitle = NSLocalizedString(@"Command executed", nil);
+            alertTitle = LOCALIZED_STR(@"Command executed");
         }
         else {
-            alertTitle = NSLocalizedString(@"Cannot do that", nil);
+            alertTitle = LOCALIZED_STR(@"Cannot do that");
         }
         UIAlertController *alertView = [Utilities createAlertOK:alertTitle message:nil];
         [self presentViewController:alertView animated:YES completion:nil];
@@ -321,7 +321,7 @@
 
 #pragma mark - Touch Events
 
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
     CGPoint viewPoint = [self.nowPlayingController.jewelView convertPoint:locationPoint fromView:self.view];
     CGPoint viewPoint4 = [self.nowPlayingController.itemLogoImage convertPoint:locationPoint fromView:self.view];
@@ -336,12 +336,12 @@
 
 #pragma mark - App clear disk cache methods
 
--(void)startClearAppDiskCache:(ClearCacheView *)clearView{
+- (void)startClearAppDiskCache:(ClearCacheView*)clearView {
     [[AppDelegate instance] clearAppDiskCache];
     [self performSelectorOnMainThread:@selector(clearAppDiskCacheFinished:) withObject:clearView waitUntilDone:YES];
 }
 
--(void)clearAppDiskCacheFinished:(ClearCacheView *)clearView{
+- (void)clearAppDiskCacheFinished:(ClearCacheView*)clearView {
     [UIView animateWithDuration:0.3
                      animations:^{
                          [clearView stopActivityIndicator];
@@ -357,16 +357,16 @@
 
 #pragma mark - Lifecycle
 
--(UIStatusBarStyle)preferredStatusBarStyle{
+- (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
 
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
     int deltaY = 22;
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
-    self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
+    self.tcpJSONRPCconnection = [tcpJSONRPC new];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     firstRun = YES;
@@ -374,7 +374,7 @@
 
     int cellHeight = PAD_MENU_HEIGHT;
     int infoHeight = PAD_MENU_INFO_HEIGHT;
-    NSInteger tableHeight = ([(NSMutableArray *)mainMenu count] - 1) * cellHeight + infoHeight;
+    NSInteger tableHeight = ([(NSMutableArray*)mainMenu count] - 1) * cellHeight + infoHeight;
     int tableWidth = PAD_MENU_TABLE_WIDTH;
     int headerHeight = 0;
    
@@ -425,7 +425,7 @@
 	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, 0, rootView.frame.size.width - leftMenuView.frame.size.width, rootView.frame.size.height - TOOLBAR_HEIGHT)];
 	rightSlideView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
     
-	stackScrollViewController = [[StackScrollViewController alloc] init];	
+	stackScrollViewController = [StackScrollViewController new];
 	[stackScrollViewController.view setFrame:CGRectMake(0, 0, rightSlideView.frame.size.width, rightSlideView.frame.size.height)];
 	[stackScrollViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight];
 	[stackScrollViewController viewWillAppear:NO];
@@ -466,7 +466,7 @@
     CGFloat startInfo = volumeSliderView.frame.origin.x + volumeSliderView.frame.size.width + VIEW_PADDING;
     CGFloat widthInfo = powerButton.frame.origin.x - startInfo - VIEW_PADDING;
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(startInfo, self.view.frame.size.height - TOOLBAR_HEIGHT, widthInfo, TOOLBAR_HEIGHT)];
-    [xbmcInfo setTitle:NSLocalizedString(@"No connection", nil) forState:UIControlStateNormal];
+    [xbmcInfo setTitle:LOCALIZED_STR(@"No connection") forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
     xbmcInfo.titleLabel.minimumScaleFactor = 6.0 / 13.0;
     xbmcInfo.titleLabel.numberOfLines = 2;
@@ -577,11 +577,11 @@
     
     [self initHostManagemetPopOver];
     
-    [(gradientUIView *)self.view setColoursWithCGColors:[Utilities getGrayColor:36 alpha:1].CGColor
+    [(gradientUIView*)self.view setColoursWithCGColors:[Utilities getGrayColor:36 alpha:1].CGColor
                                                endColor:[Utilities getGrayColor:22 alpha:1].CGColor];
 }
 
--(void)handleChangeBackgroundImage:(NSNotification *)sender {
+- (void)handleChangeBackgroundImage:(NSNotification*)sender {
     [UIView transitionWithView: fanartBackgroundImage
                       duration: 1.0
                        options: UIViewAnimationOptionTransitionCrossDissolve
@@ -591,29 +591,29 @@
                     completion: NULL];
 }
 
--(void)handleChangeBackgroundGradientColor:(NSNotification *)sender{
-    UIColor *startColor = (UIColor *)[[sender userInfo] valueForKey:@"startColor"];
-    UIColor *endColor = (UIColor *)[[sender userInfo] valueForKey:@"endColor"];
-    [(gradientUIView *)self.view setColoursWithCGColors:startColor.CGColor endColor:endColor.CGColor];
-    [(gradientUIView *)self.view setNeedsDisplay];
+- (void)handleChangeBackgroundGradientColor:(NSNotification*)sender {
+    UIColor *startColor = (UIColor*)[[sender userInfo] valueForKey:@"startColor"];
+    UIColor *endColor = (UIColor*)[[sender userInfo] valueForKey:@"endColor"];
+    [(gradientUIView*)self.view setColoursWithCGColors:startColor.CGColor endColor:endColor.CGColor];
+    [(gradientUIView*)self.view setNeedsDisplay];
 }
 
--(void)handleStackScrollFullScreenEnabled:(NSNotification *)sender{
+- (void)handleStackScrollFullScreenEnabled:(NSNotification*)sender {
     stackScrollIsFullscreen = YES;
 }
 
--(void)handleStackScrollFullScreenDisabled:(NSNotification *)sender{
+- (void)handleStackScrollFullScreenDisabled:(NSNotification*)sender {
     stackScrollIsFullscreen = NO;
 }
 
--(void)handleTcpJSONRPCShowSetup:(NSNotification *)sender{
+- (void)handleTcpJSONRPCShowSetup:(NSNotification*)sender {
     BOOL showValue = [[[sender userInfo] valueForKey:@"showSetup"] boolValue];
     if ((showValue && firstRun) || !showValue) {
         [self showSetup:showValue];
     }
 }
 
--(void)handleTcpJSONRPCChangeServerStatus:(NSNotification*) sender{
+- (void)handleTcpJSONRPCChangeServerStatus:(NSNotification*)sender {
     BOOL statusValue = [[[sender userInfo] valueForKey:@"status"] boolValue];
     NSString *message = [[sender userInfo] valueForKey:@"message"];
     NSString *icon_connection = [[sender userInfo] valueForKey:@"icon_connection"];
@@ -629,39 +629,39 @@
     [UIView commitAnimations];
 }
 
-- (void)handleStackScrollOnScreen: (NSNotification*) sender{
+- (void)handleStackScrollOnScreen:(NSNotification*)sender {
     [self.view insertSubview:self.nowPlayingController.ProgressSlider belowSubview:rootView];
     [self hideSongInfoView];
 }
 
-- (void)handleStackScrollOffScreen: (NSNotification*) sender{
+- (void)handleStackScrollOffScreen:(NSNotification*)sender {
     stackScrollIsFullscreen = NO;
     [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
 }
 
-- (void) handleXBMCServerHasChanged: (NSNotification*) sender{
+- (void)handleXBMCServerHasChanged:(NSNotification*)sender {
     [[AppDelegate instance].windowController.stackScrollViewController offView];
     NSIndexPath *selection = [menuViewController.tableView indexPathForSelectedRow];
     if (selection) {
         [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
         [menuViewController setLastSelected:-1];
     }
-    [self changeServerStatus:NO infoText:NSLocalizedString(@"No connection", nil) icon:@"connection_off"];
+    [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
 }
 
-- (void) handleWillResignActive: (NSNotification*) sender{
+- (void)handleWillResignActive:(NSNotification*)sender {
     [self.tcpJSONRPCconnection stopNetworkCommunication];
 }
 
-- (void) handleDidEnterBackground: (NSNotification*) sender{
+- (void)handleDidEnterBackground:(NSNotification*)sender {
     [self.tcpJSONRPCconnection stopNetworkCommunication];
 }
 
-- (void) handleEnterForeground: (NSNotification*) sender{
+- (void)handleEnterForeground:(NSNotification*)sender {
     if ([AppDelegate instance].serverOnLine) {
         if (self.tcpJSONRPCconnection == nil) {
-            self.tcpJSONRPCconnection = [[tcpJSONRPC alloc] init];
+            self.tcpJSONRPCconnection = [tcpJSONRPC new];
         }
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
     }
@@ -671,8 +671,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     // save state for restoration after rotation and close popups
@@ -702,24 +701,24 @@
     }];
 }
 
--(CGSize)screenSizeOrientationIndependent {
+- (CGSize)screenSizeOrientationIndependent {
     return UIScreen.mainScreen.fixedCoordinateSpace.bounds.size;
 }
 
--(CGRect)currentScreenBoundsDependOnOrientation {
+- (CGRect)currentScreenBoundsDependOnOrientation {
     return UIScreen.mainScreen.bounds;
 }
 
-- (void)viewWillLayoutSubviews{
+- (void)viewWillLayoutSubviews {
     [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS];
 }
 
--(BOOL)shouldAutorotate{
+- (BOOL)shouldAutorotate {
     return !stackScrollIsFullscreen;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
      return UIInterfaceOrientationMaskAll;
- }
+}
 
 @end

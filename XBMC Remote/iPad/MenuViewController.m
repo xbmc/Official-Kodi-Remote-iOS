@@ -51,7 +51,7 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu{
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu {
     if (self = [super init]) {
         [self.view setFrame:frame];
         CGFloat tableHeight = ([menu count]-1) * PAD_MENU_HEIGHT + PAD_MENU_INFO_HEIGHT;
@@ -142,7 +142,7 @@
 
 }
 
--(void)handleEnableMusicSection{
+- (void)handleEnableMusicSection {
     NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
     if (selection.row != 1 || selection == nil) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
@@ -152,7 +152,7 @@
     }		
 }
 
--(void)handleEnableMovieSection{
+- (void)handleEnableMovieSection {
     NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
     if (selection.row != 2 || selection == nil) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
@@ -162,7 +162,7 @@
     }
 }
 
--(void)handleEnableTvShowSection{
+- (void)handleEnableTvShowSection {
     NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
     if (selection.row != 3 || selection == nil) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
@@ -172,11 +172,11 @@
     }
 }
 
-- (void)connectionStatus:(NSNotification *)note {
+- (void)connectionStatus:(NSNotification*)note {
     NSDictionary *theData = [note userInfo];
     NSString *icon_connection = theData[@"icon_connection"];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
+    UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
     [icon setImage:[UIImage imageNamed:icon_connection]];
 }
 
@@ -192,26 +192,26 @@
 #pragma mark -
 #pragma mark Table view data source
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.row == 0) {
         return PAD_MENU_INFO_HEIGHT;
     }
     return PAD_MENU_HEIGHT;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
     // Return the number of sections.
     return 1;
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
 //    return 10;
     return [mainMenuItems count];
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.row == 0) {
         cell.backgroundColor = [Utilities getGrayColor:130 alpha:0.1];
     }
@@ -222,9 +222,8 @@
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;
-    cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
     [[NSBundle mainBundle] loadNibNamed:@"cellViewIPad" owner:self options:NULL];
     if (cell == nil) {
         cell = resultMenuCell;
@@ -245,10 +244,10 @@
         }
     }
     mainMenu *item = mainMenuItems[indexPath.row];
-    UIImageView *icon = (UIImageView*) [cell viewWithTag:1];
-    UILabel *upperTitle = (UILabel*) [cell viewWithTag:2];
-    UILabel *title = (UILabel*) [cell viewWithTag:3];
-    UIImageView *line = (UIImageView*) [cell viewWithTag:4];
+    UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
+    UILabel *upperTitle = (UILabel*)[cell viewWithTag:2];
+    UILabel *title = (UILabel*)[cell viewWithTag:3];
+    UIImageView *line = (UIImageView*)[cell viewWithTag:4];
     NSString *iconName = item.icon;
     [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:12]];
     [upperTitle setText:item.upperLabel];
@@ -290,7 +289,7 @@
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     if (![AppDelegate instance].serverOnLine) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
@@ -311,7 +310,7 @@
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:YES];
             [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
-        }   
+        }
         else if (item.family == FamilyRemote) {
             RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil]; 
             [remoteController.view setFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height)];
@@ -322,7 +321,7 @@
     }
 }
 
-- (void)setLastSelected:(int)selection{
+- (void)setLastSelected:(int)selection {
     lastSelected = selection;
 }
 

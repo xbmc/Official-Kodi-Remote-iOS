@@ -13,7 +13,7 @@
     UIImageView *overlayWatched;
 }
 
--(void)setOverlayWatched:(BOOL)enable;
+- (void)setOverlayWatched:(BOOL)enable;
 
 @property (nonatomic, readonly) UIImageView *posterThumbnail;
 @property (nonatomic, readonly) UIImageView *posterFanart;

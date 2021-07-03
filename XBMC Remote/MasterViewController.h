@@ -19,7 +19,7 @@
 @class AppInfoViewController;
 @class HostManagementViewController;
 
-@interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
+@interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     IBOutlet UITableView *menuList;
     IBOutlet UITableViewCell *resultMenuCell;
     UIButton *xbmcInfo;
@@ -33,7 +33,7 @@
     CustomNavigationController *navController;
 }
 
--(void)changeServerStatus:(BOOL)status infoText:(NSString *)infoText icon:(NSString *)iconName;
+- (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName;
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 @property (strong, nonatomic) DetailViewController *detailViewController;

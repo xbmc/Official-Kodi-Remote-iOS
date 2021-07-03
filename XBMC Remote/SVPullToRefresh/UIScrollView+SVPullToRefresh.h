@@ -43,9 +43,9 @@ typedef NSUInteger SVPullToRefreshState;
 
 @property (nonatomic, readonly) SVPullToRefreshState state;
 
-- (void)setTitle:(NSString *)title forState:(SVPullToRefreshState)state;
-- (void)setSubtitle:(NSString *)subtitle forState:(SVPullToRefreshState)state;
-- (void)setCustomView:(UIView *)view forState:(SVPullToRefreshState)state;
+- (void)setTitle:(NSString*)title forState:(SVPullToRefreshState)state;
+- (void)setSubtitle:(NSString*)subtitle forState:(SVPullToRefreshState)state;
+- (void)setCustomView:(UIView*)view forState:(SVPullToRefreshState)state;
 
 - (void)startAnimating;
 - (void)stopAnimating;

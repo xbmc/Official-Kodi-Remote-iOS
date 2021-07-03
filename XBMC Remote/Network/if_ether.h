@@ -83,9 +83,9 @@
 	(enaddr)[0] = 0x01; \
 	(enaddr)[1] = 0x00; \
 	(enaddr)[2] = 0x5e; \
-	(enaddr)[3] = ((const u_char *)ipaddr)[1] & 0x7f; \
-	(enaddr)[4] = ((const u_char *)ipaddr)[2]; \
-	(enaddr)[5] = ((const u_char *)ipaddr)[3]; \
+	(enaddr)[3] = ((const u_char*)ipaddr)[1] & 0x7f; \
+	(enaddr)[4] = ((const u_char*)ipaddr)[2]; \
+	(enaddr)[5] = ((const u_char*)ipaddr)[3]; \
 }
 /*
  * Macro to map an IP6 multicast address to an Ethernet multicast address.
@@ -98,10 +98,10 @@
 {                                                                       \
 	(enaddr)[0] = 0x33;						\
 	(enaddr)[1] = 0x33;						\
-	(enaddr)[2] = ((const u_char *)ip6addr)[12];				\
-	(enaddr)[3] = ((const u_char *)ip6addr)[13];				\
-	(enaddr)[4] = ((const u_char *)ip6addr)[14];				\
-	(enaddr)[5] = ((const u_char *)ip6addr)[15];				\
+	(enaddr)[2] = ((const u_char*)ip6addr)[12];				\
+	(enaddr)[3] = ((const u_char*)ip6addr)[13];				\
+	(enaddr)[4] = ((const u_char*)ip6addr)[14];				\
+	(enaddr)[5] = ((const u_char*)ip6addr)[15];				\
 }
 
 /*

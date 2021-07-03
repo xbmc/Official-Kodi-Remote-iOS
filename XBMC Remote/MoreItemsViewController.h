@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface MoreItemsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	UITableView*  _tableView;
+	UITableView *_tableView;
     NSMutableArray *mainMenuItems;
     int cellLabelOffset;
 }
 
-- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray *)menu;
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu;
 
-@property(nonatomic, retain) UITableView* tableView;
+@property (nonatomic, retain) UITableView* tableView;
 
 @end

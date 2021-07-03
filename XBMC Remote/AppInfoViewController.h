@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface AppInfoViewController : UIViewController <AVAudioPlayerDelegate>{
+@interface AppInfoViewController : UIViewController <AVAudioPlayerDelegate> {
     AVAudioPlayer *audioPlayer;
     IBOutlet UIScrollView *creditsScrollView;
     __weak IBOutlet UIImageView *creditsMask;

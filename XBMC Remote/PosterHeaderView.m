@@ -17,7 +17,7 @@
 
 @synthesize headerLabel = _headerLabel;
 
-- (id)initWithFrame:(CGRect)frame{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self setClipsToBounds:NO];
@@ -72,7 +72,7 @@
     return self;
 }
 
-- (void) setHeaderText:(NSString *)text{
+- (void)setHeaderText:(NSString*)text {
     _headerLabel.text = text;
 
 }

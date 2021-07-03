@@ -20,10 +20,10 @@ inline UIImage *SDScaledImageForPath(NSString *path, NSObject *imageOrData)
 
     UIImage *image = nil;
     if ([imageOrData isKindOfClass:[NSData class]]) {
-        image = [[UIImage alloc] initWithData:(NSData *)imageOrData];
+        image = [[UIImage alloc] initWithData:(NSData*)imageOrData];
     }
     else if ([imageOrData isKindOfClass:[UIImage class]]) {
-        image = (UIImage *)imageOrData;
+        image = (UIImage*)imageOrData;
     }
     else {
         return nil;

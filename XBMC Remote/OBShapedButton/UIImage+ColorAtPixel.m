@@ -45,7 +45,7 @@
  this approach is probably less efficient than drawing the entire image into memory
  once and caching it.
  */
-- (UIColor *)colorAtPixel:(CGPoint)point {
+- (UIColor*)colorAtPixel:(CGPoint)point {
     // Cancel if point is outside image coordinates
     if (!CGRectContainsPoint(CGRectMake(0, 0, self.size.width, self.size.height), point)) {
         return nil;

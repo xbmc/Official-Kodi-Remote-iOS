@@ -14,7 +14,7 @@
 
 @class ViewControllerIPad;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>{
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
 	NSMutableArray *arrayServerList;
     GlobalData *obj;
 }
@@ -50,6 +50,7 @@
 #define IPHONE_SCREEN_DESIGN_WIDTH 320.0
 #define IPAD_SCREEN_DESIGN_WIDTH 476.0
 
+#define GET_MAINSCREEN_HEIGHT CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)
 #define GET_MAINSCREEN_WIDTH CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds)
 #define STACKSCROLL_WIDTH (GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH)
 
@@ -65,15 +66,15 @@
 #define PAD_TV_SHOWS_BANNER_WIDTH IPAD_SCREEN_DESIGN_WIDTH
 #define PAD_TV_SHOWS_POSTER_WIDTH 53
 
-#define ANCHOR_RIGHT_PEEK 40
+#define ANCHOR_RIGHT_PEEK (GET_MAINSCREEN_WIDTH/10.0)
 
-+ (AppDelegate *) instance;
++ (AppDelegate*)instance;
 
--(void)saveServerList;
--(void)clearAppDiskCache;
--(void)sendWOL:(NSString *)MAC withPort:(NSInteger)WOLport;
--(NSURL *)getServerJSONEndPoint;
--(NSDictionary *)getServerHTTPHeaders;
+- (void)saveServerList;
+- (void)clearAppDiskCache;
+- (void)sendWOL:(NSString*)MAC withPort:(NSInteger)WOLport;
+- (NSURL*)getServerJSONEndPoint;
+- (NSDictionary*)getServerHTTPHeaders;
 
 @property (strong, nonatomic) UIWindow *window;
 

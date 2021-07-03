@@ -34,11 +34,11 @@
 @property (nonatomic) int currentImage;
 @property (nonatomic) BOOL animationInCurse;
 
-- (void) _animate:(NSNumber*)num;
-- (void) _startAnimations:(NSArray*)images;
-- (void) _startInternetAnimations:(NSArray *)urls;
-- (UIImage *) _downloadImageFrom:(NSString *)url;
-- (void) _notifyDelegate:(NSNumber *) imageIndex;
+- (void)_animate:(NSNumber*)num;
+- (void)_startAnimations:(NSArray*)images;
+- (void)_startInternetAnimations:(NSArray*)urls;
+- (UIImage*)_downloadImageFrom:(NSString*)url;
+- (void)_notifyDelegate:(NSNumber*)imageIndex;
 
 @end
 
@@ -47,7 +47,7 @@
 @synthesize imagesArray, timeTransition, isLoop, isLandscape;
 @synthesize animationInCurse, currentImage, delegate;
 
--(id)init{
+- (id)init {
     self = [super init];
     if (self) {
         self.layer.masksToBounds = YES;
@@ -55,8 +55,7 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.layer.masksToBounds = YES;
@@ -64,11 +63,11 @@
     return self;
 }
 
-- (void) stopAnimation{
+- (void)stopAnimation {
     self.isLoop = NO;
 }
 
-- (void) animateWithImages:(NSMutableArray *)images transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
+- (void)animateWithImages:(NSMutableArray*)images transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
     self.imagesArray      = images;
     self.timeTransition   = duration;
     self.isLoop           = shouldLoop;
@@ -86,8 +85,8 @@
     
 }
 
-- (void) animateWithURLs:(NSArray *)urls transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
-    self.imagesArray      = [[NSMutableArray alloc] init];
+- (void)animateWithURLs:(NSArray*)urls transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;{
+    self.imagesArray      = [NSMutableArray new];
     self.timeTransition   = duration;
     self.isLoop           = shouldLoop;
     self.isLandscape      = inLandscape;
@@ -112,7 +111,7 @@
     
 }
 
-- (void) _startAnimations:(NSArray *)images{    
+- (void)_startAnimations:(NSArray*)images {
     for (uint i = 0; i < [images count]; i++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
@@ -126,19 +125,19 @@
     }
 }
 
-- (UIImage *) _downloadImageFrom:(NSString *) url{
+- (UIImage*)_downloadImageFrom:(NSString*)url {
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
     return image;
 }
 
-- (void) _startInternetAnimations:(NSArray *)urls{
+- (void)_startInternetAnimations:(NSArray*)urls {
     int bufferIndex = 0;
     
     for (NSInteger urlIndex = self.imagesArray.count; urlIndex < [urls count]; urlIndex++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
                                withObject:@(0)
-                            waitUntilDone:YES];            
+                            waitUntilDone:YES];
         
         [self.imagesArray removeObjectAtIndex:0];
         [self.imagesArray addObject:[self _downloadImageFrom:urls[urlIndex]]];
@@ -154,7 +153,7 @@
     }
 }
 
-- (void) _animate:(NSNumber*)num{
+- (void)_animate:(NSNumber*)num {
     UIImage* image = self.imagesArray[[num intValue]];
     UIImageView *imageView;
     
@@ -318,14 +317,14 @@
     [self performSelector:@selector(_notifyDelegate:) withObject:num afterDelay:self.timeTransition];
 }
 
-- (void) _notifyDelegate: (NSNumber *)imageIndex{
+- (void)_notifyDelegate:(NSNumber*)imageIndex {
     if (delegate) {
         if ([self.delegate respondsToSelector:@selector(didShowImageAtIndex:)]) {
             [self.delegate didShowImageAtIndex:[imageIndex intValue]];
-        }      
+        }
         
-        if ([imageIndex intValue] == ([self.imagesArray count]-1) && !isLoop && [self.delegate respondsToSelector:@selector(didFinishAllAnimations)]) {            
-            [self.delegate didFinishAllAnimations];        
+        if ([imageIndex intValue] == ([self.imagesArray count]-1) && !isLoop && [self.delegate respondsToSelector:@selector(didFinishAllAnimations)]) {
+            [self.delegate didFinishAllAnimations];
         } 
     }
 }
