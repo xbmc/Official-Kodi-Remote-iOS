@@ -305,38 +305,6 @@
                          [viewControllersStack removeAllObjects];
                          [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOffScreen" object: nil]; 
                      }];
-    return;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.2];			
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
-    NSInteger viewControllerCount = [viewControllersStack count];
-    if (viewControllerCount > 1) {
-        for (int i = 1; i < viewControllerCount; i++) {
-            viewXPosition = self.view.frame.size.width - [slideViews viewWithTag:i + VIEW_TAG].frame.size.width;
-            [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
-            [viewControllersStack removeLastObject];
-        }
-        [[borderViews viewWithTag:3 + VIEW_TAG] setHidden:YES];
-        [[borderViews viewWithTag:2 + VIEW_TAG] setHidden:YES];
-        [[borderViews viewWithTag:1 + VIEW_TAG] setHidden:YES];
-    }
-    for (UIView* tableView in [[slideViews subviews][0] subviews]) {
-        if ([tableView isKindOfClass:[UITableView class]]) {
-            NSIndexPath* selectedRow = [(UITableView*)tableView indexPathForSelectedRow];
-            NSArray *indexPaths = @[selectedRow];
-            [(UITableView*)tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:NO];
-        }
-    }
-    
-    viewAtLeft2 = nil;
-    viewAtRight = nil;
-    viewAtRight2 = nil;
-    [[slideViews subviews][0] setFrame:CGRectMake(posX, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height)];
-//    if (viewAtRight != nil) {
-//        [viewAtRight setFrame:CGRectMake(SLIDE_VIEWS_START_X_POS + viewAtLeft.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width, viewAtRight.frame.size.height)];
-//    }
-    [UIView commitAnimations];
 }
 
 - (void)handlePanFrom:(UIPanGestureRecognizer*)recognizer {
