@@ -33,6 +33,8 @@
 #define IS_AT_LEAST_IPAD_1K_WIDTH (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) >= 1024)
 #define IS_IPHONE (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone)
 #define IS_IPAD (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
+#define IS_PORTRAIT UIInterfaceOrientationIsPortrait(UIApplication.sharedApplication.statusBarOrientation)
+#define IS_LANDSCAPE UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication.statusBarOrientation)
 
 #define LOCALIZED_STR(string) NSLocalizedString(string, nil)
 

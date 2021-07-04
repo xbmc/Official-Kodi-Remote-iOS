@@ -7,6 +7,7 @@
 //
 
 #import "ECSlidingViewController.h"
+#import "AppDelegate.h"
 
 NSString *const ECSlidingViewUnderRightWillAppear    = @"ECSlidingViewUnderRightWillAppear";
 NSString *const ECSlidingViewUnderLeftWillAppear     = @"ECSlidingViewUnderLeftWillAppear";
@@ -45,7 +46,7 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 - (CGFloat)anchorLeftTopViewCenter;
 - (CGFloat)resettedCenter;
 - (CGFloat)screenWidth;
-- (CGFloat)screenWidthForOrientation:(UIInterfaceOrientation)orientation;
+- (CGFloat)screenWidthForOrientation:(BOOL)isLandscape;
 - (void)underLeftWillAppear;
 - (void)underRightWillAppear;
 - (void)topDidReset;
@@ -496,13 +497,13 @@ CGPoint center = self.topView.center;
 }
 
 - (CGFloat)screenWidth {
-    return [self screenWidthForOrientation:[UIApplication sharedApplication].statusBarOrientation];
+    return [self screenWidthForOrientation:IS_LANDSCAPE];
 }
 
-- (CGFloat)screenWidthForOrientation:(UIInterfaceOrientation)orientation {
+- (CGFloat)screenWidthForOrientation:(BOOL)isLandscape {
     CGSize size = [UIScreen mainScreen].bounds.size;
     UIApplication *application = [UIApplication sharedApplication];
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
+    if (isLandscape) {
         size = CGSizeMake(size.height, size.width);
     }
     if (!application.statusBarHidden) {
@@ -560,7 +561,7 @@ CGPoint center = self.topView.center;
         CGRect frame = self.view.bounds;
         CGFloat newWidth;
 
-        if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        if (IS_LANDSCAPE) {
             newWidth = [UIScreen mainScreen].bounds.size.height - self.anchorRightPeekAmount;
         }
         else {
@@ -593,7 +594,7 @@ CGPoint center = self.topView.center;
         CGFloat newLeftEdge;
         CGFloat newWidth;
 
-        if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        if (IS_LANDSCAPE) {
             newWidth = [UIScreen mainScreen].bounds.size.height;
         }
         else {

@@ -192,7 +192,7 @@
 
 - (void)tailorViewContent:(BOOL)isEditing {
     if (isEditing) {
-        if (IS_IPAD && UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+        if (IS_IPAD && IS_LANDSCAPE) {
             tipView.hidden = YES;
         }
         else {
