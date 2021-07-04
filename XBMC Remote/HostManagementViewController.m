@@ -347,7 +347,7 @@ static inline BOOL IsEmpty(id obj) {
     self.preferredContentSize = size;
     [super viewWillAppear:animated];
     [self selectIndex:nil reloadData:YES];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         self.slidingViewController.underRightViewController = nil;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].rightMenuItems;
@@ -376,7 +376,7 @@ static inline BOOL IsEmpty(id obj) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     CGFloat deltaY = 44 + [[UIApplication sharedApplication] statusBarFrame].size.height;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         deltaY = 0;
     }
     CGFloat bottomPadding = 0;
@@ -384,7 +384,7 @@ static inline BOOL IsEmpty(id obj) {
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
         bottomPadding = window.safeAreaInsets.bottom;
     }
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         bottomPadding = SERVERPOPUP_BOTTOMPADDING;
     }
     CGRect frame = bottomToolbar.frame;
@@ -435,7 +435,7 @@ static inline BOOL IsEmpty(id obj) {
     [addHostButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     [addHostButton.titleLabel setShadowOffset:CGSizeZero];
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         self.edgesForExtendedLayout = 0;
         self.view.tintColor = APP_TINT_COLOR;
         CGRect frame = backgroundImageView.frame;

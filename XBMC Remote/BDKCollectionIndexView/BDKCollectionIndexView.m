@@ -1,5 +1,6 @@
 #import "BDKCollectionIndexView.h"
 #import "Utilities.h"
+#import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define DEFAULT_ALPHA 0.3
@@ -90,7 +91,7 @@
             break;
         case BDKCollectionIndexViewDirectionVertical:
             _theDimension = CGRectGetWidth(self.frame);
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            if (IS_IPHONE) {
                 maxLength = self.indexLabels.count * INDEX_HEIGHT_IPHONE;
             }
             else {

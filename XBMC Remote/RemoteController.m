@@ -130,7 +130,7 @@
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
     quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
         frame.size.height = frame.size.height *transform;
@@ -1119,7 +1119,7 @@ NSInteger buttonAction;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         self.slidingViewController.underRightViewController = nil;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
@@ -1251,7 +1251,7 @@ NSInteger buttonAction;
             }
         }
     }
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         CGRect frame = CGRectMake(self.view.bounds.size.width - TOOLBAR_START, self.view.bounds.size.height - TOOLBAR_ICON_SIZE - TOOLBAR_SPACING, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
         UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
         settingButton.frame = frame;

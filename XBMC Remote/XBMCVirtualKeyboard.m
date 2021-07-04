@@ -23,7 +23,7 @@
         background_padding = 6;
         alignBottom = 10;
         UIColor *accessoryBackgroundColor = [Utilities getSystemGray4];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        if (IS_IPAD) {
             accessoryHeight = 74;
             verboseHeight = 34;
             padding = 50;

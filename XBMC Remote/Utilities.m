@@ -301,7 +301,7 @@
 
 + (CGFloat)getTransformX {
     // We scale for iPhone with their different device widths.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         return (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) / IPHONE_SCREEN_DESIGN_WIDTH);
     }
     // For iPad a fixed frame width is used.
@@ -416,7 +416,7 @@
 }
 
 + (CGRect)createXBMCInfoframe:(UIImage*)logo height:(CGFloat)height width:(CGFloat)width {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         return CGRectMake(width - ANCHOR_RIGHT_PEEK - logo.size.width - XBMC_LOGO_PADDING, (height - logo.size.height)/2, logo.size.width, logo.size.height);
     }
     else {
@@ -497,7 +497,7 @@
     }
     UIViewController *ctrl = fromctrl;
     svc.delegate = fromctrl;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         // On iPad presenting from the active ViewController results in blank screen
         ctrl = UIApplication.sharedApplication.keyWindow.rootViewController;
     }

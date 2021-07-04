@@ -8,6 +8,7 @@
 
 #import "RecentlyAddedCell.h"
 #import "Utilities.h"
+#import "AppDelegate.h"
 
 @implementation RecentlyAddedCell
 
@@ -47,7 +48,7 @@
         
         int posterYOffset = 4;
         int labelPadding = 4;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (IS_IPHONE) {
             posterYOffset = 0;
         }
          _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, posterYOffset, fanartWidth - labelPadding -borderWidth * 4, labelHeight - borderWidth)];

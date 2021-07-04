@@ -415,7 +415,7 @@ NSMutableArray *hostRightMenuItems;
     obj = [GlobalData getInstance];
     
     CGFloat transform = [Utilities getTransformX];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
         NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -4666,7 +4666,7 @@ NSMutableArray *hostRightMenuItems;
     
     // Initialize controllers
     self.serverName = LOCALIZED_STR(@"No connection");
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         InitialSlidingViewController *initialSlidingViewController = [[InitialSlidingViewController alloc] initWithNibName:@"InitialSlidingViewController" bundle:nil];
         initialSlidingViewController.mainMenu = mainMenuItems;
         self.window.rootViewController = initialSlidingViewController;
