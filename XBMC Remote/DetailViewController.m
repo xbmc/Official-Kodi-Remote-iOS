@@ -1400,7 +1400,7 @@
         }
 
         if (![fanartURL isEqualToString:@""]) {
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@"blank"]andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@"blank"] andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
         }
         else {
             [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"blank"]];
@@ -2283,7 +2283,7 @@ int originYear = 0;
             if ([item[@"family"] isEqualToString:@"channelid"] || [item[@"family"] isEqualToString:@"type"]) {
                 [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
             }
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (channelListView || channelGuideView || recordingListView) {
                     [Utilities setLogoBackgroundColor:cell.urlImageView mode:logoBackgroundMode];
                 }

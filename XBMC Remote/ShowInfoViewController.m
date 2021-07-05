@@ -107,7 +107,7 @@ int count = 0;
         }
         else if ([item[@"family"] isEqualToString:@"artistid"]) {
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_album"];
-            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
+            extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             titleWidth = 350;
         }
         else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
