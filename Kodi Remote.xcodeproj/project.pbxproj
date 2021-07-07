@@ -287,6 +287,7 @@
 		B1FF37DF1709D1ED005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C718444525FFD06300F5A060 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		C7478BF8257258E700161C1E /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		C7F28D4826961FE50004B112 /* ConvenienceMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConvenienceMacros.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -531,6 +532,7 @@
 				0F554903151D1187007E633F /* InfoPlist.strings */,
 				0F554906151D1187007E633F /* main.m */,
 				0F554908151D1187007E633F /* Kodi Remote-Prefix.pch */,
+				C7F28D4826961FE50004B112 /* ConvenienceMacros.h */,
 				1A9786C21683D87800B4F3F8 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
