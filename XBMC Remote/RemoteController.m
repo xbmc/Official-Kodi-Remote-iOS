@@ -15,8 +15,8 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "RightMenuViewController.h"
-#import <AVFoundation/AVFoundation.h>
 #import "DetailViewController.h"
+#import "Utilities.h"
 
 #define ROTATION_TRIGGER 0.015
 #define REMOTE_PADDING (44 + 20 + 44) // Space which is used up by footer, header and remote toolbar
@@ -1235,29 +1235,9 @@ NSInteger buttonAction;
     [self resetRemote];
 }
 
-- (void)turnTorchOn:(UIButton*)sender {
-    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+- (void)turnTorchOn:(id)sender {
     torchIsOn = !torchIsOn;
-    if (captureDeviceClass != nil) {
-        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettings];
-        if ([device hasTorch] && [device hasFlash]) {
-            [device lockForConfiguration:nil];
-            if (torchIsOn) {
-                [device setTorchMode:AVCaptureTorchModeOn];
-                [settings setFlashMode:AVCaptureFlashModeOn];
-                torchIsOn = YES;
-                [sender setImage:[UIImage imageNamed:@"torch_on"] forState:UIControlStateNormal];
-            }
-            else {
-                [device setTorchMode:AVCaptureTorchModeOff];
-                [settings setFlashMode:AVCaptureFlashModeOff];
-                torchIsOn = NO;
-                [sender setImage:[UIImage imageNamed:@"torch"] forState:UIControlStateNormal];
-            }
-            [device unlockForConfiguration];
-        }
-    }
+    [Utilities turnTorchOn:sender on:torchIsOn];
 }
 
 - (void)viewDidLoad {
@@ -1288,16 +1268,7 @@ NSInteger buttonAction;
         buttonZoneView.alpha = 0;
     }
     if ([self hasRemoteToolBar]) {
-        torchIsOn = NO;
-        Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
-        if (captureDeviceClass != nil) {
-            AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-            if ([device hasTorch] && [device hasFlash]) {
-                if ([device torchLevel]) {
-                    torchIsOn = YES;
-                }
-            }
-        }
+        torchIsOn = [Utilities isTorchOn];
         CGRect frame = CGRectMake(self.view.bounds.size.width - TOOLBAR_START, self.view.bounds.size.height - TOOLBAR_ICON_SIZE - TOOLBAR_FIXED_OFFSET, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
         UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
         settingButton.frame = frame;

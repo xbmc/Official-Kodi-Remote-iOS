@@ -81,5 +81,7 @@ typedef enum {
 + (UIImageView*)roundedCornerView:(UIImageView*)view drawBorder:(BOOL)drawBorder;
 + (UIImage*)applyRoundedEdgesImage:(UIImage*)image drawBorder:(BOOL)drawBorder;
 + (UIImageView*)applyRoundedEdgesView:(UIImageView*)imageView drawBorder:(BOOL)drawBorder;
++ (void)turnTorchOn:(id)sender on:(BOOL)torchOn;
++ (BOOL)isTorchOn;
 
 @end

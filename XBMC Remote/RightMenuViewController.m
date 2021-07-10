@@ -9,7 +9,6 @@
 #import "mainMenu.h"
 #import "AppDelegate.h"
 #import "DetailViewController.h"
-#import <AVFoundation/AVFoundation.h>
 #import "CustomNavigationController.h"
 #import "customButton.h"
 #import "ViewControllerIPad.h"
@@ -33,30 +32,6 @@
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
-}
-
-- (void)turnTorchOn:(BOOL)on icon:(UIImageView*)iconTorch {
-    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
-    if (captureDeviceClass != nil) {
-        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettings];
-        if ([device hasTorch] && [device hasFlash]) {
-            [device lockForConfiguration:nil];
-            if (on) {
-                [device setTorchMode:AVCaptureTorchModeOn];
-                [settings setFlashMode:AVCaptureFlashModeOn];
-                torchIsOn = YES;
-                [iconTorch setImage:[UIImage imageNamed:@"torch_on"]];
-            }
-            else {
-                [device setTorchMode:AVCaptureTorchModeOff];
-                [settings setFlashMode:AVCaptureFlashModeOff];
-                torchIsOn = NO;
-                [iconTorch setImage:[UIImage imageNamed:@"torch"]];
-            }
-            [device unlockForConfiguration];
-        }
-    }
 }
 
 #pragma mark -
@@ -551,7 +526,8 @@
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
         UIImageView *torchIcon = (UIImageView*)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
-        [self turnTorchOn:!torchIsOn icon:torchIcon];
+        torchIsOn = !torchIsOn;
+        [Utilities turnTorchOn:torchIcon on:torchIsOn];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Cancel")]) {
         [self.slidingViewController resetTopView];
@@ -623,14 +599,7 @@
         deltaY = 0;
         self.peekLeftAmount = 0;
     }
-    torchIsOn = NO;
-    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
-    if (captureDeviceClass != nil) {
-        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        if ([device hasTorch] && [device hasFlash]) {
-            torchIsOn = [device torchLevel];
-        }
-    }
+    torchIsOn = [Utilities isTorchOn];
     [self.slidingViewController setAnchorLeftPeekAmount:self.peekLeftAmount];
     self.slidingViewController.underRightWidthLayout = ECFullWidth;
     CGFloat infoLabelHeight = 2 * RIGHT_MENU_ITEM_HEIGHT;
