@@ -3465,14 +3465,8 @@ NSIndexPath *selected;
         self.navigationItem.title = [self.detailItem mainLabel];
         if (![self.detailItem disableNowPlaying]) {
             UIBarButtonItem *nowPlayingButtonItem = [[UIBarButtonItem alloc] initWithTitle:LOCALIZED_STR(@"Now Playing") style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
-            [nowPlayingButtonItem setTitleTextAttributes:
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              [UIFont systemFontOfSize:12], NSFontAttributeName,
-              nil] forState:UIControlStateNormal];
-            [nowPlayingButtonItem setTitleTextAttributes:
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              [UIFont systemFontOfSize:12], NSFontAttributeName,
-              nil] forState:UIControlStateHighlighted];
+            [nowPlayingButtonItem setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12]} forState:UIControlStateNormal];
+            [nowPlayingButtonItem setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12]} forState:UIControlStateHighlighted];
             self.navigationItem.rightBarButtonItem = nowPlayingButtonItem;
             
             UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
@@ -3526,9 +3520,7 @@ NSIndexPath *selected;
                              [collectionView.collectionViewLayout invalidateLayout];
                              [collectionView reloadData];
                              [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     @(animDuration), @"duration",
-                                                     nil];
+                             NSDictionary *params = @{@"duration": @(animDuration)};
                              [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:params];
                              [UIView animateWithDuration:0.2
                                                    delay:0.0
@@ -3589,10 +3581,8 @@ NSIndexPath *selected;
                              [collectionView.collectionViewLayout invalidateLayout];
                              [collectionView reloadData];
                              [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     @(NO), @"hideToolbar",
-                                                     @(animDuration), @"duration",
-                                                     nil];
+                             NSDictionary *params = @{@"hideToolbar": @(NO),
+                                                      @"duration": @(animDuration)};
                              [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
                              [UIView animateWithDuration:0.2
                                                    delay:0.0
@@ -3629,8 +3619,7 @@ NSIndexPath *selected;
     if (smartplaylist == nil) {
         return;
     }
-    [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:
-                      [NSDictionary dictionaryWithObjectsAndKeys:smartplaylist, @"partymode", nil], @"item", nil] index:indexPath];
+    [self playerOpen:@{@"item": @{@"partymode": smartplaylist}} index:indexPath];
 }
 
 - (void)exploreItem:(NSDictionary*)item {
@@ -3937,7 +3926,7 @@ NSIndexPath *selected;
                 currentPlayerID = [methodResult[0][@"playerid"] intValue];
             }
             if (currentPlayerID == 1) { // xbmc bug
-                [[Utilities getJsonRPC] callMethod:@"Player.Stop" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(1), @"playerid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:@"Player.Stop" withParameters:@{@"playerid": @(1)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error == nil && methodError == nil) {
                         [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil], @"item", nil] index:indexPath];
                     }
@@ -3968,7 +3957,7 @@ NSIndexPath *selected;
         id optionsValue = nil;
         if ([AppDelegate instance].serverVersion > 11) {
             optionsParam = @"options";
-            optionsValue = [NSDictionary dictionaryWithObjectsAndKeys: @(shuffled), @"shuffled", nil];
+            optionsValue = @{@"shuffled": @(shuffled)};
         }
         [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: mainFields[@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error == nil && methodError == nil) {
@@ -3984,7 +3973,7 @@ NSIndexPath *selected;
                 if (shuffled && [AppDelegate instance].serverVersion > 11) {
                     [[Utilities getJsonRPC]
                      callMethod:@"Player.SetPartymode"
-                     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@(0), @"playerid", @(NO), @"partymode", nil]
+                     withParameters:@{@"playerid": @(0), @"partymode": @(NO)}
                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
                          [self playlistAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
                                                 mainFields[@"playlistid"], @"playlistid",
@@ -4126,7 +4115,7 @@ NSIndexPath *selected;
 }
 
 //- (void)playbackAction:(NSString*)action params:(NSArray*)parameters {
-//    [[Utilities getJsonRPC] callMethod:@"Playlist.GetPlaylists" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//    [[Utilities getJsonRPC] callMethod:@"Playlist.GetPlaylists" withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //        if (error == nil && methodError == nil) {
 ////            NSLog(@"RISPOSRA %@", methodResult);
 //            if ([methodResult count] > 0) {
@@ -5882,10 +5871,8 @@ NSIndexPath *selected;
     selected = nil;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     NSDictionary *sortDictionary = parameters[@"available_sort_methods"];
-    NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
-                          LOCALIZED_STR(@"Sort by"), @"label",
-                          [NSString stringWithFormat:@"\n(%@)", LOCALIZED_STR(@"tap the selection\nto reverse the sort order")], @"genre",
-                          nil];
+    NSDictionary *item = @{@"label": LOCALIZED_STR(@"Sort by"),
+                           @"genre": [NSString stringWithFormat:@"\n(%@)", LOCALIZED_STR(@"tap the selection\nto reverse the sort order")]};
     NSMutableArray *sortOptions = [sortDictionary[@"label"] mutableCopy];
     if (sortMethodIndex != -1) {
         [sortOptions replaceObjectAtIndex:sortMethodIndex withObject:[NSString stringWithFormat:@"\u2713 %@", sortOptions[sortMethodIndex]]];

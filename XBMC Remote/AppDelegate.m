@@ -418,9 +418,8 @@ NSMutableArray *hostRightMenuItems;
     if (IS_IPHONE) {
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
-        NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                   [UIColor whiteColor], NSForegroundColorAttributeName,
-                                                   [UIFont boldSystemFontOfSize:18], NSFontAttributeName, nil];
+        NSDictionary *navbarTitleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor],
+                                                    NSFontAttributeName: [UIFont boldSystemFontOfSize:18]};
         [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
     }
     else {
@@ -4698,7 +4697,7 @@ NSMutableArray *hostRightMenuItems;
     NSData *authCredential = [[NSString stringWithFormat:@"%@:%@", obj.serverUser, obj.serverPass] dataUsingEncoding:NSUTF8StringEncoding];
     NSString *base64AuthCredentials = [authCredential base64EncodedStringWithOptions:(NSDataBase64EncodingOptions)0];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", base64AuthCredentials];
-    NSDictionary *httpHeaders = [NSDictionary dictionaryWithObjectsAndKeys:authValue, @"Authorization", nil];
+    NSDictionary *httpHeaders = @{@"Authorization": authValue};
     return httpHeaders;
 }
 

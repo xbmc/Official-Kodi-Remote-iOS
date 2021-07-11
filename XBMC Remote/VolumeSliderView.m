@@ -174,7 +174,7 @@
 - (void)changeServerVolume:(id)sender {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(volumeSlider.value), @"volume", nil]];
+     withParameters:@{@"volume": @(volumeSlider.value)}];
     if ([sender tag] == 10) {
         [self startTimer];
     }

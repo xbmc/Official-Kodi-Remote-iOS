@@ -128,7 +128,7 @@
     // TODO: Make this a parameter??
     if (error != nil) {
         if (completionHandler || delegate) {
-            NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
+            NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:@{NSLocalizedDescriptionKey: [error localizedDescription]}];
             
             if (completionHandler) {
                 completionHandler(methodName, aId, nil, nil, aError);
@@ -182,7 +182,7 @@
     __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
     NSMutableDictionary *connectionInfo = self._activeConnections[connectionKey];
     DSJSONRPCCompletionHandler completionHandler = connectionInfo[@"completionHandler"];
-    NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Connection Timeout", NSLocalizedDescriptionKey, nil]];
+    NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:@{NSLocalizedDescriptionKey: @"Connection Timeout"}];
     if (completionHandler) {
         completionHandler(connectionInfo[@"method"], [connectionInfo[@"id"] intValue], nil, nil, aError);
         DS_RELEASE(completionHandler)
@@ -252,7 +252,7 @@
     DSJSONRPCCompletionHandler completionHandler = connectionInfo[@"completionHandler"];
     
     if (completionHandler || delegate) {
-        NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
+        NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCNetworkError userInfo:@{NSLocalizedDescriptionKey: [error localizedDescription]}];
         
         if (completionHandler) {
             completionHandler(connectionInfo[@"method"], [connectionInfo[@"id"] intValue], nil, nil, aError);
@@ -279,7 +279,7 @@
     NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:connectionData options:kNilOptions error:&error];
     
     if (error) {
-        NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
+        NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:@{NSLocalizedDescriptionKey: [error localizedDescription]}];
         
         if (completionHandler || delegate) {
             // Pass the error to the delegate if they care, completion handler takes presidence
