@@ -162,13 +162,11 @@ int count = 0;
             if (extraButton == nil) {
                 extraButton = spacer;
             }
-            NSArray *items = [NSArray arrayWithObjects: 
-                              title,
-                              spacer,
-                              extraButton,
-                              spacer,
-                              actionSheetButtonItemIpad,
-                              nil];
+            NSArray *items = @[title,
+                               spacer,
+                               extraButton,
+                               spacer,
+                               actionSheetButtonItemIpad];
             toolbar.items = items;
             toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
             toolbar.contentMode = UIViewContentModeScaleAspectFill;
@@ -187,15 +185,11 @@ int count = 0;
             self.navigationItem.title = item[@"label"];
             UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             if (extraButton == nil) {
-                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
-                                                           actionSheetButtonItem,
-                                                           nil];
+                self.navigationItem.rightBarButtonItems = @[actionSheetButtonItem];
             }
             else {
-                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
-                                                           actionSheetButtonItem,
-                                                           extraButton,
-                                                           nil];
+                self.navigationItem.rightBarButtonItems = @[actionSheetButtonItem,
+                                                            extraButton];
             }
             UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
             rightSwipe.numberOfTouchesRequired = 1;
@@ -1718,9 +1712,7 @@ int count = 0;
     self.kenView.delegate = self;
     self.kenView.alpha = 0;
     self.kenView.tag = 1;
-    NSArray *backgroundImages = [NSArray arrayWithObjects:
-                                 image,
-                                 nil];
+    NSArray *backgroundImages = image == nil ? @[] : @[image];
     [self.kenView animateWithImages:backgroundImages
                  transitionDuration:45
                                loop:YES

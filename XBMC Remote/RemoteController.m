@@ -115,32 +115,26 @@
     CGRect frame = TransitionalView.frame;
     CGFloat newWidth = CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) - ANCHOR_RIGHT_PEEK;
     CGFloat shift;
-    [self hideButton: [NSArray arrayWithObjects:
-                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_SEEK_BACKWARD],
+    [self hideButton:@[[(UIButton*)self.view viewWithTag:TAG_BUTTON_SEEK_BACKWARD],
                        [(UIButton*)self.view viewWithTag:TAG_BUTTON_PLAY_PAUSE],
                        [(UIButton*)self.view viewWithTag:TAG_BUTTON_SEEK_FORWARD],
                        [(UIButton*)self.view viewWithTag:TAG_BUTTON_PREVIOUS],
-                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_NEXT],
-                       nil]
+                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_NEXT]]
                 hide:YES];
     if ([Utilities hasRemoteToolBar]) {
         shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_NEXT].frame);
-        [self moveButton: [NSArray arrayWithObjects:
-                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_MUSIC],
+        [self moveButton:@[(UIButton*)[self.view viewWithTag:TAG_BUTTON_MUSIC],
                            (UIButton*)[self.view viewWithTag:TAG_BUTTON_MOVIES],
                            (UIButton*)[self.view viewWithTag:TAG_BUTTON_TVSHOWS],
-                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_PICTURES],
-                           nil]
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_PICTURES]]
                     ypos: -shift];
     }
     else {
         shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_STOP].frame);
-        [self hideButton: [NSArray arrayWithObjects:
-                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_MUSIC],
+        [self hideButton:@[[(UIButton*)self.view viewWithTag:TAG_BUTTON_MUSIC],
                            [(UIButton*)self.view viewWithTag:TAG_BUTTON_MOVIES],
                            [(UIButton*)self.view viewWithTag:TAG_BUTTON_TVSHOWS],
-                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_PICTURES],
-                           nil]
+                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_PICTURES]]
                     hide: YES];
     }
     
@@ -737,7 +731,7 @@
             NSString *actiontitle = sheetActions[i];
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 if (![audiostreamsDictionary[@"audiostreams"][i] isEqual:audiostreamsDictionary[@"currentaudiostream"]]) {
-                    [self playbackAction:@"Player.SetAudioStream" params:[NSArray arrayWithObjects:audiostreamsDictionary[@"audiostreams"][i][@"index"], @"stream", nil]];
+                    [self playbackAction:@"Player.SetAudioStream" params:@[audiostreamsDictionary[@"audiostreams"][i][@"index"], @"stream"]];
                     [self showSubInfo:actiontitle timeout:2.0 color:[UIColor whiteColor]];
                 }
             }];
@@ -775,7 +769,7 @@
             NSString *actiontitle = sheetActions[i];
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 if (![subsDictionary[@"subtitles"][i] isEqual:subsDictionary[@"currentsubtitle"]] || ![subsDictionary[@"subtitleenabled"] boolValue]) {
-                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:subsDictionary[@"subtitles"][i][@"index"], @"subtitle", nil]];
+                    [self playbackAction:@"Player.SetSubtitle" params:@[subsDictionary[@"subtitles"][i][@"index"], @"subtitle"]];
                     [self playbackAction:@"Player.SetSubtitle" params:@[@"on", @"subtitle"]];
                     [self showSubInfo:actiontitle timeout:2.0 color:[UIColor whiteColor]];
                 }

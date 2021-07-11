@@ -193,7 +193,7 @@
 //                NSSortDescriptor *sortDescriptor;
 //                sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"starttime"
 //                                                             ascending:YES];
-//                NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+//                NSArray *sortDescriptors = @[sortDescriptor];
 //                NSArray *sortedArray;
 //                sortedArray = [nextFilteredArray sortedArrayUsingDescriptors:sortDescriptors];
                 channelEPG[@"next"] = [NSString stringWithFormat:@"%@ %@",

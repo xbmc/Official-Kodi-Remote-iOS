@@ -274,7 +274,7 @@
                                                        style: UIBarButtonItemStylePlain
                                                       target: self
                                                       action: @selector(editTable:)];
-    [toolbar setItems:[NSArray arrayWithObjects:fixedSpace, addButton, flexibleSpace, editTableButton, fixedSpace2, nil]];
+    [toolbar setItems:@[fixedSpace, addButton, flexibleSpace, editTableButton, fixedSpace2]];
     
     [newView insertSubview:toolbar atIndex:0];
     
