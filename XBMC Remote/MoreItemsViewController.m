@@ -73,7 +73,7 @@
         CGRect iconImageViewRect = CGRectMake(8, 6, 34, 30);
         UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
         UIImage *image = [UIImage imageNamed:item[@"icon"]];
-        image = [[Utilities new] colorizeImage:image withColor:[Utilities get1stLabelColor]];
+        image = [Utilities colorizeImage:image withColor:[Utilities get1stLabelColor]];
         [iconImage setImage:image];
         [cell.contentView addSubview:iconImage];
     }

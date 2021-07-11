@@ -547,7 +547,7 @@
     startDiscover.titleLabel.lineBreakMode = NSLineBreakByClipping;
     
     UIImage *img = [UIImage imageNamed:@"button_find"];
-    img = [[Utilities new] colorizeImage:img withColor:[Utilities getSystemBlue]];
+    img = [Utilities colorizeImage:img withColor:[Utilities getSystemBlue]];
     [saveButton setBackgroundImage:img forState:UIControlStateNormal];
     [startDiscover setBackgroundImage:img forState:UIControlStateNormal];
     

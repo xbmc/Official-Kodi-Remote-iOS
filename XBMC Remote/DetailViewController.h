@@ -82,7 +82,6 @@
     UIColor *tableViewSearchBarColor;
     UIColor *collectionViewSearchBarColor;
     BOOL enableBarColor;
-    Utilities *utils;
     UICollectionView *collectionView;
     BOOL enableCollectionView;
     int cellGridWidth;

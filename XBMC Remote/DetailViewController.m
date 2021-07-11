@@ -427,7 +427,7 @@
 
 - (void)setSearchBarColor:(UIColor*)albumColor {
     UITextField *searchTextField = [self getSearchTextField];
-    UIColor *lightAlbumColor = [utils lighterColorForColor:albumColor];
+    UIColor *lightAlbumColor = [Utilities lighterColorForColor:albumColor];
     if (searchTextField != nil) {
         UIImageView *iconView = (id)searchTextField.leftView;
         iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -477,7 +477,7 @@
 
 - (void)setSortButtonImage:(NSString*)sortOrder {
     NSString *imgName = [sortOrder isEqualToString:@"descending"] ? @"st_sort_desc" : @"st_sort_asc";
-    UIImage *image = [utils colorizeImage:[UIImage imageNamed:imgName] withColor:[UIColor lightGrayColor]];
+    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:[UIColor lightGrayColor]];
     [button7 setBackgroundImage:image forState:UIControlStateNormal];
 }
 
@@ -737,7 +737,7 @@
             self.indexView.hidden = NO;
         }
         [self.searchController.searchBar setBackgroundColor:collectionViewSearchBarColor];
-        self.searchController.searchBar.tintColor = [utils lighterColorForColor:collectionViewSearchBarColor];
+        self.searchController.searchBar.tintColor = [Utilities lighterColorForColor:collectionViewSearchBarColor];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         searchBarColor = collectionViewSearchBarColor;
         imgName = @"st_view_grid";
@@ -757,7 +757,7 @@
         searchBarColor = tableViewSearchBarColor;
         imgName = @"st_view_list";
     }
-    UIImage *image = [utils colorizeImage:[UIImage imageNamed:imgName] withColor:[UIColor lightGrayColor]];
+    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:[UIColor lightGrayColor]];
     [button6 setBackgroundImage:image forState:UIControlStateNormal];
     
     if (!isViewDidLoad) {
@@ -1386,7 +1386,7 @@
 
         if (![stringURL isEqualToString:@""]) {
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(posterWidth, cellthumbHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                UIColor *averageColor = [utils averageColor:image inverse:NO];
+                UIColor *averageColor = [Utilities averageColor:image inverse:NO];
                 CGFloat hue, saturation, brightness, alpha;
                 BOOL ok = [averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
                 if (ok) {
@@ -2473,19 +2473,19 @@ int originYear = 0;
                                       UIBezierPath *path = [UIBezierPath bezierPathWithRect:thumbImageContainer.bounds];
                                       thumbImageContainer.layer.shadowPath = path.CGPath;
                                       if (enableBarColor) {
-                                          albumColor = [utils averageColor:image inverse:NO];
-                                          UIColor *lightAlbumColor = [utils lighterColorForColor:albumColor];
+                                          albumColor = [Utilities averageColor:image inverse:NO];
+                                          UIColor *lightAlbumColor = [Utilities lighterColorForColor:albumColor];
                                           self.navigationController.navigationBar.tintColor = lightAlbumColor;
                                           if ([[self.searchController.searchBar subviews][0] isKindOfClass:[UIImageView class]]) {
                                               [[self.searchController.searchBar subviews][0] removeFromSuperview];
                                           }
                                           CAGradientLayer *gradient = [CAGradientLayer layer];
                                           gradient.frame = albumDetailView.bounds;
-                                          gradient.colors = @[(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor]];
+                                          gradient.colors = @[(id)[albumColor CGColor], (id)[[Utilities lighterColorForColor:albumColor] CGColor]];
                                           [albumDetailView.layer insertSublayer:gradient atIndex:1];
-                                          albumFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
-                                          albumFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
-                                          albumDetailsColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
+                                          albumFontColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
+                                          albumFontShadowColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
+                                          albumDetailsColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
                                           [self setLabelColor:albumFontColor label34Color:albumDetailsColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                                           [self setSearchBarColor:albumColor];
                                       }
@@ -2652,12 +2652,12 @@ int originYear = 0;
                 [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(seasonThumbWidth, albumViewHeight - (albumViewPadding * 2)) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                     CAGradientLayer *gradient = [CAGradientLayer layer];
                     gradient.frame = albumDetailView.bounds;
-                    albumColor = [utils averageColor:image inverse:NO];
-                    albumColor = [utils limitSaturation:albumColor satmax:0.33];
-                    gradient.colors = @[(id)[albumColor CGColor], (id)[[utils lighterColorForColor:albumColor] CGColor]];
-                    seasonFontColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
-                    seasonFontShadowColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
-                    seasonDetailsColor = [utils updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
+                    albumColor = [Utilities averageColor:image inverse:NO];
+                    albumColor = [Utilities limitSaturation:albumColor satmax:0.33];
+                    gradient.colors = @[(id)[albumColor CGColor], (id)[[Utilities lighterColorForColor:albumColor] CGColor]];
+                    seasonFontColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
+                    seasonFontShadowColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
+                    seasonDetailsColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
                     [albumDetailView.layer insertSublayer:gradient atIndex:1];
                     if (isFirstListedSeason) {
                         [self setSearchBarColor:albumColor];
@@ -5170,7 +5170,7 @@ NSIndexPath *selected;
     [activeLayoutView setScrollsToTop:YES];
     if (albumColor != nil) {
         [self.navigationController.navigationBar setTintColor:albumColor];
-        [self.navigationController.navigationBar setTintColor:[utils lighterColorForColor:albumColor]];
+        [self.navigationController.navigationBar setTintColor:[Utilities lighterColorForColor:albumColor]];
     }
     if (isViewDidLoad) {
         [activeLayoutView addSubview:self.searchController.searchBar];
@@ -5216,8 +5216,8 @@ NSIndexPath *selected;
     choosedTab = MIN(choosedTab, MAX_NORMAL_BUTTONS);
     for (int i = 0; i < count; i++) {
         img = [UIImage imageNamed:buttons[i]];
-        imageOff = [utils colorizeImage:img withColor:[UIColor lightGrayColor]];
-        imageOn = [utils colorizeImage:img withColor:[UIColor systemBlueColor]];
+        imageOff = [Utilities colorizeImage:img withColor:[UIColor lightGrayColor]];
+        imageOn = [Utilities colorizeImage:img withColor:[UIColor systemBlueColor]];
         [buttonsIB[i] setBackgroundImage:imageOff forState:UIControlStateNormal];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateSelected];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
@@ -5247,8 +5247,8 @@ NSIndexPath *selected;
         default:
             // 5 or more buttons/actions require a "more" button
             img = [UIImage imageNamed:@"st_more"];
-            imageOff = [utils colorizeImage:img withColor:[UIColor lightGrayColor]];
-            imageOn = [utils colorizeImage:img withColor:[UIColor systemBlueColor]];
+            imageOff = [Utilities colorizeImage:img withColor:[UIColor lightGrayColor]];
+            imageOn = [Utilities colorizeImage:img withColor:[UIColor systemBlueColor]];
             [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOff forState:UIControlStateNormal];
             [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateSelected];
             [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
@@ -5541,7 +5541,6 @@ NSIndexPath *selected;
 //    darkCells = [NSMutableArray new];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     enableBarColor = YES;
-    utils = [Utilities new];
     for (UIView *subView in self.searchController.searchBar.subviews) {
         if ([subView isKindOfClass: [UITextField class]]) {
             [(UITextField*)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];

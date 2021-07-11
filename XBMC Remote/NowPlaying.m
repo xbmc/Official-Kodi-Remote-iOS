@@ -454,14 +454,13 @@ int currentItemID;
                                             completion:NULL];
                         }
                         else {
-                            Utilities *utils = [Utilities new];
-                            UIColor *lighterColor = [utils lighterColorForColor:color];
-                            UIColor *slightLighterColor = [utils slightLighterColorForColor:color];
+                            UIColor *lighterColor = [Utilities lighterColorForColor:color];
+                            UIColor *slightLighterColor = [Utilities slightLighterColorForColor:color];
                             UIColor *progressColor = slightLighterColor;
                             UIColor *pgThumbColor = lighterColor;
                             [ProgressSlider setMinimumTrackTintColor:progressColor];
                             if (ProgressSlider.userInteractionEnabled) {
-                                UIImage *thumbImage = [utils colorizeImage:[UIImage imageNamed:@"pgbar_thumb_iOS7"] withColor:pgThumbColor];
+                                UIImage *thumbImage = [Utilities colorizeImage:[UIImage imageNamed:@"pgbar_thumb_iOS7"] withColor:pgThumbColor];
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
                             }
@@ -530,14 +529,13 @@ int currentItemID;
                              }
                          }
                          else {
-                             Utilities *utils = [Utilities new];
-                             UIColor *lighterColor = [utils lighterColorForColor:color];
+                             UIColor *lighterColor = [Utilities lighterColorForColor:color];
                              self.navigationController.navigationBar.tintColor = lighterColor;
                              [UIView transitionWithView:backgroundImageView
                                                duration:1.0
                                                 options:UIViewAnimationOptionTransitionCrossDissolve
                                              animations:^{
-                                                 backgroundImageView.image = [utils colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
+                                                 backgroundImageView.image = [Utilities colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
                                              }
                                              completion:NULL];
                              if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -703,8 +701,7 @@ int currentItemID;
                                                      buttonImage = [self resizeToolbarThumb:jewelView.image];
                                                  }
                                                  [self setButtonImageAndStartDemo:buttonImage];
-                                                 Utilities *utils = [Utilities new];
-                                                 UIColor *effectColor = [utils averageColor:image inverse:NO];
+                                                 UIColor *effectColor = [Utilities averageColor:image inverse:NO];
                                                  [self setIOS7backgroundEffect:effectColor barTintColor:effectColor];
                                              }
                                              else {
@@ -718,8 +715,7 @@ int currentItemID;
                                                                                   
                                                                                   UIImage *buttonImage = [sf resizeToolbarThumb:[sf imageWithBorderFromImage:image]];
                                                                                   [sf setButtonImageAndStartDemo:buttonImage];
-                                                                                  Utilities *utils = [Utilities new];
-                                                                                  newColor = [utils averageColor:image inverse:NO];
+                                                                                  newColor = [Utilities averageColor:image inverse:NO];
                                                                                   [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
                                                                               }
                                                                           }];
@@ -734,8 +730,7 @@ int currentItemID;
                                                               [sf changeImage:jV image:[sf imageWithBorderFromImage:image]];
                                                               UIImage *buttonImage = [sf resizeToolbarThumb:jV.image];
                                                               [sf setButtonImageAndStartDemo:buttonImage];
-                                                              Utilities *utils = [Utilities new];
-                                                              newColor = [utils averageColor:image inverse:NO];
+                                                              newColor = [Utilities averageColor:image inverse:NO];
                                                               [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
                                                           }
                                                       }];

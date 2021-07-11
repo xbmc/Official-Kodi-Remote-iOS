@@ -1060,13 +1060,12 @@ int count = 0;
     }
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image != nil) {
-            Utilities *utils = [Utilities new];
-            UIColor *averageColor = [utils averageColor:image inverse:NO];
+            UIColor *averageColor = [Utilities averageColor:image inverse:NO];
             foundTintColor = TINT_COLOR;
             CGFloat red, green, blue, alpha;
             [averageColor getRed:&red green:&green blue:&blue alpha:&alpha];
             if (alpha > 0) {
-                foundTintColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
+                foundTintColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
             }
             [self setIOS7barTintColor:foundTintColor];
             if (enableJewel) {
@@ -1088,8 +1087,7 @@ int count = 0;
                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                      if (error == nil) {
                          if (image != nil) {
-                             Utilities *utils = [Utilities new];
-                             newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
+                             newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
                              [sf setIOS7barTintColor:newColor];
                              foundTintColor = newColor;
                          }
@@ -1105,8 +1103,7 @@ int count = 0;
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                      if (image != nil) {
                                          if (error == nil) {
-                                             Utilities *utils = [Utilities new];
-                                             newColor = [utils lighterColorForColor:[utils averageColor:image inverse:NO]];
+                                             newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
                                              [sf setIOS7barTintColor:newColor];
                                              foundTintColor = newColor;
                                          }
