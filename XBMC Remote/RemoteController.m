@@ -115,11 +115,11 @@
     CGRect frame = TransitionalView.frame;
     CGFloat newWidth = CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) - ANCHOR_RIGHT_PEEK;
     CGFloat shift;
-    [self hideButton:@[[(UIButton*)self.view viewWithTag:TAG_BUTTON_SEEK_BACKWARD],
-                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_PLAY_PAUSE],
-                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_SEEK_FORWARD],
-                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_PREVIOUS],
-                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_NEXT]]
+    [self hideButton:@[(UIButton*)[self.view viewWithTag:TAG_BUTTON_SEEK_BACKWARD],
+                       (UIButton*)[self.view viewWithTag:TAG_BUTTON_PLAY_PAUSE],
+                       (UIButton*)[self.view viewWithTag:TAG_BUTTON_SEEK_FORWARD],
+                       (UIButton*)[self.view viewWithTag:TAG_BUTTON_PREVIOUS],
+                       (UIButton*)[self.view viewWithTag:TAG_BUTTON_NEXT]]
                 hide:YES];
     if ([Utilities hasRemoteToolBar]) {
         shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_NEXT].frame);
@@ -131,10 +131,10 @@
     }
     else {
         shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_STOP].frame);
-        [self hideButton:@[[(UIButton*)self.view viewWithTag:TAG_BUTTON_MUSIC],
-                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_MOVIES],
-                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_TVSHOWS],
-                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_PICTURES]]
+        [self hideButton:@[(UIButton*)[self.view viewWithTag:TAG_BUTTON_MUSIC],
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_MOVIES],
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_TVSHOWS],
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_PICTURES]]
                     hide: YES];
     }
     
