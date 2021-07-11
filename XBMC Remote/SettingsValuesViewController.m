@@ -79,11 +79,9 @@
             self.navigationItem.title = self.detailItem[@"label"];
             settingOptions = [NSMutableArray new];
             [self retrieveXBMCData: @"Addons.GetAddons"
-                        parameters: [NSDictionary dictionaryWithObjectsAndKeys:
-                                     self.detailItem[@"addontype"], @"type",
-                                     @(YES), @"enabled",
-                                     @[@"name"], @"properties",
-                                     nil]
+                        parameters: @{@"type": self.detailItem[@"addontype"],
+                                      @"enabled": @(YES),
+                                      @"properties": @[@"name"]}
                            itemKey: @"addons"];
         }
         else if ([itemControls[@"format"] isEqualToString:@"action"] || [itemControls[@"format"] isEqualToString:@"path"]) {
@@ -275,10 +273,8 @@
                                @"default-right-menu-icon", @"icon",
                                @(xbmcSetting), @"xbmcSetting",
                                self.detailItem[@"genre"], @"helpText",
-                               [NSDictionary dictionaryWithObjectsAndKeys:
-                                command, @"command",
-                                params, @"params",
-                                nil], @"action",
+                               @{@"command": command,
+                                 @"params": params}, @"action",
                                nil];
     [self saveCustomButton:newButton];
 }
@@ -330,10 +326,8 @@
                                                    selector:@selector(localizedCaseInsensitiveCompare:)];
                    NSArray *retrievedItems = [methodResult[itemkey] sortedArrayUsingDescriptors:@[descriptor]];
                    for (NSDictionary *item in retrievedItems) {
-                       [settingOptions addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                  item[@"name"], @"label",
-                                                  item[@"addonid"], @"value",
-                                                  nil]
+                       [settingOptions addObject:@{@"label": item[@"name"],
+                                                   @"value": item[@"addonid"]}
                         ];
                    }
                    [_tableView reloadData];
@@ -641,7 +635,8 @@
                 self.detailItem[@"value"] = settingOptions[selectedSetting.row][@"value"];
             }
             command = @"Settings.SetSettingValue";
-            params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
+            params = @{@"setting": self.detailItem[@"id"],
+                       @"value": self.detailItem[@"value"]};
             [self xbmcAction:command params:params uiControl:_tableView];
 
             break;
@@ -775,7 +770,8 @@
     [self changeAlphaView:scrubbingView alpha:0.0 time:0.3];
     NSString *command = @"Settings.SetSettingValue";
     self.detailItem[@"value"] = @(storeSliderValue);
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
+    NSDictionary *params = @{@"setting": self.detailItem[@"id"],
+                             @"value": self.detailItem[@"value"]};
     [self xbmcAction:command params:params uiControl:sender];
 }
 
@@ -803,7 +799,8 @@
     UISwitch *onoff = (UISwitch*)sender;
     NSString *command = @"Settings.SetSettingValue";
     self.detailItem[@"value"] = @(onoff.on);
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
+    NSDictionary *params = @{@"setting": self.detailItem[@"id"],
+                             @"value": self.detailItem[@"value"]};
     [self xbmcAction:command params:params uiControl:sender];
 }
 
@@ -821,7 +818,8 @@
     [textField resignFirstResponder];
     NSString *command = @"Settings.SetSettingValue";
     self.detailItem[@"value"] = [NSString stringWithFormat:@"%@", textField.text];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
+    NSDictionary *params = @{@"setting": self.detailItem[@"id"],
+                             @"value": self.detailItem[@"value"]};
     [self xbmcAction:command params:params uiControl:textField];
     return YES;
 }

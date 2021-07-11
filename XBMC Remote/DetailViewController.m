@@ -118,22 +118,18 @@
     if ([channelid intValue] > 0) {
         NSMutableArray *retrievedEPG = [self loadEPGFromMemory:channelid];
         NSMutableDictionary *channelEPG = [self parseEpgData:retrievedEPG];
-        NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   channelEPG, @"channelEPG",
-                                   indexPath, @"indexPath",
-                                   tableView, @"tableView",
-                                   item, @"item",
-                                   nil];
+        NSDictionary *epgparams = @{@"channelEPG": channelEPG,
+                                    @"indexPath": indexPath,
+                                    @"tableView": tableView,
+                                    @"item": item};
         [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
         if ([channelEPG[@"refresh_data"] boolValue]) {
             retrievedEPG = [self loadEPGFromDisk:channelid parameters:parameters];
             channelEPG = [self parseEpgData:retrievedEPG];
-            NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                       channelEPG, @"channelEPG",
-                                       indexPath, @"indexPath",
-                                       tableView, @"tableView",
-                                       item, @"item",
-                                       nil];
+            NSDictionary *epgparams = @{@"channelEPG": channelEPG,
+                                        @"indexPath": indexPath,
+                                        @"tableView": tableView,
+                                        @"item": item};
             [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
             dispatch_sync(epglockqueue, ^{
                 if ([channelEPG[@"refresh_data"] boolValue] && ![epgDownloadQueue containsObject:channelid]) {
@@ -252,22 +248,18 @@
     for (id EPGobject in broadcasts) {
         NSDate *starttime = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", EPGobject[@"starttime"]]];// all times in XBMC PVR are UTC
         NSDate *endtime = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", EPGobject[@"endtime"]]];// all times in XBMC PVR are UTC
-        [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 starttime, @"starttime",
-                                 endtime, @"endtime",
-                                 EPGobject[@"title"], @"title",
-                                 EPGobject[@"label"], @"label",
-                                 EPGobject[@"plot"], @"plot",
-                                 EPGobject[@"plotoutline"], @"plotoutline",
-                                 nil]];
+        [retrievedEPG addObject:@{@"starttime": starttime,
+                                  @"endtime": endtime,
+                                  @"title": EPGobject[@"title"],
+                                  @"label": EPGobject[@"label"],
+                                  @"plot": EPGobject[@"plot"],
+                                  @"plotoutline": EPGobject[@"plotoutline"]}];
     }
     [self saveEPGToDisk:channelid epgData:retrievedEPG];
-    NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
-                               [self parseEpgData:retrievedEPG], @"channelEPG",
-                               indexPath, @"indexPath",
-                               tableView, @"tableView",
-                               item, @"item",
-                               nil];
+    NSDictionary *epgparams = @{@"channelEPG": [self parseEpgData:retrievedEPG],
+                                @"indexPath": indexPath,
+                                @"tableView": tableView,
+                                @"item": item};
     [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
 }
 
@@ -277,21 +269,20 @@
     UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
     [[Utilities getJsonRPC] callMethod:@"PVR.GetBroadcasts"
-         withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                         channelid, @"channelid",
-                         @[@"title", @"starttime", @"endtime", @"plot", @"plotoutline"], @"properties",
-                         nil]
+                        withParameters:@{@"channelid": channelid,
+                                         @"properties": @[@"title",
+                                                          @"starttime",
+                                                          @"endtime",
+                                                          @"plot",
+                                                          @"plotoutline"]}
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                    if (((NSNull*)methodResult[@"broadcasts"] != [NSNull null])) {
-                       
-                       NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                               channelid, @"channelid",
-                                               indexPath, @"indexPath",
-                                               tableView, @"tableView",
-                                               item, @"item",
-                                               methodResult[@"broadcasts"], @"broadcasts",
-                                               nil];
+                       NSDictionary *params = @{@"channelid": channelid,
+                                                @"indexPath": indexPath,
+                                                @"tableView": tableView,
+                                                @"item": item,
+                                                @"broadcasts": methodResult[@"broadcasts"]};
                        [NSThread detachNewThreadSelector:@selector(parseBroadcasts:) toTarget:self withObject:params];
                    }
                }
@@ -391,10 +382,8 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *path = [libraryCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
     if ([fileManager fileExistsAtPath:path]) {
-        NSDictionary *extraParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     methodToCall, @"methodToCall",
-                                     mutableParameters, @"mutableParameters",
-                                     nil];
+        NSDictionary *extraParams = @{@"methodToCall": methodToCall,
+                                      @"mutableParameters": mutableParameters};
         [self updateSyncDate:path];
         [NSThread detachNewThreadSelector:@selector(loadDataFromDisk:) toTarget:self withObject:extraParams];
         return YES;
@@ -626,11 +615,8 @@
         if (i < numIcons) {
             icon = [self.detailItem mainButtons][i];
         }
-        [mainMenu addObject: 
-         [NSDictionary dictionaryWithObjectsAndKeys:
-          [NSString stringWithFormat:@"%@", [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][i]][@"morelabel"]], @"label",
-          icon, @"icon",
-          nil]];
+        [mainMenu addObject: @{@"label": [NSString stringWithFormat:@"%@", [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][i]][@"morelabel"]],
+                               @"icon": icon}];
     }
     if (moreItemsViewController == nil) {
         moreItemsViewController = [[MoreItemsViewController alloc] initWithFrame:CGRectMake(dataList.bounds.size.width, 0, dataList.bounds.size.width, dataList.bounds.size.height) mainMenu:mainMenu];
@@ -2206,12 +2192,10 @@ int originYear = 0;
             progressView.hidden = YES;
             UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
             isRecordingImageView.hidden = ![item[@"isrecording"] boolValue];
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @([item[@"channelid"] integerValue]), @"channelid",
-                                    tableView, @"tableView",
-                                    indexPath, @"indexPath",
-                                    item, @"item",
-                                    nil];
+            NSDictionary *params = @{@"channelid": @([item[@"channelid"] integerValue]),
+                                     @"tableView": tableView,
+                                     @"indexPath": indexPath,
+                                     @"item": item};
             [NSThread detachNewThreadSelector:@selector(getChannelEpgInfo:) toTarget:self withObject:params];
         }
         NSString *stringURL = item[@"thumbnail"];
@@ -3095,10 +3079,8 @@ NSIndexPath *selected;
     }
     [[Utilities getJsonRPC]
      callMethod:methodToCall
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                     item[item[@"family"]], item[@"family"],
-                     @(watched), @"playcount",
-                     nil]
+     withParameters:@{item[@"family"]: item[item[@"family"]],
+                      @"playcount": @(watched)}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil) {
              if (isTableView) {
@@ -3230,7 +3212,7 @@ NSIndexPath *selected;
         }
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
-        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"trailer"], @"file", nil], @"item", nil] index:selected];
+        [self playerOpen:@{@"item": @{@"file": item[@"trailer"]}} index:selected];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Open with VLC")]) {
         [self openWithVLC:item indexPath:selected];
@@ -3245,79 +3227,61 @@ NSIndexPath *selected;
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute video add-on")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute audio add-on")]) {
         [self SimpleAction:@"Addons.ExecuteAddon"
-                    params:[NSDictionary dictionaryWithObjectsAndKeys:
-                            item[@"addonid"], @"addonid",
-                            nil]
+                    params:@{@"addonid": item[@"addonid"]}
                    success: LOCALIZED_STR(@"Add-on executed successfully")
                    failure:LOCALIZED_STR(@"Unable to execute the add-on")
          ];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Execute action")]) {
         [self SimpleAction:@"Input.ExecuteAction"
-                    params:[NSDictionary dictionaryWithObjectsAndKeys:
-                            item[@"label"], @"action",
-                            nil]
+                    params:@{@"action": item[@"label"]}
                    success: LOCALIZED_STR(@"Action executed successfully")
                    failure:LOCALIZED_STR(@"Unable to execute the action")
          ];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Activate window")]) {
         [self SimpleAction:@"GUI.ActivateWindow"
-                    params:[NSDictionary dictionaryWithObjectsAndKeys:
-                            item[@"label"], @"window",
-                            nil]
+                    params:@{@"window": item[@"label"]}
                    success: LOCALIZED_STR(@"Window activated successfully")
                    failure:LOCALIZED_STR(@"Unable to activate the window")
          ];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Add button")]) {
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                item[@"addonid"], @"addonid",
-                                nil];
+        NSDictionary *params = @{@"addonid": item[@"addonid"]};
         NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    item[@"label"], @"label",
                                    @"xbmc-exec-addon", @"type",
                                    item[@"thumbnail"], @"icon",
                                    @(0), @"xbmcSetting",
                                    item[@"genre"], @"helpText",
-                                   [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"Addons.ExecuteAddon", @"command",
-                                    params, @"params",
-                                    nil], @"action",
+                                   @{@"command": @"Addons.ExecuteAddon",
+                                     @"params": params}, @"action",
                                    nil];
         [self saveCustomButton:newButton];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Add action button")]) {
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                item[@"label"], @"action",
-                                nil];
+        NSDictionary *params = @{@"action": item[@"label"]};
         NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    item[@"label"], @"label",
                                    @"string", @"type",
                                    item[@"thumbnail"], @"icon",
                                    @(0), @"xbmcSetting",
                                    item[@"genre"], @"helpText",
-                                   [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"Input.ExecuteAction", @"command",
-                                    params, @"params",
-                                    nil], @"action",
+                                   @{@"command": @"Input.ExecuteAction",
+                                     @"params": params}, @"action",
                                    nil];
         [self saveCustomButton:newButton];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Add window activation button")]) {
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                item[@"label"], @"window",
-                                nil];
+        NSDictionary *params = @{@"window": item[@"label"]};
         NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    item[@"label"], @"label",
                                    @"string", @"type",
                                    item[@"thumbnail"], @"icon",
                                    @(0), @"xbmcSetting",
                                    item[@"genre"], @"helpText",
-                                   [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"GUI.ActivateWindow", @"command",
-                                    params, @"params",
-                                    nil], @"action",
+                                   @{@"command": @"GUI.ActivateWindow",
+                                     @"params": params}, @"action",
                                    nil];
         [self saveCustomButton:newButton];
     }
@@ -3693,7 +3657,7 @@ NSIndexPath *selected;
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
-        [[Utilities getJsonRPC] callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Files.PrepareDownload" withParameters:@{@"path": item[@"file"]} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error == nil && methodError == nil) {
                 if ([methodResult count] > 0) {
                     GlobalData *obj = [GlobalData getInstance];
@@ -3719,9 +3683,7 @@ NSIndexPath *selected;
     id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
     NSString *methodToCall = @"PVR.DeleteTimer";
-    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                itemid, @"timerid",
-                                nil];
+    NSDictionary *parameters = @{@"timerid": itemid};
 
     [queuing startAnimating];
     [[Utilities getJsonRPC] callMethod:methodToCall
@@ -3778,9 +3740,7 @@ NSIndexPath *selected;
     id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
     [queuing startAnimating];
-    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                itemid, parameterName,
-                                nil];
+    NSDictionary *parameters = @{parameterName: itemid};
     [[Utilities getJsonRPC] callMethod:methodToCall
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
@@ -3841,10 +3801,12 @@ NSIndexPath *selected;
     if (afterCurrent) {
         [[Utilities getJsonRPC]
          callMethod:@"Player.GetProperties"
-         withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                         mainFields[@"playlistid"], @"playerid",
-                         @[@"percentage", @"time", @"totaltime", @"partymode", @"position"], @"properties",
-                         nil] 
+         withParameters:@{@"playerid": mainFields[@"playlistid"],
+                          @"properties": @[@"percentage",
+                                           @"time",
+                                           @"totaltime",
+                                           @"partymode",
+                                           @"position"]}
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              if (error == nil && methodError == nil) {
                  if ([NSJSONSerialization isValidJSONObject:methodResult]) {
@@ -3852,11 +3814,9 @@ NSIndexPath *selected;
                          [queuing stopAnimating];
                          int newPos = [methodResult[@"position"] intValue] + 1;
                          NSString *action2 = @"Playlist.Insert";
-                         NSDictionary *params2 = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                mainFields[@"playlistid"], @"playlistid",
-                                                [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item",
-                                                @(newPos), @"position",
-                                                nil];
+                         NSDictionary *params2 = @{@"playlistid": mainFields[@"playlistid"],
+                                                   @"item": @{key: value},
+                                                   @"position": @(newPos)};
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                              if (error == nil && methodError == nil) {
                                  [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
@@ -3882,7 +3842,7 @@ NSIndexPath *selected;
 }
 
 - (void)addToPlaylist:(NSDictionary*)mainFields currentItem:(id)value currentKey:(NSString*)key currentActivityIndicator:(UIActivityIndicatorView*)queuing {
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:mainFields[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:@{@"playlistid": mainFields[@"playlistid"], @"item": @{key: value}} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         [queuing stopAnimating];
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
@@ -3928,7 +3888,7 @@ NSIndexPath *selected;
             if (currentPlayerID == 1) { // xbmc bug
                 [[Utilities getJsonRPC] callMethod:@"Player.Stop" withParameters:@{@"playerid": @(1)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error == nil && methodError == nil) {
-                        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil], @"item", nil] index:indexPath];
+                        [self playerOpen:@{@"item": @{@"file": item[@"file"]}} index:indexPath];
                     }
                     else {
                         UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
@@ -3937,7 +3897,7 @@ NSIndexPath *selected;
                 }];
             }
             else {
-                [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil], @"item", nil] index:indexPath];
+                [self playerOpen:@{@"item": @{@"file": item[@"file"]}} index:indexPath];
             }
         }];
     }
@@ -3947,10 +3907,10 @@ NSIndexPath *selected;
         if ([mainFields[@"row8"] isEqualToString:@"broadcastid"]) {
             channelid = item[@"pvrExtraInfo"][@"channelid"];
         }
-        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: channelid, param, nil], @"item", nil] index:indexPath];
+        [self playerOpen:@{@"item": @{param: channelid}} index:indexPath];
     }
     else if ([mainFields[@"row7"] isEqualToString:@"plugin"]) {
-        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil], @"item", nil] index:indexPath];
+        [self playerOpen:@{@"item": @{@"file": item[@"file"]}} index:indexPath];
     }
     else {
         id optionsParam = nil;
@@ -3959,7 +3919,7 @@ NSIndexPath *selected;
             optionsParam = @"options";
             optionsValue = @{@"shuffled": @(shuffled)};
         }
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: mainFields[@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": mainFields[@"playlistid"]} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error == nil && methodError == nil) {
                 NSString *key = mainFields[@"row8"];
                 id value = item[key];
@@ -3975,35 +3935,21 @@ NSIndexPath *selected;
                      callMethod:@"Player.SetPartymode"
                      withParameters:@{@"playerid": @(0), @"partymode": @(NO)}
                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
-                         [self playlistAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                mainFields[@"playlistid"], @"playlistid",
-                                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                                 value, key, nil], @"item",
-                                                nil]
-                                playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                                 mainFields[@"playlistid"], @"playlistid",
-                                                 @(pos), @"position",
-                                                 nil], @"item",
-                                                optionsValue, optionsParam,
-                                                nil]
+                        [self playlistAndPlay:@{@"playlistid": mainFields[@"playlistid"],
+                                                @"item": @{key: value}}
+                                playbackParams:@{@"item": @{@"playlistid": mainFields[@"playlistid"],
+                                                            @"position": @(pos)},
+                                                 optionsParam: optionsValue}
                                      indexPath:indexPath
                                           cell:cell];
                      }];
                 }
                 else {
-                    [self playlistAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
-                                           mainFields[@"playlistid"], @"playlistid",
-                                           [NSDictionary dictionaryWithObjectsAndKeys:
-                                            value, key, nil], @"item",
-                                           nil]
-                           playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
-                                           [NSDictionary dictionaryWithObjectsAndKeys:
-                                            mainFields[@"playlistid"], @"playlistid",
-                                            @(pos), @"position",
-                                            nil], @"item",
-                                           optionsValue, optionsParam,
-                                           nil]
+                    [self playlistAndPlay:@{@"playlistid": mainFields[@"playlistid"],
+                                            @"item": @{key: value}}
+                           playbackParams:@{@"item": @{@"playlistid": mainFields[@"playlistid"],
+                                                       @"position": @(pos)},
+                                            optionsParam: optionsValue}
                                 indexPath:indexPath
                                      cell:cell];
                 }
@@ -4853,24 +4799,20 @@ NSIndexPath *selected;
                 if ([item[@"isactive"] boolValue]) {
                     autoScrollTable = [NSIndexPath indexPathForRow:countRow inSection:[self.sections count] - 1];
                 }
-                [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                         starttime, @"starttime",
-                                         endtime, @"endtime",
-                                         item[@"title"], @"title",
-                                         item[@"label"], @"label",
-                                         item[@"genre"], @"plot",
-                                         item[@"plotoutline"], @"plotoutline",
-                                         nil]];
+                [retrievedEPG addObject:@{@"starttime": starttime,
+                                          @"endtime": endtime,
+                                          @"title": item[@"title"],
+                                          @"label": item[@"label"],
+                                          @"plot": item[@"genre"],
+                                          @"plotoutline": item[@"plotoutline"]}];
                 countRow ++;
             }
         }
         if ([self.sections count] == 1) {
             [self.richResults removeAllObjects];
         }
-        NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [self.detailItem mainParameters][0][0][@"channelid"], @"channelid",
-                                   retrievedEPG, @"epgArray",
-                                   nil];
+        NSDictionary *epgparams = @{@"channelid": [self.detailItem mainParameters][0][0][@"channelid"],
+                                    @"epgArray": retrievedEPG};
         [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];
     }
     else {

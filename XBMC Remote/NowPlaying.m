@@ -614,10 +614,8 @@ int currentItemID;
                 }
                 [[Utilities getJsonRPC]
                  callMethod:@"Player.GetItem" 
-                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                                 response, @"playerid",
-                                 properties, @"properties",
-                                 nil] 
+                 withParameters:@{@"playerid": response,
+                                  @"properties": properties}
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error == nil && methodError == nil) {
 //                         NSLog(@"Risposta %@", methodResult);
@@ -785,10 +783,17 @@ int currentItemID;
                  }];
                 [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties" 
-                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                                 response, @"playerid",
-                                 @[@"percentage", @"time", @"totaltime", @"partymode", @"position", @"canrepeat", @"canshuffle", @"repeat", @"shuffled", @"canseek"], @"properties",
-                                 nil] 
+                 withParameters:@{@"playerid": response,
+                                  @"properties": @[@"percentage",
+                                                   @"time",
+                                                   @"totaltime",
+                                                   @"partymode",
+                                                   @"position",
+                                                   @"canrepeat",
+                                                   @"canshuffle",
+                                                   @"repeat",
+                                                   @"shuffled",
+                                                   @"canseek"]}
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error == nil && methodError == nil) {
                          if ([NSJSONSerialization isValidJSONObject:methodResult]) {
@@ -2211,9 +2216,8 @@ int currentItemID;
     }
     [[Utilities getJsonRPC]
      callMethod:@"Player.Open" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                     [NSDictionary dictionaryWithObjectsAndKeys:
-                      @(indexPath.row), @"position", @(playerID), @"playlistid", nil], @"item", nil]
+     withParameters:@{@"item": @{@"position": @(indexPath.row),
+                                 @"playlistid": @(playerID)}}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil) {
              storedItemID = -1;
@@ -2249,27 +2253,19 @@ int currentItemID;
     
     int idItem = [objSource[@"idItem"] intValue];
     if (idItem) {
-        itemToMove = [NSDictionary dictionaryWithObjectsAndKeys:
-                      @(idItem), [NSString stringWithFormat:@"%@id", objSource[@"type"]],
-                      nil];
+        itemToMove = @{[NSString stringWithFormat:@"%@id", objSource[@"type"]]: @(idItem)};
     }
     else {
-        itemToMove = [NSDictionary dictionaryWithObjectsAndKeys:
-                      objSource[@"file"], @"file",
-                      nil];
+        itemToMove = @{@"file": objSource[@"file"]};
     }
     
     NSString *action1 = @"Playlist.Remove";
-    NSDictionary *params1 = [NSDictionary dictionaryWithObjectsAndKeys:
-                          @(playerID), @"playlistid",
-                          @(sourceIndexPath.row), @"position",
-                          nil];
+    NSDictionary *params1 = @{@"playlistid": @(playerID),
+                              @"position": @(sourceIndexPath.row)};
     NSString *action2 = @"Playlist.Insert";
-    NSDictionary *params2 = [NSDictionary dictionaryWithObjectsAndKeys:
-                          @(playerID), @"playlistid",
-                          itemToMove, @"item",
-                          @(destinationIndexPath.row), @"position",
-                          nil];
+    NSDictionary *params2 = @{@"playlistid": @(playerID),
+                              @"item": itemToMove,
+                              @"position": @(destinationIndexPath.row)};
     [[Utilities getJsonRPC] callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
             [[Utilities getJsonRPC] callMethod:action2 withParameters:params2];
@@ -2299,10 +2295,8 @@ int currentItemID;
 
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString *action1 = @"Playlist.Remove";
-        NSDictionary *params1 = [NSDictionary dictionaryWithObjectsAndKeys:
-                               @(playerID), @"playlistid",
-                               @(indexPath.row), @"position",
-                               nil];
+        NSDictionary *params1 = @{@"playlistid": @(playerID),
+                                  @"position": @(indexPath.row)};
         [[Utilities getJsonRPC] callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error == nil && methodError == nil) {
                 NSInteger numObj = [playlistData count];
