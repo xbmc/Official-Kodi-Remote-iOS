@@ -266,16 +266,15 @@
             value = @"";
             break;
     }
-    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", value, @"value", nil];
-    NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                               [[alertView textFields][0] text], @"label",
-                               type, @"type",
-                               @"default-right-menu-icon", @"icon",
-                               @(xbmcSetting), @"xbmcSetting",
-                               self.detailItem[@"genre"], @"helpText",
-                               @{@"command": command,
-                                 @"params": params}, @"action",
-                               nil];
+    NSDictionary *params = @{@"setting": self.detailItem[@"id"],
+                             @"value": value};
+    NSDictionary *newButton = @{@"label": [[alertView textFields][0] text],
+                                @"type": type,
+                                @"icon": @"default-right-menu-icon",
+                                @"xbmcSetting": @(xbmcSetting),
+                                @"helpText": self.detailItem[@"genre"],
+                                @"action": @{@"command": command,
+                                             @"params": params}};
     [self saveCustomButton:newButton];
 }
 

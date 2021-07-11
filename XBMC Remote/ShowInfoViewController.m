@@ -507,11 +507,9 @@ int count = 0;
                    if ([self.detailItem[@"broadcastid"] intValue] > 0) {
                        status = @(![self.detailItem[@"hastimer"] boolValue]);
                    }
-                   NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           storeChannelid, @"channelid",
-                                           storeBroadcastid, @"broadcastid",
-                                           status, @"status",
-                                           nil];
+                   NSDictionary *params = @{@"channelid": storeChannelid,
+                                            @"broadcastid": storeBroadcastid,
+                                            @"status": status};
                    [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
                }
                else {

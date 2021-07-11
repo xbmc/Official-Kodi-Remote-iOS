@@ -621,17 +621,15 @@
     infoLabel.alpha = 0;
     [self.view addSubview:infoLabel];
     
-    infoCustomButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                        LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."), @"label",
-                        [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
-                        @(NO), @"hideLineSeparator",
-                        [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",
-                        @"default-right-menu-icon", @"icon",
-                        [[NSMutableDictionary alloc] initWithCapacity:0], @"action",
-                        @(NO), @"revealViewTop",
-                        @(NO), @"isSetting",
-                        @"", @"type",
-                        nil];
+    infoCustomButton = @{@"label": LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."),
+                         @"bgColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+                         @"hideLineSeparator": @(NO),
+                         @"fontColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+                         @"icon": @"default-right-menu-icon",
+                         @"action": [[NSMutableDictionary alloc] initWithCapacity:0],
+                         @"revealViewTop": @(NO),
+                         @"isSetting": @(NO),
+                         @"type": @""};
     
     mainMenu *menuItems = self.rightMenuItems[0];
     CGFloat bottomPadding = [Utilities getBottomPadding];
@@ -822,17 +820,15 @@
             if (isSetting == nil) {
                 isSetting = @(YES);
             }
-            [tableData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                  label, @"label",
-                                  [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
-                                  @(NO), @"hideLineSeparator",
-                                  [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",
-                                  icon, @"icon",
-                                  isSetting, @"isSetting",
-                                  @(NO), @"revealViewTop",
-                                  type, @"type",
-                                  item[@"action"], @"action",
-                                  nil]];
+            [tableData addObject:@{@"label": label,
+                                   @"bgColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+                                   @"hideLineSeparator": @(NO),
+                                   @"fontColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+                                   @"icon": icon,
+                                   @"isSetting": isSetting,
+                                   @"revealViewTop": @(NO),
+                                   @"type": type,
+                                   @"action": item[@"action"]}];
         }
     }
 

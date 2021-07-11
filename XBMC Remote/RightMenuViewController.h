@@ -27,7 +27,7 @@
     NSUInteger editableRowStartAt;
     UIBarButtonItem *editTableButton;
     UIBarButtonItem *addButton;
-    NSMutableDictionary *infoCustomButton;
+    NSDictionary *infoCustomButton;
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;

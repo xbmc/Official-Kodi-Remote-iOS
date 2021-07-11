@@ -111,10 +111,8 @@
 }
 
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   infoText, @"message",
-                                   iconName, @"icon_connection",
-                                   nil];
+    NSDictionary *params = @{@"message": infoText,
+                             @"icon_connection": iconName};
     if (status) {
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];

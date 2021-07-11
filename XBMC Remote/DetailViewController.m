@@ -3246,41 +3246,35 @@ NSIndexPath *selected;
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Add button")]) {
         NSDictionary *params = @{@"addonid": item[@"addonid"]};
-        NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   item[@"label"], @"label",
-                                   @"xbmc-exec-addon", @"type",
-                                   item[@"thumbnail"], @"icon",
-                                   @(0), @"xbmcSetting",
-                                   item[@"genre"], @"helpText",
-                                   @{@"command": @"Addons.ExecuteAddon",
-                                     @"params": params}, @"action",
-                                   nil];
+        NSDictionary *newButton = @{@"label": item[@"label"],
+                                    @"type": @"xbmc-exec-addon",
+                                    @"icon": item[@"thumbnail"],
+                                    @"xbmcSetting": @(0),
+                                    @"helpText": item[@"genre"],
+                                    @"action": @{@"command": @"Addons.ExecuteAddon",
+                                                 @"params": params}};
         [self saveCustomButton:newButton];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Add action button")]) {
         NSDictionary *params = @{@"action": item[@"label"]};
-        NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   item[@"label"], @"label",
-                                   @"string", @"type",
-                                   item[@"thumbnail"], @"icon",
-                                   @(0), @"xbmcSetting",
-                                   item[@"genre"], @"helpText",
-                                   @{@"command": @"Input.ExecuteAction",
-                                     @"params": params}, @"action",
-                                   nil];
+        NSDictionary *newButton = @{@"label": item[@"label"],
+                                    @"type": @"string",
+                                    @"icon": item[@"thumbnail"],
+                                    @"xbmcSetting": @(0),
+                                    @"helpText": item[@"genre"],
+                                    @"action": @{@"command": @"Input.ExecuteAction",
+                                                 @"params": params}};
         [self saveCustomButton:newButton];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Add window activation button")]) {
         NSDictionary *params = @{@"window": item[@"label"]};
-        NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   item[@"label"], @"label",
-                                   @"string", @"type",
-                                   item[@"thumbnail"], @"icon",
-                                   @(0), @"xbmcSetting",
-                                   item[@"genre"], @"helpText",
-                                   @{@"command": @"GUI.ActivateWindow",
-                                     @"params": params}, @"action",
-                                   nil];
+        NSDictionary *newButton = @{@"label": item[@"label"],
+                                    @"type": @"string",
+                                    @"icon": item[@"thumbnail"],
+                                    @"xbmcSetting": @(0),
+                                    @"helpText": item[@"genre"],
+                                    @"action": @{@"command": @"GUI.ActivateWindow",
+                                                 @"params": params}};
         [self saveCustomButton:newButton];
     }
     else {
@@ -3751,11 +3745,9 @@ NSIndexPath *selected;
                    if ([item[@"broadcastid"] intValue] > 0) {
                        status = @(![item[@"hastimer"] boolValue]);
                    }
-                   NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           storeChannelid, @"channelid",
-                                           storeBroadcastid, @"broadcastid",
-                                           status, @"status",
-                                           nil];
+                   NSDictionary *params = @{@"channelid": storeChannelid,
+                                            @"broadcastid": storeBroadcastid,
+                                            @"status": status};
                    [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
                }
                else {
