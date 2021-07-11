@@ -1096,10 +1096,8 @@
             }
             else if ([item[@"family"] isEqualToString:@"categoryid"]) {
                 fileModeKey = @"filter";
-                objValue = [NSDictionary dictionaryWithObjectsAndKeys:
-                            item[mainFields[@"row6"]], @"category",
-                            [MenuItem mainParameters][choosedTab][0][@"section"], @"section",
-                            nil];
+                objValue = @{@"category": item[mainFields[@"row6"]],
+                             @"section": [MenuItem mainParameters][choosedTab][0][@"section"]};
             }
             NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:

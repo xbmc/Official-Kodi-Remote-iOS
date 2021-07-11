@@ -317,7 +317,7 @@ int count = 0;
             objKey = movieObjKey;
         }
         else if ([AppDelegate instance].serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
-            obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] intValue]), mainFields[@"row6"], nil];
+            obj = @{mainFields[@"row6"]: @([item[mainFields[@"row6"]] intValue])};
             objKey = @"filter";
         }
         NSMutableDictionary *newSectionParameters = nil;
