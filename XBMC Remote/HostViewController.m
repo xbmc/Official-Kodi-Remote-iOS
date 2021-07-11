@@ -156,33 +156,21 @@
     }
 
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
+    NSDictionary *serverDetails = @{@"serverDescription": descriptionUI.text,
+                                    @"serverUser": usernameUI.text,
+                                    @"serverPass": passwordUI.text,
+                                    @"serverIP": ipUI.text,
+                                    @"serverPort": portUI.text,
+                                    @"serverMacAddress": macAddress,
+                                    @"preferTVPosters": @(preferTVPostersUI.on),
+                                    @"tcpPort": tcpPortUI.text};
     if (self.detailItem == nil) {
-        [[AppDelegate instance].arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                           descriptionUI.text, @"serverDescription",
-                                                           usernameUI.text, @"serverUser",
-                                                           passwordUI.text, @"serverPass",
-                                                           ipUI.text, @"serverIP",
-                                                           portUI.text, @"serverPort",
-                                                           macAddress, @"serverMacAddress",
-                                                           @(preferTVPostersUI.on), @"preferTVPosters",
-                                                           tcpPortUI.text, @"tcpPort",
-                                                           nil
-                                                           ]];
+        [[AppDelegate instance].arrayServerList addObject:serverDetails];
     }
     else {
         NSIndexPath *idx = self.detailItem;
         [[AppDelegate instance].arrayServerList removeObjectAtIndex:idx.row];
-        [[AppDelegate instance].arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                              descriptionUI.text, @"serverDescription",
-                                                              usernameUI.text, @"serverUser",
-                                                              passwordUI.text, @"serverPass",
-                                                              ipUI.text, @"serverIP",
-                                                              portUI.text, @"serverPort",
-                                                              macAddress, @"serverMacAddress",
-                                                              @(preferTVPostersUI.on), @"preferTVPosters",
-                                                              tcpPortUI.text, @"tcpPort",
-                                                              nil
-                                                              ] atIndex:idx.row];
+        [[AppDelegate instance].arrayServerList insertObject:serverDetails atIndex:idx.row];
     }
     [[AppDelegate instance] saveServerList];
     [self.navigationController popViewControllerAnimated:YES];

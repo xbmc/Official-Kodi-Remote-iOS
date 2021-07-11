@@ -188,7 +188,10 @@
                 onoff.hidden = YES;
                 [indicator startAnimating];
                 NSString *command = @"Settings.GetSettingValue";
-                NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys: tableData[indexPath.row][@"action"][@"params"][@"setting"], @"setting", nil];
+                NSDictionary *parameters = @{};
+                if (tableData[indexPath.row][@"action"][@"params"][@"setting"] != nil) {
+                    parameters = @{@"setting": tableData[indexPath.row][@"action"][@"params"][@"setting"]};
+                }
                 [self getXBMCValue:command params:parameters uiControl:onoff storeSetting: tableData[indexPath.row][@"action"][@"params"] indicator:indicator];
             }
             [cell setAccessoryView:onoffview];
@@ -337,7 +340,11 @@
     NSInteger tableIdx = onoff.tag - 1000;
     if (tableIdx < [tableData count]) {
         NSString *command = tableData[tableIdx][@"action"][@"command"];
-        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys: tableData[tableIdx][@"action"][@"params"][@"setting"], @"setting", @(onoff.on), @"value", nil];
+        NSDictionary *parameters = @{};
+        if (tableData[tableIdx][@"action"][@"params"][@"setting"] != nil) {
+            parameters = @{@"setting": tableData[tableIdx][@"action"][@"params"][@"setting"],
+                           @"value": @(onoff.on)};
+        }
         if ([tableData[tableIdx][@"action"][@"params"] respondsToSelector:@selector(setObject:forKey:)]) {
             tableData[tableIdx][@"action"][@"params"][@"value"] = @(onoff.on);
         }
