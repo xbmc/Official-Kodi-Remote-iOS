@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 joethefox inc. All rights reserved.
 //
 
+#import <AVFoundation/AVFoundation.h>
 #import "Utilities.h"
 #import "AppDelegate.h"
 
@@ -266,6 +267,21 @@
         }
         else if ([mode isEqualToString:@"trans"]) {
             setting = bgTrans;
+        }
+    }
+    return setting;
+}
+
++ (RemotePositionType)getRemotePositionMode {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    RemotePositionType setting = remoteTop;
+    NSString *mode = [userDefaults stringForKey:@"remote_position"];
+    if ([mode length]) {
+        if ([mode isEqualToString:@"position_top"]) {
+            setting = remoteTop;
+        }
+        else if ([mode isEqualToString:@"position_bottom"]) {
+            setting = remoteBottom;
         }
     }
     return setting;
@@ -686,6 +702,53 @@
     CGImageRelease(shadowedCGImage);
 
     return shadowedImage;
+}
+
++ (void)turnTorchOn:(id)sender on:(BOOL)torchOn {
+    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+    if (captureDeviceClass != nil) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettings];
+        UIImage *img;
+        if ([device hasTorch] && [device hasFlash]) {
+            [device lockForConfiguration:nil];
+            // Set torch and select button image
+            if (torchOn) {
+                [device setTorchMode:AVCaptureTorchModeOn];
+                [settings setFlashMode:AVCaptureFlashModeOn];
+                img = [UIImage imageNamed:@"torch_on"];
+            }
+            else {
+                [device setTorchMode:AVCaptureTorchModeOff];
+                [settings setFlashMode:AVCaptureFlashModeOff];
+                img = [UIImage imageNamed:@"torch"];
+            }
+            // Check for class of sender and use matching function to set button image
+            if ([sender isKindOfClass:[UIImageView class]]) {
+                [sender setImage:img];
+            }
+            else if ([sender isKindOfClass:[UIButton class]]) {
+                [sender setImage:img forState:UIControlStateNormal];
+            }
+            else {
+                NSLog(@"Unexpected class. Cannot set image for torch icon.");
+            }
+                
+            [device unlockForConfiguration];
+        }
+    }
+}
+
++ (BOOL)isTorchOn {
+    BOOL torchIsOn = NO;
+    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+    if (captureDeviceClass != nil) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        if ([device hasTorch] && [device hasFlash]) {
+            torchIsOn = [device torchLevel];
+        }
+    }
+    return torchIsOn;
 }
 
 @end

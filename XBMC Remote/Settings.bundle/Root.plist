@@ -165,6 +165,26 @@
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
+			<key>DefaultValue</key>
+			<string></string>
+			<key>Key</key>
+			<string>remote_position</string>
+			<key>Title</key>
+			<string>Remote Position</string>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Titles</key>
+			<array>
+				<string>Top</string>
+				<string>Bottom</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>position_top</string>
+				<string>position_bottom</string>
+			</array>
+		</dict>
+		<dict>
 			<key>Title</key>
 			<string>App Settings</string>
 			<key>Type</key>

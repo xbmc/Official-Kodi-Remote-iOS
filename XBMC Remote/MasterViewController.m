@@ -190,26 +190,18 @@
     BOOL hideBottonLine = NO;
     switch (item.family) {
         case FamilyNowPlaying:
-            if (self.nowPlaying == nil) {
-                self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-            }
+            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
             self.nowPlaying.detailItem = item;
             object = self.nowPlaying;
             break;
         case FamilyRemote:
-            if (self.remoteController == nil) {
-                self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
-            }
-            else {
-                [self.remoteController resetRemote];
-            }
+            [self.remoteController resetRemote];
+            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
             self.remoteController.detailItem = item;
             object = self.remoteController;
             break;
         case FamilyServer:
-            if (self.hostController == nil) {
-                self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-            }
+            self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
             object = self.hostController;
             setBarTintColor = YES;
             hideBottonLine = YES;

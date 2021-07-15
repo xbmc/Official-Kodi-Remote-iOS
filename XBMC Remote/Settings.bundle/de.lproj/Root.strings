@@ -17,6 +17,9 @@
 "Remote Control" = "Fernbedienung";
 "Gesture remote control" = "Gestenbedienung";
 "Vibrate remote control" = "Fernbedienung vibriert";
+"Remote Position" = "Lage des Bedienfelds";
+"Top" = "Oben";
+"Bottom" = "Unten";
 "App Settings" = "Programmeinstellungen";
 "Clear cache on next start" = "Cache beim Start löschen";
 "Enable contents cache" = "Inhalts-Cache aktivieren";

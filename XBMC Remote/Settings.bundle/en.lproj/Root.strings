@@ -17,6 +17,9 @@
 "Remote Control" = "Remote Control";
 "Gesture remote control" = "Gesture remote control";
 "Vibrate remote control" = "Vibrate remote control";
+"Remote Position" = "Remote Position";
+"Top" = "Top";
+"Bottom" = "Bottom";
 "App Settings" = "App Settings";
 "Clear cache on next start" = "Clear cache on next start";
 "Enable contents cache" = "Enable contents cache";
