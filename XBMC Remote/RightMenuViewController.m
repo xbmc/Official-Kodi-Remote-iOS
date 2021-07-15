@@ -42,7 +42,7 @@
         return SERVER_INFO_HEIGHT;
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"RemoteControl"]) {
-        return [[UIScreen mainScreen] bounds].size.height - [self getRemoteViewOffsetY];
+        return UIScreen.mainScreen.bounds.size.height - [self getRemoteViewOffsetY];
     }
     return RIGHT_MENU_ITEM_HEIGHT;
 }
@@ -136,7 +136,6 @@
         }
     }
     else {
-
         cell = rightMenuCell;
         [cell setAccessoryView:nil];
         cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
@@ -591,7 +590,7 @@
     [super viewDidLoad];
     CGFloat deltaY = [[UIApplication sharedApplication] statusBarFrame].size.height;
     self.peekLeftAmount = ANCHOR_RIGHT_PEEK;
-    CGRect frame = [[UIScreen mainScreen] bounds];
+    CGRect frame = UIScreen.mainScreen.bounds;
     CGFloat deltaX = ANCHOR_RIGHT_PEEK;
     if (IS_IPAD) {
         frame.size.width = STACKSCROLL_WIDTH;
