@@ -2108,7 +2108,7 @@ int currentItemID;
     [(UILabel*)[cell viewWithTag:2] setText:@""];
     if ([item[@"type"] isEqualToString:@"episode"]) {
         if ([item[@"season"] intValue] != 0 || [item[@"episode"] intValue] != 0) {
-            [mainLabel setText:[NSString stringWithFormat:@"%@x%02i. %@", item[@"season"], [item[@"episode"] intValue], item[@"label"]]];
+            [mainLabel setText:[NSString stringWithFormat:@"%@x%02i. %@", item[@"season"], [item[@"episode"] intValue], item[@"title"]]];
         }
         [subLabel setText:[NSString stringWithFormat:@"%@", item[@"showtitle"]]];
     }
