@@ -1441,7 +1441,7 @@ int currentItemID;
                  
                  NSString *rating = [Utilities getRatingFromDictionary:videoLibraryMovieDetail key:mainFields[@"row5"]];
                  
-                 NSString *thumbnailPath = videoLibraryMovieDetail[@"thumbnail"];
+                 NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:videoLibraryMovieDetail useBanner:NO useIcon:NO];
                  NSDictionary *art = videoLibraryMovieDetail[@"art"];
                  NSString *clearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
                  NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
