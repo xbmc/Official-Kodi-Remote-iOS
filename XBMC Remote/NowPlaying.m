@@ -254,12 +254,10 @@
 	if (image.imageOrientation == UIImageOrientationLeft) {
 		CGContextRotateCTM (bitmap, M_PI/2);
 		CGContextTranslateCTM (bitmap, 0, -height);
-		
 	}
     else if (image.imageOrientation == UIImageOrientationRight) {
 		CGContextRotateCTM (bitmap, -M_PI/2);
 		CGContextTranslateCTM (bitmap, -width, 0);
-		
 	}
     else if (image.imageOrientation == UIImageOrientationUp) {
 		
@@ -939,7 +937,6 @@ int currentItemID;
                                          else {
                                              NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
                                              if (selection) {
-                                                 
                                                  [playlistTableView deselectRowAtIndexPath:selection animated:YES];
                                                  UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                                  UIView *timePlaying = (UIView*)[cell viewWithTag:5];
@@ -1983,7 +1980,6 @@ int currentItemID;
         else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Album Tracks")]) {
             choosedTab = 0;
             MenuItem.subItem.mainLabel = item[@"album"];
-
         }
         else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Artist Details")]) {
             choosedTab = 1;
@@ -2123,10 +2119,16 @@ int currentItemID;
     else if ([item[@"type"] isEqualToString:@"movie"]) {
         [subLabel setText:[NSString stringWithFormat:@"%@", item[@"genre"]]];
     }
-    if (playerID == 0)
-        [cornerLabel setText:item[@"duration"]];
-    if (playerID == 1)
-        [cornerLabel setText:item[@"runtime"]];
+    switch (playerID) {
+        case 0:
+            [cornerLabel setText:item[@"duration"]];
+            break;
+        case 1:
+            [cornerLabel setText:item[@"runtime"]];
+            break;
+        default:
+            break;
+    }
     NSString *stringURL = item[@"thumbnail"];
     [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music"]];
     // andResize:CGSizeMake(thumb.frame.size.width, thumb.frame.size.height)
@@ -2143,8 +2145,9 @@ int currentItemID;
     coverView.alpha = 1.0;
     UIView *timePlaying = (UIView*)[cell viewWithTag:5];
     storeSelection = nil;
-    if (!timePlaying.hidden)
+    if (!timePlaying.hidden) {
         [self fadeView:timePlaying hidden:YES];
+    }
 }
 
 - (void)checkPartyMode {
@@ -2189,9 +2192,7 @@ int currentItemID;
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (storeSelection && storeSelection.row == indexPath.row)
-        return NO;
-    return YES;
+    return !(storeSelection && storeSelection.row == indexPath.row);
 }
 
 - (BOOL)tableView:(UITableView*)tableview canMoveRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -2289,7 +2290,6 @@ int currentItemID;
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gestureRecognizer {
     if (playlistTableView.editing) {
         return NO;
-        
     }
     else {
         return YES;

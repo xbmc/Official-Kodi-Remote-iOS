@@ -277,7 +277,6 @@ int count = 0;
         MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
         choosedMenuItem = MenuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
-
     }
     else if ([item[@"family"] isEqualToString:@"movieid"] && [AppDelegate instance].serverVersion > 11) {
         if ([sender isKindOfClass:[NSString class]]) {
