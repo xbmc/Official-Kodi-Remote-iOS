@@ -23,6 +23,7 @@
     CGFloat lastRotation;
     __weak IBOutlet UIView *TransitionalView;
     __weak IBOutlet UIImageView *gestureZoneImageView;
+    UIImage* gestureImage;
     BOOL torchIsOn;
     NSDictionary *subsDictionary;
     NSDictionary *audiostreamsDictionary;

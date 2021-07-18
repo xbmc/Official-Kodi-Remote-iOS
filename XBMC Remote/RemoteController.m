@@ -23,9 +23,6 @@
 #define EMBEDDED_PADDING 44
 #define TOOLBAR_ICON_SIZE 36
 #define TOOLBAR_FIXED_OFFSET 8
-#define TOOLBAR_FLEX_SPACE ((self.view.bounds.size.width * [Utilities getTransformX] - 5 * TOOLBAR_ICON_SIZE) / 6)
-#define TOOLBAR_PADDING (TOOLBAR_ICON_SIZE + TOOLBAR_FLEX_SPACE)
-#define TOOLBAR_START (4*TOOLBAR_PADDING + TOOLBAR_ICON_SIZE + TOOLBAR_FLEX_SPACE) // Origin for first toolbar icon
 
 @interface RemoteController ()
 
@@ -43,6 +40,25 @@
         _detailItem = newDetailItem;
         // Update the view.
     }
+}
+
+- (void)setupGestureView {
+    gestureImage = [UIImage imageNamed:@"finger"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
+    if (!showGesture) {
+        return;
+    }
+    
+    gestureImage = [UIImage imageNamed:@"circle"];
+    CGRect frame = [gestureZoneView frame];
+    frame.origin.x = 0;
+    gestureZoneView.frame = frame;
+    frame = [buttonZoneView frame];
+    frame.origin.x = self.view.frame.size.width;
+    buttonZoneView.frame = frame;
+    gestureZoneView.alpha = 1;
+    buttonZoneView.alpha = 0;
 }
 
 - (BOOL)hasRemoteToolBar {
@@ -111,43 +127,39 @@
     CGFloat offset = 0;
     RemotePositionType positionMode = [Utilities getRemotePositionMode];
     if (positionMode == remoteBottom && [self hasRemoteToolBar]) {
-        offset = -newHeight + shift + EMBEDDED_PADDING - bottomPadding;
+        offset = -newHeight + shift;
         remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }
     else {
         remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
     }
-    [remoteControlView setFrame:CGRectMake(-1, offset, newWidth, newHeight)];
+    remoteControlView.frame = CGRectMake(0, offset, newWidth, newHeight);
     
-    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
-    if (showGesture) {
-        gestureSwitchImg = [UIImage imageNamed:@"circle"];
-        frame = [gestureZoneView frame];
-        frame.origin.x = 0;
-        gestureZoneView.frame = frame;
-        frame = [buttonZoneView frame];
-        frame.origin.x = self.view.frame.size.width;
-        buttonZoneView.frame = frame;
-        gestureZoneView.alpha = 1;
-        buttonZoneView.alpha = 0;
-    }
-    // Overload "stop" button with gesture icon
-    UIButton *gestureButton = (UIButton*)[self.view viewWithTag:6];
-    [gestureButton setContentMode:UIViewContentModeScaleAspectFit];
-    [gestureButton setShowsTouchWhenHighlighted:NO];
-    [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
-    [gestureButton setImage:gestureSwitchImg forState:UIControlStateHighlighted];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up"] forState:UIControlStateNormal];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down"] forState:UIControlStateHighlighted];
-    gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-    [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
-    
+    frame = remoteControlView.frame;
+    frame.origin.y = 0;
+    frame.size.height -= shift;
+    quickHelpView.frame = frame;
     frame = subsInfoLabel.frame;
     frame.origin.x = 0;
     frame.size.width = newWidth;
     subsInfoLabel.frame = frame;
+    
+    [self setupGestureView];
+    if ([self hasRemoteToolBar]) {
+        [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax: EMBEDDED_PADDING];
+    }
+    else {
+        // Overload "stop" button with gesture icon in case the toolbar cannot be displayed (e.g. iPhone 4S)
+        UIButton *gestureButton = (UIButton*)[self.view viewWithTag:6];
+        [gestureButton setContentMode:UIViewContentModeScaleAspectFit];
+        [gestureButton setShowsTouchWhenHighlighted:NO];
+        [gestureButton setImage:gestureImage forState:UIControlStateNormal];
+        [gestureButton setImage:gestureImage forState:UIControlStateHighlighted];
+        [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up"] forState:UIControlStateNormal];
+        [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down"] forState:UIControlStateHighlighted];
+        gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+        [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 - (void)configureView {
@@ -214,6 +226,11 @@
         frame.origin.x = 0;
         subsInfoLabel.frame = frame;
     }
+    [self setupGestureView];
+    if ([self hasRemoteToolBar]) {
+        [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:0 yMax:self.view.frame.size.height];
+    }
+    
     UISwipeGestureRecognizer *gestureRightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     gestureRightSwipe.numberOfTouchesRequired = 1;
     gestureRightSwipe.cancelsTouchesInView = NO;
@@ -1234,6 +1251,68 @@ NSInteger buttonAction;
     [Utilities turnTorchOn:sender on:torchIsOn];
 }
 
+- (void)createRemoteToolbar:(UIImage*)gestureButtonImg width:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax {
+    torchIsOn = [Utilities isTorchOn];
+    // Layout is Flex > Settings > Flex > Gesture > Flex > Keyboard > Flex > Info > Flex > Torch > Flex
+    CGFloat ToolbarFlexSpace = ((width - 5 * TOOLBAR_ICON_SIZE) / 6);
+    CGFloat ToolbarPadding = (TOOLBAR_ICON_SIZE + ToolbarFlexSpace);
+    CGFloat ToolbarStart = 5 * ToolbarPadding;
+    CGRect frame = CGRectMake(CGRectGetMaxX(self.view.frame) - xMin - ToolbarStart, yMax - TOOLBAR_ICON_SIZE - TOOLBAR_FIXED_OFFSET, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
+    UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    settingButton.frame = frame;
+    [settingButton setContentMode:UIViewContentModeRight];
+    [settingButton setShowsTouchWhenHighlighted:YES];
+    [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
+    settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    [settingButton addTarget:self action:@selector(handleSettingsButton:) forControlEvents:UIControlEventTouchUpInside];
+    settingButton.alpha = 0.8;
+    [self.view addSubview:settingButton];
+    
+    UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    frame.origin.x += ToolbarPadding;
+    gestureButton.frame = frame;
+    [gestureButton setContentMode:UIViewContentModeRight];
+    [gestureButton setShowsTouchWhenHighlighted:YES];
+    [gestureButton setImage:gestureButtonImg forState:UIControlStateNormal];
+    gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
+    gestureButton.alpha = 0.8;
+    [self.view addSubview:gestureButton];
+        
+    UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    frame.origin.x += ToolbarPadding;
+    keyboardButton.frame = frame;
+    [keyboardButton setContentMode:UIViewContentModeRight];
+    [keyboardButton setShowsTouchWhenHighlighted:YES];
+    [keyboardButton setImage:[UIImage imageNamed:@"keyboard_icon"] forState:UIControlStateNormal];
+    keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
+    keyboardButton.alpha = 0.8;
+    [self.view addSubview:keyboardButton];
+
+    UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    frame.origin.x += ToolbarPadding;
+    helpButton.frame = frame;
+    [helpButton setContentMode:UIViewContentModeRight];
+    [helpButton setShowsTouchWhenHighlighted:YES];
+    [helpButton setImage:[UIImage imageNamed:@"button_info"] forState:UIControlStateNormal];
+    helpButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
+    helpButton.alpha = 0.8;
+    [self.view addSubview:helpButton];
+    
+    UIButton *torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    frame.origin.x += ToolbarPadding;
+    torchButton.frame = frame;
+    [torchButton setContentMode:UIViewContentModeRight];
+    [torchButton setShowsTouchWhenHighlighted:YES];
+    [torchButton setImage:[UIImage imageNamed:torchIsOn ? @"torch_on" : @"torch"] forState:UIControlStateNormal];
+    torchButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
+    torchButton.alpha = 0.8;
+    [self.view addSubview:torchButton];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
@@ -1247,78 +1326,6 @@ NSInteger buttonAction;
     [self configureView];
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
-    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
-    if (showGesture) {
-        gestureSwitchImg = [UIImage imageNamed:@"circle"];
-        CGRect frame = [gestureZoneView frame];
-        frame.origin.x = 0;
-        gestureZoneView.frame = frame;
-        frame = [buttonZoneView frame];
-        frame.origin.x = self.view.frame.size.width;
-        buttonZoneView.frame = frame;
-        gestureZoneView.alpha = 1;
-        buttonZoneView.alpha = 0;
-    }
-    if ([self hasRemoteToolBar]) {
-        torchIsOn = [Utilities isTorchOn];
-        CGRect frame = CGRectMake(self.view.bounds.size.width - TOOLBAR_START, self.view.bounds.size.height - TOOLBAR_ICON_SIZE - TOOLBAR_FIXED_OFFSET, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
-        UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        settingButton.frame = frame;
-        [settingButton setContentMode:UIViewContentModeRight];
-        [settingButton setShowsTouchWhenHighlighted:YES];
-        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
-        settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [settingButton addTarget:self action:@selector(handleSettingsButton:) forControlEvents:UIControlEventTouchUpInside];
-        settingButton.alpha = 0.8;
-        [self.view addSubview:settingButton];
-        
-        UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        frame.origin.x += TOOLBAR_PADDING;
-        gestureButton.frame = frame;
-        [gestureButton setContentMode:UIViewContentModeRight];
-        [gestureButton setShowsTouchWhenHighlighted:YES];
-        [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
-        gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
-        gestureButton.alpha = 0.8;
-        [self.view addSubview:gestureButton];
-            
-        UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        frame.origin.x += TOOLBAR_PADDING;
-        keyboardButton.frame = frame;
-        [keyboardButton setContentMode:UIViewContentModeRight];
-        [keyboardButton setShowsTouchWhenHighlighted:YES];
-        [keyboardButton setImage:[UIImage imageNamed:@"keyboard_icon"] forState:UIControlStateNormal];
-        keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
-        keyboardButton.alpha = 0.8;
-        [self.view addSubview:keyboardButton];
-
-        UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        frame.origin.x += TOOLBAR_PADDING;
-        helpButton.frame = frame;
-        [helpButton setContentMode:UIViewContentModeRight];
-        [helpButton setShowsTouchWhenHighlighted:YES];
-        [helpButton setImage:[UIImage imageNamed:@"button_info"] forState:UIControlStateNormal];
-        helpButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
-        helpButton.alpha = 0.8;
-        [self.view addSubview:helpButton];
-        
-        UIButton *torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        frame.origin.x += TOOLBAR_PADDING;
-        torchButton.frame = frame;
-        [torchButton setContentMode:UIViewContentModeRight];
-        [torchButton setShowsTouchWhenHighlighted:YES];
-        [torchButton setImage:[UIImage imageNamed:torchIsOn ? @"torch_on" : @"torch"] forState:UIControlStateNormal];
-        torchButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
-        torchButton.alpha = 0.8;
-        [self.view addSubview:torchButton];
-    }
-    
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat"]]];
 }
 
