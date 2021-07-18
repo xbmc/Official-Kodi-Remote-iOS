@@ -79,7 +79,7 @@
 
 - (void)setEmbeddedView {
     CGRect frame = TransitionalView.frame;
-    CGFloat newWidth = remoteControlView.frame.size.width - ANCHOR_RIGHT_PEEK;
+    CGFloat newWidth = CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) - ANCHOR_RIGHT_PEEK;
     CGFloat shift;
     [self hideButton: [NSArray arrayWithObjects:
                        [(UIButton*)self.view viewWithTag:2],
@@ -171,7 +171,6 @@
     if (![self hasRemoteToolBar]) {
         toolbarPadding = 0;
     }
-    quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
     if (IS_IPHONE) {
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
@@ -279,8 +278,9 @@
     [gestureZoneView addGestureRecognizer:twoFingersTap];
 }
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
+- (id)initWithNibName:(NSString*)nibNameOrNil withEmbedded:(BOOL)withEmbedded bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    isEmbeddedMode = withEmbedded;
     return self;
 }
 
@@ -1329,7 +1329,15 @@ NSInteger buttonAction;
 
     self.edgesForExtendedLayout = 0;
     self.view.tintColor = TINT_COLOR;
-    [self configureView];
+    
+    quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
+    if (!isEmbeddedMode) {
+        [self configureView];
+    }
+    else {
+        [self setEmbeddedView];
+    }
+    
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat"]]];

@@ -128,10 +128,9 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         [title setText:@""];
         if (remoteControllerView == nil) {
-            remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+            remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:YES bundle:nil];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [cell.contentView addSubview:remoteControllerView.view];
-            [remoteControllerView setEmbeddedView];
             remoteControllerView.panFallbackImageView.frame = cell.frame;
         }
     }

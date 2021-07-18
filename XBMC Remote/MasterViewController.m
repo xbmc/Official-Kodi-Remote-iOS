@@ -196,7 +196,7 @@
             break;
         case FamilyRemote:
             [self.remoteController resetRemote];
-            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:NO bundle:nil];
             self.remoteController.detailItem = item;
             object = self.remoteController;
             break;
