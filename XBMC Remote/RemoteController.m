@@ -146,7 +146,7 @@
     
     [self setupGestureView];
     if ([self hasRemoteToolBar]) {
-        [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_HEIGHT];
+        [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_HEIGHT isEmbedded:YES];
     }
     else {
         // Overload "stop" button with gesture icon in case the toolbar cannot be displayed (e.g. iPhone 4S)
@@ -228,7 +228,7 @@
     }
     [self setupGestureView];
     if ([self hasRemoteToolBar]) {
-        [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:0 yMax:self.view.bounds.size.height];
+        [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:0 yMax:self.view.bounds.size.height isEmbedded:NO];
     }
     
     UISwipeGestureRecognizer *gestureRightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
@@ -1251,10 +1251,12 @@ NSInteger buttonAction;
     [Utilities turnTorchOn:sender on:torchIsOn];
 }
 
-- (void)createRemoteToolbar:(UIImage*)gestureButtonImg width:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax {
+- (void)createRemoteToolbar:(UIImage*)gestureButtonImg width:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax isEmbedded:(BOOL)isEmbedded {
     torchIsOn = [Utilities isTorchOn];
-    // Layout is Flex > Settings > Flex > Gesture > Flex > Keyboard > Flex > Info > Flex > Torch > Flex
-    CGFloat ToolbarFlexSpace = ((width - 5 * TOOLBAR_ICON_SIZE) / 6);
+    // Non-embedded layout has 5 buttons (Settings > Gesture > Keyboard > Info > Torch with Flex around the buttons)
+    // Embedded layout has 4 buttons (Gesture > Keyboard > Info > Torch with Flex around the buttons)
+    int numButtons = isEmbedded ? 4 : 5;
+    CGFloat ToolbarFlexSpace = ((width - numButtons * TOOLBAR_ICON_SIZE) / (numButtons + 1));
     CGFloat ToolbarPadding = (TOOLBAR_ICON_SIZE + ToolbarFlexSpace);
     
     // Frame for remoteToolbarView placed at bottom - toolbar's height
@@ -1265,14 +1267,17 @@ NSInteger buttonAction;
     CGRect frame = CGRectMake(ToolbarFlexSpace, TOOLBAR_FIXED_OFFSET / 2, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
     
     // Add buttons to toolbar
-    UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    settingButton.frame = frame;
-    [settingButton setContentMode:UIViewContentModeRight];
-    [settingButton setShowsTouchWhenHighlighted:YES];
-    [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
-    [settingButton addTarget:self action:@selector(handleSettingsButton:) forControlEvents:UIControlEventTouchUpInside];
-    settingButton.alpha = 0.8;
-    [remoteToolbar addSubview:settingButton];
+    frame.origin.x -= ToolbarPadding;
+    if (!isEmbedded) {
+        UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        frame.origin.x += ToolbarPadding;
+        settingButton.frame = frame;
+        [settingButton setShowsTouchWhenHighlighted:YES];
+        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
+        [settingButton addTarget:self action:@selector(handleSettingsButton:) forControlEvents:UIControlEventTouchUpInside];
+        settingButton.alpha = 0.8;
+        [remoteToolbar addSubview:settingButton];
+    }
     
     UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
     frame.origin.x += ToolbarPadding;
