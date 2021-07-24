@@ -18,6 +18,7 @@
                 <outlet property="currentTime" destination="30" id="51"/>
                 <outlet property="duration" destination="31" id="49"/>
                 <outlet property="editTableButton" destination="117" id="137"/>
+                <outlet property="hiresImage" destination="wNZ-yG-OdQ" id="1z6-cl-phM"/>
                 <outlet property="itemDescription" destination="HhJ-Ci-xP8" id="t3u-u4-cjL"/>
                 <outlet property="itemLogoImage" destination="gWQ-ZF-P81" id="JWW-p8-1uX"/>
                 <outlet property="jewelView" destination="4" id="57"/>
@@ -219,7 +220,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <button hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="179" userLabel="Button Repeat">
-                                            <rect key="frame" x="65" y="189" width="41" height="41"/>
+                                            <rect key="frame" x="70" y="190" width="41" height="41"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" backgroundImage="button_repeat">
@@ -234,7 +235,7 @@
                                             </connections>
                                         </button>
                                         <button hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="176" userLabel="Button Shuffle">
-                                            <rect key="frame" x="129" y="189" width="41" height="41"/>
+                                            <rect key="frame" x="125" y="190" width="41" height="41"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" backgroundImage="button_shuffle">
@@ -248,6 +249,10 @@
                                                 <action selector="changeShuffle:" destination="-1" eventType="touchUpInside" id="178"/>
                                             </connections>
                                         </button>
+                                        <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hires" translatesAutoresizingMaskIntoConstraints="NO" id="wNZ-yG-OdQ" userLabel="HiRes Image">
+                                            <rect key="frame" x="180" y="190" width="41" height="41"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
@@ -665,6 +670,7 @@
         <image name="button_party_on" width="72" height="28"/>
         <image name="button_repeat" width="41" height="41"/>
         <image name="button_shuffle" width="41" height="41"/>
+        <image name="hires" width="41" height="41"/>
         <image name="icon_dark" width="37.5" height="37.5"/>
         <image name="now_playing_next" width="38" height="34"/>
         <image name="now_playing_pause" width="38" height="34"/>

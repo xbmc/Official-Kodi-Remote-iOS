@@ -375,6 +375,7 @@ int currentItemID;
     [PartyModeButton setSelected:NO];
     repeatButton.hidden = YES;
     shuffleButton.hidden = YES;
+    hiresImage.hidden = YES;
     musicPartyMode = 0;
     [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
@@ -992,6 +993,7 @@ int currentItemID;
              NSString *bitrate = @"";
              NSString *samplerate = @"";
              NSString *numchan = @"";
+             hiresImage.hidden = YES;
              if (playerID == 0 && currentPlayerID == playerID) {
                  codec = [methodResult[@"MusicPlayer.Codec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"MusicPlayer.Codec"]];
                  songCodec.text = codec;
@@ -1023,7 +1025,7 @@ int currentItemID;
                  
                  // Check for High Resolution Audio
                  if ([bps integerValue] >= 24 || [kHz integerValue] >= 96) {
-                     kHz = [NSString stringWithFormat:@"%@\nHiRes", kHz];
+                     hiresImage.hidden = NO;
                  }
                 
                  NSString *newLine = ![bps isEqualToString:@""] && ![kHz isEqualToString:@""] ? @"\n" : @"";

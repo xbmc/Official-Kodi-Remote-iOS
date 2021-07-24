@@ -43,6 +43,7 @@
     __weak IBOutlet UIImageView *songSampleRateImage;
     __weak IBOutlet UILabel *songNumChannels;
     __weak IBOutlet UIImageView *songNumChanImage;
+    __weak IBOutlet UIImageView *hiresImage;
     int playerID;
     int selectedPlayerID;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
