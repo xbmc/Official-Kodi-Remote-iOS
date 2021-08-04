@@ -570,7 +570,7 @@
 }
 
 - (void)goBack:(id)sender {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
@@ -624,7 +624,7 @@
 
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
     self.navigationItem.title = [NSString stringWithFormat:LOCALIZED_STR(@"More (%ld)"), (long)(count - MAX_NORMAL_BUTTONS)];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.3];
         topNavigationLabel.alpha = 0;
@@ -857,7 +857,7 @@
     }
     [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
     self.navigationItem.title = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]][@"label"];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.3];
         topNavigationLabel.alpha = 0;
@@ -994,7 +994,7 @@
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab = choosedTab;
         MenuItem.subItem.currentWatchMode = watchMode;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             detailViewController.detailItem = MenuItem.subItem;
             [self.navigationController pushViewController:detailViewController animated:YES];
@@ -1046,7 +1046,7 @@
                 MenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
                 [[MenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
                 MenuItem.chooseTab = choosedTab;
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                if (IS_IPHONE) {
                     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
                     detailViewController.detailItem = MenuItem;
                     [self.navigationController pushViewController:detailViewController animated:YES];
@@ -1108,7 +1108,7 @@
             }
             [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             MenuItem.subItem.chooseTab = choosedTab;
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            if (IS_IPHONE) {
                 DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
                 detailViewController.detailItem = MenuItem.subItem;
                 [self.navigationController pushViewController:detailViewController animated:YES];
@@ -1138,7 +1138,7 @@
     int rectOriginX = point.x;
     int rectOriginY = point.y;
     if ([item[@"family"] isEqualToString:@"id"]) {
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (IS_IPHONE) {
             SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:item];
             [self.navigationController pushViewController:settingsViewController animated:YES];
         }
@@ -1400,7 +1400,7 @@
         }
 
         if (![fanartURL isEqualToString:@""]) {
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@"blank"]andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@"blank"] andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
         }
         else {
             [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"blank"]];
@@ -1659,7 +1659,7 @@
     mainMenu *Menuitem = self.detailItem;
     // Adapt thumbsize if viewing TV Shows and "preferTVPoster" feature is enabled
     if (!tvshowsView) {
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        if (IS_IPAD) {
             Menuitem.thumbWidth = PAD_TV_SHOWS_POSTER_WIDTH;
             Menuitem.rowHeight = PAD_TV_SHOWS_POSTER_HEIGHT;
         }
@@ -1670,7 +1670,7 @@
     }
     else {
         CGFloat transform = [Utilities getTransformX];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        if (IS_IPAD) {
             Menuitem.thumbWidth = (int)(PAD_TV_SHOWS_BANNER_WIDTH * transform);
             Menuitem.rowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT * transform);
         }
@@ -1734,7 +1734,7 @@ int originYear = 0;
     
     int iOS7offset = 0;
     int iOS7insetSeparator = 0;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         iOS7offset = 12;
         iOS7insetSeparator = 20;
     }
@@ -2283,7 +2283,7 @@ int originYear = 0;
             if ([item[@"family"] isEqualToString:@"channelid"] || [item[@"family"] isEqualToString:@"type"]) {
                 [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
             }
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb]andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (channelListView || channelGuideView || recordingListView) {
                     [Utilities setLogoBackgroundColor:cell.urlImageView mode:logoBackgroundMode];
                 }
@@ -2934,7 +2934,7 @@ NSIndexPath *selected;
         BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
         UIViewController *showFromCtrl = nil;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (IS_IPHONE) {
             showFromCtrl = self;
         }
         else {
@@ -3020,7 +3020,7 @@ NSIndexPath *selected;
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
                 UIViewController *showFromCtrl = nil;
                 UIView *showfromview = nil;
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                if (IS_IPHONE) {
                     showFromCtrl = self;
                     showfromview = self.view;
                 }
@@ -3398,7 +3398,7 @@ NSIndexPath *selected;
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
     [messagesView showMessage:LOCALIZED_STR(@"Button added") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
 }
@@ -3687,7 +3687,7 @@ NSIndexPath *selected;
                                    nil];
     [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
     MenuItem.subItem.chooseTab = choosedTab;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
         detailViewController.detailItem = MenuItem.subItem;
         [self.navigationController pushViewController:detailViewController animated:YES];
@@ -4066,7 +4066,7 @@ NSIndexPath *selected;
 }
 
 - (void)displayInfoView:(NSDictionary*)item {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         ShowInfoViewController *showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
         showInfoViewController.detailItem = item;
         [self.navigationController pushViewController:showInfoViewController animated:YES];
@@ -5014,7 +5014,7 @@ NSIndexPath *selected;
     if ([self.detailItem enableSection]) {
         // CONDIZIONE DEBOLE!!!
         self.navigationItem.title = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        if (IS_IPAD) {
             if (!stackscrollFullscreen) {
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
@@ -5039,7 +5039,7 @@ NSIndexPath *selected;
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     }
     NSDictionary *itemSizes = parameters [@"itemSizes"];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         [self setIphoneInterface:itemSizes[@"iphone"]];
     }
     else {
@@ -5607,7 +5607,7 @@ NSIndexPath *selected;
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
         bottomPadding = window.safeAreaInsets.bottom;
     }
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         if (bottomPadding > 0) {
             frame = buttonsView.frame;
             frame.size.height += bottomPadding;
@@ -5620,7 +5620,7 @@ NSIndexPath *selected;
     trackCountLabelWidth = 26;
     epgChannelTimeLabelWidth = 48;
     NSDictionary *itemSizes = parameters[@"itemSizes"];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         [self setIphoneInterface:itemSizes[@"iphone"]];
     }
     else {
@@ -5762,7 +5762,7 @@ NSIndexPath *selected;
 }
 
 - (void)initIpadCornerInfo {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]) {
+    if (IS_IPAD && [self.detailItem enableSection]) {
         titleView = [[UIView alloc] initWithFrame:CGRectMake(STACKSCROLL_WIDTH - FIXED_SPACE_WIDTH, 0, FIXED_SPACE_WIDTH - 5, buttonsView.frame.size.height)];
         [titleView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
         topNavigationLabel.textAlignment = NSTextAlignmentRight;
@@ -5786,7 +5786,7 @@ NSIndexPath *selected;
 }
 
 - (void)checkFullscreenButton:(BOOL)forceHide {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [self.detailItem enableSection]) {
+    if (IS_IPAD && [self.detailItem enableSection]) {
         NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
         if ([self collectionViewCanBeEnabled] && ([parameters[@"enableLibraryFullScreen"] boolValue] && !forceHide)) {
             int buttonPadding = 1;

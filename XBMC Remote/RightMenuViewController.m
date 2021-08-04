@@ -263,7 +263,7 @@
     [fixedSpace setWidth:50.0];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
     [toolbar setAutoresizingMask: UIViewAutoresizingFlexibleWidth];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         frame.size.width = STACKSCROLL_WIDTH;
         [fixedSpace setWidth:0.0];
         [toolbar setFrame:CGRectMake(0, 0, frame.size.width, 44)];
@@ -310,7 +310,7 @@
     else {
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
         detailViewController.detailItem = [AppDelegate instance].xbmcSettings;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (IS_IPHONE) {
             CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:detailViewController];
             UINavigationBar *newBar = navController.navigationBar;
             [newBar setBarStyle:UIBarStyleBlack];
@@ -603,7 +603,7 @@
     self.peekLeftAmount = ANCHOR_RIGHT_PEEK;
     CGRect frame = [[UIScreen mainScreen] bounds];
     CGFloat deltaX = ANCHOR_RIGHT_PEEK;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         frame.size.width = STACKSCROLL_WIDTH;
         deltaX = 0;
         deltaY = 0;

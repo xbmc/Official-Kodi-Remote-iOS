@@ -277,8 +277,7 @@
 }
 
 - (void)offView {
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    CGFloat posX = (UIInterfaceOrientationIsPortrait(orientation) ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
+    CGFloat posX = (IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
     
     [UIView animateWithDuration:0.2
                      animations:^{ 
@@ -666,8 +665,7 @@
 							viewAtRight = nil;
 							viewAtRight2 = nil;
                             // MODDED BY JOE
-                            UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-                            CGFloat marginPosX = (UIInterfaceOrientationIsPortrait(orientation) ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH - STACK_OVERLAP;
+                            CGFloat marginPosX = (IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH - STACK_OVERLAP;
                             if ((((UIView*)[slideViews subviews][0]).frame.origin.x+marginPosX/2) >= marginPosX) {
                                 posX = marginPosX;
                             }
@@ -882,8 +880,7 @@
 	if (isStackStartView) {
         NSInteger numViews = [[slideViews subviews]count];
         if (numViews == 0) {
-            UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-            animX = (UIInterfaceOrientationIsPortrait(orientation) ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
+            animX = (IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
         }
         else {
             animX = [[slideViews subviews][0] frame].origin.x;

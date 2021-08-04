@@ -140,7 +140,7 @@
         
         CGFloat deltaY = 0;
         CGRect frame = [[UIScreen mainScreen] bounds];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        if (IS_IPAD) {
             frame.size.width = STACKSCROLL_WIDTH;
         }
         else {
@@ -290,7 +290,7 @@
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
     [messagesView showMessage:LOCALIZED_STR(@"Button added") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
 }
@@ -650,7 +650,7 @@
                 self.detailItem[@"definition"][@"value"] = self.detailItem[@"value"];
                 self.detailItem[@"definition"][@"id"] = self.detailItem[@"id"];
                 SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:self.detailItem[@"definition"]];
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                if (IS_IPHONE) {
                     [self.navigationController pushViewController:settingsViewController animated:YES];
                 }
                 else {
@@ -846,7 +846,7 @@
     [_tableView setSeparatorInset:UIEdgeInsetsMake(0, cellLabelOffset, 0, 0)];
     UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
     tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"11.0")) {
+    if (@available(iOS 11.0, *)) {
         tableViewInsets.top = 0;
     }
     _tableView.contentInset = tableViewInsets;

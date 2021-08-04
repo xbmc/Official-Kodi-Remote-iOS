@@ -42,7 +42,7 @@
         CGRect frame_tmp;
         UIColor *volumeIconColor = nil;
         UIImage *muteBackgroundImage = nil;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        if (IS_IPAD){
             volumeLabel.alpha = 1.0;
             volumeView.hidden = YES;
             volumeSlider.hidden = YES;

@@ -8,6 +8,7 @@
 
 #import "PosterCell.h"
 #import "Utilities.h"
+#import "AppDelegate.h"
 
 @implementation PosterCell
 
@@ -49,7 +50,7 @@
         [_labelImageView addSubview:_posterLabel];
         [self.contentView addSubview:_labelImageView];
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        if (IS_IPAD) {
             _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width - borderWidth * 2, labelHeight/2)];
             [_posterLabelFullscreen setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
             [_posterLabelFullscreen setBackgroundColor:[UIColor clearColor]];

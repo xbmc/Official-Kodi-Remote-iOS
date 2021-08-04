@@ -192,7 +192,7 @@
 
 - (void)tailorViewContent:(BOOL)isEditing {
     if (isEditing) {
-        if (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) && UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+        if (IS_IPAD && IS_LANDSCAPE) {
             tipView.hidden = YES;
         }
         else {
@@ -580,7 +580,7 @@
         UIWindow *window = UIApplication.sharedApplication.keyWindow;
         bottomPadding = window.safeAreaInsets.bottom;
     }
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         bottomPadding = SERVERPOPUP_BOTTOMPADDING;
     }
     if (bottomPadding > 0) {

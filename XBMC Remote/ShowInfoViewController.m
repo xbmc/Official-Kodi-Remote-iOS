@@ -107,7 +107,7 @@ int count = 0;
         }
         else if ([item[@"family"] isEqualToString:@"artistid"]) {
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_album"];
-            extraButton =[[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
+            extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             titleWidth = 350;
         }
         else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
@@ -140,7 +140,7 @@ int count = 0;
                 [sheetActions addObject:LOCALIZED_STR(@"Play Trailer")];
             }
         }
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        if (IS_IPAD) {
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlack;
             toolbar.translucent = YES;
@@ -239,7 +239,7 @@ int count = 0;
 }
 
 - (void)goBack:(id)sender {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
@@ -358,7 +358,7 @@ int count = 0;
         if (![item[@"disableNowPlaying"] boolValue]) {
             choosedMenuItem.disableNowPlaying = NO;
         }
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             detailViewController.detailItem = choosedMenuItem;
             [self.navigationController pushViewController:detailViewController animated:YES];
@@ -411,7 +411,7 @@ int count = 0;
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            if (IS_IPAD) {
                 popPresenter.barButtonItem = actionSheetButtonItemIpad;
             }
         }
@@ -593,7 +593,7 @@ int count = 0;
 }
 
 - (void)setTvShowsToolbar {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         NSInteger count = [toolbar.items count];
         NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
         [newToolbarItems removeObjectAtIndex:(count - 1)];
@@ -669,7 +669,7 @@ int count = 0;
     CGFloat transform = [Utilities getTransformX];
     int shiftParentalRating = -20;
     NSString *contributorString = @"cast";
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         clearLogoWidth = 457;
         clearLogoHeight = 177;
         thumbWidth = (int)(PAD_TV_SHOWS_BANNER_WIDTH * transform);
@@ -722,7 +722,7 @@ int count = 0;
             GlobalData *obj = [GlobalData getInstance];
             if (!obj.preferTVPosters && [AppDelegate instance].serverVersion < 12) {
                 placeHolderImage = @"blank";
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                if (IS_IPHONE) {
                     coverHeight = 70;
                 }
                 else {
@@ -731,7 +731,7 @@ int count = 0;
                 deltaY = coverView.frame.size.height - coverHeight;
                 jewelView.hidden = YES;
             }
-            else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            else if (IS_IPAD) {
                 int originalHeight = jewelView.frame.size.height;
                 int coverHeight = 560;
                 deltaY = -(coverHeight - originalHeight);
@@ -759,7 +759,7 @@ int count = 0;
             [self setTvShowsToolbar];
         }
         else if ([item[@"family"] isEqualToString:@"episodeid"]) {
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            if (IS_IPAD) {
                 coverHeight = 280;
             }
             else {
@@ -815,7 +815,7 @@ int count = 0;
     else if ([item[@"family"] isEqualToString:@"albumid"]) {
         // album details
         int coverHeight = 380;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (IS_IPHONE) {
             coverHeight = 290;
         }
         [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:40];
@@ -1033,7 +1033,7 @@ int count = 0;
         jeweltype = jewelTypeDVD;
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleToFill;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        if (IS_IPAD) {
             int originalHeight = jewelView.frame.size.height;
             int coverHeight = 560;
             int coverWidth = STACKSCROLL_WIDTH;
@@ -1272,7 +1272,7 @@ int count = 0;
         cast = item[contributorString];
         if (actorsTable == nil) {
             int actorsTableWidth = self.view.frame.size.width;
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            if (IS_IPAD) {
                 actorsTableWidth = pageSize + 40;
             }
             actorsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, startY, actorsTableWidth, [cast count]*(castHeight + 10)) style:UITableViewStylePlain];
@@ -1296,7 +1296,7 @@ int count = 0;
         [clearlogoButton.titleLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.8]];
         [clearlogoButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
         [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (IS_IPHONE) {
             [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
         }
         if ([item[@"clearlogo"] length] != 0) {
@@ -1350,7 +1350,7 @@ int count = 0;
             [self alphaView:self.kenView AnimDuration:1.5 Alpha:0.2];// cool
         }
         [self.navigationController setNavigationBarHidden:NO animated:YES];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        if (IS_IPAD) {
             if (![self isModal]) {
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
             }
@@ -1366,7 +1366,7 @@ int count = 0;
     }
     else {
         [self.navigationController setNavigationBarHidden:YES animated:YES];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        if (IS_IPAD) {
             if (![self isModal]) {
                 NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                         @(YES), @"hideToolbar",

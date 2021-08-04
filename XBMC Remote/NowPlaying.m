@@ -519,7 +519,7 @@ int currentItemID;
                                                  backgroundImageView.image = [UIImage imageNamed:@"shiny_black_back"];
                                              }
                                              completion:NULL];
-                             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+                             if (IS_IPAD) {
                                  NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                                          [Utilities getGrayColor:36 alpha:1], @"startColor",
                                                          [Utilities getGrayColor:22 alpha:1], @"endColor",
@@ -540,7 +540,7 @@ int currentItemID;
                                                  backgroundImageView.image = [utils colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
                                              }
                                              completion:NULL];
-                             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+                             if (IS_IPAD) {
                                  CGFloat hue, saturation, brightness, alpha;
                                  BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
                                  if (ok) {
@@ -657,7 +657,7 @@ int currentItemID;
                                  NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:nowPlayingInfo useBanner:NO useIcon:NO];
                                  NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                                  if (![lastThumbnail isEqualToString:stringURL]) {
-                                     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+                                     if (IS_IPAD) {
                                          NSString *fanart = (NSNull*)nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
                                          if (![fanart isEqualToString:@""]) {
                                              NSString *fanartURL = [Utilities formatStringURL:fanart serverURL:serverURL];
@@ -1348,7 +1348,7 @@ int currentItemID;
 
 - (void)displayInfoView:(NSDictionary*)item {
     fromItself = YES;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         ShowInfoViewController *showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
         showInfoViewController.detailItem = item;
         [self.navigationController pushViewController:showInfoViewController animated:YES];
@@ -2055,7 +2055,7 @@ int currentItemID;
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab = choosedTab;
         fromItself = YES;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             detailViewController.detailItem = MenuItem.subItem;
             [self.navigationController pushViewController:detailViewController animated:YES];
@@ -2522,7 +2522,7 @@ int currentItemID;
     seg_video.hidden = YES;
     playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[LOCALIZED_STR(@"Music"), [[LOCALIZED_STR(@"Video ") capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]];
     CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH)/2;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         left_margin = floor(([self currentScreenBoundsDependOnOrientation].size.width - SEGMENTCONTROL_WIDTH)/2);
     }
     playlistSegmentedControl.frame = CGRectMake(left_margin, (playlistActionView.frame.size.height - SEGMENTCONTROL_HEIGHT)/2, SEGMENTCONTROL_WIDTH, SEGMENTCONTROL_HEIGHT);
@@ -2560,7 +2560,7 @@ int currentItemID;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         if (self.slidingViewController.panGesture != nil) {
             [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
         }
@@ -2585,7 +2585,7 @@ int currentItemID;
             playlistToolBarOriginY.origin.y = playlistToolbar.frame.origin.y + playlistToolbar.frame.size.height;
             playlistActionView.frame = playlistToolBarOriginY;
         }
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if (IS_IPHONE) {
             startFlipDemo = YES;
             UIImage *buttonImage;
             if ([self enableJewelCases]) {
@@ -2685,7 +2685,7 @@ int currentItemID;
     }
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
     fromItself = NO;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         self.slidingViewController.underRightViewController = nil;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].nowPlayingMenuItems;
@@ -2700,7 +2700,7 @@ int currentItemID;
         [self.view insertSubview:iOS7bgEffect atIndex:0];
     }
     // lower half of top area is colored in album color
-    if (iOS7navBarEffect == nil && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (iOS7navBarEffect == nil && IS_IPHONE) {
         CGFloat effectHeight = CGRectGetMaxY(self.navigationController.navigationBar.frame)/2;
         iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, -effectHeight, self.view.frame.size.width, effectHeight)];
         iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -2817,7 +2817,7 @@ int currentItemID;
     lastSelected = -1;
     storedItemID = -1;
     storeSelection = nil;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         [self setIphoneInterface];
     }
     else {

@@ -23,6 +23,7 @@
 //
 
 #import "JBKenBurnsView.h"
+#import "AppDelegate.h"
 #include <stdlib.h>
 
 #define enlargeRatio 1.1
@@ -77,7 +78,7 @@
     self.layer.masksToBounds = YES;
     
     newEnlargeRatio = 1.0;
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+//    if (IS_IPAD) {
 //        newEnlargeRatio = 1.0;
 //    }
     
@@ -103,7 +104,7 @@
     self.layer.masksToBounds = YES;
     
     newEnlargeRatio = 1.2;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if (IS_IPAD) {
         newEnlargeRatio = 2.2;
     }
     
