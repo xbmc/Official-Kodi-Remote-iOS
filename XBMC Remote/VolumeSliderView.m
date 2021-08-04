@@ -25,11 +25,10 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        Utilities *utils = [Utilities new];
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:self options:nil];
 		self = nib[0];
         UIImage *img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
-        img = [utils colorizeImage:img withColor:SLIDER_DEFAULT_COLOR];
+        img = [Utilities colorizeImage:img withColor:SLIDER_DEFAULT_COLOR];
         [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
         [volumeSlider setMaximumTrackTintColor:APP_TINT_COLOR];
         [volumeSlider setThumbImage:img forState:UIControlStateNormal];
@@ -98,22 +97,22 @@
             
             muteIconColor = [UIColor blackColor];
             muteBackgroundImage = [UIImage imageNamed:@"icon_dark"];
-            muteBackgroundImage = [utils colorizeImage:img withColor:[UIColor darkGrayColor]];
+            muteBackgroundImage = [Utilities colorizeImage:img withColor:[UIColor darkGrayColor]];
             volumeIconColor = [UIColor grayColor];
         }
         [muteButton setBackgroundImage:muteBackgroundImage forState:UIControlStateNormal];
         [muteButton setBackgroundImage:muteBackgroundImage forState:UIControlStateHighlighted];
         img = [UIImage imageNamed:@"volume_slash"];
-        img = [utils colorizeImage:img withColor:muteIconColor];
+        img = [Utilities colorizeImage:img withColor:muteIconColor];
         [muteButton setImage:img forState:UIControlStateNormal];
         
         img = [UIImage imageNamed:@"volume_1"];
-        img = [utils colorizeImage:img withColor:volumeIconColor];
+        img = [Utilities colorizeImage:img withColor:volumeIconColor];
         [minusButton setImage:img forState:UIControlStateNormal];
         [minusButton setImage:img forState:UIControlStateHighlighted];
         
         img = [UIImage imageNamed:@"volume_3"];
-        img = [utils colorizeImage:img withColor:volumeIconColor];
+        img = [Utilities colorizeImage:img withColor:volumeIconColor];
         [plusButton setImage:img forState:UIControlStateNormal];
         [plusButton setImage:img forState:UIControlStateHighlighted];
         
@@ -216,17 +215,16 @@
 }
 
 - (void)handleMute:(BOOL)mute {
-    Utilities *utils = [Utilities new];
     isMuted = mute;
     UIColor *buttonColor = isMuted ? [UIColor systemRedColor] : muteIconColor;
     UIColor *sliderColor = isMuted ? [UIColor darkGrayColor] : SLIDER_DEFAULT_COLOR;
 
     UIImage *img = [UIImage imageNamed:@"volume_slash"];
-    img = [utils colorizeImage:img withColor:buttonColor];
+    img = [Utilities colorizeImage:img withColor:buttonColor];
     [muteButton setImage:img forState:UIControlStateNormal];
     
     img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
-    img = [utils colorizeImage:img withColor:sliderColor];
+    img = [Utilities colorizeImage:img withColor:sliderColor];
     [volumeSlider setThumbImage:img forState:UIControlStateNormal];
     [volumeSlider setMinimumTrackTintColor:sliderColor];
     [volumeSlider setUserInteractionEnabled:!isMuted];

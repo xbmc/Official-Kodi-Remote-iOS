@@ -14,7 +14,7 @@
 
 @implementation Utilities
 
-- (CGContextRef)createBitmapContextFromImage:(CGImageRef)inImage format:(uint32_t)format {
++ (CGContextRef)createBitmapContextFromImage:(CGImageRef)inImage format:(uint32_t)format {
     size_t width = CGImageGetWidth(inImage);
     size_t height = CGImageGetHeight(inImage);
     unsigned long bytesPerRow = (width * 4); // 4 bytes for alpha, red, green and blue
@@ -31,8 +31,8 @@
     return context;
 }
 
-- (CGImageRef) create32bppImage:(CGImageRef)imageRef format:(uint32_t)format {
-    CGContextRef ctx = [self createBitmapContextFromImage:imageRef format:format];
++ (CGImageRef)create32bppImage:(CGImageRef)imageRef format:(uint32_t)format {
+    CGContextRef ctx = [Utilities createBitmapContextFromImage:imageRef format:format];
     if (ctx == NULL) {
         return NULL;
     }
@@ -43,7 +43,7 @@
     return imageRef;
 }
 
-- (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse {
++ (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse {
     CGImageRef rawImageRef = [image CGImage];
     if (rawImageRef == nil) return [UIColor clearColor];
     
@@ -56,10 +56,10 @@
     
     // Enforce images are converted to ARGB or RGB 32bpp before analyzing them
     if (anyNonAlpha && (infoMask != kCGImageAlphaNoneSkipLast || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
-        rawImageRef = [self create32bppImage:rawImageRef format:kCGImageAlphaNoneSkipLast];
+        rawImageRef = [Utilities create32bppImage:rawImageRef format:kCGImageAlphaNoneSkipLast];
     }
     else if (!anyNonAlpha && (infoMask != kCGImageAlphaPremultipliedFirst || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
-        rawImageRef = [self create32bppImage:rawImageRef format:kCGImageAlphaPremultipliedFirst];
+        rawImageRef = [Utilities create32bppImage:rawImageRef format:kCGImageAlphaPremultipliedFirst];
     }
     if (rawImageRef == NULL) {
         return [UIColor clearColor];
@@ -130,7 +130,7 @@
 	return [UIColor colorWithRed:f * red green:f * green blue:f * blue alpha:1];
 }
 
-- (UIColor*)limitSaturation:(UIColor*)color_in satmax:(CGFloat)satmax {
++ (UIColor*)limitSaturation:(UIColor*)color_in satmax:(CGFloat)satmax {
     CGFloat hue, sat, bright, alpha;
     UIColor *color_out = nil;
     if ([color_in getHue:&hue saturation:&sat brightness:&bright alpha:&alpha]) {
@@ -154,24 +154,24 @@
     return color_out;
 }
 
-- (UIColor*)slightLighterColorForColor:(UIColor*)color_in {
++ (UIColor*)slightLighterColorForColor:(UIColor*)color_in {
     return [Utilities tailorColor:color_in satscale:0.33 brightscale:1.2 brightmin:0.5 brightmax:0.6];
 }
 
-- (UIColor*)lighterColorForColor:(UIColor*)color_in {
++ (UIColor*)lighterColorForColor:(UIColor*)color_in {
     return [Utilities tailorColor:color_in satscale:0.33 brightscale:1.5 brightmin:0.7 brightmax:0.9];
 }
 
-- (UIColor*)darkerColorForColor:(UIColor*)color_in {
++ (UIColor*)darkerColorForColor:(UIColor*)color_in {
     return [Utilities tailorColor:color_in satscale:0.33 brightscale:0.7 brightmin:0.2 brightmax:0.4];
 }
 
-- (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker {
++ (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker {
     CGFloat trigger = 0.4;
-    return [self updateColor:newColor lightColor:lighter darkColor:darker trigger:trigger];
+    return [Utilities updateColor:newColor lightColor:lighter darkColor:darker trigger:trigger];
 }
 
-- (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker trigger:(CGFloat)trigger {
++ (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker trigger:(CGFloat)trigger {
     if ([newColor isEqual:[UIColor clearColor]] || newColor == nil) {
         return lighter;
     }
@@ -185,7 +185,7 @@
     }
 }
 
-- (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {
++ (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {
     if (color == nil) return image;
     UIGraphicsBeginImageContextWithOptions(image.size, YES, [[UIScreen mainScreen] scale]);
     
@@ -226,7 +226,6 @@
 }
 
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode {
-    Utilities *utils = [Utilities new];
     UIColor *bgcolor = [UIColor clearColor];
     UIColor *imgcolor = nil;
     UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
@@ -234,8 +233,8 @@
     switch (mode) {
         case bgAuto:
             // get background color and colorize the image background
-            imgcolor = [utils averageColor:imageview.image inverse:NO];
-            bgcolor = [utils updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
+            imgcolor = [Utilities averageColor:imageview.image inverse:NO];
+            bgcolor = [Utilities updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
             break;
         case bgLight:
             bgcolor = bglight;
