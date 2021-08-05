@@ -445,7 +445,9 @@
             showGesture = [[[sender userInfo] objectForKey:@"forceGestureZone"] boolValue];
         }
     }
-    if (showGesture && gestureZoneView.alpha == 1) return;
+    if (showGesture && gestureZoneView.alpha == 1) {
+        return;
+    }
     if (showGesture) {
         CGRect frame;
         frame = [gestureZoneView frame];
