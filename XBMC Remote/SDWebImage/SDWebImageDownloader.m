@@ -140,7 +140,9 @@ static NSString *const kCompletedCallbackKey = @"completed";
         }
         cancelled:^
         {
-            if (!wself) return;
+            if (!wself) {
+                return;
+            }
             SDWebImageDownloader *sself = wself;
             [sself callbacksForURL:url];
             [sself removeCallbacksForURL:url];

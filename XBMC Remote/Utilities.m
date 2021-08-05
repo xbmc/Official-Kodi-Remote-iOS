@@ -48,14 +48,18 @@
 
 + (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse {
     CGImageRef rawImageRef = [image CGImage];
-    if (rawImageRef == nil) return [UIColor clearColor];
+    if (rawImageRef == nil) {
+        return [UIColor clearColor];
+    }
     
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
     int infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
     BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
                         infoMask == kCGImageAlphaNoneSkipFirst ||
                         infoMask == kCGImageAlphaNoneSkipLast);
-//    if (!anyNonAlpha) return [UIColor clearColor];
+//    if (!anyNonAlpha) {
+//        return [UIColor clearColor];
+//    }
     
     // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault)  before analyzing them
     if (anyNonAlpha && (bitmapInfo != kCGImageAlphaNoneSkipLast || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
@@ -189,7 +193,9 @@
 }
 
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {
-    if (color == nil) return image;
+    if (color == nil) {
+        return image;
+    }
     UIGraphicsBeginImageContextWithOptions(image.size, YES, 0);
     
     CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = [image size]};

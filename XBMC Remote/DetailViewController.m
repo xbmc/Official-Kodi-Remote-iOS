@@ -593,7 +593,9 @@
 #pragma mark - Tabbar management
 
 - (IBAction)showMore:(id)sender {
-//    if ([sender tag] == choosedTab) return;
+//    if ([sender tag] == choosedTab) {
+//        return;
+//    }
     self.indexView.hidden = YES;
     button6.hidden = YES;
     button7.hidden = YES;
