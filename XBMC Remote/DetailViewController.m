@@ -4237,8 +4237,8 @@ NSIndexPath *selected;
                  else {
                      return; // something goes wrong
                  }
-                 NSDictionary *videoLibraryMovieDetail = methodResult[itemid_extra_info];
-                 if (((NSNull*)videoLibraryMovieDetail == [NSNull null]) || videoLibraryMovieDetail == nil) {
+                 NSDictionary *itemExtraDict = methodResult[itemid_extra_info];
+                 if (((NSNull*)itemExtraDict == [NSNull null]) || itemExtraDict == nil) {
                      return; // something goes wrong
                  }
                  NSString *serverURL = @"";
@@ -4248,34 +4248,34 @@ NSIndexPath *selected;
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                      secondsToMinute = 60;
                  }
-                 NSString *label = [NSString stringWithFormat:@"%@", videoLibraryMovieDetail[mainFields[@"row1"]]];
-                 NSString *genre = [Utilities getStringFromDictionary:videoLibraryMovieDetail key:mainFields[@"row2"] emptyString:@""];
+                 NSString *label = [NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row1"]]];
+                 NSString *genre = [Utilities getStringFromDictionary:itemExtraDict key:mainFields[@"row2"] emptyString:@""];
                  
-                 NSString *year = [Utilities getYearFromDictionary:videoLibraryMovieDetail key:mainFields[@"row3"]];
+                 NSString *year = [Utilities getYearFromDictionary:itemExtraDict key:mainFields[@"row3"]];
                  
-                 NSString *runtime = [Utilities getTimeFromDictionary:videoLibraryMovieDetail key:mainFields[@"row4"] sec2min:secondsToMinute];
+                 NSString *runtime = [Utilities getTimeFromDictionary:itemExtraDict key:mainFields[@"row4"] sec2min:secondsToMinute];
                  
-                 NSString *rating = [Utilities getRatingFromDictionary:videoLibraryMovieDetail key:mainFields[@"row5"]];
+                 NSString *rating = [Utilities getRatingFromDictionary:itemExtraDict key:mainFields[@"row5"]];
                  
-                 NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:videoLibraryMovieDetail useBanner:NO useIcon:methodResult[@"recordingdetails"] != nil];
+                 NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:itemExtraDict useBanner:NO useIcon:methodResult[@"recordingdetails"] != nil];
 
-                 NSDictionary *art = videoLibraryMovieDetail[@"art"];
+                 NSDictionary *art = itemExtraDict[@"art"];
                  NSString *clearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
                  NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
 //                 if ([art count] && [art[@"banner"] length] != 0 && [AppDelegate instance].serverVersion > 11 && ![AppDelegate instance].obj.preferTVPosters) {
 //                     thumbnailPath = art[@"banner"];
 //                 }
                  NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                 NSString *fanartURL = [Utilities formatStringURL:videoLibraryMovieDetail[@"fanart"] serverURL:serverURL];
+                 NSString *fanartURL = [Utilities formatStringURL:itemExtraDict[@"fanart"] serverURL:serverURL];
                  if ([stringURL isEqualToString:@""]) {
-                     stringURL = [Utilities getItemIconFromDictionary:videoLibraryMovieDetail mainFields:mainFields];
+                     stringURL = [Utilities getItemIconFromDictionary:itemExtraDict mainFields:mainFields];
                  }
                  BOOL disableNowPlaying = NO;
                  if ([self.detailItem disableNowPlaying]) {
                      disableNowPlaying = YES;
                  }
                  
-                 NSObject *row11 = videoLibraryMovieDetail[mainFields[@"row11"]];
+                 NSObject *row11 = itemExtraDict[mainFields[@"row11"]];
                  if (row11 == nil) {
                      row11 = @(0);
                  }
@@ -4284,7 +4284,7 @@ NSIndexPath *selected;
                      row11key = @"";
                  }
                  
-                 NSObject *row7 = videoLibraryMovieDetail[mainFields[@"row7"]];
+                 NSObject *row7 = itemExtraDict[mainFields[@"row7"]];
                  if (row7 == nil) {
                      row7 = @(0);
                  }
@@ -4307,23 +4307,23 @@ NSIndexPath *selected;
                   fanartURL, @"fanart",
                   runtime, @"runtime",
                   row7, row7key,
-                  videoLibraryMovieDetail[mainFields[@"row6"]], mainFields[@"row6"],
-                  videoLibraryMovieDetail[mainFields[@"row8"]], mainFields[@"row8"],
+                  itemExtraDict[mainFields[@"row6"]], mainFields[@"row6"],
+                  itemExtraDict[mainFields[@"row8"]], mainFields[@"row8"],
                   year, @"year",
                   rating, @"rating",
                   mainFields[@"playlistid"], @"playlistid",
                   mainFields[@"row8"], @"family",
-                  @([[NSString stringWithFormat:@"%@", videoLibraryMovieDetail[mainFields[@"row9"]]] intValue]), mainFields[@"row9"],
-                  videoLibraryMovieDetail[mainFields[@"row10"]], mainFields[@"row10"],
+                  @([[NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row9"]]] intValue]), mainFields[@"row9"],
+                  itemExtraDict[mainFields[@"row10"]], mainFields[@"row10"],
                   row11, row11key,
-                  videoLibraryMovieDetail[mainFields[@"row12"]], mainFields[@"row12"],
-                  videoLibraryMovieDetail[mainFields[@"row13"]], mainFields[@"row13"],
-                  videoLibraryMovieDetail[mainFields[@"row14"]], mainFields[@"row14"],
-                  videoLibraryMovieDetail[mainFields[@"row15"]], mainFields[@"row15"],
-                  videoLibraryMovieDetail[mainFields[@"row16"]], mainFields[@"row16"],
-                  videoLibraryMovieDetail[mainFields[@"row17"]], mainFields[@"row17"],
-                  videoLibraryMovieDetail[mainFields[@"row18"]], mainFields[@"row18"],
-                  videoLibraryMovieDetail[mainFields[@"row20"]], mainFields[@"row20"],
+                  itemExtraDict[mainFields[@"row12"]], mainFields[@"row12"],
+                  itemExtraDict[mainFields[@"row13"]], mainFields[@"row13"],
+                  itemExtraDict[mainFields[@"row14"]], mainFields[@"row14"],
+                  itemExtraDict[mainFields[@"row15"]], mainFields[@"row15"],
+                  itemExtraDict[mainFields[@"row16"]], mainFields[@"row16"],
+                  itemExtraDict[mainFields[@"row17"]], mainFields[@"row17"],
+                  itemExtraDict[mainFields[@"row18"]], mainFields[@"row18"],
+                  itemExtraDict[mainFields[@"row20"]], mainFields[@"row20"],
                   nil];
                  [self displayInfoView:newItem];
              }
@@ -4465,7 +4465,7 @@ NSIndexPath *selected;
                  else {
                      recordingListView = NO;
                  }
-                 NSArray *videoLibraryMovies = methodResult[itemid];
+                 NSArray *itemDict = methodResult[itemid];
                  NSString *serverURL = @"";
                  serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
                  int secondsToMinute = 1;
@@ -4475,35 +4475,35 @@ NSIndexPath *selected;
                          secondsToMinute = 60;
                      }
                  }
-                 if ([videoLibraryMovies isKindOfClass:[NSArray class]]) {
-                     if (((NSNull*)videoLibraryMovies != [NSNull null])) {
-                         total = (int)[videoLibraryMovies count];
+                 if ([itemDict isKindOfClass:[NSArray class]]) {
+                     if (((NSNull*)itemDict != [NSNull null])) {
+                         total = (int)[itemDict count];
                      }
                      for (int i = 0; i < total; i++) {
-                         NSString *label = [NSString stringWithFormat:@"%@", videoLibraryMovies[i][mainFields[@"row1"]]];
+                         NSString *label = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row1"]]];
                          
-                         NSString *genre = [Utilities getStringFromDictionary:videoLibraryMovies[i] key:mainFields[@"row2"] emptyString:@""];
+                         NSString *genre = [Utilities getStringFromDictionary:itemDict[i] key:mainFields[@"row2"] emptyString:@""];
                          
-                         NSString *year = [Utilities getYearFromDictionary:videoLibraryMovies[i] key:mainFields[@"row3"]];
+                         NSString *year = [Utilities getYearFromDictionary:itemDict[i] key:mainFields[@"row3"]];
 
-                         NSString *runtime = [Utilities getTimeFromDictionary:videoLibraryMovies[i] key:mainFields[@"row4"] sec2min:secondsToMinute];
+                         NSString *runtime = [Utilities getTimeFromDictionary:itemDict[i] key:mainFields[@"row4"] sec2min:secondsToMinute];
                          
-                         NSString *rating = [Utilities getRatingFromDictionary:videoLibraryMovies[i] key:mainFields[@"row5"]];
+                         NSString *rating = [Utilities getRatingFromDictionary:itemDict[i] key:mainFields[@"row5"]];
                          
-                         NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:videoLibraryMovies[i] useBanner:tvshowsView useIcon:recordingListView];
+                         NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:itemDict[i] useBanner:tvshowsView useIcon:recordingListView];
 
                          NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                         NSString *fanartURL = [Utilities formatStringURL:videoLibraryMovies[i][@"fanart"] serverURL:serverURL];
+                         NSString *fanartURL = [Utilities formatStringURL:itemDict[i][@"fanart"] serverURL:serverURL];
                          if ([stringURL isEqualToString:@""]) {
-                             stringURL = [Utilities getItemIconFromDictionary:videoLibraryMovies[i] mainFields:mainFields];
+                             stringURL = [Utilities getItemIconFromDictionary:itemDict[i] mainFields:mainFields];
                          }
                          NSString *key = @"none";
                          NSString *value = @"";
                          if ((mainFields[@"row7"] != nil)) {
                              key = mainFields[@"row7"];
-                             value = [NSString stringWithFormat:@"%@", videoLibraryMovies[i][mainFields[@"row7"]]];
+                             value = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row7"]]];
                          }
-                         NSString *seasonNumber = [NSString stringWithFormat:@"%@", videoLibraryMovies[i][mainFields[@"row10"]]];
+                         NSString *seasonNumber = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row10"]]];
                          
                          NSString *family = [NSString stringWithFormat:@"%@", mainFields[@"row8"]];
                          
@@ -4512,17 +4512,17 @@ NSIndexPath *selected;
                              row19key = @"episode";
                          }
                          id episodeNumber = @"";
-                         if ([videoLibraryMovies[i][mainFields[@"row19"]] isKindOfClass:[NSDictionary class]]) {
-                             episodeNumber = [videoLibraryMovies[i][mainFields[@"row19"]] mutableCopy];
+                         if ([itemDict[i][mainFields[@"row19"]] isKindOfClass:[NSDictionary class]]) {
+                             episodeNumber = [itemDict[i][mainFields[@"row19"]] mutableCopy];
                          }
                          else {
-                             episodeNumber = [NSString stringWithFormat:@"%@", videoLibraryMovies[i][mainFields[@"row19"]]];
+                             episodeNumber = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row19"]]];
                          }
-                         id row13obj = [mainFields[@"row13"] isEqualToString:@"options"] ? videoLibraryMovies[i][mainFields[@"row13"]] == nil ? @"" : videoLibraryMovies[i][mainFields[@"row13"]] : videoLibraryMovies[i][mainFields[@"row13"]];
+                         id row13obj = [mainFields[@"row13"] isEqualToString:@"options"] ? itemDict[i][mainFields[@"row13"]] == nil ? @"" : itemDict[i][mainFields[@"row13"]] : itemDict[i][mainFields[@"row13"]];
                          
-                         id row14obj = [mainFields[@"row14"] isEqualToString:@"allowempty"] ? videoLibraryMovies[i][mainFields[@"row14"]] == nil ? @"" : videoLibraryMovies[i][mainFields[@"row14"]] : videoLibraryMovies[i][mainFields[@"row14"]];
+                         id row14obj = [mainFields[@"row14"] isEqualToString:@"allowempty"] ? itemDict[i][mainFields[@"row14"]] == nil ? @"" : itemDict[i][mainFields[@"row14"]] : itemDict[i][mainFields[@"row14"]];
                          
-                         id row15obj = [mainFields[@"row15"] isEqualToString:@"addontype"] ? videoLibraryMovies[i][mainFields[@"row15"]] == nil ? @"" : videoLibraryMovies[i][mainFields[@"row15"]] : videoLibraryMovies[i][mainFields[@"row15"]];
+                         id row15obj = [mainFields[@"row15"] isEqualToString:@"addontype"] ? itemDict[i][mainFields[@"row15"]] == nil ? @"" : itemDict[i][mainFields[@"row15"]] : itemDict[i][mainFields[@"row15"]];
                          
                          NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                       label, @"label",
@@ -4533,22 +4533,22 @@ NSIndexPath *selected;
                                                       seasonNumber, @"season",
                                                       episodeNumber, row19key,
                                                       family, @"family",
-                                                      videoLibraryMovies[i][mainFields[@"row6"]], mainFields[@"row6"],
-                                                      videoLibraryMovies[i][mainFields[@"row8"]], mainFields[@"row8"],
+                                                      itemDict[i][mainFields[@"row6"]], mainFields[@"row6"],
+                                                      itemDict[i][mainFields[@"row8"]], mainFields[@"row8"],
                                                       year, @"year",
                                                       [NSString stringWithFormat:@"%@", rating], @"rating",
                                                       mainFields[@"playlistid"], @"playlistid",
                                                       value, key,
-                                                      videoLibraryMovies[i][mainFields[@"row9"]], mainFields[@"row9"],
-                                                      videoLibraryMovies[i][mainFields[@"row10"]], mainFields[@"row10"],
-                                                      videoLibraryMovies[i][mainFields[@"row11"]], mainFields[@"row11"],
-                                                      videoLibraryMovies[i][mainFields[@"row12"]], mainFields[@"row12"],
+                                                      itemDict[i][mainFields[@"row9"]], mainFields[@"row9"],
+                                                      itemDict[i][mainFields[@"row10"]], mainFields[@"row10"],
+                                                      itemDict[i][mainFields[@"row11"]], mainFields[@"row11"],
+                                                      itemDict[i][mainFields[@"row12"]], mainFields[@"row12"],
                                                       row13obj, mainFields[@"row13"],
                                                       row14obj, mainFields[@"row14"],
                                                       row15obj, mainFields[@"row15"],
-                                                      videoLibraryMovies[i][mainFields[@"row16"]], mainFields[@"row16"],
-                                                      videoLibraryMovies[i][mainFields[@"row17"]], mainFields[@"row17"],
-                                                      videoLibraryMovies[i][mainFields[@"row18"]], mainFields[@"row18"],
+                                                      itemDict[i][mainFields[@"row16"]], mainFields[@"row16"],
+                                                      itemDict[i][mainFields[@"row17"]], mainFields[@"row17"],
+                                                      itemDict[i][mainFields[@"row18"]], mainFields[@"row18"],
                                                       nil];
                          
                          // Postprocessing of movie sets lists to ignore 1-movie-sets
@@ -4558,7 +4558,7 @@ NSIndexPath *selected;
                                  [storeRichResults removeAllObjects];
                              }
                              NSString *newMethodToCall = @"VideoLibrary.GetMovieSetDetails";
-                             NSDictionary *newParameter = @{@"setid": @([videoLibraryMovies[i][@"setid"] intValue])};
+                             NSDictionary *newParameter = @{@"setid": @([itemDict[i][@"setid"] intValue])};
                              [[Utilities getJsonRPC]
                               callMethod:newMethodToCall
                               withParameters:newParameter
@@ -4584,13 +4584,13 @@ NSIndexPath *selected;
                          }
                      }
                  }
-                 else if ([videoLibraryMovies isKindOfClass:[NSDictionary class]]) {
+                 else if ([itemDict isKindOfClass:[NSDictionary class]]) {
                      NSDictionary *dictVideoLibraryMovies = methodResult[itemid];
                      if ([dictVideoLibraryMovies[mainFields[@"typename"]] isKindOfClass:[NSDictionary class]]) {
                          if ([dictVideoLibraryMovies[mainFields[@"typename"]][mainFields[@"fieldname"]] isKindOfClass:[NSArray class]]) {
-                             videoLibraryMovies = dictVideoLibraryMovies[mainFields[@"typename"]][mainFields[@"fieldname"]];
-                             if (((NSNull*)videoLibraryMovies != [NSNull null])) {
-                                 total = (int)[videoLibraryMovies count];
+                             itemDict = dictVideoLibraryMovies[mainFields[@"typename"]][mainFields[@"fieldname"]];
+                             if (((NSNull*)itemDict != [NSNull null])) {
+                                 total = (int)[itemDict count];
                              }
                              NSString *sublabel = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]][@"morelabel"];
                              if (!sublabel || [sublabel isKindOfClass:[NSNull class]]) {
@@ -4598,7 +4598,7 @@ NSIndexPath *selected;
                              }
                              for (int i = 0; i < total; i++) {
                                  [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                              videoLibraryMovies[i], @"label",
+                                                              itemDict[i], @"label",
                                                               sublabel, @"genre",
                                                               @"file", @"family",
                                                               mainFields[@"thumbnail"], @"thumbnail",
