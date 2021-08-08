@@ -62,7 +62,7 @@
             NSLog(@"Prefetched %lu out of %lu", (unsigned long)self.finishedCount, (unsigned long)self.prefetchURLs.count);
         }
         else {
-            NSLog(@"Prefetched %lu out of %lu (Failed)", (unsigned long)self.finishedCount, (unsigned long)[self.prefetchURLs count]);
+            NSLog(@"Prefetched %lu out of %lu (Failed)", (unsigned long)self.finishedCount, (unsigned long)self.prefetchURLs.count);
 
             // Add last failed
             self.skippedCount++;
@@ -82,7 +82,7 @@
 }
 
 - (void)reportStatus {
-    NSUInteger total = [self.prefetchURLs count];
+    NSUInteger total = self.prefetchURLs.count;
     NSLog(@"Finished prefetching (%lu successful, %lu skipped, timeElasped %.2f)", (unsigned long)(total - self.skippedCount), (unsigned long)self.skippedCount, CFAbsoluteTimeGetCurrent() - self.startedTime);
 }
 

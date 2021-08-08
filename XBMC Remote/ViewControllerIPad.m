@@ -43,17 +43,17 @@
 	UIView* viewToReturn = nil;
 	CGPoint pointToReturn;
 	
-	UIView* uiRightView = (UIView*)[self subviews][1];
+	UIView* uiRightView = (UIView*)(self.subviews[1]);
 	
-	if ([uiRightView subviews][0]) {
+	if (uiRightView.subviews[0]) {
 		
-		UIView* uiStackScrollView = [uiRightView subviews][0];
+		UIView* uiStackScrollView = uiRightView.subviews[0];
 		
-		if ([uiStackScrollView subviews][1]) {
+		if (uiStackScrollView.subviews[1]) {
 			
-			UIView* uiSlideView = [uiStackScrollView subviews][1];
+			UIView* uiSlideView = uiStackScrollView.subviews[1];
 			
-			for (UIView* subView in [uiSlideView subviews]) {
+			for (UIView* subView in uiSlideView.subviews) {
 				CGPoint point = [subView convertPoint:pt fromView:self];
 				if ([subView pointInside:point withEvent:event]) {
 					viewToReturn = subView;
@@ -97,17 +97,17 @@
 
 - (void)selectServerAtIndexPath:(NSIndexPath*)indexPath {
     storeServerSelection = indexPath;
-    NSDictionary *item = [AppDelegate instance].arrayServerList[indexPath.row];
-    [AppDelegate instance].obj.serverDescription = item[@"serverDescription"];
-    [AppDelegate instance].obj.serverUser = item[@"serverUser"];
-    [AppDelegate instance].obj.serverPass = item[@"serverPass"];
-    [AppDelegate instance].obj.serverIP = item[@"serverIP"];
-    [AppDelegate instance].obj.serverPort = item[@"serverPort"];
-    [AppDelegate instance].obj.tcpPort = [item[@"tcpPort"] intValue];
+    NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
+    AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
+    AppDelegate.instance.obj.serverUser = item[@"serverUser"];
+    AppDelegate.instance.obj.serverPass = item[@"serverPass"];
+    AppDelegate.instance.obj.serverIP = item[@"serverIP"];
+    AppDelegate.instance.obj.serverPort = item[@"serverPort"];
+    AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue];
 }
 
 - (void)wakeUp:(NSString*)macAddress {
-    [[AppDelegate instance] sendWOL:macAddress withPort:9];
+    [AppDelegate.instance sendWOL:macAddress withPort:9];
 }
 
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
@@ -116,10 +116,10 @@
                                    iconName, @"icon_connection",
                                    nil];
     if (status) {
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];
-        [AppDelegate instance].serverOnLine = YES;
-        [AppDelegate instance].serverName = infoText;
+        AppDelegate.instance.serverOnLine = YES;
+        AppDelegate.instance.serverName = infoText;
         [volumeSliderView startTimer];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
@@ -129,9 +129,9 @@
                 cell.selectionStyle = UITableViewCellSelectionStyleBlue;
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
-                [(UIImageView*)[cell viewWithTag:1] setAlpha:1.0];
-                [(UIImageView*)[cell viewWithTag:2] setAlpha:1.0];
-                [(UIImageView*)[cell viewWithTag:3] setAlpha:1.0];
+                ((UIImageView*)[cell viewWithTag:1]).alpha = 1.0;
+                ((UIImageView*)[cell viewWithTag:2]).alpha = 1.0;
+                ((UIImageView*)[cell viewWithTag:3]).alpha = 1.0;
                 [UIView commitAnimations];
             }
         }
@@ -139,8 +139,8 @@
     else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:params];
-        [AppDelegate instance].serverOnLine = NO;
-        [AppDelegate instance].serverName = infoText;
+        AppDelegate.instance.serverOnLine = NO;
+        AppDelegate.instance.serverName = infoText;
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
         for (int i = 1; i < n; i++) {
@@ -150,9 +150,9 @@
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
                 
-                [(UIImageView*)[cell viewWithTag:1] setAlpha:0.3];
-                [(UIImageView*)[cell viewWithTag:2] setAlpha:0.3];
-                [(UIImageView*)[cell viewWithTag:3] setAlpha:0.3];
+                ((UIImageView*)[cell viewWithTag:1]).alpha = 0.3;
+                ((UIImageView*)[cell viewWithTag:2]).alpha = 0.3;
+                ((UIImageView*)[cell viewWithTag:3]).alpha = 0.3;
                 [UIView commitAnimations];
             }
         }
@@ -162,8 +162,8 @@
 }
 
 - (void)offStackView {
-    if (![AppDelegate instance].serverOnLine) {
-        [[AppDelegate instance].windowController.stackScrollViewController offView];
+    if (!AppDelegate.instance.serverOnLine) {
+        [AppDelegate.instance.windowController.stackScrollViewController offView];
         NSIndexPath *selection = [menuViewController.tableView indexPathForSelectedRow];
         if (selection) {
             [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
@@ -178,19 +178,19 @@
 
 - (void)initHostManagemetPopOver {
     self.hostPickerViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-    [AppDelegate instance].navigationController = [[CustomNavigationController alloc] initWithRootViewController:_hostPickerViewController];
-    [[AppDelegate instance].navigationController hideNavBarBottomLine:YES];
+    AppDelegate.instance.navigationController = [[CustomNavigationController alloc] initWithRootViewController:_hostPickerViewController];
+    [AppDelegate.instance.navigationController hideNavBarBottomLine:YES];
 }
 
 - (void)toggleSetup {
     [self initHostManagemetPopOver];
-    [[AppDelegate instance].navigationController setModalPresentationStyle:UIModalPresentationPopover];
-    UIPopoverPresentationController *popPresenter = [[AppDelegate instance].navigationController popoverPresentationController];
+    AppDelegate.instance.navigationController.modalPresentationStyle = UIModalPresentationPopover;
+    UIPopoverPresentationController *popPresenter = [AppDelegate.instance.navigationController popoverPresentationController];
     if (popPresenter != nil) {
         popPresenter.sourceView = self.view;
         popPresenter.sourceRect = xbmcInfo.frame;
     }
-    [self presentViewController:[AppDelegate instance].navigationController animated:YES completion:nil];
+    [self presentViewController:AppDelegate.instance.navigationController animated:YES completion:nil];
 }
 
 - (void)showSetup:(BOOL)show {
@@ -209,7 +209,7 @@
 
 - (void)toggleInfoView {
     self.appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil];
-    [self.appInfoView setModalPresentationStyle:UIModalPresentationPopover];
+    self.appInfoView.modalPresentationStyle = UIModalPresentationPopover;
     UIPopoverPresentationController *popPresenter = [self.appInfoView popoverPresentationController];
     if (popPresenter != nil) {
         popPresenter.sourceView = self.view;
@@ -221,17 +221,17 @@
 #pragma mark - power control action sheet
 
 - (void)powerControl {
-    if ([[AppDelegate instance].obj.serverIP length] == 0) {
+    if (AppDelegate.instance.obj.serverIP.length == 0) {
         [self toggleSetup];
         return;
     }
-    NSString *title = [NSString stringWithFormat:@"%@\n%@", [AppDelegate instance].obj.serverDescription, [AppDelegate instance].obj.serverIP];
+    NSString *title = [NSString stringWithFormat:@"%@\n%@", AppDelegate.instance.obj.serverDescription, AppDelegate.instance.obj.serverIP];
     UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
-    if (![AppDelegate instance].serverOnLine) {
+    if (!AppDelegate.instance.serverOnLine) {
         UIAlertAction* action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Wake On Lan") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            if ([AppDelegate instance].obj.serverHWAddr != nil) {
-                [self wakeUp:[AppDelegate instance].obj.serverHWAddr];
+            if (AppDelegate.instance.obj.serverHWAddr != nil) {
+                [self wakeUp:AppDelegate.instance.obj.serverHWAddr];
                 UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
                 [self presentViewController:alertView animated:YES completion:nil];
             }
@@ -291,7 +291,7 @@
     
     UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
     [actionView addAction:cancelButton];
-    [actionView setModalPresentationStyle:UIModalPresentationPopover];
+    actionView.modalPresentationStyle = UIModalPresentationPopover;
     
     UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
     if (popPresenter != nil) {
@@ -325,7 +325,7 @@
     if ([self.nowPlayingController.itemLogoImage pointInside:viewPoint4 withEvent:event] && self.nowPlayingController.songDetailsView.alpha > 0 && self.nowPlayingController.itemLogoImage.image != nil) {
         [self.nowPlayingController updateCurrentLogo];
     }
-    else if ([self.nowPlayingController.jewelView pointInside:viewPoint withEvent:event] && ![[AppDelegate instance].windowController.stackScrollViewController.viewControllersStack count]) {
+    else if ([self.nowPlayingController.jewelView pointInside:viewPoint withEvent:event] && !AppDelegate.instance.windowController.stackScrollViewController.viewControllersStack.count) {
         [self.nowPlayingController toggleSongDetails];
     }
 }
@@ -333,7 +333,7 @@
 #pragma mark - App clear disk cache methods
 
 - (void)startClearAppDiskCache:(ClearCacheView*)clearView {
-    [[AppDelegate instance] clearAppDiskCache];
+    [AppDelegate.instance clearAppDiskCache];
     [self performSelectorOnMainThread:@selector(clearAppDiskCacheFinished:) withObject:clearView waitUntilDone:YES];
 }
 
@@ -366,7 +366,7 @@
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     firstRun = YES;
-    [AppDelegate instance].obj = [GlobalData getInstance]; 
+    AppDelegate.instance.obj = [GlobalData getInstance]; 
 
     int cellHeight = PAD_MENU_HEIGHT;
     int infoHeight = PAD_MENU_INFO_HEIGHT;
@@ -376,7 +376,7 @@
    
     rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY - 1)];
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
-	[rootView setBackgroundColor:[UIColor clearColor]];
+	rootView.backgroundColor = UIColor.clearColor;
 	
     fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     fanartBackgroundImage.autoresizingMask = rootView.autoresizingMask;
@@ -388,7 +388,7 @@
 	leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;	
     
 	menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, headerHeight, leftMenuView.frame.size.width, leftMenuView.frame.size.height) mainMenu:mainMenu];
-	[menuViewController.view setBackgroundColor:[UIColor clearColor]];
+	menuViewController.view.backgroundColor = UIColor.clearColor;
 	[menuViewController viewWillAppear:NO];
 	[menuViewController viewDidAppear:NO];
 	[leftMenuView addSubview:menuViewController.view];
@@ -396,13 +396,13 @@
     
 //    CGRect seamBackground = CGRectMake(0, tableHeight + headerHeight - 2, tableWidth, separator);
 //    UIImageView *seam = [[UIImageView alloc] initWithFrame:seamBackground];
-//    [seam setImage:[UIImage imageNamed:@"denim_single_seam"]];
+//    seam.image = [UIImage imageNamed:@"denim_single_seam"];
 //    seam.opaque = YES;
 //    [leftMenuView addSubview:seam];
     
     UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight + separator - 2, tableWidth, 1)];
-//    [horizontalLineView1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [horizontalLineView1 setBackgroundColor:[Utilities getGrayColor:77 alpha:0.2]];
+//    horizontalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    horizontalLineView1.backgroundColor = [Utilities getGrayColor:77 alpha:0.2];
     [leftMenuView addSubview:horizontalLineView1];
 
     self.nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
@@ -422,8 +422,8 @@
 	rightSlideView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
     
 	stackScrollViewController = [StackScrollViewController new];
-	[stackScrollViewController.view setFrame:CGRectMake(0, 0, rightSlideView.frame.size.width, rightSlideView.frame.size.height)];
-	[stackScrollViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight];
+	stackScrollViewController.view.frame = CGRectMake(0, 0, rightSlideView.frame.size.width, rightSlideView.frame.size.height);
+	stackScrollViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
 	[stackScrollViewController viewWillAppear:NO];
 	[stackScrollViewController viewDidAppear:NO];
 	[rightSlideView addSubview:stackScrollViewController.view];
@@ -468,12 +468,12 @@
     xbmcInfo.titleLabel.numberOfLines = 2;
     xbmcInfo.titleLabel.textAlignment = NSTextAlignmentCenter;
     xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;
-    xbmcInfo.titleLabel.shadowColor = [UIColor blackColor];
+    xbmcInfo.titleLabel.shadowColor = UIColor.blackColor;
     xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
     xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
-    [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-    [xbmcInfo setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+    [xbmcInfo setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
+    [xbmcInfo setTitleColor:UIColor.grayColor forState:UIControlStateSelected];
     [self.view addSubview:xbmcInfo];
     
     menuViewController.tableView.separatorInset = UIEdgeInsetsZero;
@@ -573,14 +573,14 @@
                       duration: 1.0
                        options: UIViewAnimationOptionTransitionCrossDissolve
                     animations: ^{
-                        [fanartBackgroundImage setImage:[[sender userInfo] valueForKey:@"image"]];
+                        fanartBackgroundImage.image = [sender.userInfo valueForKey:@"image"];
                     }
                     completion: NULL];
 }
 
 - (void)handleChangeBackgroundGradientColor:(NSNotification*)sender {
-    UIColor *startColor = (UIColor*)[[sender userInfo] valueForKey:@"startColor"];
-    UIColor *endColor = (UIColor*)[[sender userInfo] valueForKey:@"endColor"];
+    UIColor *startColor = (UIColor*)[sender.userInfo valueForKey:@"startColor"];
+    UIColor *endColor = (UIColor*)[sender.userInfo valueForKey:@"endColor"];
     [(gradientUIView*)self.view setColoursWithCGColors:startColor.CGColor endColor:endColor.CGColor];
     [(gradientUIView*)self.view setNeedsDisplay];
 }
@@ -594,16 +594,16 @@
 }
 
 - (void)handleTcpJSONRPCShowSetup:(NSNotification*)sender {
-    BOOL showValue = [[[sender userInfo] valueForKey:@"showSetup"] boolValue];
+    BOOL showValue = [[sender.userInfo valueForKey:@"showSetup"] boolValue];
     if ((showValue && firstRun) || !showValue) {
         [self showSetup:showValue];
     }
 }
 
 - (void)handleTcpJSONRPCChangeServerStatus:(NSNotification*)sender {
-    BOOL statusValue = [[[sender userInfo] valueForKey:@"status"] boolValue];
-    NSString *message = [[sender userInfo] valueForKey:@"message"];
-    NSString *icon_connection = [[sender userInfo] valueForKey:@"icon_connection"];
+    BOOL statusValue = [[sender.userInfo valueForKey:@"status"] boolValue];
+    NSString *message = [sender.userInfo valueForKey:@"message"];
+    NSString *icon_connection = [sender.userInfo valueForKey:@"icon_connection"];
     [self changeServerStatus:statusValue infoText:message icon:icon_connection];
 }
 
@@ -612,7 +612,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.2];
     self.nowPlayingController.songDetailsView.alpha = 0.0;
-    [self.nowPlayingController.itemDescription setScrollsToTop:NO];
+    self.nowPlayingController.itemDescription.scrollsToTop = NO;
     [UIView commitAnimations];
 }
 
@@ -627,7 +627,7 @@
 }
 
 - (void)handleXBMCServerHasChanged:(NSNotification*)sender {
-    [[AppDelegate instance].windowController.stackScrollViewController offView];
+    [AppDelegate.instance.windowController.stackScrollViewController offView];
     NSIndexPath *selection = [menuViewController.tableView indexPathForSelectedRow];
     if (selection) {
         [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
@@ -646,11 +646,11 @@
 }
 
 - (void)handleEnterForeground:(NSNotification*)sender {
-    if ([AppDelegate instance].serverOnLine) {
+    if (AppDelegate.instance.serverOnLine) {
         if (self.tcpJSONRPCconnection == nil) {
             self.tcpJSONRPCconnection = [tcpJSONRPC new];
         }
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
     }
 }
 

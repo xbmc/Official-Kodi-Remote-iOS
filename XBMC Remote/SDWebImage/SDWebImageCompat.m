@@ -29,7 +29,7 @@ inline UIImage *SDScaledImageForPath(NSString *path, NSObject *imageOrData)
         return nil;
     }
 
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+    if ([UIScreen.mainScreen respondsToSelector:@selector(scale)]) {
         CGFloat scale = 1.0;
         if (path.length >= 8) {
             // Search @2x. at the end of the string, before a 3 to 4 extension length (only if key len is 8 or more @2x. + 4 len ext)

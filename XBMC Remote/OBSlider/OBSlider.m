@@ -105,7 +105,7 @@
         CGFloat verticalOffset = fabs(currentLocation.y - self.beganTrackingLocation.y);
         NSUInteger scrubbingSpeedChangePosIndex = [self indexOfLowerScrubbingSpeed:self.scrubbingSpeedChangePositions forOffset:verticalOffset];
         if (scrubbingSpeedChangePosIndex == NSNotFound) {
-            scrubbingSpeedChangePosIndex = [self.scrubbingSpeeds count];
+            scrubbingSpeedChangePosIndex = self.scrubbingSpeeds.count;
         }
         self.scrubbingSpeed = [self.scrubbingSpeeds[scrubbingSpeedChangePosIndex - 1] floatValue];
          
@@ -142,7 +142,7 @@
 // Return the lowest index in the array of numbers passed in scrubbingSpeedPositions 
 // whose value is smaller than verticalOffset.
 - (NSUInteger)indexOfLowerScrubbingSpeed:(NSArray*)scrubbingSpeedPositions forOffset:(CGFloat)verticalOffset {
-    for (NSUInteger i = 0; i < [scrubbingSpeedPositions count]; i++) {
+    for (NSUInteger i = 0; i < scrubbingSpeedPositions.count; i++) {
         NSNumber *scrubbingSpeedOffset = scrubbingSpeedPositions[i];
         if (verticalOffset < [scrubbingSpeedOffset floatValue]) {
             return i;

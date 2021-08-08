@@ -120,9 +120,9 @@ double round(double d) {
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             actionSheetButtonItemIpad.style = UIBarButtonItemStylePlain;
             viewTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, STACKSCROLL_WIDTH, TITLE_HEIGHT)];
-            viewTitle.backgroundColor = [UIColor clearColor];
+            viewTitle.backgroundColor = UIColor.clearColor;
             viewTitle.textAlignment = NSTextAlignmentLeft;
-            viewTitle.textColor = [UIColor whiteColor];
+            viewTitle.textColor = UIColor.whiteColor;
             viewTitle.text = item[@"label"];
             viewTitle.numberOfLines = 1;
             viewTitle.font = [UIFont boldSystemFontOfSize:22];
@@ -219,46 +219,46 @@ double round(double d) {
     NSString *blackTableSeparator = @"NO";
     if ([item[@"family"] isEqualToString:@"albumid"]) {
         notificationName = @"UIApplicationEnableMusicSection";
-        MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+        MenuItem = [AppDelegate.instance.playlistArtistAlbums copy];
         choosedMenuItem = MenuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"tvshowid"] && ![sender isKindOfClass:[NSString class]]) {
         notificationName = @"UIApplicationEnableTvShowSection";
-        MenuItem = [[AppDelegate instance].playlistTvShows copy];
+        MenuItem = [AppDelegate.instance.playlistTvShows copy];
         choosedMenuItem = MenuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
         notificationName = @"UIApplicationEnableMusicSection";
         choosedTab = 1;
-        MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
+        MenuItem = [AppDelegate.instance.playlistArtistAlbums copy];
         choosedMenuItem = MenuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
-    else if ([item[@"family"] isEqualToString:@"movieid"] && [AppDelegate instance].serverVersion > 11) {
+    else if ([item[@"family"] isEqualToString:@"movieid"] && AppDelegate.instance.serverVersion > 11) {
         if ([sender isKindOfClass:[NSString class]]) {
             NSString *actorName = (NSString*)sender;
             choosedTab = 2;
-            MenuItem = [[AppDelegate instance].playlistMovies copy];
+            MenuItem = [AppDelegate.instance.playlistMovies copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
             choosedMenuItem = MenuItem.subItem;
             choosedMenuItem.mainLabel = actorName;
         }
     }
-    else if (([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"tvshowid"]) && [AppDelegate instance].serverVersion > 11) {
+    else if (([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"tvshowid"]) && AppDelegate.instance.serverVersion > 11) {
         if ([sender isKindOfClass:[NSString class]]) {
             NSString *actorName = (NSString*)sender;
             choosedTab = 0;
-            MenuItem = [[AppDelegate instance].playlistTvShows copy];
+            MenuItem = [AppDelegate.instance.playlistTvShows copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
             choosedMenuItem = MenuItem;
             choosedMenuItem.mainLabel = actorName;
-            [MenuItem setEnableSection:NO];
-            [MenuItem setMainButtons:nil];
-            if ([AppDelegate instance].obj.preferTVPosters) {
+            MenuItem.enableSection = NO;
+            MenuItem.mainButtons = nil;
+            if (AppDelegate.instance.obj.preferTVPosters) {
                 thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
                 tvshowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
             }
@@ -280,7 +280,7 @@ double round(double d) {
             obj = movieObj;
             objKey = movieObjKey;
         }
-        else if ([AppDelegate instance].serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
+        else if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
             obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] intValue]), mainFields[@"row6"], nil];
             objKey = @"filter";
         }
@@ -323,8 +323,8 @@ double round(double d) {
         else {
             if (![self isModal]) {
                 DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-                [[AppDelegate instance].windowController.stackScrollViewController enablePanGestureRecognizer];
+                [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
+                [AppDelegate.instance.windowController.stackScrollViewController enablePanGestureRecognizer];
                 [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
             }
             else {
@@ -632,7 +632,7 @@ double round(double d) {
         [self setTvShowsToolbar];
         
         GlobalData *obj = [GlobalData getInstance];
-        if (!obj.preferTVPosters && [AppDelegate instance].serverVersion < 12) {
+        if (!obj.preferTVPosters && AppDelegate.instance.serverVersion < 12) {
             placeHolderImage = @"blank";
             jewelView.hidden = YES;
         }
@@ -876,7 +876,7 @@ double round(double d) {
     voteLabel.text = [Utilities getStringFromDictionary:item key:@"rating" emptyString:@"N.A."];
     starsView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f", roundf([item[@"rating"] floatValue])]];
     NSString *numVotes = [Utilities getStringFromDictionary:item key:@"votes" emptyString:@""];
-    if ([numVotes length] != 0) {
+    if (numVotes.length != 0) {
         NSString *numVotesPlus = LOCALIZED_STR(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes");
         numVotesLabel.text = [NSString stringWithFormat:@"(%@ %@)", numVotes, numVotesPlus];
     }
@@ -1110,7 +1110,7 @@ double round(double d) {
     isRecording.image = [UIImage imageNamed:@"button_timer"];
     isRecording.contentMode = UIViewContentModeScaleAspectFill;
     isRecording.alpha = 0.0;
-    isRecording.backgroundColor = [UIColor clearColor];
+    isRecording.backgroundColor = UIColor.clearColor;
     [scrollView addSubview:isRecording];
     if ([item[@"hastimer"] boolValue]) {
         isRecording.alpha = 1.0;
@@ -1127,7 +1127,7 @@ double round(double d) {
         actorsTable = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
     }
     actorsTable.scrollsToTop = NO;
-    actorsTable.backgroundColor = [UIColor clearColor];
+    actorsTable.backgroundColor = UIColor.clearColor;
     actorsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     actorsTable.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin |
                                    UIViewAutoresizingFlexibleWidth |
@@ -1163,7 +1163,7 @@ double round(double d) {
             trailerLabel.font = label1.font;
             trailerLabel.shadowColor = label1.shadowColor;
             trailerLabel.shadowOffset = label1.shadowOffset;
-            trailerLabel.backgroundColor = [UIColor clearColor];
+            trailerLabel.backgroundColor = UIColor.clearColor;
             [scrollView addSubview:trailerLabel];
 
             UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
@@ -1197,7 +1197,7 @@ double round(double d) {
         clearLogoImageView.contentMode = UIViewContentModeScaleAspectFit;
         GlobalData *obj = [GlobalData getInstance];
         NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-        if ([AppDelegate instance].serverVersion > 11) {
+        if (AppDelegate.instance.serverVersion > 11) {
             serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
         }
         NSString *stringURL = [Utilities formatStringURL:item[@"clearlogo"] serverURL:serverURL];
@@ -1343,7 +1343,7 @@ double round(double d) {
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
-                                 self.kenView.alpha = 0;
+                                 self.kenView.alpha = 0.0;
                                  toolbar.alpha = 0.0;
                                  if ([self isModal]) {
                                      originalSelfFrame = self.view.frame;
@@ -1465,7 +1465,7 @@ double round(double d) {
     }
     GlobalData *obj = [GlobalData getInstance];
     NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-    if ([AppDelegate instance].serverVersion > 11) {
+    if (AppDelegate.instance.serverVersion > 11) {
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
     NSString *stringURL = [Utilities formatStringURL:cast[indexPath.row][@"thumbnail"] serverURL:serverURL];
@@ -1482,7 +1482,7 @@ double round(double d) {
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    if ([AppDelegate instance].serverVersion > 11 && ![self isModal]) {
+    if (AppDelegate.instance.serverVersion > 11 && ![self isModal]) {
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
         cell.accessoryView.alpha = 0.5;
     }
@@ -1492,7 +1492,7 @@ double round(double d) {
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    if ([AppDelegate instance].serverVersion > 11 && ![self isModal]) {
+    if (AppDelegate.instance.serverVersion > 11 && ![self isModal]) {
         [self showContent:cast[indexPath.row][@"name"]];
     }
 }
@@ -1517,7 +1517,7 @@ double round(double d) {
 - (void)openWithVLC:(NSDictionary*)item {
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [activityIndicatorView startAnimating];
-    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vlc://"]]) {
+    if (![UIApplication.sharedApplication canOpenURL:[NSURL URLWithString:@"vlc://"]]) {
         [activityIndicatorView stopAnimating];
         self.navigationItem.rightBarButtonItem.enabled = YES;
         UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"VLC non installed") message:nil];
@@ -1528,7 +1528,7 @@ double round(double d) {
             if (error == nil && methodError == nil) {
                 if ([methodResult count] > 0) {
                     GlobalData *obj = [GlobalData getInstance];
-                    NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
+                    NSString *userPassword = [AppDelegate.instance.obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", AppDelegate.instance.obj.serverPass];
                     NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
                     NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@", (NSArray*)methodResult[@"protocol"], serverURL, (NSDictionary*)methodResult[@"details"][@"path"]];
                     [Utilities SFloadURL:stringURL fromctrl:self];
@@ -1724,7 +1724,7 @@ double round(double d) {
     [actorsTable deselectRowAtIndexPath:[actorsTable indexPathForSelectedRow] animated:YES];
     if ([self isModal]) {
         if (doneButton == nil) {
-            NSMutableArray *items = [[toolbar items] mutableCopy];
+            NSMutableArray *items = [toolbar.items mutableCopy];
             doneButton = [[UIBarButtonItem alloc] initWithTitle:LOCALIZED_STR(@"Done") style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
             [items insertObject:doneButton atIndex:0];
             toolbar.items = items;
@@ -1771,7 +1771,7 @@ double round(double d) {
                                            clearlogoButton.frame.origin.y,
                                            clearlogoButton.frame.size.width,
                                            clearlogoButton.frame.size.height);
-        self.view.superview.backgroundColor = [UIColor clearColor];
+        self.view.superview.backgroundColor = UIColor.clearColor;
     }
 }
 
@@ -1810,7 +1810,7 @@ double round(double d) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-    NSDictionary *httpHeaders = [AppDelegate instance].getServerHTTPHeaders;
+    NSDictionary *httpHeaders = AppDelegate.instance.getServerHTTPHeaders;
     if (httpHeaders[@"Authorization"] != nil) {
         [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }

@@ -109,8 +109,8 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
     [self addChildViewController:self.topViewController];
     [self.topViewController didMoveToParentViewController:self];
 
-    [_topViewController.view setAutoresizingMask:self.autoResizeToFillScreen];
-    [_topViewController.view setFrame:topViewFrame];
+    _topViewController.view.autoresizingMask = self.autoResizeToFillScreen;
+    _topViewController.view.frame = topViewFrame;
     _topViewController.view.layer.shadowOffset = CGSizeZero;
     _topViewController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
 
@@ -183,7 +183,7 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
     self.resetStrategy = ECTapping | ECPanning;
 
     self.topViewSnapshot = [[UIView alloc] initWithFrame:self.topView.bounds];
-    [self.topViewSnapshot setAutoresizingMask:self.autoResizeToFillScreen];
+    self.topViewSnapshot.autoresizingMask = self.autoResizeToFillScreen;
     [self.topViewSnapshot addGestureRecognizer:self.resetTapGesture];
 }
 
@@ -451,7 +451,7 @@ CGPoint center = self.topView.center;
 
 - (void)addTopViewSnapshot {
     if (!self.topViewSnapshot.superview && !self.shouldAllowUserInteractionsWhenAnchored) {
-        [topViewSnapshot setFrame:self.view.frame];
+        topViewSnapshot.frame = self.view.frame;
         if (self.shouldAddPanGestureRecognizerToTopViewSnapshot && (_resetStrategy & ECPanning)) {
             if (!_topViewSnapshotPanGesture) {
                 _topViewSnapshotPanGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(updateTopViewHorizontalCenterWithRecognizer:)];
@@ -501,8 +501,8 @@ CGPoint center = self.topView.center;
 }
 
 - (CGFloat)screenWidthForOrientation:(BOOL)isLandscape {
-    CGSize size = [UIScreen mainScreen].bounds.size;
-    UIApplication *application = [UIApplication sharedApplication];
+    CGSize size = UIScreen.mainScreen.bounds.size;
+    UIApplication *application = UIApplication.sharedApplication;
     if (isLandscape) {
         size = CGSizeMake(size.height, size.width);
     }
@@ -554,18 +554,18 @@ CGPoint center = self.topView.center;
 
 - (void)updateUnderLeftLayout {
     if (self.underLeftWidthLayout == ECFullWidth) {
-        [self.underLeftView setAutoresizingMask:self.autoResizeToFillScreen];
-        [self.underLeftView setFrame:self.view.bounds];
+        self.underLeftView.autoresizingMask = self.autoResizeToFillScreen;
+        self.underLeftView.frame = self.view.bounds;
     }
     else if (self.underLeftWidthLayout == ECVariableRevealWidth && !self.topViewIsOffScreen) {
         CGRect frame = self.view.bounds;
         CGFloat newWidth;
 
         if (IS_LANDSCAPE) {
-            newWidth = [UIScreen mainScreen].bounds.size.height - self.anchorRightPeekAmount;
+            newWidth = UIScreen.mainScreen.bounds.size.height - self.anchorRightPeekAmount;
         }
         else {
-            newWidth = [UIScreen mainScreen].bounds.size.width - self.anchorRightPeekAmount;
+            newWidth = UIScreen.mainScreen.bounds.size.width - self.anchorRightPeekAmount;
         }
 
         frame.size.width = newWidth;
@@ -585,7 +585,7 @@ CGPoint center = self.topView.center;
 
 - (void)updateUnderRightLayout {
     if (self.underRightWidthLayout == ECFullWidth) {
-        [self.underRightViewController.view setAutoresizingMask:self.autoResizeToFillScreen];
+        self.underRightViewController.view.autoresizingMask = self.autoResizeToFillScreen;
         self.underRightView.frame = self.view.bounds;
     }
     else if (self.underRightWidthLayout == ECVariableRevealWidth) {
@@ -595,10 +595,10 @@ CGPoint center = self.topView.center;
         CGFloat newWidth;
 
         if (IS_LANDSCAPE) {
-            newWidth = [UIScreen mainScreen].bounds.size.height;
+            newWidth = UIScreen.mainScreen.bounds.size.height;
         }
         else {
-            newWidth = [UIScreen mainScreen].bounds.size.width;
+            newWidth = UIScreen.mainScreen.bounds.size.width;
         }
 
         if (self.topViewIsOffScreen) {

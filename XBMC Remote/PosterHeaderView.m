@@ -20,18 +20,18 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setClipsToBounds:NO];
+        self.clipsToBounds = NO;
         self.restorationIdentifier = @"posterHeaderView";
         
         // Draw gray bar as section header background
         UIView *sectionView = [[UIView alloc] initWithFrame:self.bounds];
-        [sectionView setBackgroundColor:[Utilities getGrayColor:44 alpha:1.0]];
+        sectionView.backgroundColor = [Utilities getGrayColor:44 alpha:1.0];
         [self insertSubview: sectionView atIndex:0];
 
         // Draw text into section header
         if (self.frame.size.height > 20) {
             _headerLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width - 20, self.frame.size.height)];
-            _headerLabel.backgroundColor = [UIColor clearColor];
+            _headerLabel.backgroundColor = UIColor.clearColor;
             _headerLabel.font = [UIFont boldSystemFontOfSize:self.frame.size.height - 10];
             _headerLabel.textColor = [Utilities getGrayColor:235 alpha:0.6];
             _headerLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight |
@@ -48,7 +48,6 @@
 
 - (void)setHeaderText:(NSString*)text {
     _headerLabel.text = text;
-
 }
 /*
 // Only override drawRect: if you perform custom drawing.

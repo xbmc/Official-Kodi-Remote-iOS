@@ -65,7 +65,7 @@
         _labelPadding = 4;
 
         _tapper = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-        [_tapper setMinimumPressDuration:0];
+        _tapper.minimumPressDuration = 0;
         
         [self addGestureRecognizer:_tapper];
 
@@ -131,7 +131,7 @@
         return _touchStatusView;
     }
     _touchStatusView = [[UIView alloc] initWithFrame:CGRectInset(self.bounds, 2, 2)];
-    _touchStatusView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
+    _touchStatusView.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0];
     _touchStatusView.layer.cornerRadius = 0;
     _touchStatusView.layer.masksToBounds = YES;
     return _touchStatusView;
@@ -172,9 +172,9 @@
             label.font = [UIFont boldSystemFontOfSize:11];
             label.minimumScaleFactor = 11.0/11.0;
             label.adjustsFontSizeToFitWidth = YES;
-            label.backgroundColor = [UIColor clearColor];
-            label.textColor = [UIColor systemBlueColor];
-            label.shadowColor = [UIColor clearColor];
+            label.backgroundColor = UIColor.clearColor;
+            label.textColor = UIColor.systemBlueColor;
+            label.shadowColor = UIColor.clearColor;
             label.shadowOffset = CGSizeMake(0, 1);
             label.textAlignment = NSTextAlignmentCenter;
             [self addSubview:label];

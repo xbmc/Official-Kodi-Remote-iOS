@@ -46,7 +46,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = paths[0];
     NSString *customButtonDatFile = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"customButtons_%@.dat", [self getServerKey]]];
-    if ([paths count] > 0) {
+    if (paths.count > 0) {
         [NSKeyedArchiver archiveRootObject:buttons toFile:customButtonDatFile];
     }
 }

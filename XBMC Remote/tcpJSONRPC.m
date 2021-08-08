@@ -41,7 +41,7 @@ NSOutputStream	*outStream;
 }
 
 - (void)handleSystemOnSleep:(NSNotification*)sender {
-    [AppDelegate instance].serverTCPConnectionOpen = NO;
+    AppDelegate.instance.serverTCPConnectionOpen = NO;
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {
@@ -64,8 +64,8 @@ NSOutputStream	*outStream;
 	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)CFBridgingRetain(server), port, &readStream, NULL);
 	inStream = (__bridge NSInputStream*)readStream;
 //	outStream = (__bridge NSOutputStream*)writeStream;
-	[inStream setDelegate:self];
-//	[outStream setDelegate:self];
+	inStream.delegate = self;
+//	outStream.delegate = self;
 	[inStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 //	[outStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 	[inStream open];
@@ -78,12 +78,12 @@ NSOutputStream	*outStream;
 }
 
 - (void)stopNetworkCommunication {
-    [AppDelegate instance].serverTCPConnectionOpen = NO;
+    AppDelegate.instance.serverTCPConnectionOpen = NO;
     NSStreamStatus current_status = [inStream streamStatus];
     if (current_status == NSStreamStatusOpen) {
         [inStream close];
         [inStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-        [inStream setDelegate:nil];
+        inStream.delegate = nil;
         inStream = nil;
     }
 }
@@ -93,7 +93,7 @@ NSOutputStream	*outStream;
 	switch (streamEvent) {
     
         case NSStreamEventOpenCompleted:{
-            [AppDelegate instance].serverTCPConnectionOpen = YES;
+            AppDelegate.instance.serverTCPConnectionOpen = YES;
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     infoTitle, @"message",
                                     @"connection_on", @"icon_connection",
@@ -131,17 +131,17 @@ NSOutputStream	*outStream;
 			break;
             
 		case NSStreamEventErrorOccurred:
-            [AppDelegate instance].serverTCPConnectionOpen = NO;
+            AppDelegate.instance.serverTCPConnectionOpen = NO;
             inCheck = NO;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionError" object:nil userInfo:nil];
 			break;
 			
 		case NSStreamEventEndEncountered:
-            [AppDelegate instance].serverTCPConnectionOpen = NO;
+            AppDelegate.instance.serverTCPConnectionOpen = NO;
             inCheck = NO;
             [theStream close];
             [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-            [theStream setDelegate:nil];
+            theStream.delegate = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionClosed" object:nil userInfo:nil];
 
             break;
@@ -165,20 +165,20 @@ NSOutputStream	*outStream;
     if (inCheck) {
         return;
     }
-    if ([[AppDelegate instance].obj.serverIP length] == 0) {
+    if (AppDelegate.instance.obj.serverIP.length == 0) {
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @(YES), @"showSetup", nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
-        if ([AppDelegate instance].serverOnLine) {
+        if (AppDelegate.instance.serverOnLine) {
             [self noConnectionNotifications];
         }
         return;
     }
-    if ([AppDelegate instance].serverTCPConnectionOpen) {
+    if (AppDelegate.instance.serverTCPConnectionOpen) {
         return;
     }
     inCheck = YES;
-//    NSString *userPassword = [[AppDelegate instance].obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", [AppDelegate instance].obj.serverPass];
-//    NSString *serverJSON = [NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", [AppDelegate instance].obj.serverUser, userPassword, [AppDelegate instance].obj.serverIP, [AppDelegate instance].obj.serverPort];
+//    NSString *userPassword = [AppDelegate.instance.obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", AppDelegate.instance.obj.serverPass];
+//    NSString *serverJSON = [NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", AppDelegate.instance.obj.serverUser, userPassword, AppDelegate.instance.obj.serverIP, AppDelegate.instance.obj.serverPort];
     
     NSDictionary *checkServerParams = [NSDictionary dictionaryWithObjectsAndKeys: @[@"version", @"volume", @"name"], @"properties", nil];
     [[Utilities getJsonRPC]
@@ -188,18 +188,18 @@ NSOutputStream	*outStream;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          inCheck = NO;
          if (error == nil && methodError == nil) {
-             [AppDelegate instance].serverVolume = [methodResult[@"volume"] intValue];
-             if (![AppDelegate instance].serverOnLine) {
+             AppDelegate.instance.serverVolume = [methodResult[@"volume"] intValue];
+             if (!AppDelegate.instance.serverOnLine) {
                  if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                      NSDictionary *serverInfo = methodResult[@"version"];
-                     [AppDelegate instance].serverVersion = [serverInfo[@"major"] intValue];
-                     [AppDelegate instance].serverMinorVersion = [serverInfo[@"minor"] intValue];
+                     AppDelegate.instance.serverVersion = [serverInfo[@"major"] intValue];
+                     AppDelegate.instance.serverMinorVersion = [serverInfo[@"minor"] intValue];
                      NSString *realServerName = methodResult[@"name"];
                      if ([realServerName isEqualToString:@"MrMC"]) {
-                         [AppDelegate instance].serverVersion += MRMC_TIMEWARP;
+                         AppDelegate.instance.serverVersion += MRMC_TIMEWARP;
                      }
                      infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
-                                          [AppDelegate instance].obj.serverDescription,
+                                          AppDelegate.instance.obj.serverDescription,
                                           serverInfo[@"major"],
                                           serverInfo[@"minor"],
                                           serverInfo[@"tag"]];//, serverInfo[@"revision"]
@@ -213,7 +213,7 @@ NSOutputStream	*outStream;
                      [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
                  }
                  else {
-                     if ([AppDelegate instance].serverOnLine) {
+                     if (AppDelegate.instance.serverOnLine) {
                          [self noConnectionNotifications];
                      }
                      NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @(YES), @"showSetup", nil];
@@ -225,8 +225,8 @@ NSOutputStream	*outStream;
              if (error != nil) {
                  [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionError" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], @"error_message", nil]];
              }
-             [AppDelegate instance].serverVolume = -1;
-             if ([AppDelegate instance].serverOnLine) {
+             AppDelegate.instance.serverVolume = -1;
+             if (AppDelegate.instance.serverOnLine) {
                  [self noConnectionNotifications];
              }
              NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @(YES), @"showSetup", nil];
@@ -242,14 +242,14 @@ NSOutputStream	*outStream;
          if (!error && !methodError) {
              // Kodi 11 and earlier do not support "major"/"minor"/"patch" and reply with "version" only
              if (![methodResult[@"version"] isKindOfClass:[NSNumber class]]) {
-                 [AppDelegate instance].APImajorVersion = [methodResult[@"version"][@"major"] intValue];
-                 [AppDelegate instance].APIminorVersion = [methodResult[@"version"][@"minor"] intValue];
-                 [AppDelegate instance].APIpatchVersion = [methodResult[@"version"][@"patch"] intValue];
+                 AppDelegate.instance.APImajorVersion = [methodResult[@"version"][@"major"] intValue];
+                 AppDelegate.instance.APIminorVersion = [methodResult[@"version"][@"minor"] intValue];
+                 AppDelegate.instance.APIpatchVersion = [methodResult[@"version"][@"patch"] intValue];
              }
              else {
-                 [AppDelegate instance].APImajorVersion = [methodResult[@"version"] intValue];
-                 [AppDelegate instance].APIminorVersion = 0;
-                 [AppDelegate instance].APIpatchVersion = 0;
+                 AppDelegate.instance.APImajorVersion = [methodResult[@"version"] intValue];
+                 AppDelegate.instance.APIminorVersion = 0;
+                 AppDelegate.instance.APIpatchVersion = 0;
              }
          }
          // Read the sorttokens
@@ -264,57 +264,57 @@ NSOutputStream	*outStream;
      withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (!error && !methodError) {
-             [AppDelegate instance].isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
+             AppDelegate.instance.isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
          }
          else {
-             [AppDelegate instance].isIgnoreArticlesEnabled = NO;
+             AppDelegate.instance.isIgnoreArticlesEnabled = NO;
          }
     }];
 }
 
 - (void)readGroupSingleItemSets {
     // Check if groupsingleitemsets is enabled (supported from API 6.32.4 on)
-    if (([AppDelegate instance].APImajorVersion >= 7) ||
-        ([AppDelegate instance].APImajorVersion == 6 && [AppDelegate instance].APIminorVersion >= 33) ||
-        ([AppDelegate instance].APImajorVersion == 6 && [AppDelegate instance].APIminorVersion == 32 && [AppDelegate instance].APIpatchVersion >= 4)) {
+    if ((AppDelegate.instance.APImajorVersion >= 7) ||
+        (AppDelegate.instance.APImajorVersion == 6 && AppDelegate.instance.APIminorVersion >= 33) ||
+        (AppDelegate.instance.APImajorVersion == 6 && AppDelegate.instance.APIminorVersion == 32 && AppDelegate.instance.APIpatchVersion >= 4)) {
         [[Utilities getJsonRPC]
          callMethod:@"Settings.GetSettingValue"
          withParameters:@{@"setting": @"videolibrary.groupsingleitemsets"}
          withTimeout: SERVER_TIMEOUT
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              if (!error && !methodError) {
-                 [AppDelegate instance].isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
+                 AppDelegate.instance.isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
              }
              else {
-                 [AppDelegate instance].isGroupSingleItemSetsEnabled = YES;
+                 AppDelegate.instance.isGroupSingleItemSetsEnabled = YES;
              }
         }];
     }
     else {
-        [AppDelegate instance].isGroupSingleItemSetsEnabled = YES;
+        AppDelegate.instance.isGroupSingleItemSetsEnabled = YES;
     }
 }
 
 - (void)readSorttokens {
     NSArray *defaultTokens = @[@"The ", @"The.", @"The_"];
     // Sort token can be read from API 9.5.0 on
-    if (([AppDelegate instance].APImajorVersion >= 10) ||
-        ([AppDelegate instance].APImajorVersion == 9 && [AppDelegate instance].APIminorVersion >= 5)) {
+    if ((AppDelegate.instance.APImajorVersion >= 10) ||
+        (AppDelegate.instance.APImajorVersion == 9 && AppDelegate.instance.APIminorVersion >= 5)) {
         [[Utilities getJsonRPC]
          callMethod:@"Application.GetProperties"
          withParameters:@{@"properties":@[@"sorttokens"]}
          withTimeout: SERVER_TIMEOUT
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              if (!error && !methodError) {
-                 [AppDelegate instance].KodiSorttokens = methodResult[@"sorttokens"];
+                 AppDelegate.instance.KodiSorttokens = methodResult[@"sorttokens"];
              }
              else {
-                 [AppDelegate instance].KodiSorttokens = defaultTokens;
+                 AppDelegate.instance.KodiSorttokens = defaultTokens;
              }
         }];
     }
     else {
-        [AppDelegate instance].KodiSorttokens = defaultTokens;
+        AppDelegate.instance.KodiSorttokens = defaultTokens;
     }
 }
 

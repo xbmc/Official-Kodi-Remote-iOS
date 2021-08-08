@@ -32,17 +32,17 @@
 - (id)initWithFrame:(CGRect)frame withItem:(id)item {
     if (self = [super init]) {
 		
-        [self.view setFrame:frame];
+        self.view.frame = frame;
         
         UIImageView *imageBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shiny_black_back"]];
-        [imageBackground setAutoresizingMask: UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-        [imageBackground setFrame:frame];
+        imageBackground.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        imageBackground.frame = frame;
         [self.view addSubview:imageBackground];
         
         activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        [activityIndicator setColor:[UIColor grayColor]];
-        [activityIndicator setCenter:CGPointMake(frame.size.width / 2, frame.size.height / 2)];
-        [activityIndicator setHidesWhenStopped:YES];
+        activityIndicator.color = UIColor.grayColor;
+        activityIndicator.center = CGPointMake(frame.size.width / 2, frame.size.height / 2);
+        activityIndicator.hidesWhenStopped = YES;
         [self.view addSubview:activityIndicator];
 
         self.detailItem = item;
@@ -75,7 +75,7 @@
         else if ([itemControls[@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
             cellHeight = 44;
-            [_tableView setFrame:CGRectMake(self.view.frame.size.width, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height)];
+            _tableView.frame = CGRectMake(self.view.frame.size.width, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height);
             self.navigationItem.title = self.detailItem[@"label"];
             settingOptions = [NSMutableArray new];
             [self retrieveXBMCData: @"Addons.GetAddons"
@@ -108,7 +108,7 @@
         else {
             self.navigationItem.title = self.detailItem[@"label"];
             if ([settingOptions isKindOfClass:[NSArray class]]) {
-                if ([settingOptions count] > 0) {
+                if (settingOptions.count > 0) {
                     xbmcSetting = cList;
                 }
             }
@@ -125,21 +125,21 @@
         
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
         cellLabelOffset = 8;
-		[_tableView setDelegate:self];
-		[_tableView setDataSource:self];
-        [_tableView setBackgroundColor:[UIColor clearColor]];
+		_tableView.delegate = self;
+		_tableView.dataSource = self;
+        _tableView.backgroundColor = UIColor.clearColor;
         UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-		[_tableView setTableFooterView:footerView];
-        [self.view setBackgroundColor:[UIColor clearColor]];
+		_tableView.tableFooterView = footerView;
+        self.view.backgroundColor = UIColor.clearColor;
         [self.view addSubview:_tableView];
         
         UILongPressGestureRecognizer *longPressGesture = [UILongPressGestureRecognizer new];
         [longPressGesture addTarget:self action:@selector(handleLongPress:)];
-        [longPressGesture setDelegate:self];
+        longPressGesture.delegate = self;
         [_tableView addGestureRecognizer:longPressGesture];
         
         CGFloat deltaY = 0;
-        CGRect frame = [[UIScreen mainScreen] bounds];
+        CGRect frame = UIScreen.mainScreen.bounds;
         if (IS_IPAD) {
             frame.size.width = STACKSCROLL_WIDTH;
         }
@@ -148,40 +148,40 @@
         }
         
         scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
-        [scrubbingView setCenter:CGPointMake((int)(frame.size.width / 2), (int)(frame.size.height / 2) + 50)];
-        [scrubbingView setBackgroundColor:[Utilities getGrayColor:0 alpha:0.9]];
+        scrubbingView.center = CGPointMake((int)(frame.size.width / 2), (int)(frame.size.height / 2) + 50);
+        scrubbingView.backgroundColor = [Utilities getGrayColor:0 alpha:0.9];
         scrubbingView.alpha = 0.0;
         CGRect toolbarShadowFrame = CGRectMake(0, 44, self.view.frame.size.width, 4);
         UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
+        toolbarShadow.image = [UIImage imageNamed:@"tableUp"];
         toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarShadow.opaque = YES;
         [scrubbingView addSubview:toolbarShadow];
         toolbarShadowFrame.origin.y = -4;
         UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown"]];
+        toolbarUpShadow.image = [UIImage imageNamed:@"tableDown"];
         toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
         toolbarUpShadow.opaque = YES;
         [scrubbingView addSubview:toolbarUpShadow];
         
         scrubbingMessage = [[UILabel alloc] initWithFrame:CGRectMake(5, 3, frame.size.width - 10, 18)];
-        [scrubbingMessage setBackgroundColor:[UIColor clearColor]];
-        [scrubbingMessage setFont:[UIFont boldSystemFontOfSize:13]];
-        [scrubbingMessage setAdjustsFontSizeToFitWidth:YES];
-        [scrubbingMessage setMinimumScaleFactor:10.0/13.0];
-        [scrubbingMessage setTextColor:[UIColor whiteColor]];
-        [scrubbingMessage setText:LOCALIZED_STR(@"Slide your finger up or down to adjust the scrubbing rate.")];
-        [scrubbingMessage setTextAlignment:NSTextAlignmentCenter];
+        scrubbingMessage.backgroundColor = UIColor.clearColor;
+        scrubbingMessage.font = [UIFont boldSystemFontOfSize:13];
+        scrubbingMessage.adjustsFontSizeToFitWidth = YES;
+        scrubbingMessage.minimumScaleFactor = 10.0 / 13.0;
+        scrubbingMessage.textColor = UIColor.whiteColor;
+        scrubbingMessage.text = LOCALIZED_STR(@"Slide your finger up or down to adjust the scrubbing rate.");
+        scrubbingMessage.textAlignment = NSTextAlignmentCenter;
         [scrubbingView addSubview:scrubbingMessage];
         
         scrubbingRate = [[UILabel alloc] initWithFrame:CGRectMake(5, 21, frame.size.width - 10, 18)];
-        [scrubbingRate setBackgroundColor:[UIColor clearColor]];
-        [scrubbingRate setFont:[UIFont boldSystemFontOfSize:13]];
-        [scrubbingRate setTextColor:[UIColor grayColor]];
-        [scrubbingRate setTextAlignment:NSTextAlignmentCenter];
-        [scrubbingRate setText:LOCALIZED_STR(@"Scrubbing 1")];
+        scrubbingRate.backgroundColor = UIColor.clearColor;
+        scrubbingRate.font = [UIFont boldSystemFontOfSize:13];
+        scrubbingRate.textColor = UIColor.grayColor;
+        scrubbingRate.textAlignment = NSTextAlignmentCenter;
+        scrubbingRate.text = LOCALIZED_STR(@"Scrubbing 1");
         [scrubbingView addSubview:scrubbingRate];
         
         [self.view insertSubview:scrubbingView aboveSubview:_tableView];
@@ -270,7 +270,7 @@
     }
     NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", value, @"value", nil];
     NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                               [[alertView textFields][0] text], @"label",
+                               alertView.textFields[0].text, @"label",
                                type, @"type",
                                @"default-right-menu-icon", @"icon",
                                @(xbmcSetting), @"xbmcSetting",
@@ -358,7 +358,7 @@
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger numRows = 1;
     if ([settingOptions isKindOfClass:[NSArray class]]) {
-        numRows = [settingOptions count];
+        numRows = settingOptions.count;
     }
     return numRows;
 }
@@ -379,7 +379,7 @@
                                                                     context:nil];
         CGSize descriptionSize = descriptionRect.size;
         if (descriptionSize.height > label.bounds.size.height) {
-            [label setFont:[UIFont systemFontOfSize:startSize]];
+            label.font = [UIFont systemFontOfSize:startSize];
         }
         else {
             done = YES;
@@ -395,33 +395,33 @@
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
         UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellHeight/2 - 11, self.view.bounds.size.width - cellLabelOffset - 38, 22)];
         cellLabel.tag = 1;
-        [cellLabel setFont:[UIFont systemFontOfSize:18]];
-        [cellLabel setAdjustsFontSizeToFitWidth:YES];
-        [cellLabel setMinimumScaleFactor:12.0/18.0];
-        [cellLabel setTextColor:[Utilities get1stLabelColor]];
-        [cellLabel setHighlightedTextColor:[Utilities get1stLabelColor]];
+        cellLabel.font = [UIFont systemFontOfSize:18];
+        cellLabel.adjustsFontSizeToFitWidth = YES;
+        cellLabel.minimumScaleFactor = 12.0 / 18.0;
+        cellLabel.textColor = [Utilities get1stLabelColor];
+        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
         [cell.contentView addSubview:cellLabel];
         
         UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
         onoff.tag = 201;
         [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-        [onoff setFrame:CGRectMake(self.view.bounds.size.width - onoff.frame.size.width - 12, cellHeight/2 - onoff.frame.size.height/2+ 20, onoff.frame.size.width, onoff.frame.size.height)];
+        onoff.frame = CGRectMake(self.view.bounds.size.width - onoff.frame.size.width - 12, cellHeight / 2 - onoff.frame.size.height / 2 + 20, onoff.frame.size.width, onoff.frame.size.height);
         [cell.contentView addSubview: onoff];
 
         UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 54, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, cellHeight - 54 - 10)];
         descriptionLabel.tag = 2;
-        [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
-        [descriptionLabel setAdjustsFontSizeToFitWidth:YES];
-        [descriptionLabel setNumberOfLines:0];
-        [descriptionLabel setMinimumScaleFactor:11.0/12.0];
-        [descriptionLabel setTextColor:[Utilities get2ndLabelColor]];
-        [descriptionLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        descriptionLabel.font = [UIFont systemFontOfSize:12];
+        descriptionLabel.adjustsFontSizeToFitWidth = YES;
+        descriptionLabel.numberOfLines = 0;
+        descriptionLabel.minimumScaleFactor = 11.0 / 12.0;
+        descriptionLabel.textColor = [Utilities get2ndLabelColor];
+        descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
         [cell.contentView addSubview:descriptionLabel];
         
         OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 20)];
-        [slider setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+        slider.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
-        [slider setBackgroundColor:[UIColor clearColor]];
+        slider.backgroundColor = UIColor.clearColor;
         slider.continuous = YES;
         slider.tag = 101;
         [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventEditingDidEnd];
@@ -434,16 +434,16 @@
         int uiSliderLabelWidth = cell.frame.size.width - 14 * 2;
         UILabel *uiSliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - uiSliderLabelWidth / 2, slider.frame.origin.y - 28, uiSliderLabelWidth, 20)];
         uiSliderLabel.tag = 102;
-        [uiSliderLabel setTextAlignment:NSTextAlignmentCenter];
-        [uiSliderLabel setFont:[UIFont systemFontOfSize:14]];
-        [uiSliderLabel setAdjustsFontSizeToFitWidth:YES];
-        [uiSliderLabel setMinimumScaleFactor:12.0/14.0];
-        [uiSliderLabel setTextColor:[Utilities get2ndLabelColor]];
-        [uiSliderLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        uiSliderLabel.textAlignment = NSTextAlignmentCenter;
+        uiSliderLabel.font = [UIFont systemFontOfSize:14];
+        uiSliderLabel.adjustsFontSizeToFitWidth = YES;
+        uiSliderLabel.minimumScaleFactor = 12.0 / 14.0;
+        uiSliderLabel.textColor = [Utilities get2ndLabelColor];
+        uiSliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
         [cell.contentView addSubview:uiSliderLabel];
         
         UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 30)];
-        [textInputField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+        textInputField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         textInputField.borderStyle = UITextBorderStyleRoundedRect;
         textInputField.textAlignment = NSTextAlignmentCenter;
         textInputField.font = [UIFont systemFontOfSize:15];
@@ -456,9 +456,9 @@
         textInputField.delegate = self;
         textInputField.tag = 301;
         [cell.contentView addSubview:textInputField];
-        [cellLabel setHighlightedTextColor:[Utilities get1stLabelColor]];
-        [descriptionLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
-        [uiSliderLabel setHighlightedTextColor:[Utilities get2ndLabelColor]];
+        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
+        descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        uiSliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
 	}
     cell.accessoryType = UITableViewCellAccessoryNone;
 
@@ -483,12 +483,12 @@
             
         case cSwitch:
     
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             descriptionLabel.hidden = NO;
             cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
-            [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, 44)];
-            [cellLabel setNumberOfLines:2];
-            [descriptionLabel setText:descriptionString];
+            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, 44);
+            cellLabel.numberOfLines = 2;
+            descriptionLabel.text = descriptionString;
             [self adjustFontSize:descriptionLabel];
             onoff.hidden = NO;
             onoff.on = [self.detailItem[@"value"] boolValue];
@@ -509,45 +509,45 @@
             
         case cSlider:
             
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             slider.hidden = NO;
             sliderLabel.hidden = NO;
             descriptionLabel.hidden = NO;
-            [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46)];
-            [cellLabel setNumberOfLines:2];
-            [cellLabel setTextAlignment:NSTextAlignmentCenter];
+            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46);
+            cellLabel.numberOfLines = 2;
+            cellLabel.textAlignment = NSTextAlignmentCenter;
             cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
-            [descriptionLabel setFrame:CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 58)];
-            [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
-            [descriptionLabel setNumberOfLines:4];
-            [descriptionLabel setText: [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]]];
+            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 58);
+            descriptionLabel.textAlignment = NSTextAlignmentCenter;
+            descriptionLabel.numberOfLines = 4;
+            descriptionLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
             slider.minimumValue = [self.detailItem[@"minimum"] intValue];
             slider.maximumValue = [self.detailItem[@"maximum"] intValue];
             slider.value = [self.detailItem[@"value"] intValue];
             if (itemControls[@"formatlabel"] != nil) {
                 stringFormat = [NSString stringWithFormat:@"%@", itemControls[@"formatlabel"]];
             }
-            [sliderLabel setText:[NSString stringWithFormat:stringFormat, [self.detailItem[@"value"] intValue]]];
+            sliderLabel.text = [NSString stringWithFormat:stringFormat, [self.detailItem[@"value"] intValue]];
             break;
             
         case cInput:
             
             descriptionLabel.hidden = NO;
             textInputField.hidden = NO;
-            [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46)];
-            [cellLabel setNumberOfLines:2];
-            [cellLabel setTextAlignment:NSTextAlignmentCenter];
+            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46);
+            cellLabel.numberOfLines = 2;
+            cellLabel.textAlignment = NSTextAlignmentCenter;
             cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
-            [descriptionLabel setFrame:CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 74)];
-            [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
-            [descriptionLabel setNumberOfLines:5];
+            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 74);
+            descriptionLabel.textAlignment = NSTextAlignmentCenter;
+            descriptionLabel.numberOfLines = 5;
             descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[B]" withString:@""];
             descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[/B]" withString:@""];
-            [descriptionLabel setText: descriptionString];
+            descriptionLabel.text = descriptionString;
             [self adjustFontSize:descriptionLabel];
-            [textInputField setText:[NSString stringWithFormat:@"%@", self.detailItem[@"value"]]];
+            textInputField.text = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
             break;
             
         case cDefault | cMultiselect:
@@ -572,9 +572,9 @@
             
         case cUnsupported:
             
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            [cellLabel setFrame:CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset * 2, cellHeight - 8)];
-            [cellLabel setNumberOfLines:10];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset * 2, cellHeight - 8);
+            cellLabel.numberOfLines = 10;
             cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
             break;
             
@@ -590,7 +590,7 @@
         cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
     }
 
-    [cellLabel setText:cellText];
+    cellLabel.text = cellText;
 
     return cell;
 }
@@ -602,7 +602,7 @@
 	[UIView setAnimationDuration:seconds];
 	tV.alpha = alphavalue;
 	CGRect frame;
-	frame = [tV frame];
+	frame = tV.frame;
 	frame.origin.x = X;
     frame.origin.y = 0;
 	tV.frame = frame;
@@ -619,11 +619,11 @@
             if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
                 cell = [tableView cellForRowAtIndexPath:indexPath];
                 if (cell.accessoryType == UITableViewCellAccessoryNone) {
-                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    cell.accessoryType = UITableViewCellAccessoryCheckmark;
                     [self.detailItem[@"value"] addObject:settingOptions[indexPath.row][@"value"]];
                 }
                 else {
-                    [cell setAccessoryType:UITableViewCellAccessoryNone];
+                    cell.accessoryType = UITableViewCellAccessoryNone;
                     [self.detailItem[@"value"] removeObject:settingOptions[indexPath.row][@"value"]];
                 }
             }
@@ -633,10 +633,10 @@
                 }
                 if (selectedSetting != nil) {
                     cell = [tableView cellForRowAtIndexPath:selectedSetting];
-                    [cell setAccessoryType:UITableViewCellAccessoryNone];
+                    cell.accessoryType = UITableViewCellAccessoryNone;
                 }
                 cell = [tableView cellForRowAtIndexPath:indexPath];
-                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 selectedSetting = indexPath;
                 self.detailItem[@"value"] = settingOptions[selectedSetting.row][@"value"];
             }
@@ -654,7 +654,7 @@
                     [self.navigationController pushViewController:settingsViewController animated:YES];
                 }
                 else {
-                    [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:settingsViewController invokeByController:self isStackStartView:NO];
+                    [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:settingsViewController invokeByController:self isStackStartView:NO];
                 }
             }
             break;
@@ -667,10 +667,10 @@
 - (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
     NSInteger viewWidth = self.view.frame.size.width;
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
-    [sectionView setBackgroundColor:[Utilities getGrayColor:102 alpha:1]];
+    sectionView.backgroundColor = [Utilities getGrayColor:102 alpha:1];
     CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
     UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-    [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
+    toolbarShadow.image = [UIImage imageNamed:@"tableUp"];
     toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbarShadow.contentMode = UIViewContentModeScaleToFill;
     toolbarShadow.opaque = YES;
@@ -687,18 +687,18 @@
 //    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
     UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
-    [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
-    [descriptionLabel setBackgroundColor:[UIColor clearColor]];
-    [descriptionLabel setNumberOfLines:20];
-    [descriptionLabel setTextColor:[UIColor whiteColor]];
-    [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
-    [descriptionLabel setHighlightedTextColor:[UIColor whiteColor]];
-    [descriptionLabel setText:[footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"]];
+    descriptionLabel.font = [UIFont systemFontOfSize:12];
+    descriptionLabel.backgroundColor = UIColor.clearColor;
+    descriptionLabel.numberOfLines = 20;
+    descriptionLabel.textColor = UIColor.whiteColor;
+    descriptionLabel.textAlignment = NSTextAlignmentCenter;
+    descriptionLabel.highlightedTextColor = UIColor.whiteColor;
+    descriptionLabel.text = [footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
     if (xbmcSetting == cUnsupported) {
-        [helpView setBackgroundColor:[Utilities getSystemRed:1.0]];
+        helpView.backgroundColor = [Utilities getSystemRed:1.0];
     }
     else {
-        [helpView setBackgroundColor:[Utilities getGrayColor:45 alpha:0.95]];
+        helpView.backgroundColor = [Utilities getGrayColor:45 alpha:0.95];
     }
     CGRect descriptionRect = [descriptionLabel.text  boundingRectWithSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax)
                                                                   options:NSStringDrawingUsesLineFragmentOrigin
@@ -706,7 +706,7 @@
                                                                   context:nil];
     CGSize descriptionSize = descriptionRect.size;
     
-    [descriptionLabel setFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, descriptionSize.height)];
+    descriptionLabel.frame = CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, descriptionSize.height);
     footerHeight = descriptionSize.height + cellLabelOffset * 2;
     [helpView addSubview:descriptionLabel];
     return helpView;
@@ -720,10 +720,10 @@
 //    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
         if (footerHeight < 0) {
             UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
-            [descriptionLabel setFont:[UIFont systemFontOfSize:12]];
-            [descriptionLabel setNumberOfLines:20];
-            [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
-            [descriptionLabel setText:[footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"]];
+            descriptionLabel.font = [UIFont systemFontOfSize:12];
+            descriptionLabel.numberOfLines = 20;
+            descriptionLabel.textAlignment = NSTextAlignmentCenter;
+            descriptionLabel.text = [footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
             CGRect descriptionRect = [descriptionLabel.text  boundingRectWithSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax)
                                                                           options:NSStringDrawingUsesLineFragmentOrigin
                                                                        attributes:@{NSFontAttributeName:descriptionLabel.font}
@@ -791,7 +791,7 @@
             if (itemControls[@"formatlabel"] != nil) {
                 stringFormat = [NSString stringWithFormat:@"%@", itemControls[@"formatlabel"]];
             }
-            [sliderLabel setText:[NSString stringWithFormat:stringFormat, (int)storeSliderValue]];
+            sliderLabel.text = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
         }
     }
     scrubbingRate.text = LOCALIZED_STR(([NSString stringWithFormat:@"Scrubbing %@", @(slider.scrubbingSpeed)]));
@@ -843,7 +843,7 @@
         UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
-    [_tableView setSeparatorInset:UIEdgeInsetsMake(0, cellLabelOffset, 0, 0)];
+    _tableView.separatorInset = UIEdgeInsetsMake(0, cellLabelOffset, 0, 0);
     UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
     tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
     if (@available(iOS 11.0, *)) {
@@ -868,8 +868,8 @@
     [super viewDidLoad];
     footerHeight = -1;
     selectedSetting = nil;
-    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-    [tap setCancelsTouchesInView:NO];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    tap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tap];
 }
 

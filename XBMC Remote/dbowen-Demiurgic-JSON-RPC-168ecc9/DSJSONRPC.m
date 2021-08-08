@@ -151,9 +151,9 @@
     
     // Finish creating request, we set content-length after user headers to prevent user error
     [serviceRequest setValue:[NSString stringWithFormat:@"%i", (int)postData.length] forHTTPHeaderField:@"Content-Length"];
-    [serviceRequest setHTTPMethod:@"POST"];
-    [serviceRequest setHTTPBody:postData];
-    [serviceRequest setTimeoutInterval:3600];
+    serviceRequest.HTTPMethod = @"POST";
+    serviceRequest.HTTPBody = postData;
+    serviceRequest.timeoutInterval = 3600;
     
     // Create dictionary to store information about the request so we can recall it later
     NSMutableDictionary *connectionInfo = [NSMutableDictionary dictionaryWithCapacity:3];
@@ -178,7 +178,7 @@
 }
 
 - (void)cancelRequest:(NSTimer*)theTimer {
-    NSURLConnection *connection = (NSURLConnection*)[theTimer userInfo];
+    NSURLConnection *connection = (NSURLConnection*)theTimer.userInfo;
     __auto_type connectionKey = [NSValue valueWithNonretainedObject:connection];
     NSMutableDictionary *connectionInfo = self._activeConnections[connectionKey];
     DSJSONRPCCompletionHandler completionHandler = connectionInfo[@"completionHandler"];
@@ -190,7 +190,7 @@
     if (delegate && [delegate respondsToSelector:@selector(jsonRPC:didFailMethod:forId:withError:)]) {
         [delegate jsonRPC:self didFailMethod:connectionInfo[@"method"] forId:[connectionInfo[@"id"] intValue] withError:aError];
     }
-    [(NSURLConnection*)[theTimer userInfo] cancel];
+    [(NSURLConnection*)theTimer.userInfo cancel];
     timer = nil;
 }
 

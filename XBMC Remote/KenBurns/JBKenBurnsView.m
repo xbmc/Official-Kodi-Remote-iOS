@@ -113,7 +113,7 @@
 }
 
 - (void)_startAnimations:(NSArray*)images {
-    for (uint i = 0; i < [images count]; i++) {
+    for (uint i = 0; i < images.count; i++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
                                withObject:@(i)
@@ -121,7 +121,7 @@
         
         sleep(self.timeTransition);
         
-        i = (i == [images count] - 1) && isLoop ? -1 : i;
+        i = (i == images.count - 1) && isLoop ? -1 : i;
         
     }
 }
@@ -134,7 +134,7 @@
 - (void)_startInternetAnimations:(NSArray*)urls {
     int bufferIndex = 0;
     
-    for (NSInteger urlIndex = self.imagesArray.count; urlIndex < [urls count]; urlIndex++) {
+    for (NSInteger urlIndex = self.imagesArray.count; urlIndex < urls.count; urlIndex++) {
         
         [self performSelectorOnMainThread:@selector(_animate:)
                                withObject:@(0)
@@ -148,7 +148,7 @@
         }
         
         bufferIndex++;
-        urlIndex = (urlIndex == [urls count]-1) && isLoop ? -1 : urlIndex; 
+        urlIndex = (urlIndex == urls.count - 1) && isLoop ? -1 : urlIndex;
         
         sleep(self.timeTransition);
     }
@@ -292,13 +292,13 @@
     [imageView.layer addSublayer:picLayer];
     
     CATransition *animation = [CATransition animation];
-    [animation setDuration:1];
-    [animation setType:kCATransitionFade];
+    animation.duration = 1;
+    animation.type = kCATransitionFade;
     [[self layer] addAnimation:animation forKey:nil];
     
     // Remove the previous view
-    if ([[self subviews] count] > 0) {
-        [[self subviews][0] removeFromSuperview];
+    if (self.subviews.count > 0) {
+        [self.subviews[0] removeFromSuperview];
     }
     
     [self addSubview:imageView];
@@ -324,7 +324,7 @@
             [self.delegate didShowImageAtIndex:[imageIndex intValue]];
         }
         
-        if ([imageIndex intValue] == ([self.imagesArray count]-1) && !isLoop && [self.delegate respondsToSelector:@selector(didFinishAllAnimations)]) {
+        if ([imageIndex intValue] == (self.imagesArray.count - 1) && !isLoop && [self.delegate respondsToSelector:@selector(didFinishAllAnimations)]) {
             [self.delegate didFinishAllAnimations];
         } 
     }

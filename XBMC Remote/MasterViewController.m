@@ -50,10 +50,10 @@
                                    iconName, @"icon_connection",
                                    nil];
     if (status) {
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];
-        [AppDelegate instance].serverOnLine = YES;
-        [AppDelegate instance].serverName = infoText;
+        AppDelegate.instance.serverOnLine = YES;
+        AppDelegate.instance.serverName = infoText;
         itemIsActive = NO;
         NSInteger n = [menuList numberOfRowsInSection:0];
         for (int i = 1; i < n; i++) {
@@ -61,9 +61,9 @@
             if (cell != nil) {
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
-                [(UIImageView*)[cell viewWithTag:1] setAlpha:1.0];
-                [(UIImageView*)[cell viewWithTag:2] setAlpha:1.0];
-                [(UIImageView*)[cell viewWithTag:3] setAlpha:1.0];
+                ((UIImageView*)[cell viewWithTag:1]).alpha = 1.0;
+                ((UIImageView*)[cell viewWithTag:2]).alpha = 1.0;
+                ((UIImageView*)[cell viewWithTag:3]).alpha = 1.0;
                 [UIView commitAnimations];
             }
         }
@@ -77,8 +77,8 @@
     else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:params];
-        [AppDelegate instance].serverOnLine = NO;
-        [AppDelegate instance].serverName = infoText;
+        AppDelegate.instance.serverOnLine = NO;
+        AppDelegate.instance.serverName = infoText;
         itemIsActive = NO;
         NSInteger n = [menuList numberOfRowsInSection:0];
         for (int i = 1; i < n; i++) {
@@ -86,9 +86,9 @@
             if (cell != nil) {
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDuration:0.3];
-                [(UIImageView*)[cell viewWithTag:1] setAlpha:0.3];
-                [(UIImageView*)[cell viewWithTag:2] setAlpha:0.3];
-                [(UIImageView*)[cell viewWithTag:3] setAlpha:0.3];
+                ((UIImageView*)[cell viewWithTag:1]).alpha = 0.3;
+                ((UIImageView*)[cell viewWithTag:2]).alpha = 0.3;
+                ((UIImageView*)[cell viewWithTag:3]).alpha = 0.3;
                 [UIView commitAnimations];
             }
         }
@@ -102,7 +102,7 @@
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.mainMenu count];
+    return self.mainMenu.count;
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -119,42 +119,42 @@
     if (cell == nil) {
         cell = resultMenuCell;
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
-        [backgroundView setBackgroundColor:[Utilities getGrayColor:22 alpha:1]];
+        backgroundView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         cell.selectedBackgroundView = backgroundView;
-        [(UILabel*)[cell viewWithTag:3] setText:LOCALIZED_STR(@"No connection")];
+        ((UILabel*)[cell viewWithTag:3]).text = LOCALIZED_STR(@"No connection");
         UILabel *title = (UILabel*)[cell viewWithTag:3];
         if (indexPath.row == 0) {
             UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
             int cellHeight = 44;
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:cellHeight width:self.view.bounds.size.width]];
             xbmc_logo.alpha = 0.25;
-            [xbmc_logo setImage:logo];
-            [xbmc_logo setHighlightedImage:[UIImage imageNamed:@"xbmc_logo_selected"]];
+            xbmc_logo.image = logo;
+            xbmc_logo.highlightedImage = [UIImage imageNamed:@"xbmc_logo_selected"];
             [cell insertSubview:xbmc_logo atIndex:0];
             UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
             UIImageView *line = (UIImageView*)[cell viewWithTag:4];
             UIImageView *arrowRight = (UIImageView*)[cell viewWithTag:5];
             line.hidden = YES;
-            [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
-            [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight - CONNECTION_ICON_SIZE) / 2), CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE)];
-            [title setFrame:CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight)];
-            [title setNumberOfLines:2];
-            [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
+            title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
+            icon.frame = CGRectMake(icon.frame.origin.x, (int)((cellHeight - CONNECTION_ICON_SIZE) / 2), CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE);
+            title.frame = CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight);
+            title.numberOfLines = 2;
+            arrowRight.frame = CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height);
         }
         else {
-            [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:20]];
-            [title setText:[item.mainLabel uppercaseString]];
+            title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
+            title.text = [item.mainLabel uppercaseString];
         }
     }
     UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
     UILabel *upperTitle = (UILabel*)[cell viewWithTag:2];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
-    [upperTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:11]];
-    [upperTitle setText:item.upperLabel];
+    upperTitle.font = [UIFont fontWithName:@"Roboto-Regular" size:11];
+    upperTitle.text = item.upperLabel;
     if (indexPath.row == 0) {
         iconName = @"connection_off";
-        if ([AppDelegate instance].serverOnLine) {
-            if ([AppDelegate instance].serverTCPConnectionOpen) {
+        if (AppDelegate.instance.serverOnLine) {
+            if (AppDelegate.instance.serverTCPConnectionOpen) {
                 iconName = @"connection_on";
             }
             else {
@@ -162,23 +162,23 @@
             }
         }
     }
-    if ([AppDelegate instance].serverOnLine || indexPath.row == 0) {
-        [icon setAlpha:1];
-        [upperTitle setAlpha:1];
-        [title setAlpha:1];
+    if (AppDelegate.instance.serverOnLine || indexPath.row == 0) {
+        icon.alpha = 1.0;
+        upperTitle.alpha = 1.0;
+        title.alpha = 1.0;
     }
     else {
-        [icon setAlpha:0.3];
-        [upperTitle setAlpha:0.3];
-        [title setAlpha:0.3];
+        icon.alpha = 0.3;
+        upperTitle.alpha = 0.3;
+        title.alpha = 0.3;
     }
-    [icon setImage:[UIImage imageNamed:iconName]];
+    icon.image = [UIImage imageNamed:iconName];
     return cell;
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     mainMenu *item = self.mainMenu[indexPath.row];
-    if (![AppDelegate instance].serverOnLine && item.family != FamilyServer) {
+    if (!AppDelegate.instance.serverOnLine && item.family != FamilyServer) {
         [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return;
     }
@@ -219,26 +219,26 @@
     object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
     
     UINavigationBar *newBar = navController.navigationBar;
-    [newBar setBarStyle:UIBarStyleBlack];
-    [newBar setTintColor:TINT_COLOR];
+    newBar.barStyle = UIBarStyleBlack;
+    newBar.tintColor = TINT_COLOR;
     if (setBarTintColor) {
-        [newBar setBackgroundColor:[Utilities getGrayColor:204 alpha:0.35]];
+        newBar.backgroundColor = [Utilities getGrayColor:204 alpha:0.35];
     }
     if (hideBottonLine) {
         [navController hideNavBarBottomLine:YES];
     }
-    [navController.view setClipsToBounds:NO];
+    navController.view.clipsToBounds = NO;
     CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height + 22);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
-    [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [shadow setImage:[UIImage imageNamed:@"tableLeft"]];
+    shadow.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    shadow.image = [UIImage imageNamed:@"tableLeft"];
     shadow.opaque = YES;
     [navController.view addSubview:shadow];
     
     shadowRect = CGRectMake(self.view.frame.size.width, 0, 16, self.view.frame.size.height + 22);
     UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
-    [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [shadowRight setImage:[UIImage imageNamed:@"tableRight"]];
+    shadowRight.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    shadowRight.image = [UIImage imageNamed:@"tableRight"];
     shadowRight.opaque = YES;
     [navController.view addSubview:shadowRight];
 
@@ -283,7 +283,7 @@
 #pragma mark - App clear disk cache methods
 
 - (void)startClearAppDiskCache:(ClearCacheView*)clearView {
-    [[AppDelegate instance] clearAppDiskCache];
+    [AppDelegate.instance clearAppDiskCache];
     [self performSelectorOnMainThread:@selector(clearAppDiskCacheFinished:) withObject:clearView waitUntilDone:YES];
 }
 
@@ -305,7 +305,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.slidingViewController setAnchorRightPeekAmount: ANCHOR_RIGHT_PEEK];
+    self.slidingViewController.anchorRightPeekAmount = ANCHOR_RIGHT_PEEK;
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
 }
 
@@ -318,8 +318,8 @@
     CGRect frame = menuList.frame;
     frame.origin.y = 22;
     frame.size.height = frame.size.height - 22;
-    [menuList setFrame:frame];
-    [menuList setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    menuList.frame = frame;
+    menuList.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
     if (clearCache) {
@@ -331,7 +331,7 @@
     self.tcpJSONRPCconnection = [tcpJSONRPC new];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
-    [AppDelegate instance].obj = [GlobalData getInstance];
+    AppDelegate.instance.obj = [GlobalData getInstance];
     checkServerParams = [NSDictionary dictionaryWithObjectsAndKeys: @[@"version", @"volume"], @"properties", nil];
     menuList.scrollsToTop = NO;
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -365,25 +365,25 @@
                                                  name: @"XBMCServerConnectionFailed"
                                                object: nil];
     
-    [self.view setBackgroundColor:[Utilities getGrayColor:36 alpha:1]];
+    self.view.backgroundColor = [Utilities getGrayColor:36 alpha:1];
     [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
 - (void)connectionStatus:(NSNotification*)note {
-    NSDictionary *theData = [note userInfo];
+    NSDictionary *theData = note.userInfo;
     NSString *icon_connection = theData[@"icon_connection"];
     NSString *infoText = theData[@"message"];
     UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
-    [icon setImage:[UIImage imageNamed:icon_connection]];
+    icon.image = [UIImage imageNamed:icon_connection];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
-    [title setText:infoText];
+    title.text = infoText;
 }
 
 - (void)handleTcpJSONRPCChangeServerStatus:(NSNotification*)sender {
-    BOOL statusValue = [[[sender userInfo] valueForKey:@"status"] boolValue];
-    NSString *message = [[sender userInfo] valueForKey:@"message"];
-    NSString *icon_connection = [[sender userInfo] valueForKey:@"icon_connection"];
+    BOOL statusValue = [[sender.userInfo valueForKey:@"status"] boolValue];
+    NSString *message = [sender.userInfo valueForKey:@"message"];
+    NSString *icon_connection = [sender.userInfo valueForKey:@"icon_connection"];
     [self changeServerStatus:statusValue infoText:message icon:icon_connection];
 }
 
@@ -396,11 +396,11 @@
 }
 
 - (void)handleEnterForeground:(NSNotification*)sender {
-    if ([AppDelegate instance].serverOnLine) {
+    if (AppDelegate.instance.serverOnLine) {
         if (self.tcpJSONRPCconnection == nil) {
             self.tcpJSONRPCconnection = [tcpJSONRPC new];
         }
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:[AppDelegate instance].obj.serverIP serverPort:[AppDelegate instance].obj.tcpPort];
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
     }
 }
 
