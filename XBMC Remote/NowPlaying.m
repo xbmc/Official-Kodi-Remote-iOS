@@ -373,6 +373,7 @@ int currentItemID;
     [PartyModeButton setSelected:NO];
     repeatButton.hidden = YES;
     shuffleButton.hidden = YES;
+    hiresImage.hidden = YES;
     musicPartyMode = 0;
     [self setIOS7backgroundEffect:[UIColor clearColor] barTintColor:TINT_COLOR];
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
@@ -976,7 +977,7 @@ int currentItemID;
     [[Utilities getJsonRPC]
      callMethod:@"XBMC.GetInfoLabels" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                     @[@"MusicPlayer.Codec", @"MusicPlayer.SampleRate", @"MusicPlayer.BitRate", @"MusicPlayer.Channels", @"VideoPlayer.VideoResolution", @"VideoPlayer.VideoAspect", @"VideoPlayer.AudioCodec", @"VideoPlayer.VideoCodec"], @"labels",
+                     @[@"MusicPlayer.Codec", @"MusicPlayer.SampleRate", @"MusicPlayer.BitRate", @"MusicPlayer.BitsPerSample", @"MusicPlayer.Channels", @"VideoPlayer.VideoResolution", @"VideoPlayer.VideoAspect", @"VideoPlayer.AudioCodec", @"VideoPlayer.VideoCodec"], @"labels",
                      nil]
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
@@ -984,6 +985,7 @@ int currentItemID;
              NSString *bitrate = @"";
              NSString *samplerate = @"";
              NSString *numchan = @"";
+             hiresImage.hidden = YES;
              if (playerID == 0 && currentPlayerID == playerID) {
                  codec = [methodResult[@"MusicPlayer.Codec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"MusicPlayer.Codec"]];
                  songCodec.text = codec;
@@ -1008,8 +1010,18 @@ int currentItemID;
                  if (numChanImage != nil) {
                      songBitRate.hidden = YES;
                  }
-        
-                 samplerate = [methodResult[@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@\nkHz", methodResult[@"MusicPlayer.SampleRate"]];
+                 
+                 NSString *bps = [methodResult[@"MusicPlayer.BitsPerSample"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@ Bit", methodResult[@"MusicPlayer.BitsPerSample"]];
+                 
+                 NSString *kHz = [methodResult[@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@ kHz", methodResult[@"MusicPlayer.SampleRate"]];
+                 
+                 // Check for High Resolution Audio
+                 if ([bps integerValue] >= 24 || [kHz integerValue] >= 96) {
+                     hiresImage.hidden = NO;
+                 }
+                
+                 NSString *newLine = ![bps isEqualToString:@""] && ![kHz isEqualToString:@""] ? @"\n" : @"";
+                 samplerate = [NSString stringWithFormat:@"%@%@%@", bps, newLine, kHz];
                  songNumChannels.text = samplerate;
                  songNumChannels.hidden = NO;
                  
@@ -1038,7 +1050,7 @@ int currentItemID;
                      songBitRate.hidden = YES;
                  }
                  
-                samplerate = [methodResult[@"VideoPlayer.VideoCodec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"VideoPlayer.VideoCodec"]];
+                 samplerate = [methodResult[@"VideoPlayer.VideoCodec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"VideoPlayer.VideoCodec"]];
                  songSampleRate.text = samplerate;
                  songSampleRate.hidden = NO;
                  songSampleRateImage.image = nil;
