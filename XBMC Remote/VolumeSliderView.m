@@ -67,6 +67,11 @@
             muteIconColor = [UIColor grayColor];
             volumeIconColor = [UIColor lightGrayColor];
             
+            // Move all buttons to vertical center of view
+            for (UIView *subView in [self subviews]) {
+                subView.center = CGPointMake(subView.center.x, frame.size.height / 2);
+            }
+            
             // set final used width for this view
             frame_tmp = frame;
             frame_tmp.size.width = CGRectGetMaxX(plusButton.frame);
