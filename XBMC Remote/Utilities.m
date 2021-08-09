@@ -189,7 +189,7 @@
 
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {
     if (color == nil) return image;
-    UIGraphicsBeginImageContextWithOptions(image.size, YES, [[UIScreen mainScreen] scale]);
+    UIGraphicsBeginImageContextWithOptions(image.size, YES, 0);
     
     CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = [image size]};
     
@@ -198,7 +198,7 @@
     itemImagePosition.x = ceilf((contextRect.size.width - itemImageSize.width) / 2);
     itemImagePosition.y = ceilf((contextRect.size.height - itemImageSize.height));
     
-    UIGraphicsBeginImageContextWithOptions(contextRect.size, NO, [[UIScreen mainScreen] scale]);
+    UIGraphicsBeginImageContextWithOptions(contextRect.size, NO, 0);
     
     CGContextRef c = UIGraphicsGetCurrentContext();
     
@@ -674,7 +674,7 @@
 
 + (UIImage*)roundedCornerImage:(UIImage*)image drawBorder:(BOOL)drawBorder {
     CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, UIScreen.mainScreen.scale);
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0);
 
     // Set radius for corners
     CGFloat radius = GET_ROUNDED_EDGES_RADIUS(image.size);
