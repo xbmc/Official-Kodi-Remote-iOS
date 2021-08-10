@@ -134,6 +134,11 @@
     if ([codec rangeOfString:@"musepack"].location != NSNotFound) {
         codec = [codec stringByReplacingOccurrencesOfString:@"musepack" withString:@"mpc"];
     }
+    else if ([codec hasPrefix:@"pcm"]) {
+        // Map pcm_s16le, pcm_s24le, pcm_f32le and other linear pcm to "pcm".
+        // Do not map other formats like adpcm to pcm.
+        codec = @"pcm";
+    }
     return codec;
 }
 
