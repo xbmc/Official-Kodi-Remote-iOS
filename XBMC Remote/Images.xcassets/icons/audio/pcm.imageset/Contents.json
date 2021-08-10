@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "pcm_s16le.png",
+      "filename" : "pcm.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
