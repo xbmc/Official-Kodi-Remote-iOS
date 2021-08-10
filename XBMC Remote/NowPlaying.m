@@ -137,6 +137,21 @@
     return codec;
 }
 
+- (BOOL)isLosslessFormat:(NSString*)codec {
+    NSString *upperCaseCodec = [codec uppercaseString];
+    return ([upperCaseCodec isEqualToString:@"WMALOSSLESS"] ||
+            [upperCaseCodec isEqualToString:@"TTA"] ||
+            [upperCaseCodec isEqualToString:@"TAK"] ||
+            [upperCaseCodec isEqualToString:@"SHN"] ||
+            [upperCaseCodec isEqualToString:@"RALF"] ||
+            [upperCaseCodec isEqualToString:@"PCM"] ||
+            [upperCaseCodec isEqualToString:@"MP4ALS"] ||
+            [upperCaseCodec isEqualToString:@"MLP"] ||
+            [upperCaseCodec isEqualToString:@"FLAC"] ||
+            [upperCaseCodec isEqualToString:@"APE"] ||
+            [upperCaseCodec isEqualToString:@"ALAC"]);
+}
+
 - (UIImage*)loadImageFromName:(NSString*)imageName {
     UIImage *image = nil;
     if ([imageName length] != 0) {
@@ -1011,12 +1026,16 @@ int currentItemID;
                      songBitRate.hidden = YES;
                  }
                  
+                 BOOL isLossless = [self isLosslessFormat:codec];
+                 
                  NSString *bps = [methodResult[@"MusicPlayer.BitsPerSample"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@ Bit", methodResult[@"MusicPlayer.BitsPerSample"]];
                  
                  NSString *kHz = [methodResult[@"MusicPlayer.SampleRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@ kHz", methodResult[@"MusicPlayer.SampleRate"]];
                  
                  // Check for High Resolution Audio
-                 if ([bps integerValue] >= 24 || [kHz integerValue] >= 96) {
+                 // Must be using a lossless codec and have either at least 24 Bit or at least 88.2 kHz.
+                 // But never have less than 16 Bit or less than 44.1 kHz.
+                 if (isLossless && ([bps integerValue] >= 24 || [kHz integerValue] >= 88) && !([bps integerValue] < 16 || [kHz integerValue] < 44)) {
                      hiresImage.hidden = NO;
                  }
                 
