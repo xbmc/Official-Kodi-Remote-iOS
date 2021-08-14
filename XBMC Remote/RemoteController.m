@@ -95,6 +95,19 @@
     }
 }
 
+- (CGFloat)getOriginYForRemote:(CGFloat)offsetBottomMode {
+    CGFloat yOrigin = 0;
+    RemotePositionType positionMode = [Utilities getRemotePositionMode];
+    if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
+        yOrigin = offsetBottomMode;
+        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    }
+    else {
+        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+    }
+    return yOrigin;
+}
+
 - (void)setEmbeddedView {
     CGRect frame = TransitionalView.frame;
     CGFloat newWidth = CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) - ANCHOR_RIGHT_PEEK;
@@ -142,15 +155,7 @@
     
     // Maintain aspect ratio
     CGFloat newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
-    CGFloat offset = 0;
-    RemotePositionType positionMode = [Utilities getRemotePositionMode];
-    if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
-        offset = -newHeight + shift;
-        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    }
-    else {
-        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-    }
+    CGFloat offset = [self getOriginYForRemote:shift - newHeight];
     remoteControlView.frame = CGRectMake(0, offset, newWidth, newHeight);
     
     frame = remoteControlView.frame;
@@ -184,7 +189,6 @@
     if (self.detailItem) {
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
-    RemotePositionType positionMode = [Utilities getRemotePositionMode];
     CGFloat toolbarPadding = TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET;
     if (![Utilities hasRemoteToolBar]) {
         toolbarPadding = 0;
@@ -194,14 +198,7 @@
         CGRect frame = remoteControlView.frame;
         frame.size.height *= transform;
         frame.size.width *= transform;
-        if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
-            frame.origin.y = remoteControlView.frame.size.height - frame.size.height - toolbarPadding;
-            remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        }
-        else {
-            frame.origin.y = 0;
-            remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-        }
+        frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
         remoteControlView.frame = frame;
         frame.origin.y = 0;
         quickHelpView.frame = frame;
@@ -227,14 +224,7 @@
         frame.size.height *= transform;
         frame.size.width *= transform;
         frame.origin.x = (STACKSCROLL_WIDTH - frame.size.width)/2;
-        if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
-            frame.origin.y = remoteControlView.frame.size.height - frame.size.height - toolbarPadding;
-            remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        }
-        else {
-            frame.origin.y = 0;
-            remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-        }
+        frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
         remoteControlView.frame = frame;
         frame.origin = CGPointZero;
         quickHelpView.frame = frame;
