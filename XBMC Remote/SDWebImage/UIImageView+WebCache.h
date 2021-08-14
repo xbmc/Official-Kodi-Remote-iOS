@@ -166,7 +166,7 @@
  *                       is nil and the second parameter may contain an NSError. The third parameter is a Boolean
  *                       indicating if the image was retrived from the local cache of from the network.
  */
-- (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder options:(SDWebImageOptions)options andResize:(CGSize)size progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedBlock)completedBlock;
+- (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder options:(SDWebImageOptions)options andResize:(CGSize)size withBorder:(BOOL)withBorder progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedBlock)completedBlock;
 
 /**
  * Cancel the current download

@@ -9,6 +9,8 @@
 #import "Utilities.h"
 #import "AppDelegate.h"
 
+#define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) / 10.0, 8.0)
+#define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 #define XBMC_LOGO_PADDING 10
 
@@ -187,7 +189,7 @@
 
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {
     if (color == nil) return image;
-    UIGraphicsBeginImageContextWithOptions(image.size, YES, [[UIScreen mainScreen] scale]);
+    UIGraphicsBeginImageContextWithOptions(image.size, YES, 0);
     
     CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = [image size]};
     
@@ -196,7 +198,7 @@
     itemImagePosition.x = ceilf((contextRect.size.width - itemImageSize.width) / 2);
     itemImagePosition.y = ceilf((contextRect.size.height - itemImageSize.height));
     
-    UIGraphicsBeginImageContextWithOptions(contextRect.size, NO, [[UIScreen mainScreen] scale]);
+    UIGraphicsBeginImageContextWithOptions(contextRect.size, NO, 0);
     
     CGContextRef c = UIGraphicsGetCurrentContext();
     
@@ -670,21 +672,78 @@
     return urlString;
 }
 
-+ (UIImage*)imageWithShadow:(UIImage*)source radius:(CGFloat)radius {
-    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef shadowContext = CGBitmapContextCreate(NULL, source.size.width + radius * 2, source.size.height + radius * 2, CGImageGetBitsPerComponent(source.CGImage), 0, colourSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
-    CGColorSpaceRelease(colourSpace);
++ (UIImage*)roundedCornerImage:(UIImage*)image drawBorder:(BOOL)drawBorder {
+    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0);
 
-    CGContextSetShadowWithColor(shadowContext, CGSizeZero, radius, [UIColor blackColor].CGColor);
-    CGContextDrawImage(shadowContext, CGRectMake(radius, radius, source.size.width, source.size.height), source.CGImage);
+    // Set radius for corners
+    CGFloat radius = GET_ROUNDED_EDGES_RADIUS(image.size);
+    
+    // Define our path, capitalizing on UIKit's corner rounding magic
+    UIBezierPath *path = GET_ROUNDED_EDGES_PATH(imageRect, radius);
+    [path addClip];
 
-    CGImageRef shadowedCGImage = CGBitmapContextCreateImage(shadowContext);
-    CGContextRelease(shadowContext);
+    // Draw the image into the implicit context
+    [image drawInRect:imageRect];
+    
+    if (drawBorder) {
+        // Draw border with shape of path
+        path.lineWidth = 1.0 / UIScreen.mainScreen.scale;
+        [[UIColor blackColor] setStroke];
+        [path stroke];
+    }
+     
+    // Get image and cleanup
+    UIImage *roundedCornerImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return roundedCornerImage;
+}
 
-    UIImage * shadowedImage = [UIImage imageWithCGImage:shadowedCGImage];
-    CGImageRelease(shadowedCGImage);
++ (UIImageView*)roundedCornerView:(UIImageView*)view drawBorder:(BOOL)drawBorder {
+    CALayer *imageLayer = view.layer;
+    
+    // Shrink view to ensure a bit of space between thumbnails in list views
+    view.frame = CGRectInset(view.frame, 0.5, 0.5);
+    
+    // Set radius for corners
+    imageLayer.cornerRadius = GET_ROUNDED_EDGES_RADIUS(imageLayer.frame.size);
+    // Create a mask layer
+    CAShapeLayer *maskLayer = [CAShapeLayer new];
+    maskLayer.frame = imageLayer.bounds;
+    // Define our path, capitalizing on UIKit's corner rounding magic
+    UIBezierPath *newPath = GET_ROUNDED_EDGES_PATH(imageLayer.bounds, imageLayer.cornerRadius);
+    maskLayer.path = newPath.CGPath;
+    // Apply the mask
+    imageLayer.mask = maskLayer;
+    
+    // Apply border
+    if (drawBorder) {
+        imageLayer.borderWidth = 1.0 / UIScreen.mainScreen.scale;
+        imageLayer.borderColor = [UIColor blackColor].CGColor;
+    }
+    else {
+        imageLayer.borderWidth = 0;
+    }
+    
+    return view;
+}
 
-    return shadowedImage;
++ (UIImage*)applyRoundedEdgesImage:(UIImage*)image drawBorder:(BOOL)drawBorder {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *corner_preference = [userDefaults objectForKey:@"rounded_corner_preference"];
+    if (corner_preference == nil || [corner_preference boolValue]) {
+        image = [Utilities roundedCornerImage:image drawBorder:drawBorder];
+    }
+    return image;
+}
+
++ (UIImageView*)applyRoundedEdgesView:(UIImageView*)imageView drawBorder:(BOOL)drawBorder {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *corner_preference = [userDefaults objectForKey:@"rounded_corner_preference"];
+    if (corner_preference == nil || [corner_preference boolValue]) {
+        imageView = [Utilities roundedCornerView:imageView drawBorder:drawBorder];
+    }
+    return imageView;
 }
 
 @end

@@ -607,7 +607,7 @@ int count = 0;
 }
 
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source {
-    return [Utilities imageWithShadow:source radius:10];
+    return [Utilities applyRoundedEdgesImage:source drawBorder:YES];
 }
 
 - (BOOL)enableJewelCases {
@@ -1502,6 +1502,7 @@ int count = 0;
     }
     NSString *stringURL = [Utilities formatStringURL:cast[indexPath.row][@"thumbnail"] serverURL:serverURL];
     [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person"] andResize:CGSizeMake(castWidth, castHeight)];
+    [Utilities applyRoundedEdgesView:cell.actorThumbnail drawBorder:YES];
     cell.actorName.text = cast[indexPath.row][@"name"] == nil ? self.detailItem[@"label"] : cast[indexPath.row][@"name"];
     if ([cast[indexPath.row][@"role"] length] != 0) {
         cell.actorRole.text = [NSString stringWithFormat:@"%@", cast[indexPath.row][@"role"]];

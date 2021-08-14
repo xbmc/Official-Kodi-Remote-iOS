@@ -1343,12 +1343,14 @@
         else if (channelListView) {
             [cell setIsRecording:[item[@"isrecording"] boolValue]];
         }
-        
+        if ([item[@"family"] isEqualToString:@"channelid"]) {
+            [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
+        }
+        BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
+                            [item[@"family"] isEqualToString:@"type"] ||
+                            [item[@"family"] isEqualToString:@"file"]);
         if (![stringURL isEqualToString:@""]) {
-            if ([item[@"family"] isEqualToString:@"channelid"]) {
-                [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
-            }
-            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(cellthumbWidth, cellthumbHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] options:0 andResize:CGSizeMake(cellthumbWidth, cellthumbHeight) withBorder:showBorder progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (channelListView || channelGuideView || recordingListView) {
                     [Utilities setLogoBackgroundColor:cell.posterThumbnail mode:logoBackgroundMode];
                 }
@@ -1367,7 +1369,9 @@
             [cell.posterLabel setHidden:NO];
             [cell.labelImageView setHidden:NO];
             [cell.posterThumbnail setBackgroundColor:[Utilities getGrayColor:28 alpha:1.0]];
+            showBorder = NO;
         }
+        [Utilities applyRoundedEdgesView:cell.posterThumbnail drawBorder:showBorder];
         
         if ([playcount intValue]) {
             [cell setOverlayWatched:YES];
@@ -2208,8 +2212,7 @@ int originYear = 0;
             [item[@"family"] isEqualToString:@"file"] ||
             [item[@"family"] isEqualToString:@"genreid"] ||
             [item[@"family"] isEqualToString:@"channelgroupid"] ||
-            [item[@"family"] isEqualToString:@"roleid"]
-            ) {
+            [item[@"family"] isEqualToString:@"roleid"]) {
             if (![stringURL isEqualToString:@""]) {
                 displayThumb = stringURL;
             }
@@ -2279,11 +2282,14 @@ int originYear = 0;
             genre.hidden = NO;
             runtimeyear.hidden = NO;
         }
+        if ([item[@"family"] isEqualToString:@"channelid"] || [item[@"family"] isEqualToString:@"type"]) {
+            [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
+        }
+        BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
+                            [item[@"family"] isEqualToString:@"type"] ||
+                            [item[@"family"] isEqualToString:@"file"]);
         if (![stringURL isEqualToString:@""]) {
-            if ([item[@"family"] isEqualToString:@"channelid"] || [item[@"family"] isEqualToString:@"type"]) {
-                [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
-            }
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(thumbWidth, cellHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] options:0 andResize:CGSizeMake(thumbWidth, cellHeight) withBorder:showBorder progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (channelListView || channelGuideView || recordingListView) {
                     [Utilities setLogoBackgroundColor:cell.urlImageView mode:logoBackgroundMode];
                 }
@@ -2291,7 +2297,9 @@ int originYear = 0;
         }
         else {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
+            showBorder = NO;
         }
+        [Utilities applyRoundedEdgesView:cell.urlImageView drawBorder:showBorder];
     }
     else if (albumView) {
         UILabel *trackNumber = (UILabel*)[cell viewWithTag:101];
@@ -2461,17 +2469,6 @@ int originYear = 0;
                            placeholderImage:[UIImage imageNamed:displayThumb]
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                      CGFloat thumbBorder = 1.0/[[UIScreen mainScreen] scale];
-                                      [thumbImageContainer setBackgroundColor:[UIColor clearColor]];
-                                      thumbImageContainer.layer.shadowColor = [UIColor blackColor].CGColor;
-                                      thumbImageContainer.layer.shadowOpacity = 1.0f;
-                                      thumbImageContainer.layer.shadowOffset = CGSizeZero;
-                                      thumbImageContainer.layer.shadowRadius = 2.0;
-                                      thumbImageContainer.layer.masksToBounds = NO;
-                                      thumbImageContainer.layer.borderWidth = thumbBorder;
-                                      thumbImageContainer.layer.borderColor = [UIColor blackColor].CGColor;
-                                      UIBezierPath *path = [UIBezierPath bezierPathWithRect:thumbImageContainer.bounds];
-                                      thumbImageContainer.layer.shadowPath = path.CGPath;
                                       if (enableBarColor) {
                                           albumColor = [Utilities averageColor:image inverse:NO];
                                           UIColor *lightAlbumColor = [Utilities lighterColorForColor:albumColor];
@@ -2632,7 +2629,6 @@ int originYear = 0;
             CGFloat origin_x = seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2);
             CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
             CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1);
-            UIImageView *thumbImageShadowView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace - 3, albumViewPadding - 3, seasonThumbWidth + 6, albumViewHeight - (albumViewPadding * 2) + 6)];
             UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, (albumViewPadding / 2), labelwidth, artistFontSize + labelPadding)];
             UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
             UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
@@ -2670,10 +2666,6 @@ int originYear = 0;
                 [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
             }
             [albumDetailView addSubview:thumbImageView];
-            
-            [thumbImageShadowView setContentMode:UIViewContentModeScaleToFill];
-            thumbImageShadowView.image = [UIImage imageNamed:@"coverbox_back_section_shadow"];
-            [albumDetailView addSubview:thumbImageShadowView];
             
             [artist setBackgroundColor:[UIColor clearColor]];
             [artist setShadowOffset:CGSizeMake(0, 1)];
