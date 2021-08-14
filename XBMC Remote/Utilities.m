@@ -808,4 +808,8 @@
     return torchIsOn;
 }
 
++ (BOOL)hasRemoteToolBar {
+    return UIScreen.mainScreen.bounds.size.height >= 568;
+}
+
 @end

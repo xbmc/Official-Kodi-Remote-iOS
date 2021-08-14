@@ -61,10 +61,6 @@
     buttonZoneView.alpha = 0;
 }
 
-- (BOOL)hasRemoteToolBar {
-    return UIScreen.mainScreen.bounds.size.height >= 568;
-}
-
 - (void)moveButton:(NSArray*)buttonsToDo ypos:(int)y {
     for (UIButton *button in buttonsToDo) {
         button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y + y, button.frame.size.width, button.frame.size.height);
@@ -89,7 +85,7 @@
                        [(UIButton*)self.view viewWithTag:8],
                        nil]
                 hide:YES];
-    if ([self hasRemoteToolBar]) {
+    if ([Utilities hasRemoteToolBar]) {
         shift = [self.view viewWithTag:21].frame.size.height;
         [self moveButton: [NSArray arrayWithObjects:
                            (UIButton*)[self.view viewWithTag:21],
@@ -126,7 +122,7 @@
     CGFloat newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
     CGFloat offset = 0;
     RemotePositionType positionMode = [Utilities getRemotePositionMode];
-    if (positionMode == remoteBottom && [self hasRemoteToolBar]) {
+    if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
         offset = -newHeight + shift;
         remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }
@@ -145,7 +141,7 @@
     subsInfoLabel.frame = frame;
     
     [self setupGestureView];
-    if ([self hasRemoteToolBar]) {
+    if ([Utilities hasRemoteToolBar]) {
         [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_HEIGHT isEmbedded:YES];
     }
     else {
@@ -168,7 +164,7 @@
     }
     RemotePositionType positionMode = [Utilities getRemotePositionMode];
     CGFloat toolbarPadding = TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET;
-    if (![self hasRemoteToolBar]) {
+    if (![Utilities hasRemoteToolBar]) {
         toolbarPadding = 0;
     }
     if (IS_IPHONE) {
@@ -176,7 +172,7 @@
         CGRect frame = remoteControlView.frame;
         frame.size.height *= transform;
         frame.size.width *= transform;
-        if (positionMode == remoteBottom && [self hasRemoteToolBar]) {
+        if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
             frame.origin.y = remoteControlView.frame.size.height - frame.size.height - toolbarPadding;
             remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         }
@@ -209,7 +205,7 @@
         frame.size.height *= transform;
         frame.size.width *= transform;
         frame.origin.x = (STACKSCROLL_WIDTH - frame.size.width)/2;
-        if (positionMode == remoteBottom && [self hasRemoteToolBar]) {
+        if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
             frame.origin.y = remoteControlView.frame.size.height - frame.size.height - toolbarPadding;
             remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         }
@@ -226,7 +222,7 @@
         subsInfoLabel.frame = frame;
     }
     [self setupGestureView];
-    if ([self hasRemoteToolBar]) {
+    if ([Utilities hasRemoteToolBar]) {
         [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:0 yMax:self.view.bounds.size.height isEmbedded:NO];
     }
     

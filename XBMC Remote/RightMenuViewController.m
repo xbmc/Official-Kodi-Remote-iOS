@@ -284,7 +284,7 @@
     // Layout is (top-down): status bar > server info > volume slider > (menu items) > remote view
     CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
     CGFloat sliderHeight = volumeSliderView.frame.size.height;
-    CGFloat menuItemsHeight = UIScreen.mainScreen.bounds.size.height >= 568 ? 0 : 3 * RIGHT_MENU_ITEM_HEIGHT;
+    CGFloat menuItemsHeight = [Utilities hasRemoteToolBar] ? 0 : 3 * RIGHT_MENU_ITEM_HEIGHT;
     return statusBarHeight + SERVER_INFO_HEIGHT + sliderHeight + menuItemsHeight;
 }
 
@@ -731,7 +731,7 @@
             [item[@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad/Gesture Zone")] ||
             [item[@"label"] isEqualToString:LOCALIZED_STR(@"Help Screen")] ||
             [item[@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) &&
-            UIScreen.mainScreen.bounds.size.height >= 568;
+            [Utilities hasRemoteToolBar];
 }
 
 - (void)setRightMenuOption:(NSString*)key reloadTableData:(BOOL)reload {
