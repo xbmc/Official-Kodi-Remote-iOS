@@ -106,8 +106,8 @@
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
         [title setAutoresizingMask:UIViewAutoresizingNone];
         [icon setAutoresizingMask:UIViewAutoresizingNone];
-        [icon setFrame:CGRectMake(10, (SERVER_INFO_HEIGHT - RIGHT_MENU_ICON_SIZE) / 2, RIGHT_MENU_ICON_SIZE, RIGHT_MENU_ICON_SIZE)];
-        [title setFrame:CGRectMake(icon.frame.size.width + RIGHT_MENU_ICON_SPACING, (SERVER_INFO_HEIGHT - title.frame.size.height) / 2, tableView.frame.size.width - (icon.frame.size.width + 2 * RIGHT_MENU_ICON_SPACING), title.frame.size.height)];
+        icon.frame = CGRectMake(10, (SERVER_INFO_HEIGHT - RIGHT_MENU_ICON_SIZE) / 2, RIGHT_MENU_ICON_SIZE, RIGHT_MENU_ICON_SIZE);
+        title.frame = CGRectMake(icon.frame.size.width + RIGHT_MENU_ICON_SPACING, (SERVER_INFO_HEIGHT - title.frame.size.height) / 2, tableView.frame.size.width - (icon.frame.size.width + 2 * RIGHT_MENU_ICON_SPACING), title.frame.size.height);
         [title setTextAlignment:NSTextAlignmentLeft];
         [title setText:[AppDelegate instance].serverName];
         [title setNumberOfLines:2];
@@ -164,7 +164,7 @@
             UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
             [onoff setAutoresizingMask:icon.autoresizingMask];
             [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-            [onoff setFrame:CGRectMake(0, (RIGHT_MENU_ITEM_HEIGHT - onoff.frame.size.height) / 2, onoff.frame.size.width, onoff.frame.size.height)];
+            onoff.frame = CGRectMake(0, (RIGHT_MENU_ITEM_HEIGHT - onoff.frame.size.height) / 2, onoff.frame.size.width, onoff.frame.size.height);
             onoff.hidden = NO;
             onoff.tag = 1000 + indexPath.row;
 
@@ -244,7 +244,7 @@
     if (IS_IPAD) {
         frame.size.width = STACKSCROLL_WIDTH;
         [fixedSpace setWidth:0.0];
-        [toolbar setFrame:CGRectMake(0, 0, frame.size.width, TOOLBAR_HEIGHT)];
+        toolbar.frame = CGRectMake(0, 0, frame.size.width, TOOLBAR_HEIGHT);
         [toolbar setAutoresizingMask: UIViewAutoresizingNone];
     }
     UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - footerHeight, frame.size.width, footerHeight)];

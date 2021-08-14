@@ -67,7 +67,7 @@
 
 - (void)moveButton:(NSArray*)buttonsToDo ypos:(int)y {
     for (UIButton *button in buttonsToDo) {
-        [button setFrame:CGRectMake(button.frame.origin.x, button.frame.origin.y + y, button.frame.size.width, button.frame.size.height)];
+        button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y + y, button.frame.size.width, button.frame.size.height);
     }
 }
 
@@ -120,7 +120,7 @@
     CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:21].frame);
     CGFloat upperButtonLowerBorder = CGRectGetMaxY([self.view viewWithTag:6].frame);
     CGFloat transViewY = (lowerButtonUpperBorder + upperButtonLowerBorder - TransitionalView.frame.size.height)/2;
-    [TransitionalView setFrame:CGRectMake(frame.origin.x, transViewY, frame.size.width, frame.size.height)];
+    TransitionalView.frame = CGRectMake(frame.origin.x, transViewY, frame.size.width, frame.size.height);
     
     // Maintain aspect ratio
     CGFloat newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
@@ -1364,7 +1364,7 @@ NSInteger buttonAction;
             mainMenu *menuItem = rightMenuViewController.rightMenuItems[0];
             menuItem.mainMethod = nil;
         }
-        [rightMenuViewController.view setFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height)];
+        rightMenuViewController.view.frame = CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height);
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:rightMenuViewController invokeByController:self isStackStartView:NO];
     }
 }
