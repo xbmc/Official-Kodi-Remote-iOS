@@ -20,9 +20,9 @@
 
 #define ROTATION_TRIGGER 0.015
 #define REMOTE_PADDING (44 + 20 + 44) // Space which is used up by footer, header and remote toolbar
-#define EMBEDDED_PADDING 44
 #define TOOLBAR_ICON_SIZE 36
 #define TOOLBAR_FIXED_OFFSET 8
+#define TOOLBAR_HEIGHT (TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET)
 
 @interface RemoteController ()
 
@@ -146,7 +146,7 @@
     
     [self setupGestureView];
     if ([self hasRemoteToolBar]) {
-        [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax: EMBEDDED_PADDING];
+        [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_HEIGHT];
     }
     else {
         // Overload "stop" button with gesture icon in case the toolbar cannot be displayed (e.g. iPhone 4S)
@@ -228,7 +228,7 @@
     }
     [self setupGestureView];
     if ([self hasRemoteToolBar]) {
-        [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:0 yMax:self.view.frame.size.height];
+        [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:0 yMax:self.view.bounds.size.height];
     }
     
     UISwipeGestureRecognizer *gestureRightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
@@ -1256,61 +1256,62 @@ NSInteger buttonAction;
     // Layout is Flex > Settings > Flex > Gesture > Flex > Keyboard > Flex > Info > Flex > Torch > Flex
     CGFloat ToolbarFlexSpace = ((width - 5 * TOOLBAR_ICON_SIZE) / 6);
     CGFloat ToolbarPadding = (TOOLBAR_ICON_SIZE + ToolbarFlexSpace);
-    CGFloat ToolbarStart = 5 * ToolbarPadding;
-    CGRect frame = CGRectMake(CGRectGetMaxX(self.view.frame) - xMin - ToolbarStart, yMax - TOOLBAR_ICON_SIZE - TOOLBAR_FIXED_OFFSET, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
+    
+    // Frame for remoteToolbarView placed at bottom - toolbar's height
+    UIView *remoteToolbar = [[UIView alloc] initWithFrame:CGRectMake(0, yMax - TOOLBAR_HEIGHT, width, TOOLBAR_HEIGHT)];
+    remoteToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    
+    // Frame for buttons in remoteToolbarView
+    CGRect frame = CGRectMake(ToolbarFlexSpace, TOOLBAR_FIXED_OFFSET / 2, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
+    
+    // Add buttons to toolbar
     UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     settingButton.frame = frame;
     [settingButton setContentMode:UIViewContentModeRight];
     [settingButton setShowsTouchWhenHighlighted:YES];
     [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
-    settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [settingButton addTarget:self action:@selector(handleSettingsButton:) forControlEvents:UIControlEventTouchUpInside];
     settingButton.alpha = 0.8;
-    [self.view addSubview:settingButton];
+    [remoteToolbar addSubview:settingButton];
     
     UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
     frame.origin.x += ToolbarPadding;
     gestureButton.frame = frame;
-    [gestureButton setContentMode:UIViewContentModeRight];
     [gestureButton setShowsTouchWhenHighlighted:YES];
     [gestureButton setImage:gestureButtonImg forState:UIControlStateNormal];
-    gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
     gestureButton.alpha = 0.8;
-    [self.view addSubview:gestureButton];
+    [remoteToolbar addSubview:gestureButton];
         
     UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
     frame.origin.x += ToolbarPadding;
     keyboardButton.frame = frame;
-    [keyboardButton setContentMode:UIViewContentModeRight];
     [keyboardButton setShowsTouchWhenHighlighted:YES];
     [keyboardButton setImage:[UIImage imageNamed:@"keyboard_icon"] forState:UIControlStateNormal];
-    keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
     keyboardButton.alpha = 0.8;
-    [self.view addSubview:keyboardButton];
+    [remoteToolbar addSubview:keyboardButton];
 
     UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
     frame.origin.x += ToolbarPadding;
     helpButton.frame = frame;
-    [helpButton setContentMode:UIViewContentModeRight];
     [helpButton setShowsTouchWhenHighlighted:YES];
     [helpButton setImage:[UIImage imageNamed:@"button_info"] forState:UIControlStateNormal];
-    helpButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
     helpButton.alpha = 0.8;
-    [self.view addSubview:helpButton];
+    [remoteToolbar addSubview:helpButton];
     
     UIButton *torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
     frame.origin.x += ToolbarPadding;
     torchButton.frame = frame;
-    [torchButton setContentMode:UIViewContentModeRight];
     [torchButton setShowsTouchWhenHighlighted:YES];
     [torchButton setImage:[UIImage imageNamed:torchIsOn ? @"torch_on" : @"torch"] forState:UIControlStateNormal];
-    torchButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
     torchButton.alpha = 0.8;
-    [self.view addSubview:torchButton];
+    [remoteToolbar addSubview:torchButton];
+    
+    // Add toolbar to RemoteController's view
+    [self.view addSubview:remoteToolbar];
 }
 
 - (void)viewDidLoad {
