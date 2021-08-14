@@ -1,7 +1,29 @@
+Features:
+User Interface
+- Aligned icons with Kodi 19
+- Buttons/icons in modern look
+- User selectable rounded edges for thumbnails
+Main menu
+- User configurable main menu items
+- Support for Kodi favorites
+Remote screen
+- Updated icons and help screens
+- Selectable remote position (top/bottom)
+- Unified toolbar for iPad/iPhone
+Movie collection
+- Show collection posters
+- Respect setting to show/ignore 1-movie sets
+Audio details view
+- Show bits per sample and HiRes logo
+- Added logos for various codecs
+Video details view
+- Updated 4K and added 8K icons
+
 Bugfixes:
-- Fix volume up/down button function for iPhone
-- Fix sorting issues with Add-Ons (e.g. youtube)
-- Fix long-press action in iPad fullscreen mode for Music
+- Fix action sheet title for recordings
+- Fix amount of episodes in detail view
+- Fix episode name when started via Kodi
+- Fix detail view when called from playlist
 - Further bugfixes and stability improvements
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
