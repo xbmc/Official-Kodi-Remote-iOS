@@ -9,12 +9,17 @@
 #import "mainMenu.h"
 #import "AppDelegate.h"
 #import "DetailViewController.h"
-#import <AVFoundation/AVFoundation.h>
 #import "CustomNavigationController.h"
 #import "customButton.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "Utilities.h"
+
+#define TOOLBAR_HEIGHT 44.0
+#define SERVER_INFO_HEIGHT 44.0
+#define RIGHT_MENU_ITEM_HEIGHT 50.0
+#define RIGHT_MENU_ICON_SIZE 18.0
+#define RIGHT_MENU_ICON_SPACING 16.0
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -29,41 +34,17 @@
     return self;
 }
 
-- (void)turnTorchOn:(BOOL)on icon:(UIImageView*)iconTorch {
-    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
-    if (captureDeviceClass != nil) {
-        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettings];
-        if ([device hasTorch] && [device hasFlash]) {
-            [device lockForConfiguration:nil];
-            if (on) {
-                [device setTorchMode:AVCaptureTorchModeOn];
-                [settings setFlashMode:AVCaptureFlashModeOn];
-                torchIsOn = YES;
-                [iconTorch setImage:[UIImage imageNamed:@"torch_on"]];
-            }
-            else {
-                [device setTorchMode:AVCaptureTorchModeOff];
-                [settings setFlashMode:AVCaptureFlashModeOff];
-                torchIsOn = NO;
-                [iconTorch setImage:[UIImage imageNamed:@"torch"]];
-            }
-            [device unlockForConfiguration];
-        }
-    }
-}
-
 #pragma mark -
 #pragma mark Table view data source
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     if ([tableData[indexPath.row][@"label"] isEqualToString:@"ServerInfo"]) {
-        return 44;
+        return SERVER_INFO_HEIGHT;
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"RemoteControl"]) {
-        return 570;
+        return UIScreen.mainScreen.bounds.size.height - [self getRemoteViewOffsetY];
     }
-    return 50;
+    return RIGHT_MENU_ITEM_HEIGHT;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
@@ -122,17 +103,16 @@
                 iconName = @"connection_on_notcp";
             }
         }
-        int cellHeight = 44;
         [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
         [title setAutoresizingMask:UIViewAutoresizingNone];
         [icon setAutoresizingMask:UIViewAutoresizingNone];
-        [icon setFrame:CGRectMake(10, (int)((cellHeight/2) - (18/2)), 18, 18)];
-        [title setFrame:CGRectMake(icon.frame.size.width + 16, (int)((cellHeight/2) - (title.frame.size.height/2)), tableView.frame.size.width - (icon.frame.size.width + 32), title.frame.size.height)];
+        icon.frame = CGRectMake(10, (SERVER_INFO_HEIGHT - RIGHT_MENU_ICON_SIZE) / 2, RIGHT_MENU_ICON_SIZE, RIGHT_MENU_ICON_SIZE);
+        title.frame = CGRectMake(icon.frame.size.width + RIGHT_MENU_ICON_SPACING, (SERVER_INFO_HEIGHT - title.frame.size.height) / 2, tableView.frame.size.width - (icon.frame.size.width + 2 * RIGHT_MENU_ICON_SPACING), title.frame.size.height);
         [title setTextAlignment:NSTextAlignmentLeft];
         [title setText:[AppDelegate instance].serverName];
         [title setNumberOfLines:2];
         UIImageView *arrowRight = (UIImageView*)[cell viewWithTag:5];
-        [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
+        [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (SERVER_INFO_HEIGHT - arrowRight.frame.size.height) / 2, arrowRight.frame.size.width, arrowRight.frame.size.height)];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"VolumeControl"]) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -148,15 +128,13 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         [title setText:@""];
         if (remoteControllerView == nil) {
-            remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+            remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:YES bundle:nil];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [cell.contentView addSubview:remoteControllerView.view];
-            [remoteControllerView setEmbeddedView];
             remoteControllerView.panFallbackImageView.frame = cell.frame;
         }
     }
     else {
-        int cellHeight = 50;
         cell = rightMenuCell;
         [cell setAccessoryView:nil];
         cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
@@ -186,11 +164,11 @@
             UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
             [onoff setAutoresizingMask:icon.autoresizingMask];
             [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-            [onoff setFrame:CGRectMake(0, cellHeight/2 - onoff.frame.size.height/2, onoff.frame.size.width, onoff.frame.size.height)];
+            onoff.frame = CGRectMake(0, (RIGHT_MENU_ITEM_HEIGHT - onoff.frame.size.height) / 2, onoff.frame.size.width, onoff.frame.size.height);
             onoff.hidden = NO;
             onoff.tag = 1000 + indexPath.row;
 
-            UIView *onoffview = [[UIView alloc] initWithFrame: CGRectMake(0, 0, onoff.frame.size.width, 50)];
+            UIView *onoffview = [[UIView alloc] initWithFrame: CGRectMake(0, 0, onoff.frame.size.width, RIGHT_MENU_ITEM_HEIGHT)];
             [onoffview addSubview:onoff];
 
             UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -198,7 +176,7 @@
             [indicator setCenter:onoff.center];
             [onoffview addSubview:indicator];
 
-            frame.size.width = cell.frame.size.width - frame.origin.x - 16;
+            frame.size.width = cell.frame.size.width - frame.origin.x - RIGHT_MENU_ICON_SPACING;
             icon.hidden = YES;
             if ([tableData[indexPath.row][@"action"][@"params"][@"value"] isKindOfClass:[NSNumber class]]) {
                 [onoff setOn:[tableData[indexPath.row][@"action"][@"params"][@"value"] boolValue]];
@@ -261,12 +239,12 @@
                                                                                 target: nil
                                                                                 action: nil];
     [fixedSpace setWidth:50.0];
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, TOOLBAR_HEIGHT)];
     [toolbar setAutoresizingMask: UIViewAutoresizingFlexibleWidth];
     if (IS_IPAD) {
         frame.size.width = STACKSCROLL_WIDTH;
         [fixedSpace setWidth:0.0];
-        [toolbar setFrame:CGRectMake(0, 0, frame.size.width, 44)];
+        toolbar.frame = CGRectMake(0, 0, frame.size.width, TOOLBAR_HEIGHT);
         [toolbar setAutoresizingMask: UIViewAutoresizingNone];
     }
     UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - footerHeight, frame.size.width, footerHeight)];
@@ -276,28 +254,38 @@
     [toolbar setTintColor:[UIColor lightGrayColor]];
 
     UIBarButtonItem *fixedSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
-                                                                                target: nil
-                                                                                action: nil];
+                                                                                 target: nil
+                                                                                 action: nil];
     [fixedSpace2 setWidth:2.0];
 
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
                                                                                    target: nil
                                                                                    action: nil];
     addButton = [[UIBarButtonItem alloc] initWithTitle: LOCALIZED_STR(@"...more")
-                                                                   style: UIBarButtonItemStylePlain
-                                                                  target: self
-                                                                 action: @selector(addButtonToList:)];
+                                                 style: UIBarButtonItemStylePlain
+                                                target: self
+                                                action: @selector(addButtonToList:)];
     
     addButton.enabled = NO;
     editTableButton = [[UIBarButtonItem alloc] initWithTitle: LOCALIZED_STR(@"Edit")
-                                                                   style: UIBarButtonItemStylePlain
-                                                                  target: self
-                                                                  action: @selector(editTable:)];
+                                                       style: UIBarButtonItemStylePlain
+                                                      target: self
+                                                      action: @selector(editTable:)];
     [toolbar setItems:[NSArray arrayWithObjects:fixedSpace, addButton, flexibleSpace, editTableButton, fixedSpace2, nil]];
     
     [newView insertSubview:toolbar atIndex:0];
     
     return newView;
+}
+
+#pragma mark - Helper
+
+- (CGFloat)getRemoteViewOffsetY {
+    // Layout is (top-down): status bar > server info > volume slider > (menu items) > remote view
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    CGFloat sliderHeight = volumeSliderView.frame.size.height;
+    CGFloat menuItemsHeight = [Utilities hasRemoteToolBar] ? 0 : 3 * RIGHT_MENU_ITEM_HEIGHT;
+    return statusBarHeight + SERVER_INFO_HEIGHT + sliderHeight + menuItemsHeight;
 }
 
 #pragma mark - Table actions
@@ -408,7 +396,6 @@
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
     return ([tableData[indexPath.row][@"isSetting"] boolValue]);
 }
-
 
 - (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -537,7 +524,8 @@
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
         UIImageView *torchIcon = (UIImageView*)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
-        [self turnTorchOn:!torchIsOn icon:torchIcon];
+        torchIsOn = !torchIsOn;
+        [Utilities turnTorchOn:torchIcon on:torchIsOn];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Cancel")]) {
         [self.slidingViewController resetTopView];
@@ -601,7 +589,7 @@
     [super viewDidLoad];
     CGFloat deltaY = [[UIApplication sharedApplication] statusBarFrame].size.height;
     self.peekLeftAmount = ANCHOR_RIGHT_PEEK;
-    CGRect frame = [[UIScreen mainScreen] bounds];
+    CGRect frame = UIScreen.mainScreen.bounds;
     CGFloat deltaX = ANCHOR_RIGHT_PEEK;
     if (IS_IPAD) {
         frame.size.width = STACKSCROLL_WIDTH;
@@ -609,18 +597,11 @@
         deltaY = 0;
         self.peekLeftAmount = 0;
     }
-    torchIsOn = NO;
-    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
-    if (captureDeviceClass != nil) {
-        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        if ([device hasTorch] && [device hasFlash]) {
-            torchIsOn = [device torchLevel];
-        }
-    }
+    torchIsOn = [Utilities isTorchOn];
     [self.slidingViewController setAnchorLeftPeekAmount:self.peekLeftAmount];
     self.slidingViewController.underRightWidthLayout = ECFullWidth;
-    int infoLabelHeight = 100;
-    infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/2 - infoLabelHeight/2, self.view.frame.size.width - (60), infoLabelHeight)];
+    CGFloat infoLabelHeight = 2 * RIGHT_MENU_ITEM_HEIGHT;
+    infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.peekLeftAmount, (frame.size.height - infoLabelHeight) / 2, frame.size.width - self.peekLeftAmount, infoLabelHeight)];
     infoLabel.numberOfLines = 2;
     [infoLabel setText:LOCALIZED_STR(@"Select an XBMC Server from the list")];
     [infoLabel setBackgroundColor:[UIColor clearColor]];
@@ -650,7 +631,7 @@
     }
     CGFloat footerHeight = 0;
     if (menuItems.family == FamilyRemote) {
-        footerHeight = 44 + bottomPadding;
+        footerHeight = TOOLBAR_HEIGHT + bottomPadding;
         [self.view addSubview:[self createTableFooterView: footerHeight]];
     }
     if (menuItems.family == FamilyNowPlaying || menuItems.family == FamilyRemote) {
@@ -745,6 +726,14 @@
     [volumeSliderView stopTimer];
 }
 
+- (BOOL)itemShownInRemoteToolBar:(NSDictionary*)item {
+    return ([item[@"label"] isEqualToString:LOCALIZED_STR(@"Keyboard")] ||
+            [item[@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad/Gesture Zone")] ||
+            [item[@"label"] isEqualToString:LOCALIZED_STR(@"Help Screen")] ||
+            [item[@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) &&
+            [Utilities hasRemoteToolBar];
+}
+
 - (void)setRightMenuOption:(NSString*)key reloadTableData:(BOOL)reload {
     mainMenu *menuItems = self.rightMenuItems[0];
     tableData = [[NSMutableArray alloc] initWithCapacity:0];
@@ -785,17 +774,20 @@
             showTop = @(NO);
         }
         
-        [tableData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                              label, @"label",
-                              bgColor, @"bgColor",
-                              hideLine, @"hideLineSeparator",
-                              fontColor, @"fontColor",
-                              icon, @"icon",
-                              action, @"action",
-                              showTop, @"revealViewTop",
-                              @(NO), @"isSetting",
-                              @"embedded", @"type",
-                            nil]];
+        NSDictionary *itemDict = @{@"label": label,
+                                   @"bgColor": bgColor,
+                                   @"hideLineSeparator": hideLine,
+                                   @"fontColor": fontColor,
+                                   @"icon": icon,
+                                   @"action": action,
+                                   @"revealViewTop": showTop,
+                                   @"isSetting": @(NO),
+                                   @"type": @"embedded"};
+         
+        // Do not show the remoteToolBar items in the menu while in "online" state
+        if (!([self itemShownInRemoteToolBar:item] && [key isEqualToString:@"online"])) {
+            [tableData addObject:itemDict];
+        }
     }
     editableRowStartAt = [tableData count];
     if ([key isEqualToString:@"online"] && menuItems.family == FamilyRemote) {
@@ -876,7 +868,6 @@
     }
     return foundIndex;
 }
-
 
 - (void)connectionSuccess:(NSNotification*)note {
     NSDictionary *theData = [note userInfo];

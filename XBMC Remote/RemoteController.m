@@ -15,15 +15,36 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "RightMenuViewController.h"
-#import <AVFoundation/AVFoundation.h>
 #import "DetailViewController.h"
+#import "Utilities.h"
 
 #define ROTATION_TRIGGER 0.015
-#define REMOTE_PADDING 120 // Space which is used up by footer, header and remote toolbar
+#define REMOTE_PADDING (44 + 20 + 44) // Space which is used up by footer, header and remote toolbar
 #define TOOLBAR_ICON_SIZE 36
-#define TOOLBAR_SPACING 8 // Space from icon to frame border
-#define TOOLBAR_PADDING 68
-#define TOOLBAR_START (3*TOOLBAR_PADDING + TOOLBAR_ICON_SIZE + TOOLBAR_SPACING) // Origin for first toolbar icon
+#define TOOLBAR_FIXED_OFFSET 8
+#define TOOLBAR_HEIGHT (TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET)
+#define TAG_BUTTON_FULLSCREEN 1
+#define TAG_BUTTON_SEEK_BACKWARD 2
+#define TAG_BUTTON_PLAY_PAUSE 3
+#define TAG_BUTTON_SEEK_FORWARD 4
+#define TAG_BUTTON_PREVIOUS 5
+#define TAG_BUTTON_STOP 6
+#define TAG_BUTTON_NEXT 8
+#define TAG_BUTTON_HOME 9
+#define TAG_BUTTON_ARROW_UP 10
+#define TAG_BUTTON_INFO 11
+#define TAG_BUTTON_ARROW_LEFT 12
+#define TAG_BUTTON_SELECT 13
+#define TAG_BUTTON_ARROW_RIGHT 14
+#define TAG_BUTTON_MENU 15
+#define TAG_BUTTON_ARROW_DOWN 16
+#define TAG_BUTTON_BACK 18
+#define TAG_BUTTON_SUBTITLES 19
+#define TAG_BUTTON_AUDIOSTREAMS 20
+#define TAG_BUTTON_MUSIC 21
+#define TAG_BUTTON_MOVIES 22
+#define TAG_BUTTON_TVSHOWS 23
+#define TAG_BUTTON_PICTURES 24
 
 @interface RemoteController ()
 
@@ -43,9 +64,30 @@
     }
 }
 
+- (void)setupGestureView {
+    gestureImage = [UIImage imageNamed:@"finger"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
+    if (!showGesture) {
+        return;
+    }
+    
+    gestureImage = [UIImage imageNamed:@"circle"];
+    CGRect frame = [gestureZoneView frame];
+    frame.origin.x = 0;
+    gestureZoneView.frame = frame;
+    
+    frame = [buttonZoneView frame];
+    frame.origin.x = self.view.frame.size.width;
+    buttonZoneView.frame = frame;
+    
+    gestureZoneView.alpha = 1;
+    buttonZoneView.alpha = 0;
+}
+
 - (void)moveButton:(NSArray*)buttonsToDo ypos:(int)y {
     for (UIButton *button in buttonsToDo) {
-        [button setFrame:CGRectMake(button.frame.origin.x, button.frame.origin.y + y, button.frame.size.width, button.frame.size.height)];
+        button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y + y, button.frame.size.width, button.frame.size.height);
     }
 }
 
@@ -55,119 +97,154 @@
     }
 }
 
-- (void)setEmbeddedView {
-    CGRect frame = TransitionalView.frame;
-    CGFloat newWidth = remoteControlView.frame.size.width - ANCHOR_RIGHT_PEEK;
-    [self hideButton: [NSArray arrayWithObjects:
-                       [(UIButton*)self.view viewWithTag:2],
-                       [(UIButton*)self.view viewWithTag:3],
-                       [(UIButton*)self.view viewWithTag:4],
-                       [(UIButton*)self.view viewWithTag:5],
-                       [(UIButton*)self.view viewWithTag:8],
-                       nil]
-                hide:YES];
-    if ([[UIScreen mainScreen] bounds].size.height >= 568) {
-        [self moveButton: [NSArray arrayWithObjects:
-                           (UIButton*)[self.view viewWithTag:21],
-                           (UIButton*)[self.view viewWithTag:22],
-                           (UIButton*)[self.view viewWithTag:23],
-                           (UIButton*)[self.view viewWithTag:24],
-                           nil]
-                    ypos: -32];
+- (CGFloat)getOriginYForRemote:(CGFloat)offsetBottomMode {
+    CGFloat yOrigin = 0;
+    RemotePositionType positionMode = [Utilities getRemotePositionMode];
+    if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
+        yOrigin = offsetBottomMode;
+        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }
     else {
+        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+    }
+    return yOrigin;
+}
+
+- (void)setEmbeddedView {
+    CGRect frame = TransitionalView.frame;
+    CGFloat newWidth = CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) - ANCHOR_RIGHT_PEEK;
+    CGFloat shift;
+    [self hideButton: [NSArray arrayWithObjects:
+                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_SEEK_BACKWARD],
+                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_PLAY_PAUSE],
+                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_SEEK_FORWARD],
+                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_PREVIOUS],
+                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_NEXT],
+                       nil]
+                hide:YES];
+    if ([Utilities hasRemoteToolBar]) {
+        shift = [self.view viewWithTag:TAG_BUTTON_MUSIC].frame.size.height;
+        [self moveButton: [NSArray arrayWithObjects:
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_MUSIC],
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_MOVIES],
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_TVSHOWS],
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_PICTURES],
+                           nil]
+                    ypos: -shift];
+    }
+    else {
+        shift = 2.0 * [self.view viewWithTag:TAG_BUTTON_MUSIC].frame.size.height;
         [self hideButton: [NSArray arrayWithObjects:
-                           [(UIButton*)self.view viewWithTag:21],
-                           [(UIButton*)self.view viewWithTag:22],
-                           [(UIButton*)self.view viewWithTag:23],
-                           [(UIButton*)self.view viewWithTag:24],
+                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_MUSIC],
+                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_MOVIES],
+                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_TVSHOWS],
+                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_PICTURES],
                            nil]
                     hide: YES];
     }
+    // Keep the buttons out of the safe area
+    CGFloat bottomPadding = 0.0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
+    
     // Place the transitional view in the middle between the two button rows
-    CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:21].frame);
-    CGFloat upperButtonLowerBorder = CGRectGetMaxY([self.view viewWithTag:6].frame);
+    CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_MUSIC].frame);
+    CGFloat upperButtonLowerBorder = CGRectGetMaxY([self.view viewWithTag:TAG_BUTTON_STOP].frame);
     CGFloat transViewY = (lowerButtonUpperBorder + upperButtonLowerBorder - TransitionalView.frame.size.height)/2;
-    [TransitionalView setFrame:CGRectMake(frame.origin.x, transViewY, frame.size.width, frame.size.height)];
+    TransitionalView.frame = CGRectMake(frame.origin.x, transViewY, frame.size.width, frame.size.height);
     
     // Maintain aspect ratio
     CGFloat newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
-    [remoteControlView setFrame:CGRectMake(-1, 0, newWidth, newHeight)];
+    CGFloat offset = [self getOriginYForRemote:shift - newHeight];
+    remoteControlView.frame = CGRectMake(0, offset, newWidth, newHeight);
     
-    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
-    if (showGesture) {
-        gestureSwitchImg = [UIImage imageNamed:@"circle"];
-        frame = [gestureZoneView frame];
-        frame.origin.x = 0;
-        gestureZoneView.frame = frame;
-        frame = [buttonZoneView frame];
-        frame.origin.x = self.view.frame.size.width;
-        buttonZoneView.frame = frame;
-        gestureZoneView.alpha = 1;
-        buttonZoneView.alpha = 0;
-    }
-    // Overload "stop" button with gesture icon
-    UIButton *gestureButton = (UIButton*)[self.view viewWithTag:6];
-    [gestureButton setContentMode:UIViewContentModeScaleAspectFit];
-    [gestureButton setShowsTouchWhenHighlighted:NO];
-    [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
-    [gestureButton setImage:gestureSwitchImg forState:UIControlStateHighlighted];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up"] forState:UIControlStateNormal];
-    [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down"] forState:UIControlStateHighlighted];
-    gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-    [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
+    frame = remoteControlView.frame;
+    frame.origin.y = 0;
+    frame.size.height -= shift;
+    quickHelpView.frame = frame;
     
     frame = subsInfoLabel.frame;
     frame.origin.x = 0;
     frame.size.width = newWidth;
     subsInfoLabel.frame = frame;
+    
+    [self setupGestureView];
+    if ([Utilities hasRemoteToolBar]) {
+        [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_HEIGHT isEmbedded:YES];
+    }
+    else {
+        // Overload "stop" button with gesture icon in case the toolbar cannot be displayed (e.g. iPhone 4S)
+        UIButton *gestureButton = (UIButton*)[self.view viewWithTag:TAG_BUTTON_STOP];
+        [gestureButton setContentMode:UIViewContentModeScaleAspectFit];
+        [gestureButton setShowsTouchWhenHighlighted:NO];
+        [gestureButton setImage:gestureImage forState:UIControlStateNormal];
+        [gestureButton setImage:gestureImage forState:UIControlStateHighlighted];
+        [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up"] forState:UIControlStateNormal];
+        [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down"] forState:UIControlStateHighlighted];
+        gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+        [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 - (void)configureView {
     if (self.detailItem) {
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
-    quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
+    CGFloat toolbarPadding = TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET;
+    if (![Utilities hasRemoteToolBar]) {
+        toolbarPadding = 0;
+    }
     if (IS_IPHONE) {
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
-        frame.size.height = frame.size.height *transform;
-        frame.size.width = frame.size.width*transform;
+        frame.size.height *= transform;
+        frame.size.width *= transform;
+        frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
         remoteControlView.frame = frame;
+        
+        frame.origin.y = 0;
+        quickHelpView.frame = frame;
+        
         frame = subsInfoLabel.frame;
-        frame.size.width = [[UIScreen mainScreen] bounds].size.width;
-        frame.origin.x = ((remoteControlView.frame.size.width - [[UIScreen mainScreen] bounds].size.width) / 2);
+        frame.size.width = UIScreen.mainScreen.bounds.size.width;
+        frame.origin.x = (remoteControlView.frame.size.width - UIScreen.mainScreen.bounds.size.width) / 2;
         subsInfoLabel.frame = frame;
     }
     else {
-        [quickHelpView setFrame:CGRectMake(quickHelpView.frame.origin.x, quickHelpView.frame.origin.y, quickHelpView.frame.size.width, quickHelpView.frame.size.height - 20)];
-        [quickHelpView
-         setAutoresizingMask:
-         UIViewAutoresizingFlexibleBottomMargin |
-         UIViewAutoresizingFlexibleTopMargin |
-         UIViewAutoresizingFlexibleLeftMargin |
-         UIViewAutoresizingFlexibleRightMargin |
-         UIViewAutoresizingFlexibleHeight |
-         UIViewAutoresizingFlexibleWidth
-         ];
-        
+        // Used to avoid drawing remote buttons into the safe area
+        CGFloat bottomPadding = 0.0;
+        if (@available(iOS 11.0, *)) {
+            UIWindow *window = UIApplication.sharedApplication.keyWindow;
+            bottomPadding = window.safeAreaInsets.bottom;
+        }
         // Calculate the maximum possible scaling for the remote
         CGFloat scaleFactorHorizontal = STACKSCROLL_WIDTH / CGRectGetWidth(remoteControlView.frame);
-        CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING;
+        CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING - bottomPadding;
         CGFloat scaleFactorVertical = minViewHeight / CGRectGetHeight(remoteControlView.frame);
         CGFloat transform = MIN(scaleFactorHorizontal, scaleFactorVertical);
 
-        CGFloat newWidth = CGRectGetWidth(remoteControlView.frame) * transform;
-        CGFloat newHeight = CGRectGetHeight(remoteControlView.frame) * transform;
-        [remoteControlView setFrame:CGRectMake(remoteControlView.frame.origin.x, remoteControlView.frame.origin.y, newWidth, newHeight)];
-        CGRect frame = subsInfoLabel.frame;
-        frame.size.width = newWidth;
+        CGRect frame = remoteControlView.frame;
+        frame.size.height *= transform;
+        frame.size.width *= transform;
+        frame.origin.x = (STACKSCROLL_WIDTH - frame.size.width)/2;
+        frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
+        remoteControlView.frame = frame;
+        
+        frame.origin = CGPointZero;
+        quickHelpView.frame = frame;
+        
+        frame = subsInfoLabel.frame;
+        frame.size.width = remoteControlView.frame.size.width;
         frame.origin.x = 0;
         subsInfoLabel.frame = frame;
-        
     }
+    [self setupGestureView];
+    if ([Utilities hasRemoteToolBar]) {
+        [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:0 yMax:self.view.bounds.size.height isEmbedded:NO];
+    }
+    
     UISwipeGestureRecognizer *gestureRightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     gestureRightSwipe.numberOfTouchesRequired = 1;
     gestureRightSwipe.cancelsTouchesInView = NO;
@@ -216,8 +293,9 @@
     [gestureZoneView addGestureRecognizer:twoFingersTap];
 }
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
+- (id)initWithNibName:(NSString*)nibNameOrNil withEmbedded:(BOOL)withEmbedded bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    isEmbeddedMode = withEmbedded;
     return self;
 }
 
@@ -375,15 +453,18 @@
         frame = [gestureZoneView frame];
         frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
+        
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [UIView setAnimationDuration:0.3];
         frame = [gestureZoneView frame];
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
+        
         frame = [buttonZoneView frame];
         frame.origin.x = self.view.frame.size.width;
         buttonZoneView.frame = frame;
+        
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
         [UIView commitAnimations];
@@ -397,9 +478,11 @@
         frame = [gestureZoneView frame];
         frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
+        
         frame = [buttonZoneView frame];
         frame.origin.x = 0;
         buttonZoneView.frame = frame;
+        
         gestureZoneView.alpha = 0;
         buttonZoneView.alpha = 1;
         [UIView commitAnimations];
@@ -659,7 +742,7 @@
         [actionView addAction:action_cancel];
         [actionView setModalPresentationStyle:UIModalPresentationPopover];
         
-        UIButton *audioStreamsButton = (UIButton*)[self.view viewWithTag:20];
+        UIButton *audioStreamsButton = (UIButton*)[self.view viewWithTag:TAG_BUTTON_AUDIOSTREAMS];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
@@ -698,7 +781,7 @@
         [actionView addAction:action_cancel];
         [actionView setModalPresentationStyle:UIModalPresentationPopover];
         
-        UIButton *subsButton = (UIButton*)[self.view viewWithTag:19];
+        UIButton *subsButton = (UIButton*)[self.view viewWithTag:TAG_BUTTON_SUBTITLES];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
@@ -740,7 +823,7 @@ NSInteger buttonAction;
 - (void)sendActionNoRepeat {
 //    NSString *action;
     switch (buttonAction) {
-        case 15: // MENU OSD
+        case TAG_BUTTON_MENU: // MENU OSD
             [self GUIAction:@"Input.ShowOSD" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04D)"];
             break;
         default:
@@ -818,37 +901,37 @@ NSInteger buttonAction;
     }
     NSString *action;
     switch (buttonAction) {
-        case 10:
+        case TAG_BUTTON_ARROW_UP:
             action = @"Input.Up";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [self playerStep:@"bigforward" musicPlayerGo:nil musicPlayerAction:@"increaserating"];
             break;
             
-        case 12:
+        case TAG_BUTTON_ARROW_LEFT:
             action = @"Input.Left";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [self playerStep:@"smallbackward" musicPlayerGo:@"previous" musicPlayerAction:nil];
             break;
 
-        case 13:
+        case TAG_BUTTON_SELECT:
             action = @"Input.Select";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
             break;
 
-        case 14:
+        case TAG_BUTTON_ARROW_RIGHT:
             action = @"Input.Right";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [self playerStep:@"smallforward" musicPlayerGo:@"next" musicPlayerAction:nil];
             break;
             
-        case 16:
+        case TAG_BUTTON_ARROW_DOWN:
             action = @"Input.Down";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [self playerStep:@"bigbackward" musicPlayerGo:nil musicPlayerAction:@"decreaserating"];
             break;
             
-        case 18:
+        case TAG_BUTTON_BACK:
             action = @"Input.Back";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             break;
@@ -858,36 +941,35 @@ NSInteger buttonAction;
     }
 }
 
-
-
-
 - (IBAction)startVibrate:(id)sender {
     NSString *action;
     NSArray *params;
     NSDictionary *dicParams;
     switch ([sender tag]) {
-        case 1:
+        case TAG_BUTTON_FULLSCREEN:
             action = @"GUI.SetFullscreen";
             [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:@"toggle", @"fullscreen", nil] httpAPIcallback:@"SendKey(0xf009)"];
             break;
-        case 2:
+            
+        case TAG_BUTTON_SEEK_BACKWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
             [self playbackAction:action params:params];
             break;
             
-        case 3:
+        case TAG_BUTTON_PLAY_PAUSE:
             action = @"Player.PlayPause";
             params = nil;
             [self playbackAction:action params:nil];
             break;
             
-        case 4:
+        case TAG_BUTTON_SEEK_FORWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
             [self playbackAction:action params:params];
             break;
-        case 5:
+            
+        case TAG_BUTTON_PREVIOUS:
             if ([AppDelegate instance].serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @[@"previous", @"to"];
@@ -900,19 +982,13 @@ NSInteger buttonAction;
             }
             break;
             
-        case 6:
+        case TAG_BUTTON_STOP:
             action = @"Player.Stop";
             params = nil;
             [self playbackAction:action params:nil];
             break;
             
-        case 7:
-            action = @"Player.PlayPause";
-            params = nil;
-            [self playbackAction:action params:nil];
-            break;
-            
-        case 8:
+        case TAG_BUTTON_NEXT:
             if ([AppDelegate instance].serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @[@"next", @"to"];
@@ -925,36 +1001,36 @@ NSInteger buttonAction;
             }
             break;
         
-        case 9: // HOME
+        case TAG_BUTTON_HOME: // HOME
             action = @"Input.Home";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             break;
             
-        case 11: // INFO
+        case TAG_BUTTON_INFO: // INFO
             action = @"Input.Info";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF049)"];
             break;
             
-        case 13:
+        case TAG_BUTTON_SELECT:
             action = @"Input.Select";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
             break;
             
-        case 15: // MENU OSD
+        case TAG_BUTTON_MENU: // MENU OSD
             action = @"Input.ShowOSD";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04D)"];
             break;
         
-        case 19:
+        case TAG_BUTTON_SUBTITLES:
             [self subtitlesActionSheet];
             break;
             
-        case 20:
+        case TAG_BUTTON_AUDIOSTREAMS:
             [self audioStreamActionSheet];
             break;
             
-        case 21:
+        case TAG_BUTTON_MUSIC:
             action = @"GUI.ActivateWindow";
             dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
                          @"music", @"window",
@@ -962,7 +1038,7 @@ NSInteger buttonAction;
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
             break;
             
-        case 22:
+        case TAG_BUTTON_MOVIES:
             action = @"GUI.ActivateWindow";
             dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
                       @"videos", @"window",
@@ -971,7 +1047,7 @@ NSInteger buttonAction;
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
             break;
         
-        case 23:
+        case TAG_BUTTON_TVSHOWS:
             action = @"GUI.ActivateWindow";
             dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
                          @"videos", @"window",
@@ -980,7 +1056,7 @@ NSInteger buttonAction;
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
             break;
         
-        case 24:
+        case TAG_BUTTON_PICTURES:
             action = @"GUI.ActivateWindow";
             dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
                          @"pictures", @"window",
@@ -1006,19 +1082,19 @@ NSInteger buttonAction;
 - (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         switch (gestureRecognizer.view.tag) {
-            case 1:// FULLSCREEN BUTTON
+            case TAG_BUTTON_FULLSCREEN:
                 [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:@"togglefullscreen", @"action", nil] httpAPIcallback:@"Action(199)"];
                 break;
                 
-            case 2:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
+            case TAG_BUTTON_SEEK_BACKWARD: // DECREASE PLAYBACK SPEED
                 [self playbackAction:@"Player.SetSpeed" params:@[@"decrement", @"speed"]];
                 break;
                 
-            case 4:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
+            case TAG_BUTTON_SEEK_FORWARD: // INCREASE PLAYBACK SPEED
                 [self playbackAction:@"Player.SetSpeed" params:@[@"increment", @"speed"]];
                 break;
                 
-            case 11:// CODEC INFO
+            case TAG_BUTTON_INFO: // CODEC INFO
                 if ([AppDelegate instance].serverVersion > 16) {
                     [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:@"playerdebug", @"action", nil] httpAPIcallback:nil];
                 }
@@ -1027,12 +1103,12 @@ NSInteger buttonAction;
                 }
                 break;
 
-            case 13:// CONTEXT MENU
-            case 15:
+            case TAG_BUTTON_SELECT: // CONTEXT MENU
+            case TAG_BUTTON_MENU:
                 [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF043)"];
                 break;
 
-            case 19:// SUBTITLES BUTTON
+            case TAG_BUTTON_SUBTITLES: // SUBTITLES BUTTON
                 if ([AppDelegate instance].serverVersion > 12) {
                     [self GUIAction:@"GUI.ActivateWindow"
                              params:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -1049,7 +1125,7 @@ NSInteger buttonAction;
                 }
                 break;
                 
-            case 22:
+            case TAG_BUTTON_MOVIES:
                 [self GUIAction:@"GUI.ActivateWindow"
                          params:[NSDictionary dictionaryWithObjectsAndKeys:
                                  @"pvr", @"window",
@@ -1058,7 +1134,7 @@ NSInteger buttonAction;
                 httpAPIcallback:nil];
                 break;
                 
-            case 23:
+            case TAG_BUTTON_TVSHOWS:
                 [self GUIAction:@"GUI.ActivateWindow"
                          params:[NSDictionary dictionaryWithObjectsAndKeys:
                                  @"pvrosdguide", @"window",
@@ -1066,7 +1142,7 @@ NSInteger buttonAction;
                 httpAPIcallback:nil];
                 break;
                 
-            case 24:
+            case TAG_BUTTON_PICTURES:
                 [self GUIAction:@"GUI.ActivateWindow"
                          params:[NSDictionary dictionaryWithObjectsAndKeys:
                                  @"pvrosdchannels", @"window",
@@ -1091,7 +1167,6 @@ NSInteger buttonAction;
         quickHelpView.alpha = 1.0;
         [UIView commitAnimations];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
-
     }
     else {
         [UIView beginAnimations:nil context:nil];
@@ -1100,7 +1175,6 @@ NSInteger buttonAction;
         quickHelpView.alpha = 0.0;
         [UIView commitAnimations];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
-
     }
 }
 
@@ -1124,8 +1198,8 @@ NSInteger buttonAction;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
-        UIImage* settingsImg = [UIImage imageNamed:@"button_settings"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
+        UIImage* settingsImg = [UIImage imageNamed:@"default-right-menu-icon"];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(handleSettingsButton:)];
         [self.navigationController.navigationBar setBarTintColor:REMOTE_CONTROL_BAR_TINT_COLOR];
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -1171,7 +1245,7 @@ NSInteger buttonAction;
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
-- (void)revealUnderRight:(id)sender {
+- (void)revealUnderRight {
     [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
@@ -1181,7 +1255,6 @@ NSInteger buttonAction;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
- 
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -1189,29 +1262,77 @@ NSInteger buttonAction;
     [self resetRemote];
 }
 
-- (void)turnTorchOn:(UIButton*)sender {
-    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+- (void)turnTorchOn:(id)sender {
     torchIsOn = !torchIsOn;
-    if (captureDeviceClass != nil) {
-        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettings];
-        if ([device hasTorch] && [device hasFlash]) {
-            [device lockForConfiguration:nil];
-            if (torchIsOn) {
-                [device setTorchMode:AVCaptureTorchModeOn];
-                [settings setFlashMode:AVCaptureFlashModeOn];
-                torchIsOn = YES;
-                [sender setImage:[UIImage imageNamed:@"torch_on"] forState:UIControlStateNormal];
-            }
-            else {
-                [device setTorchMode:AVCaptureTorchModeOff];
-                [settings setFlashMode:AVCaptureFlashModeOff];
-                torchIsOn = NO;
-                [sender setImage:[UIImage imageNamed:@"torch"] forState:UIControlStateNormal];
-            }
-            [device unlockForConfiguration];
-        }
+    [Utilities turnTorchOn:sender on:torchIsOn];
+}
+
+- (void)createRemoteToolbar:(UIImage*)gestureButtonImg width:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax isEmbedded:(BOOL)isEmbedded {
+    torchIsOn = [Utilities isTorchOn];
+    // Non-embedded layout has 5 buttons (Settings > Gesture > Keyboard > Info > Torch with Flex around the buttons)
+    // Embedded layout has 4 buttons (Gesture > Keyboard > Info > Torch with Flex around the buttons)
+    int numButtons = isEmbedded ? 4 : 5;
+    CGFloat ToolbarFlexSpace = ((width - numButtons * TOOLBAR_ICON_SIZE) / (numButtons + 1));
+    CGFloat ToolbarPadding = (TOOLBAR_ICON_SIZE + ToolbarFlexSpace);
+    
+    // Frame for remoteToolbarView placed at bottom - toolbar's height
+    UIView *remoteToolbar = [[UIView alloc] initWithFrame:CGRectMake(0, yMax - TOOLBAR_HEIGHT, width, TOOLBAR_HEIGHT)];
+    remoteToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    
+    // Frame for buttons in remoteToolbarView
+    CGRect frame = CGRectMake(ToolbarFlexSpace, TOOLBAR_FIXED_OFFSET / 2, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
+    
+    // Add buttons to toolbar
+    frame.origin.x -= ToolbarPadding;
+    if (!isEmbedded) {
+        UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        frame.origin.x += ToolbarPadding;
+        settingButton.frame = frame;
+        [settingButton setShowsTouchWhenHighlighted:YES];
+        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
+        [settingButton addTarget:self action:@selector(handleSettingsButton:) forControlEvents:UIControlEventTouchUpInside];
+        settingButton.alpha = 0.8;
+        [remoteToolbar addSubview:settingButton];
     }
+    
+    UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    frame.origin.x += ToolbarPadding;
+    gestureButton.frame = frame;
+    [gestureButton setShowsTouchWhenHighlighted:YES];
+    [gestureButton setImage:gestureButtonImg forState:UIControlStateNormal];
+    [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
+    gestureButton.alpha = 0.8;
+    [remoteToolbar addSubview:gestureButton];
+    
+    UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    frame.origin.x += ToolbarPadding;
+    keyboardButton.frame = frame;
+    [keyboardButton setShowsTouchWhenHighlighted:YES];
+    [keyboardButton setImage:[UIImage imageNamed:@"keyboard_icon"] forState:UIControlStateNormal];
+    [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
+    keyboardButton.alpha = 0.8;
+    [remoteToolbar addSubview:keyboardButton];
+
+    UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    frame.origin.x += ToolbarPadding;
+    helpButton.frame = frame;
+    [helpButton setShowsTouchWhenHighlighted:YES];
+    [helpButton setImage:[UIImage imageNamed:@"button_info"] forState:UIControlStateNormal];
+    [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
+    helpButton.alpha = 0.8;
+    [remoteToolbar addSubview:helpButton];
+    
+    UIButton *torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    frame.origin.x += ToolbarPadding;
+    torchButton.frame = frame;
+    [torchButton setShowsTouchWhenHighlighted:YES];
+    [torchButton setImage:[UIImage imageNamed:torchIsOn ? @"torch_on" : @"torch"] forState:UIControlStateNormal];
+    [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
+    torchButton.alpha = 0.8;
+    [remoteToolbar addSubview:torchButton];
+    
+    // Add toolbar to RemoteController's view
+    [self.view addSubview:remoteToolbar];
 }
 
 - (void)viewDidLoad {
@@ -1224,82 +1345,30 @@ NSInteger buttonAction;
 
     self.edgesForExtendedLayout = 0;
     self.view.tintColor = TINT_COLOR;
-    [self configureView];
+    
+    quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
+    if (!isEmbeddedMode) {
+        [self configureView];
+    }
+    else {
+        [self setEmbeddedView];
+    }
+    
     [[SDImageCache sharedImageCache] clearMemory];
     [[gestureZoneImageView layer] setMinificationFilter:kCAFilterTrilinear];
-    UIImage* gestureSwitchImg = [UIImage imageNamed:@"finger"];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
-    if (showGesture) {
-        gestureSwitchImg = [UIImage imageNamed:@"circle"];
-        CGRect frame = [gestureZoneView frame];
-        frame.origin.x = 0;
-        gestureZoneView.frame = frame;
-        frame = [buttonZoneView frame];
-        frame.origin.x = self.view.frame.size.width;
-        buttonZoneView.frame = frame;
-        gestureZoneView.alpha = 1;
-        buttonZoneView.alpha = 0;
-    }
-    torchIsOn = NO;
-    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
-    if (captureDeviceClass != nil) {
-        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        if ([device hasTorch] && [device hasFlash]) {
-            if ([device torchLevel]) {
-                torchIsOn = YES;
-            }
-        }
-    }
-    if (IS_IPAD) {
-        CGRect frame = CGRectMake(self.view.bounds.size.width - TOOLBAR_START, self.view.bounds.size.height - TOOLBAR_ICON_SIZE - TOOLBAR_SPACING, TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
-        UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        settingButton.frame = frame;
-        [settingButton setContentMode:UIViewContentModeRight];
-        [settingButton setShowsTouchWhenHighlighted:YES];
-        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
-        settingButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [settingButton addTarget:self action:@selector(addButtonToListIPad:) forControlEvents:UIControlEventTouchUpInside];
-        settingButton.alpha = 0.8;
-        [self.view addSubview:settingButton];
-        
-        UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        frame.origin.x += TOOLBAR_PADDING;
-        gestureButton.frame = frame;
-        [gestureButton setContentMode:UIViewContentModeRight];
-        [gestureButton setShowsTouchWhenHighlighted:YES];
-        [gestureButton setImage:gestureSwitchImg forState:UIControlStateNormal];
-        gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
-        gestureButton.alpha = 0.8;
-        [self.view addSubview:gestureButton];
-        
-        UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        frame.origin.x += TOOLBAR_PADDING;
-        keyboardButton.frame = frame;
-        [keyboardButton setContentMode:UIViewContentModeRight];
-        [keyboardButton setShowsTouchWhenHighlighted:YES];
-        [keyboardButton setImage:[UIImage imageNamed:@"keyboard_icon"] forState:UIControlStateNormal];
-        keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
-        keyboardButton.alpha = 0.8;
-        [self.view addSubview:keyboardButton];
-
-        UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        frame.origin.x += TOOLBAR_PADDING;
-        helpButton.frame = frame;
-        [helpButton setContentMode:UIViewContentModeRight];
-        [helpButton setShowsTouchWhenHighlighted:YES];
-        [helpButton setImage:[UIImage imageNamed:@"button_info"] forState:UIControlStateNormal];
-        helpButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
-        helpButton.alpha = 0.8;
-        [self.view addSubview:helpButton];
-    }
     [self.view setBackgroundColor:[UIColor colorWithPatternImage: [UIImage imageNamed:@"backgroundImage_repeat"]]];
 }
 
-- (void)addButtonToListIPad:(id)sender {
+- (void)handleSettingsButton:(id)sender {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [self revealUnderRight];
+    }
+    else {
+        [self addButtonToListIPad];
+    }
+}
+
+- (void)addButtonToListIPad {
     if ([AppDelegate instance].serverVersion < 13) {
         UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
         [self presentViewController:alertView animated:YES completion:nil];
@@ -1311,7 +1380,7 @@ NSInteger buttonAction;
             mainMenu *menuItem = rightMenuViewController.rightMenuItems[0];
             menuItem.mainMethod = nil;
         }
-        [rightMenuViewController.view setFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height)];
+        rightMenuViewController.view.frame = CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height);
         [[AppDelegate instance].windowController.stackScrollViewController addViewInSlider:rightMenuViewController invokeByController:self isStackStartView:NO];
     }
 }
