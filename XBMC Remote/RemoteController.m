@@ -76,9 +76,11 @@
     CGRect frame = [gestureZoneView frame];
     frame.origin.x = 0;
     gestureZoneView.frame = frame;
+    
     frame = [buttonZoneView frame];
     frame.origin.x = self.view.frame.size.width;
     buttonZoneView.frame = frame;
+    
     gestureZoneView.alpha = 1;
     buttonZoneView.alpha = 0;
 }
@@ -162,6 +164,7 @@
     frame.origin.y = 0;
     frame.size.height -= shift;
     quickHelpView.frame = frame;
+    
     frame = subsInfoLabel.frame;
     frame.origin.x = 0;
     frame.size.width = newWidth;
@@ -200,8 +203,10 @@
         frame.size.width *= transform;
         frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
         remoteControlView.frame = frame;
+        
         frame.origin.y = 0;
         quickHelpView.frame = frame;
+        
         frame = subsInfoLabel.frame;
         frame.size.width = UIScreen.mainScreen.bounds.size.width;
         frame.origin.x = (remoteControlView.frame.size.width - UIScreen.mainScreen.bounds.size.width) / 2;
@@ -226,8 +231,10 @@
         frame.origin.x = (STACKSCROLL_WIDTH - frame.size.width)/2;
         frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
         remoteControlView.frame = frame;
+        
         frame.origin = CGPointZero;
         quickHelpView.frame = frame;
+        
         frame = subsInfoLabel.frame;
         frame.size.width = remoteControlView.frame.size.width;
         frame.origin.x = 0;
@@ -446,15 +453,18 @@
         frame = [gestureZoneView frame];
         frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
+        
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [UIView setAnimationDuration:0.3];
         frame = [gestureZoneView frame];
         frame.origin.x = 0;
         gestureZoneView.frame = frame;
+        
         frame = [buttonZoneView frame];
         frame.origin.x = self.view.frame.size.width;
         buttonZoneView.frame = frame;
+        
         gestureZoneView.alpha = 1;
         buttonZoneView.alpha = 0;
         [UIView commitAnimations];
@@ -468,9 +478,11 @@
         frame = [gestureZoneView frame];
         frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
+        
         frame = [buttonZoneView frame];
         frame.origin.x = 0;
         buttonZoneView.frame = frame;
+        
         gestureZoneView.alpha = 0;
         buttonZoneView.alpha = 1;
         [UIView commitAnimations];
