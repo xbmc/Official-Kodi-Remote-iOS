@@ -1856,11 +1856,7 @@ int count = 0;
     [touchOnKenView setNumberOfTouchesRequired:1];
     [fanartView addGestureRecognizer:touchOnKenView];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    CGFloat bottomPadding = 0;
-    if (@available(iOS 11.0, *)) {
-        UIWindow *window = UIApplication.sharedApplication.keyWindow;
-        bottomPadding = window.safeAreaInsets.bottom;
-    }
+    CGFloat bottomPadding = [Utilities getBottomPadding];
     CGRect frame = arrow_continue_down.frame;
     frame.origin.y -= bottomPadding;
     [arrow_continue_down setFrame:frame];

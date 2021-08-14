@@ -812,4 +812,13 @@
     return UIScreen.mainScreen.bounds.size.height >= 568;
 }
 
++ (CGFloat)getBottomPadding {
+    CGFloat bottomPadding = 0;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.keyWindow;
+        bottomPadding = window.safeAreaInsets.bottom;
+    }
+    return bottomPadding;
+}
+
 @end

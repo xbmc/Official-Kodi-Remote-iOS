@@ -379,11 +379,7 @@ static inline BOOL IsEmpty(id obj) {
     if (IS_IPAD) {
         deltaY = 0;
     }
-    CGFloat bottomPadding = 0;
-    if (@available(iOS 11.0, *)) {
-        UIWindow *window = UIApplication.sharedApplication.keyWindow;
-        bottomPadding = window.safeAreaInsets.bottom;
-    }
+    CGFloat bottomPadding = [Utilities getBottomPadding];
     if (IS_IPAD) {
         bottomPadding = SERVERPOPUP_BOTTOMPADDING;
     }

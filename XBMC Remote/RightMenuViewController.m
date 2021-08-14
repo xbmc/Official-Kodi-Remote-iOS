@@ -624,11 +624,7 @@
                         nil];
     
     mainMenu *menuItems = self.rightMenuItems[0];
-    CGFloat bottomPadding = 0;
-    if (@available(iOS 11.0, *)) {
-        UIWindow *window = UIApplication.sharedApplication.keyWindow;
-        bottomPadding = window.safeAreaInsets.bottom;
-    }
+    CGFloat bottomPadding = [Utilities getBottomPadding];
     CGFloat footerHeight = 0;
     if (menuItems.family == FamilyRemote) {
         footerHeight = TOOLBAR_HEIGHT + bottomPadding;
