@@ -1301,7 +1301,7 @@ NSInteger buttonAction;
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
     gestureButton.alpha = 0.8;
     [remoteToolbar addSubview:gestureButton];
-        
+    
     UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
     frame.origin.x += ToolbarPadding;
     keyboardButton.frame = frame;
