@@ -23,6 +23,28 @@
 #define TOOLBAR_ICON_SIZE 36
 #define TOOLBAR_FIXED_OFFSET 8
 #define TOOLBAR_HEIGHT (TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET)
+#define TAG_BUTTON_FULLSCREEN 1
+#define TAG_BUTTON_SEEK_BACKWARD 2
+#define TAG_BUTTON_PLAY_PAUSE 3
+#define TAG_BUTTON_SEEK_FORWARD 4
+#define TAG_BUTTON_PREVIOUS 5
+#define TAG_BUTTON_STOP 6
+#define TAG_BUTTON_NEXT 8
+#define TAG_BUTTON_HOME 9
+#define TAG_BUTTON_ARROW_UP 10
+#define TAG_BUTTON_INFO 11
+#define TAG_BUTTON_ARROW_LEFT 12
+#define TAG_BUTTON_SELECT 13
+#define TAG_BUTTON_ARROW_RIGHT 14
+#define TAG_BUTTON_MENU 15
+#define TAG_BUTTON_ARROW_DOWN 16
+#define TAG_BUTTON_BACK 18
+#define TAG_BUTTON_SUBTITLES 19
+#define TAG_BUTTON_AUDIOSTREAMS 20
+#define TAG_BUTTON_MUSIC 21
+#define TAG_BUTTON_MOVIES 22
+#define TAG_BUTTON_TVSHOWS 23
+#define TAG_BUTTON_PICTURES 24
 
 @interface RemoteController ()
 
@@ -78,30 +100,30 @@
     CGFloat newWidth = CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) - ANCHOR_RIGHT_PEEK;
     CGFloat shift;
     [self hideButton: [NSArray arrayWithObjects:
-                       [(UIButton*)self.view viewWithTag:2],
-                       [(UIButton*)self.view viewWithTag:3],
-                       [(UIButton*)self.view viewWithTag:4],
-                       [(UIButton*)self.view viewWithTag:5],
-                       [(UIButton*)self.view viewWithTag:8],
+                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_SEEK_BACKWARD],
+                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_PLAY_PAUSE],
+                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_SEEK_FORWARD],
+                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_PREVIOUS],
+                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_NEXT],
                        nil]
                 hide:YES];
     if ([Utilities hasRemoteToolBar]) {
-        shift = [self.view viewWithTag:21].frame.size.height;
+        shift = [self.view viewWithTag:TAG_BUTTON_MUSIC].frame.size.height;
         [self moveButton: [NSArray arrayWithObjects:
-                           (UIButton*)[self.view viewWithTag:21],
-                           (UIButton*)[self.view viewWithTag:22],
-                           (UIButton*)[self.view viewWithTag:23],
-                           (UIButton*)[self.view viewWithTag:24],
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_MUSIC],
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_MOVIES],
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_TVSHOWS],
+                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_PICTURES],
                            nil]
                     ypos: -shift];
     }
     else {
-        shift = 2.0 * [self.view viewWithTag:21].frame.size.height;
+        shift = 2.0 * [self.view viewWithTag:TAG_BUTTON_MUSIC].frame.size.height;
         [self hideButton: [NSArray arrayWithObjects:
-                           [(UIButton*)self.view viewWithTag:21],
-                           [(UIButton*)self.view viewWithTag:22],
-                           [(UIButton*)self.view viewWithTag:23],
-                           [(UIButton*)self.view viewWithTag:24],
+                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_MUSIC],
+                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_MOVIES],
+                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_TVSHOWS],
+                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_PICTURES],
                            nil]
                     hide: YES];
     }
@@ -113,8 +135,8 @@
     }
     
     // Place the transitional view in the middle between the two button rows
-    CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:21].frame);
-    CGFloat upperButtonLowerBorder = CGRectGetMaxY([self.view viewWithTag:6].frame);
+    CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_MUSIC].frame);
+    CGFloat upperButtonLowerBorder = CGRectGetMaxY([self.view viewWithTag:TAG_BUTTON_STOP].frame);
     CGFloat transViewY = (lowerButtonUpperBorder + upperButtonLowerBorder - TransitionalView.frame.size.height)/2;
     TransitionalView.frame = CGRectMake(frame.origin.x, transViewY, frame.size.width, frame.size.height);
     
@@ -146,7 +168,7 @@
     }
     else {
         // Overload "stop" button with gesture icon in case the toolbar cannot be displayed (e.g. iPhone 4S)
-        UIButton *gestureButton = (UIButton*)[self.view viewWithTag:6];
+        UIButton *gestureButton = (UIButton*)[self.view viewWithTag:TAG_BUTTON_STOP];
         [gestureButton setContentMode:UIViewContentModeScaleAspectFit];
         [gestureButton setShowsTouchWhenHighlighted:NO];
         [gestureButton setImage:gestureImage forState:UIControlStateNormal];
@@ -718,7 +740,7 @@
         [actionView addAction:action_cancel];
         [actionView setModalPresentationStyle:UIModalPresentationPopover];
         
-        UIButton *audioStreamsButton = (UIButton*)[self.view viewWithTag:20];
+        UIButton *audioStreamsButton = (UIButton*)[self.view viewWithTag:TAG_BUTTON_AUDIOSTREAMS];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
@@ -757,7 +779,7 @@
         [actionView addAction:action_cancel];
         [actionView setModalPresentationStyle:UIModalPresentationPopover];
         
-        UIButton *subsButton = (UIButton*)[self.view viewWithTag:19];
+        UIButton *subsButton = (UIButton*)[self.view viewWithTag:TAG_BUTTON_SUBTITLES];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
@@ -799,7 +821,7 @@ NSInteger buttonAction;
 - (void)sendActionNoRepeat {
 //    NSString *action;
     switch (buttonAction) {
-        case 15: // MENU OSD
+        case TAG_BUTTON_MENU: // MENU OSD
             [self GUIAction:@"Input.ShowOSD" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04D)"];
             break;
         default:
@@ -877,37 +899,37 @@ NSInteger buttonAction;
     }
     NSString *action;
     switch (buttonAction) {
-        case 10:
+        case TAG_BUTTON_ARROW_UP:
             action = @"Input.Up";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [self playerStep:@"bigforward" musicPlayerGo:nil musicPlayerAction:@"increaserating"];
             break;
             
-        case 12:
+        case TAG_BUTTON_ARROW_LEFT:
             action = @"Input.Left";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [self playerStep:@"smallbackward" musicPlayerGo:@"previous" musicPlayerAction:nil];
             break;
 
-        case 13:
+        case TAG_BUTTON_SELECT:
             action = @"Input.Select";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
             break;
 
-        case 14:
+        case TAG_BUTTON_ARROW_RIGHT:
             action = @"Input.Right";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [self playerStep:@"smallforward" musicPlayerGo:@"next" musicPlayerAction:nil];
             break;
             
-        case 16:
+        case TAG_BUTTON_ARROW_DOWN:
             action = @"Input.Down";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [self playerStep:@"bigbackward" musicPlayerGo:nil musicPlayerAction:@"decreaserating"];
             break;
             
-        case 18:
+        case TAG_BUTTON_BACK:
             action = @"Input.Back";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             break;
@@ -922,28 +944,30 @@ NSInteger buttonAction;
     NSArray *params;
     NSDictionary *dicParams;
     switch ([sender tag]) {
-        case 1:
+        case TAG_BUTTON_FULLSCREEN:
             action = @"GUI.SetFullscreen";
             [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:@"toggle", @"fullscreen", nil] httpAPIcallback:@"SendKey(0xf009)"];
             break;
-        case 2:
+            
+        case TAG_BUTTON_SEEK_BACKWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
             [self playbackAction:action params:params];
             break;
             
-        case 3:
+        case TAG_BUTTON_PLAY_PAUSE:
             action = @"Player.PlayPause";
             params = nil;
             [self playbackAction:action params:nil];
             break;
             
-        case 4:
+        case TAG_BUTTON_SEEK_FORWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
             [self playbackAction:action params:params];
             break;
-        case 5:
+            
+        case TAG_BUTTON_PREVIOUS:
             if ([AppDelegate instance].serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @[@"previous", @"to"];
@@ -956,19 +980,13 @@ NSInteger buttonAction;
             }
             break;
             
-        case 6:
+        case TAG_BUTTON_STOP:
             action = @"Player.Stop";
             params = nil;
             [self playbackAction:action params:nil];
             break;
             
-        case 7:
-            action = @"Player.PlayPause";
-            params = nil;
-            [self playbackAction:action params:nil];
-            break;
-            
-        case 8:
+        case TAG_BUTTON_NEXT:
             if ([AppDelegate instance].serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @[@"next", @"to"];
@@ -981,36 +999,36 @@ NSInteger buttonAction;
             }
             break;
         
-        case 9: // HOME
+        case TAG_BUTTON_HOME: // HOME
             action = @"Input.Home";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             break;
             
-        case 11: // INFO
+        case TAG_BUTTON_INFO: // INFO
             action = @"Input.Info";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF049)"];
             break;
             
-        case 13:
+        case TAG_BUTTON_SELECT:
             action = @"Input.Select";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
             break;
             
-        case 15: // MENU OSD
+        case TAG_BUTTON_MENU: // MENU OSD
             action = @"Input.ShowOSD";
             [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04D)"];
             break;
         
-        case 19:
+        case TAG_BUTTON_SUBTITLES:
             [self subtitlesActionSheet];
             break;
             
-        case 20:
+        case TAG_BUTTON_AUDIOSTREAMS:
             [self audioStreamActionSheet];
             break;
             
-        case 21:
+        case TAG_BUTTON_MUSIC:
             action = @"GUI.ActivateWindow";
             dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
                          @"music", @"window",
@@ -1018,7 +1036,7 @@ NSInteger buttonAction;
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
             break;
             
-        case 22:
+        case TAG_BUTTON_MOVIES:
             action = @"GUI.ActivateWindow";
             dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
                       @"videos", @"window",
@@ -1027,7 +1045,7 @@ NSInteger buttonAction;
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
             break;
         
-        case 23:
+        case TAG_BUTTON_TVSHOWS:
             action = @"GUI.ActivateWindow";
             dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
                          @"videos", @"window",
@@ -1036,7 +1054,7 @@ NSInteger buttonAction;
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
             break;
         
-        case 24:
+        case TAG_BUTTON_PICTURES:
             action = @"GUI.ActivateWindow";
             dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
                          @"pictures", @"window",
@@ -1062,19 +1080,19 @@ NSInteger buttonAction;
 - (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         switch (gestureRecognizer.view.tag) {
-            case 1:// FULLSCREEN BUTTON
+            case TAG_BUTTON_FULLSCREEN:
                 [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:@"togglefullscreen", @"action", nil] httpAPIcallback:@"Action(199)"];
                 break;
                 
-            case 2:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
+            case TAG_BUTTON_SEEK_BACKWARD: // DECREASE PLAYBACK SPEED
                 [self playbackAction:@"Player.SetSpeed" params:@[@"decrement", @"speed"]];
                 break;
                 
-            case 4:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
+            case TAG_BUTTON_SEEK_FORWARD: // INCREASE PLAYBACK SPEED
                 [self playbackAction:@"Player.SetSpeed" params:@[@"increment", @"speed"]];
                 break;
                 
-            case 11:// CODEC INFO
+            case TAG_BUTTON_INFO: // CODEC INFO
                 if ([AppDelegate instance].serverVersion > 16) {
                     [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:@"playerdebug", @"action", nil] httpAPIcallback:nil];
                 }
@@ -1083,12 +1101,12 @@ NSInteger buttonAction;
                 }
                 break;
 
-            case 13:// CONTEXT MENU
-            case 15:
+            case TAG_BUTTON_SELECT: // CONTEXT MENU
+            case TAG_BUTTON_MENU:
                 [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF043)"];
                 break;
 
-            case 19:// SUBTITLES BUTTON
+            case TAG_BUTTON_SUBTITLES: // SUBTITLES BUTTON
                 if ([AppDelegate instance].serverVersion > 12) {
                     [self GUIAction:@"GUI.ActivateWindow"
                              params:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -1105,7 +1123,7 @@ NSInteger buttonAction;
                 }
                 break;
                 
-            case 22:
+            case TAG_BUTTON_MOVIES:
                 [self GUIAction:@"GUI.ActivateWindow"
                          params:[NSDictionary dictionaryWithObjectsAndKeys:
                                  @"pvr", @"window",
@@ -1114,7 +1132,7 @@ NSInteger buttonAction;
                 httpAPIcallback:nil];
                 break;
                 
-            case 23:
+            case TAG_BUTTON_TVSHOWS:
                 [self GUIAction:@"GUI.ActivateWindow"
                          params:[NSDictionary dictionaryWithObjectsAndKeys:
                                  @"pvrosdguide", @"window",
@@ -1122,7 +1140,7 @@ NSInteger buttonAction;
                 httpAPIcallback:nil];
                 break;
                 
-            case 24:
+            case TAG_BUTTON_PICTURES:
                 [self GUIAction:@"GUI.ActivateWindow"
                          params:[NSDictionary dictionaryWithObjectsAndKeys:
                                  @"pvrosdchannels", @"window",
