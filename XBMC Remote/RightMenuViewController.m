@@ -38,11 +38,15 @@
 #pragma mark Table view data source
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-    if ([tableData[indexPath.row][@"label"] isEqualToString:@"ServerInfo"]) {
+    NSString *rowContent = tableData[indexPath.row][@"label"];
+    if ([rowContent isEqualToString:@"ServerInfo"]) {
         return SERVER_INFO_HEIGHT;
     }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:@"RemoteControl"]) {
+    else if ([rowContent isEqualToString:@"RemoteControl"]) {
         return UIScreen.mainScreen.bounds.size.height - [self getRemoteViewOffsetY];
+    }
+    else if ([rowContent isEqualToString:@"VolumeControl"]) {
+        return volumeSliderView.frame.size.height;
     }
     return RIGHT_MENU_ITEM_HEIGHT;
 }

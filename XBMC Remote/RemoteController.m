@@ -23,6 +23,7 @@
 #define TOOLBAR_ICON_SIZE 36
 #define TOOLBAR_FIXED_OFFSET 8
 #define TOOLBAR_HEIGHT (TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET)
+#define TOOLBAR_PARENT_HEIGHT 50
 #define TAG_BUTTON_FULLSCREEN 1
 #define TAG_BUTTON_SEEK_BACKWARD 2
 #define TAG_BUTTON_PLAY_PAUSE 3
@@ -123,7 +124,7 @@
                        nil]
                 hide:YES];
     if ([Utilities hasRemoteToolBar]) {
-        shift = [self.view viewWithTag:TAG_BUTTON_MUSIC].frame.size.height;
+        shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_NEXT].frame);
         [self moveButton: [NSArray arrayWithObjects:
                            (UIButton*)[self.view viewWithTag:TAG_BUTTON_MUSIC],
                            (UIButton*)[self.view viewWithTag:TAG_BUTTON_MOVIES],
@@ -133,7 +134,7 @@
                     ypos: -shift];
     }
     else {
-        shift = 2.0 * [self.view viewWithTag:TAG_BUTTON_MUSIC].frame.size.height;
+        shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_STOP].frame);
         [self hideButton: [NSArray arrayWithObjects:
                            [(UIButton*)self.view viewWithTag:TAG_BUTTON_MUSIC],
                            [(UIButton*)self.view viewWithTag:TAG_BUTTON_MOVIES],
@@ -150,8 +151,9 @@
     TransitionalView.frame = CGRectMake(frame.origin.x, transViewY, frame.size.width, frame.size.height);
     
     // Maintain aspect ratio
-    CGFloat newHeight = remoteControlView.frame.size.height * newWidth / remoteControlView.frame.size.width;
-    CGFloat offset = [self getOriginYForRemote:shift - newHeight];
+    CGFloat transform = newWidth / remoteControlView.frame.size.width;
+    CGFloat newHeight = remoteControlView.frame.size.height * transform;
+    CGFloat offset = [self getOriginYForRemote:shift * transform - newHeight + TOOLBAR_PARENT_HEIGHT - TOOLBAR_HEIGHT];
     remoteControlView.frame = CGRectMake(0, offset, newWidth, newHeight);
     
     frame = remoteControlView.frame;
@@ -166,7 +168,7 @@
     
     [self setupGestureView];
     if ([Utilities hasRemoteToolBar]) {
-        [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_HEIGHT isEmbedded:YES];
+        [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_PARENT_HEIGHT isEmbedded:YES];
     }
     else {
         // Overload "stop" button with gesture icon in case the toolbar cannot be displayed (e.g. iPhone 4S)
@@ -186,7 +188,7 @@
     if (self.detailItem) {
         self.navigationItem.title = [self.detailItem mainLabel]; 
     }
-    CGFloat toolbarPadding = TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET;
+    CGFloat toolbarPadding = TOOLBAR_HEIGHT;
     if (![Utilities hasRemoteToolBar]) {
         toolbarPadding = 0;
     }
