@@ -494,11 +494,7 @@
         [NSThread detachNewThreadSelector:@selector(startClearAppDiskCache:) toTarget:self withObject:clearView];
     }
 
-    int bottomPadding = 0;
-    if (@available(iOS 11.0, *)) {
-        UIWindow *window = UIApplication.sharedApplication.keyWindow;
-        bottomPadding = window.safeAreaInsets.bottom;
-    }
+    int bottomPadding = [Utilities getBottomPadding];
     
     if (bottomPadding > 0) {
         frame = volumeSliderView.frame;

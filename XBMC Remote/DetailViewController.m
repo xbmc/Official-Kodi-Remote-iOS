@@ -5593,11 +5593,7 @@ NSIndexPath *selected;
     }
     self.searchController.searchBar.tintColor = searchBarColor;
     [self.searchController.searchBar setBackgroundColor:searchBarColor];
-    bottomPadding = 0;
-    if (@available(iOS 11.0, *)) {
-        UIWindow *window = UIApplication.sharedApplication.keyWindow;
-        bottomPadding = window.safeAreaInsets.bottom;
-    }
+    bottomPadding = [Utilities getBottomPadding];
     if (IS_IPHONE) {
         if (bottomPadding > 0) {
             frame = buttonsView.frame;

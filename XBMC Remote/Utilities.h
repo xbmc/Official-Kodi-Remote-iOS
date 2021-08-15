@@ -84,5 +84,6 @@ typedef enum {
 + (void)turnTorchOn:(id)sender on:(BOOL)torchOn;
 + (BOOL)isTorchOn;
 + (BOOL)hasRemoteToolBar;
++ (CGFloat)getBottomPadding;
 
 @end

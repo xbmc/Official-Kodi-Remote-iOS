@@ -143,11 +143,7 @@
                     hide: YES];
     }
     // Keep the buttons out of the safe area
-    CGFloat bottomPadding = 0.0;
-    if (@available(iOS 11.0, *)) {
-        UIWindow *window = UIApplication.sharedApplication.keyWindow;
-        bottomPadding = window.safeAreaInsets.bottom;
-    }
+    CGFloat bottomPadding = [Utilities getBottomPadding];
     
     // Place the transitional view in the middle between the two button rows
     CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_MUSIC].frame);
@@ -214,11 +210,7 @@
     }
     else {
         // Used to avoid drawing remote buttons into the safe area
-        CGFloat bottomPadding = 0.0;
-        if (@available(iOS 11.0, *)) {
-            UIWindow *window = UIApplication.sharedApplication.keyWindow;
-            bottomPadding = window.safeAreaInsets.bottom;
-        }
+        CGFloat bottomPadding = [Utilities getBottomPadding];
         // Calculate the maximum possible scaling for the remote
         CGFloat scaleFactorHorizontal = STACKSCROLL_WIDTH / CGRectGetWidth(remoteControlView.frame);
         CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING - bottomPadding;

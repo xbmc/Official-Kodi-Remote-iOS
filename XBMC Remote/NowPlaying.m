@@ -2370,11 +2370,7 @@ int currentItemID;
     CGRect frame;
     
     // Maximum allowed height shall be 90% of visible height in landscape mode
-    CGFloat bottomPadding = 0;
-    if (@available(iOS 11.0, *)) {
-        UIWindow *window = UIApplication.sharedApplication.keyWindow;
-        bottomPadding = window.safeAreaInsets.bottom;
-    }
+    CGFloat bottomPadding = [Utilities getBottomPadding];
     CGFloat maxheight = floor((CGRectGetHeight(UIScreen.mainScreen.bounds) - bottomPadding - playlistToolbar.frame.size.height) * 0.9);
     
     frame = ProgressSlider.frame;
@@ -2810,11 +2806,7 @@ int currentItemID;
     [noItemsLabel setText:LOCALIZED_STR(@"No items found.")];
     [self addSegmentControl];
     cellBackgroundColor = [UIColor whiteColor];
-    bottomPadding = 0;
-    if (@available(iOS 11.0, *)) {
-        UIWindow *window = UIApplication.sharedApplication.keyWindow;
-        bottomPadding = window.safeAreaInsets.bottom;
-    }
+    bottomPadding = [Utilities getBottomPadding];
     [self setIOS7toolbar];
 
     if (bottomPadding > 0) {

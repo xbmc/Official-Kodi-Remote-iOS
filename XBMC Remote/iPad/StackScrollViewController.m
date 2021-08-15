@@ -40,6 +40,7 @@
 #import "AppDelegate.h"
 #import "RemoteControllerGestureZoneView.h"
 #import "OBSlider.h"
+#import "Utilities.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define VIEW_TAG 1000
@@ -55,11 +56,7 @@
 	
 	if (self = [super init]) {
 		
-        bottomPadding = 0;
-        if (@available(iOS 11.0, *)) {
-            UIWindow *window = UIApplication.sharedApplication.keyWindow;
-            bottomPadding = window.safeAreaInsets.bottom;
-        }
+        bottomPadding = [Utilities getBottomPadding];
         
 		viewControllersStack = [NSMutableArray new];
         stackViewsFrames = [NSMutableArray new];
