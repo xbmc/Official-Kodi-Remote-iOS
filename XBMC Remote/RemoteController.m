@@ -193,11 +193,21 @@
         toolbarPadding = 0;
     }
     if (IS_IPHONE) {
+        VolumeSliderView *volumeSliderView = nil;
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
         frame.size.height *= transform;
         frame.size.width *= transform;
         frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
+        
+        if ([Utilities hasRemoteToolBar]) {
+            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0];
+            [volumeSliderView startTimer];
+            [self.view addSubview:volumeSliderView];
+            if (frame.origin.y == 0) {
+                frame.origin.y = volumeSliderView.frame.size.height;
+            }
+        }
         remoteControlView.frame = frame;
         
         frame.origin.y = 0;
