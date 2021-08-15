@@ -142,8 +142,6 @@
                            nil]
                     hide: YES];
     }
-    // Keep the buttons out of the safe area
-    CGFloat bottomPadding = [Utilities getBottomPadding];
     
     // Place the transitional view in the middle between the two button rows
     CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_MUSIC].frame);
