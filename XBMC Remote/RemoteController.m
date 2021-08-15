@@ -1352,7 +1352,7 @@ NSInteger buttonAction;
 }
 
 - (void)handleSettingsButton:(id)sender {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if (IS_IPHONE) {
         [self revealUnderRight];
     }
     else {
