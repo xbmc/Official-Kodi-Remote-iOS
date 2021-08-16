@@ -126,7 +126,7 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<string></string>
+			<string>auto</string>
 			<key>Key</key>
 			<string>logo_background</string>
 			<key>Title</key>
@@ -176,7 +176,7 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<string></string>
+			<string>position_top</string>
 			<key>Key</key>
 			<string>remote_position</string>
 			<key>Title</key>
