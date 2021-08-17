@@ -57,11 +57,11 @@
                         infoMask == kCGImageAlphaNoneSkipLast);
 //    if (!anyNonAlpha) return [UIColor clearColor];
     
-    // Enforce images are converted to ARGB or RGB 32bpp before analyzing them
-    if (anyNonAlpha && (infoMask != kCGImageAlphaNoneSkipLast || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
+    // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault)  before analyzing them
+    if (anyNonAlpha && (bitmapInfo != kCGImageAlphaNoneSkipLast || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
         rawImageRef = [Utilities create32bppImage:rawImageRef format:kCGImageAlphaNoneSkipLast];
     }
-    else if (!anyNonAlpha && (infoMask != kCGImageAlphaPremultipliedFirst || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
+    else if (!anyNonAlpha && (bitmapInfo != kCGImageAlphaPremultipliedFirst || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
         rawImageRef = [Utilities create32bppImage:rawImageRef format:kCGImageAlphaPremultipliedFirst];
     }
     if (rawImageRef == NULL) {
