@@ -10,7 +10,7 @@
 #import "Utilities.h"
 #import "AppDelegate.h"
 
-#define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) / 10.0, 8.0)
+#define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 #define XBMC_LOGO_PADDING 10
