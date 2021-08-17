@@ -14,7 +14,6 @@
 
 #define VOLUMEICON_PADDING 10 /* space left/right from volume icons */
 #define VOLUMELABEL_PADDING 5 /* space left/right from volume label */
-#define VOLUMEVIEW_OFFSET 8 /* vertical offset to match menu */
 #define VOLUMESLIDER_HEIGHT 44
 #define SERVER_TIMEOUT 3.0
 
@@ -22,7 +21,7 @@
 
 @synthesize timer, holdVolumeTimer;
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor {
     self = [super initWithFrame:frame];
     if (self) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:self options:nil];
@@ -67,11 +66,6 @@
             muteIconColor = [UIColor grayColor];
             volumeIconColor = [UIColor lightGrayColor];
             
-            // Move all buttons to vertical center of view
-            for (UIView *subView in [self subviews]) {
-                subView.center = CGPointMake(subView.center.x, frame.size.height / 2);
-            }
-            
             // set final used width for this view
             frame_tmp = frame;
             frame_tmp.size.width = CGRectGetMaxX(plusButton.frame);
@@ -81,7 +75,7 @@
             volumeView.hidden = YES;
             volumeLabel.hidden = YES;
 
-            self.frame = CGRectMake(0, VOLUMEVIEW_OFFSET, [self currentScreenBoundsDependOnOrientation].size.width, VOLUMESLIDER_HEIGHT);
+            self.frame = CGRectMake(0, 0, [self currentScreenBoundsDependOnOrientation].size.width - leftAnchor, VOLUMESLIDER_HEIGHT);
             
             frame_tmp = muteButton.frame;
             frame_tmp.origin.x = VOLUMEICON_PADDING;
@@ -93,7 +87,7 @@
             
             frame_tmp = volumeSlider.frame;
             frame_tmp.origin.x = CGRectGetMaxX(minusButton.frame) + VOLUMEICON_PADDING;
-            frame_tmp.size.width = self.frame.size.width - frame_tmp.origin.x - ANCHOR_RIGHT_PEEK - 3*VOLUMEICON_PADDING - volumeLabel.frame.size.width;
+            frame_tmp.size.width = self.frame.size.width - frame_tmp.origin.x - 3 * VOLUMEICON_PADDING - volumeLabel.frame.size.width;
             volumeSlider.frame = frame_tmp;
             
             frame_tmp = plusButton.frame;
@@ -105,6 +99,12 @@
             muteBackgroundImage = [Utilities colorizeImage:img withColor:[UIColor darkGrayColor]];
             volumeIconColor = [UIColor grayColor];
         }
+        // Move all buttons to vertical center of view
+        CGFloat center_y = self.frame.size.height / 2;
+        for (UIView *subView in self.subviews) {
+            subView.center = CGPointMake(subView.center.x, center_y);
+        }
+        
         [muteButton setBackgroundImage:muteBackgroundImage forState:UIControlStateNormal];
         [muteButton setBackgroundImage:muteBackgroundImage forState:UIControlStateHighlighted];
         img = [UIImage imageNamed:@"volume_slash"];

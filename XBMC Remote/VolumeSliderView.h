@@ -20,6 +20,8 @@
     UIColor *muteIconColor;
 }
 
+- (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor;
+
 - (IBAction)slideVolume:(id)sender;
 
 - (void)startTimer;
