@@ -1347,6 +1347,7 @@
             [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
         }
         BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
+                            [item[@"family"] isEqualToString:@"recordingid"] ||
                             [item[@"family"] isEqualToString:@"type"] ||
                             [item[@"family"] isEqualToString:@"file"]);
         if (![stringURL isEqualToString:@""]) {
@@ -2286,6 +2287,7 @@ int originYear = 0;
             [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
         }
         BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
+                            [item[@"family"] isEqualToString:@"recordingid"] ||
                             [item[@"family"] isEqualToString:@"type"] ||
                             [item[@"family"] isEqualToString:@"file"]);
         if (![stringURL isEqualToString:@""]) {
