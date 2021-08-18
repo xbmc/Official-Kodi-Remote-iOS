@@ -606,29 +606,21 @@ int count = 0;
     }
 }
 
-- (UIImage*)imageWithBorderFromImage:(UIImage*)source {
-    return [Utilities applyRoundedEdgesImage:source drawBorder:YES];
-}
-
 - (BOOL)enableJewelCases {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 
-- (void)startActivityIndicator {
-    [activityIndicatorView startAnimating];
-}
-
 - (void)elaborateImage:(UIImage*)image {
-    [self performSelectorOnMainThread:@selector(startActivityIndicator) withObject:nil waitUntilDone:YES];
-    UIImage *elabImage = isRecordingDetail ? image : [self imageWithBorderFromImage:image];
-    [self performSelectorOnMainThread:@selector(showImage:) withObject:elabImage waitUntilDone:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [activityIndicatorView startAnimating];
+        [self showImage:image];
+    });
 }
 
 - (void)showImage:(UIImage*)image {
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
-    jewelView.image = image;
     if (isRecordingDetail) {
         [Utilities setLogoBackgroundColor:jewelView mode:logoBackgroundMode];
         CGRect frame;
@@ -637,6 +629,14 @@ int count = 0;
         frame.origin.x = jewelView.frame.origin.x + (jewelView.frame.size.width - frame.size.width)/2;
         frame.origin.y = jewelView.frame.origin.y + 4;
         jewelView.frame = frame;
+        
+        // Ensure we draw the rounded edges around TV station logo view
+        jewelView.image = image;
+        jewelView = [Utilities applyRoundedEdgesView:jewelView drawBorder:YES];
+    }
+    else {
+        // Ensure we draw the rounded edges around thumbnail images
+        jewelView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];;
     }
     [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
 }
@@ -1074,7 +1074,7 @@ int count = 0;
                 jewelView.alpha = 1;
             }
             else {
-                [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:self withObject:image];
+                [self elaborateImage:image];
             }
         }
         else {
@@ -1106,7 +1106,7 @@ int count = 0;
                                              [sf setIOS7barTintColor:newColor];
                                              foundTintColor = newColor;
                                          }
-                                         [NSThread detachNewThreadSelector:@selector(elaborateImage:) toTarget:sf withObject:image];
+                                         [sf elaborateImage:image];
                                      }
                                  }
                  ];
