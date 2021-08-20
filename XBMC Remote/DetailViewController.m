@@ -1350,6 +1350,8 @@
                             [item[@"family"] isEqualToString:@"recordingid"] ||
                             [item[@"family"] isEqualToString:@"type"] ||
                             [item[@"family"] isEqualToString:@"file"]);
+        cell.posterThumbnail.frame = cell.bounds;
+        [Utilities applyRoundedEdgesView:cell.posterThumbnail drawBorder:showBorder];
         if (![stringURL isEqualToString:@""]) {
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] options:0 andResize:CGSizeMake(cellthumbWidth, cellthumbHeight) withBorder:showBorder progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (channelListView || channelGuideView || recordingListView) {
@@ -1372,7 +1374,6 @@
             [cell.posterThumbnail setBackgroundColor:[Utilities getGrayColor:28 alpha:1.0]];
             showBorder = NO;
         }
-        [Utilities applyRoundedEdgesView:cell.posterThumbnail drawBorder:showBorder];
         
         if ([playcount intValue]) {
             [cell setOverlayWatched:YES];
