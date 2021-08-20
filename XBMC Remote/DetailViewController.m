@@ -1358,23 +1358,21 @@
                     [Utilities setLogoBackgroundColor:cell.posterThumbnail mode:logoBackgroundMode];
                 }
             }];
-            if (hiddenLabel || stackscrollFullscreen) {
-                [cell.posterLabel setHidden:YES];
-                [cell.labelImageView setHidden:YES];
-            }
-            else {
-                [cell.posterLabel setHidden:NO];
-                [cell.labelImageView setHidden:NO];
-            }
         }
         else {
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
+            [cell.posterThumbnail setBackgroundColor:[Utilities getGrayColor:28 alpha:1.0]];
+        }
+        // Set label visibility based on setting and current view
+        if (hiddenLabel || stackscrollFullscreen) {
+            [cell.posterLabel setHidden:YES];
+            [cell.labelImageView setHidden:YES];
+        }
+        else {
             [cell.posterLabel setHidden:NO];
             [cell.labelImageView setHidden:NO];
-            [cell.posterThumbnail setBackgroundColor:[Utilities getGrayColor:28 alpha:1.0]];
-            showBorder = NO;
         }
-        
+        // Set "Watched"-icon overlay
         if ([playcount intValue]) {
             [cell setOverlayWatched:YES];
         }
