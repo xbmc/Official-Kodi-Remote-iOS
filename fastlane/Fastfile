@@ -21,7 +21,7 @@ error do
 end
 
 desc 'Build & upload to Testflight'
-lane :tf do
+lane :tf do |options|
   xcversion(version: "~> 12.4")
   gym(
     scheme: 'Kodi Remote',
@@ -48,6 +48,7 @@ lane :tf do
   testflight(
     distribute_external: true,
     groups: ['external testers'],
+    notify_external_testers: options[:notify] != '0',
   )
 
   # create prerelease on Github

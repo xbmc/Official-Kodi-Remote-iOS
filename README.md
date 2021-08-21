@@ -32,9 +32,13 @@ Use [fastlane](https://fastlane.tools/) to manage everything related to AppStore
 
 `bundle exec fastlane tf`
 
+Optional parameters:
+
+- `notify`: set to `0` to disable automatic notification of external testers
+
 To be able to also create prerelease+tag on Github, define `GITHUB_API_TOKEN` environment variable. Example:
 
-`GITHUB_API_TOKEN=your_PAT_token bundle exec fastlane tf`
+`GITHUB_API_TOKEN=your_PAT_token bundle exec fastlane tf notify:0`
 
 ### Submit to AppStore review
 
