@@ -41,7 +41,7 @@ lane :tf do
     pretty: '%b (%s)',
     merge_commit_filtering: 'only_include_merges',
   ).each_line(chomp: true) { |l|
-    changelogLines << "- #{l}" unless l.include?('[not app]')
+    changelogLines << "- #{l.sub(/\(Merge pull request (#\d+).+/, "(\\1)")}" unless l.include?('[not app]')
   }
   Actions.lane_context[SharedValues::FL_CHANGELOG] = changelogLines.join("\n")
 
