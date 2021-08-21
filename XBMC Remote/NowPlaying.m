@@ -2164,6 +2164,7 @@ int currentItemID;
     NSString *stringURL = item[@"thumbnail"];
     [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music"]];
     // andResize:CGSizeMake(thumb.frame.size.width, thumb.frame.size.height)
+    thumb = [Utilities applyRoundedEdgesView:thumb drawBorder:YES];
     UIView *timePlaying = (UIView*)[cell viewWithTag:5];
     if (!timePlaying.hidden) {
         [self fadeView:timePlaying hidden:YES];

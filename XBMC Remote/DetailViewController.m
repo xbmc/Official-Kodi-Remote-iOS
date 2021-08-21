@@ -1347,32 +1347,32 @@
             [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
         }
         BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
+                            [item[@"family"] isEqualToString:@"recordingid"] ||
                             [item[@"family"] isEqualToString:@"type"] ||
                             [item[@"family"] isEqualToString:@"file"]);
+        cell.posterThumbnail.frame = cell.bounds;
+        [Utilities applyRoundedEdgesView:cell.posterThumbnail drawBorder:showBorder];
         if (![stringURL isEqualToString:@""]) {
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] options:0 andResize:CGSizeMake(cellthumbWidth, cellthumbHeight) withBorder:showBorder progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (channelListView || channelGuideView || recordingListView) {
                     [Utilities setLogoBackgroundColor:cell.posterThumbnail mode:logoBackgroundMode];
                 }
             }];
-            if (hiddenLabel || stackscrollFullscreen) {
-                [cell.posterLabel setHidden:YES];
-                [cell.labelImageView setHidden:YES];
-            }
-            else {
-                [cell.posterLabel setHidden:NO];
-                [cell.labelImageView setHidden:NO];
-            }
         }
         else {
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
+            [cell.posterThumbnail setBackgroundColor:[Utilities getGrayColor:28 alpha:1.0]];
+        }
+        // Set label visibility based on setting and current view
+        if (hiddenLabel || stackscrollFullscreen) {
+            [cell.posterLabel setHidden:YES];
+            [cell.labelImageView setHidden:YES];
+        }
+        else {
             [cell.posterLabel setHidden:NO];
             [cell.labelImageView setHidden:NO];
-            [cell.posterThumbnail setBackgroundColor:[Utilities getGrayColor:28 alpha:1.0]];
-            showBorder = NO;
         }
-        [Utilities applyRoundedEdgesView:cell.posterThumbnail drawBorder:showBorder];
-        
+        // Set "Watched"-icon overlay
         if ([playcount intValue]) {
             [cell setOverlayWatched:YES];
         }
@@ -2286,6 +2286,7 @@ int originYear = 0;
             [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
         }
         BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
+                            [item[@"family"] isEqualToString:@"recordingid"] ||
                             [item[@"family"] isEqualToString:@"type"] ||
                             [item[@"family"] isEqualToString:@"file"]);
         if (![stringURL isEqualToString:@""]) {

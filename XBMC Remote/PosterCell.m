@@ -25,7 +25,6 @@
         CGFloat borderWidth = [self halfSizeIfRetina:1.0];
         self.restorationIdentifier = @"posterCell";
         _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, borderWidth, frame.size.width - borderWidth * 2, frame.size.height - borderWidth * 2)];
-        [_posterThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin];
         [_posterThumbnail setClipsToBounds:YES];
         [_posterThumbnail setContentMode:UIViewContentModeScaleAspectFill];
         [self.contentView addSubview:_posterThumbnail];
