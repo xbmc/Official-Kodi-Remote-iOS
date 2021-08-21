@@ -38,10 +38,10 @@ lane :tf do
   lastTag = last_git_tag
   changelog_from_git_commits(
     between: [lastTag, 'HEAD'],
-    pretty: '- %b (%s)',
+    pretty: '%b (%s)',
     merge_commit_filtering: 'only_include_merges',
   ).each_line(chomp: true) { |l|
-    changelogLines << l unless l.include?('[not app]')
+    changelogLines << "- #{l}" unless l.include?('[not app]')
   }
   Actions.lane_context[SharedValues::FL_CHANGELOG] = changelogLines.join("\n")
 
