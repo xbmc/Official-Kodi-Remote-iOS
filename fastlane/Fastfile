@@ -21,7 +21,7 @@ error do
 end
 
 desc 'Build & upload to Testflight'
-lane :tf do
+lane :tf do |options|
   xcversion(version: "~> 12.4")
   gym(
     scheme: 'Kodi Remote',
@@ -38,16 +38,17 @@ lane :tf do
   lastTag = last_git_tag
   changelog_from_git_commits(
     between: [lastTag, 'HEAD'],
-    pretty: '- %b (%s)',
+    pretty: '%b (%s)',
     merge_commit_filtering: 'only_include_merges',
   ).each_line(chomp: true) { |l|
-    changelogLines << l unless l.include?('[not app]')
+    changelogLines << "- #{l.sub(/\(Merge pull request (#\d+).+/, "(\\1)")}" unless l.include?('[not app]')
   }
   Actions.lane_context[SharedValues::FL_CHANGELOG] = changelogLines.join("\n")
 
   testflight(
     distribute_external: true,
     groups: ['external testers'],
+    notify_external_testers: options[:notify] != '0',
   )
 
   # create prerelease on Github
