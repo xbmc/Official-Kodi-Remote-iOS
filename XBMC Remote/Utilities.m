@@ -721,16 +721,17 @@
 + (UIImageView*)roundedCornerView:(UIImageView*)view drawBorder:(BOOL)drawBorder {
     CALayer *imageLayer = view.layer;
     
-    // Shrink view to ensure a bit of space between thumbnails in list views
-    view.frame = CGRectInset(view.frame, 0.5, 0.5);
-    
     // Set radius for corners
-    imageLayer.cornerRadius = GET_ROUNDED_EDGES_RADIUS(imageLayer.frame.size);
+    CGFloat radius = GET_ROUNDED_EDGES_RADIUS(imageLayer.frame.size);
     // Create a mask layer
     CAShapeLayer *maskLayer = [CAShapeLayer new];
-    maskLayer.frame = imageLayer.bounds;
+    CGFloat freeAreaWidth = 1.0 / UIScreen.mainScreen.scale;
+    CGRect maskFrame = CGRectInset(imageLayer.bounds, freeAreaWidth, freeAreaWidth);
+    maskFrame.origin.x /= 2;
+    maskFrame.origin.y /= 2;
+    maskLayer.frame = maskFrame;
     // Define our path, capitalizing on UIKit's corner rounding magic
-    UIBezierPath *newPath = GET_ROUNDED_EDGES_PATH(imageLayer.bounds, imageLayer.cornerRadius);
+    UIBezierPath *newPath = GET_ROUNDED_EDGES_PATH(maskLayer.frame, radius);
     maskLayer.path = newPath.CGPath;
     // Apply the mask
     imageLayer.mask = maskLayer;
