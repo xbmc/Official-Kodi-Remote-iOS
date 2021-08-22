@@ -2289,6 +2289,7 @@ int originYear = 0;
                             [item[@"family"] isEqualToString:@"recordingid"] ||
                             [item[@"family"] isEqualToString:@"type"] ||
                             [item[@"family"] isEqualToString:@"file"]);
+        [Utilities applyRoundedEdgesView:cell.urlImageView drawBorder:showBorder];
         if (![stringURL isEqualToString:@""]) {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] options:0 andResize:CGSizeMake(thumbWidth, cellHeight) withBorder:showBorder progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (channelListView || channelGuideView || recordingListView) {
@@ -2298,9 +2299,7 @@ int originYear = 0;
         }
         else {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
-            showBorder = NO;
         }
-        [Utilities applyRoundedEdgesView:cell.urlImageView drawBorder:showBorder];
     }
     else if (albumView) {
         UILabel *trackNumber = (UILabel*)[cell viewWithTag:101];
