@@ -12,7 +12,6 @@
 "See what's" = "Podívat se, co";
 "Use as" = "Použít jako";
 "Watch" = "Sledovat";
-
 "Music" = "Hudba";
 "Movies" = "Filmy";
 "TV Shows" = "Seriály";
@@ -23,7 +22,6 @@
 "New XBMC Server" = "Nový Kodi server";
 "Modify XBMC Server" = "Upravit Kodi server";
 "Select an XBMC Server from the list" = "Zvolit Kodi server z výpisu";
-
 "Files" = "Soubory";
 "Video Add-ons" = "Video doplňky";
 "Live TV" = "Televize";
@@ -32,7 +30,6 @@
 "Added Movies" = "Přidané filmy";
 "More (%d)" = "Více (%d)";
 "Movie Sets" = "Sady filmů";
-
 "Albums" = "Alba";
 "Artists" = "Umělci";
 "Genres" = "Žánry";
@@ -49,11 +46,8 @@
 "All songs" = "Všechny skladby";
 "Music Add-ons" = "Hudební doplňky";
 "Music Playlists" = "Seznamy hudby";
-
 "Added Episodes" = "Přidané epizovdy";
-
 "Pictures Add-ons" = "Doplňky obrázků";
-
 "Power off System" = "Vypnout systém";
 "Power off" = "Vypnout";
 "Hibernate" = "Hibernovat";
@@ -69,15 +63,12 @@
 "Clean Video Library" = "Vyčistit knihovnu videí";
 "Clean Video" = "Vyčistit video";
 "Quit" = "Konec";
-
 "Keyboard" = "Klávesnice";
 "Gesture Zone" = "Zóna gest";
 "Button Pad" = "Tlačítka";
 "Help Screen" = "Nápověda";
 "LED Torch" = "LED svítilna";
-
 "No connection" = "Bez připojení";
-
 "Queue after current" = "Fronta po stávající";
 "Queue" = "Fronta";
 "Play" = "Play";
@@ -94,7 +85,6 @@
 "Music Video Details" = "Detaily videoklipu";
 "Details" = "Detaily";
 "Play Trailer" = "Přehrát trailer";
-
 "Playlist" = "Playlist";
 "Nothing is playing" = "Nic pro přehrání";
 "Details not found" = "Detaily nenalezeny";
@@ -115,7 +105,6 @@
 "Mins." = "Mins.";
 "Min" = "Min";
 "Released %d" = "Vydáno %d";
-
 "Clear Playlist" = "Vyčistit playlist";
 "No server MAC address defined" = "Není definována MAC adresa serveru";
 "Command executed" = "Příkaz proveden";
@@ -123,7 +112,6 @@
 "Cannot do that" = "Nelze udělat";
 "Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "Nebyly nalezeni žádní uložení hostitelé";
-
 "Are you sure you want to clear the %@playlist?" = "Opravdu chcete zrušit %@playlist?";
 "Are you sure you want to power off your XBMC system now?" = "Opravdu chcete nyní vypnout systém Kodi?";
 "Are you sure you want to hibernate your XBMC system now?" = "Opravdu chcete nyní hibernovat systém Kodi?";
@@ -134,7 +122,6 @@
 "Are you sure you want to clean your audio library now?" = "Opravdu chcete nyní vyčistit hudební knihovnu?";
 "Are you sure you want to update your video library now?" = "Opravdu chcete nyní aktualizovat knihovnu videí?";
 "Are you sure you want to clean your video library now?" = "Opravdu chcete nyní vyčistit knihovnu videí?";
-
 "DIRECTED BY" = "REŽIE";
 "RUNTIME" = "DÉLKA";
 "PARENTAL RATING" = "RODIČOVSKÉ HODNOCENÍ";
@@ -155,7 +142,6 @@
 "STYLE" = "STYL";
 "BORN / FORMED" = "NAROZEN / VYTVOŘENI";
 "TRAILER" = "TRAILER";
-
 "codec" = "kodek";
 "bit rate" = "bit rate";
 "sample rate" = "vzorkovací frekvence";
@@ -164,21 +150,16 @@
 "Subtitles not available" = "Titulky nejsou dostupné";
 "Audiostream not available" = "Audio stream není dostupný";
 "Audiostreams not available" = "Audio streams není dostupný";
-
 "LongDateTimeFormat" = "dd.MM.yyyy";
 "ShortDateTimeFormat" = "d.MM.yyyy";
 "LocaleIdentifier" = "cs_CS";
-
 "Yes" = "Ano";
 "No" = "Ne";
 "Authentication Failed" = "Ověření se nezdařilo";
 "Incorrect Username or Password.\nCheck your settings." = "Chybné uživatelské jméno nebo heslo.\nOvěřte nastavení.";
-
 "WIKI_LANG" = "cs";
-
 "vote" = "hlas";
 "votes" = "hlasy";
-
 "Slide your finger up to adjust the scrubbing rate." = "Pohybem prstu nahoru můžete upravit rychlost převíjení.";
 "Scrubbing 1" = "Vysokorychlostní převíjení";
 "Scrubbing 0.5" = "Převíjení poloviční rychlostí";
@@ -186,7 +167,6 @@
 "Scrubbing 0.1" = "Jemné převíjení";
 "Scrubbing 0.05" = "Velmi jemné převíjení";
 "Scrubbing 0.025" = "Ultra jemné převíjení";
-
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Provádím výmaz diskové mezipaměti...\n\nČekejte prosím, toto může chvíli trvat";
 "Pull to sync with XBMC..." = "Táhnout pro synchronizaci s Kodi...";
 "Release to sync with XBMC..." = "Uvolnit pro synchronizaci s Kodi...";
@@ -195,11 +175,9 @@
 "View: Wall" = "Zobrazení: Stěna";
 "View: List" = "Zobrazení: Seznam";
 "View: Fanart" = "Zobrazení: Fanart";
-
 "Show Content" = "Zobrazit obsah";
 "Play in party mode" = "Přehrávat v párty módu";
 "Play in shuffle mode" = "Náhodně přehrávat";
-
 "Channel Guide" = "Průvodce kanálů";
 "Record" = "Záznam";
 "Stop Recording" = "Stop Recording";
@@ -208,21 +186,17 @@
 "Delete timer" = "Delete timer";
 "Broadcast Details" = "Detaily přenosu";
 "TIME" = "ČAS";
-
 "ERROR" = "CHYBA";
 "Subtitles disabled" = "Titulky zakázány";
 "Subtitle" = "Titulky";
 "Mark as watched" = "Označit jako shlédnuté";
 "Mark as unwatched" = "Označit jako neshlédnuté";
-
 "Button Pad/Gesture Zone" = "Tlačítka/Zóna gest";
 "Slide your finger up or down to adjust the scrubbing rate." = "Pohybem prstu nahoru můžete upravit rychlost převíjení.";
-
 "Programs" = "Programy";
 "Video Add-ons" = "Video doplňky";
 "Music Add-ons" = "Hudební doplňky";
 "XBMC Settings" = "Nastavení Kodi";
-
 "Custom button" = "Uživatelské tlačítko";
 "Modify label:" = "Upravit název:";
 "Update label" = "Aktualizovat název";
@@ -233,30 +207,24 @@
 "enter value" = "vložte hodnotu";
 "Tap and hold a setting to add a new button." = "Pro přidání nového tlačítka klepněte a podržte nastavení.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "Není definováno žádné vlastní tlačítko.\r\nStiskněte \"...více\" níže pro přidání nového.";
-
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- VAROVÁNÍ --\nKodi API před Krypton (v17) neumožňují úpravy časovače. Použijte grafické prostředí Kodi pro přidání, úpravu nebo odstranění časovačů. Děkujeme.";
-
 "Execute program" = "Spustit program";
 "Execute video add-on" = "Spustit video doplněk";
 "Execute audio add-on" = "Spustit hudební doplněk";
 "Add-on executed successfully" = "Doplněk úspěšně spuštěn";
 "Unable to execute the add-on" = "Nelze spustit doplněk";
-
 "...more" = "...více";
 "Edit" = "Upravit";
 "Done" = "Hotovo";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Pro přístup k nastavení Kodi je zapotřebí verze Kodi 13 nebo vyšší";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- VAROVÁNÍ --\nTento druh nastavení nelze nastavit na dálku. Pro změnu tohoto nastavení použijte grafické rozhraní Kodi.\nDěkujeme.";
-
 "Official XBMC Remote\nfor iOS" = "Oficiální dálkový ovladač Kodi \npro iOS";
 "Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Oficiální dálkový ovladač Kodi používá náhledy z http://fanart.tv, pokud chcete další artworky, stáhněte a spusťte doplněk Kodi s názvem \"artwork downloader\"!\n\nLogo Kodi, maskot Zappy a ikona aplikace jsou majetkem Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "užívejte!";
-
 "No items found." = "Položky nenalezeny.";
 "Video" = "Video";
 "Party" = "Párty";
 "Search" = "Hledat";
-
 "Supported XBMC version is Eden (11) or higher" = "Podporovaná verze Kodi je Eden (11) nebo vyšší";
 "Add Host" = "Přidat hostitele";
 "Kodi connection notice" = "Kodi connection notice";
@@ -264,7 +232,6 @@
 "Do you want to enable this connection now?" = "Do you want to enable this connection now?";
 "Don't show this message again" = "Don't show this message again";
 "Enable TCP connection on Kodi" = "Enable TCP connection on Kodi";
-
 "Description" = "Popis";
 "Host : port /\nTCP port" = "Hostitel : port /\nTCP port";
 "MAC Address" = "MAC adresa";
@@ -273,14 +240,13 @@
 "Find XBMC" = "Najít Kodi";
 "Save" = "Uložit";
 "No XBMC instances were found :(" = "Žádné zařízení Kodi nebylo nalezeno :(";
-"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Najít Kodi\" vyžaduje, aby server Kodi měl povolenou možnost \n\"Hlásit tyto služby do jiných systémů pomocí ZeroConf\" ";
+"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Najít Kodi\" vyžaduje, aby server Kodi měl povolenou možnost \n\"Hlásit tyto služby do jiných systémů pomocí ZeroConf\"";
 "How-to activate the remote app in Kodi" = "Jak aktivovat dálkové ovládání v XBMC";
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Nastavení > Služby > Ovládání:\n1. Webový server > Povolit vzdálené ovládání prostřednictvím HTTP\n2. Ovládání aplikace > Povolit vzdálené ovládání z aplikací v jiných systémech";
 "e.g. My XBMC" = "např. Moje Kodi";
 "e.g. 192.168.0.8" = "např. 192.168.0.8";
 "User" = "Uživatel";
 "Password" = "Heslo";
-
 "Sort by" = "Třídit";
 "tap" = "tap";
 "the selection" = "the selection";
@@ -306,7 +272,6 @@
 "Year %@" = "Rok %@";
 "Rated %@" = "Hodnocení %@";
 "Track n.%@" = "Stopa č.%@";
-
 "Less than 15 minutes" = "Méně než 15 minut";
 "Less than half an hour" = "Méně než půl hodiny";
 "About half an hour" = "Asi půl hodiny";
@@ -325,12 +290,10 @@
 "Nearly four hours" = "Asi čtyři hodiny";
 "About four hours" = "Asi čtyři hodiny";
 "More than four hours" = "Více než čtyři hodiny";
-
 "Unknown" = "Neznámý";
 "Audio stream" = "Audio stream";
 "Disable subtitles" = "Zakázat titulky";
 "Subtitles" = "Titulky";
-
 "Execute a specific action" = "Execute a specific action";
 "Activate a specific window" = "Activate a specific window";
 "Execute action" = "Execute action";
