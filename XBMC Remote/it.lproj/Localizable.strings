@@ -12,7 +12,6 @@
 "See what's" = "Vedi cosa c'è";
 "Use as" = "Usa come";
 "Watch" = "Guarda";
-
 "Music" = "Musica";
 "Movies" = "Film";
 "TV Shows" = "Serie TV";
@@ -23,7 +22,6 @@
 "New XBMC Server" = "Nuovo Server Kodi";
 "Modify XBMC Server" = "Modifica Server Kodi";
 "Select an XBMC Server from the list" = "Selezionare un server Kodi dalla lista";
-
 "Files" = "File";
 "Video Add-ons" = "Add-on Video";
 "Live TV" = "Live TV";
@@ -32,7 +30,6 @@
 "Added Movies" = "Film Aggiunti";
 "More (%d)" = "Altro (%d)";
 "Movie Sets" = "Film Set";
-
 "Albums" = "Album";
 "Artists" = "Artisti";
 "Genres" = "Generi";
@@ -49,11 +46,8 @@
 "All songs" = "Tutti i brani";
 "Music Add-ons" = "Add-on Musica";
 "Music Playlists" = "Playlist Musica";
-
 "Added Episodes" = "Episodi Aggiunti";
-
 "Pictures Add-ons" = "Add-on Immagini";
-
 "Power off System" = "Spegni Sistema";
 "Power off" = "Spegni";
 "Hibernate" = "Ibernazione";
@@ -69,15 +63,12 @@
 "Clean Video Library" = "Video: Pulisci la libreria";
 "Clean Video" = "Pulisci Video";
 "Quit" = "Esci";
-
 "Keyboard" = "Tastiera";
 "Gesture Zone" = "Zona Gesti";
 "Button Pad" = "Tasti Direzionali";
 "Help Screen" = "Schermata di Aiuto";
 "LED Torch" = "Torcia LED";
-
 "No connection" = "Nessuna Connessione";
-
 "Queue after current" = "Accoda dopo il corrente";
 "Queue" = "Accoda";
 "Play" = "Riproduci";
@@ -94,7 +85,6 @@
 "Music Video Details" = "Dettagli Video Musicale";
 "Details" = "Dettagli";
 "Play Trailer" = "Riproduci Trailer";
-
 "Playlist" = "Playlist";
 "Nothing is playing" = "Niente in riproduzione";
 "Details not found" = "Dettagli non trovati";
@@ -108,14 +98,13 @@
 "Episodes: %@" = "Episodi: %@";
 "1 result" = "1 risultato";
 "%d results" = "%d risultati";
-"Music " = " musicale";
-"Video " = " video";
+"Music " = "Musica ";
+"Video " = "Video ";
 "Songs" = "Brani";
 "Song" = "Brano";
 "Mins." = "Minuti";
 "Min" = "Minuto";
 "Released %d" = "Rilasciato nel %d";
-
 "Clear Playlist" = "Cancella Playlist";
 "No server MAC address defined" = "Nessun indirizzo MAC del Server definito";
 "Command executed" = "Comando eseguito";
@@ -123,7 +112,6 @@
 "Cannot do that" = "Non lo posso fare";
 "Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "Nessun server trovato";
-
 "Are you sure you want to clear the %@playlist?" = "Sei sicuro di voler cancellare la playlist%@?";
 "Are you sure you want to power off your XBMC system now?" = "Sei sicuro di voler spegnere il tuo sistema Kodi adesso?";
 "Are you sure you want to hibernate your XBMC system now?" = "Sei sicuro di voler ibernare il tuo sistema Kodi adesso?";
@@ -134,7 +122,6 @@
 "Are you sure you want to clean your audio library now?" = "Sei sicuro di voler pulire la libreria audio adesso?";
 "Are you sure you want to update your video library now?" = "Sei sicuro di voler aggiornare la libreria video adesso?";
 "Are you sure you want to clean your video library now?" = "Sei sicuro di voler pulire la libreria video adesso?";
-
 "DIRECTED BY" = "REGIA DI";
 "RUNTIME" = "DURATA";
 "PARENTAL RATING" = "FILTRO FAMIGLIA";
@@ -155,7 +142,6 @@
 "STYLE" = "STILE";
 "BORN / FORMED" = "NATO / FORMATI";
 "TRAILER" = "TRAILER";
-
 "codec" = "codec";
 "bit rate" = "bit rate";
 "sample rate" = "sample rate";
@@ -164,21 +150,16 @@
 "Subtitles not available" = "Sottotitoli non disponibili";
 "Audiostream not available" = "Traccia audio non disponibile";
 "Audiostreams not available" = "Tracce audio non disponibili";
-
 "LongDateTimeFormat" = "dd MMMM yyyy";
 "ShortDateTimeFormat" = "dd-MMM-yyyy";
 "LocaleIdentifier" = "it_IT";
-
 "Yes" = "Si";
 "No" = "No";
 "Authentication Failed" = "Autenticazione Fallita";
 "Incorrect Username or Password.\nCheck your settings." = "Username o Password errati.\nVerificare le impostazioni.";
-
 "WIKI_LANG" = "it";
-
 "vote" = "vote";
 "votes" = "votes";
-
 "Slide your finger up to adjust the scrubbing rate." = "Scorri il dito verso l'alto per regolare la velocità di scrubbing.";
 "Scrubbing 1" = "Scrubbing ad alta velocità";
 "Scrubbing 0.5" = "Scrubbing con velocità al 50%";
@@ -186,7 +167,6 @@
 "Scrubbing 0.1" = "Scrubbing con velocità al 10%";
 "Scrubbing 0.05" = "Scrubbing con velocità al 5%";
 "Scrubbing 0.025" = "Scrubbing di precisione";
-
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Rimozione cache dal disco...\n\nPer favore attendere, l'operazione potrebbe richiedere qualche minuto";
 "Pull to sync with XBMC..." = "Trascina per sincronizzare con Kodi...";
 "Release to sync with XBMC..." = "Rilascia per sincronizzare con Kodi...";
@@ -195,11 +175,9 @@
 "View: Wall" = "Vedi: Muro";
 "View: List" = "Vedi: Lista";
 "View: Fanart" = "Vedi: Fanart";
-
 "Show Content" = "Mostra Contenuto";
 "Play in party mode" = "Riproduci in modalità party";
 "Play in shuffle mode" = "Riproduci in modalità casuale";
-
 "Channel Guide" = "Guida Canale";
 "Record" = "Registra";
 "Stop Recording" = "Ferma la Registrazione";
@@ -208,21 +186,17 @@
 "Delete timer" = "Cancella timer";
 "Broadcast Details" = "Dettagli Trasmissione";
 "TIME" = "DATA";
-
 "ERROR" = "ERRORE";
 "Subtitles disabled" = "Sottotitoli disabilitati";
 "Subtitle" = "Sottotitolo";
 "Mark as watched" = "Segna come già visto";
 "Mark as unwatched" = "Segna come non visto";
-
 "Button Pad/Gesture Zone" = "Tasti Direzionali/Zona Gesti";
 "Slide your finger up or down to adjust the scrubbing rate." = "Scorri il dito verso l'alto o il basso per regolare la velocità di scrubbing.";
-
 "Programs" = "Programmi";
 "Video Add-ons" = "Add-on Video";
 "Music Add-ons" = "Add-on Musica";
 "XBMC Settings" = "Impostazioni Kodi";
-
 "Custom button" = "Bottone personalizzato";
 "Modify label:" = "Modifica etichetta:";
 "Update label" = "Aggiorna etichetta";
@@ -233,30 +207,24 @@
 "enter value" = "inserisci il valore";
 "Tap and hold a setting to add a new button." = "Tocca e tieni premuto un'impostazione per aggiungere un nuovo bottone.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "Nessun bottone personalizzato definito.\r\nPremere \"...altro\" in basso per aggiungerne di nuovi.";
-
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- ATTENZIONE --\nLe API di Kodi precedenti alla versione Krypton (v17) non consentono la modifica dei timer. Utilizzare l'interfaccia di Kodi per l'aggiunta, la modifica e la cancellazione dei timer. Grazie.";
-
 "Execute program" = "Esegui programma";
 "Execute video add-on" = "Esegui add-on video";
 "Execute audio add-on" = "Esegui add-on audio";
 "Add-on executed successfully" = "Add-on eseguito con successo";
 "Unable to execute the add-on" = "Impossibile eseguire l'add-on";
-
 "...more" = "...altro";
 "Edit" = "Modifica";
 "Done" = "Fatto";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi versione 13 o superiore è necessario per accedere alle impostazioni Kodi";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- ATTENZIONE --\nQuesto tipo di impostazione non può essere configurata da remoto. Utilizzare l'interfaccia di Kodi per modificare questa impostazione.\nGrazie.";
-
 "Official XBMC Remote\nfor iOS" = "Official Kodi Remote\nper iOS";
 "Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Official Kodi Remote app utilizza immagini provenienti da http://fanart.tv, scaricare ed eseguire l'add-on Kodi \"artwork downloader\" per sbloccare la bellezza di illustrazioni in più!\n\nKodi logo, Zappy mascotte e le icone sono proprietà di Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "enjoy!";
-
 "No items found." = "Nessun elemento trovato";
 "Video" = "Video";
 "Party" = "Party";
 "Search" = "Ricerca";
-
 "Supported XBMC version is Eden (11) or higher" = "Versione Kodi supportata Eden (11) o superiore";
 "Add Host" = "Aggiungi";
 "Kodi connection notice" = "Avviso di connessione Kodi";
@@ -264,7 +232,6 @@
 "Do you want to enable this connection now?" = "Si desidera abilitare la connessione ora?";
 "Don't show this message again" = "Non mostrare più questo messaggio";
 "Enable TCP connection on Kodi" = "Abilita connessione TCP su Kodi";
-
 "Description" = "Descrizione";
 "Host : port /\nTCP port" = "Host : porta /\nporta TCP";
 "MAC Address" = "Indirizzo MAC";
@@ -280,7 +247,6 @@
 "e.g. 192.168.0.8" = "es. 192.168.0.8";
 "Username" = "Username";
 "Password" = "Password";
-
 "Sort by" = "Ordina per";
 "tap" = "tocca";
 "the selection" = "la selezione";
@@ -306,7 +272,6 @@
 "Year %@" = "Anno %@";
 "Rated %@" = "Voto %@";
 "Track n.%@" = "Traccia n.%@";
-
 "Less than 15 minutes" = "Meno di 15 minuti";
 "Less than half an hour" = "Meno di mezz'ora";
 "About half an hour" = "Circa mezz'ora";
@@ -325,12 +290,10 @@
 "Nearly four hours" = "Quasi quattro ore";
 "About four hours" = "Circa quattro ore";
 "More than four hours" = "Più di quattro ore";
-
 "Unknown" = "sconosciuto";
 "Audio stream" = "Traccia audio";
 "Disable subtitles" = "Disabilita i sottotitoli";
 "Subtitles" = "Sottotitoli";
-
 "Execute a specific action" = "Eseguire un'azione specifica";
 "Activate a specific window" = "Attivare una finestra specifica";
 "Execute action" = "Esegui azione";
