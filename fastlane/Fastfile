@@ -62,10 +62,11 @@ lane :tf do |options|
   if (betaIndex = lastTag.rindex(betaSuffix))
     afterBetaIndex = betaIndex + betaSuffix.length
     lastBetaNumber = lastTag[afterBetaIndex, 3] # max number = 999
-    newTag = lastTag[0, afterBetaIndex] + "#{lastBetaNumber.to_i + 1}"
+    betaVersion = lastBetaNumber.to_i + 1
   else
-    newTag = appProperties['CFBundleShortVersionString'] + betaSuffix + '1'
+    betaVersion = 1
   end
+  newTag = appProperties['CFBundleShortVersionString'] + betaSuffix + betaVersion.to_s
 
   createGithubRelease("Testflight #{appProperties['CFBundleVersion']}", newTag, is_prerelease: true)
   system 'git fetch --tags'
