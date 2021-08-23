@@ -274,7 +274,7 @@
 "Save" = "保存";
 "No XBMC instances were found :(" = "未找到 Kodi 实例 :(";
 "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "“查找Kodi” 功能需要Kodi服务器启用选项\n“通过Zeroconf协议发布这些服务”";
-"How-to activate the remote app in Kodi" = "如何在Kodi中激活远程控制";
+"How-to activate the remote app in Kodi" = "如何在Kodi中激活远程控制";
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems";
 "e.g. My XBMC" = "如：我的Kodi";
 "e.g. 192.168.0.8" = "如：192.168.0.8";
