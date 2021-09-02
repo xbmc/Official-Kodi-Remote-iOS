@@ -623,13 +623,13 @@
     }
 
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
-    self.navigationItem.title = [NSString stringWithFormat:LOCALIZED_STR(@"More (%ld)"), (long)(count - MAX_NORMAL_BUTTONS)];
+    self.navigationItem.title = [NSString stringWithFormat:LOCALIZED_STR(@"More (%d)"), (int)(count - MAX_NORMAL_BUTTONS)];
     if (IS_IPAD) {
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.3];
         topNavigationLabel.alpha = 0;
         [UIView commitAnimations];
-        topNavigationLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"More (%ld)"), (long)(count - MAX_NORMAL_BUTTONS)];
+        topNavigationLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"More (%d)"), (int)(count - MAX_NORMAL_BUTTONS)];
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.1];
         topNavigationLabel.alpha = 1;
@@ -1807,7 +1807,7 @@ int originYear = 0;
         int numResult = (int)[self.filteredListContent count];
         if (numResult) {
             if (numResult != 1) {
-                return [NSString stringWithFormat:LOCALIZED_STR(@"%lu results"), (unsigned long)[self.filteredListContent count]];
+                return [NSString stringWithFormat:LOCALIZED_STR(@"%d results"), (int)self.filteredListContent.count];
             }
             else {
                 return LOCALIZED_STR(@"1 result");
