@@ -348,7 +348,6 @@ static char UIScrollViewPullToRefreshView;
 - (UILabel*)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
-        _titleLabel.text = LOCALIZED_STR(@"Pull to refresh...");
         _titleLabel.font = [UIFont boldSystemFontOfSize:13];
         _titleLabel.numberOfLines = 1;
         _titleLabel.minimumScaleFactor = 12.0/13.0;
