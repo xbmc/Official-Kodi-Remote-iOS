@@ -26,7 +26,7 @@
 "Modify XBMC Server" = "Ändra Kodi-server";
 "Select an XBMC Server from the list" = "Välj en Kodi-server från listan";
 "Files" = "Filer";
-"Video Add-ons" = "Filmtillägg";
+"Video Add-ons" = "Videotillägg";
 "Live TV" = "Live-TV";
 "Movie Genres" = "Filmgenrer";
 "Music Videos" = "Musikvideor";
@@ -197,8 +197,6 @@
 "Button Pad/Gesture Zone" = "Knappsats/Gestzon";
 "Slide your finger up or down to adjust the scrubbing rate." = "Dra ditt finger upp eller ner för att justera snabbspolningshastigheten.";
 "Programs" = "Program";
-"Video Add-ons" = "Videotillägg";
-"Music Add-ons" = "Musiktillägg";
 "XBMC Settings" = "Kodi-inställningar";
 "Custom button" = "Anpassad knapp";
 "Modify label:" = "Ändra etikett:";
