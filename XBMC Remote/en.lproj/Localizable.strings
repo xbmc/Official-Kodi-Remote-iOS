@@ -29,6 +29,7 @@
 "Files" = "Files";
 "Video Add-ons" = "Video Add-ons";
 "Live TV" = "Live TV";
+"Radio" = "Radio";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";
 "Added Movies" = "Added Movies";
@@ -156,6 +157,7 @@
 "YEAR" = "YEAR";
 "ALBUM LABEL" = "ALBUM LABEL";
 "DESCRIPTION" = "DESCRIPTION";
+"MUSIC ROLES" = "MUSIC ROLES";
 "STYLE" = "STYLE";
 "BORN / FORMED" = "BORN / FORMED";
 "TRAILER" = "TRAILER";
@@ -283,6 +285,7 @@
 "e.g. My XBMC" = "e.g. My Kodi";
 "e.g. 192.168.0.8" = "e.g. 192.168.0.8";
 "User" = "User";
+"Username" = "Username";
 "Password" = "Password";
 
 "Sort by" = "Sort by";
@@ -345,6 +348,12 @@
 "Unable to activate the window" = "Unable to activate the window";
 "Add action button" = "Add action button";
 "Add window activation button" = "Add window activation button";
+
+"Copy to clipboard" = "Copy to clipboard";
+"Not Available" = "Not Available";
+
+"Last Updated: %@" = "Last Updated: %@";
+"Never" = "Never";
 
 "For search switch to list view" = "For search switch to list view";
 
