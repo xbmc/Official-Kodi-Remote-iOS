@@ -15,7 +15,7 @@
 "Choose your" = "Wähle deine";
 "Music" = "Musik";
 "Movies" = "Filme";
-"TV Shows" = "TV-Serien";
+"TV Shows" = "Serien";
 "Pictures" = "Bilder";
 "Now Playing" = "Gerade läuft";
 "Favourites" = "Favoriten";
@@ -25,8 +25,9 @@
 "Modify XBMC Server" = "Kodi-Server bearbeiten";
 "Select an XBMC Server from the list" = "Wähle einen Kodi-Server aus der Liste";
 "Files" = "Dateien";
-"Video Add-ons" = "Video Add-ons";
-"Live TV" = "Live TV";
+"Video Add-ons" = "Video-Addons";
+"Live TV" = "TV";
+"Radio" = "Radio";
 "Movie Genres" = "Filmgenre";
 "Music Videos" = "Musikvideos";
 "Added Movies" = "Hinzugefügte Filme";
@@ -46,7 +47,7 @@
 "Played songs" = "Gespielte Lieder";
 "Recently played songs" = "Kürzlich gespielte Lieder";
 "All songs" = "Alle Lieder";
-"Music Add-ons" = "Musik Add-ons";
+"Music Add-ons" = "Musik-Addons";
 "Music Playlists" = "Musik Wiedergabelisten";
 "Video Playlists" = "Video Wiedergabelisten";
 "Music Roles" = "Musikrollen";
@@ -143,6 +144,7 @@
 "YEAR" = "JAHR";
 "ALBUM LABEL" = "ALBUM TITEL";
 "DESCRIPTION" = "BESCHREIBUNG";
+"MUSIC ROLES" = "MUSIK ROLLEN";
 "STYLE" = "STIL";
 "BORN / FORMED" = "GEBOREN / GEGRÜNDET";
 "TRAILER" = "TRAILER";
@@ -208,11 +210,11 @@
 "Button added" = "Taste hinzugefügt";
 "enter value" = "Wert eingeben";
 "Tap and hold a setting to add a new button." = "Tippen und Halten auf eine Einstellung um eine neue Taste anzulegen.";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Keine Taste definiert.\r\nWähle \"Mehr...\" um Neue hinzuzufügen.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Keine Taste definiert.\r\nWähle \"...mehr\" um Neue hinzuzufügen.";
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- ACHTUNG --\nDie Kodi-API vor Krypton (v17) erlaubt keine Timer-Bearbeitung. Bitte nutze die Einstellungen direkt in Kodi zum Hinzufügen, Bearbeiten und Entfernen von Timern. Vielen Dank.";
 "Execute program" = "Programm ausführen";
 "Execute video add-on" = "Video-Addon ausführen";
-"Execute audio add-on" = "Audio Erweiterung ausführen";
+"Execute audio add-on" = "Audio-Addon ausführen";
 "Add-on executed successfully" = "Addon erfolgreich ausgeführt";
 "Unable to execute the add-on" = "Ausführung des Addons nicht möglich";
 "...more" = "...mehr";
