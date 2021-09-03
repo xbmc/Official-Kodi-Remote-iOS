@@ -307,6 +307,10 @@
 "Unable to activate the window" = "Aktivierung des Fensters nicht möglich";
 "Add action button" = "Aktionstaste hinzufügen";
 "Add window activation button" = "Fenster-Aktivierung hinzufügen";
+"Copy to clipboard" = "In die Zwischenablage kopieren";
+"Not Available" = "Nicht verfügbar";
+"Last Updated: %@" = "Zuletzt aktualisiert: %@";
+"Never" = "Niemals";
 "For search switch to list view" = "Zur Suche in Listenansicht wechseln";
 "Channel" = "TV Sender";
 "Date" = "Datum";
