@@ -247,7 +247,7 @@
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Definições > Serviços > Controlo:\n1. Servidor web > Permitir controlo remoto via HTTP\n2. Controlo de aplicação > Permitir o controlo remoto a partir das aplicações de outros sistemas";
 "e.g. My XBMC" = "p. ex. O meu Kodi";
 "e.g. 192.168.0.8" = "p. ex. 192.168.0.8";
-"User" = "Utilizador";
+"Username" = "Utilizador";
 "Password" = "Palavra-passe";
 "Sort by" = "Ordenar por";
 "tap" = "toque";
