@@ -1350,11 +1350,12 @@
                             [item[@"family"] isEqualToString:@"recordingid"] ||
                             [item[@"family"] isEqualToString:@"type"] ||
                             [item[@"family"] isEqualToString:@"file"]);
+        BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
         cell.posterThumbnail.frame = cell.bounds;
         [Utilities applyRoundedEdgesView:cell.posterThumbnail drawBorder:showBorder];
         if (![stringURL isEqualToString:@""]) {
             [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] options:0 andResize:CGSizeMake(cellthumbWidth, cellthumbHeight) withBorder:showBorder progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                if (channelListView || channelGuideView || recordingListView) {
+                if (channelListView || channelGuideView || recordingListView || isOnPVR) {
                     [Utilities setLogoBackgroundColor:cell.posterThumbnail mode:logoBackgroundMode];
                 }
             }];
@@ -2293,10 +2294,11 @@ int originYear = 0;
                             [item[@"family"] isEqualToString:@"recordingid"] ||
                             [item[@"family"] isEqualToString:@"type"] ||
                             [item[@"family"] isEqualToString:@"file"]);
+        BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
         [Utilities applyRoundedEdgesView:cell.urlImageView drawBorder:showBorder];
         if (![stringURL isEqualToString:@""]) {
             [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] options:0 andResize:CGSizeMake(thumbWidth, cellHeight) withBorder:showBorder progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                if (channelListView || channelGuideView || recordingListView) {
+                if (channelListView || channelGuideView || recordingListView || isOnPVR) {
                     [Utilities setLogoBackgroundColor:cell.urlImageView mode:logoBackgroundMode];
                 }
             }];
