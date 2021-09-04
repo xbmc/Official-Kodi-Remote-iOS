@@ -622,7 +622,6 @@ int count = 0;
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
     if (isRecordingDetail) {
-        [Utilities setLogoBackgroundColor:jewelView mode:logoBackgroundMode];
         CGRect frame;
         frame.size.width = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.9);
         frame.size.height = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.7);
@@ -633,6 +632,9 @@ int count = 0;
         // Ensure we draw the rounded edges around TV station logo view
         jewelView.image = image;
         jewelView = [Utilities applyRoundedEdgesView:jewelView drawBorder:YES];
+        
+        // Choose correct background color for station logos
+        [Utilities setLogoBackgroundColor:jewelView mode:logoBackgroundMode];
     }
     else {
         // Ensure we draw the rounded edges around thumbnail images
