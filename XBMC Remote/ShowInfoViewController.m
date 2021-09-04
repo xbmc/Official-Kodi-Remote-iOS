@@ -611,16 +611,17 @@ int count = 0;
     return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 
-- (void)elaborateImage:(UIImage*)image {
+- (void)elaborateImage:(UIImage*)image fallbackImage:(UIImage*)fallback {
     dispatch_async(dispatch_get_main_queue(), ^{
         [activityIndicatorView startAnimating];
-        [self showImage:image];
+        [self showImage:image fallbackImage:fallback];
     });
 }
 
-- (void)showImage:(UIImage*)image {
+- (void)showImage:(UIImage*)image fallbackImage:(UIImage*)fallback {
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
+    UIImage *imageToShow = image != nil ? image : fallback;
     if (isRecordingDetail) {
         CGRect frame;
         frame.size.width = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.9);
@@ -630,15 +631,17 @@ int count = 0;
         jewelView.frame = frame;
         
         // Ensure we draw the rounded edges around TV station logo view
-        jewelView.image = image;
+        jewelView.image = imageToShow;
         jewelView = [Utilities applyRoundedEdgesView:jewelView drawBorder:YES];
         
         // Choose correct background color for station logos
-        [Utilities setLogoBackgroundColor:jewelView mode:logoBackgroundMode];
+        if (image != nil) {
+            [Utilities setLogoBackgroundColor:jewelView mode:logoBackgroundMode];
+        }
     }
     else {
         // Ensure we draw the rounded edges around thumbnail images
-        jewelView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];;
+        jewelView.image = [Utilities applyRoundedEdgesImage:imageToShow drawBorder:YES];;
     }
     [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
 }
@@ -1055,7 +1058,7 @@ int count = 0;
     BOOL inEnableKenBurns = enableKenBurns;
     __weak ShowInfoViewController *sf = self;
     NSString *thumbnailPath = item[@"thumbnail"];
-    if (![item[@"thumbnail"] isEqualToString:@""] && item[@"thumbnail"] != nil) {
+    if (![thumbnailPath isEqualToString:@""] && thumbnailPath != nil) {
         jewelView.alpha = 0;
         [activityIndicatorView startAnimating];
     }
@@ -1076,7 +1079,7 @@ int count = 0;
                 jewelView.alpha = 1;
             }
             else {
-                [self elaborateImage:image];
+                [self elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
             }
         }
         else {
@@ -1108,8 +1111,8 @@ int count = 0;
                                              [sf setIOS7barTintColor:newColor];
                                              foundTintColor = newColor;
                                          }
-                                         [sf elaborateImage:image];
                                      }
+                                     [sf elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
                                  }
                  ];
             }

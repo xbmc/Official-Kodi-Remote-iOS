@@ -74,7 +74,7 @@ static char operationKey;
                 sself.image = [Utilities applyRoundedEdgesImage:image drawBorder:withBorder];
                 [sself setNeedsLayout];
             }
-            if (completedBlock && finished) {
+            if (completedBlock) {
                 completedBlock(image, error, cacheType);
             }
         }];
