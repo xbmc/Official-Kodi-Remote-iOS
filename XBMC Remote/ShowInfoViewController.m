@@ -1069,7 +1069,7 @@ int count = 0;
                 foundTintColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
             }
             [self setIOS7barTintColor:foundTintColor];
-            if (enableJewel) {
+            if (enableJewel && !isRecordingDetail) {
                 coverView.image = image;
                 coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
                 [activityIndicatorView stopAnimating];
@@ -1082,7 +1082,7 @@ int count = 0;
         else {
             __weak ShowInfoViewController *sf = self;
             __block UIColor *newColor = nil;
-            if (enableJewel) {
+            if (enableJewel && !isRecordingDetail) {
                 [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
