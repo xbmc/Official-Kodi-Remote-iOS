@@ -1055,10 +1055,9 @@ int count = 0;
         runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"runtime" emptyString:@"-"];
         studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
     }
-    BOOL inEnableKenBurns = enableKenBurns;
-    __weak ShowInfoViewController *sf = self;
+    
     NSString *thumbnailPath = item[@"thumbnail"];
-    if (![thumbnailPath isEqualToString:@""] && thumbnailPath != nil) {
+    if (thumbnailPath.length > 0) {
         jewelView.alpha = 0;
         [activityIndicatorView startAnimating];
     }
@@ -1088,15 +1087,13 @@ int count = 0;
             if (enableJewel && !isRecordingDetail) {
                 [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
-                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                     if (error == nil) {
-                         if (image != nil) {
-                             newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
-                             [sf setIOS7barTintColor:newColor];
-                             foundTintColor = newColor;
-                         }
-                     }
-                 }];
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                    if (image != nil) {
+                                        newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
+                                        [sf setIOS7barTintColor:newColor];
+                                        foundTintColor = newColor;
+                                    }
+                }];
                 coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
@@ -1105,25 +1102,24 @@ int count = 0;
                 [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                     if (image != nil) {
-                                         if (error == nil) {
-                                             newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
-                                             [sf setIOS7barTintColor:newColor];
-                                             foundTintColor = newColor;
-                                         }
-                                     }
-                                     [sf elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
-                                 }
-                 ];
+                                    if (image != nil) {
+                                        newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
+                                        [sf setIOS7barTintColor:newColor];
+                                        foundTintColor = newColor;
+                                    }
+                                    [sf elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
+                }];
             }
         }
     }];
     
     NSString *fanartPath = item[@"fanart"];
+    __weak ShowInfoViewController *sf = self;
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:fanartPath done:^(UIImage *image, SDImageCacheType cacheType) {
+        __auto_type strongSelf = sf;
         if (image != nil) {
             fanartView.image = image;
-            if (inEnableKenBurns) {
+            if (strongSelf != nil && strongSelf->enableKenBurns) {
                 fanartView.alpha = 0;
                 [sf elabKenBurns:image];
                 [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
@@ -1133,14 +1129,14 @@ int count = 0;
             [fanartView setImageWithURL:[NSURL URLWithString:fanartPath]
                        placeholderImage:[UIImage imageNamed:@"blank"]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                  if (inEnableKenBurns) {
+                                  __auto_type strongSelf = sf;
+                                  if (strongSelf != nil && strongSelf->enableKenBurns) {
                                       [sf elabKenBurns:image];
                                       [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
                                   }
                               }
              ];
         }
-        
     }];
 
     [fanartView setClipsToBounds:YES];
