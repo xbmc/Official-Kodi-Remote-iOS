@@ -3370,7 +3370,8 @@ NSMutableArray *hostRightMenuItems;
         @"st_timers"];
     
     menu_LiveTV.mainMethod = [@[
-        @[@"PVR.GetChannelGroups", @"method"],
+        @[@"PVR.GetChannels", @"method",
+          @"YES", @"channelListView"],
         @[@"PVR.GetChannelGroups", @"method"],
         @[@"PVR.GetRecordings", @"method",
           @"PVR.GetRecordingDetails", @"extra_info_method"],
@@ -3381,15 +3382,21 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.mainParameters = [@[
         @[
             @{
-                @"channeltype": @"tv"
+                @"channelgroupid": @"alltv",
+                @"properties": @[
+                        @"thumbnail",
+                        @"channel"]
             }, @"parameters",
-            LOCALIZED_STR(@"Live TV"), @"label",
-            LOCALIZED_STR(@"Live TV"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            filemodeRowHeight, @"rowHeight",
-            filemodeThumbWidth, @"thumbWidth",
+            @{
+                @"17": @[@"isrecording"],
+            }, @"kodiExtrasPropertiesMinimumVersion",
+            @"Live TV", @"label",
+            @"nocover_channels", @"defaultThumb",
+            @"YES", @"disableFilterParameter",
+            livetvRowHeight, @"rowHeight",
+            @"48", @"thumbWidth",
             @"YES", @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes"
+            [self itemSizes_Music_insets:@"56"], @"itemSizes"
         ],
                           
         @[
@@ -3532,16 +3539,18 @@ NSMutableArray *hostRightMenuItems;
     
     menu_LiveTV.mainFields = @[
         @{
-            @"itemid": @"channelgroups",
-            @"row1": @"label",
-            @"row2": @"year",
-            @"row3": @"year",
-            @"row4": @"runtime",
-            @"row5": @"rating",
-            @"row6": @"channelgroupid",
+            @"itemid": @"channels",
+            @"row1": @"channel",
+            @"row2": @"starttime",
+            @"row3": @"endtime",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"channelid",
             @"playlistid": @1,
-            @"row8": @"channelgroupid",
-            @"row9": @"channelgroupid"
+            @"row8": @"channelid",
+            @"row9": @"isrecording",
+            @"row10": @"filetype",
+            @"row11": @"type"
         },
                       
         @{
@@ -3600,7 +3609,7 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.thumbWidth = 53;
     menu_LiveTV.defaultThumb = @"nocover_movies";
     menu_LiveTV.sheetActions = @[
-        @[],
+        [self action_play_to_channelguide],
         @[],
         [self action_queue_to_play],
         @[LOCALIZED_STR(@"Delete timer")]
@@ -3608,7 +3617,7 @@ NSMutableArray *hostRightMenuItems;
     
     //    menu_LiveTV.showInfo = YES;
     menu_LiveTV.showInfo = @[
-        @YES,
+        @NO,
         @YES,
         @YES,
         @NO];
@@ -3621,8 +3630,8 @@ NSMutableArray *hostRightMenuItems;
     ];
     
     menu_LiveTV.subItem.mainMethod = [@[
-        @[@"PVR.GetChannels", @"method",
-          @"YES", @"channelListView"],
+        @[@"PVR.GetBroadcasts", @"method",
+          @"YES", @"channelGuideView"],
         @[@"PVR.GetChannels", @"method",
           @"YES", @"channelListView"],
         @[],
@@ -3635,19 +3644,22 @@ NSMutableArray *hostRightMenuItems;
         @[
             @{
                 @"properties": @[
-                        @"thumbnail",
-                        @"channel"]
+                        @"title",
+                        @"starttime",
+                        @"endtime",
+                        @"plot",
+                        @"plotoutline",
+                        @"progresspercentage",
+                        @"isactive",
+                        @"hastimer"]
             }, @"parameters",
-            @{
-                @"17": @[@"isrecording"],
-            }, @"kodiExtrasPropertiesMinimumVersion",
             @"Live TV", @"label",
-            @"nocover_channels", @"defaultThumb",
+            @"icon_video", @"defaultThumb",
             @"YES", @"disableFilterParameter",
-            livetvRowHeight, @"rowHeight",
-            @"48", @"thumbWidth",
-            @"YES", @"enableCollectionView",
-            [self itemSizes_Music_insets:@"56"], @"itemSizes"
+            channelEPGRowHeight, @"rowHeight",
+            livetvThumbWidth, @"thumbWidth",
+            [self itemSizes_Music_insets:@"48"], @"itemSizes",
+            @YES, @"forceActionSheet"
         ],
                                   
         @[
@@ -3674,18 +3686,22 @@ NSMutableArray *hostRightMenuItems;
     
     menu_LiveTV.subItem.mainFields = @[
         @{
-            @"itemid": @"channels",
-            @"row1": @"channel",
-            @"row2": @"starttime",
-            @"row3": @"endtime",
-            @"row4": @"filetype",
-            @"row5": @"filetype",
-            @"row6": @"channelid",
+            @"itemid": @"broadcasts",
+            @"row1": @"title",
+            @"row2": @"plot",
+            @"row3": @"broadcastid",
+            @"row4": @"broadcastid",
+            @"row5": @"starttime",
+            @"row6": @"broadcastid",
             @"playlistid": @1,
-            @"row8": @"channelid",
-            @"row9": @"isrecording",
-            @"row10": @"filetype",
-            @"row11": @"type"
+            @"row8": @"broadcastid",
+            @"row9": @"plotoutline",
+            @"row10": @"starttime",
+            @"row11": @"endtime",
+            @"row12": @"progresspercentage",
+            @"row13": @"isactive",
+            @"row14": @"title",
+            @"row15": @"hastimer"
         },
                               
         @{
@@ -3712,7 +3728,7 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.subItem.thumbWidth = [livetvThumbWidth intValue];
     menu_LiveTV.subItem.defaultThumb = @"nocover_channels";
     menu_LiveTV.subItem.sheetActions = @[
-        [self action_play_to_channelguide],
+        [self action_play_to_broadcastdetails],
         [self action_play_to_channelguide],
         @[],
         @[]
@@ -3734,8 +3750,7 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.subItem.widthLabel = 252;
     menu_LiveTV.subItem.subItem.noConvertTime = YES;
     menu_LiveTV.subItem.subItem.mainMethod = [@[
-        @[@"PVR.GetBroadcasts", @"method",
-          @"YES", @"channelGuideView"],
+        @[],
         @[@"PVR.GetBroadcasts", @"method",
           @"YES", @"channelGuideView"],
         @[],
@@ -3743,26 +3758,7 @@ NSMutableArray *hostRightMenuItems;
     ] mutableCopy];
     
     menu_LiveTV.subItem.subItem.mainParameters = [@[
-        @[
-            @{
-                @"properties": @[
-                        @"title",
-                        @"starttime",
-                        @"endtime",
-                        @"plot",
-                        @"plotoutline",
-                        @"progresspercentage",
-                        @"isactive",
-                        @"hastimer"]
-            }, @"parameters",
-            @"Live TV", @"label",
-            @"icon_video", @"defaultThumb",
-            @"YES", @"disableFilterParameter",
-            channelEPGRowHeight, @"rowHeight",
-            livetvThumbWidth, @"thumbWidth",
-            [self itemSizes_Music_insets:@"48"], @"itemSizes",
-            @YES, @"forceActionSheet"
-        ],
+        @[],
                                             
          @[
             @{
@@ -3790,24 +3786,7 @@ NSMutableArray *hostRightMenuItems;
     ] mutableCopy];
     
     menu_LiveTV.subItem.subItem.mainFields = @[
-        @{
-            @"itemid": @"broadcasts",
-            @"row1": @"title",
-            @"row2": @"plot",
-            @"row3": @"broadcastid",
-            @"row4": @"broadcastid",
-            @"row5": @"starttime",
-            @"row6": @"broadcastid",
-            @"playlistid": @1,
-            @"row8": @"broadcastid",
-            @"row9": @"plotoutline",
-            @"row10": @"starttime",
-            @"row11": @"endtime",
-            @"row12": @"progresspercentage",
-            @"row13": @"isactive",
-            @"row14": @"title",
-            @"row15": @"hastimer"
-        },
+        @{},
                                         
         @{
             @"itemid": @"broadcasts",
@@ -3837,7 +3816,7 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.subItem.subItem.thumbWidth = 53;
     menu_LiveTV.subItem.subItem.defaultThumb = @"nocover_filemode";
     menu_LiveTV.subItem.subItem.sheetActions = @[
-        [self action_play_to_broadcastdetails],
+        @[],
         [self action_play_to_broadcastdetails],
         @[],
         @[]
