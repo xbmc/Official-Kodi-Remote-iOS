@@ -4267,8 +4267,9 @@ NSIndexPath *selected;
         return;
     }
     
-    // "sort" in "PVR." methods is only allowed from JSON API 12.1 on, for lower version remove "sort"
+    BOOL useCommonPvrRecordingsTimers = NO;
     if ([methodToCall containsString:@"PVR."]) {
+        // PVR methods do not support "sort" before JSON API 12.1
         if (([AppDelegate instance].APImajorVersion < 12) ||
             (([AppDelegate instance].APImajorVersion == 12) && ([AppDelegate instance].APIminorVersion < 1))) {
             // remove "sort" from setup
@@ -4278,6 +4279,27 @@ NSIndexPath *selected;
             [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
             [activityIndicatorView stopAnimating];
             return;
+        }
+        // PVR functions not supported with xbmc 11
+        if ([AppDelegate instance].serverVersion == 11) {
+            [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+            [activityIndicatorView stopAnimating];
+            return;
+        }
+        // PVR.GetRecordings and PVR.GetTimers are not supported with xbmc 12
+        else if ([AppDelegate instance].serverVersion == 12 && ([methodToCall isEqualToString:@"PVR.GetRecordings"] || [methodToCall isEqualToString:@"PVR.GetTimers"])) {
+            [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+            [activityIndicatorView stopAnimating];
+            return;
+        }
+        // PVR.GetRecordings and PVR.GetTimers support dedicated results for TV + Radio since JSON RPC v8. But
+        // in reality this works since Kodi 19. Kodi 18 does not handle timers correct, Kodi 13 to 17 does not handle
+        // recordings correct. Therefore we remove the request for "radio" and "isradio" and set a flag to always show
+        // common results (TV and Radio) for recordings and timers.
+        else if ([AppDelegate instance].serverVersion < 19) {
+            [mutableParameters[@"properties"] removeObject:@"radio"];
+            [mutableParameters[@"properties"] removeObject:@"isradio"];
+            useCommonPvrRecordingsTimers = YES;
         }
     }
 
@@ -4314,6 +4336,18 @@ NSIndexPath *selected;
          // If the feature to also show movies sets with only 1 movie is disabled and the current results
          // are movie sets, enable the postprocessing to ignore movies sets with only 1 movie.
          BOOL ignoreSingleMovieSets = ![AppDelegate instance].isGroupSingleItemSetsEnabled && [methodToCall isEqualToString:@"VideoLibrary.GetMovieSets"];
+        
+         // If we are reading PVR recordings or PVR timers, we need to filter them for the current mode in
+         // postprocessing. Ignore Radio recordings/timers, if we are in TV mode. Or ignore TV recordings/timers,
+         // if we are in Radio mode.
+         BOOL isRecordingsOrTimersMethod = [methodToCall isEqualToString:@"PVR.GetRecordings"] || [methodToCall isEqualToString:@"PVR.GetTimers"];
+         BOOL ignoreRadioItems = [[self.detailItem mainLabel] isEqualToString:LOCALIZED_STR(@"Live TV")] && isRecordingsOrTimersMethod;
+         BOOL ignoreTvItems = [[self.detailItem mainLabel] isEqualToString:LOCALIZED_STR(@"Radio")] && isRecordingsOrTimersMethod;
+         // Override in case we are dealing with an older Kodi version which does not correctly support the JSON request
+         if (useCommonPvrRecordingsTimers) {
+             ignoreRadioItems = ignoreTvItems = NO;
+         }
+        
          if (error == nil && methodError == nil) {
              callBack = NO;
 //             debugText.text = [NSString stringWithFormat:@"%@\n*DATA: %@", debugText.text, methodResult];
@@ -4432,6 +4466,10 @@ NSIndexPath *selected;
                                                       itemDict[i][mainFields[@"row18"]], mainFields[@"row18"],
                                                       nil];
                          
+                         // Check if we need to ignore the current item
+                         BOOL isRadioItem = [itemDict[i][@"radio"] boolValue] || [itemDict[i][@"isradio"] boolValue];
+                         BOOL ignorePvrItem = (ignoreRadioItems && isRadioItem) || (ignoreTvItems && !isRadioItem);
+                         
                          // Postprocessing of movie sets lists to ignore 1-movie-sets
                          if (ignoreSingleMovieSets) {
                              BOOL isLastItem = i == total-1;
@@ -4459,6 +4497,9 @@ NSIndexPath *selected;
                                      [self indexAndDisplayData];
                                  }
                              }];
+                         }
+                         else if (ignorePvrItem) {
+                             NSLog(@"Ignore PVR item as not matching current TV/Radio mode.");
                          }
                          else {
                              [resultStoreArray addObject:newDict];
