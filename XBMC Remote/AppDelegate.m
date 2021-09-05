@@ -3420,6 +3420,7 @@ NSMutableArray *hostRightMenuItems;
                         @"art",
                         @"streamurl",
                         @"file",
+                        @"radio",
                         @"directory"]
                     }, @"parameters",
             @{
@@ -3487,6 +3488,8 @@ NSMutableArray *hostRightMenuItems;
                 @"properties": @[
                         @"title",
                         @"summary",
+                        @"channelid",
+                        @"isradio",
                         @"starttime",
                         @"endtime",
                         @"runtime",
@@ -3558,6 +3561,7 @@ NSMutableArray *hostRightMenuItems;
             @"row4": @"runtime",
             @"row5": @"starttime",
             @"row6": @"recordingid",
+            @"row7": @"radio",
             @"playlistid": @1,
             @"row8": @"recordingid",
             @"row9": @"recordingid",
@@ -3583,6 +3587,7 @@ NSMutableArray *hostRightMenuItems;
             @"row9": @"timerid",
             @"row10": @"starttime",
             @"row11": @"endtime",
+            @"row15": @"isradio",
             @"itemid_extra_info": @"timerdetails"
         }
     ];
