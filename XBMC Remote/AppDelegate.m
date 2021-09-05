@@ -3864,7 +3864,8 @@ NSMutableArray *hostRightMenuItems;
         @"st_timers"];
     
     menu_Radio.mainMethod = [@[
-        @[@"PVR.GetChannelGroups", @"method"],
+        @[@"PVR.GetChannels", @"method",
+          @"YES", @"channelListView"],
         @[@"PVR.GetChannelGroups", @"method"],
         @[@"PVR.GetRecordings", @"method",
           @"PVR.GetRecordingDetails", @"extra_info_method"],
@@ -3875,15 +3876,21 @@ NSMutableArray *hostRightMenuItems;
     menu_Radio.mainParameters = [@[
         @[
             @{
-                @"channeltype": @"radio"
+                @"channelgroupid": @"allradio",
+                @"properties": @[
+                        @"thumbnail",
+                        @"channel"]
             }, @"parameters",
-            LOCALIZED_STR(@"Radio"), @"label",
-            LOCALIZED_STR(@"Radio"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            filemodeRowHeight, @"rowHeight",
-            filemodeThumbWidth, @"thumbWidth",
+            @{
+                @"17": @[@"isrecording"],
+            }, @"kodiExtrasPropertiesMinimumVersion",
+            @"Radio", @"label",
+            @"nocover_channels", @"defaultThumb",
+            @"YES", @"disableFilterParameter",
+            livetvRowHeight, @"rowHeight",
+            @"48", @"thumbWidth",
             @"YES", @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes"
+            [self itemSizes_Music_insets:@"56"], @"itemSizes"
         ],
                           
         @[
@@ -4026,16 +4033,18 @@ NSMutableArray *hostRightMenuItems;
     
     menu_Radio.mainFields = @[
         @{
-            @"itemid": @"channelgroups",
-            @"row1": @"label",
-            @"row2": @"year",
-            @"row3": @"year",
-            @"row4": @"runtime",
-            @"row5": @"rating",
-            @"row6": @"channelgroupid",
+            @"itemid": @"channels",
+            @"row1": @"channel",
+            @"row2": @"starttime",
+            @"row3": @"endtime",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"channelid",
             @"playlistid": @1,
-            @"row8": @"channelgroupid",
-            @"row9": @"channelgroupid"
+            @"row8": @"channelid",
+            @"row9": @"isrecording",
+            @"row10": @"filetype",
+            @"row11": @"type"
         },
                       
         @{
@@ -4094,7 +4103,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Radio.thumbWidth = 53;
     menu_Radio.defaultThumb = @"nocover_movies";
     menu_Radio.sheetActions = @[
-        @[],
+        [self action_play_to_channelguide],
         @[],
         [self action_queue_to_play],
         @[LOCALIZED_STR(@"Delete timer")]
@@ -4102,7 +4111,7 @@ NSMutableArray *hostRightMenuItems;
     
     //    menu_Radio.showInfo = YES;
     menu_Radio.showInfo = @[
-        @YES,
+        @NO,
         @YES,
         @YES,
         @NO];
@@ -4115,8 +4124,8 @@ NSMutableArray *hostRightMenuItems;
     ];
     
     menu_Radio.subItem.mainMethod = [@[
-        @[@"PVR.GetChannels", @"method",
-          @"YES", @"channelListView"],
+        @[@"PVR.GetBroadcasts", @"method",
+          @"YES", @"channelGuideView"],
         @[@"PVR.GetChannels", @"method",
           @"YES", @"channelListView"],
         @[],
@@ -4129,19 +4138,22 @@ NSMutableArray *hostRightMenuItems;
         @[
             @{
                 @"properties": @[
-                        @"thumbnail",
-                        @"channel"]
+                        @"title",
+                        @"starttime",
+                        @"endtime",
+                        @"plot",
+                        @"plotoutline",
+                        @"progresspercentage",
+                        @"isactive",
+                        @"hastimer"]
             }, @"parameters",
-            @{
-                @"17": @[@"isrecording"],
-            }, @"kodiExtrasPropertiesMinimumVersion",
             @"Radio", @"label",
-            @"nocover_channels", @"defaultThumb",
+            @"icon_video", @"defaultThumb",
             @"YES", @"disableFilterParameter",
-            livetvRowHeight, @"rowHeight",
-            @"48", @"thumbWidth",
-            @"YES", @"enableCollectionView",
-            [self itemSizes_Music_insets:@"56"], @"itemSizes"
+            channelEPGRowHeight, @"rowHeight",
+            livetvThumbWidth, @"thumbWidth",
+            [self itemSizes_Music_insets:@"48"], @"itemSizes",
+            @YES, @"forceActionSheet"
         ],
                                   
         @[
@@ -4168,18 +4180,22 @@ NSMutableArray *hostRightMenuItems;
     
     menu_Radio.subItem.mainFields = @[
         @{
-            @"itemid": @"channels",
-            @"row1": @"channel",
-            @"row2": @"starttime",
-            @"row3": @"endtime",
-            @"row4": @"filetype",
-            @"row5": @"filetype",
-            @"row6": @"channelid",
+            @"itemid": @"broadcasts",
+            @"row1": @"title",
+            @"row2": @"plot",
+            @"row3": @"broadcastid",
+            @"row4": @"broadcastid",
+            @"row5": @"starttime",
+            @"row6": @"broadcastid",
             @"playlistid": @1,
-            @"row8": @"channelid",
-            @"row9": @"isrecording",
-            @"row10": @"filetype",
-            @"row11": @"type"
+            @"row8": @"broadcastid",
+            @"row9": @"plotoutline",
+            @"row10": @"starttime",
+            @"row11": @"endtime",
+            @"row12": @"progresspercentage",
+            @"row13": @"isactive",
+            @"row14": @"title",
+            @"row15": @"hastimer"
         },
                               
         @{
@@ -4206,7 +4222,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Radio.subItem.thumbWidth = [livetvThumbWidth intValue];
     menu_Radio.subItem.defaultThumb = @"nocover_channels";
     menu_Radio.subItem.sheetActions = @[
-        [self action_play_to_channelguide],
+        [self action_play_to_broadcastdetails],
         [self action_play_to_channelguide],
         @[],
         @[]
@@ -4228,8 +4244,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Radio.subItem.widthLabel = 252;
     menu_Radio.subItem.subItem.noConvertTime = YES;
     menu_Radio.subItem.subItem.mainMethod = [@[
-        @[@"PVR.GetBroadcasts", @"method",
-          @"YES", @"channelGuideView"],
+        @[],
         @[@"PVR.GetBroadcasts", @"method",
           @"YES", @"channelGuideView"],
         @[],
@@ -4237,26 +4252,7 @@ NSMutableArray *hostRightMenuItems;
     ] mutableCopy];
     
     menu_Radio.subItem.subItem.mainParameters = [@[
-        @[
-            @{
-                @"properties": @[
-                        @"title",
-                        @"starttime",
-                        @"endtime",
-                        @"plot",
-                        @"plotoutline",
-                        @"progresspercentage",
-                        @"isactive",
-                        @"hastimer"]
-            }, @"parameters",
-            @"Radio", @"label",
-            @"icon_video", @"defaultThumb",
-            @"YES", @"disableFilterParameter",
-            channelEPGRowHeight, @"rowHeight",
-            livetvThumbWidth, @"thumbWidth",
-            [self itemSizes_Music_insets:@"48"], @"itemSizes",
-            @YES, @"forceActionSheet"
-        ],
+        @[],
                                             
          @[
             @{
@@ -4284,24 +4280,7 @@ NSMutableArray *hostRightMenuItems;
     ] mutableCopy];
     
     menu_Radio.subItem.subItem.mainFields = @[
-        @{
-            @"itemid": @"broadcasts",
-            @"row1": @"title",
-            @"row2": @"plot",
-            @"row3": @"broadcastid",
-            @"row4": @"broadcastid",
-            @"row5": @"starttime",
-            @"row6": @"broadcastid",
-            @"playlistid": @1,
-            @"row8": @"broadcastid",
-            @"row9": @"plotoutline",
-            @"row10": @"starttime",
-            @"row11": @"endtime",
-            @"row12": @"progresspercentage",
-            @"row13": @"isactive",
-            @"row14": @"title",
-            @"row15": @"hastimer"
-        },
+        @{},
                                         
         @{
             @"itemid": @"broadcasts",
@@ -4331,7 +4310,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Radio.subItem.subItem.thumbWidth = 53;
     menu_Radio.subItem.subItem.defaultThumb = @"nocover_filemode";
     menu_Radio.subItem.subItem.sheetActions = @[
-        [self action_play_to_broadcastdetails],
+        @[],
         [self action_play_to_broadcastdetails],
         @[],
         @[]
