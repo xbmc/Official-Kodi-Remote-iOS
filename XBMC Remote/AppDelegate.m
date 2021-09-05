@@ -468,6 +468,7 @@ NSMutableArray *hostRightMenuItems;
     __auto_type menu_Remote = [mainMenu new];
     __auto_type menu_Server = [mainMenu new];
     __auto_type menu_LiveTV = [mainMenu new];
+    __auto_type menu_Radio = [mainMenu new];
 
     menu_Music.subItem = [mainMenu new];
     menu_Music.subItem.subItem = [mainMenu new];
@@ -484,6 +485,9 @@ NSMutableArray *hostRightMenuItems;
     
     menu_LiveTV.subItem = [mainMenu new];
     menu_LiveTV.subItem.subItem = [mainMenu new];
+    
+    menu_Radio.subItem = [mainMenu new];
+    menu_Radio.subItem.subItem = [mainMenu new];
 
     
 #pragma mark - Music
@@ -3846,6 +3850,500 @@ NSMutableArray *hostRightMenuItems;
         @YES,
         @YES];
 
+#pragma mark - Radio
+    menu_Radio.mainLabel = LOCALIZED_STR(@"Radio");
+    menu_Radio.upperLabel = LOCALIZED_STR(@"Listen to");
+    menu_Radio.icon = @"icon_menu_radio";
+    menu_Radio.family = FamilyDetailView;
+    menu_Radio.enableSection = YES;
+    menu_Radio.noConvertTime = YES;
+    menu_Radio.mainButtons = @[
+        @"st_livetv",
+        @"st_radio",
+        @"st_recordings",
+        @"st_timers"];
+    
+    menu_Radio.mainMethod = [@[
+        @[@"PVR.GetChannelGroups", @"method"],
+        @[@"PVR.GetChannelGroups", @"method"],
+        @[@"PVR.GetRecordings", @"method",
+          @"PVR.GetRecordingDetails", @"extra_info_method"],
+        @[@"PVR.GetTimers", @"method",
+          @"PVR.GetTimerDetails", @"extra_info_method"]
+    ] mutableCopy];
+    
+    menu_Radio.mainParameters = [@[
+        @[
+            @{
+                @"channeltype": @"tv"
+            }, @"parameters",
+            LOCALIZED_STR(@"Live TV"), @"label",
+            LOCALIZED_STR(@"Live TV"), @"morelabel",
+            @"nocover_filemode", @"defaultThumb",
+            filemodeRowHeight, @"rowHeight",
+            filemodeThumbWidth, @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music], @"itemSizes"
+        ],
+                          
+        @[
+            @{
+                @"channeltype": @"radio"
+            }, @"parameters",
+            LOCALIZED_STR(@"Radio"), @"label",
+            LOCALIZED_STR(@"Radio"), @"morelabel",
+            @"nocover_filemode", @"defaultThumb",
+            filemodeRowHeight, @"rowHeight",
+            filemodeThumbWidth, @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music], @"itemSizes"
+        ],
+
+        @[
+            @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"properties": @[
+                        @"title",
+                        @"starttime",
+                        @"endtime",
+                        @"plot",
+                        @"plotoutline",
+                        @"genre",
+                        @"playcount",
+                        @"resume",
+                        @"channel",
+                        @"runtime",
+                        @"lifetime",
+                        @"icon",
+                        @"art",
+                        @"streamurl",
+                        @"file",
+                        @"radio",
+                        @"directory"]
+                    }, @"parameters",
+            @{
+                @"properties": @[
+                        @"title",
+                        @"starttime",
+                        @"endtime",
+                        @"plot",
+                        @"plotoutline",
+                        @"genre",
+                        @"playcount",
+                        @"resume",
+                        @"channel",
+                        @"runtime",
+                        @"lifetime",
+                        @"icon",
+                        @"art",
+                        @"streamurl",
+                        @"file",
+                        @"directory"]
+            }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Channel"),
+                        LOCALIZED_STR(@"Date"),
+                        LOCALIZED_STR(@"Runtime")],
+                @"method": @[
+                        @"label",
+                        @"channel",
+                        @"starttime",
+                        @"runtime"]
+            }, @"available_sort_methods",
+            LOCALIZED_STR(@"Recordings"), @"label",
+            LOCALIZED_STR(@"Recordings"), @"morelabel",
+            @"nocover_channels", @"defaultThumb",
+            channelEPGRowHeight, @"rowHeight",
+            @"48", @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music_insets:@"60"], @"itemSizes"
+        ],
+                          
+        @[
+            @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"properties": @[
+                        @"title",
+                        @"summary",
+                        @"channelid",
+                        @"isradio",
+                        @"starttime",
+                        @"endtime",
+                        @"runtime",
+                        @"lifetime",
+                        @"firstday",
+                        @"weekdays",
+                        @"priority",
+                        @"startmargin",
+                        @"endmargin",
+                        @"state",
+                        @"file",
+                        @"directory"]
+                }, @"parameters",
+            @{
+                @"properties": @[
+                        @"title",
+                        @"summary",
+                        @"channelid",
+                        @"isradio",
+                        @"starttime",
+                        @"endtime",
+                        @"runtime",
+                        @"lifetime",
+                        @"firstday",
+                        @"weekdays",
+                        @"priority",
+                        @"startmargin",
+                        @"endmargin",
+                        @"state",
+                        @"file",
+                        @"directory"]
+            }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Channel"),
+                        LOCALIZED_STR(@"Date"),
+                        LOCALIZED_STR(@"Runtime")],
+                @"method": @[
+                        @"label",
+                        @"channel",
+                        @"starttime",
+                        @"runtime"]
+            }, @"available_sort_methods",
+            LOCALIZED_STR(@"Timers"), @"label",
+            LOCALIZED_STR(@"Timers"), @"morelabel",
+            @"nocover_timers", @"defaultThumb",
+            @"53", @"rowHeight",
+            @"53", @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music_insets:@"60"], @"itemSizes"
+        ]
+                          
+    ] mutableCopy];
+    
+    menu_Radio.mainFields = @[
+        @{
+            @"itemid": @"channelgroups",
+            @"row1": @"label",
+            @"row2": @"year",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"channelgroupid",
+            @"playlistid": @1,
+            @"row8": @"channelgroupid",
+            @"row9": @"channelgroupid"
+        },
+                      
+        @{
+            @"itemid": @"channelgroups",
+            @"row1": @"label",
+            @"row2": @"year",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"channelgroupid",
+            @"playlistid": @1,
+            @"row8": @"channelgroupid",
+            @"row9": @"channelgroupid"
+        },
+
+        @{
+            @"itemid": @"recordings",
+            @"row1": @"label",
+            @"row2": @"plotoutline",
+            @"row3": @"plot",
+            @"row4": @"runtime",
+            @"row5": @"starttime",
+            @"row6": @"recordingid",
+            @"row7": @"radio",
+            @"playlistid": @1,
+            @"row8": @"recordingid",
+            @"row9": @"recordingid",
+            @"row10": @"file",
+            @"row11": @"channel",
+            @"row12": @"starttime",
+            @"row13": @"endtime",
+            @"row14": @"playcount",
+            @"row15": @"plot",
+            @"itemid_extra_info": @"recordingdetails"
+        },
+                      
+        @{
+            @"itemid": @"timers",
+            @"row1": @"label",
+            @"row2": @"summary",
+            @"row3": @"plot",
+            @"row4": @"plotoutline",
+            @"row5": @"starttime",
+            @"row6": @"timerid",
+            @"playlistid": @1,
+            @"row8": @"timerid",
+            @"row9": @"timerid",
+            @"row10": @"starttime",
+            @"row11": @"endtime",
+            @"row15": @"isradio",
+            @"itemid_extra_info": @"timerdetails"
+        }
+    ];
+    
+    menu_Radio.rowHeight = 76;
+    menu_Radio.thumbWidth = 53;
+    menu_Radio.defaultThumb = @"nocover_movies";
+    menu_Radio.sheetActions = @[
+        @[],
+        @[],
+        [self action_queue_to_play],
+        @[LOCALIZED_STR(@"Delete timer")]
+    ];
+    
+    //    menu_Radio.showInfo = YES;
+    menu_Radio.showInfo = @[
+        @YES,
+        @YES,
+        @YES,
+        @NO];
+    
+    menu_Radio.watchModes = @[
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+        [self modes_icons_watched],
+        [self modes_icons_empty]
+    ];
+    
+    menu_Radio.subItem.mainMethod = [@[
+        @[@"PVR.GetChannels", @"method",
+          @"YES", @"channelListView"],
+        @[@"PVR.GetChannels", @"method",
+          @"YES", @"channelListView"],
+        @[],
+        @[]
+    ] mutableCopy];
+    
+    menu_Radio.subItem.noConvertTime = YES;
+    
+    menu_Radio.subItem.mainParameters = [@[
+        @[
+            @{
+                @"properties": @[
+                        @"thumbnail",
+                        @"channel"]
+            }, @"parameters",
+            @{
+                @"17": @[@"isrecording"],
+            }, @"kodiExtrasPropertiesMinimumVersion",
+            @"Radio", @"label",
+            @"nocover_channels", @"defaultThumb",
+            @"YES", @"disableFilterParameter",
+            livetvRowHeight, @"rowHeight",
+            @"48", @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music_insets:@"56"], @"itemSizes"
+        ],
+                                  
+        @[
+            @{
+                @"properties": @[
+                        @"thumbnail",
+                        @"channel"]
+            }, @"parameters",
+            @{
+                @"17": @[@"isrecording"]
+            }, @"kodiExtrasPropertiesMinimumVersion",
+            @"Radio", @"label",
+            @"nocover_channels", @"defaultThumb",
+            @"YES", @"disableFilterParameter",
+            livetvRowHeight, @"rowHeight",
+            @"48", @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music_insets:@"56"], @"itemSizes"
+        ],
+                                  
+        @[],
+        @[]
+    ] mutableCopy];
+    
+    menu_Radio.subItem.mainFields = @[
+        @{
+            @"itemid": @"channels",
+            @"row1": @"channel",
+            @"row2": @"starttime",
+            @"row3": @"endtime",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"channelid",
+            @"playlistid": @1,
+            @"row8": @"channelid",
+            @"row9": @"isrecording",
+            @"row10": @"filetype",
+            @"row11": @"type"
+        },
+                              
+        @{
+            @"itemid": @"channels",
+            @"row1": @"channel",
+            @"row2": @"starttime",
+            @"row3": @"endtime",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"channelid",
+            @"playlistid": @1,
+            @"row8": @"channelid",
+            @"row9": @"channelid",
+            @"row10": @"filetype",
+            @"row11": @"type"
+        },
+                              
+        @{},
+        @{}
+    ];
+    
+    menu_Radio.subItem.enableSection = NO;
+    menu_Radio.subItem.rowHeight = 76;
+    menu_Radio.subItem.thumbWidth = [livetvThumbWidth intValue];
+    menu_Radio.subItem.defaultThumb = @"nocover_channels";
+    menu_Radio.subItem.sheetActions = @[
+        [self action_play_to_channelguide],
+        [self action_play_to_channelguide],
+        @[],
+        @[]
+    ];
+    
+    menu_Radio.subItem.showInfo = @[
+        @NO,
+        @NO,
+        @NO,
+        @NO];
+    
+    menu_Radio.subItem.watchModes = @[
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+        @{},
+        @{}
+    ];
+    
+    menu_Radio.subItem.widthLabel = 252;
+    menu_Radio.subItem.subItem.noConvertTime = YES;
+    menu_Radio.subItem.subItem.mainMethod = [@[
+        @[@"PVR.GetBroadcasts", @"method",
+          @"YES", @"channelGuideView"],
+        @[@"PVR.GetBroadcasts", @"method",
+          @"YES", @"channelGuideView"],
+        @[],
+        @[]
+    ] mutableCopy];
+    
+    menu_Radio.subItem.subItem.mainParameters = [@[
+        @[
+            @{
+                @"properties": @[
+                        @"title",
+                        @"starttime",
+                        @"endtime",
+                        @"plot",
+                        @"plotoutline",
+                        @"progresspercentage",
+                        @"isactive",
+                        @"hastimer"]
+            }, @"parameters",
+            @"Radio", @"label",
+            @"icon_video", @"defaultThumb",
+            @"YES", @"disableFilterParameter",
+            channelEPGRowHeight, @"rowHeight",
+            livetvThumbWidth, @"thumbWidth",
+            [self itemSizes_Music_insets:@"48"], @"itemSizes",
+            @YES, @"forceActionSheet"
+        ],
+                                            
+         @[
+            @{
+                @"properties": @[
+                        @"title",
+                        @"starttime",
+                        @"endtime",
+                        @"plot",
+                        @"plotoutline",
+                        @"progresspercentage",
+                        @"isactive",
+                        @"hastimer"]
+            }, @"parameters",
+            @"Radio", @"label",
+            @"icon_video", @"defaultThumb",
+            @"YES", @"disableFilterParameter",
+            channelEPGRowHeight, @"rowHeight",
+            livetvThumbWidth, @"thumbWidth",
+            [self itemSizes_Music_insets:@"48"], @"itemSizes",
+            @YES, @"forceActionSheet"
+        ],
+                                            
+        @[],
+        @[]
+    ] mutableCopy];
+    
+    menu_Radio.subItem.subItem.mainFields = @[
+        @{
+            @"itemid": @"broadcasts",
+            @"row1": @"title",
+            @"row2": @"plot",
+            @"row3": @"broadcastid",
+            @"row4": @"broadcastid",
+            @"row5": @"starttime",
+            @"row6": @"broadcastid",
+            @"playlistid": @1,
+            @"row8": @"broadcastid",
+            @"row9": @"plotoutline",
+            @"row10": @"starttime",
+            @"row11": @"endtime",
+            @"row12": @"progresspercentage",
+            @"row13": @"isactive",
+            @"row14": @"title",
+            @"row15": @"hastimer"
+        },
+                                        
+        @{
+            @"itemid": @"broadcasts",
+            @"row1": @"title",
+            @"row2": @"plot",
+            @"row3": @"broadcastid",
+            @"row4": @"broadcastid",
+            @"row5": @"starttime",
+            @"row6": @"broadcastid",
+            @"playlistid": @1,
+            @"row8": @"broadcastid",
+            @"row9": @"plotoutline",
+            @"row10": @"starttime",
+            @"row11": @"endtime",
+            @"row12": @"progresspercentage",
+            @"row13": @"isactive",
+            @"row14": @"title",
+            @"row15": @"hastimer"
+        },
+                                        
+        @[],
+        @[]
+    ];
+    
+    menu_Radio.subItem.subItem.enableSection = NO;
+    menu_Radio.subItem.subItem.rowHeight = 76;
+    menu_Radio.subItem.subItem.thumbWidth = 53;
+    menu_Radio.subItem.subItem.defaultThumb = @"nocover_filemode";
+    menu_Radio.subItem.subItem.sheetActions = @[
+        [self action_play_to_broadcastdetails],
+        [self action_play_to_broadcastdetails],
+        @[],
+        @[]
+    ];
+    
+    menu_Radio.subItem.subItem.widthLabel = 252;
+    menu_Radio.subItem.subItem.showInfo = @[
+        @YES,
+        @YES,
+        @YES,
+        @YES];
+
 #pragma mark - Pictures
     menu_Pictures.mainLabel = LOCALIZED_STR(@"Pictures");
     menu_Pictures.upperLabel = LOCALIZED_STR(@"Browse your");
@@ -4707,6 +5205,9 @@ NSMutableArray *hostRightMenuItems;
     }
     if ([self isMenuEntryEnabled:@"menu_livetv"]) {
         [mainMenuItems addObject:menu_LiveTV];
+    }
+    if ([self isMenuEntryEnabled:@"menu_radio"]) {
+        [mainMenuItems addObject:menu_Radio];
     }
     if ([self isMenuEntryEnabled:@"menu_favourites"]) {
         [mainMenuItems addObject:menu_Favourites];
