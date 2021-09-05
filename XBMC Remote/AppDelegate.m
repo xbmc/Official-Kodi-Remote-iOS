@@ -1231,7 +1231,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
         
         @[
@@ -1255,7 +1255,7 @@ NSMutableArray *hostRightMenuItems;
                         @"18": @[@"art"]
                     }
             }, @"extra_info_parameters",
-            @"Albums", @"label",
+            LOCALIZED_STR(@"Albums"), @"label",
             @"Album", @"wikitype",
             @"YES", @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes"
@@ -1295,7 +1295,7 @@ NSMutableArray *hostRightMenuItems;
                         @"year",
                         @"playcount"]
             }, @"available_sort_methods",
-            @"Albums", @"label",
+            LOCALIZED_STR(@"Albums"), @"label",
             @"Album", @"wikitype",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
@@ -1308,7 +1308,7 @@ NSMutableArray *hostRightMenuItems;
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeMusicType
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth"
@@ -1330,7 +1330,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
                                   
         @[],
@@ -1351,7 +1351,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
                                   
         @[],
@@ -1372,7 +1372,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
                                   
         @[],
@@ -1384,7 +1384,7 @@ NSMutableArray *hostRightMenuItems;
                 @"file_properties": @[@"thumbnail"],
                 @"media": @"music"
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             @"53", @"thumbWidth",
@@ -1401,7 +1401,7 @@ NSMutableArray *hostRightMenuItems;
                         @"duration"],
                 @"media": @"music"
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             @"53", @"thumbWidth"
@@ -1698,7 +1698,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
           
         @[
@@ -1717,7 +1717,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"],
             }, @"parameters",
-           @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
           
         @[],
@@ -1752,7 +1752,7 @@ NSMutableArray *hostRightMenuItems;
                         @"18": @[@"art"]
                     }
             }, @"extra_info_parameters",
-            @"Albums", @"label",
+            LOCALIZED_STR(@"Albums"), @"label",
             @"Album", @"wikitype",
             @"YES", @"enableCollectionView",
             @"roleid", @"combinedFilter",
@@ -1910,7 +1910,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ]
     ] mutableCopy];
     
@@ -2194,7 +2194,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"media": @"video"
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             LOCALIZED_STR(@"Files"), @"morelabel",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
@@ -2208,7 +2208,7 @@ NSMutableArray *hostRightMenuItems;
                 @"directory": @"addons://sources/video",
                 @"properties": @[@"thumbnail"]
             }, @"parameters",
-            @"Video Add-ons", @"label",
+            LOCALIZED_STR(@"Video Add-ons"), @"label",
             LOCALIZED_STR(@"Video Add-ons"), @"morelabel",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
@@ -2483,7 +2483,7 @@ NSMutableArray *hostRightMenuItems;
                         @"dateadded",
                         @"playcount"]
             }, @"available_sort_methods",
-            @"Movies", @"label",
+            LOCALIZED_STR(@"Movies"), @"label",
             @"Movie", @"wikitype",
             @"nocover_movies", @"defaultThumb",
             @"YES", @"FrodoExtraArt",
@@ -2541,7 +2541,7 @@ NSMutableArray *hostRightMenuItems;
                         @"dateadded",
                         @"playcount"]
             }, @"available_sort_methods",
-            @"Movies", @"label",
+            LOCALIZED_STR(@"Movies"), @"label",
             @"Movie", @"wikitype",
             @"nocover_movies", @"defaultThumb",
             @"YES", @"FrodoExtraArt",
@@ -2557,7 +2557,7 @@ NSMutableArray *hostRightMenuItems;
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeVideoType
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth"
@@ -2569,7 +2569,7 @@ NSMutableArray *hostRightMenuItems;
                 @"media": @"video",
                 @"file_properties": @[@"thumbnail"]
             }, @"parameters",
-            @"Video Add-ons", @"label",
+            LOCALIZED_STR(@"Video Add-ons"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
@@ -2601,7 +2601,7 @@ NSMutableArray *hostRightMenuItems;
                         @"resume"],
                 @"media": @"video"
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             @"76", @"rowHeight",
             @"53", @"thumbWidth",
@@ -3121,7 +3121,7 @@ NSMutableArray *hostRightMenuItems;
                         @"episode",
                         @"art"]
             }, @"extra_section_parameters",
-            @"Episodes", @"label",
+            LOCALIZED_STR(@"Episodes"), @"label",
             @"YES", @"disableFilterParameter",
             @"YES", @"FrodoExtraArt"
         ],
@@ -3153,7 +3153,7 @@ NSMutableArray *hostRightMenuItems;
                          @"episode",
                          @"fanart"]
             }, @"extra_info_parameters",
-            @"TV Shows", @"label",
+            LOCALIZED_STR(@"TV Shows"), @"label",
             @"TV Show", @"wikitype",
             @tvshowHeight, @"rowHeight",
             @thumbWidth, @"thumbWidth",
@@ -3168,7 +3168,7 @@ NSMutableArray *hostRightMenuItems;
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeVideoType
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth"
@@ -3180,7 +3180,7 @@ NSMutableArray *hostRightMenuItems;
                 @"media": @"video",
                 @"file_properties": @[@"thumbnail"]
             }, @"parameters",
-            @"Video Add-ons", @"label",
+            LOCALIZED_STR(@"Video Add-ons"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
@@ -3390,7 +3390,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"17": @[@"isrecording"],
             }, @"kodiExtrasPropertiesMinimumVersion",
-            @"Live TV", @"label",
+            LOCALIZED_STR(@"Live TV"), @"label",
             @"nocover_channels", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
@@ -3653,7 +3653,7 @@ NSMutableArray *hostRightMenuItems;
                         @"isactive",
                         @"hastimer"]
             }, @"parameters",
-            @"Live TV", @"label",
+            LOCALIZED_STR(@"Live TV"), @"label",
             @"icon_video", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
@@ -3671,7 +3671,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"17": @[@"isrecording"]
             }, @"kodiExtrasPropertiesMinimumVersion",
-            @"Live TV", @"label",
+            LOCALIZED_STR(@"Live TV"), @"label",
             @"nocover_channels", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
@@ -3772,7 +3772,7 @@ NSMutableArray *hostRightMenuItems;
                         @"isactive",
                         @"hastimer"]
             }, @"parameters",
-            @"Live TV", @"label",
+            LOCALIZED_STR(@"Live TV"), @"label",
             @"icon_video", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
@@ -3863,7 +3863,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"17": @[@"isrecording"],
             }, @"kodiExtrasPropertiesMinimumVersion",
-            @"Radio", @"label",
+            LOCALIZED_STR(@"Radio"), @"label",
             @"nocover_channels", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
@@ -4126,7 +4126,7 @@ NSMutableArray *hostRightMenuItems;
                         @"isactive",
                         @"hastimer"]
             }, @"parameters",
-            @"Radio", @"label",
+            LOCALIZED_STR(@"Radio"), @"label",
             @"icon_video", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
@@ -4144,7 +4144,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"17": @[@"isrecording"]
             }, @"kodiExtrasPropertiesMinimumVersion",
-            @"Radio", @"label",
+            LOCALIZED_STR(@"Radio"), @"label",
             @"nocover_channels", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
@@ -4245,7 +4245,7 @@ NSMutableArray *hostRightMenuItems;
                         @"isactive",
                         @"hastimer"]
             }, @"parameters",
-            @"Radio", @"label",
+            LOCALIZED_STR(@"Radio"), @"label",
             @"icon_video", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
