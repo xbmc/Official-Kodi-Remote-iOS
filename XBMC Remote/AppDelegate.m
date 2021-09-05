@@ -3364,8 +3364,8 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.enableSection = YES;
     menu_LiveTV.noConvertTime = YES;
     menu_LiveTV.mainButtons = @[
+        @"st_channels",
         @"st_livetv",
-        @"st_radio",
         @"st_recordings",
         @"st_timers"];
     
@@ -3858,7 +3858,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Radio.enableSection = YES;
     menu_Radio.noConvertTime = YES;
     menu_Radio.mainButtons = @[
-        @"st_livetv",
+        @"st_channels",
         @"st_radio",
         @"st_recordings",
         @"st_timers"];
