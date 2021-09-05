@@ -3394,10 +3394,10 @@ NSMutableArray *hostRightMenuItems;
                           
         @[
             @{
-                @"channeltype": @"radio"
+                @"channeltype": @"tv"
             }, @"parameters",
-            LOCALIZED_STR(@"Radio"), @"label",
-            LOCALIZED_STR(@"Radio"), @"morelabel",
+            LOCALIZED_STR(@"Live TV"), @"label",
+            LOCALIZED_STR(@"Live TV"), @"morelabel",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
@@ -3875,10 +3875,10 @@ NSMutableArray *hostRightMenuItems;
     menu_Radio.mainParameters = [@[
         @[
             @{
-                @"channeltype": @"tv"
+                @"channeltype": @"radio"
             }, @"parameters",
-            LOCALIZED_STR(@"Live TV"), @"label",
-            LOCALIZED_STR(@"Live TV"), @"morelabel",
+            LOCALIZED_STR(@"Radio"), @"label",
+            LOCALIZED_STR(@"Radio"), @"morelabel",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
