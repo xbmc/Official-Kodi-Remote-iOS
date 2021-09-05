@@ -3390,7 +3390,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"17": @[@"isrecording"],
             }, @"kodiExtrasPropertiesMinimumVersion",
-            LOCALIZED_STR(@"Live TV"), @"label",
+            LOCALIZED_STR(@"All channels"), @"label",
             @"nocover_channels", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
@@ -3403,8 +3403,8 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"channeltype": @"tv"
             }, @"parameters",
-            LOCALIZED_STR(@"Live TV"), @"label",
-            LOCALIZED_STR(@"Live TV"), @"morelabel",
+            LOCALIZED_STR(@"Channel Groups"), @"label",
+            LOCALIZED_STR(@"Channel Groups"), @"morelabel",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
@@ -3863,7 +3863,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"17": @[@"isrecording"],
             }, @"kodiExtrasPropertiesMinimumVersion",
-            LOCALIZED_STR(@"Radio"), @"label",
+            LOCALIZED_STR(@"All channels"), @"label",
             @"nocover_channels", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
@@ -3876,8 +3876,8 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"channeltype": @"radio"
             }, @"parameters",
-            LOCALIZED_STR(@"Radio"), @"label",
-            LOCALIZED_STR(@"Radio"), @"morelabel",
+            LOCALIZED_STR(@"Channel Groups"), @"label",
+            LOCALIZED_STR(@"Channel Groups"), @"morelabel",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
