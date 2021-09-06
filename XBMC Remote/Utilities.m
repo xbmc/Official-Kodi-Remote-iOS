@@ -615,11 +615,9 @@
     else if ([value isKindOfClass:[NSArray class]]) {
         runtime = [NSString stringWithFormat:@"%@", [value componentsJoinedByString:@" / "]];
     }
-    else if ([value intValue]) {
-        runtime = [NSString stringWithFormat:@"%d min", [value intValue]/secondsToMinute];
-    }
     else {
-        runtime = [NSString stringWithFormat:@"%@", value];
+        int minutes = [value intValue] / secondsToMinute;
+        runtime = minutes ? [NSString stringWithFormat:@"%d min", minutes] : runtime;
     }
     return runtime;
 }
