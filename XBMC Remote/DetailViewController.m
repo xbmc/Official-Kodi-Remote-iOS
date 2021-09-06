@@ -2278,6 +2278,10 @@ int originYear = 0;
             [genre setMinimumScaleFactor:10.0/11.0];
             [genre sizeToFit];
         }
+        else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
+            genre.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@""];
+            runtime.text = [Utilities getStringFromDictionary:item key:@"artist" emptyString:@""];
+        }
         else {
             genre.hidden = NO;
             runtimeyear.hidden = NO;

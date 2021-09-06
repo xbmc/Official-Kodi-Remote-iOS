@@ -2106,6 +2106,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
+                        @"artist",
                         @"year",
                         @"playcount",
                         @"thumbnail",
@@ -2120,11 +2121,15 @@ NSMutableArray *hostRightMenuItems;
             }, @"parameters",
             @{
                 @"label": @[
-                        LOCALIZED_STR(@"Name"),
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Artist"),
+                        LOCALIZED_STR(@"Genre"),
                         LOCALIZED_STR(@"Year"),
                         LOCALIZED_STR(@"Play count")],
                 @"method": @[
                             @"label",
+                            @"artist",
+                            @"genre",
                             @"year",
                             @"playcount"]
             }, @"available_sort_methods",
@@ -2274,12 +2279,12 @@ NSMutableArray *hostRightMenuItems;
             @"row8": @"musicvideoid",
             @"row9": @"musicvideoid",
             @"row10": @"director",
-            @"row11": @"studio",
+            @"row11": @"artist",
             @"row12": @"plot",
             @"row13": @"playcount",
             @"row14": @"resume",
             @"row15": @"votes",
-            @"row16": @"cast",
+            @"row16": @"artist",
             @"row7": @"file"
         },
                       
