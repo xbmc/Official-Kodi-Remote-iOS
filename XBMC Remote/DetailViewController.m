@@ -4695,16 +4695,7 @@ NSIndexPath *selected;
 - (NSArray*)applySortTokens:(NSArray*)incomingRichArray sortmethod:(NSString*)sortmethod {
     NSMutableArray *copymutable = [[NSMutableArray alloc] initWithCapacity:[incomingRichArray count]];
     for (NSMutableDictionary *mutabledict in incomingRichArray) {
-        NSString *string = nil;
-        if ([mutabledict[sortmethod] isKindOfClass:[NSString class]]) {
-            string = mutabledict[sortmethod];
-        }
-        else if ([mutabledict[sortmethod] isKindOfClass:[NSNumber class]]) {
-            string = [mutabledict[sortmethod] stringValue];
-        }
-        else {
-            string = @"";
-        }
+        NSString *string = [Utilities getStringFromDictionary:mutabledict key:sortmethod emptyString:@""];
         NSDictionary *dict = @{@"sortby": [self ignoreSorttoken:string]};
         [mutabledict addEntriesFromDictionary:dict];
         [copymutable addObject:mutabledict];
@@ -4970,7 +4961,7 @@ NSIndexPath *selected;
         NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitYear fromDate:[xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", currentValue]]];
         currentValue = [NSString stringWithFormat:@"%ld", (long)[components year]];
     }
-    else if (([sortMethod isEqualToString:@"label"] || [sortMethod isEqualToString:@"genre"] || [sortMethod isEqualToString:@"album"] || [sortMethod isEqualToString:@"channel"]) && [currentValue length]) {
+    else if (([sortMethod isEqualToString:@"label"] || [sortMethod isEqualToString:@"genre"] || [sortMethod isEqualToString:@"album"] || [sortMethod isEqualToString:@"channel"] || [sortMethod isEqualToString:@"artist"]) && [currentValue length]) {
         NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
         NSString *c = @"/";
