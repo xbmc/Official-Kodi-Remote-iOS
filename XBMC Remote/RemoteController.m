@@ -153,7 +153,8 @@
     // Maintain aspect ratio
     CGFloat transform = newWidth / remoteControlView.frame.size.width;
     CGFloat newHeight = remoteControlView.frame.size.height * transform;
-    CGFloat offset = [self getOriginYForRemote:shift * transform - newHeight + TOOLBAR_PARENT_HEIGHT - TOOLBAR_HEIGHT];
+    CGFloat toolbarPadding = [Utilities getBottomPadding];
+    CGFloat offset = [self getOriginYForRemote:shift * transform - newHeight + TOOLBAR_PARENT_HEIGHT - TOOLBAR_HEIGHT - toolbarPadding];
     remoteControlView.frame = CGRectMake(0, offset, newWidth, newHeight);
     
     frame = remoteControlView.frame;
@@ -196,6 +197,7 @@
         VolumeSliderView *volumeSliderView = nil;
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
+        toolbarPadding += [Utilities getBottomPadding];
         frame.size.height *= transform;
         frame.size.width *= transform;
         frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
@@ -1276,6 +1278,11 @@ NSInteger buttonAction;
     int numButtons = isEmbedded ? 4 : 5;
     CGFloat ToolbarFlexSpace = ((width - numButtons * TOOLBAR_ICON_SIZE) / (numButtons + 1));
     CGFloat ToolbarPadding = (TOOLBAR_ICON_SIZE + ToolbarFlexSpace);
+    
+    // Avoid drawing into safe area on iPhones
+    if (IS_IPHONE) {
+        yMax -= [Utilities getBottomPadding];
+    }
     
     // Frame for remoteToolbarView placed at bottom - toolbar's height
     UIView *remoteToolbar = [[UIView alloc] initWithFrame:CGRectMake(0, yMax - TOOLBAR_HEIGHT, width, TOOLBAR_HEIGHT)];
