@@ -578,6 +578,29 @@
     }
 }
 
+- (void)setCellImageView:(UIImageView*)imgView dictItem:(NSDictionary*)item url:(NSString*)stringURL size:(CGSize)viewSize defaultImg:(NSString*)displayThumb {
+    if ([item[@"family"] isEqualToString:@"channelid"] || [item[@"family"] isEqualToString:@"type"]) {
+        [imgView setContentMode:UIViewContentModeScaleAspectFit];
+    }
+    BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
+                        [item[@"family"] isEqualToString:@"recordingid"] ||
+                        [item[@"family"] isEqualToString:@"type"] ||
+                        [item[@"family"] isEqualToString:@"file"]);
+    BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
+    [Utilities applyRoundedEdgesView:imgView drawBorder:showBorder];
+    if (![stringURL isEqualToString:@""]) {
+        __auto_type __weak weakImageView = imgView;
+        [imgView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] options:0 andResize:viewSize withBorder:showBorder progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            if (channelListView || channelGuideView || recordingListView || isOnPVR) {
+                [Utilities setLogoBackgroundColor:weakImageView mode:logoBackgroundMode];
+            }
+        }];
+    }
+    else {
+        [imgView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
+    }
+}
+
 #pragma mark - Tabbar management
 
 - (IBAction)showMore:(id)sender {
@@ -1343,24 +1366,9 @@
         else if (channelListView) {
             [cell setIsRecording:[item[@"isrecording"] boolValue]];
         }
-        if ([item[@"family"] isEqualToString:@"channelid"]) {
-            [cell.posterThumbnail setContentMode:UIViewContentModeScaleAspectFit];
-        }
-        BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
-                            [item[@"family"] isEqualToString:@"recordingid"] ||
-                            [item[@"family"] isEqualToString:@"type"] ||
-                            [item[@"family"] isEqualToString:@"file"]);
         cell.posterThumbnail.frame = cell.bounds;
-        [Utilities applyRoundedEdgesView:cell.posterThumbnail drawBorder:showBorder];
-        if (![stringURL isEqualToString:@""]) {
-            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] options:0 andResize:CGSizeMake(cellthumbWidth, cellthumbHeight) withBorder:showBorder progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                if (channelListView || channelGuideView || recordingListView) {
-                    [Utilities setLogoBackgroundColor:cell.posterThumbnail mode:logoBackgroundMode];
-                }
-            }];
-        }
-        else {
-            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
+        [self setCellImageView:cell.posterThumbnail dictItem:item url:stringURL size:CGSizeMake(cellthumbWidth, cellthumbHeight) defaultImg:displayThumb];
+        if ([stringURL isEqualToString:@""]) {
             [cell.posterThumbnail setBackgroundColor:[Utilities getGrayColor:28 alpha:1.0]];
         }
         // Set label visibility based on setting and current view
@@ -2286,24 +2294,7 @@ int originYear = 0;
             genre.hidden = NO;
             runtimeyear.hidden = NO;
         }
-        if ([item[@"family"] isEqualToString:@"channelid"] || [item[@"family"] isEqualToString:@"type"]) {
-            [cell.urlImageView setContentMode:UIViewContentModeScaleAspectFit];
-        }
-        BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
-                            [item[@"family"] isEqualToString:@"recordingid"] ||
-                            [item[@"family"] isEqualToString:@"type"] ||
-                            [item[@"family"] isEqualToString:@"file"]);
-        [Utilities applyRoundedEdgesView:cell.urlImageView drawBorder:showBorder];
-        if (![stringURL isEqualToString:@""]) {
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] options:0 andResize:CGSizeMake(thumbWidth, cellHeight) withBorder:showBorder progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                if (channelListView || channelGuideView || recordingListView) {
-                    [Utilities setLogoBackgroundColor:cell.urlImageView mode:logoBackgroundMode];
-                }
-            }];
-        }
-        else {
-            [cell.urlImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
-        }
+        [self setCellImageView:cell.urlImageView dictItem:item url:stringURL size:CGSizeMake(thumbWidth, cellHeight) defaultImg:displayThumb];
     }
     else if (albumView) {
         UILabel *trackNumber = (UILabel*)[cell viewWithTag:101];

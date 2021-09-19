@@ -611,18 +611,18 @@ int count = 0;
     return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
 }
 
-- (void)elaborateImage:(UIImage*)image {
+- (void)elaborateImage:(UIImage*)image fallbackImage:(UIImage*)fallback {
     dispatch_async(dispatch_get_main_queue(), ^{
         [activityIndicatorView startAnimating];
-        [self showImage:image];
+        [self showImage:image fallbackImage:fallback];
     });
 }
 
-- (void)showImage:(UIImage*)image {
+- (void)showImage:(UIImage*)image fallbackImage:(UIImage*)fallback {
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
+    UIImage *imageToShow = image != nil ? image : fallback;
     if (isRecordingDetail) {
-        [Utilities setLogoBackgroundColor:jewelView mode:logoBackgroundMode];
         CGRect frame;
         frame.size.width = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.9);
         frame.size.height = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.7);
@@ -631,12 +631,17 @@ int count = 0;
         jewelView.frame = frame;
         
         // Ensure we draw the rounded edges around TV station logo view
-        jewelView.image = image;
+        jewelView.image = imageToShow;
         jewelView = [Utilities applyRoundedEdgesView:jewelView drawBorder:YES];
+        
+        // Choose correct background color for station logos
+        if (image != nil) {
+            [Utilities setLogoBackgroundColor:jewelView mode:logoBackgroundMode];
+        }
     }
     else {
         // Ensure we draw the rounded edges around thumbnail images
-        jewelView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];;
+        jewelView.image = [Utilities applyRoundedEdgesImage:imageToShow drawBorder:YES];;
     }
     [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
 }
@@ -1050,10 +1055,9 @@ int count = 0;
         runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"runtime" emptyString:@"-"];
         studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
     }
-    BOOL inEnableKenBurns = enableKenBurns;
-    __weak ShowInfoViewController *sf = self;
+    
     NSString *thumbnailPath = item[@"thumbnail"];
-    if (![item[@"thumbnail"] isEqualToString:@""] && item[@"thumbnail"] != nil) {
+    if (thumbnailPath.length > 0) {
         jewelView.alpha = 0;
         [activityIndicatorView startAnimating];
     }
@@ -1067,31 +1071,29 @@ int count = 0;
                 foundTintColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
             }
             [self setIOS7barTintColor:foundTintColor];
-            if (enableJewel) {
+            if (enableJewel && !isRecordingDetail) {
                 coverView.image = image;
                 coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
             }
             else {
-                [self elaborateImage:image];
+                [self elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
             }
         }
         else {
             __weak ShowInfoViewController *sf = self;
             __block UIColor *newColor = nil;
-            if (enableJewel) {
+            if (enableJewel && !isRecordingDetail) {
                 [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
-                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                     if (error == nil) {
-                         if (image != nil) {
-                             newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
-                             [sf setIOS7barTintColor:newColor];
-                             foundTintColor = newColor;
-                         }
-                     }
-                 }];
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                    if (image != nil) {
+                                        newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
+                                        [sf setIOS7barTintColor:newColor];
+                                        foundTintColor = newColor;
+                                    }
+                }];
                 coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
@@ -1100,25 +1102,24 @@ int count = 0;
                 [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                     if (image != nil) {
-                                         if (error == nil) {
-                                             newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
-                                             [sf setIOS7barTintColor:newColor];
-                                             foundTintColor = newColor;
-                                         }
-                                         [sf elaborateImage:image];
-                                     }
-                                 }
-                 ];
+                                    if (image != nil) {
+                                        newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
+                                        [sf setIOS7barTintColor:newColor];
+                                        foundTintColor = newColor;
+                                    }
+                                    [sf elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
+                }];
             }
         }
     }];
     
     NSString *fanartPath = item[@"fanart"];
+    __weak ShowInfoViewController *sf = self;
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:fanartPath done:^(UIImage *image, SDImageCacheType cacheType) {
+        __auto_type strongSelf = sf;
         if (image != nil) {
             fanartView.image = image;
-            if (inEnableKenBurns) {
+            if (strongSelf != nil && strongSelf->enableKenBurns) {
                 fanartView.alpha = 0;
                 [sf elabKenBurns:image];
                 [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
@@ -1128,14 +1129,14 @@ int count = 0;
             [fanartView setImageWithURL:[NSURL URLWithString:fanartPath]
                        placeholderImage:[UIImage imageNamed:@"blank"]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                  if (inEnableKenBurns) {
+                                  __auto_type strongSelf = sf;
+                                  if (strongSelf != nil && strongSelf->enableKenBurns) {
                                       [sf elabKenBurns:image];
                                       [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
                                   }
                               }
              ];
         }
-        
     }];
 
     [fanartView setClipsToBounds:YES];
