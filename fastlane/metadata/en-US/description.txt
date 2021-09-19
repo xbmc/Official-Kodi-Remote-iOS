@@ -5,12 +5,18 @@ Features
 
 - Control Kodi's volume
 - Manage multiple Kodi instances
+- Browse, search and sort your library
+- Access your favorites
 - Live view of currently playing playlist
-- Displays music cover art shown where available
+- Displays music cover art where available
 - Displays movie poster and actor thumbs where available
-- Play and queue albums, songs, genre selections and much more directly without having to turn on your TV
-– Switch to live TV channels and trigger recording on your PVR/DVR setup
+- Displays details for albums, artists, movies, TV shows and more
+- Play and queue albums, songs, movies, genre selections and much more
+– Switch to live TV channels and trigger or play recordings on your PVR setup
+- Access and change settings of Kodi Media Center
 - Browse files directly
+- Clean and refresh your library
+- Supports iOS Darkmode
 ... and much more!
 
 ------------------------------------------------------------
