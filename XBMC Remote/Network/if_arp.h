@@ -145,5 +145,4 @@ struct arpstat {
 	uint32_t txurequests;	/* # of ARP requests sent (unicast) */
 };
 
-
 #endif /* !_NET_IF_ARP_H_ */

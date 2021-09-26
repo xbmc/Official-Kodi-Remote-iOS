@@ -22,7 +22,6 @@ static CGFloat const SVPullToRefreshViewHeight = 60;
 
 @end
 
-
 @interface SVPullToRefreshView ()
 
 @property (nonatomic, copy) void (^pullToRefreshActionHandler)(void);
@@ -51,8 +50,6 @@ static CGFloat const SVPullToRefreshViewHeight = 60;
 - (void)rotateArrow:(float)degrees hide:(BOOL)hide;
 
 @end
-
-
 
 #pragma mark - UIScrollView (SVPullToRefresh)
 #import <objc/runtime.h>
@@ -125,16 +122,13 @@ static char UIScrollViewPullToRefreshView;
 
 // public properties
 @synthesize pullToRefreshActionHandler, arrowColor, textColor, activityIndicatorViewStyle, lastUpdatedDate, dateFormatter;
-
 @synthesize state = _state;
 @synthesize scrollView = _scrollView;
 @synthesize showsPullToRefresh = _showsPullToRefresh;
 @synthesize arrow = _arrow;
 @synthesize activityIndicatorView = _activityIndicatorView;
-
 @synthesize titleLabel = _titleLabel;
 @synthesize dateLabel = _dateLabel;
-
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -527,7 +521,6 @@ static char UIScrollViewPullToRefreshView;
 }
 
 @end
-
 
 #pragma mark - SVPullToRefreshArrow
 

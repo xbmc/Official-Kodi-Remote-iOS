@@ -24,7 +24,6 @@
  */
 @property (nonatomic, assign) SDWebImageOptions options;
 
-
 /**
  * Return the global image prefetcher instance.
  */

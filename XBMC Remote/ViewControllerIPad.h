@@ -19,7 +19,6 @@
 @class HostManagementViewController;
 @class AppInfoViewController;
 
-
 @interface ViewControllerIPad : UIViewController {
 	UIViewExt* rootView;
 	UIView* leftMenuView;

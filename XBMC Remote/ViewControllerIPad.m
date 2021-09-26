@@ -36,13 +36,10 @@
 @interface UIViewExt : UIView {} 
 @end
 
-
 @implementation UIViewExt
 - (UIView*)hitTest:(CGPoint)pt withEvent:(UIEvent*)event {
-	
 	UIView* viewToReturn = nil;
 	CGPoint pointToReturn;
-	
 	UIView* uiRightView = (UIView*)(self.subviews[1]);
 	
 	if (uiRightView.subviews[0]) {
@@ -59,10 +56,8 @@
 					viewToReturn = subView;
 					pointToReturn = point;
 				}
-				
 			}
 		}
-		
 	}
 	
 	if (viewToReturn != nil) {
@@ -70,11 +65,8 @@
 	}
 	
 	return [super hitTest:pt withEvent:event];	
-	
 }
 @end
-
-
 
 @implementation ViewControllerIPad
 

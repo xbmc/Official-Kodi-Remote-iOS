@@ -184,7 +184,6 @@
     [super viewWillAppear:animated];
 }
 
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
@@ -203,7 +202,6 @@
     // Return the number of sections.
     return 1;
 }
-
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
@@ -284,7 +282,6 @@
     }
     return cell;
 }
-
 
 #pragma mark -
 #pragma mark Table view delegate

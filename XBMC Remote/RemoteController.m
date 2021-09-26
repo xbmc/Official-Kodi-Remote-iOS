@@ -370,7 +370,6 @@
     }
 }
 
-
 - (void)handleRotate:(id)sender {
     if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan) {
         [self volumeInfo];
@@ -423,7 +422,6 @@
     }
     fadeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutSubs) userInfo:nil repeats:NO];
 }
-
 
 - (void)fadeoutSubs {
     [UIView beginAnimations:nil context:nil];

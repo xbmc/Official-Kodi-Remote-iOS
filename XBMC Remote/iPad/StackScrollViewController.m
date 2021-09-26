@@ -171,7 +171,6 @@
                                  slideViews.subviews[j].frame = frame;
                              }
                          }
-                         
                      }
                      completion:^(BOOL finished) {}
      ];
@@ -521,7 +520,6 @@
                                                 [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
                                             }
                                             [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
-
                                         }
                                     }
                                 }
@@ -545,7 +543,6 @@
 						if (viewAtRight != nil) {
 							viewAtRight.frame = CGRectMake(SLIDE_VIEWS_START_X_POS + viewAtLeft.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width, viewAtRight.frame.size.height);
 						}
-						
 					}
 					[UIView commitAnimations];
 				}
@@ -595,7 +592,6 @@
 					[UIView setAnimationDidStopSelector:@selector(bounceBack:finished:context:)];
 					[UIView commitAnimations];
 				}
-				
 			}
 			else {
 				[UIView beginAnimations:nil context:NULL];
@@ -802,7 +798,6 @@
                 bounceAnimationRight.removedOnCompletion = YES;
                 bounceAnimationRight.additive = NO;
                 [viewAtRight.layer addAnimation:bounceAnimationRight forKey:@"bounceAnimationRight"];
-                
             }
             else if ([animationID isEqualToString:@"RIGHT-WITH-LEFT"]) {
                 CABasicAnimation *bounceAnimationLeft = [CABasicAnimation animationWithKeyPath:@"position.x"];
@@ -835,16 +830,13 @@
                     [self performSelector:@selector(callArrangeVerticalBar) withObject:nil afterDelay:0.4];
                     isBouncing = YES;
                 }
-                
             }
-		
 	}
 	[self arrangeVerticalBar];	
 	if ([slideViews.subviews indexOfObject:viewAtLeft2] == 1 && isBouncing) {
 		[borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
 	}
 }
-
 
 - (void)callArrangeVerticalBar {
 	[self arrangeVerticalBar];
@@ -1036,7 +1028,6 @@
     [super didReceiveMemoryWarning];
 }
 
-
 #pragma mark -
 #pragma mark Rotation support
 
@@ -1085,7 +1076,6 @@
         else {
             subController.view.frame = CGRectMake(self.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding);
         }
-        
     }
     for (UIViewController* subController in viewControllersStack) {
         [subController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];

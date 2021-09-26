@@ -47,7 +47,6 @@ typedef enum {
     JSONRPCInternalError = -32603
 } JSONRPCErrorType;
 
-
 @interface DSJSONRPCError : NSObject
 
 @property (nonatomic, readonly)            NSInteger code;

@@ -36,7 +36,6 @@
  *
  */
 
-
 #import <Foundation/Foundation.h>
 #import "DSJSONRPCError.h"
 #import "DSARCHelpers.h"
@@ -84,7 +83,6 @@ typedef enum {
 - (void)jsonRPC:(DSJSONRPC*)jsonRPC didFailMethod:(NSString*)methodName forId:(NSInteger)aId withError:(NSError*)error;
 @end
 
-
 /**
  *  Invoked when and error occurs or upon method completion.
  *
@@ -97,7 +95,6 @@ typedef enum {
  *
 **/
 typedef void (^DSJSONRPCCompletionHandler)(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError);
-
 
 @interface DSJSONRPC : NSObject <NSURLConnectionDataDelegate> {
     NSTimer* timer;

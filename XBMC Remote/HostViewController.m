@@ -38,7 +38,6 @@
 #define RTF_IFSCOPE 0x1000000   // has valid interface scope
 #define RTA_DST	0x1             // destination sockaddr present
 
-
 @implementation HostViewController
 
 @synthesize detailItem = _detailItem;
@@ -256,7 +255,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
 # pragma mark - NSNetServiceBrowserDelegate Methods
 
 - (void)netServiceBrowserWillSearch:(NSNetServiceBrowser*)browser {
@@ -440,11 +438,9 @@
 	return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
 	return services.count;
 }
-
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
 	static NSString *tableCellIdentifier = @"UITableViewCell";

@@ -46,7 +46,6 @@ typedef enum
 typedef void(^SDWebImageCompletedBlock)(UIImage *image, NSError *error, SDImageCacheType cacheType);
 typedef void(^SDWebImageCompletedWithFinishedBlock)(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished);
 
-
 @class SDWebImageManager;
 
 @protocol SDWebImageManagerDelegate <NSObject>

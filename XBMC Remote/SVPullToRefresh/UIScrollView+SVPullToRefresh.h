@@ -10,7 +10,6 @@
 #import <UIKit/UIKit.h>
 #import <AvailabilityMacros.h>
 
-
 @class SVPullToRefreshView;
 
 @interface UIScrollView (SVPullToRefresh)
@@ -22,7 +21,6 @@
 @property (nonatomic, assign) BOOL showsPullToRefresh;
 
 @end
-
 
 enum {
     SVPullToRefreshStateStopped = 0,

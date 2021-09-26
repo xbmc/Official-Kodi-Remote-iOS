@@ -114,7 +114,6 @@
 - (IBAction)changeShuffle:(id)sender;
 - (IBAction)changeRepeat:(id)sender;
 
-
 @property (strong, nonatomic) id detailItem;
 @property (strong, nonatomic) RemoteController *remoteController;
 @property (strong, nonatomic) UIImageView *jewelView;

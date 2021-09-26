@@ -42,7 +42,6 @@
 #error Demiurgic JSON-RPC does not support Objective-C Garbage Collection
 #endif
 
-
 @interface DSJSONRPC () // Private
 @property (nonatomic, DS_STRONG) NSURL               *_serviceEndpoint;
 @property (nonatomic, DS_STRONG) NSDictionary        *_httpHeaders;
@@ -89,7 +88,6 @@
 - (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams {
     return [self callMethod:methodName withParameters:methodParams onCompletion:nil];
 }
-
 
 #pragma mark - Web Service Invocation Methods (Completion Handler Based)
 - (NSInteger)callMethod:(NSString*)methodName onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
@@ -227,7 +225,6 @@
     [anInvocation setArgument:&methodParams atIndex:3];
     [anInvocation invokeWithTarget:self];
 }
-
 
 #pragma mark - NSURLConnection Delegate Methods
 

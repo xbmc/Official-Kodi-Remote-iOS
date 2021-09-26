@@ -22,7 +22,6 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
 
 @end
 
-
 @implementation SDImageCache
 
 + (SDImageCache*)sharedImageCache {

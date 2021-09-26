@@ -7,7 +7,6 @@
 
 #import "OBSlider.h"
 
-
 @interface OBSlider ()
 
 @property (assign, nonatomic, readwrite) float scrubbingSpeed;
@@ -19,8 +18,6 @@
 - (NSArray*)defaultScrubbingSpeedChangePositions;
 
 @end
-
-
 
 @implementation OBSlider
 
@@ -39,7 +36,6 @@
     }
     return self;
 }
-
 
 #pragma mark - NSCoding
 
@@ -73,7 +69,6 @@
     
     // No need to archive self.scrubbingSpeed as it is calculated from the arrays on init
 }
-
 
 #pragma mark -
 #pragma mark Touch tracking
@@ -136,7 +131,6 @@
     }
 }
 
-
 #pragma mark - Helper methods
 
 // Return the lowest index in the array of numbers passed in scrubbingSpeedPositions 
@@ -150,7 +144,6 @@
     }
     return NSNotFound; 
 }
-
 
 #pragma mark - Default values
 

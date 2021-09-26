@@ -717,7 +717,6 @@
     [activityIndicatorView stopAnimating];
 }
 
-
 - (void)handleTabHasChanged:(NSNotification*)notification {
     NSArray *buttons = [self.detailItem mainButtons];
     if (!buttons.count) {
@@ -4111,7 +4110,6 @@ NSIndexPath *selected;
     }
 }
 
-
 - (void)showAlbumActions:(UITapGestureRecognizer*)tap {
     NSArray *sheetActions = @[LOCALIZED_STR(@"Queue after current"), LOCALIZED_STR(@"Queue"), LOCALIZED_STR(@"Play"), LOCALIZED_STR(@"Play in shuffle mode"), LOCALIZED_STR(@"Album Details"), LOCALIZED_STR(@"Search Wikipedia")];
     selected = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -4825,8 +4823,8 @@ NSIndexPath *selected;
     if ([self.detailItem enableSection] && copyRichResults.count > SECTIONS_START_AT && (sortMethodIndex == -1 || [sortMethodName isEqualToString:@"label"])) {
         addUITableViewIndexSearch = YES;
         BOOL found;
-        NSCharacterSet *set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
-        NSCharacterSet *numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
+        NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
+        NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
         for (NSDictionary *item in copyRichResults) {
             NSString *c = @"/";
             if ([item[sortbymethod] length] > 0) {

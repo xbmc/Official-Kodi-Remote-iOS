@@ -31,15 +31,10 @@
     IBOutlet UILabel *parentalRatingLabel;
     
     IBOutlet UILabel *label1;
-
     IBOutlet UILabel *label2;
-
     IBOutlet UILabel *label3;
-
     IBOutlet UILabel *label4;
-
     IBOutlet UILabel *label5;
-
     IBOutlet UILabel *label6;
 
     UILabel *trailerLabel;

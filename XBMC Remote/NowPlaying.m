@@ -101,8 +101,6 @@
     return self;
 }
 
-
-
 # pragma mark - toolbar management
 
 - (UIImage*)resizeToolbarThumb:(UIImage*)img {
@@ -1152,7 +1150,6 @@ int currentItemID;
     }
 }
 
-
 - (void)clearPlaylist:(int)playlistID {
     [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": @(playlistID)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
@@ -1739,8 +1736,6 @@ int currentItemID;
             break;
     }
 }
-
-
 
 - (void)updateInfo {
     [self playbackInfo];
