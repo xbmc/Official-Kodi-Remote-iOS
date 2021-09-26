@@ -574,4 +574,5 @@ static char UIScrollViewPullToRefreshView;
 	CGGradientRelease(alphaGradient);
 	CGColorSpaceRelease(colorSpace);
 }
+
 @end

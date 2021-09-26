@@ -21,16 +21,11 @@
 }
 
 - (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor;
-
 - (IBAction)slideVolume:(id)sender;
-
 - (void)startTimer;
-
 - (void)stopTimer;
 
 @property (nonatomic, retain) NSTimer* timer;
-
 @property (nonatomic, retain) NSTimer* holdVolumeTimer;
-
 
 @end

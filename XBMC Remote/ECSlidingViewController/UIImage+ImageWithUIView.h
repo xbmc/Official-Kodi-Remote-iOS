@@ -7,4 +7,5 @@
 
 @interface UIImage (ImageWithUIView)
 + (UIImage*)imageWithUIView:(UIView*)view;
+
 @end

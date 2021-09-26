@@ -81,6 +81,4 @@
 @property (nonatomic, assign) CGFloat slideStartPosition;
 @property (nonatomic, strong) NSMutableArray *viewControllersStack;
 
-
-
 @end

@@ -55,5 +55,3 @@
 - (void)animateWithURLs:(NSArray*)urls transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;
 
 @end
-
-

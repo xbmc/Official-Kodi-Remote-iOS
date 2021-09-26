@@ -50,5 +50,4 @@
 
 @property (nonatomic, retain) UITableView* tableView;
 
-
 @end
