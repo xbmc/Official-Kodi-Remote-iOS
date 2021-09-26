@@ -334,7 +334,7 @@
 			if ([dragDirection isEqualToString:@"RIGHT"]) {
 				positionOfViewAtRightAtTouchBegan = viewAtRight.frame.origin;
 				positionOfViewAtLeftAtTouchBegan = viewAtLeft.frame.origin;
-				displacementPosition = translatedPoint.x * -1;
+				displacementPosition = -translatedPoint.x;
 			}				
 			
 			dragDirection = @"LEFT";
@@ -355,7 +355,7 @@
 						}							
 						positionOfViewAtRightAtTouchBegan = viewAtRight.frame.origin;
 						positionOfViewAtLeftAtTouchBegan = viewAtLeft.frame.origin;
-						displacementPosition = translatedPoint.x * -1;							
+						displacementPosition = -translatedPoint.x;
 						if ([slideViews.subviews indexOfObject:viewAtLeft2] > 1) {
 							slideViews.subviews[[slideViews.subviews indexOfObject:viewAtLeft2] - 2].hidden = YES;
 						}
@@ -390,7 +390,7 @@
 					if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION) {
 						positionOfViewAtRightAtTouchBegan = viewAtRight.frame.origin;
 						positionOfViewAtLeftAtTouchBegan = viewAtLeft.frame.origin;
-						displacementPosition = translatedPoint.x * -1;
+						displacementPosition = -translatedPoint.x;
 					}
 				}
 			}
