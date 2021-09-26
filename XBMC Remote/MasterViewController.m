@@ -139,7 +139,7 @@
             icon.frame = CGRectMake(icon.frame.origin.x, (int)((cellHeight - CONNECTION_ICON_SIZE) / 2), CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE);
             title.frame = CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight);
             title.numberOfLines = 2;
-            arrowRight.frame = CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height);
+            arrowRight.frame = CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight / 2) - (arrowRight.frame.size.height / 2)), arrowRight.frame.size.width, arrowRight.frame.size.height);
         }
         else {
             title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];

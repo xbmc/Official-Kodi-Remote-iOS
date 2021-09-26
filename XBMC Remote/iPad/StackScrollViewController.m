@@ -322,7 +322,7 @@
 		if (viewAtLeft2 != nil) {
 			NSInteger viewAtLeft2Position = [slideViews.subviews indexOfObject:viewAtLeft2];
 			if (viewAtLeft2Position > 0) {
-				slideViews.subviews[viewAtLeft2Position - 1].hidden = NO;
+				[((UIView*)[slideViews subviews][viewAtLeft2Position - 1]) setHidden:NO];
 			}
 		}
 		[self arrangeVerticalBar];
@@ -342,7 +342,7 @@
 			
 			if (viewAtRight != nil) {
 				
-				if (viewAtLeft.frame.origin.x <= SLIDE_VIEWS_MINUS_X_POSITION) {						
+				if (viewAtLeft.frame.origin.x <= SLIDE_VIEWS_MINUS_X_POSITION) {
 					if ([slideViews.subviews indexOfObject:viewAtRight] < slideViews.subviews.count - 1) {
 						viewAtLeft2 = viewAtLeft;
 						viewAtLeft = viewAtRight;
@@ -571,7 +571,7 @@
 					[UIView setAnimationDuration:0.2];
 					[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
 					[UIView setAnimationBeginsFromCurrentState:YES];
-					if ((viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width > self.view.frame.size.width) && viewAtLeft.frame.origin.x < (self.view.frame.size.width - (viewAtLeft.frame.size.width)/2)) {
+					if ((viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width > self.view.frame.size.width) && viewAtLeft.frame.origin.x < (self.view.frame.size.width - (viewAtLeft.frame.size.width) / 2)) {
 						[UIView beginAnimations:@"LEFT-WITH-LEFT" context:nil];
 						viewAtLeft.frame = CGRectMake(self.view.frame.size.width - viewAtLeft.frame.size.width, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height);
 						
@@ -689,7 +689,7 @@
 }
 
 - (void)moveStack {
-    if ((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtRight.frame.origin.x < (self.view.frame.size.width - (viewAtRight.frame.size.width/2))) {
+    if ((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtRight.frame.origin.x < (self.view.frame.size.width - (viewAtRight.frame.size.width / 2))) {
         [UIView beginAnimations:@"RIGHT-WITH-RIGHT" context:NULL];
         [UIView setAnimationDuration:0.2];
         [UIView setAnimationBeginsFromCurrentState:YES];
@@ -736,7 +736,7 @@
                 CABasicAnimation *bounceAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
                 bounceAnimation.duration = 0.2;
                 bounceAnimation.fromValue = @(viewAtLeft.center.x);
-                bounceAnimation.toValue = @(viewAtLeft.center.x -10);
+                bounceAnimation.toValue = @(viewAtLeft.center.x - 10);
                 bounceAnimation.repeatCount = 0;
                 bounceAnimation.autoreverses = YES;
                 bounceAnimation.fillMode = kCAFillModeBackwards;
@@ -898,11 +898,11 @@
 	if (viewControllersStack.count > 1) {
 //        NSLog(@"DUE");
 		NSInteger indexOfViewController = [viewControllersStack
-										   indexOfObject:invokeByController]+1;
+										   indexOfObject:invokeByController] + 1;
 		
 		if ([invokeByController parentViewController]) {
 			indexOfViewController = [viewControllersStack
-									 indexOfObject:[invokeByController parentViewController]]+1;
+									 indexOfObject:[invokeByController parentViewController]] + 1;
 		}
 		
 		NSInteger viewControllerCount = viewControllersStack.count;

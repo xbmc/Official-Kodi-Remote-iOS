@@ -193,7 +193,7 @@ static char UIScrollViewPullToRefreshView;
     if (hasCustomView) {
         [self addSubview:customView];
         CGRect viewBounds = [customView bounds];
-        CGPoint origin = CGPointMake(roundf((self.bounds.size.width-viewBounds.size.width)/2), roundf((self.bounds.size.height-viewBounds.size.height)/2));
+        CGPoint origin = CGPointMake(roundf((self.bounds.size.width - viewBounds.size.width) / 2), roundf((self.bounds.size.height - viewBounds.size.height) / 2));
         [customView setFrame:CGRectMake(origin.x, origin.y, viewBounds.size.width, viewBounds.size.height)];
     }
     else {
@@ -329,7 +329,7 @@ static char UIScrollViewPullToRefreshView;
 
 - (SVPullToRefreshArrow*)arrow {
     if (!_arrow) {
-		_arrow = [[SVPullToRefreshArrow alloc]initWithFrame:CGRectMake(0, self.bounds.size.height-54, 22, 48)];
+		_arrow = [[SVPullToRefreshArrow alloc]initWithFrame:CGRectMake(0, self.bounds.size.height - 54, 22, 48)];
         _arrow.backgroundColor = UIColor.clearColor;
 		[self addSubview:_arrow];
     }
@@ -350,7 +350,7 @@ static char UIScrollViewPullToRefreshView;
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
         _titleLabel.font = [UIFont boldSystemFontOfSize:13];
         _titleLabel.numberOfLines = 1;
-        _titleLabel.minimumScaleFactor = 12.0/13.0;
+        _titleLabel.minimumScaleFactor = 12.0 / 13.0;
         _titleLabel.adjustsFontSizeToFitWidth = YES;
         _titleLabel.backgroundColor = UIColor.clearColor;
         _titleLabel.textColor = textColor;
@@ -364,7 +364,7 @@ static char UIScrollViewPullToRefreshView;
         _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
         _subtitleLabel.font = [UIFont systemFontOfSize:11];
         _subtitleLabel.numberOfLines = 1;
-        _subtitleLabel.minimumScaleFactor = 9.0/11.0;
+        _subtitleLabel.minimumScaleFactor = 9.0 / 11.0;
         _subtitleLabel.adjustsFontSizeToFitWidth = YES;
         _subtitleLabel.backgroundColor = UIColor.clearColor;
         _subtitleLabel.textColor = UIColor.lightGrayColor;

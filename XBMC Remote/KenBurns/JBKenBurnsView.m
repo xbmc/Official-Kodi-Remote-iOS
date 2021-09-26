@@ -143,7 +143,7 @@
         [self.imagesArray removeObjectAtIndex:0];
         [self.imagesArray addObject:[self _downloadImageFrom:urls[urlIndex]]];
         
-        if (bufferIndex == self.imagesArray.count -1) {
+        if (bufferIndex == self.imagesArray.count - 1) {
             bufferIndex = -1;
         }
         
@@ -305,7 +305,7 @@
     
     // Generates the animation
     [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:self.timeTransition+2];
+    [UIView setAnimationDuration:self.timeTransition + 2];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     CGAffineTransform rotate    = CGAffineTransformMakeRotation(rotation);
     CGAffineTransform moveRight = CGAffineTransformMakeTranslation(moveX, moveY);

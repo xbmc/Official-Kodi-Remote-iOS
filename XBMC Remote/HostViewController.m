@@ -352,7 +352,7 @@
     if (n != 0) {
         int index = sizeof(struct rt_msghdr) + sizeof(struct sockaddr_inarp) + 8;
         res = [NSString stringWithFormat:@"%2.2X:%2.2X:%2.2X:%2.2X:%2.2X:%2.2X",
-               buf2[index+0], buf2[index+1], buf2[index+2], buf2[index+3], buf2[index+4], buf2[index+5]];
+               buf2[index + 0], buf2[index + 1], buf2[index + 2], buf2[index + 3], buf2[index + 4], buf2[index + 5]];
     }
     
     return res;

@@ -32,7 +32,7 @@
 #define GET_MAINSCREEN_HEIGHT CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)
 #define GET_MAINSCREEN_WIDTH CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds)
 #define STACKSCROLL_WIDTH (GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH)
-#define ANCHOR_RIGHT_PEEK (GET_MAINSCREEN_WIDTH/10.0)
+#define ANCHOR_RIGHT_PEEK (GET_MAINSCREEN_WIDTH / 10.0)
 
 /*
  * Other

@@ -97,7 +97,7 @@
             else {
                 maxLength = self.indexLabels.count * INDEX_HEIGHT_IPAD;
             }
-            cumulativeLength = (CGRectGetHeight(self.frame) - maxLength)/2;
+            cumulativeLength = (CGRectGetHeight(self.frame) - maxLength) / 2;
             break;
     }
 
@@ -170,7 +170,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
             label.text = indexTitle;
             label.font = [UIFont boldSystemFontOfSize:11];
-            label.minimumScaleFactor = 11.0/11.0;
+            label.minimumScaleFactor = 11.0 / 11.0;
             label.adjustsFontSizeToFitWidth = YES;
             label.backgroundColor = UIColor.clearColor;
             label.textColor = UIColor.systemBlueColor;
