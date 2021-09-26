@@ -117,32 +117,26 @@
     CGRect frame = TransitionalView.frame;
     CGFloat newWidth = CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) - ANCHOR_RIGHT_PEEK;
     CGFloat shift;
-    [self hideButton: [NSArray arrayWithObjects:
-                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_SEEK_BACKWARD],
-                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_PLAY_PAUSE],
-                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_SEEK_FORWARD],
-                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_PREVIOUS],
-                       [(UIButton*)self.view viewWithTag:TAG_BUTTON_NEXT],
-                       nil]
+    [self hideButton:@[[self.view viewWithTag:TAG_BUTTON_SEEK_BACKWARD],
+                       [self.view viewWithTag:TAG_BUTTON_PLAY_PAUSE],
+                       [self.view viewWithTag:TAG_BUTTON_SEEK_FORWARD],
+                       [self.view viewWithTag:TAG_BUTTON_PREVIOUS],
+                       [self.view viewWithTag:TAG_BUTTON_NEXT]]
                 hide:YES];
     if ([Utilities hasRemoteToolBar]) {
         shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_NEXT].frame);
-        [self moveButton: [NSArray arrayWithObjects:
-                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_MUSIC],
-                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_MOVIES],
-                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_TVSHOWS],
-                           (UIButton*)[self.view viewWithTag:TAG_BUTTON_PICTURES],
-                           nil]
+        [self moveButton:@[[self.view viewWithTag:TAG_BUTTON_MUSIC],
+                           [self.view viewWithTag:TAG_BUTTON_MOVIES],
+                           [self.view viewWithTag:TAG_BUTTON_TVSHOWS],
+                           [self.view viewWithTag:TAG_BUTTON_PICTURES]]
                     ypos: -shift];
     }
     else {
         shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_STOP].frame);
-        [self hideButton: [NSArray arrayWithObjects:
-                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_MUSIC],
-                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_MOVIES],
-                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_TVSHOWS],
-                           [(UIButton*)self.view viewWithTag:TAG_BUTTON_PICTURES],
-                           nil]
+        [self hideButton:@[[self.view viewWithTag:TAG_BUTTON_MUSIC],
+                           [self.view viewWithTag:TAG_BUTTON_MOVIES],
+                           [self.view viewWithTag:TAG_BUTTON_TVSHOWS],
+                           [self.view viewWithTag:TAG_BUTTON_PICTURES]]
                     hide: YES];
     }
     
