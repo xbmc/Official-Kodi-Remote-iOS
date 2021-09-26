@@ -336,9 +336,9 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         [[Utilities getJsonRPC]
          callMethod:@"XBMC.GetInfoBooleans" 
-         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         @[@"Window.IsActive(fullscreenvideo)", @"Window.IsActive(visualisation)", @"Window.IsActive(slideshow)"], @"booleans",
-                         nil] 
+         withParameters:@{@"booleans": @[@"Window.IsActive(fullscreenvideo)",
+                                         @"Window.IsActive(visualisation)",
+                                         @"Window.IsActive(slideshow)"]}
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
@@ -683,7 +683,7 @@
 
 //    [[Utilities getJsonRPC]
 //     callMethod:@"Application.GetProperties" 
-//     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @[@"volume"], @"properties", nil]
+//     withParameters:@{"properties": @[@"volume"]}
 //     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 //         if (error == nil && methodError == nil) {
 //             if ([NSJSONSerialization isValidJSONObject:methodResult] && [methodResult count]) {
@@ -696,7 +696,7 @@
 - (void)changeServerVolume {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(audioVolume), @"volume", nil]];
+     withParameters:@{@"volume": @(audioVolume)}];
 }
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
@@ -824,9 +824,8 @@ NSInteger buttonAction;
     if ([AppDelegate instance].serverVersion > 11) {
         [[Utilities getJsonRPC]
          callMethod:@"GUI.GetProperties"
-         withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                         @[@"currentwindow", @"fullscreen"], @"properties",
-                         nil]
+         withParameters:@{@"properties": @[@"currentwindow",
+                                           @"fullscreen"]}
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                  int winID = 0;
@@ -840,9 +839,8 @@ NSInteger buttonAction;
                  if (isFullscreen && (winID == WINDOW_FULLSCREEN_VIDEO || winID == WINDOW_VISUALISATION)) {
                      [[Utilities getJsonRPC]
                       callMethod:@"XBMC.GetInfoBooleans"
-                      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                      @[@"VideoPlayer.HasMenu", @"Pvr.IsPlayingTv"], @"booleans",
-                                      nil]
+                      withParameters:@{@"booleans": @[@"VideoPlayer.HasMenu",
+                                                      @"Pvr.IsPlayingTv"]}
                       onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                           if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                               BOOL VideoPlayerHasMenu = NO;
@@ -860,7 +858,7 @@ NSInteger buttonAction;
                                   [self playbackAction:@"Player.GoTo" params:@[musicAction, @"to"]];
                               }
                               else if (winID == WINDOW_VISUALISATION && musicMethod != nil) {
-                                  [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:musicMethod, @"action", nil] httpAPIcallback:nil];
+                                  [self GUIAction:@"Input.ExecuteAction" params:@{@"action": musicMethod} httpAPIcallback:nil];
                               }
                           }
                       }];
@@ -935,7 +933,7 @@ NSInteger buttonAction;
     switch ([sender tag]) {
         case TAG_BUTTON_FULLSCREEN:
             action = @"GUI.SetFullscreen";
-            [self GUIAction:action params:[NSDictionary dictionaryWithObjectsAndKeys:@"toggle", @"fullscreen", nil] httpAPIcallback:@"SendKey(0xf009)"];
+            [self GUIAction:action params:@{@"fullscreen": @"toggle"} httpAPIcallback:@"SendKey(0xf009)"];
             break;
             
         case TAG_BUTTON_SEEK_BACKWARD:
@@ -1019,35 +1017,27 @@ NSInteger buttonAction;
             
         case TAG_BUTTON_MUSIC:
             action = @"GUI.ActivateWindow";
-            dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                         @"music", @"window",
-                         nil];
+            dicParams = @{@"window": @"music"};
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
             break;
             
         case TAG_BUTTON_MOVIES:
             action = @"GUI.ActivateWindow";
-            dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                      @"videos", @"window",
-                      @[@"MovieTitles"], @"parameters",
-                      nil];
+            dicParams = @{@"window": @"videos",
+                          @"parameters": @[@"MovieTitles"]};
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
             break;
         
         case TAG_BUTTON_TVSHOWS:
             action = @"GUI.ActivateWindow";
-            dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                         @"videos", @"window",
-                         @[@"tvshowtitles"], @"parameters",
-                         nil];
+            dicParams = @{@"window": @"videos",
+                          @"parameters": @[@"tvshowtitles"]};
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
             break;
         
         case TAG_BUTTON_PICTURES:
             action = @"GUI.ActivateWindow";
-            dicParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                         @"pictures", @"window",
-                         nil];
+            dicParams = @{@"window": @"pictures"};
             [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Pictures)"];
             break;
             
@@ -1070,7 +1060,7 @@ NSInteger buttonAction;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         switch (gestureRecognizer.view.tag) {
             case TAG_BUTTON_FULLSCREEN:
-                [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:@"togglefullscreen", @"action", nil] httpAPIcallback:@"Action(199)"];
+                [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"togglefullscreen"} httpAPIcallback:@"Action(199)"];
                 break;
                 
             case TAG_BUTTON_SEEK_BACKWARD: // DECREASE PLAYBACK SPEED
@@ -1083,7 +1073,7 @@ NSInteger buttonAction;
                 
             case TAG_BUTTON_INFO: // CODEC INFO
                 if ([AppDelegate instance].serverVersion > 16) {
-                    [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:@"playerdebug", @"action", nil] httpAPIcallback:nil];
+                    [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"playerdebug"} httpAPIcallback:nil];
                 }
                 else {
                     [self GUIAction:@"Input.ShowCodec" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04F)"];
@@ -1098,42 +1088,32 @@ NSInteger buttonAction;
             case TAG_BUTTON_SUBTITLES: // SUBTITLES BUTTON
                 if ([AppDelegate instance].serverVersion > 12) {
                     [self GUIAction:@"GUI.ActivateWindow"
-                             params:[NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"subtitlesearch", @"window",
-                                     nil]
+                             params:@{@"window": @"subtitlesearch"}
                     httpAPIcallback:nil];
                 }
                 else {
                     [self GUIAction:@"Addons.ExecuteAddon"
-                             params:[NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"script.xbmc.subtitles", @"addonid",
-                                     nil]
+                             params:@{@"addonid": @"script.xbmc.subtitles"}
                     httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
                 }
                 break;
                 
             case TAG_BUTTON_MOVIES:
                 [self GUIAction:@"GUI.ActivateWindow"
-                         params:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 @"pvr", @"window",
-                                 @[@"31", @"0", @"10", @"0"], @"parameters",
-                                 nil]
+                         params:@{@"window": @"pvr",
+                                  @"parameters": @[@"31", @"0", @"10", @"0"]}
                 httpAPIcallback:nil];
                 break;
                 
             case TAG_BUTTON_TVSHOWS:
                 [self GUIAction:@"GUI.ActivateWindow"
-                         params:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 @"pvrosdguide", @"window",
-                                 nil]
+                         params:@{@"window": @"pvrosdguide"}
                 httpAPIcallback:nil];
                 break;
                 
             case TAG_BUTTON_PICTURES:
                 [self GUIAction:@"GUI.ActivateWindow"
-                         params:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 @"pvrosdchannels", @"window",
-                                 nil]
+                         params:@{@"window": @"pvrosdchannels"}
                 httpAPIcallback:nil];
                 break;
 
