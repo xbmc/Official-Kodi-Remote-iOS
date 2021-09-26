@@ -453,12 +453,6 @@ static char UIScrollViewPullToRefreshView;
     [self setNeedsLayout];
 }
 
-- (void)setTextColor:(UIColor*)newTextColor {
-    textColor = newTextColor;
-    self.titleLabel.textColor = newTextColor;
-	self.subtitleLabel.textColor = UIColor.lightGrayColor;
-}
-
 - (void)setActivityIndicatorViewStyle:(UIActivityIndicatorViewStyle)viewStyle {
     self.activityIndicatorView.activityIndicatorViewStyle = viewStyle;
 }
