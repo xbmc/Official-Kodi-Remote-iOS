@@ -46,6 +46,8 @@
 #define TAG_BUTTON_MOVIES 22
 #define TAG_BUTTON_TVSHOWS 23
 #define TAG_BUTTON_PICTURES 24
+#define WINDOW_FULLSCREEN_VIDEO 12005
+#define WINDOW_VISUALISATION 12006
 
 @interface RemoteController ()
 
@@ -841,9 +843,7 @@ NSInteger buttonAction;
                  if (((NSNull*)methodResult[@"currentwindow"] != [NSNull null])) {
                      winID = [methodResult[@"currentwindow"][@"id"] intValue];
                  }
-                 // 12005: WINDOW_FULLSCREEN_VIDEO
-                 // 12006: WINDOW_VISUALISATION
-                 if ([fullscreen boolValue] && (winID == 12005 || winID == 12006)) {
+                 if ([fullscreen boolValue] && (winID == WINDOW_FULLSCREEN_VIDEO || winID == WINDOW_VISUALISATION)) {
                      [[Utilities getJsonRPC]
                       callMethod:@"XBMC.GetInfoBooleans"
                       withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -859,13 +859,13 @@ NSInteger buttonAction;
                               if (((NSNull*)methodResult[@"Pvr.IsPlayingTv"] != [NSNull null])) {
                                   PvrIsPlayingTv = methodResult[@"Pvr.IsPlayingTv"];
                               }
-                              if (winID == 12005 && ![PvrIsPlayingTv boolValue] && ![VideoPlayerHasMenu boolValue]) {
+                              if (winID == WINDOW_FULLSCREEN_VIDEO && ![PvrIsPlayingTv boolValue] && ![VideoPlayerHasMenu boolValue]) {
                                   [self playbackAction:@"Player.Seek" params:[Utilities buildPlayerSeekStepParams:step]];
                               }
-                              else if (winID == 12006 && musicAction != nil) {
+                              else if (winID == WINDOW_VISUALISATION && musicAction != nil) {
                                   [self playbackAction:@"Player.GoTo" params:@[musicAction, @"to"]];
                               }
-                              else if (winID == 12006 && musicMethod != nil) {
+                              else if (winID == WINDOW_VISUALISATION && musicMethod != nil) {
                                   [self GUIAction:@"Input.ExecuteAction" params:[NSDictionary dictionaryWithObjectsAndKeys:musicMethod, @"action", nil] httpAPIcallback:nil];
                               }
                           }
