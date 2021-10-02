@@ -382,7 +382,34 @@ NSMutableArray *hostRightMenuItems;
 	
 }
 
+- (void)registerDefaultsFromSettingsBundle {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+    NSString *bundle = [[NSBundle mainBundle] pathForResource:@"Settings" ofType:@"bundle"];
+    if (!bundle) {
+        return;
+    }
+
+    NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[bundle stringByAppendingPathComponent:@"Root.plist"]];
+    NSArray *preferences = settings[@"PreferenceSpecifiers"];
+    NSMutableDictionary *defaultsToRegister = [[NSMutableDictionary alloc] initWithCapacity:preferences.count];
+
+    for (NSDictionary *prefSpecification in preferences) {
+        NSString *key = prefSpecification[@"Key"];
+        if (key) {
+            // We can set defaults here as registerDefaults does not overwrite already defined values
+            defaultsToRegister[key] = prefSpecification[@"DefaultValue"];
+        }
+    }
+
+    // Register defaults
+    [userDefaults registerDefaults:defaultsToRegister];
+}
+
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
+    // Load user defaults, if not yet set. Avoids need to check for nil.
+    [self registerDefaultsFromSettingsBundle];
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     UIApplication *xbmcRemote = [UIApplication sharedApplication];
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]) {
