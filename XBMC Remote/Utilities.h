@@ -85,5 +85,6 @@ typedef enum {
 + (BOOL)isTorchOn;
 + (BOOL)hasRemoteToolBar;
 + (CGFloat)getBottomPadding;
++ (void)sendXbmcHttp:(NSString*)command;
 
 @end
