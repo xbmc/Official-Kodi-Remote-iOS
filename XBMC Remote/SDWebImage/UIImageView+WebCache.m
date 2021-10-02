@@ -27,7 +27,6 @@ static char operationKey;
 }
 
 - (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder andResize:(CGSize)size {
-    size = [self doubleSizeIfRetina:size];
     [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:size withBorder:YES progress:nil completed:nil];
 }
 
@@ -40,7 +39,6 @@ static char operationKey;
 }
 
 - (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder andResize:(CGSize)size completed:(SDWebImageCompletedBlock)completedBlock {
-    size = [self doubleSizeIfRetina:size];
     [self setImageWithURL:url placeholderImage:placeholder options:0 andResize:size withBorder:YES progress:nil completed:completedBlock];
 }
 
@@ -53,6 +51,7 @@ static char operationKey;
 }
 
 - (void)setImageWithURL:(NSURL*)url placeholderImage:(UIImage*)placeholder options:(SDWebImageOptions)options andResize:(CGSize)size withBorder:(BOOL)withBorder progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedBlock)completedBlock {
+    size = [self doubleSizeIfRetina:size];
     [self cancelCurrentImageLoad];
 
     self.image = placeholder;
