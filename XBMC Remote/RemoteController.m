@@ -301,30 +301,30 @@
 
 - (void)handleSwipeFrom:(UISwipeGestureRecognizer*)recognizer {
     if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
-        buttonAction = 14;
+        buttonAction = TAG_BUTTON_ARROW_RIGHT;
         [self sendAction];
     }
     else if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
-        buttonAction = 12;
+        buttonAction = TAG_BUTTON_ARROW_LEFT;
         [self sendAction];
     }
     else if (recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
-        buttonAction = 10;
+        buttonAction = TAG_BUTTON_ARROW_UP;
         [self sendAction];
     }
     else if (recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
-        buttonAction = 16;
+        buttonAction = TAG_BUTTON_ARROW_DOWN;
         [self sendAction];
     }
 }
 
 - (void)handleTouchpadDoubleTap {
-    buttonAction = 18;
+    buttonAction = TAG_BUTTON_BACK;
     [self sendAction];
 }
 
 - (void)handleTouchpadSingleTap {
-    buttonAction = 13;
+    buttonAction = TAG_BUTTON_SELECT;
     [self sendAction];
 }
 
@@ -356,7 +356,7 @@
                      slideshowActive = methodResult[@"Window.IsActive(slideshow)"];
                  }
                  if ([fullscreenActive intValue] == 1 || [visualisationActive intValue] == 1 || [slideshowActive intValue] == 1) {
-                     buttonAction = 15;
+                     buttonAction = TAG_BUTTON_MENU;
                      [self sendActionNoRepeat];
                  }
                  else {
