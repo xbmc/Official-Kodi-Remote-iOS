@@ -246,6 +246,8 @@ NSOutputStream	*outStream;
          }
          // Read the sorttokens
          [self readSorttokens];
+         // Read 1-movie-set setting
+         [self readGroupSingleItemSets];
     }];
     // Check if ignorearticles is enabled
     [[Utilities getJsonRPC]
@@ -260,19 +262,29 @@ NSOutputStream	*outStream;
              [AppDelegate instance].isIgnoreArticlesEnabled = NO;
          }
     }];
-    // Check if groupsingleitemsets is enabled
-    [[Utilities getJsonRPC]
-     callMethod:@"Settings.GetSettingValue"
-     withParameters:@{@"setting": @"videolibrary.groupsingleitemsets"}
-     withTimeout: SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-         if (!error && !methodError) {
-             [AppDelegate instance].isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
-         }
-         else {
-             [AppDelegate instance].isGroupSingleItemSetsEnabled = NO;
-         }
-    }];
+}
+
+- (void)readGroupSingleItemSets {
+    // Check if groupsingleitemsets is enabled (supported from API 6.32.4 on)
+    if (([AppDelegate instance].APImajorVersion >= 7) ||
+        ([AppDelegate instance].APImajorVersion == 6 && [AppDelegate instance].APIminorVersion >= 33) ||
+        ([AppDelegate instance].APImajorVersion == 6 && [AppDelegate instance].APIminorVersion == 32 && [AppDelegate instance].APIpatchVersion >= 4)) {
+        [[Utilities getJsonRPC]
+         callMethod:@"Settings.GetSettingValue"
+         withParameters:@{@"setting": @"videolibrary.groupsingleitemsets"}
+         withTimeout: SERVER_TIMEOUT
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+             if (!error && !methodError) {
+                 [AppDelegate instance].isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
+             }
+             else {
+                 [AppDelegate instance].isGroupSingleItemSetsEnabled = YES;
+             }
+        }];
+    }
+    else {
+        [AppDelegate instance].isGroupSingleItemSetsEnabled = YES;
+    }
 }
 
 - (void)readSorttokens {
