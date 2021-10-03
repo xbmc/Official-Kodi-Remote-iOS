@@ -169,7 +169,7 @@
 - (BOOL)textField:(UITextField*)theTextField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {
     if ([AppDelegate instance].serverVersion == 11) {
         if (range.location == 0) { //BACKSPACE
-            [self sendXbmcHttp:@"SendKey(0xf108)"];
+            [Utilities sendXbmcHttp:@"SendKey(0xf108)"];
         }
         else { // CHARACTER
             int x = (unichar) [string characterAtIndex: 0];
@@ -179,7 +179,7 @@
                 [xbmcVirtualKeyboard resignFirstResponder];
             }
             else if (x < 1000) {
-                [self sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
+                [Utilities sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
             }
         }
         return NO;
@@ -212,18 +212,9 @@
 - (void)GUIAction:(NSString*)action params:(NSDictionary*)params httpAPIcallback:(NSString*)callback {
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if ((methodError != nil || error != nil) && callback != nil) { // Backward compatibility
-            [self sendXbmcHttp:callback];
+            [Utilities sendXbmcHttp:callback];
         }
     }];
-}
-
-- (void)sendXbmcHttp:(NSString*)command {
-    GlobalData *obj = [GlobalData getInstance];
-    NSString *userPassword = [obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
-    
-    NSString *serverHTTP = [NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort, command];
-    NSURL *url = [NSURL URLWithString:serverHTTP];
-    [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
 }
 
 #pragma mark - lifecycle
