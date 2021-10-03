@@ -183,18 +183,14 @@
 }
 
 - (void)toggleSetup {
-    if (_hostPickerViewController == nil) {
-        [self initHostManagemetPopOver];
-    }
+    [self initHostManagemetPopOver];
     [[AppDelegate instance].navigationController setModalPresentationStyle:UIModalPresentationPopover];
     UIPopoverPresentationController *popPresenter = [[AppDelegate instance].navigationController popoverPresentationController];
     if (popPresenter != nil) {
         popPresenter.sourceView = self.view;
         popPresenter.sourceRect = xbmcInfo.frame;
     }
-    if (![[AppDelegate instance].navigationController isBeingPresented]) {
-        [self presentViewController:[AppDelegate instance].navigationController animated:YES completion:nil];
-    }
+    [self presentViewController:[AppDelegate instance].navigationController animated:YES completion:nil];
 }
 
 - (void)showSetup:(BOOL)show {
@@ -570,8 +566,6 @@
                                              selector: @selector(handleChangeBackgroundImage:)
                                                  name: @"UIViewChangeBackgroundImage"
                                                object: nil];
-    
-    [self initHostManagemetPopOver];
     
     [(gradientUIView*)self.view setColoursWithCGColors:[Utilities getGrayColor:36 alpha:1].CGColor
                                                endColor:[Utilities getGrayColor:22 alpha:1].CGColor];
