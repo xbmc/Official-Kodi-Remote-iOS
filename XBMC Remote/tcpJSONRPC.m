@@ -240,9 +240,17 @@ NSOutputStream	*outStream;
      withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (!error && !methodError) {
-             [AppDelegate instance].APImajorVersion = [methodResult[@"version"][@"major"] intValue];
-             [AppDelegate instance].APIminorVersion = [methodResult[@"version"][@"minor"] intValue];
-             [AppDelegate instance].APIpatchVersion = [methodResult[@"version"][@"patch"] intValue];
+             // Kodi 11 and earlier do not support "major"/"minor"/"patch" and reply with "version" only
+             if (![methodResult[@"version"] isKindOfClass:[NSNumber class]]) {
+                 [AppDelegate instance].APImajorVersion = [methodResult[@"version"][@"major"] intValue];
+                 [AppDelegate instance].APIminorVersion = [methodResult[@"version"][@"minor"] intValue];
+                 [AppDelegate instance].APIpatchVersion = [methodResult[@"version"][@"patch"] intValue];
+             }
+             else {
+                 [AppDelegate instance].APImajorVersion = [methodResult[@"version"] intValue];
+                 [AppDelegate instance].APIminorVersion = 0;
+                 [AppDelegate instance].APIpatchVersion = 0;
+             }
          }
          // Read the sorttokens
          [self readSorttokens];
