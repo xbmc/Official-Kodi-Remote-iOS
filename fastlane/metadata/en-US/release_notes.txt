@@ -1,29 +1,10 @@
-Features:
-User Interface
-- Aligned icons with Kodi 19
-- Buttons/icons in modern look
-- User selectable rounded edges for thumbnails
-Main menu
-- User configurable main menu items
-- Support for Kodi favorites
-Remote screen
-- Updated icons and help screens
-- Selectable remote position (top/bottom)
-- Unified toolbar for iPad/iPhone
-Movie collection
-- Show collection posters
-- Respect setting to show/ignore 1-movie sets
-Audio details view
-- Show bits per sample and HiRes logo
-- Added logos for various codecs
-Video details view
-- Updated 4K and added 8K icons
-
 Bugfixes:
-- Fix action sheet title for recordings
-- Fix amount of episodes in detail view
-- Fix episode name when started via Kodi
-- Fix detail view when called from playlist
+- Fix reduced resolution for thumbnails
+- Fix 1-movie-sets for Kodi 15 and earlier
+- Fix non-visible default values in settings
 - Further bugfixes and stability improvements
+
+Remark:
+Movie-set behaviour was changed with Remote App 1.8. You need to configure Kodi server to either show or ignore movie sets with only a single movie. This as well can be done in the Remote App via the settings menu (Media / Videos / Include sets containing a single movie). For Kodi versions 15 and earlier this setting is not available, the Remote App will show all movie sets.
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
