@@ -44,6 +44,16 @@
 #define PROGRESSBAR_PADDING_BOTTOM 80
 #define SEGMENTCONTROL_WIDTH 122
 #define SEGMENTCONTROL_HEIGHT 29
+#define TAG_ID_PREVIOUS 1
+#define TAG_ID_PLAYPAUSE 2
+#define TAG_ID_STOP 3
+#define TAG_ID_NEXT 4
+#define TAG_ID_TOGGLE 5
+#define TAG_SEEK_BACKWARD 6
+#define TAG_SEEK_FORWARD 7
+#define TAG_ID_EDIT 88
+#define TAG_ID_SEGMENT_MUSIC 101
+#define TAG_ID_SEGMENT_VIDEO 102
 
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
@@ -99,10 +109,10 @@
 }
 
 - (IBAction)changePlaylist:(id)sender {
-    if ([sender tag] == 101 && seg_music.selected) {
+    if ([sender tag] == TAG_ID_SEGMENT_MUSIC && seg_music.selected) {
         return;
     }
-    if ([sender tag] == 102 && seg_video.selected) {
+    if ([sender tag] == TAG_ID_SEGMENT_VIDEO && seg_video.selected) {
         return;
     }
     [self editTable:nil forceClose:YES];
@@ -1655,7 +1665,7 @@ int currentItemID;
     NSString *action;
     NSArray *params;
     switch ([sender tag]) {
-        case 1:
+        case TAG_ID_PREVIOUS:
             if ([AppDelegate instance].serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @[@"previous", @"to"];
@@ -1669,20 +1679,20 @@ int currentItemID;
             ProgressSlider.value = 0;
             break;
             
-        case 2:
+        case TAG_ID_PLAYPAUSE:
             action = @"Player.PlayPause";
             params = nil;
             [self playbackAction:action params:nil checkPartyMode:NO];
             break;
             
-        case 3:
+        case TAG_ID_STOP:
             action = @"Player.Stop";
             params = nil;
             [self playbackAction:action params:nil checkPartyMode:NO];
             storeSelection = nil;
             break;
             
-        case 4:
+        case TAG_ID_NEXT:
             if ([AppDelegate instance].serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @[@"next", @"to"];
@@ -1695,17 +1705,17 @@ int currentItemID;
             }
             break;
             
-        case 5:
+        case TAG_ID_TOGGLE:
             [self animViews];
             break;
             
-        case 6:
+        case TAG_SEEK_BACKWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
             [self playbackAction:action params:params checkPartyMode:NO];
             break;
             
-        case 7:
+        case TAG_SEEK_FORWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
             [self playbackAction:action params:params checkPartyMode:NO];
@@ -1910,15 +1920,15 @@ int currentItemID;
 - (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         switch (gestureRecognizer.view.tag) {
-            case 6:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
+            case TAG_SEEK_BACKWARD:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
                 [self playbackAction:@"Player.SetSpeed" params:@[@"decrement", @"speed"] checkPartyMode:NO];
                 break;
                 
-            case 7:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
+            case TAG_SEEK_FORWARD:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
                 [self playbackAction:@"Player.SetSpeed" params:@[@"increment", @"speed"] checkPartyMode:NO];
                 break;
                 
-            case 88:// EDIT TABLE
+            case TAG_ID_EDIT:// EDIT TABLE
                 [self showClearPlaylistAlert];
                 break;
 
