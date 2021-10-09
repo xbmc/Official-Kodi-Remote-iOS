@@ -202,7 +202,7 @@
             [PartyModeButton setSelected:NO];
             [[Utilities getJsonRPC]
              callMethod:@"Player.SetPartymode"
-             withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(0), @"playerid", @"toggle", @"partymode", nil]
+             withParameters:@{@"playerid": @(0), @"partymode": @"toggle"}
              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                  [PartyModeButton setSelected:NO];
              }];
@@ -211,8 +211,7 @@
             [PartyModeButton setSelected:YES];
             [[Utilities getJsonRPC]
              callMethod:@"Player.Open"
-             withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSDictionary dictionaryWithObjectsAndKeys:@"music", @"partymode", nil], @"item", nil]
+             withParameters:@{@"item": @{@"partymode": @"music"}}
              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                  [PartyModeButton setSelected:YES];
                  playerID = -1;
@@ -545,11 +544,8 @@ int currentItemID;
                                              }
                                              completion:NULL];
                              if (IS_IPAD) {
-                                 NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                         [Utilities getGrayColor:36 alpha:1], @"startColor",
-                                                         [Utilities getGrayColor:22 alpha:1], @"endColor",
-                                                         nil, @"image",
-                                                         nil];
+                                 NSDictionary *params = @{@"startColor": [Utilities getGrayColor:36 alpha:1],
+                                                          @"endColor": [Utilities getGrayColor:22 alpha:1]};
                                  [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundGradientColor" object:nil userInfo:params];
                                  [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                              }
@@ -569,12 +565,9 @@ int currentItemID;
                                  BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
                                  if (ok) {
                                      UIColor *iPadStartColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2 alpha:alpha];
-                                     
                                      UIColor *iPadEndColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.1 alpha:alpha];
-                                     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                             iPadStartColor, @"startColor",
-                                                             iPadEndColor, @"endColor",
-                                                             nil];
+                                     NSDictionary *params = @{@"startColor": iPadStartColor,
+                                                              @"endColor": iPadEndColor};
                                      [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundGradientColor" object:nil userInfo:params];
                                  }
                              }
@@ -626,10 +619,8 @@ int currentItemID;
                 }
                 [[Utilities getJsonRPC]
                  callMethod:@"Player.GetItem" 
-                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                                 response, @"playerid",
-                                 properties, @"properties",
-                                 nil] 
+                 withParameters:@{@"playerid": @(currentPlayerID),
+                                  @"properties": properties}
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error == nil && methodError == nil) {
 //                         NSLog(@"Risposta %@", methodResult);
@@ -688,18 +679,18 @@ int currentItemID;
                                              [tempFanartImageView setImageWithURL:[NSURL URLWithString:fanartURL]
                                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                                             if (error == nil && image != nil) {
-                                                                                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: image, @"image", nil];
+                                                                                NSDictionary *params = @{@"image": image};
                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                                                             }
                                                                             else {
-                                                                                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [UIImage new], @"image", nil];
+                                                                                NSDictionary *params = @{@"image": [UIImage new]};
                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                                                             }
                                                                             
                                                                         }];
                                          }
                                          else {
-                                             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: [UIImage new], @"image", nil];
+                                             NSDictionary *params = @{@"image": [UIImage new]};
                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
                                          }
                                      }
@@ -797,10 +788,17 @@ int currentItemID;
                  }];
                 [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties" 
-                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                                 response, @"playerid",
-                                 @[@"percentage", @"time", @"totaltime", @"partymode", @"position", @"canrepeat", @"canshuffle", @"repeat", @"shuffled", @"canseek"], @"properties",
-                                 nil] 
+                 withParameters:@{@"playerid": @(currentPlayerID),
+                                  @"properties": @[@"percentage",
+                                                   @"time",
+                                                   @"totaltime",
+                                                   @"partymode",
+                                                   @"position",
+                                                   @"canrepeat",
+                                                   @"canshuffle",
+                                                   @"repeat",
+                                                   @"shuffled",
+                                                   @"canseek"]}
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                      if (error == nil && methodError == nil) {
                          if ([NSJSONSerialization isValidJSONObject:methodResult]) {
@@ -1003,9 +1001,15 @@ int currentItemID;
 - (void)loadCodecView {
     [[Utilities getJsonRPC]
      callMethod:@"XBMC.GetInfoLabels" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                     @[@"MusicPlayer.Codec", @"MusicPlayer.SampleRate", @"MusicPlayer.BitRate", @"MusicPlayer.BitsPerSample", @"MusicPlayer.Channels", @"VideoPlayer.VideoResolution", @"VideoPlayer.VideoAspect", @"VideoPlayer.AudioCodec", @"VideoPlayer.VideoCodec"], @"labels",
-                     nil]
+     withParameters:@{@"labels": @[@"MusicPlayer.Codec",
+                                   @"MusicPlayer.SampleRate",
+                                   @"MusicPlayer.BitRate",
+                                   @"MusicPlayer.BitsPerSample",
+                                   @"MusicPlayer.Channels",
+                                   @"VideoPlayer.VideoResolution",
+                                   @"VideoPlayer.VideoAspect",
+                                   @"VideoPlayer.AudioCodec",
+                                   @"VideoPlayer.VideoCodec"]}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
              NSString *codec = @"";
@@ -1125,9 +1129,7 @@ int currentItemID;
     if ([AppDelegate instance].serverVersion == 11) {
         [[Utilities getJsonRPC]
          callMethod:@"XBMC.GetInfoBooleans" 
-         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         @[@"Window.IsActive(virtualkeyboard)", @"Window.IsActive(selectdialog)"], @"booleans",
-                         nil] 
+         withParameters:@{@"booleans": @[@"Window.IsActive(virtualkeyboard)", @"Window.IsActive(selectdialog)"]}
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
@@ -1151,7 +1153,7 @@ int currentItemID;
 
 
 - (void)clearPlaylist:(int)playlistID {
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(playlistID), @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": @(playlistID)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
             [self createPlaylist:NO animTableView:NO];
         }
@@ -1242,10 +1244,22 @@ int currentItemID;
     }
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
-         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: 
-                         @[@"thumbnail", @"duration", @"artist", @"album", @"runtime", @"showtitle", @"season", @"episode", @"artistid", @"albumid", @"genre", @"tvshowid", @"file", @"title", @"art"], @"properties",
-                         @(playlistID), @"playlistid",
-                         nil] 
+                        withParameters:@{@"properties": @[@"thumbnail",
+                                                          @"duration",
+                                                          @"artist",
+                                                          @"album",
+                                                          @"runtime",
+                                                          @"showtitle",
+                                                          @"season",
+                                                          @"episode",
+                                                          @"artistid",
+                                                          @"albumid",
+                                                          @"genre",
+                                                          @"tvshowid",
+                                                          @"file",
+                                                          @"title",
+                                                          @"art"],
+                                         @"playlistid": @(playlistID)}
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                NSInteger total = 0;
                if (error == nil && methodError == nil) {
@@ -1411,8 +1425,7 @@ int currentItemID;
     id object = @([item[itemid] intValue]);
     if ([AppDelegate instance].serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {// WORKAROUND due the lack of the artistid with Playlist.GetItems
         methodToCall = @"AudioLibrary.GetArtists";
-        NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", item[@"idItem"]];
-        object = [NSDictionary dictionaryWithObjectsAndKeys: @([artistFrodoWorkaround intValue]), @"songid", nil];
+        object = @{@"songid": @([item[@"idItem"] intValue])};
         itemid = @"filter";
     }
     NSMutableArray *newProperties = [parameters[@"properties"] mutableCopy];
@@ -1761,7 +1774,7 @@ int currentItemID;
     lastSelected = -1;
     storeSelection = nil;
     if ([AppDelegate instance].serverVersion > 11) {
-        [self SimpleAction:@"Player.SetShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", @"toggle", @"shuffle", nil] reloadPlaylist:YES startProgressBar:NO];
+        [self SimpleAction:@"Player.SetShuffle" params:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"} reloadPlaylist:YES startProgressBar:NO];
         if (shuffled) {
             [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
         }
@@ -1771,11 +1784,11 @@ int currentItemID;
     }
     else {
         if (shuffled) {
-            [self SimpleAction:@"Player.UnShuffle" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
+            [self SimpleAction:@"Player.UnShuffle" params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
             [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
         }
         else {
-            [self SimpleAction:@"Player.Shuffle" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", nil] reloadPlaylist:YES startProgressBar:NO];
+            [self SimpleAction:@"Player.Shuffle" params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
             [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
         }
     }
@@ -1785,7 +1798,7 @@ int currentItemID;
     [repeatButton setHighlighted:YES];
     [self performSelector:@selector(toggleHighlight:) withObject:repeatButton afterDelay:.1];
     if ([AppDelegate instance].serverVersion > 11) {
-        [self SimpleAction:@"Player.SetRepeat" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", @"cycle", @"repeat", nil] reloadPlaylist:NO startProgressBar:NO];
+        [self SimpleAction:@"Player.SetRepeat" params:@{@"playerid": @(currentPlayerID), @"repeat": @"cycle"} reloadPlaylist:NO startProgressBar:NO];
         if ([repeatStatus isEqualToString:@"off"]) {
             [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
         }
@@ -1799,16 +1812,16 @@ int currentItemID;
     }
     else {
         if ([repeatStatus isEqualToString:@"off"]) {
-            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", @"all", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
+            [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": @"all"} reloadPlaylist:NO startProgressBar:NO];
             [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
         }
         else if ([repeatStatus isEqualToString:@"all"]) {
-            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", @"one", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
+            [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": @"one"} reloadPlaylist:NO startProgressBar:NO];
             [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
             
         }
         else if ([repeatStatus isEqualToString:@"one"]) {
-            [self SimpleAction:@"Player.Repeat" params:[NSDictionary dictionaryWithObjectsAndKeys: @(currentPlayerID), @"playerid", @"off", @"state", nil] reloadPlaylist:NO startProgressBar:NO];
+            [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": @"off"} reloadPlaylist:NO startProgressBar:NO];
             [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
         }
     }
