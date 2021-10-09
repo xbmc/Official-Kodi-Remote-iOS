@@ -349,6 +349,7 @@ int currentItemID;
     songDetailsView.frame = jewelView.frame;
     songDetailsView.center = [jewelView.superview convertPoint:jewelView.center toView:songDetailsView.superview];
     [nowPlayingView bringSubviewToFront:songDetailsView];
+    [nowPlayingView bringSubviewToFront:BottomView];
     [nowPlayingView sendSubviewToBack:xbmcOverlayImage];
 }
 
