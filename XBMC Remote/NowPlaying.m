@@ -35,15 +35,16 @@
 @synthesize itemLogoImage;
 @synthesize songDetailsView;
 @synthesize ProgressSlider;
+@synthesize BottomView;
 @synthesize scrabbingView;
 @synthesize itemDescription;
-//@synthesize presentedFromNavigation;
 
 #define MAX_CELLBAR_WIDTH 45
 #define PROGRESSBAR_PADDING_LEFT 20
 #define PROGRESSBAR_PADDING_BOTTOM 80
 #define SEGMENTCONTROL_WIDTH 122
 #define SEGMENTCONTROL_HEIGHT 29
+#define TOOLBAR_HEIGHT 44
 #define TAG_ID_PREVIOUS 1
 #define TAG_ID_PLAYPAUSE 2
 #define TAG_ID_STOP 3
@@ -2388,25 +2389,10 @@ int currentItemID;
 - (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS {
     CGRect frame;
     
-    // Maximum allowed height shall be 90% of visible height in landscape mode
+    // Maximum allowed height excludes status bar, toolbar and safe area
     CGFloat bottomPadding = [Utilities getBottomPadding];
-    CGFloat maxheight = floor((CGRectGetHeight(UIScreen.mainScreen.bounds) - bottomPadding - playlistToolbar.frame.size.height) * 0.9);
-    
-    frame = ProgressSlider.frame;
-    frame.origin.y = maxheight - PROGRESSBAR_PADDING_BOTTOM;
-    frame.origin.x = PAD_MENU_TABLE_WIDTH + PROGRESSBAR_PADDING_LEFT;
-    ProgressSlider.frame = frame;
-    
-    frame = scrabbingView.frame;
-    frame.origin.y = ProgressSlider.frame.origin.y - scrabbingView.frame.size.height - 2;
-    frame.origin.x = ProgressSlider.frame.origin.x;
-    frame.size.width = ProgressSlider.frame.size.width;
-    scrabbingView.frame = frame;
-    
-    frame = playlistToolbar.frame;
-    frame.size.width = width;
-    frame.origin.x = 0;
-    playlistToolbar.frame = frame;
+    CGFloat statusBar = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    CGFloat maxheight = height - bottomPadding - statusBar - TOOLBAR_HEIGHT;
     
     frame = nowPlayingView.frame;
     frame.origin.x = PAD_MENU_TABLE_WIDTH + 2;
@@ -2415,88 +2401,55 @@ int currentItemID;
     frame.size.width = width - (PAD_MENU_TABLE_WIDTH + 2);
     nowPlayingView.frame = frame;
     
+    frame = BottomView.frame;
+    frame.origin.y = CGRectGetMaxY(songDetailsView.frame);
+    frame.origin.x = PAD_MENU_TABLE_WIDTH;
+    frame.size.width = width - PAD_MENU_TABLE_WIDTH;
+    frame.size.height = maxheight - CGRectGetMaxY(songDetailsView.frame);
+    BottomView.frame = frame;
+    
+    frame = playlistToolbar.frame;
+    frame.size.width = width;
+    frame.origin.x = 0;
+    playlistToolbar.frame = frame;
+    
     frame = iOS7bgEffect.frame;
     frame.size.width = width;
     iOS7bgEffect.frame = frame;
     
+    frame = TopView.frame;
+    frame.size.height = CGRectGetMinY(songDetailsView.frame);
+    TopView.frame = frame;
+    
     [self setCoverSize:currentType];
+}
+
+- (void)setFontSizes {
+    CGRect frame = UIScreen.mainScreen.fixedCoordinateSpace.bounds;
+    
+    // Scale is derived from the minimum increase in NowPlaying's width or height
+    CGFloat height = IS_IPHONE ? CGRectGetHeight(frame) : CGRectGetWidth(frame);
+    CGFloat width = IS_IPHONE ? CGRectGetWidth(frame) : (CGRectGetWidth(frame) - PAD_MENU_TABLE_WIDTH);
+    CGFloat scale = MIN(height / IPHONE_SCREEN_DESIGN_HEIGHT, width / IPHONE_SCREEN_DESIGN_WIDTH);
+    
+    albumName.font        = [UIFont systemFontOfSize:floor(18 * scale)];
+    songName.font         = [UIFont systemFontOfSize:floor(16 * scale)];
+    artistName.font       = [UIFont systemFontOfSize:floor(14 * scale)];
+    currentTime.font      = [UIFont systemFontOfSize:floor(12 * scale)];
+    duration.font         = [UIFont systemFontOfSize:floor(12 * scale)];
+    scrabbingMessage.font = [UIFont systemFontOfSize:floor(10 * scale)];
+    scrabbingRate.font    = [UIFont systemFontOfSize:floor(10 * scale)];
 }
 
 - (void)setIphoneInterface {
     slideFrom = [self currentScreenBoundsDependOnOrientation].size.width;
     xbmcOverlayImage.hidden = YES;
     [playlistToolbar setShadowImage:[UIImage imageNamed:@"blank"] forToolbarPosition:UIBarPositionAny];
-    
-    // Use bigger fonts and move text and bar towards to the cover
-    if (IS_AT_LEAST_IPHONE_X_HEIGHT) {
-        [albumName setFont:[UIFont systemFontOfSize:20]];
-        [songName setFont:[UIFont systemFontOfSize:18]];
-        [artistName setFont:[UIFont systemFontOfSize:16]];
-        [currentTime setFont:[UIFont systemFontOfSize:14]];
-        [duration setFont:[UIFont systemFontOfSize:14]];
-        
-        CGRect frame;
-        frame = nowPlayingView.frame;
-        frame.size.width = frame.size.width;
-        frame.origin.y += 30;
-        frame.size.height -= 2*30;
-        nowPlayingView.frame = frame;
-        
-        frame = ProgressSlider.frame;
-        frame.origin.y -= 5;
-        ProgressSlider.frame = frame;
-        
-        frame = scrabbingView.frame;
-        frame.origin.y -= 5;
-        scrabbingView.frame = frame;
-        
-        frame = songName.frame;
-        frame.origin.y += 10;
-        songName.frame = frame;
-        
-        frame = artistName.frame;
-        frame.origin.y += 15;
-        artistName.frame = frame;
-    }
 }
 
 - (void)setIpadInterface {
     slideFrom = -PAD_MENU_TABLE_WIDTH;
-    CGRect frame;
-    
-    // fontsizes and offsets for smaller iPads
-    CGFloat albumFontSize  = 24;
-    CGFloat songFontSize   = 20;
-    CGFloat artistFontSize = 18;
-    CGFloat timeFontSize   = 16;
-    CGFloat songOffset     = 10;
-    CGFloat artistOffset   = 15;
-    
-    // fontsizes and offsets for larger iPads
-    if (IS_AT_LEAST_IPAD_1K_WIDTH) {
-        albumFontSize  = 28;
-        songFontSize   = 24;
-        artistFontSize = 22;
-        timeFontSize   = 20;
-        songOffset     = 15;
-        artistOffset   = 25;
-    }
-    
-    [albumName setFont:[UIFont systemFontOfSize:albumFontSize]];
-    [songName setFont:[UIFont systemFontOfSize:songFontSize]];
-    [artistName setFont:[UIFont systemFontOfSize:artistFontSize]];
-    [currentTime setFont:[UIFont systemFontOfSize:timeFontSize]];
-    [duration setFont:[UIFont systemFontOfSize:timeFontSize]];
-    
-    frame = songName.frame;
-    frame.origin.y += songOffset;
-    songName.frame = frame;
-    
-    frame = artistName.frame;
-    frame.origin.y += artistOffset;
-    artistName.frame = frame;
-    
-    frame = playlistTableView.frame;
+    CGRect frame = playlistTableView.frame;
     frame.origin.x = slideFrom;
     playlistTableView.frame = frame;
     
@@ -2858,6 +2811,7 @@ int currentItemID;
     lastSelected = -1;
     storedItemID = -1;
     storeSelection = nil;
+    [self setFontSizes];
     if (IS_IPHONE) {
         [self setIphoneInterface];
     }

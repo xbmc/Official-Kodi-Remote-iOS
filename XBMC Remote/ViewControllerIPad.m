@@ -478,9 +478,6 @@
     
     menuViewController.tableView.separatorInset = UIEdgeInsetsZero;
     
-    [self.view insertSubview:self.nowPlayingController.scrabbingView aboveSubview:rootView];
-    [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
-    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
     if (clearCache) {
@@ -620,13 +617,13 @@
 }
 
 - (void)handleStackScrollOnScreen:(NSNotification*)sender {
-    [self.view insertSubview:self.nowPlayingController.ProgressSlider belowSubview:rootView];
+    [self.view insertSubview:self.nowPlayingController.BottomView belowSubview:rootView];
     [self hideSongInfoView];
 }
 
 - (void)handleStackScrollOffScreen:(NSNotification*)sender {
     stackScrollIsFullscreen = NO;
-    [self.view insertSubview:self.nowPlayingController.ProgressSlider aboveSubview:rootView];
+    [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:rootView];
 }
 
 - (void)handleXBMCServerHasChanged:(NSNotification*)sender {
