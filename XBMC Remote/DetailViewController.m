@@ -5088,7 +5088,7 @@ NSIndexPath *selected;
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
-    [self.navigationController.navigationBar setTintColor:TINT_COLOR];
+    [self.navigationController.navigationBar setTintColor:[UIColor lightGrayColor]];
     [channelListUpdateTimer invalidate];
     channelListUpdateTimer = nil;
 }
@@ -5147,8 +5147,10 @@ NSIndexPath *selected;
     }
     [activeLayoutView setScrollsToTop:YES];
     if (albumColor != nil) {
-        [self.navigationController.navigationBar setTintColor:albumColor];
         [self.navigationController.navigationBar setTintColor:[Utilities lighterColorForColor:albumColor]];
+    }
+    else {
+        [self.navigationController.navigationBar setTintColor:[UIColor lightGrayColor]];
     }
     if (isViewDidLoad) {
         [activeLayoutView addSubview:self.searchController.searchBar];
