@@ -46,7 +46,8 @@
 #define SECTIONS_START_AT 100
 #define MAX_NORMAL_BUTTONS 4
 #define WARNING_TIMEOUT 30.0
-#define COLLECTION_HEADER_HEIGHT 16
+#define GRID_SECTION_HEADER_HEIGHT 24
+#define LIST_SECTION_HEADER_HEIGHT 24
 #define FIXED_SPACE_WIDTH 120
 #define INFO_PADDING 10
 #define MONKEY_COUNT 38
@@ -1236,7 +1237,7 @@
 
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (enableCollectionView && [self.sectionArray count] > 1 && section > 0) {
-        return CGSizeMake(dataList.frame.size.width, COLLECTION_HEADER_HEIGHT);
+        return CGSizeMake(dataList.frame.size.width, GRID_SECTION_HEADER_HEIGHT);
     }
     else {
         return CGSizeZero;
@@ -1267,6 +1268,7 @@
     if (collectionView == nil) {
         flowLayout = [FloatingHeaderFlowLayout new];
         [flowLayout setSearchBarHeight:self.searchController.searchBar.frame.size.height];
+        
         [self setFlowLayoutParams];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
@@ -1520,24 +1522,17 @@
 - (void)initSectionNameOverlayView {
     sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width / 2, self.view.frame.size.width / 6)];
     sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
-    [sectionNameOverlayView setBackgroundColor:[UIColor clearColor]];
+    sectionNameOverlayView.backgroundColor = [Utilities getGrayColor:0 alpha:1.0];
     sectionNameOverlayView.center = [[[[UIApplication sharedApplication] delegate] window] rootViewController].view.center;
     CGFloat cornerRadius = 12;
     sectionNameOverlayView.layer.cornerRadius = cornerRadius;
-    CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = sectionNameOverlayView.bounds;
-    gradient.colors = @[(id)[[Utilities getGrayColor:26 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:0 alpha:0.8] CGColor]];
-    gradient.cornerRadius = cornerRadius;
-    [sectionNameOverlayView.layer insertSublayer:gradient atIndex:0];
     
     int fontSize = 32;
     sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height/2 - (fontSize + 8)/2, sectionNameOverlayView.frame.size.width, (fontSize + 8))];
     [sectionNameLabel setFont:[UIFont boldSystemFontOfSize:fontSize]];
-    [sectionNameLabel setTextColor:[UIColor whiteColor]];
+    [sectionNameLabel setTextColor:[Utilities getGrayColor:255 alpha:1.0]];
     [sectionNameLabel setBackgroundColor:[UIColor clearColor]];
     [sectionNameLabel setTextAlignment:NSTextAlignmentCenter];
-    [sectionNameLabel setShadowColor:[UIColor blackColor]];
-    [sectionNameLabel setShadowOffset:CGSizeMake(0, 1)];
     [sectionNameOverlayView addSubview:sectionNameLabel];
     [self.view addSubview:sectionNameOverlayView];
 }
@@ -1548,9 +1543,9 @@
     }
     CGFloat indexWidth = 40;
     CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth,
-                              CGRectGetMinY(dataList.frame) + dataList.contentInset.top + COLLECTION_HEADER_HEIGHT + 2,
+                              CGRectGetMinY(dataList.frame) + dataList.contentInset.top + GRID_SECTION_HEADER_HEIGHT + 2,
                               indexWidth,
-                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4 -COLLECTION_HEADER_HEIGHT - bottomPadding);
+                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4 - GRID_SECTION_HEADER_HEIGHT - bottomPadding);
     _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
     _indexView.alpha = 1.0;
@@ -1602,14 +1597,14 @@
         if (index != NSNotFound) {
             NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
             [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-            collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT);
+            collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT);
         }
         return;
     }
     else {
         NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
         [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-        collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT + 4);
+        collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT + 4);
     }
 }
 
@@ -2728,69 +2723,26 @@ int originYear = 0;
     NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
     if (sectionTitle == nil) {
         UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
-        [sectionView setBackgroundColor:[Utilities getGrayColor:102 alpha:1]];
-        CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
-        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
-        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        toolbarShadow.contentMode = UIViewContentModeScaleToFill;
-        toolbarShadow.opaque = YES;
-        toolbarShadow.alpha = 0.3;
-        [sectionView addSubview:toolbarShadow];
+        [sectionView setBackgroundColor:[Utilities getSystemGray5]];
         return sectionView;
     }
+    
+    // Draw gray bar as section header background
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, sectionHeight)];
+    [sectionView setBackgroundColor:[Utilities getSystemGray5]];
     
-    CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = sectionView.bounds;
-    
-    // TEST
-    gradient.colors = @[(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor]];
-//    gradient.colors = @[(id)[[Utilities getGrayColor:26 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:77 alpha:0.8] CGColor]];
-    //END TEST
-
-    [sectionView.layer insertSublayer:gradient atIndex:0];
-    
-    //TEST
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -1, viewWidth, 1)];
-    [lineView setBackgroundColor:[Utilities getGrayColor:146 alpha:1]];
-    [sectionView addSubview:lineView];
-//    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -2, viewWidth, 1)];
-//    [lineView setBackgroundColor:[Utilities getGrayColor:26 alpha:1]];
-//    [sectionView addSubview:lineView];
-    //END TEST
-
-    CGRect toolbarShadowFrame = CGRectMake(0, sectionHeight - 1, viewWidth, 4);
-    UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-    [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
-    toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    toolbarShadow.contentMode = UIViewContentModeScaleToFill;
-    toolbarShadow.opaque = YES;
-    toolbarShadow.alpha = 0.3;
-    [sectionView addSubview:toolbarShadow];
-    
-    if (section > 1) {
-        CGRect toolbarShadowUpFrame = CGRectMake(0, -3, viewWidth, 2);
-        UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowUpFrame];
-        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown"]];
-        toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
-        toolbarUpShadow.opaque = YES;
-        toolbarUpShadow.alpha = 0.3;
-        [sectionView addSubview:toolbarUpShadow];
-    }
-    
-    int labelFontSize = sectionHeight > 16 ? sectionHeight - 10 : sectionHeight - 5;
-    int labelOriginY = sectionHeight > 16 ? 2 : 1;
-    CGFloat shadowOffset = 1.0/[[UIScreen mainScreen] scale];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, labelOriginY, viewWidth - 20, sectionHeight)];
+    // Draw text into section header
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, viewWidth - 20, sectionHeight)];
     label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor whiteColor];
-    [label setShadowColor:[Utilities getGrayColor:0 alpha:0.4]];
-    [label setShadowOffset:CGSizeMake(0, shadowOffset)];
-    label.font = [UIFont boldSystemFontOfSize: labelFontSize];
+    label.textColor = [Utilities get2ndLabelColor];
+    label.font = [UIFont boldSystemFontOfSize:sectionHeight - 10];
     label.text = sectionTitle;
-    [label sizeToFit];
+    label.autoresizingMask = UIViewAutoresizingFlexibleHeight |
+                             UIViewAutoresizingFlexibleWidth |
+                             UIViewAutoresizingFlexibleLeftMargin |
+                             UIViewAutoresizingFlexibleRightMargin |
+                             UIViewAutoresizingFlexibleTopMargin |
+                             UIViewAutoresizingFlexibleBottomMargin;
     [sectionView addSubview:label];
     
     return sectionView;
@@ -5472,7 +5424,7 @@ NSIndexPath *selected;
     hiddenLabel = [hidden_label_preferenceString boolValue];
     [noItemsLabel setText:LOCALIZED_STR(@"No items found.")];
     isViewDidLoad = YES;
-    sectionHeight = 16;
+    sectionHeight = LIST_SECTION_HEADER_HEIGHT;
     dataList.tableFooterView = [UIView new];
     epglockqueue = dispatch_queue_create("com.epg.arrayupdate", DISPATCH_QUEUE_SERIAL);
     epgDict = [NSMutableDictionary new];
@@ -5567,7 +5519,6 @@ NSIndexPath *selected;
     }
     else if ([methods[@"channelGuideView"] boolValue]) {
         channelGuideView = YES;
-        sectionHeight = 24;
     }
     else if ([methods[@"channelListView"] boolValue]) {
         channelListView = YES;
