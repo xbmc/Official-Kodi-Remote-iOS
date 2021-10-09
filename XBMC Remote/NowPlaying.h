@@ -98,7 +98,6 @@
     UIView *iOS7navBarEffect;
     UIColor *foundEffectColor;
     UISegmentedControl *playlistSegmentedControl;
-    UIColor *cellBackgroundColor;
     __weak IBOutlet UILabel *noItemsLabel;
     UIImageView *tempFanartImageView;
     NSString *storeLiveTVTitle;

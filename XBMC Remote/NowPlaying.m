@@ -2107,9 +2107,7 @@ int currentItemID;
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-//	cell.backgroundColor = [Utilities getGrayColor:217 alpha:1];
     cell.backgroundColor = [Utilities getSystemGray6];
-
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -2803,7 +2801,6 @@ int currentItemID;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [noItemsLabel setText:LOCALIZED_STR(@"No items found.")];
     [self addSegmentControl];
-    cellBackgroundColor = [UIColor whiteColor];
     bottomPadding = [Utilities getBottomPadding];
     [self setIOS7toolbar];
 
