@@ -1990,7 +1990,6 @@ NSMutableArray *hostRightMenuItems;
         @"st_movie_genre",
         @"st_movie_set",
         @"st_movie_recently",
-        @"st_music_videos",
         @"st_filemode",
         @"st_addons",
         @"st_playlists"];
@@ -2002,7 +2001,6 @@ NSMutableArray *hostRightMenuItems;
             @[@"VideoLibrary.GetMovieSets", @"method"],
             @[@"VideoLibrary.GetRecentlyAddedMovies", @"method",
               @"VideoLibrary.GetMovieDetails", @"extra_info_method"],
-            @[@"VideoLibrary.GetMusicVideos", @"method"],
             @[@"Files.GetSources", @"method"],
             @[@"Files.GetDirectory", @"method"],
             @[@"Files.GetDirectory", @"method"]
@@ -2142,45 +2140,6 @@ NSMutableArray *hostRightMenuItems;
             @"YES", @"enableLibraryFullScreen",
             [self itemSizes_MovieRecentlyfullscreen], @"itemSizes"
         ],
-              
-        @[
-            @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
-                @"properties": @[
-                        @"artist",
-                        @"year",
-                        @"playcount",
-                        @"thumbnail",
-                        @"genre",
-                        @"runtime",
-                        @"studio",
-                        @"director",
-                        @"plot",
-                        @"file",
-                        @"fanart",
-                        @"resume"]
-            }, @"parameters",
-            @{
-                @"label": @[
-                        LOCALIZED_STR(@"Title"),
-                        LOCALIZED_STR(@"Artist"),
-                        LOCALIZED_STR(@"Genre"),
-                        LOCALIZED_STR(@"Year"),
-                        LOCALIZED_STR(@"Play count")],
-                @"method": @[
-                            @"label",
-                            @"artist",
-                            @"genre",
-                            @"year",
-                            @"playcount"]
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Music Videos"), @"label",
-            LOCALIZED_STR(@"Music Videos"), @"morelabel",
-            @"YES", @"enableCollectionView",
-            @"YES", @"enableLibraryCache",
-            @"YES", @"enableLibraryFullScreen",
-            [self itemSizes_Moviefullscreen], @"itemSizes"
-        ],
 
         @[
             @{
@@ -2308,27 +2267,6 @@ NSMutableArray *hostRightMenuItems;
         },
                       
         @{
-            @"itemid": @"musicvideos",
-            @"row1": @"label",
-            @"row2": @"genre",
-            @"row3": @"year",
-            @"row4": @"runtime",
-            @"row5": @"rating",
-            @"row6": @"musicvideoid",
-            @"playlistid": @1,
-            @"row8": @"musicvideoid",
-            @"row9": @"musicvideoid",
-            @"row10": @"director",
-            @"row11": @"artist",
-            @"row12": @"plot",
-            @"row13": @"playcount",
-            @"row14": @"resume",
-            @"row15": @"votes",
-            @"row16": @"artist",
-            @"row7": @"file"
-        },
-                      
-        @{
             @"itemid": @"sources",
             @"row1": @"label",
             @"row2": @"year",
@@ -2379,7 +2317,6 @@ NSMutableArray *hostRightMenuItems;
         @[],
         [self action_queue_to_play],
         [self action_queue_to_moviedetails], //, LOCALIZED_STR(@"Open with VLC"),
-        [self action_queue_to_musicvideodetails], //, LOCALIZED_STR(@"Open with VLC")
         @[],
         @[],
         [self action_queue_to_showcontent]
@@ -2393,13 +2330,11 @@ NSMutableArray *hostRightMenuItems;
         @YES,
         @YES,
         @YES,
-        @YES,
         @NO];
     
     menu_Movies.watchModes = @[
         [self modes_icons_watched],
         [self modes_icons_empty],
-        [self modes_icons_watched],
         [self modes_icons_watched],
         [self modes_icons_watched],
         [self modes_icons_empty],
@@ -2413,7 +2348,6 @@ NSMutableArray *hostRightMenuItems;
           @"VideoLibrary.GetMovieDetails", @"extra_info_method"],
         @[@"VideoLibrary.GetMovies", @"method",
           @"VideoLibrary.GetMovieDetails", @"extra_info_method"],
-        @[],
         @[],
         @[@"Files.GetDirectory", @"method"],
         @[@"Files.GetDirectory", @"method"],
@@ -2540,7 +2474,6 @@ NSMutableArray *hostRightMenuItems;
         ],
                                   
         @[],
-        @[],
                                   
         @[
             @{
@@ -2655,7 +2588,6 @@ NSMutableArray *hostRightMenuItems;
         },
                               
         @{},
-        @{},
                               
         @{
             @"itemid": @"files",
@@ -2723,7 +2655,6 @@ NSMutableArray *hostRightMenuItems;
         [self action_queue_to_moviedetails], //, LOCALIZED_STR(@"Open with VLC")
         [self action_queue_to_moviedetails], //, LOCALIZED_STR(@"Open with VLC")
         @[],
-        @[],
         [self action_queue_to_play], //, LOCALIZED_STR(@"Open with VLC")
         [self action_queue_to_play],
         [self action_queue_to_moviedetails]
@@ -2736,14 +2667,12 @@ NSMutableArray *hostRightMenuItems;
         @NO,
         @NO,
         @NO,
-        @NO,
         @YES];
     
     menu_Movies.subItem.watchModes = @[
         [self modes_icons_empty],
         [self modes_icons_watched],
         [self modes_icons_watched],
-        [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
@@ -2758,14 +2687,12 @@ NSMutableArray *hostRightMenuItems;
         @[],
         @[],
         @[],
-        @[],
         @[@"Files.GetDirectory", @"method"],
         @[@"Files.GetDirectory", @"method"],
         @[]
     ] mutableCopy];
     
     menu_Movies.subItem.subItem.mainParameters = [@[
-        @[],
         @[],
         @[],
         @[],
@@ -2783,7 +2710,6 @@ NSMutableArray *hostRightMenuItems;
         @{},
         @{},
         @{},
-        @{},
         @{}
     ];
     
@@ -2792,7 +2718,6 @@ NSMutableArray *hostRightMenuItems;
     menu_Movies.subItem.subItem.thumbWidth = 53;
     menu_Movies.subItem.subItem.defaultThumb = @"nocover_filemode";
     menu_Movies.subItem.subItem.sheetActions = @[
-        @[],
         @[],
         @[],
         @[],
