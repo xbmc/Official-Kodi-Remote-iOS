@@ -3188,16 +3188,17 @@ NSMutableArray *hostRightMenuItems;
         @"st_tv",
         @"st_tv_recently",
         @"st_filemode",
-        @"st_addons"];//@"st_movie_genre",
+        @"st_addons",
+        @"st_playlists"];
     
     menu_TVShows.mainMethod = [@[
         @[@"VideoLibrary.GetTVShows", @"method",
           @"VideoLibrary.GetTVShowDetails", @"extra_info_method",
           @"YES", @"tvshowsView"],
-        //@[@"VideoLibrary.GetGenres", @"method"],
         @[@"VideoLibrary.GetRecentlyAddedEpisodes", @"method",
           @"VideoLibrary.GetEpisodeDetails", @"extra_info_method"],
         @[@"Files.GetSources", @"method"],
+        @[@"Files.GetDirectory", @"method"],
         @[@"Files.GetDirectory", @"method"]
     ] mutableCopy];
     
@@ -3311,6 +3312,26 @@ NSMutableArray *hostRightMenuItems;
             @"YES", @"enableCollectionView",
             [self itemSizes_Music_insets:filemodeThumbWidth], @"itemSizes"
         ],
+        
+        @[
+            @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": @"video",
+                @"directory": @"special://videoplaylists",
+                @"properties": @[
+                        @"thumbnail",
+                        @"file"],
+                @"file_properties": @[
+                        @"thumbnail",
+                        @"file"]
+            }, @"parameters",
+            LOCALIZED_STR(@"Video Playlists"), @"label",
+            LOCALIZED_STR(@"Video Playlists"), @"morelabel",
+            @"nocover_filemode", @"defaultThumb",
+            filemodeRowHeight, @"rowHeight",
+            filemodeThumbWidth, @"thumbWidth",
+            @"YES", @"isVideoPlaylist"
+        ]
     ] mutableCopy];
 
     menu_TVShows.mainFields = @[
@@ -3335,19 +3356,7 @@ NSMutableArray *hostRightMenuItems;
             @"row16": @"studio",
             @"itemid_extra_info": @"tvshowdetails"
         },
-/*
-        @{
-            @"itemid": @"genres",
-            @"row1": @"label",
-            @"row2": @"label",
-            @"row3": @"disable",
-            @"row4": @"disable",
-            @"row5": @"disable",
-            @"row6": @"genre",
-            @"playlistid": @1,
-            @"row8": @"genreid",
-        },
-*/
+
         @{
             @"itemid": @"episodes",
             @"row1": @"label",
@@ -3398,6 +3407,22 @@ NSMutableArray *hostRightMenuItems;
             @"playlistid": @1,
             @"row8": @"file",
             @"row9": @"file"
+        },
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"artist",
+            @"row3": @"year",
+            @"row4": @"duration",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"playlistid": @1,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type"
+           //@"row11": @"filetype",
         }
     ];
     
@@ -3407,23 +3432,23 @@ NSMutableArray *hostRightMenuItems;
     menu_TVShows.originLabel = 60;
     menu_TVShows.sheetActions = @[
         @[LOCALIZED_STR(@"TV Show Details")],
-        //@[],
         [self action_queue_to_episodedetails],
         @[],
-        @[]
+        @[],
+        [self action_queue_to_showcontent]
     ];
     
     menu_TVShows.showInfo = @[
         @NO,
-        //@NO,
         @YES,
+        @NO,
         @NO,
         @NO];
     
     menu_TVShows.watchModes = @[
         [self modes_icons_watched],
-        //[self modes_icons_empty]
         [self modes_icons_watched],
+        [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty]
     ];
@@ -3433,11 +3458,10 @@ NSMutableArray *hostRightMenuItems;
           @"VideoLibrary.GetEpisodeDetails", @"extra_info_method",
           @"YES", @"episodesView",
           @"VideoLibrary.GetSeasons", @"extra_section_method"],
-        //@[@"VideoLibrary.GetTVShows", @"method",
-        //  @"VideoLibrary.GetTVShowDetails", @"extra_info_method"],
         @[],
         @[@"Files.GetDirectory", @"method"],
-        @[@"Files.GetDirectory", @"method"]
+        @[@"Files.GetDirectory", @"method"],
+        @[]
     ] mutableCopy];
     
     menu_TVShows.subItem.mainParameters = [@[
@@ -3489,41 +3513,7 @@ NSMutableArray *hostRightMenuItems;
             @"YES", @"disableFilterParameter",
             @"YES", @"FrodoExtraArt"
         ],
-/*
-        @[
-            @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
-                @"properties": @[
-                        @"year",
-                        @"playcount",
-                        @"rating",
-                        @"thumbnail",
-                        @"genre",
-                        @"studio"]
-            }, @"parameters",
-            @{
-                @"properties": @[
-                         @"year",
-                         @"playcount",
-                         @"rating",
-                         @"thumbnail",
-                         @"genre",
-                         @"studio",
-                         @"plot",
-                         @"mpaa",
-                         @"votes",
-                         @"cast",
-                         @"premiered",
-                         @"episode",
-                         @"fanart"]
-            }, @"extra_info_parameters",
-            LOCALIZED_STR(@"TV Shows"), @"label",
-            @tvshowHeight, @"rowHeight",
-            @thumbWidth, @"thumbWidth",
-            @"YES", @"blackTableSeparator",
-            @"YES", @"FrodoExtraArt"
-        ],
-*/
+
         @[],
                                     
         @[
@@ -3549,6 +3539,39 @@ NSMutableArray *hostRightMenuItems;
             filemodeThumbWidth, @"thumbWidth",
             @"YES", @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes"
+        ],
+        
+        @[
+            @{
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
+                @"file_properties": @[
+                        @"year",
+                        @"playcount",
+                        @"rating",
+                        @"thumbnail",
+                        @"genre",
+                        @"runtime",
+                        @"trailer",
+                        @"file",
+                        @"dateadded",
+                        @"uniqueid",
+                        @"studio",
+                        @"director",
+                        @"plot",
+                        @"mpaa",
+                        @"votes",
+                        @"cast",
+                        @"fanart",
+                        @"resume"],
+                @"media": @"video"
+            }, @"parameters",
+            LOCALIZED_STR(@"Files"), @"label",
+            @"nocover_filemode", @"defaultThumb",
+            @"76", @"rowHeight",
+            @"53", @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            @"YES", @"FrodoExtraArt",
+            [self itemSizes_Movie], @"itemSizes"
         ]
     ] mutableCopy];
     
@@ -3579,29 +3602,7 @@ NSMutableArray *hostRightMenuItems;
             @"itemid_extra_info": @"episodedetails",
             @"itemid_extra_section": @"seasons"
         },
-/*
-        @{
-            @"itemid": @"tvshows",
-            @"row1": @"label",
-            @"row2": @"genre",
-            @"row3": @"blank",
-            @"row4": @"studio",
-            @"row5": @"rating",
-            @"row6": @"tvshowid",
-            @"playlistid": @1,
-            @"row8": @"tvshowid",
-            @"row9": @"playcount",
-            @"row10": @"mpaa",
-            @"row11": @"votes",
-            @"row12": @"cast",
-            @"row13": @"premiered",
-            @"row14": @"episode",
-            @"row7": @"fanart",
-            @"row15": @"plot",
-            @"row16": @"studio",
-            @"itemid_extra_info": @"tvshowdetails"
-        },
-*/
+
         @[],
                                 
         @{
@@ -3633,6 +3634,31 @@ NSMutableArray *hostRightMenuItems;
             @"row9": @"file",
             @"row10": @"filetype",
             @"row11": @"type"
+        },
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"genre",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"file",
+            @"playlistid": @1,
+            @"row8": @"uniqueid",
+            @"row9": @"file",
+            @"row10": @"playcount",
+            @"row11": @"trailer",
+            @"row12": @"plot",
+            @"row13": @"mpaa",
+            @"row14": @"votes",
+            @"row15": @"studio",
+            @"row16": @"cast",
+            @"row7": @"file",
+            @"row17": @"director",
+            @"row18": @"resume",
+            @"row19": @"dateadded"
+            //@"itemid_extra_info": @"moviedetails",
         }
     ];
     
@@ -3642,17 +3668,17 @@ NSMutableArray *hostRightMenuItems;
     menu_TVShows.subItem.defaultThumb = @"nocover_tvshows_episode";
     menu_TVShows.subItem.sheetActions = @[
         [self action_queue_to_episodedetails], //, LOCALIZED_STR(@"Open with VLC")
-        //@[@"TV Show Details"],
         @[],
         [self action_queue_to_play], //, LOCALIZED_STR(@"Open with VLC")
-        [self action_queue_to_play] //, @"Stream to iPhone"
+        [self action_queue_to_play], //, @"Stream to iPhone"
+        [self action_queue_to_moviedetails]
     ];
     
     menu_TVShows.subItem.originYearDuration = 248;
     menu_TVShows.subItem.widthLabel = 208;
     menu_TVShows.subItem.showRuntime = @[
         @NO,
-        //@NO,
+        @NO,
         @NO,
         @NO,
         @NO];
@@ -3660,31 +3686,31 @@ NSMutableArray *hostRightMenuItems;
     menu_TVShows.subItem.noConvertTime = YES;
     menu_TVShows.subItem.showInfo = @[
         @YES,
-        //@NO,
+        @YES,
         @YES,
         @YES,
         @YES];
     
     menu_TVShows.subItem.subItem.mainMethod = [@[
         @[],
-        //@[],
         @[],
         @[@"Files.GetDirectory", @"method"],
-        @[@"Files.GetDirectory", @"method"]
+        @[@"Files.GetDirectory", @"method"],
+        @[]
     ] mutableCopy];
                                         
     menu_TVShows.subItem.subItem.mainParameters = [@[
         @[],
-        //@[],
         @[],
         @[],
         @[filemodeRowHeight, @"rowHeight",
-          filemodeThumbWidth, @"thumbWidth"]
+          filemodeThumbWidth, @"thumbWidth"],
+        @[]
     ] mutableCopy];
     
     menu_TVShows.subItem.subItem.mainFields = @[
         @[],
-        //@[],
+        @[],
         @[],
         @[],
         @[]
@@ -3696,7 +3722,6 @@ NSMutableArray *hostRightMenuItems;
     menu_TVShows.subItem.subItem.defaultThumb = @"nocover_tvshows_episode";
     menu_TVShows.subItem.subItem.sheetActions = @[
         @[],
-        //@[],
         @[],
         [self action_queue_to_play],
         [self action_queue_to_play]
