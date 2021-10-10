@@ -1014,6 +1014,9 @@
                                        [NSString stringWithFormat:@"%@", parameters[@"defaultThumb"]], @"defaultThumb",
                                        parameters[@"watchedListenedStrings"], @"watchedListenedStrings",
                                        nil];
+        if (parameters[@"available_sort_methods"] != nil) {
+            [newParameters addObjectsFromArray:@[parameters[@"available_sort_methods"], @"available_sort_methods"]];
+        }
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab = choosedTab;
         MenuItem.subItem.currentWatchMode = watchMode;
