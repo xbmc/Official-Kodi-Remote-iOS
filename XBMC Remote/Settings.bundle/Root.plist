@@ -274,6 +274,16 @@
 			<key>DefaultValue</key>
 			<true/>
 			<key>Key</key>
+			<string>menu_videos</string>
+			<key>Title</key>
+			<string>Show VIDEOS</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<true/>
+			<key>Key</key>
 			<string>menu_tvshows</string>
 			<key>Title</key>
 			<string>Show TV SHOWS</string>
