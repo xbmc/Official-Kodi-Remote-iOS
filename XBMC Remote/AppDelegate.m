@@ -2723,6 +2723,7 @@ NSMutableArray *hostRightMenuItems;
         @[],
         @[],
         [self action_queue_to_play],
+        [self action_queue_to_play],
         [self action_queue_to_play]
     ];
     
@@ -3173,6 +3174,7 @@ NSMutableArray *hostRightMenuItems;
         @[],
         @[],
         @[],
+        [self action_queue_to_play],
         [self action_queue_to_play]
     ];
     
@@ -3723,6 +3725,7 @@ NSMutableArray *hostRightMenuItems;
     menu_TVShows.subItem.subItem.sheetActions = @[
         @[],
         @[],
+        [self action_queue_to_play],
         [self action_queue_to_play],
         [self action_queue_to_play]
     ];
