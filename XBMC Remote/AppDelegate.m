@@ -569,7 +569,6 @@ NSMutableArray *hostRightMenuItems;
                         @"playcount"]
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Albums"), @"label",
-            @"Album", @"wikitype",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
             @"YES", @"enableLibraryFullScreen",
@@ -604,7 +603,6 @@ NSMutableArray *hostRightMenuItems;
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Artists"), @"label",
             @"nocover_artist", @"defaultThumb",
-            @"Artist", @"wikitype",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
             @"YES", @"enableLibraryFullScreen",
@@ -656,7 +654,6 @@ NSMutableArray *hostRightMenuItems;
                     }
             }, @"extra_info_parameters",
            LOCALIZED_STR(@"Added Albums"), @"label",
-           @"Album", @"wikitype",
            LOCALIZED_STR(@"Recently added albums"), @"morelabel",
            @"YES", @"enableCollectionView",
            [self itemSizes_Music], @"itemSizes"
@@ -720,7 +717,6 @@ NSMutableArray *hostRightMenuItems;
                     }
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Top 100 Albums"), @"label",
-            @"Album", @"wikitype",
             LOCALIZED_STR(@"Top 100 Albums"), @"morelabel",
             @"YES", @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes"
@@ -778,7 +774,6 @@ NSMutableArray *hostRightMenuItems;
                         @"artist"]
             }, @"parameters",
             LOCALIZED_STR(@"Played albums"), @"label",
-            @"Album", @"wikitype",
             LOCALIZED_STR(@"Recently played albums"), @"morelabel",
             @"YES", @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes"
@@ -1256,7 +1251,6 @@ NSMutableArray *hostRightMenuItems;
                     }
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Albums"), @"label",
-            @"Album", @"wikitype",
             @"YES", @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes"
         ],
@@ -1296,7 +1290,6 @@ NSMutableArray *hostRightMenuItems;
                         @"playcount"]
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Albums"), @"label",
-            @"Album", @"wikitype",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
             [self watchedListenedString], @"watchedListenedStrings",
@@ -1434,7 +1427,6 @@ NSMutableArray *hostRightMenuItems;
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Artists"), @"label",
             @"nocover_artist", @"defaultThumb",
-            @"Artist", @"wikitype",
             @"YES", @"enableCollectionView",
             [self itemSizes_Musicfullscreen], @"itemSizes"
         ]
@@ -1753,7 +1745,6 @@ NSMutableArray *hostRightMenuItems;
                     }
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Albums"), @"label",
-            @"Album", @"wikitype",
             @"YES", @"enableCollectionView",
             @"roleid", @"combinedFilter",
             [self itemSizes_Music], @"itemSizes"
@@ -2064,7 +2055,6 @@ NSMutableArray *hostRightMenuItems;
                         @"playcount"]
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Movies"), @"label",
-            @"Movie", @"wikitype",
             @"YES", @"FrodoExtraArt",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
@@ -2123,7 +2113,6 @@ NSMutableArray *hostRightMenuItems;
                         @"file"]
             }, @"parameters",
             LOCALIZED_STR(@"Added Movies"), @"label",
-            @"Movie", @"wikitype",
             @{
                 @"properties": @[
                         @"year",
@@ -2183,7 +2172,6 @@ NSMutableArray *hostRightMenuItems;
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Music Videos"), @"label",
             LOCALIZED_STR(@"Music Videos"), @"morelabel",
-            @"Movie", @"wikitype",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
             @"YES", @"enableLibraryFullScreen",
@@ -2484,7 +2472,6 @@ NSMutableArray *hostRightMenuItems;
                         @"playcount"]
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Movies"), @"label",
-            @"Movie", @"wikitype",
             @"nocover_movies", @"defaultThumb",
             @"YES", @"FrodoExtraArt",
             @"YES", @"enableCollectionView",
@@ -2542,7 +2529,6 @@ NSMutableArray *hostRightMenuItems;
                         @"playcount"]
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Movies"), @"label",
-            @"Movie", @"wikitype",
             @"nocover_movies", @"defaultThumb",
             @"YES", @"FrodoExtraArt",
             @"YES", @"enableCollectionView",
@@ -2875,7 +2861,6 @@ NSMutableArray *hostRightMenuItems;
                         @"rating"]
             }, @"available_sort_methods",
             LOCALIZED_STR(@"TV Shows"), @"label",
-            @"TV Show", @"wikitype",
             @"YES", @"blackTableSeparator",
             @"YES", @"FrodoExtraArt",
             @"YES", @"enableLibraryCache",
@@ -3154,7 +3139,6 @@ NSMutableArray *hostRightMenuItems;
                          @"fanart"]
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"TV Shows"), @"label",
-            @"TV Show", @"wikitype",
             @tvshowHeight, @"rowHeight",
             @thumbWidth, @"thumbWidth",
             @"YES", @"blackTableSeparator",
