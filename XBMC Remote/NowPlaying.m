@@ -673,7 +673,7 @@ int currentItemID;
                                  }
                                  NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:nowPlayingInfo useBanner:NO useIcon:NO];
                                  NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                                 if (![lastThumbnail isEqualToString:stringURL]) {
+                                 if (![lastThumbnail isEqualToString:stringURL] || [lastThumbnail isEqualToString:@""]) {
                                      if (IS_IPAD) {
                                          NSString *fanart = (NSNull*)nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
                                          if (![fanart isEqualToString:@""]) {
