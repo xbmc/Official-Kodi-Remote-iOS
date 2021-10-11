@@ -3928,6 +3928,7 @@ NSIndexPath *selected;
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
             [self showNowPlaying];
+            [Utilities checkForReviewRequest];
         }
 //        else {
 //            NSLog(@"terzo errore %@", methodError);

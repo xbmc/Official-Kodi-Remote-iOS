@@ -88,5 +88,6 @@ typedef enum {
 + (BOOL)hasRemoteToolBar;
 + (CGFloat)getBottomPadding;
 + (void)sendXbmcHttp:(NSString*)command;
++ (void)checkForReviewRequest;
 
 @end
