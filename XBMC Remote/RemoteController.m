@@ -186,9 +186,7 @@
 }
 
 - (void)configureView {
-    if (self.detailItem) {
-        self.navigationItem.title = [self.detailItem mainLabel]; 
-    }
+    self.navigationItem.title = LOCALIZED_STR(@"Remote Control");
     CGFloat toolbarPadding = TOOLBAR_HEIGHT;
     if (![Utilities hasRemoteToolBar]) {
         toolbarPadding = 0;

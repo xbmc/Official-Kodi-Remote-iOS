@@ -3463,18 +3463,9 @@ NSIndexPath *selected;
         topNavigationLabel.opaque = YES;
         topNavigationLabel.text = [self.detailItem mainLabel];
         self.navigationItem.title = [self.detailItem mainLabel];
+        
+        // Set up gestures
         if (![self.detailItem disableNowPlaying]) {
-            UIBarButtonItem *nowPlayingButtonItem = [[UIBarButtonItem alloc] initWithTitle:LOCALIZED_STR(@"Now Playing") style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
-            [nowPlayingButtonItem setTitleTextAttributes:
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              [UIFont systemFontOfSize:12], NSFontAttributeName,
-              nil] forState:UIControlStateNormal];
-            [nowPlayingButtonItem setTitleTextAttributes:
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              [UIFont systemFontOfSize:12], NSFontAttributeName,
-              nil] forState:UIControlStateHighlighted];
-            self.navigationItem.rightBarButtonItem = nowPlayingButtonItem;
-            
             UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
             leftSwipe.numberOfTouchesRequired = 1;
             leftSwipe.cancelsTouchesInView = NO;
@@ -3486,6 +3477,19 @@ NSIndexPath *selected;
         rightSwipe.cancelsTouchesInView = NO;
         rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightSwipe];
+        
+        // Set up navigation bar items on upper right
+        UIImage *remoteButtonImage = [UIImage imageNamed:@"icon_menu_remote"];
+        UIBarButtonItem *remoteButton = [[UIBarButtonItem alloc] initWithImage:remoteButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showRemote)];
+        UIImage *nowPlayingButtonImage = [UIImage imageNamed:@"icon_menu_playing"];
+        UIBarButtonItem *nowPlayingButton = [[UIBarButtonItem alloc] initWithImage:nowPlayingButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
+         if (![self.detailItem disableNowPlaying]) {
+             self.navigationItem.rightBarButtonItems = @[remoteButton,
+                                                         nowPlayingButton];
+         }
+         else {
+             self.navigationItem.rightBarButtonItems = @[remoteButton];
+         }
    }
 }
 
@@ -3620,6 +3624,11 @@ NSIndexPath *selected;
     NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
     nowPlaying.detailItem = self.detailItem;
     [self.navigationController pushViewController:nowPlaying animated:YES];
+}
+
+- (void)showRemote {
+    RemoteController *remote = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+    [self.navigationController pushViewController:remote animated:YES];
 }
 
 # pragma mark - Playback Management
