@@ -557,8 +557,6 @@
         [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
         [dataList endUpdates];
         if (section > 0) {
-            //            NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:NSNotFound inSection:section];
-            //            [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionBottom animated:YES];
             CGRect sectionRect = [dataList rectForSection:section - 1];
             [dataList scrollRectToVisible:sectionRect animated:YES];
         }
@@ -2583,7 +2581,6 @@ int originYear = 0;
             button.frame = CGRectMake(3, (int)(albumViewHeight / 2) - 6, 11, 11);
             [button setImage:[UIImage imageNamed:@"arrow_close"] forState:UIControlStateNormal];
             [button setImage:[UIImage imageNamed:@"arrow_open"] forState:UIControlStateSelected];
-//            [button addTarget:self action:@selector(toggleOpen:) forControlEvents:UIControlEventTouchUpInside];
             if ([self.sectionArrayOpen[section] boolValue]) {
                 [button setSelected:YES];
             }
