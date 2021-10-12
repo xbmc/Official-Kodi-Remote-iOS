@@ -550,13 +550,9 @@
         [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
         [dataList endUpdates];
         [toggleButton setSelected:YES];
-        NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:0 inSection:section];
-        [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
     else {
         [toggleButton setSelected:NO];
-        NSIndexPath *indexPathToScroll = [NSIndexPath indexPathForRow:0 inSection:section];
-        [dataList scrollToRowAtIndexPath:indexPathToScroll atScrollPosition:UITableViewScrollPositionTop animated:NO];
         [dataList beginUpdates];
         [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
         [dataList endUpdates];
