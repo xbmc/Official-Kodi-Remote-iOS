@@ -3455,6 +3455,7 @@ NSMutableArray *hostRightMenuItems;
             channelEPGRowHeight, @"rowHeight",
             @"48", @"thumbWidth",
             @"YES", @"enableCollectionView",
+            @"YES", @"enableLibraryCache",
             [self itemSizes_Music_insets:@"60"], @"itemSizes"
         ],
                           
@@ -3883,7 +3884,7 @@ NSMutableArray *hostRightMenuItems;
                         @"resume",
                         @"channel",
                         @"runtime",
-                        @"lifetime",
+                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
                         @"icon",
                         @"art",
                         @"streamurl",
@@ -3903,7 +3904,7 @@ NSMutableArray *hostRightMenuItems;
                         @"resume",
                         @"channel",
                         @"runtime",
-                        @"lifetime",
+                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
                         @"icon",
                         @"art",
                         @"streamurl",
@@ -3928,6 +3929,7 @@ NSMutableArray *hostRightMenuItems;
             channelEPGRowHeight, @"rowHeight",
             @"48", @"thumbWidth",
             @"YES", @"enableCollectionView",
+            @"YES", @"enableLibraryCache",
             [self itemSizes_Music_insets:@"60"], @"itemSizes"
         ],
                           
@@ -3942,7 +3944,7 @@ NSMutableArray *hostRightMenuItems;
                         @"starttime",
                         @"endtime",
                         @"runtime",
-                        @"lifetime",
+                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
                         @"firstday",
                         @"weekdays",
                         @"priority",
@@ -3961,7 +3963,7 @@ NSMutableArray *hostRightMenuItems;
                         @"starttime",
                         @"endtime",
                         @"runtime",
-                        @"lifetime",
+                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
                         @"firstday",
                         @"weekdays",
                         @"priority",
