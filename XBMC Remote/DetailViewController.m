@@ -4383,7 +4383,8 @@ NSIndexPath *selected;
             [mutableParameters removeObjectForKey:@"sort"];
         }
         else if ([mutableParameters[@"channelgroupid"] intValue] == -1) {
-            [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
+            [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+            [activityIndicatorView stopAnimating];
             return;
         }
     }
@@ -4413,7 +4414,8 @@ NSIndexPath *selected;
          // shown via debug message.
          if (error == nil && methodError != nil && [methodToCall containsString:@"PVR."]) {
              if (methodError.code == -32100) {
-                 [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
+                 [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+                 [activityIndicatorView stopAnimating];
                  return;
              }
          }
