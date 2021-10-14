@@ -4576,7 +4576,13 @@ NSIndexPath *selected;
                          [activeLayoutView setUserInteractionEnabled:YES];
                          [self saveData:mutableParameters];
                      }
-                     [self changeViewMode:watchMode forceRefresh:forceRefresh];
+                     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+                     if ([parameters[@"label"] isEqualToString:@"Albums"]) {
+                         [self indexAndDisplayData];
+                     }
+                     else {
+                         [self changeViewMode:watchMode forceRefresh:forceRefresh];
+                     }
                  }
                  else {
                      if (forceRefresh) {
