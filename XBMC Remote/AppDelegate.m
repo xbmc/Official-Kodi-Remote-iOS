@@ -315,8 +315,8 @@ NSMutableArray *hostRightMenuItems;
                 @(ViewModeWatched)],
         @"icons": @[
                 @"",
-                @"icon_not_watched",
-                @"icon_watched"]
+                @"st_unchecked",
+                @"st_checked"]
     };
 }
 
@@ -328,8 +328,8 @@ NSMutableArray *hostRightMenuItems;
                 @(ViewModeListened)],
         @"icons": @[
                 @"",
-                @"icon_not_listened",
-                @"icon_listened"]
+                @"st_unchecked",
+                @"st_checked"]
     };
 }
 
@@ -341,8 +341,8 @@ NSMutableArray *hostRightMenuItems;
                 @(ViewModeSongArtists)],
         @"icons": @[
                 @"",
-                @"st_album",
-                @"st_songs"]
+                @"st_album_small",
+                @"st_songs_small"]
     };
 }
 
