@@ -39,8 +39,8 @@ typedef enum {
 @property BOOL disableNowPlaying;
 @property (nonatomic, copy) NSArray *showRuntime;
 @property BOOL noConvertTime;
-@property (nonatomic, copy) NSArray *watchModes;
-@property int currentWatchMode;
+@property (nonatomic, copy) NSArray *filterModes;
+@property int currentFilterMode;
 
 - (id)copyWithZone:(NSZone*)zone;
 

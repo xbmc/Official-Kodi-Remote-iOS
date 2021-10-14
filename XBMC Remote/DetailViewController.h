@@ -33,7 +33,7 @@
     IBOutlet UILongPressGestureRecognizer *lpgr;
     int choosedTab;
     int numTabs;
-    int watchMode;
+    int filterMode;
     UILabel *topNavigationLabel;
     IBOutlet UIButton *button1;
     IBOutlet UIButton *button2;

@@ -698,7 +698,7 @@
 
 - (void)changeViewMode:(int)newWatchMode {
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
-    [buttonsIB[choosedTab] setImage:[UIImage imageNamed:[self.detailItem watchModes][choosedTab][@"icons"][newWatchMode]] forState:UIControlStateSelected];
+    [buttonsIB[choosedTab] setImage:[UIImage imageNamed:[self.detailItem filterModes][choosedTab][@"icons"][newWatchMode]] forState:UIControlStateSelected];
     [self.richResults removeAllObjects];
     [self.sections removeAllObjects];
     [activeLayoutView reloadData];
@@ -820,19 +820,19 @@
         mutableParameters = [parameters[@"parameters"] mutableCopy];
         mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
         
-        NSArray *watchedCycle = [self.detailItem watchModes];
+        NSArray *watchedCycle = [self.detailItem filterModes];
         NSInteger num_modes = [watchedCycle[choosedTab][@"modes"] count];
         if (!num_modes) {
             return;
         }
-        watchMode = (watchMode + 1) % num_modes;
+        filterMode = (filterMode + 1) % num_modes;
         
         // Artist filter is active. We change the API call parameters and continue.
         if ([parameters[@"label"] isEqualToString:LOCALIZED_STR(@"Artist")]) {
             if ([AppDelegate instance].APImajorVersion >= 4) {
                 NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
-                [buttonsIB[choosedTab] setImage:[UIImage imageNamed:[self.detailItem watchModes][choosedTab][@"icons"][watchMode]] forState:UIControlStateSelected];
-                switch (watchMode) {
+                [buttonsIB[choosedTab] setImage:[UIImage imageNamed:[self.detailItem filterModes][choosedTab][@"icons"][filterMode]] forState:UIControlStateSelected];
+                switch (filterMode) {
                     case 1:
                         mutableParameters[@"albumartistsonly"] = @YES;
                         break;
@@ -850,12 +850,12 @@
         }
         // Some other filter is active. We simply filter results via helper function changeViewMode and return.
         else {
-            [self changeViewMode:watchMode forceRefresh:NO];
+            [self changeViewMode:filterMode forceRefresh:NO];
             return;
         }
     }
     else {
-        watchMode = 0;
+        filterMode = 0;
         NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
         if (choosedTab < [buttonsIB count]) {
             [buttonsIB[choosedTab] setImage:[UIImage imageNamed:@"blank"] forState:UIControlStateSelected];
@@ -1047,7 +1047,7 @@
         }
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab = choosedTab;
-        MenuItem.subItem.currentWatchMode = watchMode;
+        MenuItem.subItem.currentFilterMode = filterMode;
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             detailViewController.detailItem = MenuItem.subItem;
@@ -4570,7 +4570,7 @@ NSIndexPath *selected;
                  if (SectionMethodToCall != nil) {
                      [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:self.extraSectionRichResults extraSectionCall:YES refresh:forceRefresh];
                  }
-                 else if (watchMode != 0) {
+                 else if (filterMode != 0) {
                      if (forceRefresh) {
                          [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
                          [activeLayoutView setUserInteractionEnabled:YES];
@@ -4581,7 +4581,7 @@ NSIndexPath *selected;
                          [self indexAndDisplayData];
                      }
                      else {
-                         [self changeViewMode:watchMode forceRefresh:forceRefresh];
+                         [self changeViewMode:filterMode forceRefresh:forceRefresh];
                      }
                  }
                  else {
@@ -5507,7 +5507,7 @@ NSIndexPath *selected;
     if (choosedTab >= numTabs) {
         choosedTab = 0;
     }
-    watchMode = [self.detailItem currentWatchMode];
+    filterMode = [self.detailItem currentFilterMode];
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     watchedListenedStrings = parameters[@"watchedListenedStrings"];
