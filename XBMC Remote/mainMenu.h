@@ -15,6 +15,17 @@ typedef enum {
     FamilyServer
 } MenuItemFamilyType;
 
+typedef enum {
+    ViewModeDefault,
+    ViewModeUnwatched,
+    ViewModeWatched,
+    ViewModeNotListened,
+    ViewModeListened,
+    ViewModeDefaultArtists,
+    ViewModeAlbumArtists,
+    ViewModeSongArtists
+} ViewModes;
+
 @interface mainMenu : NSObject
 
 @property (nonatomic, copy) NSString *mainLabel;
@@ -40,7 +51,7 @@ typedef enum {
 @property (nonatomic, copy) NSArray *showRuntime;
 @property BOOL noConvertTime;
 @property (nonatomic, copy) NSArray *filterModes;
-@property int currentFilterMode;
+@property ViewModes currentFilterMode;
 
 - (id)copyWithZone:(NSZone*)zone;
 

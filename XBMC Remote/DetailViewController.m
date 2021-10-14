@@ -672,7 +672,7 @@
     [self changeTab:selectedMoreTab];
 }
 
-- (void)changeViewMode:(int)newWatchMode forceRefresh:(BOOL)refresh {
+- (void)changeViewMode:(ViewModes)newViewMode forceRefresh:(BOOL)refresh {
     [activityIndicatorView startAnimating];
     if (!refresh) {
             [UIView transitionWithView: activeLayoutView
@@ -687,18 +687,16 @@
                                 [(UITableView*)activeLayoutView setFrame:frame];
                             }
                             completion:^(BOOL finished) {
-                                [self changeViewMode:newWatchMode];
+                                [self changeViewMode:newViewMode];
                             }];
     }
     else {
-        [self changeViewMode:newWatchMode];
+        [self changeViewMode:newViewMode];
     }
     return;
 }
 
-- (void)changeViewMode:(int)newWatchMode {
-    NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
-    [buttonsIB[choosedTab] setImage:[UIImage imageNamed:[self.detailItem filterModes][choosedTab][@"icons"][newWatchMode]] forState:UIControlStateSelected];
+- (void)changeViewMode:(ViewModes)newViewMode {
     [self.richResults removeAllObjects];
     [self.sections removeAllObjects];
     [activeLayoutView reloadData];
@@ -706,11 +704,9 @@
     NSInteger total = [self.richResults count];
     NSMutableIndexSet *mutableIndexSet = [NSMutableIndexSet new];
     if (!albumView) {
-        switch (newWatchMode) {
-            case 0:
-                break;
-                
-            case 1:
+        switch (newViewMode) {
+            case ViewModeNotListened:
+            case ViewModeUnwatched:
                 for (int i = 0; i < total; i++) {
                     if ([self.richResults[i][@"playcount"] intValue] > 0) {
                         [mutableIndexSet addIndex:i];
@@ -719,7 +715,8 @@
                 [self.richResults removeObjectsAtIndexes:mutableIndexSet];
                 break;
 
-            case 2:
+            case ViewModeListened:
+            case ViewModeWatched:
                 for (int i = 0; i < total; i++) {
                     if ([self.richResults[i][@"playcount"] intValue] == 0) {
                         [mutableIndexSet addIndex:i];
@@ -728,7 +725,14 @@
                 [self.richResults removeObjectsAtIndexes:mutableIndexSet];
                 break;
                 
+            case ViewModeDefaultArtists:
+            case ViewModeAlbumArtists:
+            case ViewModeSongArtists:
+            case ViewModeDefault:
+                break;
+                
             default:
+                NSAssert(NO, @"changeViewMode: unknown mode %d", newViewMode);
                 break;
         }
     }
@@ -820,42 +824,48 @@
         mutableParameters = [parameters[@"parameters"] mutableCopy];
         mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
         
-        NSArray *watchedCycle = [self.detailItem filterModes];
-        NSInteger num_modes = [watchedCycle[choosedTab][@"modes"] count];
+        NSInteger num_modes = [[self.detailItem filterModes][choosedTab][@"modes"] count];
         if (!num_modes) {
             return;
         }
-        filterMode = (filterMode + 1) % num_modes;
+        filterModeIndex = (filterModeIndex + 1) % num_modes;
+        NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
+        [buttonsIB[choosedTab] setImage:[UIImage imageNamed:[self.detailItem filterModes][choosedTab][@"icons"][filterModeIndex]] forState:UIControlStateSelected];
         
         // Artist filter is active. We change the API call parameters and continue.
-        if ([parameters[@"label"] isEqualToString:LOCALIZED_STR(@"Artist")]) {
+        filterModeType = [[self.detailItem filterModes][choosedTab][@"modes"][filterModeIndex] intValue];
+        if (filterModeType == ViewModeAlbumArtists ||
+            filterModeType == ViewModeSongArtists ||
+            filterModeType == ViewModeDefaultArtists) {
             if ([AppDelegate instance].APImajorVersion >= 4) {
-                NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
-                [buttonsIB[choosedTab] setImage:[UIImage imageNamed:[self.detailItem filterModes][choosedTab][@"icons"][filterMode]] forState:UIControlStateSelected];
-                switch (filterMode) {
-                    case 1:
+                switch (filterModeType) {
+                    case ViewModeAlbumArtists:
                         mutableParameters[@"albumartistsonly"] = @YES;
                         break;
                         
-                    case 2:
+                    case ViewModeSongArtists:
                         mutableParameters[@"albumartistsonly"] = @NO;
                         break;
                         
-                    default:
-                    case 0:
+                    case ViewModeDefaultArtists:
                         [mutableParameters removeObjectForKey:@"albumartistsonly"];
+                        break;
+                        
+                    default:
+                        NSAssert(NO, @"changeTab: unexpected mode %d", filterModeType);
                         break;
                 }
             }
         }
         // Some other filter is active. We simply filter results via helper function changeViewMode and return.
         else {
-            [self changeViewMode:filterMode forceRefresh:NO];
+            [self changeViewMode:filterModeType forceRefresh:NO];
             return;
         }
     }
     else {
-        filterMode = 0;
+        filterModeIndex = 0;
+        filterModeType = ViewModeDefault;
         NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
         if (choosedTab < [buttonsIB count]) {
             [buttonsIB[choosedTab] setImage:[UIImage imageNamed:@"blank"] forState:UIControlStateSelected];
@@ -1047,7 +1057,7 @@
         }
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab = choosedTab;
-        MenuItem.subItem.currentFilterMode = filterMode;
+        MenuItem.subItem.currentFilterMode = filterModeType;
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             detailViewController.detailItem = MenuItem.subItem;
@@ -4570,19 +4580,14 @@ NSIndexPath *selected;
                  if (SectionMethodToCall != nil) {
                      [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:self.extraSectionRichResults extraSectionCall:YES refresh:forceRefresh];
                  }
-                 else if (filterMode != 0) {
+                 else if (filterModeType == ViewModeWatched ||
+                          filterModeType == ViewModeUnwatched) {
                      if (forceRefresh) {
                          [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
                          [activeLayoutView setUserInteractionEnabled:YES];
                          [self saveData:mutableParameters];
                      }
-                     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
-                     if ([parameters[@"label"] isEqualToString:@"Albums"]) {
-                         [self indexAndDisplayData];
-                     }
-                     else {
-                         [self changeViewMode:filterMode forceRefresh:forceRefresh];
-                     }
+                     [self changeViewMode:filterModeType forceRefresh:forceRefresh];
                  }
                  else {
                      if (forceRefresh) {
@@ -5507,7 +5512,7 @@ NSIndexPath *selected;
     if (choosedTab >= numTabs) {
         choosedTab = 0;
     }
-    filterMode = [self.detailItem currentFilterMode];
+    filterModeType = [self.detailItem currentFilterMode];
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     watchedListenedStrings = parameters[@"watchedListenedStrings"];

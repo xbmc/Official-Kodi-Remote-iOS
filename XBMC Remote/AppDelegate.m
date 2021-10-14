@@ -310,9 +310,9 @@ NSMutableArray *hostRightMenuItems;
 - (NSDictionary*)modes_icons_watched {
     return @{
         @"modes": @[
-                @"all",
-                @"unwatched",
-                @"watched"],
+                @(ViewModeDefault),
+                @(ViewModeUnwatched),
+                @(ViewModeWatched)],
         @"icons": @[
                 @"",
                 @"icon_not_watched",
@@ -323,9 +323,9 @@ NSMutableArray *hostRightMenuItems;
 - (NSDictionary*)modes_icons_listened {
     return @{
         @"modes": @[
-                @"all",
-                @"not listened",
-                @"listened"],
+                @(ViewModeDefault),
+                @(ViewModeNotListened),
+                @(ViewModeListened)],
         @"icons": @[
                 @"",
                 @"icon_not_listened",
@@ -336,9 +336,9 @@ NSMutableArray *hostRightMenuItems;
 - (NSDictionary*)modes_icons_artiststype {
     return @{
         @"modes": @[
-                @"kodi artists",
-                @"album artists",
-                @"song artists"],
+                @(ViewModeDefaultArtists),
+                @(ViewModeAlbumArtists),
+                @(ViewModeSongArtists)],
         @"icons": @[
                 @"",
                 @"st_album",
