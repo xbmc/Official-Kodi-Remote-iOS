@@ -801,30 +801,81 @@
     }
     [activeLayoutView setUserInteractionEnabled:YES];
     [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
-    if ([sender tag] == choosedTab) {
+    
+    NSDictionary *methods = nil;
+    NSDictionary *parameters = nil;
+    NSMutableDictionary *mutableParameters = nil;
+    NSMutableArray *mutableProperties = nil;
+    
+    // Read new tab index
+    numTabs = (int)[[self.detailItem mainMethod] count];
+    int newChoosedTab = (int)[sender tag];
+    newChoosedTab = newChoosedTab % numTabs;
+    
+    // Handle modes (pressing same tab) or changed tabs
+    if (newChoosedTab == choosedTab) {
+        // Read relevant data from configuration
+        methods = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
+        parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+        mutableParameters = [parameters[@"parameters"] mutableCopy];
+        mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
+        
         NSArray *watchedCycle = [self.detailItem watchModes];
         NSInteger num_modes = [watchedCycle[choosedTab][@"modes"] count];
-        if (num_modes) {
-            if (watchMode < num_modes - 1) {
-                watchMode ++;
+        if (!num_modes) {
+            return;
+        }
+        watchMode = (watchMode + 1) % num_modes;
+        
+        // Artist filter is active. We change the API call parameters and continue.
+        if ([parameters[@"label"] isEqualToString:LOCALIZED_STR(@"Artist")]) {
+            if ([AppDelegate instance].APImajorVersion >= 4) {
+                NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
+                [buttonsIB[choosedTab] setImage:[UIImage imageNamed:[self.detailItem watchModes][choosedTab][@"icons"][watchMode]] forState:UIControlStateSelected];
+                switch (watchMode) {
+                    case 1:
+                        mutableParameters[@"albumartistsonly"] = @YES;
+                        break;
+                        
+                    case 2:
+                        mutableParameters[@"albumartistsonly"] = @NO;
+                        break;
+                        
+                    default:
+                    case 0:
+                        [mutableParameters removeObjectForKey:@"albumartistsonly"];
+                        break;
+                }
             }
-            else {
-                watchMode = 0;
-            }
+        }
+        // Some other filter is active. We simply filter results via helper function changeViewMode and return.
+        else {
             [self changeViewMode:watchMode forceRefresh:NO];
             return;
         }
-        else {
-            return;
+    }
+    else {
+        watchMode = 0;
+        NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
+        if (choosedTab < [buttonsIB count]) {
+            [buttonsIB[choosedTab] setImage:[UIImage imageNamed:@"blank"] forState:UIControlStateSelected];
+            [buttonsIB[choosedTab] setSelected:NO];
         }
+        else {
+            [buttonsIB[MAX_NORMAL_BUTTONS] setSelected:NO];
+        }
+        choosedTab = newChoosedTab;
+        if (choosedTab < [buttonsIB count]) {
+            [buttonsIB[choosedTab] setSelected:YES];
+        }
+        // Read relevant data from configuration (important: new value for chooseTab)
+        methods = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
+        parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+        mutableParameters = [parameters[@"parameters"] mutableCopy];
+        mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
     }
     self.indexView.indexTitles = nil;
     self.indexView.hidden = YES;
-    NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
-    if (choosedTab < [buttonsIB count]) {
-        [buttonsIB[choosedTab] setImage:[UIImage imageNamed:@"blank"] forState:UIControlStateSelected];
-    }
-    watchMode = 0;
     startTime = 0;
     [countExecutionTime invalidate];
     countExecutionTime = nil;
@@ -833,27 +884,9 @@
         longTimeout = nil;
     }
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
-    numTabs = (int)[[self.detailItem mainMethod] count];
-    int newChoosedTab = (int)[sender tag];
-    if (newChoosedTab >= numTabs) {
-        newChoosedTab = 0;
-    }
-    if (newChoosedTab == choosedTab) {
-        return;
-    }
+    
     [activityIndicatorView startAnimating];
-    if (choosedTab < [buttonsIB count]) {
-        [buttonsIB[choosedTab] setSelected:NO];
-    }
-    else {
-        [buttonsIB[MAX_NORMAL_BUTTONS] setSelected:NO];
-    }
-    choosedTab = newChoosedTab;
-    if (choosedTab < [buttonsIB count]) {
-        [buttonsIB[choosedTab] setSelected:YES];
-    }
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+
     if ([parameters[@"numberOfStars"] intValue] > 0) {
         numberOfStars = [parameters[@"numberOfStars"] intValue];
     }
@@ -876,21 +909,19 @@
         currentCollectionViewName = LOCALIZED_STR(@"View: Wall");
     }
     [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
-    self.navigationItem.title = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]][@"label"];
+    self.navigationItem.title = parameters[@"label"];
     if (IS_IPAD) {
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.3];
         topNavigationLabel.alpha = 0;
         [UIView commitAnimations];
-        topNavigationLabel.text = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]][@"label"];
+        topNavigationLabel.text = parameters[@"label"];
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.1];
         topNavigationLabel.alpha = 1;
         [self checkFullscreenButton:NO];
         [UIView commitAnimations];
     }
-    NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
-    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
     if ([parameters[@"FrodoExtraArt"] boolValue] && [AppDelegate instance].serverVersion > 11) {
         [mutableProperties addObject:@"art"];
     }
