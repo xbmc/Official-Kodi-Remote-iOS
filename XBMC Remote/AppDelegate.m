@@ -333,6 +333,19 @@ NSMutableArray *hostRightMenuItems;
     };
 }
 
+- (NSDictionary*)modes_icons_artiststype {
+    return @{
+        @"modes": @[
+                @"all",
+                @"unwatched",
+                @"watched"],
+        @"icons": @[
+                @"",
+                @"st_album",
+                @"st_songs"]
+    };
+}
+
 - (NSDictionary*)setColorRed:(double)r Green:(double)g Blue:(double)b {
     return @{
         @"red": @(r),
@@ -1140,7 +1153,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Music.defaultThumb = @"nocover_music";
     menu_Music.watchModes = @[
         [self modes_icons_listened],
-        [self modes_icons_empty],
+        [self modes_icons_artiststype],
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
