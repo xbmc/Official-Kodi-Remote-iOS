@@ -2390,7 +2390,7 @@ int originYear = 0;
                            placeholderImage:[UIImage imageNamed:displayThumb]
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                      if (enableBarColor && image != nil) {
+                                      if (image != nil) {
                                           albumColor = [Utilities averageColor:image inverse:NO];
                                           UIColor *lightAlbumColor = [Utilities lighterColorForColor:albumColor];
                                           self.navigationController.navigationBar.tintColor = lightAlbumColor;
@@ -5404,7 +5404,6 @@ NSIndexPath *selected;
         [weakSelf startRetrieveDataWithRefresh:YES];
     }];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
-    enableBarColor = YES;
     for (UIView *subView in self.searchController.searchBar.subviews) {
         if ([subView isKindOfClass: [UITextField class]]) {
             [(UITextField*)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];
