@@ -2390,7 +2390,7 @@ int originYear = 0;
                            placeholderImage:[UIImage imageNamed:displayThumb]
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                      if (enableBarColor) {
+                                      if (enableBarColor && image != nil) {
                                           albumColor = [Utilities averageColor:image inverse:NO];
                                           UIColor *lightAlbumColor = [Utilities lighterColorForColor:albumColor];
                                           self.navigationController.navigationBar.tintColor = lightAlbumColor;
@@ -2567,19 +2567,21 @@ int originYear = 0;
             }
             if (![stringURL isEqualToString:@""]) {
                 [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(seasonThumbWidth, albumViewHeight - (albumViewPadding * 2)) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                    CAGradientLayer *gradient = [CAGradientLayer layer];
-                    gradient.frame = albumDetailView.bounds;
-                    albumColor = [Utilities averageColor:image inverse:NO];
-                    albumColor = [Utilities limitSaturation:albumColor satmax:0.33];
-                    gradient.colors = @[(id)[albumColor CGColor], (id)[[Utilities lighterColorForColor:albumColor] CGColor]];
-                    seasonFontColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
-                    seasonFontShadowColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
-                    seasonDetailsColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
-                    [albumDetailView.layer insertSublayer:gradient atIndex:1];
-                    if (isFirstListedSeason) {
-                        [self setSearchBarColor:albumColor];
+                    if (image != nil) {
+                        CAGradientLayer *gradient = [CAGradientLayer layer];
+                        gradient.frame = albumDetailView.bounds;
+                        albumColor = [Utilities averageColor:image inverse:NO];
+                        albumColor = [Utilities limitSaturation:albumColor satmax:0.33];
+                        gradient.colors = @[(id)[albumColor CGColor], (id)[[Utilities lighterColorForColor:albumColor] CGColor]];
+                        seasonFontColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
+                        seasonFontShadowColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
+                        seasonDetailsColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
+                        [albumDetailView.layer insertSublayer:gradient atIndex:1];
+                        if (isFirstListedSeason) {
+                            [self setSearchBarColor:albumColor];
+                        }
+                        [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                     }
-                    [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                 }];
             }
             else {
