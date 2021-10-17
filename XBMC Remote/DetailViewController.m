@@ -3847,7 +3847,9 @@ NSIndexPath *selected;
     if ([item[@"filetype"] isEqualToString:@"directory"]) {
         key = @"directory";
     }
-    else if ([mainFields[@"row9"] isEqualToString:@"recordingid"]) {
+    // Since API 12.7.0 Kodi server can handle Playlist.Insert and Playlist.Add for recordingid.
+    // Before, the JSON parameters must use the file path.
+    else if (!(AppDelegate.instance.APImajorVersion >= 12 && AppDelegate.instance.APIminorVersion >= 7) && [mainFields[@"row9"] isEqualToString:@"recordingid"]) {
         key = @"file";
         value = item[@"file"];
     }
@@ -3959,7 +3961,9 @@ NSIndexPath *selected;
                 if ([item[@"filetype"] isEqualToString:@"directory"]) {
                     key = @"directory";
                 }
-                else if ([mainFields[@"row8"] isEqualToString:@"recordingid"]) {
+                // Since API 12.7.0 Kodi server can handle Playlist.Insert and Playlist.Add for recordingid.
+                // Before, the JSON parameters must use the file path.
+                else if (!(AppDelegate.instance.APImajorVersion >= 12 && AppDelegate.instance.APIminorVersion >= 7) && [mainFields[@"row8"] isEqualToString:@"recordingid"]) {
                     key = @"file";
                     value = item[@"file"];
                 }
