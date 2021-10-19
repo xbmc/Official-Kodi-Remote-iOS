@@ -46,7 +46,8 @@
 #define SECTIONS_START_AT 100
 #define MAX_NORMAL_BUTTONS 4
 #define WARNING_TIMEOUT 30.0
-#define COLLECTION_HEADER_HEIGHT 16
+#define GRID_SECTION_HEADER_HEIGHT 24
+#define LIST_SECTION_HEADER_HEIGHT 24
 #define FIXED_SPACE_WIDTH 120
 #define INFO_PADDING 10
 #define MONKEY_COUNT 38
@@ -1236,7 +1237,7 @@
 
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (enableCollectionView && [self.sectionArray count] > 1 && section > 0) {
-        return CGSizeMake(dataList.frame.size.width, COLLECTION_HEADER_HEIGHT);
+        return CGSizeMake(dataList.frame.size.width, GRID_SECTION_HEADER_HEIGHT);
     }
     else {
         return CGSizeZero;
@@ -1267,6 +1268,7 @@
     if (collectionView == nil) {
         flowLayout = [FloatingHeaderFlowLayout new];
         [flowLayout setSearchBarHeight:self.searchController.searchBar.frame.size.height];
+        
         [self setFlowLayoutParams];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
@@ -1443,101 +1445,25 @@
     CGPoint offsetPoint = [cView contentOffset];
     int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
-//    // EXPERIMENTAL CODE
-//    [cell setAlpha:1];
-////    [cView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
-////    int k = [cView numberOfSections];
-////    for (int j = 0; j < k; j++) {
-////        int n = [cView numberOfItemsInSection:j];
-////        for (int i = 0; i < n; i++) {
-////            UICollectionViewCell *cell = [cView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-////            if (cell != nil && ![[NSIndexPath indexPathForRow:i inSection:0] isEqual:indexPath]) {
-////                [UIView beginAnimations:nil context:nil];
-////                [UIView setAnimationDuration:0.5];
-////                [cell setAlpha:0.3];
-////                [UIView commitAnimations];
-////                [darkCells addObject:cell];
-////            }
-////        }
-////    }
-//    [cView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
-//    autoScroll = YES;
-//    [self darkCells];
-//    // END EXPERIMENTAL CODE
     [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
 }
-//// EXPERIMENTAL CODE
-//
-//- (void)scrollViewDidEndScrollingAnimation:(UIScrollView*)scrollView {
-//    if ([scrollView isKindOfClass:[UICollectionView class]] && autoScroll) {
-//        [self darkCells];
-//        autoScroll = NO;
-//    }
-//}
-//
-//
-//- (void)darkCells {
-//        
-//    [darkCells removeAllObjects];
-//    [darkCells addObjectsFromArray:[collectionView indexPathsForVisibleItems]];
-//    [darkCells removeObjectsInArray:[collectionView indexPathsForSelectedItems]];
-//    for (NSIndexPath *idx in darkCells) {
-//        UICollectionViewCell *darkcell = [collectionView cellForItemAtIndexPath:idx];
-//        [UIView beginAnimations:nil context:nil];
-//        [UIView setAnimationDuration:0.5];
-//        [darkcell setAlpha:0.3];
-//        [UIView commitAnimations];
-//    }
-//}
-//
-//- (void)brightCells {
-//    for (NSIndexPath *idx in darkCells) {
-//        UICollectionViewCell *darkcell = [collectionView cellForItemAtIndexPath:idx];
-//        [UIView beginAnimations:nil context:nil];
-//        [UIView setAnimationDuration:0.2];
-//        [darkcell setAlpha:1];
-//        [UIView commitAnimations];
-//    }
-//    [darkCells removeAllObjects];
-//}
-//
-//- (void)scrollViewWillBeginDragging:(UIScrollView*)scrollView {
-//    [self brightCells];
-////    if ([darkCells count]) {
-////        for (UICollectionViewCell *cell in darkCells) {
-////            [UIView beginAnimations:nil context:nil];
-////            [UIView setAnimationDuration:0.1];
-////            [cell setAlpha:1];
-////            [UIView commitAnimations];
-////        }
-////        [darkCells removeAllObjects];
-////    }
-//}
-//// END EXPERIMENTAL CODE
 
 #pragma mark - BDKCollectionIndexView init
 
 - (void)initSectionNameOverlayView {
     sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width / 2, self.view.frame.size.width / 6)];
     sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
-    [sectionNameOverlayView setBackgroundColor:[UIColor clearColor]];
+    sectionNameOverlayView.backgroundColor = [Utilities getGrayColor:0 alpha:1.0];
     sectionNameOverlayView.center = [[[[UIApplication sharedApplication] delegate] window] rootViewController].view.center;
     CGFloat cornerRadius = 12;
     sectionNameOverlayView.layer.cornerRadius = cornerRadius;
-    CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = sectionNameOverlayView.bounds;
-    gradient.colors = @[(id)[[Utilities getGrayColor:26 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:0 alpha:0.8] CGColor]];
-    gradient.cornerRadius = cornerRadius;
-    [sectionNameOverlayView.layer insertSublayer:gradient atIndex:0];
     
     int fontSize = 32;
     sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height/2 - (fontSize + 8)/2, sectionNameOverlayView.frame.size.width, (fontSize + 8))];
     [sectionNameLabel setFont:[UIFont boldSystemFontOfSize:fontSize]];
-    [sectionNameLabel setTextColor:[UIColor whiteColor]];
+    [sectionNameLabel setTextColor:[Utilities getGrayColor:255 alpha:1.0]];
     [sectionNameLabel setBackgroundColor:[UIColor clearColor]];
     [sectionNameLabel setTextAlignment:NSTextAlignmentCenter];
-    [sectionNameLabel setShadowColor:[UIColor blackColor]];
-    [sectionNameLabel setShadowOffset:CGSizeMake(0, 1)];
     [sectionNameOverlayView addSubview:sectionNameLabel];
     [self.view addSubview:sectionNameOverlayView];
 }
@@ -1548,9 +1474,9 @@
     }
     CGFloat indexWidth = 40;
     CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth,
-                              CGRectGetMinY(dataList.frame) + dataList.contentInset.top + COLLECTION_HEADER_HEIGHT + 2,
+                              CGRectGetMinY(dataList.frame) + dataList.contentInset.top + GRID_SECTION_HEADER_HEIGHT + 2,
                               indexWidth,
-                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4 -COLLECTION_HEADER_HEIGHT - bottomPadding);
+                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4 - GRID_SECTION_HEADER_HEIGHT - bottomPadding);
     _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
     _indexView.alpha = 1.0;
@@ -1602,14 +1528,14 @@
         if (index != NSNotFound) {
             NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
             [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-            collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT);
+            collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT);
         }
         return;
     }
     else {
         NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
         [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-        collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - COLLECTION_HEADER_HEIGHT + 4);
+        collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT + 4);
     }
 }
 
@@ -2464,7 +2390,7 @@ int originYear = 0;
                            placeholderImage:[UIImage imageNamed:displayThumb]
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                      if (enableBarColor) {
+                                      if (image != nil) {
                                           albumColor = [Utilities averageColor:image inverse:NO];
                                           UIColor *lightAlbumColor = [Utilities lighterColorForColor:albumColor];
                                           self.navigationController.navigationBar.tintColor = lightAlbumColor;
@@ -2641,19 +2567,21 @@ int originYear = 0;
             }
             if (![stringURL isEqualToString:@""]) {
                 [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(seasonThumbWidth, albumViewHeight - (albumViewPadding * 2)) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                    CAGradientLayer *gradient = [CAGradientLayer layer];
-                    gradient.frame = albumDetailView.bounds;
-                    albumColor = [Utilities averageColor:image inverse:NO];
-                    albumColor = [Utilities limitSaturation:albumColor satmax:0.33];
-                    gradient.colors = @[(id)[albumColor CGColor], (id)[[Utilities lighterColorForColor:albumColor] CGColor]];
-                    seasonFontColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
-                    seasonFontShadowColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
-                    seasonDetailsColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
-                    [albumDetailView.layer insertSublayer:gradient atIndex:1];
-                    if (isFirstListedSeason) {
-                        [self setSearchBarColor:albumColor];
+                    if (image != nil) {
+                        CAGradientLayer *gradient = [CAGradientLayer layer];
+                        gradient.frame = albumDetailView.bounds;
+                        albumColor = [Utilities averageColor:image inverse:NO];
+                        albumColor = [Utilities limitSaturation:albumColor satmax:0.33];
+                        gradient.colors = @[(id)[albumColor CGColor], (id)[[Utilities lighterColorForColor:albumColor] CGColor]];
+                        seasonFontColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
+                        seasonFontShadowColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
+                        seasonDetailsColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
+                        [albumDetailView.layer insertSublayer:gradient atIndex:1];
+                        if (isFirstListedSeason) {
+                            [self setSearchBarColor:albumColor];
+                        }
+                        [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                     }
-                    [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                 }];
             }
             else {
@@ -2728,69 +2656,26 @@ int originYear = 0;
     NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
     if (sectionTitle == nil) {
         UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
-        [sectionView setBackgroundColor:[Utilities getGrayColor:102 alpha:1]];
-        CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
-        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
-        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        toolbarShadow.contentMode = UIViewContentModeScaleToFill;
-        toolbarShadow.opaque = YES;
-        toolbarShadow.alpha = 0.3;
-        [sectionView addSubview:toolbarShadow];
+        [sectionView setBackgroundColor:[Utilities getSystemGray5]];
         return sectionView;
     }
+    
+    // Draw gray bar as section header background
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, sectionHeight)];
+    [sectionView setBackgroundColor:[Utilities getSystemGray5]];
     
-    CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = sectionView.bounds;
-    
-    // TEST
-    gradient.colors = @[(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor]];
-//    gradient.colors = @[(id)[[Utilities getGrayColor:26 alpha:0.8] CGColor], (id)[[Utilities getGrayColor:77 alpha:0.8] CGColor]];
-    //END TEST
-
-    [sectionView.layer insertSublayer:gradient atIndex:0];
-    
-    //TEST
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -1, viewWidth, 1)];
-    [lineView setBackgroundColor:[Utilities getGrayColor:146 alpha:1]];
-    [sectionView addSubview:lineView];
-//    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -2, viewWidth, 1)];
-//    [lineView setBackgroundColor:[Utilities getGrayColor:26 alpha:1]];
-//    [sectionView addSubview:lineView];
-    //END TEST
-
-    CGRect toolbarShadowFrame = CGRectMake(0, sectionHeight - 1, viewWidth, 4);
-    UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-    [toolbarShadow setImage:[UIImage imageNamed:@"tableUp"]];
-    toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    toolbarShadow.contentMode = UIViewContentModeScaleToFill;
-    toolbarShadow.opaque = YES;
-    toolbarShadow.alpha = 0.3;
-    [sectionView addSubview:toolbarShadow];
-    
-    if (section > 1) {
-        CGRect toolbarShadowUpFrame = CGRectMake(0, -3, viewWidth, 2);
-        UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowUpFrame];
-        [toolbarUpShadow setImage:[UIImage imageNamed:@"tableDown"]];
-        toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
-        toolbarUpShadow.opaque = YES;
-        toolbarUpShadow.alpha = 0.3;
-        [sectionView addSubview:toolbarUpShadow];
-    }
-    
-    int labelFontSize = sectionHeight > 16 ? sectionHeight - 10 : sectionHeight - 5;
-    int labelOriginY = sectionHeight > 16 ? 2 : 1;
-    CGFloat shadowOffset = 1.0/[[UIScreen mainScreen] scale];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, labelOriginY, viewWidth - 20, sectionHeight)];
+    // Draw text into section header
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, viewWidth - 20, sectionHeight)];
     label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor whiteColor];
-    [label setShadowColor:[Utilities getGrayColor:0 alpha:0.4]];
-    [label setShadowOffset:CGSizeMake(0, shadowOffset)];
-    label.font = [UIFont boldSystemFontOfSize: labelFontSize];
+    label.textColor = [Utilities get2ndLabelColor];
+    label.font = [UIFont boldSystemFontOfSize:sectionHeight - 10];
     label.text = sectionTitle;
-    [label sizeToFit];
+    label.autoresizingMask = UIViewAutoresizingFlexibleHeight |
+                             UIViewAutoresizingFlexibleWidth |
+                             UIViewAutoresizingFlexibleLeftMargin |
+                             UIViewAutoresizingFlexibleRightMargin |
+                             UIViewAutoresizingFlexibleTopMargin |
+                             UIViewAutoresizingFlexibleBottomMargin;
     [sectionView addSubview:label];
     
     return sectionView;
@@ -5088,7 +4973,7 @@ NSIndexPath *selected;
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
-    [self.navigationController.navigationBar setTintColor:TINT_COLOR];
+    [self.navigationController.navigationBar setTintColor:[UIColor lightGrayColor]];
     [channelListUpdateTimer invalidate];
     channelListUpdateTimer = nil;
 }
@@ -5147,8 +5032,10 @@ NSIndexPath *selected;
     }
     [activeLayoutView setScrollsToTop:YES];
     if (albumColor != nil) {
-        [self.navigationController.navigationBar setTintColor:albumColor];
         [self.navigationController.navigationBar setTintColor:[Utilities lighterColorForColor:albumColor]];
+    }
+    else {
+        [self.navigationController.navigationBar setTintColor:[UIColor lightGrayColor]];
     }
     if (isViewDidLoad) {
         [activeLayoutView addSubview:self.searchController.searchBar];
@@ -5470,7 +5357,7 @@ NSIndexPath *selected;
     hiddenLabel = [hidden_label_preferenceString boolValue];
     [noItemsLabel setText:LOCALIZED_STR(@"No items found.")];
     isViewDidLoad = YES;
-    sectionHeight = 16;
+    sectionHeight = LIST_SECTION_HEADER_HEIGHT;
     dataList.tableFooterView = [UIView new];
     epglockqueue = dispatch_queue_create("com.epg.arrayupdate", DISPATCH_QUEUE_SERIAL);
     epgDict = [NSMutableDictionary new];
@@ -5516,9 +5403,7 @@ NSIndexPath *selected;
     [dataList addPullToRefreshWithActionHandler:^{
         [weakSelf startRetrieveDataWithRefresh:YES];
     }];
-//    darkCells = [NSMutableArray new];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
-    enableBarColor = YES;
     for (UIView *subView in self.searchController.searchBar.subviews) {
         if ([subView isKindOfClass: [UITextField class]]) {
             [(UITextField*)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];
@@ -5565,7 +5450,6 @@ NSIndexPath *selected;
     }
     else if ([methods[@"channelGuideView"] boolValue]) {
         channelGuideView = YES;
-        sectionHeight = 24;
     }
     else if ([methods[@"channelListView"] boolValue]) {
         channelListView = YES;
@@ -5669,13 +5553,6 @@ NSIndexPath *selected;
                                              selector: @selector(revealMenu:)
                                                  name: @"RevealMenu"
                                                object: nil];
-
-//    //EXPERIMENTAL CODE
-//    [[NSNotificationCenter defaultCenter] addObserver: self
-//                                             selector: @selector(brightCells)
-//                                                 name: @"StackScrollCardDropNotification"
-//                                               object: nil];
-//    //END EXPERIMENTAL CODE
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleCollectionIndexStateBegin)
@@ -5940,15 +5817,6 @@ NSIndexPath *selected;
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
-////EXPERIMENTAL CODE
-//- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-//    if ([[collectionView indexPathsForSelectedItems] count] > 0) {
-//        [self darkCells];
-//        [collectionView selectItemAtIndexPath:[collectionView indexPathsForSelectedItems][0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
-//        autoScroll = YES;
-//    }
-//}
-////END EXPERIMENTAL CODE
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

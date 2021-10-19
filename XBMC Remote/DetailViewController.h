@@ -81,7 +81,6 @@
     UIColor *searchBarColor;
     UIColor *tableViewSearchBarColor;
     UIColor *collectionViewSearchBarColor;
-    BOOL enableBarColor;
     UICollectionView *collectionView;
     BOOL enableCollectionView;
     int cellGridWidth;
@@ -94,10 +93,6 @@
     int posterFontSize;
     int fanartFontSize;
     FloatingHeaderFlowLayout *flowLayout;
-    //  EXPERIMENTAL CODE
-//    NSMutableArray *darkCells;
-//    BOOL autoScroll;
-    // END EXPERIMENTAL CODE
     UIView *sectionNameOverlayView;
     UILabel *sectionNameLabel;
     BOOL recentlyAddedView;
