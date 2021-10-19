@@ -891,7 +891,7 @@ NSMutableArray *hostRightMenuItems;
             }, @"parameters",
             LOCALIZED_STR(@"Music Roles"), @"label",
             LOCALIZED_STR(@"Music Roles"), @"morelabel",
-            @"nocover_genre", @"defaultThumb",
+            @"nocover_artist", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
             [self itemSizes_Music], @"itemSizes"
