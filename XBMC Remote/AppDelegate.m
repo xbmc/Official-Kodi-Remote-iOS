@@ -549,6 +549,9 @@ NSMutableArray *hostRightMenuItems;
                         @"description",
                         @"albumlabel",
                         @"fanart"],
+                @"kodiExtrasPropertiesMinimumVersion": @{
+                        @"18": @[@"art"]
+                    }
             }, @"extra_info_parameters",
             @{
                 @"label": @[
@@ -593,7 +596,7 @@ NSMutableArray *hostRightMenuItems;
                         @"yearsactive",
                         @"fanart"],
                 @"kodiExtrasPropertiesMinimumVersion": @{
-                        @"18": @[@"roles"]
+                        @"18": @[@"roles", @"art"]
                     }
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Artists"), @"label",
@@ -644,7 +647,10 @@ NSMutableArray *hostRightMenuItems;
                         @"genre",
                         @"description",
                         @"albumlabel",
-                        @"fanart"]
+                        @"fanart"],
+                @"kodiExtrasPropertiesMinimumVersion": @{
+                        @"18": @[@"art"]
+                    }
             }, @"extra_info_parameters",
            LOCALIZED_STR(@"Added Albums"), @"label",
            @"Album", @"wikitype",
@@ -705,7 +711,10 @@ NSMutableArray *hostRightMenuItems;
                         @"playcount",
                         @"label",
                         @"genre",
-                        @"year"]
+                        @"year"],
+                @"kodiExtrasPropertiesMinimumVersion": @{
+                        @"18": @[@"art"]
+                    }
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Top 100 Albums"), @"label",
             @"Album", @"wikitype",
@@ -1238,7 +1247,10 @@ NSMutableArray *hostRightMenuItems;
                         @"genre",
                         @"description",
                         @"albumlabel",
-                        @"fanart"]
+                        @"fanart"],
+                @"kodiExtrasPropertiesMinimumVersion": @{
+                        @"18": @[@"art"]
+                    }
             }, @"extra_info_parameters",
             @"Albums", @"label",
             @"Album", @"wikitype",
@@ -1263,7 +1275,10 @@ NSMutableArray *hostRightMenuItems;
                         @"genre",
                         @"description",
                         @"albumlabel",
-                        @"fanart"]
+                        @"fanart"],
+                @"kodiExtrasPropertiesMinimumVersion": @{
+                        @"18": @[@"art"]
+                    }
             }, @"extra_info_parameters",
             @{
                 @"label": @[
@@ -1411,7 +1426,7 @@ NSMutableArray *hostRightMenuItems;
                         @"yearsactive",
                         @"fanart"],
                 @"kodiExtrasPropertiesMinimumVersion": @{
-                        @"18": @[@"roles"]
+                        @"18": @[@"roles", @"art"]
                     }
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Artists"), @"label",
@@ -1729,7 +1744,10 @@ NSMutableArray *hostRightMenuItems;
                         @"genre",
                         @"description",
                         @"albumlabel",
-                        @"fanart"]
+                        @"fanart"],
+                @"kodiExtrasPropertiesMinimumVersion": @{
+                        @"18": @[@"art"]
+                    }
             }, @"extra_info_parameters",
             @"Albums", @"label",
             @"Album", @"wikitype",
