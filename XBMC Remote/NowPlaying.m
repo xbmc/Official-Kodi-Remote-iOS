@@ -2395,19 +2395,15 @@ int currentItemID;
     CGFloat statusBar = [[UIApplication sharedApplication] statusBarFrame].size.height;
     CGFloat maxheight = height - bottomPadding - statusBar - TOOLBAR_HEIGHT;
     
-    frame = nowPlayingView.frame;
-    frame.origin.x = PAD_MENU_TABLE_WIDTH + 2;
-    frame.origin.y = YPOS;
-    frame.size.height = maxheight;
-    frame.size.width = width - (PAD_MENU_TABLE_WIDTH + 2);
-    nowPlayingView.frame = frame;
+    nowPlayingView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH + 2,
+                                      YPOS,
+                                      width - (PAD_MENU_TABLE_WIDTH + 2),
+                                      maxheight);;
     
-    frame = BottomView.frame;
-    frame.origin.y = CGRectGetMaxY(songDetailsView.frame);
-    frame.origin.x = PAD_MENU_TABLE_WIDTH;
-    frame.size.width = width - PAD_MENU_TABLE_WIDTH;
-    frame.size.height = maxheight - CGRectGetMaxY(songDetailsView.frame);
-    BottomView.frame = frame;
+    BottomView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH,
+                                  CGRectGetMaxY(songDetailsView.frame),
+                                  width - PAD_MENU_TABLE_WIDTH,
+                                  maxheight - CGRectGetMaxY(songDetailsView.frame));;
     
     frame = playlistToolbar.frame;
     frame.size.width = width;
