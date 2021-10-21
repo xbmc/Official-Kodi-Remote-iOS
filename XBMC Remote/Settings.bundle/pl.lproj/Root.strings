@@ -10,7 +10,7 @@
 "Shake to clear playlist" = "Potrząśnięcie czyści listę odtw.";
 "Show jewel cases" = "Pokazuj pudełka CD";
 "Hide labels in wall view" = "Hide labels in wall view";
-"Remote Control" = "Zdalna Kontrola";
+"Remote Control" = "Kontrola zdalna";
 "Gesture remote control" = "Domyślnie: kontrola gestami";
 "Vibrate remote control" = "Włącz wibrację przycisków";
 "App Settings" = "Ustawienia aplikacji";
@@ -19,3 +19,6 @@
 "Override Lockscreen" = "Omiń blokadę ekranu";
 "Show all files in filemode" = "Pok. wszystko w trybie plików";
 "Filemode changes needs app restart" = "Zmiana trybu plików wymaga restartu";
+"Main Menu" = "Menu główne";
+"Light" = "Niewielkie";
+"Dark" = "Ciemno";
