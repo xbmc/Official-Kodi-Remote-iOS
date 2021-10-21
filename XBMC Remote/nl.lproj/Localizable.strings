@@ -14,7 +14,6 @@
 "See what's" = "Zien wat er nu";
 "Use as" = "Gebruiken als";
 "Watch" = "Bekijk";
-
 "Music" = "Muziek";
 "Movies" = "Films";
 "TV Shows" = "TV Series";
@@ -25,7 +24,6 @@
 "New XBMC Server" = "Nieuwe Kodi Server";
 "Modify XBMC Server" = "Kodi Server aanpassen";
 "Select an XBMC Server from the list" = "Een Kodi Server uit de lijst selecteren";
-
 "Files" = "Bestanden";
 "Video Add-ons" = "Video add-ons";
 "Live TV" = "Live TV";
@@ -34,7 +32,6 @@
 "Added Movies" = "Toegevoegde films";
 "More (%d)" = "Meer (%d)";
 "Movie Sets" = "Filmverzamelingen";
-
 "Albums" = "Albums";
 "Artists" = "Artiesten";
 "Genres" = "Genres";
@@ -51,11 +48,8 @@
 "All songs" = "Alle nummers";
 "Music Add-ons" = "Muziek add-ons";
 "Music Playlists" = "Muziek afspeellijsten";
-
 "Added Episodes" = "Toegevoegde afleveringen";
-
 "Pictures Add-ons" = "Foto add-ons";
-
 "Power off System" = "Systeem uitschakelen";
 "Power off" = "Uitschakelen";
 "Hibernate" = "Slaapstand";
@@ -71,15 +65,12 @@
 "Clean Video Library" = "Videobibliotheek opschonen";
 "Clean Video" = "Video opschonen";
 "Quit" = "Stoppen";
-
 "Keyboard" = "Toetsenbord";
 "Gesture Zone" = "Gebarenbesturing";
 "Button Pad" = "Knoppenbesturing";
 "Help Screen" = "Help pagina";
 "LED Torch" = "Zaklamp";
-
 "No connection" = "Geen verbinding";
-
 "Queue after current" = "Na huidige toevoegen";
 "Queue" = "Toevoegen";
 "Play" = "Afspelen";
@@ -96,7 +87,6 @@
 "Music Video Details" = "Muziekvideodetails";
 "Details" = "Details";
 "Play Trailer" = "Trailer afspelen";
-
 "Playlist" = "Afspeellijst";
 "Nothing is playing" = "Er wordt niks afgespeeld";
 "Details not found" = "Details niet gevonden";
@@ -117,7 +107,6 @@
 "Mins." = "Min.";
 "Min" = "Min";
 "Released %d" = "Uitgebracht in %d";
-
 "Clear Playlist" = "Afspeellijst leegmaken";
 "No server MAC address defined" = "Geen server-MAC-adres ingesteld";
 "Command executed" = "Commando uitgevoerd";
@@ -125,7 +114,6 @@
 "Cannot do that" = "Dat is niet mogelijk";
 "Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "Geen opgeslagen hosts gevonden";
-
 "Are you sure you want to clear the %@playlist?" = "Weet je zeker dat je %@playlist wil leegmaken?";
 "Are you sure you want to power off your XBMC system now?" = "Weet je zeker dat je het systeem wil uitschakelen?";
 "Are you sure you want to hibernate your XBMC system now?" = "Weet je zeker dat je het systeem in slaapstand wil zetten?";
@@ -136,7 +124,6 @@
 "Are you sure you want to clean your audio library now?" = "Weet je zeker dat je de muziekbibliotheek wil opschonen?";
 "Are you sure you want to update your video library now?" = "Weet je zeker dat je de videobibliotheek wil bijwerken?";
 "Are you sure you want to clean your video library now?" = "Weet je zeker dat je de videobibliotheek wil opschonen?";
-
 "DIRECTED BY" = "Geregisseerd door";
 "RUNTIME" = "Speelduur";
 "PARENTAL RATING" = "Kijkwijzer";
@@ -157,30 +144,24 @@
 "STYLE" = "Stijl";
 "BORN / FORMED" = "Geboren / Gemaakt";
 "TRAILER" = "Trailer";
-
 "codec" = "codec";
 "bit rate" = "bitrate";
-"sample rate" = "sample rate";
+"sample rate" = "samplefrequentie";
 "resolution" = "resolutie";
 "aspect ratio" = "beeldverhouding";
 "Subtitles not available" = "Ondertitels niet beschikbaar";
 "Audiostream not available" = "Audiospoor niet beschikbaar";
 "Audiostreams not available" = "Geen audiosporen beschikbaar";
-
 "LongDateTimeFormat" = "d. MMMM YYYY";
 "ShortDateTimeFormat" = "dd.MM.YYYY";
 "LocaleIdentifier" = "nl_NL";
-
 "Yes" = "Ja";
 "No" = "Nee";
 "Authentication Failed" = "Authenticatie mislukt";
 "Incorrect Username or Password.\nCheck your settings." = "Verkeerde gebruikersnaam of wachtwoord.\nControleer je instellingen.";
-
 "WIKI_LANG" = "nl";
-
 "vote" = "stem";
 "votes" = "stemmen";
-
 "Slide your finger up to adjust the scrubbing rate." = "Vinger omhoog schuiven om de scrollsnelheid aan te passen.";
 "Scrubbing 1" = "Scrollsnelheid 1/1";
 "Scrubbing 0.5" = "Scrollsnelheid 1/2";
@@ -188,7 +169,6 @@
 "Scrubbing 0.1" = "Scrollsnelheid 1/10";
 "Scrubbing 0.05" = "Scrollsnelheid 1/20";
 "Scrubbing 0.025" = "Scrollsnelheid 1/50";
-
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "App disk cache legen...\n\nEven wachten, dit kan een tijdje duren";
 "Pull to sync with XBMC..." = "Trekken om te synchroniseren met Kodi...";
 "Release to sync with XBMC..." = "Loslaten om te synchroniseren met Kodi...";
@@ -197,34 +177,28 @@
 "View: Wall" = "Vertoning: Muur";
 "View: List" = "Vertoning: Lijst";
 "View: Fanart" = "Vertoning: Fan art";
-
 "Show Content" = "Laat inhoud zien";
 "Play in party mode" = "Afspelen in feestmodus";
 "Play in shuffle mode" = "Afspelen in shuffle-modus";
-
 "Channel Guide" = "Gids";
 "Record" = "Opnemen";
 "Stop Recording" = "Stop Opname";
 "Recordings" = "Opnames";
 "Timers" = "Timers";
-"Delete timer" = "Delete timer";
+"Delete timer" = "Annuleer timer";
 "Broadcast Details" = "Uitzendingsdetails";
 "TIME" = "Tijd";
-
 "ERROR" = "FOUT";
 "Subtitles disabled" = "Ondertitels uitgeschakeld";
 "Subtitle" = "Ondertitel";
 "Mark as watched" = "Markeren als bekeken";
 "Mark as unwatched" = "Markeren als niet bekeken";
-
 "Button Pad/Gesture Zone" = "Knoppen- / Gebarenbesturing";
 "Slide your finger up or down to adjust the scrubbing rate." = "Vinger omhoog of omlaag schuiven om de scrollsnelheid aan te passen.";
-
 "Programs" = "Programma's";
 "Video Add-ons" = "Video add-ons";
 "Music Add-ons" = "Muziek add-ons";
 "XBMC Settings" = "Kodi-instellingen";
-
 "Custom button" = "Aangepaste knop";
 "Modify label:" = "Label aanpassen:";
 "Update label" = "Label bijwerken";
@@ -235,30 +209,24 @@
 "enter value" = "Waarde ingeven";
 "Tap and hold a setting to add a new button." = "Instelling ingedrukt houden om nieuwe knop toe te voegen.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "Geen aangepaste knop gedefinieerd.\r\nDruk op \"...meer\" om nieuwe knoppen toe te voegen.";
-
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- WAARSCHUWING --\nKodi API voorafgaand Krypton (V17) niet mogelijk timers bewerken. Gebruik de Kodi interface voor het toevoegen, wijzigen en verwijderen van timers. Bedankt!";
-
 "Execute program" = "Programma uitvoeren";
 "Execute video add-on" = "Video add-on uitvoeren";
 "Execute audio add-on" = "Audio add-on uitoveren";
 "Add-on executed successfully" = "Add-on succesvol uitgevoerd";
 "Unable to execute the add-on" = "Niet mogelijk om add-on uit te voeren";
-
 "...more" = "...meer";
 "Edit" = "Wijzigen";
 "Done" = "Klaar";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi versie 13 of nieuwer vereist om toegang tot instellingen te verkrijgen";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WAARSCHUWING --\nDit soort instellingen kan je niet op afstand aanpassen. Gebruik hiervoor de Kodi interface.\nBedankt!";
-
 "Official XBMC Remote\nfor iOS" = "Officiële Kodi Afstandsbediening\nvoor iOS";
 "Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "De \"Officiële Kodi Afstandsbediening\" gebruikt afbeeldingen van http://fanart.tv. Installeer de \"artwork downloader\" Kodi add-on om deze ook in Kodi te zien!\n\nHet Kodi-logo, de Zappy mascotte en de Officiële Kodi Afstandsbediening iconen zijn eigendom van Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "Veel plezier!";
-
 "No items found." = "Geen onderdelen gevonden";
 "Video" = "Video";
 "Party" = "Feest";
 "Search" = "Zoeken";
-
 "Supported XBMC version is Eden (11) or higher" = "Ondersteunde XBMC/Kodi versie is Eden (11) of nieuwer";
 "Add Host" = "Host toevoegen";
 "Kodi connection notice" = "Kodi verbindingsbericht";
@@ -266,7 +234,6 @@
 "Do you want to enable this connection now?" = "Wil je deze verbinging nu aanzetten?";
 "Don't show this message again" = "Toon dit bericht niet opnieuw";
 "Enable TCP connection on Kodi" = "Zet de TCP-verbinding aan in Kodi";
-
 "Description" = "Beschrijving";
 "Host : port /\nTCP port" = "Host : poort /\nTCP poort";
 "MAC Address" = "MAC-adres";
@@ -280,9 +247,7 @@
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Instellingen > Diensten > Beheer:\n1. Webserver > Toestaan besturing op afstand via HTTP\n2. Applicatie beheer > Toestaan besturing op afstand via applicatie`s op andere systemen";
 "e.g. My XBMC" = "Bvb. Mijn Kodi";
 "e.g. 192.168.0.8" = "Bvb. 192.168.0.8";
-"Username" = "Gebruikersnaam";
 "Password" = "Wachtwoord";
-
 "Sort by" = "Sorteren op";
 "tap" = "tik";
 "the selection" = "de selectie";
@@ -296,7 +261,7 @@
 "Artist" = "Artiest";
 "Year" = "Jaar";
 "Play count" = "Afspeelteller";
-"Track" = "Track";
+"Track" = "Nummer";
 "Title" = "Titel";
 "Rating" = "Waardering";
 "Duration" = "Duur";
@@ -308,7 +273,6 @@
 "Year %@" = "Jaar %@";
 "Rated %@" = "%@ gewaardeerd";
 "Track n.%@" = "Track nr %@";
-
 "Less than 15 minutes" = "Minder dan 15 minuten";
 "Less than half an hour" = "Minder dan een half uur";
 "About half an hour" = "Ongeveer een half uur";
@@ -327,15 +291,18 @@
 "Nearly four hours" = "Bijna vier uur";
 "About four hours" = "Ongeveer vier uur";
 "More than four hours" = "Meer dan vier uur";
-
 "Unknown" = "Onbekend";
 "Audio stream" = "Audiostream";
 "Disable subtitles" = "Ondertitels uitschakelen";
 "Subtitles" = "Ondertitels";
-
 "Execute a specific action" = "Voer een specifieke actie uit";
 "Activate a specific window" = "Activeer een specifiek venster";
 "Execute action" = "Voer actie uit";
 "Activate window" = "Activeer venster";
 "Add action button" = "Voeg actieknop toe";
 "Add window activation button" = "voeg vensteractivatieknop toe";
+"Runtime" = "Speelduur";
+"Date" = "Datum";
+"User" = "Gebruiker";
+"Video Playlists" = "Videoafspeellijsten";
+"Favourites" = "Favorieten";
