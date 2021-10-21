@@ -1,8 +1,8 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
 "General" = "General";
-"Language" = "Language";
-"Automatic" = "Automatic";
+"Language" = "Jazyk";
+"Automatic" = "Automatické";
 "Language changes needs app restart" = "Language changes needs app restart";
 "Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play mode";
@@ -10,7 +10,7 @@
 "Shake to clear playlist" = "Shake to clear playlist";
 "Show jewel cases" = "Show jewel cases";
 "Hide labels in wall view" = "Hide labels in wall view";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Dálkové ovládání";
 "Gesture remote control" = "Gesture remote control";
 "Vibrate remote control" = "Vibrate remote control";
 "App Settings" = "App Settings";
@@ -19,7 +19,7 @@
 "Override Lockscreen" = "Override Lockscreen";
 "Show all files in filemode" = "Show all files in filemode";
 "Filemode changes needs app restart" = "Filemode changes needs app restart";
-"Main Menu" = "Main Menu";
+"Main Menu" = "Hlavní nabídka";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
 "Show MUSIC" = "Show MUSIC";
 "Show MOVIES" = "Show MOVIES";
@@ -29,3 +29,4 @@
 "Show FAVOURITES" = "Show FAVOURITES";
 "Show NOW PLAYING" = "Show NOW PLAYING";
 "Show REMOTE CONTROL" = "Show REMOTE CONTROL";
+"Light" = "Lehký";

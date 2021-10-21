@@ -218,7 +218,7 @@
 "Official XBMC Remote\nfor iOS" = "Official Kodi Remote\nfor iOS";
 "Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Official Kodi Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" Kodi add-on to unlock the beauty of additional artwork!\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "enjoy!";
-"No items found." = "Aucun élément";
+"No items found." = "Aucun élément.";
 "Video" = "Vidéo";
 "Party" = "Party";
 "Search" = "Recherche";
@@ -297,7 +297,11 @@
 "Add action button" = "Add action button";
 "Add window activation button" = "Add window activation button";
 "Runtime" = "Durée";
-"User" = "Utilisateur";
 "Pictures Add-ons" = "Extensions Images";
 "Video Playlists" = "Listes de lecture de vidéos";
 "Favourites" = "Favoris";
+"Never" = "Jamais";
+"Last Updated: %@" = "Dernière mise à jour : %@";
+"Not Available" = "Non disponible";
+"Username" = "Nom d'utilisateur";
+"Radio" = "Radio";

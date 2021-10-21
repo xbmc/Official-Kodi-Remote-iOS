@@ -298,7 +298,6 @@
 "Add window activation button" = "添加窗口激活按钮";
 "Runtime" = "时长";
 "Date" = "日期";
-"User" = "用户";
 "Slide your finger up to adjust the scrubbing rate." = "向上滑动手指来调整拖动速度。";
 "Video Playlists" = "视频播放列表";
 "Favourites" = "收藏夹";
@@ -310,3 +309,7 @@
 "Action executed successfully" = "动作执行成功";
 "Music Roles" = "音乐角色";
 "Choose your" = "选择";
+"Never" = "从不";
+"Not Available" = "不可用";
+"Username" = "用户名";
+"Radio" = "电台";
