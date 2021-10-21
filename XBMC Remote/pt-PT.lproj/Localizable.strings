@@ -196,8 +196,6 @@
 "Button Pad/Gesture Zone" = "Botões / Gestos";
 "Slide your finger up or down to adjust the scrubbing rate." = "Deslize para cima ou para baixo para ajustar a velocidade do cursor de reprodução.";
 "Programs" = "Programas";
-"Video Add-ons" = "Add-ons de vídeo";/*------ To verify ------*/
-"Music Add-ons" = "Add-ons de música";/*------ To verify ------*/
 "XBMC Settings" = "Definições do Kodi";
 "Custom button" = "Botão personalizado";
 "Modify label:" = "Modificar etiqueta:";
@@ -247,7 +245,7 @@
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Definições > Serviços > Controlo:\n1. Servidor web > Permitir controlo remoto via HTTP\n2. Controlo de aplicação > Permitir o controlo remoto a partir das aplicações de outros sistemas";
 "e.g. My XBMC" = "p. ex. O meu Kodi";
 "e.g. 192.168.0.8" = "p. ex. 192.168.0.8";
-"User" = "Utilizador";
+"Username" = "Utilizador";
 "Password" = "Palavra-passe";
 "Sort by" = "Ordenar por";
 "tap" = "toque";

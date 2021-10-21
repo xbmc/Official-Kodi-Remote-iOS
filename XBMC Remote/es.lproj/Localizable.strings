@@ -194,8 +194,6 @@
 "Button Pad/Gesture Zone" = "Botón Pad/Zona de Gestos";
 "Slide your finger up or down to adjust the scrubbing rate." = "Desliza tu dedo arriba o abajo para ajustar para ajustar la velocidad de depuración.";
 "Programs" = "Programas";
-"Video Add-ons" = "Add-ons de Vídeo";
-"Music Add-ons" = "Add-ons de Música";
 "XBMC Settings" = "Ajustes de Kodi";
 "Custom button" = "Personalizar botón";
 "Modify label:" = "Modificar etiqueta:";
@@ -245,7 +243,7 @@
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Ajustes > Servicios > Control:\n1. Servidor Web > Permitir control remoto vía HTTP\n2. Control de aplicación > Permitir control remoto desde aplicaciones en otros equipos";
 "e.g. My XBMC" = "ej. Mi Kodi";
 "e.g. 192.168.0.8" = "ej. 192.168.0.8";
-"User" = "Usuario";
+"Username" = "Usuario";
 "Password" = "Contraseña";
 "Sort by" = "Listar por";
 "tap" = "pulsar";

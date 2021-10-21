@@ -194,8 +194,6 @@
 "Button Pad/Gesture Zone" = "Tlačítka/Zóna gest";
 "Slide your finger up or down to adjust the scrubbing rate." = "Pohybem prstu nahoru můžete upravit rychlost převíjení.";
 "Programs" = "Programy";
-"Video Add-ons" = "Video doplňky";
-"Music Add-ons" = "Hudební doplňky";
 "XBMC Settings" = "Nastavení Kodi";
 "Custom button" = "Uživatelské tlačítko";
 "Modify label:" = "Upravit název:";
@@ -245,7 +243,7 @@
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Nastavení > Služby > Ovládání:\n1. Webový server > Povolit vzdálené ovládání prostřednictvím HTTP\n2. Ovládání aplikace > Povolit vzdálené ovládání z aplikací v jiných systémech";
 "e.g. My XBMC" = "např. Moje Kodi";
 "e.g. 192.168.0.8" = "např. 192.168.0.8";
-"User" = "Uživatel";
+"Username" = "Uživatelské jméno";
 "Password" = "Heslo";
 "Sort by" = "Třídit";
 "tap" = "tap";
