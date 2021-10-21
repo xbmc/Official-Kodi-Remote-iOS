@@ -307,6 +307,12 @@
 "Action executed successfully" = "Czynność wykonana pomyślnie";
 "Music Roles" = "Role muzyczne";
 "Video Playlists" = "Listy odtwarzania wideo";
-"User" = "Użytkownik";
 "Favourites" = "Ulubione";
 "Choose your" = "Przejdź do";
+"Never" = "Nigdy";
+"Last Updated: %@" = "Ostatnio zaktualizowane: %@";
+"Not Available" = "Niedostępne";
+"Copy to clipboard" = "Skopiuj do schowka";
+"Username" = "Nazwa użytkownika";
+"MUSIC ROLES" = "ROLE MUZYCZNE";
+"Radio" = "Radio";
