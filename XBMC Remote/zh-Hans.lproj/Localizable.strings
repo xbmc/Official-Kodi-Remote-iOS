@@ -12,7 +12,6 @@
 "See what's" = "查看";
 "Use as" = "使用";
 "Watch" = "看";
-
 "Music" = "音乐";
 "Movies" = "电影";
 "TV Shows" = "剧集";
@@ -23,7 +22,6 @@
 "New XBMC Server" = "新Kodi服务器";
 "Modify XBMC Server" = "修改Kodi服务器";
 "Select an XBMC Server from the list" = "从列表中选择一个Kodi服务器";
-
 "Files" = "文件";
 "Video Add-ons" = "视频插件";
 "Live TV" = "直播电视";
@@ -32,7 +30,6 @@
 "Added Movies" = "已加入电影";
 "More (%d)" = "更多（%d）";
 "Movie Sets" = "影片集";
-
 "Albums" = "专辑";
 "Artists" = "艺人";
 "Genres" = "类型";
@@ -49,11 +46,8 @@
 "All songs" = "全部歌曲";
 "Music Add-ons" = "音乐插件";
 "Music Playlists" = "音乐播放列表";
-
 "Added Episodes" = "已加入剧集";
-
 "Pictures Add-ons" = "图片插件";
-
 "Power off System" = "关闭系统";
 "Power off" = "关机";
 "Hibernate" = "休眠";
@@ -69,15 +63,12 @@
 "Clean Video Library" = "清理视频资料库";
 "Clean Video" = "清理视频";
 "Quit" = "退出";
-
 "Keyboard" = "键盘";
 "Gesture Zone" = "手势区";
 "Button Pad" = "按键板";
 "Help Screen" = "帮助屏";
 "LED Torch" = "LED电筒";
-
 "No connection" = "无连接";
-
 "Queue after current" = "队列当前位置后";
 "Queue" = "队列";
 "Play" = "播放";
@@ -94,7 +85,6 @@
 "Music Video Details" = "音乐电视详情";
 "Details" = "详情";
 "Play Trailer" = "播放预告片";
-
 "Playlist" = "播放列表";
 "Nothing is playing" = "未播放任何项目";
 "Details not found" = "详细资料未找到";
@@ -115,7 +105,6 @@
 "Mins." = "分";
 "Min" = "分";
 "Released %d" = "发布 %d";
-
 "Clear Playlist" = "清除播放列表";
 "No server MAC address defined" = "未定义服务器MAC地址";
 "Command executed" = "命令已执行";
@@ -123,7 +112,6 @@
 "Cannot do that" = "无法做到";
 "Wake On Lan" = "网络唤醒";
 "No saved hosts found" = "未找到保存的主机";
-
 "Are you sure you want to clear the %@playlist?" = "确定要清除%@playlist?";
 "Are you sure you want to power off your XBMC system now?" = "确定现在要让Kodi系统关机？";
 "Are you sure you want to hibernate your XBMC system now?" = "确定现在要让Kodi系统休眠？";
@@ -134,7 +122,6 @@
 "Are you sure you want to clean your audio library now?" = "确定现在要清理你的音频资料库？";
 "Are you sure you want to update your video library now?" = "确定现在要更新你的视频资料库？";
 "Are you sure you want to clean your video library now?" = "确定现在要清理你的视频资料库？";
-
 "DIRECTED BY" = "导演";
 "RUNTIME" = "时长";
 "PARENTAL RATING" = "分级";
@@ -147,15 +134,14 @@
 "WRITER" = "编剧";
 "FIRST AIRED" = "首播";
 "SUMMARY" = "摘要";
-"PLOT OUTLINE" = "PLOT OUTLINE";
+"PLOT OUTLINE" = "剧情简介";
 "ARTIST" = "艺人";
 "YEAR" = "年份";
 "ALBUM LABEL" = "专辑标签";
 "DESCRIPTION" = "介绍";
 "STYLE" = "风格";
 "BORN / FORMED" = "诞生 / 组建";
-"TRAILER" = "TRAILER";
-
+"TRAILER" = "预告片";
 "codec" = "编码";
 "bit rate" = "比特率";
 "sample rate" = "采样率";
@@ -164,29 +150,22 @@
 "Subtitles not available" = "字幕不可用";
 "Audiostream not available" = "音频流不可用";
 "Audiostreams not available" = "音频流不可用";
-
 "LongDateTimeFormat" = "YYYY年M月d日";
 "ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "zh_CN";
-
 "Yes" = "是";
 "No" = "否";
 "Authentication Failed" = "验证失败";
 "Incorrect Username or Password.\nCheck your settings." = "错误用户名或密码。\n请检查你的设置。";
-
 "WIKI_LANG" = "zh";
-
 "vote" = "投票";
 "votes" = "票";
-
-"Slide your finger up to adjust the Scrubbing rate." = "向上滑动手指来调整拖动速度。";
 "Scrubbing 1" = "拖动速率 1";
 "Scrubbing 0.5" = "拖动速率 0.5";
 "Scrubbing 0.25" = "拖动速率 0.25";
 "Scrubbing 0.1" = "拖动速率 0.1";
 "Scrubbing 0.05" = "拖动速率 0.05";
 "Scrubbing 0.025" = "拖动速率 0.025";
-
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "正清除应用磁盘缓存...\n\n还需要一点时间，请稍候";
 "Pull to sync with XBMC..." = "下拉与Kodi同步...";
 "Release to sync with XBMC..." = "松开与Kodi同步...";
@@ -195,34 +174,28 @@
 "View: Wall" = "视图：墙";
 "View: List" = "视图：列表";
 "View: Fanart" = "视图：同人画";
-
 "Show Content" = "显示内容";
 "Play in party mode" = "以舞会模式播放";
 "Play in shuffle mode" = "以乱序模式播放";
-
 "Channel Guide" = "频道指南";
 "Record" = "录像";
 "Stop Recording" = "停止录制";
 "Recordings" = "录像";
 "Timers" = "定时器";
-"Delete timer" = "Delete timer";
+"Delete timer" = "删除定时器";
 "Broadcast Details" = "播出信息";
 "TIME" = "时间";
-
 "ERROR" = "错误";
 "Subtitles disabled" = "字幕已禁用";
 "Subtitle" = "字幕";
 "Mark as watched" = "标记为已观看";
 "Mark as unwatched" = "标记为未观看";
-
 "Button Pad/Gesture Zone" = "按键板/手势区";
 "Slide your finger up or down to adjust the scrubbing rate." = "上下滑动手指调整拖动速度。";
-
 "Programs" = "程序";
 "Video Add-ons" = "视频插件";
 "Music Add-ons" = "音乐插件";
 "XBMC Settings" = "Kodi设置";
-
 "Custom button" = "自定义按钮";
 "Modify label:" = "修改标签：";
 "Update label" = "更新标签";
@@ -233,38 +206,31 @@
 "enter value" = "输入数值";
 "Tap and hold a setting to add a new button." = "点按设置来增加新按钮。";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "无自定义按钮。\r\n按 \"...更多\" 来增加。";
-
-"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- 注意 --\n\nKodi API之前的Krypton（v17）不允许计时器编辑。请使用Kodi图形用户界面增加、编辑和删除定时器。谢谢。";
-
+"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- 注意 --\nKodi API 之前的 Krypton（v17）不允许计时器编辑。请使用 Kodi 图形用户界面增加、编辑和删除定时器。谢谢。";
 "Execute program" = "运行程序";
 "Execute video add-on" = "运行视频插件";
 "Execute audio add-on" = "运行音频插件";
 "Add-on executed successfully" = "插件运行成功";
 "Unable to execute the add-on" = "无法运行插件";
-
 "...more" = "...更多";
 "Edit" = "编辑";
 "Done" = "完成";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "访问Kodi设置需要Kodi 13或更高版本";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- 注意 --\n此类设置无法远程设置。请使用Kodi图形用户界面来改变此设置。\n谢谢。";
-
 "Official XBMC Remote\nfor iOS" = "官方Kodi遥控器\niOS版";
 "Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "官方Kodi遥控器应用使用的艺术图片来源于http://fanart.tv，下载安装Kodi扩展功能插件“artwork downloader”可获得附加的艺术图片！\n\nKodi标志，Zappy吉祥物和官方Kodi遥控器图标归于Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "使用愉快！";
-
 "No items found." = "未找到项目。";
 "Video" = "视频";
 "Party" = "舞会";
 "Search" = "搜索";
-
 "Supported XBMC version is Eden (11) or higher" = "支持Eden (11)或更高版本的Kodi";
 "Add Host" = "添加站点";
-"Kodi connection notice" = "Kodi connection notice";
-"It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input.";
-"Do you want to enable this connection now?" = "Do you want to enable this connection now?";
-"Don't show this message again" = "Don't show this message again";
-"Enable TCP connection on Kodi" = "Enable TCP connection on Kodi";
-
+"Kodi connection notice" = "Kodi连接通知";
+"It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "似乎无法建立与Kodi的TCP连接。这将阻止应用程序监听Kodi。例如，当Kodi请求键盘输入时，应用程序中的键盘输入将不显示。";
+"Do you want to enable this connection now?" = "您想现在启用此连接吗？";
+"Don't show this message again" = "不再显示此消息";
+"Enable TCP connection on Kodi" = "在Kodi上启用TCP连接";
 "Description" = "描述";
 "Host : port /\nTCP port" = "站点 : 端口 /\nTCP 端口";
 "MAC Address" = "MAC 地址";
@@ -275,65 +241,74 @@
 "No XBMC instances were found :(" = "未找到 Kodi 实例 :(";
 "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "“查找Kodi” 功能需要Kodi服务器启用选项\n“通过Zeroconf协议发布这些服务”";
 "How-to activate the remote app in Kodi" = "如何在Kodi中激活远程控制";
-"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems";
+"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "设置 > 服务 > 控制:\n1. Web服务器 > 允许通过HTTP远程控制\n2. 应用控制 > 允许在其它系统的应用远程控制";
 "e.g. My XBMC" = "如：我的Kodi";
 "e.g. 192.168.0.8" = "如：192.168.0.8";
-"Username" = "用户名";
 "Password" = "密码";
-
-"Sort by" = "Sort by";
-"tap" = "tap";
-"the selection" = "the selection";
-"tap the selection\nto reverse the sort order" = "tap the selection\nto reverse the sort order";
-"Not listened" = "Not listened";
-"Listened one time" = "Listened one time";
-"Listened %@ times" = "Listened %@ times";
-"Not watched" = "Not watched";
-"Watched one time" = "Watched one time";
-"Watched %@ times" = "Watched %@ times";
-"Artist" = "Artist";
-"Year" = "Year";
-"Play count" = "Play count";
-"Track" = "Track";
-"Title" = "Title";
-"Rating" = "Rating";
-"Duration" = "Duration";
-"Date added" = "Date added";
-"Name" = "Name";
-"User rating" = "User rating";
-"The %@s decade" = "The %@s decade";
-"Year not available" = "Year not available";
-"Year %@" = "Year %@";
-"Rated %@" = "Rated %@";
-"Track n.%@" = "Track n.%@";
-
-"Less than 15 minutes" = "Less than 15 minutes";
-"Less than half an hour" = "Less than half an hour";
-"About half an hour" = "About half an hour";
-"Less than one hour" = "Less than one hour";
-"About one hour" = "About one hour";
-"About an hour and a half" = "About an hour and a half";
-"Nearly two hours" = "Nearly two hours";
-"About two hours" = "About two hours";
-"Two hours" = "Two hours";
-"About two and a half hours" = "About two and a half hours";
-"More than two and a half hours" = "More than two and a half hours";
-"Nearly three hours" = "Nearly three hours";
-"About three hours" = "About three hours";
-"Nearly three and half hours" = "Nearly three and half hours";
-"About three and half hours" = "About three and half hours";
-"Nearly four hours" = "Nearly four hours";
-"About four hours" = "About four hours";
-"More than four hours" = "More than four hours";
-
-"Unknown" = "Unknown";
-"Audio stream" = "Audio stream";
-"Disable subtitles" = "Disable subtitles";
-"Subtitles" = "Subtitles";
-
-"Execute a specific action" = "Execute a specific action";
-"Activate a specific window" = "Activate a specific window";
-"Execute action" = "Execute action";
-"Activate window" = "Activate window";
-"Add action button" = "Add action button";
-"Add window activation button" = "Add window activation button";
+"Sort by" = "排序方式";
+"tap" = "点击";
+"the selection" = "所选内容";
+"tap the selection\nto reverse the sort order" = "点击所选内容\n倒转排序顺序";
+"Not listened" = "未收听";
+"Listened one time" = "听过一次";
+"Listened %@ times" = "听过 %@ 次";
+"Not watched" = "未观看";
+"Watched one time" = "看过一次";
+"Watched %@ times" = "看过 %@ 次";
+"Artist" = "歌手";
+"Year" = "年份";
+"Play count" = "播放次数";
+"Track" = "音轨";
+"Title" = "标题";
+"Rating" = "评分";
+"Duration" = "时长";
+"Date added" = "加入日期";
+"Name" = "名称";
+"User rating" = "用户评分";
+"The %@s decade" = "%@s 时代";
+"Year not available" = "年代不可用";
+"Year %@" = "年代 %@";
+"Rated %@" = "%@ 票";
+"Track n.%@" = "第 %@ 首";
+"Less than 15 minutes" = "不到15分钟";
+"Less than half an hour" = "不到半小时";
+"About half an hour" = "大约半小时";
+"Less than one hour" = "不到一小时";
+"About one hour" = "大约一小时";
+"About an hour and a half" = "大约一个半小时";
+"Nearly two hours" = "将近两小时";
+"About two hours" = "大约两小时";
+"Two hours" = "两小时";
+"About two and a half hours" = "大约两个半小时";
+"More than two and a half hours" = "超过两个半小时";
+"Nearly three hours" = "将近三小时";
+"About three hours" = "大约三小时";
+"Nearly three and half hours" = "将近三个半小时";
+"About three and half hours" = "大约三个半小时";
+"Nearly four hours" = "将近四小时";
+"About four hours" = "大约四小时";
+"More than four hours" = "超过四小时";
+"Unknown" = "未知";
+"Audio stream" = "音频流";
+"Disable subtitles" = "禁用字幕";
+"Subtitles" = "字幕";
+"Execute a specific action" = "执行特定动作";
+"Activate a specific window" = "激活特定窗口";
+"Execute action" = "执行动作";
+"Activate window" = "激活窗口";
+"Add action button" = "添加动作按钮";
+"Add window activation button" = "添加窗口激活按钮";
+"Runtime" = "时长";
+"Date" = "日期";
+"User" = "用户";
+"Slide your finger up to adjust the scrubbing rate." = "向上滑动手指来调整拖动速度。";
+"Video Playlists" = "视频播放列表";
+"Favourites" = "收藏夹";
+"Channel" = "电视台";
+"For search switch to list view" = "搜索切换到列表视图";
+"Unable to activate the window" = "窗口无法激活";
+"Window activated successfully" = "窗口激活成功";
+"Unable to execute the action" = "动作无法执行";
+"Action executed successfully" = "动作执行成功";
+"Music Roles" = "音乐角色";
+"Choose your" = "选择";
