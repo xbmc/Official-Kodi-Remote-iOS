@@ -47,7 +47,6 @@
 "Music Add-ons" = "Müzik Eklentileri";
 "Music Playlists" = "Çalma Listeleri";
 "Added Episodes" = "Eklenen Bölümler";
-"Picture Add-ons" = "Resim Eklentileri";
 "Power off System" = "Sistemi Kapat";
 "Power off" = "Kapat";
 "Hibernate" = "Uyku Modu";
@@ -143,8 +142,8 @@
 "BORN / FORMED" = "DOĞUM / KURULUŞ";
 "TRAILER" = "FRAGMAN";
 "codec" = "codec";
-"bit rate" = "bit rate";
-"sample rate" = "sample rate";
+"bit rate" = "bit hızı";
+"sample rate" = "Örnek hızı";
 "resolution" = "çözünürlük";
 "aspect ratio" = "görüntü oranı";
 "Subtitles not available" = "Altyazı yok";
@@ -183,7 +182,7 @@
 "Stop Recording" = "Kaydı Durdur";
 "Recordings" = "Kayıtlar";
 "Timers" = "Zamanlamalar";
-"Delete timer" = "Delete timer";
+"Delete timer" = "Zamanlayıcı sil";
 "Broadcast Details" = "Yayın Ayrıntıları";
 "TIME" = "ZAMAN";
 "ERROR" = "HATA";
@@ -220,7 +219,6 @@
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- UYARI --\nBu ayarlara uzaktan erişilemiyor. Kodi arayüzünü kullanın.";
 "Official XBMC Remote\nfor iOS" = "Kodi Resmi Uzaktan Kumandası \niOS sürümü";
 "Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Resmi Kodi Uzaktan Kumanda uygulaması http://fanart.tv adresinden görsel indirir. Daha fazla görsel için \"artwork downloader\" uygulamasını deneyebilirsiniz.\n\nKodi logosu, Zappy maskotu ve Resmi Kodi Uzaktan Kumanda ikonlarının tüm hakları Kodi'ye aittir\nhttp://www.kodi.tv/contribute";
-"Enjoy!" = "İyi eğlenceler!";
 "No items found." = "Hiçbir şey bulunamadı";
 "Video" = "Video";
 "Party" = "Parti";
@@ -245,7 +243,6 @@
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Ayarlar > Hizmetler > Denetim:\n1. Web sunucusu > HTTP üzerinden uzaktan kontrole izin ver\n2. Uygulama denetimi > Diğer sistemlerdeki programların uzactan kontrol etmesine izin ver";
 "e.g. My XBMC" = "Örn. Kodi'm";
 "e.g. 192.168.0.8" = "Örn. 192.168.0.8";
-"Username" = "Kullanıcı adı";
 "Password" = "Parola";
 "Sort by" = "Sırala";
 "tap" = "dokun";
@@ -300,3 +297,9 @@
 "Activate window" = "Pencere etkinleştir";
 "Add action button" = "Eylem tuşu ekle";
 "Add window activation button" = "Pencere etkinleştirme tuşu ekle";
+"Runtime" = "Süre";
+"Date" = "Tarih";
+"enjoy!" = "İyi eğlenceler!";
+"Pictures Add-ons" = "Resim eklentileri";
+"Video Playlists" = "Video oynatma listeleri";
+"Favourites" = "Sık kullanılanlar";
