@@ -1,8 +1,8 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
-"General"="Allgemein";
-"Language"="Sprache";
-"Automatic"="Automatisch";
+"General" = "Allgemein";
+"Language" = "Sprache";
+"Automatic" = "Automatisch";
 "Language changes needs app restart" = "Sprachänderungen erfordern einen App-Neustart";
 "Show connection notice" = "Zeige Verbindungshinweis";
 "Direct Play mode" = "\"Sofort abspielen\"-Modus";
@@ -12,21 +12,23 @@
 "Hide labels in wall view" = "Keine Texte in der \"Wall-View\"";
 "Use rounded corner images" = "Abgerundete Ecken für Vorschaubilder";
 "TV logo background" = "TV Logo Hintergrund";
-"Dark"="Dunkel";
-"Light"="Hell";
-"Transparent"="Transparent";
+"Dark" = "Dunkel";
+"Light" = "Hell";
+"Transparent" = "Transparent";
 "Remote Control" = "Fernbedienung";
 "Gesture remote control" = "Gestenbedienung";
 "Vibrate remote control" = "Fernbedienung vibriert";
 "Remote Position" = "Lage des Bedienfelds";
-"Top"="Oben";
-"Bottom"="Unten";
+"Top" = "Oben";
+"Bottom" = "Unten";
 "App Settings" = "Programmeinstellungen";
 "Clear cache on next start" = "Cache beim Start löschen";
 "Enable contents cache" = "Inhalts-Cache aktivieren";
 "Override Lockscreen" = "Sperrbildschirm verhindern";
 "Show all files in filemode" = "Alle Dateien anzeigen";
 "Filemode changes needs app restart" = "Dateimodus-Änderungen erfordern einen App-Neustart";
+"Main Menu" = "Hauptmenü";
+"Main Menu changes needs app restart" = "Hauptmenü-Änderungen erfordern einen App-Neustart";
 "Show MUSIC" = "Zeige MUSIK";
 "Show MOVIES" = "Zeige FILME";
 "Show TV SHOWS" = "Zeige SERIEN";
