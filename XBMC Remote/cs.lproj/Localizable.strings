@@ -71,7 +71,7 @@
 "No connection" = "Bez připojení";
 "Queue after current" = "Fronta po stávající";
 "Queue" = "Fronta";
-"Play" = "Play";
+"Play" = "Přehrát";
 "Stream to iPhone" = "Streamovat do iPhone";
 "Search Wikipedia" = "Hledat na Wikipedia";
 "Search last.fm charts" = "Hledat last.fm charts";
@@ -85,7 +85,7 @@
 "Music Video Details" = "Detaily videoklipu";
 "Details" = "Detaily";
 "Play Trailer" = "Přehrát trailer";
-"Playlist" = "Playlist";
+"Playlist" = "Seznam stop";
 "Nothing is playing" = "Nic pro přehrání";
 "Details not found" = "Detaily nenalezeny";
 "Open in Safari" = "Otevřít v Safari";
@@ -143,7 +143,7 @@
 "BORN / FORMED" = "NAROZEN / VYTVOŘENI";
 "TRAILER" = "TRAILER";
 "codec" = "kodek";
-"bit rate" = "bit rate";
+"bit rate" = "Přenosová rychlost";
 "sample rate" = "vzorkovací frekvence";
 "resolution" = "rozlišení";
 "aspect ratio" = "poměr stran";
@@ -180,10 +180,10 @@
 "Play in shuffle mode" = "Náhodně přehrávat";
 "Channel Guide" = "Průvodce kanálů";
 "Record" = "Záznam";
-"Stop Recording" = "Stop Recording";
+"Stop Recording" = "Zastavit nahrávání";
 "Recordings" = "Nahrávky";
 "Timers" = "Časovače";
-"Delete timer" = "Delete timer";
+"Delete timer" = "Odstranit časovač";
 "Broadcast Details" = "Detaily přenosu";
 "TIME" = "ČAS";
 "ERROR" = "CHYBA";
@@ -291,7 +291,7 @@
 "About four hours" = "Asi čtyři hodiny";
 "More than four hours" = "Více než čtyři hodiny";
 "Unknown" = "Neznámý";
-"Audio stream" = "Audio stream";
+"Audio stream" = "Zvuková stopa";
 "Disable subtitles" = "Zakázat titulky";
 "Subtitles" = "Titulky";
 "Execute a specific action" = "Execute a specific action";
@@ -300,3 +300,7 @@
 "Activate window" = "Activate window";
 "Add action button" = "Add action button";
 "Add window activation button" = "Add window activation button";
+"Favourites" = "Oblíbené";
+"Video Playlists" = "Seznamy stop videí";
+"Runtime" = "Doba spuštění";
+"Date" = "Datum";

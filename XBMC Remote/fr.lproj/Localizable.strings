@@ -24,7 +24,7 @@
 "Select an XBMC Server from the list" = "Sélectionner un serveur Kodi dans la liste";
 "Files" = "Fichiers";
 "Video Add-ons" = "Add-ons Film";
-"Live TV" = "Live TV";
+"Live TV" = "TV en direct";
 "Movie Genres" = "Genres Film";
 "Music Videos" = "Clips Vidéo";
 "Added Movies" = "Récemment Ajouté";
@@ -47,7 +47,6 @@
 "Music Add-ons" = "Add-ons Musique";
 "Music Playlists" = "Playlists Musique";
 "Added Episodes" = "Episodes ajoutés";
-"Picture Add-ons" = "Add-ons Images";
 "Power off System" = "Eteindre";
 "Power off" = "Eteindre";
 "Hibernate" = "Veille prolongée";
@@ -84,8 +83,8 @@
 "TV Show Details" = "Détails de la série TV";
 "Music Video Details" = "Détails du clip vidéo";
 "Details" = "Détails";
-"Play Trailer" = "Play Trailer";
-"Playlist" = "Playlist";
+"Play Trailer" = "Lire la bande annonce";
+"Playlist" = "Liste de lecture";
 "Nothing is playing" = "Aucune lecture en cours";
 "Details not found" = "Détails non trouvés";
 "Open in Safari" = "Ouvrir dans Safari";
@@ -98,10 +97,10 @@
 "Episodes: %@" = "Episodes: %@";
 "1 result" = "1 resultat";
 "%d results" = "%d resultats";
-"Music " = "Music ";
+"Music " = "Musique ";
 "Video " = "Video ";
-"Songs" = "Songs";
-"Song" = "Song";
+"Songs" = "Chansons";
+"Song" = "Chanson";
 "Mins." = "Mins.";
 "Min" = "Min";
 "Released %d" = "Released %d";
@@ -194,8 +193,8 @@
 "Button Pad/Gesture Zone" = "Button Pad/Gesture Zone";
 "Slide your finger up or down to adjust the scrubbing rate." = "Slide your finger up or down to adjust the scrubbing rate.";
 "Programs" = "Programs";
-"Video Add-ons" = "Video Add-ons";
-"Music Add-ons" = "Music Add-ons";
+"Video Add-ons" = "Extensions Vidéos";
+"Music Add-ons" = "Extensions Musique";
 "XBMC Settings" = "Kodi Settings";
 "Custom button" = "Custom button";
 "Modify label:" = "Modify label:";
@@ -220,7 +219,6 @@
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the Kodi GUI for changing this setting.\nThank you.";
 "Official XBMC Remote\nfor iOS" = "Official Kodi Remote\nfor iOS";
 "Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Official Kodi Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" Kodi add-on to unlock the beauty of additional artwork!\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi\nhttp://www.kodi.tv/contribute";
-"Enjoy!" = "Enjoy!";
 "No items found." = "Aucun élément";
 "Video" = "Vidéo";
 "Party" = "Party";
@@ -245,7 +243,6 @@
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Paramètres > Services > Contrôle:\n1. Serveur Web > Autoriser le contrôle à distance via HTTP\n2. Contrôle du programme > Autoriser le contrôle à distance par des programmes sur d'autres systèmes";
 "e.g. My XBMC" = "ex. Mon Kodi";
 "e.g. 192.168.0.8" = "ex. 192.168.0.8";
-"Username" = "Utilisateur";
 "Password" = "Mot de passe";
 "Sort by" = "Trier par";
 "tap" = "tapez sur";
@@ -300,3 +297,8 @@
 "Activate window" = "Activate window";
 "Add action button" = "Add action button";
 "Add window activation button" = "Add window activation button";
+"Runtime" = "Durée";
+"User" = "Utilisateur";
+"Pictures Add-ons" = "Extensions Images";
+"Video Playlists" = "Listes de lecture de vidéos";
+"Favourites" = "Favoris";

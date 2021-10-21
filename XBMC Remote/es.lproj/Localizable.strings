@@ -142,7 +142,7 @@
 "STYLE" = "ESTILO";
 "BORN / FORMED" = "NACIDO / FORMADO";
 "TRAILER" = "TRAILER";
-"codec" = "codec";
+"codec" = "códec";
 "bit rate" = "tasa de bit";
 "sample rate" = "tasa de muestreo";
 "resolution" = "resolución";
@@ -180,10 +180,10 @@
 "Play in shuffle mode" = "Reproducir en modo aleatorio";
 "Channel Guide" = "Guía de Canal";
 "Record" = "Grabar";
-"Stop Recording" = "Stop Recording";
+"Stop Recording" = "Detener grabación";
 "Recordings" = "Grabaciones";
 "Timers" = "Temporizadores";
-"Delete timer" = "Delete timer";
+"Delete timer" = "Eliminar programación";
 "Broadcast Details" = "Detalles de Difusión";
 "TIME" = "TIEMPO";
 "ERROR" = "ERROR";
@@ -300,3 +300,6 @@
 "Activate window" = "Activate window";
 "Add action button" = "Add action button";
 "Add window activation button" = "Add window activation button";
+"Runtime" = "Duración";
+"Date" = "Fecha";
+"Favourites" = "Favoritos";

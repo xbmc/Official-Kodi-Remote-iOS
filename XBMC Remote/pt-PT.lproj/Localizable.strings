@@ -12,7 +12,6 @@
 "See what's" = "Ver o que está";
 "Use as" = "Utilizar como";
 "Watch" = "Ver";
-
 "Music" = "Música";
 "Movies" = "Filmes";
 "TV Shows" = "Séries de TV";
@@ -23,7 +22,6 @@
 "New XBMC Server" = "Novo servidor Kodi";
 "Modify XBMC Server" = "Modificar servidor Kodi";
 "Select an XBMC Server from the list" = "Seleccionar um servidor Kodi da lista";
-
 "Files" = "Ficheiros";
 "Video Add-ons" = "Add-ons de vídeo";/*------ To verify ------*/
 "Live TV" = "TV em directo";
@@ -32,7 +30,6 @@
 "Added Movies" = "Filmes adicionados";
 "More (%d)" = "Mais (%d)";
 "Movie Sets" = "Conjuntos";
-
 "Albums" = "Álbuns";
 "Artists" = "Artistas";
 "Genres" = "Géneros";
@@ -49,7 +46,6 @@
 "All songs" = "Todas as músicas";
 "Music Add-ons" = "Add-ons de música";/*------ To verify ------*/
 "Music Playlists" = "Listas de reprodução de música";
-
 "Added Episodes" = "Episódios adicionados";
 
 "Pictures Add-ons" = "Add-ons de imagens";/*------ To verify ------*/
@@ -69,15 +65,12 @@
 "Clean Video Library" = "Limpar colecção de vídeo";
 "Clean Video" = "Limpar vídeo";
 "Quit" = "Sair";
-
 "Keyboard" = "Teclado";
 "Gesture Zone" = "Zona de gestos";
 "Button Pad" = "Botões";
 "Help Screen" = "Ecrã de ajuda";
 "LED Torch" = "Flash LED";
-
 "No connection" = "Sem ligação";
-
 "Queue after current" = "Colocar na fila depois de actual";
 "Queue" = "Fila";
 "Play" = "Reproduzir";
@@ -94,7 +87,6 @@
 "Music Video Details" = "Detalhes do vídeo de música";
 "Details" = "Detalhes";
 "Play Trailer" = "Reproduzir trailer";
-
 "Playlist" = "Lista de reprodução";
 "Nothing is playing" = "Nada em reprodução";
 "Details not found" = "Detalhes não encontrados";
@@ -108,8 +100,6 @@
 "Episodes: %@" = "Episódios: %@";
 "1 result" = "1 resultado";
 "%d results" = "%d resultados";
-"Music playlist" = "lista de reprodução de música";
-"Video playlist" = "lista de reprodução de vídeo";
 "Songs" = "Músicas";
 "Song" = "Música";
 "Mins." = "Mins.";
@@ -134,7 +124,6 @@
 "Are you sure you want to clean your audio library now?" = "Tem a certeza que pretende limpar a sua colecção de áudio agora?";
 "Are you sure you want to update your video library now?" = "Tem a certeza que pretende actualizar a sua colecção de vídeo agora?";
 "Are you sure you want to clean your video library now?" = "Tem a certeza que pretende limpar a sua colecção de vídeo agora?";
-
 "DIRECTED BY" = "REALIZADO POR";
 "RUNTIME" = "DURAÇÃO";
 "PARENTAL RATING" = "CLASSIFICAÇÃO PARENTAL";
@@ -155,30 +144,24 @@
 "STYLE" = "ESTILO";
 "BORN / FORMED" = "Naturalidade / Formação";
 "TRAILER" = "TRAILER";
-
 "codec" = "codec";
-"bit rate" = "bit rate";
-"sample rate" = "sample rate";
+"bit rate" = "taxa de bits";
+"sample rate" = "taxa de amostragem";
 "resolution" = "resolução";
 "aspect ratio" = "formato";
 "Subtitles not available" = "Legendas não disponíveis";
 "Audiostream not available" = "Pista de áudio não disponível";
 "Audiostreams not available" = "Pistas de áudio não disponíveis";
-
 "LongDateTimeFormat" = "d' de 'MMMM' de 'yyyy";
 "ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "pt_PT";
-
 "Yes" = "Sim";
 "No" = "Não";
 "Authentication Failed" = "Falha ao autenticar";
 "Incorrect Username or Password.\nCheck your settings." = "Utilizador ou palavra-passe incorrectos.\nVerifique as suas definições.";
-
 "WIKI_LANG" = "pt";
-
 "vote" = "voto";
 "votes" = "votos";
-
 "Slide your finger up to adjust the scrubbing rate." = "Deslize para cima para ajustar a velocidade do cursor de reprodução.";
 "Scrubbing 1" = "Cursor de reprodução muito rápido";
 "Scrubbing 0.5" = "Cursor de reprodução com metade da velocidade";
@@ -186,7 +169,6 @@
 "Scrubbing 0.1" = "Cursor de reprodução preciso";
 "Scrubbing 0.05" = "Cursor de reprodução muito preciso";
 "Scrubbing 0.025" = "Cursor de reprodução ultra preciso";
-
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "A limpar a cache da app...\n\nPor favor aguarde, isto pode demorar um pouco";
 "Pull to sync with XBMC..." = "Puxar para sincronizar com Kodi...";
 "Release to sync with XBMC..." = "Largar para sincronizar com Kodi...";
@@ -195,11 +177,9 @@
 "View: Wall" = "Ver: Mural";
 "View: List" = "Ver: Lista";
 "View: Fanart" = "Ver: Fanart";
-
 "Show Content" = "Mostrar conteúdo";
 "Play in party mode" = "Reproduzir em modo de festa";
 "Play in shuffle mode" = "Reproduzir em modo aleatório";
-
 "Channel Guide" = "Guia de canais";
 "Record" = "Gravar";
 "Stop Recording" = "Parar gravação";
@@ -208,21 +188,17 @@
 "Delete timer" = "Eliminar temporizador";
 "Broadcast Details" = "Detalhes da emissão";
 "TIME" = "HORA";
-
 "ERROR" = "ERRO";
 "Subtitles disabled" = "Legendas desactivadas";
 "Subtitle" = "Legenda";
 "Mark as watched" = "Marcar como visto";
 "Mark as unwatched" = "Marcar como não visto";
-
 "Button Pad/Gesture Zone" = "Botões / Gestos";
 "Slide your finger up or down to adjust the scrubbing rate." = "Deslize para cima ou para baixo para ajustar a velocidade do cursor de reprodução.";
-
 "Programs" = "Programas";
 "Video Add-ons" = "Add-ons de vídeo";/*------ To verify ------*/
 "Music Add-ons" = "Add-ons de música";/*------ To verify ------*/
 "XBMC Settings" = "Definições do Kodi";
-
 "Custom button" = "Botão personalizado";
 "Modify label:" = "Modificar etiqueta:";
 "Update label" = "Actualizar etiqueta";
@@ -233,30 +209,24 @@
 "enter value" = "introduzir valor";
 "Tap and hold a setting to add a new button." = "Toque e segure uma definição para adicionar um novo botão.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "Nenhum botão personalizado definido.\r\nPressione abaixo em \"...mais\" para adicionar novos.";
-
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- AVISO --\nA API do Kodi anterior ao Krypton (v17) não permite editar temporizadores. Utilize o GUI do Kodi para adicionar, editar ou remover temporizadores. Obrigado.";
-
 "Execute program" = "Executar programa";
 "Execute video add-on" = "Executar add-on de vídeo";
 "Execute audio add-on" = "Executar add-on de áudio";
 "Add-on executed successfully" = "Add-on executado com sucesso";
 "Unable to execute the add-on" = "Não foi possível executar o add-on";
-
 "...more" = "...mais";
 "Edit" = "Editar";
 "Done" = "Concluir";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "É necessário o Kodi versão 13 ou superior para poder aceder às suas definições";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- AVISO --\nEste tipo de definição não pode ser configurado remotamente. Utilize o GUI do Kodi para alterar esta definição.\nObrigado.";
-
 "Official XBMC Remote\nfor iOS" = "Controlo Remoto Oficial Kodi\npara iOS";
 "Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "A app Controlo Remoto Oficial Kodi utiliza imagens obtidas de http://fanart.tv, descarregue e execute o add-on do Kodi \"artwork downloader\" para desbloquear imagens adicionais!\n\nO logótipo do Kodi, a mascote Zappy e os ícones do Controlo Remoto Oficial Kodi são propriedade do Kodi.\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "divirta-se!";
-
 "No items found." = "Nenhum item encontrado.";
 "Video" = "Vídeo";
 "Party" = "Festa";
 "Search" = "Procurar";
-
 "Supported XBMC version is Eden (11) or higher" = "Suportado o Kodi versão Eden (11) ou superior";
 "Add Host" = "Adicionar servidor";
 "Kodi connection notice" = "Aviso de ligação ao Kodi";
@@ -264,10 +234,9 @@
 "Do you want to enable this connection now?" = "Quer activar esta ligação agora?";
 "Don't show this message again" = "Não mostrar esta mensagem de novo";
 "Enable TCP connection on Kodi" = "Activar ligação ao Kodi por TCP";
-
 "Description" = "Descrição";
 "Host : port /\nTCP port" = "Servidor : porta /\nPorta TCP";
-"MAC Address" = "MAC Address";
+"MAC Address" = "Endereço MAC";
 "Username and Password" = "Utilizador e palavra-passe";
 "Prefer posters for TV shows" = "Preferir posters para séries de TV";
 "Find XBMC" = "Encontrar Kodi";
@@ -280,7 +249,6 @@
 "e.g. 192.168.0.8" = "p. ex. 192.168.0.8";
 "User" = "Utilizador";
 "Password" = "Palavra-passe";
-
 "Sort by" = "Ordenar por";
 "tap" = "toque";
 "the selection" = "na selecção";
@@ -306,7 +274,6 @@
 "Year %@" = "Ano %@";
 "Rated %@" = "Classificado como %@";
 "Track n.%@" = "Faixa nº%@";
-
 "Less than 15 minutes" = "Menos de 15 minutos";
 "Less than half an hour" = "Menos de meia hora";
 "About half an hour" = "Aproximadamente meia hora";
@@ -325,15 +292,33 @@
 "Nearly four hours" = "Quase quatro horas";
 "About four hours" = "Aproximadamente quatro horas";
 "More than four hours" = "Mais de quatro horas";
-
 "Unknown" = "Desconhecido";
 "Audio stream" = "Emissão áudio";
 "Disable subtitles" = "Desactivar legendas";
 "Subtitles" = "Legendas";
-
 "Execute a specific action" = "Executar uma acção específica";
 "Activate a specific window" = "Activar uma janela específica";
 "Execute action" = "Executar acção";
 "Activate window" = "Activar janela";
 "Add action button" = "Adicionar botão de acção";
 "Add window activation button" = "Adicionar botão de activação de janela";
+"Video " = "Vídeo ";
+"Music " = "Música ";
+"Video Playlists" = "Lista Reprodução Vídeo";
+"Favourites" = "Favoritos";
+"Runtime" = "Duração";
+"Date" = "Data";
+"Music Add-ons" = "Addons de música";
+"Video Add-ons" = "Addons de video";
+"Channel" = "Canal de televisão";
+"For search switch to list view" = "Para pesquisar mudar para ver a lista";
+"Unable to activate the window" = "Não foi possível ativar a janela";
+"Window activated successfully" = "Ativação da janela com sucesso";
+"Action executed successfully" = "Execução bem sucedida da ação";
+"Unable to execute the action" = "Não foi possível executar a ação";
+"Are you sure you want to clear the %@playlist?" = "Tem a certeza de que quer apagar a %@playlist?";
+"Released %d" = "Lançado %d";
+"Search last.fm charts" = "Pesquisar classificações do last.fm";
+"Pictures Add-ons" = "Extensões de fotos";
+"Music Roles" = "Funções musicais";
+"Choose your" = "Vá ao seu";
