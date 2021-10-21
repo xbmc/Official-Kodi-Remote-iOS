@@ -145,8 +145,8 @@
 "codec" = "codec";
 "bit rate" = "bit rate";
 "sample rate" = "sample rate";
-"resolution" = "resolution";
-"aspect ratio" = "aspect ratio";
+"resolution" = "risoluzione";
+"aspect ratio" = "rapporto d'aspetto";
 "Subtitles not available" = "Sottotitoli non disponibili";
 "Audiostream not available" = "Traccia audio non disponibile";
 "Audiostreams not available" = "Tracce audio non disponibili";
@@ -245,7 +245,6 @@
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Impostazioni > Servizi > Controllo:\n1. Web Server > Permetti controllo remoto via HTTP\n2. Controllo Applicazione > Permetti controllo remoto da applicazioni su altri dispositivi";
 "e.g. My XBMC" = "es. Mio Kodi";
 "e.g. 192.168.0.8" = "es. 192.168.0.8";
-"Username" = "Username";
 "Password" = "Password";
 "Sort by" = "Ordina per";
 "tap" = "tocca";
@@ -300,3 +299,7 @@
 "Activate window" = "Attiva finestra";
 "Add action button" = "Aggiungi pulsante di azione";
 "Add window activation button" = "Aggiungi pulsante di attivazione finestra";
+"Runtime" = "Durata";
+"User" = "Utente";
+"Video Playlists" = "Playlist video";
+"Favourites" = "Preferiti";
