@@ -12,8 +12,6 @@
 /*
  * Device and orientation checks
  */
-#define IS_AT_LEAST_IPHONE_X_HEIGHT (CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds) >= 812)
-#define IS_AT_LEAST_IPAD_1K_WIDTH (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) >= 1024)
 #define IS_IPHONE (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone)
 #define IS_IPAD (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
 #define IS_PORTRAIT UIInterfaceOrientationIsPortrait(UIApplication.sharedApplication.statusBarOrientation)

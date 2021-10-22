@@ -23,10 +23,10 @@
     IBOutlet UILabel *artistName;
     IBOutlet UILabel *currentTime;
     IBOutlet UILabel *duration;
-    IBOutlet UIImageView *timeCursor;
-    IBOutlet UIImageView *timeBar;
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *thumbnailView;
+    IBOutlet UIView *BottomView;
+    IBOutlet UIView *TopView;
     UIView *transitionView;
     UIView *transitionedView;
     IBOutlet UIView *nowPlayingView;
@@ -67,7 +67,6 @@
     int iPadthumbWidth;
     int iPadthumbHeight;
     IBOutlet UIView *playlistActionView;
-    IBOutlet UIImageView *pgbar;
     NSString *currentType;
     BOOL nothingIsPlaying;
     IBOutlet UIImageView *xbmcOverlayImage;
@@ -98,7 +97,6 @@
     UIView *iOS7navBarEffect;
     UIColor *foundEffectColor;
     UISegmentedControl *playlistSegmentedControl;
-    UIColor *cellBackgroundColor;
     __weak IBOutlet UILabel *noItemsLabel;
     UIImageView *tempFanartImageView;
     NSString *storeLiveTVTitle;
@@ -125,6 +123,7 @@
 @property (strong, nonatomic) UIButton *repeatButton;
 @property (strong, nonatomic) UIView *songDetailsView;
 @property (strong, nonatomic) OBSlider *ProgressSlider;
+@property (strong, nonatomic) UIView *BottomView;
 @property (strong, nonatomic) IBOutlet UIView *scrabbingView;
 @property (strong, nonatomic) IBOutlet UITextView *itemDescription;
 

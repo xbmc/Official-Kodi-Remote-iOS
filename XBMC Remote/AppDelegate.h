@@ -24,6 +24,7 @@
 #define PAD_MENU_TABLE_WIDTH 300
 
 /* UI items are designed for this screen width */
+#define IPHONE_SCREEN_DESIGN_HEIGHT 568.0
 #define IPHONE_SCREEN_DESIGN_WIDTH 320.0
 #define IPAD_SCREEN_DESIGN_WIDTH 476.0
 
