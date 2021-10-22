@@ -449,6 +449,10 @@
         return;
     }
     if (showGesture) {
+        // Only allow panning gesture for navigation bar to not interfere with gesture area
+        [self.navigationController.view removeGestureRecognizer:self.slidingViewController.panGesture];
+        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+        
         CGRect frame;
         frame = [gestureZoneView frame];
         frame.origin.x = -self.view.frame.size.width;
@@ -471,6 +475,10 @@
         imageName = @"circle";
     }
     else {
+        // Allow panning gesture for full view
+        [self.navigationController.navigationBar removeGestureRecognizer:self.slidingViewController.panGesture];
+        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+        
         CGRect frame;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -1154,7 +1162,6 @@ NSInteger buttonAction;
 }
 
 - (void)hideKeyboard:(id)sender {
-    [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
@@ -1163,7 +1170,12 @@ NSInteger buttonAction;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if (IS_IPHONE) {
-        self.slidingViewController.underRightViewController = nil;
+        if (self.slidingViewController != nil) {
+            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+            self.slidingViewController.underRightViewController = nil;
+            self.slidingViewController.anchorLeftPeekAmount   = 0;
+            self.slidingViewController.anchorLeftRevealAmount = 0;
+        }
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
@@ -1198,24 +1210,13 @@ NSInteger buttonAction;
                                              selector: @selector(hideKeyboard:)
                                                  name: @"ECSlidingViewUnderLeftWillAppear"
                                                object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleECSlidingViewTopDidReset:)
-                                                 name: @"ECSlidingViewTopDidReset"
-                                               object: nil];
-}
-
-- (void)handleECSlidingViewTopDidReset:(id)sender {
-    [self.navigationController.view removeGestureRecognizer:self.slidingViewController.panGesture];
-    [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
 }
 
 - (void)revealMenu:(id)sender {
-    [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
 - (void)revealUnderRight {
-    [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     [self.slidingViewController anchorTopViewTo:ECLeft];
 }
 
