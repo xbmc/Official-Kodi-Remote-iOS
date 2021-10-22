@@ -54,14 +54,13 @@ static char operationKey;
     size = [self doubleSizeIfRetina:size];
     [self cancelCurrentImageLoad];
 
-    self.image = [Utilities applyRoundedEdgesImage:placeholder drawBorder:withBorder];;
+    self.image = [Utilities applyRoundedEdgesImage:placeholder drawBorder:NO];;
     
     if (url && url.path) {
         NSDictionary *userInfo = nil;
         if (size.width && size.height) {
-            userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"resize", @"transformation",
-                                  NSStringFromCGSize(size), @"size",
-                                   nil];
+            userInfo = @{@"transformation": @"resize",
+                         @"size": NSStringFromCGSize(size)};
         }
         __weak UIImageView *wself = self;
         id<SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadWithURL:url options:options userInfo:userInfo progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
