@@ -22,6 +22,7 @@
 #import "Utilities.h"
 
 #define SERVER_TIMEOUT 2.0
+#define CONNECTION_ICON_SIZE 18
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -135,7 +136,7 @@
             UIImageView *arrowRight = (UIImageView*)[cell viewWithTag:5];
             line.hidden = YES;
             [title setFont:[UIFont fontWithName:@"Roboto-Regular" size:13]];
-            [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight/2) - (18/2)), 18, 18)];
+            [icon setFrame:CGRectMake(icon.frame.origin.x, (int)((cellHeight - CONNECTION_ICON_SIZE) / 2), CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE)];
             [title setFrame:CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight)];
             [title setNumberOfLines:2];
             [arrowRight setFrame:CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height)];
