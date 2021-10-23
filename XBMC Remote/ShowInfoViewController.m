@@ -166,7 +166,6 @@ int count = 0;
                               title,
                               spacer,
                               extraButton,
-                              spacer,
                               actionSheetButtonItemIpad,
                               nil];
             toolbar.items = items;
