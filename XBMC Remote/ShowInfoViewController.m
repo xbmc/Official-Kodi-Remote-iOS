@@ -22,6 +22,11 @@
 
 #define PLAY_BUTTON_SIZE 20
 #define TV_LOGO_SIZE_REC_DETAILS 72
+#define TITLE_HEIGHT 44
+#define LEFT_RIGHT_PADDING 10
+#define VERTICAL_PADDING 10
+#define REC_DOT_SIZE 10
+#define REC_DOT_PADDING 4
 
 @interface ShowInfoViewController ()
 @end
@@ -53,18 +58,6 @@ int count = 0;
 - (void)configureView {
     if (self.detailItem) {
         NSMutableDictionary *item = self.detailItem;
-        CGRect frame = CGRectMake(0, 0, 140, 40);
-        viewTitle = [[UILabel alloc] initWithFrame:frame];
-        viewTitle.numberOfLines = 0;
-        viewTitle.font = [UIFont boldSystemFontOfSize:11];
-        viewTitle.minimumScaleFactor = 6.0/11.0;
-        viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        viewTitle.backgroundColor = [UIColor clearColor];
-        viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0];
-        viewTitle.textAlignment = NSTextAlignmentCenter;
-        viewTitle.textColor = [UIColor whiteColor];
-        viewTitle.text = item[@"label"];
-        [viewTitle sizeThatFits:CGSizeMake(140, 40)];
         sheetActions = [@[LOCALIZED_STR(@"Queue after current"),
                           LOCALIZED_STR(@"Queue"),
                           LOCALIZED_STR(@"Play")
@@ -97,7 +90,6 @@ int count = 0;
             fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         }
         UIBarButtonItem *extraButton = nil;
-        int titleWidth = 350;
         if ([item[@"family"] isEqualToString:@"albumid"]) {
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_songs"];
             if (fromAlbumView) {
@@ -106,12 +98,10 @@ int count = 0;
             else {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             }
-            titleWidth = 350;
         }
         else if ([item[@"family"] isEqualToString:@"artistid"]) {
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_album"];
             extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
-            titleWidth = 350;
         }
         else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv"];
@@ -121,20 +111,14 @@ int count = 0;
             else {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             }
-            titleWidth = 350;
         }
         else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
             NSString *pvrAction = [item[@"hastimer"] boolValue] ? LOCALIZED_STR(@"Stop Recording") : LOCALIZED_STR(@"Record");
             sheetActions = [@[LOCALIZED_STR(@"Play"), pvrAction] mutableCopy];
-            titleWidth = 350;
         }
 //        else if ([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"musicvideoid"]) {
 //            [sheetActions addObject:LOCALIZED_STR(@"Open with VLC")];
-//            titleWidth = 400;
 //        }
-        else {
-            titleWidth = 400;
-        }
         if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
             if ([item[@"trailer"] length] > 0) {
                 [sheetActions addObject:LOCALIZED_STR(@"Play Trailer")];
@@ -147,17 +131,20 @@ int count = 0;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             actionSheetButtonItemIpad.style = UIBarButtonItemStylePlain;
+            viewTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, STACKSCROLL_WIDTH, TITLE_HEIGHT)];
+            viewTitle.backgroundColor = [UIColor clearColor];
+            viewTitle.textAlignment = NSTextAlignmentLeft;
+            viewTitle.textColor = [UIColor whiteColor];
+            viewTitle.text = item[@"label"];
             viewTitle.numberOfLines = 1;
             viewTitle.font = [UIFont boldSystemFontOfSize:22];
-            viewTitle.minimumScaleFactor = 6.0/22.0;
+            viewTitle.minimumScaleFactor = 12.0 / 22.0;
             viewTitle.adjustsFontSizeToFitWidth = YES;
             viewTitle.shadowOffset = CGSizeMake(1, 1);
             viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0.7];
             viewTitle.autoresizingMask = UIViewAutoresizingNone;
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
-            [viewTitle setFrame:CGRectMake(0, 0, titleWidth, 44)];
-            [viewTitle sizeThatFits:CGSizeMake(titleWidth, 44)];
-            viewTitle.textAlignment = NSTextAlignmentLeft;
+            [viewTitle sizeThatFits: CGSizeMake(STACKSCROLL_WIDTH, TITLE_HEIGHT)];
             UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:viewTitle];
             if (extraButton == nil) {
                 extraButton = spacer;
@@ -182,7 +169,6 @@ int count = 0;
             scrollView.contentInset = UIEdgeInsetsMake(toolbarHeight, 0, 0, 0);
         }
         else {
-//            self.navigationItem.titleView = viewTitle;
             self.navigationItem.title = item[@"label"];
             UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             if (extraButton == nil) {
@@ -261,14 +247,12 @@ int count = 0;
         MenuItem = [[AppDelegate instance].playlistArtistAlbums copy];
         choosedMenuItem = MenuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
-
     }
     else if ([item[@"family"] isEqualToString:@"tvshowid"] && ![sender isKindOfClass:[NSString class]]) {
         notificationName = @"UIApplicationEnableTvShowSection";
         MenuItem = [[AppDelegate instance].playlistTvShows copy];
         choosedMenuItem = MenuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
-
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
         notificationName = @"UIApplicationEnableMusicSection";
@@ -452,15 +436,15 @@ int count = 0;
                          frame = voteLabel.frame;
                          if (isRecording.alpha == 0.0) {
                              isRecording.alpha = 1.0;
-                             frame.origin.x += dotSize + dotSizePadding;
-                             frame.size.width -= dotSize + dotSizePadding;
-                             [voteLabel setFrame:frame];
+                             frame.origin.x += REC_DOT_SIZE + REC_DOT_PADDING;
+                             frame.size.width -= REC_DOT_SIZE + REC_DOT_PADDING;
+                             voteLabel.frame = frame;
                          }
                          else {
                              isRecording.alpha = 0.0;
-                             frame.origin.x -= dotSize + dotSizePadding;
-                             frame.size.width += dotSize + dotSizePadding;
-                             [voteLabel setFrame:frame];
+                             frame.origin.x -= REC_DOT_SIZE + REC_DOT_PADDING;
+                             frame.size.width += REC_DOT_SIZE + REC_DOT_PADDING;
+                             voteLabel.frame = frame;
                          }
                      }
                      completion: ^(BOOL finished) {
@@ -484,7 +468,7 @@ int count = 0;
         }
         storeChannelid = itemid;
         NSDateFormatter *xbmcDateFormatter = [NSDateFormatter new];
-        [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+        xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss zzz";
         NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", self.detailItem[@"starttime"]]];
         NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", self.detailItem[@"endtime"]]];
         float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
@@ -552,44 +536,6 @@ int count = 0;
     self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
-- (void)moveLabel:(NSArray*)objects posY:(int)y {
-    NSInteger count = [objects count];
-    CGRect frame;
-    for (int i = 0; i < count; i++) {
-        if ([objects[i] isKindOfClass:[UIImageView class]]) {
-            UIImageView *label = objects[i];
-            frame = label.frame;
-            frame.origin.y = frame.origin.y - y;
-            label.frame = frame;
-        }
-        if ([objects[i] isKindOfClass:[UILabel class]]) {
-            UILabel *label = objects[i];
-            frame = label.frame;
-            frame.origin.y = frame.origin.y - y;
-            label.frame = frame;
-        }
-        
-    }
-}
-
-- (void)setAndMoveLabels:(NSArray*)arrayLabels size:(int)moveSize {
-    UIFont *fontFace = [UIFont systemFontOfSize:16];
-
-    int offset = moveSize;
-    for (UILabel *label in arrayLabels) {
-        [label setFont:fontFace];
-        [label setFrame:
-         CGRectMake(
-                    label.frame.origin.x, 
-                    label.frame.origin.y + offset, 
-                    label.frame.size.width, 
-                    label.frame.size.height + moveSize
-                    )
-         ];
-        offset += moveSize;
-    }
-}
-
 - (void)setTvShowsToolbar {
     if (IS_IPAD) {
         NSInteger count = [toolbar.items count];
@@ -640,7 +586,7 @@ int count = 0;
     }
     else {
         // Ensure we draw the rounded edges around thumbnail images
-        jewelView.image = [Utilities applyRoundedEdgesImage:imageToShow drawBorder:YES];;
+        jewelView.image = [Utilities applyRoundedEdgesImage:imageToShow drawBorder:YES];
     }
     [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
 }
@@ -657,422 +603,615 @@ int count = 0;
     isRecordingDetail = item[@"recordingid"] != nil;
 //    NSLog(@"ITEM %@", item);
     eJewelType jeweltype = jewelTypeUnknown;
-    castFontSize = 14;
-    size = 0;
-    castWidth = 50;
-    castHeight = 70;
-    int pageSize = [self currentScreenBoundsDependOnOrientation].size.width - 23;
-    int labelSpace = 20;
+    lineSpacing = IS_IPAD ? 6 : 0;
+    castFontSize = IS_IPAD ? 16 : 14;
+    castWidth = IS_IPAD ? 75 : 50;
+    castHeight = IS_IPAD ? 105 : 70;
+    clearLogoWidth = self.view.frame.size.width - LEFT_RIGHT_PADDING * 2;
+    clearLogoHeight = IS_IPAD ? 177 : 116;
+    
     bool enableJewel = [self enableJewelCases];
     if (!enableJewel) {
         jewelView.image = nil;
+        CGRect frame = jewelView.frame;
+        frame.origin.x = 0;
+        jewelView.frame = frame;
     }
-    clearLogoWidth = self.view.frame.size.width - 20;
-    clearLogoHeight = 116;
+    
     CGFloat transform = [Utilities getTransformX];
-    int shiftParentalRating = -20;
     NSString *contributorString = @"cast";
     if (IS_IPAD) {
-        clearLogoWidth = 457;
-        clearLogoHeight = 177;
         thumbWidth = (int)(PAD_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT * transform);
-        shiftParentalRating = -40;
-        labelSpace = 33;
-        castFontSize = 16;
-        size = 6;
-        castWidth = 75;
-        castHeight = 105;
-        pageSize = self.view.bounds.size.width - 40;
-        [starsView setFrame:
-         CGRectMake(
-                    starsView.frame.origin.x, 
-                    starsView.frame.origin.y - size, 
-                    starsView.frame.size.width, 
-                    starsView.frame.size.height + size*2
-                    )];
-        [voteLabel setFont:[UIFont systemFontOfSize:26]];
-        [voteLabel setFrame:
-         CGRectMake(
-                    voteLabel.frame.origin.x,
-                    voteLabel.frame.origin.y - size,
-                    voteLabel.frame.size.width,
-                    voteLabel.frame.size.height
-                    )];
-        [numVotesLabel setFont:[UIFont systemFontOfSize:18]];
-
-        NSArray *arrayLabels = @[label1, directorLabel, label2, genreLabel, label3, runtimeLabel, label4, studioLabel, label5, summaryLabel, parentalRatingLabelUp, parentalRatingLabel, label6];
-        [self setAndMoveLabels:arrayLabels size:size];
+        
+        CGRect frame = starsView.frame;
+        frame.origin.y -= lineSpacing;
+        frame.size.height += lineSpacing * 2;
+        starsView.frame = frame;
+        
+        frame = voteLabel.frame;
+        frame.origin.y -= lineSpacing;
+        voteLabel.frame = frame;
+        
+        voteLabel.font = [UIFont systemFontOfSize:26];
+        numVotesLabel.font = [UIFont systemFontOfSize:18];
     }
     else {
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
     }
-    if (!enableJewel) {
-        CGRect frame = jewelView.frame;
-        frame.origin.x = 0;
-        jewelView.frame = frame;
-    }
-    if ([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"tvshowid"]) {
-        int deltaY = 0;
-        int coverHeight = 0;
-        CGRect frame;
+    
+    if ([item[@"family"] isEqualToString:@"tvshowid"]) {
         placeHolderImage = @"coverbox_back_tvshows";
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
-        NSDateFormatter *format = [NSDateFormatter new];
-        [format setLocale:locale];
-        if ([item[@"family"] isEqualToString:@"tvshowid"]) {
-            GlobalData *obj = [GlobalData getInstance];
-            if (!obj.preferTVPosters && [AppDelegate instance].serverVersion < 12) {
-                placeHolderImage = @"blank";
-                if (IS_IPHONE) {
-                    coverHeight = 70;
-                }
-                else {
-                    coverHeight = 90;
-                }
-                deltaY = coverView.frame.size.height - coverHeight;
-                jewelView.hidden = YES;
-            }
-            else if (IS_IPAD) {
-                int originalHeight = jewelView.frame.size.height;
-                int coverHeight = 560;
-                deltaY = -(coverHeight - originalHeight);
-                frame = jewelView.frame;
-                frame.size.height = coverHeight;
-                jewelView.frame = frame;
-            }
-            if (enableJewel) {
-                jewelView.image = [UIImage imageNamed:@"jewel_dvd.9"];
-                jeweltype = jewelTypeDVD;
-            }
-            coverView.autoresizingMask = UIViewAutoresizingNone;
-            coverView.contentMode = UIViewContentModeScaleAspectFill;
-            label1.text = LOCALIZED_STR(@"EPISODES");
-            label3.text = LOCALIZED_STR(@"GENRE");
-            label4.text = LOCALIZED_STR(@"STUDIO");
-            directorLabel.text = [Utilities getStringFromDictionary:item key:@"episode" emptyString:@"-"];
-            [format setDateFormat:@"yyyy-MM-dd"];
-            NSDate *date = [format dateFromString:item[@"premiered"]];
-            [format setDateFormat:LOCALIZED_STR(@"LongDateTimeFormat")];
-            genreLabel.text = date == nil ? @"-" : [format stringFromDate:date];
-            runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
-            studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
-            numVotesLabel.hidden = YES;
-            [self setTvShowsToolbar];
+        
+        label1.text = LOCALIZED_STR(@"EPISODES");
+        label2.text = LOCALIZED_STR(@"FIRST AIRED");
+        label3.text = LOCALIZED_STR(@"GENRE");
+        label4.text = LOCALIZED_STR(@"STUDIO");
+        label5.text = LOCALIZED_STR(@"SUMMARY");
+        label6.text = LOCALIZED_STR(@"CAST");
+        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"episode" emptyString:@"-"];
+        genreLabel.text = [Utilities getDateFromItem:item[@"premiered"] emptyString:@"-"];
+        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
+        
+        [self setTvShowsToolbar];
+        
+        GlobalData *obj = [GlobalData getInstance];
+        if (!obj.preferTVPosters && [AppDelegate instance].serverVersion < 12) {
+            placeHolderImage = @"blank";
+            jewelView.hidden = YES;
         }
-        else if ([item[@"family"] isEqualToString:@"episodeid"]) {
-            if (IS_IPAD) {
-                coverHeight = 280;
-            }
-            else {
-                coverHeight = 200;
-            }
-            jewelView.hidden = NO;
-            deltaY = jewelView.frame.size.height - coverHeight;
-            coverView.autoresizingMask = UIViewAutoresizingNone;
-            coverView.contentMode = UIViewContentModeScaleAspectFill;
-            label1.text = LOCALIZED_STR(@"TV SHOW");
-            label3.text = LOCALIZED_STR(@"DIRECTOR");
-            label4.text = LOCALIZED_STR(@"WRITER");
-            parentalRatingLabelUp.hidden = YES;
-            parentalRatingLabel.hidden = YES;
-            
-            frame = label6.frame;
-            frame.origin.y = frame.origin.y + shiftParentalRating;
-            label6.frame = frame;
-            if (enableJewel) {
-                jewelView.image = [UIImage imageNamed:@"jewel_tv.9"];
-                jeweltype = jewelTypeTV;
-            }
-            frame = jewelView.frame;
+        else if (IS_IPAD) {
+            int coverHeight = 560;
+            CGRect frame = jewelView.frame;
             frame.size.height = coverHeight;
             jewelView.frame = frame;
-            directorLabel.text = [Utilities getStringFromDictionary:item key:@"showtitle" emptyString:@"-"];
-
-            NSString *aired = @"-";
-            if ([item[@"firstaired"] length] > 0) {
-                [format setDateFormat:@"yyyy-MM-dd"];
-                NSDate *date = [format dateFromString:item[@"firstaired"]];
-                [format setDateFormat:LOCALIZED_STR(@"LongDateTimeFormat")];
-                aired = [format stringFromDate:date];
-            }
-            genreLabel.text = aired;
-            runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
-            studioLabel.text = [Utilities getStringFromDictionary:item key:@"writer" emptyString:@"-"];
-            shiftParentalRating = 0;
         }
-        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:deltaY];
+        if (enableJewel) {
+            jewelView.image = [UIImage imageNamed:@"jewel_dvd.9"];
+            jeweltype = jewelTypeDVD;
+        }
+        coverView.autoresizingMask = UIViewAutoresizingNone;
+        coverView.contentMode = UIViewContentModeScaleAspectFill;
+    }
+    else if ([item[@"family"] isEqualToString:@"episodeid"]) {
+        placeHolderImage = @"coverbox_back_tvshows";
         
+        label1.text = LOCALIZED_STR(@"TV SHOW");
         label2.text = LOCALIZED_STR(@"FIRST AIRED");
+        label3.text = LOCALIZED_STR(@"DIRECTOR");
+        label4.text = LOCALIZED_STR(@"WRITER");
         label5.text = LOCALIZED_STR(@"SUMMARY");
+        label6.text = LOCALIZED_STR(@"CAST");
+        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"showtitle" emptyString:@"-"];
+        genreLabel.text = [Utilities getDateFromItem:item[@"firstaired"] emptyString:@"-" ];
+        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"writer" emptyString:@"-"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
         
-        frame = starsView.frame;
-        frame.origin.x = frame.origin.x+29;
-        starsView.frame = frame;
+        parentalRatingLabelUp.hidden = YES;
+        parentalRatingLabel.hidden = YES;
+        jewelView.hidden = NO;
         
-        frame = voteLabel.frame;
-        frame.origin.x = frame.origin.x+29;
-        voteLabel.frame = frame;
+        if (enableJewel) {
+            jewelView.image = [UIImage imageNamed:@"jewel_tv.9"];
+            jeweltype = jewelTypeTV;
+        }
+        int coverHeight = IS_IPAD ? 280 : 200;
+        CGRect frame = jewelView.frame;
+        frame.size.height = coverHeight;
+        jewelView.frame = frame;
+        
+        coverView.autoresizingMask = UIViewAutoresizingNone;
+        coverView.contentMode = UIViewContentModeScaleAspectFill;
     }
     else if ([item[@"family"] isEqualToString:@"albumid"]) {
-        // album details
-        int coverHeight = 380;
-        if (IS_IPHONE) {
-            coverHeight = 290;
-        }
-        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:40];
-        jewelView.hidden = NO;
-        int deltaY = jewelView.frame.size.height - coverHeight;
+        placeHolderImage = @"coverbox_back";
+        
         label1.text = LOCALIZED_STR(@"ARTIST");
         label2.text = LOCALIZED_STR(@"YEAR");
         label3.text = LOCALIZED_STR(@"GENRE");
         label4.text = LOCALIZED_STR(@"ALBUM LABEL");
         label5.text = LOCALIZED_STR(@"DESCRIPTION");
         label6.text = @"";
-        
-        starsView.hidden = YES;
-        voteLabel.hidden = YES;
-        numVotesLabel.hidden = YES;
-
-        parentalRatingLabelUp.hidden = YES;
-        parentalRatingLabel.hidden = YES;
-        
-        CGRect frame = label6.frame;
-        frame.origin.y = frame.origin.y-40;
-        label6.frame = frame;
-        if (enableJewel) {
-            jewelView.image = [UIImage imageNamed:@"jewel_cd.9"];
-            jeweltype = jewelTypeCD;
-        }
-        frame = jewelView.frame;
-        frame.size.height = coverHeight;
-        jewelView.frame = frame;
-        
+        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
         directorLabel.text = [Utilities getStringFromDictionary:item key:@"artist" emptyString:@"-"];
         genreLabel.text = [Utilities getStringFromDictionary:item key:@"year" emptyString:@"-"];
         runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
         studioLabel.text = [Utilities getStringFromDictionary:item key:@"label" emptyString:@"-"];
-        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:deltaY];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"description" emptyString:@"-"];
+        
+        starsView.hidden = YES;
+        voteLabel.hidden = YES;
+        numVotesLabel.hidden = YES;
+        parentalRatingLabelUp.hidden = YES;
+        parentalRatingLabel.hidden = YES;
+        jewelView.hidden = NO;
+        
+        if (enableJewel) {
+            jewelView.image = [UIImage imageNamed:@"jewel_cd.9"];
+            jeweltype = jewelTypeCD;
+        }
+        int coverHeight = IS_IPAD ? 380 : 290;
+        CGRect frame = jewelView.frame;
+        frame.size.height = coverHeight;
+        jewelView.frame = frame;
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
-        // artist details
-        contributorString = @"roles";
-        castHeight -= 26;
         placeHolderImage = @"coverbox_back_artists";
-        enableJewel = NO;
-        jewelView.image = nil;
-        int shiftY = 40;
-        [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:shiftY];
-        [self moveLabel:@[label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:40];
+        contributorString = @"roles";
+        
         label1.text = LOCALIZED_STR(@"GENRE");
         label2.text = LOCALIZED_STR(@"STYLE");
         label3.text = @"";
         label4.text = LOCALIZED_STR(@"BORN / FORMED");
         label5.text = LOCALIZED_STR(@"DESCRIPTION");
         label6.text = LOCALIZED_STR(@"MUSIC ROLES");
+        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"style" emptyString:@"-"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"description" emptyString:@"-"];
+        NSString *born = [Utilities getStringFromDictionary:item key:@"born" emptyString:@"-"];
+        NSString *formed = [Utilities getStringFromDictionary:item key:@"formed" emptyString:@"-"];
+        studioLabel.text = [formed isEqualToString:@"-"] ? born : formed;
+        
         parentalRatingLabelUp.hidden = YES;
         parentalRatingLabel.hidden = YES;
         runtimeLabel.hidden = YES;
         label3.hidden = YES;
-//        CGRect frame = label6.frame;
-//        frame.origin.y = frame.origin.y-40;
-//        label6.frame = frame;
         starsView.hidden = YES;
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
-        directorLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
-        genreLabel.text = [Utilities getStringFromDictionary:item key:@"style" emptyString:@"-"];
-        genreLabel.numberOfLines = 0;
-        CGSize maximunLabelSize = CGSizeMake(pageSize, 9999);
-        CGRect expectedLabelRect = [genreLabel.text boundingRectWithSize:maximunLabelSize
-                                                                 options:NSStringDrawingUsesLineFragmentOrigin
-                                                              attributes:@{NSFontAttributeName:genreLabel.font}
-                                                                 context:nil];
-        CGSize expectedLabelSize = expectedLabelRect.size;
         
-        //adjust the label the the new height.
-        CGRect newFrame = genreLabel.frame;
-        newFrame.size.height = expectedLabelSize.height + size;
-        genreLabel.frame = newFrame;
-        [self moveLabel:@[label3, label4, label5, label6, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:-(expectedLabelSize.height - labelSpace)];
-        
-        studioLabel.text = [Utilities getStringFromDictionary:item key:@"born" emptyString:@"-"];
-        NSString *formed = [Utilities getStringFromDictionary:item key:@"formed" emptyString:@"-"];
-        studioLabel.text = [formed isEqualToString:@"-"] ? studioLabel.text : formed;
-        
-        if ([directorLabel.text isEqualToString:@"-"]) {
-            directorLabel.hidden = YES;
-            label1.hidden = YES;
-            [self moveLabel:@[label2, label4, label5, label6, genreLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:labelSpace + 20];
-        }
-        if ([genreLabel.text isEqualToString:@"-"]) {
-            genreLabel.hidden = YES;
-            label2.hidden = YES;
-            [self moveLabel:@[label4, label5, label6, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:labelSpace + 20];
-        }
-        if ([studioLabel.text isEqualToString:@"-"]) {
-            studioLabel.hidden = YES;
-            label4.hidden = YES;
-            [self moveLabel:@[label5, label6, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:labelSpace + 20];
-        }
+        castHeight -= 26;
+        enableJewel = NO;
+        jewelView.image = nil;
     }
-    else if ([item[@"family"] isEqualToString:@"broadcastid"] || [item[@"family"] isEqualToString:@"recordingid"]) {
-        label1.text = LOCALIZED_STR(@"TIME");
-        label5.text = LOCALIZED_STR(@"DESCRIPTION");
-        [jewelView setAutoresizingMask:UIViewAutoresizingNone];
-        [voteLabel setAutoresizingMask:UIViewAutoresizingNone];
-        [numVotesLabel setAutoresizingMask:UIViewAutoresizingNone];
-        coverView.hidden = YES;
-        starsView.hidden = YES;
-        label2.hidden = YES;
-        label3.hidden = YES;
-        label4.hidden = YES;
-        genreLabel.hidden = YES;
-        runtimeLabel.hidden = YES;
-        studioLabel.hidden = YES;
-        arrow_continue_down.hidden = YES;
-        clearLogoHeight = 0;
-        label6.frame = label5.frame;
-//        label5.frame = label3.frame;
-//        summaryLabel.frame = runtimeLabel.frame;
-        label5.frame = label2.frame;
-        CGRect frame = genreLabel.frame;
-        if ([self.detailItem[@"plotoutline"] length] > 0) {
-            label2.text = LOCALIZED_STR(@"PLOT OUTLINE");
-            label2.hidden = NO;
-            genreLabel.hidden = NO;
-            [genreLabel setText:self.detailItem[@"plotoutline"]];
-            label5.frame = label3.frame;
-            frame = runtimeLabel.frame;
-        }
-        frame.origin.y ++;
-        summaryLabel.frame = frame;
-         [self moveLabel:@[label1, label2, label5, label6, directorLabel, genreLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:(int)(jewelView.frame.size.height - (jewelView.frame.size.height/8))];
-        frame = jewelView.frame;
-        frame.origin.x = label1.frame.origin.x;
-        frame.size.width = frame.size.width / 4;
-        frame.size.height = frame.size.height /8;
-        jewelView.frame = frame;
-        frame = voteLabel.frame;
-        frame.origin.y = jewelView.frame.origin.y;
-        frame.origin.x = jewelView.frame.origin.x + jewelView.frame.size.width + 8;
-        frame.size.width = pageSize - frame.origin.x;
-        frame.size.height = jewelView.frame.size.height / 2;
-        voteLabel.frame = frame;
-        voteLabel.numberOfLines = 2;
-        [voteLabel setTextColor:directorLabel.textColor];
-        frame = numVotesLabel.frame;
-        frame.size.width = voteLabel.frame.size.width;
-        frame.origin.y = (int)(voteLabel.frame.origin.y + voteLabel.frame.size.height + 10);
-        frame.origin.x = voteLabel.frame.origin.x;
-        numVotesLabel.frame = frame;
-        if ([item[@"family"] isEqualToString:@"recordingid"]) {
-            numVotesLabel.text = item[@"channel"];
-        }
-        else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
-            item[@"plot"] = item[@"genre"];
-            numVotesLabel.text = item[@"pvrExtraInfo"][@"channel_name"];
-            frame = voteLabel.frame;
-            dotSize = 10;
-            dotSizePadding = 4;
-            isRecording = [[UIImageView alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.y + (frame.size.height/2 - dotSize/2), dotSize, dotSize)];
-            [isRecording setImage:[UIImage imageNamed:@"button_timer"]];
-            [isRecording setContentMode:UIViewContentModeScaleAspectFill];
-            isRecording.alpha = 0.0;
-            [isRecording setBackgroundColor:[UIColor clearColor]];
-            [scrollView addSubview:isRecording];
-            if ([item[@"hastimer"] boolValue]) {
-                isRecording.alpha = 1.0;
-                frame.origin.x += dotSize + dotSizePadding;
-                frame.size.width -= dotSize + dotSizePadding;
-                [voteLabel setFrame:frame];
-            }
-        }
+    else if ([item[@"family"] isEqualToString:@"recordingid"]) {
+        placeHolderImage = @"nocover_channels";
+        
         // Be aware: "rating" is later used to display the label
         item[@"rating"] = item[@"label"];
         if (item[@"pvrExtraInfo"][@"channel_icon"] != nil) {
             item[@"thumbnail"] = item[@"pvrExtraInfo"][@"channel_icon"];
         }
+        item[@"genre"] = [self.detailItem[@"plotoutline"] length] > 0 ? self.detailItem[@"plotoutline"] : item[@"genre"];
+        
+        label1.text = LOCALIZED_STR(@"TIME");
+        label2.text = LOCALIZED_STR(@"DESCRIPTION");
+        label3.text = @"";
+        label4.text = @"";
+        label5.text = LOCALIZED_STR(@"SUMMARY");
+        label6.text = @"";
+        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
+        directorLabel.text = [self formatBroadcastTime:item emptyString:@"-"];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+        numVotesLabel.text = item[@"channel"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
+        
+        coverView.hidden = YES;
+        starsView.hidden = YES;
+        label3.hidden = YES;
+        label4.hidden = YES;
+        label6.hidden = YES;
+        runtimeLabel.hidden = YES;
+        studioLabel.hidden = YES;
+        arrow_continue_down.hidden = YES;
+        enableJewel = NO;
+        
+        [self layoutPvrDetails];
+    }
+    else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
         placeHolderImage = @"nocover_channels";
-        NSDateFormatter *xbmcDateFormatter = [NSDateFormatter new];
-        [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
-        NSDateFormatter *localFormatter = [NSDateFormatter new];
-        [localFormatter setDateFormat:@"ccc dd MMM, HH:mm"];
-        localFormatter.timeZone = [NSTimeZone systemTimeZone];
-        NSDate *startTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
-        NSDate *endTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"endtime"]]];
-        if (startTime != nil && endTime != nil) {
-            directorLabel.text = [localFormatter stringFromDate:startTime];
-            [localFormatter setDateFormat:@"HH:mm"];
-            NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-            NSUInteger unitFlags = NSCalendarUnitMinute;
-            NSDateComponents *components = [gregorian components:unitFlags fromDate:startTime toDate:endTime options:0];
-            NSInteger minutes = [components minute];
-            directorLabel.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", directorLabel.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
+        
+        // Be aware: "rating" is later used to display the label
+        item[@"rating"] = item[@"label"];
+        if (item[@"pvrExtraInfo"][@"channel_icon"] != nil) {
+            item[@"thumbnail"] = item[@"pvrExtraInfo"][@"channel_icon"];
         }
-        else {
-            directorLabel.text = @"-";
-        }
-//        UIImage *buttonImage = [UIImage imageNamed:@"button_record"];
-//        UIButton *recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        recordButton.frame = CGRectMake(0, 0, 200, 29);
-//        [recordButton setImage:buttonImage forState:UIControlStateNormal];
-//        frame = recordButton.frame;
-//        frame.origin.x = label2.frame.origin.x;
-//        frame.origin.y = label2.frame.origin.y + 4;
-//        recordButton.frame = frame;
-//        [recordButton setTitle:LOCALIZED_STR(@"Record") forState:UIControlStateNormal];
-//        [recordButton.titleLabel setFont:[UIFont fontWithName:directorLabel.font.fontName size:directorLabel.font.pointSize]];
-//        [recordButton setTitleColor:label1.textColor forState:UIControlStateHighlighted];
-//        recordButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-//        [recordButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-//        [recordButton setContentMode:UIViewContentModeScaleAspectFill];
-//        recordButton.titleEdgeInsets = UIEdgeInsetsMake(0, 4, 0, 0);
-//        [scrollView addSubview:recordButton];
+        
+        label1.text = LOCALIZED_STR(@"TIME");
+        label2.text = LOCALIZED_STR(@"DESCRIPTION");
+        label3.text = @"";
+        label4.text = @"";
+        label5.text = LOCALIZED_STR(@"SUMMARY");
+        label6.text = @"";
+        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
+        directorLabel.text = [self formatBroadcastTime:item emptyString:@"-"];
+        genreLabel.text = [Utilities getStringFromDictionary:self.detailItem key:@"plotoutline" emptyString:@"-"];
+        numVotesLabel.text = item[@"pvrExtraInfo"][@"channel_name"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+        
+        coverView.hidden = YES;
+        starsView.hidden = YES;
+        label3.hidden = YES;
+        label4.hidden = YES;
+        label6.hidden = YES;
+        runtimeLabel.hidden = YES;
+        studioLabel.hidden = YES;
+        arrow_continue_down.hidden = YES;
+        enableJewel = NO;
+    
+        [self layoutPvrDetails];
+        [self processRecordingTimerFromItem:item];
     }
     else {
         placeHolderImage = @"coverbox_back_movies";
-        jeweltype = jewelTypeDVD;
-        coverView.autoresizingMask = UIViewAutoresizingNone;
-        coverView.contentMode = UIViewContentModeScaleToFill;
-        if (IS_IPAD) {
-            int originalHeight = jewelView.frame.size.height;
-            int coverHeight = 560;
-            int coverWidth = STACKSCROLL_WIDTH;
-            CGRect frame;
-            frame = jewelView.frame;
-            frame.origin.x = (self.view.frame.size.width - STACKSCROLL_WIDTH) / 2;
-            frame.size.height = coverHeight;
-            frame.size.width = coverWidth;
-            jewelView.frame = frame;
-            [self moveLabel:@[starsView, voteLabel, numVotesLabel, label1, label2, label3, label4, label5, label6, directorLabel, genreLabel, runtimeLabel, studioLabel, summaryLabel, parentalRatingLabelUp, parentalRatingLabel] posY:-(coverHeight - originalHeight)];
-        }
-        directorLabel.text = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
-        directorLabel.text = [item[@"year"] length] == 0 ? directorLabel.text : [NSString stringWithFormat:@"%@ (%@)", directorLabel.text, item[@"year"]];
+        
+        label1.text = LOCALIZED_STR(@"DIRECTED BY");
+        label2.text = LOCALIZED_STR(@"GENRE");
+        label3.text = LOCALIZED_STR(@"RUNTIME");
+        label4.text = LOCALIZED_STR(@"STUDIO");
+        label5.text = LOCALIZED_STR(@"SUMMARY");
+        label6.text = LOCALIZED_STR(@"CAST");
+        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
+        NSString *director = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
+        NSString *year = [Utilities getYearFromDictionary:item key:@"year"];
+        directorLabel.text = [item[@"year"] length] == 0 ? director : [NSString stringWithFormat:@"%@ (%@)", director, year];
         genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
         runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"runtime" emptyString:@"-"];
         studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
+        
+        if (enableJewel) {
+            jewelView.image = [UIImage imageNamed:@"jewel_dvd.9"];
+            jeweltype = jewelTypeDVD;
+        }
+        if (IS_IPAD) {
+            int coverHeight = 560;
+            CGRect frame = jewelView.frame;
+            frame.size.height = coverHeight;
+            jewelView.frame = frame;
+        }
+        coverView.autoresizingMask = UIViewAutoresizingNone;
+        coverView.contentMode = UIViewContentModeScaleToFill;
     }
     
-    NSString *thumbnailPath = item[@"thumbnail"];
+    [self loadThumbnail:item[@"thumbnail"] placeHolder:placeHolderImage jewelType:jeweltype jewelEnabled:enableJewel];
+    
+    [self loadFanart:item[@"fanart"]];
+    
+    voteLabel.text = [Utilities getStringFromDictionary:item key:@"rating" emptyString:@"N.A."];
+    starsView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f", roundf([item[@"rating"] floatValue])]];
+    NSString *numVotes = [Utilities getStringFromDictionary:item key:@"votes" emptyString:@""];
+    if ([numVotes length] != 0) {
+        NSString *numVotesPlus = LOCALIZED_STR(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes");
+        numVotesLabel.text = [NSString stringWithFormat:@"(%@ %@)", numVotes, numVotesPlus];
+    }
+
+    parentalRatingLabel.text = [Utilities getStringFromDictionary:item key:@"mpaa" emptyString:@"-"];
+    
+    if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
+        [self processTrailerFromString:item[@"trailer"]];
+    }
+    
+    if (![item[@"family"] isEqualToString:@"albumid"]) {
+        [self processCastFromArray:item[contributorString]];
+    }
+    
+    if (!([item[@"family"] isEqualToString:@"broadcastid"] || [item[@"family"] isEqualToString:@"recordingid"])) {
+        [self processClearlogoFromDictionary:item];
+    }
+    
+    // Hide empty labels
+    if ([voteLabel.text isEqualToString:@"N.A."]) {
+        starsView.hidden = YES;
+        voteLabel.hidden = YES;
+        numVotesLabel.hidden = YES;
+    }
+    if ([directorLabel.text isEqualToString:@"-"]) {
+        directorLabel.hidden = YES;
+        label1.hidden = YES;
+    }
+    if ([genreLabel.text isEqualToString:@"-"]) {
+        genreLabel.hidden = YES;
+        label2.hidden = YES;
+    }
+    if ([runtimeLabel.text isEqualToString:@"-"]) {
+        runtimeLabel.hidden = YES;
+        label3.hidden = YES;
+    }
+    if ([studioLabel.text isEqualToString:@"-"]) {
+        studioLabel.hidden = YES;
+        label4.hidden = YES;
+    }
+    if ([summaryLabel.text isEqualToString:@"-"]) {
+        summaryLabel.hidden = YES;
+        label5.hidden = YES;
+    }
+    if ([parentalRatingLabel.text isEqualToString:@"-"]) {
+        parentalRatingLabel.hidden = YES;
+        parentalRatingLabelUp.hidden = YES;
+    }
+    if (trailerLabel == nil) {
+        playTrailerButton.hidden = YES;
+        trailerLabel.hidden = YES;
+    }
+    if ([cast count] == 0) {
+        label6.hidden = YES;
+    }
+    
+    // Layout
+    CGFloat offset = CGRectGetMaxY(jewelView.frame);
+    offset = [self layoutStars:offset];
+    offset = [self layoutLabel:label1 sub:directorLabel offset:offset];
+    offset = [self layoutLabel:label2 sub:genreLabel offset:offset];
+    offset = [self layoutLabel:label3 sub:runtimeLabel offset:offset];
+    offset = [self layoutLabel:label4 sub:studioLabel offset:offset];
+    offset = [self layoutLabel:label5 sub:summaryLabel offset:offset];
+    offset = [self layoutLabel:parentalRatingLabelUp sub:parentalRatingLabel offset:offset];
+    offset = [self layoutTrailer:offset];
+    offset = [self layoutCastRoles:offset];
+    offset = [self layoutClearLogo:offset];
+    if (IS_IPHONE) {
+        offset += [Utilities getBottomPadding];
+    }
+    
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, offset);
+    
+    // Check if the arrow needs to be displayed (only if content is > visible area)
+    int height_content = scrollView.contentSize.height;
+    int height_bounds = scrollView.bounds.size.height;
+    int height_navbar = self.navigationController.navigationBar.frame.size.height;
+    arrow_continue_down.hidden = (height_content <= height_bounds-height_navbar);
+}
+
+- (void)layoutPvrDetails {
+    jewelView.frame = CGRectMake(label1.frame.origin.x,
+                                 jewelView.frame.origin.y,
+                                 jewelView.frame.size.width / 4,
+                                 jewelView.frame.size.height / 8);
+    
+    voteLabel.frame = CGRectMake(CGRectGetMaxX(jewelView.frame) + LEFT_RIGHT_PADDING,
+                                 jewelView.frame.origin.y,
+                                 self.view.bounds.size.width - CGRectGetMaxX(jewelView.frame) - LEFT_RIGHT_PADDING * 2,
+                                 jewelView.frame.size.height / 2);
+    voteLabel.numberOfLines = 2;
+    voteLabel.textColor = directorLabel.textColor;
+    
+    numVotesLabel.frame  = CGRectMake(voteLabel.frame.origin.x,
+                                      CGRectGetMaxY(voteLabel.frame) + VERTICAL_PADDING,
+                                      voteLabel.frame.size.width,
+                                      numVotesLabel.frame.size.height);
+    
+    jewelView.autoresizingMask = UIViewAutoresizingNone;
+    voteLabel.autoresizingMask = UIViewAutoresizingNone;
+    numVotesLabel.autoresizingMask = UIViewAutoresizingNone;
+}
+
+- (CGFloat)layoutStars:(CGFloat)offset {
+    if (!starsView.hidden) {
+        CGRect frame = starsView.frame;
+        frame.origin.y = offset;
+        starsView.frame = frame;
+        
+        frame = voteLabel.frame;
+        frame.origin.y = offset + 2;
+        voteLabel.frame = frame;
+        
+        frame = numVotesLabel.frame;
+        frame.origin.y = offset + 1;
+        numVotesLabel.frame = frame;
+        
+        offset = CGRectGetMaxY(starsView.frame);
+    }
+    else {
+        offset += VERTICAL_PADDING * 2;
+    }
+    return offset;
+}
+
+- (CGFloat)layoutLabel:(UILabel*)mainLabel sub:(UILabel*)subLabel offset:(CGFloat)offset {
+    if (!mainLabel.hidden) {
+        CGRect frame = mainLabel.frame;
+        frame.origin.y = offset;
+        frame.size.height = [Utilities getHeightOfLabel:mainLabel] + lineSpacing;
+        mainLabel.frame = frame;
+        offset += frame.size.height;
+        
+        frame = subLabel.frame;
+        frame.origin.y = offset;
+        frame.size.height = [Utilities getHeightOfLabel:subLabel] + lineSpacing;
+        subLabel.frame = frame;
+        offset += frame.size.height + VERTICAL_PADDING;
+    }
+    return offset;
+}
+
+- (CGFloat)layoutTrailer:(CGFloat)offset {
+    if (trailerLabel != nil) {
+        CGRect frame = trailerLabel.frame;
+        frame.origin.y = offset;
+        frame.size.height = [Utilities getHeightOfLabel:trailerLabel] + lineSpacing;
+        trailerLabel.frame = frame;
+        offset += frame.size.height;
+        
+        frame = playTrailerButton.frame;
+        frame.origin.y = offset;
+        playTrailerButton.frame = frame;
+        offset += frame.size.height + lineSpacing + VERTICAL_PADDING;
+    }
+    return offset;
+}
+
+- (CGFloat)layoutCastRoles:(CGFloat)offset {
+    if ([cast count]) {
+        CGRect frame = label6.frame;
+        frame.origin.y = offset;
+        frame.size.height = [Utilities getHeightOfLabel:label6] + lineSpacing;
+        label6.frame = frame;
+        offset += frame.size.height;
+        
+        frame = actorsTable.frame;
+        frame.origin.y = offset;
+        actorsTable.frame = frame;
+        offset += frame.size.height + VERTICAL_PADDING;
+    }
+    return offset;
+}
+
+- (CGFloat)layoutClearLogo:(CGFloat)offset {
+    CGRect frame = clearlogoButton.frame;
+    frame.origin.y = offset;
+    clearlogoButton.frame = frame;
+    offset += frame.size.height;
+    return offset;
+}
+
+- (NSString*)formatBroadcastTime:(NSDictionary*)item emptyString:(NSString*)empty {
+    NSString *broadcastTime = empty;
+    NSDateFormatter *xbmcDateFormatter = [NSDateFormatter new];
+    xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss zzz";
+    NSDate *startTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
+    NSDate *endTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"endtime"]]];
+    if (startTime != nil && endTime != nil) {
+        NSDateFormatter *localFormatter = [NSDateFormatter new];
+        localFormatter.dateFormat = @"ccc dd MMM, HH:mm";
+        localFormatter.timeZone = [NSTimeZone systemTimeZone];
+        NSString *startDate = [localFormatter stringFromDate:startTime];
+        localFormatter.dateFormat = @"HH:mm";
+        NSString *endDate = [localFormatter stringFromDate:endTime];
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSUInteger unitFlags = NSCalendarUnitMinute;
+        NSDateComponents *components = [gregorian components:unitFlags fromDate:startTime toDate:endTime options:0];
+        NSInteger minutes = [components minute];
+        broadcastTime = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", startDate, endDate, (long)minutes, (long)minutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
+    }
+    return broadcastTime;
+}
+
+- (void)processRecordingTimerFromItem:(NSDictionary*)item {
+    CGRect frame = voteLabel.frame;
+    frame.origin.y = frame.origin.y + (frame.size.height / 2 - REC_DOT_SIZE / 2);
+    frame.size.width = REC_DOT_SIZE;
+    frame.size.height = REC_DOT_SIZE;
+    isRecording = [[UIImageView alloc] initWithFrame:frame];
+    isRecording.image = [UIImage imageNamed:@"button_timer"];
+    isRecording.contentMode = UIViewContentModeScaleAspectFill;
+    isRecording.alpha = 0.0;
+    isRecording.backgroundColor = [UIColor clearColor];
+    [scrollView addSubview:isRecording];
+    if ([item[@"hastimer"] boolValue]) {
+        isRecording.alpha = 1.0;
+        frame.origin.x += REC_DOT_SIZE + REC_DOT_PADDING;
+        frame.size.width -= REC_DOT_SIZE + REC_DOT_PADDING;
+        voteLabel.frame = frame;
+    }
+}
+
+- (void)processCastFromArray:(NSArray*)array {
+    cast = array;
+    if (actorsTable == nil) {
+        CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, [cast count] * (castHeight + VERTICAL_PADDING));
+        actorsTable = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
+    }
+    actorsTable.scrollsToTop = NO;
+    actorsTable.backgroundColor = [UIColor clearColor];
+    actorsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    actorsTable.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
+    actorsTable.delegate = self;
+    actorsTable.dataSource = self;
+    [scrollView addSubview:actorsTable];
+}
+
+- (void)processTrailerFromString:(NSString*)trailerString {
+    if ([trailerString length] > 0) {
+        NSString *param = nil;
+        embedVideoURL = nil;
+        if (([trailerString rangeOfString:@"plugin://plugin.video.youtube"].location != NSNotFound)) {
+            NSString *url = [trailerString lastPathComponent];
+            NSRange start = [url rangeOfString:@"videoid="];
+            if (start.location != NSNotFound) {
+                param = [url substringFromIndex:start.location + start.length];
+                NSRange end = [param rangeOfString:@"&"];
+                if (end.location != NSNotFound) {
+                    param = [param substringToIndex:end.location];
+                }
+            }
+            if ([param length] > 0) {
+                NSString *param = nil;
+                NSString *url = [trailerString lastPathComponent];
+                NSRange start = [url rangeOfString:@"videoid="];
+                if (start.location != NSNotFound) {
+                    param = [url substringFromIndex:start.location + start.length];
+                    NSRange end = [param rangeOfString:@"&"];
+                    if (end.location != NSNotFound) {
+                        param = [param substringToIndex:end.location];
+                    }
+                }
+                embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", param];
+            }
+        }
+        else {
+            embedVideoURL = trailerString;
+        }
+        if (embedVideoURL != nil) {
+            CGRect frame = CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, label1.frame.size.height);
+            trailerLabel = [[UILabel alloc] initWithFrame:frame];
+            trailerLabel.text = LOCALIZED_STR(@"TRAILER");
+            trailerLabel.textColor = label1.textColor;
+            trailerLabel.font = label1.font;
+            trailerLabel.shadowColor = label1.shadowColor;
+            trailerLabel.shadowOffset = label1.shadowOffset;
+            trailerLabel.backgroundColor = [UIColor clearColor];
+            [scrollView addSubview:trailerLabel];
+
+            UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
+            playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            playTrailerButton.frame = CGRectMake(LEFT_RIGHT_PADDING, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE);
+            playTrailerButton.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
+            [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
+            [playTrailerButton addTarget:self action:@selector(callbrowser:) forControlEvents:UIControlEventTouchUpInside];
+            [scrollView addSubview:playTrailerButton];
+        }
+    }
+}
+
+- (void)processClearlogoFromDictionary:(NSDictionary*)item {
+    clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [clearlogoButton setFrame:CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, clearLogoHeight)];
+    [clearlogoButton.titleLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.8]];
+    [clearlogoButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
+    [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
+    if (IS_IPHONE) {
+        [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+    }
+    if ([item[@"clearlogo"] length] != 0) {
+        clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
+        [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
+        [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
+        GlobalData *obj = [GlobalData getInstance];
+        NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+        if ([AppDelegate instance].serverVersion > 11) {
+            serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
+        }
+        NSString *stringURL = [Utilities formatStringURL:item[@"clearlogo"] serverURL:serverURL];
+        [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank"]];
+        [clearlogoButton addSubview:clearLogoImageView];
+    }
+    else {
+        [clearlogoButton setTitle:[item[@"showtitle"] length] == 0 ? item[@"label"] : item[@"showtitle"] forState:UIControlStateNormal];
+        [clearlogoButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+    }
+    [scrollView addSubview:clearlogoButton];
+}
+
+- (void)loadThumbnail:(NSString*)thumbnailPath placeHolder:(NSString*)placeHolderImage jewelType:(eJewelType)jewelType jewelEnabled:(BOOL)enableJewel {
     if (thumbnailPath.length > 0) {
         jewelView.alpha = 0;
         [activityIndicatorView startAnimating];
     }
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image != nil) {
-            UIColor *averageColor = [Utilities averageColor:image inverse:NO];
-            foundTintColor = TINT_COLOR;
-            CGFloat red, green, blue, alpha;
-            [averageColor getRed:&red green:&green blue:&blue alpha:&alpha];
-            if (alpha > 0) {
-                foundTintColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
-            }
+            foundTintColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
             [self setIOS7barTintColor:foundTintColor];
             if (enableJewel && !isRecordingDetail) {
                 coverView.image = image;
-                coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
+                coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jewelType];
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
             }
@@ -1093,7 +1232,7 @@ int count = 0;
                                         foundTintColor = newColor;
                                     }
                 }];
-                coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
+                coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jewelType];
                 [activityIndicatorView stopAnimating];
                 jewelView.alpha = 1;
             }
@@ -1111,8 +1250,9 @@ int count = 0;
             }
         }
     }];
-    
-    NSString *fanartPath = item[@"fanart"];
+}
+
+- (void)loadFanart:(NSString*)fanartPath {
     __weak ShowInfoViewController *sf = self;
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:fanartPath done:^(UIImage *image, SDImageCacheType cacheType) {
         __auto_type strongSelf = sf;
@@ -1137,190 +1277,7 @@ int count = 0;
              ];
         }
     }];
-
-    [fanartView setClipsToBounds:YES];
-    
-    voteLabel.text = [Utilities getStringFromDictionary:item key:@"rating" emptyString:@"N.A."];
-    starsView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f", round([item[@"rating"] doubleValue])]];
-    
-    NSString *numVotes = [Utilities getStringFromDictionary:item key:@"votes" emptyString:@""];
-    if ([numVotes length] != 0) {
-        NSString *numVotesPlus = LOCALIZED_STR(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes");
-        numVotesLabel.text = [NSString stringWithFormat:@"(%@ %@)", numVotes, numVotesPlus];
-    }
-    CGRect frame = summaryLabel.frame;
-    summaryLabel.frame = frame;
-    summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
-    if ([item[@"family"] isEqualToString:@"albumid"] || [item[@"family"] isEqualToString:@"artistid"]) {
-        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"description" emptyString:@"-"];
-    }
-    CGSize maximunLabelSize = CGSizeMake(pageSize, 9999);
-    CGRect expectedLabelRect = [summaryLabel.text  boundingRectWithSize:maximunLabelSize
-                                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                                          attributes:@{NSFontAttributeName:summaryLabel.font}
-                                                             context:nil];
-    CGSize expectedLabelSize = expectedLabelRect.size;
-    
-    CGRect newFrame = summaryLabel.frame;
-    newFrame.size.height = expectedLabelSize.height + size;
-    summaryLabel.frame = newFrame;
-
-    if ([item[@"mpaa"] length] == 0) {
-        parentalRatingLabel.hidden = YES;
-        parentalRatingLabelUp.hidden = YES;
-    }
-    else {
-        frame = parentalRatingLabel.frame;
-        frame.origin.y = frame.origin.y + summaryLabel.frame.size.height-20;
-        parentalRatingLabel.frame = frame;
-        
-        frame = parentalRatingLabelUp.frame;
-        frame.origin.y = frame.origin.y + summaryLabel.frame.size.height-20;
-        parentalRatingLabelUp.frame = frame;
-        
-        frame = parentalRatingLabel.frame;
-        frame.size.height = 2000;
-        parentalRatingLabel.frame = frame;
-        parentalRatingLabel.text = [Utilities getStringFromDictionary:item key:@"mpaa" emptyString:@"-"];
-        
-        CGRect expectedLabelRect = [parentalRatingLabel.text  boundingRectWithSize:maximunLabelSize
-                                                                    options:NSStringDrawingUsesLineFragmentOrigin
-                                                                 attributes:@{NSFontAttributeName:parentalRatingLabel.font}
-                                                                    context:nil];
-        CGSize expectedLabelSize = expectedLabelRect.size;
-        
-        newFrame = parentalRatingLabel.frame;
-        newFrame.size.height = expectedLabelSize.height + size;
-        parentalRatingLabel.frame = newFrame;
-        shiftParentalRating = parentalRatingLabel.frame.size.height;
-    }
-    
-    GlobalData *obj = [GlobalData getInstance];
-    NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-    if ([AppDelegate instance].serverVersion > 11) {
-        serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-    }
-    frame = label6.frame;
-    frame.origin.y = frame.origin.y + summaryLabel.frame.size.height + shiftParentalRating - 40;
-    label6.frame = frame;
-    int startY = label6.frame.origin.y - label6.frame.size.height + size;
-    if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
-        if ([item[@"trailer"] length] > 0) {
-            NSString *param = nil;
-            embedVideoURL = nil;
-            
-            if (([item[@"trailer"] rangeOfString:@"plugin://plugin.video.youtube"].location != NSNotFound)) {
-                NSString *url = [item[@"trailer"] lastPathComponent];
-                NSRange start = [url rangeOfString:@"videoid="];
-                if (start.location != NSNotFound) {
-                    param = [url substringFromIndex:start.location + start.length];
-                    NSRange end = [param rangeOfString:@"&"];
-                    if (end.location != NSNotFound) {
-                        param = [param substringToIndex:end.location];
-                    }
-                }
-                if ([param length] > 0) {
-                    NSString *param = nil;
-                    NSString *url = [item[@"trailer"] lastPathComponent];
-                    NSRange start = [url rangeOfString:@"videoid="];
-                    if (start.location != NSNotFound) {
-                        param = [url substringFromIndex:start.location + start.length];
-                        NSRange end = [param rangeOfString:@"&"];
-                        if (end.location != NSNotFound) {
-                            param = [param substringToIndex:end.location];
-                        }
-                    }
-                    embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", param];
-                }
-            }
-            else {
-                embedVideoURL = item[@"trailer"];
-            }
-            if (embedVideoURL != nil) {
-                startY = startY + 20;
-                UILabel *trailerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, startY, clearLogoWidth, label1.frame.size.height)];
-                [trailerLabel setText:LOCALIZED_STR(@"TRAILER")];
-                [trailerLabel setTextColor:label1.textColor];
-                [trailerLabel setFont:label1.font];
-                [trailerLabel setShadowColor:label1.shadowColor];
-                [trailerLabel setShadowOffset:label1.shadowOffset];
-                [trailerLabel setBackgroundColor:[UIColor clearColor]];
-                [scrollView addSubview:trailerLabel];
-                startY = startY + label1.frame.size.height;
-
-                UIButton *playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
-                [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
-                [playTrailerButton setFrame:CGRectMake(10, startY, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE)];
-                [playTrailerButton addTarget:self action:@selector(callbrowser:) forControlEvents:UIControlEventTouchUpInside];
-                [playTrailerButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-                [scrollView addSubview:playTrailerButton];
-
-                startY = startY + PLAY_BUTTON_SIZE - 10;
-            }
-        }
-    }
-    frame = label6.frame;
-    frame.origin.y = startY + 20;
-    label6.frame = frame;
-    startY = startY + 16 + size + label6.frame.size.height;
-    if (![item[@"family"] isEqualToString:@"albumid"]) {// TRANSFORM IN SHOW_CAST BOOLEAN
-        cast = item[contributorString];
-        if (actorsTable == nil) {
-            int actorsTableWidth = self.view.frame.size.width;
-            if (IS_IPAD) {
-                actorsTableWidth = pageSize + 40;
-            }
-            actorsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, startY, actorsTableWidth, [cast count]*(castHeight + 10)) style:UITableViewStylePlain];
-        }
-        [actorsTable setScrollsToTop:NO];
-        [actorsTable setBackgroundColor:[UIColor clearColor]];
-        [actorsTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-        [actorsTable setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
-        [actorsTable setDelegate:self];
-        [actorsTable setDataSource:self];
-        [scrollView addSubview:actorsTable];
-        startY = startY + (int)[cast count]*(castHeight + 10);
-        if ([cast count] == 0) {
-            label6.hidden = YES;
-            startY -= 20;
-        }
-    }
-    if (!([item[@"family"] isEqualToString:@"broadcastid"] || [item[@"family"] isEqualToString:@"recordingid"])) {
-        clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [clearlogoButton setFrame:CGRectMake(10, startY, clearLogoWidth, clearLogoHeight)];
-        [clearlogoButton.titleLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.8]];
-        [clearlogoButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
-        [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
-        if (IS_IPHONE) {
-            [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
-        }
-        if ([item[@"clearlogo"] length] != 0) {
-            clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
-            [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
-            [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
-            NSString *stringURL = [Utilities formatStringURL:item[@"clearlogo"] serverURL:serverURL];
-            [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank"]];
-            [clearlogoButton addSubview:clearLogoImageView];
-        }
-        else {
-            [clearlogoButton setTitle:[item[@"showtitle"] length] == 0 ? item[@"label"] : item[@"showtitle"] forState:UIControlStateNormal];
-            [clearlogoButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-        }
-        [scrollView addSubview:clearlogoButton];
-    }
-    startY = startY + clearLogoHeight + 20;
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, startY);
-    
-    // Check if the arrow needs to be displayed (only if content is > visible area)
-    int height_content = scrollView.contentSize.height;
-    int height_bounds = scrollView.bounds.size.height;
-    int height_navbar = self.navigationController.navigationBar.frame.size.height + labelSpace;
-    arrow_continue_down.hidden = (height_content <= height_bounds-height_navbar);
-}
-
-- (void)buildTrailerView {
-    
+    fanartView.clipsToBounds = YES;
 }
 
 - (CGRect)currentScreenBoundsDependOnOrientation {
@@ -1478,7 +1435,7 @@ int count = 0;
 #pragma mark - Actors UITableView data source & delegate
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-    return castHeight + 10;
+    return castHeight + VERTICAL_PADDING;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
@@ -1493,7 +1450,7 @@ int count = 0;
     static NSString *CellIdentifier = @"CellActor";
     ActorCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[ActorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier castWidth:castWidth castHeight:castHeight size:size castFontSize:castFontSize];
+        cell = [[ActorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier castWidth:castWidth castHeight:castHeight size:lineSpacing castFontSize:castFontSize];
     }
     GlobalData *obj = [GlobalData getInstance];
     NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
@@ -1842,13 +1799,6 @@ int count = 0;
         [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
     isViewDidLoad = YES;
-    [label1 setText:LOCALIZED_STR(@"DIRECTED BY")];
-    [label2 setText:LOCALIZED_STR(@"GENRE")];
-    [label3 setText:LOCALIZED_STR(@"RUNTIME")];
-    [label4 setText:LOCALIZED_STR(@"STUDIO")];
-    [label5 setText:LOCALIZED_STR(@"SUMMARY")];
-    [label6 setText:LOCALIZED_STR(@"CAST")];
-    [parentalRatingLabelUp setText:LOCALIZED_STR(@"PARENTAL RATING")];
     fanartView.tag = 1;
     fanartView.userInteractionEnabled = YES;
     UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];
@@ -1873,6 +1823,7 @@ int count = 0;
     }
     self.kenView = nil;
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
+    foundTintColor = TINT_COLOR;
     [self configureView];
 }
 

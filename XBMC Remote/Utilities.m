@@ -682,6 +682,20 @@
     return thumbnailPath;
 }
 
++ (NSString*)getDateFromItem:(id)item emptyString:(NSString*)empty {
+    NSString *dateString = empty;
+    if ([item length] > 0) {
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
+        NSDateFormatter *format = [NSDateFormatter new];
+        [format setLocale:locale];
+        [format setDateFormat:@"yyyy-MM-dd"];
+        NSDate *date = [format dateFromString:item];
+        [format setDateFormat:LOCALIZED_STR(@"LongDateTimeFormat")];
+        dateString = [format stringFromDate:date];
+    }
+    return dateString;
+}
+
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL {
     NSString *urlString = @"";
     if (path.length > 0 && ![path isEqualToString:@"(null)"]) {
@@ -693,6 +707,14 @@
         }
     }
     return urlString;
+}
+
++ (CGFloat)getHeightOfLabel:(UILabel*)label {
+    CGRect expectedLabelRect = [label.text boundingRectWithSize:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)
+                                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                                     attributes:@{NSFontAttributeName: label.font}
+                                                        context:nil];
+    return ceil(expectedLabelRect.size.height);
 }
 
 + (UIImage*)roundedCornerImage:(UIImage*)image drawBorder:(BOOL)drawBorder {
