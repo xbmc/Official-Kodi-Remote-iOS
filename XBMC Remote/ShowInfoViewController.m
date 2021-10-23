@@ -1865,10 +1865,13 @@ int count = 0;
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL kenBurns = NO;
     NSString *kenBurnsString = [userDefaults objectForKey:@"ken_preference"];
-    if (kenBurnsString == nil || [kenBurnsString boolValue]) kenBurns = YES;
-    enableKenBurns = kenBurns;
+    if (kenBurnsString == nil || [kenBurnsString boolValue]) {
+        enableKenBurns = YES;
+    }
+    else {
+        enableKenBurns = NO;
+    }
     self.kenView = nil;
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
     [self configureView];
