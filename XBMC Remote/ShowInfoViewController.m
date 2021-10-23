@@ -65,7 +65,10 @@ int count = 0;
         viewTitle.textColor = [UIColor whiteColor];
         viewTitle.text = item[@"label"];
         [viewTitle sizeThatFits:CGSizeMake(140, 40)];
-        sheetActions = [[NSMutableArray alloc] initWithObjects:LOCALIZED_STR(@"Queue after current"), LOCALIZED_STR(@"Queue"), LOCALIZED_STR(@"Play"), nil];
+        sheetActions = [@[LOCALIZED_STR(@"Queue after current"),
+                          LOCALIZED_STR(@"Queue"),
+                          LOCALIZED_STR(@"Play")
+                        ] mutableCopy];
         NSDictionary *resumePointDict = item[@"resume"];
         if (resumePointDict != nil) {
             if (((NSNull*)resumePointDict[@"position"] != [NSNull null])) {
@@ -122,10 +125,7 @@ int count = 0;
         }
         else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
             NSString *pvrAction = [item[@"hastimer"] boolValue] ? LOCALIZED_STR(@"Stop Recording") : LOCALIZED_STR(@"Record");
-            sheetActions = [[NSMutableArray alloc] initWithObjects:
-                            LOCALIZED_STR(@"Play"),
-                            pvrAction,
-                            nil];
+            sheetActions = [@[LOCALIZED_STR(@"Play"), pvrAction] mutableCopy];
             titleWidth = 350;
         }
 //        else if ([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"musicvideoid"]) {
