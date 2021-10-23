@@ -979,7 +979,7 @@ double round(double d) {
     int height_content = scrollView.contentSize.height;
     int height_bounds = scrollView.bounds.size.height;
     int height_navbar = self.navigationController.navigationBar.frame.size.height;
-    arrow_continue_down.hidden = (height_content <= height_bounds-height_navbar);
+    arrow_continue_down.hidden = (height_content <= height_bounds - height_navbar);
 }
 
 - (void)layoutPvrDetails {
@@ -1425,7 +1425,7 @@ double round(double d) {
     int height_content = theScrollView.contentSize.height;
     int height_bounds = theScrollView.bounds.size.height;
     int scrolled = theScrollView.contentOffset.y;
-    bool at_bottom = scrolled >= height_content-height_bounds;
+    bool at_bottom = scrolled >= height_content - height_bounds;
     if (!arrow_continue_down.hidden && at_bottom) {
         arrow_continue_down.hidden = YES;
         [UIView beginAnimations:nil context:nil];
