@@ -447,7 +447,7 @@ NSMutableArray *hostRightMenuItems;
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
         NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                    [UIColor whiteColor], NSForegroundColorAttributeName,
-                                                   [UIFont boldSystemFontOfSize:18], NSFontAttributeName, nil];
+                                                   [UIFont boldSystemFontOfSize:16], NSFontAttributeName, nil];
         [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
     }
     else {
