@@ -44,7 +44,7 @@
 - (id)initWithNibName:(NSString*)nibNameOrNil withItem:(NSDictionary*)item withFrame:(CGRect)frame bundle:(NSBundle*)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.detailItem = item;
-        [self.view setFrame:frame];
+        self.view.frame = frame;
     }
     return self;
 }
@@ -147,12 +147,12 @@ double round(double d) {
             toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
             toolbar.contentMode = UIViewContentModeScaleAspectFill;
             [toolbar sizeToFit];
-            CGFloat toolbarHeight = [toolbar frame].size.height;
+            CGFloat toolbarHeight = toolbar.frame.size.height;
             CGRect mainViewBounds = self.view.bounds;
-            [toolbar setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
-                                         CGRectGetMinY(mainViewBounds),
-                                         CGRectGetWidth(mainViewBounds),
-                                         toolbarHeight)];
+            toolbar.frame = CGRectMake(CGRectGetMinX(mainViewBounds),
+                                       CGRectGetMinY(mainViewBounds),
+                                       CGRectGetWidth(mainViewBounds),
+                                       toolbarHeight);
             [self.view addSubview:toolbar];
             scrollView.contentInset = UIEdgeInsetsMake(toolbarHeight, 0, 0, 0);
         }
@@ -329,7 +329,7 @@ double round(double d) {
             }
             else {
                 DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                [iPadDetailViewController setModalPresentationStyle:UIModalPresentationFormSheet];
+                iPadDetailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
                 [self presentViewController:iPadDetailViewController animated:YES completion:nil];
             }
         }
@@ -343,7 +343,7 @@ double round(double d) {
 #pragma mark - ActionSheet
 
 - (void)showActionSheet {
-    NSInteger numActions = [sheetActions count];
+    NSInteger numActions = sheetActions.count;
     if (numActions) {
         NSDictionary *item = self.detailItem;
         NSString *sheetTitle = item[@"label"];
@@ -363,7 +363,7 @@ double round(double d) {
             [actionView addAction:action];
         }
         [actionView addAction:action_cancel];
-        [actionView setModalPresentationStyle:UIModalPresentationPopover];
+        actionView.modalPresentationStyle = UIModalPresentationPopover;
         
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
@@ -513,7 +513,7 @@ double round(double d) {
 
 - (void)setTvShowsToolbar {
     if (IS_IPAD) {
-        NSInteger count = [toolbar.items count];
+        NSInteger count = toolbar.items.count;
         NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
         [newToolbarItems removeObjectAtIndex:(count - 1)];
         [newToolbarItems removeObjectAtIndex:(count - 2)];
@@ -933,7 +933,7 @@ double round(double d) {
         playTrailerButton.hidden = YES;
         trailerLabel.hidden = YES;
     }
-    if ([cast count] == 0) {
+    if (cast.count == 0) {
         label6.hidden = YES;
     }
     
@@ -1041,7 +1041,7 @@ double round(double d) {
 }
 
 - (CGFloat)layoutCastRoles:(CGFloat)offset {
-    if ([cast count]) {
+    if (cast.count) {
         CGRect frame = label6.frame;
         frame.origin.y = offset;
         frame.size.height = [Utilities getHeightOfLabel:label6] + lineSpacing;
@@ -1108,7 +1108,7 @@ double round(double d) {
 - (void)processCastFromArray:(NSArray*)array {
     cast = array;
     if (actorsTable == nil) {
-        CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, [cast count] * (castHeight + VERTICAL_PADDING));
+        CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, cast.count * (castHeight + VERTICAL_PADDING));
         actorsTable = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
     }
     actorsTable.scrollsToTop = NO;
@@ -1175,17 +1175,19 @@ double round(double d) {
 
 - (void)processClearlogoFromDictionary:(NSDictionary*)item {
     clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [clearlogoButton setFrame:CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, clearLogoHeight)];
-    [clearlogoButton.titleLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.8]];
-    [clearlogoButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
+    clearlogoButton.frame = CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, clearLogoHeight);
+    clearlogoButton.titleLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.8];
+    clearlogoButton.titleLabel.shadowOffset = CGSizeMake(0, 1);
     [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
     if (IS_IPHONE) {
-        [clearlogoButton setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+        clearlogoButton.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin |
+                                           UIViewAutoresizingFlexibleLeftMargin |
+                                           UIViewAutoresizingFlexibleRightMargin;
     }
     if ([item[@"clearlogo"] length] != 0) {
         clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
-        [[clearLogoImageView layer] setMinificationFilter:kCAFilterTrilinear];
-        [clearLogoImageView setContentMode:UIViewContentModeScaleAspectFit];
+        clearLogoImageView.layer.minificationFilter = kCAFilterTrilinear;
+        clearLogoImageView.contentMode = UIViewContentModeScaleAspectFit;
         GlobalData *obj = [GlobalData getInstance];
         NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
         if ([AppDelegate instance].serverVersion > 11) {
@@ -1197,7 +1199,7 @@ double round(double d) {
     }
     else {
         [clearlogoButton setTitle:[item[@"showtitle"] length] == 0 ? item[@"label"] : item[@"showtitle"] forState:UIControlStateNormal];
-        [clearlogoButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+        clearlogoButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     }
     [scrollView addSubview:clearlogoButton];
 }
@@ -1313,7 +1315,7 @@ double round(double d) {
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
-                                 [toolbar setAlpha:1.0];
+                                 toolbar.alpha = 1.0;
                              }
                              completion:^(BOOL finished) {}
              ];
@@ -1334,7 +1336,7 @@ double round(double d) {
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
                                  self.kenView.alpha = 0;
-                                 [toolbar setAlpha:0.0];
+                                 toolbar.alpha = 0.0;
                                  if ([self isModal]) {
                                      originalSelfFrame = self.view.frame;
                                      CGRect fullscreenRect = [self currentScreenBoundsDependOnOrientation];
@@ -1367,23 +1369,21 @@ double round(double d) {
             int cbWidth = clearLogoWidth / 2;
             int cbHeight = clearLogoHeight / 2;
             closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - cbWidth/2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
-            [closeButton.titleLabel setShadowColor:[Utilities getGrayColor:0 alpha:0.8]];
-            [closeButton.titleLabel setShadowOffset:CGSizeMake(0, 1)];
-            [closeButton setAutoresizingMask:
-             UIViewAutoresizingFlexibleTopMargin    |
-             UIViewAutoresizingFlexibleRightMargin  |
-             UIViewAutoresizingFlexibleLeftMargin   |
-             UIViewAutoresizingFlexibleWidth
-             ];
+            closeButton.titleLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.8];
+            closeButton.titleLabel.shadowOffset = CGSizeMake(0, 1);
+            closeButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin |
+                                           UIViewAutoresizingFlexibleRightMargin |
+                                           UIViewAutoresizingFlexibleLeftMargin |
+                                           UIViewAutoresizingFlexibleWidth;
             if (clearLogoImageView.frame.size.width == 0) {
                 [closeButton setTitle:clearlogoButton.titleLabel.text forState:UIControlStateNormal];
-                [closeButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+                closeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
             }
             else {
-                [[closeButton.imageView layer] setMinificationFilter:kCAFilterTrilinear];
+                closeButton.imageView.layer.minificationFilter = kCAFilterTrilinear;
                 [closeButton setImage:clearLogoImageView.image forState:UIControlStateNormal];
                 [closeButton setImage:clearLogoImageView.image forState:UIControlStateHighlighted];
-                [closeButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+                closeButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
             }
             [closeButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
             closeButton.tag = 1;
@@ -1445,7 +1445,7 @@ double round(double d) {
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    return [cast count];
+    return cast.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -1460,7 +1460,9 @@ double round(double d) {
         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
     }
     NSString *stringURL = [Utilities formatStringURL:cast[indexPath.row][@"thumbnail"] serverURL:serverURL];
-    [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"person"] andResize:CGSizeMake(castWidth, castHeight)];
+    [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL]
+                        placeholderImage:[UIImage imageNamed:@"person"]
+                               andResize:CGSizeMake(castWidth, castHeight)];
     [Utilities applyRoundedEdgesView:cell.actorThumbnail drawBorder:YES];
     cell.actorName.text = cast[indexPath.row][@"name"] == nil ? self.detailItem[@"label"] : cast[indexPath.row][@"name"];
     if ([cast[indexPath.row][@"role"] length] != 0) {
@@ -1476,7 +1478,7 @@ double round(double d) {
         cell.accessoryView.alpha = 0.5;
     }
     else {
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 }
 
@@ -1684,8 +1686,8 @@ double round(double d) {
                                loop:YES
                         isLandscape:YES];
     UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];
-    [touchOnKenView setNumberOfTapsRequired:1];
-    [touchOnKenView setNumberOfTouchesRequired:1];
+    touchOnKenView.numberOfTapsRequired = 1;
+    touchOnKenView.numberOfTouchesRequired = 1;
     [self.kenView addGestureRecognizer:touchOnKenView];
     [self.view insertSubview:self.kenView atIndex:1];
 }
@@ -1716,7 +1718,7 @@ double round(double d) {
             NSMutableArray *items = [[toolbar items] mutableCopy];
             doneButton = [[UIBarButtonItem alloc] initWithTitle:LOCALIZED_STR(@"Done") style:UIBarButtonItemStyleDone target:self action:@selector(dismissModal:)];
             [items insertObject:doneButton atIndex:0];
-            [toolbar setItems:items];
+            toolbar.items = items;
         }
         [self setIOS7barTintColor:TINT_COLOR];
         viewTitle.textAlignment = NSTextAlignmentCenter;
@@ -1756,7 +1758,10 @@ double round(double d) {
         [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
     if ([self isModal]) {
-        [clearlogoButton setFrame:CGRectMake((int)(self.view.frame.size.width/2) - (int)(clearlogoButton.frame.size.width/2), clearlogoButton.frame.origin.y, clearlogoButton.frame.size.width, clearlogoButton.frame.size.height)];
+        clearlogoButton.frame = CGRectMake((int)(self.view.frame.size.width / 2) - (int)(clearlogoButton.frame.size.width / 2),
+                                           clearlogoButton.frame.origin.y,
+                                           clearlogoButton.frame.size.width,
+                                           clearlogoButton.frame.size.height);
         self.view.superview.backgroundColor = [UIColor clearColor];
     }
 }
@@ -1804,14 +1809,14 @@ double round(double d) {
     fanartView.tag = 1;
     fanartView.userInteractionEnabled = YES;
     UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];
-    [touchOnKenView setNumberOfTapsRequired:1];
-    [touchOnKenView setNumberOfTouchesRequired:1];
+    touchOnKenView.numberOfTapsRequired = 1;
+    touchOnKenView.numberOfTouchesRequired = 1;
     [fanartView addGestureRecognizer:touchOnKenView];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     CGFloat bottomPadding = [Utilities getBottomPadding];
     CGRect frame = arrow_continue_down.frame;
     frame.origin.y -= bottomPadding;
-    [arrow_continue_down setFrame:frame];
+    arrow_continue_down.frame = frame;
     arrow_continue_down.alpha = 0.5;
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
