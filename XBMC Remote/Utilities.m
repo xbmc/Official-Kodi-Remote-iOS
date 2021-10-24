@@ -594,7 +594,7 @@
 }
 
 + (NSString*)getStringFromDictionary:(NSDictionary*)dict key:(NSString*)key emptyString:(NSString*)empty {
-    NSString *text = @"";
+    NSString *text = empty;
     id value = dict[key];
     if (value == nil) {
         text = empty;
