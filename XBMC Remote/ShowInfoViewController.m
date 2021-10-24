@@ -53,8 +53,6 @@ double round(double d) {
     return floor(d + 0.5);
 }
 
-int count = 0;
-
 - (void)configureView {
     if (self.detailItem) {
         NSMutableDictionary *item = self.detailItem;
@@ -71,16 +69,6 @@ int count = 0;
                 }
             }
         }
-//        if ([item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"episodeid"]|| [item[@"family"] isEqualToString:@"musicvideoid"]) {
-//            NSString *actionString = @"";
-//            if ([item[@"playcount"] intValue] == 0) {
-//                actionString = LOCALIZED_STR(@"Mark as watched");
-//            }
-//            else {
-//                actionString = LOCALIZED_STR(@"Mark as unwatched");
-//            }
-//            [sheetActions addObject:actionString];
-//        }
         BOOL fromAlbumView = NO;
         if (((NSNull*)item[@"fromAlbumView"] != [NSNull null])) {
             fromAlbumView = [item[@"fromAlbumView"] boolValue];
@@ -203,19 +191,6 @@ int count = 0;
 - (void)dismissModal:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-//- (BOOL)isModal {
-//    BOOL isModal = ((self.parentViewController && self.parentViewController.modalViewController == self) ||
-//                    (self.navigationController && self.navigationController.parentViewController && self.navigationController.parentViewController.modalViewController == self.navigationController) ||
-//                    [[[self tabBarController] parentViewController] isKindOfClass:[UITabBarController class]]);
-//    if (!isModal && [self respondsToSelector:@selector(presentingViewController)]) {
-//        
-//        isModal = ((self.presentingViewController && self.presentingViewController.modalViewController == self) ||
-//                   (self.navigationController && self.navigationController.presentingViewController && self.navigationController.presentingViewController.modalViewController == self.navigationController) ||
-//                   [[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]]);
-//    }
-//    return isModal;
-//}
 
 - (BOOL)isModal {
     return self.presentingViewController.presentedViewController == self
