@@ -50,7 +50,7 @@
             muteButton.frame = frame_tmp;
             
             frame_tmp = minusButton.frame;
-            frame_tmp.origin.x = CGRectGetMaxX(muteButton.frame);
+            frame_tmp.origin.x = CGRectGetMaxX(muteButton.frame) + VOLUMEICON_PADDING;
             minusButton.frame = frame_tmp;
             
             frame_tmp = volumeLabel.frame;
