@@ -1418,6 +1418,7 @@ double round(double d) {
         }
         [self alphaView:closeButton AnimDuration:1.5 Alpha:1];
     }
+    [self scrollDown:nil];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView*)theScrollView {
