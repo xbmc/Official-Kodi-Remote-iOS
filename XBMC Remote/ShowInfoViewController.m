@@ -576,7 +576,7 @@ double round(double d) {
     isRecordingDetail = item[@"recordingid"] != nil;
 //    NSLog(@"ITEM %@", item);
     eJewelType jeweltype = jewelTypeUnknown;
-    lineSpacing = IS_IPAD ? 6 : 0;
+    lineSpacing = IS_IPAD ? 2 : 0;
     castFontSize = IS_IPAD ? 16 : 14;
     castWidth = IS_IPAD ? 75 : 50;
     castHeight = IS_IPAD ? 105 : 70;
@@ -605,9 +605,6 @@ double round(double d) {
         frame = voteLabel.frame;
         frame.origin.y -= lineSpacing;
         voteLabel.frame = frame;
-        
-        voteLabel.font = [UIFont systemFontOfSize:26];
-        numVotesLabel.font = [UIFont systemFontOfSize:18];
     }
     else {
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
@@ -935,6 +932,31 @@ double round(double d) {
         label6.hidden = YES;
     }
     
+    // Adapt font sizes
+    if (IS_IPAD) {
+        // Votes
+        voteLabel.font = [UIFont boldSystemFontOfSize:22];
+        numVotesLabel.font = [UIFont systemFontOfSize:16];
+        
+        // Headers
+        label1.font = [UIFont systemFontOfSize:13];
+        label2.font = [UIFont systemFontOfSize:13];
+        label3.font = [UIFont systemFontOfSize:13];
+        label4.font = [UIFont systemFontOfSize:13];
+        label5.font = [UIFont systemFontOfSize:13];
+        label6.font = [UIFont systemFontOfSize:14];
+        trailerLabel.font = [UIFont systemFontOfSize:13];
+        parentalRatingLabelUp.font = [UIFont systemFontOfSize:13];
+        
+        // Text fields
+        directorLabel.font = [UIFont systemFontOfSize:16];
+        genreLabel.font = [UIFont systemFontOfSize:16];
+        runtimeLabel.font = [UIFont systemFontOfSize:16];
+        studioLabel.font = [UIFont systemFontOfSize:16];
+        summaryLabel.font = [UIFont systemFontOfSize:16];
+        parentalRatingLabel.font = [UIFont systemFontOfSize:16];
+    }
+    
     // Layout
     CGFloat offset = CGRectGetMaxY(jewelView.frame);
     offset = [self layoutStars:offset];
@@ -990,11 +1012,11 @@ double round(double d) {
         starsView.frame = frame;
         
         frame = voteLabel.frame;
-        frame.origin.y = offset + 2;
+        frame.origin.y = offset;
         voteLabel.frame = frame;
         
         frame = numVotesLabel.frame;
-        frame.origin.y = offset + 1;
+        frame.origin.y = offset;
         numVotesLabel.frame = frame;
         
         offset = CGRectGetMaxY(starsView.frame);
@@ -1181,6 +1203,7 @@ double round(double d) {
     clearlogoButton.frame = CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, clearLogoHeight);
     clearlogoButton.titleLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.8];
     clearlogoButton.titleLabel.shadowOffset = CGSizeMake(0, 1);
+    clearlogoButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
     if (IS_IPHONE) {
         clearlogoButton.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin |
