@@ -481,14 +481,12 @@ double round(double d) {
                    [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
                }
                else {
-                   NSString *message = @"";
-                   message = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                   NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
                    if (methodError != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
                    }
                    if (error != nil) {
                        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
-                       
                    }
                    UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
                    [self presentViewController:alertView animated:YES completion:nil];
@@ -1114,7 +1112,10 @@ double round(double d) {
     actorsTable.scrollsToTop = NO;
     actorsTable.backgroundColor = [UIColor clearColor];
     actorsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-    actorsTable.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
+    actorsTable.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin |
+                                   UIViewAutoresizingFlexibleWidth |
+                                   UIViewAutoresizingFlexibleRightMargin |
+                                   UIViewAutoresizingFlexibleLeftMargin;
     actorsTable.delegate = self;
     actorsTable.dataSource = self;
     [scrollView addSubview:actorsTable];
@@ -1165,7 +1166,9 @@ double round(double d) {
             UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
             playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
             playTrailerButton.frame = CGRectMake(LEFT_RIGHT_PADDING, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE);
-            playTrailerButton.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
+            playTrailerButton.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin |
+                                                 UIViewAutoresizingFlexibleRightMargin |
+                                                 UIViewAutoresizingFlexibleLeftMargin;
             [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
             [playTrailerButton addTarget:self action:@selector(callbrowser:) forControlEvents:UIControlEventTouchUpInside];
             [scrollView addSubview:playTrailerButton];
