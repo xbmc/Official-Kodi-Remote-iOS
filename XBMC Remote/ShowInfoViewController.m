@@ -741,6 +741,33 @@ int count = 0;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
     }
+    else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
+        placeHolderImage = @"coverbox_back";
+        
+        label1.text = LOCALIZED_STR(@"ARTIST");
+        label2.text = LOCALIZED_STR(@"GENRE");
+        label3.text = LOCALIZED_STR(@"DIRECTED BY");
+        label4.text = LOCALIZED_STR(@"STUDIO");
+        label5.text = LOCALIZED_STR(@"SUMMARY");
+        label6.text = @"";
+        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"artist" emptyString:@"-"];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+        NSString *director = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
+        NSString *year = [Utilities getYearFromDictionary:item key:@"year"];
+        runtimeLabel.text = [item[@"year"] length] == 0 ? director : [NSString stringWithFormat:@"%@ (%@)", director, year];
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
+        
+        if (enableJewel) {
+            jewelView.image = [UIImage imageNamed:@"jewel_cd.9"];
+            jeweltype = jewelTypeCD;
+        }
+        int coverHeight = IS_IPAD ? 380 : 290;
+        CGRect frame = jewelView.frame;
+        frame.size.height = coverHeight;
+        jewelView.frame = frame;
+    }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
         placeHolderImage = @"coverbox_back_artists";
         contributorString = @"roles";
