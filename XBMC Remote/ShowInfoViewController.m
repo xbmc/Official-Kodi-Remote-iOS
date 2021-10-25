@@ -580,8 +580,10 @@ double round(double d) {
     castFontSize = IS_IPAD ? 16 : 14;
     castWidth = IS_IPAD ? 75 : 50;
     castHeight = IS_IPAD ? 105 : 70;
+    
+    // ClearLogo uses dimension of 80:31 as per Kodi specification
     clearLogoWidth = self.view.frame.size.width - LEFT_RIGHT_PADDING * 2;
-    clearLogoHeight = IS_IPAD ? 177 : 116;
+    clearLogoHeight = ceil(clearLogoWidth * 31.0 / 80.0);
     
     bool enableJewel = [self enableJewelCases];
     if (!enableJewel) {
