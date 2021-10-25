@@ -578,8 +578,10 @@ double round(double d) {
     eJewelType jeweltype = jewelTypeUnknown;
     lineSpacing = IS_IPAD ? 2 : 0;
     castFontSize = IS_IPAD ? 16 : 14;
-    castWidth = IS_IPAD ? 75 : 50;
-    castHeight = IS_IPAD ? 105 : 70;
+    
+    // Cast use dimension of 2:3 as per Kodi specification
+    castWidth = IS_IPAD ? 70 : 46;
+    castHeight = IS_IPAD ? 105 : 69;
     
     // ClearLogo uses dimension of 80:31 as per Kodi specification
     clearLogoWidth = self.view.frame.size.width - LEFT_RIGHT_PADDING * 2;
@@ -766,7 +768,6 @@ double round(double d) {
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
         
-        castHeight -= 26;
         enableJewel = NO;
         jewelView.image = nil;
     }
