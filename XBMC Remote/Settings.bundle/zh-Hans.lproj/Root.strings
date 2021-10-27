@@ -4,7 +4,7 @@
 "Language" = "语言";
 "Automatic" = "自动";
 "Language changes needs app restart" = "变更语言需要重启应用";
-"Show connection notice" = "Show connection notice";
+"Show connection notice" = "显示连接通知";
 "Direct Play mode" = "直接播放模式";
 "Ken Burns effect" = "Ken Burns特效";
 "Shake to clear playlist" = "晃动清除播放列表";
@@ -22,3 +22,18 @@
 "Dark" = "暗";
 "Main Menu" = "主菜单";
 "Light" = "小";
+"Show REMOTE CONTROL" = "显示遥控器控制";
+"Show NOW PLAYING" = "显示正在播放";
+"Show FAVOURITES" = "显示收藏";
+"Show LIVE TV" = "显示直播电视";
+"Show PICTURES" = "显示图片";
+"Show TV SHOWS" = "显示剧集";
+"Show MOVIES" = "显示电影";
+"Show MUSIC" = "显示音乐";
+"Main Menu changes needs app restart" = "主菜单更改需要重新启动应用程序";
+"Bottom" = "底部";
+"Top" = "顶部";
+"Remote Position" = "遥控器位置";
+"Transparent" = "透明";
+"TV logo background" = "TV 徽标背景";
+"Use rounded corner images" = "使用圆角图片";
