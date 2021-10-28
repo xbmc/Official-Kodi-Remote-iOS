@@ -4276,20 +4276,17 @@ NSIndexPath *selected;
             [mutableParameters removeObjectForKey:@"sort"];
         }
         else if ([mutableParameters[@"channelgroupid"] intValue] == -1) {
-            [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-            [activityIndicatorView stopAnimating];
+            [self animateNoResultsFound];
             return;
         }
         // PVR functions not supported with xbmc 11
         if ([AppDelegate instance].serverVersion == 11) {
-            [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-            [activityIndicatorView stopAnimating];
+            [self animateNoResultsFound];
             return;
         }
         // PVR.GetRecordings and PVR.GetTimers are not supported with xbmc 12
         else if ([AppDelegate instance].serverVersion == 12 && ([methodToCall isEqualToString:@"PVR.GetRecordings"] || [methodToCall isEqualToString:@"PVR.GetTimers"])) {
-            [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-            [activityIndicatorView stopAnimating];
+            [self animateNoResultsFound];
             return;
         }
         // PVR.GetRecordings and PVR.GetTimers support dedicated results for TV + Radio since JSON RPC v8. But
@@ -4328,8 +4325,7 @@ NSIndexPath *selected;
          // shown via debug message.
          if (error == nil && methodError != nil && [methodToCall containsString:@"PVR."]) {
              if (methodError.code == -32100) {
-                 [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-                 [activityIndicatorView stopAnimating];
+                 [self animateNoResultsFound];
                  return;
              }
          }
@@ -4593,6 +4589,11 @@ NSIndexPath *selected;
      }];
 }
 
+- (void)animateNoResultsFound {
+    [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+    [activityIndicatorView stopAnimating];
+}
+
 - (void)showNoResultsFound:(NSMutableArray*)resultStoreArray refresh:(BOOL)forceRefresh {
     if (forceRefresh) {
         [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
@@ -4601,8 +4602,7 @@ NSIndexPath *selected;
     [resultStoreArray removeAllObjects];
     [self.sections removeAllObjects];
     self.sections[@""] = @[];
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
-    [activityIndicatorView stopAnimating];
+    [self animateNoResultsFound];
     [activeLayoutView reloadData];
     [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
 }
