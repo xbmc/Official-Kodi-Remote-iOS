@@ -872,7 +872,7 @@
             [buttonsIB[choosedTab] setSelected:NO];
         }
         else {
-            [buttonsIB[MAX_NORMAL_BUTTONS] setSelected:NO];
+            [buttonsIB.lastObject setSelected:NO];
         }
         choosedTab = newChoosedTab;
         if (choosedTab < [buttonsIB count]) {
@@ -5206,10 +5206,10 @@ NSIndexPath *selected;
             img = [UIImage imageNamed:@"st_more"];
             imageOff = [Utilities colorizeImage:img withColor:[UIColor lightGrayColor]];
             imageOn = [Utilities colorizeImage:img withColor:[UIColor systemBlueColor]];
-            [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOff forState:UIControlStateNormal];
-            [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateSelected];
-            [buttonsIB[MAX_NORMAL_BUTTONS] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
-            [buttonsIB[MAX_NORMAL_BUTTONS] setEnabled:YES];
+            [buttonsIB.lastObject setBackgroundImage:imageOff forState:UIControlStateNormal];
+            [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateSelected];
+            [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateHighlighted];
+            [buttonsIB.lastObject setEnabled:YES];
             selectedMoreTab = [UIButton new];
             break;
     }
