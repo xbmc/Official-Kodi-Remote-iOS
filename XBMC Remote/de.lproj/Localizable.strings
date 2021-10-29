@@ -184,7 +184,9 @@
 "Show Content" = "Inhalt anzeigen";
 "Play in party mode" = "Im Party-Modus abspielen";
 "Play in shuffle mode" = "Im Shuffle-Modus abspielen";
-"Channel Guide" = "Kanalübersicht";
+"All channels" = "Alle Sender";
+"Channel Groups" = "Sendergruppen";
+"Channel Guide" = "Senderübersicht";
 "Record" = "Aufnahme";
 "Stop Recording" = "Aufnahme beenden";
 "Recordings" = "Aufnahmen";
@@ -312,7 +314,7 @@
 "Last Updated: %@" = "Zuletzt aktualisiert: %@";
 "Never" = "Niemals";
 "For search switch to list view" = "Zur Suche in Listenansicht wechseln";
-"Channel" = "TV Sender";
+"Channel" = "Sender";
 "Date" = "Datum";
 "Runtime" = "Laufzeit";
 "Username" = "Benutzername";

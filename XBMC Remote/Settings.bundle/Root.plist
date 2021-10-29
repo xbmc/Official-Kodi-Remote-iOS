@@ -304,6 +304,16 @@
 			<key>DefaultValue</key>
 			<true/>
 			<key>Key</key>
+			<string>menu_radio</string>
+			<key>Title</key>
+			<string>Show RADIO</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<true/>
+			<key>Key</key>
 			<string>menu_favourites</string>
 			<key>Title</key>
 			<string>Show FAVOURITES</string>

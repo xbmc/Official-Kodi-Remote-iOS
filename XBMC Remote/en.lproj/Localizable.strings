@@ -206,6 +206,8 @@
 "Play in party mode" = "Play in party mode";
 "Play in shuffle mode" = "Play in shuffle mode";
 
+"All channels" = "All channels";
+"Channel Groups" = "Channel Groups";
 "Channel Guide" = "Channel Guide";
 "Record" = "Record";
 "Stop Recording" = "Stop Recording";
@@ -354,6 +356,6 @@
 
 "For search switch to list view" = "For search switch to list view";
 
-"Channel" = "TV Station";
+"Channel" = "Channel";
 "Date" = "Date";
 "Runtime" = "Runtime";

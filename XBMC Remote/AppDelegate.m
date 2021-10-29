@@ -468,6 +468,7 @@ NSMutableArray *hostRightMenuItems;
     __auto_type menu_Remote = [mainMenu new];
     __auto_type menu_Server = [mainMenu new];
     __auto_type menu_LiveTV = [mainMenu new];
+    __auto_type menu_Radio = [mainMenu new];
 
     menu_Music.subItem = [mainMenu new];
     menu_Music.subItem.subItem = [mainMenu new];
@@ -484,6 +485,9 @@ NSMutableArray *hostRightMenuItems;
     
     menu_LiveTV.subItem = [mainMenu new];
     menu_LiveTV.subItem.subItem = [mainMenu new];
+    
+    menu_Radio.subItem = [mainMenu new];
+    menu_Radio.subItem.subItem = [mainMenu new];
 
     
 #pragma mark - Music
@@ -565,7 +569,6 @@ NSMutableArray *hostRightMenuItems;
                         @"playcount"]
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Albums"), @"label",
-            @"Album", @"wikitype",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
             @"YES", @"enableLibraryFullScreen",
@@ -600,7 +603,6 @@ NSMutableArray *hostRightMenuItems;
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Artists"), @"label",
             @"nocover_artist", @"defaultThumb",
-            @"Artist", @"wikitype",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
             @"YES", @"enableLibraryFullScreen",
@@ -652,7 +654,6 @@ NSMutableArray *hostRightMenuItems;
                     }
             }, @"extra_info_parameters",
            LOCALIZED_STR(@"Added Albums"), @"label",
-           @"Album", @"wikitype",
            LOCALIZED_STR(@"Recently added albums"), @"morelabel",
            @"YES", @"enableCollectionView",
            [self itemSizes_Music], @"itemSizes"
@@ -716,7 +717,6 @@ NSMutableArray *hostRightMenuItems;
                     }
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Top 100 Albums"), @"label",
-            @"Album", @"wikitype",
             LOCALIZED_STR(@"Top 100 Albums"), @"morelabel",
             @"YES", @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes"
@@ -774,7 +774,6 @@ NSMutableArray *hostRightMenuItems;
                         @"artist"]
             }, @"parameters",
             LOCALIZED_STR(@"Played albums"), @"label",
-            @"Album", @"wikitype",
             LOCALIZED_STR(@"Recently played albums"), @"morelabel",
             @"YES", @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes"
@@ -1227,7 +1226,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
         
         @[
@@ -1251,8 +1250,7 @@ NSMutableArray *hostRightMenuItems;
                         @"18": @[@"art"]
                     }
             }, @"extra_info_parameters",
-            @"Albums", @"label",
-            @"Album", @"wikitype",
+            LOCALIZED_STR(@"Albums"), @"label",
             @"YES", @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes"
         ],
@@ -1291,8 +1289,7 @@ NSMutableArray *hostRightMenuItems;
                         @"year",
                         @"playcount"]
             }, @"available_sort_methods",
-            @"Albums", @"label",
-            @"Album", @"wikitype",
+            LOCALIZED_STR(@"Albums"), @"label",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
             [self watchedListenedString], @"watchedListenedStrings",
@@ -1304,7 +1301,7 @@ NSMutableArray *hostRightMenuItems;
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeMusicType
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth"
@@ -1326,7 +1323,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
                                   
         @[],
@@ -1347,7 +1344,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
                                   
         @[],
@@ -1368,7 +1365,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
                                   
         @[],
@@ -1380,7 +1377,7 @@ NSMutableArray *hostRightMenuItems;
                 @"file_properties": @[@"thumbnail"],
                 @"media": @"music"
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             @"53", @"thumbWidth",
@@ -1397,7 +1394,7 @@ NSMutableArray *hostRightMenuItems;
                         @"duration"],
                 @"media": @"music"
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             @"53", @"thumbWidth"
@@ -1430,7 +1427,6 @@ NSMutableArray *hostRightMenuItems;
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Artists"), @"label",
             @"nocover_artist", @"defaultThumb",
-            @"Artist", @"wikitype",
             @"YES", @"enableCollectionView",
             [self itemSizes_Musicfullscreen], @"itemSizes"
         ]
@@ -1694,7 +1690,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
           
         @[
@@ -1713,7 +1709,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"],
             }, @"parameters",
-           @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ],
           
         @[],
@@ -1748,8 +1744,7 @@ NSMutableArray *hostRightMenuItems;
                         @"18": @[@"art"]
                     }
             }, @"extra_info_parameters",
-            @"Albums", @"label",
-            @"Album", @"wikitype",
+            LOCALIZED_STR(@"Albums"), @"label",
             @"YES", @"enableCollectionView",
             @"roleid", @"combinedFilter",
             [self itemSizes_Music], @"itemSizes"
@@ -1906,7 +1901,7 @@ NSMutableArray *hostRightMenuItems;
                         @"file",
                         @"fanart"]
             }, @"parameters",
-            @"Songs", @"label"
+            LOCALIZED_STR(@"Songs"), @"label"
         ]
     ] mutableCopy];
     
@@ -2060,7 +2055,6 @@ NSMutableArray *hostRightMenuItems;
                         @"playcount"]
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Movies"), @"label",
-            @"Movie", @"wikitype",
             @"YES", @"FrodoExtraArt",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
@@ -2119,7 +2113,6 @@ NSMutableArray *hostRightMenuItems;
                         @"file"]
             }, @"parameters",
             LOCALIZED_STR(@"Added Movies"), @"label",
-            @"Movie", @"wikitype",
             @{
                 @"properties": @[
                         @"year",
@@ -2179,7 +2172,6 @@ NSMutableArray *hostRightMenuItems;
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Music Videos"), @"label",
             LOCALIZED_STR(@"Music Videos"), @"morelabel",
-            @"Movie", @"wikitype",
             @"YES", @"enableCollectionView",
             @"YES", @"enableLibraryCache",
             @"YES", @"enableLibraryFullScreen",
@@ -2190,7 +2182,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"media": @"video"
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             LOCALIZED_STR(@"Files"), @"morelabel",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
@@ -2204,7 +2196,7 @@ NSMutableArray *hostRightMenuItems;
                 @"directory": @"addons://sources/video",
                 @"properties": @[@"thumbnail"]
             }, @"parameters",
-            @"Video Add-ons", @"label",
+            LOCALIZED_STR(@"Video Add-ons"), @"label",
             LOCALIZED_STR(@"Video Add-ons"), @"morelabel",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
@@ -2479,8 +2471,7 @@ NSMutableArray *hostRightMenuItems;
                         @"dateadded",
                         @"playcount"]
             }, @"available_sort_methods",
-            @"Movies", @"label",
-            @"Movie", @"wikitype",
+            LOCALIZED_STR(@"Movies"), @"label",
             @"nocover_movies", @"defaultThumb",
             @"YES", @"FrodoExtraArt",
             @"YES", @"enableCollectionView",
@@ -2537,8 +2528,7 @@ NSMutableArray *hostRightMenuItems;
                         @"dateadded",
                         @"playcount"]
             }, @"available_sort_methods",
-            @"Movies", @"label",
-            @"Movie", @"wikitype",
+            LOCALIZED_STR(@"Movies"), @"label",
             @"nocover_movies", @"defaultThumb",
             @"YES", @"FrodoExtraArt",
             @"YES", @"enableCollectionView",
@@ -2553,7 +2543,7 @@ NSMutableArray *hostRightMenuItems;
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeVideoType
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth"
@@ -2565,7 +2555,7 @@ NSMutableArray *hostRightMenuItems;
                 @"media": @"video",
                 @"file_properties": @[@"thumbnail"]
             }, @"parameters",
-            @"Video Add-ons", @"label",
+            LOCALIZED_STR(@"Video Add-ons"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
@@ -2597,7 +2587,7 @@ NSMutableArray *hostRightMenuItems;
                         @"resume"],
                 @"media": @"video"
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             @"76", @"rowHeight",
             @"53", @"thumbWidth",
@@ -2871,7 +2861,6 @@ NSMutableArray *hostRightMenuItems;
                         @"rating"]
             }, @"available_sort_methods",
             LOCALIZED_STR(@"TV Shows"), @"label",
-            @"TV Show", @"wikitype",
             @"YES", @"blackTableSeparator",
             @"YES", @"FrodoExtraArt",
             @"YES", @"enableLibraryCache",
@@ -3117,7 +3106,7 @@ NSMutableArray *hostRightMenuItems;
                         @"episode",
                         @"art"]
             }, @"extra_section_parameters",
-            @"Episodes", @"label",
+            LOCALIZED_STR(@"Episodes"), @"label",
             @"YES", @"disableFilterParameter",
             @"YES", @"FrodoExtraArt"
         ],
@@ -3149,8 +3138,7 @@ NSMutableArray *hostRightMenuItems;
                          @"episode",
                          @"fanart"]
             }, @"extra_info_parameters",
-            @"TV Shows", @"label",
-            @"TV Show", @"wikitype",
+            LOCALIZED_STR(@"TV Shows"), @"label",
             @tvshowHeight, @"rowHeight",
             @thumbWidth, @"thumbWidth",
             @"YES", @"blackTableSeparator",
@@ -3164,7 +3152,7 @@ NSMutableArray *hostRightMenuItems;
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeVideoType
             }, @"parameters",
-            @"Files", @"label",
+            LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth"
@@ -3176,7 +3164,7 @@ NSMutableArray *hostRightMenuItems;
                 @"media": @"video",
                 @"file_properties": @[@"thumbnail"]
             }, @"parameters",
-            @"Video Add-ons", @"label",
+            LOCALIZED_STR(@"Video Add-ons"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
@@ -3360,13 +3348,14 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.enableSection = YES;
     menu_LiveTV.noConvertTime = YES;
     menu_LiveTV.mainButtons = @[
+        @"st_channels",
         @"st_livetv",
-        @"st_radio",
         @"st_recordings",
         @"st_timers"];
     
     menu_LiveTV.mainMethod = [@[
-        @[@"PVR.GetChannelGroups", @"method"],
+        @[@"PVR.GetChannels", @"method",
+          @"YES", @"channelListView"],
         @[@"PVR.GetChannelGroups", @"method"],
         @[@"PVR.GetRecordings", @"method",
           @"PVR.GetRecordingDetails", @"extra_info_method"],
@@ -3377,23 +3366,29 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.mainParameters = [@[
         @[
             @{
-                @"channeltype": @"tv"
+                @"channelgroupid": @"alltv",
+                @"properties": @[
+                        @"thumbnail",
+                        @"channel"]
             }, @"parameters",
-            LOCALIZED_STR(@"Live TV"), @"label",
-            LOCALIZED_STR(@"Live TV"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            filemodeRowHeight, @"rowHeight",
-            filemodeThumbWidth, @"thumbWidth",
+            @{
+                @"17": @[@"isrecording"],
+            }, @"kodiExtrasPropertiesMinimumVersion",
+            LOCALIZED_STR(@"All channels"), @"label",
+            @"nocover_channels", @"defaultThumb",
+            @"YES", @"disableFilterParameter",
+            livetvRowHeight, @"rowHeight",
+            @"48", @"thumbWidth",
             @"YES", @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes"
+            [self itemSizes_Music_insets:@"56"], @"itemSizes"
         ],
                           
         @[
             @{
-                @"channeltype": @"radio"
+                @"channeltype": @"tv"
             }, @"parameters",
-            LOCALIZED_STR(@"Radio"), @"label",
-            LOCALIZED_STR(@"Radio"), @"morelabel",
+            LOCALIZED_STR(@"Channel Groups"), @"label",
+            LOCALIZED_STR(@"Channel Groups"), @"morelabel",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
@@ -3420,6 +3415,7 @@ NSMutableArray *hostRightMenuItems;
                         @"art",
                         @"streamurl",
                         @"file",
+                        @"radio",
                         @"directory"]
                     }, @"parameters",
             @{
@@ -3459,6 +3455,7 @@ NSMutableArray *hostRightMenuItems;
             channelEPGRowHeight, @"rowHeight",
             @"48", @"thumbWidth",
             @"YES", @"enableCollectionView",
+            @"YES", @"enableLibraryCache",
             [self itemSizes_Music_insets:@"60"], @"itemSizes"
         ],
                           
@@ -3487,6 +3484,8 @@ NSMutableArray *hostRightMenuItems;
                 @"properties": @[
                         @"title",
                         @"summary",
+                        @"channelid",
+                        @"isradio",
                         @"starttime",
                         @"endtime",
                         @"runtime",
@@ -3525,16 +3524,18 @@ NSMutableArray *hostRightMenuItems;
     
     menu_LiveTV.mainFields = @[
         @{
-            @"itemid": @"channelgroups",
-            @"row1": @"label",
-            @"row2": @"year",
-            @"row3": @"year",
-            @"row4": @"runtime",
-            @"row5": @"rating",
-            @"row6": @"channelgroupid",
+            @"itemid": @"channels",
+            @"row1": @"channel",
+            @"row2": @"starttime",
+            @"row3": @"endtime",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"channelid",
             @"playlistid": @1,
-            @"row8": @"channelgroupid",
-            @"row9": @"channelgroupid"
+            @"row8": @"channelid",
+            @"row9": @"isrecording",
+            @"row10": @"filetype",
+            @"row11": @"type"
         },
                       
         @{
@@ -3558,6 +3559,7 @@ NSMutableArray *hostRightMenuItems;
             @"row4": @"runtime",
             @"row5": @"starttime",
             @"row6": @"recordingid",
+            @"row7": @"radio",
             @"playlistid": @1,
             @"row8": @"recordingid",
             @"row9": @"recordingid",
@@ -3583,6 +3585,7 @@ NSMutableArray *hostRightMenuItems;
             @"row9": @"timerid",
             @"row10": @"starttime",
             @"row11": @"endtime",
+            @"row15": @"isradio",
             @"itemid_extra_info": @"timerdetails"
         }
     ];
@@ -3591,7 +3594,7 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.thumbWidth = 53;
     menu_LiveTV.defaultThumb = @"nocover_movies";
     menu_LiveTV.sheetActions = @[
-        @[],
+        [self action_play_to_channelguide],
         @[],
         [self action_queue_to_play],
         @[LOCALIZED_STR(@"Delete timer")]
@@ -3599,7 +3602,7 @@ NSMutableArray *hostRightMenuItems;
     
     //    menu_LiveTV.showInfo = YES;
     menu_LiveTV.showInfo = @[
-        @YES,
+        @NO,
         @YES,
         @YES,
         @NO];
@@ -3612,8 +3615,8 @@ NSMutableArray *hostRightMenuItems;
     ];
     
     menu_LiveTV.subItem.mainMethod = [@[
-        @[@"PVR.GetChannels", @"method",
-          @"YES", @"channelListView"],
+        @[@"PVR.GetBroadcasts", @"method",
+          @"YES", @"channelGuideView"],
         @[@"PVR.GetChannels", @"method",
           @"YES", @"channelListView"],
         @[],
@@ -3626,19 +3629,22 @@ NSMutableArray *hostRightMenuItems;
         @[
             @{
                 @"properties": @[
-                        @"thumbnail",
-                        @"channel"]
+                        @"title",
+                        @"starttime",
+                        @"endtime",
+                        @"plot",
+                        @"plotoutline",
+                        @"progresspercentage",
+                        @"isactive",
+                        @"hastimer"]
             }, @"parameters",
-            @{
-                @"17": @[@"isrecording"],
-            }, @"kodiExtrasPropertiesMinimumVersion",
-            @"Live TV", @"label",
-            @"nocover_channels", @"defaultThumb",
+            LOCALIZED_STR(@"Live TV"), @"label",
+            @"icon_video", @"defaultThumb",
             @"YES", @"disableFilterParameter",
-            livetvRowHeight, @"rowHeight",
-            @"48", @"thumbWidth",
-            @"YES", @"enableCollectionView",
-            [self itemSizes_Music_insets:@"56"], @"itemSizes"
+            channelEPGRowHeight, @"rowHeight",
+            livetvThumbWidth, @"thumbWidth",
+            [self itemSizes_Music_insets:@"48"], @"itemSizes",
+            @YES, @"forceActionSheet"
         ],
                                   
         @[
@@ -3650,7 +3656,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"17": @[@"isrecording"]
             }, @"kodiExtrasPropertiesMinimumVersion",
-            @"Live TV", @"label",
+            LOCALIZED_STR(@"Live TV"), @"label",
             @"nocover_channels", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
@@ -3665,18 +3671,22 @@ NSMutableArray *hostRightMenuItems;
     
     menu_LiveTV.subItem.mainFields = @[
         @{
-            @"itemid": @"channels",
-            @"row1": @"channel",
-            @"row2": @"starttime",
-            @"row3": @"endtime",
-            @"row4": @"filetype",
-            @"row5": @"filetype",
-            @"row6": @"channelid",
+            @"itemid": @"broadcasts",
+            @"row1": @"title",
+            @"row2": @"plot",
+            @"row3": @"broadcastid",
+            @"row4": @"broadcastid",
+            @"row5": @"starttime",
+            @"row6": @"broadcastid",
             @"playlistid": @1,
-            @"row8": @"channelid",
-            @"row9": @"isrecording",
-            @"row10": @"filetype",
-            @"row11": @"type"
+            @"row8": @"broadcastid",
+            @"row9": @"plotoutline",
+            @"row10": @"starttime",
+            @"row11": @"endtime",
+            @"row12": @"progresspercentage",
+            @"row13": @"isactive",
+            @"row14": @"title",
+            @"row15": @"hastimer"
         },
                               
         @{
@@ -3703,7 +3713,7 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.subItem.thumbWidth = [livetvThumbWidth intValue];
     menu_LiveTV.subItem.defaultThumb = @"nocover_channels";
     menu_LiveTV.subItem.sheetActions = @[
-        [self action_play_to_channelguide],
+        [self action_play_to_broadcastdetails],
         [self action_play_to_channelguide],
         @[],
         @[]
@@ -3725,8 +3735,7 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.subItem.widthLabel = 252;
     menu_LiveTV.subItem.subItem.noConvertTime = YES;
     menu_LiveTV.subItem.subItem.mainMethod = [@[
-        @[@"PVR.GetBroadcasts", @"method",
-          @"YES", @"channelGuideView"],
+        @[],
         @[@"PVR.GetBroadcasts", @"method",
           @"YES", @"channelGuideView"],
         @[],
@@ -3734,26 +3743,7 @@ NSMutableArray *hostRightMenuItems;
     ] mutableCopy];
     
     menu_LiveTV.subItem.subItem.mainParameters = [@[
-        @[
-            @{
-                @"properties": @[
-                        @"title",
-                        @"starttime",
-                        @"endtime",
-                        @"plot",
-                        @"plotoutline",
-                        @"progresspercentage",
-                        @"isactive",
-                        @"hastimer"]
-            }, @"parameters",
-            @"Live TV", @"label",
-            @"icon_video", @"defaultThumb",
-            @"YES", @"disableFilterParameter",
-            channelEPGRowHeight, @"rowHeight",
-            livetvThumbWidth, @"thumbWidth",
-            [self itemSizes_Music_insets:@"48"], @"itemSizes",
-            @YES, @"forceActionSheet"
-        ],
+        @[],
                                             
          @[
             @{
@@ -3767,7 +3757,7 @@ NSMutableArray *hostRightMenuItems;
                         @"isactive",
                         @"hastimer"]
             }, @"parameters",
-            @"Live TV", @"label",
+            LOCALIZED_STR(@"Live TV"), @"label",
             @"icon_video", @"defaultThumb",
             @"YES", @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
@@ -3781,24 +3771,7 @@ NSMutableArray *hostRightMenuItems;
     ] mutableCopy];
     
     menu_LiveTV.subItem.subItem.mainFields = @[
-        @{
-            @"itemid": @"broadcasts",
-            @"row1": @"title",
-            @"row2": @"plot",
-            @"row3": @"broadcastid",
-            @"row4": @"broadcastid",
-            @"row5": @"starttime",
-            @"row6": @"broadcastid",
-            @"playlistid": @1,
-            @"row8": @"broadcastid",
-            @"row9": @"plotoutline",
-            @"row10": @"starttime",
-            @"row11": @"endtime",
-            @"row12": @"progresspercentage",
-            @"row13": @"isactive",
-            @"row14": @"title",
-            @"row15": @"hastimer"
-        },
+        @{},
                                         
         @{
             @"itemid": @"broadcasts",
@@ -3828,7 +3801,7 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.subItem.subItem.thumbWidth = 53;
     menu_LiveTV.subItem.subItem.defaultThumb = @"nocover_filemode";
     menu_LiveTV.subItem.subItem.sheetActions = @[
-        [self action_play_to_broadcastdetails],
+        @[],
         [self action_play_to_broadcastdetails],
         @[],
         @[]
@@ -3836,6 +3809,480 @@ NSMutableArray *hostRightMenuItems;
     
     menu_LiveTV.subItem.subItem.widthLabel = 252;
     menu_LiveTV.subItem.subItem.showInfo = @[
+        @YES,
+        @YES,
+        @YES,
+        @YES];
+
+#pragma mark - Radio
+    menu_Radio.mainLabel = LOCALIZED_STR(@"Radio");
+    menu_Radio.upperLabel = LOCALIZED_STR(@"Listen to");
+    menu_Radio.icon = @"icon_menu_radio";
+    menu_Radio.family = FamilyDetailView;
+    menu_Radio.enableSection = YES;
+    menu_Radio.noConvertTime = YES;
+    menu_Radio.mainButtons = @[
+        @"st_channels",
+        @"st_radio",
+        @"st_recordings",
+        @"st_timers"];
+    
+    menu_Radio.mainMethod = [@[
+        @[@"PVR.GetChannels", @"method",
+          @"YES", @"channelListView"],
+        @[@"PVR.GetChannelGroups", @"method"],
+        @[@"PVR.GetRecordings", @"method",
+          @"PVR.GetRecordingDetails", @"extra_info_method"],
+        @[@"PVR.GetTimers", @"method",
+          @"PVR.GetTimerDetails", @"extra_info_method"]
+    ] mutableCopy];
+    
+    menu_Radio.mainParameters = [@[
+        @[
+            @{
+                @"channelgroupid": @"allradio",
+                @"properties": @[
+                        @"thumbnail",
+                        @"channel"]
+            }, @"parameters",
+            @{
+                @"17": @[@"isrecording"],
+            }, @"kodiExtrasPropertiesMinimumVersion",
+            LOCALIZED_STR(@"All channels"), @"label",
+            @"nocover_channels", @"defaultThumb",
+            @"YES", @"disableFilterParameter",
+            livetvRowHeight, @"rowHeight",
+            @"48", @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music_insets:@"56"], @"itemSizes"
+        ],
+                          
+        @[
+            @{
+                @"channeltype": @"radio"
+            }, @"parameters",
+            LOCALIZED_STR(@"Channel Groups"), @"label",
+            LOCALIZED_STR(@"Channel Groups"), @"morelabel",
+            @"nocover_filemode", @"defaultThumb",
+            filemodeRowHeight, @"rowHeight",
+            filemodeThumbWidth, @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music], @"itemSizes"
+        ],
+
+        @[
+            @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"properties": @[
+                        @"title",
+                        @"starttime",
+                        @"endtime",
+                        @"plot",
+                        @"plotoutline",
+                        @"genre",
+                        @"playcount",
+                        @"resume",
+                        @"channel",
+                        @"runtime",
+                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
+                        @"icon",
+                        @"art",
+                        @"streamurl",
+                        @"file",
+                        @"radio",
+                        @"directory"]
+                    }, @"parameters",
+            @{
+                @"properties": @[
+                        @"title",
+                        @"starttime",
+                        @"endtime",
+                        @"plot",
+                        @"plotoutline",
+                        @"genre",
+                        @"playcount",
+                        @"resume",
+                        @"channel",
+                        @"runtime",
+                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
+                        @"icon",
+                        @"art",
+                        @"streamurl",
+                        @"file",
+                        @"directory"]
+            }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Channel"),
+                        LOCALIZED_STR(@"Date"),
+                        LOCALIZED_STR(@"Runtime")],
+                @"method": @[
+                        @"label",
+                        @"channel",
+                        @"starttime",
+                        @"runtime"]
+            }, @"available_sort_methods",
+            LOCALIZED_STR(@"Recordings"), @"label",
+            LOCALIZED_STR(@"Recordings"), @"morelabel",
+            @"nocover_channels", @"defaultThumb",
+            channelEPGRowHeight, @"rowHeight",
+            @"48", @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            @"YES", @"enableLibraryCache",
+            [self itemSizes_Music_insets:@"60"], @"itemSizes"
+        ],
+                          
+        @[
+            @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"properties": @[
+                        @"title",
+                        @"summary",
+                        @"channelid",
+                        @"isradio",
+                        @"starttime",
+                        @"endtime",
+                        @"runtime",
+                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
+                        @"firstday",
+                        @"weekdays",
+                        @"priority",
+                        @"startmargin",
+                        @"endmargin",
+                        @"state",
+                        @"file",
+                        @"directory"]
+                }, @"parameters",
+            @{
+                @"properties": @[
+                        @"title",
+                        @"summary",
+                        @"channelid",
+                        @"isradio",
+                        @"starttime",
+                        @"endtime",
+                        @"runtime",
+                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
+                        @"firstday",
+                        @"weekdays",
+                        @"priority",
+                        @"startmargin",
+                        @"endmargin",
+                        @"state",
+                        @"file",
+                        @"directory"]
+            }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Channel"),
+                        LOCALIZED_STR(@"Date"),
+                        LOCALIZED_STR(@"Runtime")],
+                @"method": @[
+                        @"label",
+                        @"channel",
+                        @"starttime",
+                        @"runtime"]
+            }, @"available_sort_methods",
+            LOCALIZED_STR(@"Timers"), @"label",
+            LOCALIZED_STR(@"Timers"), @"morelabel",
+            @"nocover_timers", @"defaultThumb",
+            @"53", @"rowHeight",
+            @"53", @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music_insets:@"60"], @"itemSizes"
+        ]
+                          
+    ] mutableCopy];
+    
+    menu_Radio.mainFields = @[
+        @{
+            @"itemid": @"channels",
+            @"row1": @"channel",
+            @"row2": @"starttime",
+            @"row3": @"endtime",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"channelid",
+            @"playlistid": @1,
+            @"row8": @"channelid",
+            @"row9": @"isrecording",
+            @"row10": @"filetype",
+            @"row11": @"type"
+        },
+                      
+        @{
+            @"itemid": @"channelgroups",
+            @"row1": @"label",
+            @"row2": @"year",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"channelgroupid",
+            @"playlistid": @1,
+            @"row8": @"channelgroupid",
+            @"row9": @"channelgroupid"
+        },
+
+        @{
+            @"itemid": @"recordings",
+            @"row1": @"label",
+            @"row2": @"plotoutline",
+            @"row3": @"plot",
+            @"row4": @"runtime",
+            @"row5": @"starttime",
+            @"row6": @"recordingid",
+            @"row7": @"radio",
+            @"playlistid": @1,
+            @"row8": @"recordingid",
+            @"row9": @"recordingid",
+            @"row10": @"file",
+            @"row11": @"channel",
+            @"row12": @"starttime",
+            @"row13": @"endtime",
+            @"row14": @"playcount",
+            @"row15": @"plot",
+            @"itemid_extra_info": @"recordingdetails"
+        },
+                      
+        @{
+            @"itemid": @"timers",
+            @"row1": @"label",
+            @"row2": @"summary",
+            @"row3": @"plot",
+            @"row4": @"plotoutline",
+            @"row5": @"starttime",
+            @"row6": @"timerid",
+            @"playlistid": @1,
+            @"row8": @"timerid",
+            @"row9": @"timerid",
+            @"row10": @"starttime",
+            @"row11": @"endtime",
+            @"row15": @"isradio",
+            @"itemid_extra_info": @"timerdetails"
+        }
+    ];
+    
+    menu_Radio.rowHeight = 76;
+    menu_Radio.thumbWidth = 53;
+    menu_Radio.defaultThumb = @"nocover_movies";
+    menu_Radio.sheetActions = @[
+        [self action_play_to_channelguide],
+        @[],
+        [self action_queue_to_play],
+        @[LOCALIZED_STR(@"Delete timer")]
+    ];
+    
+    //    menu_Radio.showInfo = YES;
+    menu_Radio.showInfo = @[
+        @NO,
+        @YES,
+        @YES,
+        @NO];
+    
+    menu_Radio.watchModes = @[
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+        [self modes_icons_watched],
+        [self modes_icons_empty]
+    ];
+    
+    menu_Radio.subItem.mainMethod = [@[
+        @[@"PVR.GetBroadcasts", @"method",
+          @"YES", @"channelGuideView"],
+        @[@"PVR.GetChannels", @"method",
+          @"YES", @"channelListView"],
+        @[],
+        @[]
+    ] mutableCopy];
+    
+    menu_Radio.subItem.noConvertTime = YES;
+    
+    menu_Radio.subItem.mainParameters = [@[
+        @[
+            @{
+                @"properties": @[
+                        @"title",
+                        @"starttime",
+                        @"endtime",
+                        @"plot",
+                        @"plotoutline",
+                        @"progresspercentage",
+                        @"isactive",
+                        @"hastimer"]
+            }, @"parameters",
+            LOCALIZED_STR(@"Radio"), @"label",
+            @"icon_video", @"defaultThumb",
+            @"YES", @"disableFilterParameter",
+            channelEPGRowHeight, @"rowHeight",
+            livetvThumbWidth, @"thumbWidth",
+            [self itemSizes_Music_insets:@"48"], @"itemSizes",
+            @YES, @"forceActionSheet"
+        ],
+                                  
+        @[
+            @{
+                @"properties": @[
+                        @"thumbnail",
+                        @"channel"]
+            }, @"parameters",
+            @{
+                @"17": @[@"isrecording"]
+            }, @"kodiExtrasPropertiesMinimumVersion",
+            LOCALIZED_STR(@"Radio"), @"label",
+            @"nocover_channels", @"defaultThumb",
+            @"YES", @"disableFilterParameter",
+            livetvRowHeight, @"rowHeight",
+            @"48", @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music_insets:@"56"], @"itemSizes"
+        ],
+                                  
+        @[],
+        @[]
+    ] mutableCopy];
+    
+    menu_Radio.subItem.mainFields = @[
+        @{
+            @"itemid": @"broadcasts",
+            @"row1": @"title",
+            @"row2": @"plot",
+            @"row3": @"broadcastid",
+            @"row4": @"broadcastid",
+            @"row5": @"starttime",
+            @"row6": @"broadcastid",
+            @"playlistid": @1,
+            @"row8": @"broadcastid",
+            @"row9": @"plotoutline",
+            @"row10": @"starttime",
+            @"row11": @"endtime",
+            @"row12": @"progresspercentage",
+            @"row13": @"isactive",
+            @"row14": @"title",
+            @"row15": @"hastimer"
+        },
+                              
+        @{
+            @"itemid": @"channels",
+            @"row1": @"channel",
+            @"row2": @"starttime",
+            @"row3": @"endtime",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"channelid",
+            @"playlistid": @1,
+            @"row8": @"channelid",
+            @"row9": @"channelid",
+            @"row10": @"filetype",
+            @"row11": @"type"
+        },
+                              
+        @{},
+        @{}
+    ];
+    
+    menu_Radio.subItem.enableSection = NO;
+    menu_Radio.subItem.rowHeight = 76;
+    menu_Radio.subItem.thumbWidth = [livetvThumbWidth intValue];
+    menu_Radio.subItem.defaultThumb = @"nocover_channels";
+    menu_Radio.subItem.sheetActions = @[
+        [self action_play_to_broadcastdetails],
+        [self action_play_to_channelguide],
+        @[],
+        @[]
+    ];
+    
+    menu_Radio.subItem.showInfo = @[
+        @NO,
+        @NO,
+        @NO,
+        @NO];
+    
+    menu_Radio.subItem.watchModes = @[
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+        @{},
+        @{}
+    ];
+    
+    menu_Radio.subItem.widthLabel = 252;
+    menu_Radio.subItem.subItem.noConvertTime = YES;
+    menu_Radio.subItem.subItem.mainMethod = [@[
+        @[],
+        @[@"PVR.GetBroadcasts", @"method",
+          @"YES", @"channelGuideView"],
+        @[],
+        @[]
+    ] mutableCopy];
+    
+    menu_Radio.subItem.subItem.mainParameters = [@[
+        @[],
+                                            
+         @[
+            @{
+                @"properties": @[
+                        @"title",
+                        @"starttime",
+                        @"endtime",
+                        @"plot",
+                        @"plotoutline",
+                        @"progresspercentage",
+                        @"isactive",
+                        @"hastimer"]
+            }, @"parameters",
+            LOCALIZED_STR(@"Radio"), @"label",
+            @"icon_video", @"defaultThumb",
+            @"YES", @"disableFilterParameter",
+            channelEPGRowHeight, @"rowHeight",
+            livetvThumbWidth, @"thumbWidth",
+            [self itemSizes_Music_insets:@"48"], @"itemSizes",
+            @YES, @"forceActionSheet"
+        ],
+                                            
+        @[],
+        @[]
+    ] mutableCopy];
+    
+    menu_Radio.subItem.subItem.mainFields = @[
+        @{},
+                                        
+        @{
+            @"itemid": @"broadcasts",
+            @"row1": @"title",
+            @"row2": @"plot",
+            @"row3": @"broadcastid",
+            @"row4": @"broadcastid",
+            @"row5": @"starttime",
+            @"row6": @"broadcastid",
+            @"playlistid": @1,
+            @"row8": @"broadcastid",
+            @"row9": @"plotoutline",
+            @"row10": @"starttime",
+            @"row11": @"endtime",
+            @"row12": @"progresspercentage",
+            @"row13": @"isactive",
+            @"row14": @"title",
+            @"row15": @"hastimer"
+        },
+                                        
+        @[],
+        @[]
+    ];
+    
+    menu_Radio.subItem.subItem.enableSection = NO;
+    menu_Radio.subItem.subItem.rowHeight = 76;
+    menu_Radio.subItem.subItem.thumbWidth = 53;
+    menu_Radio.subItem.subItem.defaultThumb = @"nocover_filemode";
+    menu_Radio.subItem.subItem.sheetActions = @[
+        @[],
+        [self action_play_to_broadcastdetails],
+        @[],
+        @[]
+    ];
+    
+    menu_Radio.subItem.subItem.widthLabel = 252;
+    menu_Radio.subItem.subItem.showInfo = @[
         @YES,
         @YES,
         @YES,
@@ -4702,6 +5149,9 @@ NSMutableArray *hostRightMenuItems;
     }
     if ([self isMenuEntryEnabled:@"menu_livetv"]) {
         [mainMenuItems addObject:menu_LiveTV];
+    }
+    if ([self isMenuEntryEnabled:@"menu_radio"]) {
+        [mainMenuItems addObject:menu_Radio];
     }
     if ([self isMenuEntryEnabled:@"menu_favourites"]) {
         [mainMenuItems addObject:menu_Favourites];
