@@ -2399,12 +2399,12 @@ int currentItemID;
     nowPlayingView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH + 2,
                                       YPOS,
                                       width - (PAD_MENU_TABLE_WIDTH + 2),
-                                      maxheight);;
+                                      maxheight);
     
     BottomView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH,
                                   CGRectGetMaxY(songDetailsView.frame),
                                   width - PAD_MENU_TABLE_WIDTH,
-                                  maxheight - CGRectGetMaxY(songDetailsView.frame));;
+                                  maxheight - CGRectGetMaxY(songDetailsView.frame));
     
     frame = playlistToolbar.frame;
     frame.size.width = width;
