@@ -49,7 +49,7 @@
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *fanartView;
 
-    BOOL isRecordingDetail;
+    BOOL isPvrDetail;
     UIToolbar *toolbar;
     NSMutableArray *sheetActions;
     UIBarButtonItem *actionSheetButtonItemIpad;
