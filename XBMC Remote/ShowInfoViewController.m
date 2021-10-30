@@ -1147,31 +1147,17 @@ double round(double d) {
 }
 
 - (void)processTrailerFromString:(NSString*)trailerString {
-    if ([trailerString length] > 0) {
-        NSString *param = nil;
-        embedVideoURL = nil;
-        if (([trailerString rangeOfString:@"plugin://plugin.video.youtube"].location != NSNotFound)) {
-            NSString *url = [trailerString lastPathComponent];
-            NSRange start = [url rangeOfString:@"videoid="];
-            if (start.location != NSNotFound) {
-                param = [url substringFromIndex:start.location + start.length];
-                NSRange end = [param rangeOfString:@"&"];
-                if (end.location != NSNotFound) {
-                    param = [param substringToIndex:end.location];
+    embedVideoURL = nil;
+    if (trailerString.length > 0) {
+        if ([trailerString hasPrefix:@"plugin://plugin.video.youtube"]) {
+            NSURL* url = [NSURL URLWithString:trailerString];
+            NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+            NSArray *queryItems = urlComponents.queryItems;
+            for (NSURLQueryItem *item in queryItems) {
+                if ([item.name isEqualToString:@"videoid"]) {
+                    embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", item.value];
+                    break; // We can leave the loop as we found what we were looking for.
                 }
-            }
-            if ([param length] > 0) {
-                NSString *param = nil;
-                NSString *url = [trailerString lastPathComponent];
-                NSRange start = [url rangeOfString:@"videoid="];
-                if (start.location != NSNotFound) {
-                    param = [url substringFromIndex:start.location + start.length];
-                    NSRange end = [param rangeOfString:@"&"];
-                    if (end.location != NSNotFound) {
-                        param = [param substringToIndex:end.location];
-                    }
-                }
-                embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", param];
             }
         }
         else {
