@@ -4397,10 +4397,11 @@ NSIndexPath *selected;
         // PVR.GetRecordings and PVR.GetTimers support dedicated results for TV + Radio since JSON RPC v8. But
         // in reality this works since Kodi 19. Kodi 18 does not handle timers correct, Kodi 13 to 17 does not handle
         // recordings correct. Therefore we remove the request for "radio" and "isradio" and set a flag to always show
-        // common results (TV and Radio) for recordings and timers.
+        // common results (TV and Radio) for recordings and timers. For consistency same is done for timer rules.
         else if (AppDelegate.instance.serverVersion < 19) {
             [mutableParameters[@"properties"] removeObject:@"radio"];
             [mutableParameters[@"properties"] removeObject:@"isradio"];
+            [mutableParameters[@"properties"] removeObject:@"istimerrule"];
             useCommonPvrRecordingsTimers = YES;
         }
     }
