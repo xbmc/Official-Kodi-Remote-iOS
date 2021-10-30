@@ -102,7 +102,7 @@
 "Video " = "视频 ";
 "Songs" = "音乐";
 "Song" = "音乐";
-"Mins." = "分";
+"Mins." = "分。";
 "Min" = "分";
 "Released %d" = "发布 %d";
 "Clear Playlist" = "清除播放列表";
@@ -151,7 +151,7 @@
 "Audiostream not available" = "音频流不可用";
 "Audiostreams not available" = "音频流不可用";
 "LongDateTimeFormat" = "YYYY年M月d日";
-"ShortDateTimeFormat" = "yyyy-MM-dd";
+"ShortDateTimeFormat" = "年年年年-月月-日日";
 "LocaleIdentifier" = "zh_CN";
 "Yes" = "是";
 "No" = "否";
@@ -159,7 +159,7 @@
 "Incorrect Username or Password.\nCheck your settings." = "错误用户名或密码。\n请检查你的设置。";
 "WIKI_LANG" = "zh";
 "vote" = "投票";
-"votes" = "票";
+"votes" = "得票数";
 "Scrubbing 1" = "拖动速率 1";
 "Scrubbing 0.5" = "拖动速率 0.5";
 "Scrubbing 0.25" = "拖动速率 0.25";
@@ -301,7 +301,7 @@
 "Slide your finger up to adjust the scrubbing rate." = "向上滑动手指来调整拖动速度。";
 "Video Playlists" = "视频播放列表";
 "Favourites" = "收藏夹";
-"Channel" = "电视台";
+"Channel" = "频道";
 "For search switch to list view" = "搜索切换到列表视图";
 "Unable to activate the window" = "窗口无法激活";
 "Window activated successfully" = "窗口激活成功";
@@ -316,3 +316,5 @@
 "Last Updated: %@" = "最近更新：%@";
 "Copy to clipboard" = "复制到剪贴板";
 "MUSIC ROLES" = "音乐角色";
+"Channel Groups" = "频道组";
+"All channels" = "全部频道";

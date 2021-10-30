@@ -299,7 +299,7 @@
 "Add window activation button" = "Dodaj przycisk aktywacji okna";
 "Runtime" = "Czas trwania";
 "Date" = "Data";
-"Channel" = "Stacja TV";
+"Channel" = "Kanał";
 "For search switch to list view" = "W przypadku wyszukiwania przejdź do widoku listy";
 "Unable to activate the window" = "Nie można aktywować okna";
 "Window activated successfully" = "Okno aktywowane pomyślnie";
@@ -316,3 +316,6 @@
 "Username" = "Nazwa użytkownika";
 "MUSIC ROLES" = "ROLE MUZYCZNE";
 "Radio" = "Radio";
+"Channel Groups" = "Grupy kanałów";
+"All channels" = "Wszystkie kanały";
+"Added Music Videos" = "Dodane teledyski";
