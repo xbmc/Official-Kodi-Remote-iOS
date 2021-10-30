@@ -310,26 +310,39 @@ NSMutableArray *hostRightMenuItems;
 - (NSDictionary*)modes_icons_watched {
     return @{
         @"modes": @[
-                @"all",
-                @"unwatched",
-                @"watched"],
+                @(ViewModeDefault),
+                @(ViewModeUnwatched),
+                @(ViewModeWatched)],
         @"icons": @[
                 @"",
-                @"icon_not_watched",
-                @"icon_watched"]
+                @"st_unchecked",
+                @"st_checked"]
     };
 }
 
 - (NSDictionary*)modes_icons_listened {
     return @{
         @"modes": @[
-                @"all",
-                @"unwatched",
-                @"watched"],
+                @(ViewModeDefault),
+                @(ViewModeNotListened),
+                @(ViewModeListened)],
         @"icons": @[
                 @"",
-                @"icon_not_listened",
-                @"icon_listened"]
+                @"st_unchecked",
+                @"st_checked"]
+    };
+}
+
+- (NSDictionary*)modes_icons_artiststype {
+    return @{
+        @"modes": @[
+                @(ViewModeDefaultArtists),
+                @(ViewModeAlbumArtists),
+                @(ViewModeSongArtists)],
+        @"icons": @[
+                @"",
+                @"st_album_small",
+                @"st_songs_small"]
     };
 }
 
@@ -1138,9 +1151,9 @@ NSMutableArray *hostRightMenuItems;
     menu_Music.rowHeight = 53;
     menu_Music.thumbWidth = 53;
     menu_Music.defaultThumb = @"nocover_music";
-    menu_Music.watchModes = @[
+    menu_Music.filterModes = @[
         [self modes_icons_listened],
-        [self modes_icons_empty],
+        [self modes_icons_artiststype],
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
@@ -2332,7 +2345,7 @@ NSMutableArray *hostRightMenuItems;
         @YES,
         @NO];
     
-    menu_Movies.watchModes = @[
+    menu_Movies.filterModes = @[
         [self modes_icons_watched],
         [self modes_icons_empty],
         [self modes_icons_watched],
@@ -2669,7 +2682,7 @@ NSMutableArray *hostRightMenuItems;
         @NO,
         @YES];
     
-    menu_Movies.subItem.watchModes = @[
+    menu_Movies.subItem.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_watched],
         [self modes_icons_watched],
@@ -2969,7 +2982,7 @@ NSMutableArray *hostRightMenuItems;
         @YES,
         @NO];
     
-    menu_Videos.watchModes = @[
+    menu_Videos.filterModes = @[
         [self modes_icons_watched],
         [self modes_icons_watched],
         [self modes_icons_empty],
@@ -3130,7 +3143,7 @@ NSMutableArray *hostRightMenuItems;
         @NO,
         @YES];
     
-    menu_Videos.subItem.watchModes = @[
+    menu_Videos.subItem.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
@@ -3447,7 +3460,7 @@ NSMutableArray *hostRightMenuItems;
         @NO,
         @NO];
     
-    menu_TVShows.watchModes = @[
+    menu_TVShows.filterModes = @[
         [self modes_icons_watched],
         [self modes_icons_watched],
         [self modes_icons_empty],
@@ -4014,7 +4027,7 @@ NSMutableArray *hostRightMenuItems;
         @YES,
         @NO];
     
-    menu_LiveTV.watchModes = @[
+    menu_LiveTV.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_watched],
@@ -4132,7 +4145,7 @@ NSMutableArray *hostRightMenuItems;
         @NO,
         @NO];
     
-    menu_LiveTV.subItem.watchModes = @[
+    menu_LiveTV.subItem.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
         @{},
@@ -4488,7 +4501,7 @@ NSMutableArray *hostRightMenuItems;
         @YES,
         @NO];
     
-    menu_Radio.watchModes = @[
+    menu_Radio.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_watched],
@@ -4606,7 +4619,7 @@ NSMutableArray *hostRightMenuItems;
         @NO,
         @NO];
     
-    menu_Radio.subItem.watchModes = @[
+    menu_Radio.subItem.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
         @{},
