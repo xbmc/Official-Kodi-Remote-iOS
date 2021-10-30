@@ -42,6 +42,8 @@
 
     IBOutlet UILabel *label6;
 
+    UILabel *trailerLabel;
+    UIButton *playTrailerButton;
 
     IBOutlet UIButton *arrow_continue_down;
     IBOutlet UIImageView *jewelView;
@@ -63,10 +65,10 @@
     int clearLogoHeight;
     int clearlogoScrollViewY;
     NSArray *cast;
-    int size;
     int castWidth;
     int castHeight;
     int castFontSize;
+    int lineSpacing;
     int thumbWidth;
     int tvshowHeight;
     UITableView *actorsTable;
@@ -77,8 +79,6 @@
     CGRect originalSelfFrame;
     BOOL isViewDidLoad;
     UIImageView *isRecording;
-    CGFloat dotSize;
-    CGFloat dotSizePadding;
     LogoBackgroundType logoBackgroundMode;
     UIBarButtonItem *doneButton;
 }
