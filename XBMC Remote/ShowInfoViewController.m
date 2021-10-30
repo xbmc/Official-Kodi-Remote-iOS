@@ -1228,7 +1228,7 @@ double round(double d) {
         if (image != nil) {
             foundTintColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
             [self setIOS7barTintColor:foundTintColor];
-            if (enableJewel && !isPvrDetail) {
+            if (enableJewel) {
                 coverView.image = image;
                 coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jewelType];
                 [activityIndicatorView stopAnimating];
@@ -1241,7 +1241,7 @@ double round(double d) {
         else {
             __weak ShowInfoViewController *sf = self;
             __block UIColor *newColor = nil;
-            if (enableJewel && !isPvrDetail) {
+            if (enableJewel) {
                 [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
