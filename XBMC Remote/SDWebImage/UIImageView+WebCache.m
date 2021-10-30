@@ -54,7 +54,7 @@ static char operationKey;
     size = [self doubleSizeIfRetina:size];
     [self cancelCurrentImageLoad];
 
-    self.image = [Utilities applyRoundedEdgesImage:placeholder drawBorder:NO];;
+    self.image = placeholder;
     
     if (url && url.path) {
         NSDictionary *userInfo = nil;
@@ -69,7 +69,7 @@ static char operationKey;
                 return;
             }
             if (image) {
-                sself.image = [Utilities applyRoundedEdgesImage:image drawBorder:withBorder];
+                sself.image = image;
                 [sself setNeedsLayout];
             }
             if (completedBlock) {
