@@ -2418,11 +2418,13 @@ int originYear = 0;
             displayThumb = stringURL;
         }
         if (![stringURL isEqualToString:@""]) {
+            __weak UIImageView *weakThumbView = thumbImageView;
             [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
                            placeholderImage:[UIImage imageNamed:displayThumb]
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                       if (image != nil) {
+                                          weakThumbView.image = [Utilities roundedCornerImage:image drawBorder:YES];
                                           albumColor = [Utilities averageColor:image inverse:NO];
                                           UIColor *lightAlbumColor = [Utilities lighterColorForColor:albumColor];
                                           self.navigationController.navigationBar.tintColor = lightAlbumColor;
@@ -2597,8 +2599,10 @@ int originYear = 0;
                 displayThumb = stringURL;
             }
             if (![stringURL isEqualToString:@""]) {
+                __weak UIImageView *weakThumbView = thumbImageView;
                 [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(seasonThumbWidth, albumViewHeight - (albumViewPadding * 2)) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                     if (image != nil) {
+                        weakThumbView.image = [Utilities roundedCornerImage:image drawBorder:YES];
                         CAGradientLayer *gradient = [CAGradientLayer layer];
                         gradient.frame = albumDetailView.bounds;
                         albumColor = [Utilities averageColor:image inverse:NO];
