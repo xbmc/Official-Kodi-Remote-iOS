@@ -442,6 +442,38 @@
     self.searchController.searchBar.barStyle = UIBarStyleBlack;
 }
 
+- (void)setViewColor:(UIView*)view image:(UIImage*)image lab12color:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
+
+    // Gather average cover color and limit saturation
+    albumColor = [Utilities averageColor:image inverse:NO];
+    albumColor = [Utilities limitSaturation:albumColor satmax:0.33];
+    
+    // Create gradient based on average color
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = view.bounds;
+    gradient.colors = @[(id)[albumColor CGColor], (id)[[Utilities lighterColorForColor:albumColor] CGColor]];
+    [view.layer insertSublayer:gradient atIndex:1];
+    
+    // Set text/shadow colors
+    lab12color = [Utilities updateColor:albumColor
+                             lightColor:[Utilities getGrayColor:255 alpha:1.0]
+                              darkColor:[Utilities getGrayColor:0 alpha:1.0]];
+    shadow = [Utilities updateColor:albumColor
+                         lightColor:[Utilities getGrayColor:0 alpha:0.3]
+                          darkColor:[Utilities getGrayColor:255 alpha:0.3]];
+    lab34color = [Utilities updateColor:albumColor
+                             lightColor:[Utilities getGrayColor:255 alpha:0.7]
+                              darkColor:[Utilities getGrayColor:0 alpha:0.6]];
+    
+    [self setLabelColor:lab12color
+           label34Color:lab34color
+             fontshadow:shadow
+                 label1:label1
+                 label2:label2
+                 label3:label3
+                 label4:label4];
+}
+
 - (void)setLabelColor:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
     [label1 setShadowColor:shadow];
     [label1 setTextColor:lab12color];
@@ -2439,28 +2471,34 @@ int originYear = 0;
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                       if (image != nil) {
                                           weakThumbView.image = [Utilities roundedCornerImage:image drawBorder:YES];
-                                          albumColor = [Utilities averageColor:image inverse:NO];
-                                          UIColor *lightAlbumColor = [Utilities lighterColorForColor:albumColor];
-                                          self.navigationController.navigationBar.tintColor = lightAlbumColor;
+                                          [self setViewColor:albumDetailView
+                                                       image:image
+                                                  lab12color:albumFontColor
+                                                label34Color:albumDetailsColor
+                                                  fontshadow:albumFontShadowColor
+                                                      label1:artist
+                                                      label2:albumLabel
+                                                      label3:trackCountLabel
+                                                      label4:releasedLabel];
+                                          [self setSearchBarColor:albumColor];
+                                          self.navigationController.navigationBar.tintColor = [Utilities lighterColorForColor:albumColor];
+                                          
                                           if ([[self.searchController.searchBar subviews][0] isKindOfClass:[UIImageView class]]) {
                                               [[self.searchController.searchBar subviews][0] removeFromSuperview];
                                           }
-                                          CAGradientLayer *gradient = [CAGradientLayer layer];
-                                          gradient.frame = albumDetailView.bounds;
-                                          gradient.colors = @[(id)[albumColor CGColor], (id)[[Utilities lighterColorForColor:albumColor] CGColor]];
-                                          [albumDetailView.layer insertSublayer:gradient atIndex:1];
-                                          albumFontColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
-                                          albumFontShadowColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
-                                          albumDetailsColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
-                                          [self setLabelColor:albumFontColor label34Color:albumDetailsColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
-                                          [self setSearchBarColor:albumColor];
                                       }
                                   }];
         }
         else {
             [thumbImageView setImageWithURL:[NSURL URLWithString:@""]
                            placeholderImage:[UIImage imageNamed:displayThumb]];
-            [self setLabelColor:albumFontColor label34Color:albumDetailsColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
+            [self setLabelColor:albumFontColor
+                   label34Color:albumDetailsColor
+                     fontshadow:albumFontShadowColor
+                         label1:artist
+                         label2:albumLabel
+                         label3:trackCountLabel
+                         label4:releasedLabel];
         }
         stringURL = item[@"fanart"];
         if (![stringURL isEqualToString:@""]) {
@@ -2622,26 +2660,32 @@ int originYear = 0;
                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                     if (image != nil) {
                         weakThumbView.image = [Utilities roundedCornerImage:image drawBorder:YES];
-                        CAGradientLayer *gradient = [CAGradientLayer layer];
-                        gradient.frame = albumDetailView.bounds;
-                        albumColor = [Utilities averageColor:image inverse:NO];
-                        albumColor = [Utilities limitSaturation:albumColor satmax:0.33];
-                        gradient.colors = @[(id)[albumColor CGColor], (id)[[Utilities lighterColorForColor:albumColor] CGColor]];
-                        seasonFontColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:1] darkColor:[Utilities getGrayColor:0 alpha:1]];
-                        seasonFontShadowColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:0 alpha:0.3] darkColor:[Utilities getGrayColor:255 alpha:0.3]];
-                        seasonDetailsColor = [Utilities updateColor:albumColor lightColor:[Utilities getGrayColor:255 alpha:0.7] darkColor:[Utilities getGrayColor:0 alpha:0.6]];
-                        [albumDetailView.layer insertSublayer:gradient atIndex:1];
+                        [self setViewColor:albumDetailView
+                                     image:image
+                                lab12color:seasonFontColor
+                              label34Color:seasonDetailsColor
+                                fontshadow:seasonFontShadowColor
+                                    label1:artist
+                                    label2:albumLabel
+                                    label3:trackCountLabel
+                                    label4:releasedLabel];
                         if (isFirstListedSeason) {
                             [self setSearchBarColor:albumColor];
+                            self.navigationController.navigationBar.tintColor = [Utilities lighterColorForColor:albumColor];
                         }
-                        [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
                     }
                 }];
             }
             else {
                 [thumbImageView setImageWithURL:[NSURL URLWithString:@""]
                                placeholderImage:[UIImage imageNamed:displayThumb]];
-                [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
+                [self setLabelColor:seasonFontColor
+                       label34Color:seasonDetailsColor
+                         fontshadow:seasonFontShadowColor
+                             label1:artist
+                             label2:albumLabel
+                             label3:trackCountLabel
+                             label4:releasedLabel];
             }
             [albumDetailView addSubview:thumbImageView];
             
