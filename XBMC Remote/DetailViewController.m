@@ -428,7 +428,9 @@
 
 - (void)setSearchBarColor:(UIColor*)albumColor {
     UITextField *searchTextField = [self getSearchTextField];
-    UIColor *lightAlbumColor = [Utilities lighterColorForColor:albumColor];
+    UIColor *lightAlbumColor = [Utilities updateColor:albumColor
+                                           lightColor:[Utilities getGrayColor:255 alpha:0.7]
+                                            darkColor:[Utilities getGrayColor:0 alpha:0.6]];
     if (searchTextField != nil) {
         UIImageView *iconView = (id)searchTextField.leftView;
         iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -5583,7 +5585,7 @@ NSIndexPath *selected;
     button7.hidden = YES;
     [self hideButtonListWhenEmpty];
     
-    searchBarColor = [Utilities getGrayColor:146 alpha:1];
+    searchBarColor = [Utilities get2ndLabelColor];
     collectionViewSearchBarColor = [Utilities getGrayColor:22 alpha:1];
 
     if ([methods[@"albumView"] boolValue]) {
@@ -5676,7 +5678,7 @@ NSIndexPath *selected;
     infobar.backgroundColor = [UIColor clearColor];
     UILabel *infolabel = [[UILabel alloc] initWithFrame:CGRectMake(INFO_PADDING, INFO_PADDING, viewWidth - 2*INFO_PADDING, self.searchController.searchBar.frame.size.height - 2*INFO_PADDING)];
     infolabel.backgroundColor = collectionViewSearchBarColor;
-    infolabel.textColor = [UIColor darkGrayColor];
+    infolabel.textColor = [UIColor grayColor];
     infolabel.text = [NSString stringWithFormat:@" %@", LOCALIZED_STR(@"For search switch to list view")];
     infolabel.layer.masksToBounds = YES;
     infolabel.layer.cornerRadius = 10;
