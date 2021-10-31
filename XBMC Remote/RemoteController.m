@@ -542,7 +542,7 @@
                                      for (int i = 0; i < numSubs; i++) {
                                          NSString *language = @"?";
                                          if (((NSNull*)subtitles[i][@"language"] != [NSNull null])) {
-                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
+                                             NSLocale *currentLocale = [NSLocale currentLocale];
                                              NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:subtitles[i][@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0) {
@@ -609,7 +609,7 @@
                                      for (int i = 0; i < numAudio; i++) {
                                          NSString *language = @"?";
                                          if (((NSNull*)audiostreams[i][@"language"] != [NSNull null])) {
-                                             NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
+                                             NSLocale *currentLocale = [NSLocale currentLocale];
                                              NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:audiostreams[i][@"language"]];
                                              NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
                                              if ([displayNameString length] > 0) {

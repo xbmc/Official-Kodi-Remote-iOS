@@ -412,8 +412,7 @@
             NSDateFormatter *dateFormatter = [NSDateFormatter new];
             [dateFormatter setDateStyle:NSDateFormatterLongStyle];
             [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-            NSLocale *userLocale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
-            [dateFormatter setLocale:userLocale];
+            [dateFormatter setLocale:[NSLocale currentLocale]];
             NSString *dateString = [dateFormatter stringFromDate:[attributes fileModificationDate]];
             NSString *title = [NSString stringWithFormat:@"%@: %@", LOCALIZED_STR(@"Last sync"), dateString];
             [dataList.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateStopped];
@@ -1798,9 +1797,8 @@ int originYear = 0;
         NSString *sectionName = self.sectionArray[section];
         if (channelGuideView) {
             NSString *dateString = @"";
-            NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
             NSDateFormatter *format = [NSDateFormatter new];
-            [format setLocale:locale];
+            [format setLocale:[NSLocale currentLocale]];
             [format setDateFormat:@"yyyy-MM-dd"];
             NSDate *date = [format dateFromString:sectionName];
             [format setDateStyle:NSDateFormatterLongStyle];
@@ -1967,9 +1965,8 @@ int originYear = 0;
                 NSMutableArray *channelGuideTableIndexTitles = [NSMutableArray new];
                 for (NSString *label in self.sectionArray) {
                         NSString *dateString = label;
-                        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
                         NSDateFormatter *format = [NSDateFormatter new];
-                        [format setLocale:locale];
+                        [format setLocale:[NSLocale currentLocale]];
                         [format setDateFormat:@"yyyy-MM-dd"];
                         NSDate *date = [format dateFromString:label];
                         [format setDateFormat:@"EEE"];

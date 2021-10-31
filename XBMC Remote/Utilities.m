@@ -685,9 +685,8 @@
 + (NSString*)getDateFromItem:(id)item dateStyle:(NSDateFormatterStyle)dateStyle emptyString:(NSString*)empty {
     NSString *dateString = empty;
     if ([item length] > 0) {
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
         NSDateFormatter *format = [NSDateFormatter new];
-        [format setLocale:locale];
+        [format setLocale:[NSLocale currentLocale]];
         [format setDateFormat:@"yyyy-MM-dd"];
         NSDate *date = [format dateFromString:item];
         [format setDateStyle:dateStyle];
