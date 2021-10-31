@@ -340,7 +340,7 @@ NSMutableArray *hostRightMenuItems;
                 @(ViewModeAlbumArtists),
                 @(ViewModeSongArtists)],
         @"icons": @[
-                @"",
+                @"blank",
                 @"st_album_small",
                 @"st_songs_small"]
     };
