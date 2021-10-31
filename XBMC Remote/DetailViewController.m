@@ -2666,14 +2666,8 @@ int originYear = 0;
             [releasedLabel setNumberOfLines:1];
             [releasedLabel setAdjustsFontSizeToFitWidth:YES];
             
-            NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
-            NSString *aired = @"";
-            NSDateFormatter *format = [NSDateFormatter new];
-            [format setLocale:usLocale];
-            [format setDateFormat:@"yyyy-MM-dd"];
-            NSDate *date = [format dateFromString:item[@"year"]];
-            [format setDateFormat:LOCALIZED_STR(@"LongDateTimeFormat")];
-            aired = [format stringFromDate:date];
+            NSString *aired = [Utilities getDateFromItem:item[@"year"] emptyString:@""];
+            
             releasedLabel.text = @"";
             if (aired != nil) {
                 releasedLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"First aired on %@"), aired];
