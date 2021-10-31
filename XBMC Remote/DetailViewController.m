@@ -585,14 +585,21 @@
     [Utilities applyRoundedEdgesView:imgView drawBorder:showBorder];
     if (![stringURL isEqualToString:@""]) {
         __auto_type __weak weakImageView = imgView;
-        [imgView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] options:0 andResize:viewSize withBorder:showBorder progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+        [imgView setImageWithURL:[NSURL URLWithString:stringURL]
+                placeholderImage:[UIImage imageNamed:displayThumb]
+                         options:0
+                       andResize:viewSize
+                      withBorder:showBorder
+                        progress:nil
+                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
             if (channelListView || channelGuideView || recordingListView || isOnPVR) {
                 [Utilities setLogoBackgroundColor:weakImageView mode:logoBackgroundMode];
             }
         }];
     }
     else {
-        [imgView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
+        [imgView setImageWithURL:[NSURL URLWithString:@""]
+                placeholderImage:[UIImage imageNamed:displayThumb]];
     }
 }
 
@@ -1439,7 +1446,10 @@
         CGFloat fanartWidth = cellthumbWidth - posterWidth;
 
         if (![stringURL isEqualToString:@""]) {
-            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(posterWidth, cellthumbHeight) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL]
+                                 placeholderImage:[UIImage imageNamed:displayThumb]
+                                        andResize:CGSizeMake(posterWidth, cellthumbHeight)
+                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 UIColor *averageColor = [Utilities averageColor:image inverse:NO];
                 CGFloat hue, saturation, brightness, alpha;
                 BOOL ok = [averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
@@ -1450,14 +1460,18 @@
             }];
         }
         else {
-            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
+            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""]
+                                 placeholderImage:[UIImage imageNamed:displayThumb]];
         }
 
         if (![fanartURL isEqualToString:@""]) {
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL] placeholderImage:[UIImage imageNamed:@"blank"] andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL]
+                              placeholderImage:[UIImage imageNamed:@"blank"]
+                                     andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
         }
         else {
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"blank"]];
+            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""]
+                              placeholderImage:[UIImage imageNamed:@"blank"]];
         }
         
         [cell.posterLabel setFont:[UIFont boldSystemFontOfSize:fanartFontSize + 8]];
@@ -2444,7 +2458,8 @@ int originYear = 0;
                                   }];
         }
         else {
-            [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
+            [thumbImageView setImageWithURL:[NSURL URLWithString:@""]
+                           placeholderImage:[UIImage imageNamed:displayThumb]];
             [self setLabelColor:albumFontColor label34Color:albumDetailsColor fontshadow:albumFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
         }
         stringURL = item[@"fanart"];
@@ -2454,7 +2469,8 @@ int originYear = 0;
             fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
             fanartBackgroundImage.alpha = 0.1;
             [fanartBackgroundImage setClipsToBounds:YES];
-            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank"]];
+            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL]
+                                  placeholderImage:[UIImage imageNamed:@"blank"]];
             [albumDetailView addSubview:fanartBackgroundImage];
         }
         [thumbImageContainer addSubview:thumbImageView];
@@ -2600,7 +2616,10 @@ int originYear = 0;
             }
             if (![stringURL isEqualToString:@""]) {
                 __weak UIImageView *weakThumbView = thumbImageView;
-                [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:displayThumb] andResize:CGSizeMake(seasonThumbWidth, albumViewHeight - (albumViewPadding * 2)) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
+                               placeholderImage:[UIImage imageNamed:displayThumb]
+                                      andResize:CGSizeMake(seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))
+                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                     if (image != nil) {
                         weakThumbView.image = [Utilities roundedCornerImage:image drawBorder:YES];
                         CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -2620,7 +2639,8 @@ int originYear = 0;
                 }];
             }
             else {
-                [thumbImageView setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:displayThumb]];
+                [thumbImageView setImageWithURL:[NSURL URLWithString:@""]
+                               placeholderImage:[UIImage imageNamed:displayThumb]];
                 [self setLabelColor:seasonFontColor label34Color:seasonDetailsColor fontshadow:seasonFontShadowColor label1:artist label2:albumLabel label3:trackCountLabel label4:releasedLabel];
             }
             [albumDetailView addSubview:thumbImageView];
