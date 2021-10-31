@@ -626,7 +626,7 @@ double round(double d) {
         label6.text = LOCALIZED_STR(@"CAST");
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
         directorLabel.text = [Utilities getStringFromDictionary:item key:@"episode" emptyString:@"-"];
-        genreLabel.text = [Utilities getDateFromItem:item[@"premiered"] emptyString:@"-"];
+        genreLabel.text = [Utilities getDateFromItem:item[@"premiered"] dateStyle:NSDateFormatterLongStyle emptyString:@"-"];
         runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
         studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
         summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
@@ -662,7 +662,7 @@ double round(double d) {
         label6.text = LOCALIZED_STR(@"CAST");
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
         directorLabel.text = [Utilities getStringFromDictionary:item key:@"showtitle" emptyString:@"-"];
-        genreLabel.text = [Utilities getDateFromItem:item[@"firstaired"] emptyString:@"-" ];
+        genreLabel.text = [Utilities getDateFromItem:item[@"firstaired"] dateStyle:NSDateFormatterLongStyle emptyString:@"-" ];
         runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
         studioLabel.text = [Utilities getStringFromDictionary:item key:@"writer" emptyString:@"-"];
         summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];

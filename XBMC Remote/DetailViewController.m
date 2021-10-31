@@ -2122,17 +2122,9 @@ int originYear = 0;
         [runtimeyear setText:duration];
     }
     else {
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:LOCALIZED_STR(@"LocaleIdentifier")];
-        NSDateFormatter *format = [NSDateFormatter new];
-        [format setLocale:locale];
-        [format setDateFormat:@"yyyy-MM-dd"];
-        NSDate *date = [format dateFromString:item[@"year"]];
-        if (date == nil) {
-            [runtimeyear setText:item[@"year"]];
-        }
-        else {
-            [format setDateFormat:LOCALIZED_STR(@"ShortDateTimeFormat")];
-            [runtimeyear setText:[format stringFromDate:date]];
+        runtimeyear.text = [Utilities getDateFromItem:item[@"year"] dateStyle:NSDateFormatterShortStyle emptyString:@""];
+        if (runtimeyear.text.length == 0) {
+            runtimeyear.text = item[@"year"];
         }
     }
     frame = runtime.frame;
@@ -2666,7 +2658,7 @@ int originYear = 0;
             [releasedLabel setNumberOfLines:1];
             [releasedLabel setAdjustsFontSizeToFitWidth:YES];
             
-            NSString *aired = [Utilities getDateFromItem:item[@"year"] emptyString:@""];
+            NSString *aired = [Utilities getDateFromItem:item[@"year"] dateStyle:NSDateFormatterLongStyle emptyString:@""];
             
             releasedLabel.text = @"";
             if (aired != nil) {
