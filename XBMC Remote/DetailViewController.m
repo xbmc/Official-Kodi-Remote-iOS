@@ -442,26 +442,26 @@
     self.searchController.searchBar.barStyle = UIBarStyleBlack;
 }
 
-- (void)setViewColor:(UIView*)view image:(UIImage*)image lab12color:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
+- (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost lab12color:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
 
     // Gather average cover color and limit saturation
-    albumColor = [Utilities averageColor:image inverse:NO];
-    albumColor = [Utilities limitSaturation:albumColor satmax:0.33];
+    UIColor* mainColor = [Utilities averageColor:image inverse:NO];
+    mainColor = [Utilities limitSaturation:mainColor satmax:0.33];
     
     // Create gradient based on average color
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = view.bounds;
-    gradient.colors = @[(id)[albumColor CGColor], (id)[[Utilities lighterColorForColor:albumColor] CGColor]];
+    gradient.colors = @[(id)[mainColor CGColor], (id)[[Utilities lighterColorForColor:mainColor] CGColor]];
     [view.layer insertSublayer:gradient atIndex:1];
     
     // Set text/shadow colors
-    lab12color = [Utilities updateColor:albumColor
+    lab12color = [Utilities updateColor:mainColor
                              lightColor:[Utilities getGrayColor:255 alpha:1.0]
                               darkColor:[Utilities getGrayColor:0 alpha:1.0]];
-    shadow = [Utilities updateColor:albumColor
+    shadow = [Utilities updateColor:mainColor
                          lightColor:[Utilities getGrayColor:0 alpha:0.3]
                           darkColor:[Utilities getGrayColor:255 alpha:0.3]];
-    lab34color = [Utilities updateColor:albumColor
+    lab34color = [Utilities updateColor:mainColor
                              lightColor:[Utilities getGrayColor:255 alpha:0.7]
                               darkColor:[Utilities getGrayColor:0 alpha:0.6]];
     
@@ -472,6 +472,13 @@
                  label2:label2
                  label3:label3
                  label4:label4];
+    
+    // Only the top most item shall define albumcolor, searchbar tint and navigationbar tint
+    if (isTopMost) {
+        albumColor = mainColor;
+        [self setSearchBarColor:albumColor];
+        self.navigationController.navigationBar.tintColor = [Utilities lighterColorForColor:albumColor];
+    }
 }
 
 - (void)setLabelColor:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
@@ -2473,6 +2480,7 @@ int originYear = 0;
                                           weakThumbView.image = [Utilities roundedCornerImage:image drawBorder:YES];
                                           [self setViewColor:albumDetailView
                                                        image:image
+                                                   isTopMost:YES
                                                   lab12color:albumFontColor
                                                 label34Color:albumDetailsColor
                                                   fontshadow:albumFontShadowColor
@@ -2480,8 +2488,6 @@ int originYear = 0;
                                                       label2:albumLabel
                                                       label3:trackCountLabel
                                                       label4:releasedLabel];
-                                          [self setSearchBarColor:albumColor];
-                                          self.navigationController.navigationBar.tintColor = [Utilities lighterColorForColor:albumColor];
                                           
                                           if ([[self.searchController.searchBar subviews][0] isKindOfClass:[UIImageView class]]) {
                                               [[self.searchController.searchBar subviews][0] removeFromSuperview];
@@ -2662,6 +2668,7 @@ int originYear = 0;
                         weakThumbView.image = [Utilities roundedCornerImage:image drawBorder:YES];
                         [self setViewColor:albumDetailView
                                      image:image
+                                 isTopMost:isFirstListedSeason
                                 lab12color:seasonFontColor
                               label34Color:seasonDetailsColor
                                 fontshadow:seasonFontShadowColor
@@ -2669,10 +2676,6 @@ int originYear = 0;
                                     label2:albumLabel
                                     label3:trackCountLabel
                                     label4:releasedLabel];
-                        if (isFirstListedSeason) {
-                            [self setSearchBarColor:albumColor];
-                            self.navigationController.navigationBar.tintColor = [Utilities lighterColorForColor:albumColor];
-                        }
                     }
                 }];
             }
