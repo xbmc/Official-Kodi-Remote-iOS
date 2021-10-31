@@ -149,8 +149,6 @@
 "Subtitles not available" = "Altyazı yok";
 "Audiostream not available" = "Ses akışı yok";
 "Audiostreams not available" = "Ses akışları yok";
-"LongDateTimeFormat" = "dd MMMM, YYYY";
-"ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "tr_TR";
 "Yes" = "Evet";
 "No" = "Hayır";

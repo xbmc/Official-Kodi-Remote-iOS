@@ -153,8 +153,6 @@
 "Subtitles not available" = "Undertexter inte tillgängliga";
 "Audiostream not available" = "Ljudström inte tillgänglig";
 "Audiostreams not available" = "Ljudströmmar inte tillgängliga";
-"LongDateTimeFormat" = "yyyy-MM-dd";
-"ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "sv_SE";
 "Yes" = "Ja";
 "No" = "Nej";

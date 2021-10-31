@@ -152,8 +152,6 @@
 "Subtitles not available" = "Legendas não disponíveis";
 "Audiostream not available" = "Pista de áudio não disponível";
 "Audiostreams not available" = "Pistas de áudio não disponíveis";
-"LongDateTimeFormat" = "d' de 'MMMM' de 'yyyy";
-"ShortDateTimeFormat" = "yyyy-MM-dd";
 "LocaleIdentifier" = "pt_PT";
 "Yes" = "Sim";
 "No" = "Não";
