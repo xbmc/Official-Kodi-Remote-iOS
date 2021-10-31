@@ -540,7 +540,7 @@ double round(double d) {
     [activityIndicatorView stopAnimating];
     jewelView.alpha = 0;
     UIImage *imageToShow = image != nil ? image : fallback;
-    if (isRecordingDetail) {
+    if (isPvrDetail) {
         CGRect frame;
         frame.size.width = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.9);
         frame.size.height = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.7);
@@ -573,7 +573,7 @@ double round(double d) {
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
     NSMutableDictionary *item = self.detailItem;
     NSString *placeHolderImage = @"coverbox_back";
-    isRecordingDetail = item[@"recordingid"] != nil;
+    isPvrDetail = item[@"recordingid"] != nil || item[@"broadcastid"] != nil;
 //    NSLog(@"ITEM %@", item);
     eJewelType jeweltype = jewelTypeUnknown;
     lineSpacing = IS_IPAD ? 2 : 0;
@@ -1228,7 +1228,7 @@ double round(double d) {
         if (image != nil) {
             foundTintColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
             [self setIOS7barTintColor:foundTintColor];
-            if (enableJewel && !isRecordingDetail) {
+            if (enableJewel) {
                 coverView.image = image;
                 coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jewelType];
                 [activityIndicatorView stopAnimating];
@@ -1241,7 +1241,7 @@ double round(double d) {
         else {
             __weak ShowInfoViewController *sf = self;
             __block UIColor *newColor = nil;
-            if (enableJewel && !isRecordingDetail) {
+            if (enableJewel) {
                 [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
