@@ -150,8 +150,6 @@
 "Subtitles not available" = "字幕不可用";
 "Audiostream not available" = "音频流不可用";
 "Audiostreams not available" = "音频流不可用";
-"LongDateTimeFormat" = "YYYY年M月d日";
-"ShortDateTimeFormat" = "年年年年-月月-日日";
 "LocaleIdentifier" = "zh_CN";
 "Yes" = "是";
 "No" = "否";

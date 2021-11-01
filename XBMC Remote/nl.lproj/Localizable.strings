@@ -152,8 +152,6 @@
 "Subtitles not available" = "Ondertitels niet beschikbaar";
 "Audiostream not available" = "Audiospoor niet beschikbaar";
 "Audiostreams not available" = "Geen audiosporen beschikbaar";
-"LongDateTimeFormat" = "d. MMMM YYYY";
-"ShortDateTimeFormat" = "dd.MM.YYYY";
 "LocaleIdentifier" = "nl_NL";
 "Yes" = "Ja";
 "No" = "Nee";

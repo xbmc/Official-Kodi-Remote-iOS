@@ -150,8 +150,6 @@
 "Subtitles not available" = "Sottotitoli non disponibili";
 "Audiostream not available" = "Traccia audio non disponibile";
 "Audiostreams not available" = "Tracce audio non disponibili";
-"LongDateTimeFormat" = "dd MMMM yyyy";
-"ShortDateTimeFormat" = "dd-MMM-yyyy";
 "LocaleIdentifier" = "it_IT";
 "Yes" = "Si";
 "No" = "No";

@@ -150,8 +150,6 @@
 "Subtitles not available" = "Titulky nejsou dostupné";
 "Audiostream not available" = "Audio stream není dostupný";
 "Audiostreams not available" = "Audio streams není dostupný";
-"LongDateTimeFormat" = "dd.MM.yyyy";
-"ShortDateTimeFormat" = "d.MM.yyyy";
 "LocaleIdentifier" = "cs_CS";
 "Yes" = "Ano";
 "No" = "Ne";

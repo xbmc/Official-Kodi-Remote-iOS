@@ -150,8 +150,6 @@
 "Subtitles not available" = "Subtítulos no disponibles";
 "Audiostream not available" = "Flujo de Audio no disponible";
 "Audiostreams not available" = "Flujos de Audio no disponibles";
-"LongDateTimeFormat" = "dd MM yyyy";
-"ShortDateTimeFormat" = "dd-MM-yy";
 "LocaleIdentifier" = "es_ES";
 "Yes" = "Si";
 "No" = "No";
