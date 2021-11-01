@@ -9,50 +9,6 @@
 			<string>General</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
-			<key>FooterText</key>
-			<string>Language changes needs app restart</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<string></string>
-			<key>Key</key>
-			<string>lang_preference</string>
-			<key>Title</key>
-			<string>Language</string>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Titles</key>
-			<array>
-				<string>Automatic</string>
-				<string>English</string>
-				<string>Français</string>
-				<string>Italiano</string>
-				<string>Deutsch</string>
-				<string>简体中文</string>
-				<string>Polski</string>
-				<string>Português</string>
-				<string>Español</string>
-				<string>Czech</string>
-				<string>Nederlands</string>
-				<string>Türkçe</string>
-				<string>Svenska</string>
-			</array>
-			<key>Values</key>
-			<array>
-				<string></string>
-				<string>en</string>
-				<string>fr</string>
-				<string>it</string>
-				<string>de</string>
-				<string>zh-Hans</string>
-				<string>pl</string>
-				<string>pt-PT</string>
-				<string>es</string>
-				<string>cs</string>
-				<string>nl</string>
-				<string>tr</string>
-				<string>sv</string>
-			</array>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>

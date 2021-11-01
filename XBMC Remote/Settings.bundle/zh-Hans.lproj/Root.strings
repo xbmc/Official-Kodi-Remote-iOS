@@ -1,9 +1,7 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
 "General" = "常规";
-"Language" = "语言";
 "Automatic" = "自动";
-"Language changes needs app restart" = "变更语言需要重启应用";
 "Show connection notice" = "显示连接通知";
 "Direct Play mode" = "直接播放模式";
 "Ken Burns effect" = "Ken Burns特效";
