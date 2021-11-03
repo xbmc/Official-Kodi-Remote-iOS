@@ -442,9 +442,6 @@ double round(double d) {
             return;
         }
         storeChannelid = itemid;
-        NSDateFormatter *xbmcDateFormatter = [NSDateFormatter new];
-        xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-        xbmcDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
         NSDate *starttime = [xbmcDateFormatter dateFromString:self.detailItem[@"starttime"]];
         NSDate *endtime = [xbmcDateFormatter dateFromString:self.detailItem[@"endtime"]];
         float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
@@ -1090,18 +1087,11 @@ double round(double d) {
 
 - (NSString*)formatBroadcastTime:(NSDictionary*)item emptyString:(NSString*)empty {
     NSString *broadcastTime = empty;
-    NSDateFormatter *xbmcDateFormatter = [NSDateFormatter new];
-    xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    xbmcDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
     NSDate *startTime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
     NSDate *endTime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
     if (startTime != nil && endTime != nil) {
-        NSDateFormatter *localFormatter = [NSDateFormatter new];
-        localFormatter.dateFormat = @"ccc dd MMM, HH:mm";
-        localFormatter.timeZone = [NSTimeZone systemTimeZone];
-        NSString *startDate = [localFormatter stringFromDate:startTime];
-        localFormatter.dateFormat = @"HH:mm";
-        NSString *endDate = [localFormatter stringFromDate:endTime];
+        NSString *startDate = [localStartDateFormatter stringFromDate:startTime];
+        NSString *endDate = [localEndDateFormatter stringFromDate:endTime];
         NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
         NSUInteger unitFlags = NSCalendarUnitMinute;
         NSDateComponents *components = [gregorian components:unitFlags fromDate:startTime toDate:endTime options:0];
@@ -1851,6 +1841,18 @@ double round(double d) {
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
     foundTintColor = TINT_COLOR;
     [self configureView];
+    
+    xbmcDateFormatter = [NSDateFormatter new];
+    xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    xbmcDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"]; // all times in Kodi PVR are UTC
+    
+    localStartDateFormatter = [NSDateFormatter new];
+    localStartDateFormatter.timeZone = [NSTimeZone systemTimeZone];
+    localStartDateFormatter.dateFormat = @"ccc dd MMM, HH:mm";
+    
+    localEndDateFormatter = [NSDateFormatter new];
+    localEndDateFormatter.timeZone = [NSTimeZone systemTimeZone];
+    localEndDateFormatter.dateFormat = @"HH:mm";
 }
 
 - (void)didReceiveMemoryWarning {
