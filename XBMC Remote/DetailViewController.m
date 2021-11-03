@@ -248,11 +248,12 @@
     NSMutableDictionary *item = parameters[@"item"];
     NSMutableArray *retrievedEPG = [NSMutableArray new];
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"]; // all times in Kodi PVR are UTC
 
     for (id EPGobject in broadcasts) {
-        NSDate *starttime = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", EPGobject[@"starttime"]]];// all times in XBMC PVR are UTC
-        NSDate *endtime = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", EPGobject[@"endtime"]]];// all times in XBMC PVR are UTC
+        NSDate *starttime = [dateFormatter dateFromString:EPGobject[@"starttime"]];
+        NSDate *endtime = [dateFormatter dateFromString:EPGobject[@"endtime"]];
         [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                  starttime, @"starttime",
                                  endtime, @"endtime",
@@ -2254,8 +2255,8 @@ int originYear = 0;
                 NSDateFormatter *localFormatter = [NSDateFormatter new];
                 [localFormatter setDateFormat:@"ccc dd MMM, HH:mm"];
                 localFormatter.timeZone = [NSTimeZone systemTimeZone];
-                NSDate *timerStartTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
-                NSDate *endTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"endtime"]]];
+                NSDate *timerStartTime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
+                NSDate *endTime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
                 genre.text = [localFormatter stringFromDate:timerStartTime];
                 [localFormatter setDateFormat:@"HH:mm"];
                 NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -2332,10 +2333,10 @@ int originYear = 0;
         NSDateFormatter *test = [NSDateFormatter new];
         [test setDateFormat:@"yyyy-MM-dd HH:mm"];
         test.timeZone = [NSTimeZone systemTimeZone];
-        programStartTime.text = [localHourMinuteFormatter stringFromDate:[xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]]];
         ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:103];
-        NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
-        NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"endtime"]]];
+        NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
+        NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
+        programStartTime.text = [localHourMinuteFormatter stringFromDate:starttime];
         float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
@@ -3768,8 +3769,8 @@ NSIndexPath *selected;
             return;
         }
         storeChannelid = itemid;
-        NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
-        NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"endtime"]]];
+        NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
+        NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
         float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
@@ -4874,8 +4875,8 @@ NSIndexPath *selected;
         NSUInteger countRow = 0;
         NSMutableArray *retrievedEPG = [NSMutableArray new];
         for (NSMutableDictionary *item in self.richResults) {
-            NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
-            NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"endtime"]]];
+            NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
+            NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
             NSDate *itemEndDate;
             NSDate *itemStartDate;
             if (starttime != nil && endtime != nil) {
@@ -4992,7 +4993,7 @@ NSIndexPath *selected;
         currentValue = [@(round([currentValue doubleValue])) stringValue];
     }
     else if (([sortMethod isEqualToString:@"dateadded"] || [sortMethod isEqualToString:@"starttime"]) && ![currentValue isEqualToString:@"(null)"]) {
-        NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitYear fromDate:[xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", currentValue]]];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitYear fromDate:[xbmcDateFormatter dateFromString:currentValue]];
         currentValue = [NSString stringWithFormat:@"%ld", (long)[components year]];
     }
     else if (([sortMethod isEqualToString:@"label"] || [sortMethod isEqualToString:@"genre"] || [sortMethod isEqualToString:@"album"] || [sortMethod isEqualToString:@"channel"] || [sortMethod isEqualToString:@"artist"]) && [currentValue length]) {
@@ -5517,7 +5518,8 @@ NSIndexPath *selected;
     epgDict = [NSMutableDictionary new];
     epgDownloadQueue = [NSMutableArray new];
     xbmcDateFormatter = [NSDateFormatter new];
-    [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+    [xbmcDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    xbmcDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"]; // all times in Kodi PVR are UTC
     localHourMinuteFormatter = [NSDateFormatter new];
     [localHourMinuteFormatter setDateFormat:@"HH:mm"];
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];

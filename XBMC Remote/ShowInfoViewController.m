@@ -443,9 +443,10 @@ double round(double d) {
         }
         storeChannelid = itemid;
         NSDateFormatter *xbmcDateFormatter = [NSDateFormatter new];
-        xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss zzz";
-        NSDate *starttime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", self.detailItem[@"starttime"]]];
-        NSDate *endtime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", self.detailItem[@"endtime"]]];
+        xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+        xbmcDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+        NSDate *starttime = [xbmcDateFormatter dateFromString:self.detailItem[@"starttime"]];
+        NSDate *endtime = [xbmcDateFormatter dateFromString:self.detailItem[@"endtime"]];
         float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
@@ -1090,9 +1091,10 @@ double round(double d) {
 - (NSString*)formatBroadcastTime:(NSDictionary*)item emptyString:(NSString*)empty {
     NSString *broadcastTime = empty;
     NSDateFormatter *xbmcDateFormatter = [NSDateFormatter new];
-    xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss zzz";
-    NSDate *startTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"starttime"]]];
-    NSDate *endTime = [xbmcDateFormatter dateFromString:[NSString stringWithFormat:@"%@ UTC", item[@"endtime"]]];
+    xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    xbmcDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    NSDate *startTime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
+    NSDate *endTime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
     if (startTime != nil && endTime != nil) {
         NSDateFormatter *localFormatter = [NSDateFormatter new];
         localFormatter.dateFormat = @"ccc dd MMM, HH:mm";
