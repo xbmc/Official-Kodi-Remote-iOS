@@ -2,9 +2,7 @@
 /* Swedish translation by Daniel Nylander 2017-01-15 */
 
 "General" = "Allmänt";
-"Language" = "Språk";
 "Automatic" = "Automatiskt";
-"Language changes needs app restart" = "Ändring av språk kräver omstart";
 "Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play-läge";
 "Ken Burns effect" = "Ken Burns-effekt";
