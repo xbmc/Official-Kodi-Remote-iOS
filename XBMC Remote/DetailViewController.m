@@ -5198,7 +5198,9 @@ NSIndexPath *selected;
     if (channelListView || channelGuideView) {
         [channelListUpdateTimer invalidate];
         channelListUpdateTimer = nil;
-        NSDate * now = [NSDate date];
+        // Set up a timer that will always trigger at the start of each local minute. This supports
+        // to move highlighting to the current running broadcast in channel lists.
+        NSDate *now = [NSDate date];
         NSDateFormatter *outputFormatter = [NSDateFormatter new];
         [outputFormatter setDateFormat:@"ss"];
         [self updateChannelListTableCell];
