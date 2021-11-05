@@ -4237,7 +4237,7 @@ NSIndexPath *selected;
                  
                  NSString *year = [Utilities getYearFromDictionary:itemExtraDict key:mainFields[@"row3"]];
                  
-                 NSString *runtime = [Utilities getTimeFromDictionary:itemExtraDict key:mainFields[@"row4"] sec2min:secondsToMinute];
+                 NSString *runtime = [Utilities getTimeFromItem:itemExtraDict[mainFields[@"row4"]] sec2min:secondsToMinute];
                  
                  NSString *rating = [Utilities getRatingFromDictionary:itemExtraDict key:mainFields[@"row5"]];
                  
@@ -4502,7 +4502,7 @@ NSIndexPath *selected;
                          
                          NSString *year = [Utilities getYearFromDictionary:itemDict[i] key:mainFields[@"row3"]];
 
-                         NSString *runtime = [Utilities getTimeFromDictionary:itemDict[i] key:mainFields[@"row4"] sec2min:secondsToMinute];
+                         NSString *runtime = [Utilities getTimeFromItem:itemDict[i][mainFields[@"row4"]] sec2min:secondsToMinute];
                          
                          NSString *rating = [Utilities getRatingFromDictionary:itemDict[i] key:mainFields[@"row5"]];
                          

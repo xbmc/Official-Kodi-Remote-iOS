@@ -612,17 +612,16 @@
     return text;
 }
 
-+ (NSString*)getTimeFromDictionary:(NSDictionary*)dict key:(NSString*)key sec2min:(int)secondsToMinute {
++ (NSString*)getTimeFromItem:(id)item sec2min:(int)secondsToMinute {
     NSString *runtime = @"";
-    id value = dict[key];
-    if (value == nil) {
+    if (item == nil) {
         runtime = @"";
     }
-    else if ([value isKindOfClass:[NSArray class]]) {
-        runtime = [NSString stringWithFormat:@"%@", [value componentsJoinedByString:@" / "]];
+    else if ([item isKindOfClass:[NSArray class]]) {
+        runtime = [NSString stringWithFormat:@"%@", [item componentsJoinedByString:@" / "]];
     }
     else {
-        int minutes = [value intValue] / secondsToMinute;
+        int minutes = [item intValue] / secondsToMinute;
         runtime = minutes ? [NSString stringWithFormat:@"%d min", minutes] : runtime;
     }
     return runtime;

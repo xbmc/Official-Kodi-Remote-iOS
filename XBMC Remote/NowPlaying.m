@@ -1290,7 +1290,7 @@ int currentItemID;
                            NSString *artist = [Utilities getStringFromDictionary:playlistItems[i] key:@"artist"];
                            NSString *album = [Utilities getStringFromDictionary:playlistItems[i] key:@"album"];
                            
-                           NSString *runtime = [Utilities getTimeFromDictionary:playlistItems[i] key:@"runtime" sec2min:runtimeInMinute];
+                           NSString *runtime = [Utilities getTimeFromItem:playlistItems[i][@"runtime"] sec2min:runtimeInMinute];
                            
                            NSString *showtitle = playlistItems[i][@"showtitle"];
                          
