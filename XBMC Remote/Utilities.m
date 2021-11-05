@@ -593,21 +593,21 @@
     return iconName;
 }
 
-+ (NSString*)getStringFromDictionary:(NSDictionary*)dict key:(NSString*)key emptyString:(NSString*)empty {
-    NSString *text = empty;
++ (NSString*)getStringFromDictionary:(NSDictionary*)dict key:(NSString*)key {
+    NSString *text = @"";
     id value = dict[key];
     if (value == nil) {
-        text = empty;
+        text = @"";
     }
     else if ([value isKindOfClass:[NSArray class]]) {
         text = [value componentsJoinedByString:@" / "];
-        text = text.length == 0 ? empty : text;
+        text = text.length == 0 ? @"" : text;
     }
     else if ([value isKindOfClass:[NSNumber class]]) {
         text = [NSString stringWithFormat:@"%@", value];
     }
     else {
-        text = [value length] == 0 ? empty : value;
+        text = [value length] == 0 ? @"" : value;
     }
     return text;
 }
@@ -687,8 +687,8 @@
     return thumbnailPath;
 }
 
-+ (NSString*)getDateFromItem:(id)item dateStyle:(NSDateFormatterStyle)dateStyle emptyString:(NSString*)empty {
-    NSString *dateString = empty;
++ (NSString*)getDateFromItem:(id)item dateStyle:(NSDateFormatterStyle)dateStyle {
+    NSString *dateString = @"";
     if ([item length] > 0) {
         NSDateFormatter *format = [NSDateFormatter new];
         format.locale = [NSLocale currentLocale];

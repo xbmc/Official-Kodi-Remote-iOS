@@ -2185,7 +2185,7 @@ int originYear = 0;
         runtimeyear.text = duration;
     }
     else {
-        runtimeyear.text = [Utilities getDateFromItem:item[@"year"] dateStyle:NSDateFormatterShortStyle emptyString:@""];
+        runtimeyear.text = [Utilities getDateFromItem:item[@"year"] dateStyle:NSDateFormatterShortStyle];
         if (runtimeyear.text.length == 0) {
             runtimeyear.text = item[@"year"];
         }
@@ -2308,8 +2308,8 @@ int originYear = 0;
             [genre sizeToFit];
         }
         else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
-            genre.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@""];
-            runtime.text = [Utilities getStringFromDictionary:item key:@"artist" emptyString:@""];
+            genre.text = [Utilities getStringFromDictionary:item key:@"genre"];
+            runtime.text = [Utilities getStringFromDictionary:item key:@"artist"];
         }
         else {
             genre.hidden = NO;
@@ -2736,7 +2736,7 @@ int originYear = 0;
             releasedLabel.numberOfLines = 1;
             releasedLabel.adjustsFontSizeToFitWidth = YES;
             
-            NSString *aired = [Utilities getDateFromItem:item[@"year"] dateStyle:NSDateFormatterLongStyle emptyString:@""];
+            NSString *aired = [Utilities getDateFromItem:item[@"year"] dateStyle:NSDateFormatterLongStyle];
             
             releasedLabel.text = @"";
             if (aired != nil) {
@@ -4233,7 +4233,7 @@ NSIndexPath *selected;
                      secondsToMinute = 60;
                  }
                  NSString *label = [NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row1"]]];
-                 NSString *genre = [Utilities getStringFromDictionary:itemExtraDict key:mainFields[@"row2"] emptyString:@""];
+                 NSString *genre = [Utilities getStringFromDictionary:itemExtraDict key:mainFields[@"row2"]];
                  
                  NSString *year = [Utilities getYearFromDictionary:itemExtraDict key:mainFields[@"row3"]];
                  
@@ -4498,7 +4498,7 @@ NSIndexPath *selected;
                      for (int i = 0; i < total; i++) {
                          NSString *label = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row1"]]];
                          
-                         NSString *genre = [Utilities getStringFromDictionary:itemDict[i] key:mainFields[@"row2"] emptyString:@""];
+                         NSString *genre = [Utilities getStringFromDictionary:itemDict[i] key:mainFields[@"row2"]];
                          
                          NSString *year = [Utilities getYearFromDictionary:itemDict[i] key:mainFields[@"row3"]];
 
@@ -4731,7 +4731,7 @@ NSIndexPath *selected;
 - (NSArray*)applySortTokens:(NSArray*)incomingRichArray sortmethod:(NSString*)sortmethod {
     NSMutableArray *copymutable = [[NSMutableArray alloc] initWithCapacity:incomingRichArray.count];
     for (NSMutableDictionary *mutabledict in incomingRichArray) {
-        NSString *string = [Utilities getStringFromDictionary:mutabledict key:sortmethod emptyString:@""];
+        NSString *string = [Utilities getStringFromDictionary:mutabledict key:sortmethod];
         NSDictionary *dict = @{@"sortby": [self ignoreSorttoken:string]};
         [mutabledict addEntriesFromDictionary:dict];
         [copymutable addObject:mutabledict];

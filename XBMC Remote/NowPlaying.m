@@ -643,27 +643,27 @@ int currentItemID;
                                  [self performSelector:@selector(loadCodecView) withObject:nil afterDelay:.5];
                                  itemDescription.text = [nowPlayingInfo[@"description"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"description"]] : [nowPlayingInfo[@"plot"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"plot"]] : @"";
                                  [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
-                                 NSString *album = [Utilities getStringFromDictionary:nowPlayingInfo key:@"album" emptyString:@""];
+                                 NSString *album = [Utilities getStringFromDictionary:nowPlayingInfo key:@"album"];
                                  if ([nowPlayingInfo[@"type"] isEqualToString:@"channel"]) {
                                      album = nowPlayingInfo[@"label"];
                                  }
-                                 NSString *title = [Utilities getStringFromDictionary:nowPlayingInfo key:@"title" emptyString:@""];
+                                 NSString *title = [Utilities getStringFromDictionary:nowPlayingInfo key:@"title"];
                                  storeLiveTVTitle = title;
-                                 NSString *artist = [Utilities getStringFromDictionary:nowPlayingInfo key:@"artist" emptyString:@""];
+                                 NSString *artist = [Utilities getStringFromDictionary:nowPlayingInfo key:@"artist"];
                                  if (album.length == 0 && ((NSNull*)nowPlayingInfo[@"showtitle"] != [NSNull null]) && nowPlayingInfo[@"season"] > 0) {
                                      album = [nowPlayingInfo[@"showtitle"] length] != 0 ? [NSString stringWithFormat:@"%@ - %@x%@", nowPlayingInfo[@"showtitle"], nowPlayingInfo[@"season"], nowPlayingInfo[@"episode"]] : @"";
                                  }
                                  if (title.length == 0) {
-                                     title = [Utilities getStringFromDictionary:nowPlayingInfo key:@"label" emptyString:@""];
+                                     title = [Utilities getStringFromDictionary:nowPlayingInfo key:@"label"];
                                  }
 
                                  if (artist.length == 0 && ((NSNull*)nowPlayingInfo[@"studio"] != [NSNull null])) {
-                                     artist = [Utilities getStringFromDictionary:nowPlayingInfo key:@"studio" emptyString:@""];
+                                     artist = [Utilities getStringFromDictionary:nowPlayingInfo key:@"studio"];
                                  }
                                  albumName.text = album;
                                  songName.text = title;
                                  artistName.text = artist;
-                                 NSString *type = [Utilities getStringFromDictionary:nowPlayingInfo key:@"type" emptyString:@"unknown"];
+                                 NSString *type = [Utilities getStringFromDictionary:nowPlayingInfo key:@"type"];
                                  currentType = type;
                                  [self setCoverSize:currentType];
                                  GlobalData *obj = [GlobalData getInstance];
@@ -1287,8 +1287,8 @@ int currentItemID;
                            NSString *label = [NSString stringWithFormat:@"%@", playlistItems[i][@"label"]];
                            NSString *title = [NSString stringWithFormat:@"%@", playlistItems[i][@"title"]];
                            
-                           NSString *artist = [Utilities getStringFromDictionary:playlistItems[i] key:@"artist" emptyString:@""];
-                           NSString *album = [Utilities getStringFromDictionary:playlistItems[i] key:@"album" emptyString:@""];
+                           NSString *artist = [Utilities getStringFromDictionary:playlistItems[i] key:@"artist"];
+                           NSString *album = [Utilities getStringFromDictionary:playlistItems[i] key:@"album"];
                            
                            NSString *runtime = [Utilities getTimeFromDictionary:playlistItems[i] key:@"runtime" sec2min:runtimeInMinute];
                            
@@ -1301,7 +1301,7 @@ int currentItemID;
                            NSString *artistid = [NSString stringWithFormat:@"%@", playlistItems[i][@"artistid"]];
                            NSString *albumid = [NSString stringWithFormat:@"%@", playlistItems[i][@"albumid"]];
                            NSString *movieid = [NSString stringWithFormat:@"%@", playlistItems[i][@"id"]];
-                           NSString *genre = [Utilities getStringFromDictionary:playlistItems[i] key:@"genre" emptyString:@""];
+                           NSString *genre = [Utilities getStringFromDictionary:playlistItems[i] key:@"genre"];
                            NSString *durationTime = @"";
                            if ([playlistItems[i][@"duration"] isKindOfClass:[NSNumber class]]) {
                                durationTime = [Utilities convertTimeFromSeconds:playlistItems[i][@"duration"]];
@@ -1485,11 +1485,11 @@ int currentItemID;
                  }
 
                  NSString *label = [NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row1"]]];
-                 NSString *genre = [Utilities getStringFromDictionary:itemExtraDict key:mainFields[@"row2"] emptyString:@""];
+                 NSString *genre = [Utilities getStringFromDictionary:itemExtraDict key:mainFields[@"row2"]];
                  
                  NSString *year = [Utilities getYearFromDictionary:itemExtraDict key:mainFields[@"row3"]];
 
-                 NSString *runtime = [Utilities getStringFromDictionary:itemExtraDict key:mainFields[@"row4"] emptyString:@""];
+                 NSString *runtime = [Utilities getStringFromDictionary:itemExtraDict key:mainFields[@"row4"]];
                  
                  NSString *rating = [Utilities getRatingFromDictionary:itemExtraDict key:mainFields[@"row5"]];
                  

@@ -623,11 +623,11 @@ double round(double d) {
         label5.text = LOCALIZED_STR(@"SUMMARY");
         label6.text = LOCALIZED_STR(@"CAST");
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [Utilities getStringFromDictionary:item key:@"episode" emptyString:@"-"];
-        genreLabel.text = [Utilities getDateFromItem:item[@"premiered"] dateStyle:NSDateFormatterLongStyle emptyString:@"-"];
-        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
-        studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
-        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"episode"];
+        genreLabel.text = [Utilities getDateFromItem:item[@"premiered"] dateStyle:NSDateFormatterLongStyle];
+        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre"];
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot"];
         
         [self setTvShowsToolbar];
         
@@ -659,11 +659,11 @@ double round(double d) {
         label5.text = LOCALIZED_STR(@"SUMMARY");
         label6.text = LOCALIZED_STR(@"CAST");
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [Utilities getStringFromDictionary:item key:@"showtitle" emptyString:@"-"];
-        genreLabel.text = [Utilities getDateFromItem:item[@"firstaired"] dateStyle:NSDateFormatterLongStyle emptyString:@"-" ];
-        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
-        studioLabel.text = [Utilities getStringFromDictionary:item key:@"writer" emptyString:@"-"];
-        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"showtitle"];
+        genreLabel.text = [Utilities getDateFromItem:item[@"firstaired"] dateStyle:NSDateFormatterLongStyle];
+        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"director"];
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"writer"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot"];
         
         parentalRatingLabelUp.hidden = YES;
         parentalRatingLabel.hidden = YES;
@@ -691,11 +691,11 @@ double round(double d) {
         label5.text = LOCALIZED_STR(@"DESCRIPTION");
         label6.text = @"";
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [Utilities getStringFromDictionary:item key:@"artist" emptyString:@"-"];
-        genreLabel.text = [Utilities getStringFromDictionary:item key:@"year" emptyString:@"-"];
-        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
-        studioLabel.text = [Utilities getStringFromDictionary:item key:@"label" emptyString:@"-"];
-        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"description" emptyString:@"-"];
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"artist"];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"year"];
+        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"genre"];
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"label"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"description"];
         
         starsView.hidden = YES;
         voteLabel.hidden = YES;
@@ -723,13 +723,13 @@ double round(double d) {
         label5.text = LOCALIZED_STR(@"SUMMARY");
         label6.text = @"";
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [Utilities getStringFromDictionary:item key:@"artist" emptyString:@"-"];
-        genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
-        NSString *director = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"artist"];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre"];
+        NSString *director = [Utilities getStringFromDictionary:item key:@"director"];
         NSString *year = [Utilities getYearFromDictionary:item key:@"year"];
         runtimeLabel.text = [item[@"year"] length] == 0 ? director : [NSString stringWithFormat:@"%@ (%@)", director, year];
-        studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
-        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot"];
         
         if (enableJewel) {
             jewelView.image = [UIImage imageNamed:@"jewel_cd.9"];
@@ -751,12 +751,12 @@ double round(double d) {
         label5.text = LOCALIZED_STR(@"DESCRIPTION");
         label6.text = LOCALIZED_STR(@"MUSIC ROLES");
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
-        genreLabel.text = [Utilities getStringFromDictionary:item key:@"style" emptyString:@"-"];
-        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"description" emptyString:@"-"];
-        NSString *born = [Utilities getStringFromDictionary:item key:@"born" emptyString:@"-"];
-        NSString *formed = [Utilities getStringFromDictionary:item key:@"formed" emptyString:@"-"];
-        studioLabel.text = [formed isEqualToString:@"-"] ? born : formed;
+        directorLabel.text = [Utilities getStringFromDictionary:item key:@"genre"];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"style"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"description"];
+        NSString *born = [Utilities getStringFromDictionary:item key:@"born"];
+        NSString *formed = [Utilities getStringFromDictionary:item key:@"formed"];
+        studioLabel.text = formed.length ? formed : born;
         
         parentalRatingLabelUp.hidden = YES;
         parentalRatingLabel.hidden = YES;
@@ -786,10 +786,10 @@ double round(double d) {
         label5.text = LOCALIZED_STR(@"SUMMARY");
         label6.text = @"";
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [self formatBroadcastTime:item emptyString:@"-"];
-        genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+        directorLabel.text = [self formatBroadcastTime:item];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre"];
         numVotesLabel.text = item[@"channel"];
-        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot"];
         
         coverView.hidden = YES;
         starsView.hidden = YES;
@@ -819,10 +819,10 @@ double round(double d) {
         label5.text = LOCALIZED_STR(@"SUMMARY");
         label6.text = @"";
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [self formatBroadcastTime:item emptyString:@"-"];
-        genreLabel.text = [Utilities getStringFromDictionary:self.detailItem key:@"plotoutline" emptyString:@"-"];
+        directorLabel.text = [self formatBroadcastTime:item];
+        genreLabel.text = [Utilities getStringFromDictionary:self.detailItem key:@"plotoutline"];
         numVotesLabel.text = item[@"pvrExtraInfo"][@"channel_name"];
-        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"genre"];
         
         coverView.hidden = YES;
         starsView.hidden = YES;
@@ -847,13 +847,13 @@ double round(double d) {
         label5.text = LOCALIZED_STR(@"SUMMARY");
         label6.text = LOCALIZED_STR(@"CAST");
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        NSString *director = [Utilities getStringFromDictionary:item key:@"director" emptyString:@"-"];
+        NSString *director = [Utilities getStringFromDictionary:item key:@"director"];
         NSString *year = [Utilities getYearFromDictionary:item key:@"year"];
         directorLabel.text = [item[@"year"] length] == 0 ? director : [NSString stringWithFormat:@"%@ (%@)", director, year];
-        genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre" emptyString:@"-"];
-        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"runtime" emptyString:@"-"];
-        studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio" emptyString:@"-"];
-        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot" emptyString:@"-"];
+        genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre"];
+        runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"runtime"];
+        studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio"];
+        summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot"];
         
         if (enableJewel) {
             jewelView.image = [UIImage imageNamed:@"jewel_dvd.9"];
@@ -873,15 +873,15 @@ double round(double d) {
     
     [self loadFanart:item[@"fanart"]];
     
-    voteLabel.text = [Utilities getStringFromDictionary:item key:@"rating" emptyString:@"N.A."];
+    voteLabel.text = [Utilities getStringFromDictionary:item key:@"rating"];
     starsView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f", roundf([item[@"rating"] floatValue])]];
-    NSString *numVotes = [Utilities getStringFromDictionary:item key:@"votes" emptyString:@""];
+    NSString *numVotes = [Utilities getStringFromDictionary:item key:@"votes"];
     if (numVotes.length != 0) {
         NSString *numVotesPlus = LOCALIZED_STR(([numVotes isEqualToString:@"1"]) ? @"vote" : @"votes");
         numVotesLabel.text = [NSString stringWithFormat:@"(%@ %@)", numVotes, numVotesPlus];
     }
 
-    parentalRatingLabel.text = [Utilities getStringFromDictionary:item key:@"mpaa" emptyString:@"-"];
+    parentalRatingLabel.text = [Utilities getStringFromDictionary:item key:@"mpaa"];
     
     if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
         [self processTrailerFromString:item[@"trailer"]];
@@ -896,32 +896,32 @@ double round(double d) {
     }
     
     // Hide empty labels
-    if ([voteLabel.text isEqualToString:@"N.A."]) {
+    if (voteLabel.text.length == 0) {
         starsView.hidden = YES;
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
     }
-    if ([directorLabel.text isEqualToString:@"-"]) {
+    if (directorLabel.text.length == 0) {
         directorLabel.hidden = YES;
         label1.hidden = YES;
     }
-    if ([genreLabel.text isEqualToString:@"-"]) {
+    if (genreLabel.text.length == 0) {
         genreLabel.hidden = YES;
         label2.hidden = YES;
     }
-    if ([runtimeLabel.text isEqualToString:@"-"]) {
+    if (runtimeLabel.text.length == 0) {
         runtimeLabel.hidden = YES;
         label3.hidden = YES;
     }
-    if ([studioLabel.text isEqualToString:@"-"]) {
+    if (studioLabel.text.length == 0) {
         studioLabel.hidden = YES;
         label4.hidden = YES;
     }
-    if ([summaryLabel.text isEqualToString:@"-"]) {
+    if (summaryLabel.text.length == 0) {
         summaryLabel.hidden = YES;
         label5.hidden = YES;
     }
-    if ([parentalRatingLabel.text isEqualToString:@"-"]) {
+    if (parentalRatingLabel.text.length == 0) {
         parentalRatingLabel.hidden = YES;
         parentalRatingLabelUp.hidden = YES;
     }
@@ -1085,8 +1085,8 @@ double round(double d) {
     return offset;
 }
 
-- (NSString*)formatBroadcastTime:(NSDictionary*)item emptyString:(NSString*)empty {
-    NSString *broadcastTime = empty;
+- (NSString*)formatBroadcastTime:(NSDictionary*)item {
+    NSString *broadcastTime = @"";
     NSDate *startTime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
     NSDate *endTime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
     if (startTime != nil && endTime != nil) {
