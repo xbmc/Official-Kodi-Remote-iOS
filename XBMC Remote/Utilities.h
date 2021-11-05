@@ -72,7 +72,7 @@ typedef enum {
 + (NSString*)getItemIconFromDictionary:(NSDictionary*)dict mainFields:(NSDictionary*)mainFields;
 + (NSString*)getStringFromDictionary:(NSDictionary*)dict key:(NSString*)key;
 + (NSString*)getTimeFromItem:(id)item sec2min:(int)secondsToMinute;
-+ (NSString*)getYearFromDictionary:(NSDictionary*)dict key:(NSString*)key;
++ (NSString*)getYearFromItem:(id)item;
 + (NSString*)getRatingFromDictionary:(NSDictionary*)dict key:(NSString*)key;
 + (NSString*)getClearArtFromDictionary:(NSDictionary*)dict type:(NSString*)type;
 + (NSString*)getThumbnailFromDictionary:(NSDictionary*)dict useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon;

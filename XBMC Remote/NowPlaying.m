@@ -1487,7 +1487,7 @@ int currentItemID;
                  NSString *label = [NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row1"]]];
                  NSString *genre = [Utilities getStringFromDictionary:itemExtraDict key:mainFields[@"row2"]];
                  
-                 NSString *year = [Utilities getYearFromDictionary:itemExtraDict key:mainFields[@"row3"]];
+                 NSString *year = [Utilities getYearFromItem:itemExtraDict[mainFields[@"row3"]]];
 
                  NSString *runtime = [Utilities getStringFromDictionary:itemExtraDict key:mainFields[@"row4"]];
                  

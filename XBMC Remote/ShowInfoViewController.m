@@ -726,7 +726,7 @@ double round(double d) {
         directorLabel.text = [Utilities getStringFromDictionary:item key:@"artist"];
         genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre"];
         NSString *director = [Utilities getStringFromDictionary:item key:@"director"];
-        NSString *year = [Utilities getYearFromDictionary:item key:@"year"];
+        NSString *year = [Utilities getYearFromItem:item[@"year"]];
         runtimeLabel.text = [item[@"year"] length] == 0 ? director : [NSString stringWithFormat:@"%@ (%@)", director, year];
         studioLabel.text = [Utilities getStringFromDictionary:item key:@"studio"];
         summaryLabel.text = [Utilities getStringFromDictionary:item key:@"plot"];
@@ -848,7 +848,7 @@ double round(double d) {
         label6.text = LOCALIZED_STR(@"CAST");
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
         NSString *director = [Utilities getStringFromDictionary:item key:@"director"];
-        NSString *year = [Utilities getYearFromDictionary:item key:@"year"];
+        NSString *year = [Utilities getYearFromItem:item[@"year"]];
         directorLabel.text = [item[@"year"] length] == 0 ? director : [NSString stringWithFormat:@"%@ (%@)", director, year];
         genreLabel.text = [Utilities getStringFromDictionary:item key:@"genre"];
         runtimeLabel.text = [Utilities getStringFromDictionary:item key:@"runtime"];

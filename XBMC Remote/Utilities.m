@@ -627,27 +627,21 @@
     return runtime;
 }
 
-+ (NSString*)getYearFromDictionary:(NSDictionary*)dict key:(NSString*)key {
++ (NSString*)getYearFromItem:(id)item {
     NSString *year = @"";
-    id value = dict[key];
-    if (value == nil) {
+    if (item == nil) {
         year = @"";
     }
-    else if ([value isKindOfClass:[NSNumber class]]) {
-        if ([value integerValue] > 0) {
-            year = [value stringValue];
+    else if ([item isKindOfClass:[NSNumber class]]) {
+        if ([item integerValue] > 0) {
+            year = [item stringValue];
         }
         else {
             year = @"";
         }
     }
     else {
-        if ([key isEqualToString:@"blank"]) {
-            year = @"";
-        }
-        else {
-            year = value;
-        }
+        year = item;
     }
     return year;
 }
