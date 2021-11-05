@@ -4239,7 +4239,7 @@ NSIndexPath *selected;
                  
                  NSString *runtime = [Utilities getTimeFromItem:itemExtraDict[mainFields[@"row4"]] sec2min:secondsToMinute];
                  
-                 NSString *rating = [Utilities getRatingFromDictionary:itemExtraDict key:mainFields[@"row5"]];
+                 NSString *rating = [Utilities getRatingFromItem:itemExtraDict[mainFields[@"row5"]]];
                  
                  NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:itemExtraDict useBanner:NO useIcon:methodResult[@"recordingdetails"] != nil];
 
@@ -4504,7 +4504,7 @@ NSIndexPath *selected;
 
                          NSString *runtime = [Utilities getTimeFromItem:itemDict[i][mainFields[@"row4"]] sec2min:secondsToMinute];
                          
-                         NSString *rating = [Utilities getRatingFromDictionary:itemDict[i] key:mainFields[@"row5"]];
+                         NSString *rating = [Utilities getRatingFromItem:itemDict[i][mainFields[@"row5"]]];
                          
                          NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:itemDict[i] useBanner:tvshowsView useIcon:recordingListView];
 

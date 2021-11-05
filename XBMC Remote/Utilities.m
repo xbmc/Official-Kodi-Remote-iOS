@@ -646,8 +646,8 @@
     return year;
 }
 
-+ (NSString*)getRatingFromDictionary:(NSDictionary*)dict key:(NSString*)key {
-    NSString *rating = [NSString stringWithFormat:@"%.1f", [(NSNumber*)dict[key] floatValue]];
++ (NSString*)getRatingFromItem:(id)item {
+    NSString *rating = [NSString stringWithFormat:@"%.1f", [(NSNumber*)item floatValue]];
     if ([rating isEqualToString:@"0.0"]) {
         rating = @"";
     }

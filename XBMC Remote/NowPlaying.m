@@ -1491,7 +1491,7 @@ int currentItemID;
 
                  NSString *runtime = [Utilities getStringFromDictionary:itemExtraDict key:mainFields[@"row4"]];
                  
-                 NSString *rating = [Utilities getRatingFromDictionary:itemExtraDict key:mainFields[@"row5"]];
+                 NSString *rating = [Utilities getRatingFromItem:itemExtraDict[mainFields[@"row5"]]];
                  
                  NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:itemExtraDict useBanner:NO useIcon:NO];
                  NSDictionary *art = itemExtraDict[@"art"];
