@@ -2308,8 +2308,8 @@ int originYear = 0;
             [genre sizeToFit];
         }
         else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
-            genre.text = [Utilities getStringFromDictionary:item key:@"genre"];
-            runtime.text = [Utilities getStringFromDictionary:item key:@"artist"];
+            genre.text = [Utilities getStringFromItem:item[@"genre"]];
+            runtime.text = [Utilities getStringFromItem:item[@"artist"]];
         }
         else {
             genre.hidden = NO;
@@ -4233,7 +4233,7 @@ NSIndexPath *selected;
                      secondsToMinute = 60;
                  }
                  NSString *label = [NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row1"]]];
-                 NSString *genre = [Utilities getStringFromDictionary:itemExtraDict key:mainFields[@"row2"]];
+                 NSString *genre = [Utilities getStringFromItem:itemExtraDict[mainFields[@"row2"]]];
                  
                  NSString *year = [Utilities getYearFromItem:itemExtraDict[mainFields[@"row3"]]];
                  
@@ -4498,7 +4498,7 @@ NSIndexPath *selected;
                      for (int i = 0; i < total; i++) {
                          NSString *label = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row1"]]];
                          
-                         NSString *genre = [Utilities getStringFromDictionary:itemDict[i] key:mainFields[@"row2"]];
+                         NSString *genre = [Utilities getStringFromItem:itemDict[i][mainFields[@"row2"]]];
                          
                          NSString *year = [Utilities getYearFromItem:itemDict[i][mainFields[@"row3"]]];
 
@@ -4731,7 +4731,7 @@ NSIndexPath *selected;
 - (NSArray*)applySortTokens:(NSArray*)incomingRichArray sortmethod:(NSString*)sortmethod {
     NSMutableArray *copymutable = [[NSMutableArray alloc] initWithCapacity:incomingRichArray.count];
     for (NSMutableDictionary *mutabledict in incomingRichArray) {
-        NSString *string = [Utilities getStringFromDictionary:mutabledict key:sortmethod];
+        NSString *string = [Utilities getStringFromItem:mutabledict[sortmethod]];
         NSDictionary *dict = @{@"sortby": [self ignoreSorttoken:string]};
         [mutabledict addEntriesFromDictionary:dict];
         [copymutable addObject:mutabledict];

@@ -593,21 +593,20 @@
     return iconName;
 }
 
-+ (NSString*)getStringFromDictionary:(NSDictionary*)dict key:(NSString*)key {
++ (NSString*)getStringFromItem:(id)item {
     NSString *text = @"";
-    id value = dict[key];
-    if (value == nil) {
+    if (item == nil) {
         text = @"";
     }
-    else if ([value isKindOfClass:[NSArray class]]) {
-        text = [value componentsJoinedByString:@" / "];
+    else if ([item isKindOfClass:[NSArray class]]) {
+        text = [item componentsJoinedByString:@" / "];
         text = text.length == 0 ? @"" : text;
     }
-    else if ([value isKindOfClass:[NSNumber class]]) {
-        text = [NSString stringWithFormat:@"%@", value];
+    else if ([item isKindOfClass:[NSNumber class]]) {
+        text = [NSString stringWithFormat:@"%@", item];
     }
     else {
-        text = [value length] == 0 ? @"" : value;
+        text = [item length] == 0 ? @"" : item;
     }
     return text;
 }
