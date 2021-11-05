@@ -4839,7 +4839,7 @@ NSIndexPath *selected;
             [self.richResults removeAllObjects];
         }
         NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [self.detailItem mainParameters][0][0][@"channelid"], @"channelid",
+                                   [self.detailItem mainParameters][choosedTab][0][@"channelid"], @"channelid",
                                    retrievedEPG, @"epgArray",
                                    nil];
         [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];
