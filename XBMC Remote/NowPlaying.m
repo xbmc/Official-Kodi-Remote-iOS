@@ -741,10 +741,9 @@ int currentItemID;
                                                  }
                                                  else {
                                                      __weak UIImageView *jV = jewelView;
-                                                     [jewelView
-                                                      setImageWithURL:[NSURL URLWithString:stringURL]
-                                                      placeholderImage:[UIImage imageNamed:@"coverbox_back"]
-                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                                     [jewelView setImageWithURL:[NSURL URLWithString:stringURL]
+                                                               placeholderImage:[UIImage imageNamed:@"coverbox_back"]
+                                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                           if (error == nil) {
                                                               [sf changeImage:jV image:[sf imageWithBorderFromImage:image]];
                                                               UIImage *buttonImage = [sf resizeToolbarThumb:jV.image];
@@ -1865,7 +1864,8 @@ int currentItemID;
     }
     if (![storeCurrentLogo isEqualToString:@""]) {
         NSString *stringURL = [Utilities formatStringURL:storeCurrentLogo serverURL:serverURL];
-        [itemLogoImage setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:itemLogoImage.image];
+        [itemLogoImage setImageWithURL:[NSURL URLWithString:stringURL]
+                      placeholderImage:itemLogoImage.image];
     }
 }
 
@@ -2181,7 +2181,8 @@ int currentItemID;
             break;
     }
     NSString *stringURL = item[@"thumbnail"];
-    [thumb setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"nocover_music"]];
+    [thumb setImageWithURL:[NSURL URLWithString:stringURL]
+          placeholderImage:[UIImage imageNamed:@"nocover_music"]];
     // andResize:CGSizeMake(thumb.frame.size.width, thumb.frame.size.height)
     thumb = [Utilities applyRoundedEdgesView:thumb drawBorder:YES];
     UIView *timePlaying = (UIView*)[cell viewWithTag:5];

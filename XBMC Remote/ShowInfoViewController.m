@@ -1209,7 +1209,8 @@ double round(double d) {
             serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
         }
         NSString *stringURL = [Utilities formatStringURL:item[@"clearlogo"] serverURL:serverURL];
-        [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL] placeholderImage:[UIImage imageNamed:@"blank"]];
+        [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL]
+                           placeholderImage:[UIImage imageNamed:@"blank"]];
         [clearlogoButton addSubview:clearLogoImageView];
     }
     else {
