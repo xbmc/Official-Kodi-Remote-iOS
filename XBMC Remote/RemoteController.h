@@ -10,7 +10,7 @@
 #import "DSJSONRPC.h"
 //#import "RightMenuViewController.h"
 
-@interface RemoteController : UIViewController {
+@interface RemoteController : UIViewController <UIGestureRecognizerDelegate> {
     IBOutlet UIView *remoteControlView;
     IBOutlet UILabel *subsInfoLabel;
     NSTimer *fadeoutTimer;
