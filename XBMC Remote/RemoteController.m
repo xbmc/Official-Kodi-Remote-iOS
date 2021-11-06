@@ -1210,6 +1210,22 @@ NSInteger buttonAction;
                                              selector: @selector(hideKeyboard:)
                                                  name: @"ECSlidingViewUnderLeftWillAppear"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(disablePopGestureRecognizer:)
+                                                 name: @"ECSlidingViewUnderRightWillAppear"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(enablePopGestureRecognizer:)
+                                                 name: @"ECSlidingViewTopDidReset"
+                                               object: nil];
+}
+
+- (void)enablePopGestureRecognizer:(id)sender {
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+}
+
+- (void)disablePopGestureRecognizer:(id)sender {
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
 - (void)revealMenu:(id)sender {
