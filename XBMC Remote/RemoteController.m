@@ -105,9 +105,7 @@
     [gestureZoneView addGestureRecognizer:twoFingersTap];
     
     gestureImage = [UIImage imageNamed:@"finger"];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
-    if (!showGesture) {
+    if (!isGestureViewActive) {
         return;
     }
     
@@ -441,7 +439,7 @@
 
 - (void)toggleGestureZone:(id)sender {
     NSString *imageName = @"blank";
-    BOOL showGesture = (gestureZoneView.alpha == 0);
+    BOOL showGesture = !isGestureViewActive;
     if ([sender isKindOfClass:[NSNotification class]]) {
         if ([[sender userInfo] isKindOfClass:[NSDictionary class]]) {
             showGesture = [[[sender userInfo] objectForKey:@"forceGestureZone"] boolValue];
@@ -451,6 +449,7 @@
         return;
     }
     if (showGesture) {
+        isGestureViewActive = YES;
         CGRect frame;
         frame = gestureZoneView.frame;
         frame.origin.x = -self.view.frame.size.width;
@@ -473,6 +472,7 @@
         imageName = @"circle";
     }
     else {
+        isGestureViewActive = NO;
         CGRect frame;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -498,6 +498,7 @@
     else if ([sender isKindOfClass: [UIBarButtonItem class]]) {
         [sender setImage:[UIImage imageNamed:imageName]];
     }
+    [self saveRemoteMode];
 }
 
 # pragma mark - JSON
@@ -1173,6 +1174,22 @@ NSInteger buttonAction;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
+#pragma mark - Persistence
+
+- (void)saveRemoteMode {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@(isGestureViewActive) forKey:@"GestureViewEnabled"];
+    [userDefaults setObject:@(positionMode) forKey:@"RemotePosition"];
+    return;
+}
+
+- (void)loadRemoteMode {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    isGestureViewActive = [[userDefaults objectForKey:@"GestureViewEnabled"] boolValue];
+    positionMode = [[userDefaults objectForKey:@"RemotePosition"] intValue];
+    return;
+}
+
 #pragma mark - Life Cycle
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -1276,6 +1293,7 @@ NSInteger buttonAction;
     }
     remoteControlView.frame = frame;
     remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+    [self saveRemoteMode];
 }
 
 - (void)createRemoteToolbar:(UIImage*)gestureButtonImg width:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax isEmbedded:(BOOL)isEmbedded {
@@ -1376,7 +1394,7 @@ NSInteger buttonAction;
     self.view.tintColor = TINT_COLOR;
     
     quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
-    positionMode = [Utilities getRemotePositionMode];
+    [self loadRemoteMode];
     if (!isEmbeddedMode) {
         [self configureView];
     }

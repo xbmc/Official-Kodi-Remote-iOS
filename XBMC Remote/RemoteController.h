@@ -32,6 +32,7 @@
     UIImage* gestureImage;
     BOOL torchIsOn;
     BOOL isEmbeddedMode;
+    BOOL isGestureViewActive;
     NSDictionary *subsDictionary;
     NSDictionary *audiostreamsDictionary;
 }
