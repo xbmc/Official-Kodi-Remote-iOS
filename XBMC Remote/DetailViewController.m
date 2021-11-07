@@ -619,6 +619,7 @@
     }
     BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
                         [item[@"family"] isEqualToString:@"recordingid"] ||
+                        [item[@"family"] isEqualToString:@"genreid"] ||
                         [item[@"family"] isEqualToString:@"type"] ||
                         [item[@"family"] isEqualToString:@"file"]);
     BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
@@ -639,7 +640,12 @@
     }
     else {
         [imgView setImageWithURL:[NSURL URLWithString:@""]
-                placeholderImage:[UIImage imageNamed:displayThumb]];
+                placeholderImage:[UIImage imageNamed:displayThumb]
+                         options:0
+                       andResize:CGSizeZero
+                      withBorder:showBorder
+                        progress:nil
+                       completed:nil];
     }
 }
 
