@@ -2630,11 +2630,11 @@ int currentItemID;
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(disableInteractivePopGestureRecognizer:)
+                                             selector: @selector(disablePopGestureRecognizer:)
                                                  name: @"ECSlidingViewUnderRightWillAppear"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(disableInteractivePopGestureRecognizer:)
+                                             selector: @selector(enablePopGestureRecognizer:)
                                                  name: @"ECSlidingViewTopDidReset"
                                                object: nil];
     
@@ -2653,13 +2653,12 @@ int currentItemID;
     [self viewWillDisappear:YES];
 }
 
-- (void)disableInteractivePopGestureRecognizer:(id)sender {
-    if ([[sender name] isEqualToString:@"ECSlidingViewUnderRightWillAppear"]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    }
-    else {
-        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    }
+- (void)enablePopGestureRecognizer:(id)sender {
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+}
+
+- (void)disablePopGestureRecognizer:(id)sender {
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
 - (void)revealMenu:(id)sender {
