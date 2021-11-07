@@ -1064,6 +1064,13 @@ NSInteger buttonAction;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
+#pragma mark - GestureRecognizer delegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldReceiveTouch:(UITouch*)touch {
+    BOOL isGestureViewActive = (gestureZoneView.alpha > 0);
+    return !isGestureViewActive;
+}
+
 # pragma mark - Gestures
 
 - (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
@@ -1175,6 +1182,7 @@ NSInteger buttonAction;
             self.slidingViewController.underRightViewController = nil;
             self.slidingViewController.anchorLeftPeekAmount   = 0;
             self.slidingViewController.anchorLeftRevealAmount = 0;
+            self.slidingViewController.panGesture.delegate = self;
         }
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = [AppDelegate instance].remoteControlMenuItems;
@@ -1210,6 +1218,22 @@ NSInteger buttonAction;
                                              selector: @selector(hideKeyboard:)
                                                  name: @"ECSlidingViewUnderLeftWillAppear"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(disablePopGestureRecognizer:)
+                                                 name: @"ECSlidingViewUnderRightWillAppear"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(enablePopGestureRecognizer:)
+                                                 name: @"ECSlidingViewTopDidReset"
+                                               object: nil];
+}
+
+- (void)enablePopGestureRecognizer:(id)sender {
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+}
+
+- (void)disablePopGestureRecognizer:(id)sender {
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
 - (void)revealMenu:(id)sender {
@@ -1230,6 +1254,7 @@ NSInteger buttonAction;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self resetRemote];
+    self.slidingViewController.panGesture.delegate = nil;
 }
 
 - (void)turnTorchOn:(id)sender {

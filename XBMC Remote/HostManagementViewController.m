@@ -521,8 +521,22 @@ static inline BOOL IsEmpty(id obj) {
                                              selector: @selector(tcpJSONRPCConnectionError:)
                                                  name: @"tcpJSONRPCConnectionError"
                                                object: nil];
-    
-    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(disablePopGestureRecognizer:)
+                                                 name: @"ECSlidingViewUnderRightWillAppear"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(enablePopGestureRecognizer:)
+                                                 name: @"ECSlidingViewTopDidReset"
+                                               object: nil];
+}
+
+- (void)enablePopGestureRecognizer:(id)sender {
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+}
+
+- (void)disablePopGestureRecognizer:(id)sender {
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
 - (void)tcpJSONRPCConnectionError:(NSNotification*)note {
