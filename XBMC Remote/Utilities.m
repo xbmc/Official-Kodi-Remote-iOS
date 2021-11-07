@@ -635,7 +635,12 @@
         year = @"";
     }
     else if ([value isKindOfClass:[NSNumber class]]) {
-        year = [(NSNumber*)value stringValue];
+        if ([value integerValue] > 0) {
+            year = [value stringValue];
+        }
+        else {
+            year = @"";
+        }
     }
     else {
         if ([key isEqualToString:@"blank"]) {
