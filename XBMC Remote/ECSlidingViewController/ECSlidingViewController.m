@@ -283,7 +283,7 @@ BOOL moved;
         if ([self underLeftShowing] && currentVelocityX > 100) {
             [self anchorTopViewTo:ECRight];
         }
-        else if ([self underRightShowing] && currentVelocityX < 100) {
+        else if ([self underRightShowing] && currentVelocityX < -100) {
             [self anchorTopViewTo:ECLeft];
         }
         else {
