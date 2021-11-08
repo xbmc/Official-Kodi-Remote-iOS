@@ -1068,7 +1068,7 @@ NSInteger buttonAction;
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldReceiveTouch:(UITouch*)touch {
     BOOL isGestureViewActive = (gestureZoneView.alpha > 0);
-    return !isGestureViewActive;
+    return !isGestureViewActive || self.slidingViewController.underRightShowing;
 }
 
 # pragma mark - Gestures
