@@ -448,11 +448,8 @@
     if (showGesture && gestureZoneView.alpha == 1) {
         return;
     }
+    [self setPanGestureFullArea:!showGesture];
     if (showGesture) {
-        // Only allow panning gesture for navigation bar to not interfere with gesture area
-        [self.navigationController.view removeGestureRecognizer:self.slidingViewController.panGesture];
-        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
-        
         CGRect frame;
         frame = [gestureZoneView frame];
         frame.origin.x = -self.view.frame.size.width;
@@ -475,10 +472,6 @@
         imageName = @"circle";
     }
     else {
-        // Allow panning gesture for full view
-        [self.navigationController.navigationBar removeGestureRecognizer:self.slidingViewController.panGesture];
-        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-        
         CGRect frame;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -1068,10 +1061,23 @@ NSInteger buttonAction;
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldReceiveTouch:(UITouch*)touch {
     BOOL isGestureViewActive = (gestureZoneView.alpha > 0);
-    return !isGestureViewActive;
+    return !isGestureViewActive || self.slidingViewController.underRightShowing;
 }
 
 # pragma mark - Gestures
+
+- (void)setPanGestureFullArea:(BOOL)allowFullArea {
+    if (allowFullArea) {
+        // Allow panning gesture for full view
+        [self.navigationController.navigationBar removeGestureRecognizer:self.slidingViewController.panGesture];
+        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+    }
+    else {
+        // Only allow panning gesture for navigation bar to not interfere with gesture area
+        [self.navigationController.view removeGestureRecognizer:self.slidingViewController.panGesture];
+        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
+    }
+}
 
 - (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
