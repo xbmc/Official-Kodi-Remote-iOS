@@ -296,7 +296,7 @@ static char UIScrollViewPullToRefreshView;
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context { 
     if ([keyPath isEqualToString:@"contentOffset"]) {
-        [self scrollViewDidScroll:[[change valueForKey:NSKeyValueChangeNewKey] CGPointValue]];
+        [self scrollViewDidScroll:[[change objectForKey:NSKeyValueChangeNewKey] CGPointValue]];
     }
     else if ([keyPath isEqualToString:@"frame"]) {
         [self layoutSubviews];

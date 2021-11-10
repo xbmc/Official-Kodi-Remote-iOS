@@ -125,9 +125,9 @@
     if ([[sender object] isKindOfClass:[UIView class]]) {
         senderView = [sender object];
     }
-    BOOL hideToolbar = [[sender.userInfo valueForKey:@"hideToolbar"] boolValue];
-    BOOL clipsToBounds = [[sender.userInfo valueForKey:@"clipsToBounds"] boolValue];
-    NSTimeInterval duration = [[sender.userInfo valueForKey:@"duration"] doubleValue];
+    BOOL hideToolbar = [[sender.userInfo objectForKey:@"hideToolbar"] boolValue];
+    BOOL clipsToBounds = [[sender.userInfo objectForKey:@"clipsToBounds"] boolValue];
+    NSTimeInterval duration = [[sender.userInfo objectForKey:@"duration"] doubleValue];
     if (!duration) {
         duration = 1.5;
     }
@@ -182,7 +182,7 @@
     if ([[sender object] isKindOfClass:[UIView class]]) {
         senderView = [sender object];
     }
-    NSTimeInterval duration = [[sender.userInfo valueForKey:@"duration"] doubleValue];
+    NSTimeInterval duration = [[sender.userInfo objectForKey:@"duration"] doubleValue];
     if (!duration) {
         duration = 1.5;
     }

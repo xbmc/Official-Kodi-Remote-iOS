@@ -573,14 +573,14 @@
                       duration: 1.0
                        options: UIViewAnimationOptionTransitionCrossDissolve
                     animations: ^{
-                        fanartBackgroundImage.image = [sender.userInfo valueForKey:@"image"];
+                        fanartBackgroundImage.image = [sender.userInfo objectForKey:@"image"];
                     }
                     completion: NULL];
 }
 
 - (void)handleChangeBackgroundGradientColor:(NSNotification*)sender {
-    UIColor *startColor = (UIColor*)[sender.userInfo valueForKey:@"startColor"];
-    UIColor *endColor = (UIColor*)[sender.userInfo valueForKey:@"endColor"];
+    UIColor *startColor = (UIColor*)[sender.userInfo objectForKey:@"startColor"];
+    UIColor *endColor = (UIColor*)[sender.userInfo objectForKey:@"endColor"];
     [(gradientUIView*)self.view setColoursWithCGColors:startColor.CGColor endColor:endColor.CGColor];
     [(gradientUIView*)self.view setNeedsDisplay];
 }
@@ -594,16 +594,16 @@
 }
 
 - (void)handleTcpJSONRPCShowSetup:(NSNotification*)sender {
-    BOOL showValue = [[sender.userInfo valueForKey:@"showSetup"] boolValue];
+    BOOL showValue = [[sender.userInfo objectForKey:@"showSetup"] boolValue];
     if ((showValue && firstRun) || !showValue) {
         [self showSetup:showValue];
     }
 }
 
 - (void)handleTcpJSONRPCChangeServerStatus:(NSNotification*)sender {
-    BOOL statusValue = [[sender.userInfo valueForKey:@"status"] boolValue];
-    NSString *message = [sender.userInfo valueForKey:@"message"];
-    NSString *icon_connection = [sender.userInfo valueForKey:@"icon_connection"];
+    BOOL statusValue = [[sender.userInfo objectForKey:@"status"] boolValue];
+    NSString *message = [sender.userInfo objectForKey:@"message"];
+    NSString *icon_connection = [sender.userInfo objectForKey:@"icon_connection"];
     [self changeServerStatus:statusValue infoText:message icon:icon_connection];
 }
 

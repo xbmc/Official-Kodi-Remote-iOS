@@ -581,7 +581,7 @@
 - (void)toggleOpen:(UITapGestureRecognizer*)sender {
     NSInteger section = [sender.view tag];
     [self.sectionArrayOpen replaceObjectAtIndex:section withObject:@(![self.sectionArrayOpen[section] boolValue])];
-    NSInteger countEpisodes = [[self.sections valueForKey:self.sectionArray[section]] count];
+    NSInteger countEpisodes = [[self.sections objectForKey:self.sectionArray[section]] count];
     NSMutableArray *indexPaths = [NSMutableArray new];
     for (NSInteger i = 0; i < countEpisodes; i++) {
         [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:section]];
@@ -1421,14 +1421,14 @@
 
 - (NSInteger)collectionView:(UICollectionView*)collectionView numberOfItemsInSection:(NSInteger)section {
     if (episodesView) {
-        return ([self.sectionArrayOpen[section] boolValue] ? [[self.sections valueForKey:self.sectionArray[section]] count] : 0);
+        return ([self.sectionArrayOpen[section] boolValue] ? [[self.sections objectForKey:self.sectionArray[section]] count] : 0);
     }
-    return [[self.sections valueForKey:self.sectionArray[section]] count];
+    return [[self.sections objectForKey:self.sectionArray[section]] count];
 }
 
 - (UICollectionViewCell*)collectionView:(UICollectionView*)cView cellForItemAtIndexPath:(NSIndexPath*)indexPath {
     
-    NSDictionary *item = [self.sections valueForKey:self.sectionArray[indexPath.section]][indexPath.row];
+    NSDictionary *item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
     NSString *stringURL = item[@"thumbnail"];
     NSString *fanartURL = item[@"fanart"];
     NSString *displayThumb = [NSString stringWithFormat:@"%@_wall", defaultThumb];
@@ -1545,7 +1545,7 @@
 }
 
 - (void)collectionView:(UICollectionView*)cView didSelectItemAtIndexPath:(NSIndexPath*)indexPath {
-    NSDictionary *item = [self.sections valueForKey:self.sectionArray[indexPath.section]][indexPath.row];
+    NSDictionary *item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
     UICollectionViewCell *cell = [cView cellForItemAtIndexPath:indexPath];
     CGPoint offsetPoint = [cView contentOffset];
     int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
@@ -2004,9 +2004,9 @@ int originYear = 0;
     }
 	else {
         if (episodesView) {
-            return ([self.sectionArrayOpen[section] boolValue] ? [[self.sections valueForKey:self.sectionArray[section]] count] : 0);
+            return ([self.sectionArrayOpen[section] boolValue] ? [[self.sections objectForKey:self.sectionArray[section]] count] : 0);
         }
-        return [[self.sections valueForKey:self.sectionArray[section]] count];
+        return [[self.sections objectForKey:self.sectionArray[section]] count];
     }
 }
 
@@ -2068,7 +2068,7 @@ int originYear = 0;
         item = self.filteredListContent[indexPath.row];
     }
 	else {
-        item = [self.sections valueForKey:self.sectionArray[indexPath.section]][indexPath.row];
+        item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
     }
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
@@ -2407,7 +2407,7 @@ int originYear = 0;
         offsetPoint.y = offsetPoint.y - 44;
     }
     else {
-        item = [self.sections valueForKey:self.sectionArray[indexPath.section]][indexPath.row];
+        item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
     }
     int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
@@ -2641,7 +2641,7 @@ int originYear = 0;
             item = self.richResults[0];
         }
         else {
-            item = [self.sections valueForKey:self.sectionArray[section]][0];
+            item = [self.sections objectForKey:self.sectionArray[section]][0];
         }
         NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d", [item[@"season"] intValue]] inArray:self.extraSectionRichResults];
         NSInteger firstListedSeason = [self getFirstListedSeason:self.extraSectionRichResults];
@@ -2962,7 +2962,7 @@ NSIndexPath *selected;
                     else {
                         [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
                     }
-                    item = [self.sections valueForKey:self.sectionArray[indexPath.section]][indexPath.row];
+                    item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
                 }
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:[self.detailItem mainParameters][choosedTab]]];
 //                if ([item[@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
@@ -4115,7 +4115,7 @@ NSIndexPath *selected;
 - (void)showAlbumActions:(UITapGestureRecognizer*)tap {
     NSArray *sheetActions = @[LOCALIZED_STR(@"Queue after current"), LOCALIZED_STR(@"Queue"), LOCALIZED_STR(@"Play"), LOCALIZED_STR(@"Play in shuffle mode"), LOCALIZED_STR(@"Album Details"), LOCALIZED_STR(@"Search Wikipedia")];
     selected = [NSIndexPath indexPathForRow:0 inSection:0];
-    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:[self.sections valueForKey:self.sectionArray[0]][0]];
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:[self.sections objectForKey:self.sectionArray[0]][0]];
     item[@"label"] = self.navigationItem.title;
     forceMusicAlbumMode = YES;
     int rectOrigin = (int)((albumViewHeight - (albumViewPadding * 2))/2);
