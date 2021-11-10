@@ -399,7 +399,12 @@
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
-    return ([tableData[indexPath.row][@"isSetting"] boolValue]);
+    if (indexPath.row < tableData.count) {
+        return [tableData[indexPath.row][@"isSetting"] boolValue];
+    }
+    else {
+        return NO;
+    }
 }
 
 - (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
