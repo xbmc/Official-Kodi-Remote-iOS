@@ -620,7 +620,11 @@
     }
     BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
                         [item[@"family"] isEqualToString:@"recordingid"] ||
+                        [item[@"family"] isEqualToString:@"channelgroupid"] ||
+                        [item[@"family"] isEqualToString:@"timerid"] ||
                         [item[@"family"] isEqualToString:@"genreid"] ||
+                        [item[@"family"] isEqualToString:@"sectionid"] ||
+                        [item[@"family"] isEqualToString:@"categoryid"] ||
                         [item[@"family"] isEqualToString:@"type"] ||
                         [item[@"family"] isEqualToString:@"file"]);
     BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
