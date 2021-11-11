@@ -30,18 +30,18 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [navController.view setClipsToBounds:NO];
+    navController.view.clipsToBounds = NO;
     CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height + 22);
     UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
-    [shadow setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [shadow setImage:[UIImage imageNamed:@"tableLeft"]];
+    shadow.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    shadow.image = [UIImage imageNamed:@"tableLeft"];
     shadow.opaque = YES;
     [navController.view addSubview:shadow];
     
     shadowRect = CGRectMake(self.view.frame.size.width, 0, 16, self.view.frame.size.height + 22);
     UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
-    [shadowRight setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    [shadowRight setImage:[UIImage imageNamed:@"tableRight"]];
+    shadowRight.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    shadowRight.image = [UIImage imageNamed:@"tableRight"];
     shadowRight.opaque = YES;
     [navController.view addSubview:shadowRight];
 }
@@ -51,9 +51,9 @@
     HostManagementViewController *hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     navController = [[CustomNavigationController alloc] initWithRootViewController:hostManagementViewController];
     UINavigationBar *newBar = navController.navigationBar;
-    [newBar setBarStyle:UIBarStyleBlackTranslucent];
+    newBar.barStyle = UIBarStyleBlackTranslucent;
     [self setNeedsStatusBarAppearanceUpdate];
-    [newBar setTintColor:TINT_COLOR];
+    newBar.tintColor = TINT_COLOR;
     self.view.tintColor = APP_TINT_COLOR;
     [navController hideNavBarBottomLine:YES];
     hostManagementViewController.mainMenu = self.mainMenu;

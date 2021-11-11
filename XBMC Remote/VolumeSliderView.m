@@ -28,8 +28,8 @@
 		self = nib[0];
         UIImage *img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
         img = [Utilities colorizeImage:img withColor:SLIDER_DEFAULT_COLOR];
-        [volumeSlider setMinimumTrackTintColor:SLIDER_DEFAULT_COLOR];
-        [volumeSlider setMaximumTrackTintColor:APP_TINT_COLOR];
+        volumeSlider.minimumTrackTintColor = SLIDER_DEFAULT_COLOR;
+        volumeSlider.maximumTrackTintColor = APP_TINT_COLOR;
         [volumeSlider setThumbImage:img forState:UIControlStateNormal];
         [volumeSlider setThumbImage:img forState:UIControlStateHighlighted];
         [self volumeInfo];
@@ -61,10 +61,10 @@
             frame_tmp.origin.x = CGRectGetMaxX(volumeLabel.frame) + VOLUMELABEL_PADDING;
             plusButton.frame = frame_tmp;
             
-            volumeLabel.textColor = [UIColor lightGrayColor];
+            volumeLabel.textColor = UIColor.lightGrayColor;
             
-            muteIconColor = [UIColor grayColor];
-            volumeIconColor = [UIColor lightGrayColor];
+            muteIconColor = UIColor.grayColor;
+            volumeIconColor = UIColor.lightGrayColor;
             
             // set final used width for this view
             frame_tmp = frame;
@@ -94,10 +94,10 @@
             frame_tmp.origin.x = CGRectGetMaxX(volumeSlider.frame) + VOLUMEICON_PADDING;
             plusButton.frame = frame_tmp;
             
-            muteIconColor = [UIColor blackColor];
+            muteIconColor = UIColor.blackColor;
             muteBackgroundImage = [UIImage imageNamed:@"icon_dark"];
-            muteBackgroundImage = [Utilities colorizeImage:img withColor:[UIColor darkGrayColor]];
-            volumeIconColor = [UIColor grayColor];
+            muteBackgroundImage = [Utilities colorizeImage:img withColor:UIColor.darkGrayColor];
+            volumeIconColor = UIColor.grayColor;
         }
         // Move all buttons to vertical center of view
         CGFloat center_y = self.frame.size.height / 2;
@@ -151,14 +151,15 @@
 }
 
 - (void)handleServerStatusChanged:(NSNotification*)sender {
-    volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
-    volumeSlider.value = [AppDelegate instance].serverVolume;
+    volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
+    volumeSlider.value = AppDelegate.instance.serverVolume;
     [self checkMuteServer];
 }
 
 - (void)handleApplicationOnVolumeChanged:(NSNotification*)sender {
     if (holdVolumeTimer == nil) {
-        [AppDelegate instance].serverVolume = [[sender userInfo][@"params"][@"data"][@"volume"] intValue];
+        NSDictionary *theData = sender.userInfo;
+        AppDelegate.instance.serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
         [self handleServerStatusChanged:nil];
     }
 }
@@ -181,8 +182,8 @@
 }
 
 - (void)startTimer {
-    volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
-    volumeSlider.value = [AppDelegate instance].serverVolume;
+    volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
+    volumeSlider.value = AppDelegate.instance.serverVolume;
     [self stopTimer];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(volumeInfo) userInfo:nil repeats:YES];
 }
@@ -195,12 +196,12 @@
 }
 
 - (void)volumeInfo {
-    if ([AppDelegate instance].serverTCPConnectionOpen) {
+    if (AppDelegate.instance.serverTCPConnectionOpen) {
         return;
     }
-    if ([AppDelegate instance].serverVolume > -1) {
-        volumeLabel.text = [NSString stringWithFormat:@"%d", [AppDelegate instance].serverVolume];
-        volumeSlider.value = [AppDelegate instance].serverVolume;
+    if (AppDelegate.instance.serverVolume > -1) {
+        volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
+        volumeSlider.value = AppDelegate.instance.serverVolume;
     }
     else {
         volumeLabel.text = @"0";
@@ -210,7 +211,7 @@
 
 - (IBAction)slideVolume:(id)sender {
     volumeSlider.value = (int)volumeSlider.value;
-    [AppDelegate instance].serverVolume = (int)volumeSlider.value;
+    AppDelegate.instance.serverVolume = (int)volumeSlider.value;
     volumeLabel.text = [NSString stringWithFormat:@"%.0f", volumeSlider.value];
 }
 
@@ -221,8 +222,8 @@
 
 - (void)handleMute:(BOOL)mute {
     isMuted = mute;
-    UIColor *buttonColor = isMuted ? [UIColor systemRedColor] : muteIconColor;
-    UIColor *sliderColor = isMuted ? [UIColor darkGrayColor] : SLIDER_DEFAULT_COLOR;
+    UIColor *buttonColor = isMuted ? UIColor.systemRedColor : muteIconColor;
+    UIColor *sliderColor = isMuted ? UIColor.darkGrayColor : SLIDER_DEFAULT_COLOR;
 
     UIImage *img = [UIImage imageNamed:@"volume_slash"];
     img = [Utilities colorizeImage:img withColor:buttonColor];
@@ -231,8 +232,8 @@
     img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
     img = [Utilities colorizeImage:img withColor:sliderColor];
     [volumeSlider setThumbImage:img forState:UIControlStateNormal];
-    [volumeSlider setMinimumTrackTintColor:sliderColor];
-    [volumeSlider setUserInteractionEnabled:!isMuted];
+    volumeSlider.minimumTrackTintColor = sliderColor;
+    volumeSlider.userInteractionEnabled = !isMuted;
 }
 
 - (void)changeMuteServer {
@@ -288,7 +289,7 @@ NSInteger action;
     else { // Volume in 2-step resolution
         volumeSlider.value = ((int)volumeSlider.value / 2) * 2;
     }
-    [AppDelegate instance].serverVolume = volumeSlider.value;
+    AppDelegate.instance.serverVolume = volumeSlider.value;
     volumeLabel.text = [NSString stringWithFormat:@"%.0f", volumeSlider.value];
     [self changeServerVolume:nil];
     if (isMuted) {

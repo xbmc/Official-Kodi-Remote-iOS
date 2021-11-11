@@ -23,7 +23,7 @@
 //    UIEdgeInsets insets = {0, 5, 2, 5};
 //    UIBezierPath* rounded = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerBottomLeft|UIRectCornerBottomRight cornerRadii:CGSizeMake(5, 5)];
 //    CAShapeLayer* shape = [CAShapeLayer new];
-//    [shape setPath:rounded.CGPath];
+//    shape.path = rounded.CGPath;
 //    self.layer.mask = shape;
     UIEdgeInsets insets = {0, 3, 0, 3};
     return [super drawTextInRect:UIEdgeInsetsInsetRect(rect, insets)];

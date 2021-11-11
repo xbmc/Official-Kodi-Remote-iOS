@@ -49,7 +49,7 @@
 + (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse {
     CGImageRef rawImageRef = [image CGImage];
     if (rawImageRef == nil) {
-        return [UIColor clearColor];
+        return UIColor.clearColor;
     }
     
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
@@ -58,7 +58,7 @@
                         infoMask == kCGImageAlphaNoneSkipFirst ||
                         infoMask == kCGImageAlphaNoneSkipLast);
 //    if (!anyNonAlpha) {
-//        return [UIColor clearColor];
+//        return UIColor.clearColor;
 //    }
     
     // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault)  before analyzing them
@@ -69,7 +69,7 @@
         rawImageRef = [Utilities create32bppImage:rawImageRef format:kCGImageAlphaPremultipliedFirst];
     }
     if (rawImageRef == NULL) {
-        return [UIColor clearColor];
+        return UIColor.clearColor;
     }
     
 	CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
@@ -179,7 +179,7 @@
 }
 
 + (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker trigger:(CGFloat)trigger {
-    if ([newColor isEqual:[UIColor clearColor]] || newColor == nil) {
+    if ([newColor isEqual:UIColor.clearColor] || newColor == nil) {
         return lighter;
     }
     const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
@@ -198,9 +198,9 @@
     }
     UIGraphicsBeginImageContextWithOptions(image.size, YES, 0);
     
-    CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = [image size]};
+    CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = image.size};
     
-    CGSize itemImageSize = [image size];
+    CGSize itemImageSize = image.size;
     CGPoint itemImagePosition;
     itemImagePosition.x = ceilf((contextRect.size.width - itemImageSize.width) / 2);
     itemImagePosition.y = ceilf((contextRect.size.height - itemImageSize.height));
@@ -235,7 +235,7 @@
 }
 
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode {
-    UIColor *bgcolor = [UIColor clearColor];
+    UIColor *bgcolor = UIColor.clearColor;
     UIColor *imgcolor = nil;
     UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
     UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
@@ -258,14 +258,14 @@
             NSLog(@"setLogoBackgroundColor: unknown mode %d", mode);
             break;
     }
-    [imageview setBackgroundColor:bgcolor];
+    imageview.backgroundColor = bgcolor;
 }
 
 + (LogoBackgroundType)getLogoBackgroundMode {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     LogoBackgroundType setting = bgAuto;
     NSString *mode = [userDefaults stringForKey:@"logo_background"];
-    if ([mode length]) {
+    if (mode.length) {
         if ([mode isEqualToString:@"dark"]) {
             setting = bgDark;
         }
@@ -283,7 +283,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     RemotePositionType setting = remoteTop;
     NSString *mode = [userDefaults stringForKey:@"remote_position"];
-    if ([mode length]) {
+    if (mode.length) {
         if ([mode isEqualToString:@"position_top"]) {
             setting = remoteTop;
         }
@@ -299,7 +299,7 @@
 
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage {
     NSDictionary *params = nil;
-    if ([AppDelegate instance].serverVersion < 15) {
+    if (AppDelegate.instance.serverVersion < 15) {
         params = @{
             @"playerid": @(playerID),
             @"value": @(percentage),
@@ -316,7 +316,7 @@
 
 + (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode {
     NSArray *params = nil;
-    if ([AppDelegate instance].serverVersion < 15) {
+    if (AppDelegate.instance.serverVersion < 15) {
         params = @[stepmode, @"value"];
     }
     else {
@@ -337,28 +337,28 @@
 }
 
 + (UIColor*)getSystemRed:(CGFloat)alpha {
-    return [[UIColor systemRedColor] colorWithAlphaComponent:alpha];
+    return [UIColor.systemRedColor colorWithAlphaComponent:alpha];
 }
 
 + (UIColor*)getSystemGreen:(CGFloat)alpha {
-    return [[UIColor systemGreenColor] colorWithAlphaComponent:alpha];
+    return [UIColor.systemGreenColor colorWithAlphaComponent:alpha];
 }
 
 + (UIColor*)getSystemBlue {
-    return [UIColor systemBlueColor];
+    return UIColor.systemBlueColor;
 }
 
 + (UIColor*)getSystemTeal {
-    return [UIColor systemTealColor];
+    return UIColor.systemTealColor;
 }
 
 + (UIColor*)getSystemGray1 {
-    return [UIColor systemGrayColor];
+    return UIColor.systemGrayColor;
 }
 
 + (UIColor*)getSystemGray2 {
     if (@available(iOS 13.0, *)) {
-        return [UIColor systemGray2Color];
+        return UIColor.systemGray2Color;
     }
     else {
         return RGBA(174, 174, 178, 1.0);
@@ -367,7 +367,7 @@
 
 + (UIColor*)getSystemGray3 {
     if (@available(iOS 13.0, *)) {
-        return [UIColor systemGray3Color];
+        return UIColor.systemGray3Color;
     }
     else {
         return RGBA(199, 199, 204, 1.0);
@@ -376,7 +376,7 @@
 
 + (UIColor*)getSystemGray4 {
     if (@available(iOS 13.0, *)) {
-        return [UIColor systemGray4Color];
+        return UIColor.systemGray4Color;
     }
     else {
         return RGBA(209, 209, 214, 1.0);
@@ -385,7 +385,7 @@
 
 + (UIColor*)getSystemGray5 {
     if (@available(iOS 13.0, *)) {
-        return [UIColor systemGray5Color];
+        return UIColor.systemGray5Color;
     }
     else {
         return RGBA(229, 229, 234, 1.0);
@@ -394,7 +394,7 @@
 
 + (UIColor*)getSystemGray6 {
     if (@available(iOS 13.0, *)) {
-        return [UIColor systemGray6Color];
+        return UIColor.systemGray6Color;
     }
     else {
         return RGBA(242, 242, 247, 1.0);
@@ -403,7 +403,7 @@
 
 + (UIColor*)get1stLabelColor {
     if (@available(iOS 13.0, *)) {
-        return [UIColor labelColor];
+        return UIColor.labelColor;
     }
     else {
         return RGBA(0, 0, 0, 1.0);
@@ -412,7 +412,7 @@
 
 + (UIColor*)get2ndLabelColor {
     if (@available(iOS 13.0, *)) {
-        return [UIColor secondaryLabelColor];
+        return UIColor.secondaryLabelColor;
     }
     else {
         return RGBA(60, 60, 67, 0.6);
@@ -421,7 +421,7 @@
 
 + (UIColor*)get3rdLabelColor {
     if (@available(iOS 13.0, *)) {
-        return [UIColor tertiaryLabelColor];
+        return UIColor.tertiaryLabelColor;
     }
     else {
         return RGBA(60, 60, 67, 0.3);
@@ -430,7 +430,7 @@
 
 + (UIColor*)get4thLabelColor {
     if (@available(iOS 13.0, *)) {
-        return [UIColor quaternaryLabelColor];
+        return UIColor.quaternaryLabelColor;
     }
     else {
         return RGBA(60, 60, 67, 0.18);
@@ -533,12 +533,12 @@
 }
 
 + (DSJSONRPC*)getJsonRPC {
-    return [[DSJSONRPC alloc] initWithServiceEndpoint:[AppDelegate instance].getServerJSONEndPoint andHTTPHeaders:[AppDelegate instance].getServerHTTPHeaders];
+    return [[DSJSONRPC alloc] initWithServiceEndpoint:AppDelegate.instance.getServerJSONEndPoint andHTTPHeaders:AppDelegate.instance.getServerHTTPHeaders];
 }
 
 + (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array {
     NSMutableDictionary *mutableDictionary = [NSMutableDictionary new];
-    NSInteger numelement = [array count];
+    NSInteger numelement = array.count;
     for (int i = 0; i < numelement-1; i += 2) {
         mutableDictionary[array[i+1]] = array[i];
     }
@@ -547,7 +547,7 @@
 
 + (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array {
     NSMutableDictionary *mutableDictionary = [NSMutableDictionary new];
-    NSInteger numelement = [array count];
+    NSInteger numelement = array.count;
     for (int i = 0; i < numelement-1; i += 2) {
         mutableDictionary[array[i+1]] = array[i];
     }
@@ -601,7 +601,7 @@
     }
     else if ([value isKindOfClass:[NSArray class]]) {
         text = [value componentsJoinedByString:@" / "];
-        text = [text length] == 0 ? empty : text;
+        text = text.length == 0 ? empty : text;
     }
     else if ([value isKindOfClass:[NSNumber class]]) {
         text = [NSString stringWithFormat:@"%@", value];
@@ -691,10 +691,10 @@
     NSString *dateString = empty;
     if ([item length] > 0) {
         NSDateFormatter *format = [NSDateFormatter new];
-        [format setLocale:[NSLocale currentLocale]];
-        [format setDateFormat:@"yyyy-MM-dd"];
+        format.locale = [NSLocale currentLocale];
+        format.dateFormat = @"yyyy-MM-dd";
         NSDate *date = [format dateFromString:item];
-        [format setDateStyle:dateStyle];
+        format.dateStyle = dateStyle;
         dateString = [format stringFromDate:date];
     }
     return dateString;
@@ -738,7 +738,7 @@
     if (drawBorder) {
         // Draw border with shape of path
         path.lineWidth = 1.0 / UIScreen.mainScreen.scale;
-        [[UIColor blackColor] setStroke];
+        [UIColor.blackColor setStroke];
         [path stroke];
     }
      
@@ -769,7 +769,7 @@
     // Apply border
     if (drawBorder) {
         imageLayer.borderWidth = 1.0 / UIScreen.mainScreen.scale;
-        imageLayer.borderColor = [UIColor blackColor].CGColor;
+        imageLayer.borderColor = UIColor.blackColor.CGColor;
     }
     else {
         imageLayer.borderWidth = 0;

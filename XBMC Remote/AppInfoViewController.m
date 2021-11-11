@@ -47,7 +47,7 @@
                 [audioPlayer prepareToPlay];
             }
         }
-        [audioPlayer setCurrentTime:0];
+        audioPlayer.currentTime = 0;
         [audioPlayer play];
     }
 }
@@ -83,18 +83,18 @@
     [super viewDidDisappear:animated];
     creditsMask.hidden = YES;
     [audioPlayer stop];
-    [audioPlayer setCurrentTime:0];
+    audioPlayer.currentTime = 0;
     audioPlayer = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.edgesForExtendedLayout = 0;
-    [appName setText:LOCALIZED_STR(@"Official XBMC Remote\nfor iOS")];
+    appName.text = LOCALIZED_STR(@"Official XBMC Remote\nfor iOS");
     __auto_type infoDictionary = NSBundle.mainBundle.infoDictionary;
-    [appVersion setText:[NSString stringWithFormat:@"v%@ (%@)", infoDictionary[@"CFBundleShortVersionString"], infoDictionary[(NSString*)kCFBundleVersionKey]]];
-    [appDescription setText:LOCALIZED_STR(@"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute")];
-    [appGreeting setText:LOCALIZED_STR(@"enjoy!")];
+    appVersion.text = [NSString stringWithFormat:@"v%@ (%@)", infoDictionary[@"CFBundleShortVersionString"], infoDictionary[(NSString*)kCFBundleVersionKey]];
+    appDescription.text = LOCALIZED_STR(@"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute");
+    appGreeting.text = LOCALIZED_STR(@"enjoy!");
 }
 
 - (BOOL)shouldAutorotate {

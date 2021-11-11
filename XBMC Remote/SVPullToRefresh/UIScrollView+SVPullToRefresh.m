@@ -141,7 +141,7 @@ static char UIScrollViewPullToRefreshView;
         
         // default styling values
         self.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
-        self.textColor = [UIColor whiteColor];
+        self.textColor = UIColor.whiteColor;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.state = SVPullToRefreshStateStopped;
         self.showsDateLabel = NO;
@@ -272,14 +272,14 @@ static char UIScrollViewPullToRefreshView;
 - (void)resetScrollViewContentInset {
     UIEdgeInsets currentInsets = self.scrollView.contentInset;
     currentInsets.top = self.originalTopInset;
-    [self setScrollViewContentInset:currentInsets];
+    self.scrollViewContentInset = currentInsets;
 }
 
 - (void)setScrollViewContentInsetForLoading {
     CGFloat offset = MAX(self.scrollView.contentOffset.y * -1, 0);
     UIEdgeInsets currentInsets = self.scrollView.contentInset;
     currentInsets.top = MIN(offset, self.originalTopInset + self.bounds.size.height);
-    [self setScrollViewContentInset:currentInsets];
+    self.scrollViewContentInset = currentInsets;
 }
 
 - (void)setScrollViewContentInset:(UIEdgeInsets)contentInset {
@@ -296,7 +296,7 @@ static char UIScrollViewPullToRefreshView;
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context { 
     if ([keyPath isEqualToString:@"contentOffset"]) {
-        [self scrollViewDidScroll:[[change valueForKey:NSKeyValueChangeNewKey] CGPointValue]];
+        [self scrollViewDidScroll:[[change objectForKey:NSKeyValueChangeNewKey] CGPointValue]];
     }
     else if ([keyPath isEqualToString:@"frame"]) {
         [self layoutSubviews];
@@ -330,7 +330,7 @@ static char UIScrollViewPullToRefreshView;
 - (SVPullToRefreshArrow*)arrow {
     if (!_arrow) {
 		_arrow = [[SVPullToRefreshArrow alloc]initWithFrame:CGRectMake(0, self.bounds.size.height-54, 22, 48)];
-        _arrow.backgroundColor = [UIColor clearColor];
+        _arrow.backgroundColor = UIColor.clearColor;
 		[self addSubview:_arrow];
     }
     return _arrow;
@@ -352,7 +352,7 @@ static char UIScrollViewPullToRefreshView;
         _titleLabel.numberOfLines = 1;
         _titleLabel.minimumScaleFactor = 12.0/13.0;
         _titleLabel.adjustsFontSizeToFitWidth = YES;
-        _titleLabel.backgroundColor = [UIColor clearColor];
+        _titleLabel.backgroundColor = UIColor.clearColor;
         _titleLabel.textColor = textColor;
         [self addSubview:_titleLabel];
     }
@@ -366,8 +366,8 @@ static char UIScrollViewPullToRefreshView;
         _subtitleLabel.numberOfLines = 1;
         _subtitleLabel.minimumScaleFactor = 9.0/11.0;
         _subtitleLabel.adjustsFontSizeToFitWidth = YES;
-        _subtitleLabel.backgroundColor = [UIColor clearColor];
-        _subtitleLabel.textColor = [UIColor lightGrayColor];
+        _subtitleLabel.backgroundColor = UIColor.clearColor;
+        _subtitleLabel.textColor = UIColor.lightGrayColor;
         [self addSubview:_subtitleLabel];
     }
     return _subtitleLabel;
@@ -380,8 +380,8 @@ static char UIScrollViewPullToRefreshView;
 - (NSDateFormatter*)dateFormatter {
     if (!dateFormatter) {
         dateFormatter = [NSDateFormatter new];
-		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
-		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+		dateFormatter.dateStyle = NSDateFormatterShortStyle;
+		dateFormatter.timeStyle = NSDateFormatterShortStyle;
 		dateFormatter.locale = [NSLocale currentLocale];
     }
     return dateFormatter;
@@ -456,7 +456,7 @@ static char UIScrollViewPullToRefreshView;
 - (void)setTextColor:(UIColor*)newTextColor {
     textColor = newTextColor;
     self.titleLabel.textColor = newTextColor;
-	self.subtitleLabel.textColor = [UIColor lightGrayColor];
+	self.subtitleLabel.textColor = UIColor.lightGrayColor;
 }
 
 - (void)setActivityIndicatorViewStyle:(UIActivityIndicatorViewStyle)viewStyle {
@@ -466,11 +466,6 @@ static char UIScrollViewPullToRefreshView;
 - (void)setLastUpdatedDate:(NSDate*)newLastUpdatedDate {
     self.showsDateLabel = YES;
     self.dateLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"Last Updated: %@"), newLastUpdatedDate ? [self.dateFormatter stringFromDate:newLastUpdatedDate] : LOCALIZED_STR(@"Never")];
-}
-
-- (void)setDateFormatter:(NSDateFormatter*)newDateFormatter {
-	dateFormatter = newDateFormatter;
-    self.dateLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"Last Updated: %@"), self.lastUpdatedDate ? [newDateFormatter stringFromDate:self.lastUpdatedDate] : LOCALIZED_STR(@"Never")];
 }
 
 #pragma mark -
@@ -549,7 +544,7 @@ static char UIScrollViewPullToRefreshView;
     if (arrowColor) {
         return arrowColor;
     }
-	return [UIColor grayColor]; // default Color
+	return UIColor.grayColor; // default Color
 }
 
 - (void)drawRect:(CGRect)rect {

@@ -23,15 +23,15 @@ int offsetY = 5;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)reuseIdentifier castWidth:(int)castWidth castHeight:(int)castHeight size:(int)size castFontSize:(int)castFontSize {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        [self setBackgroundColor:[UIColor clearColor]];
-        [self setSelectionStyle:UITableViewCellSelectionStyleNone];
-        if ([AppDelegate instance].serverVersion > 11) {
-            [self setSelectionStyle:UITableViewCellSelectionStyleGray];
+        self.backgroundColor = UIColor.clearColor;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (AppDelegate.instance.serverVersion > 11) {
+            self.selectionStyle = UITableViewCellSelectionStyleGray;
         }
         
         UIView *actorContainer = [[UIView alloc] initWithFrame:CGRectMake(offsetX, offsetY, castWidth, castHeight)];
-        [actorContainer setClipsToBounds: NO];
-        [actorContainer setBackgroundColor:[UIColor clearColor]];
+        actorContainer.clipsToBounds = NO;
+        actorContainer.backgroundColor = UIColor.clearColor;
         actorContainer.layer.shadowColor = [Utilities getGrayColor:0 alpha:0.8].CGColor;
         actorContainer.layer.shadowOpacity = 0.7f;
         actorContainer.layer.shadowOffset = CGSizeZero;
@@ -41,30 +41,30 @@ int offsetY = 5;
         actorContainer.layer.shadowPath = path.CGPath;
         
         _actorThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, castWidth, castHeight)];
-        [_actorThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
-        [_actorThumbnail setClipsToBounds:YES];
-        [_actorThumbnail setContentMode:UIViewContentModeScaleAspectFill];
-        [_actorThumbnail setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
+        _actorThumbnail.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+        _actorThumbnail.clipsToBounds = YES;
+        _actorThumbnail.contentMode = UIViewContentModeScaleAspectFill;
+        _actorThumbnail.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
         [actorContainer addSubview:_actorThumbnail];
         [self addSubview:actorContainer];
         
         _actorName = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, offsetY, self.frame.size.width - (castWidth + offsetX + 20), 16 + size)];
-        [_actorName setFont:[UIFont systemFontOfSize:castFontSize]];
-        [_actorName setBackgroundColor:[UIColor clearColor]];
-        [_actorName setTextColor:[UIColor whiteColor]];
-        [_actorName setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
-        [_actorName setShadowColor:[UIColor blackColor]];
-        [_actorName setShadowOffset:CGSizeMake(1, 1)];
+        _actorName.font = [UIFont systemFontOfSize:castFontSize];
+        _actorName.backgroundColor = UIColor.clearColor;
+        _actorName.textColor = UIColor.whiteColor;
+        _actorName.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
+        _actorName.shadowColor = UIColor.blackColor;
+        _actorName.shadowOffset = CGSizeMake(1, 1);
         [self addSubview:_actorName];
         
         _actorRole = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, offsetY + 17 + size / 2, self.frame.size.width - (castWidth + offsetX + 20), 16 + size)];
         _actorRole.numberOfLines = 3;
-        [_actorRole setFont:[UIFont systemFontOfSize:castFontSize - 2]];
-        [_actorRole setBackgroundColor:[UIColor clearColor]];
-        [_actorRole setTextColor:[UIColor lightGrayColor]];
-        [_actorRole setShadowColor:[UIColor blackColor]];
-        [_actorRole setShadowOffset:CGSizeMake(1, 1)];
-        [_actorRole setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth];
+        _actorRole.font = [UIFont systemFontOfSize:castFontSize - 2];
+        _actorRole.backgroundColor = UIColor.clearColor;
+        _actorRole.textColor = UIColor.lightGrayColor;
+        _actorRole.shadowColor = UIColor.blackColor;
+        _actorRole.shadowOffset = CGSizeMake(1, 1);
+        _actorRole.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         [self addSubview:_actorRole];
         
         UIView *myBackView = [[UIView alloc] initWithFrame:self.frame];

@@ -52,7 +52,7 @@
 	[UIView setAnimationDuration:seconds];
 	Lab.alpha = alphavalue;
 	CGRect frame;
-	frame = [Lab frame];
+	frame = Lab.frame;
 	frame.origin.x = X;
 	Lab.frame = frame;
     [UIView commitAnimations];
@@ -64,7 +64,7 @@
 	[UIView setAnimationDuration:seconds];
 	view.alpha = alphavalue;
 	CGRect frame;
-	frame = [view frame];
+	frame = view.frame;
 	frame.origin.x = X;
 	view.frame = frame;
     [UIView commitAnimations];
@@ -77,14 +77,14 @@
     else {
         self.navigationItem.title = LOCALIZED_STR(@"Modify XBMC Server");
         NSIndexPath *idx = self.detailItem;
-        descriptionUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverDescription"];
-        usernameUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverUser"];
-        passwordUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverPass"];
-        ipUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverIP"];
-        portUI.text = [AppDelegate instance].arrayServerList[idx.row][@"serverPort"];
-        NSString *macAddress = [AppDelegate instance].arrayServerList[idx.row][@"serverMacAddress"];
+        descriptionUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverDescription"];
+        usernameUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverUser"];
+        passwordUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverPass"];
+        ipUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverIP"];
+        portUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverPort"];
+        NSString *macAddress = AppDelegate.instance.arrayServerList[idx.row][@"serverMacAddress"];
         NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
-        NSInteger num_octects = [mac_octect count];
+        NSInteger num_octects = mac_octect.count;
         if (num_octects > 0) {
             mac_0_UI.text = mac_octect[0];
         }
@@ -103,8 +103,8 @@
         if (num_octects > 5) {
             mac_5_UI.text = mac_octect[5];
         }
-        preferTVPostersUI.on = [[AppDelegate instance].arrayServerList[idx.row][@"preferTVPosters"] boolValue];
-        tcpPortUI.text = [AppDelegate instance].arrayServerList[idx.row][@"tcpPort"];
+        preferTVPostersUI.on = [AppDelegate.instance.arrayServerList[idx.row][@"preferTVPosters"] boolValue];
+        tcpPortUI.text = AppDelegate.instance.arrayServerList[idx.row][@"tcpPort"];
     }
 }
 
@@ -157,7 +157,7 @@
 
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
     if (self.detailItem == nil) {
-        [[AppDelegate instance].arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+        [AppDelegate.instance.arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                                            descriptionUI.text, @"serverDescription",
                                                            usernameUI.text, @"serverUser",
                                                            passwordUI.text, @"serverPass",
@@ -171,8 +171,8 @@
     }
     else {
         NSIndexPath *idx = self.detailItem;
-        [[AppDelegate instance].arrayServerList removeObjectAtIndex:idx.row];
-        [[AppDelegate instance].arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
+        [AppDelegate.instance.arrayServerList removeObjectAtIndex:idx.row];
+        [AppDelegate.instance.arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                                               descriptionUI.text, @"serverDescription",
                                                               usernameUI.text, @"serverUser",
                                                               passwordUI.text, @"serverPass",
@@ -184,7 +184,7 @@
                                                               nil
                                                               ] atIndex:idx.row];
     }
-    [[AppDelegate instance] saveServerList];
+    [AppDelegate.instance saveServerList];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -207,7 +207,7 @@
 #pragma mark - UITextFieldDelegate Methods
 
 - (void)textFieldDidBeginEditing:(UITextField*)textField {
-    [textField setTextColor:[Utilities get1stLabelColor]];
+    textField.textColor = [Utilities get1stLabelColor];
     [self tailorViewContent:YES];
 }
 
@@ -246,7 +246,7 @@
 }
 
 - (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {
-    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    NSUInteger newLength = textField.text.length + string.length - range.length;
     return (newLength > 2 && textField.tag >= 5 && textField.tag <= 10) ? NO : YES;
 }
 
@@ -300,7 +300,7 @@
 
 - (void)updateUI {
     if (!searching) {
-        NSInteger j = [services count];
+        NSInteger j = services.count;
         if (j == 1) {
             [self resolveIPAddress:services[0]];
         }
@@ -361,19 +361,19 @@
 - (void)fillMacAddressInfo {
     NSString *macAddress = [self resolveMacFromIP:ipUI.text];
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
-    if ([macPart count] == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]) {
-        [mac_0_UI setText:macPart[0]];
-        [mac_0_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_1_UI setText:macPart[1]];
-        [mac_1_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_2_UI setText:macPart[2]];
-        [mac_2_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_3_UI setText:macPart[3]];
-        [mac_3_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_4_UI setText:macPart[4]];
-        [mac_4_UI setTextColor:[Utilities getSystemBlue]];
-        [mac_5_UI setText:macPart[5]];
-        [mac_5_UI setTextColor:[Utilities getSystemBlue]];
+    if (macPart.count == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]) {
+        mac_0_UI.text = macPart[0];
+        mac_0_UI.textColor = [Utilities getSystemBlue];
+        mac_1_UI.text = macPart[1];
+        mac_1_UI.textColor = [Utilities getSystemBlue];
+        mac_2_UI.text = macPart[2];
+        mac_2_UI.textColor = [Utilities getSystemBlue];
+        mac_3_UI.text = macPart[3];
+        mac_3_UI.textColor = [Utilities getSystemBlue];
+        mac_4_UI.text = macPart[4];
+        mac_4_UI.textColor = [Utilities getSystemBlue];
+        mac_5_UI.text = macPart[5];
+        mac_5_UI.textColor = [Utilities getSystemBlue];
     }
 }
 
@@ -397,12 +397,12 @@
                                                sizeof(addressBuffer));
             int port = ntohs(socketAddress->sin_port);
             if (addressStr && port) {
-                descriptionUI.text = [service name];
+                descriptionUI.text = service.name;
                 ipUI.text = [NSString stringWithFormat:@"%s", addressStr];
                 portUI.text = [NSString stringWithFormat:@"%d", port];
-                [descriptionUI setTextColor:[Utilities getSystemBlue]];
-                [ipUI setTextColor:[Utilities getSystemBlue]];
-                [portUI setTextColor:[Utilities getSystemBlue]];
+                descriptionUI.textColor = [Utilities getSystemBlue];
+                ipUI.textColor = [Utilities getSystemBlue];
+                portUI.textColor = [Utilities getSystemBlue];
                 NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
                 NSURL *url = [[NSURL alloc] initWithString:serverJSON];
                 NSURLSession *pingSession = [NSURLSession sharedSession];
@@ -429,7 +429,7 @@
     [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
 
     searching = NO;
-    [netServiceBrowser setDelegate:self];
+    netServiceBrowser.delegate = self;
     [netServiceBrowser searchForServicesOfType:serviceType inDomain:domainName];
     timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
 }
@@ -442,7 +442,7 @@
 
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-	return [services count];
+	return services.count;
 }
 
 
@@ -453,12 +453,12 @@
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
 	}
 	
-	NSUInteger count = [services count];
+	NSUInteger count = services.count;
 	if (count == 0) {
 		return cell;
 	}
     NSNetService* service = services[indexPath.row];
-	cell.textLabel.text = [service name];
+	cell.textLabel.text = service.name;
 	cell.textLabel.textColor = [Utilities get1stLabelColor];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	return cell;
@@ -516,29 +516,29 @@
     mac_4_UI.text = @"";
     mac_5_UI.text = @"";
     preferTVPostersUI.on = NO;
-    [descriptionUI setTextColor:[Utilities get1stLabelColor]];
-    [ipUI setTextColor:[Utilities get1stLabelColor]];
-    [portUI setTextColor:[Utilities get1stLabelColor]];
-    [mac_0_UI setTextColor:[Utilities get1stLabelColor]];
-    [mac_1_UI setTextColor:[Utilities get1stLabelColor]];
-    [mac_2_UI setTextColor:[Utilities get1stLabelColor]];
-    [mac_3_UI setTextColor:[Utilities get1stLabelColor]];
-    [mac_4_UI setTextColor:[Utilities get1stLabelColor]];
-    [mac_5_UI setTextColor:[Utilities get1stLabelColor]];
+    descriptionUI.textColor = [Utilities get1stLabelColor];
+    ipUI.textColor = [Utilities get1stLabelColor];
+    portUI.textColor = [Utilities get1stLabelColor];
+    mac_0_UI.textColor = [Utilities get1stLabelColor];
+    mac_1_UI.textColor = [Utilities get1stLabelColor];
+    mac_2_UI.textColor = [Utilities get1stLabelColor];
+    mac_3_UI.textColor = [Utilities get1stLabelColor];
+    mac_4_UI.textColor = [Utilities get1stLabelColor];
+    mac_5_UI.textColor = [Utilities get1stLabelColor];
     [self AnimLabel:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [descriptionLabel setText:LOCALIZED_STR(@"Description")];
-    [hostLabel setText:LOCALIZED_STR(@"Host : port /\nTCP port")];
-    [macLabel setText:LOCALIZED_STR(@"MAC Address")];
-    [userLabel setText:LOCALIZED_STR(@"Username and Password")];
-    [preferLabel setText:LOCALIZED_STR(@"Prefer posters for TV shows")];
-    [noInstancesLabel setText:LOCALIZED_STR(@"No XBMC instances were found :(")];
-    [findLabel setText:LOCALIZED_STR(@"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled")];
-    [howtoLabel setText:LOCALIZED_STR(@"How-to activate the remote app in Kodi")];
-    [howtoLaterLabel setText:LOCALIZED_STR(@"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems")];
+    descriptionLabel.text = LOCALIZED_STR(@"Description");
+    hostLabel.text = LOCALIZED_STR(@"Host : port /\nTCP port");
+    macLabel.text = LOCALIZED_STR(@"MAC Address");
+    userLabel.text = LOCALIZED_STR(@"Username and Password");
+    preferLabel.text = LOCALIZED_STR(@"Prefer posters for TV shows");
+    noInstancesLabel.text = LOCALIZED_STR(@"No XBMC instances were found :(");
+    findLabel.text = LOCALIZED_STR(@"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled");
+    howtoLabel.text = LOCALIZED_STR(@"How-to activate the remote app in Kodi");
+    howtoLaterLabel.text = LOCALIZED_STR(@"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems");
     
     [saveButton setTitle:LOCALIZED_STR(@"Save") forState:UIControlStateNormal];
     [startDiscover setTitle:LOCALIZED_STR(@"Find XBMC") forState:UIControlStateNormal];
@@ -551,24 +551,24 @@
     [saveButton setBackgroundImage:img forState:UIControlStateNormal];
     [startDiscover setBackgroundImage:img forState:UIControlStateNormal];
     
-    [descriptionUI setPlaceholder:LOCALIZED_STR(@"e.g. My XBMC")];
-    [ipUI setPlaceholder:LOCALIZED_STR(@"e.g. 192.168.0.8")];
-    [usernameUI setPlaceholder:LOCALIZED_STR(@"Username")];
-    [passwordUI setPlaceholder:LOCALIZED_STR(@"Password")];
+    descriptionUI.placeholder = LOCALIZED_STR(@"e.g. My XBMC");
+    ipUI.placeholder = LOCALIZED_STR(@"e.g. 192.168.0.8");
+    usernameUI.placeholder = LOCALIZED_STR(@"Username");
+    passwordUI.placeholder = LOCALIZED_STR(@"Password");
     self.edgesForExtendedLayout = 0;
-    [descriptionUI setBackgroundColor:[Utilities getSystemGray6]];
-    [ipUI setBackgroundColor:[Utilities getSystemGray6]];
-    [portUI setBackgroundColor:[Utilities getSystemGray6]];
-    [tcpPortUI setBackgroundColor:[Utilities getSystemGray6]];
-    [usernameUI setBackgroundColor:[Utilities getSystemGray6]];
-    [passwordUI setBackgroundColor:[Utilities getSystemGray6]];
-    [mac_0_UI setBackgroundColor:[Utilities getSystemGray6]];
-    [mac_1_UI setBackgroundColor:[Utilities getSystemGray6]];
-    [mac_2_UI setBackgroundColor:[Utilities getSystemGray6]];
-    [mac_3_UI setBackgroundColor:[Utilities getSystemGray6]];
-    [mac_4_UI setBackgroundColor:[Utilities getSystemGray6]];
-    [mac_5_UI setBackgroundColor:[Utilities getSystemGray6]];
-    [discoveredInstancesTableView setBackgroundColor:[Utilities getSystemGray6]];
+    descriptionUI.backgroundColor = [Utilities getSystemGray6];
+    ipUI.backgroundColor = [Utilities getSystemGray6];
+    portUI.backgroundColor = [Utilities getSystemGray6];
+    tcpPortUI.backgroundColor = [Utilities getSystemGray6];
+    usernameUI.backgroundColor = [Utilities getSystemGray6];
+    passwordUI.backgroundColor = [Utilities getSystemGray6];
+    mac_0_UI.backgroundColor = [Utilities getSystemGray6];
+    mac_1_UI.backgroundColor = [Utilities getSystemGray6];
+    mac_2_UI.backgroundColor = [Utilities getSystemGray6];
+    mac_3_UI.backgroundColor = [Utilities getSystemGray6];
+    mac_4_UI.backgroundColor = [Utilities getSystemGray6];
+    mac_5_UI.backgroundColor = [Utilities getSystemGray6];
+    discoveredInstancesTableView.backgroundColor = [Utilities getSystemGray6];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
     rightSwipe.numberOfTouchesRequired = 1;
     rightSwipe.cancelsTouchesInView = NO;

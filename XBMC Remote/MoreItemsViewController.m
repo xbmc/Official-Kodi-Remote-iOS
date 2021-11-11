@@ -17,16 +17,16 @@
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu {
     if (self = [super init]) {
         cellLabelOffset = 50;
-		[self.view setFrame:frame];
+		self.view.frame = frame;
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
-//        [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-		[_tableView setDelegate:self];
-		[_tableView setDataSource:self];
-        [_tableView setBackgroundColor:[UIColor clearColor]];
+//        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+		_tableView.delegate = self;
+		_tableView.dataSource = self;
+        _tableView.backgroundColor = UIColor.clearColor;
         mainMenuItems = menu;
         UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
         _tableView.tableFooterView = footerView;
-        [_tableView setSeparatorInset:UIEdgeInsetsMake(0, cellLabelOffset, 0, 0)];
+        _tableView.separatorInset = UIEdgeInsetsMake(0, cellLabelOffset, 0, 0);
         [self.view addSubview:_tableView];
 	}
     return self;
@@ -47,7 +47,7 @@
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     //    return 10;
-    return [mainMenuItems count];
+    return mainMenuItems.count;
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath { 
@@ -63,18 +63,18 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; 
 
     UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 0, self.view.bounds.size.width - cellLabelOffset - 24, 43)];
-    [cellLabel setFont:[UIFont systemFontOfSize:18]];
-    [cellLabel setTextColor:[Utilities get1stLabelColor]];
-    [cellLabel setHighlightedTextColor:[Utilities get1stLabelColor]];
+    cellLabel.font = [UIFont systemFontOfSize:18];
+    cellLabel.textColor = [Utilities get1stLabelColor];
+    cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
     NSDictionary *item = mainMenuItems[indexPath.row];
-    [cellLabel setText:item[@"label"]];
+    cellLabel.text = item[@"label"];
     [cell.contentView addSubview:cellLabel];
     if (![item[@"icon"] isEqualToString:@""]) {
         CGRect iconImageViewRect = CGRectMake(8, 6, 34, 30);
         UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
         UIImage *image = [UIImage imageNamed:item[@"icon"]];
         image = [Utilities colorizeImage:image withColor:[Utilities get1stLabelColor]];
-        [iconImage setImage:image];
+        iconImage.image = image;
         [cell.contentView addSubview:iconImage];
     }
     return cell;

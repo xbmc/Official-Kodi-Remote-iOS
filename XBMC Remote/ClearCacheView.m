@@ -20,28 +20,23 @@
 - (id)initWithFrame:(CGRect)frame border:(int)borderWidth {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
-        [self setBackgroundColor:[Utilities getGrayColor:0 alpha:0.7]];
+        self.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        self.backgroundColor = [Utilities getGrayColor:0 alpha:0.7];
         CGFloat labelHeight = 300.0;
         PosterLabel *label = [[PosterLabel alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.frame)/2 - (labelHeight/2), CGRectGetWidth(self.frame) - borderWidth, labelHeight)];
-         [label setAutoresizingMask:
-          UIViewAutoresizingFlexibleHeight |
-          UIViewAutoresizingFlexibleWidth |
-          UIViewAutoresizingFlexibleRightMargin |
-          UIViewAutoresizingFlexibleTopMargin |
-          UIViewAutoresizingFlexibleBottomMargin];
-        [label setText:LOCALIZED_STR(@"Clearing app disk cache...\n\nPlease wait, since this may take a while")];
-        [label setShadowColor:[UIColor blackColor]];
-        [label setShadowOffset:CGSizeMake(1, 1)];
-        [label setTextAlignment:NSTextAlignmentCenter];
-        [label setNumberOfLines:0];
-        [label setFont:[UIFont boldSystemFontOfSize:26]];
-        [label setTextColor:[UIColor whiteColor]];
-        [label setBackgroundColor:[UIColor clearColor]];
+        label.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+        label.text = LOCALIZED_STR(@"Clearing app disk cache...\n\nPlease wait, since this may take a while");
+        label.shadowColor = UIColor.blackColor;
+        label.shadowOffset = CGSizeMake(1, 1);
+        label.textAlignment = NSTextAlignmentCenter;
+        label.numberOfLines = 0;
+        label.font = [UIFont boldSystemFontOfSize:26];
+        label.textColor = UIColor.whiteColor;
+        label.backgroundColor = UIColor.clearColor;
         busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         busyView.hidesWhenStopped = YES;
-        [busyView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin];
-        [busyView setFrame:CGRectMake((self.frame.size.width / 2) - busyView.frame.size.width/2 - borderWidth/2, label.frame.size.height + label.frame.origin.y, busyView.frame.size.width, busyView.frame.size.height)];
+        busyView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+        busyView.frame = CGRectMake((self.frame.size.width / 2) - busyView.frame.size.width/2 - borderWidth/2, label.frame.size.height + label.frame.origin.y, busyView.frame.size.width, busyView.frame.size.height);
         [self addSubview:busyView];
         [self addSubview:label];
     }

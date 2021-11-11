@@ -14,30 +14,30 @@
 
 - (id)copyWithZone:(NSZone*)zone {
     mainMenu *menuCopy = [[mainMenu allocWithZone: zone] init];
-    [menuCopy setMainLabel:[self.mainLabel copy]];
-    [menuCopy setUpperLabel:[self.upperLabel copy]];
-    [menuCopy setFamily:self.family];
-    [menuCopy setEnableSection:self.enableSection];
-    [menuCopy setIcon:[self.icon copy]];
-    [menuCopy setMainMethod:[self.mainMethod copy]];
-    [menuCopy setDefaultThumb:[self.defaultThumb copy]];
-    [menuCopy setMainButtons:[self.mainButtons copy]];
-    [menuCopy setMainFields:[self.mainFields copy]];
-    [menuCopy setMainParameters:[self.mainParameters mutableCopy]];
-    [menuCopy setSubItem:[self.subItem copy]];
-    [menuCopy setSheetActions:[self.sheetActions copy]];
-    [menuCopy setRowHeight:self.rowHeight];
-    [menuCopy setThumbWidth:self.thumbWidth];
-    [menuCopy setShowInfo:self.showInfo];
-    [menuCopy setOriginYearDuration:self.originYearDuration];
-    [menuCopy setOriginLabel:self.originLabel];
-    [menuCopy setWidthLabel:self.widthLabel];
-    [menuCopy setChooseTab:self.chooseTab];
-    [menuCopy setDisableNowPlaying:self.disableNowPlaying];
-    [menuCopy setShowRuntime:[self.showRuntime copy]];
-    [menuCopy setNoConvertTime:self.noConvertTime];
-    [menuCopy setFilterModes:[self.filterModes copy]];
-    [menuCopy setCurrentFilterMode: self.currentFilterMode];
+    menuCopy.mainLabel = [self.mainLabel copy];
+    menuCopy.upperLabel = [self.upperLabel copy];
+    menuCopy.family = self.family;
+    menuCopy.enableSection = self.enableSection;
+    menuCopy.icon = [self.icon copy];
+    menuCopy.mainMethod = [self.mainMethod copy];
+    menuCopy.defaultThumb = [self.defaultThumb copy];
+    menuCopy.mainButtons = [self.mainButtons copy];
+    menuCopy.mainFields = [self.mainFields copy];
+    menuCopy.mainParameters = [self.mainParameters mutableCopy];
+    menuCopy.subItem = [self.subItem copy];
+    menuCopy.sheetActions = [self.sheetActions copy];
+    menuCopy.rowHeight = self.rowHeight;
+    menuCopy.thumbWidth = self.thumbWidth;
+    menuCopy.showInfo = self.showInfo;
+    menuCopy.originYearDuration = self.originYearDuration;
+    menuCopy.originLabel = self.originLabel;
+    menuCopy.widthLabel = self.widthLabel;
+    menuCopy.chooseTab = self.chooseTab;
+    menuCopy.disableNowPlaying = self.disableNowPlaying;
+    menuCopy.showRuntime = [self.showRuntime copy];
+    menuCopy.noConvertTime = self.noConvertTime;
+    menuCopy.filterModes = [self.filterModes copy];
+    menuCopy.currentFilterMode = self.currentFilterMode;
     return menuCopy;
 }
 

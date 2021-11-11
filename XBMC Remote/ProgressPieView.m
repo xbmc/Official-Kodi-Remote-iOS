@@ -16,7 +16,7 @@
 - (id)initWithFrame:(CGRect)frame color:(UIColor*)aColor {
     self = [super init];
     if (self) {
-        [self setFrame:frame];
+        self.frame = frame;
         [self pieCustomization:aColor];
     }
     return self;
@@ -31,19 +31,19 @@
 
 - (void)pieCustomization:(UIColor*)color {
     padding = 8;
-    lineWidth = 1.0/[[UIScreen mainScreen] scale];
+    lineWidth = 1.0 / UIScreen.mainScreen.scale;
     int pieLabelFontSize = 7;
-    [self setBackgroundColor:[UIColor clearColor]];
+    self.backgroundColor = UIColor.clearColor;
     pieColor = color;
     radius = (MIN(self.frame.size.width, self.frame.size.height) / 2) - padding;
     pieLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (radius * 2) + 4, self.frame.size.width, 8)];
-    [pieLabel setBackgroundColor:[UIColor clearColor]];
-    [pieLabel setFont:[UIFont systemFontOfSize:pieLabelFontSize]];
+    pieLabel.backgroundColor = UIColor.clearColor;
+    pieLabel.font = [UIFont systemFontOfSize:pieLabelFontSize];
     pieLabel.adjustsFontSizeToFitWidth = YES;
     pieLabel.minimumScaleFactor = pieLabelFontSize * 0.9;
     pieLabel.textAlignment = NSTextAlignmentCenter;
-    [pieLabel setTextColor:color];
-    [pieLabel setHighlightedTextColor:color];
+    pieLabel.textColor = color;
+    pieLabel.highlightedTextColor = color;
     [self addSubview:pieLabel];
 }
 

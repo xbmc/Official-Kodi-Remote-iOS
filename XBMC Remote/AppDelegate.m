@@ -44,7 +44,7 @@ NSMutableArray *hostRightMenuItems;
 @synthesize xbmcSettings;
 
 + (AppDelegate*)instance {
-	return (AppDelegate*)[[UIApplication sharedApplication] delegate];
+	return (AppDelegate*)UIApplication.sharedApplication.delegate;
 }
 
 #pragma mark globals
@@ -424,7 +424,7 @@ NSMutableArray *hostRightMenuItems;
     [self registerDefaultsFromSettingsBundle];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    UIApplication *xbmcRemote = [UIApplication sharedApplication];
+    UIApplication *xbmcRemote = UIApplication.sharedApplication;
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]) {
         xbmcRemote.idleTimerDisabled = YES;
     }
@@ -432,7 +432,7 @@ NSMutableArray *hostRightMenuItems;
         xbmcRemote.idleTimerDisabled = NO;
     }
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     
     int thumbWidth;
     int tvshowHeight;
@@ -458,9 +458,9 @@ NSMutableArray *hostRightMenuItems;
     if (IS_IPHONE) {
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
-        NSDictionary *navbarTitleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor],
+        NSDictionary *navbarTitleTextAttributes = @{NSForegroundColorAttributeName: UIColor.whiteColor,
                                                     NSFontAttributeName: [UIFont boldSystemFontOfSize:16]};
-        [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
+        UINavigationBar.appearance.titleTextAttributes = navbarTitleTextAttributes;
     }
     else {
         animationStartBottomScreen = @NO;
@@ -5623,7 +5623,7 @@ NSMutableArray *hostRightMenuItems;
 
 - (void)handleProximityChangeNotification:(id)sender {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    UIApplication *xbmcRemote = [UIApplication sharedApplication];
+    UIApplication *xbmcRemote = UIApplication.sharedApplication;
     if ([[UIDevice currentDevice] proximityState]) {
         xbmcRemote.idleTimerDisabled = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationDidEnterBackgroundNotification" object: nil];
@@ -5657,7 +5657,7 @@ NSMutableArray *hostRightMenuItems;
         
         int idx;
         
-        for (idx = 0; idx + 2 <= [MAC length]; idx += 3) {
+        for (idx = 0; idx + 2 <= MAC.length; idx += 3) {
             NSRange range = NSMakeRange(idx, 2);
             NSString *hexStr = [MAC substringWithRange:range];
             
@@ -5730,7 +5730,7 @@ NSMutableArray *hostRightMenuItems;
 - (void)applicationWillEnterForeground:(UIApplication*)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    UIApplication *xbmcRemote = [UIApplication sharedApplication];
+    UIApplication *xbmcRemote = UIApplication.sharedApplication;
     if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]) {
         xbmcRemote.idleTimerDisabled = YES;
     }
@@ -5755,7 +5755,7 @@ NSMutableArray *hostRightMenuItems;
 
 - (void)saveServerList {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    if ([paths count] > 0) { 
+    if (paths.count > 0) { 
         [NSKeyedArchiver archiveRootObject:arrayServerList toFile:self.dataFilePath];
     }
 }
