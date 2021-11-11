@@ -45,7 +45,6 @@
 		0F49885D152879FF0041DA92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F49885C152879FF0041DA92 /* QuartzCore.framework */; };
 		0F4AB81A1903DDCE005DEC5C /* RemoteControllerGestureZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4AB8191903DDCE005DEC5C /* RemoteControllerGestureZoneView.m */; };
 		0F540662160C82E900853B02 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F540661160C82E900853B02 /* CustomNavigationController.m */; };
-		0F545D0A1575563100B6320D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F545D051575563100B6320D /* LICENSE.txt */; };
 		0F545D0B1575563100B6320D /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D071575563100B6320D /* OBShapedButton.m */; };
 		0F545D0C1575563100B6320D /* UIImage+ColorAtPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D091575563100B6320D /* UIImage+ColorAtPixel.m */; };
 		0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FA151D1187007E633F /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -57,8 +56,6 @@
 		0F55490E151D1187007E633F /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55490D151D1187007E633F /* MasterViewController.m */; };
 		0F554911151D1187007E633F /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554910151D1187007E633F /* DetailViewController.m */; };
 		0F554C20151D14DA007E633F /* mainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554C1F151D14DA007E633F /* mainMenu.m */; };
-		0F59E26415646FB800184AE8 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0F59E26315646FB800184AE8 /* LICENSE */; };
-		0F59E2671564796B00184AE8 /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 0F59E2661564796B00184AE8 /* CONTRIBUTING.md */; };
 		0F5A504C155FA8640062FD6E /* HostManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5A504A155FA8630062FD6E /* HostManagementViewController.m */; };
 		0F61E19A153C828300A89BB1 /* AppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F61E198153C828300A89BB1 /* AppInfoViewController.m */; };
 		0F6234E8192808120024FEFA /* cellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* cellView.xib */; };
@@ -80,7 +77,6 @@
 		0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA4164A6D730080A14A /* UIImage+ImageWithUIView.m */; };
 		0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */; };
 		0F7F3DAC164AAD0F0080A14A /* InitialSlidingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */; };
-		0F8717921564566300AE2D48 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0F8717911564566300AE2D48 /* README.md */; };
 		0F8E308816FA536C009DEE72 /* PosterHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8E308716FA536C009DEE72 /* PosterHeaderView.m */; };
 		0F90904516E53C590021EFA9 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90904416E53C580021EFA9 /* Utilities.m */; };
 		0FA39CBD165419F400A61E4A /* gradientUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA39CBC165419F400A61E4A /* gradientUIView.m */; };
@@ -739,11 +735,7 @@
 				0F487B5A15399716004530C1 /* serverListCellView.xib in Resources */,
 				0F175F25154D5C3600C1C61F /* ViewControllerIPad.xib in Resources */,
 				0F1F67F61563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf in Resources */,
-				0F8717921564566300AE2D48 /* README.md in Resources */,
-				0F59E26415646FB800184AE8 /* LICENSE in Resources */,
-				0F59E2671564796B00184AE8 /* CONTRIBUTING.md in Resources */,
 				0F6234E8192808120024FEFA /* cellView.xib in Resources */,
-				0F545D0A1575563100B6320D /* LICENSE.txt in Resources */,
 				0F6234EE19280D9B0024FEFA /* DetailViewController.xib in Resources */,
 				0F6234F0192811150024FEFA /* NowPlaying.xib in Resources */,
 				0FCCA21817B25F07000FF09C /* Images.xcassets in Resources */,
