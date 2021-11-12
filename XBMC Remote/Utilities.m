@@ -639,7 +639,7 @@
             year = @"";
         }
     }
-    else {
+    else if ([item integerValue] > 0) {
         year = item;
     }
     return year;
