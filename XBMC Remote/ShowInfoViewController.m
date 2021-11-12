@@ -727,7 +727,7 @@ double round(double d) {
         genreLabel.text = [Utilities getStringFromItem:item[@"genre"]];
         NSString *director = [Utilities getStringFromItem:item[@"director"]];
         NSString *year = [Utilities getYearFromItem:item[@"year"]];
-        runtimeLabel.text = [item[@"year"] length] == 0 ? director : [NSString stringWithFormat:@"%@ (%@)", director, year];
+        runtimeLabel.text = [self formatDirectorYear:director year:year];
         studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
         summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
         
@@ -849,7 +849,7 @@ double round(double d) {
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
         NSString *director = [Utilities getStringFromItem:item[@"director"]];
         NSString *year = [Utilities getYearFromItem:item[@"year"]];
-        directorLabel.text = [item[@"year"] length] == 0 ? director : [NSString stringWithFormat:@"%@ (%@)", director, year];
+        directorLabel.text = [self formatDirectorYear:director year:year];
         genreLabel.text = [Utilities getStringFromItem:item[@"genre"]];
         runtimeLabel.text = [Utilities getStringFromItem:item[@"runtime"]];
         studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
@@ -1083,6 +1083,20 @@ double round(double d) {
     clearlogoButton.frame = frame;
     offset += frame.size.height;
     return offset;
+}
+
+- (NSString*)formatDirectorYear:(NSString*)director year:(NSString*)year {
+    NSString *text = @"";
+    if (director.length && year.length) {
+        text = [NSString stringWithFormat:@"%@ (%@)", director, year];
+    }
+    else if (year.length) {
+        text = [NSString stringWithFormat:@"(%@)", year];
+    }
+    else if (director.length) {
+        text = director;
+    }
+    return text;
 }
 
 - (NSString*)formatBroadcastTime:(NSDictionary*)item {
