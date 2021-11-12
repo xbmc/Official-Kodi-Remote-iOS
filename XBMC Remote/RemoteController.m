@@ -68,6 +68,41 @@
 }
 
 - (void)setupGestureView {
+    NSArray *GestureDirections = @[@(UISwipeGestureRecognizerDirectionLeft),
+                                   @(UISwipeGestureRecognizerDirectionRight),
+                                   @(UISwipeGestureRecognizerDirectionUp),
+                                   @(UISwipeGestureRecognizerDirectionDown)];
+    for (NSNumber *direction in GestureDirections) {
+        UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+        gesture.numberOfTouchesRequired = 1;
+        gesture.cancelsTouchesInView = NO;
+        gesture.direction = direction.intValue;
+        [gestureZoneView addGestureRecognizer:gesture];
+    }
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchpadLongPress:)];
+    longPress.cancelsTouchesInView = YES;
+    [gestureZoneView addGestureRecognizer:longPress];
+    
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchpadDoubleTap)];
+    doubleTap.numberOfTapsRequired = 2;
+    doubleTap.cancelsTouchesInView = YES;
+    [gestureZoneView addGestureRecognizer:doubleTap];
+        
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchpadSingleTap)];
+    singleTap.numberOfTapsRequired = 1;
+    singleTap.cancelsTouchesInView = YES;
+    [singleTap requireGestureRecognizerToFail:doubleTap];
+    [gestureZoneView addGestureRecognizer:singleTap];
+    
+    UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotate:)];
+    [gestureZoneView addGestureRecognizer:rotation];
+    
+    UITapGestureRecognizer *twoFingersTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingersTap)];
+    twoFingersTap.numberOfTapsRequired = 1;
+    twoFingersTap.numberOfTouchesRequired = 2;
+    [gestureZoneView addGestureRecognizer:twoFingersTap];
+    
     gestureImage = [UIImage imageNamed:@"finger"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
@@ -242,53 +277,6 @@
     if ([Utilities hasRemoteToolBar]) {
         [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:0 yMax:self.view.bounds.size.height isEmbedded:NO];
     }
-    
-    UISwipeGestureRecognizer *gestureRightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    gestureRightSwipe.numberOfTouchesRequired = 1;
-    gestureRightSwipe.cancelsTouchesInView = NO;
-    gestureRightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-    [gestureZoneView addGestureRecognizer:gestureRightSwipe];
-    
-    UISwipeGestureRecognizer *gestureLeftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    gestureLeftSwipe.numberOfTouchesRequired = 1;
-    gestureLeftSwipe.cancelsTouchesInView = NO;
-    gestureLeftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-    [gestureZoneView addGestureRecognizer:gestureLeftSwipe];
-    
-    UISwipeGestureRecognizer *upSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    upSwipe.numberOfTouchesRequired = 1;
-    upSwipe.cancelsTouchesInView = NO;
-    upSwipe.direction = UISwipeGestureRecognizerDirectionUp;
-    [gestureZoneView addGestureRecognizer:upSwipe];
-    
-    UISwipeGestureRecognizer *downSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    downSwipe.numberOfTouchesRequired = 1;
-    downSwipe.cancelsTouchesInView = NO;
-    downSwipe.direction = UISwipeGestureRecognizerDirectionDown;
-    [gestureZoneView addGestureRecognizer:downSwipe];
-    
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchpadLongPress:)];
-    longPress.cancelsTouchesInView = YES;
-    [gestureZoneView addGestureRecognizer:longPress];
-    
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchpadDoubleTap)];
-    doubleTap.numberOfTapsRequired = 2;
-    doubleTap.cancelsTouchesInView = YES;
-    [gestureZoneView addGestureRecognizer:doubleTap];
-        
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchpadSingleTap)];
-    singleTap.numberOfTapsRequired = 1;
-    singleTap.cancelsTouchesInView = YES;
-    [singleTap requireGestureRecognizerToFail:doubleTap];
-    [gestureZoneView addGestureRecognizer:singleTap];
-    
-    UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotate:)];
-	[gestureZoneView addGestureRecognizer:rotation];
-    
-    UITapGestureRecognizer *twoFingersTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingersTap)];
-    twoFingersTap.numberOfTapsRequired = 1;
-    twoFingersTap.numberOfTouchesRequired = 2;
-    [gestureZoneView addGestureRecognizer:twoFingersTap];
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil withEmbedded:(BOOL)withEmbedded bundle:(NSBundle*)nibBundleOrNil {
