@@ -21,6 +21,8 @@ typedef enum {
     ViewModeWatched,
     ViewModeNotListened,
     ViewModeListened,
+    ViewModeTimers,
+    ViewModeTimerRules,
     ViewModeDefaultArtists,
     ViewModeAlbumArtists,
     ViewModeSongArtists

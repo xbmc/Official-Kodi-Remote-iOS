@@ -783,6 +783,24 @@
                 [self.richResults removeObjectsAtIndexes:mutableIndexSet];
                 break;
                 
+            case ViewModeTimers:
+                for (int i = 0; i < total; i++) {
+                    if ([self.richResults[i][@"istimerrule"] boolValue]) {
+                        [mutableIndexSet addIndex:i];
+                    }
+                }
+                [self.richResults removeObjectsAtIndexes:mutableIndexSet];
+                break;
+                
+            case ViewModeTimerRules:
+                for (int i = 0; i < total; i++) {
+                    if (![self.richResults[i][@"istimerrule"] boolValue]) {
+                        [mutableIndexSet addIndex:i];
+                    }
+                }
+                [self.richResults removeObjectsAtIndexes:mutableIndexSet];
+                break;
+                
             case ViewModeDefaultArtists:
             case ViewModeAlbumArtists:
             case ViewModeSongArtists:

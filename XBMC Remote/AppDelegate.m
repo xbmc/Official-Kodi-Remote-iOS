@@ -346,6 +346,19 @@ NSMutableArray *hostRightMenuItems;
     };
 }
 
+- (NSDictionary*)modes_icons_timertype {
+    return @{
+        @"modes": @[
+            @(ViewModeDefault),
+            @(ViewModeTimers),
+            @(ViewModeTimerRules)],
+        @"icons": @[
+                @"blank",
+                @"st_unchecked",
+                @"st_checked"]
+    };
+}
+
 - (NSDictionary*)setColorRed:(double)r Green:(double)g Blue:(double)b {
     return @{
         @"red": @(r),
@@ -4032,7 +4045,7 @@ NSMutableArray *hostRightMenuItems;
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_watched],
-        [self modes_icons_empty]
+        [self modes_icons_timertype]
     ];
     
     menu_LiveTV.subItem.mainMethod = [@[
@@ -4507,7 +4520,7 @@ NSMutableArray *hostRightMenuItems;
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_watched],
-        [self modes_icons_empty]
+        [self modes_icons_timertype]
     ];
     
     menu_Radio.subItem.mainMethod = [@[
