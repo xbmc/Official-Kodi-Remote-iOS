@@ -2276,6 +2276,10 @@ int originYear = 0;
             if ([item[@"family"] isEqualToString:@"timerid"]) {
                 NSDate *timerStartTime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
                 NSDate *endTime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
+                
+                if ([item[@"istimerrule"] boolValue]) {
+                    displayThumb = @"nocover_timerrules";
+                }
 
                 NSString *timerPlan;
                 if ([item[@"istimerrule"] boolValue] && ![item[@"genre"] isEqualToString:@""]) {
