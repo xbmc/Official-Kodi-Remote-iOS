@@ -3901,6 +3901,7 @@ NSMutableArray *hostRightMenuItems;
                         @"endmargin",
                         @"state",
                         @"file",
+                        @"isreminder",
                         @"directory"]
             }, @"parameters",
             @{
@@ -3944,6 +3945,7 @@ NSMutableArray *hostRightMenuItems;
                         @"endmargin",
                         @"state",
                         @"file",
+                        @"isreminder",
                         @"directory"]
             }, @"parameters",
             @{
@@ -4027,6 +4029,7 @@ NSMutableArray *hostRightMenuItems;
             @"row4": @"runtime",
             @"row5": @"starttime",
             @"row6": @"timerid",
+            @"row7": @"isreminder",
             @"playlistid": @1,
             @"row8": @"timerid",
             @"row9": @"istimerrule",
@@ -4043,6 +4046,7 @@ NSMutableArray *hostRightMenuItems;
             @"row4": @"runtime",
             @"row5": @"starttime",
             @"row6": @"timerid",
+            @"row7": @"isreminder",
             @"playlistid": @1,
             @"row8": @"timerid",
             @"row9": @"istimerrule",
@@ -4431,6 +4435,7 @@ NSMutableArray *hostRightMenuItems;
                         @"endmargin",
                         @"state",
                         @"file",
+                        @"isreminder",
                         @"directory"]
             }, @"parameters",
             @{
@@ -4474,6 +4479,7 @@ NSMutableArray *hostRightMenuItems;
                         @"endmargin",
                         @"state",
                         @"file",
+                        @"isreminder",
                         @"directory"]
             }, @"parameters",
             @{
@@ -4557,6 +4563,7 @@ NSMutableArray *hostRightMenuItems;
             @"row4": @"runtime",
             @"row5": @"starttime",
             @"row6": @"timerid",
+            @"row7": @"isreminder",
             @"playlistid": @1,
             @"row8": @"timerid",
             @"row9": @"istimerrule",
@@ -4573,6 +4580,7 @@ NSMutableArray *hostRightMenuItems;
             @"row4": @"runtime",
             @"row5": @"starttime",
             @"row6": @"timerid",
+            @"row7": @"isreminder",
             @"playlistid": @1,
             @"row8": @"timerid",
             @"row9": @"istimerrule",

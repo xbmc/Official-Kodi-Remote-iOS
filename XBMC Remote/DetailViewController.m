@@ -654,6 +654,10 @@
     }
 }
 
+- (NSString*)getTimerDefaultThumb:(BOOL)isReminder {
+    return isReminder ? @"nocover_reminder" : @"nocover_recording";
+}
+
 #pragma mark - Tabbar management
 
 - (IBAction)showMore:(id)sender {
@@ -1458,6 +1462,8 @@
             cell.posterLabelFullscreen.hidden = YES;
         }
         
+        defaultThumb = displayThumb = [self getTimerDefaultThumb:[item[@"isreminder"] boolValue]];
+        
         if ([item[@"filetype"] length] != 0 || [item[@"family"] isEqualToString:@"file"] || [item[@"family"] isEqualToString:@"genreid"]) {
             if (![stringURL isEqualToString:@""]) {
                 displayThumb = stringURL;
@@ -2258,6 +2264,8 @@ int originYear = 0;
             if ([item[@"family"] isEqualToString:@"timerid"]) {
                 NSDate *timerStartTime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
                 NSDate *endTime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
+                
+                defaultThumb = displayThumb = [self getTimerDefaultThumb:[item[@"isreminder"] boolValue]];
 
                 NSString *timerPlan;
                 if ([item[@"istimerrule"] boolValue] && ![item[@"genre"] isEqualToString:@""]) {
