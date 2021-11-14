@@ -3771,7 +3771,9 @@ NSMutableArray *hostRightMenuItems;
         @"st_channels",
         @"st_livetv",
         @"st_recordings",
-        @"st_timers"];
+        @"st_timers",
+        @"st_timerrules",
+    ];
     
     menu_LiveTV.mainMethod = [@[
         @[@"PVR.GetChannels", @"method",
@@ -3779,6 +3781,8 @@ NSMutableArray *hostRightMenuItems;
         @[@"PVR.GetChannelGroups", @"method"],
         @[@"PVR.GetRecordings", @"method",
           @"PVR.GetRecordingDetails", @"extra_info_method"],
+        @[@"PVR.GetTimers", @"method",
+          @"PVR.GetTimerDetails", @"extra_info_method"],
         @[@"PVR.GetTimers", @"method",
           @"PVR.GetTimerDetails", @"extra_info_method"]
     ] mutableCopy];
@@ -3939,6 +3943,68 @@ NSMutableArray *hostRightMenuItems;
             @"53", @"thumbWidth",
             @"YES", @"enableCollectionView",
             [self itemSizes_Music_insets:@"60"], @"itemSizes"
+        ],
+        
+        @[
+            @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"properties": @[
+                        @"title",
+                        @"summary",
+                        @"channelid",
+                        @"isradio",
+                        @"istimerrule",
+                        @"starttime",
+                        @"endtime",
+                        @"runtime",
+                        @"lifetime",
+                        @"firstday",
+                        @"weekdays",
+                        @"priority",
+                        @"startmargin",
+                        @"endmargin",
+                        @"state",
+                        @"file",
+                        @"directory"]
+                }, @"parameters",
+            @{
+                @"properties": @[
+                        @"title",
+                        @"summary",
+                        @"channelid",
+                        @"isradio",
+                        @"starttime",
+                        @"endtime",
+                        @"runtime",
+                        @"lifetime",
+                        @"firstday",
+                        @"weekdays",
+                        @"priority",
+                        @"startmargin",
+                        @"endmargin",
+                        @"state",
+                        @"file",
+                        @"directory"]
+            }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Channel"),
+                        LOCALIZED_STR(@"Date"),
+                        LOCALIZED_STR(@"Runtime")],
+                @"method": @[
+                        @"label",
+                        @"channel",
+                        @"starttime",
+                        @"runtime"]
+            }, @"available_sort_methods",
+            LOCALIZED_STR(@"Timer rules"), @"label",
+            LOCALIZED_STR(@"Timer rules"), @"morelabel",
+            @"nocover_timers", @"defaultThumb",
+            @"53", @"rowHeight",
+            @"53", @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music_insets:@"60"], @"itemSizes"
         ]
                           
     ] mutableCopy];
@@ -4008,6 +4074,23 @@ NSMutableArray *hostRightMenuItems;
             @"row11": @"endtime",
             @"row15": @"isradio",
             @"itemid_extra_info": @"timerdetails"
+        },
+        
+        @{
+            @"itemid": @"timers",
+            @"row1": @"label",
+            @"row2": @"summary",
+            @"row3": @"plot",
+            @"row4": @"plotoutline",
+            @"row5": @"starttime",
+            @"row6": @"timerid",
+            @"playlistid": @1,
+            @"row8": @"timerid",
+            @"row9": @"istimerrule",
+            @"row10": @"starttime",
+            @"row11": @"endtime",
+            @"row15": @"isradio",
+            @"itemid_extra_info": @"timerdetails"
         }
     ];
     
@@ -4018,6 +4101,7 @@ NSMutableArray *hostRightMenuItems;
         [self action_play_to_channelguide],
         @[],
         [self action_queue_to_play],
+        @[LOCALIZED_STR(@"Delete timer")],
         @[LOCALIZED_STR(@"Delete timer")]
     ];
     
@@ -4026,12 +4110,14 @@ NSMutableArray *hostRightMenuItems;
         @NO,
         @YES,
         @YES,
+        @NO,
         @NO];
     
     menu_LiveTV.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_watched],
+        [self modes_icons_empty],
         [self modes_icons_empty]
     ];
     
@@ -4040,6 +4126,7 @@ NSMutableArray *hostRightMenuItems;
           @"YES", @"channelGuideView"],
         @[@"PVR.GetChannels", @"method",
           @"YES", @"channelListView"],
+        @[],
         @[],
         @[]
     ] mutableCopy];
@@ -4087,6 +4174,7 @@ NSMutableArray *hostRightMenuItems;
         ],
                                   
         @[],
+        @[],
         @[]
     ] mutableCopy];
     
@@ -4126,6 +4214,7 @@ NSMutableArray *hostRightMenuItems;
         },
                               
         @{},
+        @{},
         @{}
     ];
     
@@ -4137,10 +4226,12 @@ NSMutableArray *hostRightMenuItems;
         [self action_play_to_broadcastdetails],
         [self action_play_to_channelguide],
         @[],
+        @[],
         @[]
     ];
     
     menu_LiveTV.subItem.showInfo = @[
+        @NO,
         @NO,
         @NO,
         @NO,
@@ -4149,6 +4240,7 @@ NSMutableArray *hostRightMenuItems;
     menu_LiveTV.subItem.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
+        @{},
         @{},
         @{}
     ];
@@ -4159,6 +4251,7 @@ NSMutableArray *hostRightMenuItems;
         @[],
         @[@"PVR.GetBroadcasts", @"method",
           @"YES", @"channelGuideView"],
+        @[],
         @[],
         @[]
     ] mutableCopy];
@@ -4188,6 +4281,7 @@ NSMutableArray *hostRightMenuItems;
         ],
                                             
         @[],
+        @[],
         @[]
     ] mutableCopy];
     
@@ -4214,6 +4308,7 @@ NSMutableArray *hostRightMenuItems;
         },
                                         
         @[],
+        @[],
         @[]
     ];
     
@@ -4225,11 +4320,13 @@ NSMutableArray *hostRightMenuItems;
         @[],
         [self action_play_to_broadcastdetails],
         @[],
+        @[],
         @[]
     ];
     
     menu_LiveTV.subItem.subItem.widthLabel = 252;
     menu_LiveTV.subItem.subItem.showInfo = @[
+        @YES,
         @YES,
         @YES,
         @YES,
@@ -4246,7 +4343,9 @@ NSMutableArray *hostRightMenuItems;
         @"st_channels",
         @"st_radio",
         @"st_recordings",
-        @"st_timers"];
+        @"st_timers",
+        @"st_timerrules",
+    ];
     
     menu_Radio.mainMethod = [@[
         @[@"PVR.GetChannels", @"method",
@@ -4254,6 +4353,8 @@ NSMutableArray *hostRightMenuItems;
         @[@"PVR.GetChannelGroups", @"method"],
         @[@"PVR.GetRecordings", @"method",
           @"PVR.GetRecordingDetails", @"extra_info_method"],
+        @[@"PVR.GetTimers", @"method",
+          @"PVR.GetTimerDetails", @"extra_info_method"],
         @[@"PVR.GetTimers", @"method",
           @"PVR.GetTimerDetails", @"extra_info_method"]
     ] mutableCopy];
@@ -4414,6 +4515,68 @@ NSMutableArray *hostRightMenuItems;
             @"53", @"thumbWidth",
             @"YES", @"enableCollectionView",
             [self itemSizes_Music_insets:@"60"], @"itemSizes"
+        ],
+        
+        @[
+            @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"properties": @[
+                        @"title",
+                        @"summary",
+                        @"channelid",
+                        @"isradio",
+                        @"istimerrule",
+                        @"starttime",
+                        @"endtime",
+                        @"runtime",
+                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
+                        @"firstday",
+                        @"weekdays",
+                        @"priority",
+                        @"startmargin",
+                        @"endmargin",
+                        @"state",
+                        @"file",
+                        @"directory"]
+                }, @"parameters",
+            @{
+                @"properties": @[
+                        @"title",
+                        @"summary",
+                        @"channelid",
+                        @"isradio",
+                        @"starttime",
+                        @"endtime",
+                        @"runtime",
+                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
+                        @"firstday",
+                        @"weekdays",
+                        @"priority",
+                        @"startmargin",
+                        @"endmargin",
+                        @"state",
+                        @"file",
+                        @"directory"]
+            }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Channel"),
+                        LOCALIZED_STR(@"Date"),
+                        LOCALIZED_STR(@"Runtime")],
+                @"method": @[
+                        @"label",
+                        @"channel",
+                        @"starttime",
+                        @"runtime"]
+            }, @"available_sort_methods",
+            LOCALIZED_STR(@"Timer rules"), @"label",
+            LOCALIZED_STR(@"Timer rules"), @"morelabel",
+            @"nocover_timers", @"defaultThumb",
+            @"53", @"rowHeight",
+            @"53", @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music_insets:@"60"], @"itemSizes"
         ]
                           
     ] mutableCopy];
@@ -4483,6 +4646,23 @@ NSMutableArray *hostRightMenuItems;
             @"row11": @"endtime",
             @"row15": @"isradio",
             @"itemid_extra_info": @"timerdetails"
+        },
+        
+        @{
+            @"itemid": @"timers",
+            @"row1": @"label",
+            @"row2": @"summary",
+            @"row3": @"plot",
+            @"row4": @"plotoutline",
+            @"row5": @"starttime",
+            @"row6": @"timerid",
+            @"playlistid": @1,
+            @"row8": @"timerid",
+            @"row9": @"istimerrule",
+            @"row10": @"starttime",
+            @"row11": @"endtime",
+            @"row15": @"isradio",
+            @"itemid_extra_info": @"timerdetails"
         }
     ];
     
@@ -4493,6 +4673,7 @@ NSMutableArray *hostRightMenuItems;
         [self action_play_to_channelguide],
         @[],
         [self action_queue_to_play],
+        @[LOCALIZED_STR(@"Delete timer")],
         @[LOCALIZED_STR(@"Delete timer")]
     ];
     
@@ -4501,12 +4682,14 @@ NSMutableArray *hostRightMenuItems;
         @NO,
         @YES,
         @YES,
+        @NO,
         @NO];
     
     menu_Radio.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_watched],
+        [self modes_icons_empty],
         [self modes_icons_empty]
     ];
     
@@ -4515,6 +4698,7 @@ NSMutableArray *hostRightMenuItems;
           @"YES", @"channelGuideView"],
         @[@"PVR.GetChannels", @"method",
           @"YES", @"channelListView"],
+        @[],
         @[],
         @[]
     ] mutableCopy];
@@ -4562,6 +4746,7 @@ NSMutableArray *hostRightMenuItems;
         ],
                                   
         @[],
+        @[],
         @[]
     ] mutableCopy];
     
@@ -4601,6 +4786,7 @@ NSMutableArray *hostRightMenuItems;
         },
                               
         @{},
+        @{},
         @{}
     ];
     
@@ -4612,10 +4798,12 @@ NSMutableArray *hostRightMenuItems;
         [self action_play_to_broadcastdetails],
         [self action_play_to_channelguide],
         @[],
+        @[],
         @[]
     ];
     
     menu_Radio.subItem.showInfo = @[
+        @NO,
         @NO,
         @NO,
         @NO,
@@ -4624,6 +4812,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Radio.subItem.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
+        @{},
         @{},
         @{}
     ];
@@ -4634,6 +4823,7 @@ NSMutableArray *hostRightMenuItems;
         @[],
         @[@"PVR.GetBroadcasts", @"method",
           @"YES", @"channelGuideView"],
+        @[],
         @[],
         @[]
     ] mutableCopy];
@@ -4663,6 +4853,7 @@ NSMutableArray *hostRightMenuItems;
         ],
                                             
         @[],
+        @[],
         @[]
     ] mutableCopy];
     
@@ -4689,6 +4880,7 @@ NSMutableArray *hostRightMenuItems;
         },
                                         
         @[],
+        @[],
         @[]
     ];
     
@@ -4700,11 +4892,13 @@ NSMutableArray *hostRightMenuItems;
         @[],
         [self action_play_to_broadcastdetails],
         @[],
+        @[],
         @[]
     ];
     
     menu_Radio.subItem.subItem.widthLabel = 252;
     menu_Radio.subItem.subItem.showInfo = @[
+        @YES,
         @YES,
         @YES,
         @YES,
