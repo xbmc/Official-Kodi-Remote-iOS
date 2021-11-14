@@ -3781,10 +3781,8 @@ NSMutableArray *hostRightMenuItems;
         @[@"PVR.GetChannelGroups", @"method"],
         @[@"PVR.GetRecordings", @"method",
           @"PVR.GetRecordingDetails", @"extra_info_method"],
-        @[@"PVR.GetTimers", @"method",
-          @"PVR.GetTimerDetails", @"extra_info_method"],
-        @[@"PVR.GetTimers", @"method",
-          @"PVR.GetTimerDetails", @"extra_info_method"]
+        @[@"PVR.GetTimers", @"method"],
+        @[@"PVR.GetTimers", @"method"]
     ] mutableCopy];
     
     menu_LiveTV.mainParameters = [@[
@@ -3904,26 +3902,7 @@ NSMutableArray *hostRightMenuItems;
                         @"state",
                         @"file",
                         @"directory"]
-                }, @"parameters",
-            @{
-                @"properties": @[
-                        @"title",
-                        @"summary",
-                        @"channelid",
-                        @"isradio",
-                        @"starttime",
-                        @"endtime",
-                        @"runtime",
-                        @"lifetime",
-                        @"firstday",
-                        @"weekdays",
-                        @"priority",
-                        @"startmargin",
-                        @"endmargin",
-                        @"state",
-                        @"file",
-                        @"directory"]
-            }, @"extra_info_parameters",
+            }, @"parameters",
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
@@ -3966,26 +3945,7 @@ NSMutableArray *hostRightMenuItems;
                         @"state",
                         @"file",
                         @"directory"]
-                }, @"parameters",
-            @{
-                @"properties": @[
-                        @"title",
-                        @"summary",
-                        @"channelid",
-                        @"isradio",
-                        @"starttime",
-                        @"endtime",
-                        @"runtime",
-                        @"lifetime",
-                        @"firstday",
-                        @"weekdays",
-                        @"priority",
-                        @"startmargin",
-                        @"endmargin",
-                        @"state",
-                        @"file",
-                        @"directory"]
-            }, @"extra_info_parameters",
+            }, @"parameters",
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
@@ -4072,8 +4032,7 @@ NSMutableArray *hostRightMenuItems;
             @"row9": @"istimerrule",
             @"row10": @"starttime",
             @"row11": @"endtime",
-            @"row15": @"isradio",
-            @"itemid_extra_info": @"timerdetails"
+            @"row15": @"isradio"
         },
         
         @{
@@ -4089,8 +4048,7 @@ NSMutableArray *hostRightMenuItems;
             @"row9": @"istimerrule",
             @"row10": @"starttime",
             @"row11": @"endtime",
-            @"row15": @"isradio",
-            @"itemid_extra_info": @"timerdetails"
+            @"row15": @"isradio"
         }
     ];
     
@@ -4353,10 +4311,8 @@ NSMutableArray *hostRightMenuItems;
         @[@"PVR.GetChannelGroups", @"method"],
         @[@"PVR.GetRecordings", @"method",
           @"PVR.GetRecordingDetails", @"extra_info_method"],
-        @[@"PVR.GetTimers", @"method",
-          @"PVR.GetTimerDetails", @"extra_info_method"],
-        @[@"PVR.GetTimers", @"method",
-          @"PVR.GetTimerDetails", @"extra_info_method"]
+        @[@"PVR.GetTimers", @"method"],
+        @[@"PVR.GetTimers", @"method"]
     ] mutableCopy];
     
     menu_Radio.mainParameters = [@[
@@ -4476,26 +4432,7 @@ NSMutableArray *hostRightMenuItems;
                         @"state",
                         @"file",
                         @"directory"]
-                }, @"parameters",
-            @{
-                @"properties": @[
-                        @"title",
-                        @"summary",
-                        @"channelid",
-                        @"isradio",
-                        @"starttime",
-                        @"endtime",
-                        @"runtime",
-                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
-                        @"firstday",
-                        @"weekdays",
-                        @"priority",
-                        @"startmargin",
-                        @"endmargin",
-                        @"state",
-                        @"file",
-                        @"directory"]
-            }, @"extra_info_parameters",
+            }, @"parameters",
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
@@ -4538,26 +4475,7 @@ NSMutableArray *hostRightMenuItems;
                         @"state",
                         @"file",
                         @"directory"]
-                }, @"parameters",
-            @{
-                @"properties": @[
-                        @"title",
-                        @"summary",
-                        @"channelid",
-                        @"isradio",
-                        @"starttime",
-                        @"endtime",
-                        @"runtime",
-                        //@"lifetime", // Unused. Commented for Radio to support different persistence for TV/Radio.
-                        @"firstday",
-                        @"weekdays",
-                        @"priority",
-                        @"startmargin",
-                        @"endmargin",
-                        @"state",
-                        @"file",
-                        @"directory"]
-            }, @"extra_info_parameters",
+            }, @"parameters",
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
@@ -4644,8 +4562,7 @@ NSMutableArray *hostRightMenuItems;
             @"row9": @"istimerrule",
             @"row10": @"starttime",
             @"row11": @"endtime",
-            @"row15": @"isradio",
-            @"itemid_extra_info": @"timerdetails"
+            @"row15": @"isradio"
         },
         
         @{
@@ -4661,8 +4578,7 @@ NSMutableArray *hostRightMenuItems;
             @"row9": @"istimerrule",
             @"row10": @"starttime",
             @"row11": @"endtime",
-            @"row15": @"isradio",
-            @"itemid_extra_info": @"timerdetails"
+            @"row15": @"isradio"
         }
     ];
     
