@@ -2274,18 +2274,36 @@ int originYear = 0;
             rating.hidden = YES;
             genre.hidden = NO;
             if ([item[@"family"] isEqualToString:@"timerid"]) {
-                NSDateFormatter *localFormatter = [NSDateFormatter new];
-                localFormatter.dateFormat = @"ccc dd MMM, HH:mm";
-                localFormatter.timeZone = [NSTimeZone systemTimeZone];
                 NSDate *timerStartTime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
                 NSDate *endTime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
-                genre.text = [localFormatter stringFromDate:timerStartTime];
-                localFormatter.dateFormat = @"HH:mm";
-                NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-                NSUInteger unitFlags = NSCalendarUnitMinute;
-                NSDateComponents *components = [gregorian components:unitFlags fromDate:timerStartTime toDate:endTime options:0];
-                NSInteger minutes = [components minute];
-                genre.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", genre.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
+
+                NSString *timerPlan;
+                if ([item[@"istimerrule"] boolValue] && ![item[@"genre"] isEqualToString:@""]) {
+                    timerPlan = item[@"genre"];
+                }
+                else {
+                    NSDateFormatter *localFormatter = [NSDateFormatter new];
+                    localFormatter.dateFormat = @"ccc dd MMM, HH:mm";
+                    localFormatter.timeZone = [NSTimeZone systemTimeZone];
+                    timerPlan = [localFormatter stringFromDate:timerStartTime];
+                    localFormatter.dateFormat = @"HH:mm";
+                    timerPlan = [NSString stringWithFormat:@"%@ - %@", timerPlan, [localFormatter stringFromDate:endTime]];
+                }
+
+                NSString *runtime;
+                if (![item[@"runtime"] isEqualToString:@""]) {
+                    runtime = item[@"runtime"];
+                }
+                else {
+                    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+                    NSUInteger unitFlags = NSCalendarUnitMinute;
+                    NSDateComponents *components = [gregorian components:unitFlags fromDate:timerStartTime toDate:endTime options:0];
+                    NSInteger minutes = [components minute];
+                    NSString *minutesUnit = minutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min");
+                    runtime = [NSString stringWithFormat:@"%ld %@", (long)minutes, minutesUnit];
+                }
+
+                genre.text = [NSString stringWithFormat:@"%@ (%@)", timerPlan, runtime];
             }
             else {
                 genre.text = [NSString stringWithFormat:@"%@ - %@", item[@"channel"], item[@"year"]];
