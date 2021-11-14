@@ -354,8 +354,8 @@ NSMutableArray *hostRightMenuItems;
             @(ViewModeTimerRules)],
         @"icons": @[
                 @"blank",
-                @"st_unchecked",
-                @"st_checked"]
+                @"st_timerregular",
+                @"st_timerrules"]
     };
 }
 
