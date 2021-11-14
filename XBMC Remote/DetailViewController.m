@@ -4445,9 +4445,16 @@ NSIndexPath *selected;
          BOOL isRecordingsOrTimersMethod = [methodToCall isEqualToString:@"PVR.GetRecordings"] || [methodToCall isEqualToString:@"PVR.GetTimers"];
          BOOL ignoreRadioItems = [[self.detailItem mainLabel] isEqualToString:LOCALIZED_STR(@"Live TV")] && isRecordingsOrTimersMethod;
          BOOL ignoreTvItems = [[self.detailItem mainLabel] isEqualToString:LOCALIZED_STR(@"Radio")] && isRecordingsOrTimersMethod;
-         // Override in case we are dealing with an older Kodi version which does not correctly support the JSON request
+         // If we are reading PVR timer, we need to filter them for the current mode in postprocessing. Ignore
+         // scheduled recordings, if we are in timer rules mode. Or ignore timer rules, if scheduled recordings
+         // are listed.
+         NSDictionary *menuParam = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+         BOOL isTimerMethod = [methodToCall isEqualToString:@"PVR.GetTimers"];
+         BOOL ignoreTimerRulesItems = isTimerMethod && [menuParam[@"label"] isEqualToString:LOCALIZED_STR(@"Timers")];
+         BOOL ignoreTimerItems = isTimerMethod && [menuParam[@"label"] isEqualToString:LOCALIZED_STR(@"Timer rules")];
+         // Override in case we are dealing with an older Kodi version which does not correctly support the JSON requests
          if (useCommonPvrRecordingsTimers) {
-             ignoreRadioItems = ignoreTvItems = NO;
+             ignoreTimerRulesItems = ignoreTimerItems = ignoreRadioItems = ignoreTvItems = NO;
          }
         
          if (error == nil && methodError == nil) {
@@ -4569,8 +4576,13 @@ NSIndexPath *selected;
                                                       nil];
                          
                          // Check if we need to ignore the current item
-                         BOOL isRadioItem = [itemDict[i][@"radio"] boolValue] || [itemDict[i][@"isradio"] boolValue];
-                         BOOL ignorePvrItem = (ignoreRadioItems && isRadioItem) || (ignoreTvItems && !isRadioItem);
+                         BOOL isRadioItem = [itemDict[i][@"radio"] boolValue] ||
+                                            [itemDict[i][@"isradio"] boolValue];
+                         BOOL isTimerRule = [itemDict[i][@"istimerrule"] boolValue];
+                         BOOL ignorePvrItem = (ignoreRadioItems && isRadioItem) ||
+                                              (ignoreTvItems && !isRadioItem) ||
+                                              (ignoreTimerRulesItems && isTimerRule) ||
+                                              (ignoreTimerItems && !isTimerRule);
                          
                          // Postprocessing of movie sets lists to ignore 1-movie-sets
                          if (ignoreSingleMovieSets) {
