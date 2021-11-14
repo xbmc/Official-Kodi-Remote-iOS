@@ -314,7 +314,7 @@ NSMutableArray *hostRightMenuItems;
                 @(ViewModeUnwatched),
                 @(ViewModeWatched)],
         @"icons": @[
-                @"",
+                @"blank",
                 @"st_unchecked",
                 @"st_checked"]
     };
@@ -327,7 +327,7 @@ NSMutableArray *hostRightMenuItems;
                 @(ViewModeNotListened),
                 @(ViewModeListened)],
         @"icons": @[
-                @"",
+                @"blank",
                 @"st_unchecked",
                 @"st_checked"]
     };
