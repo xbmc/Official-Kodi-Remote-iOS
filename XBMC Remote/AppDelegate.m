@@ -3907,12 +3907,10 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
-                        LOCALIZED_STR(@"Channel"),
                         LOCALIZED_STR(@"Date"),
                         LOCALIZED_STR(@"Runtime")],
                 @"method": @[
                         @"label",
-                        @"channel",
                         @"starttime",
                         @"runtime"]
             }, @"available_sort_methods",
@@ -3951,12 +3949,10 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
-                        LOCALIZED_STR(@"Channel"),
                         LOCALIZED_STR(@"Date"),
                         LOCALIZED_STR(@"Runtime")],
                 @"method": @[
                         @"label",
-                        @"channel",
                         @"starttime",
                         @"runtime"]
             }, @"available_sort_methods",
@@ -4441,12 +4437,10 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
-                        LOCALIZED_STR(@"Channel"),
                         LOCALIZED_STR(@"Date"),
                         LOCALIZED_STR(@"Runtime")],
                 @"method": @[
                         @"label",
-                        @"channel",
                         @"starttime",
                         @"runtime"]
             }, @"available_sort_methods",
@@ -4485,12 +4479,10 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
-                        LOCALIZED_STR(@"Channel"),
                         LOCALIZED_STR(@"Date"),
                         LOCALIZED_STR(@"Runtime")],
                 @"method": @[
                         @"label",
-                        @"channel",
                         @"starttime",
                         @"runtime"]
             }, @"available_sort_methods",
