@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
+#import "RemoteControllerGestureZoneView.h"
 #import "RightMenuViewController.h"
 #import "DetailViewController.h"
 #import "Utilities.h"
@@ -436,7 +437,6 @@
     if (showGesture && gestureZoneView.alpha == 1) {
         return;
     }
-    [self setPanGestureFullArea:!showGesture];
     if (showGesture) {
         CGRect frame;
         frame = gestureZoneView.frame;
@@ -1048,24 +1048,14 @@ NSInteger buttonAction;
 #pragma mark - GestureRecognizer delegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldReceiveTouch:(UITouch*)touch {
-    BOOL isGestureViewActive = (gestureZoneView.alpha > 0);
-    return !isGestureViewActive || self.slidingViewController.underRightShowing;
+    // Do not support any pan gestures, if the Remote's GestureZone was touched
+    if ([touch.view isKindOfClass:[RemoteControllerGestureZoneView class]]) {
+        return NO;
+    }
+    return YES;
 }
 
 # pragma mark - Gestures
-
-- (void)setPanGestureFullArea:(BOOL)allowFullArea {
-    if (allowFullArea) {
-        // Allow panning gesture for full view
-        [self.navigationController.navigationBar removeGestureRecognizer:self.slidingViewController.panGesture];
-        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-    }
-    else {
-        // Only allow panning gesture for navigation bar to not interfere with gesture area
-        [self.navigationController.view removeGestureRecognizer:self.slidingViewController.panGesture];
-        [self.navigationController.navigationBar addGestureRecognizer:self.slidingViewController.panGesture];
-    }
-}
 
 - (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
@@ -1177,6 +1167,8 @@ NSInteger buttonAction;
             self.slidingViewController.anchorLeftPeekAmount   = 0;
             self.slidingViewController.anchorLeftRevealAmount = 0;
             self.slidingViewController.panGesture.delegate = self;
+            // Allow panning gesture for full view (but gestureRecognizer will skip if GestureZone is touched)
+            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
         }
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
