@@ -70,13 +70,13 @@ typedef enum {
 + (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array;
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds;
 + (NSString*)getItemIconFromDictionary:(NSDictionary*)dict mainFields:(NSDictionary*)mainFields;
-+ (NSString*)getStringFromDictionary:(NSDictionary*)dict key:(NSString*)key emptyString:(NSString*)empty;
-+ (NSString*)getTimeFromDictionary:(NSDictionary*)dict key:(NSString*)key sec2min:(int)secondsToMinute;
-+ (NSString*)getYearFromDictionary:(NSDictionary*)dict key:(NSString*)key;
-+ (NSString*)getRatingFromDictionary:(NSDictionary*)dict key:(NSString*)key;
++ (NSString*)getStringFromItem:(id)item;
++ (NSString*)getTimeFromItem:(id)item sec2min:(int)secondsToMinute;
++ (NSString*)getYearFromItem:(id)item;
++ (NSString*)getRatingFromItem:(id)item;
 + (NSString*)getClearArtFromDictionary:(NSDictionary*)dict type:(NSString*)type;
 + (NSString*)getThumbnailFromDictionary:(NSDictionary*)dict useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon;
-+ (NSString*)getDateFromItem:(id)item dateStyle:(NSDateFormatterStyle)dateStyle emptyString:(NSString*)empty;
++ (NSString*)getDateFromItem:(id)item dateStyle:(NSDateFormatterStyle)dateStyle;
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
 + (CGFloat)getHeightOfLabel:(UILabel*)label;
 + (UIImage*)roundedCornerImage:(UIImage*)image drawBorder:(BOOL)drawBorder;

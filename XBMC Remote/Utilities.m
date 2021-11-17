@@ -593,68 +593,60 @@
     return iconName;
 }
 
-+ (NSString*)getStringFromDictionary:(NSDictionary*)dict key:(NSString*)key emptyString:(NSString*)empty {
-    NSString *text = empty;
-    id value = dict[key];
-    if (value == nil) {
-        text = empty;
++ (NSString*)getStringFromItem:(id)item {
+    NSString *text = @"";
+    if (item == nil) {
+        text = @"";
     }
-    else if ([value isKindOfClass:[NSArray class]]) {
-        text = [value componentsJoinedByString:@" / "];
-        text = text.length == 0 ? empty : text;
+    else if ([item isKindOfClass:[NSArray class]]) {
+        text = [item componentsJoinedByString:@" / "];
+        text = text.length == 0 ? @"" : text;
     }
-    else if ([value isKindOfClass:[NSNumber class]]) {
-        text = [NSString stringWithFormat:@"%@", value];
+    else if ([item isKindOfClass:[NSNumber class]]) {
+        text = [NSString stringWithFormat:@"%@", item];
     }
     else {
-        text = [value length] == 0 ? empty : value;
+        text = [item length] == 0 ? @"" : item;
     }
     return text;
 }
 
-+ (NSString*)getTimeFromDictionary:(NSDictionary*)dict key:(NSString*)key sec2min:(int)secondsToMinute {
++ (NSString*)getTimeFromItem:(id)item sec2min:(int)secondsToMinute {
     NSString *runtime = @"";
-    id value = dict[key];
-    if (value == nil) {
+    if (item == nil) {
         runtime = @"";
     }
-    else if ([value isKindOfClass:[NSArray class]]) {
-        runtime = [NSString stringWithFormat:@"%@", [value componentsJoinedByString:@" / "]];
+    else if ([item isKindOfClass:[NSArray class]]) {
+        runtime = [NSString stringWithFormat:@"%@", [item componentsJoinedByString:@" / "]];
     }
     else {
-        int minutes = [value intValue] / secondsToMinute;
+        int minutes = [item intValue] / secondsToMinute;
         runtime = minutes ? [NSString stringWithFormat:@"%d min", minutes] : runtime;
     }
     return runtime;
 }
 
-+ (NSString*)getYearFromDictionary:(NSDictionary*)dict key:(NSString*)key {
++ (NSString*)getYearFromItem:(id)item {
     NSString *year = @"";
-    id value = dict[key];
-    if (value == nil) {
+    if (item == nil) {
         year = @"";
     }
-    else if ([value isKindOfClass:[NSNumber class]]) {
-        if ([value integerValue] > 0) {
-            year = [value stringValue];
+    else if ([item isKindOfClass:[NSNumber class]]) {
+        if ([item integerValue] > 0) {
+            year = [item stringValue];
         }
         else {
             year = @"";
         }
     }
-    else {
-        if ([key isEqualToString:@"blank"]) {
-            year = @"";
-        }
-        else {
-            year = value;
-        }
+    else if ([item integerValue] > 0) {
+        year = item;
     }
     return year;
 }
 
-+ (NSString*)getRatingFromDictionary:(NSDictionary*)dict key:(NSString*)key {
-    NSString *rating = [NSString stringWithFormat:@"%.1f", [(NSNumber*)dict[key] floatValue]];
++ (NSString*)getRatingFromItem:(id)item {
+    NSString *rating = [NSString stringWithFormat:@"%.1f", [(NSNumber*)item floatValue]];
     if ([rating isEqualToString:@"0.0"]) {
         rating = @"";
     }
@@ -687,8 +679,8 @@
     return thumbnailPath;
 }
 
-+ (NSString*)getDateFromItem:(id)item dateStyle:(NSDateFormatterStyle)dateStyle emptyString:(NSString*)empty {
-    NSString *dateString = empty;
++ (NSString*)getDateFromItem:(id)item dateStyle:(NSDateFormatterStyle)dateStyle {
+    NSString *dateString = @"";
     if ([item length] > 0) {
         NSDateFormatter *format = [NSDateFormatter new];
         format.locale = [NSLocale currentLocale];
