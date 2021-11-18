@@ -23,8 +23,9 @@ end
 desc 'Build & upload to Testflight'
 lane :tf do |options|
   xcversion(version: "~> 12.4")
+  scheme = 'Kodi Remote'
   gym(
-    scheme: 'Kodi Remote',
+    scheme: scheme,
     clean: true,
     output_directory: 'build',
     include_symbols: true,
@@ -53,9 +54,11 @@ lane :tf do |options|
 
   # create prerelease on Github
   next unless ENV['GITHUB_API_TOKEN']
+
+  xcArchivePath = lane_context[SharedValues::XCODEBUILD_ARCHIVE]
   appProperties = get_info_plist_value(
     key: 'ApplicationProperties',
-    path: "#{lane_context[SharedValues::XCODEBUILD_ARCHIVE]}/Info.plist",
+    path: "#{xcArchivePath}/Info.plist",
   )
 
   betaSuffix = '-b'
@@ -68,8 +71,24 @@ lane :tf do |options|
   end
   newTag = appProperties['CFBundleShortVersionString'] + betaSuffix + betaVersion.to_s
 
-  createGithubRelease("Testflight #{appProperties['CFBundleVersion']}", newTag, is_prerelease: true)
-  system 'git fetch --tags'
+  # delete codesigning-related stuff
+  appPath = "#{xcArchivePath}/Products/#{appProperties['ApplicationPath']}"
+  system "find '#{appPath}' \\( -name embedded.mobileprovision -or -name _CodeSignature \\) -exec rm -rf {} +"
+
+  # pack ipa
+  Dir.mktmpdir { |tempDir|
+    ipaPath = "#{tempDir}/#{scheme} #{newTag} #{sh('git rev-parse --short HEAD').strip}.ipa"
+    FileUtils.cd(tempDir) {      
+      payloadDir = 'Payload'
+      Dir.mkdir payloadDir
+      FileUtils.move appPath, payloadDir
+      system "zip -qr '#{ipaPath}' '#{payloadDir}'"
+    }
+
+    # create GitHub release with the ipa
+    createGithubRelease("Testflight #{appProperties['CFBundleVersion']}", newTag, is_prerelease: true, assets: [ipaPath])
+    system 'git fetch --tags'
+  }
 end
 
 desc 'Submit to AppStore review'
@@ -108,7 +127,7 @@ lane :asc do |options|
 end
 
 
-def createGithubRelease(name, tag, description = nil, is_draft: false, is_prerelease: false)
+def createGithubRelease(name, tag, description = nil, is_draft: false, is_prerelease: false, assets: nil)
   ghRelease = set_github_release(
     repository_name: 'xbmc/Official-Kodi-Remote-iOS',
     tag_name: tag,
@@ -116,6 +135,7 @@ def createGithubRelease(name, tag, description = nil, is_draft: false, is_prerel
     description: description,
     is_draft: is_draft,
     is_prerelease: is_prerelease,
+    upload_assets: assets,
   )
   UI.message JSON.pretty_generate(ghRelease)
 end
