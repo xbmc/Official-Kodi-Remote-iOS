@@ -16,4 +16,5 @@ build/
 DerivedData/*
 .bundle
 fastlane/report.xml
+fastlane/README.md
 *.p8
