@@ -59,7 +59,6 @@
     NSTimeInterval elapsedTime;
     NSTimer *countExecutionTime;
     __weak IBOutlet UITextView *debugText;
-    BOOL callBack;
     int labelPosition;
     int flagX;
     int flagY;
@@ -79,9 +78,6 @@
     int labelPadding;
     int sectionHeight;
     UIColor *albumColor;
-    UIColor *searchBarColor;
-    UIColor *tableViewSearchBarColor;
-    UIColor *collectionViewSearchBarColor;
     UICollectionView *collectionView;
     BOOL enableCollectionView;
     int cellGridWidth;
@@ -99,12 +95,10 @@
     BOOL recentlyAddedView;
     BOOL enableDiskCache;
     BOOL blackTableSeparator;
-    NSString *currentCollectionViewName;
     CGFloat iOSYDelta;
     __weak IBOutlet UIToolbar *buttonsViewBgToolbar;
     BOOL isViewDidLoad;
     BOOL hideSearchBarActive;
-    BOOL enableIpadWA;
     BOOL forceMusicAlbumMode;
     NSMutableDictionary *epgDict;
     NSMutableArray *epgDownloadQueue;
