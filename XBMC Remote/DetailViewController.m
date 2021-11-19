@@ -2296,7 +2296,7 @@ int originYear = 0;
                 genre.text = [NSString stringWithFormat:@"%@ (%@)", timerPlan, runtime];
             }
             else {
-                genre.text = [NSString stringWithFormat:@"%@ - %@", item[@"channel"], item[@"year"]];
+                genre.text = [NSString stringWithFormat:@"%@ - %@", item[@"channel"], item[@"plot"]];
                 genre.numberOfLines = 3;
             }
             genre.autoresizingMask = title.autoresizingMask;
