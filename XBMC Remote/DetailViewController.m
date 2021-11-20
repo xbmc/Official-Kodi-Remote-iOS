@@ -654,6 +654,10 @@
     }
 }
 
+- (NSString*)getTimerDefaultThumb:(BOOL)isReminder {
+    return isReminder ? @"nocover_reminder" : @"nocover_recording";
+}
+
 #pragma mark - Tabbar management
 
 - (IBAction)showMore:(id)sender {
@@ -1458,6 +1462,8 @@
             cell.posterLabelFullscreen.hidden = YES;
         }
         
+        defaultThumb = displayThumb = [self getTimerDefaultThumb:[item[@"isreminder"] boolValue]];
+        
         if ([item[@"filetype"] length] != 0 || [item[@"family"] isEqualToString:@"file"] || [item[@"family"] isEqualToString:@"genreid"]) {
             if (![stringURL isEqualToString:@""]) {
                 displayThumb = stringURL;
@@ -2256,18 +2262,38 @@ int originYear = 0;
             rating.hidden = YES;
             genre.hidden = NO;
             if ([item[@"family"] isEqualToString:@"timerid"]) {
-                NSDateFormatter *localFormatter = [NSDateFormatter new];
-                localFormatter.dateFormat = @"ccc dd MMM, HH:mm";
-                localFormatter.timeZone = [NSTimeZone systemTimeZone];
                 NSDate *timerStartTime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
                 NSDate *endTime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
-                genre.text = [localFormatter stringFromDate:timerStartTime];
-                localFormatter.dateFormat = @"HH:mm";
-                NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-                NSUInteger unitFlags = NSCalendarUnitMinute;
-                NSDateComponents *components = [gregorian components:unitFlags fromDate:timerStartTime toDate:endTime options:0];
-                NSInteger minutes = [components minute];
-                genre.text = [NSString stringWithFormat:@"%@ - %@ (%ld %@)", genre.text, [localFormatter stringFromDate:endTime], (long)minutes, (long)minutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
+                
+                defaultThumb = displayThumb = [self getTimerDefaultThumb:[item[@"isreminder"] boolValue]];
+
+                NSString *timerPlan;
+                if ([item[@"istimerrule"] boolValue] && ![item[@"genre"] isEqualToString:@""]) {
+                    timerPlan = item[@"genre"];
+                }
+                else {
+                    NSDateFormatter *localFormatter = [NSDateFormatter new];
+                    localFormatter.dateFormat = @"ccc dd MMM, HH:mm";
+                    localFormatter.timeZone = [NSTimeZone systemTimeZone];
+                    timerPlan = [localFormatter stringFromDate:timerStartTime];
+                    localFormatter.dateFormat = @"HH:mm";
+                    timerPlan = [NSString stringWithFormat:@"%@ - %@", timerPlan, [localFormatter stringFromDate:endTime]];
+                }
+
+                NSString *runtime;
+                if (![item[@"runtime"] isEqualToString:@""]) {
+                    runtime = item[@"runtime"];
+                }
+                else {
+                    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+                    NSUInteger unitFlags = NSCalendarUnitMinute;
+                    NSDateComponents *components = [gregorian components:unitFlags fromDate:timerStartTime toDate:endTime options:0];
+                    NSInteger minutes = [components minute];
+                    NSString *minutesUnit = minutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min");
+                    runtime = [NSString stringWithFormat:@"%ld %@", (long)minutes, minutesUnit];
+                }
+
+                genre.text = [NSString stringWithFormat:@"%@ (%@)", timerPlan, runtime];
             }
             else {
                 genre.text = [NSString stringWithFormat:@"%@ - %@", item[@"channel"], item[@"year"]];
@@ -4397,10 +4423,11 @@ NSIndexPath *selected;
         // PVR.GetRecordings and PVR.GetTimers support dedicated results for TV + Radio since JSON RPC v8. But
         // in reality this works since Kodi 19. Kodi 18 does not handle timers correct, Kodi 13 to 17 does not handle
         // recordings correct. Therefore we remove the request for "radio" and "isradio" and set a flag to always show
-        // common results (TV and Radio) for recordings and timers.
+        // common results (TV and Radio) for recordings and timers. For consistency same is done for timer rules.
         else if (AppDelegate.instance.serverVersion < 19) {
             [mutableParameters[@"properties"] removeObject:@"radio"];
             [mutableParameters[@"properties"] removeObject:@"isradio"];
+            [mutableParameters[@"properties"] removeObject:@"istimerrule"];
             useCommonPvrRecordingsTimers = YES;
         }
     }
@@ -4444,9 +4471,16 @@ NSIndexPath *selected;
          BOOL isRecordingsOrTimersMethod = [methodToCall isEqualToString:@"PVR.GetRecordings"] || [methodToCall isEqualToString:@"PVR.GetTimers"];
          BOOL ignoreRadioItems = [[self.detailItem mainLabel] isEqualToString:LOCALIZED_STR(@"Live TV")] && isRecordingsOrTimersMethod;
          BOOL ignoreTvItems = [[self.detailItem mainLabel] isEqualToString:LOCALIZED_STR(@"Radio")] && isRecordingsOrTimersMethod;
-         // Override in case we are dealing with an older Kodi version which does not correctly support the JSON request
+         // If we are reading PVR timer, we need to filter them for the current mode in postprocessing. Ignore
+         // scheduled recordings, if we are in timer rules mode. Or ignore timer rules, if scheduled recordings
+         // are listed.
+         NSDictionary *menuParam = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+         BOOL isTimerMethod = [methodToCall isEqualToString:@"PVR.GetTimers"];
+         BOOL ignoreTimerRulesItems = isTimerMethod && [menuParam[@"label"] isEqualToString:LOCALIZED_STR(@"Timers")];
+         BOOL ignoreTimerItems = isTimerMethod && [menuParam[@"label"] isEqualToString:LOCALIZED_STR(@"Timer rules")];
+         // Override in case we are dealing with an older Kodi version which does not correctly support the JSON requests
          if (useCommonPvrRecordingsTimers) {
-             ignoreRadioItems = ignoreTvItems = NO;
+             ignoreTimerRulesItems = ignoreTimerItems = ignoreRadioItems = ignoreTvItems = NO;
          }
         
          if (error == nil && methodError == nil) {
@@ -4568,8 +4602,13 @@ NSIndexPath *selected;
                                                       nil];
                          
                          // Check if we need to ignore the current item
-                         BOOL isRadioItem = [itemDict[i][@"radio"] boolValue] || [itemDict[i][@"isradio"] boolValue];
-                         BOOL ignorePvrItem = (ignoreRadioItems && isRadioItem) || (ignoreTvItems && !isRadioItem);
+                         BOOL isRadioItem = [itemDict[i][@"radio"] boolValue] ||
+                                            [itemDict[i][@"isradio"] boolValue];
+                         BOOL isTimerRule = [itemDict[i][@"istimerrule"] boolValue];
+                         BOOL ignorePvrItem = (ignoreRadioItems && isRadioItem) ||
+                                              (ignoreTvItems && !isRadioItem) ||
+                                              (ignoreTimerRulesItems && isTimerRule) ||
+                                              (ignoreTimerItems && !isTimerRule);
                          
                          // Postprocessing of movie sets lists to ignore 1-movie-sets
                          if (ignoreSingleMovieSets) {
