@@ -1,0 +1,40 @@
+/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
+
+"General" = "General";
+"Automatic" = "Automatic";
+"Show connection notice" = "Show connection notice";
+"Direct Play mode" = "Direct Play mode";
+"Ken Burns effect" = "Ken Burns effect";
+"Shake to clear playlist" = "Shake to clear playlist";
+"Show jewel cases" = "Show jewel cases";
+"Hide labels in wall view" = "Hide labels in wall view";
+"Use rounded corner images" = "Use rounded corner images";
+"TV logo background" = "TV logo background";
+"Dark" = "Dark";
+"Light" = "Light";
+"Transparent" = "Transparent";
+"Remote Control" = "Remote Control";
+"Gesture remote control" = "Gesture remote control";
+"Vibrate remote control" = "Vibrate remote control";
+"Remote Position" = "Remote Position";
+"Top" = "Top";
+"Bottom" = "Bottom";
+"App Settings" = "App Settings";
+"Clear cache on next start" = "Clear cache on next start";
+"Enable contents cache" = "Enable contents cache";
+"Override Lockscreen" = "Override Lockscreen";
+"Show all files in filemode" = "Show all files in filemode";
+"Filemode changes needs app restart" = "Filemode changes needs app restart";
+"Main Menu" = "Main Menu";
+"Main Menu changes needs app restart" = "Main Menu changes needs app restart";
+"Show MUSIC" = "Show MUSIC";
+"Show MOVIES" = "Show MOVIES";
+"Show VIDEOS" = "Show VIDEOS";
+"Show TV SHOWS" = "Show TV SHOWS";
+"Show PICTURES" = "Show PICTURES";
+"Show LIVE TV" = "Show LIVE TV";
+"Show RADIO" = "Show RADIO";
+"Show FAVOURITES" = "Show FAVORITES";
+"Show NOW PLAYING" = "Show NOW PLAYING";
+"Show REMOTE CONTROL" = "Show REMOTE CONTROL";
+
