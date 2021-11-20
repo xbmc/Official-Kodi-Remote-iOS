@@ -299,7 +299,7 @@
 "Runtime" = "Speelduur";
 "Date" = "Datum";
 "Video Playlists" = "Videoafspeellijsten";
-"Favourites" = "Favorieten";
+"Favorites" = "Favorieten";
 "Never" = "Nooit";
 "Last Updated: %@" = "Laatste update: %@";
 "Not Available" = "Niet beschikbaar";

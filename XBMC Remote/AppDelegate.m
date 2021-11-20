@@ -4871,7 +4871,7 @@ NSMutableArray *hostRightMenuItems;
     ];
     
 #pragma mark - Favourites
-        menu_Favourites.mainLabel = LOCALIZED_STR(@"Favourites");
+        menu_Favourites.mainLabel = LOCALIZED_STR(@"Favorites");
         menu_Favourites.upperLabel = LOCALIZED_STR(@"Choose your");
         menu_Favourites.icon = @"icon_menu_favourites";
         menu_Favourites.family = FamilyDetailView;
@@ -4891,7 +4891,7 @@ NSMutableArray *hostRightMenuItems;
                             @"window",
                             @"windowparameter"]
                 }, @"parameters",
-                LOCALIZED_STR(@"Favourites"), @"label",
+                LOCALIZED_STR(@"Favorites"), @"label",
                 @"nocover_favourites", @"defaultThumb",
                 filemodeRowHeight, @"rowHeight",
                 filemodeThumbWidth, @"thumbWidth",

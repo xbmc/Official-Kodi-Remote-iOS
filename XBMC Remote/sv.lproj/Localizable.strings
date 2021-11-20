@@ -301,7 +301,7 @@
 "Date" = "Datum";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi \"Gotham\" version 13 eller senare krävs för att komma åt Kodi-inställningarna";
 "Video Playlists" = "Videospellistor";
-"Favourites" = "Favoriter";
+"Favorites" = "Favoriter";
 "Choose your" = "Gå till din";
 "Never" = "Aldrig";
 "Last Updated: %@" = "Senast uppdaterad: %@";

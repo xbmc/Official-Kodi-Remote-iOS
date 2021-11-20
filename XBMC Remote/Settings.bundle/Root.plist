@@ -282,7 +282,7 @@
 			<key>Key</key>
 			<string>menu_favourites</string>
 			<key>Title</key>
-			<string>Show FAVOURITES</string>
+			<string>Show FAVORITES</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
