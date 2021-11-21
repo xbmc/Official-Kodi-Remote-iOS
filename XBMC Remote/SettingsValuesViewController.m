@@ -94,7 +94,7 @@
         else if ([itemControls[@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
             xbmcSetting = cSlider;
             storeSliderValue = [self.detailItem[@"value"] intValue];
-            cellHeight = 184.0;
+            cellHeight = 242.0;
         }
         else if ([itemControls[@"type"] isEqualToString:@"edit"]) {
             xbmcSetting = cInput;
@@ -518,10 +518,11 @@
             cellLabel.textAlignment = NSTextAlignmentCenter;
             cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
-            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 58);
+            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 116);
             descriptionLabel.textAlignment = NSTextAlignmentCenter;
-            descriptionLabel.numberOfLines = 4;
+            descriptionLabel.numberOfLines = 8;
             descriptionLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
+            [self adjustFontSize:descriptionLabel];
             slider.minimumValue = [self.detailItem[@"minimum"] intValue];
             slider.maximumValue = [self.detailItem[@"maximum"] intValue];
             slider.value = [self.detailItem[@"value"] intValue];
