@@ -32,6 +32,8 @@
     MessagesView *messagesView;
     __weak IBOutlet UIToolbar *bottomToolbar;
     __weak IBOutlet UIImageView *bottomToolbarShadowImageView;
+    UIScrollView *serverInfoView;
+    __weak IBOutlet UIButton *serverInfoButton;
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil;
