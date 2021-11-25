@@ -276,14 +276,15 @@ BOOL moved;
     else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
         CGPoint currentVelocityPoint = [recognizer velocityInView:self.view];
         CGFloat currentVelocityX     = currentVelocityPoint.x;
+        CGPoint translation = [recognizer translationInView:self.view];
 
         if (currentVelocityX < SWIPE_LEFT_THRESHOLD && !moved) { // Detected a swipe to the left
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ECSLidingSwipeLeft" object:nil userInfo:nil];
         }
-        if ([self underLeftShowing] && currentVelocityX > 100) {
+        if ([self underLeftShowing] && (currentVelocityX > 1000 || translation.x > self.view.bounds.size.width / 2)) {
             [self anchorTopViewTo:ECRight];
         }
-        else if ([self underRightShowing] && currentVelocityX < -100) {
+        else if ([self underRightShowing] && (currentVelocityX < -1000 || translation.x < -self.view.bounds.size.width / 2)) {
             [self anchorTopViewTo:ECLeft];
         }
         else {
