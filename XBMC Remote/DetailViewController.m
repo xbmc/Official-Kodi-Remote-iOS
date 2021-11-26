@@ -825,10 +825,9 @@
         if (self.indexView.indexTitles.count > 1) {
             self.indexView.hidden = NO;
         }
-        self.searchController.searchBar.backgroundColor = collectionViewSearchBarColor;
-        self.searchController.searchBar.tintColor = [Utilities lighterColorForColor:collectionViewSearchBarColor];
+        self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
+        self.searchController.searchBar.tintColor = [Utilities lighterColorForColor:[Utilities getGrayColor:22 alpha:1]];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
-        searchBarColor = collectionViewSearchBarColor;
         imgName = @"st_view_grid";
     }
     else {
@@ -842,8 +841,7 @@
         self.indexView.hidden = YES;
         self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
-        self.searchController.searchBar.tintColor = tableViewSearchBarColor;
-        searchBarColor = tableViewSearchBarColor;
+        self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
         imgName = @"st_view_list";
     }
     UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:UIColor.lightGrayColor];
@@ -975,14 +973,7 @@
     }
     [self AnimTable:(UITableView*)activeLayoutView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
     enableCollectionView = newEnableCollectionView;
-    if ([parameters[@"collectionViewRecentlyAdded"] boolValue]) {
-        recentlyAddedView = YES;
-        currentCollectionViewName = LOCALIZED_STR(@"View: Fanart");
-    }
-    else {
-        recentlyAddedView = NO;
-        currentCollectionViewName = LOCALIZED_STR(@"View: Wall");
-    }
+    recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
     self.navigationItem.title = parameters[@"label"];
     if (IS_IPAD) {
@@ -1019,7 +1010,7 @@
     }
     else {
         blackTableSeparator = NO;
-        self.searchController.searchBar.tintColor = searchBarColor;
+        self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
         dataList.separatorColor = [Utilities getGrayColor:191 alpha:1];
     }
     if ([parameters[@"itemSizes"][@"separatorInset"] length]) {
@@ -2689,7 +2680,7 @@ int originYear = 0;
             BOOL isFirstListedSeason = [item[@"season"] intValue] == firstListedSeason;
             if (isFirstListedSeason) {
                 self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
-                self.searchController.searchBar.tintColor = tableViewSearchBarColor;
+                self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
             }
             if ([item[@"filetype"] length] != 0) {
                 displayThumb = stringURL;
@@ -4487,7 +4478,6 @@ NSIndexPath *selected;
          }
         
          if (error == nil && methodError == nil) {
-             callBack = NO;
 //             debugText.text = [NSString stringWithFormat:@"%@\n*DATA: %@", debugText.text, methodResult];
 //             NSLog(@"END JSON");
 //             NSLog(@"DATO RICEVUTO %@", methodResult);
@@ -4710,16 +4700,6 @@ NSIndexPath *selected;
          }
          else {
 //             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
-//             if (!callBack) {
-//                 callBack = YES;
-//                 NSMutableDictionary *mutableParameters = [parameters mutableCopy];
-//                 [mutableParameters removeObjectForKey:@"sort"];
-//                 [self retrieveData:methodToCall parameters:mutableParameters sectionMethod:SectionMethodToCall sectionParameters:sectionParameters resultStore:resultStoreArray extraSectionCall:NO];
-////                 [self retrieveData:methodToCall parameters:mutableParameters];
-//             }
-//             else {
-             
-             // DISPLAY DEBUG
              if (methodError != nil) {
                  debugText.text = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, debugText.text];
              }
@@ -4729,10 +4709,8 @@ NSIndexPath *selected;
              }
              UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:debugText.text];
              [self presentViewController:alertView animated:YES completion:nil];
-             // END DISPLAY DEBUG
              
              [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
-//             }
          }
      }];
 }
@@ -5610,7 +5588,6 @@ NSIndexPath *selected;
             [(UITextField*)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];
         }
     }
-    callBack = NO;
     self.view.userInteractionEnabled = YES;
     choosedTab = 0;
     [self buildButtons]; // TEMP ?
@@ -5634,9 +5611,6 @@ NSIndexPath *selected;
     button6.hidden = YES;
     button7.hidden = YES;
     [self hideButtonListWhenEmpty];
-    
-    searchBarColor = [Utilities get2ndLabelColor];
-    collectionViewSearchBarColor = [Utilities getGrayColor:22 alpha:1];
 
     if ([methods[@"albumView"] boolValue]) {
         albumView = YES;
@@ -5656,14 +5630,13 @@ NSIndexPath *selected;
         channelListView = YES;
     }
     
-    tableViewSearchBarColor = searchBarColor;
     if ([parameters[@"blackTableSeparator"] boolValue] && !AppDelegate.instance.obj.preferTVPosters) {
         blackTableSeparator = YES;
         dataList.separatorInset = UIEdgeInsetsZero;
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
     }
-    self.searchController.searchBar.tintColor = searchBarColor;
-    self.searchController.searchBar.backgroundColor = searchBarColor;
+    self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
+    self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
     bottomPadding = [Utilities getBottomPadding];
     if (IS_IPHONE) {
         if (bottomPadding > 0) {
@@ -5703,14 +5676,7 @@ NSIndexPath *selected;
         frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44;
     }
     dataList.frame = frame;
-    currentCollectionViewName = LOCALIZED_STR(@"View: Wall");
-    if ([parameters[@"collectionViewRecentlyAdded"] boolValue]) {
-        recentlyAddedView = YES;
-        currentCollectionViewName = LOCALIZED_STR(@"View: Fanart");
-    }
-    else {
-        recentlyAddedView = NO;
-    }
+    recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     enableCollectionView = [self collectionViewIsEnabled];
     if ([self collectionViewCanBeEnabled]) { // TEMP FIX
         [self initCollectionView];
@@ -5727,7 +5693,7 @@ NSIndexPath *selected;
     UIView *infobar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, self.searchController.searchBar.frame.size.height)];
     infobar.backgroundColor = UIColor.clearColor;
     UILabel *infolabel = [[UILabel alloc] initWithFrame:CGRectMake(INFO_PADDING, INFO_PADDING, viewWidth - 2*INFO_PADDING, self.searchController.searchBar.frame.size.height - 2*INFO_PADDING)];
-    infolabel.backgroundColor = collectionViewSearchBarColor;
+    infolabel.backgroundColor = [Utilities getGrayColor:22 alpha:1];
     infolabel.textColor = UIColor.grayColor;
     infolabel.text = [NSString stringWithFormat:@" %@", LOCALIZED_STR(@"For search switch to list view")];
     infolabel.layer.masksToBounds = YES;
@@ -5929,14 +5895,7 @@ NSIndexPath *selected;
         else {
             self.searchController.searchBar.hidden = NO;
         }
-        if ([parameters[@"collectionViewRecentlyAdded"] boolValue]) {
-            recentlyAddedView = YES;
-            currentCollectionViewName = LOCALIZED_STR(@"View: Fanart");
-        }
-        else {
-            recentlyAddedView = NO;
-            currentCollectionViewName = LOCALIZED_STR(@"View: Wall");
-        }
+        recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
         [UIView animateWithDuration:0.2
                          animations:^{
                              CGRect frame;
