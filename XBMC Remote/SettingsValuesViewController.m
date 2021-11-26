@@ -94,7 +94,7 @@
         else if ([itemControls[@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
             xbmcSetting = cSlider;
             storeSliderValue = [self.detailItem[@"value"] intValue];
-            cellHeight = 184.0;
+            cellHeight = 242.0;
         }
         else if ([itemControls[@"type"] isEqualToString:@"edit"]) {
             xbmcSetting = cInput;
@@ -232,9 +232,7 @@
             subTitle = [NSString stringWithFormat:@": %@", settingOptions[longPressRow.row][@"label"]];
             break;
         case cSlider:
-            if (itemControls[@"formatlabel"] != nil) {
-                stringFormat = [NSString stringWithFormat:@": %@", itemControls[@"formatlabel"]];
-            }
+            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
             subTitle = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
             break;
         case cUnsupported:
@@ -344,7 +342,18 @@
     return;
 }
 
-#pragma mark -
+#pragma mark Helper
+
+- (NSString*)getStringFormatFromItem:(id)item defaultFormat:(NSString*)defaultFormat {
+    // Workaround!! Before Kodi 18.x an older format ("%i ms") was used. The new format ("{0:d} ms") needs
+    // an updated parser. Until this is implemented just display the value itself, without the unit.
+    NSString *format = item[@"formatlabel"];
+    if (format.length > 0 && AppDelegate.instance.serverVersion < 18) {
+        return format;
+    }
+    return defaultFormat;
+}
+
 #pragma mark Table view data source
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -518,16 +527,15 @@
             cellLabel.textAlignment = NSTextAlignmentCenter;
             cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
-            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 58);
+            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 116);
             descriptionLabel.textAlignment = NSTextAlignmentCenter;
-            descriptionLabel.numberOfLines = 4;
+            descriptionLabel.numberOfLines = 8;
             descriptionLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
+            [self adjustFontSize:descriptionLabel];
             slider.minimumValue = [self.detailItem[@"minimum"] intValue];
             slider.maximumValue = [self.detailItem[@"maximum"] intValue];
             slider.value = [self.detailItem[@"value"] intValue];
-            if (itemControls[@"formatlabel"] != nil) {
-                stringFormat = [NSString stringWithFormat:@"%@", itemControls[@"formatlabel"]];
-            }
+            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
             sliderLabel.text = [NSString stringWithFormat:stringFormat, [self.detailItem[@"value"] intValue]];
             break;
             
@@ -788,9 +796,7 @@
         if ([[[slider superview] viewWithTag:102] isKindOfClass:[UILabel class]]) {
             UILabel *sliderLabel = (UILabel*)[[slider superview] viewWithTag:102];
             NSString *stringFormat = @"%i";
-            if (itemControls[@"formatlabel"] != nil) {
-                stringFormat = [NSString stringWithFormat:@"%@", itemControls[@"formatlabel"]];
-            }
+            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
             sliderLabel.text = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
         }
     }
