@@ -189,6 +189,8 @@ static inline BOOL IsEmpty(id obj) {
             if (standardUserDefaults) {
                 [standardUserDefaults setObject: @(indexPath.row) forKey:@"lastServer"];
             }
+            // Trigger Local Network Privacy Alert (if not already done for the App)
+            [AppDelegate.instance triggerLocalNetworkPrivacyAlert];
         }
     }
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
