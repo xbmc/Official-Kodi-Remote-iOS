@@ -686,7 +686,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1250;
-				ORGANIZATIONNAME = "joethefox inc.";
+				ORGANIZATIONNAME = "Team Kodi";
 			};
 			buildConfigurationList = 0F5548F0151D1187007E633F /* Build configuration list for PBXProject "Kodi Remote" */;
 			compatibilityVersion = "Xcode 3.2";
