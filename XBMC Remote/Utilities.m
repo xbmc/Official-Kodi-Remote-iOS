@@ -639,6 +639,9 @@
             year = @"";
         }
     }
+    else if ([item isKindOfClass:[NSArray class]]) {
+        year = [item componentsJoinedByString:@" / "];
+    }
     else if ([item integerValue] > 0) {
         year = item;
     }
