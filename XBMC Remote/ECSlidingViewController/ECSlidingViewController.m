@@ -281,16 +281,34 @@ BOOL moved;
         if (currentVelocityX < SWIPE_LEFT_THRESHOLD && !moved) { // Detected a swipe to the left
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ECSLidingSwipeLeft" object:nil userInfo:nil];
         }
-        if ([self underLeftShowing] && (currentVelocityX > 1000 || translation.x > self.view.bounds.size.width / 2)) {
+        if ([self underLeftShowing] && [self slideToAnchorPosition:YES velocity:currentVelocityX translation:translation.x]) {
             [self anchorTopViewTo:ECRight];
         }
-        else if ([self underRightShowing] && (currentVelocityX < -1000 || translation.x < -self.view.bounds.size.width / 2)) {
+        else if ([self underRightShowing] && [self slideToAnchorPosition:NO velocity:currentVelocityX translation:translation.x]) {
             [self anchorTopViewTo:ECLeft];
         }
         else {
             [self resetTopView];
         }
     }
+}
+
+- (BOOL)slideToAnchorPosition:(BOOL)isAnchorRight velocity:(CGFloat)velocity translation:(CGFloat)xTranslation {
+    // Invert when we check for the anchor on the left
+    if (!isAnchorRight) {
+        velocity = -velocity;
+        xTranslation = -xTranslation;
+    }
+    // Flick to expand the anchor (right anchor flicked to the left)
+    if (velocity < -1000) {
+        return NO;
+    }
+    // 1. Flick to anchor view (full screen flicked to right)
+    // 2. Move full screen more than 50% (full screen moved >50% to the right)
+    // 3. Move anchor more than 50% (right anchor moved >50% to the left)
+    return (velocity > 1000 ||
+            (xTranslation > 0 && xTranslation > GET_MAINSCREEN_WIDTH / 2) ||
+            (xTranslation < 0 && xTranslation >= -GET_MAINSCREEN_WIDTH / 2 + ANCHOR_RIGHT_PEEK));
 }
 
 - (UIPanGestureRecognizer*)panGesture {
