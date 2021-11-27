@@ -1755,10 +1755,6 @@ double round(double d) {
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleSwipeFromLeft:)
-                                                 name: @"ECSLidingSwipeLeft"
-                                               object: nil];
     if (foundTintColor != nil) {
         [self setIOS7barTintColor:foundTintColor];
     }

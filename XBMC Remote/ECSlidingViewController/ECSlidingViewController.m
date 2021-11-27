@@ -244,15 +244,12 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
     }
 }
 
-BOOL moved;
-
 - (void)updateTopViewHorizontalCenterWithRecognizer:(UIPanGestureRecognizer*)recognizer {
     CGPoint currentTouchPoint     = [recognizer locationInView:self.view];
     CGFloat currentTouchPositionX = currentTouchPoint.x;
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         self.initialTouchPositionX = currentTouchPositionX;
         self.initialHoizontalCenter = self.topView.center.x;
-        moved = NO;
     }
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [recognizer translationInView:self.view];
@@ -263,9 +260,6 @@ BOOL moved;
 
             if ((newCenterPosition < self.resettedCenter && self.anchorLeftTopViewCenter == NSNotFound) || (newCenterPosition > self.resettedCenter && self.anchorRightTopViewCenter == NSNotFound)) {
                 newCenterPosition = self.resettedCenter;
-            }
-            else {
-                moved = YES;
             }
 
             [self topViewHorizontalCenterWillChange:newCenterPosition];
@@ -278,9 +272,6 @@ BOOL moved;
         CGFloat currentVelocityX     = currentVelocityPoint.x;
         CGPoint translation = [recognizer translationInView:self.view];
 
-        if (currentVelocityX < SWIPE_LEFT_THRESHOLD && !moved) { // Detected a swipe to the left
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ECSLidingSwipeLeft" object:nil userInfo:nil];
-        }
         if ([self underLeftShowing] && [self slideToAnchorPosition:YES velocity:currentVelocityX translation:translation.x]) {
             [self anchorTopViewTo:ECRight];
         }
