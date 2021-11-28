@@ -7,6 +7,7 @@
 //
 
 #import <AVFoundation/AVFoundation.h>
+#import <StoreKit/StoreKit.h>
 #import "Utilities.h"
 #import "AppDelegate.h"
 
@@ -14,6 +15,8 @@
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 #define XBMC_LOGO_PADDING 10
+#define PERSISTENCE_KEY_VERSION @"VersionUnderReview"
+#define PERSISTENCE_KEY_PLAYBACK_ATTEMPTS @"PlaybackAttempts"
 
 @implementation Utilities
 
@@ -849,6 +852,35 @@
     NSString *userPassword = [obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
     NSString *serverHTTP = [NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort, command];
     [[NSURLSession.sharedSession dataTaskWithURL:[NSURL URLWithString:serverHTTP]] resume];
+}
+
++ (void)showReviewController {
+    if (@available(iOS 10.3, *)) {
+        [SKStoreReviewController requestReview];
+    }
+}
+
++ (void)checkForReviewRequest {
+    NSDictionary *infoDict = NSBundle.mainBundle.infoDictionary;
+    NSString *currentVersion = [NSString stringWithFormat:@"v%@ (%@)", infoDict[@"CFBundleShortVersionString"],
+                                                                       infoDict[(NSString*)kCFBundleVersionKey]];
+    NSString *savedVersion = [[NSUserDefaults standardUserDefaults] stringForKey:PERSISTENCE_KEY_VERSION];
+    // Compare current version with version under review
+    if (![savedVersion isEqualToString:currentVersion]) {
+        // Reset counter to 0 for new version
+        [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:PERSISTENCE_KEY_VERSION];
+        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:PERSISTENCE_KEY_PLAYBACK_ATTEMPTS];
+    }
+    else {
+        // Read and increase count by 1
+        NSInteger count = [[NSUserDefaults standardUserDefaults] integerForKey:PERSISTENCE_KEY_PLAYBACK_ATTEMPTS] + 1;
+        [[NSUserDefaults standardUserDefaults] setInteger:count forKey:PERSISTENCE_KEY_PLAYBACK_ATTEMPTS];
+        
+        // Show review popup each 50th playback attempt
+        if (count % 50 == 0) {
+            [Utilities showReviewController];
+        }
+    }
 }
 
 @end
