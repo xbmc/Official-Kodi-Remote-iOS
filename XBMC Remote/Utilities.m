@@ -617,7 +617,7 @@
         runtime = @"";
     }
     else if ([item isKindOfClass:[NSArray class]]) {
-        runtime = [NSString stringWithFormat:@"%@", [item componentsJoinedByString:@" / "]];
+        runtime = [item componentsJoinedByString:@" / "];
     }
     else {
         int minutes = [item intValue] / secondsToMinute;
