@@ -418,9 +418,22 @@ static inline BOOL IsEmpty(id obj) {
                                                                offset,
                                                                serverInfoView.frame.size.width - 2 * MARGIN,
                                                                0)];
-    label.text = [NSString stringWithFormat:@"%@: %@", name, text];
-    label.textColor = UIColor.whiteColor;
-    label.font = [UIFont systemFontOfSize:fontSize];
+    
+    // Bold & gray for label, normal and white for the text itself.
+    name = [NSString stringWithFormat:@"%@: ", name];
+    NSDictionary *boldFontAttrib = @{
+        NSFontAttributeName: [UIFont boldSystemFontOfSize:fontSize],
+        NSForegroundColorAttributeName: UIColor.lightGrayColor
+    };
+    NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:name attributes:boldFontAttrib];
+    NSDictionary *normalFontAttrib = @{
+        NSFontAttributeName: [UIFont systemFontOfSize:fontSize],
+        NSForegroundColorAttributeName: UIColor.whiteColor
+    };
+    NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:text attributes:normalFontAttrib];
+    [string1 appendAttributedString:string2];
+    
+    label.attributedText = string1;
     label.numberOfLines = 2;
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.hidden = NO;
