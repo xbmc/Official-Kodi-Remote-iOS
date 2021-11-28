@@ -638,7 +638,9 @@
                       withBorder:showBorder
                         progress:nil
                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-            if (channelListView || channelGuideView || recordingListView || isOnPVR) {
+            // Only set the logo background, if the attempt to load it was successful (image != nil).
+            // This avoids a possibly wrong background for a default thumb.
+            if (image && (channelListView || channelGuideView || recordingListView || isOnPVR)) {
                 [Utilities setLogoBackgroundColor:weakImageView mode:logoBackgroundMode];
             }
         }];
