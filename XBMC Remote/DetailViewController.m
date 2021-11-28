@@ -5149,7 +5149,6 @@ NSIndexPath *selected;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver: self name:@"ECSLidingSwipeLeft" object:nil];
     self.navigationController.navigationBar.tintColor = UIColor.lightGrayColor;
     [channelListUpdateTimer invalidate];
     channelListUpdateTimer = nil;
@@ -5197,10 +5196,6 @@ NSIndexPath *selected;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleSwipeFromLeft:)
-                                                 name: @"ECSLidingSwipeLeft"
-                                               object: nil];
     if (self.slidingViewController.view != nil) {
         [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     }
