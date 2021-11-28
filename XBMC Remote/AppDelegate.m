@@ -2326,10 +2326,10 @@ NSMutableArray *hostRightMenuItems;
     menu_Movies.thumbWidth = 53;
     menu_Movies.defaultThumb = @"nocover_movies";
     menu_Movies.sheetActions = @[
-        [self action_queue_to_moviedetails], //, LOCALIZED_STR(@"Open with VLC")
+        [self action_queue_to_moviedetails],
         @[],
         [self action_queue_to_play],
-        [self action_queue_to_moviedetails], //, LOCALIZED_STR(@"Open with VLC"),
+        [self action_queue_to_moviedetails],
         @[],
         @[],
         [self action_queue_to_showcontent]
@@ -2665,10 +2665,10 @@ NSMutableArray *hostRightMenuItems;
     menu_Movies.subItem.defaultThumb = @"nocover_movies";
     menu_Movies.subItem.sheetActions = @[
         @[],
-        [self action_queue_to_moviedetails], //, LOCALIZED_STR(@"Open with VLC")
-        [self action_queue_to_moviedetails], //, LOCALIZED_STR(@"Open with VLC")
+        [self action_queue_to_moviedetails],
+        [self action_queue_to_moviedetails],
         @[],
-        [self action_queue_to_play], //, LOCALIZED_STR(@"Open with VLC")
+        [self action_queue_to_play],
         [self action_queue_to_play],
         [self action_queue_to_moviedetails]
     ];
@@ -2967,8 +2967,8 @@ NSMutableArray *hostRightMenuItems;
     menu_Videos.thumbWidth = 53;
     menu_Videos.defaultThumb = @"nocover_movies";
     menu_Videos.sheetActions = @[
-        [self action_queue_to_musicvideodetails], //, LOCALIZED_STR(@"Open with VLC")
-        [self action_queue_to_musicvideodetails], //, LOCALIZED_STR(@"Open with VLC")
+        [self action_queue_to_musicvideodetails],
+        [self action_queue_to_musicvideodetails],
         @[],
         @[],
         [self action_queue_to_showcontent]
@@ -3131,7 +3131,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Videos.subItem.sheetActions = @[
         @[],
         @[],
-        [self action_queue_to_play], //, LOCALIZED_STR(@"Open with VLC")
+        [self action_queue_to_play],
         [self action_queue_to_play],
         [self action_queue_to_moviedetails]
     ];
@@ -3682,9 +3682,9 @@ NSMutableArray *hostRightMenuItems;
     menu_TVShows.subItem.thumbWidth = 95;
     menu_TVShows.subItem.defaultThumb = @"nocover_tvshows_episode";
     menu_TVShows.subItem.sheetActions = @[
-        [self action_queue_to_episodedetails], //, LOCALIZED_STR(@"Open with VLC")
+        [self action_queue_to_episodedetails],
         @[],
-        [self action_queue_to_play], //, LOCALIZED_STR(@"Open with VLC")
+        [self action_queue_to_play],
         [self action_queue_to_play], //, @"Stream to iPhone"
         [self action_queue_to_moviedetails]
     ];

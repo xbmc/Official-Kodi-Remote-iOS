@@ -104,9 +104,6 @@ double round(double d) {
             NSString *pvrAction = [item[@"hastimer"] boolValue] ? LOCALIZED_STR(@"Stop Recording") : LOCALIZED_STR(@"Record");
             sheetActions = [@[LOCALIZED_STR(@"Play"), pvrAction] mutableCopy];
         }
-//        else if ([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"musicvideoid"]) {
-//            [sheetActions addObject:LOCALIZED_STR(@"Open with VLC")];
-//        }
         if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
             if ([item[@"trailer"] length] > 0) {
                 [sheetActions addObject:LOCALIZED_STR(@"Play Trailer")];
@@ -389,9 +386,6 @@ double round(double d) {
     else if (([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
               [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")])) {
         [self recordChannel];
-    }
-    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Open with VLC")]) {
-        [self openWithVLC:self.detailItem];
     }
     else if ([actiontitle rangeOfString:LOCALIZED_STR(@"Resume from")].location != NSNotFound) {
         [self addPlayback:resumePointPercentage];
@@ -1527,36 +1521,6 @@ double round(double d) {
 }
 
 # pragma mark - JSON Data
-
-- (void)openWithVLC:(NSDictionary*)item {
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    [activityIndicatorView startAnimating];
-    if (![UIApplication.sharedApplication canOpenURL:[NSURL URLWithString:@"vlc://"]]) {
-        [activityIndicatorView stopAnimating];
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-        UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"VLC non installed") message:nil];
-        [self presentViewController:alertView animated:YES completion:nil];
-    }
-    else {
-        [[Utilities getJsonRPC] callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-            if (error == nil && methodError == nil) {
-                if ([methodResult count] > 0) {
-                    GlobalData *obj = [GlobalData getInstance];
-                    NSString *userPassword = [AppDelegate.instance.obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", AppDelegate.instance.obj.serverPass];
-                    NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-                    NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@", (NSArray*)methodResult[@"protocol"], serverURL, (NSDictionary*)methodResult[@"details"][@"path"]];
-                    [Utilities SFloadURL:stringURL fromctrl:self];
-                    [activityIndicatorView stopAnimating];
-                    self.navigationItem.rightBarButtonItem.enabled = YES;
-                }
-            }
-            else {
-                [activityIndicatorView stopAnimating];
-                self.navigationItem.rightBarButtonItem.enabled = YES;
-            }
-        }];
-    }
-}
 
 - (void)addQueueAfterCurrent:(BOOL)afterCurrent {
     self.navigationItem.rightBarButtonItem.enabled = NO;
