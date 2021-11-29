@@ -1,10 +1,28 @@
-Bugfixes:
-- Fix reduced resolution for thumbnails
-- Fix 1-movie-sets for Kodi 15 and earlier
-- Fix non-visible default values in settings
-- Further bugfixes and stability improvements
+Features:
+- New VIDEOS and RADIO main menus
+- Easier access to channel lists in RADIO / LIVE TV menus
+- 1-click access to Remote and NowPlaying from almost any menu
+- Dedicated filters for artists / album artists
+- Separate views for timers and timer rules
+- Support artist clearlogo for Kodi 18 or higher
 
-Remark:
-Movie-set behaviour was changed with Remote App 1.8. You need to configure Kodi server to either show or ignore movie sets with only a single movie. This as well can be done in the Remote App via the settings menu (Media / Videos / Include sets containing a single movie). For Kodi versions 15 and earlier this setting is not available, the Remote App will show all movie sets.
+Bugfixes:
+- Fix sort for items inside genres and movie sets
+- Fix gesture zone in NowPlaying's remote screen
+- Fix unreadable slider values in Kodi settings for Kodi 18 or higher
+- Many more bugfixes and stability improvements
+
+Improvements:
+- Improve performance when "rounded corners" are enabled
+- Improve readability of UI (font sizes, icons, DarkMode)
+- Improve sliding / pan gesture behaviour for iPhones
+- Improve support for music videos and timers
+- Update translations for several languages using Weblate
+- Follow iOS preferred language setting
+
+Remarks:
+To move the remote buttons up or down go to the App settings.
+To toggle through the artists / album artists filters press the artist icon in the MUSIC menu multiple times.
+When observing "Connection Timeout" after upgrading your iOS to 14 or higher please either once use "Find Kodi" or tap a server to re-connect. You should at least once see the "Local Network Privacy Alert" popup and allow the access. For App versions before 1.9 only "Find Kodi" will trigger this.
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
