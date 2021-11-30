@@ -6,12 +6,6 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Listen to" = "Słuchaj";
-"Watch your" = "Oglądaj";
-"Browse your" = "Przeglądaj";
-"See what's" = "Zobacz, co";
-"Use as" = "Użyj jako";
-"Watch" = "Oglądaj";
 "Music" = "Muzyka";
 "Movies" = "Filmy";
 "TV Shows" = "Programy TV";
@@ -302,7 +296,6 @@
 "Music Roles" = "Role muzyczne";
 "Video Playlists" = "Listy odtwarzania wideo";
 "Favourites" = "Ulubione";
-"Choose your" = "Przejdź do";
 "Never" = "Nigdy";
 "Last Updated: %@" = "Ostatnio zaktualizowane: %@";
 "Not Available" = "Niedostępne";

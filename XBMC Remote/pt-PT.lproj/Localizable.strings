@@ -6,12 +6,6 @@
   Copyright (c) 2016 joethefox inc. All rights reserved.
  */
 
-"Listen to" = "Ouvir";
-"Watch your" = "Ver";
-"Browse your" = "Ver";
-"See what's" = "Ver o que está";
-"Use as" = "Utilizar como";
-"Watch" = "Ver";
 "Music" = "Música";
 "Movies" = "Filmes";
 "TV Shows" = "Séries de TV";
@@ -313,7 +307,6 @@
 "Search last.fm charts" = "Pesquisar classificações do last.fm";
 "Pictures Add-ons" = "Extensões de fotos";
 "Music Roles" = "Funções musicais";
-"Choose your" = "Vá ao seu";
 "Never" = "Nunca";
 "Last Updated: %@" = "Última Actualização: %@";
 "Not Available" = "Indisponível";
