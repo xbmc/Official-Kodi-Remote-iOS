@@ -245,12 +245,9 @@
     }
     mainMenu *item = mainMenuItems[indexPath.row];
     UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
-    UILabel *upperTitle = (UILabel*)[cell viewWithTag:2];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
     UIImageView *line = (UIImageView*)[cell viewWithTag:4];
     NSString *iconName = item.icon;
-    upperTitle.font = [UIFont fontWithName:@"Roboto-Regular" size:12];
-    upperTitle.text = item.upperLabel;
     if (indexPath.row == 0) {
         iconName = @"connection_off";
         if (AppDelegate.instance.serverOnLine) {
@@ -274,12 +271,10 @@
     icon.image = [UIImage imageNamed:iconName];
     if (AppDelegate.instance.serverOnLine) {
         icon.alpha = 1.0;
-        upperTitle.alpha = 1.0;
         title.alpha = 1.0;
     }
     else if (indexPath.row != 0) {
         icon.alpha = 0.3;
-        upperTitle.alpha = 0.3;
         title.alpha = 0.3;
     }
     return cell;
