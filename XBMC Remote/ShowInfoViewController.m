@@ -1644,6 +1644,7 @@ double round(double d) {
                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                                 [activityIndicatorView stopAnimating];
                                 [self showNowPlaying];
+                                [Utilities checkForReviewRequest];
                                 if (resumePointLocal) {
                                     [NSThread sleepForTimeInterval:1.0];
                                     [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:[item[@"playlistid"] intValue] percentage:resumePointLocal]];
