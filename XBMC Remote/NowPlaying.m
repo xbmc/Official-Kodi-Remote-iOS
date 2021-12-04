@@ -2584,19 +2584,6 @@ int currentItemID;
         }
         if (IS_IPHONE) {
             startFlipDemo = YES;
-            UIImage *buttonImage;
-            if ([self enableJewelCases]) {
-                buttonImage = [self resizeToolbarThumb:thumbnailView.image];
-            }
-            else {
-                buttonImage = [self resizeToolbarThumb:jewelView.image];
-            }
-            if (buttonImage.size.width == 0) {
-                buttonImage = [UIImage imageNamed:@"st_kodi_window"];
-            }
-            [playlistButton setImage:buttonImage forState:UIControlStateNormal];
-            [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
-            [playlistButton setImage:buttonImage forState:UIControlStateSelected];
         }
     }
     [[NSNotificationCenter defaultCenter] addObserver: self
