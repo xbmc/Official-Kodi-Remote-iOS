@@ -1407,9 +1407,11 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView*)collectionView {
     if ([self doesShowSearchResults]) {
+        self.indexView.hidden = YES;
         return (self.filteredListContent.count > 0) ? 1 : 0;
     }
     else {
+        self.indexView.hidden = NO;
         return [self.sections allKeys].count;
     }
 }
