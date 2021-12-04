@@ -1406,7 +1406,12 @@
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView*)collectionView {
-    return [self.sections allKeys].count;
+    if ([self doesShowSearchResults]) {
+        return (self.filteredListContent.count > 0) ? 1 : 0;
+    }
+    else {
+        return [self.sections allKeys].count;
+    }
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -1429,6 +1434,9 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView*)collectionView numberOfItemsInSection:(NSInteger)section {
+    if ([self doesShowSearchResults]) {
+        return self.filteredListContent.count;
+    }
     if (episodesView) {
         return ([self.sectionArrayOpen[section] boolValue] ? [[self.sections objectForKey:self.sectionArray[section]] count] : 0);
     }
@@ -1436,8 +1444,13 @@
 }
 
 - (UICollectionViewCell*)collectionView:(UICollectionView*)cView cellForItemAtIndexPath:(NSIndexPath*)indexPath {
-    
-    NSDictionary *item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
+    NSDictionary *item = nil;
+    if ([self doesShowSearchResults]) {
+        item = self.filteredListContent[indexPath.row];
+    }
+    else {
+        item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
+    }
     NSString *stringURL = item[@"thumbnail"];
     NSString *fanartURL = item[@"fanart"];
     NSString *displayThumb = [NSString stringWithFormat:@"%@_wall", defaultThumb];
@@ -1556,7 +1569,13 @@
 }
 
 - (void)collectionView:(UICollectionView*)cView didSelectItemAtIndexPath:(NSIndexPath*)indexPath {
-    NSDictionary *item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
+    NSDictionary *item = nil;
+    if ([self doesShowSearchResults]) {
+        item = self.filteredListContent[indexPath.row];
+    }
+    else {
+        item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
+    }
     UICollectionViewCell *cell = [cView cellForItemAtIndexPath:indexPath];
     CGPoint offsetPoint = [cView contentOffset];
     int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
@@ -4985,12 +5004,6 @@ NSIndexPath *selected;
     [self configureLibraryView];
     [self choseParams];
     enableCollectionView = [self collectionViewIsEnabled];
-    if (enableCollectionView) {
-        self.searchController.searchBar.hidden = YES;
-    }
-    else {
-        self.searchController.searchBar.hidden = NO;
-    }
     numResults = (int)self.richResults.count;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     if ([self.detailItem enableSection]) {
@@ -5403,7 +5416,7 @@ NSIndexPath *selected;
     }
     else {
         [searchbar removeFromSuperview];
-        [dataList addSubview:searchbar];
+        [activeLayoutView addSubview:searchbar];
     }
 }
 
@@ -5434,7 +5447,7 @@ NSIndexPath *selected;
 - (void)updateSearchResultsForSearchController:(UISearchController*)searchController {
   NSString *searchString = searchController.searchBar.text;
   [self searchForText:searchString];
-  [dataList reloadData];
+  [activeLayoutView reloadData];
 }
 
 - (void)searchForText:(NSString*)searchText {
@@ -5620,27 +5633,7 @@ NSIndexPath *selected;
     if ([self collectionViewCanBeEnabled]) { // TEMP FIX
         [self initCollectionView];
     }
-    if (enableCollectionView) {
-        self.searchController.searchBar.hidden = YES;
-    }
-    else {
-        self.searchController.searchBar.hidden = NO;
-    }
     activeLayoutView = dataList;
-    
-    // For CollectionView place an info label at the position of the searchbar
-    UIView *infobar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, self.searchController.searchBar.frame.size.height)];
-    infobar.backgroundColor = UIColor.clearColor;
-    UILabel *infolabel = [[UILabel alloc] initWithFrame:CGRectMake(INFO_PADDING, INFO_PADDING, viewWidth - 2*INFO_PADDING, self.searchController.searchBar.frame.size.height - 2*INFO_PADDING)];
-    infolabel.backgroundColor = [Utilities getGrayColor:22 alpha:1];
-    infolabel.textColor = UIColor.grayColor;
-    infolabel.text = [NSString stringWithFormat:@" %@", LOCALIZED_STR(@"For search switch to list view")];
-    infolabel.layer.masksToBounds = YES;
-    infolabel.layer.cornerRadius = 10;
-    infolabel.layer.borderWidth = 0;
-    [infobar addSubview:infolabel];
-    [collectionView addSubview:infobar];
-    
     self.sections = [NSMutableDictionary new];
     self.richResults = [NSMutableArray new];
     self.filteredListContent = [NSMutableArray new];
@@ -5828,12 +5821,6 @@ NSIndexPath *selected;
         [userDefaults setObject:@(![[userDefaults objectForKey:viewKey] boolValue])
                          forKey:viewKey];
         enableCollectionView = [self collectionViewIsEnabled];
-        if (enableCollectionView) {
-            self.searchController.searchBar.hidden = YES;
-        }
-        else {
-            self.searchController.searchBar.hidden = NO;
-        }
         recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
         [UIView animateWithDuration:0.2
                          animations:^{
