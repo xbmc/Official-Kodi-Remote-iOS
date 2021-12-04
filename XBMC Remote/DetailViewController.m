@@ -1610,10 +1610,10 @@
         return _indexView;
     }
     CGFloat indexWidth = 40;
-    CGRect frame = CGRectMake(CGRectGetWidth(dataList.frame) - indexWidth,
-                              CGRectGetMinY(dataList.frame) + dataList.contentInset.top + GRID_SECTION_HEADER_HEIGHT + 2,
+    CGRect frame = CGRectMake(CGRectGetWidth(collectionView.frame) - indexWidth,
+                              CGRectGetMinY(collectionView.frame) + collectionView.contentInset.top,
                               indexWidth,
-                              CGRectGetHeight(dataList.frame) - dataList.contentInset.top - dataList.contentInset.bottom - 4 - GRID_SECTION_HEADER_HEIGHT - bottomPadding);
+                              CGRectGetHeight(collectionView.frame) - collectionView.contentInset.top - collectionView.contentInset.bottom - bottomPadding);
     _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
     _indexView.alpha = 1.0;
