@@ -426,6 +426,15 @@
 
 #pragma mark - Utility
 
+- (NSDictionary*)getItemFromIndexPath:(NSIndexPath*)indexPath {
+    if ([self doesShowSearchResults]) {
+        return self.filteredListContent[indexPath.row];
+    }
+    else {
+        return [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
+    }
+}
+
 - (NSString*)getAmountOfSearchResultsString {
     NSString *results = @"";
     int numResult = (int)self.filteredListContent.count;
@@ -1467,13 +1476,7 @@
 }
 
 - (UICollectionViewCell*)collectionView:(UICollectionView*)cView cellForItemAtIndexPath:(NSIndexPath*)indexPath {
-    NSDictionary *item = nil;
-    if ([self doesShowSearchResults]) {
-        item = self.filteredListContent[indexPath.row];
-    }
-    else {
-        item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
-    }
+    NSDictionary *item = [self getItemFromIndexPath:indexPath];
     NSString *stringURL = item[@"thumbnail"];
     NSString *fanartURL = item[@"fanart"];
     NSString *displayThumb = [NSString stringWithFormat:@"%@_wall", defaultThumb];
@@ -1592,13 +1595,7 @@
 }
 
 - (void)collectionView:(UICollectionView*)cView didSelectItemAtIndexPath:(NSIndexPath*)indexPath {
-    NSDictionary *item = nil;
-    if ([self doesShowSearchResults]) {
-        item = self.filteredListContent[indexPath.row];
-    }
-    else {
-        item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
-    }
+    NSDictionary *item = [self getItemFromIndexPath:indexPath];
     UICollectionViewCell *cell = [cView cellForItemAtIndexPath:indexPath];
     CGPoint offsetPoint = [cView contentOffset];
     int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
@@ -2105,13 +2102,7 @@ int originYear = 0;
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     jsonDataCell *cell = [tableView dequeueReusableCellWithIdentifier:@"jsonDataCellIdentifier"];
-    NSMutableDictionary *item = nil;
-    if ([self doesShowSearchResults]) {
-        item = self.filteredListContent[indexPath.row];
-    }
-	else {
-        item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
-    }
+    NSDictionary *item = [self getItemFromIndexPath:indexPath];
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = nib[0];
@@ -2466,15 +2457,11 @@ int originYear = 0;
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [self.searchController.searchBar resignFirstResponder];
-    NSDictionary *item = nil;
+    NSDictionary *item = [self getItemFromIndexPath:indexPath];
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     CGPoint offsetPoint = [dataList contentOffset];
     if ([self doesShowSearchResults]) {
-        item = self.filteredListContent[indexPath.row];
         offsetPoint.y = offsetPoint.y - 44;
-    }
-    else {
-        item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
     }
     int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
