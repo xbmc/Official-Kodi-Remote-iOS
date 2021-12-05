@@ -426,6 +426,20 @@
 
 #pragma mark - Utility
 
+- (NSString*)getAmountOfSearchResultsString {
+    NSString *results = @"";
+    int numResult = (int)self.filteredListContent.count;
+    if (numResult) {
+        if (numResult != 1) {
+            results = [NSString stringWithFormat:LOCALIZED_STR(@"%d results"), numResult];
+        }
+        else {
+            results = LOCALIZED_STR(@"1 result");
+        }
+    }
+    return results;
+}
+
 - (void)setSearchBarColor:(UIColor*)albumColor {
     UITextField *searchTextField = [self getSearchTextField];
     UIColor *lightAlbumColor = [Utilities updateColor:albumColor
@@ -1433,18 +1447,7 @@
     PosterHeaderView *headerView = [cView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:identifier forIndexPath:indexPath];
     NSString *sectionHeaderLabel;
     if ([self doesShowSearchResults]) {
-        int numResult = (int)self.filteredListContent.count;
-        if (numResult) {
-            if (numResult != 1) {
-                sectionHeaderLabel = [NSString stringWithFormat:LOCALIZED_STR(@"%d results"), numResult];
-            }
-            else {
-                sectionHeaderLabel = LOCALIZED_STR(@"1 result");
-            }
-        }
-        else {
-            sectionHeaderLabel = @"";
-        }
+        sectionHeaderLabel = [self getAmountOfSearchResultsString];
     }
     else {
         sectionHeaderLabel = [self buildSortInfo:self.sectionArray[indexPath.section]];
@@ -1893,18 +1896,7 @@ int originYear = 0;
 
 - (NSString*)tableView:(UITableView*)tableView titleForHeaderInSection:(NSInteger)section {
     if ([self doesShowSearchResults]) {
-        int numResult = (int)self.filteredListContent.count;
-        if (numResult) {
-            if (numResult != 1) {
-                return [NSString stringWithFormat:LOCALIZED_STR(@"%d results"), (int)self.filteredListContent.count];
-            }
-            else {
-                return LOCALIZED_STR(@"1 result");
-            }
-        }
-        else {
-            return @"";
-        }
+        return [self getAmountOfSearchResultsString];
     }
     else {
         if (section == 0) {
