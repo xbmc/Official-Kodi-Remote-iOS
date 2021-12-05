@@ -1343,7 +1343,7 @@
 #pragma mark - UICollectionView FlowLayout deleagate
 
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    if (enableCollectionView && self.sectionArray.count > 1 && section > 0) {
+    if ((enableCollectionView && self.sectionArray.count > 1 && section > 0) || [self doesShowSearchResults]) {
         return CGSizeMake(dataList.frame.size.width, GRID_SECTION_HEADER_HEIGHT);
     }
     else {
@@ -1431,7 +1431,25 @@
 - (UICollectionReusableView*)collectionView:(UICollectionView*)cView viewForSupplementaryElementOfKind:(NSString*)kind atIndexPath:(NSIndexPath*)indexPath {
     static NSString *identifier = @"posterHeaderView";
     PosterHeaderView *headerView = [cView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:identifier forIndexPath:indexPath];
-    [headerView setHeaderText:[self buildSortInfo:self.sectionArray[indexPath.section]]];
+    NSString *sectionHeaderLabel;
+    if ([self doesShowSearchResults]) {
+        int numResult = (int)self.filteredListContent.count;
+        if (numResult) {
+            if (numResult != 1) {
+                sectionHeaderLabel = [NSString stringWithFormat:LOCALIZED_STR(@"%d results"), numResult];
+            }
+            else {
+                sectionHeaderLabel = LOCALIZED_STR(@"1 result");
+            }
+        }
+        else {
+            sectionHeaderLabel = @"";
+        }
+    }
+    else {
+        sectionHeaderLabel = [self buildSortInfo:self.sectionArray[indexPath.section]];
+    }
+    [headerView setHeaderText:sectionHeaderLabel];
     return headerView;
 }
 
