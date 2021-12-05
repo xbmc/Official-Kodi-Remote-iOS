@@ -851,7 +851,7 @@
             self.indexView.hidden = NO;
         }
         self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
-        self.searchController.searchBar.tintColor = [Utilities lighterColorForColor:[Utilities getGrayColor:22 alpha:1]];
+        self.searchController.searchBar.tintColor = UIColor.lightGrayColor;
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         imgName = @"st_view_grid";
     }
