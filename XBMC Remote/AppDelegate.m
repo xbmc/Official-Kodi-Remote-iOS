@@ -3791,6 +3791,7 @@ NSMutableArray *hostRightMenuItems;
                 @"channelgroupid": @"alltv",
                 @"properties": @[
                         @"thumbnail",
+                        @"channelnumber",
                         @"channel"]
             }, @"parameters",
             @{
@@ -3975,7 +3976,7 @@ NSMutableArray *hostRightMenuItems;
             @"row3": @"endtime",
             @"row4": @"filetype",
             @"row5": @"filetype",
-            @"row6": @"channelid",
+            @"row6": @"channelnumber",
             @"playlistid": @1,
             @"row8": @"channelid",
             @"row9": @"isrecording",
@@ -4117,6 +4118,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"properties": @[
                         @"thumbnail",
+                        @"channelnumber",
                         @"channel"]
             }, @"parameters",
             @{
@@ -4163,7 +4165,7 @@ NSMutableArray *hostRightMenuItems;
             @"row3": @"endtime",
             @"row4": @"filetype",
             @"row5": @"filetype",
-            @"row6": @"channelid",
+            @"row6": @"channelnumber",
             @"playlistid": @1,
             @"row8": @"channelid",
             @"row9": @"channelid",
@@ -4321,6 +4323,7 @@ NSMutableArray *hostRightMenuItems;
                 @"channelgroupid": @"allradio",
                 @"properties": @[
                         @"thumbnail",
+                        @"channelnumber",
                         @"channel"]
             }, @"parameters",
             @{
@@ -4505,7 +4508,7 @@ NSMutableArray *hostRightMenuItems;
             @"row3": @"endtime",
             @"row4": @"filetype",
             @"row5": @"filetype",
-            @"row6": @"channelid",
+            @"row6": @"channelnumber",
             @"playlistid": @1,
             @"row8": @"channelid",
             @"row9": @"isrecording",
@@ -4647,6 +4650,7 @@ NSMutableArray *hostRightMenuItems;
             @{
                 @"properties": @[
                         @"thumbnail",
+                        @"channelnumber",
                         @"channel"]
             }, @"parameters",
             @{
@@ -4693,7 +4697,7 @@ NSMutableArray *hostRightMenuItems;
             @"row3": @"endtime",
             @"row4": @"filetype",
             @"row5": @"filetype",
-            @"row6": @"channelid",
+            @"row6": @"channelnumber",
             @"playlistid": @1,
             @"row8": @"channelid",
             @"row9": @"channelid",
