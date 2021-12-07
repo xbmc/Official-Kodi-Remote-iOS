@@ -850,6 +850,10 @@
         if (self.indexView.indexTitles.count > 1) {
             self.indexView.hidden = NO;
         }
+        // Need to remove the searchController from the dataList header view. Otherwise the search
+        // will not correctly show on top of the grid view.
+        dataList.tableHeaderView = nil;
+        
         self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         self.searchController.searchBar.tintColor = UIColor.lightGrayColor;
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
@@ -864,6 +868,10 @@
         collectionView.scrollsToTop = NO;
         activeLayoutView = dataList;
         self.indexView.hidden = YES;
+        
+        // Ensure the searchController is properly attached to the dataList header view.
+        dataList.tableHeaderView = self.searchController.searchBar;
+        
         self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
         self.searchController.searchBar.barStyle = UIBarStyleBlack;
         self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
