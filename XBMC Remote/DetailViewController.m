@@ -464,7 +464,6 @@
     self.searchController.searchBar.backgroundColor = albumColor;
     self.searchController.searchBar.tintColor = lightAlbumColor;
     self.searchController.searchBar.barTintColor = lightAlbumColor;
-    self.searchController.searchBar.barStyle = UIBarStyleBlack;
 }
 
 - (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost lab12color:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
@@ -856,7 +855,6 @@
         
         self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         self.searchController.searchBar.tintColor = UIColor.lightGrayColor;
-        self.searchController.searchBar.barStyle = UIBarStyleBlack;
         imgName = @"st_view_grid";
     }
     else {
@@ -873,7 +871,6 @@
         dataList.tableHeaderView = self.searchController.searchBar;
         
         self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
-        self.searchController.searchBar.barStyle = UIBarStyleBlack;
         self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
         imgName = @"st_view_list";
     }
@@ -5415,6 +5412,21 @@ NSIndexPath *selected;
 
 #pragma mark UISearchController Delegate Methods
 
+- (void)initSearchController {
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.delegate = self;
+    self.searchController.delegate = self;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    self.searchController.searchBar.placeholder = LOCALIZED_STR(@"Search");
+    self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    self.searchController.searchBar.barStyle = UIBarStyleBlack;
+    [self.searchController.searchBar setShowsCancelButton:YES animated:NO];
+    [self.searchController.searchBar sizeToFit];
+    [self.searchController setActive:NO];
+}
+
 - (void)showSearchBar {
     UISearchBar *searchbar = self.searchController.searchBar;
     if (showbar) {
@@ -5505,28 +5517,17 @@ NSIndexPath *selected;
     localHourMinuteFormatter.dateFormat = @"HH:mm";
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];
     dataList.tableFooterView = [UIView new];
-
-    self.searchController = [[UISearchController alloc]initWithSearchResultsController:nil];
-    [self.searchController.searchBar setShowsCancelButton:YES animated:NO];
-    self.searchController.searchResultsUpdater = self;
-    self.searchController.dimsBackgroundDuringPresentation = NO;
-    self.searchController.searchBar.delegate = self;
-    self.searchController.delegate = self;
-    self.definesPresentationContext = NO;
-    [self.searchController.searchBar sizeToFit];
-    [self.searchController setActive:NO];
+    
+    [self initSearchController];
     self.navigationController.view.backgroundColor = UIColor.blackColor;
-    self.searchController.hidesNavigationBarDuringPresentation = NO;
-    self.searchController.searchBar.placeholder = LOCALIZED_STR(@"Search");
+    self.definesPresentationContext = NO;
     iOSYDelta = self.searchController.searchBar.frame.size.height;
-    dataList.tableHeaderView = self.searchController.searchBar;
 
     [button6 addTarget:self action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
 
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     dataList.sectionIndexBackgroundColor = UIColor.clearColor;
     dataList.sectionIndexColor = UIColor.systemBlueColor;
     dataList.sectionIndexTrackingBackgroundColor = [Utilities getGrayColor:0 alpha:0.3];
@@ -5594,8 +5595,6 @@ NSIndexPath *selected;
         dataList.separatorInset = UIEdgeInsetsZero;
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
     }
-    self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
-    self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
     bottomPadding = [Utilities getBottomPadding];
     if (IS_IPHONE) {
         if (bottomPadding > 0) {
