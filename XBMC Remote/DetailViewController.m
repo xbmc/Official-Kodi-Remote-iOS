@@ -2867,55 +2867,6 @@ int originYear = 0;
     return 0;
 }
 
-#pragma mark - ScrollView Delegate
-
-- (void)scrollViewDidScrollToTop:(UIScrollView*)scrollView {
-    if (enableCollectionView) { // temp hack to avoid the iOS7 search bar disappearing!!!
-        [self.searchController.searchBar removeFromSuperview];
-        [activeLayoutView addSubview:self.searchController.searchBar];
-    }
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView*)scrollView {
-    hideSearchBarActive = YES;
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView*)scrollView willDecelerate:(BOOL)decelerate {
-    if (!decelerate) {
-        hideSearchBarActive = NO;
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView*)scrollView {
-    hideSearchBarActive = NO;
-}
-
-// iOS7 scrolling performance boost for a UITableView/UICollectionView with a custom UISearchBar header
-- (void)scrollViewDidScroll:(UIScrollView*)scrollView {
-    if (!hideSearchBarActive || [self doesShowSearchResults]) {
-        return;
-    }
-    NSArray *paths;
-    NSIndexPath *searchBarPath;
-    NSInteger sectionNumber = self.sections.count > 1 ? 1 : 0;
-    if (self.richResults.count) {
-        if ([scrollView isEqual:dataList]) {
-            paths = [dataList indexPathsForVisibleRows];
-            searchBarPath = [NSIndexPath indexPathForRow:0 inSection:sectionNumber];
-        }
-        else if ([scrollView isEqual:collectionView]) {
-            paths = [collectionView indexPathsForVisibleItems];
-            searchBarPath = [NSIndexPath indexPathForItem:0 inSection:sectionNumber];
-        }
-        if ([paths containsObject:searchBarPath]) {
-            if (enableCollectionView) { // temp hack to avoid the iOS7 search bar disappearing!!!
-                [self.searchController.searchBar removeFromSuperview];
-                [activeLayoutView addSubview:self.searchController.searchBar];
-            }
-        }
-    }
-}
-
 #pragma mark - Content Filtering
 
 - (UIImageView*)findHairlineImageViewUnder:(UIView*)view {
