@@ -5547,6 +5547,7 @@ NSIndexPath *selected;
     dataList.tableFooterView = [UIView new];
 
     self.searchController = [[UISearchController alloc]initWithSearchResultsController:nil];
+    [self.searchController.searchBar setShowsCancelButton:YES animated:NO];
     self.searchController.searchResultsUpdater = self;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.searchBar.delegate = self;
