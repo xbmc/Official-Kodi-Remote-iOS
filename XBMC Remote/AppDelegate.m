@@ -21,7 +21,6 @@
 
 @implementation AppDelegate
 
-NSMutableArray *mainMenuItems;
 NSMutableArray *hostRightMenuItems;
 
 @synthesize window = _window;
@@ -38,6 +37,7 @@ NSMutableArray *hostRightMenuItems;
 @synthesize playlistMusicVideos;
 @synthesize playlistTvShows;
 @synthesize playlistPVR;
+@synthesize mainMenuItems;
 @synthesize rightMenuItems;
 @synthesize serverName;
 @synthesize nowPlayingMenuItems;
@@ -492,6 +492,7 @@ NSMutableArray *hostRightMenuItems;
     __auto_type menu_Server = [mainMenu new];
     __auto_type menu_LiveTV = [mainMenu new];
     __auto_type menu_Radio = [mainMenu new];
+    __auto_type menu_Search = [mainMenu new];
 
     menu_Music.subItem = [mainMenu new];
     menu_Music.subItem.subItem = [mainMenu new];
@@ -5080,6 +5081,15 @@ NSMutableArray *hostRightMenuItems;
     menu_Remote.icon = @"icon_menu_remote";
     menu_Remote.family = FamilyRemote;
     
+#pragma mark - Global Search
+    menu_Search.mainLabel = LOCALIZED_STR(@"Global Search");
+    menu_Search.icon = @"icon_menu_search";
+    menu_Search.family = FamilyDetailView;
+    menu_Search.enableSection = NO;
+    menu_Search.rowHeight = 53;
+    menu_Search.thumbWidth = 53;
+    menu_Search.defaultThumb = @"nocover_filemode";
+    
 #pragma mark - XBMC Server Management
     menu_Server.mainLabel = LOCALIZED_STR(@"XBMC Server");
     menu_Server.icon = @"";
@@ -5741,6 +5751,9 @@ NSMutableArray *hostRightMenuItems;
     }
     if ([self isMenuEntryEnabled:@"menu_remote"]) {
         [mainMenuItems addObject:menu_Remote];
+    }
+    if ([self isMenuEntryEnabled:@"menu_search"]) {
+        [mainMenuItems addObject:menu_Search];
     }
     
     // Initialize controllers

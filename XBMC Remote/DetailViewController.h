@@ -68,6 +68,7 @@
     BOOL channelGuideView;
     BOOL channelListView;
     BOOL recordingListView;
+    BOOL globalSearchView;
     int albumViewHeight;
     int albumViewPadding;
     int artistFontSize;
