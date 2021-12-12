@@ -576,6 +576,36 @@
     return newDict;
 }
 
+- (mainMenu*)getMainMenu:(id)item {
+    mainMenu *MenuItem = self.detailItem;
+    if (globalSearchView) {
+        NSArray *lookup;
+        if ([item[@"family"] isEqualToString:@"albumid"]) {
+            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_ALBUMS];
+        }
+        else if ([item[@"family"] isEqualToString:@"artistid"]) {
+            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_ARTISTS];
+        }
+        else if ([item[@"family"] isEqualToString:@"songid"]) {
+            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_SONGS];
+        }
+        else if ([item[@"family"] isEqualToString:@"movieid"]) {
+            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MOVIES];
+        }
+        else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
+            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MUSICVIDEOS];
+        }
+        else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
+            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_TVSHOWS];
+        }
+        if (lookup) {
+            MenuItem = lookup[0];
+            choosedTab = [lookup[1] intValue];
+        }
+    }
+    return MenuItem;
+}
+
 - (void)setCollectionViewIndexVisibility {
     if (enableCollectionView) {
         // Get the index titles
@@ -1209,8 +1239,8 @@
 
 - (void)viewChild:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint) point {
     selected = indexPath;
-    mainMenu *MenuItem = self.detailItem;
-    NSMutableArray *sheetActions = [self.detailItem sheetActions][choosedTab];
+    mainMenu *MenuItem = [self getMainMenu:item];
+    NSMutableArray *sheetActions = [MenuItem sheetActions][choosedTab];
     NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[MenuItem.subItem mainParameters][choosedTab]];
     int rectOriginX = point.x;
     int rectOriginY = point.y;
@@ -1233,7 +1263,7 @@
         id obj = item[mainFields[@"row6"]];
         id objKey = mainFields[@"row6"];
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
-            NSDictionary *currentParams = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+            NSDictionary *currentParams = [Utilities indexKeyedDictionaryFromArray:[MenuItem mainParameters][choosedTab]];
             obj = [NSDictionary dictionaryWithObjectsAndKeys:
                    item[mainFields[@"row6"]], mainFields[@"row6"],
                    currentParams[@"parameters"][@"filter"][parameters[@"combinedFilter"]], parameters[@"combinedFilter"],
@@ -1441,9 +1471,9 @@
 }
 
 - (void)didSelectItemAtIndexPath:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint) point {
-    mainMenu *MenuItem = self.detailItem;
+    mainMenu *MenuItem = [self getMainMenu:item];
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[MenuItem.subItem mainMethod][choosedTab]];
-    NSMutableArray *sheetActions = [[self.detailItem sheetActions][choosedTab] mutableCopy];
+    NSMutableArray *sheetActions = [[MenuItem sheetActions][choosedTab] mutableCopy];
     NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[MenuItem.subItem mainParameters][choosedTab]];
     int rectOriginX = point.x;
     int rectOriginY = point.y;
@@ -1491,7 +1521,7 @@
     }
     else {
         if ([MenuItem.showInfo[choosedTab] boolValue]) {
-            [self showInfo:indexPath menuItem:self.detailItem item:item tabToShow:choosedTab];
+            [self showInfo:indexPath menuItem:MenuItem item:item tabToShow:choosedTab];
         }
         else {
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -3097,7 +3127,22 @@ NSIndexPath *selected;
         if (indexPath != nil) {
             selected = indexPath;
             
-            NSMutableArray *sheetActions = [[self.detailItem sheetActions][choosedTab] mutableCopy];
+            NSDictionary *item = nil;
+            if ([self doesShowSearchResults]) {
+                item = self.filteredListContent[indexPath.row];
+                [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            }
+            else {
+                if (enableCollectionView) {
+                    [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+                }
+                else {
+                    [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+                }
+                item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
+            }
+            mainMenu *MenuItem = [self getMainMenu:item];
+            NSMutableArray *sheetActions = [[MenuItem sheetActions][choosedTab] mutableCopy];
             if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
                 [sheetActions removeObject:LOCALIZED_STR(@"Play Trailer")];
                 [sheetActions removeObject:LOCALIZED_STR(@"Mark as watched")];
@@ -3105,21 +3150,7 @@ NSIndexPath *selected;
             }
             NSInteger numActions = sheetActions.count;
             if (numActions) {
-                NSDictionary *item = nil;
-                if ([self doesShowSearchResults]) {
-                    item = self.filteredListContent[indexPath.row];
-                    [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-                }
-                else {
-                    if (enableCollectionView) {
-                        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-                    }
-                    else {
-                        [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-                    }
-                    item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
-                }
-                sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:[self.detailItem mainParameters][choosedTab]]];
+                sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:[MenuItem mainParameters][choosedTab]]];
 //                if ([item[@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
 //                    return;
 //                }
@@ -3318,6 +3349,7 @@ NSIndexPath *selected;
             return;
         }
     }
+    mainMenu *MenuItem = [self getMainMenu:item];
     if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play")]) {
         NSString *songid = [NSString stringWithFormat:@"%@", item[@"songid"]];
         if ([songid intValue]) {
@@ -3369,7 +3401,7 @@ NSIndexPath *selected;
             [self prepareShowAlbumInfo:nil];
         }
         else {
-            [self showInfo:selected menuItem:self.detailItem item:item tabToShow:choosedTab];
+            [self showInfo:selected menuItem:MenuItem item:item tabToShow:choosedTab];
         }
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
@@ -3462,7 +3494,7 @@ NSIndexPath *selected;
         [self saveCustomButton:newButton];
     }
     else {
-        NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+        NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[MenuItem mainParameters][choosedTab]];
         NSMutableDictionary *sortDictionary = parameters[@"available_sort_methods"];
         if (sortDictionary[@"label"] != nil) {
             NSUInteger sort_method_index = [sortDictionary[@"label"] indexOfObject:actiontitle];
@@ -5656,7 +5688,7 @@ NSIndexPath *selected;
     else if ([methods[@"channelListView"] boolValue]) {
         channelListView = YES;
     }
-    else if ([[MenuItem mainLabel] isEqualToString:LOCALIZED_STR(@"Global Search")]) {
+    else if ([[self.detailItem mainLabel] isEqualToString:LOCALIZED_STR(@"Global Search")]) {
         globalSearchView = YES;
     }
     
