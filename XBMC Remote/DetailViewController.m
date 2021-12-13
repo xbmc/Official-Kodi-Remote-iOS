@@ -4466,6 +4466,9 @@ NSIndexPath *selected;
     NSString *methodToCall = methods[@"method"];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
+    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
+        [mutableProperties addObject:@"art"];
+    }
     if (mutableProperties != nil) {
         mutableParameters[@"properties"] = mutableProperties;
     }
