@@ -4493,7 +4493,7 @@ NSIndexPath *selected;
                     int secondsToMinute = 1;
                     if (AppDelegate.instance.serverVersion > 11) {
                         serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-                        if ([self.detailItem noConvertTime]) {
+                        if ([menuItem noConvertTime]) {
                             secondsToMinute = 60;
                         }
                     }
