@@ -576,6 +576,29 @@
     return newDict;
 }
 
+- (NSString*)getGlobalSearchThumb:(NSDictionary*)item {
+    NSString *thumb = @"nocover_filemode";
+    if ([item[@"family"] isEqualToString:@"movieid"]) {
+        thumb = @"nocover_movies";
+    }
+    else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
+        thumb = @"nocover_tvshows_episode";
+    }
+    else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
+        thumb = @"nocover_music";
+    }
+    else if ([item[@"family"] isEqualToString:@"artistid"]) {
+        thumb = @"nocover_artist";
+    }
+    else if ([item[@"family"] isEqualToString:@"albumid"]) {
+        thumb = @"nocover_music";
+    }
+    else if ([item[@"family"] isEqualToString:@"songid"]) {
+        thumb = @"nocover_music";
+    }
+    return thumb;
+}
+
 - (mainMenu*)getMainMenu:(id)item {
     mainMenu *MenuItem = self.detailItem;
     if (globalSearchView) {
@@ -2453,7 +2476,7 @@ int originYear = 0;
             [NSThread detachNewThreadSelector:@selector(getChannelEpgInfo:) toTarget:self withObject:params];
         }
         NSString *stringURL = item[@"thumbnail"];
-        NSString *displayThumb = defaultThumb;
+        NSString *displayThumb = globalSearchView ? [self getGlobalSearchThumb:item] : defaultThumb;
         if ([item[@"filetype"] length] != 0 ||
             [item[@"family"] isEqualToString:@"file"] ||
             [item[@"family"] isEqualToString:@"genreid"] ||
