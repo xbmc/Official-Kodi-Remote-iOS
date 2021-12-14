@@ -5445,12 +5445,12 @@ NSIndexPath *selected;
 
 - (void)searchBarSearchButtonClicked:(UISearchBar*)searchbar {
     showkeyboard = NO;
-    // Hide the toolbar while search is active
-    [self hideButtonList:YES];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar*)searchbar {
     showkeyboard = YES;
+    // Hide the toolbar while search is active
+    [self hideButtonList:YES];
 }
 
 #pragma mark UISearchController Delegate Methods
