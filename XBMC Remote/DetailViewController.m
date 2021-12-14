@@ -3296,7 +3296,8 @@ NSIndexPath *selected;
              }
              item[@"playcount"] = @(watched);
              
-             NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+             mainMenu *MenuItem = [self getMainMenu:item];
+             NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[MenuItem mainParameters][choosedTab]];
              NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
              NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
              if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
@@ -3815,7 +3816,7 @@ NSIndexPath *selected;
 }
 
 - (void)exploreItem:(NSDictionary*)item {
-    mainMenu *MenuItem = self.detailItem;
+    mainMenu *MenuItem = [self getMainMenu:item];
     NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
     NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[MenuItem.subItem mainParameters][choosedTab]];
     NSString *libraryRowHeight = [NSString stringWithFormat:@"%d", MenuItem.subItem.rowHeight];
@@ -3989,7 +3990,8 @@ NSIndexPath *selected;
     id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
     [queuing startAnimating];
-    NSDictionary *mainFields = [self.detailItem mainFields][choosedTab];
+    mainMenu *MenuItem = [self getMainMenu:item];
+    NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
     if (forceMusicAlbumMode) {
         mainFields = [AppDelegate.instance.playlistArtistAlbums mainFields][0];
         forceMusicAlbumMode = NO;
@@ -4076,7 +4078,8 @@ NSIndexPath *selected;
 }
 
 - (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath position:(int)pos shuffle:(BOOL)shuffled {
-    NSDictionary *mainFields = [self.detailItem mainFields][choosedTab];
+    mainMenu *MenuItem = [self getMainMenu:item];
+    NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
     if (forceMusicAlbumMode) {
         mainFields = [AppDelegate.instance.playlistArtistAlbums mainFields][0];
         forceMusicAlbumMode = NO;
