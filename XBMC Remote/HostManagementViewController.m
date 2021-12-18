@@ -31,7 +31,7 @@
     return self;
 }
 
-#pragma mark - Button Mamagement
+#pragma mark - Button Management
 
 - (IBAction)addHost:(id)sender {
     serverInfoView.hidden = YES;
