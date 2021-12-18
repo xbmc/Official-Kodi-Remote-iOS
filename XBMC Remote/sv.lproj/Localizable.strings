@@ -9,12 +9,6 @@
  
  */
 
-"Listen to" = "Lyssna på";
-"Watch your" = "Se på dina";
-"Browse your" = "Sök efter dina";
-"See what's" = "Se vad som är";
-"Use as" = "Använd som";
-"Watch" = "Se";
 "Music" = "Musik";
 "Movies" = "Filmer";
 "TV Shows" = "TV-serier";
@@ -299,7 +293,6 @@
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi \"Gotham\" version 13 eller senare krävs för att komma åt Kodi-inställningarna";
 "Video Playlists" = "Videospellistor";
 "Favourites" = "Favoriter";
-"Choose your" = "Gå till din";
 "Never" = "Aldrig";
 "Last Updated: %@" = "Senast uppdaterad: %@";
 "Not Available" = "Inte tillgänglig";

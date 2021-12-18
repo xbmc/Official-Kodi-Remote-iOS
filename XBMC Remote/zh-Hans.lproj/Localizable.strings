@@ -6,12 +6,6 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Listen to" = "收听";
-"Watch your" = "观看";
-"Browse your" = "浏览";
-"See what's" = "查看";
-"Use as" = "使用";
-"Watch" = "看";
 "Music" = "音乐";
 "Movies" = "电影";
 "TV Shows" = "剧集";
@@ -302,7 +296,6 @@
 "Unable to execute the action" = "动作无法执行";
 "Action executed successfully" = "动作执行成功";
 "Music Roles" = "音乐角色";
-"Choose your" = "选择";
 "Never" = "从不";
 "Not Available" = "不可用";
 "Username" = "用户名";

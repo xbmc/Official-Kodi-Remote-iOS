@@ -29,7 +29,6 @@ typedef enum {
 @interface mainMenu : NSObject
 
 @property (nonatomic, copy) NSString *mainLabel;
-@property (nonatomic, copy) NSString *upperLabel;
 @property MenuItemFamilyType family;
 @property BOOL enableSection;
 @property (nonatomic, copy) NSString *icon;
