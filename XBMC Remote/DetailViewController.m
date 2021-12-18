@@ -3242,9 +3242,6 @@ NSIndexPath *selected;
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
         [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"trailer"], @"file", nil], @"item", nil] index:selected];
     }
-    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Open with VLC")]) {
-        [self openWithVLC:item indexPath:selected];
-    }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Search Wikipedia")]) {
         [self searchWeb:(NSMutableDictionary*)item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", LOCALIZED_STR(@"WIKI_LANG")]];
     }
@@ -3710,34 +3707,6 @@ NSIndexPath *selected;
             DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
         }
-    }
-}
-
-- (void)openWithVLC:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-    [queuing startAnimating];
-    if (![UIApplication.sharedApplication canOpenURL:[NSURL URLWithString:@"vlc://"]]) {
-        [queuing stopAnimating];
-        UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Cannot do that") message:nil];
-        [self presentViewController:alertView animated:YES completion:nil];
-    }
-    else {
-        [[Utilities getJsonRPC] callMethod:@"Files.PrepareDownload" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"file"], @"path", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-            if (error == nil && methodError == nil) {
-                if ([methodResult count] > 0) {
-                    GlobalData *obj = [GlobalData getInstance];
-                    NSString *userPassword = [AppDelegate.instance.obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", AppDelegate.instance.obj.serverPass];
-                    NSString *serverURL = [NSString stringWithFormat:@"%@%@@%@:%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort];
-                    NSString *stringURL = [NSString stringWithFormat:@"vlc://%@://%@/%@", (NSArray*)methodResult[@"protocol"], serverURL, (NSDictionary*)methodResult[@"details"][@"path"]];
-                    [Utilities SFloadURL:stringURL fromctrl:self];
-                    [queuing stopAnimating];
-                }
-            }
-            else {
-                [queuing stopAnimating];
-            }
-        }];
     }
 }
 
