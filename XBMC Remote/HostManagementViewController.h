@@ -34,6 +34,7 @@
     __weak IBOutlet UIImageView *bottomToolbarShadowImageView;
     UIScrollView *serverInfoView;
     __weak IBOutlet UIButton *serverInfoButton;
+    NSTimer *serverInfoTimer;
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil;

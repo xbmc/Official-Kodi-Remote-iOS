@@ -35,6 +35,7 @@
 
 - (IBAction)addHost:(id)sender {
     serverInfoView.hidden = YES;
+    [serverInfoTimer invalidate];
     HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
     hostController.detailItem = nil;
     [self.navigationController pushViewController:hostController animated:YES];
@@ -279,6 +280,7 @@ static inline BOOL IsEmpty(id obj) {
 
 - (IBAction)editTable:(id)sender forceClose:(BOOL)forceClose {
     serverInfoView.hidden = YES;
+    [serverInfoTimer invalidate];
     if (sender != nil) {
         forceClose = NO;
     }
@@ -348,68 +350,75 @@ static inline BOOL IsEmpty(id obj) {
     [self.navigationController presentViewController:appInfoView animated:YES completion:nil];
 }
 
+- (void)updateServerInfo {
+    [[Utilities getJsonRPC]
+     callMethod:@"XBMC.GetInfoLabels"
+     withParameters:@{@"labels": @[@"System.FriendlyName",
+                                   @"System.Date",
+                                   @"System.Time",
+                                   @"System.FreeSpace",
+                                   @"System.UsedSpace",
+                                   @"System.TotalSpace",
+                                   @"System.UsedSpacePercent",
+                                   @"System.FreeSpacePercent",
+                                   @"System.CPUTemperature",
+                                   @"System.CpuUsage",
+                                   @"System.GPUTemperature",
+                                   @"System.BuildVersion",
+                                   @"System.BuildDate",
+                                   @"System.FPS",
+                                   @"System.Memory(free)",
+                                   @"System.Memory(used)",
+                                   @"System.Memory(total)",
+                                   @"System.Memory(free.percent)",
+                                   @"System.Memory(used.percent)",
+                                   @"System.Memory(total)",
+                                   @"System.CpuFrequency",
+                                   @"System.ScreenResolution",
+                                   @"System.HddTemperature",
+                                   @"System.OSVersionInfo"]}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (error == nil && methodError == nil) {
+            
+            for (UIView *subview in serverInfoView.subviews) {
+                [subview removeFromSuperview];
+            }
+            CGFloat offset = MARGIN;
+            offset = [self addLabel:@"Name" text:methodResult[@"System.FriendlyName"] offset:offset];
+            offset = [self addLabel:@"Build" text:methodResult[@"System.BuildVersion"] offset:offset];
+            offset = [self addLabel:@"Build Date" text:methodResult[@"System.BuildDate"] offset:offset];
+            offset = [self addLabel:@"Server Date" text:methodResult[@"System.Date"] offset:offset];
+            offset = [self addLabel:@"Server Time" text:methodResult[@"System.Time"] offset:offset] + BLOCK_MARGIN;
+            offset = [self addLabel:@"OS" text:methodResult[@"System.OSVersionInfo"] offset:offset] + BLOCK_MARGIN;
+            offset = [self addLabel:@"Screen" text:methodResult[@"System.ScreenResolution"] offset:offset];
+            offset = [self addLabel:@"FPS" text:methodResult[@"System.FPS"] offset:offset] + BLOCK_MARGIN;
+            offset = [self addLabel:@"CPU Clock" text:methodResult[@"System.CpuFrequency"] offset:offset];
+            offset = [self addLabel:@"CPU Load" text:methodResult[@"System.CpuUsage"] offset:offset];
+            offset = [self addLabel:@"CPU Temp" text:methodResult[@"System.CPUTemperature"] offset:offset];
+            offset = [self addLabel:@"GPU Temp" text:methodResult[@"System.GPUTemperature"] offset:offset];
+            offset = [self addLabel:@"HDD Temp" text:methodResult[@"System.HddTemperature"] offset:offset] + BLOCK_MARGIN;
+            NSString *memory = [NSString stringWithFormat:@"%@ Used / %@ Total",
+                                methodResult[@"System.Memory(used.percent)"],
+                                methodResult[@"System.Memory(total)"]];
+            offset = [self addLabel:@"Memory" text:memory offset:offset];
+            NSString *storage = [NSString stringWithFormat:@"%@ / %@",
+                                methodResult[@"System.UsedSpacePercent"],
+                                methodResult[@"System.TotalSpace"]];
+            offset = [self addLabel:@"Storage" text:storage offset:offset];
+            
+            serverInfoView.contentSize = CGSizeMake(serverInfoView.frame.size.width, offset);
+        }
+    }];
+}
+
 - (void)showServerInfoView {
     // Toggle visibility of serverInfoViw
     serverInfoView.hidden = !serverInfoView.hidden;
+    [serverInfoTimer invalidate];
     if (!serverInfoView.hidden) {
-        [[Utilities getJsonRPC]
-         callMethod:@"XBMC.GetInfoLabels"
-         withParameters:@{@"labels": @[@"System.FriendlyName",
-                                       @"System.Date",
-                                       @"System.Time",
-                                       @"System.FreeSpace",
-                                       @"System.UsedSpace",
-                                       @"System.TotalSpace",
-                                       @"System.UsedSpacePercent",
-                                       @"System.FreeSpacePercent",
-                                       @"System.CPUTemperature",
-                                       @"System.CpuUsage",
-                                       @"System.GPUTemperature",
-                                       @"System.BuildVersion",
-                                       @"System.BuildDate",
-                                       @"System.FPS",
-                                       @"System.Memory(free)",
-                                       @"System.Memory(used)",
-                                       @"System.Memory(total)",
-                                       @"System.Memory(free.percent)",
-                                       @"System.Memory(used.percent)",
-                                       @"System.Memory(total)",
-                                       @"System.CpuFrequency",
-                                       @"System.ScreenResolution",
-                                       @"System.HddTemperature",
-                                       @"System.OSVersionInfo"]}
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-            if (error == nil && methodError == nil) {
-                
-                for (UIView *subview in serverInfoView.subviews) {
-                    [subview removeFromSuperview];
-                }
-                CGFloat offset = MARGIN;
-                offset = [self addLabel:@"Name" text:methodResult[@"System.FriendlyName"] offset:offset];
-                offset = [self addLabel:@"Build" text:methodResult[@"System.BuildVersion"] offset:offset];
-                offset = [self addLabel:@"Build Date" text:methodResult[@"System.BuildDate"] offset:offset];
-                offset = [self addLabel:@"Server Date" text:methodResult[@"System.Date"] offset:offset];
-                offset = [self addLabel:@"Server Time" text:methodResult[@"System.Time"] offset:offset] + BLOCK_MARGIN;
-                offset = [self addLabel:@"OS" text:methodResult[@"System.OSVersionInfo"] offset:offset] + BLOCK_MARGIN;
-                offset = [self addLabel:@"Screen" text:methodResult[@"System.ScreenResolution"] offset:offset];
-                offset = [self addLabel:@"FPS" text:methodResult[@"System.FPS"] offset:offset] + BLOCK_MARGIN;
-                offset = [self addLabel:@"CPU Clock" text:methodResult[@"System.CpuFrequency"] offset:offset];
-                offset = [self addLabel:@"CPU Load" text:methodResult[@"System.CpuUsage"] offset:offset];
-                offset = [self addLabel:@"CPU Temp" text:methodResult[@"System.CPUTemperature"] offset:offset];
-                offset = [self addLabel:@"GPU Temp" text:methodResult[@"System.GPUTemperature"] offset:offset];
-                offset = [self addLabel:@"HDD Temp" text:methodResult[@"System.HddTemperature"] offset:offset] + BLOCK_MARGIN;
-                NSString *memory = [NSString stringWithFormat:@"%@ Used / %@ Total",
-                                    methodResult[@"System.Memory(used.percent)"],
-                                    methodResult[@"System.Memory(total)"]];
-                offset = [self addLabel:@"Memory" text:memory offset:offset];
-                NSString *storage = [NSString stringWithFormat:@"%@ / %@",
-                                    methodResult[@"System.UsedSpacePercent"],
-                                    methodResult[@"System.TotalSpace"]];
-                offset = [self addLabel:@"Storage" text:storage offset:offset];
-                
-                serverInfoView.contentSize = CGSizeMake(serverInfoView.frame.size.width, offset);
-            }
-        }];
+        [self updateServerInfo];
+        // Start timer to update the server info view
+        serverInfoTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateServerInfo) userInfo:nil repeats:YES];
     }
 }
 
@@ -661,6 +670,11 @@ static inline BOOL IsEmpty(id obj) {
                                              selector: @selector(enablePopGestureRecognizer:)
                                                  name: @"ECSlidingViewTopDidReset"
                                                object: nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [serverInfoTimer invalidate];
 }
 
 - (void)enablePopGestureRecognizer:(id)sender {
