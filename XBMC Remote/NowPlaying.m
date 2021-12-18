@@ -355,7 +355,7 @@ int currentItemID;
 
 - (void)nothingIsPlaying {
     if (startFlipDemo) {
-        UIImage *image = [UIImage imageNamed:@"xbmc_overlay_small"];
+        UIImage *image = [UIImage imageNamed:@"st_kodi_window"];
         [playlistButton setImage:image forState:UIControlStateNormal];
         [playlistButton setImage:image forState:UIControlStateHighlighted];
         [playlistButton setImage:image forState:UIControlStateSelected];
@@ -1577,7 +1577,7 @@ int currentItemID;
                                  buttonImage = [self resizeToolbarThumb:jewelView.image];
                              }
                              if (!buttonImage.size.width) {
-                                 buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"xbmc_overlay_small"]];
+                                 buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"st_kodi_window"]];
                              }
                              [button setImage:buttonImage forState:UIControlStateNormal];
                              [button setImage:buttonImage forState:UIControlStateHighlighted];
@@ -2584,19 +2584,6 @@ int currentItemID;
         }
         if (IS_IPHONE) {
             startFlipDemo = YES;
-            UIImage *buttonImage;
-            if ([self enableJewelCases]) {
-                buttonImage = [self resizeToolbarThumb:thumbnailView.image];
-            }
-            else {
-                buttonImage = [self resizeToolbarThumb:jewelView.image];
-            }
-            if (buttonImage.size.width == 0) {
-                buttonImage = [UIImage imageNamed:@"xbmc_overlay_small"];
-            }
-            [playlistButton setImage:buttonImage forState:UIControlStateNormal];
-            [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
-            [playlistButton setImage:buttonImage forState:UIControlStateSelected];
         }
     }
     [[NSNotificationCenter defaultCenter] addObserver: self
