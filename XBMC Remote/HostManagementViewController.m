@@ -551,17 +551,11 @@ static inline BOOL IsEmpty(id obj) {
     supportedVersionLabel.text = LOCALIZED_STR(@"Supported XBMC version is Eden (11) or higher");
     self.navigationController.navigationBar.barTintColor = BAR_TINT_COLOR;
     
-    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateNormal];
-    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateHighlighted];
-    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateSelected];
     editTableButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
     [editTableButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
     editTableButton.titleLabel.shadowOffset = CGSizeZero;
     
-    [addHostButton setBackgroundImage:[UIImage new] forState:UIControlStateNormal];
-    [addHostButton setBackgroundImage:[UIImage new] forState:UIControlStateHighlighted];
-    [addHostButton setBackgroundImage:[UIImage new] forState:UIControlStateSelected];
     addHostButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [addHostButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
     [addHostButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
