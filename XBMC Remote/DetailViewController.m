@@ -2164,7 +2164,12 @@ int originYear = 0;
     frame.origin.x = labelPosition;
     frame.size.width = Menuitem.widthLabel;
     title.frame = frame;
-    title.text = item[@"label"];
+    if (channelListView && item[@"channelnumber"]) {
+        title.text = [NSString stringWithFormat:@"%@. %@", item[@"channelnumber"], item[@"label"]];
+    }
+    else {
+        title.text = item[@"label"];
+    }
 
     frame = genre.frame;
     frame.size.width = frame.size.width - (labelPosition - frame.origin.x);
