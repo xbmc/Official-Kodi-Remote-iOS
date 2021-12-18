@@ -4891,7 +4891,7 @@ NSMutableArray *hostRightMenuItems;
     ];
     
     menu_Pictures.thumbWidth = 53;
-    menu_Pictures.defaultThumb = @"jewel_dvd.table";
+    menu_Pictures.defaultThumb = @"nocover_filemode";
     
     menu_Pictures.subItem.mainMethod = [@[
         @[@"Files.GetDirectory", @"method"],
