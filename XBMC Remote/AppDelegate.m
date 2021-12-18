@@ -1645,7 +1645,7 @@ NSMutableArray *hostRightMenuItems;
         [self action_queue_to_play],
         [self action_queue_to_play],
         [self action_queue_to_play],
-        [self action_queue_to_fmcharts] //, @"Stream to iPhone"
+        [self action_queue_to_fmcharts]
     ];
     
     menu_Music.subItem.originYearDuration = 248;
@@ -1838,7 +1838,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Music.subItem.subItem.defaultThumb = @"nocover_music";
     menu_Music.subItem.subItem.sheetActions = @[
         [self action_queue_to_play],
-        [self action_queue_to_play],//@"Stream to iPhone",
+        [self action_queue_to_play],
         [self action_queue_to_play],
         @[],
         [self action_queue_to_play],
@@ -3681,7 +3681,7 @@ NSMutableArray *hostRightMenuItems;
         [self action_queue_to_episodedetails],
         @[],
         [self action_queue_to_play],
-        [self action_queue_to_play], //, @"Stream to iPhone"
+        [self action_queue_to_play],
         [self action_queue_to_moviedetails]
     ];
     
