@@ -4088,8 +4088,9 @@ NSIndexPath *selected;
 //            if (methodResult.count > 0) {
 //                NSNumber *response = methodResult[0][@"playerid"];
 ////                NSMutableArray *commonParams = [NSMutableArray arrayWithObjects:response, @"playerid", nil];
-////                if (parameters != nil)
+////                if (parameters != nil) {
 ////                    [commonParams addObjectsFromArray:parameters];
+////                }
 ////                [[Utilities getJsonRPC] callMethod:action withParameters:nil onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
 ////                    if (error == nil && methodError == nil) {
 ////                        //                        NSLog(@"comando %@ eseguito ", action);
@@ -4109,8 +4110,9 @@ NSIndexPath *selected;
 # pragma mark - JSON DATA Management
 
 - (void)checkExecutionTime {
-    if (startTime != 0)
+    if (startTime != 0) {
         elapsedTime += [NSDate timeIntervalSinceReferenceDate] - startTime;
+    }
     startTime = [NSDate timeIntervalSinceReferenceDate];
     if (elapsedTime > WARNING_TIMEOUT && longTimeout == nil) {
         longTimeout = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 111, 56)];
