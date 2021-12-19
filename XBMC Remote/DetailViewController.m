@@ -1986,7 +1986,6 @@
     }
 }
 
-int originYear = 0;
 - (void)choseParams { // DA OTTIMIZZARE TROPPI IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     flagX = 43;
     flagY = 54;
