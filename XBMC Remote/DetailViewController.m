@@ -1986,11 +1986,22 @@
     }
 }
 
+- (void)setWatchedOverlayPosition {
+    flagX = thumbWidth - 10;
+    flagY = cellHeight - 19;
+    if (flagX + 22 > self.view.bounds.size.width) {
+        flagX = 2;
+        flagY = 2;
+    }
+    if (thumbWidth == 0) {
+        flagX = 6;
+        flagY = 4;
+    }
+}
+
 - (void)choseParams { // DA OTTIMIZZARE TROPPI IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    flagX = 43;
-    flagY = 54;
-    mainMenu *Menuitem = self.detailItem;
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
+    mainMenu *MenuItem = self.detailItem;
+    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[MenuItem mainParameters][choosedTab]];
     if ([parameters[@"defaultThumb"] length] != 0 && ![parameters[@"defaultThumb"] isEqualToString:@"(null)"]) {
         defaultThumb = parameters[@"defaultThumb"];
     }
@@ -2074,17 +2085,8 @@
         newWidthLabel = viewWidth - 38 - labelPosition + iOS7offset - extraPadding;
         Menuitem.originYearDuration = viewWidth - 100 + iOS7offset - extraPadding;
     }
-    Menuitem.widthLabel = newWidthLabel;
-    flagX = thumbWidth - 10;
-    flagY = cellHeight - 19;
-    if (flagX + 22 > self.view.bounds.size.width) {
-        flagX = 2;
-        flagY = 2;
-    }
-    if (thumbWidth == 0) {
-        flagX = 6;
-        flagY = 4;
-    }
+    MenuItem.widthLabel = newWidthLabel;
+    [self setWatchedOverlayPosition];
 }
 
 #pragma mark - Table Management
@@ -2391,6 +2393,7 @@
     CGPoint thumbSize = globalSearchView ? [self getGlobalSearchThumbsize:item] : CGPointMake(thumbWidth, cellHeight);
     thumbWidth = thumbSize.x;
     cellHeight = thumbSize.y;
+    [self setWatchedOverlayPosition];
     CGRect frame;
     frame.origin = CGPointZero;
     frame.size.width = thumbWidth;
