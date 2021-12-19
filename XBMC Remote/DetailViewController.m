@@ -576,6 +576,16 @@
     return newDict;
 }
 
+- (CGPoint)getGlobalSearchThumbsize:(NSDictionary*)item {
+    CGPoint thumbSize = CGPointMake(53, 53);
+    if ([item[@"family"] isEqualToString:@"movieid"] ||
+        [item[@"family"] isEqualToString:@"tvshowid"]) {
+        thumbSize.x = 53;
+        thumbSize.y = 76;
+    }
+    return thumbSize;
+}
+
 - (NSString*)getGlobalSearchThumb:(NSDictionary*)item {
     NSString *thumb = @"nocover_filemode";
     if ([item[@"family"] isEqualToString:@"movieid"]) {
@@ -2379,6 +2389,9 @@ int originYear = 0;
 //        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 //    }
 /* end future */
+    CGPoint thumbSize = globalSearchView ? [self getGlobalSearchThumbsize:item] : CGPointMake(thumbWidth, cellHeight);
+    thumbWidth = thumbSize.x;
+    cellHeight = thumbSize.y;
     CGRect frame;
     frame.origin = CGPointZero;
     frame.size.width = thumbWidth;
