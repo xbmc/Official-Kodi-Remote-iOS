@@ -89,5 +89,6 @@ typedef enum {
 + (CGFloat)getBottomPadding;
 + (void)sendXbmcHttp:(NSString*)command;
 + (void)checkForReviewRequest;
++ (NSString*)getConnectionStatusIconName;
 
 @end

@@ -886,4 +886,17 @@
     }
 }
 
++ (NSString*)getConnectionStatusIconName {
+    NSString *iconName = @"connection_off";
+    if (AppDelegate.instance.serverOnLine) {
+        if (AppDelegate.instance.serverTCPConnectionOpen) {
+            iconName = @"connection_on";
+        }
+        else {
+            iconName = @"connection_on_notcp";
+        }
+    }
+    return iconName;
+}
+
 @end

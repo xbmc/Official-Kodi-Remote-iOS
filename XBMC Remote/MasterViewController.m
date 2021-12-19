@@ -145,15 +145,7 @@
     UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
     if (indexPath.row == 0) {
-        iconName = @"connection_off";
-        if (AppDelegate.instance.serverOnLine) {
-            if (AppDelegate.instance.serverTCPConnectionOpen) {
-                iconName = @"connection_on";
-            }
-            else {
-                iconName = @"connection_on_notcp";
-            }
-        }
+        iconName = [Utilities getConnectionStatusIconName];
         icon.image = [UIImage imageNamed:iconName];
     }
     else {

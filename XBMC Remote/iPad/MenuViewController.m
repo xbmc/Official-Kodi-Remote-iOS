@@ -249,15 +249,7 @@
     UIImageView *line = (UIImageView*)[cell viewWithTag:4];
     NSString *iconName = item.icon;
     if (indexPath.row == 0) {
-        iconName = @"connection_off";
-        if (AppDelegate.instance.serverOnLine) {
-            if (AppDelegate.instance.serverTCPConnectionOpen) {
-                iconName = @"connection_on";
-            }
-            else {
-                iconName = @"connection_on_notcp";
-            }
-        }
+        iconName = [Utilities getConnectionStatusIconName];
         icon.image = [UIImage imageNamed:iconName];
         line.hidden = YES;
         int cellHeight = PAD_MENU_INFO_HEIGHT;
