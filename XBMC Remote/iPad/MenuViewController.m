@@ -258,6 +258,7 @@
                 iconName = @"connection_on_notcp";
             }
         }
+        icon.image = [UIImage imageNamed:iconName];
         line.hidden = YES;
         int cellHeight = PAD_MENU_INFO_HEIGHT;
         int cellHeightPad = cellHeight - 4;
@@ -267,13 +268,14 @@
     else {
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
         title.text = [item.mainLabel uppercaseString];
+        icon.highlightedImage = [UIImage imageNamed:iconName];
+        icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
     }
-    icon.image = [UIImage imageNamed:iconName];
-    if (AppDelegate.instance.serverOnLine) {
+    if (AppDelegate.instance.serverOnLine || indexPath.row == 0) {
         icon.alpha = 1.0;
         title.alpha = 1.0;
     }
-    else if (indexPath.row != 0) {
+    else {
         icon.alpha = 0.3;
         title.alpha = 0.3;
     }
