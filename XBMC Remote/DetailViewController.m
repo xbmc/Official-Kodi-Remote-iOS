@@ -1916,7 +1916,7 @@ int originYear = 0;
         }
         else {
             NSNumberFormatter *formatter = [NSNumberFormatter new];
-            formatter.numberStyle = NSNumberFormatterSpellOutStyle;
+            formatter.numberStyle = NSNumberFormatterDecimalStyle;
             NSString *formatString = LOCALIZED_STR(@"Watched %@ times");
             if (watchedListenedStrings[@"watchedTimes"] != nil) {
                 formatString = watchedListenedStrings[@"watchedTimes"];
