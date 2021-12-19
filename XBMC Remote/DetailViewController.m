@@ -446,6 +446,130 @@
     }];
 }
 
+- (NSDictionary*)getNewDictionaryFromExtraInfoItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon {
+    NSString *label = [NSString stringWithFormat:@"%@", item[mainFields[@"row1"]]];
+    NSString *genre = [Utilities getStringFromItem:item[mainFields[@"row2"]]];
+    NSString *year = [Utilities getYearFromItem:item[mainFields[@"row3"]]];
+    NSString *runtime = [Utilities getTimeFromItem:item[mainFields[@"row4"]] sec2min:sec2min];
+    NSString *rating = [Utilities getRatingFromItem:item[mainFields[@"row5"]]];
+    NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:item useBanner:useBanner useIcon:useIcon];
+    NSDictionary *art = item[@"art"];
+    NSString *clearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
+    NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
+    NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
+    NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
+    if ([stringURL isEqualToString:@""]) {
+        stringURL = [Utilities getItemIconFromDictionary:item mainFields:mainFields];
+    }
+    mainMenu *MenuItem = self.detailItem;
+    BOOL disableNowPlaying = NO;
+    if ([MenuItem disableNowPlaying]) {
+        disableNowPlaying = YES;
+    }
+    
+    id row11 = item[mainFields[@"row11"]] ?: @0;
+    NSString *row11key = mainFields[@"row11"] ?: @"";
+    
+    id row7 = item[mainFields[@"row7"]] ?: @0;
+    NSString *row7key = mainFields[@"row7"] ?: @"";
+
+    NSDictionary *newItem = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                             @(disableNowPlaying), @"disableNowPlaying",
+                             @(albumView), @"fromAlbumView",
+                             @(episodesView), @"fromEpisodesView",
+                             clearlogo, @"clearlogo",
+                             clearart, @"clearart",
+                             label, @"label",
+                             genre, @"genre",
+                             stringURL, @"thumbnail",
+                             fanartURL, @"fanart",
+                             runtime, @"runtime",
+                             row7, row7key,
+                             item[mainFields[@"row6"]], mainFields[@"row6"],
+                             item[mainFields[@"row8"]], mainFields[@"row8"],
+                             year, @"year",
+                             rating, @"rating",
+                             mainFields[@"playlistid"], @"playlistid",
+                             mainFields[@"row8"], @"family",
+                             @([[NSString stringWithFormat:@"%@", item[mainFields[@"row9"]]] intValue]), mainFields[@"row9"],
+                             item[mainFields[@"row10"]], mainFields[@"row10"],
+                             row11, row11key,
+                             item[mainFields[@"row12"]], mainFields[@"row12"],
+                             item[mainFields[@"row13"]], mainFields[@"row13"],
+                             item[mainFields[@"row14"]], mainFields[@"row14"],
+                             item[mainFields[@"row15"]], mainFields[@"row15"],
+                             item[mainFields[@"row16"]], mainFields[@"row16"],
+                             item[mainFields[@"row17"]], mainFields[@"row17"],
+                             item[mainFields[@"row18"]], mainFields[@"row18"],
+                             item[mainFields[@"row20"]], mainFields[@"row20"],
+                             nil];
+    return newItem;
+}
+
+- (NSMutableDictionary*)getNewDictionaryFromItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon {
+    NSString *label = [NSString stringWithFormat:@"%@", item[mainFields[@"row1"]]];
+    NSString *genre = [Utilities getStringFromItem:item[mainFields[@"row2"]]];
+    NSString *year = [Utilities getYearFromItem:item[mainFields[@"row3"]]];
+    NSString *runtime = [Utilities getTimeFromItem:item[mainFields[@"row4"]] sec2min:sec2min];
+    NSString *rating = [Utilities getRatingFromItem:item[mainFields[@"row5"]]];
+    NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:item useBanner:tvshowsView useIcon:recordingListView];
+    NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
+    NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
+    if ([stringURL isEqualToString:@""]) {
+        stringURL = [Utilities getItemIconFromDictionary:item mainFields:mainFields];
+    }
+    NSString *row7key = mainFields[@"row7"] ?: @"none";
+    NSString *row7obj = mainFields[@"row7"] ? [NSString stringWithFormat:@"%@", item[mainFields[@"row7"]]] : @"";
+    
+    NSString *seasonNumber = [NSString stringWithFormat:@"%@", item[mainFields[@"row10"]]];
+    NSString *family = [NSString stringWithFormat:@"%@", mainFields[@"row8"]];
+    
+    NSString *row19key = mainFields[@"row19"] ?: @"episode";
+    id row19obj = @"";
+    if ([item[mainFields[@"row19"]] isKindOfClass:[NSDictionary class]]) {
+        row19obj = [item[mainFields[@"row19"]] mutableCopy];
+    }
+    else {
+        row19obj = [NSString stringWithFormat:@"%@", item[mainFields[@"row19"]]];
+    }
+    id row13key = mainFields[@"row13"];
+    id row13obj = [row13key isEqualToString:@"options"] ? (item[row13key] == nil ? @"" : item[row13key]) : item[row13key];
+    
+    id row14key = mainFields[@"row14"];
+    id row14obj = [row14key isEqualToString:@"allowempty"] ? (item[row14key] == nil ? @"" : item[row14key]) : item[row14key];
+    
+    id row15key = mainFields[@"row15"];
+    id row15obj = [row15key isEqualToString:@"addontype"] ? (item[row15key] == nil ? @"" : item[row15key]) : item[row15key];
+    
+    NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                 label, @"label",
+                                 genre, @"genre",
+                                 stringURL, @"thumbnail",
+                                 fanartURL, @"fanart",
+                                 runtime, @"runtime",
+                                 seasonNumber, @"season",
+                                 row19obj, row19key,
+                                 family, @"family",
+                                 item[mainFields[@"row6"]], mainFields[@"row6"],
+                                 item[mainFields[@"row8"]], mainFields[@"row8"],
+                                 year, @"year",
+                                 [NSString stringWithFormat:@"%@", rating], @"rating",
+                                 mainFields[@"playlistid"], @"playlistid",
+                                 row7obj, row7key,
+                                 item[mainFields[@"row9"]], mainFields[@"row9"],
+                                 item[mainFields[@"row10"]], mainFields[@"row10"],
+                                 item[mainFields[@"row11"]], mainFields[@"row11"],
+                                 item[mainFields[@"row12"]], mainFields[@"row12"],
+                                 row13obj, row13key,
+                                 row14obj, row14key,
+                                 row15obj, row15key,
+                                 item[mainFields[@"row16"]], mainFields[@"row16"],
+                                 item[mainFields[@"row17"]], mainFields[@"row17"],
+                                 item[mainFields[@"row18"]], mainFields[@"row18"],
+                                 nil];
+    return newDict;
+}
+
 - (void)setCollectionViewIndexVisibility {
     if (enableCollectionView) {
         // Get the index titles
@@ -4219,83 +4343,12 @@ NSIndexPath *selected;
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                      secondsToMinute = 60;
                  }
-                 NSString *label = [NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row1"]]];
-                 NSString *genre = [Utilities getStringFromItem:itemExtraDict[mainFields[@"row2"]]];
-                 
-                 NSString *year = [Utilities getYearFromItem:itemExtraDict[mainFields[@"row3"]]];
-                 
-                 NSString *runtime = [Utilities getTimeFromItem:itemExtraDict[mainFields[@"row4"]] sec2min:secondsToMinute];
-                 
-                 NSString *rating = [Utilities getRatingFromItem:itemExtraDict[mainFields[@"row5"]]];
-                 
-                 NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:itemExtraDict useBanner:NO useIcon:methodResult[@"recordingdetails"] != nil];
-
-                 NSDictionary *art = itemExtraDict[@"art"];
-                 NSString *clearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
-                 NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
-//                 if (art.count && [art[@"banner"] length] != 0 && AppDelegate.instance.serverVersion > 11 && !AppDelegate.instance.obj.preferTVPosters) {
-//                     thumbnailPath = art[@"banner"];
-//                 }
-                 NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                 NSString *fanartURL = [Utilities formatStringURL:itemExtraDict[@"fanart"] serverURL:serverURL];
-                 if ([stringURL isEqualToString:@""]) {
-                     stringURL = [Utilities getItemIconFromDictionary:itemExtraDict mainFields:mainFields];
-                 }
-                 BOOL disableNowPlaying = NO;
-                 if ([self.detailItem disableNowPlaying]) {
-                     disableNowPlaying = YES;
-                 }
-                 
-                 NSObject *row11 = itemExtraDict[mainFields[@"row11"]];
-                 if (row11 == nil) {
-                     row11 = @(0);
-                 }
-                 NSString *row11key = mainFields[@"row11"];
-                 if (row11key == nil) {
-                     row11key = @"";
-                 }
-                 
-                 NSObject *row7 = itemExtraDict[mainFields[@"row7"]];
-                 if (row7 == nil) {
-                     row7 = @(0);
-                 }
-                 NSString *row7key = mainFields[@"row7"];
-                 if (row7key == nil) {
-                     row7key = @"";
-                 }
-
-                 
-                 NSDictionary *newItem =
-                 [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                  @(disableNowPlaying), @"disableNowPlaying",
-                  @(albumView), @"fromAlbumView",
-                  @(episodesView), @"fromEpisodesView",
-                  clearlogo, @"clearlogo",
-                  clearart, @"clearart",
-                  label, @"label",
-                  genre, @"genre",
-                  stringURL, @"thumbnail",
-                  fanartURL, @"fanart",
-                  runtime, @"runtime",
-                  row7, row7key,
-                  itemExtraDict[mainFields[@"row6"]], mainFields[@"row6"],
-                  itemExtraDict[mainFields[@"row8"]], mainFields[@"row8"],
-                  year, @"year",
-                  rating, @"rating",
-                  mainFields[@"playlistid"], @"playlistid",
-                  mainFields[@"row8"], @"family",
-                  @([[NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row9"]]] intValue]), mainFields[@"row9"],
-                  itemExtraDict[mainFields[@"row10"]], mainFields[@"row10"],
-                  row11, row11key,
-                  itemExtraDict[mainFields[@"row12"]], mainFields[@"row12"],
-                  itemExtraDict[mainFields[@"row13"]], mainFields[@"row13"],
-                  itemExtraDict[mainFields[@"row14"]], mainFields[@"row14"],
-                  itemExtraDict[mainFields[@"row15"]], mainFields[@"row15"],
-                  itemExtraDict[mainFields[@"row16"]], mainFields[@"row16"],
-                  itemExtraDict[mainFields[@"row17"]], mainFields[@"row17"],
-                  itemExtraDict[mainFields[@"row18"]], mainFields[@"row18"],
-                  itemExtraDict[mainFields[@"row20"]], mainFields[@"row20"],
-                  nil];
+                 NSDictionary *newItem = [self getNewDictionaryFromExtraInfoItem:itemExtraDict
+                                                                      mainFields:mainFields
+                                                                       serverURL:serverURL
+                                                                         sec2min:secondsToMinute
+                                                                       useBanner:NO
+                                                                         useIcon:methodResult[@"recordingdetails"] != nil];
                  [self displayInfoView:newItem];
              }
              else {
@@ -4412,68 +4465,12 @@ NSIndexPath *selected;
                             total = (int)itemDict.count;
                         }
                         for (int i = 0; i < total; i++) {
-                            NSString *label = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row1"]]];
-                            NSString *genre = [Utilities getStringFromItem:itemDict[i][mainFields[@"row2"]]];
-                            NSString *year = [Utilities getYearFromItem:itemDict[i][mainFields[@"row3"]]];
-                            NSString *runtime = [Utilities getTimeFromItem:itemDict[i][mainFields[@"row4"]] sec2min:secondsToMinute];
-                            NSString *rating = [Utilities getRatingFromItem:itemDict[i][mainFields[@"row5"]]];
-                            NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:itemDict[i] useBanner:NO useIcon:NO];
-                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                            NSString *fanartURL = [Utilities formatStringURL:itemDict[i][@"fanart"] serverURL:serverURL];
-                            if ([stringURL isEqualToString:@""]) {
-                                stringURL = [Utilities getItemIconFromDictionary:itemDict[i] mainFields:mainFields];
-                            }
-                            NSString *key = @"none";
-                            NSString *value = @"";
-                            if ((mainFields[@"row7"] != nil)) {
-                                key = mainFields[@"row7"];
-                                value = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row7"]]];
-                            }
-                            NSString *seasonNumber = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row10"]]];
-                            NSString *family = [NSString stringWithFormat:@"%@", mainFields[@"row8"]];
-                            NSString *row19key = mainFields[@"row19"];
-                            if (row19key == nil) {
-                                row19key = @"episode";
-                            }
-                            id episodeNumber = @"";
-                            if ([itemDict[i][mainFields[@"row19"]] isKindOfClass:[NSDictionary class]]) {
-                                episodeNumber = [itemDict[i][mainFields[@"row19"]] mutableCopy];
-                            }
-                            else {
-                                episodeNumber = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row19"]]];
-                            }
-                            id row13obj = [mainFields[@"row13"] isEqualToString:@"options"] ? itemDict[i][mainFields[@"row13"]] == nil ? @"" : itemDict[i][mainFields[@"row13"]] : itemDict[i][mainFields[@"row13"]];
-                            
-                            id row14obj = [mainFields[@"row14"] isEqualToString:@"allowempty"] ? itemDict[i][mainFields[@"row14"]] == nil ? @"" : itemDict[i][mainFields[@"row14"]] : itemDict[i][mainFields[@"row14"]];
-                            
-                            id row15obj = [mainFields[@"row15"] isEqualToString:@"addontype"] ? itemDict[i][mainFields[@"row15"]] == nil ? @"" : itemDict[i][mainFields[@"row15"]] : itemDict[i][mainFields[@"row15"]];
-                            
-                            NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                         label, @"label",
-                                                         genre, @"genre",
-                                                         stringURL, @"thumbnail",
-                                                         fanartURL, @"fanart",
-                                                         runtime, @"runtime",
-                                                         seasonNumber, @"season",
-                                                         episodeNumber, row19key,
-                                                         family, @"family",
-                                                         itemDict[i][mainFields[@"row6"]], mainFields[@"row6"],
-                                                         itemDict[i][mainFields[@"row8"]], mainFields[@"row8"],
-                                                         year, @"year",
-                                                         [NSString stringWithFormat:@"%@", rating], @"rating",
-                                                         mainFields[@"playlistid"], @"playlistid",
-                                                         value, key,
-                                                         itemDict[i][mainFields[@"row9"]], mainFields[@"row9"],
-                                                         itemDict[i][mainFields[@"row10"]], mainFields[@"row10"],
-                                                         itemDict[i][mainFields[@"row11"]], mainFields[@"row11"],
-                                                         itemDict[i][mainFields[@"row12"]], mainFields[@"row12"],
-                                                         row13obj, mainFields[@"row13"],
-                                                         row14obj, mainFields[@"row14"],
-                                                         row15obj, mainFields[@"row15"],
-                                                         itemDict[i][mainFields[@"row16"]], mainFields[@"row16"],
-                                                         itemDict[i][mainFields[@"row17"]], mainFields[@"row17"],
-                                                         itemDict[i][mainFields[@"row18"]], mainFields[@"row18"],
-                                                            nil];
+                            NSMutableDictionary *newDict = [self getNewDictionaryFromItem:itemDict[i]
+                                                                               mainFields:mainFields
+                                                                                serverURL:serverURL
+                                                                                  sec2min:secondsToMinute
+                                                                                useBanner:NO
+                                                                                  useIcon:NO];
                             
                             [richData addObject:newDict];
                         }
@@ -4656,76 +4653,12 @@ NSIndexPath *selected;
                          total = (int)itemDict.count;
                      }
                      for (int i = 0; i < total; i++) {
-                         NSString *label = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row1"]]];
-                         
-                         NSString *genre = [Utilities getStringFromItem:itemDict[i][mainFields[@"row2"]]];
-                         
-                         NSString *year = [Utilities getYearFromItem:itemDict[i][mainFields[@"row3"]]];
-
-                         NSString *runtime = [Utilities getTimeFromItem:itemDict[i][mainFields[@"row4"]] sec2min:secondsToMinute];
-                         
-                         NSString *rating = [Utilities getRatingFromItem:itemDict[i][mainFields[@"row5"]]];
-                         
-                         NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:itemDict[i] useBanner:tvshowsView useIcon:recordingListView];
-
-                         NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                         NSString *fanartURL = [Utilities formatStringURL:itemDict[i][@"fanart"] serverURL:serverURL];
-                         if ([stringURL isEqualToString:@""]) {
-                             stringURL = [Utilities getItemIconFromDictionary:itemDict[i] mainFields:mainFields];
-                         }
-                         NSString *key = @"none";
-                         NSString *value = @"";
-                         if ((mainFields[@"row7"] != nil)) {
-                             key = mainFields[@"row7"];
-                             value = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row7"]]];
-                         }
-                         NSString *seasonNumber = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row10"]]];
-                         
-                         NSString *family = [NSString stringWithFormat:@"%@", mainFields[@"row8"]];
-                         
-                         NSString *row19key = mainFields[@"row19"];
-                         if (row19key == nil) {
-                             row19key = @"episode";
-                         }
-                         id episodeNumber = @"";
-                         if ([itemDict[i][mainFields[@"row19"]] isKindOfClass:[NSDictionary class]]) {
-                             episodeNumber = [itemDict[i][mainFields[@"row19"]] mutableCopy];
-                         }
-                         else {
-                             episodeNumber = [NSString stringWithFormat:@"%@", itemDict[i][mainFields[@"row19"]]];
-                         }
-                         id row13obj = [mainFields[@"row13"] isEqualToString:@"options"] ? itemDict[i][mainFields[@"row13"]] == nil ? @"" : itemDict[i][mainFields[@"row13"]] : itemDict[i][mainFields[@"row13"]];
-                         
-                         id row14obj = [mainFields[@"row14"] isEqualToString:@"allowempty"] ? itemDict[i][mainFields[@"row14"]] == nil ? @"" : itemDict[i][mainFields[@"row14"]] : itemDict[i][mainFields[@"row14"]];
-                         
-                         id row15obj = [mainFields[@"row15"] isEqualToString:@"addontype"] ? itemDict[i][mainFields[@"row15"]] == nil ? @"" : itemDict[i][mainFields[@"row15"]] : itemDict[i][mainFields[@"row15"]];
-                         
-                         NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                      label, @"label",
-                                                      genre, @"genre",
-                                                      stringURL, @"thumbnail",
-                                                      fanartURL, @"fanart",
-                                                      runtime, @"runtime",
-                                                      seasonNumber, @"season",
-                                                      episodeNumber, row19key,
-                                                      family, @"family",
-                                                      itemDict[i][mainFields[@"row6"]], mainFields[@"row6"],
-                                                      itemDict[i][mainFields[@"row8"]], mainFields[@"row8"],
-                                                      year, @"year",
-                                                      [NSString stringWithFormat:@"%@", rating], @"rating",
-                                                      mainFields[@"playlistid"], @"playlistid",
-                                                      value, key,
-                                                      itemDict[i][mainFields[@"row9"]], mainFields[@"row9"],
-                                                      itemDict[i][mainFields[@"row10"]], mainFields[@"row10"],
-                                                      itemDict[i][mainFields[@"row11"]], mainFields[@"row11"],
-                                                      itemDict[i][mainFields[@"row12"]], mainFields[@"row12"],
-                                                      row13obj, mainFields[@"row13"],
-                                                      row14obj, mainFields[@"row14"],
-                                                      row15obj, mainFields[@"row15"],
-                                                      itemDict[i][mainFields[@"row16"]], mainFields[@"row16"],
-                                                      itemDict[i][mainFields[@"row17"]], mainFields[@"row17"],
-                                                      itemDict[i][mainFields[@"row18"]], mainFields[@"row18"],
-                                                      nil];
+                         NSMutableDictionary *newDict = [self getNewDictionaryFromItem:itemDict[i]
+                                                                            mainFields:mainFields
+                                                                             serverURL:serverURL
+                                                                               sec2min:secondsToMinute
+                                                                             useBanner:tvshowsView
+                                                                               useIcon:recordingListView];
                          
                          // Check if we need to ignore the current item
                          BOOL isRadioItem = [itemDict[i][@"radio"] boolValue] ||
