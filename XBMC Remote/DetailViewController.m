@@ -452,6 +452,16 @@
     }];
 }
 
+- (NSString*)getServerURL {
+    GlobalData *obj = [GlobalData getInstance];
+    NSString *stringFormat = (AppDelegate.instance.serverVersion > 11) ? @"%@:%@/image/" : @"%@:%@/vfs/";
+    return [NSString stringWithFormat:stringFormat, obj.serverIP, obj.serverPort];;
+}
+
+- (int)getSec2Min:(BOOL)convert {
+    return (AppDelegate.instance.serverVersion > 11 && convert) ? 60 : 1;
+}
+
 - (NSDictionary*)getNewDictionaryFromExtraInfoItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon {
     NSString *label = [NSString stringWithFormat:@"%@", item[mainFields[@"row1"]]];
     NSString *genre = [Utilities getStringFromItem:item[mainFields[@"row2"]]];
@@ -4396,7 +4406,6 @@ NSIndexPath *selected;
                                      newProperties, @"properties",
                                      item[itemid], itemid,
                                      nil];
-    GlobalData *obj = [GlobalData getInstance];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
@@ -4415,13 +4424,8 @@ NSIndexPath *selected;
                  if (((NSNull*)itemExtraDict == [NSNull null]) || itemExtraDict == nil) {
                      return; // something goes wrong
                  }
-                 NSString *serverURL = @"";
-                 int secondsToMinute = 1;
-                 serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-                 if (AppDelegate.instance.serverVersion > 11) {
-                     serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-                     secondsToMinute = 60;
-                 }
+                 NSString *serverURL = [self getServerURL];
+                 int secondsToMinute = [self getSec2Min:YES];
                  NSDictionary *newItem = [self getNewDictionaryFromExtraInfoItem:itemExtraDict
                                                                       mainFields:mainFields
                                                                        serverURL:serverURL
@@ -4515,7 +4519,6 @@ NSIndexPath *selected;
      withParameters:mutableParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
-            GlobalData *obj = [GlobalData getInstance];
             BOOL forceRefresh = YES;
             int total = 0;
             if (error == nil && methodError == nil) {
@@ -4526,15 +4529,8 @@ NSIndexPath *selected;
                         itemid = mainFields[@"itemid"];
                     }
                     NSArray *itemDict = methodResult[itemid];
-                    NSString *serverURL = @"";
-                    serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-                    int secondsToMinute = 1;
-                    if (AppDelegate.instance.serverVersion > 11) {
-                        serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-                        if ([menuItem noConvertTime]) {
-                            secondsToMinute = 60;
-                        }
-                    }
+                    NSString *serverURL = [self getServerURL];
+                    int secondsToMinute = [self getSec2Min:[menuItem noConvertTime]];
                     if ([itemDict isKindOfClass:[NSArray class]]) {
                         if (((NSNull*)itemDict != [NSNull null])) {
                             total = (int)itemDict.count;
@@ -4631,7 +4627,6 @@ NSIndexPath *selected;
         }
     }
 
-    GlobalData *obj = [GlobalData getInstance];
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
 //    NSLog(@"START");
     debugText.text = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
@@ -4714,15 +4709,8 @@ NSIndexPath *selected;
                      recordingListView = NO;
                  }
                  NSArray *itemDict = methodResult[itemid];
-                 NSString *serverURL = @"";
-                 serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-                 int secondsToMinute = 1;
-                 if (AppDelegate.instance.serverVersion > 11) {
-                     serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-                     if ([self.detailItem noConvertTime]) {
-                         secondsToMinute = 60;
-                     }
-                 }
+                 NSString *serverURL = [self getServerURL];
+                 int secondsToMinute = [self getSec2Min:[MenuItem noConvertTime]];
                  if ([itemDict isKindOfClass:[NSArray class]]) {
                      if (((NSNull*)itemDict != [NSNull null])) {
                          total = (int)itemDict.count;
