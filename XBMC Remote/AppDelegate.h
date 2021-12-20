@@ -22,7 +22,6 @@
 #define PHONE_MENU_HEIGHT 50
 #define PHONE_MENU_INFO_HEIGHT 44
 #define PAD_MENU_HEIGHT 50
-#define PAD_MENU_INFO_HEIGHT 18
 #define PAD_MENU_TABLE_WIDTH 300
 
 /* UI items are designed for this screen width */

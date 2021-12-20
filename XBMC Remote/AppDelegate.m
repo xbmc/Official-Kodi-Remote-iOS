@@ -5671,7 +5671,9 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Build and Initialize menu structure
     
     // Build menu
-    [mainMenuItems addObject:menu_Server];
+    if (IS_IPHONE) {
+        [mainMenuItems addObject:menu_Server];
+    }
     if ([self isMenuEntryEnabled:@"menu_music"]) {
         [mainMenuItems addObject:menu_Music];
     }

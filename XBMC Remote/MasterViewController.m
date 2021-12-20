@@ -57,7 +57,7 @@
         AppDelegate.instance.serverName = infoText;
         itemIsActive = NO;
         NSInteger n = [menuList numberOfRowsInSection:0];
-        for (int i = 1; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell != nil) {
                 [UIView beginAnimations:nil context:nil];
@@ -82,7 +82,7 @@
         AppDelegate.instance.serverName = infoText;
         itemIsActive = NO;
         NSInteger n = [menuList numberOfRowsInSection:0];
-        for (int i = 1; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell != nil) {
                 [UIView beginAnimations:nil context:nil];

@@ -113,7 +113,7 @@
         [volumeSliderView startTimer];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
-        for (int i = 1; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell != nil) {
                 cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -133,7 +133,7 @@
         AppDelegate.instance.serverName = infoText;
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
-        for (int i = 1; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
             if (cell != nil) {
                 cell.selectionStyle = UITableViewCellSelectionStyleGray;
@@ -359,8 +359,7 @@
     AppDelegate.instance.obj = [GlobalData getInstance]; 
 
     int cellHeight = PAD_MENU_HEIGHT;
-    int infoHeight = PAD_MENU_INFO_HEIGHT;
-    NSInteger tableHeight = ([(NSMutableArray*)mainMenu count] - 1) * cellHeight + infoHeight;
+    NSInteger tableHeight = [(NSMutableArray*)mainMenu count] * cellHeight;
     int tableWidth = PAD_MENU_TABLE_WIDTH;
     int headerHeight = 0;
    
