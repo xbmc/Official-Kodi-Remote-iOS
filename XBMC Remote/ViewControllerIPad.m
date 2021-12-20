@@ -25,8 +25,11 @@
 #define SERVER_TIMEOUT 2.0
 #define VIEW_PADDING 10 /* separation between toolbar views */
 #define TOOLBAR_HEIGHT 44
-#define XBMCLOGO_WIDTH 87
+#define XBMCLOGO_WIDTH 30
 #define POWERBUTTON_WIDTH 42
+#define CONNECTION_ICON_SIZE 18
+#define CONNECTION_PADDING 20
+#define VOLUME_PADDING_LEFT 40
 
 @interface ViewControllerIPad () {
     NSMutableArray *mainMenu;
@@ -98,6 +101,12 @@
 
 - (void)wakeUp:(NSString*)macAddress {
     [AppDelegate.instance sendWOL:macAddress withPort:9];
+}
+
+- (void)connectionStatus:(NSNotification*)note {
+    NSDictionary *theData = note.userInfo;
+    NSString *icon_connection = theData[@"icon_connection"];
+    connectionStatus.image = [UIImage imageNamed:icon_connection];
 }
 
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
@@ -416,13 +425,18 @@
     [self.view addSubview:rootView];
     
     // left most element
-    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, self.view.frame.size.height - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT) leftAnchor:0.0];
+    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - VOLUME_PADDING_LEFT, self.view.frame.size.height - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT) leftAnchor:0.0];
     volumeSliderView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:volumeSliderView];
     
     // right most element
-    UIImage *image = [UIImage imageNamed:@"bottom_logo_up"];
-    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - XBMCLOGO_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, XBMCLOGO_WIDTH, TOOLBAR_HEIGHT)];
+    connectionStatus = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - CONNECTION_ICON_SIZE - VIEW_PADDING, self.view.frame.size.height - (TOOLBAR_HEIGHT + CONNECTION_ICON_SIZE) / 2 - [Utilities getBottomPadding], CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE)];
+    connectionStatus.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    [self.view addSubview:connectionStatus];
+    
+    // 2nd right most element
+    UIImage *image = [UIImage imageNamed:@"bottom_logo_only"];
+    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(connectionStatus.frame) - XBMCLOGO_WIDTH - CONNECTION_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, XBMCLOGO_WIDTH, TOOLBAR_HEIGHT)];
     [xbmcLogo setImage:image forState:UIControlStateNormal];
     [xbmcLogo setImage:image forState:UIControlStateHighlighted];
     xbmcLogo.showsTouchWhenHighlighted = NO;
@@ -431,7 +445,7 @@
     xbmcLogo.alpha = 0.9;
     [self.view addSubview:xbmcLogo];
     
-    // 2nd right most element
+    // 3rd right most element
     image = [UIImage imageNamed:@"icon_power_up"];
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - POWERBUTTON_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
     [powerButton setImage:image forState:UIControlStateNormal];
@@ -441,8 +455,8 @@
     [self.view addSubview:powerButton];
     
     // element between left most and 2nd right most uses up free space
-    CGFloat startInfo = volumeSliderView.frame.origin.x + volumeSliderView.frame.size.width + VIEW_PADDING;
-    CGFloat widthInfo = powerButton.frame.origin.x - startInfo - VIEW_PADDING;
+    CGFloat startInfo = volumeSliderView.frame.origin.x + volumeSliderView.frame.size.width + 2 * VIEW_PADDING;
+    CGFloat widthInfo = powerButton.frame.origin.x - startInfo - 2 * VIEW_PADDING;
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(startInfo, self.view.frame.size.height - TOOLBAR_HEIGHT, widthInfo, TOOLBAR_HEIGHT)];
     [xbmcInfo setTitle:LOCALIZED_STR(@"No connection") forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
@@ -522,6 +536,14 @@
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTcpJSONRPCChangeServerStatus:)
                                                  name: @"TcpJSONRPCChangeServerStatus"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionStatus:)
+                                                 name: @"XBMCServerConnectionSuccess"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionStatus:)
+                                                 name: @"XBMCServerConnectionFailed"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleStackScrollFullScreenEnabled:)
