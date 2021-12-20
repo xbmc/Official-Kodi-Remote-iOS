@@ -56,18 +56,7 @@
         AppDelegate.instance.serverOnLine = YES;
         AppDelegate.instance.serverName = infoText;
         itemIsActive = NO;
-        NSInteger n = [menuList numberOfRowsInSection:0];
-        for (int i = 0; i < n; i++) {
-            UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell != nil) {
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.3];
-                ((UIImageView*)[cell viewWithTag:1]).alpha = 1.0;
-                ((UIImageView*)[cell viewWithTag:2]).alpha = 1.0;
-                ((UIImageView*)[cell viewWithTag:3]).alpha = 1.0;
-                [UIView commitAnimations];
-            }
-        }
+        [Utilities setStyleOfMenuItems:menuList active:YES];
 //        [[Utilities getJsonRPC]
 //         callMethod:@"JSONRPC.Introspect"
 //         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: nil]
@@ -81,18 +70,7 @@
         AppDelegate.instance.serverOnLine = NO;
         AppDelegate.instance.serverName = infoText;
         itemIsActive = NO;
-        NSInteger n = [menuList numberOfRowsInSection:0];
-        for (int i = 0; i < n; i++) {
-            UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell != nil) {
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.3];
-                ((UIImageView*)[cell viewWithTag:1]).alpha = 0.3;
-                ((UIImageView*)[cell viewWithTag:2]).alpha = 0.3;
-                ((UIImageView*)[cell viewWithTag:3]).alpha = 0.3;
-                [UIView commitAnimations];
-            }
-        }
+        [Utilities setStyleOfMenuItems:menuList active:NO];
     }
 }
 

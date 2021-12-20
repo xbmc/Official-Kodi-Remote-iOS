@@ -938,4 +938,16 @@
     }
 }
 
++ (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active {
+    CGFloat alpha = active ? 1.0 : 0.3;
+    for (UITableViewCell *cell in tableView.visibleCells) {
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                            ((UIImageView*)[cell viewWithTag:1]).alpha = alpha;
+                            ((UIImageView*)[cell viewWithTag:2]).alpha = alpha;
+                            ((UIImageView*)[cell viewWithTag:3]).alpha = alpha;
+                         }];
+    }
+}
+
 @end

@@ -91,5 +91,6 @@ typedef enum {
 + (void)checkForReviewRequest;
 + (NSString*)getConnectionStatusIconName;
 + (void)addShadowsToView:(UIView*)view viewFrame:(CGRect)frame;
++ (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active;
 
 @end

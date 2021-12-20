@@ -121,19 +121,7 @@
         AppDelegate.instance.serverName = infoText;
         [volumeSliderView startTimer];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
-        for (int i = 0; i < n; i++) {
-            UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell != nil) {
-                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.3];
-                ((UIImageView*)[cell viewWithTag:1]).alpha = 1.0;
-                ((UIImageView*)[cell viewWithTag:2]).alpha = 1.0;
-                ((UIImageView*)[cell viewWithTag:3]).alpha = 1.0;
-                [UIView commitAnimations];
-            }
-        }
+        [Utilities setStyleOfMenuItems:menuViewController.tableView active:YES];
     }
     else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];
@@ -141,20 +129,7 @@
         AppDelegate.instance.serverOnLine = NO;
         AppDelegate.instance.serverName = infoText;
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
-        for (int i = 0; i < n; i++) {
-            UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell != nil) {
-                cell.selectionStyle = UITableViewCellSelectionStyleGray;
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.3];
-                
-                ((UIImageView*)[cell viewWithTag:1]).alpha = 0.3;
-                ((UIImageView*)[cell viewWithTag:2]).alpha = 0.3;
-                ((UIImageView*)[cell viewWithTag:3]).alpha = 0.3;
-                [UIView commitAnimations];
-            }
-        }
+        [Utilities setStyleOfMenuItems:menuViewController.tableView active:NO];
         if (![extraTimer isValid])
             extraTimer = [NSTimer scheduledTimerWithTimeInterval:CONNECTION_TIMEOUT target:self selector:@selector(offStackView) userInfo:nil repeats:NO];
     }
