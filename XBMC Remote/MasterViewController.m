@@ -305,10 +305,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGRect frame = menuList.frame;
-    frame.origin.y = 22;
-    frame.size.height = frame.size.height - 22;
-    menuList.frame = frame;
     menuList.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
