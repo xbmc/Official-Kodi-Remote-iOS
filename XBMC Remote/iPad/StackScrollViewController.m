@@ -913,7 +913,7 @@
                 [viewControllersStack removeObjectAtIndex:indexOfViewController];
             }
 // END FIXME
-			viewXPosition = self.view.frame.size.width - [controller view].frame.size.width;
+			viewXPosition = self.view.frame.size.width - controller.view.frame.size.width;
 		}
 	}
     else if (viewControllersStack.count == 0) {
@@ -945,24 +945,24 @@
 		slideStartPosition = SLIDE_VIEWS_START_X_POS;
 		viewXPosition = slideStartPosition;
 	}
-	[controller view].frame = CGRectMake(viewXPosition, 0, [controller view].frame.size.width, self.view.frame.size.height - bottomPadding);
+	controller.view.frame = CGRectMake(viewXPosition, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
 	controller.view.tag = viewControllersStack.count - 1 + VIEW_TAG;
 	[controller viewWillAppear:NO];
 	[controller viewDidAppear:NO];
     
     [Utilities addShadowsToView:controller.view viewFrame:controller.view.frame];
     
-	[slideViews addSubview:[controller view]];
+	[slideViews addSubview:controller.view];
     if (slideViews.subviews.count > 0) {
 		if (slideViews.subviews.count == 1) {
 //            NSLog(@"SETTE"); //FIRST
 			viewAtLeft = slideViews.subviews[slideViews.subviews.count - 1];
-            [controller view].frame = CGRectMake(animX, 0, [controller view].frame.size.width, self.view.frame.size.height - bottomPadding);
+            controller.view.frame = CGRectMake(animX, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
 
             [UIView beginAnimations:nil context:NULL];
 			[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:viewAtLeft cache:YES];	
 			[UIView setAnimationBeginsFromCurrentState:NO];	
-            [controller view].frame = CGRectMake(viewXPosition, 0, [controller view].frame.size.width, self.view.frame.size.height - bottomPadding);
+            controller.view.frame = CGRectMake(viewXPosition, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
 
             [UIView commitAnimations];
 			viewAtLeft2 = nil;
@@ -1070,7 +1070,7 @@
     for (UIViewController* subController in viewControllersStack) {
         [subController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
         if (!((viewAtRight != nil && [viewAtRight isEqual:subController.view]) || (viewAtLeft != nil && [viewAtLeft isEqual:subController.view]) || (viewAtLeft2 != nil && [viewAtLeft2 isEqual:subController.view]))) {
-            [subController view].hidden = YES;
+            subController.view.hidden = YES;
         }
     }
     
