@@ -30,20 +30,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    navController.view.clipsToBounds = NO;
-    CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height + 22);
-    UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
-    shadow.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    shadow.image = [UIImage imageNamed:@"tableLeft"];
-    shadow.opaque = YES;
-    [navController.view addSubview:shadow];
-    
-    shadowRect = CGRectMake(self.view.frame.size.width, 0, 16, self.view.frame.size.height + 22);
-    UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
-    shadowRight.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    shadowRight.image = [UIImage imageNamed:@"tableRight"];
-    shadowRight.opaque = YES;
-    [navController.view addSubview:shadowRight];
+    [Utilities addShadowsToView:navController.view viewFrame:self.view.frame];
 }
 
 - (void)viewDidLoad {

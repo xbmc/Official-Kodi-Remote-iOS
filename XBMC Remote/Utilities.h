@@ -90,5 +90,6 @@ typedef enum {
 + (void)sendXbmcHttp:(NSString*)command;
 + (void)checkForReviewRequest;
 + (NSString*)getConnectionStatusIconName;
++ (void)addShadowsToView:(UIView*)view viewFrame:(CGRect)frame;
 
 @end

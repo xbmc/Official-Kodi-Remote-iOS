@@ -17,6 +17,7 @@
 #define XBMC_LOGO_PADDING 10
 #define PERSISTENCE_KEY_VERSION @"VersionUnderReview"
 #define PERSISTENCE_KEY_PLAYBACK_ATTEMPTS @"PlaybackAttempts"
+#define PANEL_SHADOW_SIZE 16
 
 @implementation Utilities
 
@@ -897,6 +898,44 @@
         }
     }
     return iconName;
+}
+
++ (void)addShadowsToView:(UIView*)view viewFrame:(CGRect)frame {
+    view.clipsToBounds = NO;
+    
+    // Shadow on left side of movable screen
+    CGRect shadowRect = CGRectMake(-PANEL_SHADOW_SIZE,
+                                   0,
+                                   PANEL_SHADOW_SIZE,
+                                   frame.size.height);
+    UIImageView *shadowLeft = [[UIImageView alloc] initWithFrame:shadowRect];
+    shadowLeft.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    shadowLeft.image = [UIImage imageNamed:@"tableLeft"];
+    shadowLeft.opaque = YES;
+    [view addSubview:shadowLeft];
+    
+    // Shadow on right side of movable screen
+    shadowRect = CGRectMake(frame.size.width,
+                            0,
+                            PANEL_SHADOW_SIZE,
+                            frame.size.height);
+    UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
+    shadowRight.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
+    shadowRight.image = [UIImage imageNamed:@"tableRight"];
+    shadowRight.opaque = YES;
+    [view addSubview:shadowRight];
+    
+    if (IS_IPAD) {
+        // Shadow on top of movable screen
+        shadowRect = CGRectMake(-PANEL_SHADOW_SIZE,
+                                -PANEL_SHADOW_SIZE,
+                                frame.size.width + 2 * PANEL_SHADOW_SIZE,
+                                PANEL_SHADOW_SIZE);
+        UIImageView *shadowUp = [[UIImageView alloc] initWithFrame:shadowRect];
+        shadowUp.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        shadowUp.image = [UIImage imageNamed:@"stackScrollUpShadow"];
+        [view insertSubview:shadowUp atIndex:1];
+    }
 }
 
 @end

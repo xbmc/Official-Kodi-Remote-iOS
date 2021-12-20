@@ -950,27 +950,7 @@
 	[controller viewWillAppear:NO];
 	[controller viewDidAppear:NO];
     
-    CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height - bottomPadding);
-    UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
-    shadow.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    shadow.image = [UIImage imageNamed:@"tableLeft"];
-    shadow.opaque = YES;
-    shadow.tag = 2001;
-    [controller.view addSubview:shadow];
-    
-    shadowRect = CGRectMake(STACKSCROLL_WIDTH, 0, 16, self.view.frame.size.height - bottomPadding);
-    UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
-    shadowRight.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
-    shadowRight.image = [UIImage imageNamed:@"tableRight"];
-    shadowRight.opaque = YES;
-    shadowRight.tag = 2002;
-    [controller.view addSubview:shadowRight];
-    
-    shadowRect = CGRectMake(-15, -15, STACKSCROLL_WIDTH + 30, 15);
-    UIImageView *shadowUp = [[UIImageView alloc] initWithFrame:shadowRect];
-    shadowUp.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    shadowUp.image = [UIImage imageNamed:@"stackScrollUpShadow"];
-    [controller.view insertSubview:shadowUp atIndex:1];
+    [Utilities addShadowsToView:controller.view viewFrame:controller.view.frame];
     
 	[slideViews addSubview:[controller view]];
     if (slideViews.subviews.count > 0) {
