@@ -359,7 +359,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    int deltaY = 22;
+    int deltaY = UIApplication.sharedApplication.statusBarFrame.size.height + 2; // + 2 used by horizontanLineView
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
     self.tcpJSONRPCconnection = [tcpJSONRPC new];

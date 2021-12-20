@@ -23,6 +23,7 @@
 
 #define SERVER_TIMEOUT 2.0
 #define CONNECTION_ICON_SIZE 18
+#define CONNECTION_ICON_MARGIN 8
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -125,7 +126,7 @@
         UILabel *title = (UILabel*)[cell viewWithTag:3];
         if (indexPath.row == 0) {
             UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
-            int cellHeight = 44;
+            int cellHeight = PHONE_MENU_INFO_HEIGHT;
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:cellHeight width:self.view.bounds.size.width]];
             xbmc_logo.alpha = 0.25;
             xbmc_logo.image = logo;
@@ -137,7 +138,7 @@
             line.hidden = YES;
             title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
             icon.frame = CGRectMake(icon.frame.origin.x, (int)((cellHeight - CONNECTION_ICON_SIZE) / 2), CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE);
-            title.frame = CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight);
+            title.frame = CGRectMake(CGRectGetMaxX(icon.frame) + CONNECTION_ICON_MARGIN, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight);
             title.numberOfLines = 2;
             arrowRight.frame = CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height);
         }
@@ -264,7 +265,7 @@
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.row == 0) {
-        return 44;
+        return PHONE_MENU_INFO_HEIGHT;
     }
     return PHONE_MENU_HEIGHT;
 }
