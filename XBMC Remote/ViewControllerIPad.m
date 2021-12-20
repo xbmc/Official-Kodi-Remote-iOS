@@ -130,8 +130,9 @@
         AppDelegate.instance.serverName = infoText;
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         [Utilities setStyleOfMenuItems:menuViewController.tableView active:NO];
-        if (![extraTimer isValid])
+        if (![extraTimer isValid]) {
             extraTimer = [NSTimer scheduledTimerWithTimeInterval:CONNECTION_TIMEOUT target:self selector:@selector(offStackView) userInfo:nil repeats:NO];
+        }
     }
 }
 
