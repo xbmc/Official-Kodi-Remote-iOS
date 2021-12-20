@@ -67,13 +67,13 @@
         _tableView.tableFooterView = footerView;
         [self.view addSubview:_tableView];
         
-		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, 1, self.view.frame.size.height-39)];
+		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, 1, self.view.frame.size.height)];
 		verticalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		verticalLineView1.backgroundColor = [Utilities getGrayColor:0 alpha:0.3];
 		[self.view addSubview:verticalLineView1];
         [self.view bringSubviewToFront:verticalLineView1];
         
-        UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width+1, 0, 1, self.view.frame.size.height-39)];
+        UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width + 1, 0, 1, self.view.frame.size.height)];
 		verticalLineView2.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		verticalLineView2.backgroundColor = [Utilities getGrayColor:77 alpha:0.2];
 		[self.view addSubview:verticalLineView2];
