@@ -344,12 +344,10 @@
                                              selector: @selector(handleTcpJSONRPCChangeServerStatus:)
                                                  name: @"TcpJSONRPCChangeServerStatus"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionStatus:)
                                                  name: @"XBMCServerConnectionSuccess"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionStatus:)
                                                  name: @"XBMCServerConnectionFailed"

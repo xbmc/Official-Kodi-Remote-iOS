@@ -67,50 +67,17 @@
         _tableView.tableFooterView = footerView;
         [self.view addSubview:_tableView];
         
-//        CGRect shadowRect;
-//        UIImageView *shadow;
-        
-//        shadowRect = CGRectMake(0, 0, PAD_MENU_TABLE_WIDTH, 8);
-//        shadow = [[UIImageView alloc] initWithFrame:shadowRect];
-//        shadow.image = [UIImage imageNamed:@"tableUp"];
-//        shadow.opaque = YES;
-//        shadow.alpha = 0.5;
-//        [self.view addSubview:shadow];
-        
-//        shadowRect = CGRectMake(0, tableHeight - 8, self.view.frame.size.width, 8);
-//        shadow = [[UIImageView alloc] initWithFrame:shadowRect];
-//        shadow.image = [UIImage imageNamed:@"tableDown"];
-//        shadow.opaque = YES;
-//        shadow.alpha = 0.5;
-//        [self.view addSubview:shadow];
-		
-        
-//        UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, -5, 1, self.view.frame.size.height+5)];
-//		verticalLineView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-//		verticalLineView.backgroundColor = [Utilities getGrayColor:26 alpha:1];
-//		[self.view addSubview:verticalLineView];
-
-//        UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width + 1, -5, 5, self.view.frame.size.height-39)];
-//		verticalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-//		verticalLineView1.backgroundColor = [UIColor colorWithPatternImage: [UIImage imageNamed:@"denim_seam_vertical"]];
-//		[self.view addSubview:verticalLineView1];
-//        [self.view bringSubviewToFront:verticalLineView1];
-        
 		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, 1, self.view.frame.size.height-39)];
 		verticalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		verticalLineView1.backgroundColor = [Utilities getGrayColor:0 alpha:0.3];
 		[self.view addSubview:verticalLineView1];
         [self.view bringSubviewToFront:verticalLineView1];
-
         
         UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width+1, 0, 1, self.view.frame.size.height-39)];
 		verticalLineView2.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		verticalLineView2.backgroundColor = [Utilities getGrayColor:77 alpha:0.2];
 		[self.view addSubview:verticalLineView2];
-        
         [self.view bringSubviewToFront:verticalLineView2];
-
-		
 	}
     return self;
 }
@@ -134,12 +101,10 @@
                                              selector: @selector(connectionStatus:)
                                                  name: @"XBMCServerConnectionSuccess"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionStatus:)
                                                  name: @"XBMCServerConnectionFailed"
                                                object: nil];
-
 }
 
 - (void)handleEnableMusicSection {
@@ -184,12 +149,10 @@
     [super viewWillAppear:animated];
 }
 
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
 
-#pragma mark -
 #pragma mark Table view data source
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -204,10 +167,8 @@
     return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-//    return 10;
     return mainMenuItems.count;
 }
 
@@ -216,7 +177,6 @@
         cell.backgroundColor = [Utilities getGrayColor:130 alpha:0.1];
     }
     else {
-//        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
         cell.backgroundColor = UIColor.clearColor;
     }
 }
@@ -274,7 +234,6 @@
     return cell;
 }
 
-
 #pragma mark -
 #pragma mark Table view delegate
 
@@ -321,6 +280,4 @@
     [super didReceiveMemoryWarning];
 }
 
-
 @end
-

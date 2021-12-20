@@ -39,38 +39,28 @@
 
 @implementation UIViewExt
 - (UIView*)hitTest:(CGPoint)pt withEvent:(UIEvent*)event {
-	
 	UIView* viewToReturn = nil;
 	CGPoint pointToReturn;
-	
 	UIView* uiRightView = (UIView*)(self.subviews[1]);
-	
 	if (uiRightView.subviews[0]) {
-		
 		UIView* uiStackScrollView = uiRightView.subviews[0];
-		
 		if (uiStackScrollView.subviews[1]) {
-			
 			UIView* uiSlideView = uiStackScrollView.subviews[1];
-			
 			for (UIView* subView in uiSlideView.subviews) {
 				CGPoint point = [subView convertPoint:pt fromView:self];
 				if ([subView pointInside:point withEvent:event]) {
 					viewToReturn = subView;
 					pointToReturn = point;
 				}
-				
 			}
 		}
-		
 	}
 	
 	if (viewToReturn != nil) {
 		return [viewToReturn hitTest:pointToReturn withEvent:event];		
 	}
 	
-	return [super hitTest:pt withEvent:event];	
-	
+	return [super hitTest:pt withEvent:event];
 }
 @end
 
@@ -394,14 +384,7 @@
 	[leftMenuView addSubview:menuViewController.view];
     int separator = 2;
     
-//    CGRect seamBackground = CGRectMake(0, tableHeight + headerHeight - 2, tableWidth, separator);
-//    UIImageView *seam = [[UIImageView alloc] initWithFrame:seamBackground];
-//    seam.image = [UIImage imageNamed:@"denim_single_seam"];
-//    seam.opaque = YES;
-//    [leftMenuView addSubview:seam];
-    
     UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight + separator - 2, tableWidth, 1)];
-//    horizontalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     horizontalLineView1.backgroundColor = [Utilities getGrayColor:77 alpha:0.2];
     [leftMenuView addSubview:horizontalLineView1];
 
@@ -513,12 +496,10 @@
                                              selector: @selector(handleXBMCServerHasChanged:)
                                                  name: @"XBMCServerHasChanged"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleStackScrollOnScreen:)
                                                  name: @"StackScrollOnScreen"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleStackScrollOffScreen:)
                                                  name: @"StackScrollOffScreen"
@@ -535,32 +516,26 @@
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTcpJSONRPCShowSetup:)
                                                  name: @"TcpJSONRPCShowSetup"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTcpJSONRPCChangeServerStatus:)
                                                  name: @"TcpJSONRPCChangeServerStatus"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleStackScrollFullScreenEnabled:)
                                                  name: @"StackScrollFullScreenEnabled"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleStackScrollFullScreenDisabled:)
                                                  name: @"StackScrollFullScreenDisabled"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleChangeBackgroundGradientColor:)
                                                  name: @"UIViewChangeBackgroundGradientColor"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleChangeBackgroundImage:)
                                                  name: @"UIViewChangeBackgroundImage"
