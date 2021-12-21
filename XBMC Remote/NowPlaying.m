@@ -2097,22 +2097,28 @@ int currentItemID;
     else if ([item[@"type"] isEqualToString:@"movie"]) {
         subLabel.text = [NSString stringWithFormat:@"%@", item[@"genre"]];
     }
+    UIImage *defaultThumb;
     switch (playerID) {
         case PLAYERID_MUSIC:
             cornerLabel.text = item[@"duration"];
+            defaultThumb = [UIImage imageNamed:@"icon_song"];
             break;
         case PLAYERID_VIDEO:
             cornerLabel.text = item[@"runtime"];
+            defaultThumb = [UIImage imageNamed:@"icon_video"];
             break;
         case PLAYERID_PICTURES:
             cornerLabel.text = @"";
+            defaultThumb = [UIImage imageNamed:@"icon_picture"];
             break;
         default:
+            cornerLabel.text = @"";
+            defaultThumb = [UIImage imageNamed:@"nocover_filemode"];
             break;
     }
     NSString *stringURL = item[@"thumbnail"];
     [thumb setImageWithURL:[NSURL URLWithString:stringURL]
-          placeholderImage:[UIImage imageNamed:@"nocover_music"]];
+          placeholderImage:defaultThumb];
     // andResize:CGSizeMake(thumb.frame.size.width, thumb.frame.size.height)
     thumb = [Utilities applyRoundedEdgesView:thumb drawBorder:YES];
     UIView *timePlaying = (UIView*)[cell viewWithTag:5];
