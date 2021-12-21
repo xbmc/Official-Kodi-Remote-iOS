@@ -123,7 +123,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.40000000596046448" contentMode="scaleAspectFit" fixedFrame="YES" image="xbmc_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="154" userLabel="Image View - xbmc_overlay_ipad">
+                                <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="xbmc_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="154" userLabel="Image View - xbmc_overlay_ipad">
                                     <rect key="frame" x="20" y="121" width="280" height="72"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 </imageView>
