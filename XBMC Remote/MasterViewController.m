@@ -50,28 +50,20 @@
                                    infoText, @"message",
                                    iconName, @"icon_connection",
                                    nil];
+    NSString *notificationName;
     if (status) {
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];
-        AppDelegate.instance.serverOnLine = YES;
-        AppDelegate.instance.serverName = infoText;
-        itemIsActive = NO;
-        [Utilities setStyleOfMenuItems:menuList active:YES];
-//        [[Utilities getJsonRPC]
-//         callMethod:@"JSONRPC.Introspect"
-//         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: nil]
-//         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//             NSLog(@"%@", methodResult);
-//         }];
+        notificationName = @"XBMCServerConnectionSuccess";
     }
     else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:params];
-        AppDelegate.instance.serverOnLine = NO;
-        AppDelegate.instance.serverName = infoText;
-        itemIsActive = NO;
-        [Utilities setStyleOfMenuItems:menuList active:NO];
+        notificationName = @"XBMCServerConnectionFailed";
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:nil userInfo:params];
+    AppDelegate.instance.serverOnLine = status;
+    AppDelegate.instance.serverName = infoText;
+    itemIsActive = NO;
+    [Utilities setStyleOfMenuItems:menuList active:status];
 }
 
 #pragma mark - Table view methods & data source
