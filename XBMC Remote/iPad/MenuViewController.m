@@ -60,8 +60,6 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = UIColor.clearColor;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        _tableView.separatorColor = [Utilities getGrayColor:0 alpha:0.1];
         mainMenuItems = menu;
         UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
         _tableView.tableFooterView = footerView;
@@ -69,13 +67,13 @@
         
 		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, 1, self.view.frame.size.height)];
 		verticalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-		verticalLineView1.backgroundColor = [Utilities getGrayColor:0 alpha:0.3];
+		verticalLineView1.backgroundColor = [Utilities getGrayColor:0 alpha:0.8];
 		[self.view addSubview:verticalLineView1];
         [self.view bringSubviewToFront:verticalLineView1];
         
         UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width + 1, 0, 1, self.view.frame.size.height)];
 		verticalLineView2.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-		verticalLineView2.backgroundColor = [Utilities getGrayColor:77 alpha:0.2];
+		verticalLineView2.backgroundColor = [Utilities getGrayColor:77 alpha:0.6];
 		[self.view addSubview:verticalLineView2];
         [self.view bringSubviewToFront:verticalLineView2];
 	}
