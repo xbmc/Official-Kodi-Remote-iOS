@@ -79,7 +79,7 @@ static char operationKey;
         objc_setAssociatedObject(self, &operationKey, operation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     else {
-        self.image = [Utilities roundedCornerImage:placeholder drawBorder:withBorder];
+        self.image = [Utilities applyRoundedEdgesImage:placeholder drawBorder:withBorder];
     }
 }
 
