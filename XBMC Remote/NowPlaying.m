@@ -74,17 +74,6 @@ typedef enum {
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
-//        CGRect frame = CGRectMake(0, 0, 320, 44);
-//        viewTitle = [[UILabel alloc] initWithFrame:frame];
-//        viewTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-//        viewTitle.backgroundColor = UIColor.clearColor;
-//        viewTitle.font = [UIFont boldSystemFontOfSize:18];
-//        viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0.5];
-//        viewTitle.textAlignment = UITextAlignmentCenter;
-//        viewTitle.textColor = [Utilities getGrayColor:230 alpha:1];
-//        viewTitle.text = LOCALIZED_STR(@"Now Playing");
-//        [viewTitle sizeToFit];
-//        self.navigationItem.titleView = viewTitle;
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing"); // DA SISTEMARE COME PARAMETRO
         UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
         rightSwipe.numberOfTouchesRequired = 1;
@@ -1539,7 +1528,6 @@ int currentItemID;
         transitionedView = playlistView;
         playlistHidden = NO;
         nowPlayingHidden = YES;
-        viewTitle.text = LOCALIZED_STR(@"Playlist");
         self.navigationItem.title = LOCALIZED_STR(@"Playlist");
         self.navigationItem.titleView.hidden = YES;
         anim = UIViewAnimationTransitionFlipFromRight;
@@ -1555,7 +1543,6 @@ int currentItemID;
         transitionedView = nowPlayingView;
         playlistHidden = YES;
         nowPlayingHidden = NO;
-        viewTitle.text = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
         anim = UIViewAnimationTransitionFlipFromLeft;
@@ -2513,7 +2500,6 @@ int currentItemID;
             nowPlayingHidden = NO;
             playlistView.hidden = YES;
             playlistHidden = YES;
-            viewTitle.text = LOCALIZED_STR(@"Now Playing");
             self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
             CGRect playlistToolBarOriginY = playlistActionView.frame;
             playlistToolBarOriginY.origin.y = playlistToolbar.frame.origin.y + playlistToolbar.frame.size.height;
