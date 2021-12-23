@@ -30,6 +30,8 @@
 #define CONNECTION_ICON_SIZE 18
 #define CONNECTION_PADDING 20
 #define VOLUME_PADDING_LEFT 40
+#define PLAYLIST_HEADER_HEIGHT 24
+#define LINE_HEIGHT 1
 
 @interface ViewControllerIPad () {
     NSMutableArray *mainMenu;
@@ -366,22 +368,28 @@
 	[menuViewController viewWillAppear:NO];
 	[menuViewController viewDidAppear:NO];
 	[leftMenuView addSubview:menuViewController.view];
-    int separator = 2;
     
-    UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight + separator - 2, tableWidth, 1)];
-    horizontalLineView1.backgroundColor = [Utilities getGrayColor:77 alpha:0.2];
+    UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight, tableWidth, LINE_HEIGHT)];
+    horizontalLineView1.backgroundColor = [Utilities getGrayColor:77 alpha:0.6];
     [leftMenuView addSubview:horizontalLineView1];
+    
+    UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(0, tableHeight, PAD_MENU_TABLE_WIDTH, PLAYLIST_HEADER_HEIGHT)];
+    header.backgroundColor = UIColor.clearColor;
+    header.textColor = UIColor.lightGrayColor;
+    header.text = LOCALIZED_STR(@"Playlist");
+    header.textAlignment = NSTextAlignmentCenter;
+    [leftMenuView addSubview:header];
 
     self.nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
     CGRect frame = self.nowPlayingController.view.frame;
-    YPOS = (int)-(tableHeight + separator + headerHeight);
-    frame.origin.y = tableHeight + separator + headerHeight;
+    YPOS = (int)(tableHeight + LINE_HEIGHT + headerHeight + PLAYLIST_HEADER_HEIGHT);
+    frame.origin.y = YPOS;
     frame.size.width = tableWidth;
-    frame.size.height = self.view.frame.size.height - tableHeight - separator - headerHeight - deltaY;
+    frame.size.height = self.view.frame.size.height - YPOS - deltaY;
     self.nowPlayingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     self.nowPlayingController.view.frame = frame;
     
-    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height YPOS:YPOS];
+    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height YPOS:-YPOS];
     
     [leftMenuView addSubview:self.nowPlayingController.view];
 
@@ -671,7 +679,7 @@
 }
 
 - (void)viewWillLayoutSubviews {
-    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS];
+    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:-YPOS];
 }
 
 - (BOOL)shouldAutorotate {
