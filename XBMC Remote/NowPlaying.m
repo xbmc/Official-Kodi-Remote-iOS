@@ -40,6 +40,7 @@
 @synthesize itemDescription;
 
 #define MAX_CELLBAR_WIDTH 45
+#define PARTYBUTTON_PADDING_LEFT 8
 #define PROGRESSBAR_PADDING_LEFT 20
 #define PROGRESSBAR_PADDING_BOTTOM 80
 #define SEGMENTCONTROL_WIDTH 122
@@ -1200,12 +1201,12 @@ int currentItemID;
     if (playlistID == 0) {
         playerID = 0;
         playlistSegmentedControl.selectedSegmentIndex = 0;
-        [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:NO XPos:8];
+        [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:NO XPos:PARTYBUTTON_PADDING_LEFT];
     }
     else if (playlistID == 1) {
         playerID = 1;
         playlistSegmentedControl.selectedSegmentIndex = 1;
-        [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-72];
+        [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
     }
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
