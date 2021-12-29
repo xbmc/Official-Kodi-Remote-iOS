@@ -3971,11 +3971,11 @@ NSMutableArray *hostRightMenuItems;
             @"row3": @"endtime",
             @"row4": @"filetype",
             @"row5": @"filetype",
-            @"row6": @"channelnumber",
+            @"row6": @"channelid",
             @"playlistid": @1,
             @"row8": @"channelid",
             @"row9": @"isrecording",
-            @"row10": @"filetype",
+            @"row10": @"channelnumber",
             @"row11": @"type"
         },
                       
@@ -4160,11 +4160,11 @@ NSMutableArray *hostRightMenuItems;
             @"row3": @"endtime",
             @"row4": @"filetype",
             @"row5": @"filetype",
-            @"row6": @"channelnumber",
+            @"row6": @"channelid",
             @"playlistid": @1,
             @"row8": @"channelid",
             @"row9": @"channelid",
-            @"row10": @"filetype",
+            @"row10": @"channelnumber",
             @"row11": @"type"
         },
                               
@@ -4502,11 +4502,11 @@ NSMutableArray *hostRightMenuItems;
             @"row3": @"endtime",
             @"row4": @"filetype",
             @"row5": @"filetype",
-            @"row6": @"channelnumber",
+            @"row6": @"channelid",
             @"playlistid": @1,
             @"row8": @"channelid",
             @"row9": @"isrecording",
-            @"row10": @"filetype",
+            @"row10": @"channelnumber",
             @"row11": @"type"
         },
                       
@@ -4691,11 +4691,11 @@ NSMutableArray *hostRightMenuItems;
             @"row3": @"endtime",
             @"row4": @"filetype",
             @"row5": @"filetype",
-            @"row6": @"channelnumber",
+            @"row6": @"channelid",
             @"playlistid": @1,
             @"row8": @"channelid",
             @"row9": @"channelid",
-            @"row10": @"filetype",
+            @"row10": @"channelnumber",
             @"row11": @"type"
         },
                               
