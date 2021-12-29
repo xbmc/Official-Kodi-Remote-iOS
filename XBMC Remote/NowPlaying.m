@@ -2496,19 +2496,22 @@ int currentItemID;
         NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
         [playlistTableView scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
-    if (segment.selectedSegmentIndex == 0) {
-        lastSelected = -1;
-        selectedPlayerID = 0;
-        musicPartyMode = 0;
-        [self createPlaylist:NO animTableView:YES];
-        
+    switch (segment.selectedSegmentIndex) {
+        case 0:
+            selectedPlayerID = 0;
+            break;
+            
+        case 1:
+            selectedPlayerID = 1;
+            break;
+            
+        default:
+            NSAssert(NO, @"Unexpected segment selected.");
+            break;
     }
-    else if (segment.selectedSegmentIndex == 1) {
-        lastSelected = -1;
-        selectedPlayerID = 1;
-        musicPartyMode = 0;
-        [self createPlaylist:NO animTableView:YES];
-    }
+    lastSelected = -1;
+    musicPartyMode = 0;
+    [self createPlaylist:NO animTableView:YES];
 }
 
 #pragma mark - Life Cycle
