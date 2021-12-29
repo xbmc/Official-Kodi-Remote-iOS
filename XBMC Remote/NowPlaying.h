@@ -50,8 +50,6 @@
     int playerPlaying;
     BOOL PlayerPaused;
     int musicPartyMode;
-    IBOutlet UIButton *seg_music;
-    IBOutlet UIButton *seg_video;
     IBOutlet UIButton *editTableButton;
     IBOutlet UIButton *PartyModeButton;
     IBOutlet UIImageView *backgroundImageView;

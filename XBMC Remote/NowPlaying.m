@@ -53,8 +53,6 @@
 #define TAG_SEEK_BACKWARD 6
 #define TAG_SEEK_FORWARD 7
 #define TAG_ID_EDIT 88
-#define TAG_ID_SEGMENT_MUSIC 101
-#define TAG_ID_SEGMENT_VIDEO 102
 
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
@@ -107,36 +105,6 @@
 
 - (UIImage*)resizeToolbarThumb:(UIImage*)img {
     return [self resizeImage:img width:34 height:34 padding:0];
-}
-
-- (IBAction)changePlaylist:(id)sender {
-    if ([sender tag] == TAG_ID_SEGMENT_MUSIC && seg_music.selected) {
-        return;
-    }
-    if ([sender tag] == TAG_ID_SEGMENT_VIDEO && seg_video.selected) {
-        return;
-    }
-    [self editTable:nil forceClose:YES];
-    if (playlistData.count && (playlistTableView.dragging || playlistTableView.decelerating)) {
-        NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
-        [playlistTableView scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    }
-    if (seg_music.selected) {
-        lastSelected = -1;
-        seg_music.selected = NO;
-        seg_video.selected = YES;
-        selectedPlayerID = 1;
-        musicPartyMode = 0;
-        [self createPlaylist:NO animTableView:YES];
-    }
-    else {
-        lastSelected = -1;
-        seg_music.selected = YES;
-        seg_video.selected = NO;
-        selectedPlayerID = 0;
-        musicPartyMode = 0;
-        [self createPlaylist:NO animTableView:YES];
-    }
 }
 
 #pragma mark - utility
@@ -1232,15 +1200,11 @@ int currentItemID;
     if (playlistID == 0) {
         playerID = 0;
         playlistSegmentedControl.selectedSegmentIndex = 0;
-        seg_music.selected = YES;
-        seg_video.selected = NO;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:NO XPos:8];
     }
     else if (playlistID == 1) {
         playerID = 1;
         playlistSegmentedControl.selectedSegmentIndex = 1;
-        seg_music.selected = NO;
-        seg_video.selected = YES;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-72];
     }
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
@@ -2515,8 +2479,6 @@ int currentItemID;
 }
 
 - (void)addSegmentControl {
-    seg_music.hidden = YES;
-    seg_video.hidden = YES;
     playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[LOCALIZED_STR(@"Music"), [[LOCALIZED_STR(@"Video") capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]];
     CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH)/2;
     if (IS_IPHONE) {
@@ -2536,8 +2498,6 @@ int currentItemID;
     }
     if (segment.selectedSegmentIndex == 0) {
         lastSelected = -1;
-        seg_music.selected = YES;
-        seg_video.selected = NO;
         selectedPlayerID = 0;
         musicPartyMode = 0;
         [self createPlaylist:NO animTableView:YES];
@@ -2545,8 +2505,6 @@ int currentItemID;
     }
     else if (segment.selectedSegmentIndex == 1) {
         lastSelected = -1;
-        seg_music.selected = NO;
-        seg_video.selected = YES;
         selectedPlayerID = 1;
         musicPartyMode = 0;
         [self createPlaylist:NO animTableView:YES];
@@ -2750,8 +2708,6 @@ int currentItemID;
     tempFanartImageView = [UIImageView new];
     tempFanartImageView.hidden = YES;
     [self.view addSubview:tempFanartImageView];
-    [seg_music setTitle:LOCALIZED_STR(@"Music") forState:UIControlStateNormal];
-    [seg_video setTitle:LOCALIZED_STR(@"Video") forState:UIControlStateNormal];
     [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateNormal];
     [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateHighlighted];
     [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateSelected];
