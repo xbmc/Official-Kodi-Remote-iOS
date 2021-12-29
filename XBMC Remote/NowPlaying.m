@@ -110,6 +110,12 @@
 
 #pragma mark - utility
 
+- (void)setSongDetails:(UILabel*)label image:(UIImageView*)imageView item:(id)item {
+    label.text = [Utilities getStringFromItem:item];
+    imageView.image = [self loadImageFromName:label.text];
+    label.hidden = imageView.image != nil;
+}
+
 - (NSString*)processSongCodecName:(NSString*)codec {
     if ([codec rangeOfString:@"musepack"].location != NSNotFound) {
         codec = [codec stringByReplacingOccurrencesOfString:@"musepack" withString:@"mpc"];
@@ -982,35 +988,14 @@ int currentItemID;
                                    @"VideoPlayer.VideoCodec"]}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
-             NSString *codec = @"";
-             NSString *bitrate = @"";
-             NSString *samplerate = @"";
-             NSString *numchan = @"";
              hiresImage.hidden = YES;
              if (playerID == 0 && currentPlayerID == playerID) {
-                 codec = [methodResult[@"MusicPlayer.Codec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"MusicPlayer.Codec"]];
-                 songCodec.text = codec;
-                 songCodec.hidden = NO;
-                 songCodecImage.image = nil;
+                 NSString *codec = [methodResult[@"MusicPlayer.Codec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"MusicPlayer.Codec"]];
                  songSampleRateImage.image = nil;
                  songNumChanImage.image = nil;
                  
-                 codec = [self processSongCodecName:codec];
-                 UIImage *songImage = [self loadImageFromName:codec];
-                 songCodecImage.image = songImage;
-                 if (songImage != nil) {
-                     songCodec.hidden = YES;
-                 }
-                 
-                 numchan = [methodResult[@"MusicPlayer.Channels"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"MusicPlayer.Channels"]];
-                 songBitRate.text = numchan;
-                 songBitRate.hidden = NO;
-                 songBitRateImage.image = nil;
-                 UIImage *numChanImage = [self loadImageFromName:numchan];
-                 songBitRateImage.image = numChanImage;
-                 if (numChanImage != nil) {
-                     songBitRate.hidden = YES;
-                 }
+                 [self setSongDetails:songCodec image:songCodecImage item:[self processSongCodecName:codec]];
+                 [self setSongDetails:songBitRate image:songBitRateImage item:methodResult[@"MusicPlayer.Channels"]];
                  
                  BOOL isLossless = [self isLosslessFormat:codec];
                  
@@ -1026,55 +1011,19 @@ int currentItemID;
                  }
                 
                  NSString *newLine = ![bps isEqualToString:@""] && ![kHz isEqualToString:@""] ? @"\n" : @"";
-                 samplerate = [NSString stringWithFormat:@"%@%@%@", bps, newLine, kHz];
+                 NSString *samplerate = [NSString stringWithFormat:@"%@%@%@", bps, newLine, kHz];
                  songNumChannels.text = samplerate;
                  songNumChannels.hidden = NO;
                  
-                 bitrate = [methodResult[@"MusicPlayer.BitRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@\nkbit/s", methodResult[@"MusicPlayer.BitRate"]];
+                 NSString *bitrate = [methodResult[@"MusicPlayer.BitRate"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@\nkbit/s", methodResult[@"MusicPlayer.BitRate"]];
                  songSampleRate.text = bitrate;
                  songSampleRate.hidden = NO;
              }
              else if (playerID == 1 && currentPlayerID == playerID) {
-                 codec = [methodResult[@"VideoPlayer.VideoResolution"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"VideoPlayer.VideoResolution"]];
-                 songCodec.text = codec;
-                 songCodec.hidden = NO;
-                 songCodecImage.image = nil;
-                 UIImage *resolutionImage = [self loadImageFromName:codec];
-                 songCodecImage.image = resolutionImage;
-                 if (resolutionImage != nil) {
-                     songCodec.hidden = YES;
-                 }
-                 
-                 bitrate = [methodResult[@"VideoPlayer.VideoAspect"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"VideoPlayer.VideoAspect"]];
-                 songBitRate.text = bitrate;
-                 songBitRate.hidden = NO;
-                 songBitRateImage.image = nil;
-                 UIImage *aspectImage = [self loadImageFromName:bitrate];
-                 songBitRateImage.image = aspectImage;
-                 if (aspectImage != nil) {
-                     songBitRate.hidden = YES;
-                 }
-                 
-                 samplerate = [methodResult[@"VideoPlayer.VideoCodec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"VideoPlayer.VideoCodec"]];
-                 songSampleRate.text = samplerate;
-                 songSampleRate.hidden = NO;
-                 songSampleRateImage.image = nil;
-                 UIImage *videoCodecImage = [self loadImageFromName:samplerate];
-                 songSampleRateImage.image = videoCodecImage;
-                 if (videoCodecImage != nil) {
-                     songSampleRate.hidden = YES;
-                 }
-                 
-                 numchan = [methodResult[@"VideoPlayer.AudioCodec"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"%@", methodResult[@"VideoPlayer.AudioCodec"]];
-                 numchan = [self processSongCodecName:numchan];
-                 songNumChannels.text = numchan;
-                 songNumChannels.hidden = NO;
-                 songNumChanImage.image = nil;
-                 UIImage *audioCodecImage = [self loadImageFromName:numchan];
-                 songNumChanImage.image = audioCodecImage;
-                 if (audioCodecImage != nil) {
-                     songNumChannels.hidden = YES;
-                 }
+                 [self setSongDetails:songCodec image:songCodecImage item:methodResult[@"VideoPlayer.VideoResolution"]];
+                 [self setSongDetails:songBitRate image:songBitRateImage item:methodResult[@"VideoPlayer.VideoAspect"]];
+                 [self setSongDetails:songSampleRate image:songSampleRateImage item:methodResult[@"VideoPlayer.VideoCodec"]];
+                 [self setSongDetails:songNumChannels image:songNumChanImage item:methodResult[@"VideoPlayer.AudioCodec"]];
              }
              else {
                  songCodec.hidden = YES;
