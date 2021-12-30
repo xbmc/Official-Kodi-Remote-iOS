@@ -396,9 +396,7 @@ int currentItemID;
         coverView.alpha = 1.0;
         UIView *timePlaying = (UIView*)[cell viewWithTag:5];
         storeSelection = nil;
-        if (!timePlaying.hidden) {
-            [self fadeView:timePlaying hidden:YES];
-        }
+        [self fadeView:timePlaying hidden:YES];
     }
     [self showPlaylistTable];
     [self toggleSongDetails];
@@ -894,9 +892,7 @@ int currentItemID;
                                      CGFloat newx = MAX(MAX_CELLBAR_WIDTH * [(NSNumber*)methodResult[@"percentage"] doubleValue] / 100, 1.0);
                                      [self resizeCellBar:newx image:playlistActualBar];
                                      UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-                                     if (timePlaying.hidden) {
-                                         [self fadeView:timePlaying hidden:NO];
-                                     }
+                                     [self fadeView:timePlaying hidden:NO];
                                  }
                                  int playlistPosition = [methodResult[@"position"] intValue];
                                  if (playlistPosition > -1) {
@@ -929,9 +925,7 @@ int currentItemID;
                                                  if (selection) {
                                                      UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                                      UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-                                                     if (!timePlaying.hidden) {
-                                                         [self fadeView:timePlaying hidden:YES];
-                                                     }
+                                                     [self fadeView:timePlaying hidden:YES];
                                                      UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
                                                      coverView.alpha = 1.0;
                                                  }
@@ -943,9 +937,7 @@ int currentItemID;
                                                  [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
                                                  UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
                                                  UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-                                                 if (timePlaying.hidden) {
-                                                     [self fadeView:timePlaying hidden:NO];
-                                                 }
+                                                 [self fadeView:timePlaying hidden:NO];
                                                  storeSelection = newSelection;
                                                  lastSelected = playlistPosition;
                                              }
@@ -956,9 +948,7 @@ int currentItemID;
                                                  [playlistTableView deselectRowAtIndexPath:selection animated:YES];
                                                  UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                                  UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-                                                 if (!timePlaying.hidden) {
-                                                     [self fadeView:timePlaying hidden:YES];
-                                                 }
+                                                 [self fadeView:timePlaying hidden:YES];
                                                  UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
                                                  coverView.alpha = 1.0;
                                              }
@@ -2131,9 +2121,7 @@ int currentItemID;
     // andResize:CGSizeMake(thumb.frame.size.width, thumb.frame.size.height)
     thumb = [Utilities applyRoundedEdgesView:thumb drawBorder:YES];
     UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-    if (!timePlaying.hidden) {
-        [self fadeView:timePlaying hidden:YES];
-    }
+    [self fadeView:timePlaying hidden:YES];
     
     return cell;
 }
@@ -2143,9 +2131,7 @@ int currentItemID;
     coverView.alpha = 1.0;
     UIView *timePlaying = (UIView*)[cell viewWithTag:5];
     storeSelection = nil;
-    if (!timePlaying.hidden) {
-        [self fadeView:timePlaying hidden:YES];
-    }
+    [self fadeView:timePlaying hidden:YES];
 }
 
 - (void)checkPartyMode {
@@ -2172,9 +2158,7 @@ int currentItemID;
              UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
              [queuing stopAnimating];
              UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-             if (timePlaying.hidden) {
-                 [self fadeView:timePlaying hidden:NO];
-             }
+             [self fadeView:timePlaying hidden:NO];
 //             [self SimpleAction:@"GUI.SetFullscreen" params:[NSDictionary dictionaryWithObjectsAndKeys:@(YES), @"fullscreen", nil] reloadPlaylist:NO startProgressBar:NO];
          }
          else {
