@@ -2778,14 +2778,17 @@ int currentItemID;
 }
 
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
+    if (sender.userInfo) {
+        selectedPlayerID = [sender.userInfo[@"params"][@"data"][@"playlistid"] intValue];
+    }
     playerID = PLAYERID_UNKNOWN;
-    selectedPlayerID = PLAYERID_UNKNOWN;
     lastSelected = SELECTED_NONE;
     storedItemID = SELECTED_NONE;
     storeSelection = nil;
     lastThumbnail = @"";
     [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    [self createPlaylist:NO animTableView:YES];
 }
 
 - (void)dealloc {
