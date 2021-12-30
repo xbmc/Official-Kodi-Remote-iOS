@@ -209,6 +209,10 @@ typedef enum {
 }
 
 - (void)fadeView:(UIView*)view hidden:(BOOL)value {
+    // Do not unhide the playlist progress bar while in pictures playlist
+    if (!value && currentPlayerID == PLAYERID_PICTURES) {
+        return;
+    }
     if (value == view.hidden) {
         return;
     }
