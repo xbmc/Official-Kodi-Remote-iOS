@@ -980,7 +980,6 @@ int currentItemID;
             else {
                 [self nothingIsPlaying];
                 if (playerID == PLAYERID_UNKNOWN && selectedPlayerID == PLAYERID_UNKNOWN) {
-                    playerID = -2;
                     [self createPlaylist:YES animTableView:YES];
                 }
             }
@@ -2160,9 +2159,6 @@ int currentItemID;
     UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
     storeSelection = nil;
     [queuing startAnimating];
-    if (playerID == -2) {
-        playerID = PLAYERID_MUSIC;
-    }
     [[Utilities getJsonRPC]
      callMethod:@"Player.Open" 
      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
