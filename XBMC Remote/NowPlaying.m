@@ -2296,6 +2296,9 @@ int currentItemID;
     if (playlistData.count == 0 && !playlistTableView.editing) {
         return;
     }
+    if (playerID == PLAYERID_PICTURES) {
+        return;
+    }
     if (playlistTableView.editing || forceClose) {
         [playlistTableView setEditing:NO animated:YES];
         editTableButton.selected = NO;
