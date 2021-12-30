@@ -881,9 +881,6 @@ int currentItemID;
                                      duration.hidden = YES;
                                  }
                                  NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
-                                 if (storeSelection) {
-                                     selection = storeSelection;
-                                 }
                                  if (selection) {
                                      UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                      UILabel *playlistActualTime = (UILabel*)[cell viewWithTag:6];
@@ -919,9 +916,6 @@ int currentItemID;
                                          if (playlistPosition > 0) {
                                              if (lastSelected != playlistPosition) {
                                                  NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
-                                                 if (storeSelection) {
-                                                     selection = storeSelection;
-                                                 }
                                                  if (selection) {
                                                      UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
                                                      UIView *timePlaying = (UIView*)[cell viewWithTag:5];
