@@ -246,6 +246,13 @@ NSMutableArray *hostRightMenuItems;
     ];
 }
 
+- (NSArray*)action_simple_queue_to_play {
+    return @[
+        LOCALIZED_STR(@"Queue"),
+        LOCALIZED_STR(@"Play")
+    ];
+}
+
 - (NSArray*)action_queue_to_moviedetails {
     return @[
         LOCALIZED_STR(@"Queue after current"),
@@ -4964,6 +4971,10 @@ NSMutableArray *hostRightMenuItems;
     menu_Pictures.subItem.rowHeight = 76;
     menu_Pictures.subItem.thumbWidth = 53;
     menu_Pictures.subItem.defaultThumb = @"nocover_tvshows_episode";
+    menu_Pictures.subItem.sheetActions = @[
+        [self action_simple_queue_to_play],
+        @[]
+    ];
     
     menu_Pictures.subItem.subItem.mainMethod = [@[
         @[@"Files.GetDirectory", @"method"],
