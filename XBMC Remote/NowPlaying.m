@@ -286,6 +286,7 @@
 
 #pragma mark - JSON management
 
+int lastPlayerID = -1;
 int lastSelected = -1;
 int currentPlayerID = -1;
 float storePercentage;
@@ -581,13 +582,21 @@ int currentItemID;
                     response = methodResult[0][@"playerid"];
                 }
                 currentPlayerID = [response intValue];
-                if (playerID != [response intValue] || (selectedPlayerID > -1 && playerID != selectedPlayerID)) {  // DA SISTEMARE SE AGGIUNGONO ITEM DALL'ESTERNO: FUTURA SEGNALAZIONE CON SOCKET!
-                    if (selectedPlayerID > -1 && playerID != selectedPlayerID) {
-                        playerID = selectedPlayerID;
+                if (playerID != [response intValue] ||
+                    lastPlayerID != currentPlayerID ||
+                    (selectedPlayerID != -1 && playerID != selectedPlayerID)) {  // DA SISTEMARE SE AGGIUNGONO ITEM DALL'ESTERNO: FUTURA SEGNALAZIONE CON SOCKET!
+                    if (selectedPlayerID != -1 && playerID != selectedPlayerID) {
+                        lastPlayerID = playerID = selectedPlayerID;
                     }
                     else if (selectedPlayerID == -1) {
-                        playerID = [response intValue];
+                        lastPlayerID = playerID = [response intValue];
                         [self createPlaylist:NO animTableView:YES];
+                    }
+                    else if (lastPlayerID != currentPlayerID) {
+                        lastPlayerID = selectedPlayerID = currentPlayerID;
+                        if (playerID != currentPlayerID) {
+                            [self createPlaylist:NO animTableView:YES];
+                        }
                     }
                 }
                 NSMutableArray *properties = [@[@"album", @"artist", @"title", @"thumbnail", @"track", @"studio", @"showtitle", @"episode", @"season", @"fanart", @"description", @"plot"] mutableCopy];
