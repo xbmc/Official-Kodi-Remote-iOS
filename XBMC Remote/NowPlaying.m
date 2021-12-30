@@ -388,16 +388,7 @@ int currentItemID;
     hiresImage.hidden = YES;
     musicPartyMode = 0;
     [self setIOS7backgroundEffect:UIColor.clearColor barTintColor:TINT_COLOR];
-    NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
-    if (selection) {
-        [playlistTableView deselectRowAtIndexPath:selection animated:YES];
-        UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-        UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
-        coverView.alpha = 1.0;
-        UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-        storeSelection = nil;
-        [self fadeView:timePlaying hidden:YES];
-    }
+    [self hidePlaylistProgressbarWithDeselect:YES];
     [self showPlaylistTable];
     [self toggleSongDetails];
 }
@@ -915,14 +906,7 @@ int currentItemID;
                                      if ((playlistData.count >= playlistPosition) && currentPlayerID == playerID) {
                                          if (playlistPosition > 0) {
                                              if (lastSelected != playlistPosition) {
-                                                 NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
-                                                 if (selection) {
-                                                     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-                                                     UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-                                                     [self fadeView:timePlaying hidden:YES];
-                                                     UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
-                                                     coverView.alpha = 1.0;
-                                                 }
+                                                 [self hidePlaylistProgressbarWithDeselect:NO];
                                                  NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition - 1 inSection:0];
                                                  UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
                                                  if (musicPartyMode) {
@@ -937,15 +921,7 @@ int currentItemID;
                                              }
                                          }
                                          else {
-                                             NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
-                                             if (selection) {
-                                                 [playlistTableView deselectRowAtIndexPath:selection animated:YES];
-                                                 UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-                                                 UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-                                                 [self fadeView:timePlaying hidden:YES];
-                                                 UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
-                                                 coverView.alpha = 1.0;
-                                             }
+                                             [self hidePlaylistProgressbarWithDeselect:YES];
                                          }
                                      }
                                  }
@@ -1267,6 +1243,21 @@ int currentItemID;
                    [self showPlaylistTable];
                }
            }];
+}
+
+- (void)hidePlaylistProgressbarWithDeselect:(BOOL)deselect {
+    NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
+    if (!selection) {
+        return;
+    }
+    if (deselect) {
+        [playlistTableView deselectRowAtIndexPath:selection animated:YES];
+    }
+    UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
+    UIView *timePlaying = (UIView*)[cell viewWithTag:5];
+    [self fadeView:timePlaying hidden:YES];
+    UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
+    coverView.alpha = 1.0;
 }
 
 - (void)showPlaylistTable {
