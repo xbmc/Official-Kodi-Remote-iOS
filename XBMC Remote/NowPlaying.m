@@ -859,6 +859,7 @@ int currentItemID;
                                  int hours = [time[@"hours"] intValue];
                                  int minutes = [time[@"minutes"] intValue];
                                  int seconds = [time[@"seconds"] intValue];
+                                 float percentage = [(NSNumber*)methodResult[@"percentage"] floatValue];
                                  NSString *actualTime = [NSString stringWithFormat:@"%@%02i:%02i", (hoursGlobal == 0) ? @"" : [NSString stringWithFormat:@"%02i:", hours], minutes, seconds];
                                  if (updateProgressBar) {
                                      currentTime.text = actualTime;
@@ -871,22 +872,12 @@ int currentItemID;
                                      currentTime.hidden = YES;
                                      duration.hidden = YES;
                                  }
-                                 NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
-                                 if (selection) {
-                                     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-                                     UILabel *playlistActualTime = (UILabel*)[cell viewWithTag:6];
-                                     playlistActualTime.text = actualTime;
-                                     UIImageView *playlistActualBar = (UIImageView*)[cell viewWithTag:7];
-                                     CGFloat newx = MAX(MAX_CELLBAR_WIDTH * [(NSNumber*)methodResult[@"percentage"] doubleValue] / 100, 1.0);
-                                     [self resizeCellBar:newx image:playlistActualBar];
-                                     UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-                                     [self fadeView:timePlaying hidden:NO];
-                                 }
+                                 [self updatePlaylistProgressbar:percentage actual:actualTime];
                                  int playlistPosition = [methodResult[@"position"] intValue];
                                  if (playlistPosition > -1) {
                                      playlistPosition += 1;
                                  }
-                                 if (musicPartyMode && [(NSNumber*)methodResult[@"percentage"] floatValue] < storePercentage) { // BLEAH!!!
+                                 if (musicPartyMode && percentage < storePercentage) { // BLEAH!!!
                                      [self checkPartyMode];
                                  }
                                  //                                 if (selection) {
@@ -901,7 +892,7 @@ int currentItemID;
                                  //                                 }
                                  
                                  //                                 NSLog(@"CURRENT ITEMID %d PLAYLIST ID %@", currentItemID, playlistData[selection.row][@"idItem"]);
-                                 storePercentage = [(NSNumber*)methodResult[@"percentage"] floatValue];
+                                 storePercentage = percentage;
                                  if (playlistPosition != lastSelected && playlistPosition > 0) {
                                      if ((playlistData.count >= playlistPosition) && currentPlayerID == playerID) {
                                          if (playlistPosition > 0) {
@@ -1243,6 +1234,21 @@ int currentItemID;
                    [self showPlaylistTable];
                }
            }];
+}
+
+- (void)updatePlaylistProgressbar:(float)percentage actual:(NSString*)actualTime {
+    NSIndexPath* selection = [playlistTableView indexPathForSelectedRow];
+    if (!selection) {
+        return;
+    }
+    UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
+    UILabel *playlistActualTime = (UILabel*)[cell viewWithTag:6];
+    playlistActualTime.text = actualTime;
+    UIImageView *playlistActualBar = (UIImageView*)[cell viewWithTag:7];
+    CGFloat newx = MAX(MAX_CELLBAR_WIDTH * percentage / 100.0, 1.0);
+    [self resizeCellBar:newx image:playlistActualBar];
+    UIView *timePlaying = (UIView*)[cell viewWithTag:5];
+    [self fadeView:timePlaying hidden:NO];
 }
 
 - (void)hidePlaylistProgressbarWithDeselect:(BOOL)deselect {
