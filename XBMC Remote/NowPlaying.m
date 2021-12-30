@@ -54,6 +54,14 @@
 #define TAG_SEEK_BACKWARD 6
 #define TAG_SEEK_FORWARD 7
 #define TAG_ID_EDIT 88
+#define SELECTED_NONE -1
+
+typedef enum {
+    PLAYERID_UNKNOWN = -1,
+    PLAYERID_MUSIC = 0,
+    PLAYERID_VIDEO = 1,
+    PLAYERID_PICTURES = 2
+} PlayerIDs;
 
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
@@ -166,11 +174,11 @@
 
 - (IBAction)togglePartyMode:(id)sender {
     if (AppDelegate.instance.serverVersion == 11) {
-        storedItemID = -1;
+        storedItemID = SELECTED_NONE;
         PartyModeButton.selected = YES;
         [Utilities sendXbmcHttp:@"ExecBuiltIn&parameter=PlayerControl(Partymode('music'))"];
-        playerID = -1;
-        selectedPlayerID = -1;
+        playerID = PLAYERID_UNKNOWN;
+        selectedPlayerID = PLAYERID_UNKNOWN;
         [self createPlaylist:NO animTableView:YES];
     }
     else {
@@ -190,9 +198,9 @@
              withParameters:@{@"item": @{@"partymode": @"music"}}
              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                  PartyModeButton.selected = YES;
-                 playerID = -1;
-                 selectedPlayerID = -1;
-                 storedItemID = -1;
+                 playerID = PLAYERID_UNKNOWN;
+                 selectedPlayerID = PLAYERID_UNKNOWN;
+                 storedItemID = SELECTED_NONE;
 //                 [self createPlaylist:NO animTableView:YES];
              }];
         }
@@ -286,9 +294,9 @@
 
 #pragma mark - JSON management
 
-int lastPlayerID = -1;
-int lastSelected = -1;
-int currentPlayerID = -1;
+int lastPlayerID = PLAYERID_UNKNOWN;
+int lastSelected = SELECTED_NONE;
+int currentPlayerID = PLAYERID_UNKNOWN;
 float storePercentage;
 int storedItemID;
 int currentItemID;
@@ -356,7 +364,7 @@ int currentItemID;
     albumName.text = @"";
     songName.text = @"";
     artistName.text = @"";
-    lastSelected = -1;
+    lastSelected = SELECTED_NONE;
     storeSelection = nil;
     songCodec.text = @"";
     songBitRate.text = @"";
@@ -373,7 +381,7 @@ int currentItemID;
     songSampleRate.hidden = NO;
     songNumChannels.hidden = NO;
     ProgressSlider.value = 0;
-    storedItemID = -1;
+    storedItemID = SELECTED_NONE;
     PartyModeButton.selected = NO;
     repeatButton.hidden = YES;
     shuffleButton.hidden = YES;
@@ -584,11 +592,11 @@ int currentItemID;
                 currentPlayerID = [response intValue];
                 if (playerID != [response intValue] ||
                     lastPlayerID != currentPlayerID ||
-                    (selectedPlayerID != -1 && playerID != selectedPlayerID)) {  // DA SISTEMARE SE AGGIUNGONO ITEM DALL'ESTERNO: FUTURA SEGNALAZIONE CON SOCKET!
-                    if (selectedPlayerID != -1 && playerID != selectedPlayerID) {
+                    (selectedPlayerID != PLAYERID_UNKNOWN && playerID != selectedPlayerID)) {
+                    if (selectedPlayerID != PLAYERID_UNKNOWN && playerID != selectedPlayerID) {
                         lastPlayerID = playerID = selectedPlayerID;
                     }
-                    else if (selectedPlayerID == -1) {
+                    else if (selectedPlayerID == PLAYERID_UNKNOWN) {
                         lastPlayerID = playerID = [response intValue];
                         [self createPlaylist:NO animTableView:YES];
                     }
@@ -757,7 +765,7 @@ int currentItemID;
                              }
                          }
                          else {
-                             storedItemID = -1;
+                             storedItemID = SELECTED_NONE;
                              lastThumbnail = @"";
                              if (enableJewel) {
                                  thumbnailView.image = [UIImage imageNamed:@"coverbox_back"];
@@ -768,7 +776,7 @@ int currentItemID;
                          }
                      }
                      else {
-                         storedItemID = -1;
+                         storedItemID = SELECTED_NONE;
                      }
                  }];
                 [[Utilities getJsonRPC]
@@ -867,7 +875,7 @@ int currentItemID;
                                      currentTime.text = actualTime;
                                      ProgressSlider.hidden = NO;
                                  }
-                                 if (playerID == 2) {
+                                 if (playerID == PLAYERID_PICTURES) {
                                      ProgressSlider.hidden = YES;
                                      currentTime.hidden = YES;
                                      duration.hidden = YES;
@@ -899,7 +907,7 @@ int currentItemID;
                                  //                                     NSLog(@"%d %d %@", currentItemID, [playlistData[selection.row][@"idItem"] intValue], selection);
                                  //                                     
                                  ////                                     if (currentItemID != [playlistData[selection.row][@"idItem"] intValue] && [playlistData[selection.row][@"idItem"] intValue] > 0) {
-                                 //////                                         lastSelected = -1;
+                                 //////                                         lastSelected = SELECTED_NONE;
                                  //////                                         // storeSelection = 0;
                                  //////                                         currentItemID = [playlistData[selection.row][@"idItem"] intValue];
                                  ////                                         [self createPlaylist:NO];
@@ -971,7 +979,7 @@ int currentItemID;
             }
             else {
                 [self nothingIsPlaying];
-                if (playerID == -1 && selectedPlayerID == -1) {
+                if (playerID == PLAYERID_UNKNOWN && selectedPlayerID == PLAYERID_UNKNOWN) {
                     playerID = -2;
                     [self createPlaylist:YES animTableView:YES];
                 }
@@ -998,7 +1006,7 @@ int currentItemID;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
              hiresImage.hidden = YES;
-             if (playerID == 0 && currentPlayerID == playerID) {
+             if (playerID == PLAYERID_MUSIC && currentPlayerID == playerID) {
                  NSString *codec = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
                  [self setSongDetails:songCodec image:songCodecImage item:[self processSongCodecName:codec]];
                  [self setSongDetails:songBitRate image:songBitRateImage item:methodResult[@"MusicPlayer.Channels"]];
@@ -1030,7 +1038,7 @@ int currentItemID;
                  songSampleRate.hidden = NO;
                  songSampleRateImage.image = nil;
              }
-             else if (playerID == 1 && currentPlayerID == playerID) {
+             else if (playerID == PLAYERID_VIDEO && currentPlayerID == playerID) {
                  [self setSongDetails:songCodec image:songCodecImage item:methodResult[@"VideoPlayer.VideoResolution"]];
                  [self setSongDetails:songBitRate image:songBitRateImage item:methodResult[@"VideoPlayer.VideoAspect"]];
                  [self setSongDetails:songSampleRate image:songSampleRateImage item:methodResult[@"VideoPlayer.VideoCodec"]];
@@ -1048,8 +1056,8 @@ int currentItemID;
 
 - (void)playbackInfo {
     if (!AppDelegate.instance.serverOnLine) {
-        playerID = -1;
-        selectedPlayerID = -1;
+        playerID = PLAYERID_UNKNOWN;
+        selectedPlayerID = PLAYERID_UNKNOWN;
         storedItemID = 0;
         [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
@@ -1135,8 +1143,8 @@ int currentItemID;
 
 - (void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)animTable { 
     if (!AppDelegate.instance.serverOnLine) {
-        playerID = -1;
-        selectedPlayerID = -1;
+        playerID = PLAYERID_UNKNOWN;
+        selectedPlayerID = PLAYERID_UNKNOWN;
         storedItemID = 0;
         [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
@@ -1150,27 +1158,27 @@ int currentItemID;
     GlobalData *obj = AppDelegate.instance.obj;
     int playlistID = playerID;
     if (forcePlaylistID) {
-        playlistID = 0;
+        playlistID = PLAYERID_MUSIC;
     }
     
-    if (selectedPlayerID > -1) {
+    if (selectedPlayerID != PLAYERID_UNKNOWN) {
         playlistID = selectedPlayerID;
         playerID = selectedPlayerID;
     }
     
-    if (playlistID == 0) {
-        playerID = 0;
-        playlistSegmentedControl.selectedSegmentIndex = 0;
+    if (playlistID == PLAYERID_MUSIC) {
+        playerID = PLAYERID_MUSIC;
+        playlistSegmentedControl.selectedSegmentIndex = PLAYERID_MUSIC;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:NO XPos:PARTYBUTTON_PADDING_LEFT];
     }
-    else if (playlistID == 1) {
-        playerID = 1;
-        playlistSegmentedControl.selectedSegmentIndex = 1;
+    else if (playlistID == PLAYERID_VIDEO) {
+        playerID = PLAYERID_VIDEO;
+        playlistSegmentedControl.selectedSegmentIndex = PLAYERID_VIDEO;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
     }
-    else if (playlistID == 2) {
-        playerID = 2;
-        playlistSegmentedControl.selectedSegmentIndex = 2;
+    else if (playlistID == PLAYERID_PICTURES) {
+        playerID = PLAYERID_PICTURES;
+        playlistSegmentedControl.selectedSegmentIndex = PLAYERID_PICTURES;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
     }
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
@@ -1264,7 +1272,7 @@ int currentItemID;
                                                     nil]];
                        }
                        [self showPlaylistTable];
-                       if (musicPartyMode && playlistID == 0) {
+                       if (musicPartyMode && playlistID == PLAYERID_MUSIC) {
                            [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
                        }
                    }
@@ -1677,7 +1685,7 @@ int currentItemID;
 }
 
 - (void)toggleSongDetails {
-    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || playerID == 2) {
+    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || playerID == PLAYERID_PICTURES) {
         return;
     }
     [UIView beginAnimations:nil context:nil];
@@ -1702,7 +1710,7 @@ int currentItemID;
 - (IBAction)changeShuffle:(id)sender {
     shuffleButton.highlighted = YES;
     [self performSelector:@selector(toggleHighlight:) withObject:shuffleButton afterDelay:.1];
-    lastSelected = -1;
+    lastSelected = SELECTED_NONE;
     storeSelection = nil;
     if (AppDelegate.instance.serverVersion > 11) {
         [self SimpleAction:@"Player.SetShuffle" params:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"} reloadPlaylist:YES startProgressBar:NO];
@@ -1806,13 +1814,13 @@ int currentItemID;
 - (void)showClearPlaylistAlert {
     if (!playlistView.hidden && self.view.superview != nil) {
         NSString *playlistName = @"";
-        if (playerID == 0) {
+        if (playerID == PLAYERID_MUSIC) {
             playlistName = LOCALIZED_STR(@"Music ");
         }
-        else if (playerID == 1) {
+        else if (playerID == PLAYERID_VIDEO) {
             playlistName = LOCALIZED_STR(@"Video ");
         }
-        else if (playerID == 2) {
+        else if (playerID == PLAYERID_PICTURES) {
             playlistName = LOCALIZED_STR(@"Pictures ");
         }
         NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"Are you sure you want to clear the %@playlist?"), playlistName];
@@ -2104,13 +2112,13 @@ int currentItemID;
         subLabel.text = [NSString stringWithFormat:@"%@", item[@"genre"]];
     }
     switch (playerID) {
-        case 0:
+        case PLAYERID_MUSIC:
             cornerLabel.text = item[@"duration"];
             break;
-        case 1:
+        case PLAYERID_VIDEO:
             cornerLabel.text = item[@"runtime"];
             break;
-        case 2:
+        case PLAYERID_PICTURES:
             cornerLabel.text = @"";
             break;
         default:
@@ -2141,7 +2149,7 @@ int currentItemID;
 
 - (void)checkPartyMode {
     if (musicPartyMode) {
-        lastSelected = -1;
+        lastSelected = SELECTED_NONE;
         storeSelection = 0;
         [self createPlaylist:NO animTableView:YES];
     }
@@ -2153,7 +2161,7 @@ int currentItemID;
     storeSelection = nil;
     [queuing startAnimating];
     if (playerID == -2) {
-        playerID = 0;
+        playerID = PLAYERID_MUSIC;
     }
     [[Utilities getJsonRPC]
      callMethod:@"Player.Open" 
@@ -2162,7 +2170,7 @@ int currentItemID;
                       @(indexPath.row), @"position", @(playerID), @"playlistid", nil], @"item", nil]
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil) {
-             storedItemID = -1;
+             storedItemID = SELECTED_NONE;
              UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
              [queuing stopAnimating];
              UIView *timePlaying = (UIView*)[cell viewWithTag:5];
@@ -2295,7 +2303,7 @@ int currentItemID;
     if (playlistTableView.editing || forceClose) {
         [playlistTableView setEditing:NO animated:YES];
         editTableButton.selected = NO;
-        lastSelected = -1;
+        lastSelected = SELECTED_NONE;
         storeSelection = nil;
     }
     else {
@@ -2475,23 +2483,23 @@ int currentItemID;
         [playlistTableView scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
     switch (segment.selectedSegmentIndex) {
-        case 0:
-            selectedPlayerID = 0;
+        case PLAYERID_MUSIC:
+            selectedPlayerID = PLAYERID_MUSIC;
             break;
             
-        case 1:
-            selectedPlayerID = 1;
+        case PLAYERID_VIDEO:
+            selectedPlayerID = PLAYERID_VIDEO;
             break;
             
-        case 2:
-            selectedPlayerID = 2;
+        case PLAYERID_PICTURES:
+            selectedPlayerID = PLAYERID_PICTURES;
             break;
             
         default:
             NSAssert(NO, @"Unexpected segment selected.");
             break;
     }
-    lastSelected = -1;
+    lastSelected = SELECTED_NONE;
     musicPartyMode = 0;
     [self createPlaylist:NO animTableView:YES];
 }
@@ -2641,7 +2649,7 @@ int currentItemID;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [timer invalidate];
-    currentItemID = -1;
+    currentItemID = SELECTED_NONE;
     self.slidingViewController.panGesture.delegate = nil;
     self.navigationController.navigationBar.tintColor = TINT_COLOR;
 }
@@ -2731,10 +2739,10 @@ int currentItemID;
     scrabbingMessage.text = LOCALIZED_STR(@"Slide your finger up to adjust the scrubbing rate.");
     scrabbingRate.text = LOCALIZED_STR(@"Scrubbing 1");
     sheetActions = [NSMutableArray new];
-    playerID = -1;
-    selectedPlayerID = -1;
-    lastSelected = -1;
-    storedItemID = -1;
+    playerID = PLAYERID_UNKNOWN;
+    selectedPlayerID = PLAYERID_UNKNOWN;
+    lastSelected = SELECTED_NONE;
+    storedItemID = SELECTED_NONE;
     storeSelection = nil;
     [self setFontSizes];
     if (IS_IPHONE) {
@@ -2774,10 +2782,10 @@ int currentItemID;
 }
 
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
-    playerID = -1;
-    selectedPlayerID = -1;
-    lastSelected = -1;
-    storedItemID = -1;
+    playerID = PLAYERID_UNKNOWN;
+    selectedPlayerID = PLAYERID_UNKNOWN;
+    lastSelected = SELECTED_NONE;
+    storedItemID = SELECTED_NONE;
     storeSelection = nil;
     lastThumbnail = @"";
     [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
