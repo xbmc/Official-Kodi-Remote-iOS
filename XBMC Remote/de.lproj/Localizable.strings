@@ -95,9 +95,9 @@
 "Episodes: %@" = "Episoden: %@";
 "1 result" = "1 Ergebnis";
 "%d results" = "%d Ergebnisse";
-"Music " = "Musik ";
-"Video " = "Video ";
-"Pictures " = "Bilder ";
+"Music " = "Musik-";
+"Video " = "Video-";
+"Pictures " = "Bilder-";
 "Songs" = "Titel";
 "Song" = "Titel";
 "Mins." = "Min.";
@@ -110,7 +110,7 @@
 "Cannot do that" = "Dies ist nicht möglich";
 "Wake On Lan" = "Wake-On-LAN";
 "No saved hosts found" = "Keine gespeicherten Server gefunden";
-"Are you sure you want to clear the %@playlist?" = "Soll die Wiedergabeliste %@ gelöscht werden?";
+"Are you sure you want to clear the %@playlist?" = "Soll die %@Wiedergabeliste gelöscht werden?";
 "Are you sure you want to power off your XBMC system now?" = "Soll das Kodi-System jetzt ausgeschaltet werden?";
 "Are you sure you want to hibernate your XBMC system now?" = "Soll das Kodi-System jetzt in den Ruhezustand gehen?";
 "Are you sure you want to suspend your XBMC system now?" = "Soll das Kodi-System jetzt in den Standby gehen?";
