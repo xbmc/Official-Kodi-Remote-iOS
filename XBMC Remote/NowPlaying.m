@@ -874,8 +874,10 @@ int currentItemID;
                                  if (updateProgressBar) {
                                      currentTime.text = actualTime;
                                      ProgressSlider.hidden = NO;
+                                     currentTime.hidden = NO;
+                                     duration.hidden = NO;
                                  }
-                                 if (playerID == PLAYERID_PICTURES) {
+                                 if (currentPlayerID == PLAYERID_PICTURES) {
                                      ProgressSlider.hidden = YES;
                                      currentTime.hidden = YES;
                                      duration.hidden = YES;
