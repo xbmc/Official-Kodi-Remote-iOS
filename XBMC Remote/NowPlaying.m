@@ -44,7 +44,7 @@
 #define PROGRESSBAR_PADDING_LEFT 20
 #define PROGRESSBAR_PADDING_BOTTOM 80
 #define SEGMENTCONTROL_WIDTH 122
-#define SEGMENTCONTROL_HEIGHT 29
+#define SEGMENTCONTROL_HEIGHT 32
 #define TOOLBAR_HEIGHT 44
 #define TAG_ID_PREVIOUS 1
 #define TAG_ID_PLAYPAUSE 2
@@ -1159,6 +1159,11 @@ int currentItemID;
         playlistSegmentedControl.selectedSegmentIndex = 1;
         [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
     }
+    else if (playlistID == 2) {
+        playerID = 2;
+        playlistSegmentedControl.selectedSegmentIndex = 2;
+        [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
+    }
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
                         withParameters:@{@"properties": @[@"thumbnail",
@@ -1798,6 +1803,9 @@ int currentItemID;
         else if (playerID == 1) {
             playlistName = LOCALIZED_STR(@"Video ");
         }
+        else if (playerID == 2) {
+            playlistName = LOCALIZED_STR(@"Pictures ");
+        }
         NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"Are you sure you want to clear the %@playlist?"), playlistName];
         UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
@@ -2092,6 +2100,9 @@ int currentItemID;
             break;
         case 1:
             cornerLabel.text = item[@"runtime"];
+            break;
+        case 2:
+            cornerLabel.text = @"";
             break;
         default:
             break;
@@ -2431,12 +2442,18 @@ int currentItemID;
 }
 
 - (void)addSegmentControl {
-    playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[LOCALIZED_STR(@"Music"), [[LOCALIZED_STR(@"Video") capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]];
+    NSArray *segmentItems = @[[UIImage imageNamed:@"icon_song"],
+                              [UIImage imageNamed:@"icon_video"],
+                              [UIImage imageNamed:@"icon_picture"]];
+    playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:segmentItems];
     CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH)/2;
     if (IS_IPHONE) {
         left_margin = floor(([self currentScreenBoundsDependOnOrientation].size.width - SEGMENTCONTROL_WIDTH)/2);
     }
-    playlistSegmentedControl.frame = CGRectMake(left_margin, (playlistActionView.frame.size.height - SEGMENTCONTROL_HEIGHT)/2, SEGMENTCONTROL_WIDTH, SEGMENTCONTROL_HEIGHT);
+    playlistSegmentedControl.frame = CGRectMake(left_margin,
+                                                (playlistActionView.frame.size.height - SEGMENTCONTROL_HEIGHT)/2,
+                                                SEGMENTCONTROL_WIDTH,
+                                                SEGMENTCONTROL_HEIGHT);
     playlistSegmentedControl.tintColor = UIColor.whiteColor;
     [playlistSegmentedControl addTarget:self action:@selector(segmentValueChanged:) forControlEvents: UIControlEventValueChanged];
     [playlistActionView addSubview:playlistSegmentedControl];
@@ -2455,6 +2472,10 @@ int currentItemID;
             
         case 1:
             selectedPlayerID = 1;
+            break;
+            
+        case 2:
+            selectedPlayerID = 2;
             break;
             
         default:
