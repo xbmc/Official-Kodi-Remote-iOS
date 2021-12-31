@@ -3930,29 +3930,8 @@ NSIndexPath *selected;
     id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
     [queuing startAnimating];
-    if ([mainFields[@"playlistid"] intValue] == 2) {
-        [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-            int currentPlayerID = 0;
-            if ([methodResult count]) {
-                currentPlayerID = [methodResult[0][@"playerid"] intValue];
-            }
-            if (currentPlayerID == 1) { // xbmc bug
-                [[Utilities getJsonRPC] callMethod:@"Player.Stop" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(1), @"playerid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                    if (error == nil && methodError == nil) {
-                        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], item[@"filetype"], nil], @"item", nil] index:indexPath];
-                    }
-                    else {
-                        UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-                        [queuing stopAnimating];
-                    }
-                }];
-            }
-            else {
-                [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], item[@"filetype"], nil], @"item", nil] index:indexPath];
-            }
-        }];
-    }
-    else if ([mainFields[@"row8"] isEqualToString:@"channelid"] || [mainFields[@"row8"] isEqualToString:@"broadcastid"]) {
+    if ([mainFields[@"row8"] isEqualToString:@"channelid"] ||
+        [mainFields[@"row8"] isEqualToString:@"broadcastid"]) {
         NSNumber *channelid = item[mainFields[@"row8"]];
         NSString *param = @"channelid";
         if ([mainFields[@"row8"] isEqualToString:@"broadcastid"]) {
