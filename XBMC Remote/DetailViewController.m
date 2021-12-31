@@ -3939,7 +3939,7 @@ NSIndexPath *selected;
             if (currentPlayerID == 1) { // xbmc bug
                 [[Utilities getJsonRPC] callMethod:@"Player.Stop" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(1), @"playerid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                     if (error == nil && methodError == nil) {
-                        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil], @"item", nil] index:indexPath];
+                        [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], item[@"filetype"], nil], @"item", nil] index:indexPath];
                     }
                     else {
                         UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
@@ -3948,7 +3948,7 @@ NSIndexPath *selected;
                 }];
             }
             else {
-                [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil], @"item", nil] index:indexPath];
+                [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], item[@"filetype"], nil], @"item", nil] index:indexPath];
             }
         }];
     }
