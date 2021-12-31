@@ -51,6 +51,12 @@
 #define FIXED_SPACE_WIDTH 120
 #define INFO_PADDING 10
 #define MONKEY_COUNT 38
+#define GLOBALSEARCH_INDEX_MOVIES 0
+#define GLOBALSEARCH_INDEX_TVSHOWS 1
+#define GLOBALSEARCH_INDEX_MUSICVIDEOS 2
+#define GLOBALSEARCH_INDEX_ARTISTS 3
+#define GLOBALSEARCH_INDEX_ALBUMS 4
+#define GLOBALSEARCH_INDEX_SONGS 5
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -4401,14 +4407,7 @@ NSIndexPath *selected;
 }
 
 - (void)retrieveGlobalData:(BOOL)forceRefresh {
-    NSArray *itemsAndTabs = @[
-        @[AppDelegate.instance.mainMenuItems[2], @(0)], // Movies
-        @[AppDelegate.instance.mainMenuItems[4], @(0)], // TV Shows
-        @[AppDelegate.instance.mainMenuItems[3], @(0)], // Music Videos
-        @[AppDelegate.instance.mainMenuItems[1], @(1)], // Artists
-        @[AppDelegate.instance.mainMenuItems[1], @(0)], // Albums
-        @[AppDelegate.instance.mainMenuItems[1], @(10)], // Songs
-    ];
+    NSArray *itemsAndTabs = AppDelegate.instance.globalSearchMenuLookup;
     
     // Kick off recursive calls
     NSMutableArray *richData = [NSMutableArray new];

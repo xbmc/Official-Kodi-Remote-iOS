@@ -37,6 +37,7 @@ NSMutableArray *hostRightMenuItems;
 @synthesize playlistMusicVideos;
 @synthesize playlistTvShows;
 @synthesize playlistPVR;
+@synthesize globalSearchMenuLookup;
 @synthesize mainMenuItems;
 @synthesize rightMenuItems;
 @synthesize serverName;
@@ -5756,6 +5757,17 @@ NSMutableArray *hostRightMenuItems;
         [mainMenuItems addObject:menu_Search];
     }
     
+#pragma mark - Build and Initialize Global Search Lookup
+
+    globalSearchMenuLookup = @[
+        @[menu_Movies,  [self getGlobalSearchTab:menu_Movies  label:LOCALIZED_STR(@"Movies")]], // Movies
+        @[menu_TVShows, [self getGlobalSearchTab:menu_TVShows label:LOCALIZED_STR(@"TV Shows")]], // TV Shows
+        @[menu_Videos,  [self getGlobalSearchTab:menu_Videos  label:LOCALIZED_STR(@"Music Videos")]], // Music Videos
+        @[menu_Music,   [self getGlobalSearchTab:menu_Music   label:LOCALIZED_STR(@"Artists")]], // Artists
+        @[menu_Music,   [self getGlobalSearchTab:menu_Music   label:LOCALIZED_STR(@"Albums")]], // Albums
+        @[menu_Music,   [self getGlobalSearchTab:menu_Music   label:LOCALIZED_STR(@"All songs")]], // Songs
+    ];
+    
     // Initialize controllers
     self.serverName = LOCALIZED_STR(@"No connection");
     if (IS_IPHONE) {
@@ -5789,7 +5801,20 @@ NSMutableArray *hostRightMenuItems;
     return httpHeaders;
 }
 
-#pragma mark -
+#pragma mark - Helper
+    
+- (NSNumber*)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel{
+    // Search for the method index with the desired sub label (e.g. "All Songs")
+    int k;
+    for (k = 0; k < [menuItem mainMethod].count; ++k) {
+        id paramArray = [menuItem mainParameters][k];
+        id parameters = [Utilities indexKeyedDictionaryFromArray:paramArray];
+        if ([parameters[@"label"] isEqualToString:subLabel]) {
+            break;
+        }
+    }
+    return @(k);
+}
 
 - (void)handleProximityChangeNotification:(id)sender {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
