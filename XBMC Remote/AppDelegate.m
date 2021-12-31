@@ -21,8 +21,6 @@
 
 @implementation AppDelegate
 
-NSMutableArray *hostRightMenuItems;
-
 @synthesize window = _window;
 @synthesize navigationController = _navigationController;
 @synthesize windowController = _windowController;
@@ -38,7 +36,6 @@ NSMutableArray *hostRightMenuItems;
 @synthesize playlistTvShows;
 @synthesize playlistPVR;
 @synthesize globalSearchMenuLookup;
-@synthesize mainMenuItems;
 @synthesize rightMenuItems;
 @synthesize serverName;
 @synthesize nowPlayingMenuItems;
