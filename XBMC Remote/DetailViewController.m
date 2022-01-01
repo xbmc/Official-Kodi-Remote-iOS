@@ -4961,8 +4961,8 @@ NSIndexPath *selected;
         currentValue = [NSString stringWithFormat:@"%ld", (long)[components year]];
     }
     else if (currentValue.length) {
-        NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
-        NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
+        NSCharacterSet *set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
+        NSCharacterSet *numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
         NSString *c = @"/";
         if (currentValue.length > 0) {
             c = [[currentValue substringToIndex:1] uppercaseString];
