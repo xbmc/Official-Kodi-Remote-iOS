@@ -857,7 +857,7 @@
 - (void)setUpSort:(NSDictionary*)methods parameters:(NSDictionary*)parameters {
     NSDictionary *sortDictionary = parameters[@"available_sort_methods"];
     sortMethodName = [self getCurrentSortMethod:methods withParameters:parameters];
-    NSUInteger foundIndex = [sortDictionary[@"method"] indexOfObject:sortMethodName];
+    NSUInteger foundIndex = sortDictionary ? [sortDictionary[@"method"] indexOfObject:sortMethodName] : NSNotFound;
     if (foundIndex != NSNotFound) {
         sortMethodIndex = foundIndex;
     }
