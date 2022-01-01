@@ -875,6 +875,7 @@
     NSDictionary *parameters = nil;
     NSMutableDictionary *mutableParameters = nil;
     NSMutableArray *mutableProperties = nil;
+    BOOL refresh = NO;
     
     // Read new tab index
     numTabs = (int)[[self.detailItem mainMethod] count];
@@ -906,10 +907,12 @@
                 switch (filterModeType) {
                     case ViewModeAlbumArtists:
                         mutableParameters[@"albumartistsonly"] = @YES;
+                        refresh = YES;
                         break;
                         
                     case ViewModeSongArtists:
                         mutableParameters[@"albumartistsonly"] = @NO;
+                        refresh = YES;
                         break;
                         
                     case ViewModeDefaultArtists:
@@ -1019,7 +1022,7 @@
         dataList.separatorInset = UIEdgeInsetsMake(0, [parameters[@"itemSizes"][@"separatorInset"] intValue], 0, 0);
     }
     if (methods[@"method"] != nil) {
-        [self retrieveData:methods[@"method"] parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:NO];
+        [self retrieveData:methods[@"method"] parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:refresh];
     }
     else {
         [activityIndicatorView stopAnimating];

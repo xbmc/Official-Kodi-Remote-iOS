@@ -960,6 +960,7 @@ NSMutableArray *hostRightMenuItems;
             @"row16": @"born",
             @"row17": @"formed",
             @"row18": @"died",
+            @"row19": @"artist",
             @"row20": @"roles",
             @"itemid_extra_info": @"artistdetails"
         },
