@@ -1418,6 +1418,7 @@ NSMutableArray *hostRightMenuItems;
                                   
         @[
             @{
+                @"albumartistsonly": @NO,
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"thumbnail",
