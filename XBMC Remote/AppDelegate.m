@@ -1636,7 +1636,7 @@ NSMutableArray *hostRightMenuItems;
         }
     ];
     
-    menu_Music.subItem.enableSection = NO;
+    menu_Music.subItem.enableSection = YES;
     menu_Music.subItem.rowHeight = 53;
     menu_Music.subItem.thumbWidth = 53;
     menu_Music.subItem.defaultThumb = @"nocover_music";
@@ -2666,7 +2666,7 @@ NSMutableArray *hostRightMenuItems;
         }
     ];
     
-    menu_Movies.subItem.enableSection = NO;
+    menu_Movies.subItem.enableSection = YES;
     menu_Movies.subItem.rowHeight = 76;
     menu_Movies.subItem.thumbWidth = 53;
     menu_Movies.subItem.defaultThumb = @"nocover_movies";
@@ -3130,7 +3130,7 @@ NSMutableArray *hostRightMenuItems;
         }
     ];
     
-    menu_Videos.subItem.enableSection = NO;
+    menu_Videos.subItem.enableSection = YES;
     menu_Videos.subItem.rowHeight = 76;
     menu_Videos.subItem.thumbWidth = 53;
     menu_Videos.subItem.defaultThumb = @"nocover_movies";
@@ -3682,7 +3682,7 @@ NSMutableArray *hostRightMenuItems;
         }
     ];
     
-    menu_TVShows.subItem.enableSection = NO;
+    menu_TVShows.subItem.enableSection = YES;
     menu_TVShows.subItem.rowHeight = 53;
     menu_TVShows.subItem.thumbWidth = 95;
     menu_TVShows.subItem.defaultThumb = @"nocover_tvshows_episode";
@@ -5038,7 +5038,6 @@ NSMutableArray *hostRightMenuItems;
             },
         ];
         
-        menu_Favourites.enableSection = NO;
         menu_Favourites.rowHeight = 53;
         menu_Favourites.thumbWidth = 53;
         menu_Favourites.defaultThumb = @"nocover_filemode";
