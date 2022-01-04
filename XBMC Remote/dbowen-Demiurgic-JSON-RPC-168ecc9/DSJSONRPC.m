@@ -124,6 +124,8 @@
     // Attempt to serialize the call payload to a JSON string
     NSError *error = nil;
     NSData *postData = [NSJSONSerialization dataWithJSONObject:methodCall options:kNilOptions error:&error];
+//    NSString *JSONcommand = [[[NSString alloc] initWithData:postData encoding:NSUTF8StringEncoding] autorelease];
+//    NSLog(@"JSON: %@", JSONcommand);
 //    NSLog(@"PARAMS: %@", methodParams);
     // TODO: Make this a parameter??
     if (error != nil) {
@@ -245,6 +247,8 @@
     // Attempt to deserialize result
     NSError *error = nil;
     NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:connectionData options:kNilOptions error:&error];
+//    NSString *JSONcommand = [[[NSString alloc] initWithData:connectionData encoding:NSUTF8StringEncoding] autorelease];
+//    NSLog(@"JSON REC: %@", JSONcommand);
     
     if (error && completionHandler) {
         NSError *aError = [NSError errorWithDomain:@"it.joethefox.json-rpc" code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
