@@ -107,6 +107,12 @@ typedef enum {
 
 #pragma mark - utility
 
+- (NSString*)getNowPlayingThumbnailPath:(NSDictionary*)item {
+    // If a recording is played, we can use the iocn (typically the station logo)
+    BOOL useIcon = [item[@"type"] isEqualToString:@"recording"];
+    return [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:useIcon];
+}
+
 - (void)setSongDetails:(UILabel*)label image:(UIImageView*)imageView item:(id)item {
     label.text = [Utilities getStringFromItem:item];
     imageView.image = [self loadImageFromName:label.text];
@@ -645,7 +651,7 @@ int currentItemID;
                                  if (AppDelegate.instance.serverVersion > 11) {
                                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                                  }
-                                 NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:nowPlayingInfo useBanner:NO useIcon:NO];
+                                 NSString *thumbnailPath = [self getNowPlayingThumbnailPath:nowPlayingInfo];
                                  NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                                  if (![lastThumbnail isEqualToString:stringURL] || [lastThumbnail isEqualToString:@""]) {
                                      if (IS_IPAD) {
@@ -1189,8 +1195,7 @@ int currentItemID;
                            if ([playlistItems[i][@"duration"] isKindOfClass:[NSNumber class]]) {
                                durationTime = [Utilities convertTimeFromSeconds:playlistItems[i][@"duration"]];
                            }
-
-                           NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:playlistItems[i] useBanner:NO useIcon:NO];
+                           NSString *thumbnailPath = [self getNowPlayingThumbnailPath:playlistItems[i]];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                            NSNumber *tvshowid = @([[NSString stringWithFormat:@"%@", playlistItems[i][@"tvshowid"]] intValue]);
                            NSString *file = [NSString stringWithFormat:@"%@", playlistItems[i][@"file"]];
