@@ -21,7 +21,7 @@
 @property (assign, nonatomic, getter = isFinished) BOOL _finished;
 @property (assign, nonatomic) long long expectedSize;
 @property (strong, nonatomic) NSMutableData *imageData;
-@property (strong, nonatomic) NSURLConnection *connection;
+@property (strong, nonatomic) NSURLSessionDataTask *dataTask;
 @property (strong, nonatomic) NSDictionary *userInfo;
 
 @property (SDDispatchQueueSetterSementics, nonatomic) dispatch_queue_t queue;
@@ -60,16 +60,23 @@
         }
 
         self.executing = YES;
-        self.connection = [NSURLConnection.alloc initWithRequest:self.request delegate:self startImmediately:NO];
+        NSURLSession *session = [NSURLSession sharedSession];
+        self.dataTask = [session dataTaskWithRequest:self.request
+                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    if (response) {
+                        [self didReceiveResponse:response];
+                    }
+                    if (data) {
+                        [self didReceiveData:data];
+                        [self connectionDidFinishLoading];
+                    }
+                    if (error) {
+                        [self didFailWithError:error];
+                    }
+                }];
+        [self.dataTask resume];
 
-        // If not in low priority mode, ensure we aren't blocked by UI manipulations (default runloop mode for NSURLConnection is NSEventTrackingRunLoopMode)
-        if (!(self.options & SDWebImageDownloaderLowPriority)) {
-            [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-        }
-
-        [self.connection start];
-
-        if (self.connection) {
+        if (self.dataTask) {
             if (self.progressBlock) {
                 self.progressBlock(0, -1);
             }
@@ -92,8 +99,8 @@
         self.cancelBlock();
     }
 
-    if (self.connection) {
-        [self.connection cancel];
+    if (self.dataTask) {
+        [self.dataTask cancel];
         [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:self];
 
         // As we cancelled the connection, its callback won't be called and thus won't
@@ -120,7 +127,7 @@
         self.cancelBlock = nil;
         self.completedBlock = nil;
         self.progressBlock = nil;
-        self.connection = nil;
+        self.dataTask = nil;
         self.imageData = nil;
     });
 }
@@ -141,9 +148,9 @@
     return YES;
 }
 
-#pragma mark NSURLConnection (delegate)
+#pragma mark - Response/Data handlers
 
-- (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response {
+- (void)didReceiveResponse:(NSURLResponse*)response {
     if (![response respondsToSelector:@selector(statusCode)] || [((NSHTTPURLResponse*)response) statusCode] < 400) {
         NSUInteger expected = response.expectedContentLength > 0 ? (NSUInteger)response.expectedContentLength : 0;
         self.expectedSize = expected;
@@ -156,7 +163,7 @@
         });
     }
     else {
-        [self.connection cancel];
+        [self.dataTask cancel];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
 
@@ -168,7 +175,7 @@
     }
 }
 
-- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data {
+- (void)didReceiveData:(NSData*)data {
     dispatch_async(self.queue, ^{
         [self.imageData appendData:data];
         
@@ -244,8 +251,8 @@
     });
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection*)aConnection {
-    self.connection = nil;
+- (void)connectionDidFinishLoading {
+    self.dataTask = nil;
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
 
@@ -285,7 +292,7 @@
     }
 }
 
-- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
+- (void)didFailWithError:(NSError*)error {
     [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadStopNotification object:nil];
 
     if (self.completedBlock) {
