@@ -121,8 +121,6 @@
         [plusButton setImage:img forState:UIControlStateNormal];
         [plusButton setImage:img forState:UIControlStateHighlighted];
         
-        [self checkMuteServer];
-        
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleApplicationOnVolumeChanged:)
                                                      name: @"Application.OnVolumeChanged"
