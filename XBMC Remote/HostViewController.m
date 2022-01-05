@@ -468,20 +468,6 @@
     [self resolveIPAddress:services[indexPath.row]];
 }
 
-#pragma mark - NSURLConnection Delegate Methods
-
-- (void)connection:(NSURLConnection*)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge*)challenge {
-    [self fillMacAddressInfo];
-}
-
-- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
-    [self fillMacAddressInfo];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection*)connection {
-    [self fillMacAddressInfo];
-}
-
 #pragma mark - LifeCycle
 
 - (void)viewWillAppear:(BOOL)animated {
