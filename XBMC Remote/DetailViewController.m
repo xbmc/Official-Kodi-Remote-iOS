@@ -1113,6 +1113,12 @@
         if (parameters[@"available_sort_methods"] != nil) {
             [newParameters addObjectsFromArray:@[parameters[@"available_sort_methods"], @"available_sort_methods"]];
         }
+        if (parameters[@"combinedFilter"]) {
+            [newParameters addObjectsFromArray:@[parameters[@"combinedFilter"], @"combinedFilter"]];
+        }
+        if (parameters[@"parameters"][@"albumartistsonly"]) {
+            newParameters[0][@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
+        }
         [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         MenuItem.subItem.chooseTab = choosedTab;
         MenuItem.subItem.currentFilterMode = filterModeType;
