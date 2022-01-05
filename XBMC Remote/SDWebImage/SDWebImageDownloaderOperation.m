@@ -31,7 +31,6 @@
 @implementation SDWebImageDownloaderOperation
 {
     size_t width, height;
-    BOOL responseFromCached;
 }
 
 - (id)initWithRequest:(NSURLRequest*)request queue:(dispatch_queue_t)queue options:(SDWebImageDownloaderOptions)options userInfo:(NSDictionary*)userInfo progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock cancelled:(void (^)(void))cancelBlock {
@@ -46,7 +45,6 @@
         __executing = NO;
         __finished = NO;
         _expectedSize = 0;
-        responseFromCached = YES; // Initially wrong until `connection:willCacheResponse:` is called or not called
     }
     return self;
 }
@@ -263,33 +261,26 @@
     SDWebImageDownloaderCompletedBlock completionBlock = self.completedBlock;
 
     if (completionBlock) {
-        if (self.options & SDWebImageDownloaderIgnoreCachedResponse && responseFromCached) {
-            completionBlock(nil, nil, nil, YES);
-            self.completionBlock = nil;
-            [self done];
-        }
-        else {
-            dispatch_async(self.queue, ^{
-//                CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
-                if ([[self.userInfo objectForKey:@"transformation"] isEqualToString:@"resize"]) {
-                    CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
-                    UIImage *elab = [UIImage imageWithData:self.imageData];
-                    NSData *elabData = UIImagePNGRepresentation([elab resizedImage:elab.CGImage size:size interpolationQuality:kCGInterpolationHigh]);
-                    self.imageData = [NSMutableData dataWithData:elabData];
+        dispatch_async(self.queue, ^{
+//          CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
+            if ([[self.userInfo objectForKey:@"transformation"] isEqualToString:@"resize"]) {
+                CGSize size = CGSizeFromString([self.userInfo objectForKey:@"size"]);
+                UIImage *elab = [UIImage imageWithData:self.imageData];
+                NSData *elabData = UIImagePNGRepresentation([elab resizedImage:elab.CGImage size:size interpolationQuality:kCGInterpolationHigh]);
+                self.imageData = [NSMutableData dataWithData:elabData];
+            }
+            UIImage *image = [UIImage decodedImageWithImage:SDScaledImageForPath(self.request.URL.absoluteString, self.imageData) size:CGSizeZero interpolationQuality:kCGInterpolationHigh];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (CGSizeEqualToSize(image.size, CGSizeZero)) {
+                    completionBlock(nil, nil, [NSError errorWithDomain:@"SDWebImageErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Downloaded image has 0 pixels"}], YES);
                 }
-                UIImage *image = [UIImage decodedImageWithImage:SDScaledImageForPath(self.request.URL.absoluteString, self.imageData) size:CGSizeZero interpolationQuality:kCGInterpolationHigh];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (CGSizeEqualToSize(image.size, CGSizeZero)) {
-                        completionBlock(nil, nil, [NSError errorWithDomain:@"SDWebImageErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Downloaded image has 0 pixels"}], YES);
-                    }
-                    else {
-                        completionBlock(image, self.imageData, nil, YES);
-                    }
-                    self.completionBlock = nil;
-                    [self done];
-                });
+                else {
+                    completionBlock(image, self.imageData, nil, YES);
+                }
+                self.completionBlock = nil;
+                [self done];
             });
-        }
+        });
     }
     else {
         [self done];
@@ -305,17 +296,5 @@
 
     [self done];
 }
-
-- (NSCachedURLResponse*)connection:(NSURLConnection*)connection willCacheResponse:(NSCachedURLResponse*)cachedResponse {
-    responseFromCached = NO; // If this method is called, it means the response wasn't read from cache
-    if (self.request.cachePolicy == NSURLRequestReloadIgnoringLocalCacheData) {
-        // Prevents caching of responses
-        return nil;
-    }
-    else {
-        return cachedResponse;
-    }
-}
-
 
 @end
