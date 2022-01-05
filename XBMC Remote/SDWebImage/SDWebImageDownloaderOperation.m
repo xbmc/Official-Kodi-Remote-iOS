@@ -68,7 +68,6 @@
                     }
                     if (data) {
                         [self didReceiveData:data];
-                        [self connectionDidFinishLoading];
                     }
                     if (error) {
                         [self didFailWithError:error];
@@ -242,6 +241,11 @@
 
             CFRelease(imageSource);
         }
+        
+        if (self.imageData.length >= self.expectedSize) {
+            [self connectionDidFinishLoading];
+        }
+        
         NSUInteger received = self.imageData.length;
         dispatch_async(dispatch_get_main_queue(), ^{
             if (self.progressBlock) {
