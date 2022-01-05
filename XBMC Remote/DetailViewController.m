@@ -2511,7 +2511,7 @@ int originYear = 0;
                                   andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                       if (image != nil) {
-                                          weakThumbView.image = [Utilities roundedCornerImage:image drawBorder:YES];
+                                          weakThumbView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];
                                           [self setViewColor:albumDetailView
                                                        image:image
                                                    isTopMost:YES
@@ -2699,7 +2699,7 @@ int originYear = 0;
                                       andResize:CGSizeMake(seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))
                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                     if (image != nil) {
-                        weakThumbView.image = [Utilities roundedCornerImage:image drawBorder:YES];
+                        weakThumbView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];
                         [self setViewColor:albumDetailView
                                      image:image
                                  isTopMost:isFirstListedSeason
