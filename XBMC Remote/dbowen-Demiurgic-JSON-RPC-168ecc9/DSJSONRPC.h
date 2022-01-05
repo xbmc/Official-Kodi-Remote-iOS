@@ -99,7 +99,7 @@ typedef enum {
 typedef void (^DSJSONRPCCompletionHandler)(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError);
 
 
-@interface DSJSONRPC : NSObject <NSURLConnectionDataDelegate> {
+@interface DSJSONRPC : NSObject {
     NSTimer* timer;
 }
 
