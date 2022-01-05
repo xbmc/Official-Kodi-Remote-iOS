@@ -200,41 +200,6 @@
     timer = nil;
 }
 
-#pragma mark - Runtime Method Invocation Handling
-
-- (NSMethodSignature*)methodSignatureForSelector:(SEL)aSelector {
-    // Determine if we handle the method signature
-    // If not, create one so it goes to forwardInvocation
-    NSMethodSignature *aMethodSignature;
-    if (!(aMethodSignature = [super methodSignatureForSelector:aSelector])) {
-        aMethodSignature = [NSMethodSignature signatureWithObjCTypes:"@:@@@"];
-    }
-    
-    return aMethodSignature;
-}
-
-- (void)forwardInvocation:(NSInvocation*)anInvocation {
-    // Get method name from invocation
-    NSString *selectorName = NSStringFromSelector(anInvocation.selector);
-    NSString *methodName = [selectorName componentsSeparatedByString:@":"][0];
-    
-    // Get reference to the first argument passed in
-    id methodParams;
-    [anInvocation getArgument:&methodParams atIndex:2];
-    
-    // If no parameters were given or its not a valid primative type, then pass in nil
-    if (methodParams == nil || !([methodParams isKindOfClass:[NSArray class]] || [methodParams isKindOfClass:[NSDictionary class]] || [methodParams isKindOfClass:[NSString class]] || [methodParams isKindOfClass:[NSNumber class]])) {
-        methodParams = nil;
-    }
-        
-    // Rebuild the invocation request and invoke it
-    [anInvocation setSelector:@selector(callMethod:withParameters:)];
-    [anInvocation setArgument:&methodName atIndex:2];
-    [anInvocation setArgument:&methodParams atIndex:3];
-    [anInvocation invokeWithTarget:self];
-}
-
-
 #pragma mark - Response/Data handlers
 
 - (void)willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge*)challenge {
