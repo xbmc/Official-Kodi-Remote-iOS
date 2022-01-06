@@ -141,10 +141,6 @@
             title.numberOfLines = 2;
             arrowRight.frame = CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height);
         }
-        else {
-            title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
-            title.text = [item.mainLabel uppercaseString];
-        }
     }
     UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
@@ -158,6 +154,13 @@
                 iconName = @"connection_on_notcp";
             }
         }
+        icon.image = [UIImage imageNamed:iconName];
+    }
+    else {
+        title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
+        title.text = [item.mainLabel uppercaseString];
+        icon.highlightedImage = [UIImage imageNamed:iconName];
+        icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
     }
     if (AppDelegate.instance.serverOnLine || indexPath.row == 0) {
         icon.alpha = 1.0;
@@ -167,7 +170,6 @@
         icon.alpha = 0.3;
         title.alpha = 0.3;
     }
-    icon.image = [UIImage imageNamed:iconName];
     return cell;
 }
 
