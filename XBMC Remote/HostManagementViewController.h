@@ -32,7 +32,7 @@
     MessagesView *messagesView;
     __weak IBOutlet UIToolbar *bottomToolbar;
     __weak IBOutlet UIImageView *bottomToolbarShadowImageView;
-    UIScrollView *serverInfoView;
+    UITextView *serverInfoView;
     __weak IBOutlet UIButton *serverInfoButton;
     NSTimer *serverInfoTimer;
 }

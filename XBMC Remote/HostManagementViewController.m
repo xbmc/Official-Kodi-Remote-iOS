@@ -379,34 +379,35 @@ static inline BOOL IsEmpty(id obj) {
                                    @"System.OSVersionInfo"]}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
-            
-            for (UIView *subview in serverInfoView.subviews) {
-                [subview removeFromSuperview];
-            }
-            CGFloat offset = MARGIN;
-            offset = [self addLabel:@"Name" text:methodResult[@"System.FriendlyName"] offset:offset];
-            offset = [self addLabel:@"Build" text:methodResult[@"System.BuildVersion"] offset:offset];
-            offset = [self addLabel:@"Build Date" text:methodResult[@"System.BuildDate"] offset:offset];
-            offset = [self addLabel:@"Server Date" text:methodResult[@"System.Date"] offset:offset];
-            offset = [self addLabel:@"Server Time" text:methodResult[@"System.Time"] offset:offset] + BLOCK_MARGIN;
-            offset = [self addLabel:@"OS" text:methodResult[@"System.OSVersionInfo"] offset:offset] + BLOCK_MARGIN;
-            offset = [self addLabel:@"Screen" text:methodResult[@"System.ScreenResolution"] offset:offset];
-            offset = [self addLabel:@"FPS" text:methodResult[@"System.FPS"] offset:offset] + BLOCK_MARGIN;
-            offset = [self addLabel:@"CPU Clock" text:methodResult[@"System.CpuFrequency"] offset:offset];
-            offset = [self addLabel:@"CPU Load" text:methodResult[@"System.CpuUsage"] offset:offset];
-            offset = [self addLabel:@"CPU Temp" text:methodResult[@"System.CPUTemperature"] offset:offset];
-            offset = [self addLabel:@"GPU Temp" text:methodResult[@"System.GPUTemperature"] offset:offset];
-            offset = [self addLabel:@"HDD Temp" text:methodResult[@"System.HddTemperature"] offset:offset] + BLOCK_MARGIN;
+            NSMutableAttributedString *infoString = [NSMutableAttributedString new];
+            NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
+            [infoString appendAttributedString:[self formatInfo:@"Name" text:methodResult[@"System.FriendlyName"]]];
+            [infoString appendAttributedString:[self formatInfo:@"Build" text:methodResult[@"System.BuildVersion"]]];
+            [infoString appendAttributedString:[self formatInfo:@"Build Date" text:methodResult[@"System.BuildDate"]]];
+            [infoString appendAttributedString:[self formatInfo:@"Server Date" text:methodResult[@"System.Date"]]];
+            [infoString appendAttributedString:[self formatInfo:@"Server Time" text:methodResult[@"System.Time"]]];
+            [infoString appendAttributedString:newLine];
+            [infoString appendAttributedString:[self formatInfo:@"OS" text:methodResult[@"System.OSVersionInfo"]]];
+            [infoString appendAttributedString:newLine];
+            [infoString appendAttributedString:[self formatInfo:@"Screen" text:methodResult[@"System.ScreenResolution"]]];
+            [infoString appendAttributedString:[self formatInfo:@"FPS" text:methodResult[@"System.FPS"]]];
+            [infoString appendAttributedString:newLine];
+            [infoString appendAttributedString:[self formatInfo:@"CPU Clock" text:methodResult[@"System.CpuFrequency"]]];
+            [infoString appendAttributedString:[self formatInfo:@"CPU Load" text:methodResult[@"System.CpuUsage"]]];
+            [infoString appendAttributedString:[self formatInfo:@"CPU Temp" text:methodResult[@"System.CPUTemperature"]]];
+            [infoString appendAttributedString:[self formatInfo:@"GPU Temp" text:methodResult[@"System.GPUTemperature"]]];
+            [infoString appendAttributedString:[self formatInfo:@"HDD Temp" text:methodResult[@"System.HddTemperature"]]];
+            [infoString appendAttributedString:newLine];
             NSString *memory = [NSString stringWithFormat:@"%@ Used / %@ Total",
                                 methodResult[@"System.Memory(used.percent)"],
                                 methodResult[@"System.Memory(total)"]];
-            offset = [self addLabel:@"Memory" text:memory offset:offset];
+            [infoString appendAttributedString:[self formatInfo:@"Memory" text:memory]];
             NSString *storage = [NSString stringWithFormat:@"%@ / %@",
                                 methodResult[@"System.UsedSpacePercent"],
                                 methodResult[@"System.TotalSpace"]];
-            offset = [self addLabel:@"Storage" text:storage offset:offset];
+            [infoString appendAttributedString:[self formatInfo:@"Storage" text:storage]];
             
-            serverInfoView.contentSize = CGSizeMake(serverInfoView.frame.size.width, offset);
+            serverInfoView.attributedText = infoString;
         }
     }];
 }
@@ -422,37 +423,25 @@ static inline BOOL IsEmpty(id obj) {
     }
 }
 
-- (CGFloat)addLabel:(NSString*)name text:(NSString*)text offset:(CGFloat)offset {
+- (NSAttributedString*)formatInfo:(NSString*)name text:(NSString*)text {
     int fontSize = 15;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(MARGIN,
-                                                               offset,
-                                                               serverInfoView.frame.size.width - 2 * MARGIN,
-                                                               0)];
-    
-    // Bold & gray for label, normal and white for the text itself.
+    // Bold and gray for label
     name = [NSString stringWithFormat:@"%@: ", name];
     NSDictionary *boldFontAttrib = @{
         NSFontAttributeName: [UIFont boldSystemFontOfSize:fontSize],
         NSForegroundColorAttributeName: UIColor.lightGrayColor
     };
+    // Normal and white for the text
     NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:name attributes:boldFontAttrib];
+    text = [NSString stringWithFormat:@"%@\n", text];
     NSDictionary *normalFontAttrib = @{
         NSFontAttributeName: [UIFont systemFontOfSize:fontSize],
         NSForegroundColorAttributeName: UIColor.whiteColor
     };
     NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:text attributes:normalFontAttrib];
+    // Build the complete string
     [string1 appendAttributedString:string2];
-    
-    label.attributedText = string1;
-    label.numberOfLines = 2;
-    label.lineBreakMode = NSLineBreakByWordWrapping;
-    label.hidden = NO;
-    CGRect frame = label.frame;
-    frame.size.height = [Utilities getHeightOfLabel:label];
-    label.frame = frame;
-    [serverInfoView addSubview:label];
-    
-    return offset + frame.size.height;
+    return string1;
 }
 
 #pragma mark - LifeCycle
@@ -523,7 +512,7 @@ static inline BOOL IsEmpty(id obj) {
     messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     [self.view addSubview:messagesView];
     
-    serverInfoView = [[UIScrollView alloc] initWithFrame:CGRectMake(MARGIN, deltaY + MARGIN, self.view.frame.size.width - 2 * MARGIN, self.view.frame.size.height - bottomPadding - deltaY - 44 - 2 * MARGIN)];
+    serverInfoView = [[UITextView alloc] initWithFrame:CGRectMake(MARGIN, deltaY + MARGIN, self.view.frame.size.width - 2 * MARGIN, self.view.frame.size.height - bottomPadding - deltaY - 44 - 2 * MARGIN)];
     serverInfoView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
                                       UIViewAutoresizingFlexibleHeight |
                                       UIViewAutoresizingFlexibleLeftMargin |
