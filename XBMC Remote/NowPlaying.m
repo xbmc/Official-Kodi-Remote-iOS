@@ -377,7 +377,7 @@ int currentItemID;
         jewelView.image = nil;
     }
     duration.text = @"";
-    albumName.text = LOCALIZED_STR(@"Nothing is playing");
+    albumName.text = @"";
     songName.text = @"";
     artistName.text = @"";
     lastSelected = -1;

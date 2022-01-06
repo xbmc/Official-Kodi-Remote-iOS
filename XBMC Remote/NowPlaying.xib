@@ -82,14 +82,14 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="No items found." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="134">
-                                            <rect key="frame" x="41" y="10" width="168" height="22"/>
+                                            <rect key="frame" x="40" y="10" width="170" height="22"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.84919595718383789" green="0.84919595718383789" blue="0.84919595718383789" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="icon_dark" translatesAutoresizingMaskIntoConstraints="NO" id="133">
-                                            <rect key="frame" x="12" y="6" width="30" height="30"/>
+                                            <rect key="frame" x="8" y="6" width="30" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                         </imageView>
                                     </subviews>
@@ -123,7 +123,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.40000000596046448" contentMode="scaleAspectFit" fixedFrame="YES" image="xbmc_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="154" userLabel="Image View - xbmc_overlay_ipad">
+                                <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="xbmc_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="154" userLabel="Image View - xbmc_overlay_ipad">
                                     <rect key="frame" x="20" y="121" width="280" height="72"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 </imageView>
