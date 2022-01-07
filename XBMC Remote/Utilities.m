@@ -940,7 +940,12 @@
 
 + (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active {
     CGFloat alpha = active ? 1.0 : 0.3;
-    for (UITableViewCell *cell in tableView.visibleCells) {
+    for (NSIndexPath *indexPath in tableView.indexPathsForVisibleRows) {
+        // The iPhone uses the top most cell as connection status. This should not be faded/unfaded.
+        if (IS_IPHONE && indexPath.row == 0 && indexPath.section == 0) {
+            continue;
+        }
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [UIView animateWithDuration:0.3
                          animations:^{
                             ((UIImageView*)[cell viewWithTag:1]).alpha = alpha;
