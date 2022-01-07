@@ -4955,6 +4955,10 @@ NSIndexPath *selected;
         NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitYear fromDate:[xbmcDateFormatter dateFromString:currentValue]];
         currentValue = [NSString stringWithFormat:@"%ld", (long)[components year]];
     }
+    else if ([sortMethod isEqualToString:@"playcount"] ||
+             [sortMethod isEqualToString:@"track"]) {
+        currentValue = [NSString stringWithFormat:@"%@", value];
+    }
     else if (currentValue.length) {
         NSCharacterSet *set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
         NSCharacterSet *numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
