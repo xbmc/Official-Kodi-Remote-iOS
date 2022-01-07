@@ -25,8 +25,13 @@
 #define SERVER_TIMEOUT 2.0
 #define VIEW_PADDING 10 /* separation between toolbar views */
 #define TOOLBAR_HEIGHT 44
-#define XBMCLOGO_WIDTH 87
+#define XBMCLOGO_WIDTH 30
 #define POWERBUTTON_WIDTH 42
+#define CONNECTION_ICON_SIZE 18
+#define CONNECTION_PADDING 20
+#define VOLUME_PADDING_LEFT 40
+#define PLAYLIST_HEADER_HEIGHT 24
+#define LINE_HEIGHT 1
 
 @interface ViewControllerIPad () {
     NSMutableArray *mainMenu;
@@ -39,38 +44,28 @@
 
 @implementation UIViewExt
 - (UIView*)hitTest:(CGPoint)pt withEvent:(UIEvent*)event {
-	
 	UIView* viewToReturn = nil;
 	CGPoint pointToReturn;
-	
 	UIView* uiRightView = (UIView*)(self.subviews[1]);
-	
 	if (uiRightView.subviews[0]) {
-		
 		UIView* uiStackScrollView = uiRightView.subviews[0];
-		
 		if (uiStackScrollView.subviews[1]) {
-			
 			UIView* uiSlideView = uiStackScrollView.subviews[1];
-			
 			for (UIView* subView in uiSlideView.subviews) {
 				CGPoint point = [subView convertPoint:pt fromView:self];
 				if ([subView pointInside:point withEvent:event]) {
 					viewToReturn = subView;
 					pointToReturn = point;
 				}
-				
 			}
 		}
-		
 	}
 	
 	if (viewToReturn != nil) {
 		return [viewToReturn hitTest:pointToReturn withEvent:event];		
 	}
 	
-	return [super hitTest:pt withEvent:event];	
-	
+	return [super hitTest:pt withEvent:event];
 }
 @end
 
@@ -110,6 +105,12 @@
     [AppDelegate.instance sendWOL:macAddress withPort:9];
 }
 
+- (void)connectionStatus:(NSNotification*)note {
+    NSDictionary *theData = note.userInfo;
+    NSString *icon_connection = theData[@"icon_connection"];
+    connectionStatus.image = [UIImage imageNamed:icon_connection];
+}
+
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    infoText, @"message",
@@ -122,19 +123,7 @@
         AppDelegate.instance.serverName = infoText;
         [volumeSliderView startTimer];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
-        for (int i = 1; i < n; i++) {
-            UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell != nil) {
-                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.3];
-                ((UIImageView*)[cell viewWithTag:1]).alpha = 1.0;
-                ((UIImageView*)[cell viewWithTag:2]).alpha = 1.0;
-                ((UIImageView*)[cell viewWithTag:3]).alpha = 1.0;
-                [UIView commitAnimations];
-            }
-        }
+        [Utilities setStyleOfMenuItems:menuViewController.tableView active:YES];
     }
     else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];
@@ -142,22 +131,10 @@
         AppDelegate.instance.serverOnLine = NO;
         AppDelegate.instance.serverName = infoText;
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        NSInteger n = [menuViewController.tableView numberOfRowsInSection:0];
-        for (int i = 1; i < n; i++) {
-            UITableViewCell *cell = [menuViewController.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell != nil) {
-                cell.selectionStyle = UITableViewCellSelectionStyleGray;
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.3];
-                
-                ((UIImageView*)[cell viewWithTag:1]).alpha = 0.3;
-                ((UIImageView*)[cell viewWithTag:2]).alpha = 0.3;
-                ((UIImageView*)[cell viewWithTag:3]).alpha = 0.3;
-                [UIView commitAnimations];
-            }
-        }
-        if (![extraTimer isValid])
+        [Utilities setStyleOfMenuItems:menuViewController.tableView active:NO];
+        if (!extraTimer.valid) {
             extraTimer = [NSTimer scheduledTimerWithTimeInterval:CONNECTION_TIMEOUT target:self selector:@selector(offStackView) userInfo:nil repeats:NO];
+        }
     }
 }
 
@@ -359,7 +336,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    int deltaY = 22;
+    int deltaY = UIApplication.sharedApplication.statusBarFrame.size.height + 2; // + 2 used by horizontanLineView
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
     self.tcpJSONRPCconnection = [tcpJSONRPC new];
@@ -369,8 +346,7 @@
     AppDelegate.instance.obj = [GlobalData getInstance]; 
 
     int cellHeight = PAD_MENU_HEIGHT;
-    int infoHeight = PAD_MENU_INFO_HEIGHT;
-    NSInteger tableHeight = ([(NSMutableArray*)mainMenu count] - 1) * cellHeight + infoHeight;
+    NSInteger tableHeight = [(NSMutableArray*)mainMenu count] * cellHeight;
     int tableWidth = PAD_MENU_TABLE_WIDTH;
     int headerHeight = 0;
    
@@ -392,29 +368,28 @@
 	[menuViewController viewWillAppear:NO];
 	[menuViewController viewDidAppear:NO];
 	[leftMenuView addSubview:menuViewController.view];
-    int separator = 2;
     
-//    CGRect seamBackground = CGRectMake(0, tableHeight + headerHeight - 2, tableWidth, separator);
-//    UIImageView *seam = [[UIImageView alloc] initWithFrame:seamBackground];
-//    seam.image = [UIImage imageNamed:@"denim_single_seam"];
-//    seam.opaque = YES;
-//    [leftMenuView addSubview:seam];
-    
-    UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight + separator - 2, tableWidth, 1)];
-//    horizontalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    horizontalLineView1.backgroundColor = [Utilities getGrayColor:77 alpha:0.2];
+    UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight, tableWidth, LINE_HEIGHT)];
+    horizontalLineView1.backgroundColor = [Utilities getGrayColor:77 alpha:0.6];
     [leftMenuView addSubview:horizontalLineView1];
+    
+    UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(0, tableHeight, PAD_MENU_TABLE_WIDTH, PLAYLIST_HEADER_HEIGHT)];
+    header.backgroundColor = UIColor.clearColor;
+    header.textColor = UIColor.lightGrayColor;
+    header.text = LOCALIZED_STR(@"Playlist");
+    header.textAlignment = NSTextAlignmentCenter;
+    [leftMenuView addSubview:header];
 
     self.nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
     CGRect frame = self.nowPlayingController.view.frame;
-    YPOS = (int)-(tableHeight + separator + headerHeight);
-    frame.origin.y = tableHeight + separator + headerHeight;
+    YPOS = (int)(tableHeight + LINE_HEIGHT + headerHeight + PLAYLIST_HEADER_HEIGHT);
+    frame.origin.y = YPOS;
     frame.size.width = tableWidth;
-    frame.size.height = self.view.frame.size.height - tableHeight - separator - headerHeight - deltaY;
+    frame.size.height = self.view.frame.size.height - YPOS - deltaY;
     self.nowPlayingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     self.nowPlayingController.view.frame = frame;
     
-    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height YPOS:YPOS];
+    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height YPOS:-YPOS];
     
     [leftMenuView addSubview:self.nowPlayingController.view];
 
@@ -434,13 +409,18 @@
     [self.view addSubview:rootView];
     
     // left most element
-    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, self.view.frame.size.height - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT) leftAnchor:0.0];
+    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - VOLUME_PADDING_LEFT, self.view.frame.size.height - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT) leftAnchor:0.0];
     volumeSliderView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:volumeSliderView];
     
     // right most element
-    UIImage *image = [UIImage imageNamed:@"bottom_logo_up"];
-    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - XBMCLOGO_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, XBMCLOGO_WIDTH, TOOLBAR_HEIGHT)];
+    connectionStatus = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - CONNECTION_ICON_SIZE - VIEW_PADDING, self.view.frame.size.height - (TOOLBAR_HEIGHT + CONNECTION_ICON_SIZE) / 2 - [Utilities getBottomPadding], CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE)];
+    connectionStatus.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    [self.view addSubview:connectionStatus];
+    
+    // 2nd right most element
+    UIImage *image = [UIImage imageNamed:@"bottom_logo_only"];
+    xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(connectionStatus.frame) - XBMCLOGO_WIDTH - CONNECTION_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, XBMCLOGO_WIDTH, TOOLBAR_HEIGHT)];
     [xbmcLogo setImage:image forState:UIControlStateNormal];
     [xbmcLogo setImage:image forState:UIControlStateHighlighted];
     xbmcLogo.showsTouchWhenHighlighted = NO;
@@ -449,7 +429,7 @@
     xbmcLogo.alpha = 0.9;
     [self.view addSubview:xbmcLogo];
     
-    // 2nd right most element
+    // 3rd right most element
     image = [UIImage imageNamed:@"icon_power_up"];
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - POWERBUTTON_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
     [powerButton setImage:image forState:UIControlStateNormal];
@@ -459,8 +439,8 @@
     [self.view addSubview:powerButton];
     
     // element between left most and 2nd right most uses up free space
-    CGFloat startInfo = volumeSliderView.frame.origin.x + volumeSliderView.frame.size.width + VIEW_PADDING;
-    CGFloat widthInfo = powerButton.frame.origin.x - startInfo - VIEW_PADDING;
+    CGFloat startInfo = volumeSliderView.frame.origin.x + volumeSliderView.frame.size.width + 2 * VIEW_PADDING;
+    CGFloat widthInfo = powerButton.frame.origin.x - startInfo - 2 * VIEW_PADDING;
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(startInfo, self.view.frame.size.height - TOOLBAR_HEIGHT, widthInfo, TOOLBAR_HEIGHT)];
     [xbmcInfo setTitle:LOCALIZED_STR(@"No connection") forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
@@ -513,12 +493,10 @@
                                              selector: @selector(handleXBMCServerHasChanged:)
                                                  name: @"XBMCServerHasChanged"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleStackScrollOnScreen:)
                                                  name: @"StackScrollOnScreen"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleStackScrollOffScreen:)
                                                  name: @"StackScrollOffScreen"
@@ -535,32 +513,34 @@
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTcpJSONRPCShowSetup:)
                                                  name: @"TcpJSONRPCShowSetup"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTcpJSONRPCChangeServerStatus:)
                                                  name: @"TcpJSONRPCChangeServerStatus"
                                                object: nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionStatus:)
+                                                 name: @"XBMCServerConnectionSuccess"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(connectionStatus:)
+                                                 name: @"XBMCServerConnectionFailed"
+                                               object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleStackScrollFullScreenEnabled:)
                                                  name: @"StackScrollFullScreenEnabled"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleStackScrollFullScreenDisabled:)
                                                  name: @"StackScrollFullScreenDisabled"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleChangeBackgroundGradientColor:)
                                                  name: @"UIViewChangeBackgroundGradientColor"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleChangeBackgroundImage:)
                                                  name: @"UIViewChangeBackgroundImage"
@@ -699,7 +679,7 @@
 }
 
 - (void)viewWillLayoutSubviews {
-    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:YPOS];
+    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:-YPOS];
 }
 
 - (BOOL)shouldAutorotate {

@@ -5780,7 +5780,7 @@ NSIndexPath *selected;
             }
             if (twoFingerPinch == nil) {
                 twoFingerPinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerPinch:)];
-                [[self view] addGestureRecognizer:twoFingerPinch];
+                [self.view addGestureRecognizer:twoFingerPinch];
             }
             topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - (buttonPadding * 2), 44);
             fullscreenButton.hidden = NO;

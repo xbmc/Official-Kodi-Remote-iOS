@@ -116,14 +116,8 @@
         NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
         if (selection && indexPath.row == selection.row) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            if (AppDelegate.instance.serverOnLine) {
-                if (AppDelegate.instance.serverTCPConnectionOpen) {
-                    ((UIImageView*)[cell viewWithTag:1]).image = [UIImage imageNamed:@"connection_on"];
-                }
-                else {
-                    ((UIImageView*)[cell viewWithTag:1]).image = [UIImage imageNamed:@"connection_on_notcp"];
-                }
-            }
+            NSString *iconName = [Utilities getConnectionStatusIconName];
+            ((UIImageView*)[cell viewWithTag:1]).image = [UIImage imageNamed:iconName];
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;

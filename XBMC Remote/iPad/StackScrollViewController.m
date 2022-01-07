@@ -913,7 +913,7 @@
                 [viewControllersStack removeObjectAtIndex:indexOfViewController];
             }
 // END FIXME
-			viewXPosition = self.view.frame.size.width - [controller view].frame.size.width;
+			viewXPosition = self.view.frame.size.width - controller.view.frame.size.width;
 		}
 	}
     else if (viewControllersStack.count == 0) {
@@ -945,44 +945,24 @@
 		slideStartPosition = SLIDE_VIEWS_START_X_POS;
 		viewXPosition = slideStartPosition;
 	}
-	[controller view].frame = CGRectMake(viewXPosition, 0, [controller view].frame.size.width, self.view.frame.size.height - bottomPadding);
+	controller.view.frame = CGRectMake(viewXPosition, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
 	controller.view.tag = viewControllersStack.count - 1 + VIEW_TAG;
 	[controller viewWillAppear:NO];
 	[controller viewDidAppear:NO];
     
-    CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height - bottomPadding);
-    UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
-    shadow.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    shadow.image = [UIImage imageNamed:@"tableLeft"];
-    shadow.opaque = YES;
-    shadow.tag = 2001;
-    [controller.view addSubview:shadow];
+    [Utilities addShadowsToView:controller.view viewFrame:controller.view.frame];
     
-    shadowRect = CGRectMake(STACKSCROLL_WIDTH, 0, 16, self.view.frame.size.height - bottomPadding);
-    UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
-    shadowRight.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
-    shadowRight.image = [UIImage imageNamed:@"tableRight"];
-    shadowRight.opaque = YES;
-    shadowRight.tag = 2002;
-    [controller.view addSubview:shadowRight];
-    
-    shadowRect = CGRectMake(-15, -15, STACKSCROLL_WIDTH + 30, 15);
-    UIImageView *shadowUp = [[UIImageView alloc] initWithFrame:shadowRect];
-    shadowUp.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    shadowUp.image = [UIImage imageNamed:@"stackScrollUpShadow"];
-    [controller.view insertSubview:shadowUp atIndex:1];
-    
-	[slideViews addSubview:[controller view]];
+	[slideViews addSubview:controller.view];
     if (slideViews.subviews.count > 0) {
 		if (slideViews.subviews.count == 1) {
 //            NSLog(@"SETTE"); //FIRST
 			viewAtLeft = slideViews.subviews[slideViews.subviews.count - 1];
-            [controller view].frame = CGRectMake(animX, 0, [controller view].frame.size.width, self.view.frame.size.height - bottomPadding);
+            controller.view.frame = CGRectMake(animX, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
 
             [UIView beginAnimations:nil context:NULL];
 			[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:viewAtLeft cache:YES];	
 			[UIView setAnimationBeginsFromCurrentState:NO];	
-            [controller view].frame = CGRectMake(viewXPosition, 0, [controller view].frame.size.width, self.view.frame.size.height - bottomPadding);
+            controller.view.frame = CGRectMake(viewXPosition, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
 
             [UIView commitAnimations];
 			viewAtLeft2 = nil;
@@ -1090,7 +1070,7 @@
     for (UIViewController* subController in viewControllersStack) {
         [subController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
         if (!((viewAtRight != nil && [viewAtRight isEqual:subController.view]) || (viewAtLeft != nil && [viewAtLeft isEqual:subController.view]) || (viewAtLeft2 != nil && [viewAtLeft2 isEqual:subController.view]))) {
-            [subController view].hidden = YES;
+            subController.view.hidden = YES;
         }
     }
     

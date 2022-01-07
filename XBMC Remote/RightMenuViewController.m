@@ -97,16 +97,8 @@
     if ([tableData[indexPath.row][@"label"] isEqualToString:@"ServerInfo"]) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         xbmc_logo.hidden = NO;
-        iconName = @"connection_off";
+        iconName = [Utilities getConnectionStatusIconName];
         icon.alpha = 1;
-        if (AppDelegate.instance.serverOnLine) {
-            if (AppDelegate.instance.serverTCPConnectionOpen) {
-                iconName = @"connection_on";
-            }
-            else {
-                iconName = @"connection_on_notcp";
-            }
-        }
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
         title.autoresizingMask = UIViewAutoresizingNone;
         icon.autoresizingMask = UIViewAutoresizingNone;

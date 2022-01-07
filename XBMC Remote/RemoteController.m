@@ -407,7 +407,7 @@
     subsInfoLabel.alpha = 0.8;
     [UIView commitAnimations];
     //then fade out again after timeout seconds
-    if ([fadeoutTimer isValid]) {
+    if (fadeoutTimer.valid) {
         [fadeoutTimer invalidate];
     }
     fadeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutSubs) userInfo:nil repeats:NO];

@@ -32,6 +32,7 @@
     UIButton *xbmcLogo;
     UIButton *xbmcInfo;
     UIButton *powerButton;
+    UIImageView *connectionStatus;
     VolumeSliderView *volumeSliderView;
     BOOL firstRun;
     NSTimer* extraTimer;

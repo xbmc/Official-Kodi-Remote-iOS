@@ -23,6 +23,7 @@
 
 #define SERVER_TIMEOUT 2.0
 #define CONNECTION_ICON_SIZE 18
+#define CONNECTION_ICON_MARGIN 8
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -49,50 +50,20 @@
                                    infoText, @"message",
                                    iconName, @"icon_connection",
                                    nil];
+    NSString *notificationName;
     if (status) {
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];
-        AppDelegate.instance.serverOnLine = YES;
-        AppDelegate.instance.serverName = infoText;
-        itemIsActive = NO;
-        NSInteger n = [menuList numberOfRowsInSection:0];
-        for (int i = 1; i < n; i++) {
-            UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell != nil) {
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.3];
-                ((UIImageView*)[cell viewWithTag:1]).alpha = 1.0;
-                ((UIImageView*)[cell viewWithTag:2]).alpha = 1.0;
-                ((UIImageView*)[cell viewWithTag:3]).alpha = 1.0;
-                [UIView commitAnimations];
-            }
-        }
-//        [[Utilities getJsonRPC]
-//         callMethod:@"JSONRPC.Introspect"
-//         withParameters:[NSDictionary dictionaryWithObjectsAndKeys: nil]
-//         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-//             NSLog(@"%@", methodResult);
-//         }];
+        notificationName = @"XBMCServerConnectionSuccess";
     }
     else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:params];
-        AppDelegate.instance.serverOnLine = NO;
-        AppDelegate.instance.serverName = infoText;
-        itemIsActive = NO;
-        NSInteger n = [menuList numberOfRowsInSection:0];
-        for (int i = 1; i < n; i++) {
-            UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            if (cell != nil) {
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.3];
-                ((UIImageView*)[cell viewWithTag:1]).alpha = 0.3;
-                ((UIImageView*)[cell viewWithTag:2]).alpha = 0.3;
-                ((UIImageView*)[cell viewWithTag:3]).alpha = 0.3;
-                [UIView commitAnimations];
-            }
-        }
+        notificationName = @"XBMCServerConnectionFailed";
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:nil userInfo:params];
+    AppDelegate.instance.serverOnLine = status;
+    AppDelegate.instance.serverName = infoText;
+    itemIsActive = NO;
+    [Utilities setStyleOfMenuItems:menuList active:status];
 }
 
 #pragma mark - Table view methods & data source
@@ -125,7 +96,7 @@
         UILabel *title = (UILabel*)[cell viewWithTag:3];
         if (indexPath.row == 0) {
             UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
-            int cellHeight = 44;
+            int cellHeight = PHONE_MENU_INFO_HEIGHT;
             UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:cellHeight width:self.view.bounds.size.width]];
             xbmc_logo.alpha = 0.25;
             xbmc_logo.image = logo;
@@ -137,7 +108,7 @@
             line.hidden = YES;
             title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
             icon.frame = CGRectMake(icon.frame.origin.x, (int)((cellHeight - CONNECTION_ICON_SIZE) / 2), CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE);
-            title.frame = CGRectMake(42, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight);
+            title.frame = CGRectMake(CGRectGetMaxX(icon.frame) + CONNECTION_ICON_MARGIN, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight);
             title.numberOfLines = 2;
             arrowRight.frame = CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height);
         }
@@ -145,15 +116,7 @@
     UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
     if (indexPath.row == 0) {
-        iconName = @"connection_off";
-        if (AppDelegate.instance.serverOnLine) {
-            if (AppDelegate.instance.serverTCPConnectionOpen) {
-                iconName = @"connection_on";
-            }
-            else {
-                iconName = @"connection_on_notcp";
-            }
-        }
+        iconName = [Utilities getConnectionStatusIconName];
         icon.image = [UIImage imageNamed:iconName];
     }
     else {
@@ -224,20 +187,7 @@
     if (hideBottonLine) {
         [navController hideNavBarBottomLine:YES];
     }
-    navController.view.clipsToBounds = NO;
-    CGRect shadowRect = CGRectMake(-16, 0, 16, self.view.frame.size.height + 22);
-    UIImageView *shadow = [[UIImageView alloc] initWithFrame:shadowRect];
-    shadow.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    shadow.image = [UIImage imageNamed:@"tableLeft"];
-    shadow.opaque = YES;
-    [navController.view addSubview:shadow];
-    
-    shadowRect = CGRectMake(self.view.frame.size.width, 0, 16, self.view.frame.size.height + 22);
-    UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
-    shadowRight.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    shadowRight.image = [UIImage imageNamed:@"tableRight"];
-    shadowRight.opaque = YES;
-    [navController.view addSubview:shadowRight];
+    [Utilities addShadowsToView:navController.view viewFrame:self.view.frame];
 
     [self.slidingViewController anchorTopViewOffScreenTo:ECRight animations:nil onComplete:^{
         CGRect frame = self.slidingViewController.topViewController.view.frame;
@@ -272,7 +222,7 @@
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.row == 0) {
-        return 44;
+        return PHONE_MENU_INFO_HEIGHT;
     }
     return PHONE_MENU_HEIGHT;
 }
@@ -312,10 +262,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGRect frame = menuList.frame;
-    frame.origin.y = 22;
-    frame.size.height = frame.size.height - 22;
-    menuList.frame = frame;
     menuList.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
@@ -351,12 +297,10 @@
                                              selector: @selector(handleTcpJSONRPCChangeServerStatus:)
                                                  name: @"TcpJSONRPCChangeServerStatus"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionStatus:)
                                                  name: @"XBMCServerConnectionSuccess"
                                                object: nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionStatus:)
                                                  name: @"XBMCServerConnectionFailed"
