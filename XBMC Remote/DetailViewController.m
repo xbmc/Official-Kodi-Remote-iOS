@@ -5377,6 +5377,7 @@ NSIndexPath *selected;
     self.searchController.searchBar.placeholder = LOCALIZED_STR(@"Search");
     self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     self.searchController.searchBar.barStyle = UIBarStyleBlack;
+    self.searchController.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.searchController.searchBar setShowsCancelButton:YES animated:NO];
     [self.searchController.searchBar sizeToFit];
     [self.searchController setActive:NO];
