@@ -1527,7 +1527,9 @@ double round(double d) {
     NSDictionary *item = self.detailItem;
     NSString *param = item[@"family"];
     id value = item[item[@"family"]];
-    if ([self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
+    // Since API 12.7.0 Kodi server can handle Playlist.Insert and Playlist.Add for recordingid.
+    // Before, the JSON parameters must use the file path.
+    if (!(AppDelegate.instance.APImajorVersion >= 12 && AppDelegate.instance.APIminorVersion >= 7) && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
         param = @"file";
         value = item[@"file"];
     }
@@ -1596,7 +1598,9 @@ double round(double d) {
             if (error == nil && methodError == nil) {
                 NSString *param = item[@"family"];
                 id value = item[item[@"family"]];
-                if ([self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
+                // Since API 12.7.0 Kodi server can handle Playlist.Insert and Playlist.Add for recordingid.
+                // Before, the JSON parameters must use the file path.
+                if (!(AppDelegate.instance.APImajorVersion >= 12 && AppDelegate.instance.APIminorVersion >= 7) && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
                     param = @"file";
                     value = item[@"file"];
                 }
