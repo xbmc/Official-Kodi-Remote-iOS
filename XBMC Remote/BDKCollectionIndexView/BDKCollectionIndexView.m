@@ -166,20 +166,32 @@
 
     NSMutableArray *workingLabels = [NSMutableArray arrayWithCapacity:self.indexTitles.count];
     for (NSString *indexTitle in self.indexTitles) {
-        if (![indexTitle isEqualToString:@"🔍"]) {
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-            label.text = indexTitle;
-            label.font = [UIFont boldSystemFontOfSize:11];
-            label.minimumScaleFactor = 11.0/11.0;
-            label.adjustsFontSizeToFitWidth = YES;
-            label.backgroundColor = UIColor.clearColor;
-            label.textColor = UIColor.systemBlueColor;
-            label.shadowColor = UIColor.clearColor;
-            label.shadowOffset = CGSizeMake(0, 1);
-            label.textAlignment = NSTextAlignmentCenter;
-            [self addSubview:label];
-            [workingLabels addObject:label];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.text = indexTitle;
+        label.font = [UIFont boldSystemFontOfSize:11];
+        label.minimumScaleFactor = 11.0/11.0;
+        label.adjustsFontSizeToFitWidth = YES;
+        if ([indexTitle isEqualToString:@"🔍"]) {
+            // Use the same icon as iOS's index (magnifying glass with transparent circle)
+            UIImage *searchImage = [UIImage imageNamed:@"icon_search"];
+            searchImage = [Utilities colorizeImage:searchImage withColor:UIColor.systemBlueColor];
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 11)];
+            imageView.contentMode = UIViewContentModeScaleAspectFit;
+            imageView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+            imageView.image = searchImage;
+            
+            [label addSubview:imageView];
+            label.textColor = UIColor.clearColor;
         }
+        else {
+            label.textColor = UIColor.systemBlueColor;
+        }
+        label.backgroundColor = UIColor.clearColor;
+        label.shadowColor = UIColor.clearColor;
+        label.shadowOffset = CGSizeMake(0, 1);
+        label.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:label];
+        [workingLabels addObject:label];
     }
     self.indexLabels = [NSArray arrayWithArray:workingLabels];
 }

@@ -98,7 +98,6 @@
     CGFloat iOSYDelta;
     __weak IBOutlet UIToolbar *buttonsViewBgToolbar;
     BOOL isViewDidLoad;
-    BOOL hideSearchBarActive;
     BOOL forceMusicAlbumMode;
     NSMutableDictionary *epgDict;
     NSMutableArray *epgDownloadQueue;
