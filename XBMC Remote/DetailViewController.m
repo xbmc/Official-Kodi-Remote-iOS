@@ -426,6 +426,28 @@
 
 #pragma mark - Utility
 
+- (void)setCollectionViewIndexVisibility {
+    if (enableCollectionView) {
+        // Get the index titles
+        NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
+        if (tmpArr.count > 1) {
+            [tmpArr replaceObjectAtIndex:0 withObject:@"🔍"];
+        }
+        self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
+        
+        // Only show the collection view index, if there are valid index titles to show
+        if (self.indexView.indexTitles.count > 1) {
+            self.indexView.hidden = NO;
+        }
+        else {
+            self.indexView.hidden = YES;
+        }
+    }
+    else {
+        self.indexView.hidden = YES;
+    }
+}
+
 - (NSDictionary*)getItemFromIndexPath:(NSIndexPath*)indexPath {
     if ([self doesShowSearchResults]) {
         return self.filteredListContent[indexPath.row];
@@ -691,7 +713,6 @@
 //    if ([sender tag] == choosedTab) {
 //        return;
 //    }
-    self.indexView.hidden = YES;
     button6.hidden = YES;
     button7.hidden = YES;
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
@@ -845,10 +866,7 @@
         dataList.scrollsToTop = NO;
         collectionView.scrollsToTop = YES;
         activeLayoutView = collectionView;
-        self.indexView.hidden = YES;
-        if (self.indexView.indexTitles.count > 1) {
-            self.indexView.hidden = NO;
-        }
+        [self initCollectionIndexView];
         // Need to remove the searchController from the dataList header view. Otherwise the search
         // will not correctly show on top of the grid view.
         dataList.tableHeaderView = nil;
@@ -865,7 +883,6 @@
         dataList.scrollsToTop = YES;
         collectionView.scrollsToTop = NO;
         activeLayoutView = dataList;
-        self.indexView.hidden = YES;
         
         // Ensure the searchController is properly attached to the dataList header view.
         dataList.tableHeaderView = self.searchController.searchBar;
@@ -874,6 +891,8 @@
         self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
         imgName = @"st_view_list";
     }
+    [self setCollectionViewIndexVisibility];
+    
     UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:UIColor.lightGrayColor];
     [button6 setBackgroundImage:image forState:UIControlStateNormal];
     
@@ -1423,23 +1442,15 @@
         [collectionView setShowsPullToRefresh:enableDiskCache];
         collectionView.alwaysBounceVertical = YES;
         [detailView insertSubview:collectionView belowSubview:buttonsView];
-        NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
-        if (tmpArr.count > 1) {
-            [tmpArr replaceObjectAtIndex:0 withObject:[NSString stringWithUTF8String:"\xF0\x9F\x94\x8D"]];
-            self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
-            [detailView addSubview:self.indexView];
-        }
     }
     activeLayoutView = collectionView;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView*)collectionView {
     if ([self doesShowSearchResults]) {
-        self.indexView.hidden = YES;
         return (self.filteredListContent.count > 0) ? 1 : 0;
     }
     else {
-        self.indexView.hidden = NO;
         return [self.sections allKeys].count;
     }
 }
@@ -1628,22 +1639,21 @@
     [self.view addSubview:sectionNameOverlayView];
 }
 
-- (BDKCollectionIndexView*)indexView {
-    if (_indexView) {
-        return _indexView;
+- (void)initCollectionIndexView {
+    if (self.indexView) {
+        return;
     }
     CGFloat indexWidth = 40;
     CGRect frame = CGRectMake(CGRectGetWidth(collectionView.frame) - indexWidth,
                               CGRectGetMinY(collectionView.frame) + collectionView.contentInset.top,
                               indexWidth,
                               CGRectGetHeight(collectionView.frame) - collectionView.contentInset.top - collectionView.contentInset.bottom - bottomPadding);
-    _indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
-    _indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
-    _indexView.alpha = 1.0;
-    _indexView.hidden = YES;
-    [_indexView addTarget:self action:@selector(indexViewValueChanged:) forControlEvents:UIControlEventValueChanged];
-    [detailView addSubview:_indexView];
-    return _indexView;
+    self.indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
+    self.indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
+    self.indexView.alpha = 1.0;
+    self.indexView.hidden = YES;
+    [self.indexView addTarget:self action:@selector(indexViewValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [detailView addSubview:self.indexView];
 }
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView*)sender {
@@ -4287,7 +4297,6 @@ NSIndexPath *selected;
 - (void)startRetrieveDataWithRefresh:(BOOL)forceRefresh {
     if (forceRefresh) {
         [activeLayoutView setUserInteractionEnabled:NO];
-        self.indexView.hidden = YES;
     }
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainMethod][choosedTab]];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
@@ -4997,19 +5006,6 @@ NSIndexPath *selected;
     else {
         [self setIpadInterface:itemSizes[@"ipad"]];
     }
-    if (collectionView != nil) {
-        if (enableCollectionView) {
-            self.indexView.hidden = NO;
-        }
-        NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
-        if (tmpArr.count > 1) {
-            [tmpArr replaceObjectAtIndex:0 withObject:[NSString stringWithUTF8String:"\xF0\x9F\x94\x8D"]];
-        }
-        else {
-            self.indexView.hidden = YES;
-        }
-        self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
-    }
     if (stackscrollFullscreen) {
         storeSectionArray = [sectionArray copy];
         storeSections = [sections mutableCopy];
@@ -5401,11 +5397,13 @@ NSIndexPath *selected;
 - (void)willPresentSearchController:(UISearchController*)controller {
     showbar = YES;
     [self showSearchBar];
+    self.indexView.hidden = YES;
 }
 
 - (void)willDismissSearchController:(UISearchController*)controller {
     showbar = NO;
     [self showSearchBar];
+    [self setCollectionViewIndexVisibility];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
