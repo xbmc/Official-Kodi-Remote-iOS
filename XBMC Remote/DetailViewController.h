@@ -116,7 +116,7 @@
     BOOL hiddenLabel;
     UIPinchGestureRecognizer *twoFingerPinch;
     NSTimer* channelListUpdateTimer;
-    NSUInteger sortMethodIndex;
+    NSInteger sortMethodIndex;
     NSString *sortMethodName;
     NSString *sortAscDesc;
     int numberOfStars;

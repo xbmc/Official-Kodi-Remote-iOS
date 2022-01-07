@@ -857,7 +857,7 @@
 - (void)setUpSort:(NSDictionary*)methods parameters:(NSDictionary*)parameters {
     NSDictionary *sortDictionary = parameters[@"available_sort_methods"];
     sortMethodName = [self getCurrentSortMethod:methods withParameters:parameters];
-    NSUInteger foundIndex = [sortDictionary[@"method"] indexOfObject:sortMethodName];
+    NSUInteger foundIndex = sortDictionary ? [sortDictionary[@"method"] indexOfObject:sortMethodName] : NSNotFound;
     if (foundIndex != NSNotFound) {
         sortMethodIndex = foundIndex;
     }
@@ -875,6 +875,7 @@
     NSDictionary *parameters = nil;
     NSMutableDictionary *mutableParameters = nil;
     NSMutableArray *mutableProperties = nil;
+    BOOL refresh = NO;
     
     // Read new tab index
     numTabs = (int)[[self.detailItem mainMethod] count];
@@ -906,10 +907,12 @@
                 switch (filterModeType) {
                     case ViewModeAlbumArtists:
                         mutableParameters[@"albumartistsonly"] = @YES;
+                        refresh = YES;
                         break;
                         
                     case ViewModeSongArtists:
                         mutableParameters[@"albumartistsonly"] = @NO;
+                        refresh = YES;
                         break;
                         
                     case ViewModeDefaultArtists:
@@ -1019,7 +1022,7 @@
         dataList.separatorInset = UIEdgeInsetsMake(0, [parameters[@"itemSizes"][@"separatorInset"] intValue], 0, 0);
     }
     if (methods[@"method"] != nil) {
-        [self retrieveData:methods[@"method"] parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:NO];
+        [self retrieveData:methods[@"method"] parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:refresh];
     }
     else {
         [activityIndicatorView stopAnimating];
@@ -4695,6 +4698,10 @@ NSIndexPath *selected;
     [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
 }
 
+- (BOOL)isEligibleForSections:(NSArray*)array {
+    return [self.detailItem enableSection] && array.count > SECTIONS_START_AT;
+}
+
 - (NSString*)ignoreSorttoken:(NSString*)text {
     if (AppDelegate.instance.KodiSorttokens.count == 0) {
         return text;
@@ -4804,33 +4811,7 @@ NSIndexPath *selected;
         }
     }
     
-    if ([self.detailItem enableSection] && copyRichResults.count > SECTIONS_START_AT && (sortMethodIndex == -1 || [sortMethodName isEqualToString:@"label"])) {
-        addUITableViewIndexSearch = YES;
-        BOOL found;
-        NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
-        NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
-        for (NSDictionary *item in copyRichResults) {
-            NSString *c = @"/";
-            if ([item[sortbymethod] length] > 0) {
-                c = [[item[sortbymethod] substringToIndex:1] uppercaseString];
-            }
-            if ([c rangeOfCharacterFromSet:numberset].location == NSNotFound) {
-                c = @"#";
-            }
-            else if ([c rangeOfCharacterFromSet:set].location != NSNotFound) {
-                c = @"/";
-            }
-            found = NO;
-            if ([[self.sections allKeys] containsObject:c]) {
-                found = YES;
-            }
-            if (!found) {
-                [self.sections setValue:[NSMutableArray new] forKey:c];
-            }
-            [self.sections[c] addObject:item];
-        }
-    }
-    else if (episodesView) {
+    if (episodesView) {
         for (NSDictionary *item in self.richResults) {
             BOOL found;
             NSString *c = [NSString stringWithFormat:@"%@", item[@"season"]];
@@ -4908,7 +4889,7 @@ NSIndexPath *selected;
         [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];
     }
     else {
-        if ([self isSortDifferentToDefault]) {
+        if (sortbymethod && ([self isSortDifferentToDefault] || [self isEligibleForSections:copyRichResults])) {
             BOOL found;
             addUITableViewIndexSearch = YES;
             for (NSDictionary *item in copyRichResults) {
@@ -4979,9 +4960,9 @@ NSIndexPath *selected;
         NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitYear fromDate:[xbmcDateFormatter dateFromString:currentValue]];
         currentValue = [NSString stringWithFormat:@"%ld", (long)[components year]];
     }
-    else if (([sortMethod isEqualToString:@"label"] || [sortMethod isEqualToString:@"genre"] || [sortMethod isEqualToString:@"album"] || [sortMethod isEqualToString:@"channel"] || [sortMethod isEqualToString:@"artist"]) && currentValue.length) {
-        NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
-        NSCharacterSet * numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
+    else if (currentValue.length) {
+        NSCharacterSet *set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];
+        NSCharacterSet *numberset = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
         NSString *c = @"/";
         if (currentValue.length > 0) {
             c = [[currentValue substringToIndex:1] uppercaseString];
