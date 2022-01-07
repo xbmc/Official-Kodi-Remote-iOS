@@ -16,6 +16,7 @@
                 <outlet property="connectingActivityIndicator" destination="26" id="27"/>
                 <outlet property="editTableButton" destination="5" id="18"/>
                 <outlet property="lpgr" destination="20" id="22"/>
+                <outlet property="serverInfoButton" destination="WtD-wt-do5" id="6jU-nT-b83"/>
                 <outlet property="serverListTableView" destination="8" id="15"/>
                 <outlet property="supportedVersionLabel" destination="12" id="fyu-35-aWq"/>
                 <outlet property="supportedVersionView" destination="TtA-IV-ddn" id="fr3-iF-Lcf"/>
@@ -39,7 +40,7 @@
                 </toolbar>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="10">
                     <rect key="frame" x="10" y="211" width="125" height="28"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="Add Host">
@@ -56,6 +57,23 @@
                     <connections>
                         <action selector="addHost:" destination="-1" eventType="touchUpInside" id="14"/>
                     </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WtD-wt-do5" userLabel="Info Button">
+                    <rect key="frame" x="146" y="211" width="28" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                    <size key="titleShadowOffset" width="1" height="1"/>
+                    <state key="normal" image="button_info">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <state key="selected">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5">
                     <rect key="frame" x="185" y="211" width="125" height="28"/>
@@ -118,7 +136,7 @@
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-19" y="40"/>
+            <point key="canvasLocation" x="-20.289855072463769" y="39.508928571428569"/>
         </view>
         <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="20">
             <connections>
@@ -127,6 +145,7 @@
         </pongPressGestureRecognizer>
     </objects>
     <resources>
+        <image name="button_info" width="25" height="25"/>
         <image name="shiny_black_back" width="240" height="408"/>
         <image name="tableDown" width="480" height="8"/>
         <image name="tableUp" width="480" height="8"/>

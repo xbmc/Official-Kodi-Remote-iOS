@@ -15,6 +15,8 @@
 
 // +2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
+#define MARGIN 5
+#define BLOCK_MARGIN 10
 
 @interface HostManagementViewController ()
 
@@ -29,9 +31,11 @@
     return self;
 }
 
-#pragma mark - Button Mamagement
+#pragma mark - Button Management
 
 - (IBAction)addHost:(id)sender {
+    serverInfoView.hidden = YES;
+    [serverInfoTimer invalidate];
     HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
     hostController.detailItem = nil;
     [self.navigationController pushViewController:hostController animated:YES];
@@ -275,6 +279,8 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 - (IBAction)editTable:(id)sender forceClose:(BOOL)forceClose {
+    serverInfoView.hidden = YES;
+    [serverInfoTimer invalidate];
     if (sender != nil) {
         forceClose = NO;
     }
@@ -284,8 +290,9 @@ static inline BOOL IsEmpty(id obj) {
     if (serverListTableView.editing || forceClose) {
         [serverListTableView setEditing:NO animated:YES];
         editTableButton.selected = NO;
-        if (AppDelegate.instance.arrayServerList.count == 0)
+        if (AppDelegate.instance.arrayServerList.count == 0) {
             [serverListTableView reloadData];
+        }
         if (storeServerSelection) {
             [serverListTableView selectRowAtIndexPath:storeServerSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
             UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
@@ -301,6 +308,7 @@ static inline BOOL IsEmpty(id obj) {
 #pragma mark - Long Press & Action sheet
 
 - (IBAction)handleLongPress {
+    serverInfoView.hidden = YES;
     if (lpgr.state == UIGestureRecognizerStateBegan) {
         CGPoint p = [lpgr locationInView:serverListTableView];
         NSIndexPath *indexPath = [serverListTableView indexPathForRowAtPoint:p];
@@ -340,6 +348,100 @@ static inline BOOL IsEmpty(id obj) {
         appInfoView.modalTransitionStyle = UIModalTransitionStylePartialCurl;
     }
     [self.navigationController presentViewController:appInfoView animated:YES completion:nil];
+}
+
+- (void)updateServerInfo {
+    [[Utilities getJsonRPC]
+     callMethod:@"XBMC.GetInfoLabels"
+     withParameters:@{@"labels": @[@"System.FriendlyName",
+                                   @"System.Date",
+                                   @"System.Time",
+                                   @"System.FreeSpace",
+                                   @"System.UsedSpace",
+                                   @"System.TotalSpace",
+                                   @"System.UsedSpacePercent",
+                                   @"System.FreeSpacePercent",
+                                   @"System.CPUTemperature",
+                                   @"System.CpuUsage",
+                                   @"System.GPUTemperature",
+                                   @"System.BuildVersion",
+                                   @"System.BuildDate",
+                                   @"System.FPS",
+                                   @"System.Memory(free)",
+                                   @"System.Memory(used)",
+                                   @"System.Memory(total)",
+                                   @"System.Memory(free.percent)",
+                                   @"System.Memory(used.percent)",
+                                   @"System.Memory(total)",
+                                   @"System.CpuFrequency",
+                                   @"System.ScreenResolution",
+                                   @"System.HddTemperature",
+                                   @"System.OSVersionInfo"]}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        if (error == nil && methodError == nil) {
+            NSMutableAttributedString *infoString = [NSMutableAttributedString new];
+            NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
+            [infoString appendAttributedString:[self formatInfo:@"Name" text:methodResult[@"System.FriendlyName"]]];
+            [infoString appendAttributedString:[self formatInfo:@"Build" text:methodResult[@"System.BuildVersion"]]];
+            [infoString appendAttributedString:[self formatInfo:@"Build Date" text:methodResult[@"System.BuildDate"]]];
+            [infoString appendAttributedString:[self formatInfo:@"Server Date" text:methodResult[@"System.Date"]]];
+            [infoString appendAttributedString:[self formatInfo:@"Server Time" text:methodResult[@"System.Time"]]];
+            [infoString appendAttributedString:newLine];
+            [infoString appendAttributedString:[self formatInfo:@"OS" text:methodResult[@"System.OSVersionInfo"]]];
+            [infoString appendAttributedString:newLine];
+            [infoString appendAttributedString:[self formatInfo:@"Screen" text:methodResult[@"System.ScreenResolution"]]];
+            [infoString appendAttributedString:[self formatInfo:@"FPS" text:methodResult[@"System.FPS"]]];
+            [infoString appendAttributedString:newLine];
+            [infoString appendAttributedString:[self formatInfo:@"CPU Clock" text:methodResult[@"System.CpuFrequency"]]];
+            [infoString appendAttributedString:[self formatInfo:@"CPU Load" text:methodResult[@"System.CpuUsage"]]];
+            [infoString appendAttributedString:[self formatInfo:@"CPU Temp" text:methodResult[@"System.CPUTemperature"]]];
+            [infoString appendAttributedString:[self formatInfo:@"GPU Temp" text:methodResult[@"System.GPUTemperature"]]];
+            [infoString appendAttributedString:[self formatInfo:@"HDD Temp" text:methodResult[@"System.HddTemperature"]]];
+            [infoString appendAttributedString:newLine];
+            NSString *memory = [NSString stringWithFormat:@"%@ Used / %@ Total",
+                                methodResult[@"System.Memory(used.percent)"],
+                                methodResult[@"System.Memory(total)"]];
+            [infoString appendAttributedString:[self formatInfo:@"Memory" text:memory]];
+            NSString *storage = [NSString stringWithFormat:@"%@ / %@",
+                                methodResult[@"System.UsedSpacePercent"],
+                                methodResult[@"System.TotalSpace"]];
+            [infoString appendAttributedString:[self formatInfo:@"Storage" text:storage]];
+            
+            serverInfoView.attributedText = infoString;
+        }
+    }];
+}
+
+- (void)showServerInfoView {
+    // Toggle visibility of serverInfoViw
+    serverInfoView.hidden = !serverInfoView.hidden;
+    [serverInfoTimer invalidate];
+    if (!serverInfoView.hidden) {
+        [self updateServerInfo];
+        // Start timer to update the server info view
+        serverInfoTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateServerInfo) userInfo:nil repeats:YES];
+    }
+}
+
+- (NSAttributedString*)formatInfo:(NSString*)name text:(NSString*)text {
+    int fontSize = 15;
+    // Bold and gray for label
+    name = [NSString stringWithFormat:@"%@: ", name];
+    NSDictionary *boldFontAttrib = @{
+        NSFontAttributeName: [UIFont boldSystemFontOfSize:fontSize],
+        NSForegroundColorAttributeName: UIColor.lightGrayColor
+    };
+    // Normal and white for the text
+    NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:name attributes:boldFontAttrib];
+    text = [NSString stringWithFormat:@"%@\n", text];
+    NSDictionary *normalFontAttrib = @{
+        NSFontAttributeName: [UIFont systemFontOfSize:fontSize],
+        NSForegroundColorAttributeName: UIColor.whiteColor
+    };
+    NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:text attributes:normalFontAttrib];
+    // Build the complete string
+    [string1 appendAttributedString:string2];
+    return string1;
 }
 
 #pragma mark - LifeCycle
@@ -402,9 +504,30 @@ static inline BOOL IsEmpty(id obj) {
     frame.origin.y -= bottomPadding;
     editTableButton.frame = frame;
     
+    frame = serverInfoButton.frame;
+    frame.origin.y -= bottomPadding;
+    serverInfoButton.frame = frame;
+    
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HOSTMANAGERVC_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:0];
     messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     [self.view addSubview:messagesView];
+    
+    serverInfoView = [[UITextView alloc] initWithFrame:CGRectMake(MARGIN, deltaY + MARGIN, self.view.frame.size.width - 2 * MARGIN, self.view.frame.size.height - bottomPadding - deltaY - 44 - 2 * MARGIN)];
+    serverInfoView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
+                                      UIViewAutoresizingFlexibleHeight |
+                                      UIViewAutoresizingFlexibleLeftMargin |
+                                      UIViewAutoresizingFlexibleRightMargin;
+    serverInfoView.hidden = YES;
+    serverInfoView.backgroundColor = UIColor.blackColor;
+    serverInfoView.layer.borderColor = UIColor.grayColor.CGColor;
+    serverInfoView.layer.borderWidth = 2.0 / UIScreen.mainScreen.scale;
+    [self.view addSubview:serverInfoView];
+    
+    serverInfoButton.titleLabel.numberOfLines = 1;
+    serverInfoButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    serverInfoButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
+    [serverInfoButton addTarget:self action:@selector(showServerInfoView) forControlEvents:UIControlEventTouchUpInside];
+    
     [addHostButton setTitle:LOCALIZED_STR(@"Add Host") forState:UIControlStateNormal];
     addHostButton.titleLabel.numberOfLines = 1;
     addHostButton.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -417,21 +540,20 @@ static inline BOOL IsEmpty(id obj) {
     supportedVersionLabel.text = LOCALIZED_STR(@"Supported XBMC version is Eden (11) or higher");
     self.navigationController.navigationBar.barTintColor = BAR_TINT_COLOR;
     
-    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateNormal];
-    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateHighlighted];
-    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateSelected];
     editTableButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
     [editTableButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
     editTableButton.titleLabel.shadowOffset = CGSizeZero;
     
-    [addHostButton setBackgroundImage:[UIImage new] forState:UIControlStateNormal];
-    [addHostButton setBackgroundImage:[UIImage new] forState:UIControlStateHighlighted];
-    [addHostButton setBackgroundImage:[UIImage new] forState:UIControlStateSelected];
     addHostButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [addHostButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
     [addHostButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
     addHostButton.titleLabel.shadowOffset = CGSizeZero;
+    
+    serverInfoButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    [serverInfoButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
+    [serverInfoButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
+    serverInfoButton.titleLabel.shadowOffset = CGSizeZero;
     
     if (IS_IPAD) {
         self.edgesForExtendedLayout = 0;
@@ -531,6 +653,11 @@ static inline BOOL IsEmpty(id obj) {
                                              selector: @selector(enablePopGestureRecognizer:)
                                                  name: @"ECSlidingViewTopDidReset"
                                                object: nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [serverInfoTimer invalidate];
 }
 
 - (void)enablePopGestureRecognizer:(id)sender {
