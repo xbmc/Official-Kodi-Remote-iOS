@@ -4027,6 +4027,12 @@ NSIndexPath *selected;
     else {
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
         if (stackscrollFullscreen || [self isModal]) {
+            // Workaround: Deactivate search when accessing ShowInfoView and search is active.
+            // If not done, selecting an item or requesting details will fail.
+            if (stackscrollFullscreen && self.searchController.isActive) {
+                [self.searchController setActive:NO];
+            }
+            
             iPadShowViewController.modalPresentationStyle = UIModalPresentationFormSheet;
             [self presentViewController:iPadShowViewController animated:YES completion:nil];
         }
