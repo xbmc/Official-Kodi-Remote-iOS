@@ -3571,6 +3571,16 @@ NSIndexPath *selected;
                          completion:^(BOOL finished) {
                              button6.hidden = YES;
                              moreItemsViewController.view.hidden = YES;
+                             if (!enableCollectionView) {
+                                 forceCollection = YES;
+                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
+                                 enableCollectionView = YES;
+                                 [self configureLibraryView];
+                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
+                             }
+                             else {
+                                 forceCollection = NO;
+                             }
                              storeSectionArray = [sectionArray copy];
                              storeSections = [sections mutableCopy];
                              [self choseParams];
@@ -3584,16 +3594,6 @@ NSIndexPath *selected;
                              }
                              self.sectionArray = @[@""];
                              self.sections = [sectionsTemp mutableCopy];
-                             if (!enableCollectionView) {
-                                 forceCollection = YES;
-                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
-                                 enableCollectionView = YES;
-                                 [self configureLibraryView];
-                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
-                             }
-                             else {
-                                 forceCollection = NO;
-                             }
                              [self setFlowLayoutParams];
                              [collectionView.collectionViewLayout invalidateLayout];
                              [collectionView reloadData];
