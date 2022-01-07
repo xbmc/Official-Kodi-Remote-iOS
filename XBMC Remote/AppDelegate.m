@@ -3869,7 +3869,7 @@ NSMutableArray *hostRightMenuItems;
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Channel"),
                         LOCALIZED_STR(@"Date"),
-                        LOCALIZED_STR(@"Playcount"),
+                        LOCALIZED_STR(@"Play count"),
                         LOCALIZED_STR(@"Runtime")],
                 @"method": @[
                         @"label",
