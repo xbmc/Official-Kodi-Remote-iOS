@@ -3456,8 +3456,6 @@ NSIndexPath *selected;
 
 - (void)configureView {
     if (self.detailItem) {
-        NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
-        self.navigationItem.title = parameters[@"label"];
         topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 240, 44)];
         topNavigationLabel.backgroundColor = UIColor.clearColor;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
