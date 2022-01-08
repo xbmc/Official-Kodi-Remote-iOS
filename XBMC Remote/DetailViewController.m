@@ -1087,7 +1087,6 @@
     int rectOriginX = point.x;
     int rectOriginY = point.y;
     NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
-    MenuItem.subItem.mainLabel = item[@"label"];
     
     NSString *libraryRowHeight = [NSString stringWithFormat:@"%d", MenuItem.subItem.rowHeight];
     NSString *libraryThumbWidth = [NSString stringWithFormat:@"%d", MenuItem.subItem.thumbWidth];
@@ -1145,7 +1144,7 @@
                                         nil], @"parameters",
                                        parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                        libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
-                                       parameters[@"label"], @"label",
+                                       item[@"label"], @"label",
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                        [NSString stringWithFormat:@"%d", [parameters[@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
                                        [NSString stringWithFormat:@"%d", [parameters[@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
@@ -1216,7 +1215,7 @@
                                                 parameters[@"parameters"][@"media"], @"media",
                                                 parameters[@"parameters"][@"sort"], @"sort",
                                                 parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                                nil], @"parameters", parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song", @"fileThumb",
+                                                nil], @"parameters", item[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song", @"fileThumb",
                                                [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                                [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                                parameters[@"disableFilterParameter"], @"disableFilterParameter",
@@ -1276,7 +1275,7 @@
                                             parameters[@"parameters"][@"media"], @"media",
                                             parameters[@"parameters"][@"sort"], @"sort",
                                             parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                            nil], @"parameters", parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                            nil], @"parameters", item[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                            [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                            [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                            parameters[@"disableFilterParameter"], @"disableFilterParameter",
@@ -3653,7 +3652,6 @@ NSIndexPath *selected;
 - (void)exploreItem:(NSDictionary*)item {
     mainMenu *MenuItem = self.detailItem;
     NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
-    MenuItem.subItem.mainLabel = item[@"label"];
     NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[MenuItem.subItem mainParameters][choosedTab]];
     NSString *libraryRowHeight = [NSString stringWithFormat:@"%d", MenuItem.subItem.rowHeight];
     NSString *libraryThumbWidth = [NSString stringWithFormat:@"%d", MenuItem.subItem.thumbWidth];
@@ -3683,7 +3681,7 @@ NSIndexPath *selected;
                                     mutableProperties, @"file_properties",
                                     nil], @"parameters",
                                    libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
-                                   parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                   item[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                    [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                    [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                    @"Files.GetDirectory", @"exploreCommand",
@@ -4989,8 +4987,8 @@ NSIndexPath *selected;
     enableCollectionView = [self collectionViewIsEnabled];
     numResults = (int)self.richResults.count;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
-    if ([self.detailItem enableSection]) {
-        // CONDIZIONE DEBOLE!!!
+    
+    if (!albumView) {
         self.navigationItem.title = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
         if (IS_IPAD) {
             if (!stackscrollFullscreen) {
@@ -5008,7 +5006,6 @@ NSIndexPath *selected;
                 topNavigationLabel.text = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
             }
         }
-        // FINE CONDIZIONE
     }
     if (!self.richResults.count) {
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
