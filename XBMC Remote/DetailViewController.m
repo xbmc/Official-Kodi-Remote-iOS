@@ -426,6 +426,26 @@
 
 #pragma mark - Utility
 
+- (void)setFilternameLabel:(NSString*)labelText runFullscreenButtonCheck:(BOOL)check forceHide:(BOOL)forceHide {
+    self.navigationItem.title = labelText;
+    if (IS_IPHONE) {
+        return;
+    }
+    // fade out
+    [UIView animateWithDuration:0.3 animations:^{
+        topNavigationLabel.alpha = 0;
+    }];
+    // update label
+    topNavigationLabel.text = labelText;
+    // fade in
+    [UIView animateWithDuration:0.1 animations:^{
+        topNavigationLabel.alpha = 1;
+        if (check) {
+            [self checkFullscreenButton:forceHide];
+        }
+    }];
+}
+
 - (void)setCollectionViewIndexVisibility {
     if (enableCollectionView) {
         // Get the index titles
@@ -753,19 +773,8 @@
     }
 
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
-    self.navigationItem.title = [NSString stringWithFormat:LOCALIZED_STR(@"More (%d)"), (int)(count - MAX_NORMAL_BUTTONS)];
-    if (IS_IPAD) {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.3];
-        topNavigationLabel.alpha = 0;
-        [UIView commitAnimations];
-        topNavigationLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"More (%d)"), (int)(count - MAX_NORMAL_BUTTONS)];
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.1];
-        topNavigationLabel.alpha = 1;
-        [self checkFullscreenButton:YES];
-        [UIView commitAnimations];
-    }
+    NSString *labelText = [NSString stringWithFormat:LOCALIZED_STR(@"More (%d)"), (int)(count - MAX_NORMAL_BUTTONS)];
+    [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:YES];
     [activityIndicatorView stopAnimating];
 }
 
@@ -1027,19 +1036,8 @@
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
-    self.navigationItem.title = parameters[@"label"];
-    if (IS_IPAD) {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.3];
-        topNavigationLabel.alpha = 0;
-        [UIView commitAnimations];
-        topNavigationLabel.text = parameters[@"label"];
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.1];
-        topNavigationLabel.alpha = 1;
-        [self checkFullscreenButton:NO];
-        [UIView commitAnimations];
-    }
+    NSString *labelText = parameters[@"label"];
+    [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:NO];
     if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
         [mutableProperties addObject:@"art"];
     }
@@ -4989,23 +4987,8 @@ NSIndexPath *selected;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     
     if (!albumView) {
-        self.navigationItem.title = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
-        if (IS_IPAD) {
-            if (!stackscrollFullscreen) {
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.3];
-                topNavigationLabel.alpha = 0;
-                [UIView commitAnimations];
-                topNavigationLabel.text = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.1];
-                topNavigationLabel.alpha = 1;
-                [UIView commitAnimations];
-            }
-            else {
-                topNavigationLabel.text = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
-            }
-        }
+        NSString *labelText = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
+        [self setFilternameLabel:labelText runFullscreenButtonCheck:NO forceHide:NO];
     }
     if (!self.richResults.count) {
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
