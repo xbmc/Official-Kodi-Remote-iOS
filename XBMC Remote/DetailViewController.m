@@ -3436,6 +3436,10 @@ NSIndexPath *selected;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)hideKeyboard:(id)sender {
+    [self.searchController.searchBar resignFirstResponder];
+}
+
 #pragma mark - View Configuration
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -5623,6 +5627,11 @@ NSIndexPath *selected;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(revealMenu:)
                                                  name: @"RevealMenu"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(hideKeyboard:)
+                                                 name: @"ECSlidingViewUnderLeftWillAppear"
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
