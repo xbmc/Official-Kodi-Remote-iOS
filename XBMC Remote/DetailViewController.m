@@ -3466,8 +3466,6 @@ NSIndexPath *selected;
         topNavigationLabel.shadowOffset = CGSizeMake (0, -1);
         topNavigationLabel.highlightedTextColor = UIColor.blackColor;
         topNavigationLabel.opaque = YES;
-        topNavigationLabel.text = [self.detailItem mainLabel];
-        self.navigationItem.title = [self.detailItem mainLabel];
         
         // Set up gestures
         if (![self.detailItem disableNowPlaying]) {
@@ -4986,9 +4984,12 @@ NSIndexPath *selected;
     numResults = (int)self.richResults.count;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     
-    NSString *labelText = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
-    if (albumView) {
-        labelText = parameters[@"label"];
+    NSString *labelText = parameters[@"label"];
+    if (@available(iOS 11.0, *)) {
+        self.navigationItem.backButtonTitle = labelText;
+        if (!albumView) {
+            labelText = [labelText stringByAppendingFormat:@" (%d)", numResults];
+        }
     }
     [self setFilternameLabel:labelText runFullscreenButtonCheck:NO forceHide:NO];
     
