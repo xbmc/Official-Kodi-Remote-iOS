@@ -2623,8 +2623,9 @@ int originYear = 0;
         [albumDetailView addSubview:albumLabel];
         
         float totalTime = 0;
-        for (int i = 0; i < self.richResults.count; i++)
+        for (int i = 0; i < self.richResults.count; i++) {
             totalTime += [self.richResults[i][@"runtime"] intValue];
+        }
         
         NSNumberFormatter *formatter = [NSNumberFormatter new];
         formatter.maximumFractionDigits = 0;
