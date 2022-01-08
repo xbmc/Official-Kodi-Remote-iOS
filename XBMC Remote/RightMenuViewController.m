@@ -728,6 +728,7 @@
     return ([item[@"label"] isEqualToString:LOCALIZED_STR(@"Keyboard")] ||
             [item[@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad/Gesture Zone")] ||
             [item[@"label"] isEqualToString:LOCALIZED_STR(@"Help Screen")] ||
+            [item[@"label"] isEqualToString:LOCALIZED_STR(@"VolumeControl")] ||
             [item[@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) &&
             [Utilities hasRemoteToolBar];
 }
