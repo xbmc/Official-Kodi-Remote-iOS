@@ -4986,10 +4986,12 @@ NSIndexPath *selected;
     numResults = (int)self.richResults.count;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     
-    if (!albumView) {
-        NSString *labelText = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
-        [self setFilternameLabel:labelText runFullscreenButtonCheck:NO forceHide:NO];
+    NSString *labelText = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
+    if (albumView) {
+        labelText = parameters[@"label"];
     }
+    [self setFilternameLabel:labelText runFullscreenButtonCheck:NO forceHide:NO];
+    
     if (!self.richResults.count) {
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     }
