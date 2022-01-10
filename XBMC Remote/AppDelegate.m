@@ -1421,7 +1421,7 @@ NSMutableArray *hostRightMenuItems;
             LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
-            @"53", @"thumbWidth"
+            filemodeThumbWidth, @"thumbWidth"
         ],
                                   
         @[
