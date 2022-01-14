@@ -1246,6 +1246,7 @@ NSMutableArray *hostRightMenuItems;
                         @"rating",
                         @"playcount",
                         @"artist",
+                        @"albumartist",
                         @"albumid",
                         @"file",
                         @"fanart"]
@@ -1343,6 +1344,7 @@ NSMutableArray *hostRightMenuItems;
                         @"rating",
                         @"playcount",
                         @"artist",
+                        @"albumartist",
                         @"albumid",
                         @"file",
                         @"fanart"]
@@ -1364,6 +1366,7 @@ NSMutableArray *hostRightMenuItems;
                         @"rating",
                         @"playcount",
                         @"artist",
+                        @"albumartist",
                         @"albumid",
                         @"file",
                         @"fanart"]
@@ -1385,6 +1388,7 @@ NSMutableArray *hostRightMenuItems;
                         @"rating",
                         @"playcount",
                         @"artist",
+                        @"albumartist",
                         @"albumid",
                         @"file",
                         @"fanart"]
@@ -1472,7 +1476,7 @@ NSMutableArray *hostRightMenuItems;
             @"playlistid": @0,
             @"row9": @"songid",
             @"row10": @"file",
-            @"row11": @"artist"
+            @"row11": @"albumartist"
         },
                               
         @{
@@ -1539,7 +1543,7 @@ NSMutableArray *hostRightMenuItems;
             @"playlistid": @0,
             @"row9": @"songid",
             @"row10": @"file",
-            @"row11": @"artist"
+            @"row11": @"albumartist"
         },
                               
         @{},
@@ -1557,7 +1561,7 @@ NSMutableArray *hostRightMenuItems;
             @"playlistid": @0,
             @"row9": @"songid",
             @"row10": @"file",
-            @"row11": @"artist"
+            @"row11": @"albumartist"
         },
                               
         @{},
@@ -1575,7 +1579,7 @@ NSMutableArray *hostRightMenuItems;
             @"playlistid": @0,
             @"row9": @"songid",
             @"row10": @"file",
-            @"row11": @"artist"
+            @"row11": @"albumartist"
         },
                               
         @{},
@@ -1711,6 +1715,7 @@ NSMutableArray *hostRightMenuItems;
                         @"rating",
                         @"playcount",
                         @"artist",
+                        @"albumartist",
                         @"albumid",
                         @"file",
                         @"fanart"]
@@ -1730,6 +1735,7 @@ NSMutableArray *hostRightMenuItems;
                         @"rating",
                         @"playcount",
                         @"artist",
+                        @"albumartist",
                         @"albumid",
                         @"file",
                         @"fanart"],
@@ -1793,7 +1799,7 @@ NSMutableArray *hostRightMenuItems;
             @"playlistid": @0,
             @"row9": @"songid",
             @"row10": @"file",
-            @"row11": @"artist"
+            @"row11": @"albumartist"
         },
                                       
         @{
@@ -1809,7 +1815,7 @@ NSMutableArray *hostRightMenuItems;
             @"playlistid": @0,
             @"row9": @"songid",
             @"row10": @"file",
-            @"row11": @"artist"
+            @"row11": @"albumartist"
         },
           
         @{},
@@ -1922,6 +1928,7 @@ NSMutableArray *hostRightMenuItems;
                         @"rating",
                         @"playcount",
                         @"artist",
+                        @"albumartist",
                         @"albumid",
                         @"file",
                         @"fanart"]
@@ -1957,7 +1964,7 @@ NSMutableArray *hostRightMenuItems;
             @"playlistid": @0,
             @"row9": @"songid",
             @"row10": @"file",
-            @"row11": @"artist"
+            @"row11": @"albumartist"
         }
     ];
     

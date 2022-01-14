@@ -2603,7 +2603,7 @@ int originYear = 0;
         artist.font = [UIFont systemFontOfSize:artistFontSize];
         artist.adjustsFontSizeToFitWidth = YES;
         artist.minimumScaleFactor = 9.0 / artistFontSize;
-        artist.text = item[@"genre"];
+        artist.text = [Utilities getStringFromItem:item[@"albumartist"]];
         [albumDetailView addSubview:artist];
         
         albumLabel.backgroundColor = UIColor.clearColor;
