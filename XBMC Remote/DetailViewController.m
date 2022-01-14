@@ -426,6 +426,26 @@
 
 #pragma mark - Utility
 
+- (void)setFilternameLabel:(NSString*)labelText runFullscreenButtonCheck:(BOOL)check forceHide:(BOOL)forceHide {
+    self.navigationItem.title = labelText;
+    if (IS_IPHONE) {
+        return;
+    }
+    // fade out
+    [UIView animateWithDuration:0.3 animations:^{
+        topNavigationLabel.alpha = 0;
+    }];
+    // update label
+    topNavigationLabel.text = labelText;
+    // fade in
+    [UIView animateWithDuration:0.1 animations:^{
+        topNavigationLabel.alpha = 1;
+        if (check) {
+            [self checkFullscreenButton:forceHide];
+        }
+    }];
+}
+
 - (void)setCollectionViewIndexVisibility {
     if (enableCollectionView) {
         // Get the index titles
@@ -753,19 +773,8 @@
     }
 
     [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
-    self.navigationItem.title = [NSString stringWithFormat:LOCALIZED_STR(@"More (%d)"), (int)(count - MAX_NORMAL_BUTTONS)];
-    if (IS_IPAD) {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.3];
-        topNavigationLabel.alpha = 0;
-        [UIView commitAnimations];
-        topNavigationLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"More (%d)"), (int)(count - MAX_NORMAL_BUTTONS)];
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.1];
-        topNavigationLabel.alpha = 1;
-        [self checkFullscreenButton:YES];
-        [UIView commitAnimations];
-    }
+    NSString *labelText = [NSString stringWithFormat:LOCALIZED_STR(@"More (%d)"), (int)(count - MAX_NORMAL_BUTTONS)];
+    [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:YES];
     [activityIndicatorView stopAnimating];
 }
 
@@ -1027,19 +1036,8 @@
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
-    self.navigationItem.title = parameters[@"label"];
-    if (IS_IPAD) {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.3];
-        topNavigationLabel.alpha = 0;
-        [UIView commitAnimations];
-        topNavigationLabel.text = parameters[@"label"];
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.1];
-        topNavigationLabel.alpha = 1;
-        [self checkFullscreenButton:NO];
-        [UIView commitAnimations];
-    }
+    NSString *labelText = parameters[@"label"];
+    [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:NO];
     if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
         [mutableProperties addObject:@"art"];
     }
@@ -1087,7 +1085,6 @@
     int rectOriginX = point.x;
     int rectOriginY = point.y;
     NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
-    MenuItem.subItem.mainLabel = item[@"label"];
     
     NSString *libraryRowHeight = [NSString stringWithFormat:@"%d", MenuItem.subItem.rowHeight];
     NSString *libraryThumbWidth = [NSString stringWithFormat:@"%d", MenuItem.subItem.thumbWidth];
@@ -1145,7 +1142,7 @@
                                         nil], @"parameters",
                                        parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                        libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
-                                       parameters[@"label"], @"label",
+                                       item[@"label"], @"label",
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                        [NSString stringWithFormat:@"%d", [parameters[@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
                                        [NSString stringWithFormat:@"%d", [parameters[@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
@@ -1169,30 +1166,31 @@
         if (parameters[@"parameters"][@"albumartistsonly"]) {
             newParameters[0][@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
         }
-        [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
-        MenuItem.subItem.chooseTab = choosedTab;
-        MenuItem.subItem.currentFilterMode = filterModeType;
+        mainMenu *newMenuItem = [MenuItem.subItem copy];
+        [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+        newMenuItem.chooseTab = choosedTab;
+        newMenuItem.currentFilterMode = filterModeType;
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            detailViewController.detailItem = MenuItem.subItem;
+            detailViewController.detailItem = newMenuItem;
             [self.navigationController pushViewController:detailViewController animated:YES];
         }
         else {
             if (stackscrollFullscreen) {
                 [self toggleFullscreen:nil];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                     [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
 
                 });
             }
             else if ([self isModal]) {
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                 iPadDetailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
                 [self presentViewController:iPadDetailViewController animated:YES completion:nil];
             }
             else {
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                 [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
             }
         }
@@ -1216,30 +1214,30 @@
                                                 parameters[@"parameters"][@"media"], @"media",
                                                 parameters[@"parameters"][@"sort"], @"sort",
                                                 parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                                nil], @"parameters", parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song", @"fileThumb",
+                                                nil], @"parameters", item[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song", @"fileThumb",
                                                [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                                [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                                parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                                nil];
-                MenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
-                [[MenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
-                MenuItem.chooseTab = choosedTab;
+                mainMenu *newMenuItem = [MenuItem copy];
+                [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+                newMenuItem.chooseTab = choosedTab;
                 if (IS_IPHONE) {
                     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                    detailViewController.detailItem = MenuItem;
+                    detailViewController.detailItem = newMenuItem;
                     [self.navigationController pushViewController:detailViewController animated:YES];
                 }
                 else {
                     if (stackscrollFullscreen) {
                         [self toggleFullscreen:nil];
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
                             
                         });
                     }
                     else {
-                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                         [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
                     }
                 }
@@ -1276,7 +1274,7 @@
                                             parameters[@"parameters"][@"media"], @"media",
                                             parameters[@"parameters"][@"sort"], @"sort",
                                             parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                            nil], @"parameters", parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                            nil], @"parameters", item[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                            [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                            [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                            parameters[@"disableFilterParameter"], @"disableFilterParameter",
@@ -1284,23 +1282,24 @@
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
                 newParameters[0][@"level"] = @"expert";
             }
-            [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
-            MenuItem.subItem.chooseTab = choosedTab;
+            mainMenu *newMenuItem = [MenuItem.subItem copy];
+            [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+            newMenuItem.chooseTab = choosedTab;
             if (IS_IPHONE) {
                 DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                detailViewController.detailItem = MenuItem.subItem;
+                detailViewController.detailItem = newMenuItem;
                 [self.navigationController pushViewController:detailViewController animated:YES];
             }
             else {
                 if (stackscrollFullscreen) {
                     [self toggleFullscreen:nil];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                         [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
                     });
                 }
                 else {
-                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                     [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
                 }
             }
@@ -2623,8 +2622,9 @@ int originYear = 0;
         [albumDetailView addSubview:albumLabel];
         
         float totalTime = 0;
-        for (int i = 0; i < self.richResults.count; i++)
+        for (int i = 0; i < self.richResults.count; i++) {
             totalTime += [self.richResults[i][@"runtime"] intValue];
+        }
         
         NSNumberFormatter *formatter = [NSNumberFormatter new];
         formatter.maximumFractionDigits = 0;
@@ -3456,8 +3456,6 @@ NSIndexPath *selected;
 
 - (void)configureView {
     if (self.detailItem) {
-        NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
-        self.navigationItem.title = parameters[@"label"];
         topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 240, 44)];
         topNavigationLabel.backgroundColor = UIColor.clearColor;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
@@ -3470,8 +3468,6 @@ NSIndexPath *selected;
         topNavigationLabel.shadowOffset = CGSizeMake (0, -1);
         topNavigationLabel.highlightedTextColor = UIColor.blackColor;
         topNavigationLabel.opaque = YES;
-        topNavigationLabel.text = [self.detailItem mainLabel];
-        self.navigationItem.title = [self.detailItem mainLabel];
         
         // Set up gestures
         if (![self.detailItem disableNowPlaying]) {
@@ -3654,7 +3650,6 @@ NSIndexPath *selected;
 - (void)exploreItem:(NSDictionary*)item {
     mainMenu *MenuItem = self.detailItem;
     NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
-    MenuItem.subItem.mainLabel = item[@"label"];
     NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[MenuItem.subItem mainParameters][choosedTab]];
     NSString *libraryRowHeight = [NSString stringWithFormat:@"%d", MenuItem.subItem.rowHeight];
     NSString *libraryThumbWidth = [NSString stringWithFormat:@"%d", MenuItem.subItem.thumbWidth];
@@ -3684,29 +3679,30 @@ NSIndexPath *selected;
                                     mutableProperties, @"file_properties",
                                     nil], @"parameters",
                                    libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
-                                   parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                   item[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                    [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                    [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                    @"Files.GetDirectory", @"exploreCommand",
                                    parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                    nil];
-    [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
-    MenuItem.subItem.chooseTab = choosedTab;
+    mainMenu *newMenuItem = [MenuItem.subItem copy];
+    [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+    newMenuItem.chooseTab = choosedTab;
     if (IS_IPHONE) {
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-        detailViewController.detailItem = MenuItem.subItem;
+        detailViewController.detailItem = newMenuItem;
         [self.navigationController pushViewController:detailViewController animated:YES];
     }
     else {
         if (stackscrollFullscreen) {
             [self toggleFullscreen:nil];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                 [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
             });
         }
         else {
-            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
         }
     }
@@ -4990,27 +4986,16 @@ NSIndexPath *selected;
     enableCollectionView = [self collectionViewIsEnabled];
     numResults = (int)self.richResults.count;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
-    if ([self.detailItem enableSection]) {
-        // CONDIZIONE DEBOLE!!!
-        self.navigationItem.title = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
-        if (IS_IPAD) {
-            if (!stackscrollFullscreen) {
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.3];
-                topNavigationLabel.alpha = 0;
-                [UIView commitAnimations];
-                topNavigationLabel.text = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.1];
-                topNavigationLabel.alpha = 1;
-                [UIView commitAnimations];
-            }
-            else {
-                topNavigationLabel.text = [NSString stringWithFormat:@"%@ (%d)", parameters[@"label"], numResults];
-            }
+    
+    NSString *labelText = parameters[@"label"];
+    if (@available(iOS 11.0, *)) {
+        self.navigationItem.backButtonTitle = labelText;
+        if (!albumView) {
+            labelText = [labelText stringByAppendingFormat:@" (%d)", numResults];
         }
-        // FINE CONDIZIONE
     }
+    [self setFilternameLabel:labelText runFullscreenButtonCheck:NO forceHide:NO];
+    
     if (!self.richResults.count) {
         [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     }
