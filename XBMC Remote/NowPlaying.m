@@ -2082,7 +2082,8 @@ int currentItemID;
         }
         subLabel.text = [NSString stringWithFormat:@"%@", item[@"showtitle"]];
     }
-    else if ([item[@"type"] isEqualToString:@"song"]) {
+    else if ([item[@"type"] isEqualToString:@"song"] ||
+             [item[@"type"] isEqualToString:@"musicvideo"]) {
         NSString *artist = [item[@"artist"] length] == 0 ? @"" : [NSString stringWithFormat:@" - %@", item[@"artist"]];
         subLabel.text = [NSString stringWithFormat:@"%@%@", item[@"album"], artist];
     }
