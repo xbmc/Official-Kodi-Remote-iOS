@@ -262,6 +262,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // The menu list starts at the bottom of the status bar to not overlap with it
+    CGFloat statuBarHeight = CGRectGetHeight(UIApplication.sharedApplication.statusBarFrame);
+    CGRect frame = menuList.frame;
+    frame.origin.y = statuBarHeight;
+    frame.size.height = frame.size.height - statuBarHeight;
+    menuList.frame = frame;
+    
     menuList.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
