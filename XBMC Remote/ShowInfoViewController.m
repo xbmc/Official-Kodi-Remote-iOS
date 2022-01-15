@@ -215,19 +215,19 @@ double round(double d) {
     id movieObjKey = nil;
     NSString *blackTableSeparator = @"NO";
     if ([item[@"family"] isEqualToString:@"albumid"]) {
-        notificationName = @"UIApplicationEnableMusicSection";
+        notificationName = @"MainMenuDeselectSection";
         MenuItem = [AppDelegate.instance.playlistArtistAlbums copy];
         choosedMenuItem = MenuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"tvshowid"] && ![sender isKindOfClass:[NSString class]]) {
-        notificationName = @"UIApplicationEnableTvShowSection";
+        notificationName = @"MainMenuDeselectSection";
         MenuItem = [AppDelegate.instance.playlistTvShows copy];
         choosedMenuItem = MenuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
-        notificationName = @"UIApplicationEnableMusicSection";
+        notificationName = @"MainMenuDeselectSection";
         choosedTab = 1;
         MenuItem = [AppDelegate.instance.playlistArtistAlbums copy];
         choosedMenuItem = MenuItem.subItem;

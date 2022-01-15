@@ -84,46 +84,16 @@
     [super viewDidLoad];
     lastSelected = -1;
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleEnableMusicSection)
-                                                 name: @"UIApplicationEnableMusicSection"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleEnableMovieSection)
-                                                 name: @"UIApplicationEnableMovieSection"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleEnableTvShowSection)
-                                                 name: @"UIApplicationEnableTvShowSection"
+                                             selector: @selector(handleDeselectSection)
+                                                 name: @"MainMenuDeselectSection"
                                                object: nil];
 }
 
-- (void)handleEnableMusicSection {
-    NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
-    if (selection.row != 1 || selection == nil) {
+- (void)handleDeselectSection {
+    NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
+    if (selection != nil) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
-        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-        lastSelected = 1;
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil]; 
-    }		
-}
-
-- (void)handleEnableMovieSection {
-    NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
-    if (selection.row != 2 || selection == nil) {
-        [self.tableView deselectRowAtIndexPath:selection animated:YES];
-        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-        lastSelected = 2;
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
-    }
-}
-
-- (void)handleEnableTvShowSection {
-    NSIndexPath* selection = [self.tableView indexPathForSelectedRow];
-    if (selection.row != 3 || selection == nil) {
-        [self.tableView deselectRowAtIndexPath:selection animated:YES];
-        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-        lastSelected = 3;
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
+        lastSelected = -1;
     }
 }
 
