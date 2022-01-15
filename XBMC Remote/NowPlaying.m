@@ -1398,8 +1398,10 @@ int currentItemID;
                  }
                  NSString *serverURL = @"";
                  serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
+                 int runtimeInMinute = 1;
                  if (AppDelegate.instance.serverVersion > 11) {
                      serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
+                     runtimeInMinute = 60;
                  }
 
                  NSString *label = [NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row1"]]];
@@ -1407,7 +1409,7 @@ int currentItemID;
                  
                  NSString *year = [Utilities getYearFromItem:itemExtraDict[mainFields[@"row3"]]];
 
-                 NSString *runtime = [Utilities getStringFromItem:itemExtraDict[mainFields[@"row4"]]];
+                 NSString *runtime = [Utilities getTimeFromItem:itemExtraDict[mainFields[@"row4"]] sec2min:runtimeInMinute];
                  
                  NSString *rating = [Utilities getRatingFromItem:itemExtraDict[mainFields[@"row5"]]];
                  
