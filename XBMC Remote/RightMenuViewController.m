@@ -733,6 +733,11 @@
             [Utilities hasRemoteToolBar];
 }
 
+- (BOOL)showEmbeddedVolumeBar:(NSDictionary*)item mainLabel:(NSString*)mainLabel {
+    return [item[@"label"] isEqualToString:LOCALIZED_STR(@"VolumeControl")] &&
+           [mainLabel isEqualToString:@"EmbeddedRemote"] && [Utilities hasRemoteToolBar];
+}
+
 - (void)setRightMenuOption:(NSString*)key reloadTableData:(BOOL)reload {
     mainMenu *menuItems = self.rightMenuItems[0];
     tableData = [[NSMutableArray alloc] initWithCapacity:0];
@@ -785,6 +790,10 @@
          
         // Do not show the remoteToolBar items in the menu while in "online" state
         if (!([self itemShownInRemoteToolBar:item] && [key isEqualToString:@"online"])) {
+            [tableData addObject:itemDict];
+        }
+        // "embedded remote" (reachable from NowPlaying screen) always has the volume bar
+        if ([self showEmbeddedVolumeBar:item mainLabel:[menuItems mainLabel]] && [key isEqualToString:@"online"]) {
             [tableData addObject:itemDict];
         }
     }

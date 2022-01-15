@@ -5574,7 +5574,7 @@ NSMutableArray *hostRightMenuItems;
 #pragma mark - Now Playing Right Menu
     nowPlayingMenuItems = [NSMutableArray arrayWithCapacity:1];
     __auto_type nowPlayingItem1 = [mainMenu new];
-    nowPlayingItem1.mainLabel = @"VolumeControl";
+    nowPlayingItem1.mainLabel = @"EmbeddedRemote";
     nowPlayingItem1.family = FamilyNowPlaying;
     nowPlayingItem1.mainMethod = @[
         @{
