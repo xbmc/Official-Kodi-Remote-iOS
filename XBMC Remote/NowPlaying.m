@@ -1146,6 +1146,7 @@ int currentItemID;
                                                           @"albumid",
                                                           @"genre",
                                                           @"tvshowid",
+                                                          @"channel",
                                                           @"file",
                                                           @"title",
                                                           @"art"],
@@ -1190,6 +1191,7 @@ int currentItemID;
                            NSString *artistid = [NSString stringWithFormat:@"%@", playlistItems[i][@"artistid"]];
                            NSString *albumid = [NSString stringWithFormat:@"%@", playlistItems[i][@"albumid"]];
                            NSString *movieid = [NSString stringWithFormat:@"%@", playlistItems[i][@"id"]];
+                           NSString *channel = [NSString stringWithFormat:@"%@", playlistItems[i][@"channel"]];
                            NSString *genre = [Utilities getStringFromItem:playlistItems[i][@"genre"]];
                            NSString *durationTime = @"";
                            if ([playlistItems[i][@"duration"] isKindOfClass:[NSNumber class]]) {
@@ -1213,6 +1215,7 @@ int currentItemID;
                                                     genre, @"genre",
                                                     movieid, @"movieid",
                                                     movieid, @"episodeid",
+                                                    channel, @"channel",
                                                     stringURL, @"thumbnail",
                                                     runtime, @"runtime",
                                                     showtitle, @"showtitle",
@@ -2089,6 +2092,9 @@ int currentItemID;
     }
     else if ([item[@"type"] isEqualToString:@"movie"]) {
         subLabel.text = [NSString stringWithFormat:@"%@", item[@"genre"]];
+    }
+    else if ([item[@"type"] isEqualToString:@"recording"]) {
+        subLabel.text = [NSString stringWithFormat:@"%@", item[@"channel"]];
     }
     UIImage *defaultThumb;
     switch (playerID) {
