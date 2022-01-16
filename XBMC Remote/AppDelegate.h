@@ -64,6 +64,7 @@
 
 @property (nonatomic, retain) mainMenu *playlistArtistAlbums;
 @property (nonatomic, retain) mainMenu *playlistMovies;
+@property (nonatomic, retain) mainMenu *playlistMusicVideos;
 @property (nonatomic, retain) mainMenu *playlistTvShows;
 @property (nonatomic, retain) mainMenu *xbmcSettings;
 @property (nonatomic, retain) NSMutableArray *rightMenuItems;

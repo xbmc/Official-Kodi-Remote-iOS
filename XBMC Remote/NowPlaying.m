@@ -1216,6 +1216,7 @@ int currentItemID;
                                                     genre, @"genre",
                                                     movieid, @"movieid",
                                                     movieid, @"episodeid",
+                                                    movieid, @"musicvideoid",
                                                     channel, @"channel",
                                                     stringURL, @"thumbnail",
                                                     runtime, @"runtime",
@@ -1845,6 +1846,9 @@ int currentItemID;
                 else if ([item[@"type"] isEqualToString:@"episode"]) {
                     [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"TV Show Details"), LOCALIZED_STR(@"Episode Details")]];
                 }
+                else if ([item[@"type"] isEqualToString:@"musicvideo"]) {
+                    [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Music Video Details")]];
+                }
             }
             NSInteger numActions = sheetActions.count;
             if (numActions) {
@@ -1995,6 +1999,12 @@ int currentItemID;
             choosedTab = 0;
             MenuItem.subItem.mainLabel = item[@"label"];
         }
+    }
+    else if ([item[@"type"] isEqualToString:@"musicvideo"]) {
+        MenuItem = AppDelegate.instance.playlistMusicVideos;
+        choosedTab = 0;
+        MenuItem.subItem.mainLabel = item[@"label"];
+        notificationName = @"MainMenuDeselectSection";
     }
     else {
         return;

@@ -35,6 +35,7 @@ NSMutableArray *hostRightMenuItems;
 @synthesize obj;
 @synthesize playlistArtistAlbums;
 @synthesize playlistMovies;
+@synthesize playlistMusicVideos;
 @synthesize playlistTvShows;
 @synthesize rightMenuItems;
 @synthesize serverName;
@@ -5092,6 +5093,11 @@ NSMutableArray *hostRightMenuItems;
     playlistMovies = [menu_Movies copy];
     playlistMovies.subItem.disableNowPlaying = YES;
     playlistMovies.subItem.subItem.disableNowPlaying = YES;
+    
+#pragma mark - Plalist Movies
+    playlistMusicVideos = [menu_Videos copy];
+    playlistMusicVideos.subItem.disableNowPlaying = YES;
+    playlistMusicVideos.subItem.subItem.disableNowPlaying = YES;
     
 #pragma mark - Playlist TV Shows
     playlistTvShows = [menu_TVShows copy];
