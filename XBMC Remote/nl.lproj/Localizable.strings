@@ -92,8 +92,6 @@
 "Episodes: %@" = "Afleveringen: %@";
 "1 result" = "1 resultaat";
 "%d results" = "%d resultaten";
-"Music " = "Muziek ";
-"Video " = "Video ";
 "Songs" = "Nummers";
 "Song" = "Nummer";
 "Mins." = "Min.";
@@ -106,7 +104,10 @@
 "Cannot do that" = "Dat is niet mogelijk";
 "Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "Geen opgeslagen hosts gevonden";
-"Are you sure you want to clear the %@playlist?" = "Weet je zeker dat je %@playlist wil leegmaken?";
+"Are you sure you want to clear the playlist?" = "Weet je zeker dat je playlist wil leegmaken?";
+"Are you sure you want to clear the music playlist?" = "Weet je zeker dat je muziek playlist wil leegmaken?";
+"Are you sure you want to clear the video playlist?" = "Weet je zeker dat je video playlist wil leegmaken?";
+"Are you sure you want to clear the picture playlist?" = "Weet je zeker dat je foto playlist wil leegmaken?";
 "Are you sure you want to power off your XBMC system now?" = "Weet je zeker dat je het systeem wil uitschakelen?";
 "Are you sure you want to hibernate your XBMC system now?" = "Weet je zeker dat je het systeem in slaapstand wil zetten?";
 "Are you sure you want to suspend your XBMC system now?" = "Weet je zeker dat je het systeem op standby wil zetten?";

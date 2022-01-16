@@ -89,8 +89,6 @@
 "Episodes: %@" = "Bölüm Sayısı: %@";
 "1 result" = "1 sonuç";
 "%d results" = "%d sonuç";
-"Music " = "Müzik ";
-"Video " = "Video ";
 "Songs" = "Şarkılar";
 "Song" = "Şarkı";
 "Mins." = "Dakika";
@@ -103,7 +101,10 @@
 "Cannot do that" = "Yapılamıyor";
 "Wake On Lan" = "Ağ bağlantısında uyan";
 "No saved hosts found" = "Kayıtlı sunucu bulunamadı";
-"Are you sure you want to clear the %@playlist?" = "Temizlensin mi: %@playlist ?";
+"Are you sure you want to clear the playlist?" = "Temizlensin mi: playlist ?";
+"Are you sure you want to clear the music playlist?" = "Temizlensin mi: müzik playlist ?";
+"Are you sure you want to clear the video playlist?" = "Temizlensin mi: video playlist ?";
+"Are you sure you want to clear the picture playlist?" = "Temizlensin mi: resimler playlist ?";
 "Are you sure you want to power off your XBMC system now?" = "Kodi kapatılsın mı?";
 "Are you sure you want to hibernate your XBMC system now?" = "Kodi uyku moduna alınsın mı?";
 "Are you sure you want to suspend your XBMC system now?" = "Kodi askıya alınsın mı?";
