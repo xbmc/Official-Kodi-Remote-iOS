@@ -1142,7 +1142,7 @@
                                         nil], @"parameters",
                                        parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                        libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
-                                       item[@"label"], @"label",
+                                       parameters[@"label"], @"label",
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                        [NSString stringWithFormat:@"%d", [parameters[@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
                                        [NSString stringWithFormat:@"%d", [parameters[@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
@@ -1166,6 +1166,7 @@
         if (parameters[@"parameters"][@"albumartistsonly"]) {
             newParameters[0][@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
         }
+        MenuItem.subItem.mainLabel = item[@"label"];
         mainMenu *newMenuItem = [MenuItem.subItem copy];
         [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         newMenuItem.chooseTab = choosedTab;
@@ -1214,11 +1215,12 @@
                                                 parameters[@"parameters"][@"media"], @"media",
                                                 parameters[@"parameters"][@"sort"], @"sort",
                                                 parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                                nil], @"parameters", item[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song", @"fileThumb",
+                                                nil], @"parameters", parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth", @"icon_song", @"fileThumb",
                                                [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                                [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                                parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                                nil];
+                MenuItem.mainLabel = item[@"label"];
                 mainMenu *newMenuItem = [MenuItem copy];
                 [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
                 newMenuItem.chooseTab = choosedTab;
@@ -1274,7 +1276,7 @@
                                             parameters[@"parameters"][@"media"], @"media",
                                             parameters[@"parameters"][@"sort"], @"sort",
                                             parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                            nil], @"parameters", item[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                            nil], @"parameters", parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                            [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                            [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                            parameters[@"disableFilterParameter"], @"disableFilterParameter",
@@ -1282,6 +1284,7 @@
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
                 newParameters[0][@"level"] = @"expert";
             }
+            MenuItem.subItem.mainLabel = item[@"label"];
             mainMenu *newMenuItem = [MenuItem.subItem copy];
             [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
             newMenuItem.chooseTab = choosedTab;
@@ -2600,7 +2603,7 @@ int originYear = 0;
         artist.font = [UIFont systemFontOfSize:artistFontSize];
         artist.adjustsFontSizeToFitWidth = YES;
         artist.minimumScaleFactor = 9.0 / artistFontSize;
-        artist.text = item[@"genre"];
+        artist.text = [Utilities getStringFromItem:item[@"albumartist"]];
         [albumDetailView addSubview:artist];
         
         albumLabel.backgroundColor = UIColor.clearColor;
@@ -3679,12 +3682,13 @@ NSIndexPath *selected;
                                     mutableProperties, @"file_properties",
                                     nil], @"parameters",
                                    libraryRowHeight, @"rowHeight", libraryThumbWidth, @"thumbWidth",
-                                   item[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
+                                   parameters[@"label"], @"label", @"nocover_filemode", @"defaultThumb", filemodeRowHeight, @"rowHeight", filemodeThumbWidth, @"thumbWidth",
                                    [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                    [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                    @"Files.GetDirectory", @"exploreCommand",
                                    parameters[@"disableFilterParameter"], @"disableFilterParameter",
                                    nil];
+    MenuItem.subItem.mainLabel = item[@"label"];
     mainMenu *newMenuItem = [MenuItem.subItem copy];
     [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
     newMenuItem.chooseTab = choosedTab;
@@ -4987,7 +4991,7 @@ NSIndexPath *selected;
     numResults = (int)self.richResults.count;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]];
     
-    NSString *labelText = parameters[@"label"];
+    NSString *labelText = [self.detailItem mainLabel];
     if (@available(iOS 11.0, *)) {
         self.navigationItem.backButtonTitle = labelText;
         if (!albumView) {
