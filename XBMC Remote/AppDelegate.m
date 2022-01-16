@@ -2770,7 +2770,8 @@ NSMutableArray *hostRightMenuItems;
         @"st_playlists"];
     
     menu_Videos.mainMethod = @[
-            @[@"VideoLibrary.GetMusicVideos", @"method"],
+            @[@"VideoLibrary.GetMusicVideos", @"method",
+              @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method"],
             @[@"VideoLibrary.GetRecentlyAddedMusicVideos", @"method"],
             @[@"Files.GetSources", @"method"],
             @[@"Files.GetDirectory", @"method"],
@@ -2795,6 +2796,21 @@ NSMutableArray *hostRightMenuItems;
                         @"fanart",
                         @"resume"]
             }, @"parameters",
+            @{
+                @"properties": @[
+                        @"artist",
+                        @"year",
+                        @"playcount",
+                        @"thumbnail",
+                        @"genre",
+                        @"runtime",
+                        @"studio",
+                        @"director",
+                        @"plot",
+                        @"file",
+                        @"fanart",
+                        @"resume"]
+            }, @"extra_info_parameters",
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
@@ -2909,7 +2925,8 @@ NSMutableArray *hostRightMenuItems;
             @"row14": @"resume",
             @"row15": @"votes",
             @"row16": @"artist",
-            @"row7": @"file"
+            @"row7": @"file",
+            @"itemid_extra_info": @"musicvideodetails"
         },
         
         @{
