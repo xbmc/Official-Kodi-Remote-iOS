@@ -37,6 +37,7 @@ NSMutableArray *hostRightMenuItems;
 @synthesize playlistMovies;
 @synthesize playlistMusicVideos;
 @synthesize playlistTvShows;
+@synthesize playlistPVR;
 @synthesize rightMenuItems;
 @synthesize serverName;
 @synthesize nowPlayingMenuItems;
@@ -5104,6 +5105,11 @@ NSMutableArray *hostRightMenuItems;
     playlistTvShows.subItem.disableNowPlaying = YES;
     playlistTvShows.subItem.subItem.disableNowPlaying = YES;
 
+#pragma mark - Playlist PVR
+    playlistPVR = [menu_LiveTV copy];
+    playlistPVR.subItem.disableNowPlaying = YES;
+    playlistPVR.subItem.subItem.disableNowPlaying = YES;
+    
 #pragma mark - XBMC Settings 
     xbmcSettings = [mainMenu new];
     xbmcSettings.subItem = [mainMenu new];
