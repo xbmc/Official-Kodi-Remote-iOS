@@ -1951,7 +1951,7 @@ int currentItemID;
     mainMenu *MenuItem = nil;
     notificationName = @"";
     if ([item[@"type"] isEqualToString:@"song"]) {
-        notificationName = @"UIApplicationEnableMusicSection";
+        notificationName = @"MainMenuDeselectSection";
         MenuItem = [AppDelegate.instance.playlistArtistAlbums copy];
         if ([actiontitle isEqualToString:LOCALIZED_STR(@"Album Details")]) {
             choosedTab = 0;
@@ -1979,10 +1979,10 @@ int currentItemID;
         MenuItem = AppDelegate.instance.playlistMovies;
         choosedTab = 0;
         MenuItem.subItem.mainLabel = item[@"label"];
-        notificationName = @"UIApplicationEnableMovieSection";
+        notificationName = @"MainMenuDeselectSection";
     }
     else if ([item[@"type"] isEqualToString:@"episode"]) {
-        notificationName = @"UIApplicationEnableTvShowSection";
+        notificationName = @"MainMenuDeselectSection";
         if ([actiontitle isEqualToString:LOCALIZED_STR(@"Episode Details")]) {
             MenuItem = AppDelegate.instance.playlistTvShows.subItem;
             choosedTab = 0;
