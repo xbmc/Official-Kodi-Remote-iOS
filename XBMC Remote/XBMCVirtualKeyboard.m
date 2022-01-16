@@ -50,7 +50,7 @@
         keyboardTitle.font = [UIFont boldSystemFontOfSize:textSize];
         keyboardTitle.adjustsFontSizeToFitWidth = YES;
         keyboardTitle.minimumScaleFactor = 0.6;
-        keyboardTitle.textColor = BAR_TINT_COLOR;
+        keyboardTitle.textColor = [Utilities get1stLabelColor];
 
         backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
         backgroundTextField.userInteractionEnabled = YES;
