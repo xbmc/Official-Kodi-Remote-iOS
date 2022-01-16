@@ -90,8 +90,6 @@
 "Episodes: %@" = "集：%@";
 "1 result" = "1个结果";
 "%d results" = "%d个结果";
-"Music " = "音乐 ";
-"Video " = "视频 ";
 "Songs" = "音乐";
 "Song" = "音乐";
 "Mins." = "分。";
@@ -104,7 +102,10 @@
 "Cannot do that" = "无法做到";
 "Wake On Lan" = "网络唤醒";
 "No saved hosts found" = "未找到保存的主机";
-"Are you sure you want to clear the %@playlist?" = "确定要清除%@playlist?";
+"Are you sure you want to clear the playlist?" = "确定要清除playlist?";
+"Are you sure you want to clear the music playlist?" = "确定要清除音乐playlist?";
+"Are you sure you want to clear the video playlist?" = "确定要清除视频playlist?";
+"Are you sure you want to clear the picture playlist?" = "确定要清除图片playlist?";
 "Are you sure you want to power off your XBMC system now?" = "确定现在要让Kodi系统关机？";
 "Are you sure you want to hibernate your XBMC system now?" = "确定现在要让Kodi系统休眠？";
 "Are you sure you want to suspend your XBMC system now?" = "确定现在要让Kodi系统待机？";

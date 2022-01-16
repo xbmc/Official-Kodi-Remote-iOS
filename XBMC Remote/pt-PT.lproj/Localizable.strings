@@ -106,7 +106,10 @@
 "Wake On Lan" = "Ligar via rede local (WoL)";
 "No saved hosts found" = "Nenhum servidor guardado encontrado";
 
-"Are you sure you want to clear the %@?" = "Tem a certeza que pretende limpar a %@?";/*------ To verify ------*/
+"Are you sure you want to clear the playlist?" = "Tem a certeza de que quer apagar a playlist?";
+"Are you sure you want to clear the music playlist?" = "Tem a certeza de que quer apagar a playlist de música?";
+"Are you sure you want to clear the video playlist?" = "Tem a certeza de que quer apagar a playlist de vídeo?";
+"Are you sure you want to clear the picture playlist?" = "Tem a certeza de que quer apagar a playlist de imagens?";
 "Are you sure you want to power off your XBMC system now?" = "Tem a certeza que pretende desligar o seu sistema Kodi agora?";
 "Are you sure you want to hibernate your XBMC system now?" = "Tem a certeza que pretende hibernar o seu sistema Kodi agora?";
 "Are you sure you want to suspend your XBMC system now?" = "Tem a certeza que pretende suspender o seu sistema Kodi agora?";
@@ -286,8 +289,6 @@
 "Activate window" = "Activar janela";
 "Add action button" = "Adicionar botão de acção";
 "Add window activation button" = "Adicionar botão de activação de janela";
-"Video " = "Vídeo ";
-"Music " = "Música ";
 "Video Playlists" = "Lista Reprodução Vídeo";
 "Favourites" = "Favoritos";
 "Runtime" = "Duração";
@@ -300,7 +301,6 @@
 "Window activated successfully" = "Ativação da janela com sucesso";
 "Action executed successfully" = "Execução bem sucedida da ação";
 "Unable to execute the action" = "Não foi possível executar a ação";
-"Are you sure you want to clear the %@playlist?" = "Tem a certeza de que quer apagar a %@playlist?";
 "Released %d" = "Lançado %d";
 "Search last.fm charts" = "Pesquisar classificações do last.fm";
 "Pictures Add-ons" = "Extensões de fotos";

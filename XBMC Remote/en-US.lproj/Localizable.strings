@@ -95,8 +95,6 @@
 "Episodes: %@" = "Episodes: %@";
 "1 result" = "1 result";
 "%d results" = "%d results";
-"Music " = "Music ";
-"Video " = "Video ";
 "Songs" = "Songs";
 "Song" = "Song";
 "Mins." = "Mins.";
@@ -109,7 +107,10 @@
 "Cannot do that" = "Cannot do that";
 "Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "No saved hosts found";
-"Are you sure you want to clear the %@playlist?" = "Are you sure you want to clear the %@playlist?";
+"Are you sure you want to clear the playlist?" = "Are you sure you want to clear the playlist?";
+"Are you sure you want to clear the music playlist?" = "Are you sure you want to clear the music playlist?";
+"Are you sure you want to clear the video playlist?" = "Are you sure you want to clear the video playlist?";
+"Are you sure you want to clear the picture playlist?" = "Are you sure you want to clear the picture playlist?";
 "Are you sure you want to power off your XBMC system now?" = "Are you sure you want to power off your Kodi system now?";
 "Are you sure you want to hibernate your XBMC system now?" = "Are you sure you want to hibernate your Kodi system now?";
 "Are you sure you want to suspend your XBMC system now?" = "Are you sure you want to suspend your Kodi system now?";

@@ -90,8 +90,6 @@
 "Episodes: %@" = "Epizod: %@";
 "1 result" = "1 výsledek";
 "%d results" = "%d výsledků";
-"Music " = "Hudba ";
-"Video " = "Video ";
 "Songs" = "Skladeb";
 "Song" = "Skladba";
 "Mins." = "Mins.";
@@ -104,7 +102,10 @@
 "Cannot do that" = "Nelze udělat";
 "Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "Nebyly nalezeni žádní uložení hostitelé";
-"Are you sure you want to clear the %@playlist?" = "Opravdu chcete zrušit %@playlist?";
+"Are you sure you want to clear the playlist?" = "Opravdu chcete zrušit playlist?";
+"Are you sure you want to clear the music playlist?" = "Opravdu chcete zrušit hudba playlist?";
+"Are you sure you want to clear the video playlist?" = "Opravdu chcete zrušit video playlist?";
+"Are you sure you want to clear the picture playlist?" = "Opravdu chcete zrušit obrázky playlist?";
 "Are you sure you want to power off your XBMC system now?" = "Opravdu chcete nyní vypnout systém Kodi?";
 "Are you sure you want to hibernate your XBMC system now?" = "Opravdu chcete nyní hibernovat systém Kodi?";
 "Are you sure you want to suspend your XBMC system now?" = "Opravdu chcete nyní uspat systém Kodi?";

@@ -1796,17 +1796,21 @@ int currentItemID;
 
 - (void)showClearPlaylistAlert {
     if (!playlistView.hidden && self.view.superview != nil) {
-        NSString *playlistName = @"";
-        if (playerID == PLAYERID_MUSIC) {
-            playlistName = LOCALIZED_STR(@"Music ");
+        NSString *message;
+        switch (playerID) {
+            case PLAYERID_MUSIC:
+                message = LOCALIZED_STR(@"Are you sure you want to clear the music playlist?");
+                break;
+            case PLAYERID_VIDEO:
+                message = LOCALIZED_STR(@"Are you sure you want to clear the video playlist?");
+                break;
+            case PLAYERID_PICTURES:
+                message = LOCALIZED_STR(@"Are you sure you want to clear the picture playlist?");
+                break;
+            default:
+                message = LOCALIZED_STR(@"Are you sure you want to clear the playlist?");
+                break;
         }
-        else if (playerID == PLAYERID_VIDEO) {
-            playlistName = LOCALIZED_STR(@"Video ");
-        }
-        else if (playerID == PLAYERID_PICTURES) {
-            playlistName = LOCALIZED_STR(@"Pictures ");
-        }
-        NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"Are you sure you want to clear the %@playlist?"), playlistName];
         UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         UIAlertAction* clearButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clear Playlist") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {

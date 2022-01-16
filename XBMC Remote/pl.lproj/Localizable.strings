@@ -90,8 +90,6 @@
 "Episodes: %@" = "Odcinki: %@";
 "1 result" = "1 wynik";
 "%d results" = "%d wyników";
-"Music " = "Muzyka ";
-"Video " = "Wideo ";
 "Songs" = "Piosenki";
 "Song" = "Piosenka";
 "Mins." = "Minut";
@@ -104,7 +102,10 @@
 "Cannot do that" = "Nie można wykonać";
 "Wake On Lan" = "Wake-on-LAN (WoL)";
 "No saved hosts found" = "Nie znaleziono zapisanych hostów";
-"Are you sure you want to clear the %@playlist?" = "Na pewno chcesz wyczyścić %@listę odtwarzania?";
+"Are you sure you want to clear the playlist?" = "Na pewno chcesz wyczyścić listę odtwarzania?";
+"Are you sure you want to clear the music playlist?" = "Na pewno chcesz wyczyścić muzyka listę odtwarzania?";
+"Are you sure you want to clear the video playlist?" = "Na pewno chcesz wyczyścić wideo listę odtwarzania?";
+"Are you sure you want to clear the picture playlist?" = "Na pewno chcesz wyczyścić zdjęcio listę odtwarzania?";
 "Are you sure you want to power off your XBMC system now?" = "Na pewno chcesz wyłączyć system Kodi teraz?";
 "Are you sure you want to hibernate your XBMC system now?" = "Na pewno chcesz zahibernować system Kodi teraz?";
 "Are you sure you want to suspend your XBMC system now?" = "Na pewno chcesz wstrzymać system Kodi teraz?";

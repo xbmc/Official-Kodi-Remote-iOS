@@ -93,8 +93,6 @@
 "Episodes: %@" = "Avsnitt: %@";
 "1 result" = "1 resultat";
 "%d results" = "%d resultat";
-"Music " = "Musik ";
-"Video " = "Film ";
 "Songs" = "Låtar";
 "Song" = "Låt";
 "Mins." = "Min.";
@@ -107,7 +105,10 @@
 "Cannot do that" = "Kan inte göra detta";
 "Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "Inga sparade värddatorer hittades";
-"Are you sure you want to clear the %@playlist?" = "Är du säker på att du vill tömma %@playlist?";
+"Are you sure you want to clear the playlist?" = "Är du säker på att du vill tömma playlist?";
+"Are you sure you want to clear the music playlist?" = "Är du säker på att du vill tömma musik playlist?";
+"Are you sure you want to clear the video playlist?" = "Är du säker på att du vill tömma film playlist?";
+"Are you sure you want to clear the picture playlist?" = "Är du säker på att du vill tömma bild playlist?";
 "Are you sure you want to power off your XBMC system now?" = "Är du säker på att du vill stänga av ditt Kodi-system nu?";
 "Are you sure you want to hibernate your XBMC system now?" = "Är du säker på att du vill försätta ditt Kodi-system i vänteläge nu?";
 "Are you sure you want to suspend your XBMC system now?" = "Är du säker på att du vill försätta ditt Kodi-system i viloläge nu?";
