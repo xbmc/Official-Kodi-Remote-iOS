@@ -108,6 +108,10 @@ typedef enum {
 - (NSString*)getNowPlayingThumbnailPath:(NSDictionary*)item {
     // If a recording is played, we can use the iocn (typically the station logo)
     BOOL useIcon = [item[@"type"] isEqualToString:@"recording"] || [item[@"recordingid"] longValue] > 0;
+    // If we are showing a music video and we have a "thumbnail", take "thumbnail" to avoid fallback to "poster"
+    if ([item[@"thumbnail"] length] && [item[@"type"] isEqualToString:@"musicvideo"]) {
+        return item[@"thumbnail"];
+    }
     return [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:useIcon];
 }
 
