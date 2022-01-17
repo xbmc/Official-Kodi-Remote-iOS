@@ -1439,7 +1439,9 @@
         collectionView.autoresizingMask = dataList.autoresizingMask;
         __weak DetailViewController *weakSelf = self;
         [collectionView addPullToRefreshWithActionHandler:^{
+            [weakSelf.searchController setActive:NO];
             [weakSelf startRetrieveDataWithRefresh:YES];
+            [weakSelf hideButtonListWhenEmpty];
         }];
         [collectionView setShowsPullToRefresh:enableDiskCache];
         collectionView.alwaysBounceVertical = YES;
@@ -5499,7 +5501,9 @@ NSIndexPath *selected;
     
     __weak DetailViewController *weakSelf = self;
     [dataList addPullToRefreshWithActionHandler:^{
+        [weakSelf.searchController setActive:NO];
         [weakSelf startRetrieveDataWithRefresh:YES];
+        [weakSelf hideButtonListWhenEmpty];
     }];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     for (UIView *subView in self.searchController.searchBar.subviews) {
