@@ -232,6 +232,7 @@ typedef enum {
 	frame = button.frame;
 	frame.origin.x = X;
 	button.frame = frame;
+    button.hidden = hiddenValue;
     [UIView commitAnimations];
 }
 
