@@ -89,6 +89,6 @@
 - (id)initWithNibName:(NSString*)nibNameOrNil withItem:(NSDictionary*)item withFrame:(CGRect)frame bundle:(NSBundle*)nibBundleOrNil;
 
 @property (strong, nonatomic) id detailItem;
-@property (nonatomic, retain) KenBurnsView *kenView;
+@property (nonatomic, strong) KenBurnsView *kenView;
 
 @end

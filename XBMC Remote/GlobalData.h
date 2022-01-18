@@ -20,13 +20,13 @@
 
     
 }
-@property (nonatomic, retain)NSString *serverDescription;
-@property (nonatomic, retain)NSString *serverUser;
-@property (nonatomic, retain)NSString *serverPass;
-@property (nonatomic, retain)NSString *serverIP;
+@property (nonatomic, strong)NSString *serverDescription;
+@property (nonatomic, strong)NSString *serverUser;
+@property (nonatomic, strong)NSString *serverPass;
+@property (nonatomic, strong)NSString *serverIP;
 @property int tcpPort;
-@property (nonatomic, retain)NSString *serverPort;
-@property (nonatomic, retain)NSString *serverHWAddr; 
+@property (nonatomic, strong)NSString *serverPort;
+@property (nonatomic, strong)NSString *serverHWAddr; 
 @property BOOL preferTVPosters;
 
 + (GlobalData*)getInstance;

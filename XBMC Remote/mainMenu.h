@@ -36,8 +36,8 @@ typedef enum {
 @property (nonatomic, copy) NSString *defaultThumb;
 @property (nonatomic, copy) NSArray *mainButtons;
 @property (nonatomic, copy) NSArray *mainFields;
-@property (nonatomic, retain) NSMutableArray *mainParameters;
-@property (nonatomic, retain) mainMenu *subItem;
+@property (nonatomic, strong) NSMutableArray *mainParameters;
+@property (nonatomic, strong) mainMenu *subItem;
 @property (nonatomic, copy) NSArray *sheetActions;
 @property int rowHeight;
 @property int thumbWidth;

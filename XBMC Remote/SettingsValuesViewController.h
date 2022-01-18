@@ -39,7 +39,7 @@ typedef enum {
 
 - (id)initWithFrame:(CGRect)frame withItem:(id)item;
 
-@property (nonatomic, retain) UITableView* tableView;
+@property (nonatomic, strong) UITableView* tableView;
 @property (strong, nonatomic) id detailItem;
 
 @end

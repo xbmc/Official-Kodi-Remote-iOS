@@ -46,7 +46,7 @@
 }
 
 @property (nonatomic, assign) NSTimeInterval timeTransition;
-@property (nonatomic, retain) NSMutableArray *imagesArray;
+@property (nonatomic, strong) NSMutableArray *imagesArray;
 @property (nonatomic) BOOL isLoop;
 @property (nonatomic) BOOL isLandscape;
 @property (weak) id<KenBurnsViewDelegate> delegate;

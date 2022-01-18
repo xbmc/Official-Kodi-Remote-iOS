@@ -134,15 +134,15 @@
 - (id)initWithFrame:(CGRect)frame;
 - (id)initWithNibName:(NSString*)nibNameOrNil withItem:(mainMenu*)item withFrame:(CGRect)frame bundle:(NSBundle*)nibBundleOrNil;
 
-@property (nonatomic, retain) NSMutableArray *filteredListContent;
+@property (nonatomic, strong) NSMutableArray *filteredListContent;
 @property (strong, nonatomic) id detailItem;
 @property (nonatomic, readonly) UIActivityIndicatorView *activityIndicatorView;
 @property (strong, nonatomic) BDKCollectionIndexView *indexView;
-@property (nonatomic, retain) NSMutableDictionary *sections;
-@property (nonatomic, retain) NSMutableArray *richResults;
-@property (nonatomic, retain) NSArray *sectionArray;
-@property (nonatomic, retain) NSMutableArray *sectionArrayOpen;
-@property (nonatomic, retain) NSMutableArray *extraSectionRichResults;
+@property (nonatomic, strong) NSMutableDictionary *sections;
+@property (nonatomic, strong) NSMutableArray *richResults;
+@property (nonatomic, strong) NSArray *sectionArray;
+@property (nonatomic, strong) NSMutableArray *sectionArrayOpen;
+@property (nonatomic, strong) NSMutableArray *extraSectionRichResults;
 @property (strong, nonatomic) UISearchController *searchController;
 
 @end
