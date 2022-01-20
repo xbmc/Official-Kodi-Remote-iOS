@@ -10,7 +10,7 @@
 
 @interface customButton : NSObject
 
-@property (nonatomic, retain) NSMutableArray *buttons;
+@property (nonatomic, strong) NSMutableArray *buttons;
 
 - (void)loadData;
 - (void)saveData;

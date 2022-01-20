@@ -49,7 +49,7 @@
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu;
 - (void)setLastSelected:(int)selection;
 
-@property (nonatomic, retain) UITableView* tableView;
+@property (nonatomic, strong) UITableView* tableView;
 
 
 @end

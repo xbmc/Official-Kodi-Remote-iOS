@@ -77,8 +77,8 @@
 - (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView;
 - (void)bounceBack:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context;
 
-@property (nonatomic, retain) UIView *slideViews;
-@property (nonatomic, retain) UIView *borderViews;
+@property (nonatomic, strong) UIView *slideViews;
+@property (nonatomic, strong) UIView *borderViews;
 @property (nonatomic, assign) CGFloat slideStartPosition;
 @property (nonatomic, strong) NSMutableArray *viewControllersStack;
 

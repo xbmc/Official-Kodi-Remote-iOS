@@ -109,7 +109,7 @@ typedef enum {
 
 - (NSString*)getNowPlayingThumbnailPath:(NSDictionary*)item {
     // If a recording is played, we can use the iocn (typically the station logo)
-    BOOL useIcon = [item[@"type"] isEqualToString:@"recording"];
+    BOOL useIcon = [item[@"type"] isEqualToString:@"recording"] || [item[@"recordingid"] intValue] > 0;
     return [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:useIcon];
 }
 
@@ -1216,6 +1216,8 @@ int currentItemID;
                                                     genre, @"genre",
                                                     movieid, @"movieid",
                                                     movieid, @"episodeid",
+                                                    movieid, @"musicvideoid",
+                                                    movieid, @"recordingid",
                                                     channel, @"channel",
                                                     stringURL, @"thumbnail",
                                                     runtime, @"runtime",
@@ -1417,7 +1419,7 @@ int currentItemID;
                  
                  NSString *rating = [Utilities getRatingFromItem:itemExtraDict[mainFields[@"row5"]]];
                  
-                 NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:itemExtraDict useBanner:NO useIcon:NO];
+                 NSString *thumbnailPath = [self getNowPlayingThumbnailPath:itemExtraDict];
                  NSDictionary *art = itemExtraDict[@"art"];
                  NSString *clearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
                  NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
@@ -1845,6 +1847,12 @@ int currentItemID;
                 else if ([item[@"type"] isEqualToString:@"episode"]) {
                     [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"TV Show Details"), LOCALIZED_STR(@"Episode Details")]];
                 }
+                else if ([item[@"type"] isEqualToString:@"musicvideo"]) {
+                    [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Music Video Details")]];
+                }
+                else if ([item[@"type"] isEqualToString:@"recording"]) {
+                    [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Recording Details")]];
+                }
             }
             NSInteger numActions = sheetActions.count;
             if (numActions) {
@@ -1995,6 +2003,18 @@ int currentItemID;
             choosedTab = 0;
             MenuItem.subItem.mainLabel = item[@"label"];
         }
+    }
+    else if ([item[@"type"] isEqualToString:@"musicvideo"]) {
+        MenuItem = AppDelegate.instance.playlistMusicVideos;
+        choosedTab = 0;
+        MenuItem.subItem.mainLabel = item[@"label"];
+        notificationName = @"MainMenuDeselectSection";
+    }
+    else if ([item[@"type"] isEqualToString:@"recording"]) {
+        MenuItem = AppDelegate.instance.playlistPVR;
+        choosedTab = 2;
+        MenuItem.subItem.mainLabel = item[@"label"];
+        notificationName = @"MainMenuDeselectSection";
     }
     else {
         return;

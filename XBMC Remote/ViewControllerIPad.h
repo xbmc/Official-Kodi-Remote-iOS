@@ -44,11 +44,11 @@
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
-@property (nonatomic, retain) MenuViewController* menuViewController;
-@property (nonatomic, retain) NowPlaying* nowPlayingController;
+@property (nonatomic, strong) MenuViewController* menuViewController;
+@property (nonatomic, strong) NowPlaying* nowPlayingController;
 @property (nonatomic, strong) StackScrollViewController* stackScrollViewController;
 @property (strong, nonatomic) tcpJSONRPC *tcpJSONRPCconnection;
-@property (nonatomic, retain) HostManagementViewController *hostPickerViewController;
-@property (nonatomic, retain) AppInfoViewController *appInfoView;
+@property (nonatomic, strong) HostManagementViewController *hostPickerViewController;
+@property (nonatomic, strong) AppInfoViewController *appInfoView;
 
 @end

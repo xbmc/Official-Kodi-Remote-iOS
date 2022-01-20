@@ -54,33 +54,35 @@
 
 @property (strong, nonatomic) CustomNavigationController *navigationController;
 
-@property (nonatomic, retain) ViewControllerIPad *windowController;
+@property (nonatomic, strong) ViewControllerIPad *windowController;
 
-@property (retain, nonatomic) NSString *dataFilePath;
-@property (retain, nonatomic) NSString *libraryCachePath;
-@property (retain, nonatomic) NSString *epgCachePath;
+@property (strong, nonatomic) NSString *dataFilePath;
+@property (strong, nonatomic) NSString *libraryCachePath;
+@property (strong, nonatomic) NSString *epgCachePath;
 
-@property (nonatomic, retain) NSMutableArray *arrayServerList;
+@property (nonatomic, strong) NSMutableArray *arrayServerList;
 
-@property (nonatomic, retain) mainMenu *playlistArtistAlbums;
-@property (nonatomic, retain) mainMenu *playlistMovies;
-@property (nonatomic, retain) mainMenu *playlistTvShows;
-@property (nonatomic, retain) mainMenu *xbmcSettings;
-@property (nonatomic, retain) NSMutableArray *rightMenuItems;
-@property (nonatomic, retain) NSMutableArray *nowPlayingMenuItems;
-@property (nonatomic, retain) NSMutableArray *remoteControlMenuItems;
+@property (nonatomic, strong) mainMenu *playlistArtistAlbums;
+@property (nonatomic, strong) mainMenu *playlistMovies;
+@property (nonatomic, strong) mainMenu *playlistMusicVideos;
+@property (nonatomic, strong) mainMenu *playlistTvShows;
+@property (nonatomic, strong) mainMenu *playlistPVR;
+@property (nonatomic, strong) mainMenu *xbmcSettings;
+@property (nonatomic, strong) NSMutableArray *rightMenuItems;
+@property (nonatomic, strong) NSMutableArray *nowPlayingMenuItems;
+@property (nonatomic, strong) NSMutableArray *remoteControlMenuItems;
 @property (nonatomic, assign) BOOL serverOnLine;
 @property (nonatomic, assign) BOOL serverTCPConnectionOpen;
 @property (nonatomic, assign) int serverVersion;
 @property (nonatomic, assign) int serverMinorVersion;
 @property (nonatomic, assign) int serverVolume;
-@property (retain, nonatomic) NSString *serverName;
+@property (strong, nonatomic) NSString *serverName;
 @property (nonatomic, assign) int APImajorVersion;
 @property (nonatomic, assign) int APIminorVersion;
 @property (nonatomic, assign) int APIpatchVersion;
 @property (nonatomic, assign) BOOL isIgnoreArticlesEnabled;
 @property (nonatomic, assign) BOOL isGroupSingleItemSetsEnabled;
 @property (nonatomic, copy) NSArray *KodiSorttokens;
-@property (nonatomic, retain) GlobalData *obj;
+@property (nonatomic, strong) GlobalData *obj;
 
 @end

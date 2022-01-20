@@ -35,7 +35,9 @@ NSMutableArray *hostRightMenuItems;
 @synthesize obj;
 @synthesize playlistArtistAlbums;
 @synthesize playlistMovies;
+@synthesize playlistMusicVideos;
 @synthesize playlistTvShows;
+@synthesize playlistPVR;
 @synthesize rightMenuItems;
 @synthesize serverName;
 @synthesize nowPlayingMenuItems;
@@ -2770,7 +2772,8 @@ NSMutableArray *hostRightMenuItems;
         @"st_playlists"];
     
     menu_Videos.mainMethod = @[
-            @[@"VideoLibrary.GetMusicVideos", @"method"],
+            @[@"VideoLibrary.GetMusicVideos", @"method",
+              @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method"],
             @[@"VideoLibrary.GetRecentlyAddedMusicVideos", @"method"],
             @[@"Files.GetSources", @"method"],
             @[@"Files.GetDirectory", @"method"],
@@ -2795,6 +2798,21 @@ NSMutableArray *hostRightMenuItems;
                         @"fanart",
                         @"resume"]
             }, @"parameters",
+            @{
+                @"properties": @[
+                        @"artist",
+                        @"year",
+                        @"playcount",
+                        @"thumbnail",
+                        @"genre",
+                        @"runtime",
+                        @"studio",
+                        @"director",
+                        @"plot",
+                        @"file",
+                        @"fanart",
+                        @"resume"]
+            }, @"extra_info_parameters",
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
@@ -2909,7 +2927,8 @@ NSMutableArray *hostRightMenuItems;
             @"row14": @"resume",
             @"row15": @"votes",
             @"row16": @"artist",
-            @"row7": @"file"
+            @"row7": @"file",
+            @"itemid_extra_info": @"musicvideodetails"
         },
         
         @{
@@ -5076,11 +5095,21 @@ NSMutableArray *hostRightMenuItems;
     playlistMovies.subItem.disableNowPlaying = YES;
     playlistMovies.subItem.subItem.disableNowPlaying = YES;
     
+#pragma mark - Plalist Movies
+    playlistMusicVideos = [menu_Videos copy];
+    playlistMusicVideos.subItem.disableNowPlaying = YES;
+    playlistMusicVideos.subItem.subItem.disableNowPlaying = YES;
+    
 #pragma mark - Playlist TV Shows
     playlistTvShows = [menu_TVShows copy];
     playlistTvShows.subItem.disableNowPlaying = YES;
     playlistTvShows.subItem.subItem.disableNowPlaying = YES;
 
+#pragma mark - Playlist PVR
+    playlistPVR = [menu_LiveTV copy];
+    playlistPVR.subItem.disableNowPlaying = YES;
+    playlistPVR.subItem.subItem.disableNowPlaying = YES;
+    
 #pragma mark - XBMC Settings 
     xbmcSettings = [mainMenu new];
     xbmcSettings.subItem = [mainMenu new];

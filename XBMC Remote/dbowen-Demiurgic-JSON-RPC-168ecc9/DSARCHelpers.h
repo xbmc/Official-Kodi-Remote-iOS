@@ -48,7 +48,7 @@
 #endif
 
 #ifndef DS_ARC_ENABLED
-#define DS_STRONG           retain
+#define DS_STRONG           strong
 #define DS_WEAK             assign
 #define DS_RELEASE(X)       [X release], X = nil;
 #define DS_RETAIN(X)        [X retain];
