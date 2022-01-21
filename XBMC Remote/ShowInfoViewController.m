@@ -208,7 +208,7 @@ double round(double d) {
 
 - (void)showContent:(id)sender {
     NSDictionary *item = self.detailItem;
-    mainMenu *MenuItem = nil;
+    mainMenu *menuItem = nil;
     mainMenu *choosedMenuItem = nil;
     choosedTab = 0;
     id movieObj = nil;
@@ -216,31 +216,31 @@ double round(double d) {
     NSString *blackTableSeparator = @"NO";
     if ([item[@"family"] isEqualToString:@"albumid"]) {
         notificationName = @"MainMenuDeselectSection";
-        MenuItem = [AppDelegate.instance.playlistArtistAlbums copy];
-        choosedMenuItem = MenuItem.subItem;
+        menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
+        choosedMenuItem = menuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"tvshowid"] && ![sender isKindOfClass:[NSString class]]) {
         notificationName = @"MainMenuDeselectSection";
-        MenuItem = [AppDelegate.instance.playlistTvShows copy];
-        choosedMenuItem = MenuItem.subItem;
+        menuItem = [AppDelegate.instance.playlistTvShows copy];
+        choosedMenuItem = menuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
         notificationName = @"MainMenuDeselectSection";
         choosedTab = 1;
-        MenuItem = [AppDelegate.instance.playlistArtistAlbums copy];
-        choosedMenuItem = MenuItem.subItem;
+        menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
+        choosedMenuItem = menuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"movieid"] && AppDelegate.instance.serverVersion > 11) {
         if ([sender isKindOfClass:[NSString class]]) {
             NSString *actorName = (NSString*)sender;
             choosedTab = 2;
-            MenuItem = [AppDelegate.instance.playlistMovies copy];
+            menuItem = [AppDelegate.instance.playlistMovies copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
-            choosedMenuItem = MenuItem.subItem;
+            choosedMenuItem = menuItem.subItem;
             choosedMenuItem.mainLabel = actorName;
         }
     }
@@ -248,19 +248,19 @@ double round(double d) {
         if ([sender isKindOfClass:[NSString class]]) {
             NSString *actorName = (NSString*)sender;
             choosedTab = 0;
-            MenuItem = [AppDelegate.instance.playlistTvShows copy];
+            menuItem = [AppDelegate.instance.playlistTvShows copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
-            choosedMenuItem = MenuItem;
+            choosedMenuItem = menuItem;
             choosedMenuItem.mainLabel = actorName;
-            MenuItem.enableSection = NO;
-            MenuItem.mainButtons = nil;
+            menuItem.enableSection = NO;
+            menuItem.mainButtons = nil;
             if (AppDelegate.instance.obj.preferTVPosters) {
                 thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
                 tvshowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
             }
-            MenuItem.thumbWidth = thumbWidth;
-            MenuItem.rowHeight = tvshowHeight;
+            menuItem.thumbWidth = thumbWidth;
+            menuItem.rowHeight = tvshowHeight;
             blackTableSeparator = @"YES";
         }
     }
@@ -269,7 +269,7 @@ double round(double d) {
     }
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[choosedMenuItem mainMethod][choosedTab]];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
-        NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
+        NSDictionary *mainFields = [menuItem mainFields][choosedTab];
         NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[choosedMenuItem mainParameters][choosedTab]];
         id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];
