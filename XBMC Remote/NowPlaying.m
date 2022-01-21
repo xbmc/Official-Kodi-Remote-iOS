@@ -2005,15 +2005,15 @@ int currentItemID;
         }
     }
     else if ([item[@"type"] isEqualToString:@"musicvideo"]) {
-        MenuItem = AppDelegate.instance.playlistMusicVideos;
+        menuItem = AppDelegate.instance.playlistMusicVideos;
         choosedTab = 0;
-        MenuItem.subItem.mainLabel = item[@"label"];
+        menuItem.subItem.mainLabel = item[@"label"];
         notificationName = @"MainMenuDeselectSection";
     }
     else if ([item[@"type"] isEqualToString:@"recording"]) {
-        MenuItem = AppDelegate.instance.playlistPVR;
+        menuItem = AppDelegate.instance.playlistPVR;
         choosedTab = 2;
-        MenuItem.subItem.mainLabel = item[@"label"];
+        menuItem.subItem.mainLabel = item[@"label"];
         notificationName = @"MainMenuDeselectSection";
     }
     else {

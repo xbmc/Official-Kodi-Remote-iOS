@@ -952,21 +952,21 @@
     [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     int i;
     NSInteger count = [menuItem mainParameters].count;
-    NSMutableArray *mainMenu = [NSMutableArray new];
+    NSMutableArray *moreMenu = [NSMutableArray new];
     NSInteger numIcons = [menuItem mainButtons].count;
     for (i = MAX_NORMAL_BUTTONS; i < count; i++) {
         NSString *icon = @"";
         if (i < numIcons) {
             icon = [menuItem mainButtons][i];
         }
-        [mainMenu addObject: 
+        [moreMenu addObject:
          [NSDictionary dictionaryWithObjectsAndKeys:
           [NSString stringWithFormat:@"%@", [Utilities indexKeyedDictionaryFromArray:[menuItem mainParameters][i]][@"morelabel"]], @"label",
           icon, @"icon",
           nil]];
     }
     if (moreItemsViewController == nil) {
-        moreItemsViewController = [[MoreItemsViewController alloc] initWithFrame:CGRectMake(dataList.bounds.size.width, 0, dataList.bounds.size.width, dataList.bounds.size.height) mainMenu:mainMenu];
+        moreItemsViewController = [[MoreItemsViewController alloc] initWithFrame:CGRectMake(dataList.bounds.size.width, 0, dataList.bounds.size.width, dataList.bounds.size.height) mainMenu:moreMenu];
         moreItemsViewController.view.backgroundColor = UIColor.clearColor;
         [moreItemsViewController viewWillAppear:NO];
         [moreItemsViewController viewDidAppear:NO];
