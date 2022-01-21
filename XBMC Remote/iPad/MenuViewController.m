@@ -174,8 +174,11 @@
         else if (item.family == FamilyRemote) {
             RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil]; 
             remoteController.view.frame = CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height);
-            [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:remoteController invokeByController:self isStackStartView:YES];
-            [AppDelegate.instance.windowController.stackScrollViewController disablePanGestureRecognizer:remoteController.panFallbackImageView];
+            remoteController.modalPresentationStyle = UIModalPresentationFormSheet;
+            [remoteController setPreferredContentSize:remoteController.view.frame.size];
+            [self presentViewController:remoteController animated:YES completion:nil];
+            lastSelected = -1;
+            return;
         }
         lastSelected = (int)indexPath.row;
     }

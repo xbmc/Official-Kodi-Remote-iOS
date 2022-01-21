@@ -691,6 +691,10 @@
 }
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
+    if (IS_IPAD) {
+        // Disable gestures to move the modal remote as this would conflict with the gesture zone
+        [self.presentationController.presentedView.gestureRecognizers.firstObject setEnabled:NO];
+    }
     if (touches.count == 1) {
         NSTimeInterval timeInterval = 1.5;
         if (buttonAction > 0) {
