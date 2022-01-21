@@ -172,8 +172,7 @@
             [AppDelegate.instance.windowController.stackScrollViewController enablePanGestureRecognizer];
         }
         else if (item.family == FamilyRemote) {
-            RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil]; 
-            remoteController.view.frame = CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height);
+            RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
             remoteController.modalPresentationStyle = UIModalPresentationFormSheet;
             [remoteController setPreferredContentSize:remoteController.view.frame.size];
             [self presentViewController:remoteController animated:YES completion:nil];

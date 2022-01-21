@@ -273,6 +273,10 @@
         frame.size.width = remoteControlView.frame.size.width;
         frame.origin.x = 0;
         subsInfoLabel.frame = frame;
+        
+        frame = remoteControlView.frame;
+        frame.size.height += TOOLBAR_HEIGHT;
+        self.view.frame = frame;
     }
     [self setupGestureView];
     if ([Utilities hasRemoteToolBar]) {
