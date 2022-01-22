@@ -20,7 +20,6 @@
 "Main Menu" = "Menu główne";
 "Light" = "Niewielkie";
 "Dark" = "Ciemne";
-"Remote Position" = "Pozycja sterowania";
 "Show REMOTE CONTROL" = "Pokaż KONTROLA ZDALNA";
 "Show NOW PLAYING" = "Pokaż TERAZ ODTWARZANE";
 "Show FAVOURITES" = "Pokaż ULUBIONE";
@@ -30,8 +29,6 @@
 "Show MOVIES" = "Pokaż FILMY";
 "Show MUSIC" = "Pokaż MUZYKA";
 "Main Menu changes needs app restart" = "Zmiany w menu głównym wymagają ponownego uruchomienia aplikacji";
-"Bottom" = "Dolna";
-"Top" = "Górna";
 "Transparent" = "Przezroczyste";
 "TV logo background" = "Tło logo TV";
 "Use rounded corner images" = "Użyj obrazów o zaokrąglonych rogach";

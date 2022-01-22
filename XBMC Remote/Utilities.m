@@ -289,24 +289,6 @@
     return setting;
 }
 
-+ (RemotePositionType)getRemotePositionMode {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    RemotePositionType setting = remoteTop;
-    NSString *mode = [userDefaults stringForKey:@"remote_position"];
-    if (mode.length) {
-        if ([mode isEqualToString:@"position_top"]) {
-            setting = remoteTop;
-        }
-        else if ([mode isEqualToString:@"position_bottom"]) {
-            setting = remoteBottom;
-        }
-        else {
-            NSAssert(NO, @"Desired remote_position mode '%@' not handled.", mode);
-        }
-    }
-    return setting;
-}
-
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage {
     NSDictionary *params = nil;
     if (AppDelegate.instance.serverVersion < 15) {

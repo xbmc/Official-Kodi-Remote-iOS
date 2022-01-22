@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-#import "Utilities.h"
-//#import "RightMenuViewController.h"
+
+typedef enum {
+    remoteTop,
+    remoteBottom
+} RemotePositionType;
 
 @interface RemoteController : UIViewController <UIGestureRecognizerDelegate> {
     IBOutlet UIView *remoteControlView;
