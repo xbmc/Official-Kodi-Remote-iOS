@@ -426,7 +426,7 @@
     [self.view addSubview:remoteButton];
     
     // left most element
-    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, self.view.frame.size.height - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT) leftAnchor:0.0];
+    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, self.view.frame.size.height - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT) leftAnchor:0.0 isSliderType:NO];
     volumeSliderView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:volumeSliderView];
     

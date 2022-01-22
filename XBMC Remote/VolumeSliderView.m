@@ -21,7 +21,7 @@
 
 @synthesize timer, holdVolumeTimer;
 
-- (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor {
+- (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor isSliderType:(BOOL)isSliderType {
     self = [super initWithFrame:frame];
     if (self) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:self options:nil];
@@ -40,7 +40,7 @@
         CGRect frame_tmp;
         UIColor *volumeIconColor = nil;
         UIImage *muteBackgroundImage = nil;
-        if (IS_IPAD){
+        if (!isSliderType){
             volumeLabel.alpha = 1.0;
             volumeView.hidden = YES;
             volumeSlider.hidden = YES;
@@ -75,7 +75,9 @@
             volumeView.hidden = YES;
             volumeLabel.hidden = YES;
 
-            self.frame = CGRectMake(0, 0, [self currentScreenBoundsDependOnOrientation].size.width - leftAnchor, VOLUMESLIDER_HEIGHT);
+            CGFloat width = IS_IPHONE ? [self currentScreenBoundsDependOnOrientation].size.width - leftAnchor : PAD_REMOTE_WIDTH;
+            CGFloat padding = IS_IPHONE ? 0 : VOLUMEICON_PADDING;
+            self.frame = CGRectMake(padding, padding, width - 2 * padding, VOLUMESLIDER_HEIGHT);
             
             frame_tmp = muteButton.frame;
             frame_tmp.origin.x = VOLUMEICON_PADDING;

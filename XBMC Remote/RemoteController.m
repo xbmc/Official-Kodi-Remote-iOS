@@ -20,7 +20,7 @@
 #import "Utilities.h"
 
 #define ROTATION_TRIGGER 0.015
-#define REMOTE_PADDING (44 + 20 + 44) // Space which is used up by footer, header and remote toolbar
+#define REMOTE_PADDING (44 + 44 + 44) // Space unused above and below the popover and by remote toolbar
 #define TOOLBAR_ICON_SIZE 36
 #define TOOLBAR_FIXED_OFFSET 8
 #define TOOLBAR_HEIGHT (TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET)
@@ -233,7 +233,7 @@
         frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
         
         if ([Utilities hasRemoteToolBar]) {
-            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0];
+            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
             [volumeSliderView startTimer];
             [self.view addSubview:volumeSliderView];
             if (frame.origin.y == 0) {
@@ -251,19 +251,26 @@
         subsInfoLabel.frame = frame;
     }
     else {
+        VolumeSliderView *volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
+        [volumeSliderView startTimer];
+        [self.view addSubview:volumeSliderView];
+        
         // Used to avoid drawing remote buttons into the safe area
         CGFloat bottomPadding = [Utilities getBottomPadding];
         // Calculate the maximum possible scaling for the remote
-        CGFloat scaleFactorHorizontal = STACKSCROLL_WIDTH / CGRectGetWidth(remoteControlView.frame);
-        CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING - bottomPadding;
+        CGFloat scaleFactorHorizontal = PAD_REMOTE_WIDTH / CGRectGetWidth(remoteControlView.frame);
+        CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING - bottomPadding - CGRectGetMaxY(volumeSliderView.frame);
         CGFloat scaleFactorVertical = minViewHeight / CGRectGetHeight(remoteControlView.frame);
         CGFloat transform = MIN(scaleFactorHorizontal, scaleFactorVertical);
 
         CGRect frame = remoteControlView.frame;
         frame.size.height *= transform;
         frame.size.width *= transform;
-        frame.origin.x = (STACKSCROLL_WIDTH - frame.size.width)/2;
+        frame.origin.x = 0;
         frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
+        if (frame.origin.y == 0) {
+            frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
+        }
         remoteControlView.frame = frame;
         
         frame.origin = CGPointZero;
@@ -275,7 +282,7 @@
         subsInfoLabel.frame = frame;
         
         frame = remoteControlView.frame;
-        frame.size.height += TOOLBAR_HEIGHT;
+        frame.size.height += TOOLBAR_HEIGHT + CGRectGetMaxY(volumeSliderView.frame);
         self.view.frame = frame;
     }
     [self setupGestureView];
