@@ -173,6 +173,16 @@ double round(double d) {
             rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
             [self.view addGestureRecognizer:rightSwipe];
         }
+        // Place the up and down arrows
+        CGFloat bottomPadding = [Utilities getBottomPadding];
+        CGRect frame = arrow_continue_down.frame;
+        frame.origin.y -= bottomPadding;
+        arrow_continue_down.frame = frame;
+        arrow_continue_down.alpha = 0.5;
+        frame = arrow_back_up.frame;
+        frame.origin.y += scrollView.contentInset.top;
+        arrow_back_up.frame = frame;
+        arrow_back_up.alpha = 0.5;
     }
     if (![self.detailItem[@"disableNowPlaying"] boolValue]) {
         UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
@@ -486,6 +496,11 @@ double round(double d) {
            }];
 }
 
+- (IBAction)scrollUp:(id)sender {
+    CGPoint bottomOffset = CGPointMake(0, -scrollView.contentInset.top);
+    [scrollView setContentOffset:bottomOffset animated:YES];
+}
+
 - (IBAction)scrollDown:(id)sender {
     int height_content = scrollView.contentSize.height;
     int height_bounds = scrollView.bounds.size.height;
@@ -793,6 +808,7 @@ double round(double d) {
         runtimeLabel.hidden = YES;
         studioLabel.hidden = YES;
         arrow_continue_down.hidden = YES;
+        arrow_back_up.hidden = YES;
         enableJewel = NO;
         
         [self layoutPvrDetails];
@@ -826,6 +842,7 @@ double round(double d) {
         runtimeLabel.hidden = YES;
         studioLabel.hidden = YES;
         arrow_continue_down.hidden = YES;
+        arrow_back_up.hidden = YES;
         enableJewel = NO;
     
         [self layoutPvrDetails];
@@ -975,6 +992,9 @@ double round(double d) {
     int height_bounds = scrollView.bounds.size.height;
     int height_navbar = self.navigationController.navigationBar.frame.size.height;
     arrow_continue_down.hidden = (height_content <= height_bounds - height_navbar);
+    
+    // Initially "up" arrow is not shown
+    arrow_back_up.hidden = YES;
 }
 
 - (void)layoutPvrDetails {
@@ -1430,6 +1450,21 @@ double round(double d) {
         [UIView setAnimationDuration:1];
         [UIView commitAnimations];
     }
+    bool at_top = theScrollView.contentOffset.y <= -scrollView.contentInset.top;
+    if (!arrow_back_up.hidden && at_top) {
+        arrow_back_up.hidden = YES;
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+        [UIView setAnimationDuration:1];
+        [UIView commitAnimations];
+    }
+    else if (arrow_back_up.hidden && !at_top) {
+        arrow_back_up.hidden = NO;
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+        [UIView setAnimationDuration:1];
+        [UIView commitAnimations];
+    }
 }
 
 - (void)alphaImage:(UIImageView*)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
@@ -1801,11 +1836,6 @@ double round(double d) {
     touchOnKenView.numberOfTouchesRequired = 1;
     [fanartView addGestureRecognizer:touchOnKenView];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    CGFloat bottomPadding = [Utilities getBottomPadding];
-    CGRect frame = arrow_continue_down.frame;
-    frame.origin.y -= bottomPadding;
-    arrow_continue_down.frame = frame;
-    arrow_continue_down.alpha = 0.5;
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
