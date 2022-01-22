@@ -138,7 +138,7 @@
 
 - (CGFloat)getOriginYForRemote:(CGFloat)offsetBottomMode {
     CGFloat yOrigin = 0;
-    RemotePositionType positionMode = [Utilities getRemotePositionMode];
+    topRemoteOffset = 0;
     if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
         yOrigin = offsetBottomMode;
         remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -188,6 +188,7 @@
     CGFloat toolbarPadding = [Utilities getBottomPadding];
     CGFloat offset = [self getOriginYForRemote:shift * transform - newHeight + TOOLBAR_PARENT_HEIGHT - TOOLBAR_HEIGHT - toolbarPadding];
     remoteControlView.frame = CGRectMake(0, offset, newWidth, newHeight);
+    embeddedShift = shift * transform;
     
     frame = remoteControlView.frame;
     frame.origin.y = 0;
@@ -239,6 +240,7 @@
             if (frame.origin.y == 0) {
                 frame.origin.y = volumeSliderView.frame.size.height;
             }
+            topRemoteOffset = volumeSliderView.frame.size.height;
         }
         remoteControlView.frame = frame;
         
@@ -1263,11 +1265,26 @@ NSInteger buttonAction;
     [Utilities turnTorchOn:sender on:torchIsOn];
 }
 
+- (void)toggleRemotePosition {
+    positionMode = positionMode == remoteBottom ? remoteTop : remoteBottom;
+    CGRect frame = remoteControlView.frame;
+    if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
+        frame.origin.y = CGRectGetMinY(remoteToolbar.frame) - CGRectGetHeight(remoteControlView.frame) + embeddedShift;
+    }
+    else {
+        frame.origin.y = topRemoteOffset;
+    }
+    remoteControlView.frame = frame;
+    remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+}
+
 - (void)createRemoteToolbar:(UIImage*)gestureButtonImg width:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax isEmbedded:(BOOL)isEmbedded {
     torchIsOn = [Utilities isTorchOn];
     // Non-embedded layout has 5 buttons (Settings > Gesture > Keyboard > Info > Torch with Flex around the buttons)
     // Embedded layout has 4 buttons (Gesture > Keyboard > Info > Torch with Flex around the buttons)
     int numButtons = isEmbedded ? 4 : 5;
+    // On iPhone an addtional button to toggle the remote's position is available
+    numButtons = IS_IPHONE ? numButtons + 1 : numButtons;
     CGFloat ToolbarFlexSpace = ((width - numButtons * TOOLBAR_ICON_SIZE) / (numButtons + 1));
     CGFloat ToolbarPadding = (TOOLBAR_ICON_SIZE + ToolbarFlexSpace);
     
@@ -1277,7 +1294,7 @@ NSInteger buttonAction;
     }
     
     // Frame for remoteToolbarView placed at bottom - toolbar's height
-    UIView *remoteToolbar = [[UIView alloc] initWithFrame:CGRectMake(0, yMax - TOOLBAR_HEIGHT, width, TOOLBAR_HEIGHT)];
+    remoteToolbar = [[UIView alloc] initWithFrame:CGRectMake(0, yMax - TOOLBAR_HEIGHT, width, TOOLBAR_HEIGHT)];
     remoteToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     // Frame for buttons in remoteToolbarView
@@ -1332,6 +1349,17 @@ NSInteger buttonAction;
     torchButton.alpha = 0.8;
     [remoteToolbar addSubview:torchButton];
     
+    if (IS_IPHONE) {
+        positionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        frame.origin.x += ToolbarPadding;
+        positionButton.frame = frame;
+        positionButton.showsTouchWhenHighlighted = YES;
+        [positionButton setImage:[UIImage imageNamed:@"icon_up_down"] forState:UIControlStateNormal];
+        [positionButton addTarget:self action:@selector(toggleRemotePosition) forControlEvents:UIControlEventTouchUpInside];
+        positionButton.alpha = 0.6;
+        [remoteToolbar addSubview:positionButton];
+    }
+    
     // Add toolbar to RemoteController's view
     [self.view addSubview:remoteToolbar];
 }
@@ -1348,6 +1376,7 @@ NSInteger buttonAction;
     self.view.tintColor = TINT_COLOR;
     
     quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
+    positionMode = [Utilities getRemotePositionMode];
     if (!isEmbeddedMode) {
         [self configureView];
     }
