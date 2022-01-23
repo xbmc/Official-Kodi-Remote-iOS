@@ -125,6 +125,8 @@
         [volumeSliderView startTimer];
         [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
         [Utilities setStyleOfMenuItems:menuViewController.tableView active:YES];
+        // Send trigger to start the defalt controller
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiStartDefaultController" object:nil userInfo:params];
     }
     else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];

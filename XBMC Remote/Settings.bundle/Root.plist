@@ -179,6 +179,44 @@
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
+			<key>DefaultValue</key>
+			<string>Main Menu</string>
+			<key>Key</key>
+			<string>start_menu</string>
+			<key>Title</key>
+			<string>Start in view</string>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Titles</key>
+			<array>
+				<string>Main Menu</string>
+				<string>Music</string>
+				<string>Movies</string>
+				<string>Videos</string>
+				<string>TV Shows</string>
+				<string>Pictures</string>
+				<string>Live TV</string>
+				<string>Radio</string>
+				<string>Favourites</string>
+				<string>Now Playing</string>
+				<string>Remote Control</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>Main Menu</string>
+				<string>Music</string>
+				<string>Movies</string>
+				<string>Videos</string>
+				<string>TV Shows</string>
+				<string>Pictures</string>
+				<string>Live TV</string>
+				<string>Radio</string>
+				<string>Favourites</string>
+				<string>Now Playing</string>
+				<string>Remote Control</string>
+			</array>
+		</dict>
+		<dict>
 			<key>Title</key>
 			<string>Main Menu</string>
 			<key>Type</key>
