@@ -23,6 +23,16 @@
 "Show all files in filemode" = "Show all files in filemode";
 "Filemode changes needs app restart" = "Filemode changes needs app restart";
 "Main Menu" = "Main Menu";
+"Start in view" = "Start in view";
+"Music" = "Music";
+"Movies" = "Movies";
+"Videos" = "Videos";
+"TV Shows" = "TV Shows";
+"Pictures" = "Pictures";
+"Live TV" = "Live TV";
+"Radio" = "Radio";
+"Favourites" = "Favorites";
+"Now Playing" = "Now Playing";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
 "Show MUSIC" = "Show MUSIC";
 "Show MOVIES" = "Show MOVIES";
@@ -34,7 +44,4 @@
 "Show FAVOURITES" = "Show FAVORITES";
 "Show NOW PLAYING" = "Show NOW PLAYING";
 "Show REMOTE CONTROL" = "Show REMOTE CONTROL";
-
-
-
-
+"Show GLOBAL SEARCH" = "Show GLOBAL SEARCH";
