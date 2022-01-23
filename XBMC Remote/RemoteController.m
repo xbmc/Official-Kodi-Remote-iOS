@@ -149,7 +149,7 @@
 
 - (void)setEmbeddedView {
     CGRect frame = TransitionalView.frame;
-    CGFloat newWidth = CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) - ANCHOR_RIGHT_PEEK;
+    CGFloat newWidth = GET_MAINSCREEN_WIDTH - ANCHOR_RIGHT_PEEK;
     CGFloat shift;
     [self hideButton:@[[self.view viewWithTag:TAG_BUTTON_SEEK_BACKWARD],
                        [self.view viewWithTag:TAG_BUTTON_PLAY_PAUSE],
@@ -259,7 +259,7 @@
         CGFloat bottomPadding = [Utilities getBottomPadding];
         // Calculate the maximum possible scaling for the remote
         CGFloat scaleFactorHorizontal = PAD_REMOTE_WIDTH / CGRectGetWidth(remoteControlView.frame);
-        CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING - bottomPadding - CGRectGetMaxY(volumeSliderView.frame);
+        CGFloat minViewHeight = MIN(GET_MAINSCREEN_WIDTH, GET_MAINSCREEN_HEIGHT) - REMOTE_PADDING - bottomPadding - CGRectGetMaxY(volumeSliderView.frame);
         CGFloat scaleFactorVertical = minViewHeight / CGRectGetHeight(remoteControlView.frame);
         CGFloat transform = MIN(scaleFactorHorizontal, scaleFactorVertical);
 

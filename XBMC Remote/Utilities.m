@@ -320,7 +320,7 @@
 + (CGFloat)getTransformX {
     // We scale for iPhone with their different device widths.
     if (IS_IPHONE) {
-        return (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) / IPHONE_SCREEN_DESIGN_WIDTH);
+        return (GET_MAINSCREEN_WIDTH / IPHONE_SCREEN_DESIGN_WIDTH);
     }
     // For iPad a fixed frame width is used.
     else {

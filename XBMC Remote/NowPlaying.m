@@ -2379,11 +2379,9 @@ int currentItemID;
 }
 
 - (void)setFontSizes {
-    CGRect frame = UIScreen.mainScreen.fixedCoordinateSpace.bounds;
-    
     // Scale is derived from the minimum increase in NowPlaying's width or height
-    CGFloat height = IS_IPHONE ? CGRectGetHeight(frame) : CGRectGetWidth(frame);
-    CGFloat width = IS_IPHONE ? CGRectGetWidth(frame) : (CGRectGetWidth(frame) - PAD_MENU_TABLE_WIDTH);
+    CGFloat height = IS_IPHONE ? GET_MAINSCREEN_HEIGHT : GET_MAINSCREEN_WIDTH;
+    CGFloat width = IS_IPHONE ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH;
     CGFloat scale = MIN(height / IPHONE_SCREEN_DESIGN_HEIGHT, width / IPHONE_SCREEN_DESIGN_WIDTH);
     
     albumName.font        = [UIFont systemFontOfSize:floor(18 * scale)];
