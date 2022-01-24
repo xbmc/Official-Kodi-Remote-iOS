@@ -23,7 +23,7 @@
 "Show REMOTE CONTROL" = "Pokaż KONTROLA ZDALNA";
 "Show NOW PLAYING" = "Pokaż TERAZ ODTWARZANE";
 "Show FAVOURITES" = "Pokaż ULUBIONE";
-"Show LIVE TV" = "Pokaż TELEWIZJA NA ŻYWO";
+"Show LIVE TV" = "Pokaż TV NA ŻYWO";
 "Show PICTURES" = "Pokaż ZDJĘCIA";
 "Show TV SHOWS" = "Pokaż PROGRAMY TV";
 "Show MOVIES" = "Pokaż FILMY";
@@ -35,3 +35,13 @@
 "Show RADIO" = "Pokaż RADIO";
 "Show VIDEOS" = "Pokaż WIDEO";
 "Show GLOBAL SEARCH" = "Pokaż WYSZUKIWANIE GLOBALNE";
+"Start in view" = "Zacznij od widoku";
+"Music" = "Muzyka";
+"Movies" = "Filmy";
+"Videos" = "Wideo";
+"TV Shows" = "Programy TV";
+"Pictures" = "Zdjęcia";
+"Live TV" = "TV na żywo";
+"Radio" = "Radio";
+"Favourites" = "Ulubione";
+"Now Playing" = "Teraz odtwarzane";
