@@ -5087,6 +5087,9 @@
     menu_Search.rowHeight = 53;
     menu_Search.thumbWidth = 53;
     menu_Search.defaultThumb = @"nocover_filemode";
+    menu_Search.mainParameters = [@[
+        @[@"YES", @"enableLibraryCache"]
+    ] mutableCopy];
     
 #pragma mark - XBMC Server Management
     menu_Server.mainLabel = LOCALIZED_STR(@"XBMC Server");

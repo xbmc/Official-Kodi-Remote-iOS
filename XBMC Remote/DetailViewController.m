@@ -401,8 +401,8 @@
     NSString *path = [libraryCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
     if ([fileManager fileExistsAtPath:path]) {
         NSDictionary *extraParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     methodToCall, @"methodToCall",
                                      mutableParameters, @"mutableParameters",
+                                     methodToCall, @"methodToCall",
                                      nil];
         [self updateSyncDate:path];
         [NSThread detachNewThreadSelector:@selector(loadDataFromDisk:) toTarget:self withObject:extraParams];
@@ -4489,6 +4489,9 @@ NSIndexPath *selected;
     if (methodToCall != nil) {
         [self retrieveData:methodToCall parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:forceRefresh];
     }
+    else if (globalSearchView) {
+        [self retrieveGlobalData:forceRefresh];
+    }
     else {
         [activityIndicatorView stopAnimating];
         [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
@@ -4498,17 +4501,27 @@ NSIndexPath *selected;
 - (void)retrieveGlobalData:(BOOL)forceRefresh {
     NSArray *itemsAndTabs = AppDelegate.instance.globalSearchMenuLookup;
     
+    id menuItem = self.detailItem;
+    NSMutableDictionary *parameters = [[Utilities indexKeyedDictionaryFromArray:[menuItem mainParameters][choosedTab]] mutableCopy];
+    if ([self loadedDataFromDisk:nil parameters:parameters refresh:forceRefresh]) {
+        return;
+    }
+    
     // Kick off recursive calls
     NSMutableArray *richData = [NSMutableArray new];
-    if (self.sections.count) {
-        [self.sections removeAllObjects];
-    }
     [self loadDetailedData:itemsAndTabs index:0 results:richData];
 }
 
 - (void)loadDetailedData:(NSArray*)itemsAndTabs index:(int)index results:(NSMutableArray*)richData {
     if (index > itemsAndTabs.count - 1) {
+        [self.sections removeAllObjects];
+        [self.richResults removeAllObjects];
+        [self.filteredListContent removeAllObjects];
         self.richResults = richData;
+        id menuItem = self.detailItem;
+        NSMutableDictionary *parameters = [[Utilities indexKeyedDictionaryFromArray:[menuItem mainParameters][choosedTab]] mutableCopy];
+        
+        [self saveData:parameters];
         [self indexAndDisplayData];
         return;
     }
