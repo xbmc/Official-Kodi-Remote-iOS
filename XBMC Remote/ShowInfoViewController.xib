@@ -212,7 +212,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </imageView>
                 <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87" userLabel="Arrow Continue Button">
-                    <rect key="frame" x="284" y="394" width="28" height="17"/>
+                    <rect key="frame" x="285" y="381" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" backgroundImage="arrow_continue_down">
@@ -227,7 +227,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WHd-MZ-RVV" userLabel="Arrow Back Button">
-                    <rect key="frame" x="284" y="5" width="28" height="17"/>
+                    <rect key="frame" x="285" y="5" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" backgroundImage="arrow_back_up">
@@ -253,8 +253,8 @@
         </view>
     </objects>
     <resources>
-        <image name="arrow_back_up" width="58.5" height="40.5"/>
-        <image name="arrow_continue_down" width="58.5" height="40.5"/>
+        <image name="arrow_back_up" width="60" height="60"/>
+        <image name="arrow_continue_down" width="60" height="60"/>
         <image name="jewel_dvd.9" width="243.5" height="309.5"/>
         <image name="shiny_black_back" width="240" height="408"/>
         <image name="stars_9" width="97.5" height="34"/>
