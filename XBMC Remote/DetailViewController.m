@@ -4512,6 +4512,28 @@ NSIndexPath *selected;
     [self loadDetailedData:itemsAndTabs index:0 results:richData];
 }
 
+- (void)addItemGroup:(NSMutableDictionary*)dict {
+    NSString *family = dict[@"family"];
+    if ([family isEqualToString:@"albumid"]) {
+        dict[@"itemgroup"] = LOCALIZED_STR(@"Albums");
+    }
+    else if ([family isEqualToString:@"artistid"]) {
+        dict[@"itemgroup"] = LOCALIZED_STR(@"Artists");
+    }
+    else if ([family isEqualToString:@"songid"]) {
+        dict[@"itemgroup"] = LOCALIZED_STR(@"Songs");
+    }
+    else if ([family isEqualToString:@"movieid"]) {
+        dict[@"itemgroup"] = LOCALIZED_STR(@"Movies");
+    }
+    else if ([family isEqualToString:@"tvshowid"]) {
+        dict[@"itemgroup"] = LOCALIZED_STR(@"TV Shows");
+    }
+    else if ([family isEqualToString:@"musicvideoid"]) {
+        dict[@"itemgroup"] = LOCALIZED_STR(@"Music Videos");
+    }
+}
+
 - (void)loadDetailedData:(NSArray*)itemsAndTabs index:(int)index results:(NSMutableArray*)richData {
     if (index > itemsAndTabs.count - 1) {
         [self.sections removeAllObjects];
@@ -4567,7 +4589,7 @@ NSIndexPath *selected;
                                                                                   sec2min:secondsToMinute
                                                                                 useBanner:NO
                                                                                   useIcon:NO];
-                            
+                            [self addItemGroup:newDict];
                             [richData addObject:newDict];
                         }
                     }
@@ -5081,7 +5103,7 @@ NSIndexPath *selected;
         [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];
     }
     else {
-        if (sortbymethod && ([self isSortDifferentToDefault] || [self isEligibleForSections:copyRichResults])) {
+        if (sortbymethod && ([self isSortDifferentToDefault] || [self isEligibleForSections:copyRichResults] || [sortbymethod isEqualToString:@"itemgroup"])) {
             BOOL found;
             addUITableViewIndexSearch = YES;
             for (NSDictionary *item in copyRichResults) {
@@ -5153,6 +5175,7 @@ NSIndexPath *selected;
         currentValue = [NSString stringWithFormat:@"%ld", (long)[components year]];
     }
     else if ([sortMethod isEqualToString:@"playcount"] ||
+             [sortMethod isEqualToString:@"itemgroup"] ||
              [sortMethod isEqualToString:@"track"]) {
         currentValue = [NSString stringWithFormat:@"%@", value];
     }

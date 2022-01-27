@@ -5088,7 +5088,19 @@
     menu_Search.thumbWidth = 53;
     menu_Search.defaultThumb = @"nocover_filemode";
     menu_Search.mainParameters = [@[
-        @[@"YES", @"enableLibraryCache"]
+        @[
+            @{
+                @"sort": [self sortmethod:@"itemgroup" order:@"ascending" ignorearticle:NO],
+            }, @"parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Type"),
+                        LOCALIZED_STR(@"Name")],
+                @"method": @[
+                        @"itemgroup",
+                        @"label"]
+            }, @"available_sort_methods",
+            @"YES", @"enableLibraryCache"]
     ] mutableCopy];
     
 #pragma mark - XBMC Server Management
