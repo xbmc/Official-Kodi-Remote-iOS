@@ -5291,6 +5291,10 @@ NSIndexPath *selected;
     }
 //    [self brightCells];
 
+    // When going back to a Global Search view ensure we are in first index
+    if (globalSearchView) {
+        choosedTab = 0;
+    }
     [self choseParams];
 
     if ([self isModal]) {
