@@ -105,7 +105,6 @@
 "Cannot do that" = "Não é possível fazer isso";
 "Wake On Lan" = "Ligar via rede local (WoL)";
 "No saved hosts found" = "Nenhum servidor guardado encontrado";
-
 "Are you sure you want to clear the playlist?" = "Tem a certeza de que quer apagar a playlist?";
 "Are you sure you want to clear the music playlist?" = "Tem a certeza de que quer apagar a playlist de música?";
 "Are you sure you want to clear the video playlist?" = "Tem a certeza de que quer apagar a playlist de vídeo?";
@@ -309,3 +308,5 @@
 "Last Updated: %@" = "Última Actualização: %@";
 "Not Available" = "Indisponível";
 "Radio" = "Rádio";
+"Timer rules" = "Regras de temporização";
+"All channels" = "Todos os canais";
