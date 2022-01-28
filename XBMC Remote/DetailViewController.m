@@ -52,11 +52,12 @@
 #define INFO_PADDING 10
 #define MONKEY_COUNT 38
 #define GLOBALSEARCH_INDEX_MOVIES 0
-#define GLOBALSEARCH_INDEX_TVSHOWS 1
-#define GLOBALSEARCH_INDEX_MUSICVIDEOS 2
-#define GLOBALSEARCH_INDEX_ARTISTS 3
-#define GLOBALSEARCH_INDEX_ALBUMS 4
-#define GLOBALSEARCH_INDEX_SONGS 5
+#define GLOBALSEARCH_INDEX_MOVIESETS 1
+#define GLOBALSEARCH_INDEX_TVSHOWS 2
+#define GLOBALSEARCH_INDEX_MUSICVIDEOS 3
+#define GLOBALSEARCH_INDEX_ARTISTS 4
+#define GLOBALSEARCH_INDEX_ALBUMS 5
+#define GLOBALSEARCH_INDEX_SONGS 6
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -590,6 +591,7 @@
 - (CGPoint)getGlobalSearchThumbsize:(NSDictionary*)item {
     CGPoint thumbSize = CGPointMake(53, 53);
     if ([item[@"family"] isEqualToString:@"movieid"] ||
+        [item[@"family"] isEqualToString:@"setid"] ||
         [item[@"family"] isEqualToString:@"tvshowid"]) {
         thumbSize.x = 53;
         thumbSize.y = 76;
@@ -601,6 +603,9 @@
     NSString *thumb = @"nocover_filemode";
     if ([item[@"family"] isEqualToString:@"movieid"]) {
         thumb = @"nocover_movies";
+    }
+    else if ([item[@"family"] isEqualToString:@"setid"]) {
+        thumb = @"nocover_movie_sets";
     }
     else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
         thumb = @"nocover_tvshows_episode";
@@ -635,6 +640,9 @@
         }
         else if ([item[@"family"] isEqualToString:@"movieid"]) {
             lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MOVIES];
+        }
+        else if ([item[@"family"] isEqualToString:@"setid"]) {
+            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MOVIESETS];
         }
         else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
             lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MUSICVIDEOS];
@@ -4525,6 +4533,9 @@ NSIndexPath *selected;
     }
     else if ([family isEqualToString:@"movieid"]) {
         dict[@"itemgroup"] = LOCALIZED_STR(@"Movies");
+    }
+    else if ([family isEqualToString:@"setid"]) {
+        dict[@"itemgroup"] = LOCALIZED_STR(@"Movie Sets");
     }
     else if ([family isEqualToString:@"tvshowid"]) {
         dict[@"itemgroup"] = LOCALIZED_STR(@"TV Shows");

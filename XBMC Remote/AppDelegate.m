@@ -5773,6 +5773,7 @@
 
     globalSearchMenuLookup = @[
         @[menu_Movies,  [self getGlobalSearchTab:menu_Movies  label:LOCALIZED_STR(@"Movies")]], // Movies
+        @[menu_Movies,  [self getGlobalSearchTab:menu_Movies  label:LOCALIZED_STR(@"Movie Sets")]], // Movie Sets
         @[menu_TVShows, [self getGlobalSearchTab:menu_TVShows label:LOCALIZED_STR(@"TV Shows")]], // TV Shows
         @[menu_Videos,  [self getGlobalSearchTab:menu_Videos  label:LOCALIZED_STR(@"Music Videos")]], // Music Videos
         @[menu_Music,   [self getGlobalSearchTab:menu_Music   label:LOCALIZED_STR(@"Artists")]], // Artists
