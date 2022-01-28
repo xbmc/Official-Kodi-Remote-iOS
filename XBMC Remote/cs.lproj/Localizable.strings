@@ -293,3 +293,7 @@
 "Last Updated: %@" = "Naposledy aktualizováno: %@";
 "Not Available" = "Není dostupné";
 "Radio" = "Rádio";
+"Channel" = "Kanál";
+"Timer rules" = "Pravidla časovače";
+"Channel Groups" = "Skupiny kanálů";
+"All channels" = "Všechny kanály";
