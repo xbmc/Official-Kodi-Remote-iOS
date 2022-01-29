@@ -264,6 +264,15 @@ NSMutableArray *hostRightMenuItems;
     ];
 }
 
+- (NSArray*)action_queue_to_moviesetdetails {
+    return @[
+        LOCALIZED_STR(@"Queue after current"),
+        LOCALIZED_STR(@"Queue"),
+        LOCALIZED_STR(@"Play"),
+        LOCALIZED_STR(@"Movie Set Details")
+    ];
+}
+
 - (NSArray*)action_queue_to_showcontent {
     return @[
         LOCALIZED_STR(@"Queue after current"),
@@ -2111,6 +2120,8 @@ NSMutableArray *hostRightMenuItems;
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"thumbnail",
+                        @"plot",
+                        @"fanart",
                         @"playcount"]
             }, @"parameters",
             @{
@@ -2268,7 +2279,8 @@ NSMutableArray *hostRightMenuItems;
             @"playlistid": @1,
             @"row8": @"setid",
             @"row9": @"setid",
-            @"row10": @"playcount"
+            @"row10": @"playcount",
+            @"row11": @"plot"
         },
 
         @{
@@ -2344,7 +2356,7 @@ NSMutableArray *hostRightMenuItems;
     menu_Movies.sheetActions = @[
         [self action_queue_to_moviedetails],
         @[],
-        [self action_queue_to_play],
+        [self action_queue_to_moviesetdetails],
         [self action_queue_to_moviedetails],
         @[],
         @[],

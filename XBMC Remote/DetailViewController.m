@@ -3231,6 +3231,7 @@ NSIndexPath *selected;
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Artist Details")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Album Details")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Movie Details")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Movie Set Details")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Episode Details")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"TV Show Details")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Music Video Details")] ||
