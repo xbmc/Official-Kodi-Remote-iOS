@@ -91,6 +91,16 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Use thumbnail when fanart is missing</string>
+			<key>Key</key>
+			<string>fanart_fallback_preference</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
 			<key>DefaultValue</key>
 			<string>auto</string>
 			<key>Key</key>
