@@ -726,17 +726,18 @@ double round(double d) {
     else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
         placeHolderImage = @"coverbox_back";
         
+        NSString *director = [Utilities getStringFromItem:item[@"director"]];
+        NSString *year = [Utilities getYearFromItem:item[@"year"]];
+        
         label1.text = LOCALIZED_STR(@"ARTIST");
         label2.text = LOCALIZED_STR(@"GENRE");
-        label3.text = LOCALIZED_STR(@"DIRECTED BY");
+        label3.text = [self formatDirectorYearHeading:director year:year];
         label4.text = LOCALIZED_STR(@"STUDIO");
         label5.text = LOCALIZED_STR(@"SUMMARY");
         label6.text = @"";
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
         directorLabel.text = [Utilities getStringFromItem:item[@"artist"]];
         genreLabel.text = [Utilities getStringFromItem:item[@"genre"]];
-        NSString *director = [Utilities getStringFromItem:item[@"director"]];
-        NSString *year = [Utilities getYearFromItem:item[@"year"]];
         runtimeLabel.text = [self formatDirectorYear:director year:year];
         studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
         summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
@@ -852,15 +853,16 @@ double round(double d) {
     else {
         placeHolderImage = @"coverbox_back_movies";
         
-        label1.text = LOCALIZED_STR(@"DIRECTED BY");
+        NSString *director = [Utilities getStringFromItem:item[@"director"]];
+        NSString *year = [Utilities getYearFromItem:item[@"year"]];
+        
+        label1.text = [self formatDirectorYearHeading:director year:year];
         label2.text = LOCALIZED_STR(@"GENRE");
         label3.text = LOCALIZED_STR(@"RUNTIME");
         label4.text = LOCALIZED_STR(@"STUDIO");
         label5.text = LOCALIZED_STR(@"SUMMARY");
         label6.text = LOCALIZED_STR(@"CAST");
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        NSString *director = [Utilities getStringFromItem:item[@"director"]];
-        NSString *year = [Utilities getYearFromItem:item[@"year"]];
         directorLabel.text = [self formatDirectorYear:director year:year];
         genreLabel.text = [Utilities getStringFromItem:item[@"genre"]];
         runtimeLabel.text = [Utilities getStringFromItem:item[@"runtime"]];
@@ -1100,13 +1102,27 @@ double round(double d) {
     return offset;
 }
 
+- (NSString*)formatDirectorYearHeading:(NSString*)director year:(NSString*)year {
+    NSString *text = @"";
+    if (director.length && year.length) {
+        text = [NSString stringWithFormat:@"%@ (%@)", LOCALIZED_STR(@"DIRECTED BY"), LOCALIZED_STR(@"YEAR")];
+    }
+    else if (year.length) {
+        text = LOCALIZED_STR(@"YEAR");
+    }
+    else if (director.length) {
+        text = LOCALIZED_STR(@"DIRECTED BY");
+    }
+    return text;
+}
+
 - (NSString*)formatDirectorYear:(NSString*)director year:(NSString*)year {
     NSString *text = @"";
     if (director.length && year.length) {
         text = [NSString stringWithFormat:@"%@ (%@)", director, year];
     }
     else if (year.length) {
-        text = [NSString stringWithFormat:@"(%@)", year];
+        text = year;
     }
     else if (director.length) {
         text = director;
