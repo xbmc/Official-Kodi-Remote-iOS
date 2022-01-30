@@ -4600,6 +4600,13 @@ NSIndexPath *selected;
                                                                                   sec2min:secondsToMinute
                                                                                 useBanner:NO
                                                                                   useIcon:NO];
+                            // Convert from array to string to allow searching globally
+                            if (newDict[@"artist"]) {
+                                newDict[@"artist"] = [Utilities getStringFromItem:newDict[@"artist"]];
+                            }
+                            if (newDict[@"director"]) {
+                                newDict[@"director"] = [Utilities getStringFromItem:newDict[@"director"]];
+                            }
                             [self addItemGroup:newDict];
                             [richData addObject:newDict];
                         }
@@ -5672,6 +5679,9 @@ NSIndexPath *selected;
     // filter here
     [self.filteredListContent removeAllObjects];
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@", searchText];
+    if (globalSearchView) {
+        pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@ || artist CONTAINS[cd] %@ || director CONTAINS[cd] %@", searchText, searchText, searchText];
+    }
     self.filteredListContent = [NSMutableArray arrayWithArray:[self.richResults filteredArrayUsingPredicate:pred]];
     numFilteredResults = (int)self.filteredListContent.count;
 }
