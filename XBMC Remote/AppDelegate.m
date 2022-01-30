@@ -2046,6 +2046,7 @@
                         @"genre",
                         @"runtime",
                         @"trailer",
+                        @"director",
                         @"file",
                         @"dateadded"]
                 }, @"parameters",
@@ -2232,13 +2233,13 @@
             @"row9": @"movieid",
             @"row10": @"playcount",
             @"row11": @"trailer",
-            @"row12": @"plot",
+            @"row12": @"director",
             @"row13": @"mpaa",
             @"row14": @"votes",
             @"row15": @"studio",
             @"row16": @"cast",
             @"row7": @"file",
-            @"row17": @"director",
+            @"row17": @"plot",
             @"row18": @"resume",
             @"row19": @"dateadded",
             @"itemid_extra_info": @"moviedetails"
