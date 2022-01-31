@@ -2747,6 +2747,7 @@ int currentItemID;
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];
+    ProgressSlider.hidden = YES;
     scrabbingMessage.text = LOCALIZED_STR(@"Slide your finger up to adjust the scrubbing rate.");
     scrabbingRate.text = LOCALIZED_STR(@"Scrubbing 1");
     sheetActions = [NSMutableArray new];
