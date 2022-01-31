@@ -2270,6 +2270,36 @@
     else if ([sortMethodName isEqualToString:@"track"]) {
         sectionName = [NSString stringWithFormat:LOCALIZED_STR(@"Track n.%@"), sectionName];
     }
+    else if ([sortMethodName isEqualToString:@"itemgroup"]) {
+        int index = [sectionName intValue];
+        NSString *sectionLongName;
+        switch (index) {
+            case GLOBALSEARCH_INDEX_MOVIES:
+                sectionLongName = LOCALIZED_STR(@"Movies");
+                break;
+            case GLOBALSEARCH_INDEX_TVSHOWS:
+                sectionLongName = LOCALIZED_STR(@"TV Shows");
+                break;
+            case GLOBALSEARCH_INDEX_MUSICVIDEOS:
+                sectionLongName = LOCALIZED_STR(@"Music Videos");
+                break;
+            case GLOBALSEARCH_INDEX_ARTISTS:
+                sectionLongName = LOCALIZED_STR(@"Artists");
+                break;
+            case GLOBALSEARCH_INDEX_ALBUMS:
+                sectionLongName = LOCALIZED_STR(@"Albums");
+                break;
+            case GLOBALSEARCH_INDEX_SONGS:
+                sectionLongName = LOCALIZED_STR(@"Songs");
+                break;
+            case GLOBALSEARCH_INDEX_MOVIESETS:
+                sectionLongName = LOCALIZED_STR(@"Movie Sets");
+                break;
+            default:
+                break;
+        }
+        sectionName = [NSString stringWithFormat:@"%@ - %@", sectionName, sectionLongName];
+    }
     return sectionName;
 }
 
@@ -4522,27 +4552,30 @@ NSIndexPath *selected;
 
 - (void)addItemGroup:(NSMutableDictionary*)dict {
     NSString *family = dict[@"family"];
+    int index = -1;
     if ([family isEqualToString:@"albumid"]) {
-        dict[@"itemgroup"] = LOCALIZED_STR(@"Albums");
+        index = GLOBALSEARCH_INDEX_ALBUMS;
     }
     else if ([family isEqualToString:@"artistid"]) {
-        dict[@"itemgroup"] = LOCALIZED_STR(@"Artists");
+        index = GLOBALSEARCH_INDEX_ARTISTS;
     }
     else if ([family isEqualToString:@"songid"]) {
-        dict[@"itemgroup"] = LOCALIZED_STR(@"Songs");
+        index = GLOBALSEARCH_INDEX_SONGS;
     }
     else if ([family isEqualToString:@"movieid"]) {
-        dict[@"itemgroup"] = LOCALIZED_STR(@"Movies");
+        index = GLOBALSEARCH_INDEX_MOVIES;
     }
     else if ([family isEqualToString:@"setid"]) {
-        dict[@"itemgroup"] = LOCALIZED_STR(@"Movie Sets");
+        index = GLOBALSEARCH_INDEX_MOVIESETS;
     }
     else if ([family isEqualToString:@"tvshowid"]) {
-        dict[@"itemgroup"] = LOCALIZED_STR(@"TV Shows");
+        index = GLOBALSEARCH_INDEX_TVSHOWS;
     }
     else if ([family isEqualToString:@"musicvideoid"]) {
-        dict[@"itemgroup"] = LOCALIZED_STR(@"Music Videos");
+        index = GLOBALSEARCH_INDEX_MUSICVIDEOS;
     }
+    // The index shall only show numbers to be able to jump to the sections
+    dict[@"itemgroup"] = [NSString stringWithFormat:@"%i", index];
 }
 
 - (void)loadDetailedData:(NSArray*)itemsAndTabs index:(int)index results:(NSMutableArray*)richData {
