@@ -4780,12 +4780,8 @@ NSIndexPath *selected;
 //             debugText.text = [NSString stringWithFormat:@"%@\n*DATA: %@", debugText.text, methodResult];
 //             NSLog(@"END JSON");
 //             NSLog(@"DATO RICEVUTO %@", methodResult);
-             if (resultStoreArray.count) {
-                 [resultStoreArray removeAllObjects];
-             }
-             if (self.sections.count) {
-                 [self.sections removeAllObjects];
-             }
+             [resultStoreArray removeAllObjects];
+             [self.sections removeAllObjects];
              [activeLayoutView reloadData];
              if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                  NSString *itemid = @"";
