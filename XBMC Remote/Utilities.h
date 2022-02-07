@@ -40,6 +40,7 @@ typedef enum {
 + (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker trigger:(CGFloat)trigger;
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color;
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode;
++ (BOOL)getPreferTvPosterMode;
 + (LogoBackgroundType)getLogoBackgroundMode;
 + (RemotePositionType)getRemotePositionMode;
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage;

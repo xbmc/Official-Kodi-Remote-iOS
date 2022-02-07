@@ -17,7 +17,6 @@
 @synthesize serverPort;
 @synthesize tcpPort;
 @synthesize serverHWAddr;
-@synthesize preferTVPosters;
 
 static GlobalData *instance = nil;
 + (GlobalData*)getInstance {

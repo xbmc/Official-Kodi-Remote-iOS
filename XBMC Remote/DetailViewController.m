@@ -1270,7 +1270,7 @@
     if (mutableProperties != nil) {
         mutableParameters[@"properties"] = mutableProperties;
     }
-    if ([parameters[@"blackTableSeparator"] boolValue] && !AppDelegate.instance.obj.preferTVPosters) {
+    if ([parameters[@"blackTableSeparator"] boolValue] && ![Utilities getPreferTvPosterMode]) {
         blackTableSeparator = YES;
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
     }
@@ -5829,7 +5829,7 @@ NSIndexPath *selected;
         dataList.separatorInset = UIEdgeInsetsMake(0, 18, 0, 0);
     }
     else if ([methods[@"tvshowsView"] boolValue]) {
-        tvshowsView = AppDelegate.instance.serverVersion > 11 && !AppDelegate.instance.obj.preferTVPosters;
+        tvshowsView = AppDelegate.instance.serverVersion > 11 && ![Utilities getPreferTvPosterMode];
         [self setTVshowThumbSize];
     }
     else if ([methods[@"channelGuideView"] boolValue]) {
@@ -5842,7 +5842,7 @@ NSIndexPath *selected;
         globalSearchView = YES;
     }
     
-    if ([parameters[@"blackTableSeparator"] boolValue] && !AppDelegate.instance.obj.preferTVPosters) {
+    if ([parameters[@"blackTableSeparator"] boolValue] && ![Utilities getPreferTvPosterMode]) {
         blackTableSeparator = YES;
         dataList.separatorInset = UIEdgeInsetsZero;
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];

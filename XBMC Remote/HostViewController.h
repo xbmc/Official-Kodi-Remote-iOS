@@ -24,7 +24,6 @@
     IBOutlet UITextField *mac_3_UI;
     IBOutlet UITextField *mac_4_UI;
     IBOutlet UITextField *mac_5_UI;
-    IBOutlet UISwitch *preferTVPostersUI;
     IBOutlet UITextField *tcpPortUI;
     NSMutableArray *services;
     BOOL searching;
@@ -39,7 +38,6 @@
     IBOutlet UILabel *hostLabel;
     IBOutlet UILabel *macLabel;
     IBOutlet UILabel *userLabel;
-    IBOutlet UILabel *preferLabel;
     IBOutlet UILabel *noInstancesLabel;
     IBOutlet UILabel *findLabel;
     IBOutlet UIView *tipView;

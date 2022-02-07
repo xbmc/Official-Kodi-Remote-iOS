@@ -142,7 +142,6 @@ static inline BOOL IsEmpty(id obj) {
     AppDelegate.instance.obj.serverIP = IsEmpty(item[@"serverIP"]) ? @"" : item[@"serverIP"];
     AppDelegate.instance.obj.serverPort = IsEmpty(item[@"serverPort"]) ? @"" : item[@"serverPort"];
     AppDelegate.instance.obj.serverHWAddr = IsEmpty(item[@"serverMacAddress"]) ? @"" : item[@"serverMacAddress"];
-    AppDelegate.instance.obj.preferTVPosters = [item[@"preferTVPosters"] boolValue];
     AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue];
 }
 
