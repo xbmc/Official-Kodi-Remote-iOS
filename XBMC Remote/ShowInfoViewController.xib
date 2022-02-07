@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShowInfoViewController">
             <connections>
                 <outlet property="activityIndicatorView" destination="32" id="33"/>
+                <outlet property="arrow_back_up" destination="WHd-MZ-RVV" id="6DM-lM-sXh"/>
                 <outlet property="arrow_continue_down" destination="87" id="88"/>
                 <outlet property="bottomShadow" destination="92" id="93"/>
                 <outlet property="coverView" destination="23" id="24"/>
@@ -83,7 +84,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="DIRECTED BY" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="37">
-                            <rect key="frame" x="10" y="432" width="294" height="20"/>
+                            <rect key="frame" x="10" y="432" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -92,7 +93,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="-" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="38">
-                            <rect key="frame" x="10" y="448" width="294" height="20"/>
+                            <rect key="frame" x="10" y="448" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -101,7 +102,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="GENRE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="39">
-                            <rect key="frame" x="10" y="473" width="294" height="20"/>
+                            <rect key="frame" x="10" y="473" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -110,7 +111,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="-" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="40">
-                            <rect key="frame" x="10" y="489" width="294" height="20"/>
+                            <rect key="frame" x="10" y="489" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -119,7 +120,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="RUNTIME" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="43">
-                            <rect key="frame" x="10" y="514" width="294" height="20"/>
+                            <rect key="frame" x="10" y="514" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -128,7 +129,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="-" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="44">
-                            <rect key="frame" x="10" y="530" width="294" height="20"/>
+                            <rect key="frame" x="10" y="530" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -137,7 +138,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="STUDIO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="51">
-                            <rect key="frame" x="10" y="555" width="294" height="20"/>
+                            <rect key="frame" x="10" y="555" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -146,7 +147,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="-" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="52">
-                            <rect key="frame" x="10" y="571" width="294" height="20"/>
+                            <rect key="frame" x="10" y="571" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -155,7 +156,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="SUMMARY" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="59">
-                            <rect key="frame" x="10" y="596" width="294" height="20"/>
+                            <rect key="frame" x="10" y="596" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -164,7 +165,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="-" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="60">
-                            <rect key="frame" x="10" y="612" width="294" height="20"/>
+                            <rect key="frame" x="10" y="612" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <rect key="contentStretch" x="0.0" y="0.49999999999999994" width="1" height="1"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -174,7 +175,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="PARENTAL RATING" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="63">
-                            <rect key="frame" x="10" y="637" width="294" height="20"/>
+                            <rect key="frame" x="10" y="637" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -183,7 +184,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="-" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="64">
-                            <rect key="frame" x="10" y="653" width="294" height="20"/>
+                            <rect key="frame" x="10" y="653" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -192,7 +193,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="CAST" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="67">
-                            <rect key="frame" x="10" y="678" width="294" height="20"/>
+                            <rect key="frame" x="10" y="678" width="293" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -211,7 +212,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </imageView>
                 <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87" userLabel="Arrow Continue Button">
-                    <rect key="frame" x="284" y="394" width="28" height="17"/>
+                    <rect key="frame" x="285" y="381" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" backgroundImage="arrow_continue_down">
@@ -223,6 +224,21 @@
                     </state>
                     <connections>
                         <action selector="scrollDown:" destination="-1" eventType="touchUpInside" id="89"/>
+                    </connections>
+                </button>
+                <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WHd-MZ-RVV" userLabel="Arrow Back Button">
+                    <rect key="frame" x="285" y="5" width="30" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" backgroundImage="arrow_back_up">
+                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="scrollUp:" destination="-1" eventType="touchUpInside" id="7Kp-oA-JCV"/>
                     </connections>
                 </button>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="32">
@@ -237,7 +253,8 @@
         </view>
     </objects>
     <resources>
-        <image name="arrow_continue_down" width="58.5" height="40.5"/>
+        <image name="arrow_back_up" width="60" height="60"/>
+        <image name="arrow_continue_down" width="60" height="60"/>
         <image name="jewel_dvd.9" width="243.5" height="309.5"/>
         <image name="shiny_black_back" width="240" height="408"/>
         <image name="stars_9" width="97.5" height="34"/>

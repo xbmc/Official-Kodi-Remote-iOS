@@ -45,6 +45,7 @@
     UILabel *trailerLabel;
     UIButton *playTrailerButton;
 
+    IBOutlet UIButton *arrow_back_up;
     IBOutlet UIButton *arrow_continue_down;
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *fanartView;

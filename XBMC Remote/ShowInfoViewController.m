@@ -27,6 +27,7 @@
 #define VERTICAL_PADDING 10
 #define REC_DOT_SIZE 10
 #define REC_DOT_PADDING 4
+#define ARROW_ALPHA 0.5
 
 @interface ShowInfoViewController ()
 @end
@@ -173,6 +174,16 @@ double round(double d) {
             rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
             [self.view addGestureRecognizer:rightSwipe];
         }
+        // Place the up and down arrows
+        CGFloat bottomPadding = [Utilities getBottomPadding];
+        CGRect frame = arrow_continue_down.frame;
+        frame.origin.y -= bottomPadding;
+        arrow_continue_down.frame = frame;
+        arrow_continue_down.alpha = ARROW_ALPHA;
+        frame = arrow_back_up.frame;
+        frame.origin.y += scrollView.contentInset.top;
+        arrow_back_up.frame = frame;
+        arrow_back_up.alpha = ARROW_ALPHA;
     }
     if (![self.detailItem[@"disableNowPlaying"] boolValue]) {
         UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
@@ -486,6 +497,11 @@ double round(double d) {
            }];
 }
 
+- (IBAction)scrollUp:(id)sender {
+    CGPoint bottomOffset = CGPointMake(0, -scrollView.contentInset.top);
+    [scrollView setContentOffset:bottomOffset animated:YES];
+}
+
 - (IBAction)scrollDown:(id)sender {
     int height_content = scrollView.contentSize.height;
     int height_bounds = scrollView.bounds.size.height;
@@ -792,7 +808,8 @@ double round(double d) {
         label6.hidden = YES;
         runtimeLabel.hidden = YES;
         studioLabel.hidden = YES;
-        arrow_continue_down.hidden = YES;
+        arrow_continue_down.alpha = 0;
+        arrow_back_up.alpha = 0;
         enableJewel = NO;
         
         [self layoutPvrDetails];
@@ -825,7 +842,8 @@ double round(double d) {
         label6.hidden = YES;
         runtimeLabel.hidden = YES;
         studioLabel.hidden = YES;
-        arrow_continue_down.hidden = YES;
+        arrow_continue_down.alpha = 0;
+        arrow_back_up.alpha = 0;
         enableJewel = NO;
     
         [self layoutPvrDetails];
@@ -974,7 +992,10 @@ double round(double d) {
     int height_content = scrollView.contentSize.height;
     int height_bounds = scrollView.bounds.size.height;
     int height_navbar = self.navigationController.navigationBar.frame.size.height;
-    arrow_continue_down.hidden = (height_content <= height_bounds - height_navbar);
+    arrow_continue_down.alpha = (height_content <= height_bounds - height_navbar) ? 0 : ARROW_ALPHA;
+    
+    // Initially "up" arrow is not shown
+    arrow_back_up.alpha = 0;
 }
 
 - (void)layoutPvrDetails {
@@ -1416,19 +1437,18 @@ double round(double d) {
     int height_bounds = theScrollView.bounds.size.height;
     int scrolled = theScrollView.contentOffset.y;
     bool at_bottom = scrolled >= height_content - height_bounds;
-    if (!arrow_continue_down.hidden && at_bottom) {
-        arrow_continue_down.hidden = YES;
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-        [UIView setAnimationDuration:1];
-        [UIView commitAnimations];
+    if (arrow_continue_down.alpha && at_bottom) {
+        [self alphaView:arrow_continue_down AnimDuration:0.3 Alpha:0];
     }
-    else if (arrow_continue_down.hidden && !at_bottom) {
-        arrow_continue_down.hidden = NO;
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-        [UIView setAnimationDuration:1];
-        [UIView commitAnimations];
+    else if (!arrow_continue_down.alpha && !at_bottom) {
+        [self alphaView:arrow_continue_down AnimDuration:0.3 Alpha:ARROW_ALPHA];
+    }
+    bool at_top = theScrollView.contentOffset.y <= -scrollView.contentInset.top;
+    if (arrow_back_up.alpha && at_top) {
+        [self alphaView:arrow_back_up AnimDuration:0.3 Alpha:0];
+    }
+    else if (!arrow_back_up.alpha && !at_top) {
+        [self alphaView:arrow_back_up AnimDuration:0.3 Alpha:ARROW_ALPHA];
     }
 }
 
@@ -1492,7 +1512,7 @@ double round(double d) {
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if (AppDelegate.instance.serverVersion > 11 && ![self isModal]) {
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
-        cell.accessoryView.alpha = 0.5;
+        cell.accessoryView.alpha = ARROW_ALPHA;
     }
     else {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -1801,11 +1821,6 @@ double round(double d) {
     touchOnKenView.numberOfTouchesRequired = 1;
     [fanartView addGestureRecognizer:touchOnKenView];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    CGFloat bottomPadding = [Utilities getBottomPadding];
-    CGRect frame = arrow_continue_down.frame;
-    frame.origin.y -= bottomPadding;
-    arrow_continue_down.frame = frame;
-    arrow_continue_down.alpha = 0.5;
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
