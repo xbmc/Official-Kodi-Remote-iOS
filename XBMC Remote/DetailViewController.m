@@ -3703,6 +3703,13 @@ NSIndexPath *selected;
     [self.searchController.searchBar resignFirstResponder];
 }
 
+- (void)showKeyboard:(id)sender {
+    // Show the keyboard if it was active when the view was shown last time. Remark: Only works with dalay!
+    if (showkeyboard) {
+        [[self getSearchTextField] performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.1];
+    }
+}
+
 #pragma mark - View Configuration
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -5906,6 +5913,10 @@ NSIndexPath *selected;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(hideKeyboard:)
                                                  name: @"ECSlidingViewUnderLeftWillAppear"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(showKeyboard:)
+                                                 name: @"ECSlidingViewTopDidReset"
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
