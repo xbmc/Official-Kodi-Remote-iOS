@@ -3302,7 +3302,9 @@
             @"YES", @"blackTableSeparator",
             @"YES", @"FrodoExtraArt",
             @"YES", @"enableLibraryCache",
-            [self itemSizes_insets:@"0"], @"itemSizes"
+            @"YES", @"enableCollectionView",
+            @"YES", @"enableLibraryFullScreen",
+            [self itemSizes_Moviefullscreen], @"itemSizes"
         ],
                             
         @[

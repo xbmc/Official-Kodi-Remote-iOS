@@ -530,8 +530,10 @@
     NSString *year = [Utilities getYearFromItem:item[mainFields[@"row3"]]];
     NSString *runtime = [Utilities getTimeFromItem:item[mainFields[@"row4"]] sec2min:sec2min];
     NSString *rating = [Utilities getRatingFromItem:item[mainFields[@"row5"]]];
-    NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:item useBanner:tvshowsView useIcon:recordingListView];
+    NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:recordingListView];
+    NSString *bannerPath = [Utilities getThumbnailFromDictionary:item useBanner:YES useIcon:recordingListView];
     NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
+    NSString *bannerURL = [Utilities formatStringURL:bannerPath serverURL:serverURL];
     NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
     if ([stringURL isEqualToString:@""]) {
         stringURL = [Utilities getItemIconFromDictionary:item mainFields:mainFields];
@@ -564,6 +566,7 @@
                                  genre, @"genre",
                                  stringURL, @"thumbnail",
                                  fanartURL, @"fanart",
+                                 bannerURL, @"banner",
                                  runtime, @"runtime",
                                  seasonNumber, @"season",
                                  row19obj, row19key,
@@ -2543,7 +2546,7 @@
                                     nil];
             [NSThread detachNewThreadSelector:@selector(getChannelEpgInfo:) toTarget:self withObject:params];
         }
-        NSString *stringURL = item[@"thumbnail"];
+        NSString *stringURL = tvshowsView ? item[@"banner"] : item[@"thumbnail"];
         NSString *displayThumb = globalSearchView ? [self getGlobalSearchThumb:item] : defaultThumb;
         if ([item[@"filetype"] length] != 0 ||
             [item[@"family"] isEqualToString:@"file"] ||
