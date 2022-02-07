@@ -12,6 +12,7 @@
 "Pictures" = "Pictures";
 "Now Playing" = "Now playing";
 "Favourites" = "Favourites";
+"Global Search" = "Global Search";
 "Remote Control" = "Remote Control";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
@@ -29,6 +30,7 @@
 "More (%d)" = "More (%d)";
 "Movie Sets" = "Movie Sets";
 
+"Type" = "Type";
 "Albums" = "Albums";
 "Artists" = "Artists";
 "Genres" = "Genres";

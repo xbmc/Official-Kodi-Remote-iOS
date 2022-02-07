@@ -15,7 +15,8 @@
 @class ViewControllerIPad;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
-	NSMutableArray *arrayServerList;
+    NSMutableArray *mainMenuItems;
+    NSMutableArray *arrayServerList;
     GlobalData *obj;
 }
 
@@ -68,6 +69,7 @@
 @property (nonatomic, strong) mainMenu *playlistTvShows;
 @property (nonatomic, strong) mainMenu *playlistPVR;
 @property (nonatomic, strong) mainMenu *xbmcSettings;
+@property (nonatomic, strong) NSArray *globalSearchMenuLookup;
 @property (nonatomic, strong) NSMutableArray *rightMenuItems;
 @property (nonatomic, strong) NSMutableArray *nowPlayingMenuItems;
 @property (nonatomic, strong) NSMutableArray *remoteControlMenuItems;

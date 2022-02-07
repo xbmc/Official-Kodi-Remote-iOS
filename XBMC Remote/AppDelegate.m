@@ -21,9 +21,6 @@
 
 @implementation AppDelegate
 
-NSMutableArray *mainMenuItems;
-NSMutableArray *hostRightMenuItems;
-
 @synthesize window = _window;
 @synthesize navigationController = _navigationController;
 @synthesize windowController = _windowController;
@@ -38,6 +35,7 @@ NSMutableArray *hostRightMenuItems;
 @synthesize playlistMusicVideos;
 @synthesize playlistTvShows;
 @synthesize playlistPVR;
+@synthesize globalSearchMenuLookup;
 @synthesize rightMenuItems;
 @synthesize serverName;
 @synthesize nowPlayingMenuItems;
@@ -492,6 +490,7 @@ NSMutableArray *hostRightMenuItems;
     __auto_type menu_Server = [mainMenu new];
     __auto_type menu_LiveTV = [mainMenu new];
     __auto_type menu_Radio = [mainMenu new];
+    __auto_type menu_Search = [mainMenu new];
 
     menu_Music.subItem = [mainMenu new];
     menu_Music.subItem.subItem = [mainMenu new];
@@ -2047,6 +2046,7 @@ NSMutableArray *hostRightMenuItems;
                         @"genre",
                         @"runtime",
                         @"trailer",
+                        @"director",
                         @"file",
                         @"dateadded"]
                 }, @"parameters",
@@ -2233,13 +2233,13 @@ NSMutableArray *hostRightMenuItems;
             @"row9": @"movieid",
             @"row10": @"playcount",
             @"row11": @"trailer",
-            @"row12": @"plot",
+            @"row12": @"director",
             @"row13": @"mpaa",
             @"row14": @"votes",
             @"row15": @"studio",
             @"row16": @"cast",
             @"row7": @"file",
-            @"row17": @"director",
+            @"row17": @"plot",
             @"row18": @"resume",
             @"row19": @"dateadded",
             @"itemid_extra_info": @"moviedetails"
@@ -5080,6 +5080,30 @@ NSMutableArray *hostRightMenuItems;
     menu_Remote.icon = @"icon_menu_remote";
     menu_Remote.family = FamilyRemote;
     
+#pragma mark - Global Search
+    menu_Search.mainLabel = LOCALIZED_STR(@"Global Search");
+    menu_Search.icon = @"icon_menu_search";
+    menu_Search.family = FamilyDetailView;
+    menu_Search.enableSection = NO;
+    menu_Search.rowHeight = 53;
+    menu_Search.thumbWidth = 53;
+    menu_Search.defaultThumb = @"nocover_filemode";
+    menu_Search.mainParameters = [@[
+        @[
+            @{
+                @"sort": [self sortmethod:@"itemgroup" order:@"ascending" ignorearticle:NO],
+            }, @"parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Type"),
+                        LOCALIZED_STR(@"Name")],
+                @"method": @[
+                        @"itemgroup",
+                        @"label"]
+            }, @"available_sort_methods",
+            @"YES", @"enableLibraryCache"]
+    ] mutableCopy];
+    
 #pragma mark - XBMC Server Management
     menu_Server.mainLabel = LOCALIZED_STR(@"XBMC Server");
     menu_Server.icon = @"";
@@ -5742,6 +5766,21 @@ NSMutableArray *hostRightMenuItems;
     if ([self isMenuEntryEnabled:@"menu_remote"]) {
         [mainMenuItems addObject:menu_Remote];
     }
+    if ([self isMenuEntryEnabled:@"menu_search"]) {
+        [mainMenuItems addObject:menu_Search];
+    }
+    
+#pragma mark - Build and Initialize Global Search Lookup
+
+    globalSearchMenuLookup = @[
+        @[menu_Movies,  [self getGlobalSearchTab:menu_Movies  label:LOCALIZED_STR(@"Movies")]], // Movies
+        @[menu_Movies,  [self getGlobalSearchTab:menu_Movies  label:LOCALIZED_STR(@"Movie Sets")]], // Movie Sets
+        @[menu_TVShows, [self getGlobalSearchTab:menu_TVShows label:LOCALIZED_STR(@"TV Shows")]], // TV Shows
+        @[menu_Videos,  [self getGlobalSearchTab:menu_Videos  label:LOCALIZED_STR(@"Music Videos")]], // Music Videos
+        @[menu_Music,   [self getGlobalSearchTab:menu_Music   label:LOCALIZED_STR(@"Artists")]], // Artists
+        @[menu_Music,   [self getGlobalSearchTab:menu_Music   label:LOCALIZED_STR(@"Albums")]], // Albums
+        @[menu_Music,   [self getGlobalSearchTab:menu_Music   label:LOCALIZED_STR(@"All songs")]], // Songs
+    ];
     
     // Initialize controllers
     self.serverName = LOCALIZED_STR(@"No connection");
@@ -5776,7 +5815,20 @@ NSMutableArray *hostRightMenuItems;
     return httpHeaders;
 }
 
-#pragma mark -
+#pragma mark - Helper
+    
+- (NSNumber*)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel{
+    // Search for the method index with the desired sub label (e.g. "All Songs")
+    int k;
+    for (k = 0; k < [menuItem mainMethod].count; ++k) {
+        id paramArray = [menuItem mainParameters][k];
+        id parameters = [Utilities indexKeyedDictionaryFromArray:paramArray];
+        if ([parameters[@"label"] isEqualToString:subLabel]) {
+            break;
+        }
+    }
+    return @(k);
+}
 
 - (void)handleProximityChangeNotification:(id)sender {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

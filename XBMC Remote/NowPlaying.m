@@ -1957,72 +1957,72 @@ int currentItemID;
         return;
     }
     choosedTab = -1;
-    mainMenu *MenuItem = nil;
+    mainMenu *menuItem = nil;
     notificationName = @"";
     if ([item[@"type"] isEqualToString:@"song"]) {
         notificationName = @"MainMenuDeselectSection";
-        MenuItem = [AppDelegate.instance.playlistArtistAlbums copy];
+        menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
         if ([actiontitle isEqualToString:LOCALIZED_STR(@"Album Details")]) {
             choosedTab = 0;
-            MenuItem.subItem.mainLabel = item [@"album"];
-            MenuItem.subItem.mainMethod = nil;
+            menuItem.subItem.mainLabel = item [@"album"];
+            menuItem.subItem.mainMethod = nil;
         }
         else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Album Tracks")]) {
             choosedTab = 0;
-            MenuItem.subItem.mainLabel = item[@"album"];
+            menuItem.subItem.mainLabel = item[@"album"];
         }
         else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Artist Details")]) {
             choosedTab = 1;
-            MenuItem.subItem.mainLabel = item[@"artist"];
-            MenuItem.subItem.mainMethod = nil;
+            menuItem.subItem.mainLabel = item[@"artist"];
+            menuItem.subItem.mainMethod = nil;
         }
         else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Artist Albums")]) {
             choosedTab = 1;
-            MenuItem.subItem.mainLabel = item[@"artist"];
+            menuItem.subItem.mainLabel = item[@"artist"];
         }
         else {
             return;
         }
     }
     else if ([item[@"type"] isEqualToString:@"movie"]) {
-        MenuItem = AppDelegate.instance.playlistMovies;
+        menuItem = AppDelegate.instance.playlistMovies;
         choosedTab = 0;
-        MenuItem.subItem.mainLabel = item[@"label"];
+        menuItem.subItem.mainLabel = item[@"label"];
         notificationName = @"MainMenuDeselectSection";
     }
     else if ([item[@"type"] isEqualToString:@"episode"]) {
         notificationName = @"MainMenuDeselectSection";
         if ([actiontitle isEqualToString:LOCALIZED_STR(@"Episode Details")]) {
-            MenuItem = AppDelegate.instance.playlistTvShows.subItem;
+            menuItem = AppDelegate.instance.playlistTvShows.subItem;
             choosedTab = 0;
-            MenuItem.subItem.mainLabel = item[@"label"];
+            menuItem.subItem.mainLabel = item[@"label"];
         }
         else if ([actiontitle isEqualToString:LOCALIZED_STR(@"TV Show Details")]) {
-            MenuItem = [AppDelegate.instance.playlistTvShows copy];
-            MenuItem.subItem.mainMethod = nil;
+            menuItem = [AppDelegate.instance.playlistTvShows copy];
+            menuItem.subItem.mainMethod = nil;
             choosedTab = 0;
-            MenuItem.subItem.mainLabel = item[@"label"];
+            menuItem.subItem.mainLabel = item[@"label"];
         }
     }
     else if ([item[@"type"] isEqualToString:@"musicvideo"]) {
-        MenuItem = AppDelegate.instance.playlistMusicVideos;
+        menuItem = AppDelegate.instance.playlistMusicVideos;
         choosedTab = 0;
-        MenuItem.subItem.mainLabel = item[@"label"];
+        menuItem.subItem.mainLabel = item[@"label"];
         notificationName = @"MainMenuDeselectSection";
     }
     else if ([item[@"type"] isEqualToString:@"recording"]) {
-        MenuItem = AppDelegate.instance.playlistPVR;
+        menuItem = AppDelegate.instance.playlistPVR;
         choosedTab = 2;
-        MenuItem.subItem.mainLabel = item[@"label"];
+        menuItem.subItem.mainLabel = item[@"label"];
         notificationName = @"MainMenuDeselectSection";
     }
     else {
         return;
     }
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[MenuItem.subItem mainMethod][choosedTab]];
+    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[menuItem.subItem mainMethod][choosedTab]];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
-        NSDictionary *mainFields = [MenuItem mainFields][choosedTab];
-        NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[MenuItem.subItem mainParameters][choosedTab]];
+        NSDictionary *mainFields = [menuItem mainFields][choosedTab];
+        NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[menuItem.subItem mainParameters][choosedTab]];
         NSString *key = @"null";
         if (item[mainFields[@"row15"]] != nil) {
             key = mainFields[@"row15"];
@@ -2050,23 +2050,23 @@ int currentItemID;
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                        [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                        nil];
-        [[MenuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
-        MenuItem.subItem.chooseTab = choosedTab;
+        [[menuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+        menuItem.subItem.chooseTab = choosedTab;
         fromItself = YES;
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            detailViewController.detailItem = MenuItem.subItem;
+            detailViewController.detailItem = menuItem.subItem;
             [self.navigationController pushViewController:detailViewController animated:YES];
         }
         else {
-            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:MenuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:menuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:YES];
             [AppDelegate.instance.windowController.stackScrollViewController enablePanGestureRecognizer];
             [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
         }
     }
     else {
-        [self showInfo:item menuItem:MenuItem indexPath:selected];
+        [self showInfo:item menuItem:menuItem indexPath:selected];
     }
 }
 
