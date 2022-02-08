@@ -266,7 +266,7 @@ double round(double d) {
             choosedMenuItem.mainLabel = actorName;
             menuItem.enableSection = NO;
             menuItem.mainButtons = nil;
-            if (AppDelegate.instance.obj.preferTVPosters) {
+            if ([Utilities getPreferTvPosterMode]) {
                 thumbWidth = PHONE_TV_SHOWS_POSTER_WIDTH;
                 tvshowHeight = PHONE_TV_SHOWS_POSTER_HEIGHT;
             }
@@ -641,8 +641,7 @@ double round(double d) {
         
         [self setTvShowsToolbar];
         
-        GlobalData *obj = [GlobalData getInstance];
-        if (!obj.preferTVPosters && AppDelegate.instance.serverVersion < 12) {
+        if (![Utilities getPreferTvPosterMode] && AppDelegate.instance.serverVersion < 12) {
             placeHolderImage = @"blank";
             jewelView.hidden = YES;
         }

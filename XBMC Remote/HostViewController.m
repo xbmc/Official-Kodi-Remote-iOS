@@ -103,7 +103,6 @@
         if (num_octects > 5) {
             mac_5_UI.text = mac_octect[5];
         }
-        preferTVPostersUI.on = [AppDelegate.instance.arrayServerList[idx.row][@"preferTVPosters"] boolValue];
         tcpPortUI.text = AppDelegate.instance.arrayServerList[idx.row][@"tcpPort"];
     }
 }
@@ -164,7 +163,6 @@
                                                            ipUI.text, @"serverIP",
                                                            portUI.text, @"serverPort",
                                                            macAddress, @"serverMacAddress",
-                                                           @(preferTVPostersUI.on), @"preferTVPosters",
                                                            tcpPortUI.text, @"tcpPort",
                                                            nil
                                                            ]];
@@ -179,7 +177,6 @@
                                                               ipUI.text, @"serverIP",
                                                               portUI.text, @"serverPort",
                                                               macAddress, @"serverMacAddress",
-                                                              @(preferTVPostersUI.on), @"preferTVPosters",
                                                               tcpPortUI.text, @"tcpPort",
                                                               nil
                                                               ] atIndex:idx.row];
@@ -515,7 +512,6 @@
     mac_3_UI.text = @"";
     mac_4_UI.text = @"";
     mac_5_UI.text = @"";
-    preferTVPostersUI.on = NO;
     descriptionUI.textColor = [Utilities get1stLabelColor];
     ipUI.textColor = [Utilities get1stLabelColor];
     portUI.textColor = [Utilities get1stLabelColor];
@@ -534,7 +530,6 @@
     hostLabel.text = LOCALIZED_STR(@"Host : port /\nTCP port");
     macLabel.text = LOCALIZED_STR(@"MAC Address");
     userLabel.text = LOCALIZED_STR(@"Username and Password");
-    preferLabel.text = LOCALIZED_STR(@"Prefer posters for TV shows");
     noInstancesLabel.text = LOCALIZED_STR(@"No XBMC instances were found :(");
     findLabel.text = LOCALIZED_STR(@"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled");
     howtoLabel.text = LOCALIZED_STR(@"How-to activate the remote app in Kodi");

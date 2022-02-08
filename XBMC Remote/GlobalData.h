@@ -15,8 +15,7 @@
     NSString *serverIP; 
     NSString *serverPort;
     int tcpPort;
-    NSString *serverHWAddr; 
-    BOOL preferTVPosters;
+    NSString *serverHWAddr;
 
     
 }
@@ -27,7 +26,6 @@
 @property int tcpPort;
 @property (nonatomic, strong)NSString *serverPort;
 @property (nonatomic, strong)NSString *serverHWAddr; 
-@property BOOL preferTVPosters;
 
 + (GlobalData*)getInstance;
 @end

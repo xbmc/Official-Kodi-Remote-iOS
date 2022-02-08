@@ -265,6 +265,12 @@
     imageview.backgroundColor = bgcolor;
 }
 
++ (BOOL)getPreferTvPosterMode {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL result = [[userDefaults objectForKey:@"prefer_TVposter_preference"] boolValue];
+    return result;
+}
+
 + (LogoBackgroundType)getLogoBackgroundMode {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     LogoBackgroundType setting = bgAuto;

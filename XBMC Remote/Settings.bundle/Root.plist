@@ -74,6 +74,16 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
+			<string>Prefer posters for TV shows</string>
+			<key>Key</key>
+			<string>prefer_TVposter_preference</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
 			<string>Use rounded corner images</string>
 			<key>Key</key>
 			<string>rounded_corner_preference</string>
