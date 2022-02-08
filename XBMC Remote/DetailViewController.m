@@ -1052,35 +1052,26 @@
     [self.richResults removeAllObjects];
     [self.sections removeAllObjects];
     [activeLayoutView reloadData];
-    self.richResults = [storeRichResults mutableCopy];
-    NSInteger total = self.richResults.count;
-    NSMutableIndexSet *mutableIndexSet = [NSMutableIndexSet new];
+    NSPredicate *filter;
     if (!albumView) {
         switch (newViewMode) {
             case ViewModeNotListened:
             case ViewModeUnwatched:
-                for (int i = 0; i < total; i++) {
-                    if ([self.richResults[i][@"playcount"] intValue] > 0) {
-                        [mutableIndexSet addIndex:i];
-                    }
-                }
-                [self.richResults removeObjectsAtIndexes:mutableIndexSet];
+                filter = [NSPredicate predicateWithFormat:@"playcount.intValue == 0"];
+                self.richResults = [[storeRichResults filteredArrayUsingPredicate:filter] mutableCopy];
                 break;
 
             case ViewModeListened:
             case ViewModeWatched:
-                for (int i = 0; i < total; i++) {
-                    if ([self.richResults[i][@"playcount"] intValue] == 0) {
-                        [mutableIndexSet addIndex:i];
-                    }
-                }
-                [self.richResults removeObjectsAtIndexes:mutableIndexSet];
+                filter = [NSPredicate predicateWithFormat:@"playcount.intValue > 0"];
+                self.richResults = [[storeRichResults filteredArrayUsingPredicate:filter] mutableCopy];
                 break;
                 
             case ViewModeDefaultArtists:
             case ViewModeAlbumArtists:
             case ViewModeSongArtists:
             case ViewModeDefault:
+                self.richResults = [storeRichResults mutableCopy];
                 break;
                 
             default:
@@ -2896,8 +2887,8 @@
         [albumDetailView addSubview:albumLabel];
         
         float totalTime = 0;
-        for (int i = 0; i < self.richResults.count; i++) {
-            totalTime += [self.richResults[i][@"runtime"] intValue];
+        for (NSDictionary *item in self.richResults) {
+            totalTime += [item[@"runtime"] intValue];
         }
         
         NSNumberFormatter *formatter = [NSNumberFormatter new];
@@ -3326,9 +3317,8 @@ NSIndexPath *selected;
             [self deselectAtIndexPath:selected];
         }];
         
-        NSInteger numActions = sheetActions.count;
-        for (int i = 0; i < numActions; i++) {
-            NSString *actiontitle = sheetActions[i];
+        for (NSString *actionName in sheetActions) {
+            NSString *actiontitle = actionName;
             if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] && isRecording) {
                 actiontitle = LOCALIZED_STR(@"Stop Recording");
             }
@@ -4637,7 +4627,6 @@ NSIndexPath *selected;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
             BOOL forceRefresh = YES;
-            int total = 0;
             if (error == nil && methodError == nil) {
                 [activeLayoutView reloadData];
                 if ([NSJSONSerialization isValidJSONObject:methodResult]) {
@@ -4649,11 +4638,8 @@ NSIndexPath *selected;
                     NSString *serverURL = [self getServerURL];
                     int secondsToMinute = [self getSec2Min:[menuItem noConvertTime]];
                     if ([itemDict isKindOfClass:[NSArray class]]) {
-                        if (((NSNull*)itemDict != [NSNull null])) {
-                            total = (int)itemDict.count;
-                        }
-                        for (int i = 0; i < total; i++) {
-                            NSMutableDictionary *newDict = [self getNewDictionaryFromItem:itemDict[i]
+                        for (NSDictionary *item in itemDict) {
+                            NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
                                                                                mainFields:mainFields
                                                                                 serverURL:serverURL
                                                                                   sec2min:secondsToMinute
@@ -4675,16 +4661,13 @@ NSIndexPath *selected;
                         if ([dictVideoLibraryMovies[mainFields[@"typename"]] isKindOfClass:[NSDictionary class]]) {
                             if ([dictVideoLibraryMovies[mainFields[@"typename"]][mainFields[@"fieldname"]] isKindOfClass:[NSArray class]]) {
                                 itemDict = dictVideoLibraryMovies[mainFields[@"typename"]][mainFields[@"fieldname"]];
-                                if (((NSNull*)itemDict != [NSNull null])) {
-                                    total = (int)itemDict.count;
-                                }
                                 NSString *sublabel = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]][@"morelabel"];
                                 if (!sublabel || [sublabel isKindOfClass:[NSNull class]]) {
                                     sublabel = @"";
                                 }
-                                for (int i = 0; i < total; i++) {
+                                for (NSDictionary *item in itemDict) {
                                     [richData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                                 itemDict[i], @"label",
+                                                                 item, @"label",
                                                                  sublabel, @"genre",
                                                                  @"file", @"family",
                                                                  mainFields[@"thumbnail"], @"thumbnail",
@@ -4763,7 +4746,6 @@ NSIndexPath *selected;
      callMethod:methodToCall
      withParameters:mutableParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-         int total = 0;
          startTime = 0;
          [countExecutionTime invalidate];
          countExecutionTime = nil;
@@ -4833,11 +4815,8 @@ NSIndexPath *selected;
                  NSString *serverURL = [self getServerURL];
                  int secondsToMinute = [self getSec2Min:[menuItem noConvertTime]];
                  if ([itemDict isKindOfClass:[NSArray class]]) {
-                     if (((NSNull*)itemDict != [NSNull null])) {
-                         total = (int)itemDict.count;
-                     }
-                     for (int i = 0; i < total; i++) {
-                         NSMutableDictionary *newDict = [self getNewDictionaryFromItem:itemDict[i]
+                     for (NSDictionary *item in itemDict) {
+                         NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
                                                                             mainFields:mainFields
                                                                              serverURL:serverURL
                                                                                sec2min:secondsToMinute
@@ -4845,9 +4824,9 @@ NSIndexPath *selected;
                                                                                useIcon:recordingListView];
                          
                          // Check if we need to ignore the current item
-                         BOOL isRadioItem = [itemDict[i][@"radio"] boolValue] ||
-                                            [itemDict[i][@"isradio"] boolValue];
-                         BOOL isTimerRule = [itemDict[i][@"istimerrule"] boolValue];
+                         BOOL isRadioItem = [item[@"radio"] boolValue] ||
+                                            [item[@"isradio"] boolValue];
+                         BOOL isTimerRule = [item[@"istimerrule"] boolValue];
                          BOOL ignorePvrItem = (ignoreRadioItems && isRadioItem) ||
                                               (ignoreTvItems && !isRadioItem) ||
                                               (ignoreTimerRulesItems && isTimerRule) ||
@@ -4855,12 +4834,12 @@ NSIndexPath *selected;
                          
                          // Postprocessing of movie sets lists to ignore 1-movie-sets
                          if (ignoreSingleMovieSets) {
-                             BOOL isLastItem = (i == total - 1);
-                             if (i == 0) {
+                             BOOL isLastItem = (item == itemDict.lastObject);
+                             if (item == itemDict.firstObject) {
                                  [storeRichResults removeAllObjects];
                              }
                              NSString *newMethodToCall = @"VideoLibrary.GetMovieSetDetails";
-                             NSDictionary *newParameter = @{@"setid": @([itemDict[i][@"setid"] intValue])};
+                             NSDictionary *newParameter = @{@"setid": @([item[@"setid"] intValue])};
                              [[Utilities getJsonRPC]
                               callMethod:newMethodToCall
                               withParameters:newParameter
@@ -4894,16 +4873,13 @@ NSIndexPath *selected;
                      if ([dictVideoLibraryMovies[mainFields[@"typename"]] isKindOfClass:[NSDictionary class]]) {
                          if ([dictVideoLibraryMovies[mainFields[@"typename"]][mainFields[@"fieldname"]] isKindOfClass:[NSArray class]]) {
                              itemDict = dictVideoLibraryMovies[mainFields[@"typename"]][mainFields[@"fieldname"]];
-                             if (((NSNull*)itemDict != [NSNull null])) {
-                                 total = (int)itemDict.count;
-                             }
                              NSString *sublabel = [Utilities indexKeyedDictionaryFromArray:[menuItem mainParameters][choosedTab]][@"morelabel"];
                              if (!sublabel || [sublabel isKindOfClass:[NSNull class]]) {
                                  sublabel = @"";
                              }
-                             for (int i = 0; i < total; i++) {
+                             for (NSDictionary *item in itemDict) {
                                  [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                              itemDict[i], @"label",
+                                                              item, @"label",
                                                               sublabel, @"genre",
                                                               @"file", @"family",
                                                               mainFields[@"thumbnail"], @"thumbnail",

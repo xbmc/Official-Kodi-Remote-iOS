@@ -1146,14 +1146,12 @@ int currentItemID;
                                                           @"art"],
                                          @"playlistid": @(playlistID)}
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-               NSInteger total = 0;
                if (error == nil && methodError == nil) {
                    [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
                    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
                    if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                        NSArray *playlistItems = methodResult[@"items"];
-                       total = playlistItems.count;
-                       if (total == 0) {
+                       if (playlistItems.count == 0) {
                            [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
                        }
                        else {
@@ -1166,35 +1164,35 @@ int currentItemID;
                            serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
                            runtimeInMinute = 60;
                        }
-                       for (int i = 0; i < total; i++) {
-                           NSString *idItem = [NSString stringWithFormat:@"%@", playlistItems[i][@"id"]];
-                           NSString *label = [NSString stringWithFormat:@"%@", playlistItems[i][@"label"]];
-                           NSString *title = [NSString stringWithFormat:@"%@", playlistItems[i][@"title"]];
+                       for (NSDictionary *item in playlistItems) {
+                           NSString *idItem = [NSString stringWithFormat:@"%@", item[@"id"]];
+                           NSString *label = [NSString stringWithFormat:@"%@", item[@"label"]];
+                           NSString *title = [NSString stringWithFormat:@"%@", item[@"title"]];
                            
-                           NSString *artist = [Utilities getStringFromItem:playlistItems[i][@"artist"]];
-                           NSString *album = [Utilities getStringFromItem:playlistItems[i][@"album"]];
+                           NSString *artist = [Utilities getStringFromItem:item[@"artist"]];
+                           NSString *album = [Utilities getStringFromItem:item[@"album"]];
                            
-                           NSString *runtime = [Utilities getTimeFromItem:playlistItems[i][@"runtime"] sec2min:runtimeInMinute];
+                           NSString *runtime = [Utilities getTimeFromItem:item[@"runtime"] sec2min:runtimeInMinute];
                            
-                           NSString *showtitle = playlistItems[i][@"showtitle"];
+                           NSString *showtitle = item[@"showtitle"];
                          
-                           NSString *season = playlistItems[i][@"season"];
-                           NSString *episode = playlistItems[i][@"episode"];
-                           NSString *type = playlistItems[i][@"type"];
+                           NSString *season = item[@"season"];
+                           NSString *episode = item[@"episode"];
+                           NSString *type = item[@"type"];
                            
-                           NSString *artistid = [NSString stringWithFormat:@"%@", playlistItems[i][@"artistid"]];
-                           NSString *albumid = [NSString stringWithFormat:@"%@", playlistItems[i][@"albumid"]];
-                           NSString *movieid = [NSString stringWithFormat:@"%@", playlistItems[i][@"id"]];
-                           NSString *channel = [NSString stringWithFormat:@"%@", playlistItems[i][@"channel"]];
-                           NSString *genre = [Utilities getStringFromItem:playlistItems[i][@"genre"]];
+                           NSString *artistid = [NSString stringWithFormat:@"%@", item[@"artistid"]];
+                           NSString *albumid = [NSString stringWithFormat:@"%@", item[@"albumid"]];
+                           NSString *movieid = [NSString stringWithFormat:@"%@", item[@"id"]];
+                           NSString *channel = [NSString stringWithFormat:@"%@", item[@"channel"]];
+                           NSString *genre = [Utilities getStringFromItem:item[@"genre"]];
                            NSString *durationTime = @"";
-                           if ([playlistItems[i][@"duration"] isKindOfClass:[NSNumber class]]) {
-                               durationTime = [Utilities convertTimeFromSeconds:playlistItems[i][@"duration"]];
+                           if ([item[@"duration"] isKindOfClass:[NSNumber class]]) {
+                               durationTime = [Utilities convertTimeFromSeconds:item[@"duration"]];
                            }
-                           NSString *thumbnailPath = [self getNowPlayingThumbnailPath:playlistItems[i]];
+                           NSString *thumbnailPath = [self getNowPlayingThumbnailPath:item];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                           NSNumber *tvshowid = @([[NSString stringWithFormat:@"%@", playlistItems[i][@"tvshowid"]] intValue]);
-                           NSString *file = [NSString stringWithFormat:@"%@", playlistItems[i][@"file"]];
+                           NSNumber *tvshowid = @([[NSString stringWithFormat:@"%@", item[@"tvshowid"]] intValue]);
+                           NSString *file = [NSString stringWithFormat:@"%@", item[@"file"]];
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
                                                     file, @"file",
@@ -1916,14 +1914,13 @@ int currentItemID;
 # pragma mark - Action Sheet
 
 - (void)showActionNowPlaying:(NSMutableArray*)sheetActions title:(NSString*)title point:(CGPoint)origin {
-    NSInteger numActions = sheetActions.count;
-    if (numActions) {
+    if (sheetActions.count) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
-        for (int i = 0; i < numActions; i++) {
-            NSString *actiontitle = sheetActions[i];
+        for (NSString *actionName in sheetActions) {
+            NSString *actiontitle = actionName;
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 [self actionSheetHandler:actiontitle];
             }];

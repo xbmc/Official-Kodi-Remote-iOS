@@ -351,8 +351,7 @@ double round(double d) {
 #pragma mark - ActionSheet
 
 - (void)showActionSheet {
-    NSInteger numActions = sheetActions.count;
-    if (numActions) {
+    if (sheetActions.count) {
         NSDictionary *item = self.detailItem;
         NSString *sheetTitle = item[@"label"];
         if ([item[@"family"] isEqualToString:@"broadcastid"]) {
@@ -363,8 +362,8 @@ double round(double d) {
         
         UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
-        for (int i = 0; i < numActions; i++) {
-            NSString *actiontitle = sheetActions[i];
+        for (NSString *actionName in sheetActions) {
+            NSString *actiontitle = actionName;
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 [self actionSheetHandler:actiontitle];
             }];
