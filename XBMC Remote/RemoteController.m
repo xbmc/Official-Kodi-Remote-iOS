@@ -346,13 +346,13 @@
                  NSNumber *visualisationActive = 0;
                  NSNumber *slideshowActive = 0;
 
-                 if (((NSNull*)methodResult[@"Window.IsActive(fullscreenvideo)"] != [NSNull null])) {
+                 if (methodResult[@"Window.IsActive(fullscreenvideo)"] != [NSNull null]) {
                      fullscreenActive = methodResult[@"Window.IsActive(fullscreenvideo)"];
                  }
-                 if (((NSNull*)methodResult[@"Window.IsActive(visualisation)"] != [NSNull null])) {
+                 if (methodResult[@"Window.IsActive(visualisation)"] != [NSNull null]) {
                      visualisationActive = methodResult[@"Window.IsActive(visualisation)"];
                  }
-                 if (((NSNull*)methodResult[@"Window.IsActive(slideshow)"] != [NSNull null])) {
+                 if (methodResult[@"Window.IsActive(slideshow)"] != [NSNull null]) {
                      slideshowActive = methodResult[@"Window.IsActive(slideshow)"];
                  }
                  if ([fullscreenActive intValue] == 1 || [visualisationActive intValue] == 1 || [slideshowActive intValue] == 1) {
@@ -510,7 +510,7 @@
         if (error == nil && methodError == nil) {
             if ([methodResult count] > 0) {
                 NSNumber *response;
-                if (((NSNull*)methodResult[0][@"playerid"] != [NSNull null])) {
+                if (methodResult[0][@"playerid"] != [NSNull null]) {
                     response = methodResult[0][@"playerid"];
                 }
                 [[Utilities getJsonRPC]
@@ -579,7 +579,7 @@
         if (error == nil && methodError == nil) {
             if ([methodResult count] > 0) {
                 NSNumber *response;
-                if (((NSNull*)methodResult[0][@"playerid"] != [NSNull null])) {
+                if (methodResult[0][@"playerid"] != [NSNull null]) {
                     response = methodResult[0][@"playerid"];
                 }
                 [[Utilities getJsonRPC]
@@ -839,10 +839,10 @@ NSInteger buttonAction;
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                  int winID = 0;
                  BOOL isFullscreen = NO;
-                 if (((NSNull*)methodResult[@"fullscreen"] != [NSNull null])) {
+                 if (methodResult[@"fullscreen"] != [NSNull null]) {
                      isFullscreen = [methodResult[@"fullscreen"] boolValue];
                  }
-                 if (((NSNull*)methodResult[@"currentwindow"] != [NSNull null])) {
+                 if (methodResult[@"currentwindow"] != [NSNull null]) {
                      winID = [methodResult[@"currentwindow"][@"id"] intValue];
                  }
                  if (isFullscreen && (winID == WINDOW_FULLSCREEN_VIDEO || winID == WINDOW_VISUALISATION)) {
@@ -854,10 +854,10 @@ NSInteger buttonAction;
                           if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                               BOOL VideoPlayerHasMenu = NO;
                               BOOL PvrIsPlayingTv = NO;
-                              if (((NSNull*)methodResult[@"VideoPlayer.HasMenu"] != [NSNull null])) {
+                              if (methodResult[@"VideoPlayer.HasMenu"] != [NSNull null]) {
                                   VideoPlayerHasMenu = [methodResult[@"VideoPlayer.HasMenu"] boolValue];
                               }
-                              if (((NSNull*)methodResult[@"Pvr.IsPlayingTv"] != [NSNull null])) {
+                              if (methodResult[@"Pvr.IsPlayingTv"] != [NSNull null]) {
                                   PvrIsPlayingTv = [methodResult[@"Pvr.IsPlayingTv"] boolValue];
                               }
                               if (winID == WINDOW_FULLSCREEN_VIDEO && !PvrIsPlayingTv && !VideoPlayerHasMenu) {

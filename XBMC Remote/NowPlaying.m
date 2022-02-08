@@ -575,7 +575,7 @@ int currentItemID;
             if ([methodResult count] > 0) {
                 nothingIsPlaying = NO;
                 NSNumber *response;
-                if (((NSNull*)methodResult[0][@"playerid"] != [NSNull null])) {
+                if (methodResult[0][@"playerid"] != [NSNull null]) {
                     response = methodResult[0][@"playerid"];
                 }
                 currentPlayerID = [response intValue];
@@ -610,7 +610,7 @@ int currentItemID;
                          bool enableJewel = [self enableJewelCases];
                          if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                              NSDictionary *nowPlayingInfo = nil;
-                             if ((NSNull*)methodResult[@"item"] != [NSNull null]) {
+                             if (methodResult[@"item"] != [NSNull null]) {
                                  nowPlayingInfo = methodResult[@"item"];
                              }
                              if (nowPlayingInfo[@"id"] == nil) {
@@ -1016,7 +1016,7 @@ int currentItemID;
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
-                 if (((NSNull*)methodResult[@"Window.IsActive(virtualkeyboard)"] != [NSNull null]) && ((NSNull*)methodResult[@"Window.IsActive(selectdialog)"] != [NSNull null])) {
+                 if ((methodResult[@"Window.IsActive(virtualkeyboard)"] != [NSNull null]) && (methodResult[@"Window.IsActive(selectdialog)"] != [NSNull null])) {
                      NSNumber *virtualKeyboardActive = methodResult[@"Window.IsActive(virtualkeyboard)"];
                      NSNumber *selectDialogActive = methodResult[@"Window.IsActive(selectdialog)"];
                      if ([virtualKeyboardActive intValue] == 1 || [selectDialogActive intValue] == 1) {

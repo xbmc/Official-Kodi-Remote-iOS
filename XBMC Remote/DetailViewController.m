@@ -292,7 +292,7 @@
                          nil]
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
-                   if (((NSNull*)methodResult[@"broadcasts"] != [NSNull null])) {
+                   if (methodResult[@"broadcasts"] != [NSNull null]) {
                        
                        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                                channelid, @"channelid",
