@@ -2132,9 +2132,7 @@ long currentItemID;
     [queuing startAnimating];
     [[Utilities getJsonRPC]
      callMethod:@"Player.Open" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                     [NSDictionary dictionaryWithObjectsAndKeys:
-                      @(indexPath.row), @"position", @(playerID), @"playlistid", nil], @"item", nil]
+     withParameters:@{@"item": @{@"position": @(indexPath.row), @"playlistid": @(playerID)}}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil) {
              storedItemID = SELECTED_NONE;
@@ -2177,20 +2175,20 @@ long currentItemID;
                       nil];
     }
     
-    NSString *action1 = @"Playlist.Remove";
-    NSDictionary *params1 = [NSDictionary dictionaryWithObjectsAndKeys:
-                          @(playerID), @"playlistid",
-                          @(sourceIndexPath.row), @"position",
-                          nil];
-    NSString *action2 = @"Playlist.Insert";
-    NSDictionary *params2 = [NSDictionary dictionaryWithObjectsAndKeys:
-                          @(playerID), @"playlistid",
-                          itemToMove, @"item",
-                          @(destinationIndexPath.row), @"position",
-                          nil];
-    [[Utilities getJsonRPC] callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    NSString *actionRemove = @"Playlist.Remove";
+    NSDictionary *paramsRemove = @{
+        @"playlistid": @(playerID),
+        @"position": @(sourceIndexPath.row),
+    };
+    NSString *actionInsert = @"Playlist.Insert";
+    NSDictionary *paramsInsert = @{
+        @"playlistid": @(playerID),
+        @"item": itemToMove,
+        @"position": @(destinationIndexPath.row),
+    };
+    [[Utilities getJsonRPC] callMethod:actionRemove withParameters:paramsRemove onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
-            [[Utilities getJsonRPC] callMethod:action2 withParameters:params2];
+            [[Utilities getJsonRPC] callMethod:actionInsert withParameters:paramsInsert];
             NSInteger numObj = playlistData.count;
             if (sourceIndexPath.row < numObj) {
                 [playlistData removeObjectAtIndex:sourceIndexPath.row];
@@ -2216,12 +2214,12 @@ long currentItemID;
 - (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
 
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSString *action1 = @"Playlist.Remove";
-        NSDictionary *params1 = [NSDictionary dictionaryWithObjectsAndKeys:
-                               @(playerID), @"playlistid",
-                               @(indexPath.row), @"position",
-                               nil];
-        [[Utilities getJsonRPC] callMethod:action1 withParameters:params1 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        NSString *actionRemove = @"Playlist.Remove";
+        NSDictionary *paramsRemove = @{
+            @"playlistid": @(playerID),
+            @"position": @(indexPath.row),
+        };
+        [[Utilities getJsonRPC] callMethod:actionRemove withParameters:paramsRemove onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
             if (error == nil && methodError == nil) {
                 NSInteger numObj = playlistData.count;
                 if (indexPath.row < numObj) {
