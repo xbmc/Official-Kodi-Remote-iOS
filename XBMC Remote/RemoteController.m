@@ -20,7 +20,7 @@
 #import "Utilities.h"
 
 #define ROTATION_TRIGGER 0.015
-#define REMOTE_PADDING (44 + 20 + 44) // Space which is used up by footer, header and remote toolbar
+#define REMOTE_PADDING (44 + 44 + 44) // Space unused above and below the popover and by remote toolbar
 #define TOOLBAR_ICON_SIZE 36
 #define TOOLBAR_FIXED_OFFSET 8
 #define TOOLBAR_HEIGHT (TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET)
@@ -105,9 +105,7 @@
     [gestureZoneView addGestureRecognizer:twoFingersTap];
     
     gestureImage = [UIImage imageNamed:@"finger"];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL showGesture = [[userDefaults objectForKey:@"gesture_preference"] boolValue];
-    if (!showGesture) {
+    if (!isGestureViewActive) {
         return;
     }
     
@@ -138,7 +136,7 @@
 
 - (CGFloat)getOriginYForRemote:(CGFloat)offsetBottomMode {
     CGFloat yOrigin = 0;
-    RemotePositionType positionMode = [Utilities getRemotePositionMode];
+    topRemoteOffset = 0;
     if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
         yOrigin = offsetBottomMode;
         remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -151,7 +149,7 @@
 
 - (void)setEmbeddedView {
     CGRect frame = TransitionalView.frame;
-    CGFloat newWidth = CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) - ANCHOR_RIGHT_PEEK;
+    CGFloat newWidth = GET_MAINSCREEN_WIDTH - ANCHOR_RIGHT_PEEK;
     CGFloat shift;
     [self hideButton:@[[self.view viewWithTag:TAG_BUTTON_SEEK_BACKWARD],
                        [self.view viewWithTag:TAG_BUTTON_PLAY_PAUSE],
@@ -188,6 +186,7 @@
     CGFloat toolbarPadding = [Utilities getBottomPadding];
     CGFloat offset = [self getOriginYForRemote:shift * transform - newHeight + TOOLBAR_PARENT_HEIGHT - TOOLBAR_HEIGHT - toolbarPadding];
     remoteControlView.frame = CGRectMake(0, offset, newWidth, newHeight);
+    embeddedShift = shift * transform;
     
     frame = remoteControlView.frame;
     frame.origin.y = 0;
@@ -233,12 +232,13 @@
         frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
         
         if ([Utilities hasRemoteToolBar]) {
-            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0];
+            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
             [volumeSliderView startTimer];
             [self.view addSubview:volumeSliderView];
             if (frame.origin.y == 0) {
                 frame.origin.y = volumeSliderView.frame.size.height;
             }
+            topRemoteOffset = volumeSliderView.frame.size.height;
         }
         remoteControlView.frame = frame;
         
@@ -251,19 +251,26 @@
         subsInfoLabel.frame = frame;
     }
     else {
+        VolumeSliderView *volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
+        [volumeSliderView startTimer];
+        [self.view addSubview:volumeSliderView];
+        
         // Used to avoid drawing remote buttons into the safe area
         CGFloat bottomPadding = [Utilities getBottomPadding];
         // Calculate the maximum possible scaling for the remote
-        CGFloat scaleFactorHorizontal = STACKSCROLL_WIDTH / CGRectGetWidth(remoteControlView.frame);
-        CGFloat minViewHeight = MIN(CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds), CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)) - REMOTE_PADDING - bottomPadding;
+        CGFloat scaleFactorHorizontal = PAD_REMOTE_WIDTH / CGRectGetWidth(remoteControlView.frame);
+        CGFloat minViewHeight = MIN(GET_MAINSCREEN_WIDTH, GET_MAINSCREEN_HEIGHT) - REMOTE_PADDING - bottomPadding - CGRectGetMaxY(volumeSliderView.frame);
         CGFloat scaleFactorVertical = minViewHeight / CGRectGetHeight(remoteControlView.frame);
         CGFloat transform = MIN(scaleFactorHorizontal, scaleFactorVertical);
 
         CGRect frame = remoteControlView.frame;
         frame.size.height *= transform;
         frame.size.width *= transform;
-        frame.origin.x = (STACKSCROLL_WIDTH - frame.size.width)/2;
+        frame.origin.x = 0;
         frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
+        if (frame.origin.y == 0) {
+            frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
+        }
         remoteControlView.frame = frame;
         
         frame.origin = CGPointZero;
@@ -273,6 +280,10 @@
         frame.size.width = remoteControlView.frame.size.width;
         frame.origin.x = 0;
         subsInfoLabel.frame = frame;
+        
+        frame = remoteControlView.frame;
+        frame.size.height += TOOLBAR_HEIGHT + CGRectGetMaxY(volumeSliderView.frame);
+        self.view.frame = frame;
     }
     [self setupGestureView];
     if ([Utilities hasRemoteToolBar]) {
@@ -428,7 +439,7 @@
 
 - (void)toggleGestureZone:(id)sender {
     NSString *imageName = @"blank";
-    BOOL showGesture = (gestureZoneView.alpha == 0);
+    BOOL showGesture = !isGestureViewActive;
     if ([sender isKindOfClass:[NSNotification class]]) {
         if ([[sender userInfo] isKindOfClass:[NSDictionary class]]) {
             showGesture = [[[sender userInfo] objectForKey:@"forceGestureZone"] boolValue];
@@ -438,6 +449,7 @@
         return;
     }
     if (showGesture) {
+        isGestureViewActive = YES;
         CGRect frame;
         frame = gestureZoneView.frame;
         frame.origin.x = -self.view.frame.size.width;
@@ -460,6 +472,7 @@
         imageName = @"circle";
     }
     else {
+        isGestureViewActive = NO;
         CGRect frame;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -485,6 +498,7 @@
     else if ([sender isKindOfClass: [UIBarButtonItem class]]) {
         [sender setImage:[UIImage imageNamed:imageName]];
     }
+    [self saveRemoteMode];
 }
 
 # pragma mark - JSON
@@ -691,6 +705,10 @@
 }
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
+    if (IS_IPAD) {
+        // Disable gestures to move the modal remote as this would conflict with the gesture zone
+        [self.presentationController.presentedView.gestureRecognizers.firstObject setEnabled:NO];
+    }
     if (touches.count == 1) {
         NSTimeInterval timeInterval = 1.5;
         if (buttonAction > 0) {
@@ -1156,6 +1174,22 @@ NSInteger buttonAction;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
+#pragma mark - Persistence
+
+- (void)saveRemoteMode {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@(isGestureViewActive) forKey:@"GestureViewEnabled"];
+    [userDefaults setObject:@(positionMode) forKey:@"RemotePosition"];
+    return;
+}
+
+- (void)loadRemoteMode {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    isGestureViewActive = [[userDefaults objectForKey:@"GestureViewEnabled"] boolValue];
+    positionMode = [[userDefaults objectForKey:@"RemotePosition"] intValue];
+    return;
+}
+
 #pragma mark - Life Cycle
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -1248,11 +1282,27 @@ NSInteger buttonAction;
     [Utilities turnTorchOn:sender on:torchIsOn];
 }
 
+- (void)toggleRemotePosition {
+    positionMode = positionMode == remoteBottom ? remoteTop : remoteBottom;
+    CGRect frame = remoteControlView.frame;
+    if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
+        frame.origin.y = CGRectGetMinY(remoteToolbar.frame) - CGRectGetHeight(remoteControlView.frame) + embeddedShift;
+    }
+    else {
+        frame.origin.y = topRemoteOffset;
+    }
+    remoteControlView.frame = frame;
+    remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+    [self saveRemoteMode];
+}
+
 - (void)createRemoteToolbar:(UIImage*)gestureButtonImg width:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax isEmbedded:(BOOL)isEmbedded {
     torchIsOn = [Utilities isTorchOn];
     // Non-embedded layout has 5 buttons (Settings > Gesture > Keyboard > Info > Torch with Flex around the buttons)
     // Embedded layout has 4 buttons (Gesture > Keyboard > Info > Torch with Flex around the buttons)
     int numButtons = isEmbedded ? 4 : 5;
+    // On iPhone an addtional button to toggle the remote's position is available
+    numButtons = IS_IPHONE ? numButtons + 1 : numButtons;
     CGFloat ToolbarFlexSpace = ((width - numButtons * TOOLBAR_ICON_SIZE) / (numButtons + 1));
     CGFloat ToolbarPadding = (TOOLBAR_ICON_SIZE + ToolbarFlexSpace);
     
@@ -1262,7 +1312,7 @@ NSInteger buttonAction;
     }
     
     // Frame for remoteToolbarView placed at bottom - toolbar's height
-    UIView *remoteToolbar = [[UIView alloc] initWithFrame:CGRectMake(0, yMax - TOOLBAR_HEIGHT, width, TOOLBAR_HEIGHT)];
+    remoteToolbar = [[UIView alloc] initWithFrame:CGRectMake(0, yMax - TOOLBAR_HEIGHT, width, TOOLBAR_HEIGHT)];
     remoteToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     // Frame for buttons in remoteToolbarView
@@ -1317,6 +1367,17 @@ NSInteger buttonAction;
     torchButton.alpha = 0.8;
     [remoteToolbar addSubview:torchButton];
     
+    if (IS_IPHONE) {
+        positionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        frame.origin.x += ToolbarPadding;
+        positionButton.frame = frame;
+        positionButton.showsTouchWhenHighlighted = YES;
+        [positionButton setImage:[UIImage imageNamed:@"icon_up_down"] forState:UIControlStateNormal];
+        [positionButton addTarget:self action:@selector(toggleRemotePosition) forControlEvents:UIControlEventTouchUpInside];
+        positionButton.alpha = 0.6;
+        [remoteToolbar addSubview:positionButton];
+    }
+    
     // Add toolbar to RemoteController's view
     [self.view addSubview:remoteToolbar];
 }
@@ -1333,6 +1394,7 @@ NSInteger buttonAction;
     self.view.tintColor = TINT_COLOR;
     
     quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
+    [self loadRemoteMode];
     if (!isEmbeddedMode) {
         [self configureView];
     }

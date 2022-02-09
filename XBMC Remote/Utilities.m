@@ -289,24 +289,6 @@
     return setting;
 }
 
-+ (RemotePositionType)getRemotePositionMode {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    RemotePositionType setting = remoteTop;
-    NSString *mode = [userDefaults stringForKey:@"remote_position"];
-    if (mode.length) {
-        if ([mode isEqualToString:@"position_top"]) {
-            setting = remoteTop;
-        }
-        else if ([mode isEqualToString:@"position_bottom"]) {
-            setting = remoteBottom;
-        }
-        else {
-            NSAssert(NO, @"Desired remote_position mode '%@' not handled.", mode);
-        }
-    }
-    return setting;
-}
-
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage {
     NSDictionary *params = nil;
     if (AppDelegate.instance.serverVersion < 15) {
@@ -338,7 +320,7 @@
 + (CGFloat)getTransformX {
     // We scale for iPhone with their different device widths.
     if (IS_IPHONE) {
-        return (CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds) / IPHONE_SCREEN_DESIGN_WIDTH);
+        return (GET_MAINSCREEN_WIDTH / IPHONE_SCREEN_DESIGN_WIDTH);
     }
     // For iPad a fixed frame width is used.
     else {

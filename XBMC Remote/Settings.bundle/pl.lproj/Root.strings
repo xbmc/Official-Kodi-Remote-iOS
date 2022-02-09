@@ -10,7 +10,6 @@
 "Hide labels in wall view" = "Ukryj etykiety w widoku ściany";
 "Prefer posters for TV shows" = "Preferuj plakaty z programów TV";
 "Remote Control" = "Kontrola zdalna";
-"Gesture remote control" = "Domyślnie: kontrola gestami";
 "Vibrate remote control" = "Włącz wibrację przycisków";
 "App Settings" = "Ustawienia aplikacji";
 "Clear cache on next start" = "Wyczyść cache na starcie";
@@ -21,7 +20,6 @@
 "Main Menu" = "Menu główne";
 "Light" = "Niewielkie";
 "Dark" = "Ciemne";
-"Remote Position" = "Pozycja sterowania";
 "Show REMOTE CONTROL" = "Pokaż KONTROLA ZDALNA";
 "Show NOW PLAYING" = "Pokaż TERAZ ODTWARZANE";
 "Show FAVOURITES" = "Pokaż ULUBIONE";
@@ -31,8 +29,6 @@
 "Show MOVIES" = "Pokaż FILMY";
 "Show MUSIC" = "Pokaż MUZYKA";
 "Main Menu changes needs app restart" = "Zmiany w menu głównym wymagają ponownego uruchomienia aplikacji";
-"Bottom" = "Dolna";
-"Top" = "Górna";
 "Transparent" = "Przezroczyste";
 "TV logo background" = "Tło logo TV";
 "Use rounded corner images" = "Użyj obrazów o zaokrąglonych rogach";

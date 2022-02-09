@@ -20,7 +20,7 @@
     UIColor *muteIconColor;
 }
 
-- (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor;
+- (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor isSliderType:(BOOL)isSliderType;
 
 - (IBAction)slideVolume:(id)sender;
 

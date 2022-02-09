@@ -27,9 +27,10 @@
 #define TOOLBAR_HEIGHT 44
 #define XBMCLOGO_WIDTH 30
 #define POWERBUTTON_WIDTH 42
+#define REMOTE_ICON_SIZE 30
 #define CONNECTION_ICON_SIZE 18
 #define CONNECTION_PADDING 20
-#define VOLUME_PADDING_LEFT 40
+#define REMOTE_PADDING_LEFT 45
 #define PLAYLIST_HEADER_HEIGHT 24
 #define LINE_HEIGHT 1
 
@@ -182,6 +183,13 @@
             [self toggleSetup];
         }
     }
+}
+
+- (void)showRemote {
+    RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+    remoteController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [remoteController setPreferredContentSize:remoteController.view.frame.size];
+    [self presentViewController:remoteController animated:YES completion:nil];
 }
 
 - (void)toggleInfoView {
@@ -408,8 +416,17 @@
     
     [self.view addSubview:rootView];
     
+    // remote button next to play control buttons
+    UIImage *image = [UIImage imageNamed:@"icon_menu_remote"];
+    remoteButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - REMOTE_PADDING_LEFT, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
+    [remoteButton setImage:image forState:UIControlStateNormal];
+    [remoteButton setImage:image forState:UIControlStateHighlighted];
+    remoteButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
+    [remoteButton addTarget:self action:@selector(showRemote) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:remoteButton];
+    
     // left most element
-    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - VOLUME_PADDING_LEFT, self.view.frame.size.height - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT) leftAnchor:0.0];
+    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, self.view.frame.size.height - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT) leftAnchor:0.0 isSliderType:NO];
     volumeSliderView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:volumeSliderView];
     
@@ -419,7 +436,7 @@
     [self.view addSubview:connectionStatus];
     
     // 2nd right most element
-    UIImage *image = [UIImage imageNamed:@"bottom_logo_only"];
+    image = [UIImage imageNamed:@"bottom_logo_only"];
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(connectionStatus.frame) - XBMCLOGO_WIDTH - CONNECTION_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, XBMCLOGO_WIDTH, TOOLBAR_HEIGHT)];
     [xbmcLogo setImage:image forState:UIControlStateNormal];
     [xbmcLogo setImage:image forState:UIControlStateHighlighted];

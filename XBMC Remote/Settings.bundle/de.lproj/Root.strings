@@ -15,11 +15,7 @@
 "Light" = "Hell";
 "Transparent" = "Transparent";
 "Remote Control" = "Fernbedienung";
-"Gesture remote control" = "Gesten-Fernbedienung";
 "Vibrate remote control" = "Fernbedienung vibriert";
-"Remote Position" = "Position des Fernbedienungsbedienfeldes";
-"Top" = "Oben";
-"Bottom" = "Unten";
 "App Settings" = "App-Einstellungen";
 "Clear cache on next start" = "Cache beim Start löschen";
 "Enable contents cache" = "Inhalts-Cache aktivieren";

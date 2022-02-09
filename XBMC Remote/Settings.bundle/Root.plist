@@ -124,41 +124,11 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>gesture_preference</string>
-			<key>Title</key>
-			<string>Gesture remote control</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
 			<string>vibrate_preference</string>
 			<key>Title</key>
 			<string>Vibrate remote control</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<string>position_top</string>
-			<key>Key</key>
-			<string>remote_position</string>
-			<key>Title</key>
-			<string>Remote Position</string>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Titles</key>
-			<array>
-				<string>Top</string>
-				<string>Bottom</string>
-			</array>
-			<key>Values</key>
-			<array>
-				<string>position_top</string>
-				<string>position_bottom</string>
-			</array>
 		</dict>
 		<dict>
 			<key>Title</key>

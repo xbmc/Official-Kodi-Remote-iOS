@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-//#import "RightMenuViewController.h"
+
+typedef enum {
+    remoteTop,
+    remoteBottom
+} RemotePositionType;
 
 @interface RemoteController : UIViewController <UIGestureRecognizerDelegate> {
     IBOutlet UIView *remoteControlView;
@@ -21,11 +25,17 @@
     IBOutlet UIImageView *panFallbackImageView;
     int audioVolume;
     CGFloat lastRotation;
+    RemotePositionType positionMode;
+    UIView *remoteToolbar;
+    UIButton *positionButton;
+    CGFloat embeddedShift;
+    CGFloat topRemoteOffset;
     __weak IBOutlet UIView *TransitionalView;
     __weak IBOutlet UIImageView *gestureZoneImageView;
     UIImage* gestureImage;
     BOOL torchIsOn;
     BOOL isEmbeddedMode;
+    BOOL isGestureViewActive;
     NSDictionary *subsDictionary;
     NSDictionary *audiostreamsDictionary;
 }

@@ -114,7 +114,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         title.text = @"";
         if (volumeSliderView == nil) {
-            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK];
+            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
             [volumeSliderView startTimer];
         }
         [cell.contentView addSubview:volumeSliderView];
@@ -633,7 +633,7 @@
         [self.view addSubview:[self createTableFooterView: footerHeight]];
     }
     if (menuItems.family == FamilyNowPlaying || menuItems.family == FamilyRemote) {
-        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK];
+        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
         [volumeSliderView startTimer];
     }
     menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - footerHeight - 1) style:UITableViewStylePlain];

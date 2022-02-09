@@ -10,7 +10,6 @@
 "Hide labels in wall view" = "隐藏壁上观标签";
 "Prefer posters for TV shows" = "剧集倾向使用海报";
 "Remote Control" = "遥控器";
-"Gesture remote control" = "手势遥控器";
 "Vibrate remote control" = "震动遥控器";
 "App Settings" = "应用设置";
 "Clear cache on next start" = "下次启动时清除缓存";
@@ -30,9 +29,6 @@
 "Show MOVIES" = "显示电影";
 "Show MUSIC" = "显示音乐";
 "Main Menu changes needs app restart" = "主菜单更改需要重新启动应用程序";
-"Bottom" = "底部";
-"Top" = "顶部";
-"Remote Position" = "遥控器位置";
 "Transparent" = "透明";
 "TV logo background" = "TV 徽标背景";
 "Use rounded corner images" = "使用圆角图片";
