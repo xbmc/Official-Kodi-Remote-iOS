@@ -8,7 +8,7 @@
 "Shake to clear playlist" = "Potrząśnięcie czyści listę odtw.";
 "Show jewel cases" = "Pokazuj pudełka CD";
 "Hide labels in wall view" = "Ukryj etykiety w widoku ściany";
-"Prefer posters for TV shows" = "Preferuj plakaty z programów TV";
+"Prefer posters for TV shows" = "Preferuj plakaty dla programów TV";
 "Remote Control" = "Kontrola zdalna";
 "Vibrate remote control" = "Włącz wibrację przycisków";
 "App Settings" = "Ustawienia aplikacji";
@@ -34,3 +34,4 @@
 "Use rounded corner images" = "Użyj obrazów o zaokrąglonych rogach";
 "Show RADIO" = "Pokaż RADIO";
 "Show VIDEOS" = "Pokaż WIDEO";
+"Show GLOBAL SEARCH" = "Pokaż WYSZUKIWANIE GLOBALNE";
