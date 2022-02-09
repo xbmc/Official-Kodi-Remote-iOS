@@ -593,7 +593,18 @@ long currentItemID;
                         }
                     }
                 }
-                NSMutableArray *properties = [@[@"album", @"artist", @"title", @"thumbnail", @"track", @"studio", @"showtitle", @"episode", @"season", @"fanart", @"description", @"plot"] mutableCopy];
+                NSMutableArray *properties = [@[@"album",
+                                                @"artist",
+                                                @"title",
+                                                @"thumbnail",
+                                                @"track",
+                                                @"studio",
+                                                @"showtitle",
+                                                @"episode",
+                                                @"season",
+                                                @"fanart",
+                                                @"description",
+                                                @"plot"] mutableCopy];
                 if (AppDelegate.instance.serverVersion > 11) {
                     [properties addObject:@"art"];
                 }
