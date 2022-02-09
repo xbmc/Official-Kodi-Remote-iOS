@@ -23,6 +23,16 @@
 "Show all files in filemode" = "Im Dateimodus alle Dateien anzeigen";
 "Filemode changes needs app restart" = "Dateimodus-Änderungen erfordern einen App-Neustart";
 "Main Menu" = "Hauptmenü";
+"Start in view" = "Starten in Ansicht";
+"Music" = "Musik";
+"Movies" = "Filme";
+"Videos" = "Videos";
+"TV Shows" = "Serien";
+"Pictures" = "Bilder";
+"Live TV" = "TV";
+"Radio" = "Radio";
+"Favourites" = "Favoriten";
+"Now Playing" = "Gerade läuft";
 "Main Menu changes needs app restart" = "Hauptmenü-Änderungen erfordern einen App-Neustart";
 "Show MUSIC" = "MUSIK anzeigen";
 "Show MOVIES" = "FILME anzeigen";

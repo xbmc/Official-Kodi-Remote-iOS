@@ -943,4 +943,34 @@
     }
 }
 
++ (NSIndexPath*)getIndexPathForDefaultController:(NSArray*)menuItems {
+    // Read the default controller from the app settings
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *label = [userDefaults stringForKey:@"start_menu"];
+    
+    // Search for the index path of the desired controller
+    for (int row = 0; row < menuItems.count; ++row) {
+        mainMenu *item = menuItems[row];
+        if ([item.mainLabel isEqualToString:LOCALIZED_STR(label)]) {
+            return [NSIndexPath indexPathForRow:row inSection:0];
+        }
+    }
+    return nil;
+}
+
++ (void)enableDefaultController:(id<UITableViewDelegate>)viewController tableView:(UITableView*)tableView menuItems:(NSArray*)menuItems {
+    NSIndexPath *indexPath = [self getIndexPathForDefaultController:menuItems];
+    if (indexPath) {
+        NSIndexPath *selectedPath = [tableView indexPathForSelectedRow];
+        // Deselect any active view, except it is the desired view
+        if (selectedPath && indexPath.row != selectedPath.row) {
+            [tableView deselectRowAtIndexPath:selectedPath animated:YES];
+        }
+        // Select the desired view, except it is already up
+        if (!selectedPath || indexPath.row != selectedPath.row) {
+            [viewController tableView:tableView didSelectRowAtIndexPath:indexPath];
+        }
+    }
+}
+
 @end

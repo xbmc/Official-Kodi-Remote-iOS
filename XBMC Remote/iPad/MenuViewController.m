@@ -87,6 +87,10 @@
                                              selector: @selector(handleDeselectSection)
                                                  name: @"MainMenuDeselectSection"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleEnablingDefaultController)
+                                                 name: @"KodiStartDefaultController"
+                                               object: nil];
 }
 
 - (void)handleDeselectSection {
@@ -95,6 +99,10 @@
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
         lastSelected = -1;
     }
+}
+
+- (void)handleEnablingDefaultController {
+    [Utilities enableDefaultController:self tableView:_tableView menuItems:mainMenuItems];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -154,6 +162,10 @@
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
+    
+    // Mark the active menu as selected
+    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+    
     mainMenu *item = mainMenuItems[indexPath.row];
     if (item.family == FamilyNowPlaying) {
         [AppDelegate.instance.windowController.stackScrollViewController offView];

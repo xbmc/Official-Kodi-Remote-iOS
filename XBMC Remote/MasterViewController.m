@@ -64,6 +64,10 @@
     AppDelegate.instance.serverName = infoText;
     itemIsActive = NO;
     [Utilities setStyleOfMenuItems:menuList active:status];
+    if (status) {
+        // Send trigger to start the defalt controller
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiStartDefaultController" object:nil userInfo:params];
+    }
 }
 
 #pragma mark - Table view methods & data source
@@ -145,6 +149,10 @@
     if (itemIsActive) {
         return;
     }
+    
+    // Mark the active menu as selected
+    [menuList selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+    
     itemIsActive = YES;
     UIViewController *object;
     BOOL setBarTintColor = NO;
@@ -313,6 +321,10 @@
                                              selector: @selector(connectionStatus:)
                                                  name: @"XBMCServerConnectionFailed"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleEnablingDefaultController)
+                                                 name: @"KodiStartDefaultController"
+                                               object: nil];
     
     self.view.backgroundColor = [Utilities getGrayColor:36 alpha:1];
     [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
@@ -355,6 +367,10 @@
 
 - (void)handleXBMCServerHasChanged:(NSNotification*)sender {
     [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
+}
+
+- (void)handleEnablingDefaultController {
+    [Utilities enableDefaultController:self tableView:menuList menuItems:self.mainMenu];
 }
 
 - (void)dealloc {
