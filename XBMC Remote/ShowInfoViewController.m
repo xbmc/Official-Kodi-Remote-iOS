@@ -431,17 +431,17 @@ double round(double d) {
 }
 
 - (void)recordChannel {
-    NSNumber *channelid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]);
+    NSNumber *channelid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] longValue]);
     if ([channelid isEqualToValue:@(0)]) {
         return;
     }
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
-    NSNumber *itemid = @([self.detailItem[@"channelid"] intValue]);
+    NSNumber *itemid = @([self.detailItem[@"channelid"] longValue]);
     NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = @([self.detailItem[@"broadcastid"] intValue]);
+    NSNumber *storeBroadcastid = @([self.detailItem[@"broadcastid"] longValue]);
     if ([itemid isEqualToValue:@(0)]) {
-        itemid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]);
+        itemid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] longValue]);
         if ([itemid isEqualToValue:@(0)]) {
             return;
         }
@@ -452,7 +452,7 @@ double round(double d) {
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
         if (percent_elapsed < 0) {
-            itemid = @([self.detailItem[@"broadcastid"] intValue]);
+            itemid = @([self.detailItem[@"broadcastid"] longValue]);
             storeBroadcastid = itemid;
             storeChannelid = @(0);
             methodToCall = @"PVR.ToggleTimer";
@@ -472,7 +472,7 @@ double round(double d) {
                if (error == nil && methodError == nil) {
                    [self animateRecordAction];
                    NSNumber *status = @(![self.detailItem[@"isrecording"] boolValue]);
-                   if ([self.detailItem[@"broadcastid"] intValue] > 0) {
+                   if ([self.detailItem[@"broadcastid"] longValue] > 0) {
                        status = @(![self.detailItem[@"hastimer"] boolValue]);
                    }
                    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:

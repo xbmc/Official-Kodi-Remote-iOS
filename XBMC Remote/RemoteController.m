@@ -837,13 +837,13 @@ NSInteger buttonAction;
                                            @"fullscreen"]}
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
-                 int winID = 0;
+                 long winID = 0;
                  BOOL isFullscreen = NO;
                  if (methodResult[@"fullscreen"] != [NSNull null]) {
                      isFullscreen = [methodResult[@"fullscreen"] boolValue];
                  }
                  if (methodResult[@"currentwindow"] != [NSNull null]) {
-                     winID = [methodResult[@"currentwindow"][@"id"] intValue];
+                     winID = [methodResult[@"currentwindow"][@"id"] longValue];
                  }
                  if (isFullscreen && (winID == WINDOW_FULLSCREEN_VIDEO || winID == WINDOW_VISUALISATION)) {
                      [[Utilities getJsonRPC]

@@ -109,7 +109,7 @@ typedef enum {
 
 - (NSString*)getNowPlayingThumbnailPath:(NSDictionary*)item {
     // If a recording is played, we can use the iocn (typically the station logo)
-    BOOL useIcon = [item[@"type"] isEqualToString:@"recording"] || [item[@"recordingid"] intValue] > 0;
+    BOOL useIcon = [item[@"type"] isEqualToString:@"recording"] || [item[@"recordingid"] longValue] > 0;
     return [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:useIcon];
 }
 
@@ -295,11 +295,11 @@ typedef enum {
 #pragma mark - JSON management
 
 int lastPlayerID = PLAYERID_UNKNOWN;
-int lastSelected = SELECTED_NONE;
+long lastSelected = SELECTED_NONE;
 int currentPlayerID = PLAYERID_UNKNOWN;
 float storePercentage;
-int storedItemID;
-int currentItemID;
+long storedItemID;
+long currentItemID;
 
 - (void)setCoverSize:(NSString*)type {
     NSString *jewelImg = @"";
@@ -617,7 +617,7 @@ int currentItemID;
                                  currentItemID = -2;
                              }
                              else {
-                                 currentItemID = [nowPlayingInfo[@"id"] intValue];
+                                 currentItemID = [nowPlayingInfo[@"id"] longValue];
                              }
                              if ((nowPlayingInfo.count && currentItemID != storedItemID) || nowPlayingInfo[@"id"] == nil || ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
                                  storedItemID = currentItemID;
@@ -873,7 +873,7 @@ int currentItemID;
                                      duration.hidden = YES;
                                  }
                                  [self updatePlaylistProgressbar:percentage actual:actualTime];
-                                 int playlistPosition = [methodResult[@"position"] intValue];
+                                 long playlistPosition = [methodResult[@"position"] longValue];
                                  if (playlistPosition > -1) {
                                      playlistPosition += 1;
                                  }

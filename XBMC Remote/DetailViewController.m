@@ -3990,7 +3990,7 @@ NSIndexPath *selected;
 }
 
 - (void)deleteTimer:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
-    NSNumber *itemid = @([item[@"timerid"] intValue]);
+    NSNumber *itemid = @([item[@"timerid"] longValue]);
     if ([itemid isEqualToValue:@(0)]) {
         return;
     }
@@ -4031,11 +4031,11 @@ NSIndexPath *selected;
 - (void)recordChannel:(NSMutableDictionary*)item indexPath:(NSIndexPath*)indexPath {
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
-    NSNumber *itemid = @([item[@"channelid"] intValue]);
+    NSNumber *itemid = @([item[@"channelid"] longValue]);
     NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = @([item[@"broadcastid"] intValue]);
+    NSNumber *storeBroadcastid = @([item[@"broadcastid"] longValue]);
     if ([itemid isEqualToValue:@(0)]) {
-        itemid = @([item[@"pvrExtraInfo"][@"channelid"] intValue]);
+        itemid = @([item[@"pvrExtraInfo"][@"channelid"] longValue]);
         if ([itemid isEqualToValue:@(0)]) {
             return;
         }
@@ -4046,7 +4046,7 @@ NSIndexPath *selected;
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
         if (percent_elapsed < 0) {
-            itemid = @([item[@"broadcastid"] intValue]);
+            itemid = @([item[@"broadcastid"] longValue]);
             storeBroadcastid = itemid;
             storeChannelid = @(0);
             methodToCall = @"PVR.ToggleTimer";
@@ -4068,7 +4068,7 @@ NSIndexPath *selected;
                    UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
                    isRecordingImageView.hidden = !isRecordingImageView.hidden;
                    NSNumber *status = @(![item[@"isrecording"] boolValue]);
-                   if ([item[@"broadcastid"] intValue] > 0) {
+                   if ([item[@"broadcastid"] longValue] > 0) {
                        status = @(![item[@"hastimer"] boolValue]);
                    }
                    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -4839,7 +4839,7 @@ NSIndexPath *selected;
                                  [storeRichResults removeAllObjects];
                              }
                              NSString *newMethodToCall = @"VideoLibrary.GetMovieSetDetails";
-                             NSDictionary *newParameter = @{@"setid": @([item[@"setid"] intValue])};
+                             NSDictionary *newParameter = @{@"setid": @([item[@"setid"] longValue])};
                              [[Utilities getJsonRPC]
                               callMethod:newMethodToCall
                               withParameters:newParameter
