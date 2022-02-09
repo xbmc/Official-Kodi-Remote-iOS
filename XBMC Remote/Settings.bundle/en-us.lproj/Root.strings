@@ -15,7 +15,6 @@
 "Light" = "Light";
 "Transparent" = "Transparent";
 "Remote Control" = "Remote Control";
-"Gesture remote control" = "Gesture remote control";
 "Vibrate remote control" = "Vibrate remote control";
 "App Settings" = "App Settings";
 "Clear cache on next start" = "Clear cache on next start";
@@ -35,6 +34,7 @@
 "Show FAVOURITES" = "Show FAVORITES";
 "Show NOW PLAYING" = "Show NOW PLAYING";
 "Show REMOTE CONTROL" = "Show REMOTE CONTROL";
+
 
 
 
