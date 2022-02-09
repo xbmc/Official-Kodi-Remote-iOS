@@ -4840,8 +4840,8 @@ NSIndexPath *selected;
                          
                          // Postprocessing of movie sets lists to ignore 1-movie-sets
                          if (ignoreSingleMovieSets) {
-                             BOOL isLastItem = i == total-1;
-                             if (i==0) {
+                             BOOL isLastItem = (i == total - 1);
+                             if (i == 0) {
                                  [storeRichResults removeAllObjects];
                              }
                              NSString *newMethodToCall = @"VideoLibrary.GetMovieSetDetails";
@@ -4850,8 +4850,8 @@ NSIndexPath *selected;
                               callMethod:newMethodToCall
                               withParameters:newParameter
                               onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-                                 if (error==nil && methodError==nil) {
-                                     if ([methodResult[@"setdetails"][@"movies"] count]>1) {
+                                 if (error == nil && methodError == nil) {
+                                     if ([methodResult[@"setdetails"][@"movies"] count] > 1) {
                                          [storeRichResults addObject:newDict];
                                      }
                                  }
