@@ -4903,6 +4903,9 @@ NSIndexPath *selected;
 //                 NSLog(@"RICH RESULTS %@", resultStoreArray);
                  // Leave as all necessary steps are handled in callbacks of the postprocessing for 1-movie-sets
                  if (ignoreSingleMovieSets) {
+                     if (!storeRichResults.count) {
+                         [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
+                     }
                      return;
                  }
                  if (!extraSectionCallBool) {
