@@ -803,7 +803,7 @@ NSInteger buttonAction;
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
-    BOOL startVibrate = [[userDefaults objectForKey:@"vibrate_preference"] boolValue];
+    BOOL startVibrate = [userDefaults boolForKey:@"vibrate_preference"];
     if (startVibrate) {
         [[UIDevice currentDevice] playInputClick];
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -1055,7 +1055,7 @@ NSInteger buttonAction;
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
-    BOOL startVibrate = [[userDefaults objectForKey:@"vibrate_preference"] boolValue];
+    BOOL startVibrate = [userDefaults boolForKey:@"vibrate_preference"];
     if (startVibrate) {
         [[UIDevice currentDevice] playInputClick];
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -1178,15 +1178,15 @@ NSInteger buttonAction;
 
 - (void)saveRemoteMode {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:@(isGestureViewActive) forKey:@"GestureViewEnabled"];
-    [userDefaults setObject:@(positionMode) forKey:@"RemotePosition"];
+    [userDefaults setBool:isGestureViewActive forKey:@"GestureViewEnabled"];
+    [userDefaults setInteger:positionMode forKey:@"RemotePosition"];
     return;
 }
 
 - (void)loadRemoteMode {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    isGestureViewActive = [[userDefaults objectForKey:@"GestureViewEnabled"] boolValue];
-    positionMode = [[userDefaults objectForKey:@"RemotePosition"] intValue];
+    isGestureViewActive = [userDefaults boolForKey:@"GestureViewEnabled"];
+    positionMode = (RemotePositionType)[userDefaults integerForKey:@"RemotePosition"];
     return;
 }
 

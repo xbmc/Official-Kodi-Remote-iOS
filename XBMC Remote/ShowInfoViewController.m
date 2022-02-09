@@ -533,7 +533,7 @@ double round(double d) {
 
 - (BOOL)enableJewelCases {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
+    return [userDefaults boolForKey:@"jewel_preference"];
 }
 
 - (void)elaborateImage:(UIImage*)image fallbackImage:(UIImage*)fallback {
@@ -1838,13 +1838,7 @@ double round(double d) {
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *kenBurnsString = [userDefaults objectForKey:@"ken_preference"];
-    if (kenBurnsString == nil || [kenBurnsString boolValue]) {
-        enableKenBurns = YES;
-    }
-    else {
-        enableKenBurns = NO;
-    }
+    enableKenBurns = [userDefaults boolForKey:@"ken_preference"];;
     self.kenView = nil;
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
     foundTintColor = TINT_COLOR;

@@ -1471,7 +1471,7 @@
             }
             else if ([item[@"genre"] isEqualToString:@"file"] || [item[@"filetype"] isEqualToString:@"file"]) {
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                if (![[userDefaults objectForKey:@"song_preference"] boolValue]) {
+                if (![userDefaults boolForKey:@"song_preference"]) {
                     [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
                 }
                 else {
@@ -1590,7 +1590,7 @@
         }
         else {
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            if (![[userDefaults objectForKey:@"song_preference"] boolValue] || [parameters[@"forceActionSheet"] boolValue]) {
+            if (![userDefaults boolForKey:@"song_preference"] || [parameters[@"forceActionSheet"] boolValue]) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:[menuItem mainParameters][choosedTab]]];
                 selected = indexPath;
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
@@ -5614,7 +5614,7 @@ NSIndexPath *selected;
         }
     }
     NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
-    return ([parameters[@"enableCollectionView"] boolValue] && [[userDefaults objectForKey:viewKey] boolValue]);
+    return ([parameters[@"enableCollectionView"] boolValue] && [userDefaults boolForKey:viewKey]);
 }
 
 - (NSString*)getCurrentSortMethod:(NSDictionary*)methods withParameters:(NSDictionary*)parameters {
@@ -5744,8 +5744,7 @@ NSIndexPath *selected;
         [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *hidden_label_preferenceString = [userDefaults objectForKey:@"hidden_label_preference"];
-    hiddenLabel = [hidden_label_preferenceString boolValue];
+    hiddenLabel = [userDefaults boolForKey:@"hidden_label_preference"];
     noItemsLabel.text = LOCALIZED_STR(@"No items found.");
     isViewDidLoad = YES;
     sectionHeight = LIST_SECTION_HEADER_HEIGHT;
@@ -6047,11 +6046,7 @@ NSIndexPath *selected;
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[menuItem mainParameters][choosedTab]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL diskcache_preference = NO;
-    NSString *diskcache_preferenceString = [userDefaults objectForKey:@"diskcache_preference"];
-    if (diskcache_preferenceString == nil || [diskcache_preferenceString boolValue]) {
-        diskcache_preference = YES;
-    }
+    BOOL diskcache_preference = [userDefaults boolForKey:@"diskcache_preference"];
     enableDiskCache = diskcache_preference && [parameters[@"enableLibraryCache"] boolValue];
     [dataList setShowsPullToRefresh:enableDiskCache];
     [collectionView setShowsPullToRefresh:enableDiskCache];
@@ -6086,8 +6081,7 @@ NSIndexPath *selected;
         }
         NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setObject:@(![[userDefaults objectForKey:viewKey] boolValue])
-                         forKey:viewKey];
+        [userDefaults setBool:![userDefaults boolForKey:viewKey] forKey:viewKey];
         enableCollectionView = [self collectionViewIsEnabled];
         recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
         [UIView animateWithDuration:0.2

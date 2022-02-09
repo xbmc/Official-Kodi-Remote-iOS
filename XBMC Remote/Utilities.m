@@ -267,7 +267,7 @@
 
 + (BOOL)getPreferTvPosterMode {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL result = [[userDefaults objectForKey:@"prefer_TVposter_preference"] boolValue];
+    BOOL result = [userDefaults boolForKey:@"prefer_TVposter_preference"];
     return result;
 }
 
@@ -767,8 +767,8 @@
 
 + (UIImage*)applyRoundedEdgesImage:(UIImage*)image drawBorder:(BOOL)drawBorder {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *corner_preference = [userDefaults objectForKey:@"rounded_corner_preference"];
-    if (corner_preference == nil || [corner_preference boolValue]) {
+    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
+    if (corner_preference) {
         image = [Utilities roundedCornerImage:image drawBorder:drawBorder];
     }
     return image;
@@ -776,8 +776,8 @@
 
 + (UIImageView*)applyRoundedEdgesView:(UIImageView*)imageView drawBorder:(BOOL)drawBorder {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *corner_preference = [userDefaults objectForKey:@"rounded_corner_preference"];
-    if (corner_preference == nil || [corner_preference boolValue]) {
+    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
+    if (corner_preference) {
         imageView = [Utilities roundedCornerView:imageView drawBorder:drawBorder];
     }
     return imageView;

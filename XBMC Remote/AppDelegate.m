@@ -441,12 +441,7 @@
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     UIApplication *xbmcRemote = UIApplication.sharedApplication;
-    if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]) {
-        xbmcRemote.idleTimerDisabled = YES;
-    }
-    else {
-        xbmcRemote.idleTimerDisabled = NO;
-    }
+    xbmcRemote.idleTimerDisabled = [userDefaults boolForKey:@"lockscreen_preference"];
     
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     
@@ -461,7 +456,7 @@
 
     NSString *filemodeVideoType = @"video";
     NSString *filemodeMusicType = @"music";
-    if ([[userDefaults objectForKey:@"fileType_preference"] boolValue]) {
+    if ([userDefaults boolForKey:@"fileType_preference"]) {
         filemodeVideoType = @"files";
         filemodeMusicType = @"files";
     }
@@ -5852,12 +5847,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationDidEnterBackgroundNotification" object: nil];
     }
     else {
-        if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]) {
-            xbmcRemote.idleTimerDisabled = YES;
-        }
-        else {
-            xbmcRemote.idleTimerDisabled = NO;
-        }
+        xbmcRemote.idleTimerDisabled = [userDefaults boolForKey:@"lockscreen_preference"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
         [UIDevice currentDevice].proximityMonitoringEnabled = NO;
         [UIDevice currentDevice].proximityMonitoringEnabled = YES;
@@ -6030,12 +6020,7 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     UIApplication *xbmcRemote = UIApplication.sharedApplication;
-    if ([[userDefaults objectForKey:@"lockscreen_preference"] boolValue]) {
-        xbmcRemote.idleTimerDisabled = YES;
-    }
-    else {
-        xbmcRemote.idleTimerDisabled = NO;
-    }
+    xbmcRemote.idleTimerDisabled = [userDefaults boolForKey:@"lockscreen_preference"];
 //    [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
 }
 

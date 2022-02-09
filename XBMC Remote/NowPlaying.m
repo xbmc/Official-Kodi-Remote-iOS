@@ -2431,7 +2431,7 @@ int currentItemID;
 
 - (BOOL)enableJewelCases {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
+    return [userDefaults boolForKey:@"jewel_preference"];
 }
 
 #pragma mark - GestureRecognizer delegate
@@ -2765,7 +2765,7 @@ int currentItemID;
 
 - (void)handleShakeNotification {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL shake_preference = [[userDefaults objectForKey:@"shake_preference"] boolValue];
+    BOOL shake_preference = [userDefaults boolForKey:@"shake_preference"];
     if (shake_preference) {
         [self showClearPlaylistAlert];
     }

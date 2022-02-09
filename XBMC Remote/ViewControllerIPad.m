@@ -480,7 +480,7 @@
     [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL clearCache = [[userDefaults objectForKey:@"clearcache_preference"] boolValue];
+    BOOL clearCache = [userDefaults boolForKey:@"clearcache_preference"];
     if (clearCache) {
         ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame];
         [clearView startActivityIndicator];
