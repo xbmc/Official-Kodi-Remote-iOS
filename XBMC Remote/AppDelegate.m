@@ -3009,7 +3009,7 @@
     
     menu_Videos.rowHeight = 76;
     menu_Videos.thumbWidth = 53;
-    menu_Videos.defaultThumb = @"nocover_movies";
+    menu_Videos.defaultThumb = @"nocover_musicvideos";
     menu_Videos.sheetActions = @[
         [self action_queue_to_musicvideodetails],
         [self action_queue_to_musicvideodetails],
@@ -3171,7 +3171,7 @@
     menu_Videos.subItem.enableSection = YES;
     menu_Videos.subItem.rowHeight = 76;
     menu_Videos.subItem.thumbWidth = 53;
-    menu_Videos.subItem.defaultThumb = @"nocover_movies";
+    menu_Videos.subItem.defaultThumb = @"nocover_musicvideos";
     menu_Videos.subItem.sheetActions = @[
         @[],
         @[],
@@ -4101,7 +4101,7 @@
     
     menu_LiveTV.rowHeight = 76;
     menu_LiveTV.thumbWidth = 53;
-    menu_LiveTV.defaultThumb = @"nocover_movies";
+    menu_LiveTV.defaultThumb = @"nocover_channels";
     menu_LiveTV.sheetActions = @[
         [self action_play_to_channelguide],
         @[],
@@ -4632,7 +4632,7 @@
     
     menu_Radio.rowHeight = 76;
     menu_Radio.thumbWidth = 53;
-    menu_Radio.defaultThumb = @"nocover_movies";
+    menu_Radio.defaultThumb = @"nocover_channels";
     menu_Radio.sheetActions = @[
         [self action_play_to_channelguide],
         @[],
@@ -5013,7 +5013,7 @@
     menu_Pictures.subItem.enableSection = NO;
     menu_Pictures.subItem.rowHeight = 76;
     menu_Pictures.subItem.thumbWidth = 53;
-    menu_Pictures.subItem.defaultThumb = @"nocover_tvshows_episode";
+    menu_Pictures.subItem.defaultThumb = @"nocover_filemode";
     menu_Pictures.subItem.sheetActions = @[
         [self action_simple_queue_to_play],
         @[]
