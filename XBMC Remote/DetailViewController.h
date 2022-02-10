@@ -121,7 +121,7 @@
     NSString *sortAscDesc;
     int numberOfStars;
     NSDictionary *watchedListenedStrings;
-    int serverVersion;
+    int serverMajorVersion;
     int serverMinorVersion;
     NSString *libraryCachePath;
     CGFloat bottomPadding;
