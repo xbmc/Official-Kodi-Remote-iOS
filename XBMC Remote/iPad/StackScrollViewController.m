@@ -702,6 +702,18 @@
     }
 }
 
+- (CABasicAnimation*)setBounceAnimation:(CABasicAnimation*)animation from:(CGFloat)fromPos to:(CGFloat)toPos {
+    animation.duration = 0.2;
+    animation.fromValue = @(fromPos);
+    animation.toValue = @(toPos);
+    animation.repeatCount = 0;
+    animation.autoreverses = YES;
+    animation.fillMode = kCAFillModeBackwards;
+    animation.removedOnCompletion = YES;
+    animation.additive = NO;
+    return animation;
+}
+
 - (void)bounceBack:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context {
     BOOL isBouncing = NO;
     
@@ -712,86 +724,51 @@
         [viewAtLeft2.layer removeAllAnimations];
             if ([animationID isEqualToString:@"LEFT-WITH-LEFT"] && viewAtLeft2.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION) {
                 CABasicAnimation *bounceAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
-                bounceAnimation.duration = 0.2;
-                bounceAnimation.fromValue = @(viewAtLeft.center.x);
-                bounceAnimation.toValue = @(viewAtLeft.center.x - 10);
-                bounceAnimation.repeatCount = 0;
-                bounceAnimation.autoreverses = YES;
-                bounceAnimation.fillMode = kCAFillModeBackwards;
-                bounceAnimation.removedOnCompletion = YES;
-                bounceAnimation.additive = NO;
+                bounceAnimation = [self setBounceAnimation:bounceAnimation
+                                                      from:viewAtLeft.center.x
+                                                        to:viewAtLeft.center.x - 10];
                 [viewAtLeft.layer addAnimation:bounceAnimation forKey:@"bounceAnimation"];
                 
                 viewAtRight.hidden = NO;
                 CABasicAnimation *bounceAnimationForRight = [CABasicAnimation animationWithKeyPath:@"position.x"];
-                bounceAnimationForRight.duration = 0.2;
-                bounceAnimationForRight.fromValue = @(viewAtRight.center.x);
-                bounceAnimationForRight.toValue = @(viewAtRight.center.x - 20);
-                bounceAnimationForRight.repeatCount = 0;
-                bounceAnimationForRight.autoreverses = YES;
-                bounceAnimationForRight.fillMode = kCAFillModeBackwards;
-                bounceAnimationForRight.removedOnCompletion = YES;
-                bounceAnimationForRight.additive = NO;
+                bounceAnimationForRight = [self setBounceAnimation:bounceAnimationForRight
+                                                              from:viewAtRight.center.x
+                                                                to:viewAtRight.center.x - 20];
                 [viewAtRight.layer addAnimation:bounceAnimationForRight forKey:@"bounceAnimationRight"];
             }
             else if ([animationID isEqualToString:@"LEFT-WITH-RIGHT"] && viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION) {
                 CABasicAnimation *bounceAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
-                bounceAnimation.duration = 0.2;
-                bounceAnimation.fromValue = @(viewAtRight.center.x);
-                bounceAnimation.toValue = @(viewAtRight.center.x - 10);
-                bounceAnimation.repeatCount = 0;
-                bounceAnimation.autoreverses = YES;
-                bounceAnimation.fillMode = kCAFillModeBackwards;
-                bounceAnimation.removedOnCompletion = YES;
-                bounceAnimation.additive = NO;
+                bounceAnimation = [self setBounceAnimation:bounceAnimation
+                                                      from:viewAtRight.center.x
+                                                        to:viewAtRight.center.x - 10];
                 [viewAtRight.layer addAnimation:bounceAnimation forKey:@"bounceAnimation"];
                 
                 viewAtRight2.hidden = NO;
                 CABasicAnimation *bounceAnimationForRight2 = [CABasicAnimation animationWithKeyPath:@"position.x"];
-                bounceAnimationForRight2.duration = 0.2;
-                bounceAnimationForRight2.fromValue = @(viewAtRight2.center.x);
-                bounceAnimationForRight2.toValue = @(viewAtRight2.center.x - 20);
-                bounceAnimationForRight2.repeatCount = 0;
-                bounceAnimationForRight2.autoreverses = YES;
-                bounceAnimationForRight2.fillMode = kCAFillModeBackwards;
-                bounceAnimationForRight2.removedOnCompletion = YES;
-                bounceAnimationForRight2.additive = NO;
+                bounceAnimationForRight2 = [self setBounceAnimation:bounceAnimationForRight2
+                                                               from:viewAtRight2.center.x
+                                                                 to:viewAtRight2.center.x - 20];
                 [viewAtRight2.layer addAnimation:bounceAnimationForRight2 forKey:@"bounceAnimationRight2"];
             }
             else if ([animationID isEqualToString:@"RIGHT-WITH-RIGHT"]) {
                 CABasicAnimation *bounceAnimationLeft = [CABasicAnimation animationWithKeyPath:@"position.x"];
-                bounceAnimationLeft.duration = 0.2;
-                bounceAnimationLeft.fromValue = @(viewAtLeft.center.x);
-                bounceAnimationLeft.toValue = @(viewAtLeft.center.x + 10);
-                bounceAnimationLeft.repeatCount = 0;
-                bounceAnimationLeft.autoreverses = YES;
-                bounceAnimationLeft.fillMode = kCAFillModeBackwards;
-                bounceAnimationLeft.removedOnCompletion = YES;
-                bounceAnimationLeft.additive = NO;
+                bounceAnimationLeft = [self setBounceAnimation:bounceAnimationLeft
+                                                          from:viewAtLeft.center.x
+                                                            to:viewAtLeft.center.x + 10];
                 [viewAtLeft.layer addAnimation:bounceAnimationLeft forKey:@"bounceAnimationLeft"];
                 
                 CABasicAnimation *bounceAnimationRight = [CABasicAnimation animationWithKeyPath:@"position.x"];
-                bounceAnimationRight.duration = 0.2;
-                bounceAnimationRight.fromValue = @(viewAtRight.center.x);
-                bounceAnimationRight.toValue = @(viewAtRight.center.x + 10);
-                bounceAnimationRight.repeatCount = 0;
-                bounceAnimationRight.autoreverses = YES;
-                bounceAnimationRight.fillMode = kCAFillModeBackwards;
-                bounceAnimationRight.removedOnCompletion = YES;
-                bounceAnimationRight.additive = NO;
+                bounceAnimationRight = [self setBounceAnimation:bounceAnimationRight
+                                                          from:viewAtRight.center.x
+                                                            to:viewAtRight.center.x + 10];
                 [viewAtRight.layer addAnimation:bounceAnimationRight forKey:@"bounceAnimationRight"];
                 
             }
             else if ([animationID isEqualToString:@"RIGHT-WITH-LEFT"]) {
                 CABasicAnimation *bounceAnimationLeft = [CABasicAnimation animationWithKeyPath:@"position.x"];
-                bounceAnimationLeft.duration = 0.2;
-                bounceAnimationLeft.fromValue = @(viewAtLeft.center.x);
-                bounceAnimationLeft.toValue = @(viewAtLeft.center.x + 10);
-                bounceAnimationLeft.repeatCount = 0;
-                bounceAnimationLeft.autoreverses = YES;
-                bounceAnimationLeft.fillMode = kCAFillModeBackwards;
-                bounceAnimationLeft.removedOnCompletion = YES;
-                bounceAnimationLeft.additive = NO;
+                bounceAnimationLeft = [self setBounceAnimation:bounceAnimationLeft
+                                                          from:viewAtLeft.center.x
+                                                            to:viewAtLeft.center.x + 10];
                 [viewAtLeft.layer addAnimation:bounceAnimationLeft forKey:@"bounceAnimationLeft"];
                 
                 if (viewAtLeft2 != nil) {
@@ -801,19 +778,13 @@
                         slideViews.subviews[viewAtLeft2Position - 1].hidden = NO;
                     }
                     CABasicAnimation *bounceAnimationLeft2 = [CABasicAnimation animationWithKeyPath:@"position.x"];
-                    bounceAnimationLeft2.duration = 0.2;
-                    bounceAnimationLeft2.fromValue = @(viewAtLeft2.center.x);
-                    bounceAnimationLeft2.toValue = @(viewAtLeft2.center.x + 10);
-                    bounceAnimationLeft2.repeatCount = 0;
-                    bounceAnimationLeft2.autoreverses = YES;
-                    bounceAnimationLeft2.fillMode = kCAFillModeBackwards;
-                    bounceAnimationLeft2.removedOnCompletion = YES;
-                    bounceAnimationLeft2.additive = NO;
+                    bounceAnimationLeft2 = [self setBounceAnimation:bounceAnimationLeft2
+                                                              from:viewAtLeft2.center.x
+                                                                to:viewAtLeft2.center.x + 10];
                     [viewAtLeft2.layer addAnimation:bounceAnimationLeft2 forKey:@"bounceAnimationviewAtLeft2"];
                     [self performSelector:@selector(callArrangeVerticalBar) withObject:nil afterDelay:0.4];
                     isBouncing = YES;
                 }
-                
             }
     }
     [self arrangeVerticalBar];
