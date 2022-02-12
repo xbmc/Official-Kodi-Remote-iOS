@@ -87,8 +87,7 @@
 - (NSMutableArray*)loadEPGFromDisk:(NSNumber*)channelid parameters:(NSDictionary*)params {
     NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
     NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
-    NSString *path = [epgCachePath stringByAppendingPathComponent:filename];
-    NSMutableArray *epgArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    NSMutableArray *epgArray = [Utilities unarchivePath:epgCachePath file:filename];
     dispatch_sync(epglockqueue, ^{
         if (epgArray != nil && channelid != nil) {
             epgDict[channelid] = epgArray;
@@ -107,8 +106,7 @@
     if (epgArray != nil && channelid != nil && epgArray.count > 0) {
         NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
         NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
-        NSString *dicPath = [epgCachePath stringByAppendingPathComponent:filename];
-        [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
+        [Utilities archivePath:epgCachePath file:filename data:epgArray];
         dispatch_sync(epglockqueue, ^{
             epgDict[channelid] = epgArray;
             [epgDownloadQueue removeObject:channelid];
@@ -339,65 +337,32 @@
         mainMenu *menuItem = self.detailItem;
         NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[menuItem mainMethod][choosedTab]];
         NSString *viewKey = [self getCacheKey:methods[@"method"] parameters:mutableParameters];
-        NSString *diskCachePath = AppDelegate.instance.libraryCachePath;
-//        if (paths.count > 0) {
         
-
-            NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
-            NSString *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
-            [NSKeyedArchiver archiveRootObject:self.richResults toFile:dicPath];
-            [self updateSyncDate:dicPath];
-
-//            filename = [NSString stringWithFormat:@"%@.sections.dat", viewKey];
-//            dicPath = [[paths[0] stringByAppendingPathComponent:fullNamespace] stringByAppendingPathComponent:filename];
-//            [NSKeyedArchiver archiveRootObject:self.sections toFile:dicPath];
-//            
-//            filename = [NSString stringWithFormat:@"%@.sectionArray.dat", viewKey];
-//            dicPath = [[paths[0] stringByAppendingPathComponent:fullNamespace] stringByAppendingPathComponent:filename];
-//            
-//            [NSKeyedArchiver archiveRootObject:self.sectionArray toFile:dicPath];
-//            
-//            filename = [NSString stringWithFormat:@"%@.sectionArrayOpen.dat", viewKey];
-//            dicPath = [[paths[0] stringByAppendingPathComponent:fullNamespace] stringByAppendingPathComponent:filename];
-//            [NSKeyedArchiver archiveRootObject:self.sectionArrayOpen toFile:dicPath];
-//            
-            filename = [NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey];
-            dicPath = [diskCachePath stringByAppendingPathComponent:filename];
-            [NSKeyedArchiver archiveRootObject:self.extraSectionRichResults toFile:dicPath];
-//        }
+        NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
+        [Utilities archivePath:libraryCachePath file:filename data:self.richResults];
+        
+        NSString *path = [libraryCachePath stringByAppendingPathComponent:filename];
+        [self updateSyncDate:path];
+ 
+        filename = [NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey];
+        [Utilities archivePath:libraryCachePath file:filename data:self.extraSectionRichResults];
     }
 }
 
 - (void)loadDataFromDisk:(NSDictionary*)params {
-    NSString *viewKey = [self getCacheKey:params[@"methodToCall"] parameters:params[@"mutableParameters"]];
-    NSString *path = [libraryCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
-    NSMutableArray *tempArray;
-//    NSMutableDictionary *tempDict;
     self.richResults = nil;
-//    self.sections = nil;
     self.sectionArray = nil;
     self.sectionArrayOpen = nil;
     self.extraSectionRichResults = nil;
-    
     self.sections = [NSMutableDictionary new];
     
-    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    NSString *viewKey = [self getCacheKey:params[@"methodToCall"] parameters:params[@"mutableParameters"]];
+    NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
+    NSMutableArray *tempArray = [Utilities unarchivePath:libraryCachePath file:filename];
     self.richResults = tempArray;
     
-//    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sections.dat", viewKey]];
-//    tempDict = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-//    self.sections = tempDict;
-//    
-//    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sectionArray.dat", viewKey]];
-//    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-//    self.sectionArray = tempArray;
-//    
-//    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sectionArrayOpen.dat", viewKey]];
-//    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-//    self.sectionArrayOpen = tempArray;
-//    
-    path = [libraryCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey]];
-    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    filename = [NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey];
+    tempArray = [Utilities unarchivePath:libraryCachePath file:filename];
     self.extraSectionRichResults = tempArray;
     
     storeRichResults = [self.richResults mutableCopy];
@@ -412,8 +377,9 @@
         return NO;
     }
     NSString *viewKey = [self getCacheKey:methodToCall parameters:mutableParameters];
+    NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
+    NSString *path = [libraryCachePath stringByAppendingPathComponent:filename];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *path = [libraryCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
     if ([fileManager fileExistsAtPath:path]) {
         NSDictionary *extraParams = [NSDictionary dictionaryWithObjectsAndKeys:
                                      mutableParameters, @"mutableParameters",

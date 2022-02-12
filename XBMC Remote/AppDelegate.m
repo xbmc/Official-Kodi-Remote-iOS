@@ -383,29 +383,28 @@
 
 - (id)init {
 	if ((self = [super init])) {
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = paths[0];
-        self.dataFilePath = [documentsDirectory stringByAppendingPathComponent:@"serverList_saved.dat"];
-        NSFileManager *fileManager1 = [NSFileManager defaultManager];
-        if ([fileManager1 fileExistsAtPath:self.dataFilePath]) {
-            NSMutableArray *tempArray;
-            tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:self.dataFilePath];
+        NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        self.dataFilePath = docPaths[0];
+        NSMutableArray *tempArray = [Utilities unarchivePath:self.dataFilePath file:@"serverList_saved.dat"];
+        if (tempArray) {
             [self setArrayServerList:tempArray];
         }
         else {
             arrayServerList = [NSMutableArray new];
         }
-        NSString *fullNamespace = @"LibraryCache";
-        paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        self.libraryCachePath = [paths[0] stringByAppendingPathComponent:fullNamespace];
-        if (![fileManager1 fileExistsAtPath:self.libraryCachePath]) {
-            [fileManager1 createDirectoryAtPath:self.libraryCachePath withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
-        self.epgCachePath = [paths[0] stringByAppendingPathComponent:@"EPGDataCache"];
-//        [[NSFileManager defaultManager] removeItemAtPath:self.epgCachePath error:nil];
-        if (![fileManager1 fileExistsAtPath:self.epgCachePath]) {
-            [fileManager1 createDirectoryAtPath:self.epgCachePath withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSArray *cachePaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        self.libraryCachePath = [cachePaths[0] stringByAppendingPathComponent:@"LibraryCache"];
+        [fileManager createDirectoryAtPath:self.libraryCachePath
+               withIntermediateDirectories:YES
+                                attributes:nil
+                                     error:NULL];
+        self.epgCachePath = [cachePaths[0] stringByAppendingPathComponent:@"EPGDataCache"];
+        [fileManager createDirectoryAtPath:self.epgCachePath
+               withIntermediateDirectories:YES
+                                attributes:nil
+                                     error:NULL];
     }
 	return self;
 	
@@ -6037,10 +6036,7 @@
 }
 
 - (void)saveServerList {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    if (paths.count > 0) { 
-        [NSKeyedArchiver archiveRootObject:arrayServerList toFile:self.dataFilePath];
-    }
+    [Utilities archivePath:self.dataFilePath file:@"serverList_saved.dat" data:arrayServerList];
 }
 
 - (void)clearAppDiskCache {
