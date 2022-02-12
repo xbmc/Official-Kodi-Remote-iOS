@@ -285,6 +285,50 @@
     view.frame = frame;
 }
 
+- (void)cardDrop {
+    NSInteger viewControllerCount = viewControllersStack.count;
+    if (viewControllerCount > 1) {
+        for (int i = 1; i < viewControllerCount; i++) {
+            viewXPosition = self.view.frame.size.width - [slideViews viewWithTag:i + VIEW_TAG].frame.size.width;
+            [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
+            [viewControllersStack removeLastObject];
+        }
+        [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
+        [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
+        [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
+    }
+    // Removes the selection of row for the first slide view
+    for (UIView* tableView in slideViews.subviews[0].subviews) {
+        if ([tableView isKindOfClass:[UIView class]]) {
+            for (UIView* tableView2 in tableView.subviews) {
+                if ([tableView2 isKindOfClass:[UITableView class]]) {
+                    NSIndexPath* selectedRow = [(UITableView*)tableView2 indexPathForSelectedRow];
+                    [(UITableView*)tableView2 deselectRowAtIndexPath:selectedRow animated:YES];
+                }
+                if ([tableView2 isKindOfClass:[UICollectionView class]]) {
+                    for (NSIndexPath* selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
+                        [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
+                    }
+                    [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
+                }
+            }
+        }
+        if ([tableView isKindOfClass:[UITableView class]]) {
+            NSIndexPath* selectedRow = [(UITableView*)tableView indexPathForSelectedRow];
+            [(UITableView*)tableView deselectRowAtIndexPath:selectedRow animated:YES];
+        }
+        if ([tableView isKindOfClass:[UICollectionView class]]) {
+            for (NSIndexPath* selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
+                [(UICollectionView*)tableView deselectItemAtIndexPath:selection animated:YES];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
+        }
+    }
+    viewAtLeft2 = nil;
+    viewAtRight = nil;
+    viewAtRight2 = nil;
+}
+
 - (void)handlePanFrom:(UIPanGestureRecognizer*)recognizer {
     if (stackScrollIsFullscreen) {
         return;
@@ -497,48 +541,7 @@
                         else {
                             // Drop Card View Animation
                             if (slideViews.subviews[0].frame.origin.x - SLIDE_VIEWS_MINUS_X_POSITION >= self.view.frame.origin.x + slideViews.subviews[0].frame.size.width) {
-                                NSInteger viewControllerCount = viewControllersStack.count;
-                                
-                                if (viewControllerCount > 1) {
-                                    for (int i = 1; i < viewControllerCount; i++) {
-                                        viewXPosition = self.view.frame.size.width - [slideViews viewWithTag:i + VIEW_TAG].frame.size.width;
-                                        [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
-                                        [viewControllersStack removeLastObject];
-                                    }
-                                    [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
-                                    [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
-                                    [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
-                                }
-                                // Removes the selection of row for the first slide view
-                                for (UIView *tableView in slideViews.subviews[0].subviews) {
-                                    if ([tableView isKindOfClass:[UIView class]]) {
-                                        for (UIView *tableView2 in tableView.subviews) {
-                                            if ([tableView2 isKindOfClass:[UITableView class]]) {
-                                                NSIndexPath *selectedRow = [(UITableView*)tableView2 indexPathForSelectedRow];
-                                                [(UITableView*)tableView2 deselectRowAtIndexPath:selectedRow animated:YES];
-                                            }
-                                            if ([tableView2 isKindOfClass:[UICollectionView class]]) {
-                                                for (NSIndexPath *selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
-                                                    [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
-                                                }
-                                                [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
-                                            }
-                                        }
-                                    }
-                                    if ([tableView isKindOfClass:[UITableView class]]) {
-                                        NSIndexPath *selectedRow = [(UITableView*)tableView indexPathForSelectedRow];
-                                        [(UITableView*)tableView deselectRowAtIndexPath:selectedRow animated:YES];
-                                    }
-                                    if ([tableView isKindOfClass:[UICollectionView class]]) {
-                                        for (NSIndexPath *selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
-                                            [(UICollectionView*)tableView deselectItemAtIndexPath:selection animated:YES];
-                                        }
-                                        [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
-                                    }
-                                }
-                                viewAtLeft2 = nil;
-                                viewAtRight = nil;
-                                viewAtRight2 = nil;
+                                [self cardDrop];
                             }
                             
                             [self changeFrame:viewAtLeft
@@ -638,48 +641,7 @@
                             // Drop Card View Animation
                             CGFloat posX = SLIDE_VIEWS_START_X_POS;
                             if (slideViews.subviews[0].frame.origin.x + PAD_MENU_TABLE_WIDTH >= self.view.frame.origin.x + slideViews.subviews[0].frame.size.width) {
-                                NSInteger viewControllerCount = viewControllersStack.count;
-                                if (viewControllerCount > 1) {
-                                    for (int i = 1; i < viewControllerCount; i++) {
-                                        viewXPosition = self.view.frame.size.width - [slideViews viewWithTag:i + VIEW_TAG].frame.size.width;
-                                        [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
-                                        [viewControllersStack removeLastObject];
-                                    }
-                                    [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
-                                    [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
-                                    [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
-                                }
-                                // Removes the selection of row for the first slide view
-                                for (UIView *tableView in slideViews.subviews[0].subviews) {
-                                    if ([tableView isKindOfClass:[UIView class]]) {
-                                        for (UIView *tableView2 in tableView.subviews) {
-                                            if ([tableView2 isKindOfClass:[UITableView class]]) {
-                                                NSIndexPath *selectedRow = [(UITableView*)tableView2 indexPathForSelectedRow];
-                                                [(UITableView*)tableView2 deselectRowAtIndexPath:selectedRow animated:YES];
-                                            }
-                                            if ([tableView2 isKindOfClass:[UICollectionView class]]) {
-                                                for (NSIndexPath *selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
-                                                    [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
-                                                }
-                                                [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
-                                            }
-                                        }
-                                    }
-                                    if ([tableView isKindOfClass:[UITableView class]]) {
-                                        NSIndexPath *selectedRow = [(UITableView*)tableView indexPathForSelectedRow];
-                                        [(UITableView*)tableView deselectRowAtIndexPath:selectedRow animated:YES];
-                                    }
-                                    if ([tableView isKindOfClass:[UICollectionView class]]) {
-                                        for (NSIndexPath *selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
-                                            [(UICollectionView*)tableView deselectItemAtIndexPath:selection animated:YES];
-                                        }
-                                        [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
-                                    }
-                                }
-                                
-                                viewAtLeft2 = nil;
-                                viewAtRight = nil;
-                                viewAtRight2 = nil;
+                                [self cardDrop];
                                 // MODDED BY JOE
                                 CGFloat marginPosX = (IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH - STACK_OVERLAP;
                                 if (slideViews.subviews[0].frame.origin.x + marginPosX / 2 >= marginPosX) {
