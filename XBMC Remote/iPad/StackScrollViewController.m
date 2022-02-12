@@ -390,7 +390,7 @@
 				}
 				
                 CGFloat atRightDisplacement = positionOfViewAtRightAtTouchBegan.x + translatedPoint.x + displacementPosition;
-				if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && viewAtRight.frame.origin.x + viewAtRight.frame.size.width > self.view.frame.size.width) {
+				if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && CGRectGetMaxX(viewAtRight.frame) > self.view.frame.size.width) {
 					if (atRightDisplacement + viewAtRight.frame.size.width <= self.view.frame.size.width) {
                         [self changeFrame:viewAtRight
                                   originX:self.view.frame.size.width - viewAtRight.frame.size.width];
@@ -421,7 +421,7 @@
                                   originX:atLeftDisplacement];
 					}
                     [self changeFrame:viewAtRight
-                              originX:viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width];
+                              originX:CGRectGetMaxX(viewAtLeft.frame)];
 					
 					if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION) {
 						positionOfViewAtRightAtTouchBegan = viewAtRight.frame.origin;
@@ -468,10 +468,10 @@
 				}
 				
                 CGFloat atRightDisplacement = positionOfViewAtRightAtTouchBegan.x + translatedPoint.x - displacementPosition;
-				if ((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION) {
-					if (atRightDisplacement >= viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width) {
+				if (viewAtRight.frame.origin.x < CGRectGetMaxX(viewAtLeft.frame) && viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION) {
+					if (atRightDisplacement >= CGRectGetMaxX(viewAtLeft.frame)) {
                         [self changeFrame:viewAtRight
-                                  originX:viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width];
+                                  originX:CGRectGetMaxX(viewAtLeft.frame)];
 					}
                     else {
                         [self changeFrame:viewAtRight
@@ -560,7 +560,7 @@
                                     completion:^(BOOL finished) {}
                     ];
 				}
-				else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && viewAtRight.frame.origin.x + viewAtRight.frame.size.width > self.view.frame.size.width) {
+                else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && CGRectGetMaxX(viewAtRight.frame) > self.view.frame.size.width) {
                     [UIView transitionWithView:self.view
                                       duration:0.2
                                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
@@ -571,7 +571,7 @@
                                      completion:^(BOOL finished) {}
                     ];
 				}
-				else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && viewAtRight.frame.origin.x + viewAtRight.frame.size.width < self.view.frame.size.width) {
+                else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && CGRectGetMaxX(viewAtRight.frame) < self.view.frame.size.width) {
                     [UIView transitionWithView:self.view
                                       duration:0.2
                                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
@@ -590,7 +590,7 @@
                                       duration:0.2
                                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                                     animations:^{
-                        if ((viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width > self.view.frame.size.width) && viewAtLeft.frame.origin.x < (self.view.frame.size.width - viewAtLeft.frame.size.width / 2)) {
+                        if (CGRectGetMaxX(viewAtLeft.frame) > self.view.frame.size.width && viewAtLeft.frame.origin.x < (self.view.frame.size.width - viewAtLeft.frame.size.width / 2)) {
                             animationDirection = @"LEFT-WITH-LEFT";
                             [self changeFrame:viewAtLeft
                                       originX:self.view.frame.size.width - viewAtLeft.frame.size.width];
@@ -614,7 +614,7 @@
                             
                             // Show bounce effect
                             [self changeFrame:viewAtRight2
-                                      originX:viewAtRight.frame.origin.x + viewAtRight.frame.size.width];
+                                      originX:CGRectGetMaxX(viewAtRight.frame)];
                         }
                                     }
                                     completion:^(BOOL finished) {
@@ -682,7 +682,7 @@
 }
 
 - (void)moveStack {
-    if ((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtRight.frame.origin.x < (self.view.frame.size.width - viewAtRight.frame.size.width / 2)) {
+    if (viewAtRight.frame.origin.x < CGRectGetMaxX(viewAtLeft.frame) && viewAtRight.frame.origin.x < (self.view.frame.size.width - viewAtRight.frame.size.width / 2)) {
         [UIView transitionWithView:self.view
                           duration:0.2
                            options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
@@ -1021,14 +1021,14 @@
             subController.view.frame = frame;
         }
         else if (viewAtRight != nil && [viewAtRight isEqual:subController.view]) {
-            if (viewAtRight.frame.origin.x <= (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) {
+            if (viewAtRight.frame.origin.x <= CGRectGetMaxX(viewAtLeft.frame)) {
                 [self changeFrame:subController.view
                           originX:self.view.frame.size.width - subController.view.frame.size.width
                            height:self.view.frame.size.height - bottomPadding];
             }
             else {
                 [self changeFrame:subController.view
-                          originX:viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width
+                          originX:CGRectGetMaxX(viewAtLeft.frame)
                            height:self.view.frame.size.height - bottomPadding];
             }
             isViewOutOfScreen = YES;
@@ -1055,7 +1055,7 @@
                            height:self.view.frame.size.height - bottomPadding];
             }
             else {
-                if (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width == self.view.frame.size.width) {
+                if (CGRectGetMaxX(viewAtLeft.frame) == self.view.frame.size.width) {
                     [self changeFrame:subController.view
                               originX:self.view.frame.size.width - subController.view.frame.size.width
                                height:self.view.frame.size.height - bottomPadding];
