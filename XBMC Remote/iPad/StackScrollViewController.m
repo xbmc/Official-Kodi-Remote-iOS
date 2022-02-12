@@ -53,7 +53,6 @@
 @synthesize slideViews, borderViews, viewControllersStack, slideStartPosition;
 
 - (id)init {
-	
 	if (self = [super init]) {
 		
         bottomPadding = [Utilities getBottomPadding];
@@ -113,7 +112,6 @@
                                                  selector: @selector(handleStackScrollFullScreenDisabled:)
                                                      name: @"StackScrollFullScreenDisabled"
                                                    object: nil];
-
 	}
 	
 	return self;
@@ -133,7 +131,6 @@
     if (clipsToBounds) {
         senderView.clipsToBounds = YES;
     }
-//    [senderView viewWithTag:2002].hidden = YES;
     stackScrollIsFullscreen = YES;
     [UIView animateWithDuration:duration
                           delay:0
@@ -179,7 +176,6 @@
         duration = 1.5;
     }
     senderView.clipsToBounds = NO;
-//    [senderView viewWithTag:2002].hidden = NO;
     stackScrollIsFullscreen = NO;
     [UIView animateWithDuration:duration
                           delay:0
@@ -214,33 +210,13 @@
 
 - (void)disablePanGestureRecognizer:(UIImageView*)fallbackView {
     return;
-//    if (self.view.gestureRecognizers.count) {
-//        [self.view removeGestureRecognizer:self.view.gestureRecognizers[0]];
-//    }
-//    if (!fallbackView.gestureRecognizers.count) {
-//        UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
-//        panRecognizer.maximumNumberOfTouches = 1;
-//        panRecognizer.delaysTouchesBegan = YES;
-//        panRecognizer.delaysTouchesEnded = YES;
-//        panRecognizer.cancelsTouchesInView = YES;
-//        [fallbackView addGestureRecognizer:panRecognizer];
-//    }
 }
 
 - (void)enablePanGestureRecognizer {
     return;
-//    if (!self.view.gestureRecognizers.count) {
-//        UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
-//		panRecognizer.maximumNumberOfTouches = 1;
-//		panRecognizer.delaysTouchesBegan = YES;
-//		panRecognizer.delaysTouchesEnded = YES;
-//		panRecognizer.cancelsTouchesInView = YES;
-//		[self.view addGestureRecognizer:panRecognizer];
-//    }
 }
 
 - (void)arrangeVerticalBar {
-	
 	if (slideViews.subviews.count > 2) {
 		[borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
 		[borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
@@ -483,7 +459,7 @@
                             viewAtRight.frame = CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + viewAtLeft.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width, viewAtRight.frame.size.height);
                         }
                         else {
-                            //Drop Card View Animation
+                            // Drop Card View Animation
                             if (slideViews.subviews[0].frame.origin.x - SLIDE_VIEWS_MINUS_X_POSITION >= self.view.frame.origin.x + slideViews.subviews[0].frame.size.width) {
                                 NSInteger viewControllerCount = viewControllersStack.count;
                                 
@@ -493,7 +469,6 @@
                                         [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
                                         [viewControllersStack removeLastObject];
                                     }
-                                    
                                     [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
                                     [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
                                     [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
@@ -511,7 +486,6 @@
                                                     [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
                                                 }
                                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
-
                                             }
                                         }
                                     }
@@ -535,7 +509,6 @@
                             if (viewAtRight != nil) {
                                 viewAtRight.frame = CGRectMake(SLIDE_VIEWS_START_X_POS + viewAtLeft.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width, viewAtRight.frame.size.height);
                             }
-                            
                         }
                                     }
                                     completion:^(BOOL finished) {}
@@ -573,7 +546,7 @@
                             animationDirection = @"LEFT-WITH-LEFT";
                             viewAtLeft.frame = CGRectMake(self.view.frame.size.width - viewAtLeft.frame.size.width, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height);
                             
-                            //Show bounce effect
+                            // Show bounce effect
                             viewAtRight.frame = CGRectMake(self.view.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width, viewAtRight.frame.size.height);
                         }
                         else {
@@ -586,7 +559,7 @@
                                 viewAtRight.frame = CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + viewAtLeft.frame.size.width, viewAtRight.frame.origin.y, viewAtRight.frame.size.width, viewAtRight.frame.size.height);
                             }
                             
-                            //Show bounce effect
+                            // Show bounce effect
                             viewAtRight2.frame = CGRectMake(viewAtRight.frame.origin.x + viewAtRight.frame.size.width, viewAtRight2.frame.origin.y, viewAtRight2.frame.size.width, viewAtRight2.frame.size.height);
                         }
                                     }
@@ -615,10 +588,9 @@
                                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                                     animations:^{
                         if (viewAtLeft.frame.origin.x > SLIDE_VIEWS_MINUS_X_POSITION || viewAtRight == nil) {
-                            //Drop Card View Animation
+                            // Drop Card View Animation
                             CGFloat posX = SLIDE_VIEWS_START_X_POS;
                             if (slideViews.subviews[0].frame.origin.x + PAD_MENU_TABLE_WIDTH >= self.view.frame.origin.x + slideViews.subviews[0].frame.size.width) {
-    //                            NSLog(@"ELIMINO 2");
                                 NSInteger viewControllerCount = viewControllersStack.count;
                                 if (viewControllerCount > 1) {
                                     for (int i = 1; i < viewControllerCount; i++) {
@@ -666,7 +638,7 @@
                                 if (slideViews.subviews[0].frame.origin.x + marginPosX / 2 >= marginPosX) {
                                     posX = marginPosX;
                                 }
-                                //END MODDED
+                                // END MODDED
                             }
                             viewAtLeft.frame = CGRectMake(posX, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height);
                             if (viewAtRight != nil) {
@@ -731,7 +703,6 @@
 }
 
 - (void)bounceBack:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context {
-    
     BOOL isBouncing = NO;
     
     if ([dragDirection isEqualToString:@""] && [finished boolValue]) {
@@ -912,7 +883,6 @@
     }
 	
 	if (viewControllersStack.count > 1) {
-//        NSLog(@"DUE");
         UIViewController *invokedBy = invokeByController.parentViewController ?: invokeByController;
         NSInteger indexOfViewController = [viewControllersStack indexOfObject:invokedBy];
         if (indexOfViewController == NSNotFound) {
@@ -930,7 +900,6 @@
         }
 	}
     else if (viewControllersStack.count == 0) {
-//        NSLog(@"TRE"); //FIRST
 		for (UIView *subview in slideViews.subviews) {
 			[subview removeFromSuperview];
 		}		[viewControllersStack removeAllObjects];
@@ -940,7 +909,6 @@
 	}
 	
 	if (slideViews.subviews.count != 0) {
-//        NSLog(@"QUATTRO");
         UIView *verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(-40, 0, 40, self.view.frame.size.height - bottomPadding)];
 		verticalLineView.backgroundColor = UIColor.clearColor;
 		verticalLineView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -950,11 +918,9 @@
 	
 	[viewControllersStack addObject:controller];
 	if (invokeByController != nil) {
-//        NSLog(@"CINQUE"); //FIRST
 		viewXPosition = invokeByController.view.frame.origin.x + invokeByController.view.frame.size.width;			
 	}
 	if (slideViews.subviews.count == 0) {
-//        NSLog(@"SEI"); //FIRST
 		slideStartPosition = SLIDE_VIEWS_START_X_POS;
 		viewXPosition = slideStartPosition;
 	}
@@ -968,7 +934,6 @@
 	[slideViews addSubview:controller.view];
     if (slideViews.subviews.count > 0) {
 		if (slideViews.subviews.count == 1) {
-//            NSLog(@"SETTE"); //FIRST
 			viewAtLeft = slideViews.subviews[slideViews.subviews.count - 1];
             controller.view.frame = CGRectMake(animX, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
 
@@ -985,7 +950,6 @@
 			viewAtRight2 = nil;
 		}
         else if (slideViews.subviews.count == 2) {
-//            NSLog(@"OTTO");
 			viewAtRight = slideViews.subviews[slideViews.subviews.count - 1];
 			viewAtLeft = slideViews.subviews[slideViews.subviews.count - 2];
 			viewAtLeft2 = nil;
@@ -1003,7 +967,6 @@
 			slideStartPosition = SLIDE_VIEWS_MINUS_X_POSITION;
 		}
         else {
-//            NSLog(@"NOVE");
             viewAtRight = slideViews.subviews[slideViews.subviews.count - 1];
             viewAtLeft = slideViews.subviews[slideViews.subviews.count - 2];
             viewAtLeft2 = slideViews.subviews[slideViews.subviews.count - 3];
@@ -1033,7 +996,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 
 #pragma mark -
 #pragma mark Rotation support
@@ -1095,7 +1057,6 @@
         else {
             subController.view.frame = CGRectMake(self.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding);
         }
-        
     }
     for (UIViewController *subController in viewControllersStack) {
         [subController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
@@ -1117,10 +1078,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-//	[slideViews release];
-//	[viewControllersStack release];
-//    [super dealloc];
 }
-
 
 @end
