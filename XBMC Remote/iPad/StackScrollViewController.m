@@ -278,6 +278,13 @@
     view.frame = frame;
 }
 
+- (void)changeFrame:(UIView*)view originX:(CGFloat)originX height:(CGFloat)height {
+    CGRect frame = view.frame;
+    frame.origin.x = originX;
+    frame.size.height = height;
+    view.frame = frame;
+}
+
 - (void)handlePanFrom:(UIPanGestureRecognizer*)recognizer {
     if (stackScrollIsFullscreen) {
         return;
@@ -1048,70 +1055,60 @@
         }
         else if (viewAtRight != nil && [viewAtRight isEqual:subController.view]) {
             if (viewAtRight.frame.origin.x <= (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) {
-                subController.view.frame = CGRectMake(self.view.frame.size.width - subController.view.frame.size.width,
-                                                      subController.view.frame.origin.y,
-                                                      subController.view.frame.size.width,
-                                                      self.view.frame.size.height - bottomPadding);
+                [self changeFrame:subController.view
+                          originX:self.view.frame.size.width - subController.view.frame.size.width
+                           height:self.view.frame.size.height - bottomPadding];
             }
             else {
-                subController.view.frame = CGRectMake(viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width,
-                                                      subController.view.frame.origin.y,
-                                                      subController.view.frame.size.width,
-                                                      self.view.frame.size.height - bottomPadding);
+                [self changeFrame:subController.view
+                          originX:viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width
+                           height:self.view.frame.size.height - bottomPadding];
             }
             isViewOutOfScreen = YES;
         }
         else if (viewAtLeft != nil && [viewAtLeft isEqual:subController.view]) {
             if (viewAtLeft2 == nil) {
                 if (viewAtRight == nil) {
-                    subController.view.frame = CGRectMake(posX,
-                                                          subController.view.frame.origin.y,
-                                                          subController.view.frame.size.width,
-                                                          self.view.frame.size.height - bottomPadding);
+                    [self changeFrame:subController.view
+                              originX:posX
+                               height:self.view.frame.size.height - bottomPadding];
                 }
                 else {
-                    subController.view.frame = CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION,
-                                                          subController.view.frame.origin.y,
-                                                          subController.view.frame.size.width,
-                                                          self.view.frame.size.height - bottomPadding);
-                    viewAtRight.frame = CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION + subController.view.frame.size.width,
-                                                   viewAtRight.frame.origin.y,
-                                                   viewAtRight.frame.size.width,
-                                                   viewAtRight.frame.size.height - bottomPadding);
+                    [self changeFrame:subController.view
+                              originX:SLIDE_VIEWS_MINUS_X_POSITION
+                               height:self.view.frame.size.height - bottomPadding];
+                    [self changeFrame:viewAtRight
+                              originX:SLIDE_VIEWS_MINUS_X_POSITION + subController.view.frame.size.width
+                               height:viewAtRight.frame.size.height - bottomPadding];
                 }
             }
             else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION || viewAtLeft.frame.origin.x == SLIDE_VIEWS_START_X_POS) {
-                subController.view.frame = CGRectMake(subController.view.frame.origin.x,
-                                                      subController.view.frame.origin.y,
-                                                      subController.view.frame.size.width,
-                                                      self.view.frame.size.height - bottomPadding);
+                [self changeFrame:subController.view
+                          originX:subController.view.frame.origin.x
+                           height:self.view.frame.size.height - bottomPadding];
             }
             else {
                 if (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width == self.view.frame.size.width) {
-                    subController.view.frame = CGRectMake(self.view.frame.size.width - subController.view.frame.size.width,
-                                                          subController.view.frame.origin.y,
-                                                          subController.view.frame.size.width,
-                                                          self.view.frame.size.height - bottomPadding);
+                    [self changeFrame:subController.view
+                              originX:self.view.frame.size.width - subController.view.frame.size.width
+                               height:self.view.frame.size.height - bottomPadding];
                 }
                 else {
-                    subController.view.frame = CGRectMake(viewAtLeft2.frame.origin.x + viewAtLeft2.frame.size.width,
-                                                          subController.view.frame.origin.y,
-                                                          subController.view.frame.size.width,
-                                                          self.view.frame.size.height - bottomPadding);
+                    [self changeFrame:subController.view
+                              originX:viewAtLeft2.frame.origin.x + viewAtLeft2.frame.size.width
+                               height:self.view.frame.size.height - bottomPadding];
                 }
             }
         }
         else if (!isViewOutOfScreen) {
-            subController.view.frame = CGRectMake(subController.view.frame.origin.x,
-                                                  subController.view.frame.origin.y,
-                                                  subController.view.frame.size.width,
-                                                  self.view.frame.size.height - bottomPadding);
+            [self changeFrame:subController.view
+                      originX:subController.view.frame.origin.x
+                       height:self.view.frame.size.height - bottomPadding];
         }
         else {
-            subController.view.frame = CGRectMake(self.view.frame.size.width,
-                                                  subController.view.frame.origin.y,
-                                                  subController.view.frame.size.width,
-                                                  self.view.frame.size.height - bottomPadding);
+            [self changeFrame:subController.view
+                      originX:self.view.frame.size.width
+                       height:self.view.frame.size.height - bottomPadding];
         }
     }
     for (UIViewController *subController in viewControllersStack) {
