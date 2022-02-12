@@ -389,34 +389,36 @@
 					}
 				}
 				
+                CGFloat atRightDisplacement = positionOfViewAtRightAtTouchBegan.x + translatedPoint.x + displacementPosition;
 				if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && viewAtRight.frame.origin.x + viewAtRight.frame.size.width > self.view.frame.size.width) {
-					if ((positionOfViewAtRightAtTouchBegan.x + translatedPoint.x + displacementPosition + viewAtRight.frame.size.width) <= self.view.frame.size.width) {
+					if (atRightDisplacement + viewAtRight.frame.size.width <= self.view.frame.size.width) {
                         [self changeFrame:viewAtRight
                                   originX:self.view.frame.size.width - viewAtRight.frame.size.width];
 					}
                     else {
                         [self changeFrame:viewAtRight
-                                  originX:positionOfViewAtRightAtTouchBegan.x + translatedPoint.x + displacementPosition];
+                                  originX:atRightDisplacement];
 					}
 				}
 				else if (([slideViews.subviews indexOfObject:viewAtRight] == slideViews.subviews.count - 1) && viewAtRight.frame.origin.x <= (self.view.frame.size.width - viewAtRight.frame.size.width)) {
-					if ((positionOfViewAtRightAtTouchBegan.x + translatedPoint.x + displacementPosition) <= SLIDE_VIEWS_MINUS_X_POSITION) {
+					if (atRightDisplacement <= SLIDE_VIEWS_MINUS_X_POSITION) {
                         [self changeFrame:viewAtRight
                                   originX:SLIDE_VIEWS_MINUS_X_POSITION];
 					}
                     else {
                         [self changeFrame:viewAtRight
-                                  originX:positionOfViewAtRightAtTouchBegan.x + translatedPoint.x + displacementPosition];
+                                  originX:atRightDisplacement];
 					}
 				}
 				else {
-					if (positionOfViewAtLeftAtTouchBegan.x + translatedPoint.x + displacementPosition <= SLIDE_VIEWS_MINUS_X_POSITION) {
+                    CGFloat atLeftDisplacement = positionOfViewAtLeftAtTouchBegan.x + translatedPoint.x + displacementPosition;
+                    if (atLeftDisplacement <= SLIDE_VIEWS_MINUS_X_POSITION) {
                         [self changeFrame:viewAtLeft
                                   originX:SLIDE_VIEWS_MINUS_X_POSITION];
 					}
                     else {
                         [self changeFrame:viewAtLeft
-                                  originX:positionOfViewAtLeftAtTouchBegan.x + translatedPoint.x + displacementPosition];
+                                  originX:atLeftDisplacement];
 					}
                     [self changeFrame:viewAtRight
                               originX:viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width];
@@ -429,8 +431,9 @@
 				}
 			}
             else {
+                CGFloat atLeftDisplacement = positionOfViewAtLeftAtTouchBegan.x + translatedPoint.x + displacementPosition;
                 [self changeFrame:viewAtLeft
-                          originX:positionOfViewAtLeftAtTouchBegan.x + translatedPoint.x + displacementPosition];
+                          originX:atLeftDisplacement];
 			}
 			[self arrangeVerticalBar];
 		}
@@ -464,24 +467,26 @@
 					}
 				}
 				
+                CGFloat atRightDisplacement = positionOfViewAtRightAtTouchBegan.x + translatedPoint.x - displacementPosition;
 				if ((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION) {
-					if ((positionOfViewAtRightAtTouchBegan.x + translatedPoint.x - displacementPosition) >= (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) {
+					if (atRightDisplacement >= viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width) {
                         [self changeFrame:viewAtRight
                                   originX:viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width];
 					}
                     else {
                         [self changeFrame:viewAtRight
-                                  originX:positionOfViewAtRightAtTouchBegan.x + translatedPoint.x - displacementPosition];
+                                  originX:atRightDisplacement];
 					}
 				}
                 else if ([slideViews.subviews indexOfObject:viewAtLeft] == 0) {
 					if (viewAtRight == nil) {
+                        CGFloat atLeftDisplacement = positionOfViewAtLeftAtTouchBegan.x + translatedPoint.x - displacementPosition;
                         [self changeFrame:viewAtLeft
-                                  originX:positionOfViewAtLeftAtTouchBegan.x + translatedPoint.x - displacementPosition];
+                                  originX:atLeftDisplacement];
 					}
                     else {
                         [self changeFrame:viewAtRight
-                                  originX:positionOfViewAtRightAtTouchBegan.x + translatedPoint.x - displacementPosition];
+                                  originX:atRightDisplacement];
 						if (viewAtRight.frame.origin.x - viewAtLeft.frame.size.width < SLIDE_VIEWS_MINUS_X_POSITION) {
                             [self changeFrame:viewAtLeft
                                       originX:SLIDE_VIEWS_MINUS_X_POSITION];
@@ -493,13 +498,13 @@
 					}
 				}					
 				else {
-					if ((positionOfViewAtRightAtTouchBegan.x + translatedPoint.x - displacementPosition) >= self.view.frame.size.width) {
+					if (atRightDisplacement >= self.view.frame.size.width) {
                         [self changeFrame:viewAtRight
                                   originX:self.view.frame.size.width];
 					}
                     else {
                         [self changeFrame:viewAtRight
-                                  originX:positionOfViewAtRightAtTouchBegan.x + translatedPoint.x - displacementPosition];
+                                  originX:atRightDisplacement];
 					}
 					if (viewAtRight.frame.origin.x - viewAtLeft.frame.size.width < SLIDE_VIEWS_MINUS_X_POSITION) {
                         [self changeFrame:viewAtLeft
