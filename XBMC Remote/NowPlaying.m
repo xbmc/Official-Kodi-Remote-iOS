@@ -974,7 +974,7 @@ long currentItemID;
         playerID = PLAYERID_UNKNOWN;
         selectedPlayerID = PLAYERID_UNKNOWN;
         storedItemID = 0;
-        [Utilities AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
         [self nothingIsPlaying];
         return;
@@ -1033,25 +1033,18 @@ long currentItemID;
     }];
 }
 
-- (void)alphaButton:(UIButton*)button AnimDuration:(NSTimeInterval)seconds show:(BOOL)show {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	button.hidden = show;
-    [UIView commitAnimations];
-}
-
 - (void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)animTable { 
     if (!AppDelegate.instance.serverOnLine) {
         playerID = PLAYERID_UNKNOWN;
         selectedPlayerID = PLAYERID_UNKNOWN;
         storedItemID = 0;
-        [Utilities AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
         [self nothingIsPlaying];
         return;
     }
     if (!musicPartyMode && animTable) {
-        [Utilities AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     }
     [activityIndicatorView startAnimating];
     GlobalData *obj = AppDelegate.instance.obj;
@@ -1068,17 +1061,17 @@ long currentItemID;
     if (playlistID == PLAYERID_MUSIC) {
         playerID = PLAYERID_MUSIC;
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_MUSIC;
-        [Utilities AnimButton:PartyModeButton AnimDuration:0.3 hidden:NO XPos:PARTYBUTTON_PADDING_LEFT];
+        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:1.0 XPos:PARTYBUTTON_PADDING_LEFT];
     }
     else if (playlistID == PLAYERID_VIDEO) {
         playerID = PLAYERID_VIDEO;
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_VIDEO;
-        [Utilities AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
+        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
     }
     else if (playlistID == PLAYERID_PICTURES) {
         playerID = PLAYERID_PICTURES;
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_PICTURES;
-        [Utilities AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
+        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
     }
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
@@ -1215,7 +1208,7 @@ long currentItemID;
         [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     }
     else {
-        [Utilities AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [activityIndicatorView stopAnimating];
@@ -1819,21 +1812,14 @@ long currentItemID;
     }
 }
 
-- (void)changeAlphaView:(UIView*)view alpha:(CGFloat)value time:(NSTimeInterval)sec {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:sec];
-	view.alpha = value;
-    [UIView commitAnimations];
-}
-
 - (IBAction)stopUpdateProgressBar:(id)sender {
     updateProgressBar = NO;
-    [self changeAlphaView:scrabbingView alpha:1.0 time:0.3];
+    [Utilities alphaView:scrabbingView AnimDuration:0.3 Alpha:1.0];
 }
 
 - (IBAction)startUpdateProgressBar:(id)sender {
     [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:playerID percentage:ProgressSlider.value] reloadPlaylist:NO startProgressBar:YES];
-    [self changeAlphaView:scrabbingView alpha:0.0 time:0.3];
+    [Utilities alphaView:scrabbingView AnimDuration:0.3 Alpha:0.0];
 }
 
 - (IBAction)updateCurrentTime:(id)sender {
@@ -2584,7 +2570,7 @@ long currentItemID;
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [Utilities AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+    [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     songDetailsView.alpha = 0;
     [playlistTableView setEditing:NO animated:YES];
     [[NSNotificationCenter defaultCenter] removeObserver: self];

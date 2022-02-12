@@ -558,7 +558,8 @@ double round(double d) {
         // Ensure we draw the rounded edges around thumbnail images
         jewelView.image = [Utilities applyRoundedEdgesImage:imageToShow drawBorder:YES];
     }
-    [Utilities alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
+    jewelView.hidden = NO;
+    [Utilities alphaView:jewelView AnimDuration:0.1 Alpha:1.0];
 }
 
 - (void)setIOS7barTintColor:(UIColor*)tintColor {
@@ -1347,7 +1348,7 @@ double round(double d) {
         [Utilities alphaView:closeButton AnimDuration:1.5 Alpha:0];
         [Utilities alphaView:scrollView AnimDuration:1.5 Alpha:1];
         if (!enableKenBurns) {
-            [Utilities alphaImage:fanartView AnimDuration:1.5 Alpha:0.2];// cool
+            [Utilities alphaView:fanartView AnimDuration:1.5 Alpha:0.2];// cool
         }
         else {
             [Utilities alphaView:self.kenView AnimDuration:1.5 Alpha:0.2];// cool
@@ -1406,7 +1407,7 @@ double round(double d) {
         }
         [Utilities alphaView:scrollView AnimDuration:1.5 Alpha:0];
         if (!enableKenBurns) {
-            [Utilities alphaImage:fanartView AnimDuration:1.5 Alpha:1];// cool
+            [Utilities alphaView:fanartView AnimDuration:1.5 Alpha:1];// cool
         }
         else {
             [Utilities alphaView:self.kenView AnimDuration:1.5 Alpha:1];// cool
@@ -1757,7 +1758,7 @@ double round(double d) {
         [self.navigationController setNavigationBarHidden:YES animated:YES];
     }
     if (!enableKenBurns) {
-        [Utilities alphaImage:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
+        [Utilities alphaView:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
     else {
         if (fanartView.image != nil && self.kenView == nil) {
@@ -1783,7 +1784,7 @@ double round(double d) {
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [Utilities alphaImage:fanartView AnimDuration:0.3 Alpha:0.0];
+    [Utilities alphaView:fanartView AnimDuration:0.3 Alpha:0.0];
     if (self.kenView != nil) {
         [UIView animateWithDuration:0.3
                          animations:^{

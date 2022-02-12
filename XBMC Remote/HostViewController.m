@@ -281,7 +281,7 @@
         }
         else {
             if (j == 0) {
-                [Utilities AnimLabel:noInstances AnimDuration:0.3 Alpha:1.0 XPos:0];
+                [Utilities AnimView:noInstances AnimDuration:0.3 Alpha:1.0 XPos:0];
             }
             else {
                 [discoveredInstancesTableView reloadData];
@@ -400,7 +400,7 @@
     [activityIndicatorView startAnimating];
     [services removeAllObjects];
     startDiscover.enabled = NO;
-    [Utilities AnimLabel:noInstances AnimDuration:0.3 Alpha:0.0 XPos:self.view.frame.size.width];
+    [Utilities AnimView:noInstances AnimDuration:0.3 Alpha:0.0 XPos:self.view.frame.size.width];
     [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
 
     searching = NO;
@@ -499,7 +499,7 @@
     mac_3_UI.textColor = [Utilities get1stLabelColor];
     mac_4_UI.textColor = [Utilities get1stLabelColor];
     mac_5_UI.textColor = [Utilities get1stLabelColor];
-    [Utilities AnimLabel:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
+    [Utilities AnimView:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
 }
 
 - (void)viewDidLoad {

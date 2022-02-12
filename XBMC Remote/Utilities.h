@@ -91,11 +91,7 @@ typedef enum {
 + (void)enableDefaultController:(id<UITableViewDelegate>)viewController tableView:(UITableView*)tableView menuItems:(NSArray*)menuItems;
 + (id)unarchivePath:(NSString*)path file:(NSString*)filename;
 + (void)archivePath:(NSString*)path file:(NSString*)filename data:(id)data;
-+ (void)AnimTable:(UITableView*)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X;
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X;
-+ (void)AnimLabel:(UIView*)Lab AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X;
-+ (void)AnimButton:(UIButton*)button AnimDuration:(NSTimeInterval)seconds hidden:(BOOL)hiddenValue XPos:(int)X;
 + (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue;
-+ (void)alphaImage:(UIImageView*)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue;
 
 @end

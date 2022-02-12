@@ -941,7 +941,7 @@
     }
     choosedTab = MAX_NORMAL_BUTTONS;
     [buttonsIB[choosedTab] setSelected:YES];
-    [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     int i;
     NSInteger count = [menuItem mainParameters].count;
     NSMutableArray *moreMenu = [NSMutableArray new];
@@ -1223,7 +1223,7 @@
     if (newEnableCollectionView != enableCollectionView) {
         animDuration = 0.0;
     }
-    [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
+    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
@@ -1262,7 +1262,7 @@
     }
     else {
         [activityIndicatorView stopAnimating];
-        [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
 }
 
@@ -3733,10 +3733,10 @@ NSIndexPath *selected;
                              [self choseParams];
                              if (forceCollection) {
                                  forceCollection = NO;
-                                 [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
+                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
                                  enableCollectionView = NO;
                                  [self configureLibraryView];
-                                 [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
+                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
                              }
                              [self setFlowLayoutParams];
                              [collectionView.collectionViewLayout invalidateLayout];
@@ -3780,10 +3780,10 @@ NSIndexPath *selected;
                              moreItemsViewController.view.hidden = YES;
                              if (!enableCollectionView) {
                                  forceCollection = YES;
-                                 [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
+                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
                                  enableCollectionView = YES;
                                  [self configureLibraryView];
-                                 [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
+                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
                              }
                              else {
                                  forceCollection = NO;
@@ -3936,7 +3936,7 @@ NSIndexPath *selected;
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
-                   [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+                   [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
                    [self startRetrieveDataWithRefresh:YES];
                }
                else {
@@ -4475,7 +4475,7 @@ NSIndexPath *selected;
     }
     else {
         [activityIndicatorView stopAnimating];
-        [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
 }
 
@@ -4885,7 +4885,7 @@ NSIndexPath *selected;
     self.sections[@""] = @[];
     [self animateNoResultsFound];
     [activeLayoutView reloadData];
-    [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
 }
 
 - (BOOL)isEligibleForSections:(NSArray*)array {
@@ -5225,7 +5225,7 @@ NSIndexPath *selected;
     [self setFlowLayoutParams];
     [activityIndicatorView stopAnimating];
     [activeLayoutView reloadData];
-    [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     [collectionView layoutSubviews];
     [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
@@ -6019,7 +6019,7 @@ NSIndexPath *selected;
                          }
                          completion:^(BOOL finished) {
                              [self configureLibraryView];
-                             [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                             [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
                              [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                          }];
     }
