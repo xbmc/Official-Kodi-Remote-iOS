@@ -1008,21 +1008,21 @@
 }
 
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:seconds];
-    view.alpha = alphavalue;
-    CGRect frame;
-    frame = view.frame;
-    frame.origin.x = X;
-    view.frame = frame;
-    [UIView commitAnimations];
+    [UIView animateWithDuration:seconds
+                     animations:^{
+        view.alpha = alphavalue;
+        CGRect frame;
+        frame = view.frame;
+        frame.origin.x = X;
+        view.frame = frame;
+                     }];
 }
 
 + (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:seconds];
-    view.alpha = alphavalue;
-    [UIView commitAnimations];
+    [UIView animateWithDuration:seconds
+                     animations:^{
+        view.alpha = alphavalue;
+                     }];
 }
 
 @end

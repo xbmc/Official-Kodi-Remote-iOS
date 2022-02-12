@@ -402,21 +402,25 @@
 # pragma mark - view Effects
 
 - (void)showSubInfo:(NSString*)message timeout:(NSTimeInterval)timeout color:(UIColor*)color {
-    // first fadeout 
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-	[UIView setAnimationDuration:0.1];
-    subsInfoLabel.alpha = 0;
-    [UIView commitAnimations];
+    // first fadeout
+    [UIView animateWithDuration:0.1
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        subsInfoLabel.alpha = 0;
+                     }
+                     completion:^(BOOL finished) {}];
     subsInfoLabel.text = message;
     subsInfoLabel.textColor = color;
     // then fade in
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-	[UIView setAnimationDuration:0.1];
-    subsInfoLabel.hidden = NO;
-    subsInfoLabel.alpha = 0.8;
-    [UIView commitAnimations];
+    [UIView animateWithDuration:0.1
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        subsInfoLabel.hidden = NO;
+        subsInfoLabel.alpha = 0.8;
+                     }
+                     completion:^(BOOL finished) {}];
     //then fade out again after timeout seconds
     if (fadeoutTimer.valid) {
         [fadeoutTimer invalidate];
@@ -426,11 +430,13 @@
 
 
 - (void)fadeoutSubs {
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-	[UIView setAnimationDuration:0.2];
-    subsInfoLabel.alpha = 0;
-    [UIView commitAnimations];
+    [UIView animateWithDuration:0.2
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        subsInfoLabel.alpha = 0;
+                     }
+                     completion:^(BOOL finished) {}];
     [fadeoutTimer invalidate];
     fadeoutTimer = nil;
 }
@@ -454,40 +460,43 @@
         frame = gestureZoneView.frame;
         frame.origin.x = -self.view.frame.size.width;
         gestureZoneView.frame = frame;
-        
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        [UIView setAnimationDuration:0.3];
-        frame = gestureZoneView.frame;
-        frame.origin.x = 0;
-        gestureZoneView.frame = frame;
-        
-        frame = buttonZoneView.frame;
-        frame.origin.x = self.view.frame.size.width;
-        buttonZoneView.frame = frame;
-        
-        gestureZoneView.alpha = 1;
-        buttonZoneView.alpha = 0;
-        [UIView commitAnimations];
+        [UIView animateWithDuration:0.3
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+            CGRect frame = gestureZoneView.frame;
+            frame.origin.x = 0;
+            gestureZoneView.frame = frame;
+            
+            frame = buttonZoneView.frame;
+            frame.origin.x = self.view.frame.size.width;
+            buttonZoneView.frame = frame;
+            
+            gestureZoneView.alpha = 1;
+            buttonZoneView.alpha = 0;
+                         }
+                         completion:^(BOOL finished) {}];
         imageName = @"circle";
     }
     else {
         isGestureViewActive = NO;
-        CGRect frame;
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        [UIView setAnimationDuration:0.3];
-        frame = gestureZoneView.frame;
-        frame.origin.x = -self.view.frame.size.width;
-        gestureZoneView.frame = frame;
-        
-        frame = buttonZoneView.frame;
-        frame.origin.x = 0;
-        buttonZoneView.frame = frame;
-        
-        gestureZoneView.alpha = 0;
-        buttonZoneView.alpha = 1;
-        [UIView commitAnimations];
+        [UIView animateWithDuration:0.3
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+            CGRect frame;
+            frame = gestureZoneView.frame;
+            frame.origin.x = -self.view.frame.size.width;
+            gestureZoneView.frame = frame;
+            
+            frame = buttonZoneView.frame;
+            frame.origin.x = 0;
+            buttonZoneView.frame = frame;
+            
+            gestureZoneView.alpha = 0;
+            buttonZoneView.alpha = 1;
+                         }
+                         completion:^(BOOL finished) {}];
         imageName = @"finger";
     }
     if ([sender isKindOfClass: [UIButton class]]) {
@@ -1147,19 +1156,23 @@ NSInteger buttonAction;
 - (IBAction)toggleQuickHelp:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     if (quickHelpView.alpha == 0) {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        [UIView setAnimationDuration:0.2];
-        quickHelpView.alpha = 1.0;
-        [UIView commitAnimations];
+        [UIView animateWithDuration:0.2
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+            quickHelpView.alpha = 1.0;
+                         }
+                         completion:^(BOOL finished) {}];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     else {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        [UIView setAnimationDuration:0.2];
-        quickHelpView.alpha = 0.0;
-        [UIView commitAnimations];
+        [UIView animateWithDuration:0.2
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+            quickHelpView.alpha = 0.0;
+                         }
+                         completion:^(BOOL finished) {}];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
 }

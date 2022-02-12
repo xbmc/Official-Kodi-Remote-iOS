@@ -155,14 +155,13 @@ typedef enum {
 - (void)resizeCellBar:(CGFloat)width image:(UIImageView*)cellBarImage {
     NSTimeInterval time = (width == 0) ? 0.1 : 1.0;
     width = MIN(width, MAX_CELLBAR_WIDTH);
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:time];
-    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    CGRect frame;
-    frame = cellBarImage.frame;
-    frame.size.width = width;
-    cellBarImage.frame = frame;
-    [UIView commitAnimations];
+    [UIView animateWithDuration:time
+                     animations:^{
+        CGRect frame;
+        frame = cellBarImage.frame;
+        frame.size.width = width;
+        cellBarImage.frame = frame;
+                     }];
 }
 
 - (IBAction)togglePartyMode:(id)sender {
@@ -1416,6 +1415,8 @@ long currentItemID;
         startFlipDemo = NO;
     }
     [UIView animateWithDuration:0.2
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
                      animations:^{ 
                          button.hidden = YES;
                          if (nowPlayingHidden) {
@@ -1439,18 +1440,20 @@ long currentItemID;
                              [button setImage:image forState:UIControlStateHighlighted];
                              [button setImage:image forState:UIControlStateSelected];
                          }
-                         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          [UIView setAnimationTransition:anim forView:button cache:YES];
                      } 
                      completion:^(BOOL finished) {
-                         [UIView beginAnimations:nil context:nil];
-                         button.hidden = NO;
-                         [UIView setAnimationDuration:0.5];
-                         [UIView setAnimationDelegate:self];
-                         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-                         [UIView setAnimationTransition:anim2 forView:button cache:YES];
-                         [UIView commitAnimations];
-                     }];
+                        [UIView animateWithDuration:0.5
+                                              delay:0.0
+                                            options:UIViewAnimationOptionCurveEaseOut
+                                         animations:^{
+                                            button.hidden = NO;
+                                            [UIView setAnimationTransition:anim2 forView:button cache:YES];
+                                         }
+                                         completion:^(BOOL finished) {}
+                        ];
+                     }
+    ];
 }
 
 - (void)animViews {
@@ -1497,14 +1500,16 @@ long currentItemID;
     [self IOS7colorProgressSlider:effectColor];
 
     [UIView animateWithDuration:0.2
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-                         [UIView setAnimationTransition:anim forView:transitionView cache:YES];
+        [UIView setAnimationTransition:anim forView:transitionView cache:YES];
                      }
                      completion:^(BOOL finished) {
                          [UIView animateWithDuration:0.5
+                                               delay:0.0
+                                             options:UIViewAnimationOptionCurveEaseOut
                                           animations:^{
-                                              [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
                                               playlistView.hidden = playlistHidden;
                                               nowPlayingView.hidden = nowPlayingHidden;
                                               self.navigationItem.titleView.hidden = NO;
@@ -1596,19 +1601,21 @@ long currentItemID;
     if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || playerID == PLAYERID_PICTURES) {
         return;
     }
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:0.2];
-    if (songDetailsView.alpha == 0) {
-        songDetailsView.alpha = 1.0;
-        [self loadCodecView];
-        itemDescription.scrollsToTop = YES;
-    }
-    else {
-        songDetailsView.alpha = 0.0;
-        itemDescription.scrollsToTop = NO;
-    }
-    [UIView commitAnimations];
+    [UIView animateWithDuration:0.2
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        if (songDetailsView.alpha == 0) {
+            songDetailsView.alpha = 1.0;
+            [self loadCodecView];
+            itemDescription.scrollsToTop = YES;
+        }
+        else {
+            songDetailsView.alpha = 0.0;
+            itemDescription.scrollsToTop = NO;
+        }
+                     }
+                     completion:^(BOOL finished) {}];
 }
 
 - (void)toggleHighlight:(UIButton*)button {

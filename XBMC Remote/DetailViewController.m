@@ -6010,12 +6010,13 @@ NSIndexPath *selected;
         enableCollectionView = [self collectionViewIsEnabled];
         recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
         [UIView animateWithDuration:0.2
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
                              CGRect frame;
                              frame = [activeLayoutView frame];
                              frame.origin.x = viewWidth;
                              ((UITableView*)activeLayoutView).frame = frame;
-                             [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          }
                          completion:^(BOOL finished) {
                              [self configureLibraryView];
