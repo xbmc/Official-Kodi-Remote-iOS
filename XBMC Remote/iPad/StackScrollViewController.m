@@ -468,6 +468,7 @@
 				}
 				
                 CGFloat atRightDisplacement = positionOfViewAtRightAtTouchBegan.x + translatedPoint.x - displacementPosition;
+                CGFloat overlapLeftRight = viewAtRight.frame.origin.x - viewAtLeft.frame.size.width;
 				if (viewAtRight.frame.origin.x < CGRectGetMaxX(viewAtLeft.frame) && viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION) {
 					if (atRightDisplacement >= CGRectGetMaxX(viewAtLeft.frame)) {
                         [self changeFrame:viewAtRight
@@ -487,13 +488,13 @@
                     else {
                         [self changeFrame:viewAtRight
                                   originX:atRightDisplacement];
-						if (viewAtRight.frame.origin.x - viewAtLeft.frame.size.width < SLIDE_VIEWS_MINUS_X_POSITION) {
+						if (overlapLeftRight < SLIDE_VIEWS_MINUS_X_POSITION) {
                             [self changeFrame:viewAtLeft
                                       originX:SLIDE_VIEWS_MINUS_X_POSITION];
 						}
                         else {
                             [self changeFrame:viewAtLeft
-                                      originX:viewAtRight.frame.origin.x - viewAtLeft.frame.size.width];
+                                      originX:overlapLeftRight];
 						}
 					}
 				}					
@@ -506,13 +507,13 @@
                         [self changeFrame:viewAtRight
                                   originX:atRightDisplacement];
 					}
-					if (viewAtRight.frame.origin.x - viewAtLeft.frame.size.width < SLIDE_VIEWS_MINUS_X_POSITION) {
+					if (overlapLeftRight < SLIDE_VIEWS_MINUS_X_POSITION) {
                         [self changeFrame:viewAtLeft
                                   originX:SLIDE_VIEWS_MINUS_X_POSITION];
 					}
 					else {
                         [self changeFrame:viewAtLeft
-                                  originX:viewAtRight.frame.origin.x - viewAtLeft.frame.size.width];
+                                  originX:overlapLeftRight];
 					}
 					if (viewAtRight.frame.origin.x >= self.view.frame.size.width) {
 						positionOfViewAtRightAtTouchBegan = viewAtRight.frame.origin;
