@@ -558,7 +558,7 @@ double round(double d) {
         // Ensure we draw the rounded edges around thumbnail images
         jewelView.image = [Utilities applyRoundedEdgesImage:imageToShow drawBorder:YES];
     }
-    [self alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
+    [Utilities alphaImage:jewelView AnimDuration:0.1 Alpha:1.0];
 }
 
 - (void)setIOS7barTintColor:(UIColor*)tintColor {
@@ -1311,7 +1311,7 @@ double round(double d) {
             if (strongSelf != nil && strongSelf->enableKenBurns) {
                 fanartView.alpha = 0;
                 [sf elabKenBurns:image];
-                [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
+                [Utilities alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
             }
         }
         else {
@@ -1321,7 +1321,7 @@ double round(double d) {
                                   __auto_type strongSelf = sf;
                                   if (strongSelf != nil && strongSelf->enableKenBurns) {
                                       [sf elabKenBurns:image];
-                                      [sf alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
+                                      [Utilities alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
                                   }
                               }
              ];
@@ -1344,13 +1344,13 @@ double round(double d) {
         foundTag = [sender tag];
     }
     if (foundTag == 1) {
-        [self alphaView:closeButton AnimDuration:1.5 Alpha:0];
-        [self alphaView:scrollView AnimDuration:1.5 Alpha:1];
+        [Utilities alphaView:closeButton AnimDuration:1.5 Alpha:0];
+        [Utilities alphaView:scrollView AnimDuration:1.5 Alpha:1];
         if (!enableKenBurns) {
-            [self alphaImage:fanartView AnimDuration:1.5 Alpha:0.2];// cool
+            [Utilities alphaImage:fanartView AnimDuration:1.5 Alpha:0.2];// cool
         }
         else {
-            [self alphaView:self.kenView AnimDuration:1.5 Alpha:0.2];// cool
+            [Utilities alphaView:self.kenView AnimDuration:1.5 Alpha:0.2];// cool
         }
         [self.navigationController setNavigationBarHidden:NO animated:YES];
         if (IS_IPAD) {
@@ -1399,17 +1399,17 @@ double round(double d) {
                                  }
                                  completion:^(BOOL finished) {
                                      [self elabKenBurns:fanartView.image];
-                                     [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];
+                                     [Utilities alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];
                                  }
                  ];
             }
         }
-        [self alphaView:scrollView AnimDuration:1.5 Alpha:0];
+        [Utilities alphaView:scrollView AnimDuration:1.5 Alpha:0];
         if (!enableKenBurns) {
-            [self alphaImage:fanartView AnimDuration:1.5 Alpha:1];// cool
+            [Utilities alphaImage:fanartView AnimDuration:1.5 Alpha:1];// cool
         }
         else {
-            [self alphaView:self.kenView AnimDuration:1.5 Alpha:1];// cool
+            [Utilities alphaView:self.kenView AnimDuration:1.5 Alpha:1];// cool
         }
         if (closeButton == nil) {
             int cbWidth = clearLogoWidth / 2;
@@ -1436,7 +1436,7 @@ double round(double d) {
             closeButton.alpha = 0;
             [self.view addSubview:closeButton];
         }
-        [self alphaView:closeButton AnimDuration:1.5 Alpha:1];
+        [Utilities alphaView:closeButton AnimDuration:1.5 Alpha:1];
     }
     [self scrollDown:nil];
 }
@@ -1447,37 +1447,18 @@ double round(double d) {
     int scrolled = theScrollView.contentOffset.y;
     bool at_bottom = scrolled >= height_content - height_bounds;
     if (arrow_continue_down.alpha && at_bottom) {
-        [self alphaView:arrow_continue_down AnimDuration:0.3 Alpha:0];
+        [Utilities alphaView:arrow_continue_down AnimDuration:0.3 Alpha:0];
     }
     else if (!arrow_continue_down.alpha && !at_bottom) {
-        [self alphaView:arrow_continue_down AnimDuration:0.3 Alpha:ARROW_ALPHA];
+        [Utilities alphaView:arrow_continue_down AnimDuration:0.3 Alpha:ARROW_ALPHA];
     }
     bool at_top = theScrollView.contentOffset.y <= -scrollView.contentInset.top;
     if (arrow_back_up.alpha && at_top) {
-        [self alphaView:arrow_back_up AnimDuration:0.3 Alpha:0];
+        [Utilities alphaView:arrow_back_up AnimDuration:0.3 Alpha:0];
     }
     else if (!arrow_back_up.alpha && !at_top) {
-        [self alphaView:arrow_back_up AnimDuration:0.3 Alpha:ARROW_ALPHA];
+        [Utilities alphaView:arrow_back_up AnimDuration:0.3 Alpha:ARROW_ALPHA];
     }
-}
-
-- (void)alphaImage:(UIImageView*)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-	image.alpha = alphavalue;
-    if (alphavalue) {
-        image.hidden = NO;
-    }
-    [UIView commitAnimations];
-}
-
-- (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-	view.alpha = alphavalue;
-    [UIView commitAnimations];
 }
 
 #pragma mark - Actors UITableView data source & delegate
@@ -1776,14 +1757,14 @@ double round(double d) {
         [self.navigationController setNavigationBarHidden:YES animated:YES];
     }
     if (!enableKenBurns) {
-        [self alphaImage:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
+        [Utilities alphaImage:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
     else {
         if (fanartView.image != nil && self.kenView == nil) {
             fanartView.alpha = 0;
             [self elabKenBurns:fanartView.image];
         }
-        [self alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
+        [Utilities alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
     if ([self isModal]) {
         clearlogoButton.frame = CGRectMake((int)(self.view.frame.size.width / 2) - (int)(clearlogoButton.frame.size.width / 2),
@@ -1802,7 +1783,7 @@ double round(double d) {
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self alphaImage:fanartView AnimDuration:0.3 Alpha:0.0];
+    [Utilities alphaImage:fanartView AnimDuration:0.3 Alpha:0.0];
     if (self.kenView != nil) {
         [UIView animateWithDuration:0.3
                          animations:^{
@@ -1894,7 +1875,7 @@ double round(double d) {
                          }
                          completion:^(BOOL finished) {
                              [self elabKenBurns:fanartView.image];
-                             [self alphaView:self.kenView AnimDuration:0.2 Alpha:alphaValue];
+                             [Utilities alphaView:self.kenView AnimDuration:0.2 Alpha:alphaValue];
                          }
          ];
     }

@@ -335,7 +335,7 @@
                         ];
                    }
                    [_tableView reloadData];
-                   [self AnimTable:_tableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                   [Utilities AnimTable:_tableView AnimDuration:0.3 Alpha:1.0 XPos:0];
                    [self scrollTableRow:settingOptions];
                }
            }];
@@ -604,18 +604,6 @@
 }
 
 #pragma mark Table view delegate
-
-- (void)AnimTable:(UITableView*)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	tV.alpha = alphavalue;
-	CGRect frame;
-	frame = tV.frame;
-	frame.origin.x = X;
-    frame.origin.y = 0;
-	tV.frame = frame;
-    [UIView commitAnimations];
-}
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

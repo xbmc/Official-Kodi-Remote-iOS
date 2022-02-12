@@ -211,28 +211,6 @@ typedef enum {
     view.hidden = value;
 }
 
-- (void)AnimTable:(UITableView*)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	tV.alpha = alphavalue;
-	CGRect frame;
-	frame = tV.frame;
-	frame.origin.x = X;
-	tV.frame = frame;
-    [UIView commitAnimations];
-}
-
-- (void)AnimButton:(UIButton*)button AnimDuration:(NSTimeInterval)seconds hidden:(BOOL)hiddenValue XPos:(int)X {
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	CGRect frame;
-	frame = button.frame;
-	frame.origin.x = X;
-	button.frame = frame;
-    button.hidden = hiddenValue;
-    [UIView commitAnimations];
-}
-
 - (UIImage*)resizeImage:(UIImage*)image width:(int)destWidth height:(int)destHeight padding:(int)destPadding {
 	int w = image.size.width;
     int h = image.size.height;
@@ -996,7 +974,7 @@ long currentItemID;
         playerID = PLAYERID_UNKNOWN;
         selectedPlayerID = PLAYERID_UNKNOWN;
         storedItemID = 0;
-        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [Utilities AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
         [self nothingIsPlaying];
         return;
@@ -1055,13 +1033,6 @@ long currentItemID;
     }];
 }
 
-- (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	view.alpha = alphavalue;
-    [UIView commitAnimations];
-}
-
 - (void)alphaButton:(UIButton*)button AnimDuration:(NSTimeInterval)seconds show:(BOOL)show {
     [UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:seconds];
@@ -1074,13 +1045,13 @@ long currentItemID;
         playerID = PLAYERID_UNKNOWN;
         selectedPlayerID = PLAYERID_UNKNOWN;
         storedItemID = 0;
-        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [Utilities AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
         [self nothingIsPlaying];
         return;
     }
     if (!musicPartyMode && animTable) {
-        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [Utilities AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     }
     [activityIndicatorView startAnimating];
     GlobalData *obj = AppDelegate.instance.obj;
@@ -1097,19 +1068,19 @@ long currentItemID;
     if (playlistID == PLAYERID_MUSIC) {
         playerID = PLAYERID_MUSIC;
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_MUSIC;
-        [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:NO XPos:PARTYBUTTON_PADDING_LEFT];
+        [Utilities AnimButton:PartyModeButton AnimDuration:0.3 hidden:NO XPos:PARTYBUTTON_PADDING_LEFT];
     }
     else if (playlistID == PLAYERID_VIDEO) {
         playerID = PLAYERID_VIDEO;
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_VIDEO;
-        [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
+        [Utilities AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
     }
     else if (playlistID == PLAYERID_PICTURES) {
         playerID = PLAYERID_PICTURES;
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_PICTURES;
-        [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
+        [Utilities AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
     }
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
                         withParameters:@{@"properties": @[@"thumbnail",
                                                           @"duration",
@@ -1135,10 +1106,10 @@ long currentItemID;
                    if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                        NSArray *playlistItems = methodResult[@"items"];
                        if (playlistItems.count == 0) {
-                           [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+                           [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
                        }
                        else {
-                           [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+                           [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
                        }
                        NSString *serverURL;
                        serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
@@ -1241,10 +1212,10 @@ long currentItemID;
 - (void)showPlaylistTable {
     numResults = (int)playlistData.count;
     if (numResults == 0) {
-        [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     }
     else {
-        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [Utilities AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [activityIndicatorView stopAnimating];
@@ -2613,7 +2584,7 @@ long currentItemID;
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+    [Utilities AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     songDetailsView.alpha = 0;
     [playlistTableView setEditing:NO animated:YES];
     [[NSNotificationCenter defaultCenter] removeObserver: self];

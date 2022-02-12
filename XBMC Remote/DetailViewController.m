@@ -933,7 +933,7 @@
     self.indexView.hidden = YES;
     button6.hidden = YES;
     button7.hidden = YES;
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [activityIndicatorView startAnimating];
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     if (choosedTab < buttonsIB.count) {
@@ -941,7 +941,7 @@
     }
     choosedTab = MAX_NORMAL_BUTTONS;
     [buttonsIB[choosedTab] setSelected:YES];
-    [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     int i;
     NSInteger count = [menuItem mainParameters].count;
     NSMutableArray *moreMenu = [NSMutableArray new];
@@ -970,7 +970,7 @@
         [detailView insertSubview:moreItemsViewController.view aboveSubview:dataList];
     }
 
-    [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
     NSString *labelText = [NSString stringWithFormat:LOCALIZED_STR(@"More (%d)"), (int)(count - MAX_NORMAL_BUTTONS)];
     [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:YES];
     [activityIndicatorView stopAnimating];
@@ -1208,7 +1208,7 @@
         [longTimeout removeFromSuperview];
         longTimeout = nil;
     }
-    [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     
     [activityIndicatorView startAnimating];
 
@@ -1223,7 +1223,7 @@
     if (newEnableCollectionView != enableCollectionView) {
         animDuration = 0.0;
     }
-    [self AnimTable:(UITableView*)activeLayoutView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
+    [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
@@ -1262,7 +1262,7 @@
     }
     else {
         [activityIndicatorView stopAnimating];
-        [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
 }
 
@@ -1906,54 +1906,15 @@
 
 - (void)handleCollectionIndexStateBegin {
     if (stackscrollFullscreen) {
-        [self alphaView:sectionNameOverlayView AnimDuration:0.1 Alpha:1];
+        [Utilities alphaView:sectionNameOverlayView AnimDuration:0.1 Alpha:1];
     }
 }
 
 - (void)handleCollectionIndexStateEnded {
     if (stackscrollFullscreen) {
-        [self alphaView:sectionNameOverlayView AnimDuration:0.3 Alpha:0];
+        [Utilities alphaView:sectionNameOverlayView AnimDuration:0.3 Alpha:0];
     }
     _indexView.alpha = 1.0;
-}
-
-#pragma mark - Table Animation
-
-- (void)alphaImage:(UIImageView*)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	image.alpha = alphavalue;
-    [UIView commitAnimations];
-}
-
-- (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	view.alpha = alphavalue;
-    [UIView commitAnimations];
-}
-
-- (void)AnimTable:(UITableView*)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:seconds];
-    tV.alpha = alphavalue;
-    CGRect frame;
-    frame = tV.frame;
-    frame.origin.x = X;
-    frame.origin.y = 0;
-    tV.frame = frame;
-    [UIView commitAnimations];
-}
-
-- (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	view.alpha = alphavalue;
-	CGRect frame;
-	frame = view.frame;
-	frame.origin.x = X;
-	view.frame = frame;
-    [UIView commitAnimations];
 }
 
 #pragma mark - Cell Formatting 
@@ -3772,10 +3733,10 @@ NSIndexPath *selected;
                              [self choseParams];
                              if (forceCollection) {
                                  forceCollection = NO;
-                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
+                                 [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
                                  enableCollectionView = NO;
                                  [self configureLibraryView];
-                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
+                                 [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
                              }
                              [self setFlowLayoutParams];
                              [collectionView.collectionViewLayout invalidateLayout];
@@ -3819,10 +3780,10 @@ NSIndexPath *selected;
                              moreItemsViewController.view.hidden = YES;
                              if (!enableCollectionView) {
                                  forceCollection = YES;
-                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
+                                 [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
                                  enableCollectionView = YES;
                                  [self configureLibraryView];
-                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
+                                 [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
                              }
                              else {
                                  forceCollection = NO;
@@ -3975,7 +3936,7 @@ NSIndexPath *selected;
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
-                   [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+                   [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
                    [self startRetrieveDataWithRefresh:YES];
                }
                else {
@@ -4514,7 +4475,7 @@ NSIndexPath *selected;
     }
     else {
         [activityIndicatorView stopAnimating];
-        [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
 }
 
@@ -4702,7 +4663,7 @@ NSIndexPath *selected;
         }
     }
 
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
 //    NSLog(@"START");
     debugText.text = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     elapsedTime = 0;
@@ -4910,7 +4871,7 @@ NSIndexPath *selected;
 }
 
 - (void)animateNoResultsFound {
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     [activityIndicatorView stopAnimating];
 }
 
@@ -4924,7 +4885,7 @@ NSIndexPath *selected;
     self.sections[@""] = @[];
     [self animateNoResultsFound];
     [activeLayoutView reloadData];
-    [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
 }
 
 - (BOOL)isEligibleForSections:(NSArray*)array {
@@ -5235,10 +5196,10 @@ NSIndexPath *selected;
     [self setFilternameLabel:labelText runFullscreenButtonCheck:NO forceHide:NO];
     
     if (!self.richResults.count) {
-        [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     }
     else {
-        [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     }
     NSDictionary *itemSizes = parameters [@"itemSizes"];
     if (IS_IPHONE) {
@@ -5264,7 +5225,7 @@ NSIndexPath *selected;
     [self setFlowLayoutParams];
     [activityIndicatorView stopAnimating];
     [activeLayoutView reloadData];
-    [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     [collectionView layoutSubviews];
     [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
@@ -6058,7 +6019,7 @@ NSIndexPath *selected;
                          }
                          completion:^(BOOL finished) {
                              [self configureLibraryView];
-                             [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                             [Utilities AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
                              [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                          }];
     }

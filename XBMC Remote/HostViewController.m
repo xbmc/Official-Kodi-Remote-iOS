@@ -47,28 +47,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
 }
-- (void)AnimLabel:(UIView*)Lab AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	Lab.alpha = alphavalue;
-	CGRect frame;
-	frame = Lab.frame;
-	frame.origin.x = X;
-	Lab.frame = frame;
-    [UIView commitAnimations];
-    
-}
-
-- (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	view.alpha = alphavalue;
-	CGRect frame;
-	frame = view.frame;
-	frame.origin.x = X;
-	view.frame = frame;
-    [UIView commitAnimations];
-}
 
 - (void)configureView {
     if (self.detailItem == nil) {
@@ -303,11 +281,11 @@
         }
         else {
             if (j == 0) {
-                [self AnimLabel:noInstances AnimDuration:0.3 Alpha:1.0 XPos:0];
+                [Utilities AnimLabel:noInstances AnimDuration:0.3 Alpha:1.0 XPos:0];
             }
             else {
                 [discoveredInstancesTableView reloadData];
-                [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:0];
             }
         }
     }
@@ -405,7 +383,7 @@
                 NSURLSession *pingSession = [NSURLSession sharedSession];
                 NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url];
                 [pingConnection resume];
-                [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
+                [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
             }
         }
     }
@@ -422,8 +400,8 @@
     [activityIndicatorView startAnimating];
     [services removeAllObjects];
     startDiscover.enabled = NO;
-    [self AnimLabel:noInstances AnimDuration:0.3 Alpha:0.0 XPos:self.view.frame.size.width];
-    [self AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
+    [Utilities AnimLabel:noInstances AnimDuration:0.3 Alpha:0.0 XPos:self.view.frame.size.width];
+    [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
 
     searching = NO;
     netServiceBrowser.delegate = self;
@@ -500,7 +478,7 @@
     timer = nil;
     netServiceBrowser = nil;
     services = nil;
-    [self AnimView:discoveredInstancesView AnimDuration:0.0 Alpha:1.0 XPos:self.view.frame.size.width];
+    [Utilities AnimView:discoveredInstancesView AnimDuration:0.0 Alpha:1.0 XPos:self.view.frame.size.width];
     descriptionUI.text = @"";
     usernameUI.text = @"";
     passwordUI.text = @"";
@@ -521,7 +499,7 @@
     mac_3_UI.textColor = [Utilities get1stLabelColor];
     mac_4_UI.textColor = [Utilities get1stLabelColor];
     mac_5_UI.textColor = [Utilities get1stLabelColor];
-    [self AnimLabel:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
+    [Utilities AnimLabel:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
 }
 
 - (void)viewDidLoad {

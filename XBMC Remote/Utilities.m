@@ -1007,4 +1007,66 @@
     }
 }
 
++ (void)AnimTable:(UITableView*)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:seconds];
+    tV.alpha = alphavalue;
+    CGRect frame;
+    frame = tV.frame;
+    frame.origin.x = X;
+    frame.origin.y = 0;
+    tV.frame = frame;
+    [UIView commitAnimations];
+}
+
++ (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:seconds];
+    view.alpha = alphavalue;
+    CGRect frame;
+    frame = view.frame;
+    frame.origin.x = X;
+    view.frame = frame;
+    [UIView commitAnimations];
+}
+
++ (void)AnimLabel:(UIView*)Lab AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:seconds];
+    Lab.alpha = alphavalue;
+    CGRect frame;
+    frame = Lab.frame;
+    frame.origin.x = X;
+    Lab.frame = frame;
+    [UIView commitAnimations];
+}
+
++ (void)AnimButton:(UIButton*)button AnimDuration:(NSTimeInterval)seconds hidden:(BOOL)hiddenValue XPos:(int)X {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:seconds];
+    CGRect frame;
+    frame = button.frame;
+    frame.origin.x = X;
+    button.frame = frame;
+    button.hidden = hiddenValue;
+    [UIView commitAnimations];
+}
+
++ (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:seconds];
+    view.alpha = alphavalue;
+    [UIView commitAnimations];
+}
+
++ (void)alphaImage:(UIImageView*)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:seconds];
+    image.alpha = alphavalue;
+    if (alphavalue) {
+        image.hidden = NO;
+    }
+    [UIView commitAnimations];
+}
+
 @end
