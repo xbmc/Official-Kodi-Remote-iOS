@@ -579,14 +579,14 @@ int currentItemID;
                     response = methodResult[0][@"playerid"];
                 }
                 currentPlayerID = [response intValue];
-                if (playerID != [response intValue] ||
+                if (playerID != currentPlayerID ||
                     lastPlayerID != currentPlayerID ||
                     (selectedPlayerID != PLAYERID_UNKNOWN && playerID != selectedPlayerID)) {
                     if (selectedPlayerID != PLAYERID_UNKNOWN && playerID != selectedPlayerID) {
                         lastPlayerID = playerID = selectedPlayerID;
                     }
                     else if (selectedPlayerID == PLAYERID_UNKNOWN) {
-                        lastPlayerID = playerID = [response intValue];
+                        lastPlayerID = playerID = currentPlayerID;
                         [self createPlaylist:NO animTableView:YES];
                     }
                     else if (lastPlayerID != currentPlayerID) {
