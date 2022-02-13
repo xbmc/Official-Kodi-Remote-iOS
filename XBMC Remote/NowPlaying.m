@@ -894,26 +894,19 @@ int currentItemID;
                                  //                                 NSLog(@"CURRENT ITEMID %d PLAYLIST ID %@", currentItemID, playlistData[selection.row][@"idItem"]);
                                  storePercentage = percentage;
                                  if (playlistPosition != lastSelected && playlistPosition > 0) {
-                                     if ((playlistData.count >= playlistPosition) && currentPlayerID == playerID) {
-                                         if (playlistPosition > 0) {
-                                             if (lastSelected != playlistPosition) {
-                                                 [self hidePlaylistProgressbarWithDeselect:NO];
-                                                 NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition - 1 inSection:0];
-                                                 UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
-                                                 if (musicPartyMode) {
-                                                     position = UITableViewScrollPositionNone;
-                                                 }
-                                                 [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
-                                                 UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
-                                                 UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-                                                 [self fadeView:timePlaying hidden:NO];
-                                                 storeSelection = newSelection;
-                                                 lastSelected = playlistPosition;
-                                             }
+                                     if (playlistData.count >= playlistPosition && currentPlayerID == playerID) {
+                                         [self hidePlaylistProgressbarWithDeselect:NO];
+                                         NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition - 1 inSection:0];
+                                         UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
+                                         if (musicPartyMode) {
+                                             position = UITableViewScrollPositionNone;
                                          }
-                                         else {
-                                             [self hidePlaylistProgressbarWithDeselect:YES];
-                                         }
+                                         [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
+                                         UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
+                                         UIView *timePlaying = (UIView*)[cell viewWithTag:5];
+                                         [self fadeView:timePlaying hidden:NO];
+                                         storeSelection = newSelection;
+                                         lastSelected = playlistPosition;
                                      }
                                  }
                              }
