@@ -1463,7 +1463,6 @@ long currentItemID;
     NSTimeInterval iOS7effectDuration = 1.0;
     if (!nowPlayingView.hidden) {
         iOS7effectDuration = 0.0;
-        nowPlayingView.hidden = YES;
         transitionView = nowPlayingView;
         transitionedView = playlistView;
         playlistHidden = NO;
@@ -1478,7 +1477,6 @@ long currentItemID;
         [self IOS7effect:effectColor barTintColor:barColor effectDuration:0.2];
     }
     else {
-        playlistView.hidden = YES;
         transitionView = playlistView;
         transitionedView = nowPlayingView;
         playlistHidden = YES;
@@ -1503,6 +1501,7 @@ long currentItemID;
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
+        transitionView.alpha = 0.0;
         [UIView setAnimationTransition:anim forView:transitionView cache:YES];
                      }
                      completion:^(BOOL finished) {
@@ -1515,6 +1514,7 @@ long currentItemID;
                                               self.navigationItem.titleView.hidden = NO;
                                               playlistActionView.frame = playlistToolBarOriginY;
                                               playlistActionView.alpha = (int)nowPlayingHidden;
+                                              transitionedView.alpha = 1.0;
                                               [UIView setAnimationTransition:anim2 forView:transitionedView cache:YES];
                                           }
                                           completion:^(BOOL finished) {
