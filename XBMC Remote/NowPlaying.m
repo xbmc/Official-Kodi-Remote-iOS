@@ -1410,13 +1410,12 @@ long currentItemID;
 
 - (void)flipAnimButton:(UIButton*)button demo:(BOOL)demo {
     if (demo) {
-        animationOptionFromView = UIViewAnimationOptionTransitionFlipFromLeft;
-        animationOptionToView = UIViewAnimationOptionTransitionFlipFromLeft;
+        animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
         startFlipDemo = NO;
     }
     [UIView transitionWithView:button
                       duration:0.2
-                       options:UIViewAnimationOptionCurveEaseIn | animationOptionFromView
+                       options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
                     animations:^{
                          button.hidden = YES;
                          if (nowPlayingHidden) {
@@ -1444,7 +1443,7 @@ long currentItemID;
                      completion:^(BOOL finished) {
                         [UIView transitionWithView:button
                                           duration:0.5
-                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionToView
+                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                                         animations:^{
                                             button.hidden = NO;
                                         }
@@ -1467,8 +1466,7 @@ long currentItemID;
         nowPlayingHidden = YES;
         self.navigationItem.title = LOCALIZED_STR(@"Playlist");
         self.navigationItem.titleView.hidden = YES;
-        animationOptionFromView = UIViewAnimationOptionTransitionFlipFromRight;
-        animationOptionToView = UIViewAnimationOptionTransitionFlipFromRight;
+        animationOptionTransition = UIViewAnimationOptionTransitionFlipFromRight;
         effectColor = UIColor.clearColor;
         barColor = TINT_COLOR;
         playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height - playlistTableView.scrollIndicatorInsets.bottom;
@@ -1481,8 +1479,7 @@ long currentItemID;
         nowPlayingHidden = NO;
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
-        animationOptionFromView = UIViewAnimationOptionTransitionFlipFromLeft;
-        animationOptionToView = UIViewAnimationOptionTransitionFlipFromLeft;
+        animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
         if (foundEffectColor == nil) {
             effectColor = UIColor.clearColor;
             barColor = TINT_COLOR;
@@ -1497,14 +1494,14 @@ long currentItemID;
     
     [UIView transitionWithView:transitionView
                       duration:0.2
-                       options:UIViewAnimationOptionCurveEaseIn | animationOptionFromView
+                       options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
                     animations:^{
                           transitionView.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {
                         [UIView transitionWithView:transitionedView
                                           duration:0.5
-                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionToView
+                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                                         animations:^{
                                               playlistView.hidden = playlistHidden;
                                               nowPlayingView.hidden = nowPlayingHidden;
