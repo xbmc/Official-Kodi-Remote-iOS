@@ -1410,14 +1410,14 @@ long currentItemID;
 
 - (void)flipAnimButton:(UIButton*)button demo:(BOOL)demo {
     if (demo) {
-        anim = UIViewAnimationTransitionFlipFromLeft;
-        anim2 = UIViewAnimationTransitionFlipFromLeft;
+        animationOptionFromView = UIViewAnimationOptionTransitionFlipFromLeft;
+        animationOptionToView = UIViewAnimationOptionTransitionFlipFromLeft;
         startFlipDemo = NO;
     }
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{ 
+    [UIView transitionWithView:button
+                      duration:0.2
+                       options:UIViewAnimationOptionCurveEaseIn | animationOptionFromView
+                    animations:^{
                          button.hidden = YES;
                          if (nowPlayingHidden) {
                              UIImage *buttonImage;
@@ -1440,17 +1440,15 @@ long currentItemID;
                              [button setImage:image forState:UIControlStateHighlighted];
                              [button setImage:image forState:UIControlStateSelected];
                          }
-                         [UIView setAnimationTransition:anim forView:button cache:YES];
                      } 
                      completion:^(BOOL finished) {
-                        [UIView animateWithDuration:0.5
-                                              delay:0.0
-                                            options:UIViewAnimationOptionCurveEaseOut
-                                         animations:^{
+                        [UIView transitionWithView:button
+                                          duration:0.5
+                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionToView
+                                        animations:^{
                                             button.hidden = NO;
-                                            [UIView setAnimationTransition:anim2 forView:button cache:YES];
-                                         }
-                                         completion:^(BOOL finished) {}
+                                        }
+                                        completion:^(BOOL finished) {}
                         ];
                      }
     ];
@@ -1469,8 +1467,8 @@ long currentItemID;
         nowPlayingHidden = YES;
         self.navigationItem.title = LOCALIZED_STR(@"Playlist");
         self.navigationItem.titleView.hidden = YES;
-        anim = UIViewAnimationTransitionFlipFromRight;
-        anim2 = UIViewAnimationTransitionFlipFromRight;
+        animationOptionFromView = UIViewAnimationOptionTransitionFlipFromRight;
+        animationOptionToView = UIViewAnimationOptionTransitionFlipFromRight;
         effectColor = UIColor.clearColor;
         barColor = TINT_COLOR;
         playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height - playlistTableView.scrollIndicatorInsets.bottom;
@@ -1483,8 +1481,8 @@ long currentItemID;
         nowPlayingHidden = NO;
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
-        anim = UIViewAnimationTransitionFlipFromLeft;
-        anim2 = UIViewAnimationTransitionFlipFromLeft;
+        animationOptionFromView = UIViewAnimationOptionTransitionFlipFromLeft;
+        animationOptionToView = UIViewAnimationOptionTransitionFlipFromLeft;
         if (foundEffectColor == nil) {
             effectColor = UIColor.clearColor;
             barColor = TINT_COLOR;
@@ -1496,26 +1494,24 @@ long currentItemID;
         playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height;
     }
     [self IOS7colorProgressSlider:effectColor];
-
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-        transitionView.alpha = 0.0;
-        [UIView setAnimationTransition:anim forView:transitionView cache:YES];
+    
+    [UIView transitionWithView:transitionView
+                      duration:0.2
+                       options:UIViewAnimationOptionCurveEaseIn | animationOptionFromView
+                    animations:^{
+                          transitionView.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {
-                         [UIView animateWithDuration:0.5
-                                               delay:0.0
-                                             options:UIViewAnimationOptionCurveEaseOut
-                                          animations:^{
+                        [UIView transitionWithView:transitionedView
+                                          duration:0.5
+                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionToView
+                                        animations:^{
                                               playlistView.hidden = playlistHidden;
                                               nowPlayingView.hidden = nowPlayingHidden;
                                               self.navigationItem.titleView.hidden = NO;
                                               playlistActionView.frame = playlistToolBarOriginY;
                                               playlistActionView.alpha = (int)nowPlayingHidden;
                                               transitionedView.alpha = 1.0;
-                                              [UIView setAnimationTransition:anim2 forView:transitionedView cache:YES];
                                           }
                                           completion:^(BOOL finished) {
                                               if (iOS7effectDuration) {
