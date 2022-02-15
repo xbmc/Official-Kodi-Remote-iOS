@@ -950,6 +950,7 @@
 //        return;
 //    }
     mainMenu *menuItem = self.detailItem;
+    self.indexView.hidden = YES;
     button6.hidden = YES;
     button7.hidden = YES;
     [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
