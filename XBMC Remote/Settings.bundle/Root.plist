@@ -200,6 +200,7 @@
 				<string>Favourites</string>
 				<string>Now Playing</string>
 				<string>Remote Control</string>
+				<string>Global Search</string>
 			</array>
 			<key>Values</key>
 			<array>
@@ -214,6 +215,7 @@
 				<string>Favourites</string>
 				<string>Now Playing</string>
 				<string>Remote Control</string>
+				<string>Global Search</string>
 			</array>
 		</dict>
 		<dict>
