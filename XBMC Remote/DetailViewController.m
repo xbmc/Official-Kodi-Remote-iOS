@@ -4657,10 +4657,11 @@ NSIndexPath *selected;
                         }
                     }
                     else if ([itemDict isKindOfClass:[NSDictionary class]]) {
-                        NSDictionary *dictVideoLibraryMovies = methodResult[itemid];
-                        if ([dictVideoLibraryMovies[mainFields[@"typename"]] isKindOfClass:[NSDictionary class]]) {
-                            if ([dictVideoLibraryMovies[mainFields[@"typename"]][mainFields[@"fieldname"]] isKindOfClass:[NSArray class]]) {
-                                itemDict = dictVideoLibraryMovies[mainFields[@"typename"]][mainFields[@"fieldname"]];
+                        id itemType = methodResult[itemid][mainFields[@"typename"]];
+                        id itemField = mainFields[@"fieldname"];
+                        if ([itemType isKindOfClass:[NSDictionary class]]) {
+                            if ([itemType[itemField] isKindOfClass:[NSArray class]]) {
+                                itemDict = itemType[itemField];
                                 NSString *sublabel = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]][@"morelabel"];
                                 if (!sublabel || [sublabel isKindOfClass:[NSNull class]]) {
                                     sublabel = @"";
@@ -4869,10 +4870,11 @@ NSIndexPath *selected;
                      }
                  }
                  else if ([itemDict isKindOfClass:[NSDictionary class]]) {
-                     NSDictionary *dictVideoLibraryMovies = methodResult[itemid];
-                     if ([dictVideoLibraryMovies[mainFields[@"typename"]] isKindOfClass:[NSDictionary class]]) {
-                         if ([dictVideoLibraryMovies[mainFields[@"typename"]][mainFields[@"fieldname"]] isKindOfClass:[NSArray class]]) {
-                             itemDict = dictVideoLibraryMovies[mainFields[@"typename"]][mainFields[@"fieldname"]];
+                     id itemType = methodResult[itemid][mainFields[@"typename"]];
+                     id itemField = mainFields[@"fieldname"];
+                     if ([itemType isKindOfClass:[NSDictionary class]]) {
+                         if ([itemType[itemField] isKindOfClass:[NSArray class]]) {
+                             itemDict = itemType[itemField];
                              NSString *sublabel = [Utilities indexKeyedDictionaryFromArray:[menuItem mainParameters][choosedTab]][@"morelabel"];
                              if (!sublabel || [sublabel isKindOfClass:[NSNull class]]) {
                                  sublabel = @"";
