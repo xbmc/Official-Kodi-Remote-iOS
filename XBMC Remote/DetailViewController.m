@@ -326,8 +326,9 @@
     // Which JSON request's results do we cache??
     NSString *jsonRequest = [NSString stringWithFormat:@"%@ %@", fieldA, fieldB];
     
-    // Get MD5 hash for the combination given above
-    return [[NSString stringWithFormat:@"%@%@%@%@", serverInfo, serverVersion, appVersion, jsonRequest] MD5String];
+    // Get SHA256 hash for the combination given above
+    NSString *text = [NSString stringWithFormat:@"%@%@%@%@", serverInfo, serverVersion, appVersion, jsonRequest];
+    return [text SHA256String];
 }
 
 - (void)saveData:(NSMutableDictionary*)mutableParameters {
