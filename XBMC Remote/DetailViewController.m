@@ -4836,9 +4836,6 @@ NSIndexPath *selected;
                          // Postprocessing of movie sets lists to ignore 1-movie-sets
                          if (ignoreSingleMovieSets) {
                              BOOL isLastItem = (item == itemDict.lastObject);
-                             if (item == itemDict.firstObject) {
-                                 [storeRichResults removeAllObjects];
-                             }
                              NSString *newMethodToCall = @"VideoLibrary.GetMovieSetDetails";
                              NSDictionary *newParameter = @{@"setid": @([item[@"setid"] longValue])};
                              [[Utilities getJsonRPC]
@@ -4847,11 +4844,11 @@ NSIndexPath *selected;
                               onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
                                  if (error == nil && methodError == nil) {
                                      if ([methodResult[@"setdetails"][@"movies"] count] > 1) {
-                                         [storeRichResults addObject:newDict];
+                                         [resultStoreArray addObject:newDict];
                                      }
                                  }
                                  if (isLastItem) {
-                                     self.richResults = [storeRichResults mutableCopy];
+                                     storeRichResults = [resultStoreArray mutableCopy];
                                      if (forceRefresh == YES){
                                          [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
                                          [activeLayoutView setUserInteractionEnabled:YES];
@@ -4896,7 +4893,7 @@ NSIndexPath *selected;
 //                 NSLog(@"RICH RESULTS %@", resultStoreArray);
                  // Leave as all necessary steps are handled in callbacks of the postprocessing for 1-movie-sets
                  if (ignoreSingleMovieSets) {
-                     if (!storeRichResults.count) {
+                     if (!resultStoreArray.count) {
                          [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
                      }
                      return;
