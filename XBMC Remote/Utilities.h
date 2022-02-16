@@ -83,6 +83,7 @@ typedef enum {
 + (BOOL)hasRemoteToolBar;
 + (CGFloat)getBottomPadding;
 + (void)sendXbmcHttp:(NSString*)command;
++ (NSString*)getAppVersionString;
 + (void)checkForReviewRequest;
 + (NSString*)getConnectionStatusIconName;
 + (void)addShadowsToView:(UIView*)view viewFrame:(CGRect)frame;

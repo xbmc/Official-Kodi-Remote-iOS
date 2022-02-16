@@ -321,8 +321,7 @@
     NSString *serverVersion = [NSString stringWithFormat:@"%d.%d", serverMajorVersion, serverMinorVersion];
     
     // Which App version are we running?
-    __auto_type infoDictionary = NSBundle.mainBundle.infoDictionary;
-    NSString *appVersion = [NSString stringWithFormat:@"v%@ (%@)", infoDictionary[@"CFBundleShortVersionString"], infoDictionary[(NSString*)kCFBundleVersionKey]];
+    NSString *appVersion = [Utilities getAppVersionString];
     
     // Which JSON request's results do we cache??
     NSString *jsonRequest = [NSString stringWithFormat:@"%@ %@", fieldA, fieldB];
