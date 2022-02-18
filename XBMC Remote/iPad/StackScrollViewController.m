@@ -897,24 +897,21 @@
 	
 	if (viewControllersStack.count > 1) {
 //        NSLog(@"DUE");
-		NSInteger indexOfViewController = [viewControllersStack
-										   indexOfObject:invokeByController]+1;
-		
-		if ([invokeByController parentViewController]) {
-			indexOfViewController = [viewControllersStack
-									 indexOfObject:[invokeByController parentViewController]]+1;
-		}
-		
-		NSInteger viewControllerCount = viewControllersStack.count;
-		for (NSInteger i = indexOfViewController; i < viewControllerCount; i++) {
+        UIViewController *invokedBy = invokeByController.parentViewController ?: invokeByController;
+        NSInteger indexOfViewController = [viewControllersStack indexOfObject:invokedBy];
+        if (indexOfViewController == NSNotFound) {
+            indexOfViewController = viewControllersStack.count;
+        }
+        else {
+            indexOfViewController += 1;
+        }
+
+        NSInteger viewControllerCount = viewControllersStack.count;
+        for (NSInteger i = indexOfViewController; i < viewControllerCount; i++) {
             [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
-//FIXME: 
-            if (!TARGET_IPHONE_SIMULATOR) {
-                [viewControllersStack removeObjectAtIndex:indexOfViewController];
-            }
-// END FIXME
-			viewXPosition = self.view.frame.size.width - controller.view.frame.size.width;
-		}
+            [viewControllersStack removeObjectAtIndex:indexOfViewController];
+            viewXPosition = self.view.frame.size.width - controller.view.frame.size.width;
+        }
 	}
     else if (viewControllersStack.count == 0) {
 //        NSLog(@"TRE"); //FIRST
