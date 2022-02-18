@@ -1422,6 +1422,7 @@ NSInteger buttonAction;
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
+        [self dismissViewControllerAnimated:YES completion:nil];
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
         if (rightMenuViewController.rightMenuItems.count) {
