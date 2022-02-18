@@ -1186,13 +1186,15 @@ double round(double d) {
     embedVideoURL = nil;
     if (trailerString.length > 0) {
         if ([trailerString hasPrefix:@"plugin://plugin.video.youtube"]) {
-            NSURL* url = [NSURL URLWithString:trailerString];
-            NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
-            NSArray *queryItems = urlComponents.queryItems;
-            for (NSURLQueryItem *item in queryItems) {
-                if ([item.name isEqualToString:@"videoid"]) {
-                    embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", item.value];
-                    break; // We can leave the loop as we found what we were looking for.
+            NSURL *url = [NSURL URLWithString:trailerString];
+            if (url) {
+                NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+                NSArray *queryItems = urlComponents.queryItems;
+                for (NSURLQueryItem *item in queryItems) {
+                    if ([item.name isEqualToString:@"videoid"]) {
+                        embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", item.value];
+                        break; // We can leave the loop as we found what we were looking for.
+                    }
                 }
             }
         }
