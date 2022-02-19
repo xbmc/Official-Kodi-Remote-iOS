@@ -529,7 +529,6 @@ double round(double d) {
         NSInteger count = toolbar.items.count;
         NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
         [newToolbarItems removeObjectAtIndex:(count - 1)];
-        [newToolbarItems removeObjectAtIndex:(count - 2)];
         toolbar.items = newToolbarItems;
     }
     else {
