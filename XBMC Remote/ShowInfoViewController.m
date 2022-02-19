@@ -28,6 +28,7 @@
 #define REC_DOT_SIZE 10
 #define REC_DOT_PADDING 4
 #define ARROW_ALPHA 0.5
+#define IPAD_NAVBAR_SPACING 120
 
 @interface ShowInfoViewController ()
 @end
@@ -111,13 +112,20 @@ double round(double d) {
             }
         }
         if (IS_IPAD) {
+            CGFloat titleWidth;
+            if (@available(iOS 12.0, *)) {
+                titleWidth = STACKSCROLL_WIDTH;
+            }
+            else {
+                titleWidth = STACKSCROLL_WIDTH - IPAD_NAVBAR_SPACING;
+            }
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlack;
             toolbar.translucent = YES;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             actionSheetButtonItemIpad.style = UIBarButtonItemStylePlain;
-            viewTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, STACKSCROLL_WIDTH, TITLE_HEIGHT)];
+            viewTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, titleWidth, TITLE_HEIGHT)];
             viewTitle.backgroundColor = UIColor.clearColor;
             viewTitle.textAlignment = NSTextAlignmentLeft;
             viewTitle.textColor = UIColor.whiteColor;
@@ -130,7 +138,7 @@ double round(double d) {
             viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0.7];
             viewTitle.autoresizingMask = UIViewAutoresizingNone;
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
-            [viewTitle sizeThatFits: CGSizeMake(STACKSCROLL_WIDTH, TITLE_HEIGHT)];
+            [viewTitle sizeThatFits:viewTitle.frame.size];
             UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:viewTitle];
             if (extraButton == nil) {
                 extraButton = spacer;
