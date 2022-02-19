@@ -79,7 +79,9 @@ double round(double d) {
         if (((NSNull*)item[@"fromEpisodesView"] != [NSNull null])) {
             fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         }
-        UIBarButtonItem *extraButton = nil;
+        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
+        extraButton = nil;
         if ([item[@"family"] isEqualToString:@"albumid"]) {
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_songs"];
             if (fromAlbumView) {
@@ -94,6 +96,7 @@ double round(double d) {
             extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
         }
         else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
+            actionSheetButtonItem = nil;
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv"];
             if (fromEpisodesView) {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
@@ -122,9 +125,6 @@ double round(double d) {
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlack;
             toolbar.translucent = YES;
-            UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-            actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
-            actionSheetButtonItemIpad.style = UIBarButtonItemStylePlain;
             viewTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, titleWidth, TITLE_HEIGHT)];
             viewTitle.backgroundColor = UIColor.clearColor;
             viewTitle.textAlignment = NSTextAlignmentLeft;
@@ -147,7 +147,7 @@ double round(double d) {
                               title,
                               spacer,
                               extraButton,
-                              actionSheetButtonItemIpad,
+                              actionSheetButtonItem,
                               nil];
             toolbar.items = items;
             toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
@@ -164,7 +164,6 @@ double round(double d) {
         }
         else {
             self.navigationItem.title = item[@"label"];
-            UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             if (extraButton == nil) {
                 self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
                                                            actionSheetButtonItem,
@@ -383,9 +382,7 @@ double round(double d) {
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
-            if (IS_IPAD) {
-                popPresenter.barButtonItem = actionSheetButtonItemIpad;
-            }
+            popPresenter.barButtonItem = actionSheetButtonItem;
         }
         [self presentViewController:actionView animated:YES completion:nil];
     }
@@ -524,20 +521,6 @@ double round(double d) {
     self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
-- (void)setTvShowsToolbar {
-    if (IS_IPAD) {
-        NSInteger count = toolbar.items.count;
-        NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
-        [newToolbarItems removeObjectAtIndex:(count - 1)];
-        toolbar.items = newToolbarItems;
-    }
-    else {
-        NSMutableArray *navigationItems = [self.navigationItem.rightBarButtonItems mutableCopy];
-        [navigationItems removeObjectAtIndex:0];
-        self.navigationItem.rightBarButtonItems = navigationItems;
-    }
-}
-
 - (BOOL)enableJewelCases {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return [userDefaults boolForKey:@"jewel_preference"];
@@ -644,8 +627,6 @@ double round(double d) {
         runtimeLabel.text = [Utilities getStringFromItem:item[@"genre"]];
         studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
         summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
-        
-        [self setTvShowsToolbar];
         
         if (![Utilities getPreferTvPosterMode] && AppDelegate.instance.serverVersion < 12) {
             placeHolderImage = @"blank";
