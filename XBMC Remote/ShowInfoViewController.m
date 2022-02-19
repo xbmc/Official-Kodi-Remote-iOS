@@ -1736,6 +1736,17 @@ double round(double d) {
             [items insertObject:doneButton atIndex:0];
             toolbar.items = items;
         }
+        
+        // Special treatment for older iOS version where it is not possible to close some of the modal views.
+        NSOperatingSystemVersion versionOS = [[NSProcessInfo processInfo] operatingSystemVersion];
+        if (versionOS.majorVersion < 14) {
+            if (extraButton) {
+                NSMutableArray *items = [toolbar.items mutableCopy];
+                [items removeObject:extraButton];
+                toolbar.items = items;
+            }
+        }
+        
         [self setIOS7barTintColor:TINT_COLOR];
         viewTitle.textAlignment = NSTextAlignmentCenter;
         bottomShadow.hidden = YES;
