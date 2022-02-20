@@ -872,8 +872,8 @@
         NSInteger count = [[NSUserDefaults standardUserDefaults] integerForKey:PERSISTENCE_KEY_PLAYBACK_ATTEMPTS] + 1;
         [[NSUserDefaults standardUserDefaults] setInteger:count forKey:PERSISTENCE_KEY_PLAYBACK_ATTEMPTS];
         
-        // Show review popup each 50th playback attempt
-        if (count % 50 == 0) {
+        // Show review popup after 50th, 150th, 300th attempt, and each 300th from then on
+        if (count == 50 || count == 150 || count == 300 || count % 300 == 0) {
             [Utilities showReviewController];
         }
     }
