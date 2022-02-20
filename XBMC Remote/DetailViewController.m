@@ -313,8 +313,22 @@
 #pragma mark - library disk cache management
 
 - (NSString*)getCacheKey:(NSString*)fieldA parameters:(NSMutableDictionary*)fieldB {
+    // Which server are we connected to?
     GlobalData *obj = [GlobalData getInstance];
-    return [[NSString stringWithFormat:@"%@%@%@%d%d%@%@", obj.serverIP, obj.serverPort, obj.serverDescription, serverVersion, serverMinorVersion, fieldA, fieldB] MD5String];
+    NSString *serverInfo = [NSString stringWithFormat:@"%@ %@ %@", obj.serverIP, obj.serverPort, obj.serverDescription];
+    
+    // Which version does the serer have?
+    NSString *serverVersion = [NSString stringWithFormat:@"%d.%d", serverMajorVersion, serverMinorVersion];
+    
+    // Which App version are we running?
+    NSString *appVersion = [Utilities getAppVersionString];
+    
+    // Which JSON request's results do we cache??
+    NSString *jsonRequest = [NSString stringWithFormat:@"%@ %@", fieldA, fieldB];
+    
+    // Get SHA256 hash for the combination given above
+    NSString *text = [NSString stringWithFormat:@"%@%@%@%@", serverInfo, serverVersion, appVersion, jsonRequest];
+    return [text SHA256String];
 }
 
 - (void)saveData:(NSMutableDictionary*)mutableParameters {
@@ -5744,7 +5758,7 @@ NSIndexPath *selected;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    serverVersion = AppDelegate.instance.serverVersion;
+    serverMajorVersion = AppDelegate.instance.serverVersion;
     serverMinorVersion = AppDelegate.instance.serverMinorVersion;
     libraryCachePath = AppDelegate.instance.libraryCachePath;
     epgCachePath = AppDelegate.instance.epgCachePath;

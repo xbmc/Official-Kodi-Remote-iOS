@@ -8,6 +8,7 @@
 
 #import "AppInfoViewController.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
 
 @interface AppInfoViewController ()
 
@@ -91,8 +92,7 @@
     [super viewDidLoad];
     self.edgesForExtendedLayout = 0;
     appName.text = LOCALIZED_STR(@"Official XBMC Remote\nfor iOS");
-    __auto_type infoDictionary = NSBundle.mainBundle.infoDictionary;
-    appVersion.text = [NSString stringWithFormat:@"v%@ (%@)", infoDictionary[@"CFBundleShortVersionString"], infoDictionary[(NSString*)kCFBundleVersionKey]];
+    appVersion.text = [Utilities getAppVersionString];
     appDescription.text = LOCALIZED_STR(@"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute");
     appGreeting.text = LOCALIZED_STR(@"enjoy!");
 }

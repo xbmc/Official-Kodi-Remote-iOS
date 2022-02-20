@@ -846,6 +846,12 @@
     [[NSURLSession.sharedSession dataTaskWithURL:[NSURL URLWithString:serverHTTP]] resume];
 }
 
++ (NSString*)getAppVersionString {
+    NSDictionary *infoDict = NSBundle.mainBundle.infoDictionary;
+    NSString *appVersion = [NSString stringWithFormat:@"v%@ (%@)", infoDict[@"CFBundleShortVersionString"], infoDict[(NSString*)kCFBundleVersionKey]];
+    return appVersion;
+}
+
 + (void)showReviewController {
     if (@available(iOS 10.3, *)) {
         [SKStoreReviewController requestReview];
@@ -853,9 +859,7 @@
 }
 
 + (void)checkForReviewRequest {
-    NSDictionary *infoDict = NSBundle.mainBundle.infoDictionary;
-    NSString *currentVersion = [NSString stringWithFormat:@"v%@ (%@)", infoDict[@"CFBundleShortVersionString"],
-                                                                       infoDict[(NSString*)kCFBundleVersionKey]];
+    NSString *currentVersion = [Utilities getAppVersionString];
     NSString *savedVersion = [[NSUserDefaults standardUserDefaults] stringForKey:PERSISTENCE_KEY_VERSION];
     // Compare current version with version under review
     if (![savedVersion isEqualToString:currentVersion]) {

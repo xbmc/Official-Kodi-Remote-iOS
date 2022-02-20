@@ -24,7 +24,7 @@
 
 - (NSString*)getServerKey {
     GlobalData *obj = [GlobalData getInstance];
-    return [[NSString stringWithFormat:@"%@%@%@", obj.serverIP, obj.serverPort, obj.serverDescription] MD5String];
+    return [[NSString stringWithFormat:@"%@%@%@", obj.serverIP, obj.serverPort, obj.serverDescription] SHA256String];
 }
 
 - (void)loadData {
