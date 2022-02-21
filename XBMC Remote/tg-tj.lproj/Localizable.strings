@@ -6,22 +6,22 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Music" = "Music";
-"Movies" = "Movies";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "Мусиқӣ";
+"Movies" = "Филмҳо";
+"TV Shows" = "Барномаҳои ТВ";
+"Pictures" = "Тасвирҳо";
 "Now Playing" = "Now playing";
-"Favourites" = "Favourites";
+"Favourites" = "Баргузидаҳо";
 "Global Search" = "Global Search";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Идоракунии дурдаст";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";
 "Select an XBMC Server from the list" = "Select a Kodi Server from the list";
 "Files" = "Files";
 "Video Add-ons" = "Video Add-ons";
-"Live TV" = "Live TV";
-"Radio" = "Radio";
+"Live TV" = "Пахши мустақим";
+"Radio" = "Радио";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";
 "Added Music Videos" = "Added Music Videos";

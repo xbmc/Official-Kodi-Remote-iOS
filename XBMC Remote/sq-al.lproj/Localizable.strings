@@ -6,14 +6,14 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Music" = "Music";
-"Movies" = "Movies";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "Muzikë";
+"Movies" = "Filma";
+"TV Shows" = "Seriale";
+"Pictures" = "Fotografi";
 "Now Playing" = "Now playing";
-"Favourites" = "Favourites";
+"Favourites" = "Të Preferuara";
 "Global Search" = "Global Search";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Telekomanda";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";

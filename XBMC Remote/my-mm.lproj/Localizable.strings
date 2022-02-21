@@ -6,14 +6,14 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Music" = "Music";
-"Movies" = "Movies";
+"Music" = "သီချင်း";
+"Movies" = "ရုပ်ရှင်များ";
 "TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Pictures" = "ပုံများ";
 "Now Playing" = "Now playing";
-"Favourites" = "Favourites";
+"Favourites" = "အကြိုက်နှစ်သက်ဆုံး";
 "Global Search" = "Global Search";
-"Remote Control" = "Remote Control";
+"Remote Control" = "အဝေးမှထိန်းချုပ်ခြင်း";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";
@@ -21,7 +21,7 @@
 "Files" = "Files";
 "Video Add-ons" = "Video Add-ons";
 "Live TV" = "Live TV";
-"Radio" = "Radio";
+"Radio" = "ရေဒီယို";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";
 "Added Music Videos" = "Added Music Videos";

@@ -1,7 +1,7 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
-"General" = "General";
-"Automatic" = "Automatic";
+"General" = "Общие";
+"Automatic" = "Автоматически";
 "Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play mode";
 "Ken Burns effect" = "Ken Burns effect";
@@ -11,10 +11,10 @@
 "Prefer posters for TV shows" = "Prefer posters for TV shows";
 "Use rounded corner images" = "Use rounded corner images";
 "TV logo background" = "TV logo background";
-"Dark" = "Dark";
-"Light" = "Light";
+"Dark" = "тёмное";
+"Light" = "небольшой";
 "Transparent" = "Transparent";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Удалённое управление";
 "Vibrate remote control" = "Vibrate remote control";
 "App Settings" = "App Settings";
 "Clear cache on next start" = "Clear cache on next start";
@@ -22,18 +22,18 @@
 "Override Lockscreen" = "Override Lockscreen";
 "Show all files in filemode" = "Show all files in filemode";
 "Filemode changes needs app restart" = "Filemode changes needs app restart";
-"Main Menu" = "Main Menu";
+"Main Menu" = "Главное меню";
 "Start in view" = "Start in view";
-"Music" = "Music";
-"Movies" = "Movies";
-"Videos" = "Videos";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
-"Live TV" = "Live TV";
-"Radio" = "Radio";
-"Favourites" = "Favourites";
-"Now Playing" = "Now Playing";
-"Global Search" = "Global Search";
+"Music" = "Музыка";
+"Movies" = "Фильмы";
+"Videos" = "Видео";
+"TV Shows" = "Сериалы";
+"Pictures" = "Изображения";
+"Live TV" = "ТВ";
+"Radio" = "Радио";
+"Favourites" = "Избранные";
+"Now Playing" = "Сейчас воспроизводится";
+"Global Search" = "общий поиск";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
 "Show MUSIC" = "Show MUSIC";
 "Show MOVIES" = "Show MOVIES";

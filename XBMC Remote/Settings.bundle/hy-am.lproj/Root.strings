@@ -1,6 +1,6 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
-"General" = "General";
+"General" = "Գլխավոր";
 "Automatic" = "Automatic";
 "Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play mode";
@@ -12,7 +12,7 @@
 "Use rounded corner images" = "Use rounded corner images";
 "TV logo background" = "TV logo background";
 "Dark" = "Dark";
-"Light" = "Light";
+"Light" = "Թեթև";
 "Transparent" = "Transparent";
 "Remote Control" = "Remote Control";
 "Vibrate remote control" = "Vibrate remote control";
@@ -24,15 +24,15 @@
 "Filemode changes needs app restart" = "Filemode changes needs app restart";
 "Main Menu" = "Main Menu";
 "Start in view" = "Start in view";
-"Music" = "Music";
-"Movies" = "Movies";
-"Videos" = "Videos";
+"Music" = "Երգ-Երաժշտություն";
+"Movies" = "Ֆիլմեր";
+"Videos" = "Տեսանյութեր";
 "TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
-"Live TV" = "Live TV";
+"Pictures" = "Նկարներ";
+"Live TV" = "TV հիմա";
 "Radio" = "Radio";
 "Favourites" = "Favourites";
-"Now Playing" = "Now Playing";
+"Now Playing" = "Այժմ նվագարկում է";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
 "Show MUSIC" = "Show MUSIC";

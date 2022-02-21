@@ -1,6 +1,6 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
-"General" = "General";
+"General" = "Ümumi";
 "Automatic" = "Automatic";
 "Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play mode";
@@ -24,12 +24,12 @@
 "Filemode changes needs app restart" = "Filemode changes needs app restart";
 "Main Menu" = "Main Menu";
 "Start in view" = "Start in view";
-"Music" = "Music";
-"Movies" = "Movies";
-"Videos" = "Videos";
+"Music" = "Musiqi";
+"Movies" = "Filmlər";
+"Videos" = "Videolar";
 "TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
-"Live TV" = "Live TV";
+"Pictures" = "Rəsimlər";
+"Live TV" = "TV";
 "Radio" = "Radio";
 "Favourites" = "Favourites";
 "Now Playing" = "Now Playing";

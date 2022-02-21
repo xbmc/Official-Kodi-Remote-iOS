@@ -1,6 +1,6 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
-"General" = "General";
+"General" = "T'përgjithshëm";
 "Automatic" = "Automatic";
 "Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play mode";
@@ -12,9 +12,9 @@
 "Use rounded corner images" = "Use rounded corner images";
 "TV logo background" = "TV logo background";
 "Dark" = "Dark";
-"Light" = "Light";
+"Light" = "Dritë";
 "Transparent" = "Transparent";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Telekomanda";
 "Vibrate remote control" = "Vibrate remote control";
 "App Settings" = "App Settings";
 "Clear cache on next start" = "Clear cache on next start";
@@ -24,15 +24,15 @@
 "Filemode changes needs app restart" = "Filemode changes needs app restart";
 "Main Menu" = "Main Menu";
 "Start in view" = "Start in view";
-"Music" = "Music";
-"Movies" = "Movies";
-"Videos" = "Videos";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "Muzikë";
+"Movies" = "Filma";
+"Videos" = "Video";
+"TV Shows" = "Seriale";
+"Pictures" = "Fotografi";
 "Live TV" = "Live TV";
 "Radio" = "Radio";
-"Favourites" = "Favourites";
-"Now Playing" = "Now Playing";
+"Favourites" = "Të Preferuara";
+"Now Playing" = "Duke Luajtur Tani";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
 "Show MUSIC" = "Show MUSIC";

@@ -6,21 +6,21 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Music" = "Music";
-"Movies" = "Movies";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
-"Now Playing" = "Now playing";
-"Favourites" = "Favourites";
+"Music" = "Música";
+"Movies" = "Películas";
+"TV Shows" = "Series de TV";
+"Pictures" = "Imágenes";
+"Now Playing" = "Reproduciendo ahora";
+"Favourites" = "Favoritos";
 "Global Search" = "Global Search";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Control remoto";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";
 "Select an XBMC Server from the list" = "Select a Kodi Server from the list";
-"Files" = "Files";
+"Files" = "Archivos";
 "Video Add-ons" = "Video Add-ons";
-"Live TV" = "Live TV";
+"Live TV" = "TV en vivo";
 "Radio" = "Radio";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";
@@ -29,9 +29,9 @@
 "More (%d)" = "More (%d)";
 "Movie Sets" = "Movie Sets";
 "Type" = "Type";
-"Albums" = "Albums";
-"Artists" = "Artists";
-"Genres" = "Genres";
+"Albums" = "Álbumes";
+"Artists" = "Artistas";
+"Genres" = "Géneros";
 "Added Albums" = "Added Albums";
 "Recently added albums" = "Recently added albums";
 "Added Songs" = "Added Songs";
@@ -52,8 +52,8 @@
 "Power off System" = "Power off System";
 "Power off" = "Power off";
 "Hibernate" = "Hibernate";
-"Suspend" = "Suspend";
-"Reboot" = "Reboot";
+"Suspend" = "Suspender";
+"Reboot" = "Reiniciar";
 "Quit XBMC application" = "Quit Kodi application";
 "Update Audio Library" = "Update Audio Library";
 "Update Audio" = "Update Audio";
@@ -63,7 +63,7 @@
 "Update Video" = "Update Video";
 "Clean Video Library" = "Clean Video Library";
 "Clean Video" = "Clean Video";
-"Quit" = "Quit";
+"Quit" = "Salir";
 "Keyboard" = "Keyboard";
 "Gesture Zone" = "Gesture Zone";
 "Button Pad" = "Button Pad";
@@ -71,8 +71,8 @@
 "LED Torch" = "LED Torch";
 "No connection" = "No connection";
 "Queue after current" = "Queue after current";
-"Queue" = "Queue";
-"Play" = "Play";
+"Queue" = "Encolar";
+"Play" = "Reproducir";
 "Search Wikipedia" = "Search Wikipedia";
 "Search last.fm charts" = "Search last.fm charts";
 "Album Tracks" = "Album Tracks";
@@ -87,7 +87,7 @@
 "Recording Details" = "Recording Details";
 "Details" = "Details";
 "Play Trailer" = "Play Trailer";
-"Playlist" = "Playlist";
+"Playlist" = "Lista de reproducción";
 "Details not found" = "Details not found";
 "Open in Safari" = "Open in Safari";
 "Error loading page" = "Error loading page";
@@ -99,7 +99,7 @@
 "Episodes: %@" = "Episodes: %@";
 "1 result" = "1 result";
 "%d results" = "%d results";
-"Songs" = "Songs";
+"Songs" = "Canciones";
 "Song" = "Song";
 "Mins." = "Mins.";
 "Min" = "Min";
@@ -178,9 +178,9 @@
 "All channels" = "All channels";
 "Channel Groups" = "Channel Groups";
 "Channel Guide" = "Channel Guide";
-"Record" = "Record";
+"Record" = "Grabar";
 "Stop Recording" = "Stop Recording";
-"Recordings" = "Recordings";
+"Recordings" = "Grabaciones";
 "Timers" = "Timers";
 "Timer rules" = "Timer rules";
 "Delete timer" = "Delete timer";
@@ -212,7 +212,7 @@
 "Add-on executed successfully" = "Add-on executed successfully";
 "Unable to execute the add-on" = "Unable to execute the add-on";
 "...more" = "...more";
-"Edit" = "Edit";
+"Edit" = "Editar";
 "Done" = "Done";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi version 13 or superior is required to access Kodi settings";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the Kodi GUI for changing this setting.\nThank you.";
@@ -222,7 +222,7 @@
 "No items found." = "No items found.";
 "Video" = "Video";
 "Party" = "Party";
-"Search" = "Search";
+"Search" = "Buscar";
 "Supported XBMC version is Eden (11) or higher" = "Supported Kodi version is Eden (11) or higher";
 "Add Host" = "Add Host";
 "Kodi connection notice" = "Kodi connection notice";
@@ -242,8 +242,8 @@
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems";
 "e.g. My XBMC" = "e.g. My Kodi";
 "e.g. 192.168.0.8" = "e.g. 192.168.0.8";
-"Username" = "Username";
-"Password" = "Password";
+"Username" = "Nombre de usuario";
+"Password" = "Contraseña";
 "Sort by" = "Sort by";
 "tap" = "tap";
 "the selection" = "the selection";
@@ -287,10 +287,10 @@
 "Nearly four hours" = "Nearly four hours";
 "About four hours" = "About four hours";
 "More than four hours" = "More than four hours";
-"Unknown" = "Unknown";
+"Unknown" = "Desconocido";
 "Audio stream" = "Audio stream";
 "Disable subtitles" = "Disable subtitles";
-"Subtitles" = "Subtitles";
+"Subtitles" = "Subtítulos";
 "Execute a specific action" = "Execute a specific action";
 "Activate a specific window" = "Activate a specific window";
 "Execute action" = "Execute action";

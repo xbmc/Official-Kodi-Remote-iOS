@@ -6,12 +6,12 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Music" = "Music";
-"Movies" = "Movies";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "संगीतें";
+"Movies" = "सिनेमा";
+"TV Shows" = "धारावाहिक";
+"Pictures" = "चित्र";
 "Now Playing" = "Now playing";
-"Favourites" = "Favourites";
+"Favourites" = "प्रिय";
 "Global Search" = "Global Search";
 "Remote Control" = "Remote Control";
 "XBMC Server" = "Kodi Server";

@@ -6,22 +6,22 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Music" = "Music";
-"Movies" = "Movies";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "音樂";
+"Movies" = "電影";
+"TV Shows" = "電視劇";
+"Pictures" = "圖片";
 "Now Playing" = "Now playing";
-"Favourites" = "Favourites";
-"Global Search" = "Global Search";
-"Remote Control" = "Remote Control";
+"Favourites" = "我的最愛";
+"Global Search" = "全球搜尋";
+"Remote Control" = "遠端遙控";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";
 "Select an XBMC Server from the list" = "Select a Kodi Server from the list";
 "Files" = "Files";
 "Video Add-ons" = "Video Add-ons";
-"Live TV" = "Live TV";
-"Radio" = "Radio";
+"Live TV" = "電視";
+"Radio" = "無線電廣播";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";
 "Added Music Videos" = "Added Music Videos";
