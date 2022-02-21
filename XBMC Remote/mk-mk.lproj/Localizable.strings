@@ -6,14 +6,14 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Music" = "Music";
-"Movies" = "Movies";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "Музика";
+"Movies" = "Филмови";
+"TV Shows" = "ТВ емисии";
+"Pictures" = "Упр. со датот";
 "Now Playing" = "Now playing";
-"Favourites" = "Favourites";
+"Favourites" = "Омилено";
 "Global Search" = "Global Search";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Далечински управувач";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";
@@ -21,7 +21,7 @@
 "Files" = "Files";
 "Video Add-ons" = "Video Add-ons";
 "Live TV" = "Live TV";
-"Radio" = "Radio";
+"Radio" = "Радио";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";
 "Added Music Videos" = "Added Music Videos";

@@ -1,7 +1,7 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
-"General" = "General";
-"Automatic" = "Automatic";
+"General" = "일반";
+"Automatic" = "자동";
 "Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play mode";
 "Ken Burns effect" = "Ken Burns effect";
@@ -12,9 +12,9 @@
 "Use rounded corner images" = "Use rounded corner images";
 "TV logo background" = "TV logo background";
 "Dark" = "Dark";
-"Light" = "Light";
+"Light" = "번개";
 "Transparent" = "Transparent";
-"Remote Control" = "Remote Control";
+"Remote Control" = "원격 제어";
 "Vibrate remote control" = "Vibrate remote control";
 "App Settings" = "App Settings";
 "Clear cache on next start" = "Clear cache on next start";
@@ -22,17 +22,17 @@
 "Override Lockscreen" = "Override Lockscreen";
 "Show all files in filemode" = "Show all files in filemode";
 "Filemode changes needs app restart" = "Filemode changes needs app restart";
-"Main Menu" = "Main Menu";
+"Main Menu" = "주 메뉴";
 "Start in view" = "Start in view";
-"Music" = "Music";
-"Movies" = "Movies";
-"Videos" = "Videos";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
-"Live TV" = "Live TV";
-"Radio" = "Radio";
-"Favourites" = "Favourites";
-"Now Playing" = "Now Playing";
+"Music" = "음악";
+"Movies" = "영화";
+"Videos" = "비디오";
+"TV Shows" = "TV 쇼";
+"Pictures" = "사진";
+"Live TV" = "라이브 TV";
+"Radio" = "라디오";
+"Favourites" = "즐겨찾기";
+"Now Playing" = "지금 재생 중";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
 "Show MUSIC" = "Show MUSIC";

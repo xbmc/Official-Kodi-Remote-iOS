@@ -1,6 +1,6 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
-"General" = "General";
+"General" = "साधारनन";
 "Automatic" = "Automatic";
 "Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play mode";
@@ -12,7 +12,7 @@
 "Use rounded corner images" = "Use rounded corner images";
 "TV logo background" = "TV logo background";
 "Dark" = "Dark";
-"Light" = "Light";
+"Light" = "प्रकासा";
 "Transparent" = "Transparent";
 "Remote Control" = "Remote Control";
 "Vibrate remote control" = "Vibrate remote control";
@@ -24,14 +24,14 @@
 "Filemode changes needs app restart" = "Filemode changes needs app restart";
 "Main Menu" = "Main Menu";
 "Start in view" = "Start in view";
-"Music" = "Music";
-"Movies" = "Movies";
-"Videos" = "Videos";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "संगीतें";
+"Movies" = "सिनेमा";
+"Videos" = "विडियो";
+"TV Shows" = "धारावाहिक";
+"Pictures" = "चित्र";
 "Live TV" = "Live TV";
 "Radio" = "Radio";
-"Favourites" = "Favourites";
+"Favourites" = "प्रिय";
 "Now Playing" = "Now Playing";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";

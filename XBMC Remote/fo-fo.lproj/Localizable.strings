@@ -6,22 +6,22 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Music" = "Music";
-"Movies" = "Movies";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "Tónleikur";
+"Movies" = "Filmar";
+"TV Shows" = "Sjónvarpsrøð";
+"Pictures" = "Myndir";
 "Now Playing" = "Now playing";
-"Favourites" = "Favourites";
+"Favourites" = "Snarvegir";
 "Global Search" = "Global Search";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Fjarstýring";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";
 "Select an XBMC Server from the list" = "Select a Kodi Server from the list";
 "Files" = "Files";
 "Video Add-ons" = "Video Add-ons";
-"Live TV" = "Live TV";
-"Radio" = "Radio";
+"Live TV" = "Beinleiðis sjónvarp";
+"Radio" = "Útvarp";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";
 "Added Music Videos" = "Added Music Videos";

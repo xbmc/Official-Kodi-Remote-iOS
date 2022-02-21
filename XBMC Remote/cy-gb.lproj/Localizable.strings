@@ -6,21 +6,21 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Music" = "Music";
-"Movies" = "Movies";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "Cerddoriaeth";
+"Movies" = "Ffilmiau";
+"TV Shows" = "Rhaglenni teledu";
+"Pictures" = "Lluniau";
 "Now Playing" = "Now playing";
-"Favourites" = "Favourites";
+"Favourites" = "Ffefrynnau";
 "Global Search" = "Global Search";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Rheolydd pell";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";
 "Select an XBMC Server from the list" = "Select a Kodi Server from the list";
 "Files" = "Files";
 "Video Add-ons" = "Video Add-ons";
-"Live TV" = "Live TV";
+"Live TV" = "Teledu";
 "Radio" = "Radio";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";

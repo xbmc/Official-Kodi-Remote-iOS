@@ -6,12 +6,12 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Music" = "Music";
-"Movies" = "Movies";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "Mużika";
+"Movies" = "Filmati";
+"TV Shows" = "Xow Televiżiv";
+"Pictures" = "Stampi";
 "Now Playing" = "Now playing";
-"Favourites" = "Favourites";
+"Favourites" = "Favoriti";
 "Global Search" = "Global Search";
 "Remote Control" = "Remote Control";
 "XBMC Server" = "Kodi Server";
@@ -21,7 +21,7 @@
 "Files" = "Files";
 "Video Add-ons" = "Video Add-ons";
 "Live TV" = "Live TV";
-"Radio" = "Radio";
+"Radio" = "Radju";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";
 "Added Music Videos" = "Added Music Videos";

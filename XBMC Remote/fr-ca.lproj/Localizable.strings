@@ -6,21 +6,21 @@
   Copyright (c) 2012 joethefox inc. All rights reserved.
  */
 
-"Music" = "Music";
-"Movies" = "Movies";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "Musique";
+"Movies" = "Films";
+"TV Shows" = "Émissions de télé";
+"Pictures" = "Images";
 "Now Playing" = "Now playing";
-"Favourites" = "Favourites";
-"Global Search" = "Global Search";
-"Remote Control" = "Remote Control";
+"Favourites" = "Favoris";
+"Global Search" = "Recherche globale";
+"Remote Control" = "Télécommande";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";
 "Select an XBMC Server from the list" = "Select a Kodi Server from the list";
 "Files" = "Files";
 "Video Add-ons" = "Video Add-ons";
-"Live TV" = "Live TV";
+"Live TV" = "Télé en direct";
 "Radio" = "Radio";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";

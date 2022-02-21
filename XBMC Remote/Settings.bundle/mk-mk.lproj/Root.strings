@@ -1,6 +1,6 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
-"General" = "General";
+"General" = "Општо";
 "Automatic" = "Automatic";
 "Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play mode";
@@ -14,7 +14,7 @@
 "Dark" = "Dark";
 "Light" = "Light";
 "Transparent" = "Transparent";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Далечински управувач";
 "Vibrate remote control" = "Vibrate remote control";
 "App Settings" = "App Settings";
 "Clear cache on next start" = "Clear cache on next start";
@@ -24,15 +24,15 @@
 "Filemode changes needs app restart" = "Filemode changes needs app restart";
 "Main Menu" = "Main Menu";
 "Start in view" = "Start in view";
-"Music" = "Music";
-"Movies" = "Movies";
-"Videos" = "Videos";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Music" = "Музика";
+"Movies" = "Филмови";
+"Videos" = "Видеа";
+"TV Shows" = "ТВ емисии";
+"Pictures" = "Упр. со датот";
 "Live TV" = "Live TV";
-"Radio" = "Radio";
-"Favourites" = "Favourites";
-"Now Playing" = "Now Playing";
+"Radio" = "Радио";
+"Favourites" = "Омилено";
+"Now Playing" = "Сега се изведува";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
 "Show MUSIC" = "Show MUSIC";

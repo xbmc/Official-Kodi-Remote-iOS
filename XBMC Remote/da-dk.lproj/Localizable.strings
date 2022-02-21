@@ -10,7 +10,7 @@
 "Movies" = "Film";
 "TV Shows" = "Tv-serier";
 "Pictures" = "Billeder";
-"Now Playing" = "Now playing";
+"Now Playing" = "Afspiller nu";
 "Favourites" = "Favoritter";
 "Global Search" = "Global søgning";
 "Remote Control" = "Fjernbetjening";
@@ -18,7 +18,7 @@
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";
 "Select an XBMC Server from the list" = "Select a Kodi Server from the list";
-"Files" = "Files";
+"Files" = "Filer";
 "Video Add-ons" = "Video Add-ons";
 "Live TV" = "Direkte tv";
 "Radio" = "Radio";
@@ -52,8 +52,8 @@
 "Power off System" = "Power off System";
 "Power off" = "Power off";
 "Hibernate" = "Hibernate";
-"Suspend" = "Suspend";
-"Reboot" = "Reboot";
+"Suspend" = "Slumre";
+"Reboot" = "Genstart";
 "Quit XBMC application" = "Quit Kodi application";
 "Update Audio Library" = "Update Audio Library";
 "Update Audio" = "Update Audio";
@@ -63,7 +63,7 @@
 "Update Video" = "Update Video";
 "Clean Video Library" = "Clean Video Library";
 "Clean Video" = "Clean Video";
-"Quit" = "Quit";
+"Quit" = "Afslut";
 "Keyboard" = "Keyboard";
 "Gesture Zone" = "Gesture Zone";
 "Button Pad" = "Button Pad";
@@ -159,7 +159,7 @@
 "Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";
 "WIKI_LANG" = "en";
 "vote" = "vote";
-"votes" = "votes";
+"votes" = "stemmer";
 "Slide your finger up to adjust the scrubbing rate." = "Slide your finger up to adjust the scrubbing rate.";
 "Scrubbing 1" = "Hi-Speed Scrubbing";
 "Scrubbing 0.5" = "Half-Speed Scrubbing";
@@ -287,7 +287,7 @@
 "Nearly four hours" = "Nearly four hours";
 "About four hours" = "About four hours";
 "More than four hours" = "More than four hours";
-"Unknown" = "Unknown";
+"Unknown" = "Ukendt";
 "Audio stream" = "Audio stream";
 "Disable subtitles" = "Disable subtitles";
 "Subtitles" = "Subtitles";
