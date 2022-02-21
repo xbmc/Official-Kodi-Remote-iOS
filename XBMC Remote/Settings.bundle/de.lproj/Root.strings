@@ -10,6 +10,7 @@
 "Hide labels in wall view" = "Keine Texte in der Kachelansicht";
 "Prefer posters for TV shows" = "Poster für Serien bevorzugen";
 "Use rounded corner images" = "Abgerundete Ecken für Vorschaubilder verwenden";
+"Use thumbnail when fanart is missing" = "Vorschaubild nutzen falls Fan Art fehlt";
 "TV logo background" = "TV-Logo-Hintergrund";
 "Dark" = "Dunkel";
 "Light" = "Hell";

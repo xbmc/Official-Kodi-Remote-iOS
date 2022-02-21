@@ -871,7 +871,12 @@ double round(double d) {
     
     [self loadThumbnail:item[@"thumbnail"] placeHolder:placeHolderImage jewelType:jeweltype jewelEnabled:enableJewel];
     
-    [self loadFanart:item[@"fanart"]];
+    NSString *fanart = item[@"fanart"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (fanart.length == 0 && [userDefaults boolForKey:@"fanart_fallback_preference"]) {
+        fanart = item[@"thumbnail"];
+    }
+    [self loadFanart:fanart];
     
     voteLabel.text = [Utilities getStringFromItem:item[@"rating"]];
     starsView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f", roundf([item[@"rating"] floatValue])]];
