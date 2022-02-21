@@ -56,7 +56,8 @@
     BOOL isPvrDetail;
     UIToolbar *toolbar;
     NSMutableArray *sheetActions;
-    UIBarButtonItem *actionSheetButtonItemIpad;
+    UIBarButtonItem *actionSheetButtonItem;
+    UIBarButtonItem *extraButton;
     int choosedTab;
     NSString *notificationName;
     float resumePointPercentage;

@@ -28,6 +28,7 @@
 #define REC_DOT_SIZE 10
 #define REC_DOT_PADDING 4
 #define ARROW_ALPHA 0.5
+#define IPAD_NAVBAR_SPACING 120
 
 @interface ShowInfoViewController ()
 @end
@@ -78,7 +79,9 @@ double round(double d) {
         if (((NSNull*)item[@"fromEpisodesView"] != [NSNull null])) {
             fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         }
-        UIBarButtonItem *extraButton = nil;
+        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
+        extraButton = nil;
         if ([item[@"family"] isEqualToString:@"albumid"]) {
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_songs"];
             if (fromAlbumView) {
@@ -93,6 +96,7 @@ double round(double d) {
             extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
         }
         else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
+            actionSheetButtonItem = nil;
             UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv"];
             if (fromEpisodesView) {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
@@ -111,13 +115,17 @@ double round(double d) {
             }
         }
         if (IS_IPAD) {
+            CGFloat titleWidth;
+            if (@available(iOS 12.0, *)) {
+                titleWidth = STACKSCROLL_WIDTH;
+            }
+            else {
+                titleWidth = STACKSCROLL_WIDTH - IPAD_NAVBAR_SPACING;
+            }
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlack;
             toolbar.translucent = YES;
-            UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-            actionSheetButtonItemIpad = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
-            actionSheetButtonItemIpad.style = UIBarButtonItemStylePlain;
-            viewTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, STACKSCROLL_WIDTH, TITLE_HEIGHT)];
+            viewTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, titleWidth, TITLE_HEIGHT)];
             viewTitle.backgroundColor = UIColor.clearColor;
             viewTitle.textAlignment = NSTextAlignmentLeft;
             viewTitle.textColor = UIColor.whiteColor;
@@ -130,7 +138,7 @@ double round(double d) {
             viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0.7];
             viewTitle.autoresizingMask = UIViewAutoresizingNone;
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
-            [viewTitle sizeThatFits: CGSizeMake(STACKSCROLL_WIDTH, TITLE_HEIGHT)];
+            [viewTitle sizeThatFits:viewTitle.frame.size];
             UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:viewTitle];
             if (extraButton == nil) {
                 extraButton = spacer;
@@ -139,7 +147,7 @@ double round(double d) {
                               title,
                               spacer,
                               extraButton,
-                              actionSheetButtonItemIpad,
+                              actionSheetButtonItem,
                               nil];
             toolbar.items = items;
             toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
@@ -156,7 +164,6 @@ double round(double d) {
         }
         else {
             self.navigationItem.title = item[@"label"];
-            UIBarButtonItem *actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
             if (extraButton == nil) {
                 self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
                                                            actionSheetButtonItem,
@@ -375,9 +382,7 @@ double round(double d) {
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
-            if (IS_IPAD) {
-                popPresenter.barButtonItem = actionSheetButtonItemIpad;
-            }
+            popPresenter.barButtonItem = actionSheetButtonItem;
         }
         [self presentViewController:actionView animated:YES completion:nil];
     }
@@ -516,21 +521,6 @@ double round(double d) {
     self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
-- (void)setTvShowsToolbar {
-    if (IS_IPAD) {
-        NSInteger count = toolbar.items.count;
-        NSMutableArray *newToolbarItems = [toolbar.items mutableCopy];
-        [newToolbarItems removeObjectAtIndex:(count - 1)];
-        [newToolbarItems removeObjectAtIndex:(count - 2)];
-        toolbar.items = newToolbarItems;
-    }
-    else {
-        NSMutableArray *navigationItems = [self.navigationItem.rightBarButtonItems mutableCopy];
-        [navigationItems removeObjectAtIndex:0];
-        self.navigationItem.rightBarButtonItems = navigationItems;
-    }
-}
-
 - (BOOL)enableJewelCases {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return [userDefaults boolForKey:@"jewel_preference"];
@@ -637,8 +627,6 @@ double round(double d) {
         runtimeLabel.text = [Utilities getStringFromItem:item[@"genre"]];
         studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
         summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
-        
-        [self setTvShowsToolbar];
         
         if (![Utilities getPreferTvPosterMode] && AppDelegate.instance.serverVersion < 12) {
             placeHolderImage = @"blank";
@@ -1748,6 +1736,17 @@ double round(double d) {
             [items insertObject:doneButton atIndex:0];
             toolbar.items = items;
         }
+        
+        // Special treatment for older iOS version where it is not possible to close some of the modal views.
+        NSOperatingSystemVersion versionOS = [[NSProcessInfo processInfo] operatingSystemVersion];
+        if (versionOS.majorVersion < 14) {
+            if (extraButton) {
+                NSMutableArray *items = [toolbar.items mutableCopy];
+                [items removeObject:extraButton];
+                toolbar.items = items;
+            }
+        }
+        
         [self setIOS7barTintColor:TINT_COLOR];
         viewTitle.textAlignment = NSTextAlignmentCenter;
         bottomShadow.hidden = YES;
