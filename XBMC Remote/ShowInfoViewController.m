@@ -351,8 +351,7 @@ double round(double d) {
 #pragma mark - ActionSheet
 
 - (void)showActionSheet {
-    NSInteger numActions = sheetActions.count;
-    if (numActions) {
+    if (sheetActions.count) {
         NSDictionary *item = self.detailItem;
         NSString *sheetTitle = item[@"label"];
         if ([item[@"family"] isEqualToString:@"broadcastid"]) {
@@ -363,8 +362,8 @@ double round(double d) {
         
         UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
         
-        for (int i = 0; i < numActions; i++) {
-            NSString *actiontitle = sheetActions[i];
+        for (NSString *actionName in sheetActions) {
+            NSString *actiontitle = actionName;
             UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                 [self actionSheetHandler:actiontitle];
             }];
@@ -432,17 +431,17 @@ double round(double d) {
 }
 
 - (void)recordChannel {
-    NSNumber *channelid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]);
+    NSNumber *channelid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] longValue]);
     if ([channelid isEqualToValue:@(0)]) {
         return;
     }
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
-    NSNumber *itemid = @([self.detailItem[@"channelid"] intValue]);
+    NSNumber *itemid = @([self.detailItem[@"channelid"] longValue]);
     NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = @([self.detailItem[@"broadcastid"] intValue]);
+    NSNumber *storeBroadcastid = @([self.detailItem[@"broadcastid"] longValue]);
     if ([itemid isEqualToValue:@(0)]) {
-        itemid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] intValue]);
+        itemid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] longValue]);
         if ([itemid isEqualToValue:@(0)]) {
             return;
         }
@@ -453,7 +452,7 @@ double round(double d) {
         float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
         float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
         if (percent_elapsed < 0) {
-            itemid = @([self.detailItem[@"broadcastid"] intValue]);
+            itemid = @([self.detailItem[@"broadcastid"] longValue]);
             storeBroadcastid = itemid;
             storeChannelid = @(0);
             methodToCall = @"PVR.ToggleTimer";
@@ -473,7 +472,7 @@ double round(double d) {
                if (error == nil && methodError == nil) {
                    [self animateRecordAction];
                    NSNumber *status = @(![self.detailItem[@"isrecording"] boolValue]);
-                   if ([self.detailItem[@"broadcastid"] intValue] > 0) {
+                   if ([self.detailItem[@"broadcastid"] longValue] > 0) {
                        status = @(![self.detailItem[@"hastimer"] boolValue]);
                    }
                    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -534,7 +533,7 @@ double round(double d) {
 
 - (BOOL)enableJewelCases {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [[userDefaults objectForKey:@"jewel_preference"] boolValue];
+    return [userDefaults boolForKey:@"jewel_preference"];
 }
 
 - (void)elaborateImage:(UIImage*)image fallbackImage:(UIImage*)fallback {
@@ -1841,13 +1840,7 @@ double round(double d) {
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *kenBurnsString = [userDefaults objectForKey:@"ken_preference"];
-    if (kenBurnsString == nil || [kenBurnsString boolValue]) {
-        enableKenBurns = YES;
-    }
-    else {
-        enableKenBurns = NO;
-    }
+    enableKenBurns = [userDefaults boolForKey:@"ken_preference"];;
     self.kenView = nil;
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
     foundTintColor = TINT_COLOR;

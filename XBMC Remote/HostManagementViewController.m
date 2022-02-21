@@ -595,9 +595,8 @@ static inline BOOL IsEmpty(id obj) {
     doRevealMenu = YES;
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    int lastServer;
     if ([userDefaults objectForKey:@"lastServer"] != nil) {
-        lastServer = [[userDefaults objectForKey:@"lastServer"] intValue];
+        NSInteger lastServer = [userDefaults integerForKey:@"lastServer"];
         if (lastServer > -1 && lastServer < AppDelegate.instance.arrayServerList.count) {
             NSIndexPath *lastServerIndexPath = [NSIndexPath indexPathForRow:lastServer inSection:0];
             if (!AppDelegate.instance.serverOnLine) {
@@ -667,12 +666,8 @@ static inline BOOL IsEmpty(id obj) {
 }
 
 - (void)tcpJSONRPCConnectionError:(NSNotification*)note {
-    BOOL showConnectionNotice = NO;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *showConnectionNoticeString = [userDefaults objectForKey:@"connection_info_preference"];
-    if (showConnectionNoticeString == nil || [showConnectionNoticeString boolValue]) {
-        showConnectionNotice = YES;
-    }
+    BOOL showConnectionNotice = [userDefaults boolForKey:@"connection_info_preference"];
     if (showConnectionNotice && AppDelegate.instance.serverOnLine) {
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:LOCALIZED_STR(@"Kodi connection notice")
@@ -708,7 +703,7 @@ static inline BOOL IsEmpty(id obj) {
 
 - (void)disableTCPconnectionNotice {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:@(NO) forKey:@"connection_info_preference"];
+    [userDefaults setBool:NO forKey:@"connection_info_preference"];
 }
 
 - (void)enableTCPconnection {
