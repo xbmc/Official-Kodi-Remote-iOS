@@ -6082,7 +6082,6 @@ NSIndexPath *selected;
 }
 
 - (void)handleEnterForeground:(NSNotification*)sender {
-    [self checkDiskCache];
 }
 
 - (void)handleChangeLibraryView {

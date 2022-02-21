@@ -1282,6 +1282,10 @@ NSInteger buttonAction;
     [Utilities turnTorchOn:sender on:torchIsOn];
 }
 
+- (void)dismissModal {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)toggleRemotePosition {
     positionMode = positionMode == remoteBottom ? remoteTop : remoteBottom;
     CGRect frame = remoteControlView.frame;
@@ -1300,9 +1304,9 @@ NSInteger buttonAction;
     torchIsOn = [Utilities isTorchOn];
     // Non-embedded layout has 5 buttons (Settings > Gesture > Keyboard > Info > Torch with Flex around the buttons)
     // Embedded layout has 4 buttons (Gesture > Keyboard > Info > Torch with Flex around the buttons)
-    int numButtons = isEmbedded ? 4 : 5;
-    // On iPhone an addtional button to toggle the remote's position is available
-    numButtons = IS_IPHONE ? numButtons + 1 : numButtons;
+    // iPhone has an addtional button to toggle the remote's position is available
+    // iPad has an additional button to close the modal view
+    int numButtons = isEmbedded ? 5 : 6;
     CGFloat ToolbarFlexSpace = ((width - numButtons * TOOLBAR_ICON_SIZE) / (numButtons + 1));
     CGFloat ToolbarPadding = (TOOLBAR_ICON_SIZE + ToolbarFlexSpace);
     
@@ -1377,6 +1381,16 @@ NSInteger buttonAction;
         positionButton.alpha = 0.6;
         [remoteToolbar addSubview:positionButton];
     }
+    else {
+        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        frame.origin.x += ToolbarPadding;
+        closeButton.frame = frame;
+        closeButton.showsTouchWhenHighlighted = YES;
+        [closeButton setImage:[UIImage imageNamed:@"button_close"] forState:UIControlStateNormal];
+        [closeButton addTarget:self action:@selector(dismissModal) forControlEvents:UIControlEventTouchUpInside];
+        closeButton.alpha = 0.6;
+        [remoteToolbar addSubview:closeButton];
+    }
     
     // Add toolbar to RemoteController's view
     [self.view addSubview:remoteToolbar];
@@ -1422,6 +1436,7 @@ NSInteger buttonAction;
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
+        [self dismissViewControllerAnimated:YES completion:nil];
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
         if (rightMenuViewController.rightMenuItems.count) {
