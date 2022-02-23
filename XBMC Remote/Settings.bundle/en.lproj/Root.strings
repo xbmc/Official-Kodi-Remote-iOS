@@ -3,6 +3,7 @@
 "General" = "General";
 "Automatic" = "Automatic";
 "Show connection notice" = "Show connection notice";
+"Send Wake-On-LAN automatically" = "Send Wake-On-LAN automatically";
 "Direct Play mode" = "Direct Play mode";
 "Ken Burns effect" = "Ken Burns effect";
 "Shake to clear playlist" = "Shake to clear playlist";

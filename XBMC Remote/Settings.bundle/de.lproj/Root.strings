@@ -3,6 +3,7 @@
 "General" = "Allgemein";
 "Automatic" = "Automatisch";
 "Show connection notice" = "Verbindungshinweis zeigen";
+"Send Wake-On-LAN automatically" = "Wake-On-LAN automatisch senden";
 "Direct Play mode" = "„Sofort wiedergeben“-Modus";
 "Ken Burns effect" = "Ken Burns-Effekt";
 "Shake to clear playlist" = "Wiedergabeliste durch Schütteln löschen";

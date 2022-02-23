@@ -176,6 +176,10 @@ NSOutputStream	*outStream;
     if (AppDelegate.instance.serverTCPConnectionOpen) {
         return;
     }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"wol_preference"] &&
+        AppDelegate.instance.obj.serverHWAddr != nil) {
+        [AppDelegate.instance sendWOL:AppDelegate.instance.obj.serverHWAddr withPort:0];
+    }
     inCheck = YES;
 //    NSString *userPassword = [AppDelegate.instance.obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", AppDelegate.instance.obj.serverPass];
 //    NSString *serverJSON = [NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", AppDelegate.instance.obj.serverUser, userPassword, AppDelegate.instance.obj.serverIP, AppDelegate.instance.obj.serverPort];

@@ -24,6 +24,16 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
+			<string>wol_preference</string>
+			<key>Title</key>
+			<string>Send Wake-On-LAN automatically</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
 			<string>song_preference</string>
 			<key>Title</key>
 			<string>Direct Play mode</string>
