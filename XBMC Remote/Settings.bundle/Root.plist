@@ -24,6 +24,16 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
+			<string>lockscreen_preference</string>
+			<key>Title</key>
+			<string>Override Lockscreen</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
 			<string>wol_preference</string>
 			<key>Title</key>
 			<string>Send Wake-On-LAN automatically</string>
@@ -42,11 +52,11 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<true/>
+			<false/>
 			<key>Key</key>
-			<string>ken_preference</string>
+			<string>shake_preference</string>
 			<key>Title</key>
-			<string>Ken Burns effect</string>
+			<string>Shake to clear playlist</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -54,9 +64,53 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>shake_preference</string>
+			<string>vibrate_preference</string>
 			<key>Title</key>
-			<string>Shake to clear playlist</string>
+			<string>Vibrate remote control</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Cache Settings</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<true/>
+			<key>Key</key>
+			<string>diskcache_preference</string>
+			<key>Title</key>
+			<string>Enable contents cache</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
+			<string>clearcache_preference</string>
+			<key>Title</key>
+			<string>Clear cache on next start</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Interface</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>FooterText</key>
+			<string>Filemode changes needs app restart</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<true/>
+			<key>Key</key>
+			<string>ken_preference</string>
+			<key>Title</key>
+			<string>Ken Burns effect</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -112,6 +166,16 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
+			<string>fileType_preference</string>
+			<key>Title</key>
+			<string>Show all files in filemode</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
 			<string>auto</string>
 			<key>Key</key>
 			<string>logo_background</string>
@@ -133,70 +197,6 @@
 				<string>light</string>
 				<string>trans</string>
 			</array>
-		</dict>
-		<dict>
-			<key>Title</key>
-			<string>Remote Control</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
-			<string>vibrate_preference</string>
-			<key>Title</key>
-			<string>Vibrate remote control</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
-			<key>Title</key>
-			<string>App Settings</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>FooterText</key>
-			<string>Filemode changes needs app restart</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
-			<string>clearcache_preference</string>
-			<key>Title</key>
-			<string>Clear cache on next start</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<true/>
-			<key>Key</key>
-			<string>diskcache_preference</string>
-			<key>Title</key>
-			<string>Enable contents cache</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
-			<string>lockscreen_preference</string>
-			<key>Title</key>
-			<string>Override Lockscreen</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
-			<string>fileType_preference</string>
-			<key>Title</key>
-			<string>Show all files in filemode</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>

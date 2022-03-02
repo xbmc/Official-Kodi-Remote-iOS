@@ -18,7 +18,8 @@
 "Transparent" = "Transparent";
 "Remote Control" = "Fernbedienung";
 "Vibrate remote control" = "Fernbedienung vibriert";
-"App Settings" = "App-Einstellungen";
+"Interface" = "Benutzeroberfläche";
+"Cache Settings" = "Cache-Einstellungen";
 "Clear cache on next start" = "Cache beim Start löschen";
 "Enable contents cache" = "Inhalts-Cache aktivieren";
 "Override Lockscreen" = "Sperrbildschirm verhindern";

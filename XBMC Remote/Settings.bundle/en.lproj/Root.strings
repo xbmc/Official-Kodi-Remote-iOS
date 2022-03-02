@@ -18,7 +18,8 @@
 "Transparent" = "Transparent";
 "Remote Control" = "Remote Control";
 "Vibrate remote control" = "Vibrate remote control";
-"App Settings" = "App Settings";
+"Interface" = "Interface";
+"Cache Settings" = "Cache Settings";
 "Clear cache on next start" = "Clear cache on next start";
 "Enable contents cache" = "Enable contents cache";
 "Override Lockscreen" = "Override Lockscreen";
