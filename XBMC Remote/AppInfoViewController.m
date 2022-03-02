@@ -93,7 +93,7 @@
     self.edgesForExtendedLayout = 0;
     appName.text = LOCALIZED_STR(@"Official XBMC Remote\nfor iOS");
     appVersion.text = [Utilities getAppVersionString];
-    appDescription.text = LOCALIZED_STR(@"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute");
+    appDescription.text = LOCALIZED_STR(@"Official Kodi Remote app uses art downloaded from your Kodi server or from the internet when pointed to by Kodi. To unlock the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi");
     appGreeting.text = LOCALIZED_STR(@"enjoy!");
 }
 
