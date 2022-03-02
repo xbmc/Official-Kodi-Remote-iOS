@@ -240,7 +240,7 @@
 		</dict>
 		<dict>
 			<key>Title</key>
-			<string>Main Menu</string>
+			<string>Main Menu Items</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>FooterText</key>
@@ -252,7 +252,7 @@
 			<key>Key</key>
 			<string>menu_music</string>
 			<key>Title</key>
-			<string>Show MUSIC</string>
+			<string>Music</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -262,7 +262,7 @@
 			<key>Key</key>
 			<string>menu_movies</string>
 			<key>Title</key>
-			<string>Show MOVIES</string>
+			<string>Movies</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -272,7 +272,7 @@
 			<key>Key</key>
 			<string>menu_videos</string>
 			<key>Title</key>
-			<string>Show VIDEOS</string>
+			<string>Videos</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -282,7 +282,7 @@
 			<key>Key</key>
 			<string>menu_tvshows</string>
 			<key>Title</key>
-			<string>Show TV SHOWS</string>
+			<string>TV Shows</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -292,7 +292,7 @@
 			<key>Key</key>
 			<string>menu_pictures</string>
 			<key>Title</key>
-			<string>Show PICTURES</string>
+			<string>Pictures</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -302,7 +302,7 @@
 			<key>Key</key>
 			<string>menu_livetv</string>
 			<key>Title</key>
-			<string>Show LIVE TV</string>
+			<string>Live TV</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -312,7 +312,7 @@
 			<key>Key</key>
 			<string>menu_radio</string>
 			<key>Title</key>
-			<string>Show RADIO</string>
+			<string>Radio</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -322,7 +322,7 @@
 			<key>Key</key>
 			<string>menu_favourites</string>
 			<key>Title</key>
-			<string>Show FAVOURITES</string>
+			<string>Favourites</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -332,7 +332,7 @@
 			<key>Key</key>
 			<string>menu_nowplaying</string>
 			<key>Title</key>
-			<string>Show NOW PLAYING</string>
+			<string>Now Playing</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -342,7 +342,7 @@
 			<key>Key</key>
 			<string>menu_remote</string>
 			<key>Title</key>
-			<string>Show REMOTE CONTROL</string>
+			<string>Remote Control</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
@@ -352,7 +352,7 @@
 			<key>Key</key>
 			<string>menu_search</string>
 			<key>Title</key>
-			<string>Show GLOBAL SEARCH</string>
+			<string>Global Search</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
