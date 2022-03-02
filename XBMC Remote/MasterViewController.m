@@ -125,7 +125,7 @@
     }
     else {
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
-        title.text = [item.mainLabel uppercaseString];
+        title.text = item.mainLabel;
         icon.highlightedImage = [UIImage imageNamed:iconName];
         icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
     }
