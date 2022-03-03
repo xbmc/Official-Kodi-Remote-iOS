@@ -119,7 +119,7 @@
 "Command executed" = "Command executed";
 "Warning" = "Warning";
 "Cannot do that" = "Cannot do that";
-"Wake On Lan" = "Wake On Lan";
+"Send Wake-On-LAN" = "Send Wake-On-LAN";
 "No saved hosts found" = "No saved hosts found";
 
 "Are you sure you want to clear the playlist?" = "Are you sure you want to clear the playlist?";

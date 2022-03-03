@@ -216,7 +216,7 @@
     UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     if (!AppDelegate.instance.serverOnLine) {
-        UIAlertAction* action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Wake On Lan") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction* action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Send Wake-On-LAN") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             if (AppDelegate.instance.obj.serverHWAddr != nil) {
                 [self wakeUp:AppDelegate.instance.obj.serverHWAddr];
                 UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
