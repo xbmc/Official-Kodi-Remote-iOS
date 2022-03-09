@@ -46,3 +46,5 @@
 "Show NOW PLAYING" = "Vis AFSPILLER NU";
 "Show REMOTE CONTROL" = "Vis FJERNBETJENING";
 "Show GLOBAL SEARCH" = "Vis GLOBAL SØGNING";
+"Use thumbnail when fanart is missing" = "Brug miniaturebillede når fankunst mangler";
+"Send Wake-On-LAN automatically" = "Send automatisk Wake-On-LAN";
