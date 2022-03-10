@@ -1009,13 +1009,16 @@
 
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
     [UIView animateWithDuration:seconds
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
         view.alpha = alphavalue;
         CGRect frame;
         frame = view.frame;
         frame.origin.x = X;
         view.frame = frame;
-                     }];
+                     }
+                     completion:^(BOOL finished) {}];
 }
 
 + (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
