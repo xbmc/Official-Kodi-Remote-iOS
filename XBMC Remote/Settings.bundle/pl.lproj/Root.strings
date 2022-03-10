@@ -11,7 +11,6 @@
 "Prefer posters for TV shows" = "Preferuj plakaty dla programów TV";
 "Remote Control" = "Kontrola zdalna";
 "Vibrate remote control" = "Włącz wibrację przycisków";
-"App Settings" = "Ustawienia aplikacji";
 "Clear cache on next start" = "Wyczyść cache na starcie";
 "Enable contents cache" = "Włącz cache zawartości";
 "Override Lockscreen" = "Omiń blokadę ekranu";
@@ -20,21 +19,10 @@
 "Main Menu" = "Menu główne";
 "Light" = "Niewielkie";
 "Dark" = "Ciemne";
-"Show REMOTE CONTROL" = "Pokaż KONTROLA ZDALNA";
-"Show NOW PLAYING" = "Pokaż TERAZ ODTWARZANE";
-"Show FAVOURITES" = "Pokaż ULUBIONE";
-"Show LIVE TV" = "Pokaż TV NA ŻYWO";
-"Show PICTURES" = "Pokaż ZDJĘCIA";
-"Show TV SHOWS" = "Pokaż PROGRAMY TV";
-"Show MOVIES" = "Pokaż FILMY";
-"Show MUSIC" = "Pokaż MUZYKA";
 "Main Menu changes needs app restart" = "Zmiany w menu głównym wymagają ponownego uruchomienia aplikacji";
 "Transparent" = "Przezroczyste";
 "TV logo background" = "Tło logo TV";
 "Use rounded corner images" = "Użyj obrazów o zaokrąglonych rogach";
-"Show RADIO" = "Pokaż RADIO";
-"Show VIDEOS" = "Pokaż WIDEO";
-"Show GLOBAL SEARCH" = "Pokaż WYSZUKIWANIE GLOBALNE";
 "Start in view" = "Zacznij od widoku";
 "Music" = "Muzyka";
 "Movies" = "Filmy";
@@ -48,3 +36,6 @@
 "Global Search" = "Wyszukiwanie globalne";
 "Use thumbnail when fanart is missing" = "Użyj miniatury, gdy brakuje fototapety";
 "Send Wake-On-LAN automatically" = "Wysyłaj automatycznie Wake-On-LAN";
+"Main Menu Items" = "Pozycje menu głównego";
+"Cache Settings" = "Ustawienia pamięci podręcznej";
+"Interface" = "Interfejs";

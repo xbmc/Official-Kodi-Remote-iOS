@@ -16,7 +16,6 @@
 "Transparent" = "투명";
 "Remote Control" = "원격 제어";
 "Vibrate remote control" = "진동 리모콘";
-"App Settings" = "앱 설정";
 "Clear cache on next start" = "다음 시작 시 캐시 지우기";
 "Enable contents cache" = "콘텐츠 캐시 사용";
 "Override Lockscreen" = "잠금 화면 무시";
@@ -35,16 +34,5 @@
 "Now Playing" = "지금 재생 중";
 "Global Search" = "전체 검색";
 "Main Menu changes needs app restart" = "메인 메뉴 변경은 앱을 다시 시작해야 합니다";
-"Show MUSIC" = "음악 보기";
-"Show MOVIES" = "영화 보기";
-"Show VIDEOS" = "비디오 보기";
-"Show TV SHOWS" = "TV 쇼 보기";
-"Show PICTURES" = "사진 보기";
-"Show LIVE TV" = "TV 생방송 보기";
-"Show RADIO" = "라디오 보기";
-"Show FAVOURITES" = "즐겨찾기 보기";
-"Show NOW PLAYING" = "지금 재생 중 보기";
-"Show REMOTE CONTROL" = "리모컨 표시";
-"Show GLOBAL SEARCH" = "전체 검색 표시";
 "Use thumbnail when fanart is missing" = "팬아트가 없을 때 썸네일 사용";
 "Send Wake-On-LAN automatically" = "자동으로 Wake-On-LAN 보내기";

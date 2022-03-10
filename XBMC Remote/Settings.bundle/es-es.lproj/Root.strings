@@ -16,7 +16,6 @@
 "Transparent" = "Transparente";
 "Remote Control" = "Control Remoto";
 "Vibrate remote control" = "Vibrar control remoto";
-"App Settings" = "Ajustes de la App";
 "Clear cache on next start" = "Limpiar caché en el siguiente inicio";
 "Enable contents cache" = "Activar caché de contenidos";
 "Override Lockscreen" = "Ignorar Pantalla de bloqueo";
@@ -35,16 +34,8 @@
 "Now Playing" = "Reproduciendo";
 "Global Search" = "Búsqueda Global";
 "Main Menu changes needs app restart" = "Los cambios en el Menú Principal necesitan reiniciar la app";
-"Show MUSIC" = "Mostrar MÚSICA";
-"Show MOVIES" = "Mostrar PELÍCULAS";
-"Show VIDEOS" = "Mostrar VÍDEOS";
-"Show TV SHOWS" = "Mostrar SERIES DE TV";
-"Show PICTURES" = "Mostrar FOTOS";
-"Show LIVE TV" = "Mostrar TV EN DIRECTO";
-"Show RADIO" = "Mostrar RADIO";
-"Show FAVOURITES" = "Mostrar FAVORITOS";
-"Show NOW PLAYING" = "Mostrar REPRODUCIENDO";
-"Show REMOTE CONTROL" = "Mostrar CONTROL REMOTO";
-"Show GLOBAL SEARCH" = "Mostrar BÚSQUEDA GLOBAL";
 "Use thumbnail when fanart is missing" = "Usar miniatura cuando no existe fanart";
 "Send Wake-On-LAN automatically" = "Enviar Wake-On-LAN automáticamente";
+"Main Menu Items" = "Elementos del Menú Principal";
+"Cache Settings" = "Ajustes de Caché";
+"Interface" = "Interfaz";
