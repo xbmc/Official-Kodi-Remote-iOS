@@ -148,7 +148,7 @@
     UILabel *title = (UILabel*)[cell viewWithTag:3];
     NSString *iconName = item.icon;
     title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
-    title.text = [item.mainLabel uppercaseString];
+    title.text = item.mainLabel;
     icon.highlightedImage = [UIImage imageNamed:iconName];
     icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
     return cell;
