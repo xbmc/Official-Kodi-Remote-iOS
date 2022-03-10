@@ -1358,14 +1358,7 @@ double round(double d) {
             if (![self isModal]) {
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
             }
-            [UIView animateWithDuration:1.5
-                                  delay:0
-                                options:UIViewAnimationOptionCurveEaseInOut
-                             animations:^{
-                                 toolbar.alpha = 1.0;
-                             }
-                             completion:^(BOOL finished) {}
-             ];
+            [Utilities alphaView:toolbar AnimDuration:1.5 Alpha:1.0];
         }
     }
     else {

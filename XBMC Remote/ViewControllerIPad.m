@@ -610,13 +610,7 @@
 
 - (void)hideSongInfoView {
     self.nowPlayingController.itemDescription.scrollsToTop = NO;
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        self.nowPlayingController.songDetailsView.alpha = 0.0;
-                     }
-                     completion:^(BOOL finished) {}];
+    [Utilities alphaView:self.nowPlayingController.songDetailsView AnimDuration:0.2 Alpha:0.0];
 }
 
 - (void)handleStackScrollOnScreen:(NSNotification*)sender {

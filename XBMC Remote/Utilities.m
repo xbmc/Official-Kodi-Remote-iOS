@@ -1020,9 +1020,12 @@
 
 + (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
     [UIView animateWithDuration:seconds
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
         view.alpha = alphavalue;
-                     }];
+                     }
+                     completion:^(BOOL finished) {}];
 }
 
 @end

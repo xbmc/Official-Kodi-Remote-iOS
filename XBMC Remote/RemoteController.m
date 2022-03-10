@@ -403,24 +403,11 @@
 
 - (void)showSubInfo:(NSString*)message timeout:(NSTimeInterval)timeout color:(UIColor*)color {
     // first fadeout
-    [UIView animateWithDuration:0.1
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        subsInfoLabel.alpha = 0;
-                     }
-                     completion:^(BOOL finished) {}];
+    [Utilities alphaView:subsInfoLabel AnimDuration:0.1 Alpha:0.0];
     subsInfoLabel.text = message;
     subsInfoLabel.textColor = color;
     // then fade in
-    [UIView animateWithDuration:0.1
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        subsInfoLabel.hidden = NO;
-        subsInfoLabel.alpha = 0.8;
-                     }
-                     completion:^(BOOL finished) {}];
+    [Utilities alphaView:subsInfoLabel AnimDuration:0.1 Alpha:0.8];
     //then fade out again after timeout seconds
     if (fadeoutTimer.valid) {
         [fadeoutTimer invalidate];
@@ -430,13 +417,7 @@
 
 
 - (void)fadeoutSubs {
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        subsInfoLabel.alpha = 0;
-                     }
-                     completion:^(BOOL finished) {}];
+    [Utilities alphaView:subsInfoLabel AnimDuration:0.2 Alpha:0.0];
     [fadeoutTimer invalidate];
     fadeoutTimer = nil;
 }
@@ -1156,23 +1137,11 @@ NSInteger buttonAction;
 - (IBAction)toggleQuickHelp:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     if (quickHelpView.alpha == 0) {
-        [UIView animateWithDuration:0.2
-                              delay:0.0
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-            quickHelpView.alpha = 1.0;
-                         }
-                         completion:^(BOOL finished) {}];
+        [Utilities alphaView:quickHelpView AnimDuration:0.2 Alpha:1.0];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     else {
-        [UIView animateWithDuration:0.2
-                              delay:0.0
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-            quickHelpView.alpha = 0.0;
-                         }
-                         completion:^(BOOL finished) {}];
+        [Utilities alphaView:quickHelpView AnimDuration:0.2 Alpha:0.0];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
 }
