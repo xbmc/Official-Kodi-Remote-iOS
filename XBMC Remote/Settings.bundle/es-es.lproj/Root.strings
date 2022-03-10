@@ -46,3 +46,5 @@
 "Show NOW PLAYING" = "Mostrar REPRODUCIENDO";
 "Show REMOTE CONTROL" = "Mostrar CONTROL REMOTO";
 "Show GLOBAL SEARCH" = "Mostrar BÚSQUEDA GLOBAL";
+"Use thumbnail when fanart is missing" = "Usar miniatura cuando no existe fanart";
+"Send Wake-On-LAN automatically" = "Enviar Wake-On-LAN automáticamente";
