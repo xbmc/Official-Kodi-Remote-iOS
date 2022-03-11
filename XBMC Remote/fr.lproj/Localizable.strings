@@ -99,7 +99,7 @@
 "Command executed" = "Commande executée";
 "Warning" = "Attention";
 "Cannot do that" = "Impossible de faire ceci";
-"Wake On Lan" = "Wake On Lan";
+"Send Wake-On-LAN" = "Envoyer Wake-On-LAN";
 "No saved hosts found" = "Aucun serveur enregistré";
 "Are you sure you want to clear the playlist?" = "Etes-vous sur de vouloir nettoyer playlist ?";
 "Are you sure you want to clear the music playlist?" = "Etes-vous sur de vouloir nettoyer playlist musique ?";

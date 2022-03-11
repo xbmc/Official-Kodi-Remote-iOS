@@ -99,7 +99,7 @@
 "Command executed" = "Komut uygulandı";
 "Warning" = "Uyarı";
 "Cannot do that" = "Yapılamıyor";
-"Wake On Lan" = "Ağ bağlantısında uyan";
+"Send Wake-On-LAN" = "Wake-On-LAN gönder";
 "No saved hosts found" = "Kayıtlı sunucu bulunamadı";
 "Are you sure you want to clear the playlist?" = "Temizlensin mi: playlist ?";
 "Are you sure you want to clear the music playlist?" = "Temizlensin mi: müzik playlist ?";

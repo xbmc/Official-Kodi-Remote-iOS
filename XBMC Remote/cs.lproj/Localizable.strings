@@ -100,7 +100,7 @@
 "Command executed" = "Příkaz proveden";
 "Warning" = "Varování";
 "Cannot do that" = "Nelze udělat";
-"Wake On Lan" = "Wake On Lan";
+"Send Wake-On-LAN" = "Odeslat Wake-On-LAN";
 "No saved hosts found" = "Nebyly nalezeni žádní uložení hostitelé";
 "Are you sure you want to clear the playlist?" = "Opravdu chcete zrušit playlist?";
 "Are you sure you want to clear the music playlist?" = "Opravdu chcete zrušit hudba playlist?";

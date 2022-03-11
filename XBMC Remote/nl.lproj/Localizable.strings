@@ -102,7 +102,7 @@
 "Command executed" = "Commando uitgevoerd";
 "Warning" = "Waarschuwing";
 "Cannot do that" = "Dat is niet mogelijk";
-"Wake On Lan" = "Wake On Lan";
+"Send Wake-On-LAN" = "Wake-On-LAN verzenden";
 "No saved hosts found" = "Geen opgeslagen hosts gevonden";
 "Are you sure you want to clear the playlist?" = "Weet je zeker dat je playlist wil leegmaken?";
 "Are you sure you want to clear the music playlist?" = "Weet je zeker dat je muziek playlist wil leegmaken?";

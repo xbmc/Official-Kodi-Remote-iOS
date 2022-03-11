@@ -5496,7 +5496,7 @@
                     @"hideLineSeparator": @YES
                 },
                 @{
-                    @"label": LOCALIZED_STR(@"Wake On Lan"),
+                    @"label": LOCALIZED_STR(@"Send Wake-On-LAN"),
                     @"bgColor": [self setColorRed:0.741 Green:0.141 Blue:0.141],
                     @"fontColor": [self setColorRed:1.0 Green:1.0 Blue:1.0],
                     @"hideLineSeparator": @YES,

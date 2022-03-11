@@ -100,7 +100,7 @@
 "Command executed" = "命令已执行";
 "Warning" = "注意";
 "Cannot do that" = "无法做到";
-"Wake On Lan" = "网络唤醒";
+"Send Wake-On-LAN" = "发送局域网唤醒";
 "No saved hosts found" = "未找到保存的主机";
 "Are you sure you want to clear the playlist?" = "确定要清除playlist?";
 "Are you sure you want to clear the music playlist?" = "确定要清除音乐playlist?";
