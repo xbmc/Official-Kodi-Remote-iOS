@@ -16,7 +16,6 @@
 "Transparent" = "Transparent";
 "Remote Control" = "Daljinsko upravljanje";
 "Vibrate remote control" = "Vibrate remote control";
-"App Settings" = "App Settings";
 "Clear cache on next start" = "Clear cache on next start";
 "Enable contents cache" = "Enable contents cache";
 "Override Lockscreen" = "Override Lockscreen";
@@ -35,14 +34,3 @@
 "Now Playing" = "Now Playing";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
-"Show MUSIC" = "Show MUSIC";
-"Show MOVIES" = "Show MOVIES";
-"Show VIDEOS" = "Show VIDEOS";
-"Show TV SHOWS" = "Show TV SHOWS";
-"Show PICTURES" = "Show PICTURES";
-"Show LIVE TV" = "Show LIVE TV";
-"Show RADIO" = "Show RADIO";
-"Show FAVOURITES" = "Show FAVOURITES";
-"Show NOW PLAYING" = "Show NOW PLAYING";
-"Show REMOTE CONTROL" = "Show REMOTE CONTROL";
-"Show GLOBAL SEARCH" = "Show GLOBAL SEARCH";

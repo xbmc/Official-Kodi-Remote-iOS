@@ -16,7 +16,6 @@
 "Transparent" = "Gennemsigtig";
 "Remote Control" = "Fjernbetjening";
 "Vibrate remote control" = "Vibrer fjernbetjening";
-"App Settings" = "Indstillinger for app";
 "Clear cache on next start" = "Ryd cache ved næste start";
 "Enable contents cache" = "Aktiver indholdscache";
 "Override Lockscreen" = "Tilsidesæt låseskærm";
@@ -35,16 +34,5 @@
 "Now Playing" = "Afspiller nu";
 "Global Search" = "Global søgning";
 "Main Menu changes needs app restart" = "Ændringer i hovedmenuen kræver genstart af app";
-"Show MUSIC" = "Vis MUSIK";
-"Show MOVIES" = "Vis FILM";
-"Show VIDEOS" = "Vis VIDEOER";
-"Show TV SHOWS" = "Vis TV-SERIER";
-"Show PICTURES" = "Vis BILLEDER";
-"Show LIVE TV" = "Vis DIREKTE TV";
-"Show RADIO" = "Vis RADIO";
-"Show FAVOURITES" = "Vis FAVORITTER";
-"Show NOW PLAYING" = "Vis AFSPILLER NU";
-"Show REMOTE CONTROL" = "Vis FJERNBETJENING";
-"Show GLOBAL SEARCH" = "Vis GLOBAL SØGNING";
 "Use thumbnail when fanart is missing" = "Brug miniaturebillede når fankunst mangler";
 "Send Wake-On-LAN automatically" = "Send automatisk Wake-On-LAN";

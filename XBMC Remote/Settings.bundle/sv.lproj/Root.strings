@@ -12,7 +12,6 @@
 "Prefer posters for TV shows" = "Föredra affischer för tv-serier";
 "Remote Control" = "Fjärrkontroll";
 "Vibrate remote control" = "Vibrera fjärrkontrollen";
-"App Settings" = "Programinställningar";
 "Clear cache on next start" = "Töm mellanlagring vid nästa start";
 "Enable contents cache" = "Aktivera mellanlagring av innehåll";
 "Override Lockscreen" = "Åsidosätt låsskärm";
@@ -21,16 +20,6 @@
 "Main Menu" = "Huvudmeny";
 "Light" = "Ljust";
 "Dark" = "Mörk";
-"Show REMOTE CONTROL" = "Visa FJÄRRKONTROLL";
-"Show NOW PLAYING" = "Visa NU SPELAS";
-"Show FAVOURITES" = "Visa FAVORITER";
-"Show RADIO" = "Visa RADIO";
-"Show LIVE TV" = "Visa LIVE-TV";
-"Show PICTURES" = "Visa BILDER";
-"Show TV SHOWS" = "Visa TV-SERIER";
-"Show VIDEOS" = "Visa VIDEOS";
-"Show MOVIES" = "Visa FILMER";
-"Show MUSIC" = "Visa MUSIK";
 "Transparent" = "Transparent";
 "Start in view" = "Starta i läge";
 "Music" = "Musik";
