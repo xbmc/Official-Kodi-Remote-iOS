@@ -155,14 +155,13 @@ typedef enum {
 - (void)resizeCellBar:(CGFloat)width image:(UIImageView*)cellBarImage {
     NSTimeInterval time = (width == 0) ? 0.1 : 1.0;
     width = MIN(width, MAX_CELLBAR_WIDTH);
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:time];
-    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    CGRect frame;
-    frame = cellBarImage.frame;
-    frame.size.width = width;
-    cellBarImage.frame = frame;
-    [UIView commitAnimations];
+    [UIView animateWithDuration:time
+                     animations:^{
+        CGRect frame;
+        frame = cellBarImage.frame;
+        frame.size.width = width;
+        cellBarImage.frame = frame;
+                     }];
 }
 
 - (IBAction)togglePartyMode:(id)sender {
@@ -209,28 +208,6 @@ typedef enum {
         return;
     }
     view.hidden = value;
-}
-
-- (void)AnimTable:(UITableView*)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	tV.alpha = alphavalue;
-	CGRect frame;
-	frame = tV.frame;
-	frame.origin.x = X;
-	tV.frame = frame;
-    [UIView commitAnimations];
-}
-
-- (void)AnimButton:(UIButton*)button AnimDuration:(NSTimeInterval)seconds hidden:(BOOL)hiddenValue XPos:(int)X {
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	CGRect frame;
-	frame = button.frame;
-	frame.origin.x = X;
-	button.frame = frame;
-    button.hidden = hiddenValue;
-    [UIView commitAnimations];
 }
 
 - (UIImage*)resizeImage:(UIImage*)image width:(int)destWidth height:(int)destHeight padding:(int)destPadding {
@@ -396,7 +373,7 @@ long currentItemID;
         [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
         [playlistButton setImage:buttonImage forState:UIControlStateSelected];
         if (startFlipDemo) {
-            [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
             startFlipDemo = NO;
         }
     }
@@ -996,7 +973,7 @@ long currentItemID;
         playerID = PLAYERID_UNKNOWN;
         selectedPlayerID = PLAYERID_UNKNOWN;
         storedItemID = 0;
-        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
         [self nothingIsPlaying];
         return;
@@ -1055,32 +1032,18 @@ long currentItemID;
     }];
 }
 
-- (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	view.alpha = alphavalue;
-    [UIView commitAnimations];
-}
-
-- (void)alphaButton:(UIButton*)button AnimDuration:(NSTimeInterval)seconds show:(BOOL)show {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	button.hidden = show;
-    [UIView commitAnimations];
-}
-
 - (void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)animTable { 
     if (!AppDelegate.instance.serverOnLine) {
         playerID = PLAYERID_UNKNOWN;
         selectedPlayerID = PLAYERID_UNKNOWN;
         storedItemID = 0;
-        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
         [self nothingIsPlaying];
         return;
     }
     if (!musicPartyMode && animTable) {
-        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     }
     [activityIndicatorView startAnimating];
     GlobalData *obj = AppDelegate.instance.obj;
@@ -1097,19 +1060,19 @@ long currentItemID;
     if (playlistID == PLAYERID_MUSIC) {
         playerID = PLAYERID_MUSIC;
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_MUSIC;
-        [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:NO XPos:PARTYBUTTON_PADDING_LEFT];
+        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:1.0 XPos:PARTYBUTTON_PADDING_LEFT];
     }
     else if (playlistID == PLAYERID_VIDEO) {
         playerID = PLAYERID_VIDEO;
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_VIDEO;
-        [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
+        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
     }
     else if (playlistID == PLAYERID_PICTURES) {
         playerID = PLAYERID_PICTURES;
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_PICTURES;
-        [self AnimButton:PartyModeButton AnimDuration:0.3 hidden:YES XPos:-PartyModeButton.frame.size.width];
+        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
     }
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
                         withParameters:@{@"properties": @[@"thumbnail",
                                                           @"duration",
@@ -1135,10 +1098,10 @@ long currentItemID;
                    if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                        NSArray *playlistItems = methodResult[@"items"];
                        if (playlistItems.count == 0) {
-                           [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+                           [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
                        }
                        else {
-                           [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+                           [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
                        }
                        NSString *serverURL;
                        serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
@@ -1241,10 +1204,10 @@ long currentItemID;
 - (void)showPlaylistTable {
     numResults = (int)playlistData.count;
     if (numResults == 0) {
-        [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     }
     else {
-        [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [activityIndicatorView stopAnimating];
@@ -1447,12 +1410,13 @@ long currentItemID;
 
 - (void)flipAnimButton:(UIButton*)button demo:(BOOL)demo {
     if (demo) {
-        anim = UIViewAnimationTransitionFlipFromLeft;
-        anim2 = UIViewAnimationTransitionFlipFromLeft;
+        animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
         startFlipDemo = NO;
     }
-    [UIView animateWithDuration:0.2
-                     animations:^{ 
+    [UIView transitionWithView:button
+                      duration:0.2
+                       options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
+                    animations:^{
                          button.hidden = YES;
                          if (nowPlayingHidden) {
                              UIImage *buttonImage;
@@ -1475,18 +1439,18 @@ long currentItemID;
                              [button setImage:image forState:UIControlStateHighlighted];
                              [button setImage:image forState:UIControlStateSelected];
                          }
-                         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-                         [UIView setAnimationTransition:anim forView:button cache:YES];
                      } 
                      completion:^(BOOL finished) {
-                         [UIView beginAnimations:nil context:nil];
-                         button.hidden = NO;
-                         [UIView setAnimationDuration:0.5];
-                         [UIView setAnimationDelegate:self];
-                         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-                         [UIView setAnimationTransition:anim2 forView:button cache:YES];
-                         [UIView commitAnimations];
-                     }];
+                        [UIView transitionWithView:button
+                                          duration:0.5
+                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
+                                        animations:^{
+                                            button.hidden = NO;
+                                        }
+                                        completion:^(BOOL finished) {}
+                        ];
+                     }
+    ];
 }
 
 - (void)animViews {
@@ -1496,30 +1460,26 @@ long currentItemID;
     NSTimeInterval iOS7effectDuration = 1.0;
     if (!nowPlayingView.hidden) {
         iOS7effectDuration = 0.0;
-        nowPlayingView.hidden = YES;
         transitionView = nowPlayingView;
         transitionedView = playlistView;
         playlistHidden = NO;
         nowPlayingHidden = YES;
         self.navigationItem.title = LOCALIZED_STR(@"Playlist");
         self.navigationItem.titleView.hidden = YES;
-        anim = UIViewAnimationTransitionFlipFromRight;
-        anim2 = UIViewAnimationTransitionFlipFromRight;
+        animationOptionTransition = UIViewAnimationOptionTransitionFlipFromRight;
         effectColor = UIColor.clearColor;
         barColor = TINT_COLOR;
         playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height - playlistTableView.scrollIndicatorInsets.bottom;
         [self IOS7effect:effectColor barTintColor:barColor effectDuration:0.2];
     }
     else {
-        playlistView.hidden = YES;
         transitionView = playlistView;
         transitionedView = nowPlayingView;
         playlistHidden = YES;
         nowPlayingHidden = NO;
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
-        anim = UIViewAnimationTransitionFlipFromLeft;
-        anim2 = UIViewAnimationTransitionFlipFromLeft;
+        animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
         if (foundEffectColor == nil) {
             effectColor = UIColor.clearColor;
             barColor = TINT_COLOR;
@@ -1531,22 +1491,24 @@ long currentItemID;
         playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height;
     }
     [self IOS7colorProgressSlider:effectColor];
-
-    [UIView animateWithDuration:0.2
-                     animations:^{
-                         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-                         [UIView setAnimationTransition:anim forView:transitionView cache:YES];
+    
+    [UIView transitionWithView:transitionView
+                      duration:0.2
+                       options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
+                    animations:^{
+                          transitionView.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {
-                         [UIView animateWithDuration:0.5
-                                          animations:^{
-                                              [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+                        [UIView transitionWithView:transitionedView
+                                          duration:0.5
+                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
+                                        animations:^{
                                               playlistView.hidden = playlistHidden;
                                               nowPlayingView.hidden = nowPlayingHidden;
                                               self.navigationItem.titleView.hidden = NO;
                                               playlistActionView.frame = playlistToolBarOriginY;
                                               playlistActionView.alpha = (int)nowPlayingHidden;
-                                              [UIView setAnimationTransition:anim2 forView:transitionedView cache:YES];
+                                              transitionedView.alpha = 1.0;
                                           }
                                           completion:^(BOOL finished) {
                                               if (iOS7effectDuration) {
@@ -1632,19 +1594,21 @@ long currentItemID;
     if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || playerID == PLAYERID_PICTURES) {
         return;
     }
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:0.2];
-    if (songDetailsView.alpha == 0) {
-        songDetailsView.alpha = 1.0;
-        [self loadCodecView];
-        itemDescription.scrollsToTop = YES;
-    }
-    else {
-        songDetailsView.alpha = 0.0;
-        itemDescription.scrollsToTop = NO;
-    }
-    [UIView commitAnimations];
+    [UIView animateWithDuration:0.2
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        if (songDetailsView.alpha == 0) {
+            songDetailsView.alpha = 1.0;
+            [self loadCodecView];
+            itemDescription.scrollsToTop = YES;
+        }
+        else {
+            songDetailsView.alpha = 0.0;
+            itemDescription.scrollsToTop = NO;
+        }
+                     }
+                     completion:^(BOOL finished) {}];
 }
 
 - (void)toggleHighlight:(UIButton*)button {
@@ -1848,21 +1812,14 @@ long currentItemID;
     }
 }
 
-- (void)changeAlphaView:(UIView*)view alpha:(CGFloat)value time:(NSTimeInterval)sec {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:sec];
-	view.alpha = value;
-    [UIView commitAnimations];
-}
-
 - (IBAction)stopUpdateProgressBar:(id)sender {
     updateProgressBar = NO;
-    [self changeAlphaView:scrabbingView alpha:1.0 time:0.3];
+    [Utilities alphaView:scrabbingView AnimDuration:0.3 Alpha:1.0];
 }
 
 - (IBAction)startUpdateProgressBar:(id)sender {
     [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:playerID percentage:ProgressSlider.value] reloadPlaylist:NO startProgressBar:YES];
-    [self changeAlphaView:scrabbingView alpha:0.0 time:0.3];
+    [Utilities alphaView:scrabbingView AnimDuration:0.3 Alpha:0.0];
 }
 
 - (IBAction)updateCurrentTime:(id)sender {
@@ -2613,7 +2570,7 @@ long currentItemID;
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self AnimTable:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+    [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     songDetailsView.alpha = 0;
     [playlistTableView setEditing:NO animated:YES];
     [[NSNotificationCenter defaultCenter] removeObserver: self];

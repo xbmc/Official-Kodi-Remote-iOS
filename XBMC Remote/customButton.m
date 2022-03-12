@@ -10,6 +10,7 @@
 #import "NSString+MD5.h"
 #import "GlobalData.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
 
 @implementation customButton
 
@@ -29,12 +30,9 @@
 
 - (void)loadData {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = paths[0];
-    NSString *customButtonDatFile = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"customButtons_%@.dat", [self getServerKey]]];
-    NSFileManager *fileManager1 = [NSFileManager defaultManager];
-    if ([fileManager1 fileExistsAtPath:customButtonDatFile]) {
-        NSMutableArray *tempArray;
-        tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile: customButtonDatFile];
+    NSString *filename = [NSString stringWithFormat:@"customButtons_%@.dat", [self getServerKey]];
+    NSMutableArray *tempArray = [Utilities unarchivePath:paths[0] file:filename];
+    if (tempArray) {
         [self setButtons:tempArray];
     }
     else {
@@ -44,11 +42,8 @@
 
 - (void)saveData {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = paths[0];
-    NSString *customButtonDatFile = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"customButtons_%@.dat", [self getServerKey]]];
-    if (paths.count > 0) {
-        [NSKeyedArchiver archiveRootObject:buttons toFile:customButtonDatFile];
-    }
+    NSString *filename = [NSString stringWithFormat:@"customButtons_%@.dat", [self getServerKey]];
+    [Utilities archivePath:paths[0] file:filename data:buttons];
 }
 
 @end

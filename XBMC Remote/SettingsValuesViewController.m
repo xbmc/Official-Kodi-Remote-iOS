@@ -335,7 +335,7 @@
                         ];
                    }
                    [_tableView reloadData];
-                   [self AnimTable:_tableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                   [Utilities AnimView:_tableView AnimDuration:0.3 Alpha:1.0 XPos:0];
                    [self scrollTableRow:settingOptions];
                }
            }];
@@ -605,18 +605,6 @@
 
 #pragma mark Table view delegate
 
-- (void)AnimTable:(UITableView*)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	tV.alpha = alphavalue;
-	CGRect frame;
-	frame = tV.frame;
-	frame.origin.x = X;
-    frame.origin.y = 0;
-	tV.frame = frame;
-    [UIView commitAnimations];
-}
-
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell *cell = nil;
@@ -768,19 +756,12 @@
 
 #pragma mark - UISlider
 
-- (void)changeAlphaView:(UIView*)view alpha:(CGFloat)value time:(NSTimeInterval)sec {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:sec];
-	view.alpha = value;
-    [UIView commitAnimations];
-}
-
 - (void)startUpdateSlider:(id)sender {
-    [self changeAlphaView:scrubbingView alpha:1.0 time:0.3];
+    [Utilities alphaView:scrubbingView AnimDuration:0.3 Alpha:1.0];
 }
 
 - (void)stopUpdateSlider:(id)sender {
-    [self changeAlphaView:scrubbingView alpha:0.0 time:0.3];
+    [Utilities alphaView:scrubbingView AnimDuration:0.3 Alpha:0.0];
     NSString *command = @"Settings.SetSettingValue";
     self.detailItem[@"value"] = @(storeSliderValue);
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];

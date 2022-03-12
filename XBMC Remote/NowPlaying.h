@@ -71,8 +71,7 @@
     IBOutlet UIButton *playlistButton;
     BOOL playlistHidden;
     BOOL nowPlayingHidden;
-    int anim;
-    int anim2;
+    int animationOptionTransition;
     BOOL startFlipDemo;
     IBOutlet OBSlider *ProgressSlider;
     NSIndexPath *selected;

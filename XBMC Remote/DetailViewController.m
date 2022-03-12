@@ -87,8 +87,7 @@
 - (NSMutableArray*)loadEPGFromDisk:(NSNumber*)channelid parameters:(NSDictionary*)params {
     NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
     NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
-    NSString *path = [epgCachePath stringByAppendingPathComponent:filename];
-    NSMutableArray *epgArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    NSMutableArray *epgArray = [Utilities unarchivePath:epgCachePath file:filename];
     dispatch_sync(epglockqueue, ^{
         if (epgArray != nil && channelid != nil) {
             epgDict[channelid] = epgArray;
@@ -107,8 +106,7 @@
     if (epgArray != nil && channelid != nil && epgArray.count > 0) {
         NSString *epgKey = [self getCacheKey:@"EPG" parameters:nil];
         NSString *filename = [NSString stringWithFormat:@"%@-%@.epg.dat", epgKey, channelid];
-        NSString *dicPath = [epgCachePath stringByAppendingPathComponent:filename];
-        [NSKeyedArchiver archiveRootObject:epgArray toFile:dicPath];
+        [Utilities archivePath:epgCachePath file:filename data:epgArray];
         dispatch_sync(epglockqueue, ^{
             epgDict[channelid] = epgArray;
             [epgDownloadQueue removeObject:channelid];
@@ -339,65 +337,32 @@
         mainMenu *menuItem = self.detailItem;
         NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[menuItem mainMethod][choosedTab]];
         NSString *viewKey = [self getCacheKey:methods[@"method"] parameters:mutableParameters];
-        NSString *diskCachePath = AppDelegate.instance.libraryCachePath;
-//        if (paths.count > 0) {
         
-
-            NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
-            NSString *dicPath = [diskCachePath stringByAppendingPathComponent:filename];
-            [NSKeyedArchiver archiveRootObject:self.richResults toFile:dicPath];
-            [self updateSyncDate:dicPath];
-
-//            filename = [NSString stringWithFormat:@"%@.sections.dat", viewKey];
-//            dicPath = [[paths[0] stringByAppendingPathComponent:fullNamespace] stringByAppendingPathComponent:filename];
-//            [NSKeyedArchiver archiveRootObject:self.sections toFile:dicPath];
-//            
-//            filename = [NSString stringWithFormat:@"%@.sectionArray.dat", viewKey];
-//            dicPath = [[paths[0] stringByAppendingPathComponent:fullNamespace] stringByAppendingPathComponent:filename];
-//            
-//            [NSKeyedArchiver archiveRootObject:self.sectionArray toFile:dicPath];
-//            
-//            filename = [NSString stringWithFormat:@"%@.sectionArrayOpen.dat", viewKey];
-//            dicPath = [[paths[0] stringByAppendingPathComponent:fullNamespace] stringByAppendingPathComponent:filename];
-//            [NSKeyedArchiver archiveRootObject:self.sectionArrayOpen toFile:dicPath];
-//            
-            filename = [NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey];
-            dicPath = [diskCachePath stringByAppendingPathComponent:filename];
-            [NSKeyedArchiver archiveRootObject:self.extraSectionRichResults toFile:dicPath];
-//        }
+        NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
+        [Utilities archivePath:libraryCachePath file:filename data:self.richResults];
+        
+        NSString *path = [libraryCachePath stringByAppendingPathComponent:filename];
+        [self updateSyncDate:path];
+ 
+        filename = [NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey];
+        [Utilities archivePath:libraryCachePath file:filename data:self.extraSectionRichResults];
     }
 }
 
 - (void)loadDataFromDisk:(NSDictionary*)params {
-    NSString *viewKey = [self getCacheKey:params[@"methodToCall"] parameters:params[@"mutableParameters"]];
-    NSString *path = [libraryCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
-    NSMutableArray *tempArray;
-//    NSMutableDictionary *tempDict;
     self.richResults = nil;
-//    self.sections = nil;
     self.sectionArray = nil;
     self.sectionArrayOpen = nil;
     self.extraSectionRichResults = nil;
-    
     self.sections = [NSMutableDictionary new];
     
-    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    NSString *viewKey = [self getCacheKey:params[@"methodToCall"] parameters:params[@"mutableParameters"]];
+    NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
+    NSMutableArray *tempArray = [Utilities unarchivePath:libraryCachePath file:filename];
     self.richResults = tempArray;
     
-//    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sections.dat", viewKey]];
-//    tempDict = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-//    self.sections = tempDict;
-//    
-//    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sectionArray.dat", viewKey]];
-//    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-//    self.sectionArray = tempArray;
-//    
-//    path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.sectionArrayOpen.dat", viewKey]];
-//    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-//    self.sectionArrayOpen = tempArray;
-//    
-    path = [libraryCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey]];
-    tempArray = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    filename = [NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey];
+    tempArray = [Utilities unarchivePath:libraryCachePath file:filename];
     self.extraSectionRichResults = tempArray;
     
     storeRichResults = [self.richResults mutableCopy];
@@ -412,8 +377,9 @@
         return NO;
     }
     NSString *viewKey = [self getCacheKey:methodToCall parameters:mutableParameters];
+    NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
+    NSString *path = [libraryCachePath stringByAppendingPathComponent:filename];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *path = [libraryCachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.richResults.dat", viewKey]];
     if ([fileManager fileExistsAtPath:path]) {
         NSDictionary *extraParams = [NSDictionary dictionaryWithObjectsAndKeys:
                                      mutableParameters, @"mutableParameters",
@@ -967,7 +933,7 @@
     self.indexView.hidden = YES;
     button6.hidden = YES;
     button7.hidden = YES;
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [activityIndicatorView startAnimating];
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     if (choosedTab < buttonsIB.count) {
@@ -975,7 +941,7 @@
     }
     choosedTab = MAX_NORMAL_BUTTONS;
     [buttonsIB[choosedTab] setSelected:YES];
-    [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     int i;
     NSInteger count = [menuItem mainParameters].count;
     NSMutableArray *moreMenu = [NSMutableArray new];
@@ -1004,7 +970,7 @@
         [detailView insertSubview:moreItemsViewController.view aboveSubview:dataList];
     }
 
-    [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
     NSString *labelText = [NSString stringWithFormat:LOCALIZED_STR(@"More (%d)"), (int)(count - MAX_NORMAL_BUTTONS)];
     [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:YES];
     [activityIndicatorView stopAnimating];
@@ -1242,7 +1208,7 @@
         [longTimeout removeFromSuperview];
         longTimeout = nil;
     }
-    [self AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     
     [activityIndicatorView startAnimating];
 
@@ -1257,7 +1223,7 @@
     if (newEnableCollectionView != enableCollectionView) {
         animDuration = 0.0;
     }
-    [self AnimTable:(UITableView*)activeLayoutView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
+    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
@@ -1296,7 +1262,7 @@
     }
     else {
         [activityIndicatorView stopAnimating];
-        [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
 }
 
@@ -1940,54 +1906,15 @@
 
 - (void)handleCollectionIndexStateBegin {
     if (stackscrollFullscreen) {
-        [self alphaView:sectionNameOverlayView AnimDuration:0.1 Alpha:1];
+        [Utilities alphaView:sectionNameOverlayView AnimDuration:0.1 Alpha:1];
     }
 }
 
 - (void)handleCollectionIndexStateEnded {
     if (stackscrollFullscreen) {
-        [self alphaView:sectionNameOverlayView AnimDuration:0.3 Alpha:0];
+        [Utilities alphaView:sectionNameOverlayView AnimDuration:0.3 Alpha:0];
     }
     _indexView.alpha = 1.0;
-}
-
-#pragma mark - Table Animation
-
-- (void)alphaImage:(UIImageView*)image AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	image.alpha = alphavalue;
-    [UIView commitAnimations];
-}
-
-- (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	view.alpha = alphavalue;
-    [UIView commitAnimations];
-}
-
-- (void)AnimTable:(UITableView*)tV AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:seconds];
-    tV.alpha = alphavalue;
-    CGRect frame;
-    frame = tV.frame;
-    frame.origin.x = X;
-    frame.origin.y = 0;
-    tV.frame = frame;
-    [UIView commitAnimations];
-}
-
-- (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:seconds];
-	view.alpha = alphavalue;
-	CGRect frame;
-	frame = view.frame;
-	frame.origin.x = X;
-	view.frame = frame;
-    [UIView commitAnimations];
 }
 
 #pragma mark - Cell Formatting 
@@ -3806,10 +3733,10 @@ NSIndexPath *selected;
                              [self choseParams];
                              if (forceCollection) {
                                  forceCollection = NO;
-                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
+                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
                                  enableCollectionView = NO;
                                  [self configureLibraryView];
-                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
+                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
                              }
                              [self setFlowLayoutParams];
                              [collectionView.collectionViewLayout invalidateLayout];
@@ -3853,10 +3780,10 @@ NSIndexPath *selected;
                              moreItemsViewController.view.hidden = YES;
                              if (!enableCollectionView) {
                                  forceCollection = YES;
-                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
+                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
                                  enableCollectionView = YES;
                                  [self configureLibraryView];
-                                 [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
+                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
                              }
                              else {
                                  forceCollection = NO;
@@ -4009,7 +3936,7 @@ NSIndexPath *selected;
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
-                   [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+                   [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
                    [self startRetrieveDataWithRefresh:YES];
                }
                else {
@@ -4548,7 +4475,7 @@ NSIndexPath *selected;
     }
     else {
         [activityIndicatorView stopAnimating];
-        [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
 }
 
@@ -4736,7 +4663,7 @@ NSIndexPath *selected;
         }
     }
 
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
 //    NSLog(@"START");
     debugText.text = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     elapsedTime = 0;
@@ -4944,7 +4871,7 @@ NSIndexPath *selected;
 }
 
 - (void)animateNoResultsFound {
-    [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     [activityIndicatorView stopAnimating];
 }
 
@@ -4958,7 +4885,7 @@ NSIndexPath *selected;
     self.sections[@""] = @[];
     [self animateNoResultsFound];
     [activeLayoutView reloadData];
-    [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
 }
 
 - (BOOL)isEligibleForSections:(NSArray*)array {
@@ -5269,10 +5196,10 @@ NSIndexPath *selected;
     [self setFilternameLabel:labelText runFullscreenButtonCheck:NO forceHide:NO];
     
     if (!self.richResults.count) {
-        [self alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     }
     else {
-        [self alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     }
     NSDictionary *itemSizes = parameters [@"itemSizes"];
     if (IS_IPHONE) {
@@ -5298,7 +5225,7 @@ NSIndexPath *selected;
     [self setFlowLayoutParams];
     [activityIndicatorView stopAnimating];
     [activeLayoutView reloadData];
-    [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     [collectionView layoutSubviews];
     [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
@@ -6083,16 +6010,17 @@ NSIndexPath *selected;
         enableCollectionView = [self collectionViewIsEnabled];
         recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
         [UIView animateWithDuration:0.2
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
                              CGRect frame;
                              frame = [activeLayoutView frame];
                              frame.origin.x = viewWidth;
                              ((UITableView*)activeLayoutView).frame = frame;
-                             [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
                          }
                          completion:^(BOOL finished) {
                              [self configureLibraryView];
-                             [self AnimTable:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                             [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
                              [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                          }];
     }

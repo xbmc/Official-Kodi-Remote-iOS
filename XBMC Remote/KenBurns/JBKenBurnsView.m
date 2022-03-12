@@ -304,17 +304,18 @@
     [self addSubview:imageView];
     
     // Generates the animation
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:self.timeTransition+2];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    CGAffineTransform rotate    = CGAffineTransformMakeRotation(rotation);
-    CGAffineTransform moveRight = CGAffineTransformMakeTranslation(moveX, moveY);
-    CGAffineTransform combo1    = CGAffineTransformConcat(rotate, moveRight);
-    CGAffineTransform zoomIn    = CGAffineTransformMakeScale(zoomInX, zoomInY);
-    CGAffineTransform transform = CGAffineTransformConcat(zoomIn, combo1);
-    imageView.transform = transform;
-    [UIView commitAnimations];
-    
+    [UIView animateWithDuration:self.timeTransition + 2
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+        CGAffineTransform rotate    = CGAffineTransformMakeRotation(rotation);
+        CGAffineTransform moveRight = CGAffineTransformMakeTranslation(moveX, moveY);
+        CGAffineTransform combo1    = CGAffineTransformConcat(rotate, moveRight);
+        CGAffineTransform zoomIn    = CGAffineTransformMakeScale(zoomInX, zoomInY);
+        CGAffineTransform transform = CGAffineTransformConcat(zoomIn, combo1);
+        imageView.transform = transform;
+                     }
+                     completion:^(BOOL finished) {}];
     [self performSelector:@selector(_notifyDelegate:) withObject:num afterDelay:self.timeTransition];
 }
 

@@ -609,12 +609,8 @@
 }
 
 - (void)hideSongInfoView {
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:0.2];
-    self.nowPlayingController.songDetailsView.alpha = 0.0;
     self.nowPlayingController.itemDescription.scrollsToTop = NO;
-    [UIView commitAnimations];
+    [Utilities alphaView:self.nowPlayingController.songDetailsView AnimDuration:0.2 Alpha:0.0];
 }
 
 - (void)handleStackScrollOnScreen:(NSNotification*)sender {
