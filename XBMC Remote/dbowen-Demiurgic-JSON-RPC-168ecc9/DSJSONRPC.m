@@ -300,7 +300,7 @@
             
             // Give the error to the delegate if they care, completion handler takes presidence
             if (completionHandler) {
-                completionHandler(connectionInfo[@"method"], [connectionInfo [@"id"] longValue], nil, jsonRPCError, nil);
+                completionHandler(connectionInfo[@"method"], [connectionInfo[@"id"] longValue], nil, jsonRPCError, nil);
                 DS_RELEASE(completionHandler)
             }
             else if (delegate && [delegate respondsToSelector:@selector(jsonRPC:didFinishMethod:forId:withError:)]) {
@@ -315,7 +315,7 @@
             DS_RELEASE(completionHandler)
         }
         else if ([delegate respondsToSelector:@selector(jsonRPC:didFinishMethod:forId:withResult:)]) {
-            [delegate jsonRPC:self didFinishMethod:connectionInfo [@"method"] forId:[connectionInfo[@"id"] longValue] withResult:jsonResult[@"result"]];
+            [delegate jsonRPC:self didFinishMethod:connectionInfo[@"method"] forId:[connectionInfo[@"id"] longValue] withResult:jsonResult[@"result"]];
         }
     }
     

@@ -5202,7 +5202,7 @@ NSIndexPath *selected;
     else {
         [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     }
-    NSDictionary *itemSizes = parameters [@"itemSizes"];
+    NSDictionary *itemSizes = parameters[@"itemSizes"];
     if (IS_IPHONE) {
         [self setIphoneInterface:itemSizes[@"iphone"]];
     }

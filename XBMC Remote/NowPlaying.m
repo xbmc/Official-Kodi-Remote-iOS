@@ -1878,7 +1878,7 @@ long currentItemID;
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
         if ([actiontitle isEqualToString:LOCALIZED_STR(@"Album Details")]) {
             choosedTab = 0;
-            menuItem.subItem.mainLabel = item [@"album"];
+            menuItem.subItem.mainLabel = item[@"album"];
             menuItem.subItem.mainMethod = nil;
         }
         else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Album Tracks")]) {
