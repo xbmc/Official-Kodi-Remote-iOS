@@ -739,10 +739,10 @@
 }
 
 - (void)setRightMenuOption:(NSString*)key reloadTableData:(BOOL)reload {
-    mainMenu *menuItems = self.rightMenuItems[0];
+    mainMenu *menuItem = self.rightMenuItems[0];
     tableData = [[NSMutableArray alloc] initWithCapacity:0];
 
-    for (NSDictionary *item in [menuItems mainMethod][0][key]) {
+    for (NSDictionary *item in menuItem.mainMethod[0][key]) {
         NSString *label = item[@"label"];
         if (label == nil) {
             label = @"";
@@ -793,12 +793,12 @@
             [tableData addObject:itemDict];
         }
         // "embedded remote" (reachable from NowPlaying screen) always has the volume bar
-        if ([self showEmbeddedVolumeBar:item mainLabel:[menuItems mainLabel]] && [key isEqualToString:@"online"]) {
+        if ([self showEmbeddedVolumeBar:item mainLabel:menuItem.mainLabel] && [key isEqualToString:@"online"]) {
             [tableData addObject:itemDict];
         }
     }
     editableRowStartAt = tableData.count;
-    if ([key isEqualToString:@"online"] && menuItems.family == FamilyRemote) {
+    if ([key isEqualToString:@"online"] && menuItem.family == FamilyRemote) {
         customButton *arrayButtons = [customButton new];
         if (arrayButtons.buttons.count == 0) {
             editTableButton.enabled = NO;

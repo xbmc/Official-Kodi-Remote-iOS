@@ -1233,8 +1233,8 @@ long currentItemID;
 }
 
 - (void)showInfo:(NSDictionary*)item menuItem:(mainMenu*)menuItem indexPath:(NSIndexPath*)indexPath {
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[menuItem mainMethod][choosedTab]];
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[menuItem mainParameters][choosedTab]];
+    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     
     NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
@@ -1269,7 +1269,7 @@ long currentItemID;
 
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem {
     NSString *itemid = @"";
-    NSDictionary *mainFields = [menuItem mainFields][choosedTab];
+    NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     if (((NSNull*)mainFields[@"row6"] != [NSNull null])) {
         itemid = mainFields[@"row6"];
     }
@@ -1935,7 +1935,7 @@ long currentItemID;
     }
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[menuItem.subItem mainMethod][choosedTab]];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
-        NSDictionary *mainFields = [menuItem mainFields][choosedTab];
+        NSDictionary *mainFields = menuItem.mainFields[choosedTab];
         NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[menuItem.subItem mainParameters][choosedTab]];
         NSString *key = @"null";
         if (item[mainFields[@"row15"]] != nil) {
