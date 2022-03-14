@@ -4698,8 +4698,8 @@ NSIndexPath *selected;
          // postprocessing. Ignore Radio recordings/timers, if we are in TV mode. Or ignore TV recordings/timers,
          // if we are in Radio mode.
          BOOL isRecordingsOrTimersMethod = [methodToCall isEqualToString:@"PVR.GetRecordings"] || [methodToCall isEqualToString:@"PVR.GetTimers"];
-         BOOL ignoreRadioItems = [[menuItem mainLabel] isEqualToString:LOCALIZED_STR(@"Live TV")] && isRecordingsOrTimersMethod;
-         BOOL ignoreTvItems = [[menuItem mainLabel] isEqualToString:LOCALIZED_STR(@"Radio")] && isRecordingsOrTimersMethod;
+         BOOL ignoreRadioItems = [[menuItem rootLabel] isEqualToString:LOCALIZED_STR(@"Live TV")] && isRecordingsOrTimersMethod;
+         BOOL ignoreTvItems = [[menuItem rootLabel] isEqualToString:LOCALIZED_STR(@"Radio")] && isRecordingsOrTimersMethod;
          // If we are reading PVR timer, we need to filter them for the current mode in postprocessing. Ignore
          // scheduled recordings, if we are in timer rules mode. Or ignore timer rules, if scheduled recordings
          // are listed.
@@ -5186,7 +5186,8 @@ NSIndexPath *selected;
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:[menuItem mainParameters][choosedTab]];
     
-    NSString *labelText = [self.detailItem mainLabel];
+    BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel];
+    NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
     if (@available(iOS 11.0, *)) {
         self.navigationItem.backButtonTitle = labelText;
         if (!albumView) {
@@ -5760,7 +5761,7 @@ NSIndexPath *selected;
     else if ([methods[@"channelListView"] boolValue]) {
         channelListView = YES;
     }
-    else if ([[menuItem mainLabel] isEqualToString:LOCALIZED_STR(@"Global Search")]) {
+    else if ([[menuItem rootLabel] isEqualToString:LOCALIZED_STR(@"Global Search")]) {
         globalSearchView = YES;
     }
     

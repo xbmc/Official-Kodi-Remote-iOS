@@ -5777,6 +5777,11 @@
         [mainMenuItems addObject:menu_Search];
     }
     
+    // Set rootLabel for all menu entries
+    for (mainMenu *menuItem in mainMenuItems) {
+        menuItem.rootLabel = menuItem.mainLabel;
+    }
+    
 #pragma mark - Build and Initialize Global Search Lookup
 
     globalSearchMenuLookup = @[
