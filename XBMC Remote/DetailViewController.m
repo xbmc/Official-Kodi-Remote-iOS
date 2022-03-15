@@ -5805,7 +5805,7 @@ NSIndexPath *selected;
         frame.origin.x = viewWidth;
     }
     if ([parameters[@"animationStartBottomScreen"] boolValue]) {
-        frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44;
+        frame.origin.y = UIScreen.mainScreen.bounds.size.height;
     }
     dataList.frame = frame;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
