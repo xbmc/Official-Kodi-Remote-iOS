@@ -437,7 +437,7 @@ double round(double d) {
 
 - (void)recordChannel {
     NSNumber *channelid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] longValue]);
-    if ([channelid isEqualToValue:@(0)]) {
+    if ([channelid longValue] == 0) {
         return;
     }
     NSString *methodToCall = @"PVR.Record";
@@ -445,9 +445,9 @@ double round(double d) {
     NSNumber *itemid = @([self.detailItem[@"channelid"] longValue]);
     NSNumber *storeChannelid = itemid;
     NSNumber *storeBroadcastid = @([self.detailItem[@"broadcastid"] longValue]);
-    if ([itemid isEqualToValue:@(0)]) {
+    if ([itemid longValue] == 0) {
         itemid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] longValue]);
-        if ([itemid isEqualToValue:@(0)]) {
+        if ([itemid longValue] == 0) {
             return;
         }
         storeChannelid = itemid;
