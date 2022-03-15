@@ -92,6 +92,7 @@ typedef enum {
 + (id)unarchivePath:(NSString*)path file:(NSString*)filename;
 + (void)archivePath:(NSString*)path file:(NSString*)filename data:(id)data;
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X;
++ (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X YPos:(int)Y;
 + (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue;
 
 @end

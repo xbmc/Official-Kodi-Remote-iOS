@@ -5225,7 +5225,7 @@ NSIndexPath *selected;
     [self setFlowLayoutParams];
     [activityIndicatorView stopAnimating];
     [activeLayoutView reloadData];
-    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0 YPos:0];
     [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     [collectionView layoutSubviews];
     [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
