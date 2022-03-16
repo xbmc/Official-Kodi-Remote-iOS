@@ -287,7 +287,7 @@ double round(double d) {
     }
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[choosedMenuItem mainMethod][choosedTab]];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
-        NSDictionary *mainFields = [menuItem mainFields][choosedTab];
+        NSDictionary *mainFields = menuItem.mainFields[choosedTab];
         NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[choosedMenuItem mainParameters][choosedTab]];
         id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];

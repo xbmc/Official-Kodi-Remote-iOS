@@ -5777,6 +5777,11 @@
         [mainMenuItems addObject:menu_Search];
     }
     
+    // Set rootLabel for all menu entries
+    for (mainMenu *menuItem in mainMenuItems) {
+        menuItem.rootLabel = menuItem.mainLabel;
+    }
+    
 #pragma mark - Build and Initialize Global Search Lookup
 
     globalSearchMenuLookup = @[
@@ -5831,8 +5836,8 @@
 - (NSNumber*)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel{
     // Search for the method index with the desired sub label (e.g. "All Songs")
     int k;
-    for (k = 0; k < [menuItem mainMethod].count; ++k) {
-        id paramArray = [menuItem mainParameters][k];
+    for (k = 0; k < menuItem.mainMethod.count; ++k) {
+        id paramArray = menuItem.mainParameters[k];
         id parameters = [Utilities indexKeyedDictionaryFromArray:paramArray];
         if ([parameters[@"label"] isEqualToString:subLabel]) {
             break;
