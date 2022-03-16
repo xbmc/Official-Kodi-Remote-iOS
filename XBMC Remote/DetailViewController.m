@@ -3918,7 +3918,7 @@ NSIndexPath *selected;
 
 - (void)deleteTimer:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
     NSNumber *itemid = @([item[@"timerid"] longValue]);
-    if ([itemid isEqualToValue:@(0)]) {
+    if ([itemid longValue] == 0) {
         return;
     }
     id cell = [self getCell:indexPath];
@@ -3961,9 +3961,9 @@ NSIndexPath *selected;
     NSNumber *itemid = @([item[@"channelid"] longValue]);
     NSNumber *storeChannelid = itemid;
     NSNumber *storeBroadcastid = @([item[@"broadcastid"] longValue]);
-    if ([itemid isEqualToValue:@(0)]) {
+    if ([itemid longValue] == 0) {
         itemid = @([item[@"pvrExtraInfo"][@"channelid"] longValue]);
-        if ([itemid isEqualToValue:@(0)]) {
+        if ([itemid longValue] == 0) {
             return;
         }
         storeChannelid = itemid;
