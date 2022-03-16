@@ -191,8 +191,8 @@
             lastSelected = -1;
             return;
         }
-        lastSelected = (int)indexPath.row;
     }
+    lastSelected = (int)indexPath.row;
 }
 
 - (void)setLastSelected:(int)selection {
