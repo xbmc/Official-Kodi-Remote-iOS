@@ -1013,8 +1013,7 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
         view.alpha = alphavalue;
-        CGRect frame;
-        frame = view.frame;
+        CGRect frame = view.frame;
         frame.origin.x = X;
         view.frame = frame;
                      }
