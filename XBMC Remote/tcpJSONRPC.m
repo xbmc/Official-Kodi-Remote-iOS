@@ -178,7 +178,7 @@ NSOutputStream	*outStream;
     }
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"wol_preference"] &&
         AppDelegate.instance.obj.serverHWAddr != nil) {
-        [AppDelegate.instance sendWOL:AppDelegate.instance.obj.serverHWAddr withPort:0];
+        [AppDelegate.instance sendWOL:AppDelegate.instance.obj.serverHWAddr withPort:WOL_PORT];
     }
     inCheck = YES;
 //    NSString *userPassword = [AppDelegate.instance.obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", AppDelegate.instance.obj.serverPass];

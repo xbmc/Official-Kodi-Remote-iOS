@@ -43,6 +43,8 @@
 #define PAD_TV_SHOWS_BANNER_WIDTH IPAD_SCREEN_DESIGN_WIDTH
 #define PAD_TV_SHOWS_POSTER_WIDTH 53
 
+#define WOL_PORT 9
+
 + (AppDelegate*)instance;
 
 - (void)saveServerList;

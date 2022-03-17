@@ -577,7 +577,7 @@
 }
 
 - (void)wakeUp:(NSString*)macAddress {
-    [AppDelegate.instance sendWOL:macAddress withPort:9];
+    [AppDelegate.instance sendWOL:macAddress withPort:WOL_PORT];
 }
 
 #pragma mark - LifeCycle
