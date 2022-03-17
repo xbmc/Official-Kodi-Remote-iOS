@@ -2324,6 +2324,7 @@ long currentItemID;
     CGRect frame = playlistActionView.frame;
     frame.origin.y = CGRectGetMaxY(playlistToolbar.frame);
     playlistActionView.frame = frame;
+    playlistActionView.alpha = 1.0;
 }
 
 - (void)setIpadInterface {
