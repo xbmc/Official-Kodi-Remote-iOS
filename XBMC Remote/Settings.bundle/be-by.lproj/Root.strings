@@ -2,8 +2,8 @@
 
 "General" = "Асноўныя";
 "Automatic" = "Аўтаматычна";
-"Show connection notice" = "Show connection notice";
-"Direct Play mode" = "Direct Play mode";
+"Show connection notice" = "Паказваць апавяшчэнне пра падлучэнне";
+"Direct Play mode" = "Рэжым непасрэднага прайгравання";
 "Ken Burns effect" = "Ken Burns effect";
 "Shake to clear playlist" = "Shake to clear playlist";
 "Show jewel cases" = "Show jewel cases";
@@ -12,7 +12,7 @@
 "Use rounded corner images" = "Use rounded corner images";
 "TV logo background" = "TV logo background";
 "Dark" = "Dark";
-"Light" = "Лёгкі";
+"Light" = "Невялікі";
 "Transparent" = "Transparent";
 "Remote Control" = "Адлеглае кіраванне";
 "Vibrate remote control" = "Vibrate remote control";
@@ -26,11 +26,12 @@
 "Music" = "Музыка";
 "Movies" = "Фільмы";
 "Videos" = "Відэа";
-"TV Shows" = "ТЫ шоў";
+"TV Shows" = "Серыялы";
 "Pictures" = "Малюнкі";
-"Live TV" = "Жывое ТВ";
+"Live TV" = "ТБ";
 "Radio" = "Радыё";
 "Favourites" = "Улюбёныя";
 "Now Playing" = "Зараз прайграецца";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
+"Send Wake-On-LAN automatically" = "Аўтаматычна адпраўляць Wake-On-LAN";

@@ -109,7 +109,6 @@
 "Command executed" = "명령 실행됨";
 "Warning" = "경고";
 "Cannot do that" = "할 수 없음";
-"Wake On Lan" = "웨이크 온 랜";
 "No saved hosts found" = "저장된 호스트를 찾을 수 없음";
 "Are you sure you want to clear the playlist?" = "재생 목록을 지울까요?";
 "Are you sure you want to clear the music playlist?" = "음악 재생 목록을 지울까요?";
@@ -309,3 +308,4 @@
 "Channel" = "채널";
 "Date" = "날짜";
 "Runtime" = "런타임";
+"Send Wake-On-LAN" = "Wake-On-LAN 보내기";

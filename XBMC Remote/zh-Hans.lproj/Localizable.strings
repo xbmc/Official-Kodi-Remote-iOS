@@ -102,10 +102,10 @@
 "Cannot do that" = "无法做到";
 "Send Wake-On-LAN" = "发送局域网唤醒";
 "No saved hosts found" = "未找到保存的主机";
-"Are you sure you want to clear the playlist?" = "确定要清除playlist?";
-"Are you sure you want to clear the music playlist?" = "确定要清除音乐playlist?";
-"Are you sure you want to clear the video playlist?" = "确定要清除视频playlist?";
-"Are you sure you want to clear the picture playlist?" = "确定要清除图片playlist?";
+"Are you sure you want to clear the playlist?" = "确定要清除此播放列表吗？";
+"Are you sure you want to clear the music playlist?" = "确定要清除此音乐播放列表吗？";
+"Are you sure you want to clear the video playlist?" = "确定要清除此视频播放列表吗？";
+"Are you sure you want to clear the picture playlist?" = "确定要清除此图片播放列表吗？";
 "Are you sure you want to power off your XBMC system now?" = "确定现在要让Kodi系统关机？";
 "Are you sure you want to hibernate your XBMC system now?" = "确定现在要让Kodi系统休眠？";
 "Are you sure you want to suspend your XBMC system now?" = "确定现在要让Kodi系统待机？";
@@ -306,3 +306,6 @@
 "Added Music Videos" = "添加音乐电视";
 "Timer rules" = "计时器规则";
 "Global Search" = "全局搜索";
+"Recording Details" = "录像详情";
+"Movie Set Details" = "影片集详情";
+"Type" = "类型";

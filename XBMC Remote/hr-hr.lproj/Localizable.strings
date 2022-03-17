@@ -109,7 +109,6 @@
 "Command executed" = "Command executed";
 "Warning" = "Warning";
 "Cannot do that" = "Cannot do that";
-"Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "No saved hosts found";
 "Are you sure you want to clear the playlist?" = "Are you sure you want to clear the playlist?";
 "Are you sure you want to clear the music playlist?" = "Are you sure you want to clear the music playlist?";
@@ -287,7 +286,7 @@
 "Nearly four hours" = "Nearly four hours";
 "About four hours" = "About four hours";
 "More than four hours" = "More than four hours";
-"Unknown" = "Unknown";
+"Unknown" = "Nepoznato";
 "Audio stream" = "Audio stream";
 "Disable subtitles" = "Disable subtitles";
 "Subtitles" = "Titlovi";

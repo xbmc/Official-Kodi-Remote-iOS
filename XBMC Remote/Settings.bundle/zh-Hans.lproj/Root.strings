@@ -34,3 +34,8 @@
 "Favourites" = "收藏夹";
 "Now Playing" = "当前播放";
 "Global Search" = "全局搜索";
+"Main Menu Items" = "主菜单项";
+"Cache Settings" = "缓存设置";
+"Interface" = "界面";
+"Use thumbnail when fanart is missing" = "同人画缺失时使用缩略图";
+"Send Wake-On-LAN automatically" = "自动发送网络唤醒";
