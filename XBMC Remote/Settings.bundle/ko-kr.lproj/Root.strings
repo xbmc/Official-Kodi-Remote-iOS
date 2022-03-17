@@ -36,3 +36,6 @@
 "Main Menu changes needs app restart" = "메인 메뉴 변경은 앱을 다시 시작해야 합니다";
 "Use thumbnail when fanart is missing" = "팬아트가 없을 때 썸네일 사용";
 "Send Wake-On-LAN automatically" = "자동으로 Wake-On-LAN 보내기";
+"Main Menu Items" = "주 메뉴 항목";
+"Cache Settings" = "캐시 설정";
+"Interface" = "인터페이스";

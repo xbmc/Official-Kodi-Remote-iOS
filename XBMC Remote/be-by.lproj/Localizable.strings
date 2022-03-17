@@ -8,9 +8,9 @@
 
 "Music" = "Музыка";
 "Movies" = "Фільмы";
-"TV Shows" = "ТЫ шоў";
+"TV Shows" = "Серыялы";
 "Pictures" = "Малюнкі";
-"Now Playing" = "Now playing";
+"Now Playing" = "Зараз прайграецца";
 "Favourites" = "Улюбёныя";
 "Global Search" = "Global Search";
 "Remote Control" = "Адлеглае кіраванне";
@@ -18,9 +18,9 @@
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";
 "Select an XBMC Server from the list" = "Select a Kodi Server from the list";
-"Files" = "Files";
+"Files" = "Файлы";
 "Video Add-ons" = "Video Add-ons";
-"Live TV" = "Жывое ТВ";
+"Live TV" = "ТБ";
 "Radio" = "Радыё";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";
@@ -29,9 +29,9 @@
 "More (%d)" = "More (%d)";
 "Movie Sets" = "Movie Sets";
 "Type" = "Type";
-"Albums" = "Albums";
-"Artists" = "Artists";
-"Genres" = "Genres";
+"Albums" = "Альбомы";
+"Artists" = "Выканаўцы";
+"Genres" = "Жанры";
 "Added Albums" = "Added Albums";
 "Recently added albums" = "Recently added albums";
 "Added Songs" = "Added Songs";
@@ -52,8 +52,8 @@
 "Power off System" = "Power off System";
 "Power off" = "Power off";
 "Hibernate" = "Hibernate";
-"Suspend" = "Suspend";
-"Reboot" = "Reboot";
+"Suspend" = "Прыпыніць";
+"Reboot" = "Перазапусціць";
 "Quit XBMC application" = "Quit Kodi application";
 "Update Audio Library" = "Update Audio Library";
 "Update Audio" = "Update Audio";
@@ -63,7 +63,7 @@
 "Update Video" = "Update Video";
 "Clean Video Library" = "Clean Video Library";
 "Clean Video" = "Clean Video";
-"Quit" = "Quit";
+"Quit" = "Выйсці";
 "Keyboard" = "Keyboard";
 "Gesture Zone" = "Gesture Zone";
 "Button Pad" = "Button Pad";
@@ -71,8 +71,8 @@
 "LED Torch" = "LED Torch";
 "No connection" = "No connection";
 "Queue after current" = "Queue after current";
-"Queue" = "Queue";
-"Play" = "Play";
+"Queue" = "У чаргу";
+"Play" = "Прайграць";
 "Search Wikipedia" = "Search Wikipedia";
 "Search last.fm charts" = "Search last.fm charts";
 "Album Tracks" = "Album Tracks";
@@ -87,7 +87,7 @@
 "Recording Details" = "Recording Details";
 "Details" = "Details";
 "Play Trailer" = "Play Trailer";
-"Playlist" = "Playlist";
+"Playlist" = "Спіс прайгравання";
 "Details not found" = "Details not found";
 "Open in Safari" = "Open in Safari";
 "Error loading page" = "Error loading page";
@@ -109,7 +109,6 @@
 "Command executed" = "Command executed";
 "Warning" = "Warning";
 "Cannot do that" = "Cannot do that";
-"Wake On Lan" = "Wake On Lan";
 "No saved hosts found" = "No saved hosts found";
 "Are you sure you want to clear the playlist?" = "Are you sure you want to clear the playlist?";
 "Are you sure you want to clear the music playlist?" = "Are you sure you want to clear the music playlist?";
@@ -159,7 +158,7 @@
 "Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";
 "WIKI_LANG" = "en";
 "vote" = "vote";
-"votes" = "votes";
+"votes" = "галасы";
 "Slide your finger up to adjust the scrubbing rate." = "Slide your finger up to adjust the scrubbing rate.";
 "Scrubbing 1" = "Hi-Speed Scrubbing";
 "Scrubbing 0.5" = "Half-Speed Scrubbing";
@@ -212,7 +211,7 @@
 "Add-on executed successfully" = "Add-on executed successfully";
 "Unable to execute the add-on" = "Unable to execute the add-on";
 "...more" = "...more";
-"Edit" = "Edit";
+"Edit" = "Рэдагаваць";
 "Done" = "Done";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi version 13 or superior is required to access Kodi settings";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the Kodi GUI for changing this setting.\nThank you.";
@@ -220,9 +219,9 @@
 "Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Official Kodi Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" Kodi add-on to unlock the beauty of additional artwork!\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "enjoy!";
 "No items found." = "No items found.";
-"Video" = "Video";
+"Video" = "Відэа";
 "Party" = "Party";
-"Search" = "Search";
+"Search" = "Пошук";
 "Supported XBMC version is Eden (11) or higher" = "Supported Kodi version is Eden (11) or higher";
 "Add Host" = "Add Host";
 "Kodi connection notice" = "Kodi connection notice";
@@ -242,8 +241,8 @@
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems";
 "e.g. My XBMC" = "e.g. My Kodi";
 "e.g. 192.168.0.8" = "e.g. 192.168.0.8";
-"Username" = "Username";
-"Password" = "Password";
+"Username" = "Імя карыстальніка";
+"Password" = "Пароль";
 "Sort by" = "Sort by";
 "tap" = "tap";
 "the selection" = "the selection";
@@ -287,10 +286,10 @@
 "Nearly four hours" = "Nearly four hours";
 "About four hours" = "About four hours";
 "More than four hours" = "More than four hours";
-"Unknown" = "Unknown";
+"Unknown" = "Невядома";
 "Audio stream" = "Audio stream";
 "Disable subtitles" = "Disable subtitles";
-"Subtitles" = "Subtitles";
+"Subtitles" = "Субцітры";
 "Execute a specific action" = "Execute a specific action";
 "Activate a specific window" = "Activate a specific window";
 "Execute action" = "Execute action";
