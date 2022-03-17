@@ -99,7 +99,7 @@
 "Episodes: %@" = "Episodes: %@";
 "1 result" = "1 result";
 "%d results" = "%d results";
-"Songs" = "Songs";
+"Songs" = "Песні";
 "Song" = "Song";
 "Mins." = "Mins.";
 "Min" = "Min";
@@ -177,9 +177,9 @@
 "All channels" = "All channels";
 "Channel Groups" = "Channel Groups";
 "Channel Guide" = "Channel Guide";
-"Record" = "Record";
+"Record" = "Запіс";
 "Stop Recording" = "Stop Recording";
-"Recordings" = "Recordings";
+"Recordings" = "Запісы";
 "Timers" = "Timers";
 "Timer rules" = "Timer rules";
 "Delete timer" = "Delete timer";
