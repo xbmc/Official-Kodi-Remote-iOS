@@ -372,7 +372,7 @@ long currentItemID;
 }
 
 - (void)setButtonImageAndStartDemo:(UIImage*)buttonImage {
-    if (nowPlayingHidden || startFlipDemo) {
+    if (nowPlayingView.hidden || startFlipDemo) {
         [playlistButton setImage:buttonImage forState:UIControlStateNormal];
         [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
         [playlistButton setImage:buttonImage forState:UIControlStateSelected];
@@ -1424,7 +1424,7 @@ long currentItemID;
                        options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
                     animations:^{
                          button.hidden = YES;
-                         if (nowPlayingHidden) {
+                         if (!nowPlayingView.hidden && !demo) {
                              UIImage *buttonImage;
                              if ([self enableJewelCases] && thumbnailView.image.size.width) {
                                  buttonImage = [self resizeToolbarThumb:[self imageWithBorderFromImage:thumbnailView.image]];
@@ -1468,8 +1468,6 @@ long currentItemID;
         iOS7effectDuration = 0.0;
         transitionView = nowPlayingView;
         transitionedView = playlistView;
-        playlistHidden = NO;
-        nowPlayingHidden = YES;
         self.navigationItem.title = LOCALIZED_STR(@"Playlist");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromRight;
@@ -1481,8 +1479,6 @@ long currentItemID;
     else {
         transitionView = playlistView;
         transitionedView = nowPlayingView;
-        playlistHidden = YES;
-        nowPlayingHidden = NO;
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
@@ -1509,12 +1505,11 @@ long currentItemID;
                                           duration:0.5
                                            options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                                         animations:^{
-                                              playlistView.hidden = playlistHidden;
-                                              nowPlayingView.hidden = nowPlayingHidden;
+                                              transitionView.hidden = YES;
+                                              transitionedView.hidden = NO;
+                                              transitionedView.alpha = 1.0;
                                               self.navigationItem.titleView.hidden = NO;
                                               playlistActionView.frame = playlistToolBarOriginY;
-                                              playlistActionView.alpha = (int)nowPlayingHidden;
-                                              transitionedView.alpha = 1.0;
                                           }
                                           completion:^(BOOL finished) {
                                               if (iOS7effectDuration) {
@@ -2678,8 +2673,8 @@ long currentItemID;
     else {
         [self setIpadInterface];
     }
-    nowPlayingView.hidden = nowPlayingHidden = NO;
-    playlistView.hidden = playlistHidden = IS_IPHONE;
+    nowPlayingView.hidden = NO;
+    playlistView.hidden = IS_IPHONE;
     self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
     if (IS_IPHONE) {
         startFlipDemo = YES;
