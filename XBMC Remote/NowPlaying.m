@@ -2307,6 +2307,10 @@ long currentItemID;
     slideFrom = [self currentScreenBoundsDependOnOrientation].size.width;
     xbmcOverlayImage.hidden = YES;
     [playlistToolbar setShadowImage:[UIImage imageNamed:@"blank"] forToolbarPosition:UIBarPositionAny];
+    
+    CGRect frame = playlistActionView.frame;
+    frame.origin.y = CGRectGetMaxY(playlistToolbar.frame);
+    playlistActionView.frame = frame;
 }
 
 - (void)setIpadInterface {
@@ -2441,21 +2445,6 @@ long currentItemID;
         self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.panGesture.delegate = self;
     }
-    if (!fromItself) {
-        if (nowPlayingView.hidden) {
-            nowPlayingView.hidden = NO;
-            nowPlayingHidden = NO;
-            playlistView.hidden = YES;
-            playlistHidden = YES;
-            self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
-            CGRect playlistToolBarOriginY = playlistActionView.frame;
-            playlistToolBarOriginY.origin.y = playlistToolbar.frame.origin.y + playlistToolbar.frame.size.height;
-            playlistActionView.frame = playlistToolBarOriginY;
-        }
-        if (IS_IPHONE) {
-            startFlipDemo = YES;
-        }
-    }
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
@@ -2524,7 +2513,9 @@ long currentItemID;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self becomeFirstResponder];
-    [self handleXBMCPlaylistHasChanged:nil];
+    if (fromItself) {
+        [self handleXBMCPlaylistHasChanged:nil];
+    }
     [self playbackInfo];
     updateProgressBar = YES;
     if (timer != nil) {
@@ -2665,6 +2656,12 @@ long currentItemID;
     }
     else {
         [self setIpadInterface];
+    }
+    nowPlayingView.hidden = nowPlayingHidden = NO;
+    playlistView.hidden = playlistHidden = IS_IPHONE;
+    self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
+    if (IS_IPHONE) {
+        startFlipDemo = YES;
     }
     playlistData = [NSMutableArray new];
 }
