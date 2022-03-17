@@ -55,6 +55,9 @@
 #define TAG_SEEK_FORWARD 7
 #define TAG_ID_EDIT 88
 #define SELECTED_NONE -1
+#define FLIP_DEMO_DELAY 0.5
+#define FADE_OUT_TIME 0.2
+#define FADE_IN_TIME 0.5
 
 typedef enum {
     PLAYERID_UNKNOWN = -1,
@@ -321,7 +324,7 @@ long currentItemID;
         [playlistButton setImage:image forState:UIControlStateNormal];
         [playlistButton setImage:image forState:UIControlStateHighlighted];
         [playlistButton setImage:image forState:UIControlStateSelected];
-        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+        [NSTimer scheduledTimerWithTimeInterval:FLIP_DEMO_DELAY target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
         startFlipDemo = NO;
     }
     if (nothingIsPlaying) {
@@ -377,7 +380,7 @@ long currentItemID;
         [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
         [playlistButton setImage:buttonImage forState:UIControlStateSelected];
         if (startFlipDemo) {
-            [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:FLIP_DEMO_DELAY target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
             startFlipDemo = NO;
         }
     }
@@ -1357,7 +1360,7 @@ long currentItemID;
         buttonImage = [UIImage imageNamed:@"now_playing_playlist"];
     }
     [UIView transitionWithView:button
-                      duration:0.2
+                      duration:FADE_OUT_TIME
                        options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
                     animations:^{
                          // fade out current button image
@@ -1365,7 +1368,7 @@ long currentItemID;
                      } 
                      completion:^(BOOL finished) {
                         [UIView transitionWithView:button
-                                          duration:0.5
+                                          duration:FADE_IN_TIME
                                            options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                                         animations:^{
                                             // fade in new button image
@@ -1416,14 +1419,14 @@ long currentItemID;
     [self IOS7colorProgressSlider:effectColor];
     
     [UIView transitionWithView:transitionView
-                      duration:0.2
+                      duration:FADE_OUT_TIME
                        options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
                     animations:^{
                           transitionView.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {
                         [UIView transitionWithView:transitionedView
-                                          duration:0.5
+                                          duration:FADE_IN_TIME
                                            options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                                         animations:^{
                                               transitionView.hidden = YES;
