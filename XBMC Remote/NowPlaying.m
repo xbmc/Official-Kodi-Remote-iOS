@@ -1419,39 +1419,38 @@ long currentItemID;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
         startFlipDemo = NO;
     }
+    UIImage *buttonImage;
+    if (!nowPlayingView.hidden && !demo) {
+        if ([self enableJewelCases] && thumbnailView.image.size.width) {
+            buttonImage = [self resizeToolbarThumb:[self imageWithBorderFromImage:thumbnailView.image]];
+        }
+        else if (jewelView.image.size.width) {
+            buttonImage = [self resizeToolbarThumb:jewelView.image];
+        }
+        if (!buttonImage.size.width) {
+            buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"st_kodi_window"]];
+        }
+    }
+    else {
+        buttonImage = [UIImage imageNamed:@"now_playing_playlist"];
+    }
     [UIView transitionWithView:button
                       duration:0.2
                        options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
                     animations:^{
-                         button.hidden = YES;
-                         if (!nowPlayingView.hidden && !demo) {
-                             UIImage *buttonImage;
-                             if ([self enableJewelCases] && thumbnailView.image.size.width) {
-                                 buttonImage = [self resizeToolbarThumb:[self imageWithBorderFromImage:thumbnailView.image]];
-                             }
-                             else if (jewelView.image.size.width) {
-                                 buttonImage = [self resizeToolbarThumb:jewelView.image];
-                             }
-                             if (!buttonImage.size.width) {
-                                 buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"st_kodi_window"]];
-                             }
-                             [button setImage:buttonImage forState:UIControlStateNormal];
-                             [button setImage:buttonImage forState:UIControlStateHighlighted];
-                             [button setImage:buttonImage forState:UIControlStateSelected];
-                         }
-                         else {
-                             UIImage *image = [UIImage imageNamed:@"now_playing_playlist"];
-                             [button setImage:image forState:UIControlStateNormal];
-                             [button setImage:image forState:UIControlStateHighlighted];
-                             [button setImage:image forState:UIControlStateSelected];
-                         }
+                         // fade out current button image
+                         button.alpha = 0.0;
                      } 
                      completion:^(BOOL finished) {
                         [UIView transitionWithView:button
                                           duration:0.5
                                            options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                                         animations:^{
-                                            button.hidden = NO;
+                                            // fade in new button image
+                                            button.alpha = 1.0;
+                                            [button setImage:buttonImage forState:UIControlStateNormal];
+                                            [button setImage:buttonImage forState:UIControlStateHighlighted];
+                                            [button setImage:buttonImage forState:UIControlStateSelected];
                                         }
                                         completion:^(BOOL finished) {}
                         ];
