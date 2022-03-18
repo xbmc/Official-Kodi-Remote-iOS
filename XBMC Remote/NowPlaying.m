@@ -395,41 +395,11 @@ long currentItemID;
                                 [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
                             }
-                            [UIView transitionWithView:albumName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                albumName.textColor = UIColor.whiteColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:songName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                songName.textColor = [Utilities getGrayColor:230 alpha:1];
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:artistName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                artistName.textColor = UIColor.lightGrayColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:currentTime
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                currentTime.textColor = UIColor.lightGrayColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:duration
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                duration.textColor = UIColor.lightGrayColor;
-                                            }
-                                            completion:NULL];
+                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:UIColor.whiteColor];
+                            [Utilities colorLabel:songName AnimDuration:1.0 Color:[Utilities getGrayColor:230 alpha:1]];
+                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:UIColor.lightGrayColor];
+                            [Utilities colorLabel:currentTime AnimDuration:1.0 Color:UIColor.lightGrayColor];
+                            [Utilities colorLabel:duration AnimDuration:1.0 Color:UIColor.lightGrayColor];
                         }
                         else {
                             UIColor *lighterColor = [Utilities lighterColorForColor:color];
@@ -442,41 +412,11 @@ long currentItemID;
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
                             }
-                            [UIView transitionWithView:albumName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                albumName.textColor = pgThumbColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:songName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                songName.textColor = pgThumbColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:artistName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                artistName.textColor = progressColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:currentTime
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                currentTime.textColor = progressColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:duration
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                duration.textColor = progressColor;
-                                            }
-                                            completion:NULL];
+                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:pgThumbColor];
+                            [Utilities colorLabel:songName AnimDuration:1.0 Color:pgThumbColor];
+                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:progressColor];
+                            [Utilities colorLabel:currentTime AnimDuration:1.0 Color:progressColor];
+                            [Utilities colorLabel:duration AnimDuration:1.0 Color:progressColor];
                         }
                     }
                     completion:NULL];
@@ -489,13 +429,7 @@ long currentItemID;
                          iOS7navBarEffect.backgroundColor = color;
                          if ([color isEqual:UIColor.clearColor]) {
                              self.navigationController.navigationBar.tintColor = TINT_COLOR;
-                             [UIView transitionWithView:backgroundImageView
-                                               duration:1.0
-                                                options:UIViewAnimationOptionTransitionCrossDissolve
-                                             animations:^{
-                                                 backgroundImageView.image = [UIImage imageNamed:@"shiny_black_back"];
-                                             }
-                                             completion:NULL];
+                             [Utilities imageView:backgroundImageView AnimDuration:1.0 Image:[UIImage imageNamed:@"shiny_black_back"]];
                              if (IS_IPAD) {
                                  NSDictionary *params = @{@"startColor": [Utilities getGrayColor:36 alpha:1],
                                                           @"endColor": [Utilities getGrayColor:22 alpha:1]};
@@ -506,13 +440,7 @@ long currentItemID;
                          else {
                              UIColor *lighterColor = [Utilities lighterColorForColor:color];
                              self.navigationController.navigationBar.tintColor = lighterColor;
-                             [UIView transitionWithView:backgroundImageView
-                                               duration:1.0
-                                                options:UIViewAnimationOptionTransitionCrossDissolve
-                                             animations:^{
-                                                 backgroundImageView.image = [Utilities colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
-                                             }
-                                             completion:NULL];
+                             [Utilities imageView:backgroundImageView AnimDuration:1.0 Image:[Utilities colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor]];
                              if (IS_IPAD) {
                                  CGFloat hue, saturation, brightness, alpha;
                                  BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
@@ -538,13 +466,7 @@ long currentItemID;
 }
 
 - (void)changeImage:(UIImageView*)imageView image:(UIImage*)newImage {
-    [UIView transitionWithView:jewelView
-                      duration:0.2
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-                        imageView.image = newImage;
-                    }
-                    completion:NULL];
+    [Utilities imageView:jewelView AnimDuration:0.2 Image:newImage];
 }
 
 - (void)getActivePlayers {

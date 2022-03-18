@@ -567,13 +567,7 @@
 }
 
 - (void)handleChangeBackgroundImage:(NSNotification*)sender {
-    [UIView transitionWithView: fanartBackgroundImage
-                      duration: 1.0
-                       options: UIViewAnimationOptionTransitionCrossDissolve
-                    animations: ^{
-                        fanartBackgroundImage.image = [sender.userInfo objectForKey:@"image"];
-                    }
-                    completion: NULL];
+    [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:[sender.userInfo objectForKey:@"image"]];
 }
 
 - (void)handleChangeBackgroundGradientColor:(NSNotification*)sender {
