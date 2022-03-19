@@ -284,6 +284,10 @@
 		B1FF37DF1709D1ED005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C703692827148CEF0049F9BF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C718444525FFD06300F5A060 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		C746406727E6200200F6AD47 /* fi-FI */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fi-FI"; path = "fi-FI.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		C746406827E6200200F6AD47 /* fi-FI */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fi-FI"; path = "fi-FI.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		C746406927E6209C00F6AD47 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		C746406A27E6209C00F6AD47 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7478BF8257258E700161C1E /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C7868BB627491FB7001B35B6 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-US"; path = "en-US.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C7868BB727491FB7001B35B6 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-US"; path = "en-US.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -711,6 +715,8 @@
 				sv,
 				Base,
 				"en-US",
+				"fi-FI",
+				"ko-KR",
 			);
 			mainGroup = 0F5548EB151D1187007E633F;
 			productRefGroup = 0F5548F7151D1187007E633F /* Products */;
@@ -842,6 +848,8 @@
 				0F4AEB171E0E6A4000709D4F /* tr */,
 				0F55058E1E309C1D0054BB57 /* sv */,
 				C7868BB627491FB7001B35B6 /* en-US */,
+				C746406727E6200200F6AD47 /* fi-FI */,
+				C746406927E6209C00F6AD47 /* ko-KR */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -862,6 +870,8 @@
 				0F4AEB181E0E6A4000709D4F /* tr */,
 				0F55058F1E309C1D0054BB57 /* sv */,
 				C7868BB727491FB7001B35B6 /* en-US */,
+				C746406827E6200200F6AD47 /* fi-FI */,
+				C746406A27E6209C00F6AD47 /* ko-KR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
