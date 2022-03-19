@@ -36,3 +36,6 @@
 "Main Menu changes needs app restart" = "Ændringer i hovedmenuen kræver genstart af app";
 "Use thumbnail when fanart is missing" = "Brug miniaturebillede når fankunst mangler";
 "Send Wake-On-LAN automatically" = "Send automatisk Wake-On-LAN";
+"Main Menu Items" = "Hovedmenuens emner";
+"Cache Settings" = "Indstillinger for cache";
+"Interface" = "Brugerflade";
