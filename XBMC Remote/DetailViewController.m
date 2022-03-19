@@ -412,6 +412,16 @@
 
 #pragma mark - Utility
 
+- (UIViewController*)topMostController {
+    UIViewController *topController = UIApplication.sharedApplication.keyWindow.rootViewController;
+
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+
+    return topController;
+}
+
 - (void)setFilternameLabel:(NSString*)labelText runFullscreenButtonCheck:(BOOL)check forceHide:(BOOL)forceHide {
     self.navigationItem.title = labelText;
     if (IS_IPHONE) {
@@ -3212,22 +3222,11 @@ NSIndexPath *selected;
                 UIViewController *showFromCtrl = nil;
                 UIView *showfromview = nil;
                 if (IS_IPHONE) {
-                    showFromCtrl = self;
+                    showFromCtrl = [self topMostController];
                     showfromview = self.view;
                 }
                 else {
-                    if ([self doesShowSearchResults] || [self getSearchTextField].editing) {
-                        // We are searching an must present from searchController
-                        showFromCtrl = self.searchController;
-                    }
-                    else if ([self isModal]) {
-                        // We are in modal view (e.g. fullscreen) and must present from ourself
-                        showFromCtrl = self;
-                    }
-                    else {
-                        // We are in stackview and must present from rootVC
-                        showFromCtrl = self.view.window.rootViewController;
-                    }
+                    showFromCtrl = [self topMostController];
                     showfromview = enableCollectionView ? collectionView : [showFromCtrl.view superview];
                     selectedPoint = enableCollectionView ? p : [lpgr locationInView:showfromview];
                 }
