@@ -217,6 +217,7 @@ PLATFORMS
 DEPENDENCIES
   fastlane
   xcode-install
+  xcodeproj
 
 BUNDLED WITH
    2.3.9
