@@ -381,7 +381,12 @@
                 NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
                 NSURL *url = [[NSURL alloc] initWithString:serverJSON];
                 NSURLSession *pingSession = [NSURLSession sharedSession];
-                NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url];
+                NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url
+                                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self fillMacAddressInfo];
+                    });
+                }];
                 [pingConnection resume];
                 [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
             }
@@ -441,20 +446,6 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [self resolveIPAddress:services[indexPath.row]];
-}
-
-#pragma mark - NSURLConnection Delegate Methods
-
-- (void)connection:(NSURLConnection*)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge*)challenge {
-    [self fillMacAddressInfo];
-}
-
-- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
-    [self fillMacAddressInfo];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection*)connection {
-    [self fillMacAddressInfo];
 }
 
 #pragma mark - LifeCycle
