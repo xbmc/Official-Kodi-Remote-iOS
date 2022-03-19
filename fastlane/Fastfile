@@ -1,3 +1,5 @@
+fastlane_require 'xcodeproj'
+
 default_platform(:ios)
 
 before_all do
@@ -45,6 +47,7 @@ lane :tf do |options|
     changelogLines << "- #{l.sub(/\(Merge pull request (#\d+).+/, "(\\1)")}" unless l.include?('[not app]')
   }
   Actions.lane_context[SharedValues::FL_CHANGELOG] = changelogLines.join("\n")
+  Actions.lane_context[SharedValues::FL_CHANGELOG].prepend "#{options[:changelogTitle]}\n\n" if options[:changelogTitle]
 
   testflight(
     distribute_external: true,
@@ -89,6 +92,32 @@ lane :tf do |options|
     createGithubRelease("Testflight #{appProperties['CFBundleVersion']}", newTag, is_prerelease: true, assets: [ipaPath])
     system 'git fetch --tags'
   }
+end
+
+desc 'Build RC & upload to Testflight'
+lane :rc do |options|
+  # remove unsupported languages from the settings bundle
+  localizationDirExtension = '.lproj'
+  xcProject = Xcodeproj::Project.open('../Kodi Remote.xcodeproj')
+  localizations = xcProject.files
+    .filter {|f| f.path.end_with? 'Localizable.strings' }
+    .map {|f| f.name.downcase }
+  settingsBundlePath = xcProject.files.find {|f| f.path.end_with? 'Settings.bundle' }.real_path
+  Dir.each_child(settingsBundlePath) { |f|
+    next unless File.extname(f) == localizationDirExtension
+    FileUtils.remove_dir "#{settingsBundlePath}/#{f}" unless localizations.include? File.basename(f, localizationDirExtension).downcase
+  }
+
+  begin
+    tf options.merge({
+      changelogTitle: 'This RC will be submitted for AppStore review.',
+    })
+  ensure
+    reset_git_repo(
+      files: [settingsBundlePath],
+      force: true,
+    )
+  end
 end
 
 desc 'Submit to AppStore review'

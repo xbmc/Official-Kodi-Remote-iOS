@@ -47,9 +47,15 @@ To be able to also create prerelease+tag on Github, define `GITHUB_API_TOKEN` en
 
 `GITHUB_API_TOKEN=your_PAT_token bundle exec fastlane tf notify:0`
 
-### Submit to AppStore review
+### Submit for AppStore review
 
-`bundle exec fastlane asc`
+First, make an RC build with unfinished localizations excluded from the settings bundle: (it supports the same parameters as the normal `tf` lane described above)
+
+    bundle exec fastlane rc
+
+In case there're no changes compared to the last TF build, don't define `GITHUB_API_TOKEN` environment variable to prevent useless Github release being created.
+
+Submit for review: `bundle exec fastlane asc`
 
 If you also want to draft release on Github, define `GITHUB_API_TOKEN` environment variable like above.
 
@@ -62,7 +68,7 @@ Optional parameters:
 
 Omitted `app_version` / `build_number` parameter means "use the latest uploaded". [More about passing parameters](https://docs.fastlane.tools/advanced/lanes/#passing-parameters).
 
-Note: if new app version doesn't exist yet, you **must** pass at least `app_version`, otherwise fastlane fails. Hopefully it'll be fixed, see [issue about that](https://github.com/fastlane/fastlane/issues/18571).
+Note: if new app version doesn't exist in ASC yet, you **must** pass at least `app_version`, otherwise fastlane fails. Hopefully it'll be fixed, see [issue about that](https://github.com/fastlane/fastlane/issues/18571).
 
 Example: `bundle exec fastlane asc app_version:1.6.1`
 
