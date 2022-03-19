@@ -3134,13 +3134,7 @@ NSIndexPath *selected;
         UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
         BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
-        UIViewController *showFromCtrl = nil;
-        if (IS_IPHONE) {
-            showFromCtrl = self;
-        }
-        else {
-            showFromCtrl = self.view.window.rootViewController;
-        }
+        UIViewController *showFromCtrl = [self topMostController];
         [self showActionSheetOptions:title options:sheetActions recording:isRecording point:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
@@ -3219,14 +3213,12 @@ NSIndexPath *selected;
                 }
                 UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
-                UIViewController *showFromCtrl = nil;
+                UIViewController *showFromCtrl = [self topMostController];
                 UIView *showfromview = nil;
                 if (IS_IPHONE) {
-                    showFromCtrl = [self topMostController];
                     showfromview = self.view;
                 }
                 else {
-                    showFromCtrl = [self topMostController];
                     showfromview = enableCollectionView ? collectionView : [showFromCtrl.view superview];
                     selectedPoint = enableCollectionView ? p : [lpgr locationInView:showfromview];
                 }
