@@ -14,7 +14,7 @@
 "Dark" = "Tumma";
 "Light" = "Heikkoa";
 "Transparent" = "Läpinäkyvä";
-"Remote Control" = "Kaukosäätö";
+"Remote Control" = "Kauko-ohjaus";
 "Vibrate remote control" = "Kauko-ohjaimen värinä";
 "Clear cache on next start" = "Tyhjennä välimuisti seuraavalla käynnistyskerralla";
 "Enable contents cache" = "Käytä sisältövälimuistia";
@@ -26,13 +26,13 @@
 "Music" = "Musiikki";
 "Movies" = "Elokuvat";
 "Videos" = "Videot";
-"TV Shows" = "Tv-sarjat";
+"TV Shows" = "Sarjat";
 "Pictures" = "Kuvat";
-"Live TV" = "TV-lähetys";
+"Live TV" = "Televisio";
 "Radio" = "Radio";
 "Favourites" = "Suosikit";
 "Now Playing" = "Toistetaan parhaillaan";
-"Global Search" = "Global Search -haku";
+"Global Search" = "Globaali haku";
 "Main Menu changes needs app restart" = "Päävalikon muutokset edellyttävät sovelluksen uudelleenkäynnistystä";
 "Main Menu Items" = "Päävalikon kohteet";
 "Cache Settings" = "Välimuistin asetukset";
