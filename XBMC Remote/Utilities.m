@@ -50,10 +50,16 @@
     return imageRef;
 }
 
-+ (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse {
++ (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse autoColorCheck:(BOOL)autoColorCheck {
     CGImageRef rawImageRef = [image CGImage];
     if (rawImageRef == nil) {
         return UIColor.clearColor;
+    }
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL autocolor_preference = [userDefaults boolForKey:@"autocolor_ui_preference"];
+    if (autoColorCheck && !autocolor_preference) {
+        return [Utilities getSystemGray2];
     }
     
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
@@ -246,7 +252,7 @@
     switch (mode) {
         case bgAuto:
             // get background color and colorize the image background
-            imgcolor = [Utilities averageColor:imageview.image inverse:NO];
+            imgcolor = [Utilities averageColor:imageview.image inverse:NO autoColorCheck:NO];
             bgcolor = [Utilities updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
             break;
         case bgLight:

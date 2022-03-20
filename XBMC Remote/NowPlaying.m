@@ -689,7 +689,7 @@ long currentItemID;
                                                      buttonImage = [self resizeToolbarThumb:jewelView.image];
                                                  }
                                                  [self setButtonImageAndStartDemo:buttonImage];
-                                                 UIColor *effectColor = [Utilities averageColor:image inverse:NO];
+                                                 UIColor *effectColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
                                                  [self setIOS7backgroundEffect:effectColor barTintColor:effectColor];
                                              }
                                              else {
@@ -703,7 +703,7 @@ long currentItemID;
                                                                                   
                                                                                   UIImage *buttonImage = [sf resizeToolbarThumb:[sf imageWithBorderFromImage:image]];
                                                                                   [sf setButtonImageAndStartDemo:buttonImage];
-                                                                                  newColor = [Utilities averageColor:image inverse:NO];
+                                                                                  newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
                                                                                   [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
                                                                               }
                                                                           }];
@@ -717,7 +717,7 @@ long currentItemID;
                                                               [sf changeImage:jV image:[sf imageWithBorderFromImage:image]];
                                                               UIImage *buttonImage = [sf resizeToolbarThumb:jV.image];
                                                               [sf setButtonImageAndStartDemo:buttonImage];
-                                                              newColor = [Utilities averageColor:image inverse:NO];
+                                                              newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
                                                               [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
                                                           }
                                                       }];

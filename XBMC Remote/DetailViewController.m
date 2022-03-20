@@ -722,7 +722,7 @@
 - (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost lab12color:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
 
     // Gather average cover color and limit saturation
-    UIColor* mainColor = [Utilities averageColor:image inverse:NO];
+    UIColor* mainColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
     mainColor = [Utilities limitSaturation:mainColor satmax:0.33];
     
     // Create gradient based on average color
@@ -1778,7 +1778,7 @@
                                  placeholderImage:[UIImage imageNamed:displayThumb]
                                         andResize:CGSizeMake(posterWidth, cellthumbHeight)
                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                UIColor *averageColor = [Utilities averageColor:image inverse:NO];
+                UIColor *averageColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
                 CGFloat hue, saturation, brightness, alpha;
                 BOOL ok = [averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
                 if (ok) {
