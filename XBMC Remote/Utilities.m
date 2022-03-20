@@ -992,7 +992,20 @@
     if (@available(iOS 11.0, *)) {
         NSData *data = [[NSFileManager defaultManager] contentsAtPath:filePath];
         NSError *error;
-        unarchived = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class]
+        NSSet *objectClasses = [NSSet setWithArray:@[
+            // Supported non-mutable classes
+            [NSDictionary class],
+            [NSString class],
+            [NSArray class],
+            [NSNumber class],
+            [NSDate class],
+            [NSData class],
+            // Supported mutable classes
+            [NSMutableDictionary class],
+            [NSMutableString class],
+            [NSMutableArray class],
+        ]];
+        unarchived = [NSKeyedUnarchiver unarchivedObjectOfClasses:objectClasses
                                                          fromData:data
                                                             error:&error];
     } else {
