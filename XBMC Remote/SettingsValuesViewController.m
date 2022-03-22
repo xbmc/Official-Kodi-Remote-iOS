@@ -749,8 +749,7 @@
 - (void)scrollTableRow:(NSArray*)list {
     NSIndexPath *optionIndex = [self getCurrentSelectedOption:list];
     if (optionIndex != nil) {
-        [_tableView scrollToRowAtIndexPath:optionIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-        
+        [_tableView scrollToRowAtIndexPath:optionIndex atScrollPosition:UITableViewScrollPositionMiddle animated:!fromItself];
     }
 }
 
@@ -824,6 +823,11 @@
     }];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    fromItself = YES;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if ([self presentingViewController] != nil) {
@@ -853,6 +857,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    fromItself = NO;
     footerHeight = -1;
     selectedSetting = nil;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
