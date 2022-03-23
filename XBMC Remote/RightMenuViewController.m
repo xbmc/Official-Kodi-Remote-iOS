@@ -418,7 +418,7 @@
         textField.placeholder = @"";
         textField.text = tableData[indexPath.row][@"label"];
     }];
-    UIAlertAction* updateButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update label") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    UIAlertAction *updateButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update label") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         tableData[indexPath.row][@"label"] = alertView.textFields[0].text;
             
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
@@ -431,7 +431,7 @@
                 [arrayButtons saveData];
             }
         }];
-    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
     [alertView addAction:updateButton];
     [alertView addAction:cancelButton];
     [self presentViewController:alertView animated:YES completion:nil];
@@ -461,8 +461,8 @@
                 ok_button = LOCALIZED_STR(@"Yes");
             }
             UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:countdown_message preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:cancel_button style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
-            UIAlertAction* okButton = [UIAlertAction actionWithTitle:ok_button style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:cancel_button style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+            UIAlertAction *okButton = [UIAlertAction actionWithTitle:ok_button style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 NSIndexPath *commandIdx = [self getIndexPathForKey:@"ok_button" withValue:ok_button inArray:[tableData valueForKey:@"action"]];
                 NSString *command = [tableData valueForKey:@"action"][commandIdx.row][@"command"];
                 if (command != nil) {
@@ -539,7 +539,7 @@
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
         [sender setUserInteractionEnabled:NO];
     }
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (methodError == nil && error == nil) {
             [messagesView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
@@ -556,7 +556,7 @@
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
         [sender setUserInteractionEnabled:NO];
     }
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (methodError == nil && error == nil) {
             [busyView stopAnimating];
             if ([sender respondsToSelector:@selector(setHidden:)]) {
@@ -669,18 +669,17 @@
                                              selector: @selector(connectionSuccess:)
                                                  name: @"XBMCServerConnectionSuccess"
                                                object: nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionFailed:)
                                                  name: @"XBMCServerConnectionFailed"
                                                object: nil];
-//    [[NSNotificationCenter defaultCenter] addObserver: self
-//                                             selector: @selector(startTimer:)
-//                                                 name: @"ECSlidingViewUnderRightWillAppear"
-//                                               object: nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(stopTimer:)
                                                  name: @"ECSlidingViewUnderRightWillDisappear"
                                                object: nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(reloadCustomButtonTable:)
                                                  name: @"UIInterfaceCustomButtonAdded"
