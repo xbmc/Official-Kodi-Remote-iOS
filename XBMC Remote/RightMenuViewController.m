@@ -603,17 +603,17 @@
     infoLabel.alpha = 0;
     [self.view addSubview:infoLabel];
     
-    infoCustomButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                        LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."), @"label",
-                        [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
-                        @(NO), @"hideLineSeparator",
-                        [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",
-                        @"default-right-menu-icon", @"icon",
-                        [[NSMutableDictionary alloc] initWithCapacity:0], @"action",
-                        @(NO), @"revealViewTop",
-                        @(NO), @"isSetting",
-                        @"", @"type",
-                        nil];
+    infoCustomButton = [@{
+        @"label": LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."),
+        @"bgColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+        @"hideLineSeparator": @NO,
+        @"fontColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+        @"icon": @"default-right-menu-icon",
+        @"action": [[NSMutableDictionary alloc] initWithCapacity:0],
+        @"revealViewTop": @NO,
+        @"isSetting": @NO,
+        @"type": @"",
+    } mutableCopy];
     
     mainMenu *menuItems = self.rightMenuItems[0];
     CGFloat bottomPadding = [Utilities getBottomPadding];
@@ -770,22 +770,25 @@
             editTableButton.enabled = YES;
         }
         for (NSDictionary *item in arrayButtons.buttons) {
-            [tableData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                  label, @"label",
-                                  [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
-                                  @(NO), @"hideLineSeparator",
-                                  [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",
-                                  icon, @"icon",
-                                  isSetting, @"isSetting",
-                                  @(NO), @"revealViewTop",
-                                  type, @"type",
-                                  item[@"action"], @"action",
-                                  nil]];
             NSString *label = item[@"label"] ?: @"";
             NSString *icon = item[@"icon"] ?: @"";
             NSString *type = item[@"type"] ?: @"";
             NSNumber *isSetting = item[@"isSetting"] ?: @YES;
             NSMutableDictionary *action = item[@"action"] ?: [[NSMutableDictionary alloc] initWithCapacity:0];
+            
+            NSDictionary *itemDict = @{
+                @"label": label,
+                @"bgColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+                @"hideLineSeparator": @NO,
+                @"fontColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+                @"icon": icon,
+                @"isSetting": isSetting,
+                @"revealViewTop": @NO,
+                @"type": type,
+                @"action": action,
+            };
+            
+            [tableData addObject:itemDict];
         }
     }
 
