@@ -603,17 +603,17 @@
     infoLabel.alpha = 0;
     [self.view addSubview:infoLabel];
     
-    infoCustomButton = [@{
+    infoCustomButton = @{
         @"label": LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."),
-        @"bgColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+        @"bgColor": @{},
         @"hideLineSeparator": @NO,
-        @"fontColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+        @"fontColor": @{},
         @"icon": @"default-right-menu-icon",
-        @"action": [[NSMutableDictionary alloc] initWithCapacity:0],
+        @"action": @{},
         @"revealViewTop": @NO,
         @"isSetting": @NO,
         @"type": @"",
-    } mutableCopy];
+    };
     
     mainMenu *menuItems = self.rightMenuItems[0];
     CGFloat bottomPadding = [Utilities getBottomPadding];
@@ -733,11 +733,11 @@
 
     for (NSDictionary *item in menuItem.mainMethod[0][key]) {
         NSString *label = item[@"label"] ?: @"";
-        NSMutableDictionary *bgColor = item[@"bgColor"] ?: [[NSMutableDictionary alloc] initWithCapacity:0];
+        NSDictionary *bgColor = item[@"bgColor"] ?: @{};
         NSNumber *hideLine = item[@"hideLineSeparator"] ?: @NO;
-        NSMutableDictionary *fontColor = item[@"fontColor"] ?: [[NSMutableDictionary alloc] initWithCapacity:0];
+        NSDictionary *fontColor = item[@"fontColor"] ?: @{};
         NSString *icon = item[@"icon"] ?: @"blank";
-        NSMutableDictionary *action = item[@"action"] ?: [[NSMutableDictionary alloc] initWithCapacity:0];
+        NSDictionary *action = item[@"action"] ?: @{};
         NSNumber *showTop = item[@"revealViewTop"] ?: @NO;
         
         NSDictionary *itemDict = @{@"label": label,
@@ -774,13 +774,13 @@
             NSString *icon = item[@"icon"] ?: @"";
             NSString *type = item[@"type"] ?: @"";
             NSNumber *isSetting = item[@"isSetting"] ?: @YES;
-            NSMutableDictionary *action = item[@"action"] ?: [[NSMutableDictionary alloc] initWithCapacity:0];
+            NSDictionary *action = item[@"action"] ?: @{};
             
             NSDictionary *itemDict = @{
                 @"label": label,
-                @"bgColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+                @"bgColor": @{},
                 @"hideLineSeparator": @NO,
-                @"fontColor": [[NSMutableDictionary alloc] initWithCapacity:0],
+                @"fontColor": @{},
                 @"icon": icon,
                 @"isSetting": isSetting,
                 @"revealViewTop": @NO,
