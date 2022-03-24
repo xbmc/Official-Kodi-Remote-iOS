@@ -60,10 +60,11 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    if ([tableData[indexPath.row][@"bgColor"] count]) {
-        cell.backgroundColor = [UIColor colorWithRed:[tableData[indexPath.row][@"bgColor"][@"red"] floatValue]
-                                               green:[tableData[indexPath.row][@"bgColor"][@"green"] floatValue]
-                                                blue:[tableData[indexPath.row][@"bgColor"][@"blue"] floatValue]
+    NSDictionary *rgbColor = tableData[indexPath.row][@"bgColor"];
+    if (rgbColor.count) {
+        cell.backgroundColor = [UIColor colorWithRed:[rgbColor[@"red"] floatValue]
+                                               green:[rgbColor[@"green"] floatValue]
+                                                blue:[rgbColor[@"blue"] floatValue]
                                                alpha:1];
     }
     else { // xcode xib bug with ipad?
