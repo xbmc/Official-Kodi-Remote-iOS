@@ -651,7 +651,6 @@
     }
     else {
         infoLabel.alpha = 1;
-        putXBMClogo = YES;
         [self setRightMenuOption:@"utility" reloadTableData:NO];
     }
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, DEFAULT_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:deltaX];
@@ -860,7 +859,6 @@
         [tableData removeAllObjects];
         [menuTableView reloadData];
         infoLabel.alpha = 1;
-        putXBMClogo = YES;
         [self setRightMenuOption:@"utility" reloadTableData:YES];
     }
 }
