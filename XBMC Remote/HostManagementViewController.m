@@ -219,8 +219,8 @@ static inline BOOL IsEmpty(id obj) {
         [AppDelegate.instance saveServerList];
         if (storeServerSelection) {
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-            if (indexPath.row<storeServerSelection.row) {
-                storeServerSelection = [NSIndexPath indexPathForRow:storeServerSelection.row-1 inSection:storeServerSelection.section];
+            if (indexPath.row < storeServerSelection.row) {
+                storeServerSelection = [NSIndexPath indexPathForRow:storeServerSelection.row - 1 inSection:storeServerSelection.section];
                 if (standardUserDefaults) {
                     [standardUserDefaults setObject: @(storeServerSelection.row) forKey:@"lastServer"];
                 }
