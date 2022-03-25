@@ -834,15 +834,6 @@
         UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
-    _tableView.separatorInset = UIEdgeInsetsMake(0, cellLabelOffset, 0, 0);
-    UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-    tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-    if (@available(iOS 11.0, *)) {
-        tableViewInsets.top = 0;
-    }
-    _tableView.contentInset = tableViewInsets;
-    _tableView.scrollIndicatorInsets = tableViewInsets;
-    [_tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
     if (xbmcSetting == cMultiselect) {
         [_tableView reloadData];
     }
