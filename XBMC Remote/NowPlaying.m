@@ -1099,9 +1099,11 @@ long currentItemID;
                        NSArray *playlistItems = methodResult[@"items"];
                        if (playlistItems.count == 0) {
                            [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+                           editTableButton.enabled = NO;
                        }
                        else {
                            [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+                           editTableButton.enabled = YES;
                        }
                        NSString *serverURL;
                        serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
@@ -2193,6 +2195,7 @@ long currentItemID;
                 if ((storeSelection) && (indexPath.row<storeSelection.row)) {
                     storeSelection = [NSIndexPath indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
                 }
+                editTableButton.selected = editTableButton.enabled = playlistData.count > 0;
             }
             else {
                 [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
@@ -2582,6 +2585,7 @@ long currentItemID;
     [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateHighlighted];
     [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateSelected];
     editTableButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateDisabled];
     [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
     [editTableButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
     editTableButton.titleLabel.shadowOffset = CGSizeZero;
