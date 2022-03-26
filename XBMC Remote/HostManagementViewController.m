@@ -371,7 +371,7 @@ static inline BOOL IsEmpty(id obj) {
                                    @"System.HddTemperature",
                                    @"System.OSVersionInfo"]}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-        if (error == nil && methodError == nil) {
+        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
             NSMutableAttributedString *infoString = [NSMutableAttributedString new];
             NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
             [infoString appendAttributedString:[self formatInfo:@"Name" text:methodResult[@"System.FriendlyName"]]];
@@ -404,6 +404,10 @@ static inline BOOL IsEmpty(id obj) {
         }
         else if (error != nil){
             serverInfoView.attributedText = [self formatInfo:LOCALIZED_STR(@"No connection") text:error.localizedDescription];
+        }
+        else if (![methodResult isKindOfClass:[NSDictionary class]]) {
+            NSString *errorText = [NSString stringWithFormat:@"Unexpected class '%@' received.", NSStringFromClass([methodResult class])];
+            serverInfoView.attributedText = [self formatInfo:LOCALIZED_STR(@"ERROR") text:errorText];
         }
     }];
 }
