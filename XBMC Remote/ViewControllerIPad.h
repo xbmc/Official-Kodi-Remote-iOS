@@ -21,12 +21,12 @@
 
 
 @interface ViewControllerIPad : UIViewController {
-	UIViewExt* rootView;
-	UIView* leftMenuView;
-	UIView* rightSlideView;
-	MenuViewController* menuViewController;
-    NowPlaying* nowPlayingController;
-	StackScrollViewController* stackScrollViewController;
+	UIViewExt *rootView;
+	UIView *leftMenuView;
+	UIView *rightSlideView;
+	MenuViewController *menuViewController;
+    NowPlaying *nowPlayingController;
+	StackScrollViewController *stackScrollViewController;
     NSIndexPath *storeServerSelection;
     int YPOS;
     UIButton *remoteButton;
@@ -36,7 +36,7 @@
     UIImageView *connectionStatus;
     VolumeSliderView *volumeSliderView;
     BOOL firstRun;
-    NSTimer* extraTimer;
+    NSTimer *extraTimer;
     HostManagementViewController *_hostPickerViewController;
     BOOL serverPicker;
     BOOL appInfo;
@@ -44,9 +44,9 @@
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
-@property (nonatomic, strong) MenuViewController* menuViewController;
-@property (nonatomic, strong) NowPlaying* nowPlayingController;
-@property (nonatomic, strong) StackScrollViewController* stackScrollViewController;
+@property (nonatomic, strong) MenuViewController *menuViewController;
+@property (nonatomic, strong) NowPlaying *nowPlayingController;
+@property (nonatomic, strong) StackScrollViewController *stackScrollViewController;
 @property (strong, nonatomic) tcpJSONRPC *tcpJSONRPCconnection;
 @property (nonatomic, strong) HostManagementViewController *hostPickerViewController;
 @property (nonatomic, strong) AppInfoViewController *appInfoView;

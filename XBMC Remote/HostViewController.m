@@ -294,7 +294,7 @@
 #pragma mark - resolveMacAddress Methods
 
 - (NSString*)resolveMacFromIP:(NSString*)ipAddress {
-    NSString* res = nil;
+    NSString *res = nil;
     
     in_addr_t host = inet_addr([ipAddress UTF8String]);
     int sockfd;
@@ -362,12 +362,12 @@
 
 - (void)netServiceDidResolveAddress:(NSNetService*)service {
 
-    for (NSData* data in [service addresses]) {
+    for (NSData *data in [service addresses]) {
         char addressBuffer[100];
-        struct sockaddr_in* socketAddress = (struct sockaddr_in*)[data bytes];
+        struct sockaddr_in *socketAddress = (struct sockaddr_in*)[data bytes];
         int sockFamily = socketAddress->sin_family;
         if (sockFamily == AF_INET) {//|| sockFamily == AF_INET6 should be considered
-            const char* addressStr = inet_ntop(sockFamily,
+            const char *addressStr = inet_ntop(sockFamily,
                                                &(socketAddress->sin_addr), addressBuffer,
                                                sizeof(addressBuffer));
             int port = ntohs(socketAddress->sin_port);
@@ -437,7 +437,7 @@
 	if (count == 0) {
 		return cell;
 	}
-    NSNetService* service = services[indexPath.row];
+    NSNetService *service = services[indexPath.row];
 	cell.textLabel.text = service.name;
 	cell.textLabel.textColor = [Utilities get1stLabelColor];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

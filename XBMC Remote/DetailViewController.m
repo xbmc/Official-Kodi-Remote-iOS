@@ -289,7 +289,7 @@
                          channelid, @"channelid",
                          @[@"title", @"starttime", @"endtime", @"plot", @"plotoutline"], @"properties",
                          nil]
-           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                    if (methodResult[@"broadcasts"] != [NSNull null]) {
                        
@@ -718,7 +718,7 @@
 - (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost lab12color:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
 
     // Gather average cover color and limit saturation
-    UIColor* mainColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
+    UIColor *mainColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
     mainColor = [Utilities limitSaturation:mainColor satmax:0.33];
     
     // Create gradient based on average color
@@ -3286,7 +3286,7 @@ NSIndexPath *selected;
         UIAlertController *actionTemp = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         actionView = actionTemp;
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+        UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             forceMusicAlbumMode = NO;
             [self deselectAtIndexPath:selected];
         }];
@@ -3296,7 +3296,7 @@ NSIndexPath *selected;
             if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] && isRecording) {
                 actiontitle = LOCALIZED_STR(@"Stop Recording");
             }
-            UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self actionSheetHandler:actiontitle];
             }];
             [actionView addAction:action];
@@ -3365,7 +3365,7 @@ NSIndexPath *selected;
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:params
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil) {
              [self updateCellAndSaveRichData:indexPath watched:watched item:item];
          }
@@ -3988,7 +3988,7 @@ NSIndexPath *selected;
     [queuing startAnimating];
     [[Utilities getJsonRPC] callMethod:methodToCall
          withParameters:parameters
-           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                [queuing stopAnimating];
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
@@ -4043,7 +4043,7 @@ NSIndexPath *selected;
                                 nil];
     [[Utilities getJsonRPC] callMethod:methodToCall
          withParameters:parameters
-           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                [queuing stopAnimating];
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
@@ -4107,7 +4107,7 @@ NSIndexPath *selected;
                          mainFields[@"playlistid"], @"playerid",
                          @[@"percentage", @"time", @"totaltime", @"partymode", @"position"], @"properties",
                          nil] 
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (error == nil && methodError == nil) {
                  if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                      if ([methodResult count]) {
@@ -4119,7 +4119,7 @@ NSIndexPath *selected;
                                                 [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item",
                                                 @(newPos), @"position",
                                                 nil];
-                         [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                         [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                              if (error == nil && methodError == nil) {
                                  [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
                              }
@@ -4144,7 +4144,7 @@ NSIndexPath *selected;
 }
 
 - (void)addToPlaylist:(NSDictionary*)mainFields currentItem:(id)value currentKey:(NSString*)key currentActivityIndicator:(UIActivityIndicatorView*)queuing {
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:mainFields[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:mainFields[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [queuing stopAnimating];
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
@@ -4157,7 +4157,7 @@ NSIndexPath *selected;
     id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
     [queuing startAnimating];
-    [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [queuing stopAnimating];
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -4202,7 +4202,7 @@ NSIndexPath *selected;
             optionsParam = @"options";
             optionsValue = [NSDictionary dictionaryWithObjectsAndKeys: @(shuffled), @"shuffled", nil];
         }
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: mainFields[@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: mainFields[@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
                 NSString *key = mainFields[@"row8"];
                 id value = item[key];
@@ -4261,7 +4261,7 @@ NSIndexPath *selected;
 }
 
 - (void)playlistAndPlay:(NSDictionary*)playlistParams playbackParams:(NSDictionary*)playbackParams indexPath:(NSIndexPath*)indexPath cell:(id)cell {
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
             [self playerOpen:playbackParams index:indexPath];
@@ -4275,7 +4275,7 @@ NSIndexPath *selected;
 }
 
 - (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters success:(NSString*)successMessage failure:(NSString*)failureMessage {
-    [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [messagesView showMessage:successMessage timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
@@ -4381,7 +4381,7 @@ NSIndexPath *selected;
 }
 
 //- (void)playbackAction:(NSString*)action params:(NSArray*)parameters {
-//    [[Utilities getJsonRPC] callMethod:@"Playlist.GetPlaylists" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//    [[Utilities getJsonRPC] callMethod:@"Playlist.GetPlaylists" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
 //        if (error == nil && methodError == nil) {
 ////            NSLog(@"RISPOSRA %@", methodResult);
 //            if (methodResult.count > 0) {
@@ -4390,7 +4390,7 @@ NSIndexPath *selected;
 ////                if (parameters != nil) {
 ////                    [commonParams addObjectsFromArray:parameters];
 ////                }
-////                [[Utilities getJsonRPC] callMethod:action withParameters:nil onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+////                [[Utilities getJsonRPC] callMethod:action withParameters:nil onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
 ////                    if (error == nil && methodError == nil) {
 ////                        //                        NSLog(@"comando %@ eseguito ", action);
 ////                    }
@@ -4469,7 +4469,7 @@ NSIndexPath *selected;
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil) {
              [queuing stopAnimating];
              if ([NSJSONSerialization isValidJSONObject:methodResult]) {
@@ -4608,7 +4608,7 @@ NSIndexPath *selected;
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:mutableParameters
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [activeLayoutView reloadData];
             if ([NSJSONSerialization isValidJSONObject:methodResult]) {
@@ -4749,7 +4749,7 @@ NSIndexPath *selected;
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:mutableParameters
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          startTime = 0;
          [countExecutionTime invalidate];
          countExecutionTime = nil;
@@ -4845,7 +4845,7 @@ NSIndexPath *selected;
                              [[Utilities getJsonRPC]
                               callMethod:newMethodToCall
                               withParameters:newParameter
-                              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                                  if (error == nil && methodError == nil) {
                                      if ([methodResult[@"setdetails"][@"movies"] count] > 1) {
                                          [resultStoreArray addObject:newDict];
@@ -5357,7 +5357,7 @@ NSIndexPath *selected;
         self.slidingViewController.anchorLeftPeekAmount   = 0;
         self.slidingViewController.anchorLeftRevealAmount = 0;
     }
-    NSIndexPath* selection = [dataList indexPathForSelectedRow];
+    NSIndexPath *selection = [dataList indexPathForSelectedRow];
 	if (selection) {
 		[dataList deselectRowAtIndexPath:selection animated:NO];
     }

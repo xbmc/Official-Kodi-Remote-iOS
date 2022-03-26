@@ -155,7 +155,7 @@
 }
 
 - (void)_animate:(NSNumber*)num {
-    UIImage* image = self.imagesArray[[num intValue]];
+    UIImage *image = self.imagesArray[[num intValue]];
     UIImageView *imageView;
     
     CGFloat resizeRatio   = -1;

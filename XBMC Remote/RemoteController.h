@@ -31,7 +31,7 @@ typedef enum {
     CGFloat topRemoteOffset;
     __weak IBOutlet UIView *TransitionalView;
     __weak IBOutlet UIImageView *gestureZoneImageView;
-    UIImage* gestureImage;
+    UIImage *gestureImage;
     BOOL torchIsOn;
     BOOL isEmbeddedMode;
     BOOL isGestureViewActive;
@@ -44,7 +44,7 @@ typedef enum {
 - (void)resetRemote;
 - (id)initWithNibName:(NSString*)nibNameOrNil withEmbedded:(BOOL)withEmbedded bundle:(NSBundle*)nibBundleOrNil;
 @property (strong, nonatomic) id detailItem;
-@property (nonatomic, strong) NSTimer* holdVolumeTimer;
+@property (nonatomic, strong) NSTimer *holdVolumeTimer;
 @property (strong, nonatomic) UIImageView *panFallbackImageView;
 
 @end

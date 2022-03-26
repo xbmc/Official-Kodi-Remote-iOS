@@ -226,7 +226,7 @@
 
     CGColorSpaceRef colorSpace = CGColorGetColorSpace(color.CGColor);
     CGColorSpaceModel model = CGColorSpaceGetModel(colorSpace);
-    const CGFloat* colors = CGColorGetComponents(color.CGColor);
+    const CGFloat *colors = CGColorGetComponents(color.CGColor);
     
     if (model == kCGColorSpaceModelMonochrome) {
         CGContextSetRGBFillColor(c, colors[0], colors[0], colors[0], colors[1]);
@@ -486,18 +486,18 @@
 
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg {
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+    UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}];
     [alertView addAction:okButton];
     return alertView;
 }
 
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg {
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* copyButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Copy to clipboard") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    UIAlertAction *copyButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Copy to clipboard") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
             pasteboard.string = msg;
     }];
-    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
     [alertView addAction:copyButton];
     [alertView addAction:cancelButton];
     return alertView;

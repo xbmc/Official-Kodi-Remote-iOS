@@ -339,7 +339,7 @@
          withParameters:@{@"booleans": @[@"Window.IsActive(fullscreenvideo)",
                                          @"Window.IsActive(visualisation)",
                                          @"Window.IsActive(slideshow)"]}
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                  NSNumber *fullscreenActive = 0;
@@ -497,7 +497,7 @@
 /* method to show an action sheet for subs. */
 
 - (void)subtitlesActionSheet {
-    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             if ([methodResult count] > 0) {
                 NSNumber *response;
@@ -510,7 +510,7 @@
                                  response, @"playerid",
                                  @[@"subtitleenabled", @"currentsubtitle", @"subtitles"], @"properties",
                                  nil]
-                 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                      if (error == nil && methodError == nil) {
                          if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                              if ([methodResult count]) {
@@ -566,7 +566,7 @@
 }
 
 - (void)audioStreamActionSheet {
-    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             if ([methodResult count] > 0) {
                 NSNumber *response;
@@ -579,7 +579,7 @@
                                  response, @"playerid",
                                  @[@"currentaudiostream", @"audiostreams"], @"properties",
                                  nil]
-                 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                      if (error == nil && methodError == nil) {
                          if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                              if ([methodResult count]) {
@@ -633,7 +633,7 @@
 }
 
 - (void)playbackAction:(NSString*)action params:(NSArray*)parameters {
-    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             if ([methodResult count] > 0) {
                 NSNumber *response = methodResult[0][@"playerid"];
@@ -641,7 +641,7 @@
                 if (parameters != nil) {
                     [commonParams addObjectsFromArray:parameters];
                 }
-                [[Utilities getJsonRPC] callMethod:action withParameters:[Utilities indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:action withParameters:[Utilities indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
 //                    if (error == nil && methodError == nil) {
 //                        NSLog(@"comando %@ eseguito. Risultato: %@", action, methodResult);
 //                    }
@@ -658,7 +658,7 @@
 }
 
 - (void)GUIAction:(NSString*)action params:(NSDictionary*)params httpAPIcallback:(NSString*)callback {
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
 //        NSLog(@"Action %@ ok with %@ ", action, methodResult);
 //        if (methodError != nil || error != nil) {
 //            NSLog(@"method error %@ %@", methodError, error);
@@ -680,7 +680,7 @@
 //    [[Utilities getJsonRPC]
 //     callMethod:@"Application.GetProperties" 
 //     withParameters:@{"properties": @[@"volume"]}
-//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
 //         if (error == nil && methodError == nil) {
 //             if ([NSJSONSerialization isValidJSONObject:methodResult] && [methodResult count]) {
 //                 audioVolume = [methodResult[@"volume"] intValue];
@@ -716,11 +716,11 @@
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Audio stream") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
-            UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 if (![audiostreamsDictionary[@"audiostreams"][i] isEqual:audiostreamsDictionary[@"currentaudiostream"]]) {
                     [self playbackAction:@"Player.SetAudioStream" params:[NSArray arrayWithObjects:audiostreamsDictionary[@"audiostreams"][i][@"index"], @"stream", nil]];
                     [self showSubInfo:actiontitle timeout:2.0 color:UIColor.whiteColor];
@@ -746,9 +746,9 @@
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Subtitles") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
         
-        UIAlertAction* action_disable = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Disable subtitles") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+        UIAlertAction *action_disable = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Disable subtitles") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") timeout:2.0 color:[Utilities getSystemRed:1.0]];
             [self playbackAction:@"Player.SetSubtitle" params:@[@"off", @"subtitle"]];
         }];
@@ -758,7 +758,7 @@
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
-            UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 if (![subsDictionary[@"subtitles"][i] isEqual:subsDictionary[@"currentsubtitle"]] || ![subsDictionary[@"subtitleenabled"] boolValue]) {
                     [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:subsDictionary[@"subtitles"][i][@"index"], @"subtitle", nil]];
                     [self playbackAction:@"Player.SetSubtitle" params:@[@"on", @"subtitle"]];
@@ -826,7 +826,7 @@ NSInteger buttonAction;
          callMethod:@"GUI.GetProperties"
          withParameters:@{@"properties": @[@"currentwindow",
                                            @"fullscreen"]}
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                  long winID = 0;
                  BOOL isFullscreen = NO;
@@ -841,7 +841,7 @@ NSInteger buttonAction;
                       callMethod:@"XBMC.GetInfoBooleans"
                       withParameters:@{@"booleans": @[@"VideoPlayer.HasMenu",
                                                       @"Pvr.IsPlayingTv"]}
-                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                           if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                               BOOL VideoPlayerHasMenu = NO;
                               BOOL PvrIsPlayingTv = NO;
@@ -1190,7 +1190,7 @@ NSInteger buttonAction;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
-        UIImage* settingsImg = [UIImage imageNamed:@"default-right-menu-icon"];
+        UIImage *settingsImg = [UIImage imageNamed:@"default-right-menu-icon"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(handleSettingsButton:)];
         self.navigationController.navigationBar.barTintColor = REMOTE_CONTROL_BAR_TINT_COLOR;
     }

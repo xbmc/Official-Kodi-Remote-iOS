@@ -134,7 +134,7 @@
 		_tableView.delegate = self;
 		_tableView.dataSource = self;
         _tableView.backgroundColor = UIColor.clearColor;
-        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
 		_tableView.tableFooterView = footerView;
         self.view.backgroundColor = UIColor.clearColor;
         [self.view addSubview:_tableView];
@@ -219,10 +219,10 @@
                 textField.placeholder = @"";
                 textField.text = [self getActionButtonTitle];
             }];
-            UIAlertAction* addButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Add button") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            UIAlertAction *addButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Add button") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                     [self addActionButton:alertView];
                 }];
-            UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+            UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
             [alertView addAction:addButton];
             [alertView addAction:cancelButton];
             [self presentViewController:alertView animated:YES completion:nil];
@@ -306,7 +306,7 @@
         [sender setUserInteractionEnabled:NO];
     }
     [activityIndicator startAnimating];
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [activityIndicator stopAnimating];
         if (methodError == nil && error == nil) {
             [messagesView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
@@ -325,7 +325,7 @@
     [activityIndicator startAnimating];
     [[Utilities getJsonRPC] callMethod: method
          withParameters: params
-           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                [activityIndicator stopAnimating];
                if (error == nil && methodError == nil) {
                    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc]

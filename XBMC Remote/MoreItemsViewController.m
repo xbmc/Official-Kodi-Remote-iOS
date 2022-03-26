@@ -24,7 +24,7 @@
 		_tableView.dataSource = self;
         _tableView.backgroundColor = UIColor.clearColor;
         mainMenuItems = menu;
-        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
         _tableView.tableFooterView = footerView;
         _tableView.separatorInset = UIEdgeInsetsMake(0, cellLabelOffset, 0, 0);
         [self.view addSubview:_tableView];

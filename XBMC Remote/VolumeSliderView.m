@@ -251,7 +251,7 @@
      callMethod:@"Application.GetProperties"
      withParameters:@{@"properties": @[@"muted"]}
      withTimeout: SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil) {
              isMuted = [methodResult[@"muted"] boolValue];
              [self handleMute:isMuted];

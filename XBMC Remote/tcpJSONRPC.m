@@ -190,7 +190,7 @@ NSOutputStream	*outStream;
      callMethod:@"Application.GetProperties"
      withParameters:checkServerParams
      withTimeout: SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          inCheck = NO;
          if (error == nil && methodError == nil) {
              // Read JSON RPC API version
@@ -252,7 +252,7 @@ NSOutputStream	*outStream;
      callMethod:@"Settings.GetSettingValue"
      withParameters:@{@"setting": @"filelists.ignorethewhensorting"}
      withTimeout: SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (!error && !methodError) {
              AppDelegate.instance.isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
          }
@@ -268,7 +268,7 @@ NSOutputStream	*outStream;
      callMethod:@"JSONRPC.Version"
      withParameters:nil
      withTimeout: SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (!error && !methodError) {
              // Kodi 11 and earlier do not support "major"/"minor"/"patch" and reply with "version" only
              if (![methodResult[@"version"] isKindOfClass:[NSNumber class]]) {
@@ -296,7 +296,7 @@ NSOutputStream	*outStream;
          callMethod:@"Settings.GetSettingValue"
          withParameters:@{@"setting": @"videolibrary.groupsingleitemsets"}
          withTimeout: SERVER_TIMEOUT
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (!error && !methodError) {
                  AppDelegate.instance.isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
              }
@@ -318,7 +318,7 @@ NSOutputStream	*outStream;
          callMethod:@"Application.GetProperties"
          withParameters:@{@"properties":@[@"sorttokens"]}
          withTimeout: SERVER_TIMEOUT
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (!error && !methodError) {
                  AppDelegate.instance.KodiSorttokens = methodResult[@"sorttokens"];
              }

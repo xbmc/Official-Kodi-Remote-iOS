@@ -32,7 +32,7 @@
     IBOutlet UIView *nowPlayingView;
     IBOutlet UIView *playlistView;
     IBOutlet UIView *songDetailsView;
-    NSTimer* timer;
+    NSTimer *timer;
     NSMutableArray *playlistData;
     IBOutlet UILabel *songCodec;
     __weak IBOutlet UIImageView *songCodecImage;

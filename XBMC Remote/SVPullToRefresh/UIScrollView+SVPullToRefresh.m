@@ -573,7 +573,7 @@ static char UIScrollViewPullToRefreshView;
 	CGFloat alphaGradientLocations[] = {0, 0.8};
     
 	CGGradientRef alphaGradient = nil;
-    NSArray* alphaGradientColors = @[
+    NSArray *alphaGradientColors = @[
                                     (id)[self.arrowColor colorWithAlphaComponent:0].CGColor,
                                     (id)[self.arrowColor colorWithAlphaComponent:1].CGColor
                                     ];

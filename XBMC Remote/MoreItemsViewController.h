@@ -16,6 +16,6 @@
 
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu;
 
-@property (nonatomic, strong) UITableView* tableView;
+@property (nonatomic, strong) UITableView *tableView;
 
 @end

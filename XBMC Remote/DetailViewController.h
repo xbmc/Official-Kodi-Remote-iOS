@@ -52,7 +52,7 @@
     IBOutlet UIView *noFoundView;
     int viewWidth;
     IBOutlet UIView *detailView;
-    MoreItemsViewController* moreItemsViewController;
+    MoreItemsViewController *moreItemsViewController;
     UIImageView *longTimeout;
     NSTimeInterval startTime;
     NSTimeInterval elapsedTime;
@@ -114,7 +114,7 @@
     UIView *titleView;
     BOOL hiddenLabel;
     UIPinchGestureRecognizer *twoFingerPinch;
-    NSTimer* channelListUpdateTimer;
+    NSTimer *channelListUpdateTimer;
     NSInteger sortMethodIndex;
     NSString *sortMethodName;
     NSString *sortAscDesc;

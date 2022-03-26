@@ -380,7 +380,7 @@ static inline BOOL IsEmpty(id obj) {
                                    @"System.ScreenResolution",
                                    @"System.HddTemperature",
                                    @"System.OSVersionInfo"]}
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
             NSMutableAttributedString *infoString = [NSMutableAttributedString new];
             NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
@@ -606,9 +606,9 @@ static inline BOOL IsEmpty(id obj) {
         xbmcLogo.showsTouchWhenHighlighted = NO;
         [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = xbmcLogo;
-        UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+        UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
-        UIImage* settingsImg = [UIImage imageNamed:@"icon_power_up"];
+        UIImage *settingsImg = [UIImage imageNamed:@"icon_power_up"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealUnderRight:)];
     }
     doRevealMenu = YES;
@@ -733,7 +733,7 @@ static inline BOOL IsEmpty(id obj) {
                                 nil];
     [[Utilities getJsonRPC] callMethod: methodToCall
          withParameters: parameters
-           onCompletion: ^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+           onCompletion: ^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                if (error == nil && methodError == nil) {
                    [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationWillEnterForegroundNotification" object:nil userInfo:nil];
                }

@@ -41,19 +41,19 @@
 
 @interface StackScrollViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate> {
 	
-	UIView* slideViews;
-	UIView* borderViews;
+	UIView *slideViews;
+	UIView *borderViews;
 	
-	UIView* viewAtLeft;
-	UIView* viewAtRight;
-	UIView* viewAtLeft2;
-	UIView* viewAtRight2;	
-	UIView* viewAtRightAtTouchBegan;
-	UIView* viewAtLeftAtTouchBegan;
+	UIView *viewAtLeft;
+	UIView *viewAtRight;
+	UIView *viewAtLeft2;
+	UIView *viewAtRight2;	
+	UIView *viewAtRightAtTouchBegan;
+	UIView *viewAtLeftAtTouchBegan;
 	
-	NSMutableArray* viewControllersStack;
+	NSMutableArray *viewControllersStack;
 	
-	NSString* dragDirection;
+	NSString *dragDirection;
 	
 	CGFloat viewXPosition;		
 	CGFloat displacementPosition;
