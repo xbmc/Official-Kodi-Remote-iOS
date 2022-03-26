@@ -1852,7 +1852,7 @@ double round(double d) {
     scrollView.scrollsToTop = YES;
     scrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    enableKenBurns = [userDefaults boolForKey:@"ken_preference"];;
+    enableKenBurns = [userDefaults boolForKey:@"ken_preference"];
     self.kenView = nil;
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
     foundTintColor = ICON_TINT_COLOR;
