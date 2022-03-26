@@ -528,12 +528,12 @@
             slider.hidden = NO;
             sliderLabel.hidden = NO;
             descriptionLabel.hidden = NO;
-            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46);
+            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset * 2, 46);
             cellLabel.numberOfLines = 2;
             cellLabel.textAlignment = NSTextAlignmentCenter;
             cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
-            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 116);
+            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - cellLabelOffset * 2, 116);
             descriptionLabel.textAlignment = NSTextAlignmentCenter;
             descriptionLabel.numberOfLines = 8;
             descriptionLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
@@ -549,12 +549,12 @@
             
             descriptionLabel.hidden = NO;
             textInputField.hidden = NO;
-            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46);
+            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset * 2, 46);
             cellLabel.numberOfLines = 2;
             cellLabel.textAlignment = NSTextAlignmentCenter;
             cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
-            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 74);
+            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - cellLabelOffset * 2, 74);
             descriptionLabel.textAlignment = NSTextAlignmentCenter;
             descriptionLabel.numberOfLines = 5;
             descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[B]" withString:@""];
@@ -775,7 +775,7 @@
 
 - (void)sliderAction:(id)sender {
     OBSlider *slider = (OBSlider*)sender;
-    float newStep = roundf((slider.value) / [self.detailItem[@"step"] intValue]);
+    float newStep = roundf(slider.value / [self.detailItem[@"step"] intValue]);
     float newValue = newStep * [self.detailItem[@"step"] intValue];
     if (newValue != storeSliderValue) {
         storeSliderValue = newValue;

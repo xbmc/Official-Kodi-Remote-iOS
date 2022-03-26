@@ -1836,7 +1836,7 @@
     NSDictionary *item = [self getItemFromIndexPath:indexPath];
     UICollectionViewCell *cell = [cView cellForItemAtIndexPath:indexPath];
     CGPoint offsetPoint = [cView contentOffset];
-    int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
+    int rectOriginX = cell.frame.origin.x + cell.frame.size.width/2;
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
     [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
 }
@@ -1852,7 +1852,7 @@
     sectionNameOverlayView.layer.cornerRadius = cornerRadius;
     
     int fontSize = 32;
-    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height/2 - (fontSize + 8)/2, sectionNameOverlayView.frame.size.width, (fontSize + 8))];
+    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height/2 - (fontSize + 8)/2, sectionNameOverlayView.frame.size.width, fontSize + 8)];
     sectionNameLabel.font = [UIFont boldSystemFontOfSize:fontSize];
     sectionNameLabel.textColor = UIColor.whiteColor;
     sectionNameLabel.backgroundColor = UIColor.clearColor;
@@ -2400,7 +2400,7 @@
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
             
-            UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake((int)((2 + (epgChannelTimeLabelWidth - 8) - 6) / 2), programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 14, 12, 12)];
+            UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake((int)(2 + (epgChannelTimeLabelWidth - 8) - 6) / 2, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 14, 12, 12)];
             hasTimer.image = [UIImage imageNamed:@"button_timer"];
             hasTimer.tag = 104;
             hasTimer.hidden = YES;
@@ -2560,7 +2560,7 @@
             [item[@"family"] isEqualToString:@"roleid"]) {
             genre.hidden = YES;
             runtimeyear.hidden = YES;
-            title.frame = CGRectMake(title.frame.origin.x, (int)((cellHeight/2) - (title.frame.size.height/2)), title.frame.size.width, title.frame.size.height);
+            title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight/2 - title.frame.size.height/2), title.frame.size.width, title.frame.size.height);
         }
         else if ([item[@"family"] isEqualToString:@"recordingid"] ||
                  [item[@"family"] isEqualToString:@"timerid"]) {
@@ -2740,7 +2740,7 @@
     if ([self doesShowSearchResults]) {
         offsetPoint.y = offsetPoint.y - 44;
     }
-    int rectOriginX = cell.frame.origin.x + (cell.frame.size.width/2);
+    int rectOriginX = cell.frame.origin.x + cell.frame.size.width/2;
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
     [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
     return;
@@ -2771,9 +2771,9 @@
         __block UIColor *albumDetailsColor = [Utilities getGrayColor:0 alpha:0.6];
 
         CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
-        CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1);
+        CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + labelPadding / 2 - 1);
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
-        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, (albumViewPadding / 2) - 1, labelwidth, artistFontSize + labelPadding)];
+        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewPadding / 2 - 1, labelwidth, artistFontSize + labelPadding)];
         UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
         UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin, labelwidth, trackCountFontSize + labelPadding)];
         UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize -labelPadding/2, labelwidth, trackCountFontSize + labelPadding)];
@@ -2790,7 +2790,7 @@
         [albumDetailView addSubview:toolbarShadow];
         NSDictionary *item;
         item = self.richResults[0];
-        int albumThumbHeight = albumViewHeight - (albumViewPadding * 2);
+        int albumThumbHeight = albumViewHeight - albumViewPadding * 2;
         UIView *thumbImageContainer = [[UIView alloc] initWithFrame:CGRectMake(albumViewPadding, albumViewPadding, albumThumbHeight, albumThumbHeight)];
         thumbImageContainer.clipsToBounds = NO;
         UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, albumThumbHeight, albumThumbHeight)];
@@ -2873,7 +2873,7 @@
         albumLabel.font = [UIFont boldSystemFontOfSize:albumFontSize];
         albumLabel.text = self.navigationItem.title;
         albumLabel.numberOfLines = 0;
-        CGSize maximunLabelSize = CGSizeMake(labelwidth, albumViewHeight - (albumViewPadding * 4) - 28);
+        CGSize maximunLabelSize = CGSizeMake(labelwidth, albumViewHeight - albumViewPadding * 4 - 28);
         
         CGRect expectedLabelRect = [albumLabel.text boundingRectWithSize:maximunLabelSize
                                            options:NSStringDrawingUsesLineFragmentOrigin
@@ -2966,16 +2966,16 @@
         }
         NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d", [item[@"season"] intValue]] inArray:self.extraSectionRichResults];
         NSInteger firstListedSeason = [self getFirstListedSeason:self.extraSectionRichResults];
-        CGFloat seasonThumbWidth = (albumViewHeight - (albumViewPadding * 2)) * 0.71;
+        CGFloat seasonThumbWidth = (albumViewHeight - albumViewPadding * 2) * 0.71;
         if (seasonIdx != NSNotFound) {
-            CGFloat origin_x = seasonThumbWidth + toggleIconSpace + (albumViewPadding * 2);
+            CGFloat origin_x = seasonThumbWidth + toggleIconSpace + albumViewPadding * 2;
             CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
-            CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + (labelPadding / 2) - 1);
-            UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, (albumViewPadding / 2), labelwidth, artistFontSize + labelPadding)];
+            CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + labelPadding / 2 - 1);
+            UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, albumViewPadding / 2, labelwidth, artistFontSize + labelPadding)];
             UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
             UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
             UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize -labelPadding/2, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
-            UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))];
+            UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - albumViewPadding * 2)];
             NSString *stringURL = self.extraSectionRichResults[seasonIdx][@"thumbnail"];
             NSString *displayThumb = @"coverbox_back_section";
             BOOL isFirstListedSeason = [item[@"season"] intValue] == firstListedSeason;
@@ -2992,7 +2992,7 @@
                 __weak UIImageView *weakThumbView = thumbImageView;
                 [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
                                placeholderImage:[UIImage imageNamed:displayThumb]
-                                      andResize:CGSizeMake(seasonThumbWidth, albumViewHeight - (albumViewPadding * 2))
+                                      andResize:CGSizeMake(seasonThumbWidth, albumViewHeight - albumViewPadding * 2)
                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                     if (image != nil) {
                         weakThumbView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];
@@ -3649,7 +3649,7 @@ NSIndexPath *selected;
     mainMenu *menuItem = self.detailItem;
     if (menuItem.mainParameters.count > 0) {
         NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[0]];
-        if (((NSNull*)parameters[@"fromWikipedia"] != [NSNull null])) {
+        if ((NSNull*)parameters[@"fromWikipedia"] != [NSNull null]) {
             if ([parameters[@"fromWikipedia"] boolValue]) {
                 [self goBack:nil];
                 return;
@@ -4313,7 +4313,7 @@ NSIndexPath *selected;
     mainMenu *menuItem = self.detailItem;
     if (menuItem.mainParameters.count > 0) {
         NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[0]];
-        if (((NSNull*)parameters[@"fromShowInfo"] != [NSNull null])) {
+        if ((NSNull*)parameters[@"fromShowInfo"] != [NSNull null]) {
             if ([parameters[@"fromShowInfo"] boolValue]) {
                 [self goBack:nil];
                 return;
@@ -4376,7 +4376,7 @@ NSIndexPath *selected;
     NSMutableDictionary *item = [sectionItem mutableCopy];
     item[@"label"] = self.navigationItem.title;
     forceMusicAlbumMode = YES;
-    int rectOrigin = (int)((albumViewHeight - (albumViewPadding * 2))/2);
+    int rectOrigin = (int)((albumViewHeight - albumViewPadding * 2)/2);
     [self showActionSheet:nil sheetActions:sheetActions item:item rectOriginX:rectOrigin + albumViewPadding rectOriginY:rectOrigin];
 }
 
@@ -4437,7 +4437,7 @@ NSIndexPath *selected;
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem tabToShow:(int)tabToShow {
     NSString *itemid = @"";
     NSDictionary *mainFields = menuItem.mainFields[tabToShow];
-    if (((NSNull*)mainFields[@"row6"] != [NSNull null])) {
+    if ((NSNull*)mainFields[@"row6"] != [NSNull null]) {
         itemid = mainFields[@"row6"];
     }
     else {
@@ -4474,14 +4474,14 @@ NSIndexPath *selected;
              [queuing stopAnimating];
              if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                  NSString *itemid_extra_info = @"";
-                 if (((NSNull*)mainFields[@"itemid_extra_info"] != [NSNull null])) {
+                 if ((NSNull*)mainFields[@"itemid_extra_info"] != [NSNull null]) {
                      itemid_extra_info = mainFields[@"itemid_extra_info"];
                  }
                  else {
                      return; // something goes wrong
                  }
                  NSDictionary *itemExtraDict = methodResult[itemid_extra_info];
-                 if (((NSNull*)itemExtraDict == [NSNull null]) || itemExtraDict == nil) {
+                 if ((NSNull*)itemExtraDict == [NSNull null] || itemExtraDict == nil) {
                      return; // something goes wrong
                  }
                  NSString *serverURL = [Utilities getImageServerURL];
@@ -4613,7 +4613,7 @@ NSIndexPath *selected;
             [activeLayoutView reloadData];
             if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                 NSString *itemid = @"";
-                if (((NSNull*)mainFields[@"itemid"] != [NSNull null])) {
+                if ((NSNull*)mainFields[@"itemid"] != [NSNull null]) {
                     itemid = mainFields[@"itemid"];
                 }
                 NSArray *itemDict = methodResult[itemid];
@@ -4798,11 +4798,11 @@ NSIndexPath *selected;
              if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                  NSString *itemid = @"";
                  NSDictionary *mainFields = [self.detailItem mainFields][choosedTab];
-                 if (((NSNull*)mainFields[@"itemid"] != [NSNull null])) {
+                 if ((NSNull*)mainFields[@"itemid"] != [NSNull null]) {
                      itemid = mainFields[@"itemid"];
                  }
                  if (extraSectionCallBool) {
-                     if (((NSNull*)mainFields[@"itemid_extra_section"] != [NSNull null])) {
+                     if ((NSNull*)mainFields[@"itemid_extra_section"] != [NSNull null]) {
                          itemid = mainFields[@"itemid_extra_section"];
                      }
                      else {
@@ -6046,7 +6046,7 @@ NSIndexPath *selected;
                 twoFingerPinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerPinch:)];
                 [self.view addGestureRecognizer:twoFingerPinch];
             }
-            topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - (buttonPadding * 2), 44);
+            topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - buttonPadding * 2, 44);
             fullscreenButton.hidden = NO;
             twoFingerPinch.enabled = YES;
         }
@@ -6144,7 +6144,7 @@ NSIndexPath *selected;
     if (sortMethodIndex != -1) {
         [sortOptions replaceObjectAtIndex:sortMethodIndex withObject:[NSString stringWithFormat:@"\u2713 %@", sortOptions[sortMethodIndex]]];
     }
-    [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - (button7.frame.size.height/2)];
+    [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - button7.frame.size.height/2];
 }
 
 - (void)handleLongPressSortButton:(UILongPressGestureRecognizer*)gestureRecognizer {

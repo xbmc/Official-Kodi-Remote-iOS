@@ -382,7 +382,7 @@
 #pragma mark init
 
 - (id)init {
-	if ((self = [super init])) {
+	if (self = [super init]) {
         NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         self.dataFilePath = docPaths[0];
         NSMutableArray *tempArray = [Utilities unarchivePath:self.dataFilePath file:@"serverList_saved.dat"];
@@ -5969,7 +5969,7 @@
     int sock4 = socket(AF_INET, SOCK_DGRAM, 0);
     int sock6 = socket(AF_INET6, SOCK_DGRAM, 0);
     
-    if ((sock4 >= 0) && (sock6 >= 0)) {
+    if (sock4 >= 0 && sock6 >= 0) {
         char message = '!';
         NSArray<NSData*> *addresses = [self addressesOfDiscardServiceOnBroadcastCapableInterfaces];
         for (NSData *address in addresses) {

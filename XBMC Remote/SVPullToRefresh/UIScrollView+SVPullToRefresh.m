@@ -239,11 +239,11 @@ static char UIScrollViewPullToRefreshView;
         
         CGFloat maxLabelWidth = MAX(titleSize.width, subtitleSize.width);
         CGFloat totalMaxWidth = leftViewWidth + margin + maxLabelWidth;
-        CGFloat labelX = (self.bounds.size.width / 2) - (totalMaxWidth / 2) + leftViewWidth + margin;
+        CGFloat labelX = self.bounds.size.width / 2 - totalMaxWidth / 2 + leftViewWidth + margin;
         
         if (subtitleSize.height > 0) {
             CGFloat totalHeight = titleSize.height + subtitleSize.height + marginY;
-            CGFloat minY = (self.bounds.size.height / 2) - (totalHeight / 2);
+            CGFloat minY = self.bounds.size.height / 2 - totalHeight / 2;
             
             CGFloat titleY = minY;
             self.titleLabel.frame = CGRectIntegral(CGRectMake(labelX, titleY, titleSize.width, titleSize.height));
@@ -251,16 +251,16 @@ static char UIScrollViewPullToRefreshView;
         }
         else {
             CGFloat totalHeight = titleSize.height;
-            CGFloat minY = (self.bounds.size.height / 2) - (totalHeight / 2);
+            CGFloat minY = self.bounds.size.height / 2 - totalHeight / 2;
             
             CGFloat titleY = minY;
             self.titleLabel.frame = CGRectIntegral(CGRectMake(labelX, titleY, titleSize.width, titleSize.height));
             self.subtitleLabel.frame = CGRectIntegral(CGRectMake(labelX, titleY + titleSize.height + marginY, subtitleSize.width, subtitleSize.height));
         }
         
-        CGFloat arrowX = (self.bounds.size.width / 2) - (totalMaxWidth / 2) + (leftViewWidth - self.arrow.bounds.size.width) / 2;
+        CGFloat arrowX = self.bounds.size.width / 2 - totalMaxWidth / 2 + (leftViewWidth - self.arrow.bounds.size.width) / 2;
         self.arrow.frame = CGRectMake(arrowX,
-                                      (self.bounds.size.height / 2) - (self.arrow.bounds.size.height / 2),
+                                      self.bounds.size.height / 2 - self.arrow.bounds.size.height / 2,
                                       self.arrow.bounds.size.width,
                                       self.arrow.bounds.size.height);
         self.activityIndicatorView.center = self.arrow.center;

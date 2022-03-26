@@ -21,7 +21,7 @@ NSOutputStream	*outStream;
 @implementation tcpJSONRPC
 
 - (id)init {
-    if ((self = [super init])) {
+    if (self = [super init]) {
         heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleSystemOnSleep:)
@@ -71,7 +71,7 @@ NSOutputStream	*outStream;
 //	[outStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 	[inStream open];
 //	[outStream open];
-    CFRelease((__bridge CFTypeRef)(server));
+    CFRelease((__bridge CFTypeRef)server);
 }
 
 - (NSStreamStatus)currentSocketInStatus {
@@ -117,9 +117,9 @@ NSOutputStream	*outStream;
                             if (parseError == nil) {
                                 NSString *method = @"";
                                 NSDictionary *paramsDict;
-                                if (((NSNull*)notification[@"method"] != [NSNull null])) {
+                                if ((NSNull*)notification[@"method"] != [NSNull null]) {
                                         method = notification[@"method"];
-                                    if (((NSNull*)notification[@"params"] != [NSNull null])) {
+                                    if ((NSNull*)notification[@"params"] != [NSNull null]) {
                                         paramsDict = [NSDictionary dictionaryWithObject:notification[@"params"] forKey:@"params"];
                                     }
                                     [[NSNotificationCenter defaultCenter] postNotificationName:method object:nil userInfo:paramsDict];

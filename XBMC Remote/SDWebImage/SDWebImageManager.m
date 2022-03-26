@@ -35,7 +35,7 @@
 }
 
 - (id)init {
-    if ((self = [super init])) {
+    if (self = [super init]) {
         _imageCache = [SDImageCache sharedImageCache];
         _imageDownloader = SDWebImageDownloader.new;
         _failedURLs = NSMutableArray.new;

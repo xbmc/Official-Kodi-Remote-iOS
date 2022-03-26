@@ -66,7 +66,7 @@ double round(double d) {
                         ] mutableCopy];
         NSDictionary *resumePointDict = item[@"resume"];
         if (resumePointDict != nil) {
-            if (((NSNull*)resumePointDict[@"position"] != [NSNull null])) {
+            if ((NSNull*)resumePointDict[@"position"] != [NSNull null]) {
                 if ([resumePointDict[@"position"] floatValue] > 0 && [resumePointDict[@"total"] floatValue] > 0) {
                     resumePointPercentage = ([resumePointDict[@"position"] floatValue] * 100) / [resumePointDict[@"total"] floatValue];
                     [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
@@ -74,11 +74,11 @@ double round(double d) {
             }
         }
         BOOL fromAlbumView = NO;
-        if (((NSNull*)item[@"fromAlbumView"] != [NSNull null])) {
+        if ((NSNull*)item[@"fromAlbumView"] != [NSNull null]) {
             fromAlbumView = [item[@"fromAlbumView"] boolValue];
         }
         BOOL fromEpisodesView = NO;
-        if (((NSNull*)item[@"fromEpisodesView"] != [NSNull null])) {
+        if ((NSNull*)item[@"fromEpisodesView"] != [NSNull null]) {
             fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         }
         UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -401,8 +401,8 @@ double round(double d) {
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play")]) {
         [self addPlayback:0.0];
     }
-    else if (([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
-              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")])) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
         [self recordChannel];
     }
     else if ([actiontitle rangeOfString:LOCALIZED_STR(@"Resume from")].location != NSNotFound) {

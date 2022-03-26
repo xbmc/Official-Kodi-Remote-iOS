@@ -86,7 +86,7 @@
     switch (_direction) {
         case BDKCollectionIndexViewDirectionHorizontal:
             _theDimension = CGRectGetHeight(self.frame);
-            maxLength = CGRectGetWidth(self.frame) - (self.endPadding * 2);
+            maxLength = CGRectGetWidth(self.frame) - self.endPadding * 2;
             cumulativeLength = self.endPadding;
             break;
         case BDKCollectionIndexViewDirectionVertical:

@@ -286,7 +286,7 @@ typedef enum {
 		
 	}
 	
-	CGContextDrawImage(bitmap, CGRectMake((destWidth / 2) - (width / 2), (destHeight / 2) - (height / 2), width, height), imageRef);
+	CGContextDrawImage(bitmap, CGRectMake(destWidth / 2 - width / 2, destHeight / 2 - height / 2, width, height), imageRef);
 	CGImageRef ref = CGBitmapContextCreateImage(bitmap);
 	UIImage *result = [UIImage imageWithCGImage:ref];
 	
@@ -956,7 +956,7 @@ long storedItemID;
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
-                 if ((methodResult[@"Window.IsActive(virtualkeyboard)"] != [NSNull null]) && (methodResult[@"Window.IsActive(selectdialog)"] != [NSNull null])) {
+                 if (methodResult[@"Window.IsActive(virtualkeyboard)"] != [NSNull null] && methodResult[@"Window.IsActive(selectdialog)"] != [NSNull null]) {
                      NSNumber *virtualKeyboardActive = methodResult[@"Window.IsActive(virtualkeyboard)"];
                      NSNumber *selectDialogActive = methodResult[@"Window.IsActive(selectdialog)"];
                      if ([virtualKeyboardActive intValue] == 1 || [selectDialogActive intValue] == 1) {
@@ -1240,7 +1240,7 @@ long storedItemID;
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem {
     NSString *itemid = @"";
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-    if (((NSNull*)mainFields[@"row6"] != [NSNull null])) {
+    if ((NSNull*)mainFields[@"row6"] != [NSNull null]) {
         itemid = mainFields[@"row6"];
     }
     else {
@@ -1278,7 +1278,7 @@ long storedItemID;
              [queuing stopAnimating];
              if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                  NSString *itemid_extra_info = @"";
-                 if (((NSNull*)mainFields[@"itemid_extra_info"] != [NSNull null])) {
+                 if ((NSNull*)mainFields[@"itemid_extra_info"] != [NSNull null]) {
                      itemid_extra_info = mainFields[@"itemid_extra_info"];
                  }
                  else {
@@ -1289,7 +1289,7 @@ long storedItemID;
                      itemid_extra_info = @"artists";
                  }
                  NSDictionary *itemExtraDict = methodResult[itemid_extra_info];
-                 if (((NSNull*)itemExtraDict == [NSNull null]) || itemExtraDict == nil) {
+                 if ((NSNull*)itemExtraDict == [NSNull null] || itemExtraDict == nil) {
                      [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
                      return;
                  }
@@ -2160,7 +2160,7 @@ long storedItemID;
                     [playlistTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
                     [playlistTableView endUpdates];
                 }
-                if ((storeSelection) && (indexPath.row<storeSelection.row)) {
+                if (storeSelection && indexPath.row<storeSelection.row) {
                     storeSelection = [NSIndexPath indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
                 }
             }

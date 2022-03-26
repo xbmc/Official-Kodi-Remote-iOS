@@ -35,7 +35,7 @@
 }
 
 - (id)initWithRequest:(NSURLRequest*)request queue:(dispatch_queue_t)queue options:(SDWebImageDownloaderOptions)options userInfo:(NSDictionary*)userInfo progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock cancelled:(void (^)(void))cancelBlock {
-    if ((self = [super init])) {
+    if (self = [super init]) {
         _queue = queue;
         _request = request;
         _options = options;

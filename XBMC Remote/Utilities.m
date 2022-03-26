@@ -25,7 +25,7 @@
 + (CGContextRef)createBitmapContextFromImage:(CGImageRef)inImage format:(uint32_t)format {
     size_t width = CGImageGetWidth(inImage);
     size_t height = CGImageGetHeight(inImage);
-    unsigned long bytesPerRow = (width * 4); // 4 bytes for alpha, red, green and blue
+    unsigned long bytesPerRow = width * 4; // 4 bytes for alpha, red, green and blue
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     if (colorSpace == NULL) {
@@ -166,7 +166,7 @@
         // de-saturate, but do not remove saturation fully
         sat = MIN(MAX(sat * satscale, 0), 1);
         // scale and limit brightness to range [brightmin ... brightmax]
-        bright = MIN((MAX(bright * brightscale, brightmin)), brightmax);
+        bright = MIN(MAX(bright * brightscale, brightmin), brightmax);
         color_out = [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
     }
     return color_out;
@@ -194,7 +194,7 @@
         return lighter;
     }
     const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
-    CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
+    CGFloat colorBrightness = (componentColors[0] * 299 + componentColors[1] * 587 + componentColors[2] * 114) / 1000;
     if (colorBrightness < trigger) {
         return lighter;
     }
@@ -214,7 +214,7 @@
     CGSize itemImageSize = image.size;
     CGPoint itemImagePosition;
     itemImagePosition.x = ceilf((contextRect.size.width - itemImageSize.width) / 2);
-    itemImagePosition.y = ceilf((contextRect.size.height - itemImageSize.height));
+    itemImagePosition.y = ceilf(contextRect.size.height - itemImageSize.height);
     
     UIGraphicsBeginImageContextWithOptions(contextRect.size, NO, 0);
     
