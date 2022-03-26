@@ -1836,8 +1836,8 @@
     NSDictionary *item = [self getItemFromIndexPath:indexPath];
     UICollectionViewCell *cell = [cView cellForItemAtIndexPath:indexPath];
     CGPoint offsetPoint = [cView contentOffset];
-    int rectOriginX = cell.frame.origin.x + cell.frame.size.width/2;
-    int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
+    int rectOriginX = cell.frame.origin.x + cell.frame.size.width / 2;
+    int rectOriginY = cell.frame.origin.y + cell.frame.size.height / 2 - offsetPoint.y;
     [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
 }
 
@@ -1852,7 +1852,7 @@
     sectionNameOverlayView.layer.cornerRadius = cornerRadius;
     
     int fontSize = 32;
-    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height/2 - (fontSize + 8)/2, sectionNameOverlayView.frame.size.width, fontSize + 8)];
+    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height / 2 - (fontSize + 8) / 2, sectionNameOverlayView.frame.size.width, fontSize + 8)];
     sectionNameLabel.font = [UIFont boldSystemFontOfSize:fontSize];
     sectionNameLabel.textColor = UIColor.whiteColor;
     sectionNameLabel.backgroundColor = UIColor.clearColor;
@@ -2415,7 +2415,7 @@
             [cell.contentView addSubview:progressView];
             
             CGFloat dotSize = 6;
-            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize/2 - dotSize/2, progressView.frame.origin.y + [progressView getPieRadius]/2 + [progressView getLineWidth] + 0.5, dotSize, dotSize)];
+            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize / 2 - dotSize / 2, progressView.frame.origin.y + [progressView getPieRadius] / 2 + [progressView getLineWidth] + 0.5, dotSize, dotSize)];
             isRecordingImageView.image = [UIImage imageNamed:@"button_timer"];
             isRecordingImageView.contentMode = UIViewContentModeScaleToFill;
             isRecordingImageView.tag = 104;
@@ -2560,7 +2560,7 @@
             [item[@"family"] isEqualToString:@"roleid"]) {
             genre.hidden = YES;
             runtimeyear.hidden = YES;
-            title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight/2 - title.frame.size.height/2), title.frame.size.width, title.frame.size.height);
+            title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
         }
         else if ([item[@"family"] isEqualToString:@"recordingid"] ||
                  [item[@"family"] isEqualToString:@"timerid"]) {
@@ -2740,8 +2740,8 @@
     if ([self doesShowSearchResults]) {
         offsetPoint.y = offsetPoint.y - 44;
     }
-    int rectOriginX = cell.frame.origin.x + cell.frame.size.width/2;
-    int rectOriginY = cell.frame.origin.y + cell.frame.size.height/2 - offsetPoint.y;
+    int rectOriginX = cell.frame.origin.x + cell.frame.size.width / 2;
+    int rectOriginY = cell.frame.origin.y + cell.frame.size.height / 2 - offsetPoint.y;
     [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
     return;
 }
@@ -2776,7 +2776,7 @@
         UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewPadding / 2 - 1, labelwidth, artistFontSize + labelPadding)];
         UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
         UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin, labelwidth, trackCountFontSize + labelPadding)];
-        UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize -labelPadding/2, labelwidth, trackCountFontSize + labelPadding)];
+        UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize -labelPadding / 2, labelwidth, trackCountFontSize + labelPadding)];
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = albumDetailView.bounds;
         gradient.colors = @[(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor]];
@@ -2894,12 +2894,12 @@
         NSNumberFormatter *formatter = [NSNumberFormatter new];
         formatter.maximumFractionDigits = 0;
         formatter.roundingMode = NSNumberFormatterRoundHalfEven;
-        NSString *numberString = [formatter stringFromNumber:@(totalTime/60)];
+        NSString *numberString = [formatter stringFromNumber:@(totalTime / 60)];
         
         trackCountLabel.backgroundColor = UIColor.clearColor;
         trackCountLabel.shadowOffset = CGSizeMake(0, 1);
         trackCountLabel.font = [UIFont systemFontOfSize:trackCountFontSize];
-        trackCountLabel.text = [NSString stringWithFormat:@"%lu %@, %@ %@", (unsigned long)self.richResults.count, self.richResults.count > 1 ? LOCALIZED_STR(@"Songs") : LOCALIZED_STR(@"Song"), numberString, totalTime/60 > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
+        trackCountLabel.text = [NSString stringWithFormat:@"%lu %@, %@ %@", (unsigned long)self.richResults.count, self.richResults.count > 1 ? LOCALIZED_STR(@"Songs") : LOCALIZED_STR(@"Song"), numberString, totalTime / 60 > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
         [albumDetailView addSubview:trackCountLabel];
         int year = [item[@"year"] intValue];
         releasedLabel.backgroundColor = UIColor.clearColor;
@@ -2923,8 +2923,8 @@
 //        UIImage *btnImage = [UIImage imageNamed:@"button_play"];
 //        albumPlaybackButton.image = btnImage forState:UIControlStateNormal;
 //        albumPlaybackButton.alpha = 0.8;
-//        int playbackOriginX = [[formatter stringFromNumber:@(albumThumbHeight/2 - btnImage.size.width/2 + albumViewPadding)] intValue];
-//        int playbackOriginY = [[formatter stringFromNumber:@(albumThumbHeight/2 - btnImage.size.height/2 + albumViewPadding)] intValue];
+//        int playbackOriginX = [[formatter stringFromNumber:@(albumThumbHeight / 2 - btnImage.size.width / 2 + albumViewPadding)] intValue];
+//        int playbackOriginY = [[formatter stringFromNumber:@(albumThumbHeight / 2 - btnImage.size.height / 2 + albumViewPadding)] intValue];
 //        albumPlaybackButton.frame = CGRectMake(playbackOriginX, playbackOriginY, btnImage.size.width, btnImage.size.height);
 //        [albumPlaybackButton addTarget:self action:@selector(preparePlaybackAlbum:) forControlEvents:UIControlEventTouchUpInside];
 //        [albumDetailView addSubview:albumPlaybackButton];
@@ -2974,7 +2974,7 @@
             UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, albumViewPadding / 2, labelwidth, artistFontSize + labelPadding)];
             UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
             UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
-            UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize -labelPadding/2, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
+            UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize - labelPadding / 2, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - albumViewPadding * 2)];
             NSString *stringURL = self.extraSectionRichResults[seasonIdx][@"thumbnail"];
             NSString *displayThumb = @"coverbox_back_section";
@@ -3035,7 +3035,7 @@
             albumLabel.font = [UIFont boldSystemFontOfSize:albumFontSize];
             albumLabel.text = self.extraSectionRichResults[seasonIdx][@"label"];
             albumLabel.numberOfLines = 0;
-            CGSize maximumLabelSize = CGSizeMake(labelwidth - toggleIconSpace, albumViewHeight - albumViewPadding*4 -28);
+            CGSize maximumLabelSize = CGSizeMake(labelwidth - toggleIconSpace, albumViewHeight - albumViewPadding * 4 - 28);
             CGRect expectedLabelRect = [albumLabel.text boundingRectWithSize:maximumLabelSize
                                                         options:NSStringDrawingUsesLineFragmentOrigin
                                                         attributes:@{NSFontAttributeName:albumLabel.font}
@@ -4376,7 +4376,7 @@ NSIndexPath *selected;
     NSMutableDictionary *item = [sectionItem mutableCopy];
     item[@"label"] = self.navigationItem.title;
     forceMusicAlbumMode = YES;
-    int rectOrigin = (int)((albumViewHeight - albumViewPadding * 2)/2);
+    int rectOrigin = (int)((albumViewHeight - albumViewPadding * 2) / 2);
     [self showActionSheet:nil sheetActions:sheetActions item:item rectOriginX:rectOrigin + albumViewPadding rectOriginY:rectOrigin];
 }
 
@@ -6144,7 +6144,7 @@ NSIndexPath *selected;
     if (sortMethodIndex != -1) {
         [sortOptions replaceObjectAtIndex:sortMethodIndex withObject:[NSString stringWithFormat:@"\u2713 %@", sortOptions[sortMethodIndex]]];
     }
-    [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - button7.frame.size.height/2];
+    [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - button7.frame.size.height / 2];
 }
 
 - (void)handleLongPressSortButton:(UILongPressGestureRecognizer*)gestureRecognizer {

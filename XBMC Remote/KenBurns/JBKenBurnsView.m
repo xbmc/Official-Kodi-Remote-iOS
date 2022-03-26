@@ -143,7 +143,7 @@
         [self.imagesArray removeObjectAtIndex:0];
         [self.imagesArray addObject:[self _downloadImageFrom:urls[urlIndex]]];
         
-        if (bufferIndex == self.imagesArray.count -1) {
+        if (bufferIndex == self.imagesArray.count - 1) {
             bufferIndex = -1;
         }
         

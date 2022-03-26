@@ -14,7 +14,7 @@
 
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
-#define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+#define RGBA(r, g, b, a) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:(a)]
 #define XBMC_LOGO_PADDING 10
 #define PERSISTENCE_KEY_VERSION @"VersionUnderReview"
 #define PERSISTENCE_KEY_PLAYBACK_ATTEMPTS @"PlaybackAttempts"
@@ -442,10 +442,10 @@
 
 + (CGRect)createXBMCInfoframe:(UIImage*)logo height:(CGFloat)height width:(CGFloat)width {
     if (IS_IPHONE) {
-        return CGRectMake(width - ANCHOR_RIGHT_PEEK - logo.size.width - XBMC_LOGO_PADDING, (height - logo.size.height)/2, logo.size.width, logo.size.height);
+        return CGRectMake(width - ANCHOR_RIGHT_PEEK - logo.size.width - XBMC_LOGO_PADDING, (height - logo.size.height) / 2, logo.size.width, logo.size.height);
     }
     else {
-        return CGRectMake(width - logo.size.width/2 - XBMC_LOGO_PADDING, (height - logo.size.height/2)/2, logo.size.width/2, logo.size.height/2);
+        return CGRectMake(width - logo.size.width / 2 - XBMC_LOGO_PADDING, (height - logo.size.height / 2) / 2, logo.size.width / 2, logo.size.height / 2);
     }
 }
 
@@ -479,8 +479,8 @@
     CGRect frame = jewelView.frame;
     frame.size.width = ceil((jewelView.image.size.width - border_left - border_right) * factor);
     frame.size.height = ceil((jewelView.image.size.height - border_top - border_bottom) * factor);
-    frame.origin.y = floor(jewelView.center.y - frame.size.height/2 + (border_top - border_bottom)/2 * factor);
-    frame.origin.x = floor(jewelView.center.x - frame.size.width/2 + (border_left - border_right)/2 * factor);
+    frame.origin.y = floor(jewelView.center.y - frame.size.height / 2 + (border_top - border_bottom) / 2 * factor);
+    frame.origin.x = floor(jewelView.center.x - frame.size.width / 2 + (border_left - border_right) / 2 * factor);
     return frame;
 }
 
@@ -551,8 +551,8 @@
 + (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array {
     NSMutableDictionary *mutableDictionary = [NSMutableDictionary new];
     NSInteger numelement = array.count;
-    for (int i = 0; i < numelement-1; i += 2) {
-        mutableDictionary[array[i+1]] = array[i];
+    for (int i = 0; i < numelement - 1; i += 2) {
+        mutableDictionary[array[i + 1]] = array[i];
     }
     return (NSDictionary*)mutableDictionary;
 }
@@ -560,8 +560,8 @@
 + (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array {
     NSMutableDictionary *mutableDictionary = [NSMutableDictionary new];
     NSInteger numelement = array.count;
-    for (int i = 0; i < numelement-1; i += 2) {
-        mutableDictionary[array[i+1]] = array[i];
+    for (int i = 0; i < numelement - 1; i += 2) {
+        mutableDictionary[array[i + 1]] = array[i];
     }
     return (NSMutableDictionary*)mutableDictionary;
 }

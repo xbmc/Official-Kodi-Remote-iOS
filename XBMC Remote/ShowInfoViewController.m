@@ -542,7 +542,7 @@ double round(double d) {
         CGRect frame;
         frame.size.width = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.9);
         frame.size.height = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.7);
-        frame.origin.x = jewelView.frame.origin.x + (jewelView.frame.size.width - frame.size.width)/2;
+        frame.origin.x = jewelView.frame.origin.x + (jewelView.frame.size.width - frame.size.width) / 2;
         frame.origin.y = jewelView.frame.origin.y + 4;
         jewelView.frame = frame;
         
@@ -1420,7 +1420,7 @@ double round(double d) {
         if (closeButton == nil) {
             int cbWidth = clearLogoWidth / 2;
             int cbHeight = clearLogoHeight / 2;
-            closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - cbWidth/2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
+            closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - cbWidth / 2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
             closeButton.titleLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.8];
             closeButton.titleLabel.shadowOffset = CGSizeMake(0, 1);
             closeButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin |

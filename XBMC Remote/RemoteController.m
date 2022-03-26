@@ -177,7 +177,7 @@
     // Place the transitional view in the middle between the two button rows
     CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_MUSIC].frame);
     CGFloat upperButtonLowerBorder = CGRectGetMaxY([self.view viewWithTag:TAG_BUTTON_STOP].frame);
-    CGFloat transViewY = (lowerButtonUpperBorder + upperButtonLowerBorder - TransitionalView.frame.size.height)/2;
+    CGFloat transViewY = (lowerButtonUpperBorder + upperButtonLowerBorder - TransitionalView.frame.size.height) / 2;
     TransitionalView.frame = CGRectMake(frame.origin.x, transViewY, frame.size.width, frame.size.height);
     
     // Maintain aspect ratio

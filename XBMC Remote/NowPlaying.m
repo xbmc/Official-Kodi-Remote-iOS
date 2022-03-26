@@ -270,11 +270,11 @@ typedef enum {
 	bitmap = CGBitmapContextCreate(NULL, destWidth, destHeight, 8, 4 * destWidth, colorSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
 	
 	if (image.imageOrientation == UIImageOrientationLeft) {
-		CGContextRotateCTM (bitmap, M_PI/2);
+		CGContextRotateCTM (bitmap, M_PI / 2);
 		CGContextTranslateCTM (bitmap, 0, -height);
 	}
     else if (image.imageOrientation == UIImageOrientationRight) {
-		CGContextRotateCTM (bitmap, -M_PI/2);
+		CGContextRotateCTM (bitmap, -M_PI / 2);
 		CGContextTranslateCTM (bitmap, -width, 0);
 	}
     else if (image.imageOrientation == UIImageOrientationUp) {
@@ -2127,10 +2127,10 @@ long storedItemID;
                 [playlistData insertObject:objSource atIndex:destinationIndexPath.row];
             }
             if (sourceIndexPath.row > storeSelection.row && destinationIndexPath.row <= storeSelection.row) {
-                storeSelection = [NSIndexPath indexPathForRow:storeSelection.row+1 inSection:storeSelection.section];
+                storeSelection = [NSIndexPath indexPathForRow:storeSelection.row + 1 inSection:storeSelection.section];
             }
             else if (sourceIndexPath.row < storeSelection.row && destinationIndexPath.row >= storeSelection.row) {
-                storeSelection = [NSIndexPath indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
+                storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];
             }
             [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
         }
@@ -2161,7 +2161,7 @@ long storedItemID;
                     [playlistTableView endUpdates];
                 }
                 if (storeSelection && indexPath.row<storeSelection.row) {
-                    storeSelection = [NSIndexPath indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
+                    storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];
                 }
             }
             else {
@@ -2385,12 +2385,12 @@ long storedItemID;
                               [UIImage imageNamed:@"icon_video"],
                               [UIImage imageNamed:@"icon_picture"]];
     playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:segmentItems];
-    CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH)/2;
+    CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH) / 2;
     if (IS_IPHONE) {
-        left_margin = floor(([self currentScreenBoundsDependOnOrientation].size.width - SEGMENTCONTROL_WIDTH)/2);
+        left_margin = floor(([self currentScreenBoundsDependOnOrientation].size.width - SEGMENTCONTROL_WIDTH) / 2);
     }
     playlistSegmentedControl.frame = CGRectMake(left_margin,
-                                                (playlistActionView.frame.size.height - SEGMENTCONTROL_HEIGHT)/2,
+                                                (playlistActionView.frame.size.height - SEGMENTCONTROL_HEIGHT) / 2,
                                                 SEGMENTCONTROL_WIDTH,
                                                 SEGMENTCONTROL_HEIGHT);
     playlistSegmentedControl.tintColor = UIColor.whiteColor;
@@ -2525,14 +2525,14 @@ long storedItemID;
     // upper half of bottom area is colored in album color
     if (iOS7bgEffect == nil) {
         CGFloat bottomBarHeight = playlistToolbar.frame.size.height + bottomPadding;
-        CGFloat effectHeight = bottomBarHeight/2;
+        CGFloat effectHeight = bottomBarHeight / 2;
         iOS7bgEffect = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - bottomBarHeight, self.view.frame.size.width, effectHeight)];
         iOS7bgEffect.autoresizingMask = playlistToolbar.autoresizingMask;
         [self.view insertSubview:iOS7bgEffect atIndex:0];
     }
     // lower half of top area is colored in album color
     if (iOS7navBarEffect == nil && IS_IPHONE) {
-        CGFloat effectHeight = CGRectGetMaxY(self.navigationController.navigationBar.frame)/2;
+        CGFloat effectHeight = CGRectGetMaxY(self.navigationController.navigationBar.frame) / 2;
         iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, -effectHeight, self.view.frame.size.width, effectHeight)];
         iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self.view insertSubview:iOS7navBarEffect atIndex:0];

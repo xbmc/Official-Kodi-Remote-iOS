@@ -569,7 +569,7 @@
                                       duration:0.2
                                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                                     animations:^{
-                        if ((viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width > self.view.frame.size.width) && viewAtLeft.frame.origin.x < (self.view.frame.size.width - viewAtLeft.frame.size.width/2)) {
+                        if ((viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width > self.view.frame.size.width) && viewAtLeft.frame.origin.x < (self.view.frame.size.width - viewAtLeft.frame.size.width / 2)) {
                             animationDirection = @"LEFT-WITH-LEFT";
                             viewAtLeft.frame = CGRectMake(self.view.frame.size.width - viewAtLeft.frame.size.width, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height);
                             
@@ -692,7 +692,7 @@
 }
 
 - (void)moveStack {
-    if ((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtRight.frame.origin.x < (self.view.frame.size.width - viewAtRight.frame.size.width/2)) {
+    if ((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtRight.frame.origin.x < (self.view.frame.size.width - viewAtRight.frame.size.width / 2)) {
         [UIView transitionWithView:self.view
                           duration:0.2
                            options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone

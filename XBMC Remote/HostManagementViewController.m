@@ -13,7 +13,7 @@
 #import "AppInfoViewController.h"
 #import "Utilities.h"
 
-// +2 to cover two single-line separators
+// + 2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
 #define MARGIN 5
 #define BLOCK_MARGIN 10

@@ -39,8 +39,8 @@
         _posterFanart.alpha = 0.9;
         [self.contentView addSubview:_posterFanart];
 
-        int frameHeight = labelHeight + genreHeight + yearHeight - borderWidth*2;
-        UIImageView *labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(startX, frame.size.height - genreHeight - yearHeight - labelHeight + borderWidth*2, fanartWidth - borderWidth * 3, labelHeight + genreHeight + yearHeight - borderWidth*3)];
+        int frameHeight = labelHeight + genreHeight + yearHeight - borderWidth * 2;
+        UIImageView *labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(startX, frame.size.height - genreHeight - yearHeight - labelHeight + borderWidth * 2, fanartWidth - borderWidth * 3, labelHeight + genreHeight + yearHeight - borderWidth * 3)];
         labelImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 
         labelImageView.image = [UIImage imageNamed:@"cell_bg"];

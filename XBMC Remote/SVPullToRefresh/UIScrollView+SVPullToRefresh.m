@@ -193,7 +193,7 @@ static char UIScrollViewPullToRefreshView;
     if (hasCustomView) {
         [self addSubview:customView];
         CGRect viewBounds = [customView bounds];
-        CGPoint origin = CGPointMake(roundf((self.bounds.size.width-viewBounds.size.width)/2), roundf((self.bounds.size.height-viewBounds.size.height)/2));
+        CGPoint origin = CGPointMake(roundf((self.bounds.size.width - viewBounds.size.width) / 2), roundf((self.bounds.size.height - viewBounds.size.height) / 2));
         [customView setFrame:CGRectMake(origin.x, origin.y, viewBounds.size.width, viewBounds.size.height)];
     }
     else {
@@ -329,7 +329,7 @@ static char UIScrollViewPullToRefreshView;
 
 - (SVPullToRefreshArrow*)arrow {
     if (!_arrow) {
-		_arrow = [[SVPullToRefreshArrow alloc]initWithFrame:CGRectMake(0, self.bounds.size.height-54, 22, 48)];
+		_arrow = [[SVPullToRefreshArrow alloc]initWithFrame:CGRectMake(0, self.bounds.size.height - 54, 22, 48)];
         _arrow.backgroundColor = UIColor.clearColor;
 		[self addSubview:_arrow];
     }

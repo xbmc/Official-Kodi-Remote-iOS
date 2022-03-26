@@ -49,7 +49,7 @@
         [self.contentView addSubview:_labelImageView];
         
         if (IS_IPAD) {
-            _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width - borderWidth * 2, labelHeight/2)];
+            _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width - borderWidth * 2, labelHeight / 2)];
             _posterLabelFullscreen.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
             _posterLabelFullscreen.backgroundColor = UIColor.clearColor;
             _posterLabelFullscreen.textColor = UIColor.grayColor;
