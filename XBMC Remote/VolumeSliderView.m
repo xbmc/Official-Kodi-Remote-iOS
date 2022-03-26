@@ -44,7 +44,7 @@
         CGRect frame_tmp;
         UIColor *volumeIconColor = nil;
         UIImage *muteBackgroundImage = nil;
-        if (!isSliderType){
+        if (!isSliderType) {
             volumeLabel.alpha = 1.0;
             volumeView.hidden = YES;
             volumeSlider.hidden = YES;

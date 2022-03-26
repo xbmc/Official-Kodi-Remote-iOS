@@ -21,7 +21,7 @@
 
 - (void)drawRect:(CGRect)rect {
 //    UIEdgeInsets insets = {0, 5, 2, 5};
-//    UIBezierPath* rounded = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerBottomLeft|UIRectCornerBottomRight cornerRadii:CGSizeMake(5, 5)];
+//    UIBezierPath *rounded = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(5, 5)];
 //    CAShapeLayer* shape = [CAShapeLayer new];
 //    shape.path = rounded.CGPath;
 //    self.layer.mask = shape;

@@ -5882,7 +5882,7 @@
     UIApplication.sharedApplication.idleTimerDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"lockscreen_preference"];
 }
     
-- (NSNumber*)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel{
+- (NSNumber*)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel {
     // Search for the method index with the desired sub label (e.g. "All Songs")
     int k;
     for (k = 0; k < menuItem.mainMethod.count; ++k) {

@@ -11,7 +11,7 @@
 
 #define SERVERPOPUP_BOTTOMPADDING 10
 
-@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate>{
+@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate> {
 //    GlobalData *obj;
     IBOutlet UITextField *descriptionUI;
     IBOutlet UITextField *ipUI;
