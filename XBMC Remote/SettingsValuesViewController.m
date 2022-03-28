@@ -103,7 +103,7 @@
         else if ([itemControls[@"type"] isEqualToString:@"list"] && settingOptions == nil) {
             xbmcSetting = cSlider;
             storeSliderValue = [self.detailItem[@"value"] intValue];
-            cellHeight = 184.0;
+            cellHeight = 242.0;
         }
         else {
             self.navigationItem.title = self.detailItem[@"label"];
