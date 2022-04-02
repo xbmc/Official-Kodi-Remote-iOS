@@ -505,12 +505,12 @@
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Gesture Zone")]) {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@YES forKey:@"forceGestureZone"];
+        NSDictionary *userInfo = @{@"forceGestureZone": @YES};
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad")]) {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@NO forKey:@"forceGestureZone"];
+        NSDictionary *userInfo = @{@"forceGestureZone": @NO};
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }

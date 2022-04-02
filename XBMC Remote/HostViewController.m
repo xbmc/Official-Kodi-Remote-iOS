@@ -101,31 +101,23 @@
     mac_5_UI.text = mac_5_UI.text ?: @"";
 
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
+    
+    NSDictionary *serverParameters = @{
+        @"serverDescription": descriptionUI.text,
+        @"serverUser": usernameUI.text,
+        @"serverPass": passwordUI.text,
+        @"serverIP": ipUI.text,
+        @"serverPort": portUI.text,
+        @"serverMacAddress": macAddress,
+        @"tcpPort": tcpPortUI.text,
+    };
     if (self.detailItem == nil) {
-        [AppDelegate.instance.arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                           descriptionUI.text, @"serverDescription",
-                                                           usernameUI.text, @"serverUser",
-                                                           passwordUI.text, @"serverPass",
-                                                           ipUI.text, @"serverIP",
-                                                           portUI.text, @"serverPort",
-                                                           macAddress, @"serverMacAddress",
-                                                           tcpPortUI.text, @"tcpPort",
-                                                           nil
-                                                           ]];
+        [AppDelegate.instance.arrayServerList addObject:serverParameters];
     }
     else {
         NSIndexPath *idx = self.detailItem;
         [AppDelegate.instance.arrayServerList removeObjectAtIndex:idx.row];
-        [AppDelegate.instance.arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                              descriptionUI.text, @"serverDescription",
-                                                              usernameUI.text, @"serverUser",
-                                                              passwordUI.text, @"serverPass",
-                                                              ipUI.text, @"serverIP",
-                                                              portUI.text, @"serverPort",
-                                                              macAddress, @"serverMacAddress",
-                                                              tcpPortUI.text, @"tcpPort",
-                                                              nil
-                                                              ] atIndex:idx.row];
+        [AppDelegate.instance.arrayServerList insertObject:serverParameters atIndex:idx.row];
     }
     [AppDelegate.instance saveServerList];
     [self.navigationController popViewControllerAnimated:YES];

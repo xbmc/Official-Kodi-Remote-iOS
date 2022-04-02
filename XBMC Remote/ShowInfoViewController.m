@@ -409,7 +409,10 @@ double round(double d) {
         return;
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
-        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"trailer"], @"file", nil], @"item", nil]];
+        NSDictionary *itemParams = @{
+            @"item": [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"trailer"], @"file", nil],
+        };
+        [self openFile:itemParams];
     }
 }
 
@@ -467,9 +470,7 @@ double round(double d) {
     }
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [activityIndicatorView startAnimating];
-    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                itemid, parameterName,
-                                nil];
+    NSDictionary *parameters = @{parameterName: itemid};
     [[Utilities getJsonRPC] callMethod:methodToCall
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -1402,8 +1403,10 @@ double round(double d) {
                              ];
                              if (IS_IPAD) {
                                  if (![self isModal]) {
-                                     NSDictionary *params = @{@"hideToolbar": @YES,
-                                                              @"clipsToBounds": @YES};
+                                     NSDictionary *params = @{
+                                         @"hideToolbar": @YES,
+                                         @"clipsToBounds": @YES,
+                                     };
                                      [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
                                  }
                              }
@@ -1558,13 +1561,14 @@ double round(double d) {
         value = item[@"file"];
     }
     if (afterCurrent) {
+        NSDictionary *params = @{
+            @"playerid": @(playlistid),
+            @"properties": @[@"percentage", @"time", @"totaltime", @"partymode", @"position"],
+        };
         [activityIndicatorView startAnimating];
         [[Utilities getJsonRPC]
          callMethod:@"Player.GetProperties"
-         withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                         @(playlistid), @"playerid",
-                         @[@"percentage", @"time", @"totaltime", @"partymode", @"position"], @"properties",
-                         nil]
+         withParameters:params
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (error == nil && methodError == nil) {
                  if ([NSJSONSerialization isValidJSONObject:methodResult]) {
@@ -1572,11 +1576,11 @@ double round(double d) {
                          [activityIndicatorView stopAnimating];
                          int newPos = [methodResult[@"position"] intValue] + 1;
                          NSString *action2 = @"Playlist.Insert";
-                         NSDictionary *params2 = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                @(playlistid), @"playlistid",
-                                                [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item",
-                                                @(newPos), @"position",
-                                                nil];
+                         NSDictionary *params2 = @{
+                             @"playlistid": @(playlistid),
+                             @"item": [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil],
+                             @"position": @(newPos),
+                         };
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                              if (error == nil && methodError == nil) {
                                  [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -1600,7 +1604,11 @@ double round(double d) {
     }
     else {
         [activityIndicatorView startAnimating];
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@(playlistid), @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        NSDictionary *params = @{
+            @"playlistid": @(playlistid),
+            @"item": [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil],
+        };
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             [activityIndicatorView stopAnimating];
             if (error == nil && methodError == nil) {
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -1613,13 +1621,16 @@ double round(double d) {
 - (void)addPlayback:(float)resumePointLocal {
     NSDictionary *item = self.detailItem;
     if ([item[@"family"] isEqualToString:@"broadcastid"]) {
-        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"pvrExtraInfo"][@"channelid"], @"channelid", nil], @"item", nil]];
+        NSDictionary *itemParams = @{
+            @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"pvrExtraInfo"][@"channelid"], @"channelid", nil],
+        };
+        [self openFile:itemParams];
     }
     else {
         self.navigationItem.rightBarButtonItem.enabled = NO;
         [activityIndicatorView startAnimating];
         int playlistid = [item[@"playlistid"] intValue];
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(playlistid), @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": @(playlistid)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
                 NSString *param = item[@"family"];
                 id value = item[item[@"family"]];
@@ -1628,10 +1639,20 @@ double round(double d) {
                     param = @"file";
                     value = item[@"file"];
                 }
-                [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@(playlistid), @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                NSDictionary *params = @{
+                    @"playlistid": @(playlistid),
+                    @"item": [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil],
+                };
+                [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                     if (error == nil && methodError == nil) {
                         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: @(playlistid), @"playlistid", @(0), @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                        NSDictionary *params = @{
+                            @"item": @{
+                                @"playlistid": @(playlistid),
+                                @"position": @(0),
+                            },
+                        };
+                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                             if (error == nil && methodError == nil) {
                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                                 [activityIndicatorView stopAnimating];

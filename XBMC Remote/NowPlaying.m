@@ -1914,7 +1914,7 @@ long storedItemID;
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
             if ([mainFields[@"row6"] isEqualToString:@"artistid"]) { // WORKAROUND due the lack of the artistid with Playlist.GetItems
                 NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item[@"artist"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-                obj = [NSDictionary dictionaryWithObjectsAndKeys:artistFrodoWorkaround, @"artist", nil];
+                obj = @{@"artist": artistFrodoWorkaround};
             }
             else {
                 obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] intValue]), mainFields[@"row6"], nil];
@@ -2096,9 +2096,7 @@ long storedItemID;
     
     int idItem = [objSource[@"idItem"] intValue];
     if (idItem) {
-        itemToMove = [NSDictionary dictionaryWithObjectsAndKeys:
-                      @(idItem), [NSString stringWithFormat:@"%@id", objSource[@"type"]],
-                      nil];
+        itemToMove = @{[NSString stringWithFormat:@"%@id", objSource[@"type"]]: @(idItem)};
     }
     else {
         itemToMove = [NSDictionary dictionaryWithObjectsAndKeys:

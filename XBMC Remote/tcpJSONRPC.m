@@ -22,6 +22,7 @@ NSInputStream	*inStream;
 
 - (id)init {
     if (self = [super init]) {
+        infoTitle = @"";
         heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleSystemOnSleep:)
@@ -152,12 +153,11 @@ NSInputStream	*inStream;
 
 
 - (void)noConnectionNotifications {
-    NSString *infoText = LOCALIZED_STR(@"No connection");
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @NO, @"status",
-                            infoText, @"message",
-                            @"connection_off", @"icon_connection",
-                            nil];
+    NSDictionary *params = @{
+        @"status": @NO,
+        @"message": LOCALIZED_STR(@"No connection"),
+        @"icon_connection": @"connection_off",
+    };
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCChangeServerStatus" object:nil userInfo:params];
 }
 
@@ -166,7 +166,7 @@ NSInputStream	*inStream;
         return;
     }
     if (AppDelegate.instance.obj.serverIP.length == 0) {
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @YES, @"showSetup", nil];
+        NSDictionary *params = @{@"showSetup": @YES};
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
         if (AppDelegate.instance.serverOnLine) {
             [self noConnectionNotifications];
@@ -182,7 +182,7 @@ NSInputStream	*inStream;
     }
     inCheck = YES;
     
-    NSDictionary *checkServerParams = [NSDictionary dictionaryWithObjectsAndKeys: @[@"version", @"volume", @"name"], @"properties", nil];
+    NSDictionary *checkServerParams = @{@"properties": @[@"version", @"volume", @"name"]};
     [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
      withParameters:checkServerParams
@@ -211,33 +211,33 @@ NSInputStream	*inStream;
                                           serverInfo[@"major"],
                                           serverInfo[@"minor"],
                                           serverInfo[@"tag"]];//, serverInfo[@"revision"]
-                     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                             @YES, @"status",
-                                             infoTitle, @"message",
-                                             @"connection_on_notcp", @"icon_connection",
-                                             nil];
+                     NSDictionary *params = @{
+                         @"status": @YES,
+                         @"message": infoTitle,
+                         @"icon_connection": @"connection_on_notcp",
+                     };
                      [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCChangeServerStatus" object:nil userInfo:params];
-                     params = [NSDictionary dictionaryWithObjectsAndKeys: @NO, @"showSetup", nil];
+                     params = @{@"showSetup": @(NO)};
                      [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
                  }
                  else {
                      if (AppDelegate.instance.serverOnLine) {
                          [self noConnectionNotifications];
                      }
-                     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @YES, @"showSetup", nil];
+                     NSDictionary *params = @{@"showSetup": @YES};
                      [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
                  }
              }
          }
          else {
              if (error != nil) {
-                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionError" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], @"error_message", nil]];
+                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionError" object:nil userInfo:@{@"error_message": [error localizedDescription]}];
              }
              AppDelegate.instance.serverVolume = -1;
              if (AppDelegate.instance.serverOnLine) {
                  [self noConnectionNotifications];
              }
-             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: @YES, @"showSetup", nil];
+             NSDictionary *params = @{@"showSetup": @YES};
              [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
          }
      }];
