@@ -5100,6 +5100,7 @@
             @{
                 @"sort": [self sortmethod:@"itemgroup" order:@"ascending" ignorearticle:NO],
             }, @"parameters",
+            LOCALIZED_STR(@"Global Search"), @"label",
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Type"),
