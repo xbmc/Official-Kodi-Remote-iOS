@@ -403,9 +403,7 @@ static inline BOOL IsEmpty(id obj) {
             serverInfoView.attributedText = infoString;
         }
         else if (error != nil){
-            NSMutableAttributedString *infoString = [NSMutableAttributedString new];
-            [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"No connection") text:error.localizedDescription]];
-            serverInfoView.attributedText = infoString;
+            serverInfoView.attributedText = [self formatInfo:LOCALIZED_STR(@"No connection") text:error.localizedDescription];
         }
     }];
 }
