@@ -451,9 +451,7 @@ double round(double d) {
         storeChannelid = itemid;
         NSDate *starttime = [xbmcDateFormatter dateFromString:self.detailItem[@"starttime"]];
         NSDate *endtime = [xbmcDateFormatter dateFromString:self.detailItem[@"endtime"]];
-        float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
-        float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
-        float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
+        float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
         if (percent_elapsed < 0) {
             itemid = @([self.detailItem[@"broadcastid"] longValue]);
             storeBroadcastid = itemid;

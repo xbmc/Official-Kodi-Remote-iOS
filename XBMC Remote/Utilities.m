@@ -1032,4 +1032,11 @@
                      completion:^(BOOL finished) {}];
 }
 
++ (float)getPercentElapsed:(NSDate*)startDate EndDate:(NSDate*)endDate {
+    float total_seconds = [endDate timeIntervalSince1970] - [startDate timeIntervalSince1970];
+    float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [startDate timeIntervalSince1970];
+    float percent_elapsed = total_seconds > 0 ? (elapsed_seconds / total_seconds) * 100.0f : 0.0f;
+    return percent_elapsed;
+}
+
 @end

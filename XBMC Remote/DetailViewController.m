@@ -227,9 +227,7 @@
     }
     ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:103];
     if (![current.text isEqualToString:LOCALIZED_STR(@"Not Available")] && [channelEPG[@"starttime"] isKindOfClass:[NSDate class]] && [channelEPG[@"endtime"] isKindOfClass:[NSDate class]]) {
-        float total_seconds = [channelEPG[@"endtime"] timeIntervalSince1970] - [channelEPG[@"starttime"] timeIntervalSince1970];
-        float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [channelEPG[@"starttime"] timeIntervalSince1970];
-        float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
+        float percent_elapsed = [Utilities getPercentElapsed:channelEPG[@"starttime"] EndDate:channelEPG[@"endtime"]];
         [progressView updateProgressPercentage:percent_elapsed];
         progressView.hidden = NO;
         NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -2609,9 +2607,7 @@
         NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
         NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
         programStartTime.text = [localHourMinuteFormatter stringFromDate:starttime];
-        float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
-        float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
-        float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
+        float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
 
         if (percent_elapsed >= 0 && percent_elapsed < 100) {
             title.textColor = [Utilities getSystemBlue];
@@ -3960,9 +3956,7 @@ NSIndexPath *selected;
         storeChannelid = itemid;
         NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
         NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
-        float total_seconds = [endtime timeIntervalSince1970] - [starttime timeIntervalSince1970];
-        float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [starttime timeIntervalSince1970];
-        float percent_elapsed = (elapsed_seconds/total_seconds) * 100.0f;
+        float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
         if (percent_elapsed < 0) {
             itemid = @([item[@"broadcastid"] longValue]);
             storeBroadcastid = itemid;
