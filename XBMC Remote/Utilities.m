@@ -987,13 +987,32 @@
 
 + (id)unarchivePath:(NSString*)path file:(NSString*)filename {
     NSString *filePath = [path stringByAppendingPathComponent:filename];
-    id unarchived = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    id unarchived;
+    
+    if (@available(iOS 11.0, *)) {
+        NSData *data = [[NSFileManager defaultManager] contentsAtPath:filePath];
+        NSError *error;
+        unarchived = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class]
+                                                         fromData:data
+                                                            error:&error];
+    } else {
+        unarchived = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    }
     return unarchived;
 }
 
 + (void)archivePath:(NSString*)path file:(NSString*)filename data:(id)data {
     NSString *filePath = [path stringByAppendingPathComponent:filename];
-    [NSKeyedArchiver archiveRootObject:data toFile:filePath];
+    
+    if (@available(iOS 11.0, *)) {
+        NSError *error;
+        NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:NO error:&error];
+        if (!error) {
+            [archiveData writeToFile:filePath options:NSDataWritingAtomic error:&error];
+        }
+    } else {
+        [NSKeyedArchiver archiveRootObject:data toFile:filePath];
+    }
 }
 
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
