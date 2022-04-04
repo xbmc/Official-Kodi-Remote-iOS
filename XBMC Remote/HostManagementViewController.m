@@ -402,11 +402,17 @@ static inline BOOL IsEmpty(id obj) {
             
             serverInfoView.attributedText = infoString;
         }
-        else if (error != nil){
-            serverInfoView.attributedText = [self formatInfo:LOCALIZED_STR(@"No connection") text:error.localizedDescription];
-        }
-        else if (![methodResult isKindOfClass:[NSDictionary class]]) {
-            NSString *errorText = [NSString stringWithFormat:@"Unexpected class '%@' received.", NSStringFromClass([methodResult class])];
+        else {
+            NSString *errorText = @"";
+            if (error) {
+                errorText = [NSString stringWithFormat:@"%@\n\n", error.localizedDescription];
+            }
+            if (methodError) {
+                errorText = [NSString stringWithFormat:@"%@%@\n\n", errorText, methodError];
+            }
+            if (methodResult && ![methodResult isKindOfClass:[NSDictionary class]]) {
+                errorText = [NSString stringWithFormat:@"%@Unexpected class '%@' received.", errorText, NSStringFromClass([methodResult class])];
+            }
             serverInfoView.attributedText = [self formatInfo:LOCALIZED_STR(@"ERROR") text:errorText];
         }
     }];
