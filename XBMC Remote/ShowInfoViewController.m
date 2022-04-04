@@ -65,7 +65,7 @@ double round(double d) {
         NSDictionary *resumePointDict = item[@"resume"];
         if (resumePointDict != nil) {
             if (((NSNull*)resumePointDict[@"position"] != [NSNull null])) {
-                if ([resumePointDict[@"position"] floatValue] > 0) {
+                if ([resumePointDict[@"position"] floatValue] > 0 && [resumePointDict[@"total"] floatValue] > 0) {
                     resumePointPercentage = ([resumePointDict[@"position"] floatValue] * 100) / [resumePointDict[@"total"] floatValue];
                     [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
                 }
