@@ -634,6 +634,14 @@
     else if ([item isKindOfClass:[NSArray class]]) {
         year = [item componentsJoinedByString:@" / "];
     }
+    // Begin special treatment
+    // Adding custom button mis-uses the key "year" to transport the type of button which
+    // is added. Allowed are "list", "integer" and "boolean".
+    else if ([item isKindOfClass:[NSString class]] &&
+             ([item isEqualToString:@"boolean"] || [item isEqualToString:@"integer"] || [item isEqualToString:@"list"])) {
+        year = item;
+    }
+    // End special treatment
     else if ([item integerValue] > 0) {
         year = item;
     }
