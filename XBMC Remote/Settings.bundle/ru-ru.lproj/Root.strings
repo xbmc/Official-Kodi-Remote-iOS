@@ -34,3 +34,8 @@
 "Now Playing" = "Сейчас воспроизводится";
 "Global Search" = "общий поиск";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
+"Main Menu Items" = "Пункты главного меню";
+"Cache Settings" = "Настройки кэша";
+"Interface" = "Интерфейс";
+"Use thumbnail when fanart is missing" = "Использовать миниатюру, когда фанарт отсутствует";
+"Send Wake-On-LAN automatically" = "Отправлять Wake-On-LAN автоматически";

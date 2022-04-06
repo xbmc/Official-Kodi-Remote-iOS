@@ -158,8 +158,8 @@
 "Authentication Failed" = "Authentifizierung fehlgeschlagen";
 "Incorrect Username or Password.\nCheck your settings." = "Falscher Benutzername oder Passwort.\nBitte die Einstellungen überprüfen.";
 "WIKI_LANG" = "de";
-"vote" = "Bewertung";
-"votes" = "Bewertungen";
+"vote" = "Stimme";
+"votes" = "Stimmen";
 "Slide your finger up to adjust the scrubbing rate." = "Zum Anpassen mit dem Finger nach oben streichen.";
 "Scrubbing 1" = "Scrubbing-Geschwindigkeit: 100%";
 "Scrubbing 0.5" = "Scrubbing-Geschwindigkeit: 50%";
