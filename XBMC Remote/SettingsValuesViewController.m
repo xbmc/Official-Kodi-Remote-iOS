@@ -125,6 +125,7 @@
         
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
         cellLabelOffset = 8;
+        _tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		_tableView.delegate = self;
 		_tableView.dataSource = self;
         _tableView.backgroundColor = UIColor.clearColor;
