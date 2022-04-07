@@ -125,6 +125,11 @@
         
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
         cellLabelOffset = 8;
+        
+        // Let the list end before the safe area. This avoids list items being shown under the footer.
+        UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, [Utilities getBottomPadding], 0);
+        _tableView.frame = UIEdgeInsetsInsetRect(_tableView.frame, insets);
+        
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		_tableView.delegate = self;
 		_tableView.dataSource = self;
