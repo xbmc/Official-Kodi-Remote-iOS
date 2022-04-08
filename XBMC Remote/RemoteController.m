@@ -402,24 +402,25 @@
 # pragma mark - view Effects
 
 - (void)showSubInfo:(NSString*)message timeout:(NSTimeInterval)timeout color:(UIColor*)color {
-    // first fadeout
-    [Utilities alphaView:subsInfoLabel AnimDuration:0.1 Alpha:0.0];
-    subsInfoLabel.text = message;
-    subsInfoLabel.textColor = color;
-    // then fade in
-    [Utilities alphaView:subsInfoLabel AnimDuration:0.1 Alpha:0.8];
-    //then fade out again after timeout seconds
-    if (fadeoutTimer.valid) {
-        [fadeoutTimer invalidate];
+    // first fade in
+    [UIView animateWithDuration:0.1
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        subsInfoLabel.alpha = 0.8;
+        subsInfoLabel.text = message;
+        subsInfoLabel.textColor = color;
     }
-    fadeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutSubs) userInfo:nil repeats:NO];
-}
-
-
-- (void)fadeoutSubs {
-    [Utilities alphaView:subsInfoLabel AnimDuration:0.2 Alpha:0.0];
-    [fadeoutTimer invalidate];
-    fadeoutTimer = nil;
+                     completion:^(BOOL finished) {
+        // then fade out
+        [UIView animateWithDuration:0.2
+                              delay:timeout
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+            subsInfoLabel.alpha = 0.0;
+        }
+                         completion:^(BOOL finished) {}];
+    }];
 }
 
 # pragma mark - ToolBar
