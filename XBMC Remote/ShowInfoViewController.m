@@ -164,16 +164,14 @@ double round(double d) {
         }
         else {
             self.navigationItem.title = item[@"label"];
-            if (extraButton == nil) {
-                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
-                                                           actionSheetButtonItem,
-                                                           nil];
+            if (actionSheetButtonItem && extraButton) {
+                self.navigationItem.rightBarButtonItems = @[actionSheetButtonItem, extraButton];
             }
-            else {
-                self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
-                                                           actionSheetButtonItem,
-                                                           extraButton,
-                                                           nil];
+            else if (actionSheetButtonItem) {
+                self.navigationItem.rightBarButtonItems = @[actionSheetButtonItem];
+            }
+            else if (extraButton) {
+                self.navigationItem.rightBarButtonItems = @[extraButton];
             }
             UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
             rightSwipe.numberOfTouchesRequired = 1;
