@@ -1,51 +1,13 @@
-Features:
-- New Global Search main menu
-- Search in grid/wall view
-- User selectable default view
-- View options for TV shows (grid, list and iPad fullscreen)
-- Server Info (storage, memory, load, temperature, ...)
-- Option to send Wake-On-LAN automatically
-- Details for movie sets
-- Support for Finnish and Korean language
-
 Bugfixes:
-- Fix missing artists and albums for music roles
-- Fix progress bar after playing picture playlist
-- Fix Dark Mode font color of keyboard search field and server configuration
-- Fix missing navigation bar items in detail view for iOS 11 and earlier
-- Fix possible UI lockup in iPad fullscreen for iOS 13 and earlier
-- Many more bugfixes and stability improvements
+- Fix performance issues when reading cached data
+- Fix creation of custom buttons with on/off switch or indexed list
+- Fix missing Global Search navigation bar title
+- Fix layout for slider-type Kodi setting
+- Fix missing notification of selected or missing subtitle and audio stream
 
 Improvements:
-- UI: Move iPad's connection status to bottom right corner
-- UI: Add option to let fanart fall back to thumbnail
-- Remote: Use overlay on iPad (keeping the library browser visible)
-- Remote: Reach remote on iPad from anywhere (new icon in toolbar)
-- Remote: Save gesture mode and top/bottom position
-- Remote: Change top/bottom position on iPhone at runtime
-- Playlist: Support picture playlist and improve layout
-- Playlist: Show details for music videos and recordings
-- PVR: Show recording plot, channel and icon with Kodi Nexus or newer
-- PVR: Show channel numbers in channel list
-- Ensure consistency of library and image cache by forced update for new App versions
-- Update translations for several languages using Weblate
+- Fix potential crashes when showing server info or resuming playback
 
-Using Global Search:
-"Global Search" lists all movies, movie sets, TV shows, music videos, artists, albums and songs. You can search, sort and continue to browse the database from there. Depending on the size of your database the synchronization can take a while.
-
-Selecting a default view:
-A default view can be selected in the app settings. You can for example make the remote your default screen which is brought up automatically after the Kodi server is connected. If the selected view is not configured to be shown in the main menu, the app will show the main menu.
-
-Send Wake-On-LAN automatically:
-If the option is enabled in the settings, the App will send Wake-On-LAN when attempting to connect a server. This either happens automatically at startup, or when manually selecting a new server. The option is disabled by default.
-
-Selecting "Prefer post for TV":
-To change the setting "Prefer poster for TV shows" go to app settings. This is now an App wide setting.
-
-Cache refresh policy:
-Since version 1.10 the library and image cache will be forced to update with each new App version. This ensures the cache holds the data in the expected format and avoids UI glitches.
-
-Connection Timeout:
-When observing "Connection Timeout" after upgrading your iOS to 14 or higher please either once use "Find Kodi" or tap a server to re-connect. You should at least once see the "Local Network Privacy Alert" popup and allow the access. For App versions before 1.9 only "Find Kodi" will trigger this.
+For details on the recently added features please see the Release Notes for App version 1.10.
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
