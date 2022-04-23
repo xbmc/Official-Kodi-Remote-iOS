@@ -435,6 +435,16 @@
 }
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
+    // iOS 15 requires to set the appearance for the navigationbar, otherwise it defaults to unwanted transparency
+    if (@available(iOS 15, *)) {
+        UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+        [appearance configureWithOpaqueBackground];
+        appearance.titleTextAttributes = @{NSForegroundColorAttributeName : UIColor.whiteColor};
+        appearance.backgroundColor = [Utilities getGrayColor:38 alpha:1.0];
+        [UINavigationBar appearance].standardAppearance = appearance;
+        [UINavigationBar appearance].scrollEdgeAppearance = appearance;
+    }
+    
     // Load user defaults, if not yet set. Avoids need to check for nil.
     [self registerDefaultsFromSettingsBundle];
     

@@ -5692,6 +5692,10 @@ NSIndexPath *selected;
     self.definesPresentationContext = NO;
     iOSYDelta = self.searchController.searchBar.frame.size.height;
 
+    if (@available(iOS 15.0, *)) {
+        dataList.sectionHeaderTopPadding = 0;
+    }
+    
     [button6 addTarget:self action:@selector(handleChangeLibraryView) forControlEvents:UIControlEventTouchUpInside];
 
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
