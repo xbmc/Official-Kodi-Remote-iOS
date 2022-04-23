@@ -24,7 +24,7 @@ end
 
 desc 'Build & upload to Testflight'
 lane :tf do |options|
-  xcversion(version: "~> 12.4")
+  xcversion(version: "~> 13.2")
   scheme = 'Kodi Remote'
   gym(
     scheme: scheme,
