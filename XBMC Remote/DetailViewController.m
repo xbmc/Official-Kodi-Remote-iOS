@@ -3368,9 +3368,9 @@ NSIndexPath *selected;
 }
 
 - (void)actionSheetHandler:(NSString*)actiontitle {
-    NSMutableDictionary *item = nil;
+    NSDictionary *item = nil;
     if (selected != nil) {
-        item = [[self getItemFromIndexPath:selected] mutableCopy];
+        item = [self getItemFromIndexPath:selected];
         if (item == nil) {
             return;
         }
@@ -3435,10 +3435,10 @@ NSIndexPath *selected;
         [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"trailer"], @"file", nil], @"item", nil] index:selected];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Search Wikipedia")]) {
-        [self searchWeb:(NSMutableDictionary*)item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", LOCALIZED_STR(@"WIKI_LANG")]];
+        [self searchWeb:item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", LOCALIZED_STR(@"WIKI_LANG")]];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Search last.fm charts")]) {
-        [self searchWeb:(NSMutableDictionary*)item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
+        [self searchWeb:item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Execute program")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute video add-on")] ||
@@ -3589,7 +3589,7 @@ NSIndexPath *selected;
     }
 }
 
-- (void)searchWeb:(NSMutableDictionary*)item indexPath:(NSIndexPath*)indexPath serviceURL:(NSString*)serviceURL {
+- (void)searchWeb:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath serviceURL:(NSString*)serviceURL {
     mainMenu *menuItem = self.detailItem;
     if (menuItem.mainParameters.count > 0) {
         NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[0]];
@@ -3952,7 +3952,7 @@ NSIndexPath *selected;
     }];
 }
 
-- (void)recordChannel:(NSMutableDictionary*)item indexPath:(NSIndexPath*)indexPath {
+- (void)recordChannel:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
     NSNumber *itemid = @([item[@"channelid"] longValue]);
