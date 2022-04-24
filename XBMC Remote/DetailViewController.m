@@ -664,12 +664,20 @@
 }
 
 - (NSDictionary*)getItemFromIndexPath:(NSIndexPath*)indexPath {
+    NSDictionary *item;
     if ([self doesShowSearchResults]) {
-        return self.filteredListContent[indexPath.row];
+        if (indexPath.row < self.filteredListContent.count) {
+            item = self.filteredListContent[indexPath.row];
+        }
     }
     else {
-        return [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
+        if (indexPath.section < self.sectionArray.count) {
+            if (indexPath.row < [self.sections[self.sectionArray[indexPath.section]] count]) {
+                item = self.sections[self.sectionArray[indexPath.section]][indexPath.row];
+            }
+        }
     }
+    return item;
 }
 
 - (NSString*)getAmountOfSearchResultsString {
@@ -3362,18 +3370,7 @@ NSIndexPath *selected;
 - (void)actionSheetHandler:(NSString*)actiontitle {
     NSMutableDictionary *item = nil;
     if (selected != nil) {
-        if ([self doesShowSearchResults]) {
-            if (selected.row < self.filteredListContent.count) {
-                item = self.filteredListContent[selected.row];
-            }
-        }
-        else {
-            if (selected.section < self.sectionArray.count) {
-                if (selected.row < [self.sections[self.sectionArray[selected.section]] count]) {
-                    item = self.sections[self.sectionArray[selected.section]][selected.row];
-                }
-            }
-        }
+        item = [[self getItemFromIndexPath:selected] mutableCopy];
         if (item == nil) {
             return;
         }
