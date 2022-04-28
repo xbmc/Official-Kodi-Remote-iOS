@@ -24,10 +24,6 @@
     return self;
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [Utilities addShadowsToView:navController.view viewFrame:self.view.frame];

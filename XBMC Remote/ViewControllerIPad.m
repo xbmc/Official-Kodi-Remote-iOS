@@ -341,10 +341,6 @@
 
 #pragma mark - Lifecycle
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     int deltaY = UIApplication.sharedApplication.statusBarFrame.size.height + 2; // + 2 used by horizontanLineView
