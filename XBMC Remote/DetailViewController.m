@@ -3161,9 +3161,9 @@ NSIndexPath *selected;
         if (indexPath != nil) {
             selected = indexPath;
             
-            NSDictionary *item = nil;
+            NSDictionary *item = [self getItemFromIndexPath:indexPath];
+            
             if ([self doesShowSearchResults]) {
-                item = self.filteredListContent[indexPath.row];
                 [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             }
             else {
@@ -3173,7 +3173,6 @@ NSIndexPath *selected;
                 else {
                     [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
                 }
-                item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
             }
             mainMenu *menuItem = [self getMainMenu:item];
             NSMutableArray *sheetActions = [menuItem.sheetActions[choosedTab] mutableCopy];
