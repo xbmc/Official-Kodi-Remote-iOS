@@ -546,7 +546,7 @@ long currentItemID;
 - (void)getActivePlayers {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
-            if ([methodResult count] > 0) {
+            if ([methodResult isKindOfClass:[NSArray class]] && [methodResult count] > 0) {
                 nothingIsPlaying = NO;
                 NSNumber *response;
                 if (methodResult[0][@"playerid"] != [NSNull null]) {
@@ -2117,6 +2117,9 @@ long currentItemID;
 
 - (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
     
+    if (sourceIndexPath.row >= playlistData.count) {
+        return;
+    }
     NSDictionary *objSource = playlistData[sourceIndexPath.row];
     NSDictionary *itemToMove;
     
