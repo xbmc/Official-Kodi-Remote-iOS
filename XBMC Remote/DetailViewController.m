@@ -664,12 +664,20 @@
 }
 
 - (NSDictionary*)getItemFromIndexPath:(NSIndexPath*)indexPath {
+    NSDictionary *item;
     if ([self doesShowSearchResults]) {
-        return self.filteredListContent[indexPath.row];
+        if (indexPath.row < self.filteredListContent.count) {
+            item = self.filteredListContent[indexPath.row];
+        }
     }
     else {
-        return [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
+        if (indexPath.section < self.sectionArray.count) {
+            if (indexPath.row < [self.sections[self.sectionArray[indexPath.section]] count]) {
+                item = self.sections[self.sectionArray[indexPath.section]][indexPath.row];
+            }
+        }
     }
+    return item;
 }
 
 - (NSString*)getAmountOfSearchResultsString {
@@ -1373,7 +1381,6 @@
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                     [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-
                 });
             }
             else if ([self isModal]) {
@@ -1426,7 +1433,6 @@
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                             DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-                            
                         });
                     }
                     else {
@@ -1445,8 +1451,9 @@
                 }
                 return;
             }
-            else
+            else {
                 return;
+            }
         }
         else { // WE ENTERING FILEMODE
             NSString *fileModeKey = @"directory";
@@ -3154,9 +3161,9 @@ NSIndexPath *selected;
         if (indexPath != nil) {
             selected = indexPath;
             
-            NSDictionary *item = nil;
+            NSDictionary *item = [self getItemFromIndexPath:indexPath];
+            
             if ([self doesShowSearchResults]) {
-                item = self.filteredListContent[indexPath.row];
                 [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             }
             else {
@@ -3166,7 +3173,6 @@ NSIndexPath *selected;
                 else {
                     [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
                 }
-                item = [self.sections objectForKey:self.sectionArray[indexPath.section]][indexPath.row];
             }
             mainMenu *menuItem = [self getMainMenu:item];
             NSMutableArray *sheetActions = [menuItem.sheetActions[choosedTab] mutableCopy];
@@ -3360,20 +3366,9 @@ NSIndexPath *selected;
 }
 
 - (void)actionSheetHandler:(NSString*)actiontitle {
-    NSMutableDictionary *item = nil;
+    NSDictionary *item = nil;
     if (selected != nil) {
-        if ([self doesShowSearchResults]) {
-            if (selected.row < self.filteredListContent.count) {
-                item = self.filteredListContent[selected.row];
-            }
-        }
-        else {
-            if (selected.section < self.sectionArray.count) {
-                if (selected.row < [self.sections[self.sectionArray[selected.section]] count]) {
-                    item = self.sections[self.sectionArray[selected.section]][selected.row];
-                }
-            }
-        }
+        item = [self getItemFromIndexPath:selected];
         if (item == nil) {
             return;
         }
@@ -3438,10 +3433,10 @@ NSIndexPath *selected;
         [self playerOpen:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"trailer"], @"file", nil], @"item", nil] index:selected];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Search Wikipedia")]) {
-        [self searchWeb:(NSMutableDictionary*)item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", LOCALIZED_STR(@"WIKI_LANG")]];
+        [self searchWeb:item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", LOCALIZED_STR(@"WIKI_LANG")]];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Search last.fm charts")]) {
-        [self searchWeb:(NSMutableDictionary*)item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
+        [self searchWeb:item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Execute program")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute video add-on")] ||
@@ -3592,7 +3587,7 @@ NSIndexPath *selected;
     }
 }
 
-- (void)searchWeb:(NSMutableDictionary*)item indexPath:(NSIndexPath*)indexPath serviceURL:(NSString*)serviceURL {
+- (void)searchWeb:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath serviceURL:(NSString*)serviceURL {
     mainMenu *menuItem = self.detailItem;
     if (menuItem.mainParameters.count > 0) {
         NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[0]];
@@ -3955,7 +3950,7 @@ NSIndexPath *selected;
     }];
 }
 
-- (void)recordChannel:(NSMutableDictionary*)item indexPath:(NSIndexPath*)indexPath {
+- (void)recordChannel:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
     NSNumber *itemid = @([item[@"channelid"] longValue]);
