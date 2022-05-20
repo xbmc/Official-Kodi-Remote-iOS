@@ -124,10 +124,9 @@
         title.text = @"";
         if (remoteControllerView == nil) {
             remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:YES bundle:nil];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [cell.contentView addSubview:remoteControllerView.view];
             remoteControllerView.panFallbackImageView.frame = cell.frame;
         }
+        [cell.contentView addSubview:remoteControllerView.view];
     }
     else {
         cell = rightMenuCell;
