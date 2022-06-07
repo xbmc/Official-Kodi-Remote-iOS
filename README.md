@@ -25,6 +25,10 @@ Features
 
 Join Testflight beta testing: https://testflight.apple.com/join/VQkpfqDN
 
+## Building
+
+As the app is regularly submitted to AppStore, the only guaranteed working setup is to use modern toolchain (recent Xcode and iOS SDK). Building with older Xcode version / against older iOS SDK might or might not work. You can find AppStore toolchain requirements on the [Apple Developer Portal](https://developer.apple.com/news/upcoming-requirements/).
+
 ## For maintainers (team Kodi)
 
 Use [fastlane](https://fastlane.tools/) to manage everything related to AppStoreConnect.
