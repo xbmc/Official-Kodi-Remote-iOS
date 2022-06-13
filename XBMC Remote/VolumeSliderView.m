@@ -22,10 +22,9 @@
 @synthesize timer, holdVolumeTimer;
 
 - (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor isSliderType:(BOOL)isSliderType {
-    self = [super initWithFrame:frame];
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:nil options:nil];
+    self = nib[0];
     if (self) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:self options:nil];
-		self = nib[0];
         UIImage *img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
         img = [Utilities colorizeImage:img withColor:SLIDER_DEFAULT_COLOR];
         volumeSlider.minimumTrackTintColor = SLIDER_DEFAULT_COLOR;
