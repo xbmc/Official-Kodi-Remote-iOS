@@ -1829,7 +1829,7 @@ double round(double d) {
     
     localStartDateFormatter = [NSDateFormatter new];
     localStartDateFormatter.timeZone = [NSTimeZone systemTimeZone];
-    localStartDateFormatter.dateFormat = @"ccc dd MMM, HH:mm";
+    localStartDateFormatter.dateFormat = @"ccc, dd MMM YYYY, HH:mm";
     
     localEndDateFormatter = [NSDateFormatter new];
     localEndDateFormatter.timeZone = [NSTimeZone systemTimeZone];
