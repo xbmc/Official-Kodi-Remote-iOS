@@ -39,6 +39,7 @@
     HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
     hostController.detailItem = nil;
     [self.navigationController pushViewController:hostController animated:YES];
+    [serverListTableView setEditing:NO animated:YES];
 }
 
 - (void)modifyHost:(NSIndexPath*)item {
@@ -103,6 +104,7 @@
         cellLabel.text = LOCALIZED_STR(@"No saved hosts found");
         cellIP.text = @"";
         cell.accessoryType = UITableViewCellAccessoryNone;
+        editTableButton.enabled = NO;
         return cell;
     }
     else {
@@ -122,6 +124,7 @@
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
+        editTableButton.enabled = YES;
     }
     return cell;
 }
@@ -216,8 +219,8 @@ static inline BOOL IsEmpty(id obj) {
         [AppDelegate.instance saveServerList];
         if (storeServerSelection) {
             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-            if (indexPath.row<storeServerSelection.row) {
-                storeServerSelection = [NSIndexPath indexPathForRow:storeServerSelection.row-1 inSection:storeServerSelection.section];
+            if (indexPath.row < storeServerSelection.row) {
+                storeServerSelection = [NSIndexPath indexPathForRow:storeServerSelection.row - 1 inSection:storeServerSelection.section];
                 if (standardUserDefaults) {
                     [standardUserDefaults setObject: @(storeServerSelection.row) forKey:@"lastServer"];
                 }
@@ -240,6 +243,8 @@ static inline BOOL IsEmpty(id obj) {
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
             [tableView endUpdates];
         }
+        // Are there still editable entries?
+        editTableButton.selected = editTableButton.enabled = AppDelegate.instance.arrayServerList.count > 0;
 	}
 }
 
@@ -547,6 +552,7 @@ static inline BOOL IsEmpty(id obj) {
     self.navigationController.navigationBar.barTintColor = BAR_TINT_COLOR;
     
     editTableButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateDisabled];
     [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
     [editTableButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
     editTableButton.titleLabel.shadowOffset = CGSizeZero;
