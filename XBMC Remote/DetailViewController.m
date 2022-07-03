@@ -1643,6 +1643,7 @@
         }];
         [collectionView setShowsPullToRefresh:enableDiskCache];
         collectionView.alwaysBounceVertical = YES;
+        collectionView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
         [detailView insertSubview:collectionView belowSubview:buttonsView];
     }
     activeLayoutView = collectionView;
@@ -5677,6 +5678,7 @@ NSIndexPath *selected;
     localHourMinuteFormatter.dateFormat = @"HH:mm";
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];
     dataList.tableFooterView = [UIView new];
+    dataList.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
     [self initSearchController];
     self.navigationController.view.backgroundColor = UIColor.blackColor;
