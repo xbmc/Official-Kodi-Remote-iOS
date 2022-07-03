@@ -37,5 +37,5 @@
 "Main Menu Items" = "Päävalikon kohteet";
 "Cache Settings" = "Välimuistin asetukset";
 "Interface" = "Käyttöliittymä";
-"Use thumbnail when fanart is missing" = "Korvaa puuttuvat fanart-kuvat thumbnail-kuvilla";
+"Use thumbnail when fanart is missing" = "Näytä pienoiskuvat puuttuvien fanart-kuvien tilalla";
 "Send Wake-On-LAN automatically" = "Lähetä Wake-On-LAN-komento automaattisesti";
