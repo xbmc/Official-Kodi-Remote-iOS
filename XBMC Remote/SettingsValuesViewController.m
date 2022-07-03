@@ -125,6 +125,12 @@
         
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
         cellLabelOffset = 8;
+        
+        // Let the list end before the safe area. This avoids list items being shown under the footer.
+        UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, [Utilities getBottomPadding], 0);
+        _tableView.frame = UIEdgeInsetsInsetRect(_tableView.frame, insets);
+        
+        _tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		_tableView.delegate = self;
 		_tableView.dataSource = self;
         _tableView.backgroundColor = UIColor.clearColor;
@@ -749,8 +755,7 @@
 - (void)scrollTableRow:(NSArray*)list {
     NSIndexPath *optionIndex = [self getCurrentSelectedOption:list];
     if (optionIndex != nil) {
-        [_tableView scrollToRowAtIndexPath:optionIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-        
+        [_tableView scrollToRowAtIndexPath:optionIndex atScrollPosition:UITableViewScrollPositionMiddle animated:!fromItself];
     }
 }
 
@@ -824,21 +829,17 @@
     }];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    fromItself = YES;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if ([self presentingViewController] != nil) {
         UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
-    _tableView.separatorInset = UIEdgeInsetsMake(0, cellLabelOffset, 0, 0);
-    UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-    tableViewInsets.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-    if (@available(iOS 11.0, *)) {
-        tableViewInsets.top = 0;
-    }
-    _tableView.contentInset = tableViewInsets;
-    _tableView.scrollIndicatorInsets = tableViewInsets;
-    [_tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
     if (xbmcSetting == cMultiselect) {
         [_tableView reloadData];
     }
@@ -853,6 +854,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    fromItself = NO;
     footerHeight = -1;
     selectedSetting = nil;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
