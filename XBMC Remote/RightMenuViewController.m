@@ -837,31 +837,9 @@
         }
     }
 
-    [UIView animateWithDuration:0.2
-                     animations:^{
-                         NSInteger n = [menuTableView numberOfRowsInSection:0];
-                         for (int i = 1; i < n; i++) {
-                             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-                             if (cell != nil) {
-                                 cell.alpha = 0;
-                             }
-                         }
-                     }
-                     completion:^(BOOL finished) {
-                         if (reload) {
-                             [menuTableView reloadData];
-                         }
-                         [UIView animateWithDuration:0.2
-                                          animations:^{
-                                              NSInteger n = [menuTableView numberOfRowsInSection:0];
-                                              for (int i = 1; i < n; i++) {
-                                                  UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-                                                  if (cell != nil) {
-                                                      cell.alpha = 1;
-                                                  }
-                                              }
-                                          }];
-                     }];
+    if (reload) {
+        [menuTableView reloadData];
+    }
 }
 
 - (NSIndexPath*)getIndexPathForKey:(NSString*)key withValue:(NSString*)value inArray:(NSMutableArray*)array {
