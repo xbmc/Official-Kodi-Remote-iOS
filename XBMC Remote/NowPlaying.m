@@ -2318,6 +2318,14 @@ long currentItemID;
     xbmcOverlayImage.hidden = YES;
     [playlistToolbar setShadowImage:[UIImage imageNamed:@"blank"] forToolbarPosition:UIBarPositionAny];
     
+    // Add flex spaces for iPhone's toolbar
+    NSMutableArray *iPhoneItems = [playlistToolbar.items mutableCopy];
+    for (NSInteger i = iPhoneItems.count; i >= 0; --i) {
+        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [iPhoneItems insertObject:spacer atIndex:i];
+    }
+    playlistToolbar.items = iPhoneItems;
+    
     CGRect frame = playlistActionView.frame;
     frame.origin.y = CGRectGetMaxY(playlistToolbar.frame);
     playlistActionView.frame = frame;
@@ -2329,24 +2337,26 @@ long currentItemID;
     frame.origin.x = slideFrom;
     playlistTableView.frame = frame;
     
-    /* TODO: Find an elegant solution for the following code.
-       Toolbar items defined in xib are:
-       0, 2, 4, 6, 8, 10, 12, 14 = flexible spaces
-       1, 3, 5, 7, 9, 11         = playback control buttons (skip, search, play, pause)
-       13                        = button to switch between NowPlaying and playlist
-       For the iPad toolbar we need to remove the not supported switch-button at
-       index 13 and all flexible spaces execpt the one right of the last playback control
-       button, which is the flexible space at index 12. */
-    NSMutableArray *items = [NSMutableArray arrayWithArray:playlistToolbar.items];
-    [items removeObjectAtIndex:14];
-    [items removeObjectAtIndex:13];
-    [items removeObjectAtIndex:10];
-    [items removeObjectAtIndex:8];
-    [items removeObjectAtIndex:6];
-    [items removeObjectAtIndex:4];
-    [items removeObjectAtIndex:2];
-    [items removeObjectAtIndex:0];
-    [playlistToolbar setItems:items animated:NO];
+    // Step 1: Remove iPhone's toggle button
+    NSMutableArray *iPadItems = [playlistToolbar.items mutableCopy];
+    [iPadItems removeObjectAtIndex:iPadItems.count - 1];
+    
+    // Step 2: Handle spacing
+    if (@available(iOS 11.0, *)) {
+        // iOS11+ handles the right hand flex space correctly
+        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [iPadItems addObject:spacer];
+    }
+    else {
+        // WORKAROUND for iOS10 and earlier: Use a fixed width with magic number
+        for (NSInteger i = iPadItems.count - 1; i >= 0; --i) {
+            UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:NULL];
+            spacer.width = -7;
+            [iPadItems insertObject:spacer atIndex:i];
+        }
+    }
+    
+    playlistToolbar.items = iPadItems;
     playlistToolbar.alpha = 1.0;
     
     nowPlayingView.hidden = NO;
