@@ -412,6 +412,16 @@
 
 #pragma mark - Utility
 
+- (UIViewController*)topMostController {
+    UIViewController *topController = UIApplication.sharedApplication.keyWindow.rootViewController;
+
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+
+    return topController;
+}
+
 - (void)setFilternameLabel:(NSString*)labelText runFullscreenButtonCheck:(BOOL)check forceHide:(BOOL)forceHide {
     self.navigationItem.title = labelText;
     if (IS_IPHONE) {
@@ -3124,13 +3134,7 @@ NSIndexPath *selected;
         UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
         BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
-        UIViewController *showFromCtrl = nil;
-        if (IS_IPHONE) {
-            showFromCtrl = self;
-        }
-        else {
-            showFromCtrl = self.view.window.rootViewController;
-        }
+        UIViewController *showFromCtrl = [self topMostController];
         [self showActionSheetOptions:title options:sheetActions recording:isRecording point:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
@@ -3209,25 +3213,12 @@ NSIndexPath *selected;
                 }
                 UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
-                UIViewController *showFromCtrl = nil;
+                UIViewController *showFromCtrl = [self topMostController];
                 UIView *showfromview = nil;
                 if (IS_IPHONE) {
-                    showFromCtrl = self;
                     showfromview = self.view;
                 }
                 else {
-                    if ([self doesShowSearchResults] || [self getSearchTextField].editing) {
-                        // We are searching an must present from searchController
-                        showFromCtrl = self.searchController;
-                    }
-                    else if ([self isModal]) {
-                        // We are in modal view (e.g. fullscreen) and must present from ourself
-                        showFromCtrl = self;
-                    }
-                    else {
-                        // We are in stackview and must present from rootVC
-                        showFromCtrl = self.view.window.rootViewController;
-                    }
                     showfromview = enableCollectionView ? collectionView : [showFromCtrl.view superview];
                     selectedPoint = enableCollectionView ? p : [lpgr locationInView:showfromview];
                 }
