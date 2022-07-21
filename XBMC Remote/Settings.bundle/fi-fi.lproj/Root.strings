@@ -7,15 +7,15 @@
 "Ken Burns effect" = "Ken Burns -tehoste";
 "Shake to clear playlist" = "Tyhjennä toistolista ravistamalla";
 "Show jewel cases" = "Näytä jewel-tyyppiset kotelot";
-"Hide labels in wall view" = "Piilota tunnisteet seinänäkymässä";
+"Hide labels in wall view" = "Piilota nimet seinänäkymässä";
 "Prefer posters for TV shows" = "Suosi sarjoille julisteita";
 "Use rounded corner images" = "Käytä pyöristettyjä kuvien reunoja";
-"TV logo background" = "Televisiossa logo taustana";
+"TV logo background" = "Television kanavalogojen tausta";
 "Dark" = "Tumma";
-"Light" = "Heikkoa";
+"Light" = "Vaalea";
 "Transparent" = "Läpinäkyvä";
-"Remote Control" = "Kauko-ohjaus";
-"Vibrate remote control" = "Kauko-ohjaimen värinä";
+"Remote Control" = "Kaukosäädin";
+"Vibrate remote control" = "Kaukosäätimen värinä";
 "Clear cache on next start" = "Tyhjennä välimuisti seuraavalla käynnistyskerralla";
 "Enable contents cache" = "Käytä sisältövälimuistia";
 "Override Lockscreen" = "Korvaa lukitusnäyttö";
@@ -38,4 +38,4 @@
 "Cache Settings" = "Välimuistin asetukset";
 "Interface" = "Käyttöliittymä";
 "Use thumbnail when fanart is missing" = "Näytä pienoiskuvat puuttuvien fanart-kuvien tilalla";
-"Send Wake-On-LAN automatically" = "Lähetä Wake-On-LAN-komento automaattisesti";
+"Send Wake-On-LAN automatically" = "Lähetä Wake-on-LAN-komento automaattisesti";
