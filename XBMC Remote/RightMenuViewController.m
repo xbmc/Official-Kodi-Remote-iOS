@@ -486,12 +486,12 @@
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Gesture Zone")]) {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@(YES) forKey:@"forceGestureZone"];
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@YES forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad")]) {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@(NO) forKey:@"forceGestureZone"];
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@NO forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
@@ -732,7 +732,7 @@
                                    @"icon": icon,
                                    @"action": action,
                                    @"revealViewTop": showTop,
-                                   @"isSetting": @(NO),
+                                   @"isSetting": @NO,
                                    @"type": @"embedded"};
          
         // Do not show the remoteToolBar items in the menu while in "online" state

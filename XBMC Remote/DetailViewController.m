@@ -157,7 +157,7 @@
     channelEPG[@"current"] = LOCALIZED_STR(@"Not Available");
     channelEPG[@"next"] = LOCALIZED_STR(@"Not Available");
     channelEPG[@"current_details"] = @"";
-    channelEPG[@"refresh_data"] = @(YES);
+    channelEPG[@"refresh_data"] = @YES;
     channelEPG[@"starttime"] = @"";
     channelEPG[@"endtime"] = @"";
     if (epgData != nil) {
@@ -206,7 +206,7 @@
                                        [localHourMinuteFormatter stringFromDate:nextFilteredArray[0][@"starttime"]],
                                        nextFilteredArray[0][@"title"]
                                        ];
-                channelEPG[@"refresh_data"] = @(NO);
+                channelEPG[@"refresh_data"] = @NO;
             }
         }
     }
@@ -3785,7 +3785,7 @@ NSIndexPath *selected;
                              [collectionView reloadData];
                              [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                              NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     @(NO), @"hideToolbar",
+                                                     @NO, @"hideToolbar",
                                                      @(animDuration), @"duration",
                                                      nil];
                              [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
@@ -4141,7 +4141,7 @@ NSIndexPath *selected;
                 if (shuffled && AppDelegate.instance.serverVersion > 11) {
                     [[Utilities getJsonRPC]
                      callMethod:@"Player.SetPartymode"
-                     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@(0), @"playerid", @(NO), @"partymode", nil]
+                     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@(0), @"playerid", @NO, @"partymode", nil]
                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
                          [self playlistAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
                                                 mainFields[@"playlistid"], @"playlistid",

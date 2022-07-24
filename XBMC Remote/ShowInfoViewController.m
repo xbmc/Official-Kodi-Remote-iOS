@@ -314,7 +314,7 @@ double round(double d) {
                                         nil], @"parameters",
                                        blackTableSeparator, @"blackTableSeparator",
                                        parameters[@"label"], @"label",
-                                       @(YES), @"fromShowInfo",
+                                       @YES, @"fromShowInfo",
                                        [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                        parameters[@"extra_info_parameters"], @"extra_info_parameters",
@@ -1362,8 +1362,8 @@ double round(double d) {
         if (IS_IPAD) {
             if (![self isModal]) {
                 NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        @(YES), @"hideToolbar",
-                                        @(YES), @"clipsToBounds",
+                                        @YES, @"hideToolbar",
+                                        @YES, @"clipsToBounds",
                                         nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
             }

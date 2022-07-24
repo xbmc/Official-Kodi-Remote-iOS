@@ -724,7 +724,7 @@ static inline BOOL IsEmpty(id obj) {
     NSString *methodToCall = @"Settings.SetSettingValue";
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"services.esallinterfaces", @"setting",
-                                @(YES), @"value",
+                                @YES, @"value",
                                 nil];
     [[Utilities getJsonRPC] callMethod: methodToCall
          withParameters: parameters
