@@ -69,8 +69,6 @@
     IBOutlet UIImageView *xbmcOverlayImage;
     IBOutlet UIImageView *xbmcOverlayImage_iphone;
     IBOutlet UIButton *playlistButton;
-    BOOL playlistHidden;
-    BOOL nowPlayingHidden;
     int animationOptionTransition;
     BOOL startFlipDemo;
     IBOutlet OBSlider *ProgressSlider;

@@ -1070,6 +1070,26 @@
                      completion:^(BOOL finished) {}];
 }
 
++ (void)imageView:(UIImageView*)view AnimDuration:(NSTimeInterval)seconds Image:(UIImage*)image {
+    [UIView transitionWithView:view
+                      duration:seconds
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+        view.image = image;
+                    }
+                    completion:^(BOOL finished) {}];
+}
+
++ (void)colorLabel:(UILabel*)view AnimDuration:(NSTimeInterval)seconds Color:(UIColor*)color {
+    [UIView transitionWithView:view
+                      duration:seconds
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+        view.textColor = color;
+                    }
+                    completion:^(BOOL finished) {}];
+}
+
 + (float)getPercentElapsed:(NSDate*)startDate EndDate:(NSDate*)endDate {
     float total_seconds = [endDate timeIntervalSince1970] - [startDate timeIntervalSince1970];
     float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [startDate timeIntervalSince1970];

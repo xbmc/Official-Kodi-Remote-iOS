@@ -55,6 +55,9 @@
 #define TAG_SEEK_FORWARD 7
 #define TAG_ID_EDIT 88
 #define SELECTED_NONE -1
+#define FLIP_DEMO_DELAY 0.5
+#define FADE_OUT_TIME 0.2
+#define FADE_IN_TIME 0.5
 
 typedef enum {
     PLAYERID_UNKNOWN = -1,
@@ -321,7 +324,7 @@ long currentItemID;
         [playlistButton setImage:image forState:UIControlStateNormal];
         [playlistButton setImage:image forState:UIControlStateHighlighted];
         [playlistButton setImage:image forState:UIControlStateSelected];
-        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+        [NSTimer scheduledTimerWithTimeInterval:FLIP_DEMO_DELAY target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
         startFlipDemo = NO;
     }
     if (nothingIsPlaying) {
@@ -372,12 +375,12 @@ long currentItemID;
 }
 
 - (void)setButtonImageAndStartDemo:(UIImage*)buttonImage {
-    if (nowPlayingHidden || startFlipDemo) {
+    if (nowPlayingView.hidden || startFlipDemo) {
         [playlistButton setImage:buttonImage forState:UIControlStateNormal];
         [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
         [playlistButton setImage:buttonImage forState:UIControlStateSelected];
         if (startFlipDemo) {
-            [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:FLIP_DEMO_DELAY target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
             startFlipDemo = NO;
         }
     }
@@ -395,41 +398,11 @@ long currentItemID;
                                 [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
                             }
-                            [UIView transitionWithView:albumName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                albumName.textColor = UIColor.whiteColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:songName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                songName.textColor = [Utilities getGrayColor:230 alpha:1];
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:artistName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                artistName.textColor = UIColor.lightGrayColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:currentTime
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                currentTime.textColor = UIColor.lightGrayColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:duration
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                duration.textColor = UIColor.lightGrayColor;
-                                            }
-                                            completion:NULL];
+                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:UIColor.whiteColor];
+                            [Utilities colorLabel:songName AnimDuration:1.0 Color:[Utilities getGrayColor:230 alpha:1]];
+                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:UIColor.lightGrayColor];
+                            [Utilities colorLabel:currentTime AnimDuration:1.0 Color:UIColor.lightGrayColor];
+                            [Utilities colorLabel:duration AnimDuration:1.0 Color:UIColor.lightGrayColor];
                         }
                         else {
                             UIColor *lighterColor = [Utilities lighterColorForColor:color];
@@ -442,41 +415,11 @@ long currentItemID;
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
                             }
-                            [UIView transitionWithView:albumName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                albumName.textColor = pgThumbColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:songName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                songName.textColor = pgThumbColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:artistName
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                artistName.textColor = progressColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:currentTime
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                currentTime.textColor = progressColor;
-                                            }
-                                            completion:NULL];
-                            [UIView transitionWithView:duration
-                                              duration:1.0
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
-                                            animations:^{
-                                                duration.textColor = progressColor;
-                                            }
-                                            completion:NULL];
+                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:pgThumbColor];
+                            [Utilities colorLabel:songName AnimDuration:1.0 Color:pgThumbColor];
+                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:progressColor];
+                            [Utilities colorLabel:currentTime AnimDuration:1.0 Color:progressColor];
+                            [Utilities colorLabel:duration AnimDuration:1.0 Color:progressColor];
                         }
                     }
                     completion:NULL];
@@ -489,13 +432,7 @@ long currentItemID;
                          iOS7navBarEffect.backgroundColor = color;
                          if ([color isEqual:UIColor.clearColor]) {
                              self.navigationController.navigationBar.tintColor = TINT_COLOR;
-                             [UIView transitionWithView:backgroundImageView
-                                               duration:1.0
-                                                options:UIViewAnimationOptionTransitionCrossDissolve
-                                             animations:^{
-                                                 backgroundImageView.image = [UIImage imageNamed:@"shiny_black_back"];
-                                             }
-                                             completion:NULL];
+                             [Utilities imageView:backgroundImageView AnimDuration:1.0 Image:[UIImage imageNamed:@"shiny_black_back"]];
                              if (IS_IPAD) {
                                  NSDictionary *params = @{@"startColor": [Utilities getGrayColor:36 alpha:1],
                                                           @"endColor": [Utilities getGrayColor:22 alpha:1]};
@@ -506,13 +443,7 @@ long currentItemID;
                          else {
                              UIColor *lighterColor = [Utilities lighterColorForColor:color];
                              self.navigationController.navigationBar.tintColor = lighterColor;
-                             [UIView transitionWithView:backgroundImageView
-                                               duration:1.0
-                                                options:UIViewAnimationOptionTransitionCrossDissolve
-                                             animations:^{
-                                                 backgroundImageView.image = [Utilities colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor];
-                                             }
-                                             completion:NULL];
+                             [Utilities imageView:backgroundImageView AnimDuration:1.0 Image:[Utilities colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor]];
                              if (IS_IPAD) {
                                  CGFloat hue, saturation, brightness, alpha;
                                  BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
@@ -538,13 +469,7 @@ long currentItemID;
 }
 
 - (void)changeImage:(UIImageView*)imageView image:(UIImage*)newImage {
-    [UIView transitionWithView:jewelView
-                      duration:0.2
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-                        imageView.image = newImage;
-                    }
-                    completion:NULL];
+    [Utilities imageView:jewelView AnimDuration:0.2 Image:newImage];
 }
 
 - (void)getActivePlayers {
@@ -1419,39 +1344,38 @@ long currentItemID;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
         startFlipDemo = NO;
     }
+    UIImage *buttonImage;
+    if (!nowPlayingView.hidden && !demo) {
+        if ([self enableJewelCases] && thumbnailView.image.size.width) {
+            buttonImage = [self resizeToolbarThumb:[self imageWithBorderFromImage:thumbnailView.image]];
+        }
+        else if (jewelView.image.size.width) {
+            buttonImage = [self resizeToolbarThumb:jewelView.image];
+        }
+        if (!buttonImage.size.width) {
+            buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"st_kodi_window"]];
+        }
+    }
+    else {
+        buttonImage = [UIImage imageNamed:@"now_playing_playlist"];
+    }
     [UIView transitionWithView:button
-                      duration:0.2
+                      duration:FADE_OUT_TIME
                        options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
                     animations:^{
-                         button.hidden = YES;
-                         if (nowPlayingHidden) {
-                             UIImage *buttonImage;
-                             if ([self enableJewelCases] && thumbnailView.image.size.width) {
-                                 buttonImage = [self resizeToolbarThumb:[self imageWithBorderFromImage:thumbnailView.image]];
-                             }
-                             else if (jewelView.image.size.width) {
-                                 buttonImage = [self resizeToolbarThumb:jewelView.image];
-                             }
-                             if (!buttonImage.size.width) {
-                                 buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"st_kodi_window"]];
-                             }
-                             [button setImage:buttonImage forState:UIControlStateNormal];
-                             [button setImage:buttonImage forState:UIControlStateHighlighted];
-                             [button setImage:buttonImage forState:UIControlStateSelected];
-                         }
-                         else {
-                             UIImage *image = [UIImage imageNamed:@"now_playing_playlist"];
-                             [button setImage:image forState:UIControlStateNormal];
-                             [button setImage:image forState:UIControlStateHighlighted];
-                             [button setImage:image forState:UIControlStateSelected];
-                         }
+                         // fade out current button image
+                         button.alpha = 0.0;
                      } 
                      completion:^(BOOL finished) {
                         [UIView transitionWithView:button
-                                          duration:0.5
+                                          duration:FADE_IN_TIME
                                            options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                                         animations:^{
-                                            button.hidden = NO;
+                                            // fade in new button image
+                                            button.alpha = 1.0;
+                                            [button setImage:buttonImage forState:UIControlStateNormal];
+                                            [button setImage:buttonImage forState:UIControlStateHighlighted];
+                                            [button setImage:buttonImage forState:UIControlStateSelected];
                                         }
                                         completion:^(BOOL finished) {}
                         ];
@@ -1468,8 +1392,6 @@ long currentItemID;
         iOS7effectDuration = 0.0;
         transitionView = nowPlayingView;
         transitionedView = playlistView;
-        playlistHidden = NO;
-        nowPlayingHidden = YES;
         self.navigationItem.title = LOCALIZED_STR(@"Playlist");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromRight;
@@ -1481,8 +1403,6 @@ long currentItemID;
     else {
         transitionView = playlistView;
         transitionedView = nowPlayingView;
-        playlistHidden = YES;
-        nowPlayingHidden = NO;
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
@@ -1499,22 +1419,21 @@ long currentItemID;
     [self IOS7colorProgressSlider:effectColor];
     
     [UIView transitionWithView:transitionView
-                      duration:0.2
+                      duration:FADE_OUT_TIME
                        options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
                     animations:^{
                           transitionView.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {
                         [UIView transitionWithView:transitionedView
-                                          duration:0.5
+                                          duration:FADE_IN_TIME
                                            options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                                         animations:^{
-                                              playlistView.hidden = playlistHidden;
-                                              nowPlayingView.hidden = nowPlayingHidden;
+                                              transitionView.hidden = YES;
+                                              transitionedView.hidden = NO;
+                                              transitionedView.alpha = 1.0;
                                               self.navigationItem.titleView.hidden = NO;
                                               playlistActionView.frame = playlistToolBarOriginY;
-                                              playlistActionView.alpha = (int)nowPlayingHidden;
-                                              transitionedView.alpha = 1.0;
                                           }
                                           completion:^(BOOL finished) {
                                               if (iOS7effectDuration) {
@@ -2329,6 +2248,7 @@ long currentItemID;
     CGRect frame = playlistActionView.frame;
     frame.origin.y = CGRectGetMaxY(playlistToolbar.frame);
     playlistActionView.frame = frame;
+    playlistActionView.alpha = 1.0;
 }
 
 - (void)setIpadInterface {
@@ -2678,8 +2598,8 @@ long currentItemID;
     else {
         [self setIpadInterface];
     }
-    nowPlayingView.hidden = nowPlayingHidden = NO;
-    playlistView.hidden = playlistHidden = IS_IPHONE;
+    nowPlayingView.hidden = NO;
+    playlistView.hidden = IS_IPHONE;
     self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
     if (IS_IPHONE) {
         startFlipDemo = YES;
