@@ -158,6 +158,16 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
+			<string>Colorize UI automatically</string>
+			<key>Key</key>
+			<string>autocolor_ui_preference</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
 			<string>Use thumbnail when fanart is missing</string>
 			<key>Key</key>
 			<string>fanart_fallback_preference</string>

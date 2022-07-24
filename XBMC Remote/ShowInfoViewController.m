@@ -1254,7 +1254,7 @@ double round(double d) {
     }
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image != nil) {
-            foundTintColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
+            foundTintColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
             [self setIOS7barTintColor:foundTintColor];
             if (enableJewel) {
                 coverView.image = image;
@@ -1274,7 +1274,7 @@ double round(double d) {
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                     if (image != nil) {
-                                        newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
+                                        newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
                                         [sf setIOS7barTintColor:newColor];
                                         foundTintColor = newColor;
                                     }
@@ -1288,7 +1288,7 @@ double round(double d) {
                           placeholderImage:[UIImage imageNamed:placeHolderImage]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                     if (image != nil) {
-                                        newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO]];
+                                        newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
                                         [sf setIOS7barTintColor:newColor];
                                         foundTintColor = newColor;
                                     }
