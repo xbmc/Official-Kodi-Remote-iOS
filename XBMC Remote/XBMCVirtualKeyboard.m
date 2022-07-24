@@ -188,14 +188,14 @@
         if (string.length != 0) {
             int x = (unichar) [string characterAtIndex: 0];
             if (x == 10) {
-                [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:[stringToSend substringToIndex:stringToSend.length - 1], @"text", @(YES), @"done", nil] httpAPIcallback:nil];
+                [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:[stringToSend substringToIndex:stringToSend.length - 1], @"text", @YES, @"done", nil] httpAPIcallback:nil];
                 [backgroundTextField resignFirstResponder];
                 [xbmcVirtualKeyboard resignFirstResponder];
                 theTextField.text = @"";
                 return YES;
             }
         }
-        [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:stringToSend, @"text", @(NO), @"done", nil] httpAPIcallback:nil];
+        [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:stringToSend, @"text", @NO, @"done", nil] httpAPIcallback:nil];
         return YES;
     }
 }

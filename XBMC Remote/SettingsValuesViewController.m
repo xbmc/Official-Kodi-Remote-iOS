@@ -81,7 +81,7 @@
             [self retrieveXBMCData: @"Addons.GetAddons"
                         parameters: [NSDictionary dictionaryWithObjectsAndKeys:
                                      self.detailItem[@"addontype"], @"type",
-                                     @(YES), @"enabled",
+                                     @YES, @"enabled",
                                      @[@"name"], @"properties",
                                      nil]
                            itemKey: @"addons"];

@@ -15,19 +15,17 @@
 
 @interface RightMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     UITableView *menuTableView;
-    NSMutableArray* _rightMenuItems;
     IBOutlet UITableViewCell *rightMenuCell;
     NSMutableArray *tableData;
     UILabel *infoLabel;
     VolumeSliderView *volumeSliderView;
     RemoteController *remoteControllerView;
     BOOL torchIsOn;
-    BOOL putXBMClogo;
     MessagesView *messagesView;
     NSUInteger editableRowStartAt;
-    UIBarButtonItem *editTableButton;
-    UIBarButtonItem *addButton;
-    NSMutableDictionary *infoCustomButton;
+    UIButton *editTableButton;
+    UIButton *moreButton;
+    NSDictionary *infoCustomButton;
 }
 
 @property (strong, nonatomic) NSMutableArray *rightMenuItems;

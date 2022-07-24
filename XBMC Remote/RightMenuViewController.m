@@ -20,6 +20,8 @@
 #define RIGHT_MENU_ITEM_HEIGHT 50.0
 #define RIGHT_MENU_ICON_SIZE 18.0
 #define RIGHT_MENU_ICON_SPACING 16.0
+#define BUTTON_SPACING 8.0
+#define BUTTON_WIDTH 100.0
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -60,10 +62,11 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    if ([tableData[indexPath.row][@"bgColor"] count]) {
-        cell.backgroundColor = [UIColor colorWithRed:[tableData[indexPath.row][@"bgColor"][@"red"] floatValue]
-                                               green:[tableData[indexPath.row][@"bgColor"][@"green"] floatValue]
-                                                blue:[tableData[indexPath.row][@"bgColor"][@"blue"] floatValue]
+    NSDictionary *rgbColor = tableData[indexPath.row][@"bgColor"];
+    if (rgbColor.count) {
+        cell.backgroundColor = [UIColor colorWithRed:[rgbColor[@"red"] floatValue]
+                                               green:[rgbColor[@"green"] floatValue]
+                                                blue:[rgbColor[@"blue"] floatValue]
                                                alpha:1];
     }
     else { // xcode xib bug with ipad?
@@ -231,45 +234,31 @@
 
 - (UIView*)createTableFooterView:(CGFloat)footerHeight {
     CGRect frame = self.view.bounds;
-    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
-                                                                                target: nil
-                                                                                action: nil];
-    fixedSpace.width = 50.0;
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, TOOLBAR_HEIGHT)];
-    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    if (IS_IPAD) {
-        frame.size.width = STACKSCROLL_WIDTH;
-        fixedSpace.width = 0.0;
-        toolbar.frame = CGRectMake(0, 0, frame.size.width, TOOLBAR_HEIGHT);
-        toolbar.autoresizingMask = UIViewAutoresizingNone;
-    }
     UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - footerHeight, frame.size.width, footerHeight)];
     newView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-    newView.backgroundColor = UIColor.clearColor;
-    toolbar.barStyle = UIBarStyleBlackTranslucent;
-    toolbar.tintColor = UIColor.lightGrayColor;
-
-    UIBarButtonItem *fixedSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
-                                                                                 target: nil
-                                                                                 action: nil];
-    fixedSpace2.width = 2.0;
-
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
-                                                                                   target: nil
-                                                                                   action: nil];
-    addButton = [[UIBarButtonItem alloc] initWithTitle: LOCALIZED_STR(@"...more")
-                                                 style: UIBarButtonItemStylePlain
-                                                target: self
-                                                action: @selector(addButtonToList:)];
+    newView.backgroundColor = [Utilities getGrayColor:36 alpha:1];
     
-    addButton.enabled = NO;
-    editTableButton = [[UIBarButtonItem alloc] initWithTitle: LOCALIZED_STR(@"Edit")
-                                                       style: UIBarButtonItemStylePlain
-                                                      target: self
-                                                      action: @selector(editTable:)];
-    toolbar.items = [NSArray arrayWithObjects:fixedSpace, addButton, flexibleSpace, editTableButton, fixedSpace2, nil];
+    // ...more button
+    CGFloat originX = self.peekLeftAmount + BUTTON_SPACING;
+    moreButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, BUTTON_WIDTH, TOOLBAR_HEIGHT)];
+    moreButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [moreButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateDisabled];
+    [moreButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateNormal];
+    [moreButton setTitle:LOCALIZED_STR(@"...more") forState:UIControlStateNormal];
+    [moreButton addTarget:self action:@selector(addButtonToList:) forControlEvents:UIControlEventTouchUpInside];
+    [newView addSubview:moreButton];
     
-    [newView insertSubview:toolbar atIndex:0];
+    // edit button
+    originX = newView.frame.size.width - BUTTON_WIDTH - BUTTON_SPACING;
+    editTableButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, BUTTON_WIDTH, TOOLBAR_HEIGHT)];
+    editTableButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    editTableButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    [editTableButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateDisabled];
+    [editTableButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateNormal];
+    [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
+    [editTableButton addTarget:self action:@selector(editTable:) forControlEvents:UIControlEventTouchUpInside];
+    [newView addSubview:editTableButton];
     
     return newView;
 }
@@ -315,8 +304,7 @@
     [arrayButtons saveData];
     if (arrayButtons.buttons.count == 0) {
         [menuTableView setEditing:NO animated:YES];
-        editTableButton.title = LOCALIZED_STR(@"Edit");
-        editTableButton.style = UIBarButtonItemStylePlain;
+        [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
         editTableButton.enabled = NO;
         [arrayButtons.buttons addObject:infoCustomButton];
         [self setRightMenuOption:@"online" reloadTableData:YES];
@@ -342,16 +330,14 @@
 #pragma mark Table view delegate
 
 - (void)editTable:(id)sender {
-    UIBarButtonItem *editButton = (UIBarButtonItem*)sender;
+    UIButton *editButton = (UIButton*)sender;
     if (menuTableView.editing) {
         [menuTableView setEditing:NO animated:YES];
-        editButton.title = LOCALIZED_STR(@"Edit");
-        editButton.style = UIBarButtonItemStylePlain;
+        [editButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
     }
     else {
         [menuTableView setEditing:YES animated:YES];
-        editButton.title = LOCALIZED_STR(@"Done");
-        editButton.style = UIBarButtonItemStyleDone;
+        [editButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateNormal];
     }
 }
 
@@ -418,7 +404,7 @@
         textField.placeholder = @"";
         textField.text = tableData[indexPath.row][@"label"];
     }];
-    UIAlertAction* updateButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update label") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    UIAlertAction *updateButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update label") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         tableData[indexPath.row][@"label"] = alertView.textFields[0].text;
             
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
@@ -431,7 +417,7 @@
                 [arrayButtons saveData];
             }
         }];
-    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
     [alertView addAction:updateButton];
     [alertView addAction:cancelButton];
     [self presentViewController:alertView animated:YES completion:nil];
@@ -452,17 +438,11 @@
             if (countdown_message != nil) {
                 countdown_message = [NSString stringWithFormat:@"%@ %d seconds.", countdown_message, [tableData[indexPath.row][@"action"][@"countdown_time"] intValue]];
             }
-            NSString *cancel_button = tableData[indexPath.row][@"action"][@"cancel_button"];
-            if (cancel_button == nil) {
-                cancel_button = LOCALIZED_STR(@"Cancel");
-            }
-            NSString *ok_button = tableData[indexPath.row][@"action"][@"ok_button"];
-            if (ok_button == nil) {
-                ok_button = LOCALIZED_STR(@"Yes");
-            }
+            NSString *cancel_button = tableData[indexPath.row][@"action"][@"cancel_button"] ?: LOCALIZED_STR(@"Cancel");
+            NSString *ok_button = tableData[indexPath.row][@"action"][@"ok_button"] ?: LOCALIZED_STR(@"Yes");
             UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:countdown_message preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:cancel_button style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
-            UIAlertAction* okButton = [UIAlertAction actionWithTitle:ok_button style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:cancel_button style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+            UIAlertAction *okButton = [UIAlertAction actionWithTitle:ok_button style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 NSIndexPath *commandIdx = [self getIndexPathForKey:@"ok_button" withValue:ok_button inArray:[tableData valueForKey:@"action"]];
                 NSString *command = [tableData valueForKey:@"action"][commandIdx.row][@"command"];
                 if (command != nil) {
@@ -490,10 +470,7 @@
                 [self addButtonToList:nil];
             }
             else if (command != nil) {
-                NSDictionary *parameters = tableData[indexPath.row][@"action"][@"params"];
-                if (parameters == nil) {
-                    parameters = [NSDictionary dictionary];
-                }
+                NSDictionary *parameters = tableData[indexPath.row][@"action"][@"params"] ?: @{};
                 [self xbmcAction:command params:parameters uiControl:nil];
             }
         }
@@ -509,12 +486,12 @@
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Gesture Zone")]) {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@(YES) forKey:@"forceGestureZone"];
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@YES forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad")]) {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@(NO) forKey:@"forceGestureZone"];
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@NO forKey:@"forceGestureZone"];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
@@ -539,7 +516,7 @@
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
         [sender setUserInteractionEnabled:NO];
     }
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (methodError == nil && error == nil) {
             [messagesView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
         }
@@ -556,7 +533,7 @@
     if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
         [sender setUserInteractionEnabled:NO];
     }
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (methodError == nil && error == nil) {
             [busyView stopAnimating];
             if ([sender respondsToSelector:@selector(setHidden:)]) {
@@ -612,17 +589,17 @@
     infoLabel.alpha = 0;
     [self.view addSubview:infoLabel];
     
-    infoCustomButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                        LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."), @"label",
-                        [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
-                        @(NO), @"hideLineSeparator",
-                        [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",
-                        @"default-right-menu-icon", @"icon",
-                        [[NSMutableDictionary alloc] initWithCapacity:0], @"action",
-                        @(NO), @"revealViewTop",
-                        @(NO), @"isSetting",
-                        @"", @"type",
-                        nil];
+    infoCustomButton = @{
+        @"label": LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."),
+        @"bgColor": @{},
+        @"hideLineSeparator": @NO,
+        @"fontColor": @{},
+        @"icon": @"default-right-menu-icon",
+        @"action": @{},
+        @"revealViewTop": @NO,
+        @"isSetting": @NO,
+        @"type": @"",
+    };
     
     mainMenu *menuItems = self.rightMenuItems[0];
     CGFloat bottomPadding = [Utilities getBottomPadding];
@@ -650,16 +627,15 @@
     if (AppDelegate.instance.obj.serverIP.length != 0) {
         if (!AppDelegate.instance.serverOnLine) {
             [self setRightMenuOption:@"offline" reloadTableData:NO];
-            addButton.enabled = NO;
+            moreButton.enabled = NO;
         }
         else {
             [self setRightMenuOption:@"online" reloadTableData:NO];
-            addButton.enabled = YES;
+            moreButton.enabled = YES;
         }
     }
     else {
         infoLabel.alpha = 1;
-        putXBMClogo = YES;
         [self setRightMenuOption:@"utility" reloadTableData:NO];
     }
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, DEFAULT_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:deltaX];
@@ -669,18 +645,17 @@
                                              selector: @selector(connectionSuccess:)
                                                  name: @"XBMCServerConnectionSuccess"
                                                object: nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionFailed:)
                                                  name: @"XBMCServerConnectionFailed"
                                                object: nil];
-//    [[NSNotificationCenter defaultCenter] addObserver: self
-//                                             selector: @selector(startTimer:)
-//                                                 name: @"ECSlidingViewUnderRightWillAppear"
-//                                               object: nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(stopTimer:)
                                                  name: @"ECSlidingViewUnderRightWillDisappear"
                                                object: nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(reloadCustomButtonTable:)
                                                  name: @"UIInterfaceCustomButtonAdded"
@@ -742,40 +717,13 @@
     tableData = [[NSMutableArray alloc] initWithCapacity:0];
 
     for (NSDictionary *item in menuItem.mainMethod[0][key]) {
-        NSString *label = item[@"label"];
-        if (label == nil) {
-            label = @"";
-        }
-
-        NSMutableDictionary *bgColor = item[@"bgColor"];
-        if (bgColor == nil) {
-            bgColor = [[NSMutableDictionary alloc] initWithCapacity:0];
-        }
-        
-        NSNumber *hideLine = item[@"hideLineSeparator"];
-        if (hideLine == nil) {
-            hideLine = @(NO);
-        }
-        
-        NSMutableDictionary *fontColor = item[@"fontColor"];
-        if (fontColor == nil) {
-            fontColor = [[NSMutableDictionary alloc] initWithCapacity:0];
-        }
-
-        NSString *icon = item[@"icon"];
-        if (icon == nil) {
-            icon = @"blank";
-        }
-        
-        NSMutableDictionary *action = item[@"action"];
-        if (action == nil) {
-            action = [[NSMutableDictionary alloc] initWithCapacity:0];
-        }
-        
-        NSNumber *showTop = item[@"revealViewTop"];
-        if (showTop == nil) {
-            showTop = @(NO);
-        }
+        NSString *label = item[@"label"] ?: @"";
+        NSDictionary *bgColor = item[@"bgColor"] ?: @{};
+        NSNumber *hideLine = item[@"hideLineSeparator"] ?: @NO;
+        NSDictionary *fontColor = item[@"fontColor"] ?: @{};
+        NSString *icon = item[@"icon"] ?: @"blank";
+        NSDictionary *action = item[@"action"] ?: @{};
+        NSNumber *showTop = item[@"revealViewTop"] ?: @NO;
         
         NSDictionary *itemDict = @{@"label": label,
                                    @"bgColor": bgColor,
@@ -784,7 +732,7 @@
                                    @"icon": icon,
                                    @"action": action,
                                    @"revealViewTop": showTop,
-                                   @"isSetting": @(NO),
+                                   @"isSetting": @NO,
                                    @"type": @"embedded"};
          
         // Do not show the remoteToolBar items in the menu while in "online" state
@@ -807,33 +755,25 @@
             editTableButton.enabled = YES;
         }
         for (NSDictionary *item in arrayButtons.buttons) {
-            NSString *label = item[@"label"];
-            if (label == nil) {
-                label = @"";
-            }
-            NSString *icon = item[@"icon"];
-            if (icon == nil) {
-                icon = @"blank";
-            }
-            NSString *type = item[@"type"];
-            if (type == nil) {
-                type = @"";
-            }
-            NSNumber *isSetting = item[@"isSetting"];
-            if (isSetting == nil) {
-                isSetting = @(YES);
-            }
-            [tableData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                  label, @"label",
-                                  [[NSMutableDictionary alloc] initWithCapacity:0], @"bgColor",
-                                  @(NO), @"hideLineSeparator",
-                                  [[NSMutableDictionary alloc] initWithCapacity:0], @"fontColor",
-                                  icon, @"icon",
-                                  isSetting, @"isSetting",
-                                  @(NO), @"revealViewTop",
-                                  type, @"type",
-                                  item[@"action"], @"action",
-                                  nil]];
+            NSString *label = item[@"label"] ?: @"";
+            NSString *icon = item[@"icon"] ?: @"";
+            NSString *type = item[@"type"] ?: @"";
+            NSNumber *isSetting = item[@"isSetting"] ?: @YES;
+            NSDictionary *action = item[@"action"] ?: @{};
+            
+            NSDictionary *itemDict = @{
+                @"label": label,
+                @"bgColor": @{},
+                @"hideLineSeparator": @NO,
+                @"fontColor": @{},
+                @"icon": icon,
+                @"isSetting": isSetting,
+                @"revealViewTop": @NO,
+                @"type": type,
+                @"action": action,
+            };
+            
+            [tableData addObject:itemDict];
         }
     }
 
@@ -874,7 +814,7 @@
     }
     [self setRightMenuOption:@"online" reloadTableData:YES];
     infoLabel.alpha = 0;
-    addButton.enabled = YES;
+    moreButton.enabled = YES;
 }
 
 - (void)connectionFailed:(NSNotification*)note {
@@ -898,13 +838,12 @@
     if (AppDelegate.instance.obj.serverIP.length != 0) {
         infoLabel.alpha = 0;
         [self setRightMenuOption:@"offline" reloadTableData:YES];
-        addButton.enabled = NO;
+        moreButton.enabled = NO;
     }
     else {
         [tableData removeAllObjects];
         [menuTableView reloadData];
         infoLabel.alpha = 1;
-        putXBMClogo = YES;
         [self setRightMenuOption:@"utility" reloadTableData:YES];
     }
 }
