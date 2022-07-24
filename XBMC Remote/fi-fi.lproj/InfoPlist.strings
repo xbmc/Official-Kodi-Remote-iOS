@@ -1,3 +1,3 @@
 /* Localized versions of Info.plist keys */
 
-NSLocalNetworkUsageDescription="Kodi Remote -sovellus etsii Kodi-palvelimia paikallisesta lähiverkosta.";
+NSLocalNetworkUsageDescription="Kodi Remote -sovellus käyttää lähiverkkoa Kodi-palvelimien etsintään ja viestintään niiden kanssa.";
