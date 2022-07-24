@@ -206,7 +206,6 @@
 "Done" = "Klar";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- VARNING --\nDenna typ av inställning kan inte konfigureras här. Använd det grafiska gränssnittet i Kodi för att ändra denna inställning.";
 "Official XBMC Remote\nfor iOS" = "Officiell Kodi-fjärrkontroll\nför iOS";
-"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Officiella Kodi-fjärrkontrollen använder bilder från http://fanart.tv, hämta och kör Kodi-tillägget \"artwork downloader\" för att låsa upp dessa vackra konstverk!\n\nKodi-logotypen, maskoten Zappy och ikonerna för Officiella Kodi-fjärrkontrollen ägs av Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "Njut!";
 "No items found." = "Inga objekt hittades.";
 "Video" = "Video";

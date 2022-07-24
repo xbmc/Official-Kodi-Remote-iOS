@@ -204,7 +204,6 @@
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Se requiere Kodi versión 13 o superior para acceder a los ajustes de Kodi";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- AVISO --\nEste tipo de AJUSTES no se pueden configurar remotamente. Usa la GUI de Kodi para cambiar esta configuración.\nGracias.";
 "Official XBMC Remote\nfor iOS" = "Remoto Oficial Kodi\npara iOS";
-"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "La aplicación Remota Ofical Kodi usa la imagen de http://fanart.tv, descargar y ejecutar el add-on de Kodi \"artwork downloader\" para desbloquear la belleza del arte adicional.\n\nEl logo Kodi, la mascota Zappy y los iconos de Remoto Oficial Kodi son propiedad de Kodi\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "¡Disfruta!";
 "No items found." = "No se encontraron items.";
 "Video" = "Vídeo";

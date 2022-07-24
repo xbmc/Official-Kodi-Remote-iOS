@@ -132,7 +132,7 @@
 "STUDIO" = "STUDIO";
 "TV SHOW" = "SARJA";
 "DIRECTOR" = "OHJAAJA";
-"WRITER" = "KÄSIKIRJOITTAJA";
+"WRITER" = "KIRJOITTAJA";
 "FIRST AIRED" = "ENSIESITYS";
 "SUMMARY" = "TIIVISTELMÄ";
 "PLOT OUTLINE" = "JUONIKUVAUS";
@@ -216,7 +216,6 @@
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodin asetusten käyttö edellyttää vähintään Kodin versiota 13";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- VAROITUS --\nTämän tyyppisiä asetuksia ei ole mahdollista määrittää etänä, joten ne on määritettävä Kodin käyttöliittymän kautta.\nKiitos.";
 "Official XBMC Remote\nfor iOS" = "Virallinen Kodi Remote\niOS-järjestelmälle";
-"Official XBMC Remote app uses art coming from http://fanart.tv, download and execute the \"artwork downloader\" XBMC add-on to unlock the beauty of additional artwork!\n\nXBMC logo, Zappy mascot and Official XBMC Remote icons are property of XBMC\nhttp://www.xbmc.org/contribute" = "Virallinen Kodi Remote käyttää mediakuvituksia http://fanart.tv-palvelusta. Lataa ja suorita Kodin \"Artwork Downloader\" -lisäosa nauttiaksesi upeista mediakuvituksista!\n\nKodi logo, Zappy maskotti ja virallinen Kodi Remote -kuvake ovat Kodin omaisuutta\nhttp://www.kodi.tv/contribute";
 "enjoy!" = "nauti!";
 "No items found." = "Kohteita ei löytynyt.";
 "Video" = "Video";
