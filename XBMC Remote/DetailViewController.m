@@ -5219,17 +5219,8 @@ NSIndexPath *selected;
 }
 
 - (void)updateChannelListTableCell {
-    NSArray* indexPaths = [dataList indexPathsForVisibleRows];
-    if ([dataList numberOfSections] > 0 && indexPaths.count > 0) {
-        [dataList beginUpdates];
-        [dataList reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-        [dataList endUpdates];
-    }
-
-    indexPaths = [collectionView indexPathsForVisibleItems];
-    if ([collectionView numberOfSections] > 0 && indexPaths.count > 0) {
-        [collectionView reloadItemsAtIndexPaths:indexPaths];
-    }
+    [dataList reloadData];
+    [collectionView reloadData];
 }
 
 # pragma mark - Life-Cycle
