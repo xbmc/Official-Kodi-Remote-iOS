@@ -23,8 +23,8 @@
     BOOL torchIsOn;
     MessagesView *messagesView;
     NSUInteger editableRowStartAt;
-    UIBarButtonItem *editTableButton;
-    UIBarButtonItem *addButton;
+    UIButton *editTableButton;
+    UIButton *moreButton;
     NSDictionary *infoCustomButton;
 }
 

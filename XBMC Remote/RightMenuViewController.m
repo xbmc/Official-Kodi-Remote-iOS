@@ -20,6 +20,8 @@
 #define RIGHT_MENU_ITEM_HEIGHT 50.0
 #define RIGHT_MENU_ICON_SIZE 18.0
 #define RIGHT_MENU_ICON_SPACING 16.0
+#define BUTTON_SPACING 8.0
+#define BUTTON_WIDTH 100.0
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -232,45 +234,31 @@
 
 - (UIView*)createTableFooterView:(CGFloat)footerHeight {
     CGRect frame = self.view.bounds;
-    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
-                                                                                target: nil
-                                                                                action: nil];
-    fixedSpace.width = 50.0;
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, TOOLBAR_HEIGHT)];
-    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    if (IS_IPAD) {
-        frame.size.width = STACKSCROLL_WIDTH;
-        fixedSpace.width = 0.0;
-        toolbar.frame = CGRectMake(0, 0, frame.size.width, TOOLBAR_HEIGHT);
-        toolbar.autoresizingMask = UIViewAutoresizingNone;
-    }
     UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - footerHeight, frame.size.width, footerHeight)];
     newView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-    newView.backgroundColor = UIColor.clearColor;
-    toolbar.barStyle = UIBarStyleBlackTranslucent;
-    toolbar.tintColor = UIColor.lightGrayColor;
-
-    UIBarButtonItem *fixedSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace
-                                                                                 target: nil
-                                                                                 action: nil];
-    fixedSpace2.width = 2.0;
-
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
-                                                                                   target: nil
-                                                                                   action: nil];
-    addButton = [[UIBarButtonItem alloc] initWithTitle: LOCALIZED_STR(@"...more")
-                                                 style: UIBarButtonItemStylePlain
-                                                target: self
-                                                action: @selector(addButtonToList:)];
+    newView.backgroundColor = [Utilities getGrayColor:36 alpha:1];
     
-    addButton.enabled = NO;
-    editTableButton = [[UIBarButtonItem alloc] initWithTitle: LOCALIZED_STR(@"Edit")
-                                                       style: UIBarButtonItemStylePlain
-                                                      target: self
-                                                      action: @selector(editTable:)];
-    toolbar.items = [NSArray arrayWithObjects:fixedSpace, addButton, flexibleSpace, editTableButton, fixedSpace2, nil];
+    // ...more button
+    CGFloat originX = self.peekLeftAmount + BUTTON_SPACING;
+    moreButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, BUTTON_WIDTH, TOOLBAR_HEIGHT)];
+    moreButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [moreButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateDisabled];
+    [moreButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateNormal];
+    [moreButton setTitle:LOCALIZED_STR(@"...more") forState:UIControlStateNormal];
+    [moreButton addTarget:self action:@selector(addButtonToList:) forControlEvents:UIControlEventTouchUpInside];
+    [newView addSubview:moreButton];
     
-    [newView insertSubview:toolbar atIndex:0];
+    // edit button
+    originX = newView.frame.size.width - BUTTON_WIDTH - BUTTON_SPACING;
+    editTableButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, BUTTON_WIDTH, TOOLBAR_HEIGHT)];
+    editTableButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    editTableButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    [editTableButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateDisabled];
+    [editTableButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateNormal];
+    [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
+    [editTableButton addTarget:self action:@selector(editTable:) forControlEvents:UIControlEventTouchUpInside];
+    [newView addSubview:editTableButton];
     
     return newView;
 }
@@ -316,8 +304,7 @@
     [arrayButtons saveData];
     if (arrayButtons.buttons.count == 0) {
         [menuTableView setEditing:NO animated:YES];
-        editTableButton.title = LOCALIZED_STR(@"Edit");
-        editTableButton.style = UIBarButtonItemStylePlain;
+        [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
         editTableButton.enabled = NO;
         [arrayButtons.buttons addObject:infoCustomButton];
         [self setRightMenuOption:@"online" reloadTableData:YES];
@@ -343,16 +330,14 @@
 #pragma mark Table view delegate
 
 - (void)editTable:(id)sender {
-    UIBarButtonItem *editButton = (UIBarButtonItem*)sender;
+    UIButton *editButton = (UIButton*)sender;
     if (menuTableView.editing) {
         [menuTableView setEditing:NO animated:YES];
-        editButton.title = LOCALIZED_STR(@"Edit");
-        editButton.style = UIBarButtonItemStylePlain;
+        [editButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
     }
     else {
         [menuTableView setEditing:YES animated:YES];
-        editButton.title = LOCALIZED_STR(@"Done");
-        editButton.style = UIBarButtonItemStyleDone;
+        [editButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateNormal];
     }
 }
 
@@ -642,11 +627,11 @@
     if (AppDelegate.instance.obj.serverIP.length != 0) {
         if (!AppDelegate.instance.serverOnLine) {
             [self setRightMenuOption:@"offline" reloadTableData:NO];
-            addButton.enabled = NO;
+            moreButton.enabled = NO;
         }
         else {
             [self setRightMenuOption:@"online" reloadTableData:NO];
-            addButton.enabled = YES;
+            moreButton.enabled = YES;
         }
     }
     else {
@@ -829,7 +814,7 @@
     }
     [self setRightMenuOption:@"online" reloadTableData:YES];
     infoLabel.alpha = 0;
-    addButton.enabled = YES;
+    moreButton.enabled = YES;
 }
 
 - (void)connectionFailed:(NSNotification*)note {
@@ -853,7 +838,7 @@
     if (AppDelegate.instance.obj.serverIP.length != 0) {
         infoLabel.alpha = 0;
         [self setRightMenuOption:@"offline" reloadTableData:YES];
-        addButton.enabled = NO;
+        moreButton.enabled = NO;
     }
     else {
         [tableData removeAllObjects];
