@@ -906,6 +906,11 @@
     BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
     [Utilities applyRoundedEdgesView:imgView drawBorder:showBorder];
     if (![stringURL isEqualToString:@""]) {
+        // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
+        // ensure setImageWithURL falls back to this icon.
+        if ([UIImage imageNamed:stringURL]) {
+            displayThumb = stringURL;
+        }
         __auto_type __weak weakImageView = imgView;
         [imgView setImageWithURL:[NSURL URLWithString:stringURL]
                 placeholderImage:[UIImage imageNamed:displayThumb]
@@ -2741,6 +2746,11 @@
         NSString *stringURL = item[@"thumbnail"];
         NSString *displayThumb = @"coverbox_back";
         if (![stringURL isEqualToString:@""]) {
+            // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
+            // ensure setImageWithURL falls back to this icon.
+            if ([UIImage imageNamed:stringURL]) {
+                displayThumb = stringURL;
+            }
             __weak UIImageView *weakThumbView = thumbImageView;
             [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
                            placeholderImage:[UIImage imageNamed:displayThumb]
@@ -2927,6 +2937,11 @@
                 self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
             }
             if (![stringURL isEqualToString:@""]) {
+                // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
+                // ensure setImageWithURL falls back to this icon.
+                if ([UIImage imageNamed:stringURL]) {
+                    displayThumb = stringURL;
+                }
                 __weak UIImageView *weakThumbView = thumbImageView;
                 [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
                                placeholderImage:[UIImage imageNamed:displayThumb]
