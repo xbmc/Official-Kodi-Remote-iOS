@@ -4862,7 +4862,7 @@ NSIndexPath *selected;
     self.sections[@""] = @[];
     [self animateNoResultsFound];
     [activeLayoutView reloadData];
-    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [self displayData];
 }
 
 - (BOOL)isEligibleForSections:(NSArray*)array {
