@@ -2,10 +2,10 @@
 
 "General" = "Общие";
 "Automatic" = "Автоматически";
-"Show connection notice" = "Show connection notice";
-"Direct Play mode" = "Direct Play mode";
-"Ken Burns effect" = "Ken Burns effect";
-"Shake to clear playlist" = "Shake to clear playlist";
+"Show connection notice" = "Показать уведомление о подключении";
+"Direct Play mode" = "Режим Direct Play";
+"Ken Burns effect" = "Эффект Кена Бёрнса";
+"Shake to clear playlist" = "Встряхните, чтобы очистить список воспроизведения";
 "Show jewel cases" = "Show jewel cases";
 "Hide labels in wall view" = "Hide labels in wall view";
 "Prefer posters for TV shows" = "Prefer posters for TV shows";
