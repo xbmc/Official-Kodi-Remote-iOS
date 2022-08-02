@@ -3277,31 +3277,7 @@ NSIndexPath *selected;
                      withParameters:params
                      onCompletion:nil];
                 }
-                BOOL wasWatched = watched > 0;
-                if (enableCollectionView) {
-                    [cell setOverlayWatched:wasWatched];
-                    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-                }
-                else {
-                    UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
-                    flagView.hidden = !wasWatched;
-                    [dataList deselectRowAtIndexPath:indexPath animated:YES];
-                }
-                item[@"playcount"] = @(watched);
-                
-                mainMenu *menuItem = [self getMainMenu:item];
-                NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
-                NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
-                NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-                if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-                    [mutableProperties addObject:@"art"];
-                    mutableParameters[@"properties"] = mutableProperties;
-                }
-                if (mutableParameters[@"file_properties"] != nil) {
-                    mutableParameters[@"properties"] = mutableParameters[@"file_properties"];
-                    [mutableParameters removeObjectForKey: @"file_properties"];
-                }
-                [self saveData:mutableParameters];
+                [self updateCellAndSaveRichData:indexPath watched:watched item:item];
                 [queuing stopAnimating];
             }
             else {
@@ -3331,37 +3307,47 @@ NSIndexPath *selected;
      withParameters:params
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil) {
-             BOOL wasWatched = watched > 0;
-             if (enableCollectionView) {
-                 [cell setOverlayWatched:wasWatched];
-                 [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-             }
-             else {
-                 UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
-                 flagView.hidden = !wasWatched;
-                 [dataList deselectRowAtIndexPath:indexPath animated:YES];
-             }
-             item[@"playcount"] = @(watched);
-             
-             mainMenu *menuItem = [self getMainMenu:item];
-             NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
-             NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
-             NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-             if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-                 [mutableProperties addObject:@"art"];
-                 mutableParameters[@"properties"] = mutableProperties;
-             }
-             if (mutableParameters[@"file_properties"] != nil) {
-                 mutableParameters[@"properties"] = mutableParameters[@"file_properties"];
-                 [mutableParameters removeObjectForKey: @"file_properties"];
-             }
-             [self saveData:mutableParameters];
+             [self updateCellAndSaveRichData:indexPath watched:watched item:item];
              [queuing stopAnimating];
          }
          else {
              [queuing stopAnimating];
          }
      }];
+}
+
+- (void)updateCellAndSaveRichData:(NSIndexPath*)indexPath watched:(int)watched item:(id)item {
+    id cell = [self getCell:indexPath];
+    BOOL wasWatched = watched > 0;
+    
+    // Set or unset the ckeck mark icon
+    if (enableCollectionView) {
+        [cell setOverlayWatched:wasWatched];
+        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    }
+    else {
+        UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
+        flagView.hidden = !wasWatched;
+        [dataList deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
+    // Set the new playcount for the item inside the rich data
+    item[@"playcount"] = @(watched);
+    
+    // Store the rich data
+    mainMenu *menuItem = [self getMainMenu:item];
+    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
+    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
+    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
+        [mutableProperties addObject:@"art"];
+        mutableParameters[@"properties"] = mutableProperties;
+    }
+    if (mutableParameters[@"file_properties"] != nil) {
+        mutableParameters[@"properties"] = mutableParameters[@"file_properties"];
+        [mutableParameters removeObjectForKey: @"file_properties"];
+    }
+    [self saveData:mutableParameters];
 }
 
 - (void)saveSortMethod:(NSString*)sortMethod parameters:(NSDictionary*)parameters {
