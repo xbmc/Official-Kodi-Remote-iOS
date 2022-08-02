@@ -3263,11 +3263,11 @@ NSIndexPath *selected;
 
     NSString *methodToCall = @"";
     NSString *family = item[@"family"];
-    if ([family isEqualToString:@"episodeid"]) {
-        methodToCall = @"VideoLibrary.SetEpisodeDetails";
-    }
-    else if ([family isEqualToString:@"tvshowid"]) {
+    if ([family isEqualToString:@"tvshowid"]) {
         methodToCall = @"VideoLibrary.SetTVShowDetails";
+    }
+    else if ([family isEqualToString:@"episodeid"]) {
+        methodToCall = @"VideoLibrary.SetEpisodeDetails";
     }
     else if ([family isEqualToString:@"movieid"]) {
         methodToCall = @"VideoLibrary.SetMovieDetails";
