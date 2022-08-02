@@ -3253,11 +3253,6 @@ NSIndexPath *selected;
 
 - (void)markVideo:(NSMutableDictionary*)item indexPath:(NSIndexPath*)indexPath watched:(int)watched {
     id cell = [self getCell:indexPath];
-    UITableView *tableView = dataList;
-    BOOL isTableView = YES;
-    if (enableCollectionView) {
-        isTableView = NO;
-    }
     UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
     [queuing startAnimating];
 
@@ -3337,14 +3332,14 @@ NSIndexPath *selected;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil) {
              BOOL wasWatched = watched > 0;
-             if (isTableView) {
-                 UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
-                 flagView.hidden = !wasWatched;
-                 [tableView deselectRowAtIndexPath:indexPath animated:YES];
-             }
-             else {
+             if (enableCollectionView) {
                  [cell setOverlayWatched:wasWatched];
                  [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+             }
+             else {
+                 UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
+                 flagView.hidden = !wasWatched;
+                 [dataList deselectRowAtIndexPath:indexPath animated:YES];
              }
              item[@"playcount"] = @(watched);
              
