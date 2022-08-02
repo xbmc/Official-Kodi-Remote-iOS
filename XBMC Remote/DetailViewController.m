@@ -3278,12 +3278,10 @@ NSIndexPath *selected;
                      onCompletion:nil];
                 }
                 [self updateCellAndSaveRichData:indexPath watched:watched item:item];
-                [queuing stopAnimating];
             }
-            else {
-                [queuing stopAnimating];
-            }
+            [queuing stopAnimating];
          }];
+        return;
     }
     else if ([family isEqualToString:@"episodeid"]) {
         methodToCall = @"VideoLibrary.SetEpisodeDetails";
@@ -3308,11 +3306,8 @@ NSIndexPath *selected;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil) {
              [self updateCellAndSaveRichData:indexPath watched:watched item:item];
-             [queuing stopAnimating];
          }
-         else {
-             [queuing stopAnimating];
-         }
+        [queuing stopAnimating];
      }];
 }
 
