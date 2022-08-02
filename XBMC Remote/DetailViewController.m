@@ -3262,28 +3262,30 @@ NSIndexPath *selected;
     [queuing startAnimating];
 
     NSString *methodToCall = @"";
-    if ([item[@"family"] isEqualToString:@"episodeid"]) {
+    NSString *family = item[@"family"];
+    if ([family isEqualToString:@"episodeid"]) {
         methodToCall = @"VideoLibrary.SetEpisodeDetails";
     }
-    else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
+    else if ([family isEqualToString:@"tvshowid"]) {
         methodToCall = @"VideoLibrary.SetTVShowDetails";
     }
-    else if ([item[@"family"] isEqualToString:@"movieid"]) {
+    else if ([family isEqualToString:@"movieid"]) {
         methodToCall = @"VideoLibrary.SetMovieDetails";
     }
-    else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
+    else if ([family isEqualToString:@"musicvideoid"]) {
         methodToCall = @"VideoLibrary.SetMusicVideoDetails";
     }
     else {
         [queuing stopAnimating];
         return;
     }
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            item[family], family,
+                            @(watched), @"playcount",
+                            nil];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                     item[item[@"family"]], item[@"family"],
-                     @(watched), @"playcount",
-                     nil]
+     withParameters:params
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil) {
              if (isTableView) {
