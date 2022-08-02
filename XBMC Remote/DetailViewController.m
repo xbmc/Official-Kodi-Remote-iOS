@@ -3288,23 +3288,14 @@ NSIndexPath *selected;
      withParameters:params
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil) {
+             BOOL wasWatched = watched > 0;
              if (isTableView) {
                  UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
-                 if (watched > 0) {
-                     flagView.hidden = NO;
-                 }
-                 else {
-                     flagView.hidden = YES;
-                 }
+                 flagView.hidden = !wasWatched;
                  [tableView deselectRowAtIndexPath:indexPath animated:YES];
              }
              else {
-                 if (watched > 0) {
-                     [cell setOverlayWatched:YES];
-                 }
-                 else {
-                     [cell setOverlayWatched:NO];
-                 }
+                 [cell setOverlayWatched:wasWatched];
                  [collectionView deselectItemAtIndexPath:indexPath animated:YES];
              }
              item[@"playcount"] = @(watched);
