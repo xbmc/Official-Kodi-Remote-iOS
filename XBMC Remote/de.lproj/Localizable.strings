@@ -308,3 +308,4 @@
 "Date" = "Datum";
 "Runtime" = "Laufzeit";
 "Username" = "Benutzername";
+"Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "Die „Official Kodi Remote“ App benutzt Bilder, die bei Bedarf vom Kodi-Server oder aus dem Internet geladen werden. Damit das funktioniert, bitte Kodis „Universal Scraper“ oder andere Scraper-Addons verwenden.\n\nDas Kodi-Logo, das Zappy-Maskottchen und die „Official Kodi Remote“-Icons sind Eigentum der Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi";

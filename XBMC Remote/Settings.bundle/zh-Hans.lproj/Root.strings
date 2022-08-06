@@ -39,3 +39,4 @@
 "Interface" = "界面";
 "Use thumbnail when fanart is missing" = "同人画缺失时使用缩略图";
 "Send Wake-On-LAN automatically" = "自动发送网络唤醒";
+"Colorize UI automatically" = "自动为 UI 着色";
