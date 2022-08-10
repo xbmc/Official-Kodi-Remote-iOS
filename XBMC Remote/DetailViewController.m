@@ -906,6 +906,11 @@
     BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
     [Utilities applyRoundedEdgesView:imgView drawBorder:showBorder];
     if (![stringURL isEqualToString:@""]) {
+        // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
+        // ensure setImageWithURL falls back to this icon.
+        if ([UIImage imageNamed:stringURL]) {
+            displayThumb = stringURL;
+        }
         __auto_type __weak weakImageView = imgView;
         [imgView setImageWithURL:[NSURL URLWithString:stringURL]
                 placeholderImage:[UIImage imageNamed:displayThumb]
@@ -1735,12 +1740,7 @@
         
         defaultThumb = displayThumb = [self getTimerDefaultThumb:item];
         
-        if ([item[@"filetype"] length] != 0 || [item[@"family"] isEqualToString:@"file"] || [item[@"family"] isEqualToString:@"genreid"]) {
-            if (![stringURL isEqualToString:@""]) {
-                displayThumb = stringURL;
-            }
-        }
-        else if (channelListView) {
+        if (channelListView) {
             [cell setIsRecording:[item[@"isrecording"] boolValue]];
         }
         cell.posterThumbnail.frame = cell.bounds;
@@ -2502,9 +2502,6 @@
             [item[@"family"] isEqualToString:@"genreid"] ||
             [item[@"family"] isEqualToString:@"channelgroupid"] ||
             [item[@"family"] isEqualToString:@"roleid"]) {
-            if (![stringURL isEqualToString:@""]) {
-                displayThumb = stringURL;
-            }
             genre.hidden = YES;
             runtimeyear.hidden = YES;
             title.frame = CGRectMake(title.frame.origin.x, (int)((cellHeight/2) - (title.frame.size.height/2)), title.frame.size.width, title.frame.size.height);
@@ -2748,10 +2745,12 @@
     
         NSString *stringURL = item[@"thumbnail"];
         NSString *displayThumb = @"coverbox_back";
-        if ([item[@"filetype"] length] != 0) {
-            displayThumb = stringURL;
-        }
         if (![stringURL isEqualToString:@""]) {
+            // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
+            // ensure setImageWithURL falls back to this icon.
+            if ([UIImage imageNamed:stringURL]) {
+                displayThumb = stringURL;
+            }
             __weak UIImageView *weakThumbView = thumbImageView;
             [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
                            placeholderImage:[UIImage imageNamed:displayThumb]
@@ -2937,10 +2936,12 @@
                 self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
                 self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
             }
-            if ([item[@"filetype"] length] != 0) {
-                displayThumb = stringURL;
-            }
             if (![stringURL isEqualToString:@""]) {
+                // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
+                // ensure setImageWithURL falls back to this icon.
+                if ([UIImage imageNamed:stringURL]) {
+                    displayThumb = stringURL;
+                }
                 __weak UIImageView *weakThumbView = thumbImageView;
                 [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
                                placeholderImage:[UIImage imageNamed:displayThumb]
