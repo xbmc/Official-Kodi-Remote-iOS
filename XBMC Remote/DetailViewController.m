@@ -442,12 +442,6 @@
     }];
 }
 
-- (NSString*)getServerURL {
-    GlobalData *obj = [GlobalData getInstance];
-    NSString *stringFormat = (AppDelegate.instance.serverVersion > 11) ? @"%@:%@/image/" : @"%@:%@/vfs/";
-    return [NSString stringWithFormat:stringFormat, obj.serverIP, obj.serverPort];;
-}
-
 - (int)getSec2Min:(BOOL)convert {
     return (AppDelegate.instance.serverVersion > 11 && convert) ? 60 : 1;
 }
@@ -4394,7 +4388,7 @@ NSIndexPath *selected;
                  if (((NSNull*)itemExtraDict == [NSNull null]) || itemExtraDict == nil) {
                      return; // something goes wrong
                  }
-                 NSString *serverURL = [self getServerURL];
+                 NSString *serverURL = [Utilities getImageServerURL];
                  int secondsToMinute = [self getSec2Min:YES];
                  NSDictionary *newItem = [self getNewDictionaryFromExtraInfoItem:itemExtraDict
                                                                       mainFields:mainFields
@@ -4540,7 +4534,7 @@ NSIndexPath *selected;
                         itemid = mainFields[@"itemid"];
                     }
                     NSArray *itemDict = methodResult[itemid];
-                    NSString *serverURL = [self getServerURL];
+                    NSString *serverURL = [Utilities getImageServerURL];
                     int secondsToMinute = [self getSec2Min:menuItem.noConvertTime];
                     if ([itemDict isKindOfClass:[NSArray class]]) {
                         for (NSDictionary *item in itemDict) {
@@ -4718,7 +4712,7 @@ NSIndexPath *selected;
                      recordingListView = NO;
                  }
                  NSArray *itemDict = methodResult[itemid];
-                 NSString *serverURL = [self getServerURL];
+                 NSString *serverURL = [Utilities getImageServerURL];
                  int secondsToMinute = [self getSec2Min:menuItem.noConvertTime];
                  if ([itemDict isKindOfClass:[NSArray class]]) {
                      for (NSDictionary *item in itemDict) {
