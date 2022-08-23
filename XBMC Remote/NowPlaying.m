@@ -1030,10 +1030,7 @@ long currentItemID;
                            editTableButton.enabled = YES;
                        }
                        NSString *serverURL = [Utilities getImageServerURL];
-                       int runtimeInMinute = 1;
-                       if (AppDelegate.instance.serverVersion > 11) {
-                           runtimeInMinute = 60;
-                       }
+                       int runtimeInMinute = [Utilities getSec2Min:YES];
                        for (NSDictionary *item in playlistItems) {
                            NSString *idItem = [NSString stringWithFormat:@"%@", item[@"id"]];
                            NSString *label = [NSString stringWithFormat:@"%@", item[@"label"]];
@@ -1257,10 +1254,7 @@ long currentItemID;
                      }
                  }
                  NSString *serverURL = [Utilities getImageServerURL];
-                 int runtimeInMinute = 1;
-                 if (AppDelegate.instance.serverVersion > 11) {
-                     runtimeInMinute = 60;
-                 }
+                 int runtimeInMinute = [Utilities getSec2Min:YES];
 
                  NSString *label = [NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row1"]]];
                  NSString *genre = [Utilities getStringFromItem:itemExtraDict[mainFields[@"row2"]]];

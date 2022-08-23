@@ -442,10 +442,6 @@
     }];
 }
 
-- (int)getSec2Min:(BOOL)convert {
-    return (AppDelegate.instance.serverVersion > 11 && convert) ? 60 : 1;
-}
-
 - (NSDictionary*)getNewDictionaryFromExtraInfoItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon {
     NSString *label = [NSString stringWithFormat:@"%@", item[mainFields[@"row1"]]];
     NSString *genre = [Utilities getStringFromItem:item[mainFields[@"row2"]]];
@@ -4389,7 +4385,7 @@ NSIndexPath *selected;
                      return; // something goes wrong
                  }
                  NSString *serverURL = [Utilities getImageServerURL];
-                 int secondsToMinute = [self getSec2Min:YES];
+                 int secondsToMinute = [Utilities getSec2Min:YES];
                  NSDictionary *newItem = [self getNewDictionaryFromExtraInfoItem:itemExtraDict
                                                                       mainFields:mainFields
                                                                        serverURL:serverURL
@@ -4535,7 +4531,7 @@ NSIndexPath *selected;
                     }
                     NSArray *itemDict = methodResult[itemid];
                     NSString *serverURL = [Utilities getImageServerURL];
-                    int secondsToMinute = [self getSec2Min:menuItem.noConvertTime];
+                    int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
                     if ([itemDict isKindOfClass:[NSArray class]]) {
                         for (NSDictionary *item in itemDict) {
                             NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
@@ -4713,7 +4709,7 @@ NSIndexPath *selected;
                  }
                  NSArray *itemDict = methodResult[itemid];
                  NSString *serverURL = [Utilities getImageServerURL];
-                 int secondsToMinute = [self getSec2Min:menuItem.noConvertTime];
+                 int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
                  if ([itemDict isKindOfClass:[NSArray class]]) {
                      for (NSDictionary *item in itemDict) {
                          NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
