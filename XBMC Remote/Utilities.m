@@ -663,6 +663,19 @@
 }
 
 + (NSString*)getClearArtFromDictionary:(NSDictionary*)dict type:(NSString*)type {
+    // 1st preference: "albumartist.clearart" to prefer albumartist clearart.
+    NSString *albumArtistClearArtPath = dict[[NSString stringWithFormat:@"albumartist.%@", type]];
+    if (albumArtistClearArtPath) {
+        return albumArtistClearArtPath;
+    }
+    
+    // 2nd preference: "clearart" w/o any prefix to prefer movie over set clearart.
+    NSString *pureClearArtPath = dict[type];
+    if (pureClearArtPath) {
+        return pureClearArtPath;
+    }
+    
+    // Search for any "clearart"
     NSString *path = @"";
     for (NSString *key in dict) {
         if ([key rangeOfString:type].location != NSNotFound) {
