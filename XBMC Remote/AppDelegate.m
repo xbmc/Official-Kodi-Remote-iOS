@@ -2038,7 +2038,8 @@
             @[@"VideoLibrary.GetMovies", @"method",
               @"VideoLibrary.GetMovieDetails", @"extra_info_method"],
             @[@"VideoLibrary.GetGenres", @"method"],
-            @[@"VideoLibrary.GetMovieSets", @"method"],
+            @[@"VideoLibrary.GetMovieSets", @"method",
+              @"VideoLibrary.GetMovieSetDetails", @"extra_info_method"],
             @[@"VideoLibrary.GetRecentlyAddedMovies", @"method",
               @"VideoLibrary.GetMovieDetails", @"extra_info_method"],
             @[@"Files.GetSources", @"method"],
@@ -2127,6 +2128,13 @@
                         @"fanart",
                         @"playcount"]
             }, @"parameters",
+            @{
+                @"properties": @[
+                    @"thumbnail",
+                    @"plot",
+                    @"fanart",
+                    @"playcount"]
+            }, @"extra_info_parameters",
             @{
                 @"label": @[
                         LOCALIZED_STR(@"Name"),
@@ -2283,7 +2291,8 @@
             @"row8": @"setid",
             @"row9": @"setid",
             @"row10": @"playcount",
-            @"row11": @"plot"
+            @"row11": @"plot",
+            @"itemid_extra_info": @"setdetails"
         },
 
         @{
