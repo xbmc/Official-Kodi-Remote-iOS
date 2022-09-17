@@ -886,8 +886,9 @@
         NSInteger count = [[NSUserDefaults standardUserDefaults] integerForKey:PERSISTENCE_KEY_PLAYBACK_ATTEMPTS] + 1;
         [[NSUserDefaults standardUserDefaults] setInteger:count forKey:PERSISTENCE_KEY_PLAYBACK_ATTEMPTS];
         
-        // Show review popup after 50th, 150th, 300th attempt, and each 300th from then on
-        if (count == 50 || count == 150 || count == 300 || count % 300 == 0) {
+        // Show review popup after 20th, 100th, 200th attempt, and each 200th from then on
+        // From AppStore metrics it is evident that 50 equals 3+ months for majority of users
+        if (count == 20 || count == 100 || count == 200 || count % 200 == 0) {
             [Utilities showReviewController];
         }
     }
