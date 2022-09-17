@@ -1,13 +1,21 @@
+Features:
+- Add "UI auto-color" setting 
+- Support Catalan (Spain) and Spanish (Mexico)
+- Support clear art for movie set details
+
 Bugfixes:
-- Fix performance issues when reading cached data
-- Fix creation of custom buttons with on/off switch or indexed list
-- Fix missing Global Search navigation bar title
-- Fix layout for slider-type Kodi setting
-- Fix missing notification of selected or missing subtitle and audio stream
+- Fix marking TV Shows as watched/unwatched
+- Fix sometimes invisible search bar in grid view
+- Fix long press action on few filtered lists
+- Fix album view for albums with >100 titles
+- Fix glitches in fullscreen fanart
+- Further bugfixes and stability improvements
 
 Improvements:
-- Fix potential crashes when showing server info or resuming playback
+- Update translations for many languages
+- Improve clear art handling for movies, movie sets and album artists
+- Improve sync behaviour when filters are active
 
-For details on the recently added features please see the Release Notes for App version 1.10.
+"UI auto-color" setting allows to switch on/off the automatic coloration of UI elements based on the thumbnail's color. This is mainly used in the TV Show episode view, the item detail view and the now playing screen. When switched off a grayscale is used.
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
