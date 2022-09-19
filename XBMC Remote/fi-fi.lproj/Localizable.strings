@@ -242,7 +242,7 @@
 "e.g. 192.168.0.8" = "esim. 192.168.0.8";
 "Username" = "Käyttäjätunnus";
 "Password" = "Salasana";
-"Sort by" = "Lajittelu";
+"Sort by" = "Lajitteluperuste";
 "tap" = "napauta";
 "the selection" = "valintaa";
 "tap the selection\nto reverse the sort order" = "napauta valintaa\nlajittelusuunnan vaihtamiseksi";
