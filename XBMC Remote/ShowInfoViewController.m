@@ -105,6 +105,9 @@ double round(double d) {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
             }
         }
+        else if ([item[@"family"] isEqualToString:@"setid"]) {
+            actionSheetButtonItem = nil;
+        }
         else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
             NSString *pvrAction = [item[@"hastimer"] boolValue] ? LOCALIZED_STR(@"Stop Recording") : LOCALIZED_STR(@"Record");
             sheetActions = [@[LOCALIZED_STR(@"Play"), pvrAction] mutableCopy];
