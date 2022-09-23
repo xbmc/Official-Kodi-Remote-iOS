@@ -701,6 +701,16 @@
     return dateString;
 }
 
++ (int)getSec2Min:(BOOL)convert {
+    return (AppDelegate.instance.serverVersion > 11 && convert) ? 60 : 1;
+}
+
++ (NSString*)getImageServerURL {
+    GlobalData *obj = [GlobalData getInstance];
+    NSString *stringFormat = (AppDelegate.instance.serverVersion > 11) ? @"%@:%@/image/" : @"%@:%@/vfs/";
+    return [NSString stringWithFormat:stringFormat, obj.serverIP, obj.serverPort];;
+}
+
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL {
     NSString *urlString = @"";
     if (path.length > 0 && ![path isEqualToString:@"(null)"]) {

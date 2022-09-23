@@ -1230,11 +1230,7 @@ double round(double d) {
         clearLogoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, clearLogoWidth, clearLogoHeight)];
         clearLogoImageView.layer.minificationFilter = kCAFilterTrilinear;
         clearLogoImageView.contentMode = UIViewContentModeScaleAspectFit;
-        GlobalData *obj = [GlobalData getInstance];
-        NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-        if (AppDelegate.instance.serverVersion > 11) {
-            serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-        }
+        NSString *serverURL = [Utilities getImageServerURL];
         NSString *stringURL = [Utilities formatStringURL:item[@"clearlogo"] serverURL:serverURL];
         [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL]
                            placeholderImage:[UIImage imageNamed:@"blank"]];
@@ -1471,11 +1467,7 @@ double round(double d) {
     if (cell == nil) {
         cell = [[ActorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier castWidth:castWidth castHeight:castHeight size:lineSpacing castFontSize:castFontSize];
     }
-    GlobalData *obj = [GlobalData getInstance];
-    NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-    if (AppDelegate.instance.serverVersion > 11) {
-        serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-    }
+    NSString *serverURL = [Utilities getImageServerURL];
     NSString *stringURL = [Utilities formatStringURL:cast[indexPath.row][@"thumbnail"] serverURL:serverURL];
     [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL]
                         placeholderImage:[UIImage imageNamed:@"person"]

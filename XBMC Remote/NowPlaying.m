@@ -560,11 +560,7 @@ long currentItemID;
                                  NSString *type = [Utilities getStringFromItem:nowPlayingInfo[@"type"]];
                                  currentType = type;
                                  [self setCoverSize:currentType];
-                                 GlobalData *obj = [GlobalData getInstance];
-                                 NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-                                 if (AppDelegate.instance.serverVersion > 11) {
-                                     serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-                                 }
+                                 NSString *serverURL = [Utilities getImageServerURL];
                                  NSString *thumbnailPath = [self getNowPlayingThumbnailPath:nowPlayingInfo];
                                  NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                                  if (![lastThumbnail isEqualToString:stringURL] || [lastThumbnail isEqualToString:@""]) {
@@ -975,7 +971,6 @@ long currentItemID;
         [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     }
     [activityIndicatorView startAnimating];
-    GlobalData *obj = AppDelegate.instance.obj;
     int playlistID = playerID;
     if (forcePlaylistID) {
         playlistID = PLAYERID_MUSIC;
@@ -1034,13 +1029,8 @@ long currentItemID;
                            [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
                            editTableButton.enabled = YES;
                        }
-                       NSString *serverURL;
-                       serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-                       int runtimeInMinute = 1;
-                       if (AppDelegate.instance.serverVersion > 11) {
-                           serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-                           runtimeInMinute = 60;
-                       }
+                       NSString *serverURL = [Utilities getImageServerURL];
+                       int runtimeInMinute = [Utilities getSec2Min:YES];
                        for (NSDictionary *item in playlistItems) {
                            NSString *idItem = [NSString stringWithFormat:@"%@", item[@"id"]];
                            NSString *label = [NSString stringWithFormat:@"%@", item[@"label"]];
@@ -1231,7 +1221,6 @@ long currentItemID;
                                      newProperties, @"properties",
                                      object, itemid,
                                      nil];
-    GlobalData *obj = [GlobalData getInstance];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
@@ -1264,13 +1253,8 @@ long currentItemID;
                          return;
                      }
                  }
-                 NSString *serverURL = @"";
-                 serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-                 int runtimeInMinute = 1;
-                 if (AppDelegate.instance.serverVersion > 11) {
-                     serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-                     runtimeInMinute = 60;
-                 }
+                 NSString *serverURL = [Utilities getImageServerURL];
+                 int runtimeInMinute = [Utilities getSec2Min:YES];
 
                  NSString *label = [NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row1"]]];
                  NSString *genre = [Utilities getStringFromItem:itemExtraDict[mainFields[@"row2"]]];
@@ -1622,11 +1606,7 @@ long currentItemID;
 }
 
 - (void)updateCurrentLogo {
-    GlobalData *obj = [GlobalData getInstance];
-    NSString *serverURL = [NSString stringWithFormat:@"%@:%@/vfs/", obj.serverIP, obj.serverPort];
-    if (AppDelegate.instance.serverVersion > 11) {
-        serverURL = [NSString stringWithFormat:@"%@:%@/image/", obj.serverIP, obj.serverPort];
-    }
+    NSString *serverURL = [Utilities getImageServerURL];
     if ([storeCurrentLogo isEqualToString:storeClearart]) {
         storeCurrentLogo = storeClearlogo;
     }
