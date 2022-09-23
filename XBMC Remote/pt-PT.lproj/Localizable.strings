@@ -15,7 +15,7 @@
 "XBMC Server" = "Servidor Kodi";
 "New XBMC Server" = "Novo servidor Kodi";
 "Modify XBMC Server" = "Modificar servidor Kodi";
-"Select an XBMC Server from the list" = "Seleccionar um servidor Kodi da lista";
+"Select an XBMC Server from the list" = "Selecione um servidor de Kodi na lista";
 "Files" = "Ficheiros";
 "Video Add-ons" = "Add-ons de vídeo";/*------ To verify ------*/
 "Live TV" = "TV em directo";
@@ -105,10 +105,10 @@
 "Cannot do that" = "Não é possível fazer isso";
 "Send Wake-On-LAN" = "Enviar Wake-On-LAN";
 "No saved hosts found" = "Nenhum servidor guardado encontrado";
-"Are you sure you want to clear the playlist?" = "Tem a certeza de que quer apagar a playlist?";
-"Are you sure you want to clear the music playlist?" = "Tem a certeza de que quer apagar a playlist de música?";
-"Are you sure you want to clear the video playlist?" = "Tem a certeza de que quer apagar a playlist de vídeo?";
-"Are you sure you want to clear the picture playlist?" = "Tem a certeza de que quer apagar a playlist de imagens?";
+"Are you sure you want to clear the playlist?" = "Tem a certeza de que quer apagar a lista de reprodução?";
+"Are you sure you want to clear the music playlist?" = "Tem a certeza de que quer apagar a lista de reprodução de música?";
+"Are you sure you want to clear the video playlist?" = "Tem a certeza de que quer apagar a lista de reprodução do vídeo?";
+"Are you sure you want to clear the picture playlist?" = "Tem a certeza de que pretende apagar a playlist de imagens?";
 "Are you sure you want to power off your XBMC system now?" = "Tem a certeza que pretende desligar o seu sistema Kodi agora?";
 "Are you sure you want to hibernate your XBMC system now?" = "Tem a certeza que pretende hibernar o seu sistema Kodi agora?";
 "Are you sure you want to suspend your XBMC system now?" = "Tem a certeza que pretende suspender o seu sistema Kodi agora?";
@@ -292,7 +292,7 @@
 "Date" = "Data";
 "Music Add-ons" = "Addons de música";
 "Video Add-ons" = "Addons de video";
-"Channel" = "Canal de televisão";
+"Channel" = "Canal";
 "For search switch to list view" = "Para pesquisar mudar para ver a lista";
 "Unable to activate the window" = "Não foi possível ativar a janela";
 "Window activated successfully" = "Ativação da janela com sucesso";
@@ -308,3 +308,10 @@
 "Radio" = "Rádio";
 "Timer rules" = "Regras de temporização";
 "All channels" = "Todos os canais";
+"Recording Details" = "Detalhes da gravação";
+"Movie Set Details" = "Detalhes do conjunto de filmes";
+"Type" = "Tipo";
+"Added Music Videos" = "Vídeos musicais adicionados";
+"Global Search" = "Pesquisa global";
+"Copy to clipboard" = "Copiar para área de transferência";
+"Channel Groups" = "Grupos de Canais";
