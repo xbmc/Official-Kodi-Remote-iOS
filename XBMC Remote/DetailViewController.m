@@ -3253,79 +3253,96 @@ NSIndexPath *selected;
 
 - (void)markVideo:(NSMutableDictionary*)item indexPath:(NSIndexPath*)indexPath watched:(int)watched {
     id cell = [self getCell:indexPath];
-    UITableView *tableView = dataList;
-    BOOL isTableView = YES;
-    if (enableCollectionView) {
-        isTableView = NO;
-    }
     UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
     [queuing startAnimating];
 
     NSString *methodToCall = @"";
-    if ([item[@"family"] isEqualToString:@"episodeid"]) {
+    NSString *family = item[@"family"];
+    if ([family isEqualToString:@"tvshowid"]) {
+        methodToCall = @"VideoLibrary.SetEpisodeDetails";
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:item[@"tvshowid"], @"tvshowid", @[@"season", @"episode"], @"properties", nil];
+        [[Utilities getJsonRPC]
+         callMethod:@"VideoLibrary.GetEpisodes"
+         withParameters:params
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (error == nil && methodError == nil) {
+                // Set the playcount for each episode of the TV Show (fire-and-forget, no error check)
+                for (id arrayItem in methodResult[@"episodes"]) {
+                    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                            arrayItem[@"episodeid"], @"episodeid",
+                                            @(watched), @"playcount",
+                                            nil];
+                    [[Utilities getJsonRPC]
+                     callMethod:methodToCall
+                     withParameters:params
+                     onCompletion:nil];
+                }
+                [self updateCellAndSaveRichData:indexPath watched:watched item:item];
+            }
+            [queuing stopAnimating];
+         }];
+        return;
+    }
+    else if ([family isEqualToString:@"episodeid"]) {
         methodToCall = @"VideoLibrary.SetEpisodeDetails";
     }
-    else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
-        methodToCall = @"VideoLibrary.SetTVShowDetails";
-    }
-    else if ([item[@"family"] isEqualToString:@"movieid"]) {
+    else if ([family isEqualToString:@"movieid"]) {
         methodToCall = @"VideoLibrary.SetMovieDetails";
     }
-    else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
+    else if ([family isEqualToString:@"musicvideoid"]) {
         methodToCall = @"VideoLibrary.SetMusicVideoDetails";
     }
     else {
         [queuing stopAnimating];
         return;
     }
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            item[family], family,
+                            @(watched), @"playcount",
+                            nil];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                     item[item[@"family"]], item[@"family"],
-                     @(watched), @"playcount",
-                     nil]
+     withParameters:params
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil) {
-             if (isTableView) {
-                 UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
-                 if (watched > 0) {
-                     flagView.hidden = NO;
-                 }
-                 else {
-                     flagView.hidden = YES;
-                 }
-                 [tableView deselectRowAtIndexPath:indexPath animated:YES];
-             }
-             else {
-                 if (watched > 0) {
-                     [cell setOverlayWatched:YES];
-                 }
-                 else {
-                     [cell setOverlayWatched:NO];
-                 }
-                 [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-             }
-             item[@"playcount"] = @(watched);
-             
-             mainMenu *menuItem = [self getMainMenu:item];
-             NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
-             NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
-             NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-             if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-                 [mutableProperties addObject:@"art"];
-                 mutableParameters[@"properties"] = mutableProperties;
-             }
-             if (mutableParameters[@"file_properties"] != nil) {
-                 mutableParameters[@"properties"] = mutableParameters[@"file_properties"];
-                 [mutableParameters removeObjectForKey: @"file_properties"];
-             }
-             [self saveData:mutableParameters];
-             [queuing stopAnimating];
+             [self updateCellAndSaveRichData:indexPath watched:watched item:item];
          }
-         else {
-             [queuing stopAnimating];
-         }
+        [queuing stopAnimating];
      }];
+}
+
+- (void)updateCellAndSaveRichData:(NSIndexPath*)indexPath watched:(int)watched item:(id)item {
+    id cell = [self getCell:indexPath];
+    BOOL wasWatched = watched > 0;
+    
+    // Set or unset the ckeck mark icon
+    if (enableCollectionView) {
+        [cell setOverlayWatched:wasWatched];
+        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    }
+    else {
+        UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
+        flagView.hidden = !wasWatched;
+        [dataList deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
+    // Set the new playcount for the item inside the rich data
+    item[@"playcount"] = @(watched);
+    
+    // Store the rich data
+    mainMenu *menuItem = [self getMainMenu:item];
+    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
+    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
+    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
+        [mutableProperties addObject:@"art"];
+        mutableParameters[@"properties"] = mutableProperties;
+    }
+    if (mutableParameters[@"file_properties"] != nil) {
+        mutableParameters[@"properties"] = mutableParameters[@"file_properties"];
+        [mutableParameters removeObjectForKey: @"file_properties"];
+    }
+    [self saveData:mutableParameters];
 }
 
 - (void)saveSortMethod:(NSString*)sortMethod parameters:(NSDictionary*)parameters {
