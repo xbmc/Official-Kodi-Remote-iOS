@@ -26,7 +26,6 @@
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *thumbnailView;
     IBOutlet UIView *BottomView;
-    IBOutlet UIView *TopView;
     UIView *transitionView;
     UIView *transitionedView;
     IBOutlet UIView *nowPlayingView;

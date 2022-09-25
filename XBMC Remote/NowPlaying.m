@@ -411,9 +411,9 @@ long storedItemID;
                                 [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
                             }
-                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:UIColor.whiteColor];
-                            [Utilities colorLabel:songName AnimDuration:1.0 Color:[Utilities getGrayColor:230 alpha:1]];
-                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:UIColor.lightGrayColor];
+                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:UIColor.lightGrayColor];
+                            [Utilities colorLabel:songName AnimDuration:1.0 Color:UIColor.whiteColor];
+                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:UIColor.whiteColor];
                             [Utilities colorLabel:currentTime AnimDuration:1.0 Color:UIColor.lightGrayColor];
                             [Utilities colorLabel:duration AnimDuration:1.0 Color:UIColor.lightGrayColor];
                         }
@@ -429,11 +429,11 @@ long storedItemID;
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
                             }
-                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:pgThumbColor];
-                            [Utilities colorLabel:songName AnimDuration:1.0 Color:pgThumbColor];
-                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:progressColor];
-                            [Utilities colorLabel:currentTime AnimDuration:1.0 Color:progressColor];
-                            [Utilities colorLabel:duration AnimDuration:1.0 Color:progressColor];
+                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:slightLighterColor];
+                            [Utilities colorLabel:songName AnimDuration:1.0 Color:lighterColor];
+                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:lighterColor];
+                            [Utilities colorLabel:currentTime AnimDuration:1.0 Color:slightLighterColor];
+                            [Utilities colorLabel:duration AnimDuration:1.0 Color:slightLighterColor];
                         }
                     }
                     completion:NULL];
@@ -2243,10 +2243,6 @@ long storedItemID;
     frame.size.width = width;
     toolbarBackground.frame = frame;
     
-    frame = TopView.frame;
-    frame.size.height = CGRectGetMinY(songDetailsView.frame);
-    TopView.frame = frame;
-    
     [self setCoverSize:currentType];
 }
 
@@ -2262,9 +2258,9 @@ long storedItemID;
     CGFloat width = IS_IPHONE ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH;
     CGFloat scale = MIN(height / IPHONE_SCREEN_DESIGN_HEIGHT, width / IPHONE_SCREEN_DESIGN_WIDTH);
     
-    albumName.font        = [UIFont systemFontOfSize:floor(18 * scale)];
-    songName.font         = [UIFont systemFontOfSize:floor(16 * scale)];
-    artistName.font       = [UIFont systemFontOfSize:floor(14 * scale)];
+    albumName.font        = [UIFont systemFontOfSize:floor(16 * scale)];
+    songName.font         = [UIFont boldSystemFontOfSize:floor(20 * scale)];
+    artistName.font       = [UIFont systemFontOfSize:floor(16 * scale)];
     currentTime.font      = [UIFont systemFontOfSize:floor(12 * scale)];
     duration.font         = [UIFont systemFontOfSize:floor(12 * scale)];
     scrabbingMessage.font = [UIFont systemFontOfSize:floor(10 * scale)];
