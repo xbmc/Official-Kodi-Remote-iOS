@@ -441,7 +441,6 @@ long storedItemID;
     [UIView animateWithDuration:time
                      animations:^{
                          iOS7bgEffect.backgroundColor = color;
-                         iOS7navBarEffect.backgroundColor = color;
                          if ([color isEqual:UIColor.clearColor]) {
                              self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
                              [Utilities imageView:backgroundImageView AnimDuration:1.0 Image:[UIImage imageNamed:@"shiny_black_back"]];
@@ -2521,13 +2520,6 @@ long storedItemID;
         iOS7bgEffect = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - bottomBarHeight, self.view.frame.size.width, effectHeight)];
         iOS7bgEffect.autoresizingMask = playlistToolbar.autoresizingMask;
         [self.view insertSubview:iOS7bgEffect atIndex:0];
-    }
-    // lower half of top area is colored in album color
-    if (iOS7navBarEffect == nil && IS_IPHONE) {
-        CGFloat effectHeight = CGRectGetMaxY(self.navigationController.navigationBar.frame) / 2;
-        iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, -effectHeight, self.view.frame.size.width, effectHeight)];
-        iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        [self.view insertSubview:iOS7navBarEffect atIndex:0];
     }
 }
 
