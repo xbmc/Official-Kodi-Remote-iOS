@@ -1151,4 +1151,12 @@
     return percent_elapsed;
 }
 
++ (void)createTransparentToolbar:(UIToolbar*)toolbar {
+    [toolbar setBackgroundImage:[UIImage new]
+             forToolbarPosition:UIBarPositionAny
+                     barMetrics:UIBarMetricsDefault];
+    [toolbar setShadowImage:[UIImage new]
+         forToolbarPosition:UIBarPositionAny];
+}
+
 @end

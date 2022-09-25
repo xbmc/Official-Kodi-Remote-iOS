@@ -5826,6 +5826,12 @@ NSIndexPath *selected;
         numberOfStars = [parameters[@"numberOfStars"] intValue];
     }
     
+    // Transparent toolbar
+    [Utilities createTransparentToolbar:buttonsViewBgToolbar];
+    
+    // Gray background for toolbar
+    buttonsView.backgroundColor = [Utilities getGrayColor:38 alpha:0.95];
+    
     if ([methods[@"albumView"] boolValue]) {
         albumView = YES;
     }

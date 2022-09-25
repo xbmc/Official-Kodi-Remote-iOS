@@ -2628,6 +2628,9 @@ long storedItemID;
     playlistTableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
+    // Transparent toolbar
+    [Utilities createTransparentToolbar:playlistToolbar];
+    
     ProgressSlider.minimumTrackTintColor = SLIDER_DEFAULT_COLOR;
     ProgressSlider.maximumTrackTintColor = APP_TINT_COLOR;
     playlistTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];

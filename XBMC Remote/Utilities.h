@@ -100,5 +100,6 @@ typedef enum {
 + (void)imageView:(UIImageView*)view AnimDuration:(NSTimeInterval)seconds Image:(UIImage*)image;
 + (void)colorLabel:(UILabel*)view AnimDuration:(NSTimeInterval)seconds Color:(UIColor*)color;
 + (float)getPercentElapsed:(NSDate*)startDate EndDate:(NSDate*)endDate;
++ (void)createTransparentToolbar:(UIToolbar*)toolbar;
 
 @end
