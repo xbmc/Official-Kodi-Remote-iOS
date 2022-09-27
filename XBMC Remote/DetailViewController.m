@@ -4761,6 +4761,12 @@ NSIndexPath *selected;
                                  }
                                  if (isLastItem) {
                                      storeRichResults = [resultStoreArray mutableCopy];
+                                     // Show "no results found", if results are empty, and leave
+                                     if (!resultStoreArray.count) {
+                                         [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
+                                         return;
+                                     }
+                                     // Store and show results
                                      if (forceRefresh == YES){
                                          [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
                                          [activeLayoutView setUserInteractionEnabled:YES];
@@ -4803,11 +4809,8 @@ NSIndexPath *selected;
                  }
 //                 NSLog(@"END STORE");
 //                 NSLog(@"RICH RESULTS %@", resultStoreArray);
-                 // Leave as all necessary steps are handled in callbacks of the postprocessing for 1-movie-sets
+                 // Single Movie Sets are handled seperately
                  if (ignoreSingleMovieSets) {
-                     if (!resultStoreArray.count) {
-                         [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
-                     }
                      return;
                  }
                  if (!extraSectionCallBool) {
