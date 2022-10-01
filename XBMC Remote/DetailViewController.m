@@ -4728,6 +4728,7 @@ NSIndexPath *selected;
                  NSString *serverURL = [Utilities getImageServerURL];
                  int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
                  if ([itemDict isKindOfClass:[NSArray class]]) {
+                     dispatch_group_t group = dispatch_group_create();
                      for (NSDictionary *item in itemDict) {
                          NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
                                                                             mainFields:mainFields
@@ -4747,9 +4748,9 @@ NSIndexPath *selected;
                          
                          // Postprocessing of movie sets lists to ignore 1-movie-sets
                          if (ignoreSingleMovieSets) {
-                             BOOL isLastItem = (item == itemDict.lastObject);
                              NSString *newMethodToCall = @"VideoLibrary.GetMovieSetDetails";
                              NSDictionary *newParameter = @{@"setid": @([item[@"setid"] longValue])};
+                             dispatch_group_enter(group);
                              [[Utilities getJsonRPC]
                               callMethod:newMethodToCall
                               withParameters:newParameter
@@ -4759,15 +4760,7 @@ NSIndexPath *selected;
                                          [resultStoreArray addObject:newDict];
                                      }
                                  }
-                                 if (isLastItem) {
-                                     storeRichResults = [resultStoreArray mutableCopy];
-                                     if (forceRefresh == YES){
-                                         [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
-                                         [activeLayoutView setUserInteractionEnabled:YES];
-                                     }
-                                     [self saveData:mutableParameters];
-                                     [self indexAndDisplayData];
-                                 }
+                                 dispatch_group_leave(group);
                              }];
                          }
                          else if (ignorePvrItem) {
@@ -4777,6 +4770,22 @@ NSIndexPath *selected;
                              [resultStoreArray addObject:newDict];
                          }
                      }
+                     // Finish the processing for 1-movie sets
+                     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+                         storeRichResults = [resultStoreArray mutableCopy];
+                         // Show "no results found", if results are empty, and leave
+                         if (!resultStoreArray.count) {
+                             [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
+                             return;
+                         }
+                         // Store and show results
+                         if (forceRefresh == YES){
+                             [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+                             [activeLayoutView setUserInteractionEnabled:YES];
+                         }
+                         [self saveData:mutableParameters];
+                         [self indexAndDisplayData];
+                     });
                  }
                  else if ([itemDict isKindOfClass:[NSDictionary class]]) {
                      id itemType = methodResult[itemid][mainFields[@"typename"]];
@@ -4803,11 +4812,8 @@ NSIndexPath *selected;
                  }
 //                 NSLog(@"END STORE");
 //                 NSLog(@"RICH RESULTS %@", resultStoreArray);
-                 // Leave as all necessary steps are handled in callbacks of the postprocessing for 1-movie-sets
+                 // Single Movie Sets are handled seperately
                  if (ignoreSingleMovieSets) {
-                     if (!resultStoreArray.count) {
-                         [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
-                     }
                      return;
                  }
                  if (!extraSectionCallBool) {
