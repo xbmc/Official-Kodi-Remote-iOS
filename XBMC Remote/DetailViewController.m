@@ -4850,7 +4850,9 @@ NSIndexPath *selected;
 
 - (void)saveAndShowResultsRefresh:(BOOL)forceRefresh params:(NSMutableDictionary*)mutableParameters {
     if (filterModeType == ViewModeWatched ||
-        filterModeType == ViewModeUnwatched) {
+        filterModeType == ViewModeUnwatched ||
+        filterModeType == ViewModeListened ||
+        filterModeType == ViewModeNotListened) {
         if (forceRefresh) {
             [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
             [activeLayoutView setUserInteractionEnabled:YES];
