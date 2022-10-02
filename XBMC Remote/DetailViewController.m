@@ -4771,21 +4771,23 @@ NSIndexPath *selected;
                          }
                      }
                      // Finish the processing for 1-movie sets
-                     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-                         storeRichResults = [resultStoreArray mutableCopy];
-                         // Show "no results found", if results are empty, and leave
-                         if (!resultStoreArray.count) {
-                             [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
-                             return;
-                         }
-                         // Store and show results
-                         if (forceRefresh == YES){
-                             [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
-                             [activeLayoutView setUserInteractionEnabled:YES];
-                         }
-                         [self saveData:mutableParameters];
-                         [self indexAndDisplayData];
-                     });
+                     if (ignoreSingleMovieSets) {
+                         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+                             storeRichResults = [resultStoreArray mutableCopy];
+                             // Show "no results found", if results are empty, and leave
+                             if (!resultStoreArray.count) {
+                                 [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
+                                 return;
+                             }
+                             // Store and show results
+                             if (forceRefresh == YES){
+                                 [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+                                 [activeLayoutView setUserInteractionEnabled:YES];
+                             }
+                             [self saveData:mutableParameters];
+                             [self indexAndDisplayData];
+                         });
+                     }
                  }
                  else if ([itemDict isKindOfClass:[NSDictionary class]]) {
                      id itemType = methodResult[itemid][mainFields[@"typename"]];
