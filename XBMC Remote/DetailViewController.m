@@ -4780,12 +4780,7 @@ NSIndexPath *selected;
                                  return;
                              }
                              // Store and show results
-                             if (forceRefresh == YES){
-                                 [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
-                                 [activeLayoutView setUserInteractionEnabled:YES];
-                             }
-                             [self saveData:mutableParameters];
-                             [self indexAndDisplayData];
+                             [self saveAndShowResultsRefresh:forceRefresh params:mutableParameters];
                          });
                      }
                  }
@@ -4824,22 +4819,9 @@ NSIndexPath *selected;
                  if (SectionMethodToCall != nil) {
                      [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:self.extraSectionRichResults extraSectionCall:YES refresh:forceRefresh];
                  }
-                 else if (filterModeType == ViewModeWatched ||
-                          filterModeType == ViewModeUnwatched) {
-                     if (forceRefresh) {
-                         [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
-                         [activeLayoutView setUserInteractionEnabled:YES];
-                         [self saveData:mutableParameters];
-                     }
-                     [self changeViewMode:filterModeType forceRefresh:forceRefresh];
-                 }
                  else {
-                     if (forceRefresh) {
-                         [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
-                         [activeLayoutView setUserInteractionEnabled:YES];
-                     }
-                     [self saveData:mutableParameters];
-                     [self indexAndDisplayData];
+                     // Store and show results
+                     [self saveAndShowResultsRefresh:forceRefresh params:mutableParameters];
                  }
              }
              else {
@@ -4861,6 +4843,26 @@ NSIndexPath *selected;
              [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
          }
      }];
+}
+
+- (void)saveAndShowResultsRefresh:(BOOL)forceRefresh params:(NSMutableDictionary*)mutableParameters {
+    if (filterModeType == ViewModeWatched ||
+        filterModeType == ViewModeUnwatched) {
+        if (forceRefresh) {
+            [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+            [activeLayoutView setUserInteractionEnabled:YES];
+            [self saveData:mutableParameters];
+        }
+        [self changeViewMode:filterModeType forceRefresh:forceRefresh];
+    }
+    else {
+        if (forceRefresh) {
+            [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+            [activeLayoutView setUserInteractionEnabled:YES];
+        }
+        [self saveData:mutableParameters];
+        [self indexAndDisplayData];
+    }
 }
 
 - (void)animateNoResultsFound {
