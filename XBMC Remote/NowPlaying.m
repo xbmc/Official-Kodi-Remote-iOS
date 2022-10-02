@@ -102,6 +102,11 @@
 
 #pragma mark - utility
 
+- (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode title:(NSString*)title {
+    NSString *text = [NSString stringWithFormat:@"S%@E%@ - %@", season, episode, title];
+    return text;
+}
+
 - (NSString*)getNowPlayingThumbnailPath:(NSDictionary*)item {
     // If a recording is played, we can use the iocn (typically the station logo)
     BOOL useIcon = [item[@"type"] isEqualToString:@"recording"] || [item[@"recordingid"] longValue] > 0;
@@ -560,7 +565,7 @@ long storedItemID;
                                  storeLiveTVTitle = title;
                                  NSString *artist = [Utilities getStringFromItem:nowPlayingInfo[@"artist"]];
                                  if (album.length == 0 && ((NSNull*)nowPlayingInfo[@"showtitle"] != [NSNull null]) && nowPlayingInfo[@"season"] > 0) {
-                                     album = [nowPlayingInfo[@"showtitle"] length] != 0 ? [NSString stringWithFormat:@"%@ - %@x%@", nowPlayingInfo[@"showtitle"], nowPlayingInfo[@"season"], nowPlayingInfo[@"episode"]] : @"";
+                                     album = [nowPlayingInfo[@"showtitle"] length] != 0 ? [NSString stringWithFormat:@"%@ - S%@E%@", nowPlayingInfo[@"showtitle"], nowPlayingInfo[@"season"], nowPlayingInfo[@"episode"]] : @"";
                                  }
                                  if (title.length == 0) {
                                      title = [Utilities getStringFromItem:nowPlayingInfo[@"label"]];
@@ -1736,7 +1741,8 @@ long storedItemID;
                     title = [NSString stringWithFormat:@"%@\n%@\n%@", item[@"label"], item[@"album"], item[@"artist"]];
                 }
                 else if ([item[@"type"] isEqualToString:@"episode"]) {
-                    title = [NSString stringWithFormat:@"%@\n%@x%@. %@", item[@"showtitle"], item[@"season"], item[@"episode"], item[@"label"]];
+                    NSString *tvshowText = [self formatTVShowStringForSeason:item[@"season"] episode:item[@"episode"] title:item[@"label"]];
+                    title = [NSString stringWithFormat:@"%@\n%@", item[@"showtitle"], tvshowText];
                 }
                 [self showActionNowPlaying:sheetActions title:title point:selectedPoint];
             }
@@ -1976,7 +1982,7 @@ long storedItemID;
     ((UILabel*)[cell viewWithTag:2]).text = @"";
     if ([item[@"type"] isEqualToString:@"episode"]) {
         if ([item[@"season"] intValue] != 0 || [item[@"episode"] intValue] != 0) {
-            mainLabel.text = [NSString stringWithFormat:@"%@x%02i. %@", item[@"season"], [item[@"episode"] intValue], item[@"title"]];
+            mainLabel.text = [self formatTVShowStringForSeason:item[@"season"] episode:item[@"episode"] title:item[@"title"]];
         }
         subLabel.text = [NSString stringWithFormat:@"%@", item[@"showtitle"]];
     }
