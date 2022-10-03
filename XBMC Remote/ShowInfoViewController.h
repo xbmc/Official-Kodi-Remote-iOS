@@ -81,7 +81,6 @@
     UIColor *foundTintColor;
     UILabel *viewTitle;
     __weak IBOutlet UIImageView *bottomShadow;
-    CGRect originalSelfFrame;
     BOOL isViewDidLoad;
     UIImageView *isRecording;
     LogoBackgroundType logoBackgroundMode;
