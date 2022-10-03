@@ -1063,12 +1063,12 @@
 - (void)configureLibraryView {
     NSString *imgName = nil;
     if (enableCollectionView) {
-        [self initCollectionView];
         if (longPressGesture == nil) {
             longPressGesture = [UILongPressGestureRecognizer new];
             [longPressGesture addTarget:self action:@selector(handleLongPress)];
         }
         [collectionView addGestureRecognizer:longPressGesture];
+        collectionView.contentInset = dataList.contentInset;
         dataList.delegate = nil;
         dataList.dataSource = nil;
         collectionView.delegate = self;
@@ -1649,7 +1649,6 @@
         collectionView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
         [detailView insertSubview:collectionView belowSubview:buttonsView];
     }
-    activeLayoutView = collectionView;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView*)collectionView {
@@ -5800,7 +5799,7 @@ NSIndexPath *selected;
     dataList.frame = frame;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     enableCollectionView = [self collectionViewIsEnabled];
-    if ([self collectionViewCanBeEnabled]) { // TEMP FIX
+    if ([self collectionViewCanBeEnabled]) {
         [self initCollectionView];
     }
     activeLayoutView = dataList;
