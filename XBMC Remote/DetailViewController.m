@@ -4543,55 +4543,53 @@ NSIndexPath *selected;
      withParameters:mutableParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
-            if (error == nil && methodError == nil) {
-                [activeLayoutView reloadData];
-                if ([NSJSONSerialization isValidJSONObject:methodResult]) {
-                    NSString *itemid = @"";
-                    if (((NSNull*)mainFields[@"itemid"] != [NSNull null])) {
-                        itemid = mainFields[@"itemid"];
-                    }
-                    NSArray *itemDict = methodResult[itemid];
-                    NSString *serverURL = [Utilities getImageServerURL];
-                    int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
-                    if ([itemDict isKindOfClass:[NSArray class]]) {
-                        for (NSDictionary *item in itemDict) {
-                            NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
-                                                                               mainFields:mainFields
-                                                                                serverURL:serverURL
-                                                                                  sec2min:secondsToMinute
-                                                                                useBanner:NO
-                                                                                  useIcon:NO];
-                            // Convert from array to string to allow searching globally
-                            if (newDict[@"artist"]) {
-                                newDict[@"artist"] = [Utilities getStringFromItem:newDict[@"artist"]];
-                            }
-                            if (newDict[@"director"]) {
-                                newDict[@"director"] = [Utilities getStringFromItem:newDict[@"director"]];
-                            }
-                            [self addItemGroup:newDict];
-                            [richData addObject:newDict];
+            [activeLayoutView reloadData];
+            if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                NSString *itemid = @"";
+                if (((NSNull*)mainFields[@"itemid"] != [NSNull null])) {
+                    itemid = mainFields[@"itemid"];
+                }
+                NSArray *itemDict = methodResult[itemid];
+                NSString *serverURL = [Utilities getImageServerURL];
+                int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
+                if ([itemDict isKindOfClass:[NSArray class]]) {
+                    for (NSDictionary *item in itemDict) {
+                        NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
+                                                                           mainFields:mainFields
+                                                                            serverURL:serverURL
+                                                                              sec2min:secondsToMinute
+                                                                            useBanner:NO
+                                                                              useIcon:NO];
+                        // Convert from array to string to allow searching globally
+                        if (newDict[@"artist"]) {
+                            newDict[@"artist"] = [Utilities getStringFromItem:newDict[@"artist"]];
                         }
+                        if (newDict[@"director"]) {
+                            newDict[@"director"] = [Utilities getStringFromItem:newDict[@"director"]];
+                        }
+                        [self addItemGroup:newDict];
+                        [richData addObject:newDict];
                     }
-                    else if ([itemDict isKindOfClass:[NSDictionary class]]) {
-                        id itemType = methodResult[itemid][mainFields[@"typename"]];
-                        id itemField = mainFields[@"fieldname"];
-                        if ([itemType isKindOfClass:[NSDictionary class]]) {
-                            if ([itemType[itemField] isKindOfClass:[NSArray class]]) {
-                                itemDict = itemType[itemField];
-                                NSString *sublabel = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]][@"morelabel"];
-                                if (!sublabel || [sublabel isKindOfClass:[NSNull class]]) {
-                                    sublabel = @"";
-                                }
-                                for (NSDictionary *item in itemDict) {
-                                    [richData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                                 item, @"label",
-                                                                 sublabel, @"genre",
-                                                                 @"file", @"family",
-                                                                 mainFields[@"thumbnail"], @"thumbnail",
-                                                                 @"", @"fanart",
-                                                                 @"", @"runtime",
-                                                                 nil]];
-                                }
+                }
+                else if ([itemDict isKindOfClass:[NSDictionary class]]) {
+                    id itemType = methodResult[itemid][mainFields[@"typename"]];
+                    id itemField = mainFields[@"fieldname"];
+                    if ([itemType isKindOfClass:[NSDictionary class]]) {
+                        if ([itemType[itemField] isKindOfClass:[NSArray class]]) {
+                            itemDict = itemType[itemField];
+                            NSString *sublabel = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]][@"morelabel"];
+                            if (!sublabel || [sublabel isKindOfClass:[NSNull class]]) {
+                                sublabel = @"";
+                            }
+                            for (NSDictionary *item in itemDict) {
+                                [richData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                             item, @"label",
+                                                             sublabel, @"genre",
+                                                             @"file", @"family",
+                                                             mainFields[@"thumbnail"], @"thumbnail",
+                                                             @"", @"fanart",
+                                                             @"", @"runtime",
+                                                             nil]];
                             }
                         }
                     }
