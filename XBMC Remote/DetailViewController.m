@@ -4512,9 +4512,14 @@ NSIndexPath *selected;
         [self.richResults removeAllObjects];
         [self.filteredListContent removeAllObjects];
         self.richResults = richData;
+        
+        // Stop refresh animation
+        [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+        [activeLayoutView setUserInteractionEnabled:YES];
+        
+        // Save and display
         mainMenu *menuItem = self.detailItem;
         NSMutableDictionary *parameters = [[Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]] mutableCopy];
-        
         [self saveData:parameters];
         [self indexAndDisplayData];
         return;
@@ -4538,7 +4543,6 @@ NSIndexPath *selected;
      withParameters:mutableParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
-            BOOL forceRefresh = YES;
             if (error == nil && methodError == nil) {
                 [activeLayoutView reloadData];
                 if ([NSJSONSerialization isValidJSONObject:methodResult]) {
@@ -4590,10 +4594,6 @@ NSIndexPath *selected;
                                 }
                             }
                         }
-                    }
-                    if (forceRefresh) {
-                        [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
-                        [activeLayoutView setUserInteractionEnabled:YES];
                     }
                 }
             }
