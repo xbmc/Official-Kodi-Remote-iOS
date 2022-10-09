@@ -1156,35 +1156,11 @@
         NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
         [buttonsIB[choosedTab] setImage:[UIImage imageNamed:menuItem.filterModes[choosedTab][@"icons"][filterModeIndex]] forState:UIControlStateSelected];
         
-        // Artist filter is active. We change the API call parameters and continue.
+        // Artist filter is inactive. We simply filter results via helper function changeViewMode and return.
         filterModeType = [menuItem.filterModes[choosedTab][@"modes"][filterModeIndex] intValue];
-        if (filterModeType == ViewModeAlbumArtists ||
-            filterModeType == ViewModeSongArtists ||
-            filterModeType == ViewModeDefaultArtists) {
-            if (AppDelegate.instance.APImajorVersion >= 4) {
-                switch (filterModeType) {
-                    case ViewModeAlbumArtists:
-                        mutableParameters[@"albumartistsonly"] = @YES;
-                        refresh = YES;
-                        break;
-                        
-                    case ViewModeSongArtists:
-                        mutableParameters[@"albumartistsonly"] = @NO;
-                        refresh = YES;
-                        break;
-                        
-                    case ViewModeDefaultArtists:
-                        [mutableParameters removeObjectForKey:@"albumartistsonly"];
-                        break;
-                        
-                    default:
-                        NSAssert(NO, @"changeTab: unexpected mode %d", filterModeType);
-                        break;
-                }
-            }
-        }
-        // Some other filter is active. We simply filter results via helper function changeViewMode and return.
-        else {
+        if (!(filterModeType == ViewModeAlbumArtists ||
+              filterModeType == ViewModeSongArtists ||
+              filterModeType == ViewModeDefaultArtists)) {
             [self changeViewMode:filterModeType forceRefresh:NO];
             return;
         }
@@ -4610,6 +4586,33 @@ NSIndexPath *selected;
         [mutableParameters removeObjectForKey: @"file_properties"];
     }
     
+    // Artist filter is active. We change the API call parameters and continue.
+    if (filterModeType == ViewModeAlbumArtists ||
+        filterModeType == ViewModeSongArtists ||
+        filterModeType == ViewModeDefaultArtists) {
+        if (AppDelegate.instance.APImajorVersion >= 4) {
+            switch (filterModeType) {
+                case ViewModeAlbumArtists:
+                    mutableParameters[@"albumartistsonly"] = @YES;
+                    forceRefresh = YES;
+                    break;
+                    
+                case ViewModeSongArtists:
+                    mutableParameters[@"albumartistsonly"] = @NO;
+                    forceRefresh = YES;
+                    break;
+                    
+                case ViewModeDefaultArtists:
+                    [mutableParameters removeObjectForKey:@"albumartistsonly"];
+                    break;
+                    
+                default:
+                    NSAssert(NO, @"retrieveData: unexpected mode %d", filterModeType);
+                    break;
+            }
+        }
+    }
+    
     if ([self loadedDataFromDisk:methodToCall parameters:(sectionParameters == nil) ? mutableParameters : [NSMutableDictionary dictionaryWithDictionary:sectionParameters] refresh:forceRefresh]) {
         return;
     }
@@ -4780,12 +4783,7 @@ NSIndexPath *selected;
                                  return;
                              }
                              // Store and show results
-                             if (forceRefresh == YES){
-                                 [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
-                                 [activeLayoutView setUserInteractionEnabled:YES];
-                             }
-                             [self saveData:mutableParameters];
-                             [self indexAndDisplayData];
+                             [self saveAndShowResultsRefresh:forceRefresh params:mutableParameters];
                          });
                      }
                  }
@@ -4824,22 +4822,9 @@ NSIndexPath *selected;
                  if (SectionMethodToCall != nil) {
                      [self retrieveData:SectionMethodToCall parameters:sectionParameters sectionMethod:nil sectionParameters:nil resultStore:self.extraSectionRichResults extraSectionCall:YES refresh:forceRefresh];
                  }
-                 else if (filterModeType == ViewModeWatched ||
-                          filterModeType == ViewModeUnwatched) {
-                     if (forceRefresh) {
-                         [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
-                         [activeLayoutView setUserInteractionEnabled:YES];
-                         [self saveData:mutableParameters];
-                     }
-                     [self changeViewMode:filterModeType forceRefresh:forceRefresh];
-                 }
                  else {
-                     if (forceRefresh) {
-                         [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
-                         [activeLayoutView setUserInteractionEnabled:YES];
-                     }
-                     [self saveData:mutableParameters];
-                     [self indexAndDisplayData];
+                     // Store and show results
+                     [self saveAndShowResultsRefresh:forceRefresh params:mutableParameters];
                  }
              }
              else {
@@ -4861,6 +4846,28 @@ NSIndexPath *selected;
              [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
          }
      }];
+}
+
+- (void)saveAndShowResultsRefresh:(BOOL)forceRefresh params:(NSMutableDictionary*)mutableParameters {
+    if (filterModeType == ViewModeWatched ||
+        filterModeType == ViewModeUnwatched ||
+        filterModeType == ViewModeListened ||
+        filterModeType == ViewModeNotListened) {
+        if (forceRefresh) {
+            [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+            [activeLayoutView setUserInteractionEnabled:YES];
+            [self saveData:mutableParameters];
+        }
+        [self changeViewMode:filterModeType forceRefresh:forceRefresh];
+    }
+    else {
+        if (forceRefresh) {
+            [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+            [activeLayoutView setUserInteractionEnabled:YES];
+        }
+        [self saveData:mutableParameters];
+        [self indexAndDisplayData];
+    }
 }
 
 - (void)animateNoResultsFound {
