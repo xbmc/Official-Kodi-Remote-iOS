@@ -1339,67 +1339,81 @@ double round(double d) {
     else {
         foundTag = [sender tag];
     }
+    // Close then fullscreen fanart view
     if (foundTag == 1) {
-        [Utilities alphaView:closeButton AnimDuration:1.5 Alpha:0];
-        [Utilities alphaView:scrollView AnimDuration:1.5 Alpha:1];
-        if (!enableKenBurns) {
-            [Utilities alphaView:fanartView AnimDuration:1.5 Alpha:0.2];// cool
-        }
-        else {
-            [Utilities alphaView:self.kenView AnimDuration:1.5 Alpha:0.2];// cool
-        }
+        // 1. Fade in the navbar.
+        // 2. Fade out the fanart and send StackScrollFullScreenDisabled to iPad screen handler.
+        // 3. Fade in scrollview and up arrow (we are always on the bottom of the scrollview when fading in).
         [self.navigationController setNavigationBarHidden:NO animated:YES];
-        if (IS_IPAD) {
-            if (![self isModal]) {
-                [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
-            }
-            [Utilities alphaView:toolbar AnimDuration:1.5 Alpha:1.0];
-        }
+        [UIView animateWithDuration:1.5
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                            closeButton.alpha = 0.0;
+                            if (!enableKenBurns) {
+                                fanartView.alpha = 0.2;
+                            }
+                            else {
+                                self.kenView.alpha = 0.2;
+                            }
+                            if (IS_IPAD) {
+                                if (![self isModal]) {
+                                    [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
+                                }
+                            }
+                         }
+                         completion:^(BOOL finished) {
+                            [UIView animateWithDuration:0.2
+                                                  delay:0
+                                                options:UIViewAnimationOptionCurveEaseInOut
+                                             animations:^{
+                                                scrollView.alpha = 1.0;
+                                                toolbar.alpha = 1.0;
+                                                arrow_back_up.alpha = ARROW_ALPHA;
+                                             }
+                                             completion:^(BOOL finished) {}
+                             ];
+                        }
+         ];
     }
+    // Open then fullscreen fanart view
     else {
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
-        if (IS_IPAD) {
-            if (![self isModal]) {
-                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        @YES, @"hideToolbar",
-                                        @YES, @"clipsToBounds",
-                                        nil];
-                [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
-            }
-            [UIView animateWithDuration:1.5
-                                  delay:0
-                                options:UIViewAnimationOptionCurveEaseInOut
-                             animations:^{
-                                 self.kenView.alpha = 0.0;
-                                 toolbar.alpha = 0.0;
-                                 if ([self isModal]) {
-                                     originalSelfFrame = self.view.frame;
-                                     CGRect fullscreenRect = [self currentScreenBoundsDependOnOrientation];
-                                     fullscreenRect.origin.y += 10;
+        // 1. Fade out the scrollview and arrows. Only when finished hide the navbar.
+        // 2. Fade in the fullscreen fanart and send StackScrollFullScreenEnabled to iPad screen handler.
+        [UIView animateWithDuration:0.2
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                            scrollView.alpha = 0.0;
+                            toolbar.alpha = 0.0;
+                            arrow_back_up.alpha = 0.0;
+                            arrow_continue_down.alpha = 0.0;
+                         }
+                         completion:^(BOOL finished) {
+                            [self.navigationController setNavigationBarHidden:YES animated:YES];
+                            [UIView animateWithDuration:1.5
+                                                  delay:0
+                                                options:UIViewAnimationOptionCurveEaseInOut
+                                             animations:^{
+                                                if (!enableKenBurns) {
+                                                    fanartView.alpha = 1.0;
+                                                }
+                                                else {
+                                                    self.kenView.alpha = 1.0;
+                                                }
+                                             }
+                                             completion:^(BOOL finished) {}
+                             ];
+                             if (IS_IPAD) {
+                                 if (![self isModal]) {
+                                     NSDictionary *params = @{@"hideToolbar": @YES,
+                                                              @"clipsToBounds": @YES};
+                                     [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
                                  }
                              }
-                             completion:^(BOOL finished) {}
-             ];
-            if (self.kenView != nil) {
-                CGFloat alphaValue = 1;
-                [UIView animateWithDuration:0.2
-                                 animations:^{
-                                     self.kenView.alpha = 0;
-                                 }
-                                 completion:^(BOOL finished) {
-                                     [self elabKenBurns:fanartView.image];
-                                     [Utilities alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];
-                                 }
-                 ];
-            }
-        }
-        [Utilities alphaView:scrollView AnimDuration:1.5 Alpha:0];
-        if (!enableKenBurns) {
-            [Utilities alphaView:fanartView AnimDuration:1.5 Alpha:1];// cool
-        }
-        else {
-            [Utilities alphaView:self.kenView AnimDuration:1.5 Alpha:1];// cool
-        }
+                        }
+         ];
+        
         if (closeButton == nil) {
             int cbWidth = clearLogoWidth / 2;
             int cbHeight = clearLogoHeight / 2;
@@ -1435,6 +1449,12 @@ double round(double d) {
     int height_bounds = theScrollView.bounds.size.height;
     int scrolled = theScrollView.contentOffset.y;
     bool at_bottom = scrolled >= height_content - height_bounds;
+    
+    // Ignore while not in scrollview mode
+    if (scrollView.alpha == 0) {
+        return;
+    }
+    
     if (arrow_continue_down.alpha && at_bottom) {
         [Utilities alphaView:arrow_continue_down AnimDuration:0.3 Alpha:0];
     }
@@ -1659,7 +1679,7 @@ double round(double d) {
 - (void)elabKenBurns:(UIImage*)image {
     [self.kenView stopAnimation];
     [self.kenView removeFromSuperview];
-    self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
+    self.kenView = [[KenBurnsView alloc] initWithFrame:UIScreen.mainScreen.bounds];
     self.kenView.autoresizingMask = fanartView.autoresizingMask;
     self.kenView.contentMode = fanartView.contentMode;
     self.kenView.delegate = self;
