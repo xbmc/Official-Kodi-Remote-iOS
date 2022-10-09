@@ -1063,12 +1063,12 @@
 - (void)configureLibraryView {
     NSString *imgName = nil;
     if (enableCollectionView) {
-        [self initCollectionView];
         if (longPressGesture == nil) {
             longPressGesture = [UILongPressGestureRecognizer new];
             [longPressGesture addTarget:self action:@selector(handleLongPress)];
         }
         [collectionView addGestureRecognizer:longPressGesture];
+        collectionView.contentInset = dataList.contentInset;
         dataList.delegate = nil;
         dataList.dataSource = nil;
         collectionView.delegate = self;
@@ -1077,10 +1077,8 @@
         collectionView.scrollsToTop = YES;
         activeLayoutView = collectionView;
         [self initCollectionIndexView];
-        // Need to remove the searchController from the dataList header view. Otherwise the search
-        // will not correctly show on top of the grid view.
-        dataList.tableHeaderView = nil;
         
+        [self initSearchController];
         self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         self.searchController.searchBar.tintColor = UIColor.lightGrayColor;
         imgName = @"st_view_grid";
@@ -1097,6 +1095,7 @@
         // Ensure the searchController is properly attached to the dataList header view.
         dataList.tableHeaderView = self.searchController.searchBar;
         
+        [self initSearchController];
         self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
         self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
         imgName = @"st_view_list";
@@ -1625,7 +1624,6 @@
         collectionView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
         [detailView insertSubview:collectionView belowSubview:buttonsView];
     }
-    activeLayoutView = collectionView;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView*)collectionView {
@@ -5807,7 +5805,7 @@ NSIndexPath *selected;
     dataList.frame = frame;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     enableCollectionView = [self collectionViewIsEnabled];
-    if ([self collectionViewCanBeEnabled]) { // TEMP FIX
+    if ([self collectionViewCanBeEnabled]) {
         [self initCollectionView];
     }
     activeLayoutView = dataList;
