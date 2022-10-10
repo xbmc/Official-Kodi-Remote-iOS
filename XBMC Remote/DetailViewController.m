@@ -814,32 +814,23 @@
     [self hideButtonListWhenEmpty];
 }
 
+- (void)setViewInset:(UIView*)view bottom:(CGFloat)bottomInset {
+    UIEdgeInsets viewInsets = dataList.contentInset;
+    viewInsets.bottom = bottomInset;
+    dataList.contentInset = viewInsets;
+    dataList.scrollIndicatorInsets = viewInsets;
+}
+
 - (void)hideButtonList:(BOOL)hide {
     if (hide) {
         buttonsView.hidden = YES;
-        
-        UIEdgeInsets tableViewInsets = dataList.contentInset;
-        tableViewInsets.bottom = 0;
-        dataList.contentInset = tableViewInsets;
-        dataList.scrollIndicatorInsets = tableViewInsets;
-        
-        tableViewInsets = collectionView.contentInset;
-        tableViewInsets.bottom = 0;
-        collectionView.contentInset = tableViewInsets;
-        collectionView.scrollIndicatorInsets = tableViewInsets;
+        [self setViewInset:dataList bottom:0];
+        [self setViewInset:collectionView bottom:0];
     }
     else {
         buttonsView.hidden = NO;
-        
-        UIEdgeInsets tableViewInsets = dataList.contentInset;
-        tableViewInsets.bottom = 44;
-        dataList.contentInset = tableViewInsets;
-        dataList.scrollIndicatorInsets = tableViewInsets;
-        
-        tableViewInsets = collectionView.contentInset;
-        tableViewInsets.bottom = 44;
-        collectionView.contentInset = tableViewInsets;
-        collectionView.scrollIndicatorInsets = tableViewInsets;
+        [self setViewInset:dataList bottom:44];
+        [self setViewInset:collectionView bottom:44];
     }
 }
 
