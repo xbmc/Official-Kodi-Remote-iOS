@@ -822,6 +822,9 @@
         tableViewInsets.bottom = 0;
         dataList.contentInset = tableViewInsets;
         dataList.scrollIndicatorInsets = tableViewInsets;
+        
+        tableViewInsets = collectionView.contentInset;
+        tableViewInsets.bottom = 0;
         collectionView.contentInset = tableViewInsets;
         collectionView.scrollIndicatorInsets = tableViewInsets;
     }
@@ -832,6 +835,9 @@
         tableViewInsets.bottom = 44;
         dataList.contentInset = tableViewInsets;
         dataList.scrollIndicatorInsets = tableViewInsets;
+        
+        tableViewInsets = collectionView.contentInset;
+        tableViewInsets.bottom = 44;
         collectionView.contentInset = tableViewInsets;
         collectionView.scrollIndicatorInsets = tableViewInsets;
     }
