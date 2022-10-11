@@ -829,8 +829,9 @@
     }
     else {
         buttonsView.hidden = NO;
-        [self setViewInset:dataList bottom:44];
-        [self setViewInset:collectionView bottom:44];
+        CGFloat bottomInset = buttonsViewBgToolbar.frame.size.height;
+        [self setViewInset:dataList bottom:bottomInset];
+        [self setViewInset:collectionView bottom:bottomInset];
     }
 }
 
@@ -971,7 +972,7 @@
         [moreItemsViewController viewWillAppear:NO];
         [moreItemsViewController viewDidAppear:NO];
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-        tableViewInsets.bottom = 44;
+        tableViewInsets.bottom = buttonsViewBgToolbar.frame.size.height;
         moreItemsViewController.tableView.contentInset = tableViewInsets;
         moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
         [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
