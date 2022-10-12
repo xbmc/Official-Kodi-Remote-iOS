@@ -1544,7 +1544,7 @@ double round(double d) {
     id value = item[item[@"family"]];
     // Since API 12.7.0 Kodi server can handle Playlist.Insert and Playlist.Add for recordingid.
     // Before, the JSON parameters must use the file path.
-    if (!(AppDelegate.instance.APImajorVersion >= 12 && AppDelegate.instance.APIminorVersion >= 7) && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
+    if (!((AppDelegate.instance.APImajorVersion == 12 && AppDelegate.instance.APIminorVersion >= 7) || AppDelegate.instance.APImajorVersion > 12) && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
         param = @"file";
         value = item[@"file"];
     }
@@ -1615,7 +1615,7 @@ double round(double d) {
                 id value = item[item[@"family"]];
                 // Since API 12.7.0 Kodi server can handle Playlist.Insert and Playlist.Add for recordingid.
                 // Before, the JSON parameters must use the file path.
-                if (!(AppDelegate.instance.APImajorVersion >= 12 && AppDelegate.instance.APIminorVersion >= 7) && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
+                if (!((AppDelegate.instance.APImajorVersion == 12 && AppDelegate.instance.APIminorVersion >= 7) || AppDelegate.instance.APImajorVersion > 12) && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
                     param = @"file";
                     value = item[@"file"];
                 }
