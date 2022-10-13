@@ -19,6 +19,7 @@
 #import "StackScrollViewController.h"
 #import "ActorCell.h"
 #import "Utilities.h"
+#import "VersionCheck.h"
 
 #define PLAY_BUTTON_SIZE 20
 #define TV_LOGO_SIZE_REC_DETAILS 72
@@ -1542,9 +1543,8 @@ double round(double d) {
     NSDictionary *item = self.detailItem;
     NSString *param = item[@"family"];
     id value = item[item[@"family"]];
-    // Since API 12.7.0 Kodi server can handle Playlist.Insert and Playlist.Add for recordingid.
-    // Before, the JSON parameters must use the file path.
-    if (!((AppDelegate.instance.APImajorVersion == 12 && AppDelegate.instance.APIminorVersion >= 7) || AppDelegate.instance.APImajorVersion > 12) && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
+    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
+    if (![VersionCheck hasRecordingIdPlaylistSupport] && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
         param = @"file";
         value = item[@"file"];
     }
@@ -1613,9 +1613,8 @@ double round(double d) {
             if (error == nil && methodError == nil) {
                 NSString *param = item[@"family"];
                 id value = item[item[@"family"]];
-                // Since API 12.7.0 Kodi server can handle Playlist.Insert and Playlist.Add for recordingid.
-                // Before, the JSON parameters must use the file path.
-                if (!((AppDelegate.instance.APImajorVersion == 12 && AppDelegate.instance.APIminorVersion >= 7) || AppDelegate.instance.APImajorVersion > 12) && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
+                // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
+                if (![VersionCheck hasRecordingIdPlaylistSupport] && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
                     param = @"file";
                     value = item[@"file"];
                 }
