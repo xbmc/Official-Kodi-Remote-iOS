@@ -13,5 +13,6 @@
 
 + (BOOL)hasRecordingIdPlaylistSupport;
 + (BOOL)hasGroupSingleItemSetsSupport;
++ (BOOL)hasSortTokenReadSupport;
 
 @end

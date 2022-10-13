@@ -24,4 +24,10 @@
            (AppDelegate.instance.APImajorVersion == 6 && AppDelegate.instance.APIminorVersion == 32 && AppDelegate.instance.APIpatchVersion >= 4);
 }
 
++ (BOOL)hasSortTokenReadSupport {
+    // Sort token can be read from API 9.5.0 on
+    return (AppDelegate.instance.APImajorVersion == 9 && AppDelegate.instance.APIminorVersion >= 5) ||
+            AppDelegate.instance.APImajorVersion >= 10;
+}
+
 @end
