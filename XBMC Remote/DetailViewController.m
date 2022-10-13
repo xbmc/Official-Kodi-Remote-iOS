@@ -4709,8 +4709,7 @@ NSIndexPath *selected;
     BOOL useCommonPvrRecordingsTimers = NO;
     if ([methodToCall containsString:@"PVR."]) {
         // PVR methods do not support "sort" before JSON API 12.1
-        if ((AppDelegate.instance.APImajorVersion < 12) ||
-            ((AppDelegate.instance.APImajorVersion == 12) && (AppDelegate.instance.APIminorVersion < 1))) {
+        if (![VersionCheck hasPvrSortSupport]) {
             // remove "sort" from setup
             [mutableParameters removeObjectForKey:@"sort"];
         }

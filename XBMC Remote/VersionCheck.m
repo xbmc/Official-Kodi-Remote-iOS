@@ -30,4 +30,9 @@
             AppDelegate.instance.APImajorVersion >= 10;
 }
 
++ (BOOL)hasPvrSortSupport {
+    // PVR methods support "sort" from JSON API 12.1 on
+    return (AppDelegate.instance.APImajorVersion == 12 && AppDelegate.instance.APIminorVersion >= 1) || AppDelegate.instance.APImajorVersion > 12;
+}
+
 @end
