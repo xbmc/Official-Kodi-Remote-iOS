@@ -15,5 +15,6 @@
 + (BOOL)hasGroupSingleItemSetsSupport;
 + (BOOL)hasSortTokenReadSupport;
 + (BOOL)hasPvrSortSupport;
++ (BOOL)hasAlbumArtistOnlySupport;
 
 @end

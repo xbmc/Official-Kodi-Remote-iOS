@@ -4679,7 +4679,7 @@ NSIndexPath *selected;
     if (filterModeType == ViewModeAlbumArtists ||
         filterModeType == ViewModeSongArtists ||
         filterModeType == ViewModeDefaultArtists) {
-        if (AppDelegate.instance.APImajorVersion >= 4) {
+        if ([VersionCheck hasAlbumArtistOnlySupport]) {
             switch (filterModeType) {
                 case ViewModeAlbumArtists:
                     mutableParameters[@"albumartistsonly"] = @YES;
