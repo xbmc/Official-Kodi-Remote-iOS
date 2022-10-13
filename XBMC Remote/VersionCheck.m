@@ -17,4 +17,11 @@
     return (AppDelegate.instance.APImajorVersion == 12 && AppDelegate.instance.APIminorVersion >= 7) || AppDelegate.instance.APImajorVersion > 12;
 }
 
++ (BOOL)hasGroupSingleItemSetsSupport {
+    // GroupSingleItemSets is enabled (supported from API 6.32.4 on)
+    return (AppDelegate.instance.APImajorVersion >= 7) ||
+           (AppDelegate.instance.APImajorVersion == 6 && AppDelegate.instance.APIminorVersion >= 33) ||
+           (AppDelegate.instance.APImajorVersion == 6 && AppDelegate.instance.APIminorVersion == 32 && AppDelegate.instance.APIpatchVersion >= 4);
+}
+
 @end

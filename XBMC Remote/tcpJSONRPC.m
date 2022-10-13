@@ -9,6 +9,7 @@
 #import "tcpJSONRPC.h"
 #import "AppDelegate.h"
 #import "Utilities.h"
+#import "VersionCheck.h"
 
 #define SERVER_TIMEOUT 3.0
 #define MRMC_TIMEWARP 14.0
@@ -289,10 +290,8 @@ NSOutputStream	*outStream;
 }
 
 - (void)readGroupSingleItemSets {
-    // Check if groupsingleitemsets is enabled (supported from API 6.32.4 on)
-    if ((AppDelegate.instance.APImajorVersion >= 7) ||
-        (AppDelegate.instance.APImajorVersion == 6 && AppDelegate.instance.APIminorVersion >= 33) ||
-        (AppDelegate.instance.APImajorVersion == 6 && AppDelegate.instance.APIminorVersion == 32 && AppDelegate.instance.APIpatchVersion >= 4)) {
+    // Check if GroupSingleItemSets is enabled
+    if ([VersionCheck hasGroupSingleItemSetsSupport]) {
         [[Utilities getJsonRPC]
          callMethod:@"Settings.GetSettingValue"
          withParameters:@{@"setting": @"videolibrary.groupsingleitemsets"}

@@ -12,5 +12,6 @@
 @interface VersionCheck : NSObject
 
 + (BOOL)hasRecordingIdPlaylistSupport;
++ (BOOL)hasGroupSingleItemSetsSupport;
 
 @end
