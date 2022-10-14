@@ -28,6 +28,7 @@
 #import "ProgressPieView.h"
 #import "SettingsValuesViewController.h"
 #import "customButton.h"
+#import "VersionCheck.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -3997,9 +3998,8 @@ NSIndexPath *selected;
     if ([item[@"filetype"] isEqualToString:@"directory"]) {
         key = @"directory";
     }
-    // Since API 12.7.0 Kodi server can handle Playlist.Insert and Playlist.Add for recordingid.
-    // Before, the JSON parameters must use the file path.
-    else if (!(AppDelegate.instance.APImajorVersion >= 12 && AppDelegate.instance.APIminorVersion >= 7) && [mainFields[@"row9"] isEqualToString:@"recordingid"]) {
+    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
+    else if (![VersionCheck hasRecordingIdPlaylistSupport] && [mainFields[@"row9"] isEqualToString:@"recordingid"]) {
         key = @"file";
         value = item[@"file"];
     }
@@ -4112,9 +4112,8 @@ NSIndexPath *selected;
                 if ([item[@"filetype"] isEqualToString:@"directory"]) {
                     key = @"directory";
                 }
-                // Since API 12.7.0 Kodi server can handle Playlist.Insert and Playlist.Add for recordingid.
-                // Before, the JSON parameters must use the file path.
-                else if (!(AppDelegate.instance.APImajorVersion >= 12 && AppDelegate.instance.APIminorVersion >= 7) && [mainFields[@"row8"] isEqualToString:@"recordingid"]) {
+                // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
+                else if (![VersionCheck hasRecordingIdPlaylistSupport] && [mainFields[@"row8"] isEqualToString:@"recordingid"]) {
                     key = @"file";
                     value = item[@"file"];
                 }
