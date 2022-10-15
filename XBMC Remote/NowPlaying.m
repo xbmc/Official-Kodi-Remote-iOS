@@ -1022,6 +1022,7 @@ long currentItemID;
                        if (playlistItems.count == 0) {
                            [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
                            editTableButton.enabled = NO;
+                           editTableButton.selected = NO;
                        }
                        else {
                            [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
@@ -2097,7 +2098,6 @@ long currentItemID;
                 if ((storeSelection) && (indexPath.row<storeSelection.row)) {
                     storeSelection = [NSIndexPath indexPathForRow:storeSelection.row-1 inSection:storeSelection.section];
                 }
-                editTableButton.selected = editTableButton.enabled = playlistData.count > 0;
             }
             else {
                 [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
