@@ -761,7 +761,7 @@
             NSNumber *isSetting = item[@"isSetting"] ?: @YES;
             NSDictionary *action = item[@"action"] ?: @{};
             
-            NSDictionary *itemDict = @{
+            NSMutableDictionary *itemDict = [@{
                 @"label": label,
                 @"bgColor": @{},
                 @"hideLineSeparator": @NO,
@@ -771,7 +771,7 @@
                 @"revealViewTop": @NO,
                 @"type": type,
                 @"action": action,
-            };
+            } mutableCopy];
             
             [tableData addObject:itemDict];
         }
