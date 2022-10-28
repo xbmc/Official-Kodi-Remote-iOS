@@ -879,7 +879,13 @@
     }
 }
 
-- (void)setCellImageView:(UIImageView*)imgView dictItem:(NSDictionary*)item url:(NSString*)stringURL size:(CGSize)viewSize defaultImg:(NSString*)displayThumb {
+- (void)showTVShowDefaultThumbInsteadBanner:(UIImageView*)imgView {
+    CGRect frm = imgView.frame;
+    frm.size.width = (IS_IPHONE) ? PHONE_TV_SHOWS_POSTER_WIDTH : PAD_TV_SHOWS_POSTER_WIDTH;
+    imgView.frame = frm;
+}
+
+- (void)setCellImageView:(UIImageView*)imgView cell:(jsonDataCell*)cell dictItem:(NSDictionary*)item url:(NSString*)stringURL size:(CGSize)viewSize defaultImg:(NSString*)displayThumb {
     if ([item[@"family"] isEqualToString:@"channelid"] || [item[@"family"] isEqualToString:@"type"]) {
         imgView.contentMode = UIViewContentModeScaleAspectFit;
     }
@@ -913,6 +919,21 @@
             if (image && (channelListView || channelGuideView || recordingListView || isOnPVR)) {
                 [Utilities setLogoBackgroundColor:weakImageView mode:logoBackgroundMode];
             }
+            if (tvshowsView && choosedTab == 0) {
+                if (image && !error) {
+                    // Gray:28 is similar to systemGray6 in Dark Mode
+                    cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+                }
+                else {
+                    if (!enableCollectionView) {
+                        cell.backgroundColor = [Utilities getSystemGray6];
+                        [self showTVShowDefaultThumbInsteadBanner:weakImageView];
+                    }
+                }
+            }
+            else {
+                cell.backgroundColor = [Utilities getSystemGray6];
+            }
         }];
     }
     else {
@@ -923,6 +944,12 @@
                       withBorder:showBorder
                         progress:nil
                        completed:nil];
+        if (!enableCollectionView) {
+            cell.backgroundColor = [Utilities getSystemGray6];
+        }
+        if (tvshowsView && choosedTab == 0 && !enableCollectionView) {
+            [self showTVShowDefaultThumbInsteadBanner:imgView];
+        }
     }
 }
 
@@ -1707,7 +1734,7 @@
             [cell setIsRecording:[item[@"isrecording"] boolValue]];
         }
         cell.posterThumbnail.frame = cell.bounds;
-        [self setCellImageView:cell.posterThumbnail dictItem:item url:stringURL size:CGSizeMake(cellthumbWidth, cellthumbHeight) defaultImg:displayThumb];
+        [self setCellImageView:cell.posterThumbnail cell:cell dictItem:item url:stringURL size:CGSizeMake(cellthumbWidth, cellthumbHeight) defaultImg:displayThumb];
         if ([stringURL isEqualToString:@""]) {
             cell.posterThumbnail.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
         }
@@ -2272,13 +2299,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (tvshowsView && choosedTab == 0) {
-        // Gray:28 is similar to systemGray6 in Dark Mode
-        cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
-    }
-    else {
-        cell.backgroundColor = [Utilities getSystemGray6];
-    }
+    // Will be set inside setCellImageView to be able to handle special case for TVshows
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -2555,7 +2576,7 @@
             genre.hidden = NO;
             runtimeyear.hidden = NO;
         }
-        [self setCellImageView:cell.urlImageView dictItem:item url:stringURL size:CGSizeMake(thumbWidth, cellHeight) defaultImg:displayThumb];
+        [self setCellImageView:cell.urlImageView cell:cell dictItem:item url:stringURL size:CGSizeMake(thumbWidth, cellHeight) defaultImg:displayThumb];
     }
     else if (albumView) {
         UILabel *trackNumber = (UILabel*)[cell viewWithTag:101];
