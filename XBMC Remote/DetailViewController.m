@@ -2051,8 +2051,9 @@
     else {
         defaultThumb = menuItem.defaultThumb;
     }
-    if (parameters[@"rowHeight"] != 0)
+    if (parameters[@"rowHeight"] != 0) {
         cellHeight = [parameters[@"rowHeight"] intValue];
+    }
     else if (menuItem.rowHeight != 0) {
         cellHeight = menuItem.rowHeight;
     }
@@ -2060,8 +2061,9 @@
         cellHeight = 76;
     }
 
-    if (parameters[@"thumbWidth"] != 0)
+    if (parameters[@"thumbWidth"] != 0) {
         thumbWidth = [parameters[@"thumbWidth"] intValue];
+    }
     else if (menuItem.thumbWidth != 0) {
         thumbWidth = menuItem.thumbWidth;
     }
