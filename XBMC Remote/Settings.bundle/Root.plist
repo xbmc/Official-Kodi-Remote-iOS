@@ -102,7 +102,29 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>FooterText</key>
-			<string>Filemode changes needs app restart</string>
+			<string>Filemode and Theme changes need app restart.</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<string>automatic</string>
+			<key>Key</key>
+			<string>theme_mode</string>
+			<key>Title</key>
+			<string>Theme (iOS 13+)</string>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Titles</key>
+			<array>
+				<string>Automatic</string>
+				<string>Dark</string>
+				<string>Light</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>automatic</string>
+				<string>dark_mode</string>
+				<string>light_mode</string>
+			</array>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>

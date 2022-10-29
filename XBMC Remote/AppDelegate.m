@@ -458,6 +458,9 @@
     
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     
+    // Set interface style for window
+    [self setInterfaceStyleFromUserDefaults];
+    
     int thumbWidth;
     int tvshowHeight;
     NSString *filemodeRowHeight= @"44";
@@ -6281,6 +6284,23 @@
 
 - (void)setIdleTimerFromUserDefaults {
     UIApplication.sharedApplication.idleTimerDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"lockscreen_preference"];
+}
+
+- (void)setInterfaceStyleFromUserDefaults {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *mode = [userDefaults stringForKey:@"theme_mode"];
+    if (@available(iOS 13.0, *)) {
+        UIUserInterfaceStyle style = UIUserInterfaceStyleUnspecified;
+        if (mode.length) {
+            if ([mode isEqualToString:@"dark_mode"]) {
+                style = UIUserInterfaceStyleDark;
+            }
+            else if ([mode isEqualToString:@"light_mode"]) {
+                style = UIUserInterfaceStyleLight;
+            }
+        }
+        self.window.overrideUserInterfaceStyle = style;
+    }
 }
     
 - (NSNumber*)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel {
