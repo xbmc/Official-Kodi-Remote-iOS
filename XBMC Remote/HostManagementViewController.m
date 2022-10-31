@@ -55,7 +55,7 @@
         AppDelegate.instance.obj.serverIP = @"";
         AppDelegate.instance.obj.serverPort = @"";
         AppDelegate.instance.obj.serverHWAddr = @"";
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
         if (standardUserDefaults) {
             [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
@@ -75,7 +75,7 @@
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     if (AppDelegate.instance.arrayServerList.count == 0 && !tableView.editing) {
-        return 1; 
+        return 1;
     }
     return AppDelegate.instance.arrayServerList.count;
 }
@@ -198,7 +198,7 @@ static inline BOOL IsEmpty(id obj) {
             [AppDelegate.instance triggerLocalNetworkPrivacyAlert];
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
 }
 
 - (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {

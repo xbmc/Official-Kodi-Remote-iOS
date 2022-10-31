@@ -289,7 +289,7 @@
                          [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
                          [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
                          [viewControllersStack removeAllObjects];
-                         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOffScreen" object: nil]; 
+                         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOffScreen" object: nil];
                     }];
 }
 

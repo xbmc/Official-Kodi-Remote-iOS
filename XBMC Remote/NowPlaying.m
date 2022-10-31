@@ -995,7 +995,7 @@ long storedItemID;
     }];
 }
 
-- (void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)animTable { 
+- (void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)animTable {
     if (!AppDelegate.instance.serverOnLine) {
         playerID = PLAYERID_UNKNOWN;
         selectedPlayerID = PLAYERID_UNKNOWN;
@@ -1389,7 +1389,7 @@ long storedItemID;
                     animations:^{
                          // fade out current button image
                          button.alpha = 0.0;
-                     } 
+                     }
                      completion:^(BOOL finished) {
                         [UIView transitionWithView:button
                                           duration:FADE_IN_TIME
@@ -2160,7 +2160,7 @@ long storedItemID;
                 [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
             }
         }];
-    } 
+    }
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView*)aTableView editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath {

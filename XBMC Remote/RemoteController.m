@@ -323,7 +323,7 @@
     [self GUIAction:@"Input.Home" params:[NSDictionary dictionary] httpAPIcallback:nil];
 }
 
-- (void)handleTouchpadLongPress:(UILongPressGestureRecognizer*)gestureRecognizer { 
+- (void)handleTouchpadLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         [[Utilities getJsonRPC]
          callMethod:@"XBMC.GetInfoBooleans" 
@@ -872,7 +872,7 @@ NSInteger buttonAction;
         }
         else {
             [self.holdVolumeTimer invalidate];
-            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendAction) userInfo:nil repeats:YES]; 
+            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
         }
     }
     NSString *action;

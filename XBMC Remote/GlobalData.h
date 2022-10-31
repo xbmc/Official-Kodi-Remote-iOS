@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface GlobalData : NSObject {
-    NSString *serverDescription; 
-    NSString *serverUser; 
-    NSString *serverPass; 
-    NSString *serverIP; 
+    NSString *serverDescription;
+    NSString *serverUser;
+    NSString *serverPass;
+    NSString *serverIP;
     NSString *serverPort;
     int tcpPort;
     NSString *serverHWAddr;
@@ -25,7 +25,7 @@
 @property (nonatomic, strong)NSString *serverIP;
 @property int tcpPort;
 @property (nonatomic, strong)NSString *serverPort;
-@property (nonatomic, strong)NSString *serverHWAddr; 
+@property (nonatomic, strong)NSString *serverHWAddr;
 
 + (GlobalData*)getInstance;
 @end

@@ -327,7 +327,7 @@
         
         if ([imageIndex intValue] == (self.imagesArray.count - 1) && !isLoop && [self.delegate respondsToSelector:@selector(didFinishAllAnimations)]) {
             [self.delegate didFinishAllAnimations];
-        } 
+        }
     }
 }
 

@@ -50,7 +50,7 @@
     return mainMenuItems.count;
 }
 
-- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath { 
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
 	cell.backgroundColor = [Utilities getSystemGray6];
 }
 
@@ -60,7 +60,7 @@
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
 	}
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; 
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 0, self.view.bounds.size.width - cellLabelOffset - 24, 43)];
     cellLabel.font = [UIFont systemFontOfSize:18];
@@ -85,7 +85,7 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"tabHasChanged" object: indexPath]; 
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"tabHasChanged" object: indexPath];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

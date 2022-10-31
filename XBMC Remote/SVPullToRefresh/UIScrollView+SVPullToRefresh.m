@@ -160,7 +160,7 @@ static char UIScrollViewPullToRefreshView;
     return self;
 }
 
-- (void)willMoveToSuperview:(UIView*)newSuperview { 
+- (void)willMoveToSuperview:(UIView*)newSuperview {
     if (self.superview && newSuperview == nil) {
         //use self.superview, not self.scrollView. Why self.scrollView == nil here?
         UIScrollView *scrollView = (UIScrollView*)self.superview;
@@ -294,7 +294,7 @@ static char UIScrollViewPullToRefreshView;
 
 #pragma mark - Observing
 
-- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context { 
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
     if ([keyPath isEqualToString:@"contentOffset"]) {
         [self scrollViewDidScroll:[[change objectForKey:NSKeyValueChangeNewKey] CGPointValue]];
     }

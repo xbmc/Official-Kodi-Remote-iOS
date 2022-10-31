@@ -89,7 +89,7 @@
 										  trackRect:[self trackRectForBounds:self.bounds]
 											  value:self.value];
         self.beganTrackingLocation = CGPointMake(thumbRect.origin.x + thumbRect.size.width / 2,
-												 thumbRect.origin.y + thumbRect.size.height / 2); 
+												 thumbRect.origin.y + thumbRect.size.height / 2);
         self.realPositionValue = self.value;
     }
     return beginTracking;
@@ -148,7 +148,7 @@
             return i;
         }
     }
-    return NSNotFound; 
+    return NSNotFound;
 }
 
 

@@ -1289,7 +1289,7 @@
 
 #pragma mark - Library item didSelect
 
-- (void)viewChild:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint) point {
+- (void)viewChild:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint)point {
     selected = indexPath;
     mainMenu *menuItem = [self getMainMenu:item];
     NSMutableArray *sheetActions = menuItem.sheetActions[choosedTab];
@@ -1359,7 +1359,7 @@
                                        [NSString stringWithFormat:@"%d", [parameters[@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
                                        [NSString stringWithFormat:@"%d", [parameters[@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
                                        [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
-                                        [NSString stringWithFormat:@"%d", [parameters[@"forceActionSheet"] boolValue]], @"forceActionSheet",
+                                       [NSString stringWithFormat:@"%d", [parameters[@"forceActionSheet"] boolValue]], @"forceActionSheet",
                                        [NSString stringWithFormat:@"%d", [parameters[@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
                                        [NSString stringWithFormat:@"%d", [parameters[@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
                                        pvrExtraInfo, @"pvrExtraInfo",
@@ -1522,7 +1522,7 @@
     }
 }
 
-- (void)didSelectItemAtIndexPath:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint) point {
+- (void)didSelectItemAtIndexPath:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint)point {
     mainMenu *menuItem = [self getMainMenu:item];
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[menuItem.subItem mainMethod][choosedTab]];
     NSMutableArray *sheetActions = [menuItem.sheetActions[choosedTab] mutableCopy];
@@ -4107,7 +4107,7 @@ NSIndexPath *selected;
                                                 nil];
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                              if (error == nil && methodError == nil) {
-                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
+                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                              }
                          }];
                      }
@@ -4133,7 +4133,7 @@ NSIndexPath *selected;
     [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:mainFields[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [queuing stopAnimating];
         if (error == nil && methodError == nil) {
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil]; 
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
         }
     }];
     
@@ -4416,7 +4416,7 @@ NSIndexPath *selected;
         [longTimeout startAnimating];
         [self.view addSubview:longTimeout];
     }
-} 
+}
 
 // retrieveData and retrieveExtraInfoData should be unified in an unique method!
 

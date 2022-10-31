@@ -72,7 +72,7 @@
 //        return UIColor.clearColor;
 //    }
     
-    // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault)  before analyzing them
+    // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
     if (anyNonAlpha && (bitmapInfo != kCGImageAlphaNoneSkipLast || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
         rawImageRef = [Utilities create32bppImage:rawImageRef format:kCGImageAlphaNoneSkipLast];
     }

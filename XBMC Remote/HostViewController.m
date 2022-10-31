@@ -83,7 +83,7 @@
     }
 }
 
-- (IBAction) dismissView:(id)sender {
+- (IBAction)dismissView:(id)sender {
     
     [self textFieldDoneEditing:nil];
     

@@ -39,7 +39,7 @@
 }
 @end
 
-@interface UIViewExt : UIView {} 
+@interface UIViewExt : UIView {}
 @end
 
 
@@ -340,7 +340,7 @@
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     firstRun = YES;
-    AppDelegate.instance.obj = [GlobalData getInstance]; 
+    AppDelegate.instance.obj = [GlobalData getInstance];
 
     int cellHeight = PAD_MENU_HEIGHT;
     NSInteger tableHeight = [(NSMutableArray*)mainMenu count] * cellHeight;

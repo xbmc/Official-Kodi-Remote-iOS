@@ -5912,7 +5912,7 @@
 /// broadcast-capable interface.
 ///
 /// Each array entry contains either a `sockaddr_in` or `sockaddr_in6`.
-- (NSArray<NSData*>*) addressesOfDiscardServiceOnBroadcastCapableInterfaces {
+- (NSArray<NSData*>*)addressesOfDiscardServiceOnBroadcastCapableInterfaces {
     struct ifaddrs *addrList = NULL;
     int err = getifaddrs(&addrList);
     if (err != 0) {
@@ -5925,13 +5925,13 @@
            ) {
             switch (cursor->ifa_addr->sa_family) {
             case AF_INET: {
-                struct sockaddr_in sin = *(struct sockaddr_in*) cursor->ifa_addr;
+                struct sockaddr_in sin = *(struct sockaddr_in*)cursor->ifa_addr;
                 sin.sin_port = htons(9);
                 NSData *addr = [NSData dataWithBytes:&sin length:sizeof(sin)];
                 [result addObject:addr];
             } break;
             case AF_INET6: {
-                struct sockaddr_in6 sin6 = *(struct sockaddr_in6*) cursor->ifa_addr;
+                struct sockaddr_in6 sin6 = *(struct sockaddr_in6*)cursor->ifa_addr;
                 sin6.sin6_port = htons(9);
                 NSData *addr = [NSData dataWithBytes:&sin6 length:sizeof(sin6)];
                 [result addObject:addr];
@@ -5973,7 +5973,7 @@
         char message = '!';
         NSArray<NSData*> *addresses = [self addressesOfDiscardServiceOnBroadcastCapableInterfaces];
         for (NSData *address in addresses) {
-            int sock = ((const struct sockaddr*) address.bytes)->sa_family == AF_INET ? sock4 : sock6;
+            int sock = ((const struct sockaddr*)address.bytes)->sa_family == AF_INET ? sock4 : sock6;
             (void) sendto(sock, &message, sizeof(message), MSG_DONTWAIT, address.bytes, (socklen_t) address.length);
         }
     }
@@ -5992,7 +5992,7 @@
         desc = CFSocketGetNative(WOLsocket);
         int yes = -1;
         
-        if (setsockopt (desc, SOL_SOCKET, SO_BROADCAST, (char*)&yes, sizeof (yes)) < 0) {
+        if (setsockopt (desc, SOL_SOCKET, SO_BROADCAST, (char*)&yes, sizeof(yes)) < 0) {
             NSLog(@"Set Socket options failed");
         }
         
@@ -6095,7 +6095,7 @@
 
 - (void)clearAppDiskCache {
     // OLD SDWEBImageCache
-    NSString *fullNamespace = @"ImageCache"; 
+    NSString *fullNamespace = @"ImageCache";
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *diskCachePath = [paths[0] stringByAppendingPathComponent:fullNamespace];
     [[NSFileManager defaultManager] removeItemAtPath:diskCachePath error:nil];
