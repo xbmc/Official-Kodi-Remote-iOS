@@ -1215,6 +1215,10 @@ NSInteger buttonAction;
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(hideKeyboard:)
+                                                 name: @"ECSlidingViewTopWillReset"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(hideKeyboard:)
                                                  name: @"ECSlidingViewUnderRightWillAppear"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
