@@ -27,7 +27,6 @@
 
 @implementation NowPlaying
 
-@synthesize detailItem = _detailItem;
 @synthesize remoteController;
 @synthesize jewelView;
 @synthesize shuffleButton;
@@ -66,14 +65,6 @@ typedef enum {
     PLAYERID_VIDEO = 1,
     PLAYERID_PICTURES = 2
 } PlayerIDs;
-
-- (void)setDetailItem:(id)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        // Update the view.
-        [self configureView];
-    }
-}
 
 - (void)configureView {
     // Update the user interface for the detail item.

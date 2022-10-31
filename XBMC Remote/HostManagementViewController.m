@@ -255,10 +255,6 @@ static inline BOOL IsEmpty(id obj) {
 
 - (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
     return nil;
-//    UIImage *myImage = [UIImage imageNamed:@"blank"];
-//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage];
-//	imageView.frame = CGRectMake(0, 0, 320, 8);
-//	return imageView;
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
@@ -267,10 +263,6 @@ static inline BOOL IsEmpty(id obj) {
 
 - (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
     return nil;
-//    UIImage *myImage = [UIImage imageNamed:@"blank"];
-//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage];
-//	imageView.frame = CGRectMake(0, 0, 320, 8);
-//	return imageView;
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {

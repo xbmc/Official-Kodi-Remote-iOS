@@ -37,7 +37,6 @@
 
 @implementation ShowInfoViewController
 
-@synthesize detailItem = _detailItem;
 @synthesize kenView;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
@@ -1721,13 +1720,6 @@ double round(double d) {
 }
 
 # pragma mark - Life Cycle
-
-- (void)setDetailItem:(id)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        // Update the view.
-    }
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

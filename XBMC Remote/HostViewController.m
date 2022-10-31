@@ -41,8 +41,6 @@
 
 @implementation HostViewController
 
-@synthesize detailItem = _detailItem;
-
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
@@ -82,12 +80,6 @@
             mac_5_UI.text = mac_octect[5];
         }
         tcpPortUI.text = AppDelegate.instance.arrayServerList[idx.row][@"tcpPort"];
-    }
-}
-
-- (void)setDetailItem:(id)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
     }
 }
 
@@ -269,7 +261,6 @@
 }
 
 - (void)handleError:(NSNumber*)error {
-//    NSLog(@"An error occurred. Error code = %d", [error intValue]);
     // Handle error here
 }
 

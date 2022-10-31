@@ -36,7 +36,6 @@
 
 @implementation DetailViewController
 
-@synthesize detailItem = _detailItem;
 @synthesize activityIndicatorView;
 @synthesize sections;
 @synthesize filteredListContent;
@@ -980,9 +979,6 @@
 #pragma mark - Tabbar management
 
 - (IBAction)showMore:(id)sender {
-//    if ([sender tag] == choosedTab) {
-//        return;
-//    }
     if ([self doesShowSearchResults] || self.searchController.isActive) {
         return;
     }
@@ -2110,7 +2106,6 @@
         iOS7insetSeparator = 30;
     }
     if (episodesView || (self.sectionArray.count == 1 && !channelGuideView)) {
-        //(self.richResults.count <= SECTIONS_START_AT || !menuItem.enableSection)
         newWidthLabel = viewWidth - 8 - labelPosition;
         menuItem.originYearDuration = viewWidth - 72;
         UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
@@ -3235,9 +3230,6 @@ NSIndexPath *selected;
             NSInteger numActions = sheetActions.count;
             if (numActions) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[choosedTab]]];
-//                if ([item[@"filetype"] isEqualToString:@"directory"]) { // DOESN'T WORK AT THE MOMENT IN XBMC?????
-//                    return;
-//                }
                 NSString *title = [NSString stringWithFormat:@"%@", item[@"label"]];
                 if (item[@"genre"] != nil && ![item[@"genre"] isEqualToString:@""]) {
                     title = [NSString stringWithFormat:@"%@\n%@", title, item[@"genre"]];
@@ -3702,14 +3694,6 @@ NSIndexPath *selected;
 }
 
 #pragma mark - View Configuration
-
-- (void)setDetailItem:(id)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        // Update the view.
-        [self configureView];
-    }
-}
 
 - (void)configureView {
     mainMenu *menuItem = self.detailItem;
@@ -5371,7 +5355,6 @@ NSIndexPath *selected;
     for (selection in [collectionView indexPathsForSelectedItems]) {
         [collectionView deselectItemAtIndexPath:selection animated:YES];
     }
-//    [self brightCells];
 
     // When going back to a Global Search view ensure we are in first index
     if (globalSearchView) {

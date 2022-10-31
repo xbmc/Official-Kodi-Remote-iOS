@@ -182,8 +182,6 @@ NSOutputStream	*outStream;
         [AppDelegate.instance sendWOL:AppDelegate.instance.obj.serverHWAddr withPort:WOL_PORT];
     }
     inCheck = YES;
-//    NSString *userPassword = [AppDelegate.instance.obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", AppDelegate.instance.obj.serverPass];
-//    NSString *serverJSON = [NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", AppDelegate.instance.obj.serverUser, userPassword, AppDelegate.instance.obj.serverIP, AppDelegate.instance.obj.serverPort];
     
     NSDictionary *checkServerParams = [NSDictionary dictionaryWithObjectsAndKeys: @[@"version", @"volume", @"name"], @"properties", nil];
     [[Utilities getJsonRPC]

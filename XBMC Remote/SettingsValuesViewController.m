@@ -21,14 +21,6 @@
 
 @implementation SettingsValuesViewController
 
-@synthesize detailItem = _detailItem;
-
-- (void)setDetailItem:(id)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-    }
-}
-
 - (id)initWithFrame:(CGRect)frame withItem:(id)item {
     if (self = [super init]) {
 		

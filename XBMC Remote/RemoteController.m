@@ -56,17 +56,8 @@
 
 @implementation RemoteController
 
-@synthesize detailItem = _detailItem;
-
 @synthesize holdVolumeTimer;
 @synthesize panFallbackImageView;
-
-- (void)setDetailItem:(id)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        // Update the view.
-    }
-}
 
 - (void)setupGestureView {
     NSArray *GestureDirections = @[@(UISwipeGestureRecognizerDirectionLeft),
