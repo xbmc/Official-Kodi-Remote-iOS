@@ -278,7 +278,7 @@ typedef enum {
 int lastPlayerID = PLAYERID_UNKNOWN;
 long lastSelected = SELECTED_NONE;
 int currentPlayerID = PLAYERID_UNKNOWN;
-float storePercentage;
+int storePosSeconds;
 long storedItemID;
 long currentItemID;
 
@@ -783,10 +783,12 @@ long currentItemID;
                                  if (playlistPosition > -1) {
                                      playlistPosition += 1;
                                  }
-                                 if (musicPartyMode && percentage < storePercentage) { // BLEAH!!!
+                                 // Detect start of new song to update party mode playlist
+                                 int posSeconds = ((hours * 60) + minutes) * 60 + seconds;
+                                 if (musicPartyMode && posSeconds < storePosSeconds) {
                                      [self checkPartyMode];
                                  }
-                                 storePercentage = percentage;
+                                 storePosSeconds = posSeconds;
                                  if (playlistPosition != lastSelected && playlistPosition > 0) {
                                      if (playlistData.count >= playlistPosition && currentPlayerID == playerID) {
                                          [self hidePlaylistProgressbarWithDeselect:NO];
