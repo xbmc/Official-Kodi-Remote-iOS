@@ -1683,9 +1683,10 @@ double round(double d) {
 # pragma mark - Utility
 
 - (void)elabKenBurns:(UIImage*)image {
+    CGRect targetedFrame = (IS_IPHONE) ? UIScreen.mainScreen.bounds : fanartView.bounds;
     [self.kenView stopAnimation];
     [self.kenView removeFromSuperview];
-    self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
+    self.kenView = [[KenBurnsView alloc] initWithFrame:targetedFrame];
     self.kenView.autoresizingMask = fanartView.autoresizingMask;
     self.kenView.contentMode = fanartView.contentMode;
     self.kenView.delegate = self;
