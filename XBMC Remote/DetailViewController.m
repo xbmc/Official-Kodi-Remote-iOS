@@ -3669,6 +3669,12 @@ NSIndexPath *selected;
     return UIScreen.mainScreen.bounds;
 }
 
+- (void)leaveFullscreen {
+    if (stackscrollFullscreen) {
+        [self toggleFullscreen:nil];
+    }
+}
+
 - (void)toggleFullscreen:(id)sender {
     [activityIndicatorView startAnimating];
     NSTimeInterval animDuration = 0.5;
@@ -5845,6 +5851,11 @@ NSIndexPath *selected;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(leaveFullscreen)
+                                                 name: @"LeaveFullscreen"
                                                object: nil];
     if (channelListView || channelGuideView) {
         [[NSNotificationCenter defaultCenter] addObserver: self
