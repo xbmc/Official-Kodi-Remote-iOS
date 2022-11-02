@@ -2024,7 +2024,8 @@ long currentItemID;
 
 - (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
     
-    if (sourceIndexPath.row >= playlistData.count) {
+    if (sourceIndexPath.row >= playlistData.count ||
+        sourceIndexPath.row == destinationIndexPath.row) {
         return;
     }
     NSDictionary *objSource = playlistData[sourceIndexPath.row];
