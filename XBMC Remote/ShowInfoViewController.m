@@ -1381,6 +1381,7 @@ double round(double d) {
     else {
         // 1. Fade out the scrollview and arrows. Only when finished hide the navbar.
         // 2. Fade in the fullscreen fanart and send StackScrollFullScreenEnabled to iPad screen handler.
+        // Special handling: For iPad we first fade out, then re-load the fanart and fade in again.
         [UIView animateWithDuration:0.2
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
@@ -1389,9 +1390,15 @@ double round(double d) {
                             toolbar.alpha = 0.0;
                             arrow_back_up.alpha = 0.0;
                             arrow_continue_down.alpha = 0.0;
+                            if (IS_IPAD && self.kenView != nil) {
+                                self.kenView.alpha = 0;
+                            }
                          }
                          completion:^(BOOL finished) {
                             [self.navigationController setNavigationBarHidden:YES animated:YES];
+                            if (IS_IPAD && self.kenView != nil) {
+                                [self elabKenBurns:fanartView.image];
+                            }
                             [UIView animateWithDuration:1.5
                                                   delay:0
                                                 options:UIViewAnimationOptionCurveEaseInOut
@@ -1678,7 +1685,7 @@ double round(double d) {
 - (void)elabKenBurns:(UIImage*)image {
     [self.kenView stopAnimation];
     [self.kenView removeFromSuperview];
-    self.kenView = [[KenBurnsView alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    self.kenView = [[KenBurnsView alloc] initWithFrame:fanartView.frame];
     self.kenView.autoresizingMask = fanartView.autoresizingMask;
     self.kenView.contentMode = fanartView.contentMode;
     self.kenView.delegate = self;
