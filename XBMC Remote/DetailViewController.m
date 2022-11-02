@@ -5578,8 +5578,8 @@ NSIndexPath *selected;
 
 - (void)showSearchBar {
     UISearchBar *searchbar = self.searchController.searchBar;
+    searchbar.frame = CGRectMake(0, 0, self.view.frame.size.width, searchbar.frame.size.height);
     if (showbar) {
-        searchbar.frame = CGRectMake(0, 0, self.view.frame.size.width, searchbar.frame.size.height);
         [self.view addSubview:searchbar];
     }
     else {
