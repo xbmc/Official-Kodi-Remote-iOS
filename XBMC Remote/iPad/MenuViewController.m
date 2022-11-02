@@ -188,7 +188,20 @@
             remoteController.modalPresentationStyle = UIModalPresentationFormSheet;
             [remoteController setPreferredContentSize:remoteController.view.frame.size];
             [self presentViewController:remoteController animated:YES completion:nil];
-            lastSelected = -1;
+            if (IS_IPAD) {
+                if (lastSelected != -1) {
+                    // Restore the selected item and unselect remote again (remote is only a popover)
+                    indexPath = [NSIndexPath indexPathForRow:lastSelected inSection:0];
+                    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+                }
+                else {
+                    // Unselect remote again (remote is only a popover)
+                    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                }
+            }
+            else {
+                lastSelected = -1;
+            }
             return;
         }
     }
