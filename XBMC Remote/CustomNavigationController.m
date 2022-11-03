@@ -50,10 +50,6 @@
     [super didReceiveMemoryWarning];
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait;
-}
-
 - (BOOL)shouldAutorotate {
     return NO;
 }

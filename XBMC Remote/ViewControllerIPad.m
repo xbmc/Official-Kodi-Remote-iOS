@@ -692,8 +692,4 @@
     return !stackScrollIsFullscreen;
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-     return UIInterfaceOrientationMaskAll;
-}
-
 @end
