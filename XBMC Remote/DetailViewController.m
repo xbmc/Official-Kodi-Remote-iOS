@@ -4516,6 +4516,7 @@ NSIndexPath *selected;
         [activeLayoutView setUserInteractionEnabled:YES];
         
         // Save and display
+        choosedTab = 0;
         mainMenu *menuItem = self.detailItem;
         NSMutableDictionary *parameters = [[Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]] mutableCopy];
         [self saveData:parameters];
