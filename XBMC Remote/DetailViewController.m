@@ -885,7 +885,7 @@
     imgView.frame = frm;
 }
 
-- (void)setCellImageView:(UIImageView*)imgView cell:(jsonDataCell*)cell dictItem:(NSDictionary*)item url:(NSString*)stringURL size:(CGSize)viewSize defaultImg:(NSString*)displayThumb {
+- (void)setCellImageView:(UIImageView*)imgView cell:(UIView*)cell dictItem:(NSDictionary*)item url:(NSString*)stringURL size:(CGSize)viewSize defaultImg:(NSString*)displayThumb {
     if ([item[@"family"] isEqualToString:@"channelid"] || [item[@"family"] isEqualToString:@"type"]) {
         imgView.contentMode = UIViewContentModeScaleAspectFit;
     }
