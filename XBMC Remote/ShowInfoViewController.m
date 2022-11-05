@@ -1883,7 +1883,8 @@ double round(double d) {
 }
 
 - (BOOL)shouldAutorotate {
-    return YES;
+    // Do not rotate if fullscreen fanart is shown or we are model (only active during iPad fullscreen)
+    return !isFullscreenFanArt && ![self isModal];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
