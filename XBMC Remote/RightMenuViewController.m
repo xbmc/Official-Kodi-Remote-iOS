@@ -132,7 +132,6 @@
         [cell.contentView addSubview:remoteControllerView.view];
     }
     else {
-        cell = rightMenuCell;
         cell.accessoryView = nil;
         cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
         cell.tintColor = UIColor.lightGrayColor;
