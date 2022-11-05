@@ -1895,7 +1895,7 @@ double round(double d) {
         if (closeButton.alpha == 1) {
             alphaValue = 1;
         }
-        [UIView animateWithDuration:0.2
+        [UIView animateWithDuration:0.1
                          animations:^{
                              self.kenView.alpha = 0;
                          }
