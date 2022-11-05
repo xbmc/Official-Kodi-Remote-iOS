@@ -500,7 +500,6 @@
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
         UIImageView *torchIcon = (UIImageView*)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
-        [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         torchIsOn = !torchIsOn;
         [Utilities turnTorchOn:torchIcon on:torchIsOn];
     }
