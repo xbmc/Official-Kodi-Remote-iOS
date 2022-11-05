@@ -66,7 +66,8 @@
     CGRect originalFrame;
     BOOL stackScrollIsFullscreen;
     
-    NSMutableArray *stackViewsFrames;
+    UIView *fullscreenView;
+    BOOL hideToolbar;
     
     CGFloat bottomPadding;
 }
