@@ -136,9 +136,9 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
-    [[NSBundle mainBundle] loadNibNamed:@"cellViewIPad" owner:self options:NULL];
     if (cell == nil) {
-        cell = resultMenuCell;
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"cellViewIPad" owner:self options:nil];
+        cell = nib[0];
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         backgroundView.backgroundColor = [Utilities getGrayColor:0 alpha:0.4];
         cell.selectedBackgroundView = backgroundView;

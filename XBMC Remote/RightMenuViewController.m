@@ -76,9 +76,9 @@
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rightMenuCell"];
-    [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:NULL];
     if (cell == nil) {
-        cell = rightMenuCell;
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
+        cell = nib[0];
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         backView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         cell.selectedBackgroundView = backView;

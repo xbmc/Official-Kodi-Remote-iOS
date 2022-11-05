@@ -88,11 +88,11 @@
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCell"];
-    [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:NULL];
     mainMenu *item = self.mainMenu[indexPath.row];
     NSString *iconName = item.icon;
     if (cell == nil) {
-        cell = resultMenuCell;
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:nil];
+        cell = nib[0];
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
         backgroundView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         cell.selectedBackgroundView = backgroundView;
