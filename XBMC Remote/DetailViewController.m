@@ -5642,6 +5642,7 @@ NSIndexPath *selected;
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        [self setFlowLayoutParams];
         [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     }
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {}];
