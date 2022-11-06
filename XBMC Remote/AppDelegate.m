@@ -2835,7 +2835,10 @@
                         @"plot",
                         @"file",
                         @"fanart",
-                        @"resume"]
+                        @"resume"],
+                @"kodiExtrasPropertiesMinimumVersion": @{
+                    @"18": @[@"art"]
+                },
             }, @"extra_info_parameters",
             @{
                 @"label": @[
@@ -2851,6 +2854,9 @@
                             @"year",
                             @"playcount"]
             }, @"available_sort_methods",
+            @{
+                @"18": @[@"art"]
+            }, @"kodiExtrasPropertiesMinimumVersion",
             LOCALIZED_STR(@"Music Videos"), @"label",
             LOCALIZED_STR(@"Music Videos"), @"morelabel",
             @"YES", @"enableCollectionView",
@@ -2876,6 +2882,9 @@
                                 @"fanart",
                                 @"resume"]
             }, @"parameters",
+            @{
+                @"18": @[@"art"]
+            }, @"kodiExtrasPropertiesMinimumVersion",
             LOCALIZED_STR(@"Added Music Videos"), @"label",
             @"YES", @"enableCollectionView",
             @"YES", @"collectionViewRecentlyAdded",
