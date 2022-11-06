@@ -1890,21 +1890,25 @@ double round(double d) {
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    if (self.kenView != nil && ![self isModal]) {
-        CGFloat alphaValue = 0.2;
-        if (closeButton.alpha == 1) {
-            alphaValue = 1;
+    
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
+                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        if (self.kenView != nil && ![self isModal]) {
+            CGFloat alphaValue = 0.2;
+            if (closeButton.alpha == 1) {
+                alphaValue = 1;
+            }
+            [UIView animateWithDuration:0.1
+                             animations:^{
+                                 self.kenView.alpha = 0;
+                             }
+                             completion:^(BOOL finished) {
+                                 [self elabKenBurns:fanartView.image];
+                                 [Utilities alphaView:self.kenView AnimDuration:0.2 Alpha:alphaValue];
+                             }
+             ];
         }
-        [UIView animateWithDuration:0.1
-                         animations:^{
-                             self.kenView.alpha = 0;
-                         }
-                         completion:^(BOOL finished) {
-                             [self elabKenBurns:fanartView.image];
-                             [Utilities alphaView:self.kenView AnimDuration:0.2 Alpha:alphaValue];
-                         }
-         ];
-    }
+    }];
 }
 
 @end
