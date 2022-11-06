@@ -148,8 +148,9 @@
                                  CGRect frame = subview.frame;
                                  frame.origin.x = 0 - PAD_MENU_TABLE_WIDTH;
                                  if (hideToolbar) {
-                                     frame.origin.y = frame.origin.y - 22;
-                                     frame.size.height = frame.size.height + 22;
+                                     CGFloat statusbarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+                                     frame.origin.y -= statusbarHeight;
+                                     frame.size.height += statusbarHeight;
                                  }
                                  frame.size.width = self.view.frame.size.width + PAD_MENU_TABLE_WIDTH;
                                  subview.frame = frame;
@@ -1040,8 +1041,9 @@
             frame.size.width += PAD_MENU_TABLE_WIDTH;
             frame.origin.x -= PAD_MENU_TABLE_WIDTH;
             if (hideToolbar) {
-                frame.origin.y = frame.origin.y - 22;
-                frame.size.height = frame.size.height + 22;
+                CGFloat statusbarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+                frame.origin.y -= statusbarHeight;
+                frame.size.height += statusbarHeight;
             }
             subController.view.frame = frame;
         }
