@@ -2798,7 +2798,8 @@
     menu_Videos.mainMethod = @[
             @[@"VideoLibrary.GetMusicVideos", @"method",
               @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method"],
-            @[@"VideoLibrary.GetRecentlyAddedMusicVideos", @"method"],
+            @[@"VideoLibrary.GetRecentlyAddedMusicVideos", @"method",
+              @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method"],
             @[@"Files.GetSources", @"method"],
             @[@"Files.GetDirectory", @"method"],
             @[@"Files.GetDirectory", @"method"]
@@ -2882,6 +2883,24 @@
                                 @"fanart",
                                 @"resume"]
             }, @"parameters",
+            @{
+                @"properties": @[
+                        @"artist",
+                        @"year",
+                        @"playcount",
+                        @"thumbnail",
+                        @"genre",
+                        @"runtime",
+                        @"studio",
+                        @"director",
+                        @"plot",
+                        @"file",
+                        @"fanart",
+                        @"resume"],
+                @"kodiExtrasPropertiesMinimumVersion": @{
+                    @"18": @[@"art"]
+                },
+            }, @"extra_info_parameters",
             @{
                 @"18": @[@"art"]
             }, @"kodiExtrasPropertiesMinimumVersion",
@@ -2982,7 +3001,8 @@
             @"row14": @"resume",
             @"row15": @"votes",
             @"row16": @"artist",
-            @"row7": @"file"
+            @"row7": @"file",
+            @"itemid_extra_info": @"musicvideodetails"
         },
         
         @{
