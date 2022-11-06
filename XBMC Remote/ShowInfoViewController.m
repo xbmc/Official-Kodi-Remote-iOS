@@ -1890,7 +1890,7 @@ double round(double d) {
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    if (self.kenView != nil) {
+    if (self.kenView != nil && ![self isModal]) {
         CGFloat alphaValue = 0.2;
         if (closeButton.alpha == 1) {
             alphaValue = 1;
