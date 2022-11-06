@@ -885,6 +885,29 @@
     imgView.frame = frm;
 }
 
+- (void)layoutTVShowCell:(UIView*)cell useDefaultThumb:(BOOL)useFallback imgView:(UIImageView*)imgView {
+    // Exception handling for TVShow banner view (not grid or fullscreen view)
+    if (tvshowsView && !enableCollectionView && !stackscrollFullscreen) {
+        // First tab shows the banner
+        if (choosedTab == 0) {
+            // If loaded, we use a dark background
+            if (!useFallback) {
+                // Gray:28 is similar to systemGray6 in Dark Mode
+                cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+            }
+            // If not loaded, use default background color and poster dimensions for default thumb
+            else {
+                cell.backgroundColor = [Utilities getSystemGray6];
+                [self showTVShowDefaultThumbInsteadBanner:imgView];
+            }
+        }
+        // Other tabs (e.g. list of episodes) use default layout
+        else {
+            cell.backgroundColor = [Utilities getSystemGray6];
+        }
+    }
+}
+
 - (void)setCellImageView:(UIImageView*)imgView cell:(UIView*)cell dictItem:(NSDictionary*)item url:(NSString*)stringURL size:(CGSize)viewSize defaultImg:(NSString*)displayThumb {
     if ([item[@"family"] isEqualToString:@"channelid"] || [item[@"family"] isEqualToString:@"type"]) {
         imgView.contentMode = UIViewContentModeScaleAspectFit;
@@ -919,21 +942,8 @@
             if (image && (channelListView || channelGuideView || recordingListView || isOnPVR)) {
                 [Utilities setLogoBackgroundColor:weakImageView mode:logoBackgroundMode];
             }
-            if (tvshowsView && choosedTab == 0) {
-                if (image && !error) {
-                    // Gray:28 is similar to systemGray6 in Dark Mode
-                    cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
-                }
-                else {
-                    if (!enableCollectionView) {
-                        cell.backgroundColor = [Utilities getSystemGray6];
-                        [self showTVShowDefaultThumbInsteadBanner:weakImageView];
-                    }
-                }
-            }
-            else {
-                cell.backgroundColor = [Utilities getSystemGray6];
-            }
+            // Special handling for TV SHow cells
+            [self layoutTVShowCell:cell useDefaultThumb:(!image || error) imgView:weakImageView];
         }];
     }
     else {
@@ -944,12 +954,8 @@
                       withBorder:showBorder
                         progress:nil
                        completed:nil];
-        if (!enableCollectionView) {
-            cell.backgroundColor = [Utilities getSystemGray6];
-        }
-        if (tvshowsView && choosedTab == 0 && !enableCollectionView) {
-            [self showTVShowDefaultThumbInsteadBanner:imgView];
-        }
+        // Special handling for TV SHow cells, this is already in default thumb state
+        [self layoutTVShowCell:cell useDefaultThumb:YES imgView:imgView];
     }
 }
 
@@ -2370,6 +2376,7 @@
         ((UILabel*)[cell viewWithTag:5]).textColor = [Utilities get2ndLabelColor];
         ((UILabel*)[cell viewWithTag:101]).textColor = [Utilities get1stLabelColor];
         ((UILabel*)[cell viewWithTag:102]).textColor = [Utilities get2ndLabelColor];
+        cell.backgroundColor = [Utilities getSystemGray6];
     }
     mainMenu *menuItem = self.detailItem;
 //    NSDictionary *mainFields = menuItem.mainFields[choosedTab];
