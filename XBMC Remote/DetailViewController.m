@@ -5209,7 +5209,6 @@ NSIndexPath *selected;
 - (void)displayData {
     [self configureLibraryView];
     [self choseParams];
-    enableCollectionView = [self collectionViewIsEnabled];
     numResults = (int)self.richResults.count;
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
