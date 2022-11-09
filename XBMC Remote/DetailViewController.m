@@ -5587,8 +5587,6 @@ NSIndexPath *selected;
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar*)searchbar {
     showkeyboard = YES;
-    // Hide the toolbar while search is active
-    [self hideButtonList:YES];
 }
 
 #pragma mark UISearchController Delegate Methods
@@ -5659,6 +5657,9 @@ NSIndexPath *selected;
     NSString *searchString = searchController.searchBar.text;
     [self searchForText:searchString];
     [activeLayoutView reloadData];
+    
+    // Hide the toolbar while search is active with a non-empty string
+    [self hideButtonList:searchString.length > 0];
 }
 
 - (void)searchForText:(NSString*)searchText {
