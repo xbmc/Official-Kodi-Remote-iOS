@@ -2798,7 +2798,8 @@
     menu_Videos.mainMethod = @[
             @[@"VideoLibrary.GetMusicVideos", @"method",
               @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method"],
-            @[@"VideoLibrary.GetRecentlyAddedMusicVideos", @"method"],
+            @[@"VideoLibrary.GetRecentlyAddedMusicVideos", @"method",
+              @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method"],
             @[@"Files.GetSources", @"method"],
             @[@"Files.GetDirectory", @"method"],
             @[@"Files.GetDirectory", @"method"]
@@ -2835,7 +2836,10 @@
                         @"plot",
                         @"file",
                         @"fanart",
-                        @"resume"]
+                        @"resume"],
+                @"kodiExtrasPropertiesMinimumVersion": @{
+                    @"18": @[@"art"]
+                },
             }, @"extra_info_parameters",
             @{
                 @"label": @[
@@ -2851,6 +2855,9 @@
                             @"year",
                             @"playcount"]
             }, @"available_sort_methods",
+            @{
+                @"18": @[@"art"]
+            }, @"kodiExtrasPropertiesMinimumVersion",
             LOCALIZED_STR(@"Music Videos"), @"label",
             LOCALIZED_STR(@"Music Videos"), @"morelabel",
             @"YES", @"enableCollectionView",
@@ -2876,6 +2883,27 @@
                                 @"fanart",
                                 @"resume"]
             }, @"parameters",
+            @{
+                @"properties": @[
+                        @"artist",
+                        @"year",
+                        @"playcount",
+                        @"thumbnail",
+                        @"genre",
+                        @"runtime",
+                        @"studio",
+                        @"director",
+                        @"plot",
+                        @"file",
+                        @"fanart",
+                        @"resume"],
+                @"kodiExtrasPropertiesMinimumVersion": @{
+                    @"18": @[@"art"]
+                },
+            }, @"extra_info_parameters",
+            @{
+                @"18": @[@"art"]
+            }, @"kodiExtrasPropertiesMinimumVersion",
             LOCALIZED_STR(@"Added Music Videos"), @"label",
             @"YES", @"enableCollectionView",
             @"YES", @"collectionViewRecentlyAdded",
@@ -2973,7 +3001,8 @@
             @"row14": @"resume",
             @"row15": @"votes",
             @"row16": @"artist",
-            @"row7": @"file"
+            @"row7": @"file",
+            @"itemid_extra_info": @"musicvideodetails"
         },
         
         @{
