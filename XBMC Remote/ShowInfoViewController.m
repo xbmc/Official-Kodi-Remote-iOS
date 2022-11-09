@@ -30,6 +30,7 @@
 #define REC_DOT_PADDING 4
 #define ARROW_ALPHA 0.5
 #define IPAD_NAVBAR_SPACING 120
+#define FANART_FULLSCREEN_DISABLE 1
 
 @interface ShowInfoViewController ()
 @end
@@ -1331,17 +1332,9 @@ double round(double d) {
     return UIScreen.mainScreen.bounds;
 }
 
-- (void)showBackground:(id)sender {
-    scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    NSInteger foundTag = 0;
-    if ([sender isKindOfClass:[UITapGestureRecognizer class]]) {
-        foundTag = [sender view].tag;
-    }
-    else {
-        foundTag = [sender tag];
-    }
+- (void)showBackgroundForTag:(NSInteger)tag {
     // Close then fullscreen fanart view
-    if (foundTag == 1) {
+    if (tag == FANART_FULLSCREEN_DISABLE) {
         // 1. Fade in the navbar.
         // 2. Fade out the fanart and send StackScrollFullScreenDisabled to iPad screen handler.
         // 3. Fade in scrollview and up arrow (we are always on the bottom of the scrollview when fading in).
@@ -1350,6 +1343,7 @@ double round(double d) {
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
+                            isFullscreenFanArt = NO;
                             closeButton.alpha = 0.0;
                             if (!enableKenBurns) {
                                 fanartView.alpha = 0.2;
@@ -1395,6 +1389,7 @@ double round(double d) {
                             }
                          }
                          completion:^(BOOL finished) {
+                            isFullscreenFanArt = YES;
                             [self.navigationController setNavigationBarHidden:YES animated:YES];
                             if (IS_IPAD && self.kenView != nil) {
                                 [self elabKenBurns:fanartView.image];
@@ -1443,13 +1438,25 @@ double round(double d) {
                 closeButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
             }
             [closeButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
-            closeButton.tag = 1;
+            closeButton.tag = FANART_FULLSCREEN_DISABLE;
             closeButton.alpha = 0;
             [self.view addSubview:closeButton];
         }
         [Utilities alphaView:closeButton AnimDuration:1.5 Alpha:1];
     }
     [self scrollDown:nil];
+}
+
+- (void)showBackground:(id)sender {
+    scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    NSInteger foundTag = 0;
+    if ([sender isKindOfClass:[UITapGestureRecognizer class]]) {
+        foundTag = [sender view].tag;
+    }
+    else {
+        foundTag = [sender tag];
+    }
+    [self showBackgroundForTag:foundTag];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView*)theScrollView {
@@ -1706,6 +1713,12 @@ double round(double d) {
     [self.view insertSubview:self.kenView atIndex:1];
 }
 
+- (void)leaveFullscreen {
+    if (isFullscreenFanArt) {
+        [self showBackgroundForTag:FANART_FULLSCREEN_DISABLE];
+    }
+}
+
 # pragma mark - Life Cycle
 
 - (void)setDetailItem:(id)newDetailItem {
@@ -1854,6 +1867,11 @@ double round(double d) {
     localEndDateFormatter = [NSDateFormatter new];
     localEndDateFormatter.timeZone = [NSTimeZone systemTimeZone];
     localEndDateFormatter.dateFormat = @"HH:mm";
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(leaveFullscreen)
+                                                 name: @"LeaveFullscreen"
+                                               object: nil];
 }
 
 - (void)didReceiveMemoryWarning {

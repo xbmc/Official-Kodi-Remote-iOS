@@ -63,6 +63,7 @@
     float resumePointPercentage;
     KenBurnsView *kenView;
     BOOL enableKenBurns;
+    BOOL isFullscreenFanArt;
     UIButton *closeButton;
     UIButton *clearlogoButton;
     UIImageView *clearLogoImageView;
