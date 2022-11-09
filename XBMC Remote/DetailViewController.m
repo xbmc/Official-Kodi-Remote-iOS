@@ -5656,9 +5656,9 @@ NSIndexPath *selected;
 }
 
 - (void)updateSearchResultsForSearchController:(UISearchController*)searchController {
-  NSString *searchString = searchController.searchBar.text;
-  [self searchForText:searchString];
-  [activeLayoutView reloadData];
+    NSString *searchString = searchController.searchBar.text;
+    [self searchForText:searchString];
+    [activeLayoutView reloadData];
 }
 
 - (void)searchForText:(NSString*)searchText {
