@@ -3540,7 +3540,7 @@
     ];
     
     menu_TVShows.showInfo = @[
-        @NO,
+        @YES,
         @YES,
         @NO,
         @NO,
