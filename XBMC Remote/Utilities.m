@@ -1060,7 +1060,8 @@
         unarchived = [NSKeyedUnarchiver unarchivedObjectOfClasses:objectClasses
                                                          fromData:data
                                                             error:&error];
-    } else {
+    }
+    else {
         unarchived = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     }
     return unarchived;
@@ -1075,7 +1076,8 @@
         if (!error) {
             [archiveData writeToFile:filePath options:NSDataWritingAtomic error:&error];
         }
-    } else {
+    }
+    else {
         [NSKeyedArchiver archiveRootObject:data toFile:filePath];
     }
 }

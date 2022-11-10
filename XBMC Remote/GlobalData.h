@@ -19,6 +19,7 @@
 
     
 }
+
 @property (nonatomic, strong)NSString *serverDescription;
 @property (nonatomic, strong)NSString *serverUser;
 @property (nonatomic, strong)NSString *serverPass;
@@ -28,4 +29,5 @@
 @property (nonatomic, strong)NSString *serverHWAddr;
 
 + (GlobalData*)getInstance;
+
 @end

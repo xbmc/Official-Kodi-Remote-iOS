@@ -27,4 +27,5 @@ static GlobalData *instance = nil;
     }
     return instance;
 }
+
 @end

@@ -2025,6 +2025,7 @@ long storedItemID;
     
     return cell;
 }
+
 - (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
     UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
