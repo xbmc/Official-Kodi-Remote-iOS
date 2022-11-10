@@ -59,7 +59,6 @@
         bottomPadding = [Utilities getBottomPadding];
         
 		viewControllersStack = [NSMutableArray new];
-        stackViewsFrames = [NSMutableArray new];
 		borderViews = [[UIView alloc] initWithFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION - 2, -2, 2, self.view.frame.size.height + 2)];
 		borderViews.backgroundColor = UIColor.clearColor;
         borderViews.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -125,7 +124,7 @@
     if ([[sender object] isKindOfClass:[UIView class]]) {
         senderView = [sender object];
     }
-    BOOL hideToolbar = [[sender.userInfo objectForKey:@"hideToolbar"] boolValue];
+    hideToolbar = [[sender.userInfo objectForKey:@"hideToolbar"] boolValue];
     BOOL clipsToBounds = [[sender.userInfo objectForKey:@"clipsToBounds"] boolValue];
     NSTimeInterval duration = [[sender.userInfo objectForKey:@"duration"] doubleValue];
     if (!duration) {
@@ -136,21 +135,22 @@
     }
 //    [senderView viewWithTag:2002].hidden = YES;
     stackScrollIsFullscreen = YES;
-    [stackViewsFrames removeAllObjects];
     [UIView animateWithDuration:duration
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          int i = 0;
-                         NSInteger numViews = slideViews.subviews.count;
+                         // Find the view requesting fullscreen and expand the frame
                          for (UIView* subview in slideViews.subviews) {
                              if ([subview isEqual:[sender object]]) {
+                                 fullscreenView = subview;
                                  originalFrame = subview.frame;
                                  CGRect frame = subview.frame;
                                  frame.origin.x = 0 - PAD_MENU_TABLE_WIDTH;
                                  if (hideToolbar) {
-                                     frame.origin.y = frame.origin.y - 22;
-                                     frame.size.height = frame.size.height + 22;
+                                     CGFloat statusbarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+                                     frame.origin.y -= statusbarHeight;
+                                     frame.size.height += statusbarHeight;
                                  }
                                  frame.size.width = self.view.frame.size.width + PAD_MENU_TABLE_WIDTH;
                                  subview.frame = frame;
@@ -158,20 +158,12 @@
                              }
                              i++;
                          }
-                         if (i + 1 < numViews) {
-                             CGRect frame = CGRectZero;
-                             for (int j = i + 1; j < numViews; j++) {
-                                 frame = slideViews.subviews[j].frame;
-                                 [stackViewsFrames addObject:[NSValue valueWithCGRect:frame]];
-                                 frame.origin.x = self.view.frame.size.width;
-                                 if (hideToolbar) {
-                                     frame.origin.y = frame.origin.y - 20;
-                                     frame.size.height = frame.size.height + 20;
-                                 }
-                                 slideViews.subviews[j].frame = frame;
-                             }
+        
+                         // Remove all views right of the fullscreen
+                         NSInteger numViews = slideViews.subviews.count;
+                         for (int j = i + 1; j < numViews; j++) {
+                             [slideViews.subviews[i + 1] removeFromSuperview];
                          }
-                         
                      }
                      completion:^(BOOL finished) {}
      ];
@@ -194,21 +186,19 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          int i = 0;
-                         NSInteger numViews = slideViews.subviews.count;
+                         // Find the view leaving fullscreen and restore the frame
                          for (UIView* subview in slideViews.subviews) {
                              if ([subview isEqual:[sender object]]) {
-                                 subview.frame = originalFrame;
+                                 fullscreenView = nil;
+                                 CGRect frame = subview.frame;
+                                 frame.origin.x = 0;
+                                 frame.origin.y = 0;
+                                 frame.size.height = self.view.frame.size.height;
+                                 frame.size.width = originalFrame.size.width;
+                                 subview.frame = frame;
                                  break;
                              }
                              i++;
-                         }
-                         if (i + 1 < numViews) {
-                             int k = 0;
-                             NSInteger numStoredFrames = stackViewsFrames.count;
-                             for (int j = i + 1; j < numViews && k < numStoredFrames; j++) {
-                                 slideViews.subviews[j].frame = [stackViewsFrames[k] CGRectValue];
-                                 k ++;
-                             }
                          }
                      }
                      completion:^(BOOL finished) {}
@@ -1045,7 +1035,19 @@
         posX = slideViews.subviews[0].frame.origin.x;
     }
     for (UIViewController* subController in viewControllersStack) {
-        if (viewAtRight != nil && [viewAtRight isEqual:subController.view]) {
+        // If we have a view in fullscreen, keep it fullscreen
+        if (fullscreenView != nil && [fullscreenView isEqual:subController.view]) {
+            CGRect frame = self.view.frame;
+            frame.size.width += PAD_MENU_TABLE_WIDTH;
+            frame.origin.x -= PAD_MENU_TABLE_WIDTH;
+            if (hideToolbar) {
+                CGFloat statusbarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+                frame.origin.y -= statusbarHeight;
+                frame.size.height += statusbarHeight;
+            }
+            subController.view.frame = frame;
+        }
+        else if (viewAtRight != nil && [viewAtRight isEqual:subController.view]) {
             if (viewAtRight.frame.origin.x <= (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) {
                 subController.view.frame = CGRectMake(self.view.frame.size.width - subController.view.frame.size.width, subController.view.frame.origin.y, subController.view.frame.size.width, self.view.frame.size.height - bottomPadding);
             }

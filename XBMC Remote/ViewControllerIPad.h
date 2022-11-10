@@ -38,7 +38,6 @@
     BOOL firstRun;
     NSTimer* extraTimer;
     HostManagementViewController *_hostPickerViewController;
-    BOOL stackScrollIsFullscreen;
     BOOL serverPicker;
     BOOL appInfo;
     UIImageView *fanartBackgroundImage;

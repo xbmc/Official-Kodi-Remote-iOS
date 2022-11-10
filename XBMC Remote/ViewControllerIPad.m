@@ -546,14 +546,6 @@
                                                  name: @"XBMCServerConnectionFailed"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleStackScrollFullScreenEnabled:)
-                                                 name: @"StackScrollFullScreenEnabled"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleStackScrollFullScreenDisabled:)
-                                                 name: @"StackScrollFullScreenDisabled"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleChangeBackgroundGradientColor:)
                                                  name: @"UIViewChangeBackgroundGradientColor"
                                                object: nil];
@@ -575,14 +567,6 @@
     UIColor *endColor = (UIColor*)[sender.userInfo objectForKey:@"endColor"];
     [(gradientUIView*)self.view setColoursWithCGColors:startColor.CGColor endColor:endColor.CGColor];
     [(gradientUIView*)self.view setNeedsDisplay];
-}
-
-- (void)handleStackScrollFullScreenEnabled:(NSNotification*)sender {
-    stackScrollIsFullscreen = YES;
-}
-
-- (void)handleStackScrollFullScreenDisabled:(NSNotification*)sender {
-    stackScrollIsFullscreen = NO;
 }
 
 - (void)handleTcpJSONRPCShowSetup:(NSNotification*)sender {
@@ -610,7 +594,6 @@
 }
 
 - (void)handleStackScrollOffScreen:(NSNotification*)sender {
-    stackScrollIsFullscreen = NO;
     [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:rootView];
 }
 
@@ -689,7 +672,7 @@
 }
 
 - (BOOL)shouldAutorotate {
-    return !stackScrollIsFullscreen;
+    return YES;
 }
 
 @end

@@ -5641,7 +5641,15 @@ NSIndexPath *selected;
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    // Dismiss any visible action sheet as the origin is not corrected in fullscreen
+    if (IS_IPAD && stackscrollFullscreen) {
+        UIViewController *showFromCtrl = [self topMostController];
+        [showFromCtrl dismissViewControllerAnimated:YES completion:nil];
+    }
+    
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        [self setFlowLayoutParams];
         [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     }
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {}];
