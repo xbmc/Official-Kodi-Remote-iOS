@@ -899,6 +899,17 @@
 		[viewControllersStack removeAllObjects];
 	}
 	
+    // Special treatment to not have multiple remote custom button views.
+    // Removes topmost custom button view and pushes the new one on top of the stack.
+    if ([controller.nibName isEqualToString:@"RightMenuViewController"]) {
+        NSInteger index = viewControllersStack.count - 1;
+        UIViewController *indexController = viewControllersStack[index];
+        if ([indexController.nibName isEqualToString:@"RightMenuViewController"]) {
+            [[slideViews viewWithTag:index + VIEW_TAG] removeFromSuperview];
+            [viewControllersStack removeObjectAtIndex:index];
+            viewXPosition = self.view.frame.size.width - controller.view.frame.size.width;
+        }
+    }
 	
 	if (viewControllersStack.count > 1) {
 //        NSLog(@"DUE");
