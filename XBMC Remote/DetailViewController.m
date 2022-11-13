@@ -6024,6 +6024,7 @@ NSIndexPath *selected;
     if ([self doesShowSearchResults]) {
         return;
     }
+    [self.searchController setActive:NO];
     mainMenu *menuItem = self.detailItem;
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
