@@ -1653,7 +1653,6 @@
         }];
         [collectionView setShowsPullToRefresh:enableDiskCache];
         collectionView.alwaysBounceVertical = YES;
-        collectionView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
         [detailView insertSubview:collectionView belowSubview:buttonsView];
     }
 }
@@ -2061,6 +2060,10 @@
 }
 
 #pragma mark - Table Management
+
+- (void)scrollViewDidScroll:(UIScrollView*)theScrollView {
+    [self.searchController.searchBar resignFirstResponder];
+}
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     return cellHeight;
@@ -5712,7 +5715,6 @@ NSIndexPath *selected;
     localHourMinuteFormatter.dateFormat = @"HH:mm";
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];
     dataList.tableFooterView = [UIView new];
-    dataList.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
     [self initSearchController];
     self.navigationController.view.backgroundColor = UIColor.blackColor;
@@ -6022,6 +6024,7 @@ NSIndexPath *selected;
     if ([self doesShowSearchResults]) {
         return;
     }
+    [self.searchController setActive:NO];
     mainMenu *menuItem = self.detailItem;
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
