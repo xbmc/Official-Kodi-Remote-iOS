@@ -4545,6 +4545,16 @@ NSIndexPath *selected;
     if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
         [mutableProperties addObject:@"art"];
     }
+    if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
+        for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
+            if (AppDelegate.instance.serverVersion >= [key integerValue]) {
+                id arrayProperties = parameters[@"kodiExtrasPropertiesMinimumVersion"][key];
+                for (id value in arrayProperties) {
+                    [mutableProperties addObject:value];
+                }
+            }
+        }
+    }
     if (mutableProperties != nil) {
         mutableParameters[@"properties"] = mutableProperties;
     }
