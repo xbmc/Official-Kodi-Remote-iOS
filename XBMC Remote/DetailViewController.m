@@ -1583,6 +1583,10 @@
             }
         }
     }
+    // In case of Global Search restore choosedTab after processing
+    if (globalSearchView) {
+        choosedTab = 0;
+    }
 }
 
 - (NSMutableArray*)getPlaylistActions:(NSMutableArray*)sheetActions item:(NSDictionary*)item params:(NSMutableDictionary*)parameters {
@@ -3218,6 +3222,10 @@ NSIndexPath *selected;
                     selectedPoint = enableCollectionView ? p : [lpgr locationInView:showfromview];
                 }
                 [self showActionSheetOptions:title options:sheetActions recording:isRecording point:selectedPoint fromcontroller:showFromCtrl fromview:showfromview];
+            }
+            // In case of Global Search restore choosedTab after processing
+            if (globalSearchView) {
+                choosedTab = 0;
             }
         }
     }
