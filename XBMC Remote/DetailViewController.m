@@ -5632,7 +5632,6 @@ NSIndexPath *selected;
 - (void)willPresentSearchController:(UISearchController*)controller {
     showbar = YES;
     [self showSearchBar];
-    self.indexView.hidden = YES;
 }
 
 - (void)willDismissSearchController:(UISearchController*)controller {
@@ -5661,8 +5660,10 @@ NSIndexPath *selected;
     [self searchForText:searchString];
     [activeLayoutView reloadData];
     
-    // Hide the toolbar while search is active with a non-empty string
-    [self hideButtonList:searchString.length > 0];
+    // Hide the toolbar and index while search is active with a non-empty string
+    BOOL hideToolbarAndIndex = searchString.length > 0;
+    [self hideButtonList:hideToolbarAndIndex];
+    self.indexView.hidden = hideToolbarAndIndex;
 }
 
 - (void)searchForText:(NSString*)searchText {
