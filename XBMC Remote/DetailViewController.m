@@ -3226,7 +3226,8 @@ NSIndexPath *selected;
 - (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording point:(CGPoint)origin fromcontroller:(UIViewController*)fromctrl fromview:(UIView*)fromview {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
-        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *actionTemp = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        actionView = actionTemp;
         
         UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
             forceMusicAlbumMode = NO;
@@ -5644,9 +5645,8 @@ NSIndexPath *selected;
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     // Dismiss any visible action sheet as the origin is not corrected in fullscreen
-    if (IS_IPAD && stackscrollFullscreen) {
-        UIViewController *showFromCtrl = [self topMostController];
-        [showFromCtrl dismissViewControllerAnimated:YES completion:nil];
+    if (IS_IPAD && stackscrollFullscreen && [actionView isViewLoaded]) {
+        [actionView dismissViewControllerAnimated:YES completion:nil];
     }
     
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
