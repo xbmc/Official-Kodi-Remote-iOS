@@ -574,6 +574,7 @@
     CGPoint thumbSize = CGPointMake(53, 53);
     if ([item[@"family"] isEqualToString:@"movieid"] ||
         [item[@"family"] isEqualToString:@"setid"] ||
+        [item[@"family"] isEqualToString:@"musicvideoid"] ||
         [item[@"family"] isEqualToString:@"tvshowid"]) {
         thumbSize.x = 53;
         thumbSize.y = 76;
