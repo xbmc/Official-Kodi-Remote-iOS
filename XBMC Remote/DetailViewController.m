@@ -6056,8 +6056,6 @@ NSIndexPath *selected;
         NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setBool:![userDefaults boolForKey:viewKey] forKey:viewKey];
-        enableCollectionView = [self collectionViewIsEnabled];
-        recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
         [UIView animateWithDuration:0.2
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseIn
@@ -6068,6 +6066,8 @@ NSIndexPath *selected;
                              ((UITableView*)activeLayoutView).frame = frame;
                          }
                          completion:^(BOOL finished) {
+                             recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
+                             enableCollectionView = [self collectionViewIsEnabled];
                              [self configureLibraryView];
                              [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
                              [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
