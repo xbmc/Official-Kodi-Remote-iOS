@@ -886,19 +886,27 @@
 }
 
 - (void)layoutTVShowCell:(UIView*)cell useDefaultThumb:(BOOL)useFallback imgView:(UIImageView*)imgView {
-    // Exception handling for TVShow banner view (not grid or fullscreen view)
-    if (tvshowsView && !enableCollectionView && !stackscrollFullscreen) {
+    // Exception handling for TVShow banner view
+    if (tvshowsView) {
         // First tab shows the banner
         if (choosedTab == 0) {
-            // If loaded, we use a dark background
-            if (!useFallback) {
+            // When not in grid and not in fullscreen view
+            if (!enableCollectionView && !stackscrollFullscreen) {
+                // If loaded, we use a dark background
+                if (!useFallback) {
+                    // Gray:28 is similar to systemGray6 in Dark Mode
+                    cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+                }
+                // If not loaded, use default background color and poster dimensions for default thumb
+                else {
+                    cell.backgroundColor = [Utilities getSystemGray6];
+                    [self showTVShowDefaultThumbInsteadBanner:imgView];
+                }
+            }
+            // When in grid or fullscreen view
+            else {
                 // Gray:28 is similar to systemGray6 in Dark Mode
                 cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
-            }
-            // If not loaded, use default background color and poster dimensions for default thumb
-            else {
-                cell.backgroundColor = [Utilities getSystemGray6];
-                [self showTVShowDefaultThumbInsteadBanner:imgView];
             }
         }
         // Other tabs (e.g. list of episodes) use default layout
