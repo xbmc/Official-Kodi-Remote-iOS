@@ -222,7 +222,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateEnded" object: nil];
     }
     else {
-        [self setBackgroundVisibility:YES];
+        [self setBackgroundVisibility:NO];
         self.alpha = 1.0;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateBegin" object: nil];
     }
