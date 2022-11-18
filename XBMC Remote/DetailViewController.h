@@ -53,7 +53,6 @@
     int viewWidth;
     IBOutlet UIView *detailView;
     MoreItemsViewController* moreItemsViewController;
-    UIButton *selectedMoreTab;
     UIImageView *longTimeout;
     NSTimeInterval startTime;
     NSTimeInterval elapsedTime;

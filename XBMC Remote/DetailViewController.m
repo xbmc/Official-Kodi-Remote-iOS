@@ -1045,8 +1045,7 @@
     NSIndexPath *choice = notification.object;
     choosedTab = 0;
     NSInteger selectedIdx = MAX_NORMAL_BUTTONS + choice.row;
-    selectedMoreTab.tag = selectedIdx;
-    [self changeTab:selectedMoreTab];
+    [self handleChangeTab:(int)selectedIdx];
 }
 
 - (void)changeViewMode:(ViewModes)newViewMode forceRefresh:(BOOL)refresh {
@@ -1170,6 +1169,11 @@
 }
 
 - (IBAction)changeTab:(id)sender {
+    NSInteger newChoosedTab = [sender tag];
+    [self handleChangeTab:(int)newChoosedTab];
+}
+
+- (void)handleChangeTab:(int)newChoosedTab {
     if ([self doesShowSearchResults] || self.searchController.isActive) {
         return;
     }
@@ -1188,7 +1192,6 @@
     
     // Read new tab index
     numTabs = (int)menuItem.mainMethod.count;
-    int newChoosedTab = (int)[sender tag];
     newChoosedTab = newChoosedTab % numTabs;
     
     // Handle modes (pressing same tab) or changed tabs
@@ -5453,7 +5456,6 @@ NSIndexPath *selected;
             [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateSelected];
             [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateHighlighted];
             [buttonsIB.lastObject setEnabled:YES];
-            selectedMoreTab = [UIButton new];
             break;
     }
 }
