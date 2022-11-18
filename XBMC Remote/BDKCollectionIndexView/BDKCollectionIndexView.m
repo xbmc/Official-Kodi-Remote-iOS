@@ -209,7 +209,7 @@
 }
 
 - (void)setBackgroundVisibility:(BOOL)flag {
-    CGFloat alpha = flag ? 0.5 : 0;
+    CGFloat alpha = flag ? 0.3 : 0;
     self.touchStatusView.backgroundColor = [Utilities getGrayColor:0 alpha:alpha];
 }
 
