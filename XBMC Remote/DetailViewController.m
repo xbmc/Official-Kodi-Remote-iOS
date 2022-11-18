@@ -806,10 +806,7 @@
     [self buildButtons:activeTab];
     
     // Show grid/list button when grid view is possible
-    button6.hidden = YES;
-    if ([self collectionViewCanBeEnabled]) {
-        button6.hidden = NO;
-    }
+    button6.hidden = [self collectionViewCanBeEnabled] ? NO : YES;
     
     // Set up sorting
     sortMethodIndex = -1;
@@ -818,10 +815,7 @@
     [self setUpSort:methods parameters:parameters];
     
     // Show sort button when sorting is possible
-    button7.hidden = YES;
-    if (parameters[@"available_sort_methods"] != nil) {
-        button7.hidden = NO;
-    }
+    button7.hidden = parameters[@"available_sort_methods"] ? NO : YES;
     
     [self hideButtonListWhenEmpty];
 }
