@@ -2068,7 +2068,13 @@
 #pragma mark - Table Management
 
 - (void)scrollViewDidScroll:(UIScrollView*)theScrollView {
+    // Hide keyboard on drag
     [self.searchController.searchBar resignFirstResponder];
+    // Stop an empty search on drag
+    NSString *searchString = self.searchController.searchBar.text;
+    if (searchString.length == 0) {
+        [self.searchController setActive:NO];
+    }
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
