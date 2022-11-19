@@ -642,13 +642,6 @@
 
 - (void)setCollectionViewIndexVisibility {
     if (enableCollectionView) {
-        // Get the index titles
-        NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
-        if (tmpArr.count > 1) {
-            [tmpArr replaceObjectAtIndex:0 withObject:@"🔍"];
-        }
-        self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
-        
         // Only show the collection view index, if there are valid index titles to show
         if (self.indexView.indexTitles.count > 1) {
             self.indexView.hidden = NO;
@@ -1109,6 +1102,7 @@
         collectionView.scrollsToTop = YES;
         activeLayoutView = collectionView;
         [self initCollectionIndexView];
+        [self buildCollectionViewIndex];
         
         [self initSearchController];
         self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
@@ -1860,6 +1854,15 @@
     self.indexView.hidden = YES;
     [self.indexView addTarget:self action:@selector(indexViewValueChanged:) forControlEvents:UIControlEventValueChanged];
     [detailView addSubview:self.indexView];
+}
+
+- (void)buildCollectionViewIndex {
+    // Get the index titles
+    NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
+    if (tmpArr.count > 1) {
+        [tmpArr replaceObjectAtIndex:0 withObject:@"🔍"];
+    }
+    self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
 }
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView*)sender {
