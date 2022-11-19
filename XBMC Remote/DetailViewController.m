@@ -1817,7 +1817,7 @@
 #pragma mark - BDKCollectionIndexView init
 
 - (void)initSectionNameOverlayView {
-    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width / 2, self.view.frame.size.width / 6)];
+    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width * 0.75, self.view.frame.size.width / 6)];
     sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
     sectionNameOverlayView.backgroundColor = [Utilities getGrayColor:0 alpha:1.0];
     sectionNameOverlayView.center = UIApplication.sharedApplication.delegate.window.rootViewController.view.center;
