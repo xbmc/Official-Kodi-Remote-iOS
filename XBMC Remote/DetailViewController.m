@@ -643,12 +643,7 @@
 - (void)setCollectionViewIndexVisibility {
     if (enableCollectionView) {
         // Only show the collection view index, if there are valid index titles to show
-        if (self.indexView.indexTitles.count > 1) {
-            self.indexView.hidden = NO;
-        }
-        else {
-            self.indexView.hidden = YES;
-        }
+        self.indexView.hidden = self.indexView.indexTitles.count > 1 ? NO : YES;
     }
     else {
         self.indexView.hidden = YES;
