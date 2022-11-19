@@ -5649,6 +5649,9 @@ NSIndexPath *selected;
         [actionView dismissViewControllerAnimated:YES completion:nil];
     }
     
+    // Force reloading of index overlay after rotation
+    sectionNameOverlayView = nil;
+    
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         [self setFlowLayoutParams];
         [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
