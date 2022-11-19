@@ -1895,6 +1895,9 @@
         else if ([sortbymethod isEqualToString:@"playcount"]) {
             predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue == %d", sortbymethod, [value intValue]];
         }
+        else if ([sortbymethod isEqualToString:@"year"]) {
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue >= %d", sortbymethod, [value intValue]];
+        }
         NSUInteger index = [sections[@""] indexOfObjectPassingTest:
                             ^(id obj, NSUInteger idx, BOOL *stop) {
                                 return [predExists evaluateWithObject:obj];
