@@ -1583,6 +1583,10 @@
             }
         }
     }
+    // In case of Global Search restore choosedTab after processing
+    if (globalSearchView) {
+        choosedTab = 0;
+    }
 }
 
 - (NSMutableArray*)getPlaylistActions:(NSMutableArray*)sheetActions item:(NSDictionary*)item params:(NSMutableDictionary*)parameters {
@@ -3219,6 +3223,10 @@ NSIndexPath *selected;
                 }
                 [self showActionSheetOptions:title options:sheetActions recording:isRecording point:selectedPoint fromcontroller:showFromCtrl fromview:showfromview];
             }
+            // In case of Global Search restore choosedTab after processing
+            if (globalSearchView) {
+                choosedTab = 0;
+            }
         }
     }
 }
@@ -4436,6 +4444,9 @@ NSIndexPath *selected;
         [activeLayoutView setUserInteractionEnabled:NO];
     }
     mainMenu *menuItem = self.detailItem;
+    if (choosedTab >= menuItem.mainParameters.count) {
+        return;
+    }
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
@@ -6070,6 +6081,9 @@ NSIndexPath *selected;
 - (void)handleChangeSortLibrary {
     selected = nil;
     mainMenu *menuItem = self.detailItem;
+    if (choosedTab >= menuItem.mainParameters.count) {
+        return;
+    }
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     NSDictionary *sortDictionary = parameters[@"available_sort_methods"];
     NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
