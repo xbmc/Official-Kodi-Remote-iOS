@@ -5345,6 +5345,7 @@ NSIndexPath *selected;
         UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
+    [self hideButtonListWhenEmpty];
 // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
 //    UIViewController *c = [[UIViewController alloc]init];
 //    [self presentViewController:c animated:NO completion:nil];
