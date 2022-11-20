@@ -1459,7 +1459,8 @@
                     }
                 }
             }
-            else if ([item[@"genre"] isEqualToString:@"file"] || [item[@"filetype"] isEqualToString:@"file"]) {
+            else if ([item[@"genre"] isEqualToString:@"file"] ||
+                     [item[@"filetype"] isEqualToString:@"file"]) {
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
                 if (![userDefaults boolForKey:@"song_preference"]) {
                     [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
@@ -2532,7 +2533,8 @@
             runtimeyear.hidden = YES;
             title.frame = CGRectMake(title.frame.origin.x, (int)((cellHeight/2) - (title.frame.size.height/2)), title.frame.size.width, title.frame.size.height);
         }
-        else if ([item[@"family"] isEqualToString:@"recordingid"] || [item[@"family"] isEqualToString:@"timerid"]) {
+        else if ([item[@"family"] isEqualToString:@"recordingid"] ||
+                 [item[@"family"] isEqualToString:@"timerid"]) {
             cell.urlImageView.contentMode = UIViewContentModeScaleAspectFit;
             runtimeyear.hidden = YES;
             runtime.hidden = YES;
@@ -2588,7 +2590,10 @@
             genre.minimumScaleFactor = 10.0 / 11.0;
             [genre sizeToFit];
         }
-        else if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"] || [item[@"family"] isEqualToString:@"id"] || [item[@"family"] isEqualToString:@"addonid"]) {
+        else if ([item[@"family"] isEqualToString:@"sectionid"] ||
+                 [item[@"family"] isEqualToString:@"categoryid"] ||
+                 [item[@"family"] isEqualToString:@"id"] ||
+                 [item[@"family"] isEqualToString:@"addonid"]) {
             CGRect frame;
             if ([item[@"family"] isEqualToString:@"id"]) {
                 frame = title.frame;
