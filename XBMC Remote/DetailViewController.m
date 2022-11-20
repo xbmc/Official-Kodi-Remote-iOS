@@ -5753,7 +5753,7 @@ NSIndexPath *selected;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     dataList.sectionIndexBackgroundColor = UIColor.clearColor;
     dataList.sectionIndexColor = UIColor.systemBlueColor;
-    dataList.sectionIndexTrackingBackgroundColor = [Utilities getGrayColor:0 alpha:0.3];
+    dataList.sectionIndexTrackingBackgroundColor = UIColor.clearColor;
     dataList.separatorInset = UIEdgeInsetsMake(0, 53, 0, 0);
     dataList.indicatorStyle = UIScrollViewIndicatorStyleDefault;
     

@@ -209,7 +209,7 @@
 }
 
 - (void)setBackgroundVisibility:(BOOL)flag {
-    CGFloat alpha = flag ? 0.5 : 0;
+    CGFloat alpha = flag ? 0.3 : 0;
     self.touchStatusView.backgroundColor = [Utilities getGrayColor:0 alpha:alpha];
 }
 
@@ -222,7 +222,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateEnded" object: nil];
     }
     else {
-        [self setBackgroundVisibility:YES];
+        [self setBackgroundVisibility:NO];
         self.alpha = 1.0;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateBegin" object: nil];
     }
