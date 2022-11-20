@@ -662,20 +662,8 @@
 
 - (void)setCollectionViewIndexVisibility {
     if (enableCollectionView) {
-        // Get the index titles
-        NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
-        if (tmpArr.count > 1) {
-            [tmpArr replaceObjectAtIndex:0 withObject:@"🔍"];
-        }
-        self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
-        
         // Only show the collection view index, if there are valid index titles to show
-        if (self.indexView.indexTitles.count > 1) {
-            self.indexView.hidden = NO;
-        }
-        else {
-            self.indexView.hidden = YES;
-        }
+        self.indexView.hidden = self.indexView.indexTitles.count > 1 ? NO : YES;
     }
     else {
         self.indexView.hidden = YES;
@@ -1140,6 +1128,7 @@
         collectionView.scrollsToTop = YES;
         activeLayoutView = collectionView;
         [self initCollectionIndexView];
+        [self buildCollectionViewIndex];
         
         [self initSearchController];
         self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
@@ -1852,7 +1841,7 @@
 #pragma mark - BDKCollectionIndexView init
 
 - (void)initSectionNameOverlayView {
-    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width / 2, self.view.frame.size.width / 6)];
+    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width * 0.75, self.view.frame.size.width / 6)];
     sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
     sectionNameOverlayView.backgroundColor = [Utilities getGrayColor:0 alpha:1.0];
     sectionNameOverlayView.center = UIApplication.sharedApplication.delegate.window.rootViewController.view.center;
@@ -1884,6 +1873,15 @@
     self.indexView.hidden = YES;
     [self.indexView addTarget:self action:@selector(indexViewValueChanged:) forControlEvents:UIControlEventValueChanged];
     [detailView addSubview:self.indexView];
+}
+
+- (void)buildCollectionViewIndex {
+    // Get the index titles
+    NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
+    if (tmpArr.count > 1) {
+        [tmpArr replaceObjectAtIndex:0 withObject:@"🔍"];
+    }
+    self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
 }
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView*)sender {
@@ -1920,6 +1918,9 @@
         }
         else if ([sortbymethod isEqualToString:@"playcount"]) {
             predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue == %d", sortbymethod, [value intValue]];
+        }
+        else if ([sortbymethod isEqualToString:@"year"]) {
+            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue >= %d", sortbymethod, [value intValue]];
         }
         NSUInteger index = [sections[@""] indexOfObjectPassingTest:
                             ^(id obj, NSUInteger idx, BOOL *stop) {
@@ -5667,6 +5668,9 @@ NSIndexPath *selected;
     if (IS_IPAD && stackscrollFullscreen && [actionView isViewLoaded]) {
         [actionView dismissViewControllerAnimated:YES completion:nil];
     }
+    
+    // Force reloading of index overlay after rotation
+    sectionNameOverlayView = nil;
     
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         [self setFlowLayoutParams];
