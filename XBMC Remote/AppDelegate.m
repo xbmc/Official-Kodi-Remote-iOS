@@ -5228,6 +5228,7 @@
             LOCALIZED_STR(@"XBMC Settings"), @"label",
             @"nocover_settings", @"defaultThumb",
             [self itemSizes_insets:@"53"], @"itemSizes",
+            @"YES", @"enableCollectionView",
             animationStartX, @"animationStartX",
             animationStartBottomScreen, @"animationStartBottomScreen"
         ],
