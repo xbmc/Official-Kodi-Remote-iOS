@@ -2440,6 +2440,7 @@
 
     frame = title.frame;
     frame.origin.x = labelPosition;
+    frame.origin.y = 0;
     frame.size.width = menuItem.widthLabel;
     title.frame = frame;
     if (channelListView && item[@"channelnumber"]) {
