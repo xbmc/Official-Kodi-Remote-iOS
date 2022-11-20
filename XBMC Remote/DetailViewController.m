@@ -1110,6 +1110,7 @@
 - (void)configureLibraryView {
     NSString *imgName = nil;
     if (enableCollectionView) {
+        [self initCollectionView];
         if (longPressGesture == nil) {
             longPressGesture = [UILongPressGestureRecognizer new];
             [longPressGesture addTarget:self action:@selector(handleLongPress)];
@@ -5865,9 +5866,6 @@ NSIndexPath *selected;
     dataList.frame = frame;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     enableCollectionView = [self collectionViewIsEnabled];
-    if ([self collectionViewCanBeEnabled]) {
-        [self initCollectionView];
-    }
     activeLayoutView = dataList;
     self.sections = [NSMutableDictionary new];
     self.richResults = [NSMutableArray new];
