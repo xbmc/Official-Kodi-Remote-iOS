@@ -1662,6 +1662,7 @@
         collectionView.contentInset = dataList.contentInset;
         collectionView.scrollIndicatorInsets = dataList.scrollIndicatorInsets;
         collectionView.backgroundColor = [Utilities getGrayColor:0 alpha:0.5];
+        collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         collectionView.delegate = self;
         collectionView.dataSource = self;
         [collectionView registerClass:[PosterCell class] forCellWithReuseIdentifier:@"posterCell"];
@@ -5754,6 +5755,7 @@ NSIndexPath *selected;
     dataList.sectionIndexColor = UIColor.systemBlueColor;
     dataList.sectionIndexTrackingBackgroundColor = [Utilities getGrayColor:0 alpha:0.3];
     dataList.separatorInset = UIEdgeInsetsMake(0, 53, 0, 0);
+    dataList.indicatorStyle = UIScrollViewIndicatorStyleDefault;
     
     CGRect frame = dataList.frame;
     frame.size.height = self.view.bounds.size.height;
