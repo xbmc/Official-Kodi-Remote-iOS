@@ -413,6 +413,25 @@
 
 #pragma mark - Utility
 
+- (void)addExtraProperties:(NSMutableArray*)mutableProperties newParams:(NSMutableDictionary*)mutableParameters params:(NSDictionary*)parameters {
+    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
+        [mutableProperties addObject:@"art"];
+    }
+    if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
+        for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
+            if (AppDelegate.instance.serverVersion >= [key integerValue]) {
+                id arrayProperties = parameters[@"kodiExtrasPropertiesMinimumVersion"][key];
+                for (id value in arrayProperties) {
+                    [mutableProperties addObject:value];
+                }
+            }
+        }
+    }
+    if (mutableProperties != nil) {
+        mutableParameters[@"properties"] = mutableProperties;
+    }
+}
+
 - (UIViewController*)topMostController {
     UIViewController *topController = UIApplication.sharedApplication.keyWindow.rootViewController;
 
@@ -574,6 +593,7 @@
     CGPoint thumbSize = CGPointMake(53, 53);
     if ([item[@"family"] isEqualToString:@"movieid"] ||
         [item[@"family"] isEqualToString:@"setid"] ||
+        [item[@"family"] isEqualToString:@"musicvideoid"] ||
         [item[@"family"] isEqualToString:@"tvshowid"]) {
         thumbSize.x = 53;
         thumbSize.y = 76;
@@ -1261,22 +1281,7 @@
     [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
     NSString *labelText = parameters[@"label"];
     [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:NO];
-    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-        [mutableProperties addObject:@"art"];
-    }
-    if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
-        for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
-            if (AppDelegate.instance.serverVersion >= [key integerValue]) {
-                id arrayProperties = parameters[@"kodiExtrasPropertiesMinimumVersion"][key];
-                for (id value in arrayProperties) {
-                    [mutableProperties addObject:value];
-                }
-            }
-        }
-    }
-    if (mutableProperties != nil) {
-        mutableParameters[@"properties"] = mutableProperties;
-    }
+    [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
     if ([parameters[@"blackTableSeparator"] boolValue] && ![Utilities getPreferTvPosterMode]) {
         blackTableSeparator = YES;
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
@@ -4474,22 +4479,7 @@ NSIndexPath *selected;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-        [mutableProperties addObject:@"art"];
-    }
-    if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
-        for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
-            if (AppDelegate.instance.serverVersion >= [key integerValue]) {
-                id arrayProperties = parameters[@"kodiExtrasPropertiesMinimumVersion"][key];
-                for (id value in arrayProperties) {
-                    [mutableProperties addObject:value];
-                }
-            }
-        }
-    }
-    if (mutableProperties != nil) {
-        mutableParameters[@"properties"] = mutableProperties;
-    }
+    [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
     NSString *methodToCall = methods[@"method"];
     if (parameters[@"exploreCommand"] != nil) {
         methodToCall = parameters[@"exploreCommand"];
@@ -4575,12 +4565,7 @@ NSIndexPath *selected;
     NSString *methodToCall = methods[@"method"];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-        [mutableProperties addObject:@"art"];
-    }
-    if (mutableProperties != nil) {
-        mutableParameters[@"properties"] = mutableProperties;
-    }
+    [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:mutableParameters
