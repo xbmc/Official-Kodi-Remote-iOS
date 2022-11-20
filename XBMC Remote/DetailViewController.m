@@ -980,6 +980,9 @@
 //    if ([sender tag] == choosedTab) {
 //        return;
 //    }
+    if ([self doesShowSearchResults] || self.searchController.isActive) {
+        return;
+    }
     mainMenu *menuItem = self.detailItem;
     self.indexView.hidden = YES;
     button6.hidden = YES;
@@ -1161,6 +1164,9 @@
 }
 
 - (IBAction)changeTab:(id)sender {
+    if ([self doesShowSearchResults] || self.searchController.isActive) {
+        return;
+    }
     if (!activityIndicatorView.hidden) {
         return;
     }
@@ -2074,7 +2080,13 @@
 #pragma mark - Table Management
 
 - (void)scrollViewDidScroll:(UIScrollView*)theScrollView {
+    // Hide keyboard on drag
     [self.searchController.searchBar resignFirstResponder];
+    // Stop an empty search on drag
+    NSString *searchString = self.searchController.searchBar.text;
+    if (searchString.length == 0) {
+        [self.searchController setActive:NO];
+    }
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -3724,6 +3736,9 @@ NSIndexPath *selected;
 }
 
 - (void)toggleFullscreen:(id)sender {
+    if ([self doesShowSearchResults] || self.searchController.isActive) {
+        return;
+    }
     [activityIndicatorView startAnimating];
     NSTimeInterval animDuration = 0.5;
     if (stackscrollFullscreen) {
@@ -6041,10 +6056,9 @@ NSIndexPath *selected;
 }
 
 - (void)handleChangeLibraryView {
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] || self.searchController.isActive) {
         return;
     }
-    [self.searchController setActive:NO];
     mainMenu *menuItem = self.detailItem;
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
@@ -6087,6 +6101,9 @@ NSIndexPath *selected;
 }
 
 - (void)handleChangeSortLibrary {
+    if ([self doesShowSearchResults] || self.searchController.isActive) {
+        return;
+    }
     selected = nil;
     mainMenu *menuItem = self.detailItem;
     if (choosedTab >= menuItem.mainParameters.count) {
