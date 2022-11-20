@@ -2091,7 +2091,7 @@
     [self.searchController.searchBar resignFirstResponder];
     // Stop an empty search on drag
     NSString *searchString = self.searchController.searchBar.text;
-    if (searchString.length == 0) {
+    if (searchString.length == 0 && self.searchController.isActive) {
         [self.searchController setActive:NO];
     }
 }
