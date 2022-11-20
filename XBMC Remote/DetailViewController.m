@@ -5686,9 +5686,11 @@ NSIndexPath *selected;
     [activeLayoutView reloadData];
     
     // Hide the toolbar and index while search is active with a non-empty string
-    BOOL hideToolbarAndIndex = searchString.length > 0;
-    [self hideButtonList:hideToolbarAndIndex];
-    self.indexView.hidden = enableCollectionView ? hideToolbarAndIndex : YES;
+    if (self.searchController.isActive) {
+        BOOL hideToolbarAndIndex = searchString.length > 0;
+        [self hideButtonList:hideToolbarAndIndex];
+        self.indexView.hidden = enableCollectionView ? hideToolbarAndIndex : YES;
+    }
 }
 
 - (void)searchForText:(NSString*)searchText {
