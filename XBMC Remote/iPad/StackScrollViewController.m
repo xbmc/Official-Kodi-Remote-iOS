@@ -901,7 +901,7 @@
 	
     // Special treatment to not have multiple remote custom button views.
     // Removes topmost custom button view and pushes the new one on top of the stack.
-    if ([controller.nibName isEqualToString:@"RightMenuViewController"]) {
+    if ([controller.nibName isEqualToString:@"RightMenuViewController"] && viewControllersStack.count > 0) {
         NSInteger index = viewControllersStack.count - 1;
         UIViewController *indexController = viewControllersStack[index];
         if ([indexController.nibName isEqualToString:@"RightMenuViewController"]) {
