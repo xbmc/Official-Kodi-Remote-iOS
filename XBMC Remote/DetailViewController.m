@@ -797,16 +797,16 @@
     [button7 setBackgroundImage:image forState:UIControlStateNormal];
 }
 
-- (void)setButtonViewContent {
+- (void)setButtonViewContent:(int)activeTab {
     mainMenu *menuItem = self.detailItem;
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     
+    // Build basic button list
+    [self buildButtons:activeTab];
+    
     // Show grid/list button when grid view is possible
-    button6.hidden = YES;
-    if ([self collectionViewCanBeEnabled]) {
-        button6.hidden = NO;
-    }
+    button6.hidden = [self collectionViewCanBeEnabled] ? NO : YES;
     
     // Set up sorting
     sortMethodIndex = -1;
@@ -815,10 +815,7 @@
     [self setUpSort:methods parameters:parameters];
     
     // Show sort button when sorting is possible
-    button7.hidden = YES;
-    if (parameters[@"available_sort_methods"] != nil) {
-        button7.hidden = NO;
-    }
+    button7.hidden = parameters[@"available_sort_methods"] ? NO : YES;
     
     [self hideButtonListWhenEmpty];
 }
@@ -1048,8 +1045,7 @@
     NSIndexPath *choice = notification.object;
     choosedTab = 0;
     NSInteger selectedIdx = MAX_NORMAL_BUTTONS + choice.row;
-    selectedMoreTab.tag = selectedIdx;
-    [self changeTab:selectedMoreTab];
+    [self handleChangeTab:(int)selectedIdx];
 }
 
 - (void)changeViewMode:(ViewModes)newViewMode forceRefresh:(BOOL)refresh {
@@ -1173,6 +1169,11 @@
 }
 
 - (IBAction)changeTab:(id)sender {
+    NSInteger newChoosedTab = [sender tag];
+    [self handleChangeTab:(int)newChoosedTab];
+}
+
+- (void)handleChangeTab:(int)newChoosedTab {
     if ([self doesShowSearchResults] || self.searchController.isActive) {
         return;
     }
@@ -1191,7 +1192,6 @@
     
     // Read new tab index
     numTabs = (int)menuItem.mainMethod.count;
-    int newChoosedTab = (int)[sender tag];
     newChoosedTab = newChoosedTab % numTabs;
     
     // Handle modes (pressing same tab) or changed tabs
@@ -1258,7 +1258,7 @@
     }
 
     BOOL newEnableCollectionView = [self collectionViewIsEnabled];
-    [self setButtonViewContent];
+    [self setButtonViewContent:choosedTab];
     [self checkDiskCache];
     NSTimeInterval animDuration = 0.3;
     if (newEnableCollectionView != enableCollectionView) {
@@ -5392,7 +5392,7 @@ NSIndexPath *selected;
     if (showkeyboard) {
         [[self getSearchTextField] performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.1];
     }
-    [self setButtonViewContent];
+    [self setButtonViewContent:choosedTab];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -5405,7 +5405,7 @@ NSIndexPath *selected;
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
-- (void)buildButtons {
+- (void)buildButtons:(int)activeTab {
     mainMenu *menuItem = self.detailItem;
     NSArray *buttons = menuItem.mainButtons;
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
@@ -5415,7 +5415,7 @@ NSIndexPath *selected;
     CGRect frame;
     NSInteger count = buttons.count;
     count = MIN(count, MAX_NORMAL_BUTTONS);
-    choosedTab = MIN(choosedTab, MAX_NORMAL_BUTTONS);
+    activeTab = MIN(activeTab, MAX_NORMAL_BUTTONS);
     for (int i = 0; i < count; i++) {
         img = [UIImage imageNamed:buttons[i]];
         imageOff = [Utilities colorizeImage:img withColor:UIColor.lightGrayColor];
@@ -5425,7 +5425,8 @@ NSIndexPath *selected;
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
         [buttonsIB[i] setEnabled:YES];
     }
-    [buttonsIB[choosedTab] setSelected:YES];
+    [buttonsIB[activeTab] setSelected:YES];
+    button1.hidden = button2.hidden = button3.hidden = button4.hidden = button5.hidden = NO;
     switch (buttons.count) {
         case 0:
             // no button, no toolbar
@@ -5455,7 +5456,6 @@ NSIndexPath *selected;
             [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateSelected];
             [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateHighlighted];
             [buttonsIB.lastObject setEnabled:YES];
-            selectedMoreTab = [UIButton new];
             break;
     }
 }
@@ -5780,7 +5780,6 @@ NSIndexPath *selected;
     }
     self.view.userInteractionEnabled = YES;
     choosedTab = 0;
-    [self buildButtons]; // TEMP ?
     mainMenu *menuItem = self.detailItem;
     numTabs = (int)menuItem.mainMethod.count;
     if (menuItem.chooseTab) {
@@ -5799,10 +5798,6 @@ NSIndexPath *selected;
         numberOfStars = [parameters[@"numberOfStars"] intValue];
     }
     
-    button6.hidden = YES;
-    button7.hidden = YES;
-    [self hideButtonListWhenEmpty];
-
     if ([methods[@"albumView"] boolValue]) {
         albumView = YES;
     }
