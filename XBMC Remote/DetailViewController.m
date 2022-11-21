@@ -2322,36 +2322,7 @@
 }
 
 - (NSArray*)sectionIndexTitlesForTableView:(UITableView*)tableView {
-    if ([self doesShowSearchResults]) {
-        return nil;
-    }
-    else {
-        if (self.sectionArray.count > 1 && !episodesView && !channelGuideView) {
-            return self.sectionArray;
-        }
-        else if (channelGuideView) {
-            if (self.sectionArray.count > 0) {
-                NSMutableArray *channelGuideTableIndexTitles = [NSMutableArray new];
-                for (NSString *label in self.sectionArray) {
-                        NSString *dateString = label;
-                        NSDateFormatter *format = [NSDateFormatter new];
-                        format.locale = [NSLocale currentLocale];
-                        format.dateFormat = @"yyyy-MM-dd";
-                        NSDate *date = [format dateFromString:label];
-                        format.dateFormat = @"EEE";
-                    if ([format stringFromDate:date] != nil) {
-                        dateString = [format stringFromDate:date];
-                    }
-                    [channelGuideTableIndexTitles addObject:dateString];
-                }
-                return channelGuideTableIndexTitles;
-            }
-            return self.sectionArray;
-        }
-        else {
-            return nil;
-        }
-    }
+    return nil;
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -5782,9 +5753,6 @@ NSIndexPath *selected;
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-    dataList.sectionIndexBackgroundColor = UIColor.clearColor;
-    dataList.sectionIndexColor = UIColor.systemBlueColor;
-    dataList.sectionIndexTrackingBackgroundColor = UIColor.clearColor;
     dataList.separatorInset = UIEdgeInsetsMake(0, 53, 0, 0);
     dataList.indicatorStyle = UIScrollViewIndicatorStyleDefault;
     
