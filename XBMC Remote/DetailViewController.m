@@ -660,14 +660,9 @@
     return menuItem;
 }
 
-- (void)setCollectionViewIndexVisibility {
-    if (enableCollectionView) {
-        // Only show the collection view index, if there are valid index titles to show
-        self.indexView.hidden = self.indexView.indexTitles.count > 1 ? NO : YES;
-    }
-    else {
-        self.indexView.hidden = YES;
-    }
+- (void)setIndexViewVisibility {
+    // Only show the collection view index, if there are valid index titles to show
+    self.indexView.hidden = self.indexView.indexTitles.count <= 1;
 }
 
 - (NSDictionary*)getItemFromIndexPath:(NSIndexPath*)indexPath {
@@ -1117,8 +1112,6 @@
         dataList.scrollsToTop = NO;
         collectionView.scrollsToTop = YES;
         activeLayoutView = collectionView;
-        [self initCollectionIndexView];
-        [self buildCollectionViewIndex];
         
         [self initSearchController];
         self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
@@ -1142,7 +1135,9 @@
         self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
         imgName = @"st_view_list";
     }
-    [self setCollectionViewIndexVisibility];
+    [self initIndexView];
+    [self buildIndexView];
+    [self setIndexViewVisibility];
     
     UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:UIColor.lightGrayColor];
     [button6 setBackgroundImage:image forState:UIControlStateNormal];
@@ -1856,7 +1851,7 @@
     [self.view addSubview:sectionNameOverlayView];
 }
 
-- (void)initCollectionIndexView {
+- (void)initIndexView {
     if (self.indexView) {
         return;
     }
@@ -1873,7 +1868,7 @@
     [detailView addSubview:self.indexView];
 }
 
-- (void)buildCollectionViewIndex {
+- (void)buildIndexView {
     // Get the index titles
     NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
     if (tmpArr.count > 1) {
@@ -1884,11 +1879,16 @@
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView*)sender {
     if (sender.currentIndex == 0) {
-        [collectionView setContentOffset:CGPointZero animated:NO];
-        if (sectionNameOverlayView == nil && stackscrollFullscreen) {
-            [self initSectionNameOverlayView];
+        if (enableCollectionView) {
+            [collectionView setContentOffset:CGPointZero animated:NO];
+            if (sectionNameOverlayView == nil && stackscrollFullscreen) {
+                [self initSectionNameOverlayView];
+            }
         }
-        sectionNameLabel.text = [NSString stringWithFormat:@"%C%C", 0xD83D, 0xDD0D];
+        else {
+            [dataList setContentOffset:CGPointZero animated:NO];
+        }
+        sectionNameLabel.text = @"🔍";
         return;
     }
     else if (stackscrollFullscreen) {
@@ -1931,7 +1931,7 @@
         }
         return;
     }
-    else {
+    else if (enableCollectionView) {
         NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
         [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
         CGFloat offset = collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT;
@@ -1947,6 +1947,10 @@
         
         collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, offset);
     }
+    else {
+        NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
+        [dataList scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }
 }
 
 - (void)handleCollectionIndexStateBegin {
@@ -1959,7 +1963,7 @@
     if (stackscrollFullscreen) {
         [Utilities alphaView:sectionNameOverlayView AnimDuration:0.3 Alpha:0];
     }
-    _indexView.alpha = 1.0;
+    self.indexView.alpha = 1.0;
 }
 
 #pragma mark - Cell Formatting 
@@ -5654,7 +5658,7 @@ NSIndexPath *selected;
 - (void)willDismissSearchController:(UISearchController*)controller {
     showbar = NO;
     [self showSearchBar];
-    [self setCollectionViewIndexVisibility];
+    [self setIndexViewVisibility];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -5684,7 +5688,7 @@ NSIndexPath *selected;
     if (self.searchController.isActive) {
         BOOL hideToolbarAndIndex = searchString.length > 0;
         [self hideButtonList:hideToolbarAndIndex];
-        self.indexView.hidden = enableCollectionView ? hideToolbarAndIndex : YES;
+        self.indexView.hidden = hideToolbarAndIndex;
     }
 }
 
