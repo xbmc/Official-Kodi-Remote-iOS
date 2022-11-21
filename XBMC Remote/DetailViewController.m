@@ -2040,6 +2040,13 @@
     if (menuItem.originLabel && !parameters[@"thumbWidth"]) {
         labelPosition = menuItem.originLabel;
     }
+    
+    // label position for TVShow banner view needs to be tailored to match the default thumb size
+    if (tvshowsView && choosedTab == 0) {
+        CGFloat targetHeight = IS_IPAD ? PAD_TV_SHOWS_BANNER_HEIGHT : PHONE_TV_SHOWS_BANNER_HEIGHT;
+        CGFloat factor = targetHeight / PHONE_TV_SHOWS_POSTER_HEIGHT * [Utilities getTransformX];
+        labelPosition = PAD_TV_SHOWS_POSTER_WIDTH * factor + 8;
+    }
     // CHECK IF THERE ARE SECTIONS
     
     int iOS7offset = 0;
