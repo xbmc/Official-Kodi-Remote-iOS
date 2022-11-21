@@ -1934,7 +1934,18 @@
     else {
         NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
         [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-        collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT);
+        CGFloat offset = collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT;
+        
+        // Use correct scroll to bottom (not hiding a portion underneath the toolbar)
+        CGFloat height_content = collectionView.contentSize.height;
+        CGFloat height_bounds = collectionView.bounds.size.height;
+        CGFloat bottom = buttonsView.frame.size.height;
+        CGFloat bottom_scroll = MAX(height_content - height_bounds + bottom, 0);
+        if (offset > height_content - height_bounds) {
+            offset = bottom_scroll;
+        }
+        
+        collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, offset);
     }
 }
 
