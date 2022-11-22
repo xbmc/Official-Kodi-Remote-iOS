@@ -1856,10 +1856,11 @@
         return;
     }
     CGFloat indexWidth = 40;
-    CGRect frame = CGRectMake(CGRectGetWidth(collectionView.frame) - indexWidth,
-                              CGRectGetMinY(collectionView.frame) + collectionView.contentInset.top,
+    UITableView *activeView = activeLayoutView;
+    CGRect frame = CGRectMake(CGRectGetWidth(activeView.frame) - indexWidth,
+                              CGRectGetMinY(activeView.frame) + activeView.contentInset.top,
                               indexWidth,
-                              CGRectGetHeight(collectionView.frame) - collectionView.contentInset.top - collectionView.contentInset.bottom - bottomPadding);
+                              CGRectGetHeight(activeView.frame) - activeView.contentInset.top - activeView.contentInset.bottom - bottomPadding);
     self.indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     self.indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
     self.indexView.alpha = 1.0;
