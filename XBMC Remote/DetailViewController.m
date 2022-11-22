@@ -59,6 +59,8 @@
 #define GLOBALSEARCH_INDEX_ARTISTS 4
 #define GLOBALSEARCH_INDEX_ALBUMS 5
 #define GLOBALSEARCH_INDEX_SONGS 6
+#define INDEX_WIDTH 40
+#define INDEX_PADDING 2
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -1855,11 +1857,10 @@
     if (self.indexView) {
         return;
     }
-    CGFloat indexWidth = 40;
     UITableView *activeView = activeLayoutView;
-    CGRect frame = CGRectMake(CGRectGetWidth(activeView.frame) - indexWidth,
+    CGRect frame = CGRectMake(CGRectGetWidth(activeView.frame) - INDEX_WIDTH - INDEX_PADDING,
                               CGRectGetMinY(activeView.frame) + activeView.contentInset.top,
-                              indexWidth,
+                              INDEX_WIDTH,
                               CGRectGetHeight(activeView.frame) - activeView.contentInset.top - activeView.contentInset.bottom - bottomPadding);
     self.indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     self.indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
