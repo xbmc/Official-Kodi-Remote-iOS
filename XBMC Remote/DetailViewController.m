@@ -1866,7 +1866,6 @@
     self.indexView.alpha = 1.0;
     self.indexView.hidden = YES;
     [self.indexView addTarget:self action:@selector(indexViewValueChanged:) forControlEvents:UIControlEventValueChanged];
-    [detailView addSubview:self.indexView];
 }
 
 - (void)buildIndexView {
@@ -1877,6 +1876,7 @@
     }
     if (self.sectionArray.count > 1 && !episodesView && !channelGuideView) {
         self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
+        [detailView addSubview:self.indexView];
     }
     else if (channelGuideView) {
         if (self.sectionArray.count > 0) {
@@ -1894,10 +1894,12 @@
                 [channelGuideTableIndexTitles addObject:dateString];
             }
             self.indexView.indexTitles = channelGuideTableIndexTitles;
+            [detailView addSubview:self.indexView];
         }
     }
     else {
         self.indexView.indexTitles = @[];
+        [self.indexView removeFromSuperview];
     }
 }
 
