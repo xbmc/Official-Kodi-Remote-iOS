@@ -1875,7 +1875,30 @@
     if (tmpArr.count > 1) {
         [tmpArr replaceObjectAtIndex:0 withObject:@"🔍"];
     }
-    self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
+    if (self.sectionArray.count > 1 && !episodesView && !channelGuideView) {
+        self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
+    }
+    else if (channelGuideView) {
+        if (self.sectionArray.count > 0) {
+            NSMutableArray *channelGuideTableIndexTitles = [NSMutableArray new];
+            for (NSString *label in tmpArr) {
+                NSString *dateString = label;
+                NSDateFormatter *format = [NSDateFormatter new];
+                format.locale = [NSLocale currentLocale];
+                format.dateFormat = @"yyyy-MM-dd";
+                NSDate *date = [format dateFromString:label];
+                format.dateFormat = @"EEE";
+                if ([format stringFromDate:date] != nil) {
+                    dateString = [format stringFromDate:date];
+                }
+                [channelGuideTableIndexTitles addObject:dateString];
+            }
+            self.indexView.indexTitles = channelGuideTableIndexTitles;
+        }
+    }
+    else {
+        self.indexView.indexTitles = @[];
+    }
 }
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView*)sender {
