@@ -192,6 +192,12 @@ NSOutputStream	*outStream;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          inCheck = NO;
          if (error == nil && methodError == nil) {
+             // Read JSON RPC API version
+             [self readJSONRPCAPIVersion];
+             
+             // Read if ignorearticles is enabled
+             [self readIgnoreArticlesEnabled];
+             
              AppDelegate.instance.serverVolume = [methodResult[@"volume"] intValue];
              if (!AppDelegate.instance.serverOnLine) {
                  if ([NSJSONSerialization isValidJSONObject:methodResult]) {
@@ -237,6 +243,25 @@ NSOutputStream	*outStream;
              [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
          }
      }];
+}
+
+- (void)readIgnoreArticlesEnabled {
+    // Check if ignorearticles is enabled
+    [[Utilities getJsonRPC]
+     callMethod:@"Settings.GetSettingValue"
+     withParameters:@{@"setting": @"filelists.ignorethewhensorting"}
+     withTimeout: SERVER_TIMEOUT
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         if (!error && !methodError) {
+             AppDelegate.instance.isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
+         }
+         else {
+             AppDelegate.instance.isIgnoreArticlesEnabled = NO;
+         }
+    }];
+}
+
+- (void)readJSONRPCAPIVersion {
     // Read the JSON API version
     [[Utilities getJsonRPC]
      callMethod:@"JSONRPC.Version"
@@ -260,19 +285,6 @@ NSOutputStream	*outStream;
          [self readSorttokens];
          // Read 1-movie-set setting
          [self readGroupSingleItemSets];
-    }];
-    // Check if ignorearticles is enabled
-    [[Utilities getJsonRPC]
-     callMethod:@"Settings.GetSettingValue"
-     withParameters:@{@"setting": @"filelists.ignorethewhensorting"}
-     withTimeout: SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
-         if (!error && !methodError) {
-             AppDelegate.instance.isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
-         }
-         else {
-             AppDelegate.instance.isIgnoreArticlesEnabled = NO;
-         }
     }];
 }
 
