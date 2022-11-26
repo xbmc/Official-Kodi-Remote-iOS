@@ -5139,7 +5139,7 @@
     menu_Search.mainLabel = LOCALIZED_STR(@"Global Search");
     menu_Search.icon = @"icon_menu_search";
     menu_Search.family = FamilyDetailView;
-    menu_Search.enableSection = NO;
+    menu_Search.enableSection = YES;
     menu_Search.rowHeight = 53;
     menu_Search.thumbWidth = 53;
     menu_Search.defaultThumb = @"nocover_filemode";
