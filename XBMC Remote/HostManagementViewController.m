@@ -108,9 +108,10 @@
         return cell;
     }
     else {
-        ((UIImageView*)[cell viewWithTag:1]).hidden = NO;
+        UIImageView *iconView = (UIImageView*)[cell viewWithTag:1];
         UILabel *cellLabel = (UILabel*)[cell viewWithTag:2];
         UILabel *cellIP = (UILabel*)[cell viewWithTag:3];
+        iconView.hidden = NO;
         cellLabel.textAlignment = NSTextAlignmentLeft;
         NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
         cellLabel.text = item[@"serverDescription"];
@@ -119,10 +120,11 @@
         if (selection && indexPath.row == selection.row) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             NSString *iconName = [Utilities getConnectionStatusIconName];
-            ((UIImageView*)[cell viewWithTag:1]).image = [UIImage imageNamed:iconName];
+            iconView.image = [UIImage imageNamed:iconName];
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
+            iconView.image = [UIImage imageNamed:@"connection_off"];
         }
         editTableButton.enabled = YES;
     }
