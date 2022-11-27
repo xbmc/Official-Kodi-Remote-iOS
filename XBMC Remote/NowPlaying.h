@@ -77,6 +77,7 @@
     BOOL fromItself;
     IBOutlet UIButton *shuffleButton;
     IBOutlet UIButton *repeatButton;
+    IBOutlet UIButton *closeButton;
     BOOL shuffled;
     NSString *repeatStatus;
     BOOL updateProgressBar;

@@ -1586,21 +1586,33 @@ long currentItemID;
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     UITouch *touch = [touches anyObject];
-    CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
-    CGPoint viewPoint = [shuffleButton convertPoint:locationPoint fromView:self.view];
-    CGPoint viewPoint2 = [repeatButton convertPoint:locationPoint fromView:self.view];
-    CGPoint viewPoint3 = [itemLogoImage convertPoint:locationPoint fromView:self.view];
-    if ([shuffleButton pointInside:viewPoint withEvent:event] && songDetailsView.alpha > 0 && !shuffleButton.hidden) {
-        [self changeShuffle:nil];
-    }
-    else if ([repeatButton pointInside:viewPoint2 withEvent:event] && songDetailsView.alpha > 0 && !repeatButton.hidden) {
-        [self changeRepeat:nil];
-    }
-    else if ([itemLogoImage pointInside:viewPoint3 withEvent:event] && songDetailsView.alpha > 0 && itemLogoImage.image != nil) {
-        [self updateCurrentLogo];
-    }
-    else if ([touch.view isEqual:jewelView] || [touch.view isEqual:songDetailsView]) {
+    CGPoint locationPoint = [touch locationInView:songDetailsView];
+    CGPoint viewPoint1 = [shuffleButton convertPoint:locationPoint fromView:songDetailsView];
+    CGPoint viewPoint2 = [repeatButton convertPoint:locationPoint fromView:songDetailsView];
+    CGPoint viewPoint3 = [itemLogoImage convertPoint:locationPoint fromView:songDetailsView];
+    CGPoint viewPoint4 = [closeButton convertPoint:locationPoint fromView:songDetailsView];
+    if (songDetailsView.alpha == 0) {
+        // songDetailsView is not shown, bring it up
         [self toggleSongDetails];
+    }
+    else {
+        // songDetailsView is shown, process touches
+        if ([shuffleButton pointInside:viewPoint1 withEvent:event]&& !shuffleButton.hidden) {
+            [self changeShuffle:nil];
+        }
+        else if ([repeatButton pointInside:viewPoint2 withEvent:event] && !repeatButton.hidden) {
+            [self changeRepeat:nil];
+        }
+        else if ([itemLogoImage pointInside:viewPoint3 withEvent:event] && itemLogoImage.image != nil) {
+            [self updateCurrentLogo];
+        }
+        else if ([closeButton pointInside:viewPoint4 withEvent:event] && !closeButton.hidden) {
+            [self toggleSongDetails];
+        }
+        else if (![songDetailsView pointInside:locationPoint withEvent:event] && !closeButton.hidden) {
+            // touches outside of songDetailsView close it
+            [self toggleSongDetails];
+        }
     }
 }
 

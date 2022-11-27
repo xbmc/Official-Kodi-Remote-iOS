@@ -17,6 +17,7 @@
                 <outlet property="albumName" destination="5" id="45"/>
                 <outlet property="artistName" destination="9" id="48"/>
                 <outlet property="backgroundImageView" destination="94" id="145"/>
+                <outlet property="closeButton" destination="Lna-Os-O4e" id="6DX-6t-qrC"/>
                 <outlet property="currentTime" destination="30" id="51"/>
                 <outlet property="duration" destination="31" id="49"/>
                 <outlet property="editTableButton" destination="117" id="137"/>
