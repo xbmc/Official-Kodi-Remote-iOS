@@ -342,7 +342,8 @@
     AppDelegate.instance.obj = [GlobalData getInstance];
 
     int cellHeight = PAD_MENU_HEIGHT;
-    NSInteger tableHeight = [(NSMutableArray*)mainMenu count] * cellHeight;
+    NSInteger maxMenuItems = floor((GET_MAINSCREEN_WIDTH - deltaY - PLAYLIST_HEADER_HEIGHT - TOOLBAR_HEIGHT) / 2.0 / PAD_MENU_HEIGHT);
+    NSInteger tableHeight = MIN([(NSMutableArray*)mainMenu count], maxMenuItems) * cellHeight;
     int tableWidth = PAD_MENU_TABLE_WIDTH;
     int headerHeight = 0;
    
@@ -359,7 +360,7 @@
 	leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableWidth, self.view.frame.size.height)];
 	leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;	
     
-	menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, headerHeight, leftMenuView.frame.size.width, leftMenuView.frame.size.height) mainMenu:mainMenu];
+	menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, headerHeight, leftMenuView.frame.size.width, leftMenuView.frame.size.height) mainMenu:mainMenu menuHeight:tableHeight];
 	menuViewController.view.backgroundColor = UIColor.clearColor;
 	[menuViewController viewWillAppear:NO];
 	[menuViewController viewDidAppear:NO];
