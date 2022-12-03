@@ -5352,6 +5352,7 @@ NSIndexPath *selected;
         UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
+    [self hideButtonListWhenEmpty];
 // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
 //    UIViewController *c = [[UIViewController alloc]init];
 //    [self presentViewController:c animated:NO completion:nil];
@@ -5692,9 +5693,11 @@ NSIndexPath *selected;
     [activeLayoutView reloadData];
     
     // Hide the toolbar and index while search is active with a non-empty string
-    BOOL hideToolbarAndIndex = searchString.length > 0;
-    [self hideButtonList:hideToolbarAndIndex];
-    self.indexView.hidden = enableCollectionView ? hideToolbarAndIndex : YES;
+    if (self.searchController.isActive) {
+        BOOL hideToolbarAndIndex = searchString.length > 0;
+        [self hideButtonList:hideToolbarAndIndex];
+        self.indexView.hidden = enableCollectionView ? hideToolbarAndIndex : YES;
+    }
 }
 
 - (void)searchForText:(NSString*)searchText {
