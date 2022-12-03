@@ -2,10 +2,10 @@
 
 "General" = "Umum";
 "Automatic" = "Otomatis";
-"Show connection notice" = "Show connection notice";
-"Direct Play mode" = "Direct Play mode";
-"Ken Burns effect" = "Ken Burns effect";
-"Shake to clear playlist" = "Shake to clear playlist";
+"Show connection notice" = "Tampilkan pemberitahuan koneksi";
+"Direct Play mode" = "Mode Direct Play";
+"Ken Burns effect" = "efek Ken Burns";
+"Shake to clear playlist" = "Kocok untuk menghapus daftar putar";
 "Show jewel cases" = "Show jewel cases";
 "Hide labels in wall view" = "Hide labels in wall view";
 "Prefer posters for TV shows" = "Prefer posters for TV shows";
@@ -34,3 +34,4 @@
 "Now Playing" = "Sedang Memainkan";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
+"Send Wake-On-LAN automatically" = "Kirim Wake-On-LAN secara otomatis";
