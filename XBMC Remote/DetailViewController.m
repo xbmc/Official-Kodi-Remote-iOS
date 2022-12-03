@@ -884,12 +884,6 @@
     }
 }
 
-- (void)showTVShowDefaultThumbInsteadBanner:(UIImageView*)imgView {
-    CGRect frm = imgView.frame;
-    frm.size.width = (IS_IPHONE) ? PHONE_TV_SHOWS_POSTER_WIDTH : PAD_TV_SHOWS_POSTER_WIDTH;
-    imgView.frame = frm;
-}
-
 - (void)layoutTVShowCell:(UIView*)cell useDefaultThumb:(BOOL)useFallback imgView:(UIImageView*)imgView {
     // Exception handling for TVShow banner view
     if (tvshowsView) {
@@ -905,7 +899,6 @@
                 // If not loaded, use default background color and poster dimensions for default thumb
                 else {
                     cell.backgroundColor = [Utilities getSystemGray6];
-                    [self showTVShowDefaultThumbInsteadBanner:imgView];
                 }
             }
             // When in grid or fullscreen view
@@ -1749,6 +1742,9 @@
         }
         
         defaultThumb = displayThumb = [self getTimerDefaultThumb:item];
+        if (tvshowsView && choosedTab == 0) {
+            defaultThumb = displayThumb = @"nocover_tvshows";
+        }
         
         if (channelListView) {
             [cell setIsRecording:[item[@"isrecording"] boolValue]];
@@ -2041,6 +2037,13 @@
     int newWidthLabel = 0;
     if (menuItem.originLabel && !parameters[@"thumbWidth"]) {
         labelPosition = menuItem.originLabel;
+    }
+    
+    // label position for TVShow banner view needs to be tailored to match the default thumb size
+    if (tvshowsView && choosedTab == 0) {
+        CGFloat targetHeight = IS_IPAD ? PAD_TV_SHOWS_BANNER_HEIGHT : PHONE_TV_SHOWS_BANNER_HEIGHT;
+        CGFloat factor = targetHeight / PHONE_TV_SHOWS_POSTER_HEIGHT * [Utilities getTransformX];
+        labelPosition = PAD_TV_SHOWS_POSTER_WIDTH * factor + 8;
     }
     // CHECK IF THERE ARE SECTIONS
     
@@ -2525,6 +2528,9 @@
         }
         NSString *stringURL = tvshowsView ? item[@"banner"] : item[@"thumbnail"];
         NSString *displayThumb = globalSearchView ? [self getGlobalSearchThumb:item] : defaultThumb;
+        if (tvshowsView && choosedTab == 0) {
+            displayThumb = defaultThumb = @"nocover_tvshows_banner";
+        }
         if ([item[@"filetype"] length] != 0 ||
             [item[@"family"] isEqualToString:@"file"] ||
             [item[@"family"] isEqualToString:@"genreid"] ||
