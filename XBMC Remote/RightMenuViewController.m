@@ -75,10 +75,10 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rightMenuCell"];
-    [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:NULL];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rightMenuCellIdentifier"];
     if (cell == nil) {
-        cell = rightMenuCell;
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
+        cell = nib[0];
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         backView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         cell.selectedBackgroundView = backView;
@@ -132,7 +132,6 @@
         [cell.contentView addSubview:remoteControllerView.view];
     }
     else {
-        cell = rightMenuCell;
         cell.accessoryView = nil;
         cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
         cell.tintColor = UIColor.lightGrayColor;
@@ -501,7 +500,6 @@
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
         UIImageView *torchIcon = (UIImageView*)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
-        [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
         torchIsOn = !torchIsOn;
         [Utilities turnTorchOn:torchIcon on:torchIsOn];
     }

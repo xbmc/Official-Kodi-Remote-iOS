@@ -85,10 +85,10 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"serverListCell"];
-    [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:NULL];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"serverListCellIdentifier"];
     if (cell == nil) {
-        cell = serverListCell;
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:nil];
+        cell = nib[0];
         ((UILabel*)[cell viewWithTag:2]).highlightedTextColor = [Utilities get1stLabelColor];
         ((UILabel*)[cell viewWithTag:3]).highlightedTextColor = [Utilities get1stLabelColor];
         ((UILabel*)[cell viewWithTag:2]).textColor = [Utilities getSystemGray1];
