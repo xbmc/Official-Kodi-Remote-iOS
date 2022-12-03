@@ -188,7 +188,6 @@
 }
 
 - (void)showRemote {
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil]; 
     RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
     remoteController.modalPresentationStyle = UIModalPresentationFormSheet;
     [remoteController setPreferredContentSize:remoteController.view.frame.size];
