@@ -148,26 +148,13 @@
     [serviceRequest setValue:[NSString stringWithFormat:@"%i", (int)postData.length] forHTTPHeaderField:@"Content-Length"];
     serviceRequest.HTTPMethod = @"POST";
     serviceRequest.HTTPBody = postData;
-    serviceRequest.timeoutInterval = 3600;
+    serviceRequest.timeoutInterval = (timeout > 0) ? timeout : 3600;
     
     // Perform the JSON-RPC method call
     NSURLSessionDataTask *rpcDataTask = [self.rpcSession dataTaskWithRequest:serviceRequest];
     [rpcDataTask resume];
     
-    if (timeout) {
-        timer = [NSTimer scheduledTimerWithTimeInterval:timeout
-                                                 target:self 
-                                               selector:@selector(cancelRequest:) 
-                                               userInfo:rpcConnection
-                                                repeats:NO];
-    }
     return aID;
-}
-
-- (void)cancelRequest:(NSTimer*)theTimer {
-    NSURLSessionDataTask *rpcConnection = theTimer.userInfo;
-    [rpcConnection cancel];
-    timer = nil;
 }
 
 #pragma mark NSURLSession (delegate)
@@ -211,7 +198,6 @@
                 DS_RELEASE(completionHandler)
             }
         }
-        [timer invalidate];
     }
     // Connection error
     else {
