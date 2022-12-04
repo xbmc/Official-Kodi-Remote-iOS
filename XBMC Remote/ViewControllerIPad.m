@@ -305,16 +305,7 @@
 #pragma mark - Touch Events
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
-    CGPoint locationPoint = [[touches anyObject] locationInView:self.view];
-    CGPoint viewPoint = [self.nowPlayingController.jewelView convertPoint:locationPoint fromView:self.view];
-    CGPoint viewPoint4 = [self.nowPlayingController.itemLogoImage convertPoint:locationPoint fromView:self.view];
-
-    if ([self.nowPlayingController.itemLogoImage pointInside:viewPoint4 withEvent:event] && self.nowPlayingController.songDetailsView.alpha > 0 && self.nowPlayingController.itemLogoImage.image != nil) {
-        [self.nowPlayingController updateCurrentLogo];
-    }
-    else if ([self.nowPlayingController.jewelView pointInside:viewPoint withEvent:event] && !AppDelegate.instance.windowController.stackScrollViewController.viewControllersStack.count) {
-        [self.nowPlayingController toggleSongDetails];
-    }
+    [self.nowPlayingController touchesEnded:touches withEvent:event];
 }
 
 #pragma mark - App clear disk cache methods
@@ -472,8 +463,6 @@
     [self.view addSubview:xbmcInfo];
     
     menuViewController.tableView.separatorInset = UIEdgeInsetsZero;
-    
-    [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL clearCache = [userDefaults boolForKey:@"clearcache_preference"];
