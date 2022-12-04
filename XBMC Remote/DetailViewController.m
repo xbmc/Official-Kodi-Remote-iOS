@@ -1881,10 +1881,10 @@
     else if (channelGuideView) {
         if (self.sectionArray.count > 0) {
             NSMutableArray *channelGuideTableIndexTitles = [NSMutableArray new];
+            NSDateFormatter *format = [NSDateFormatter new];
+            format.locale = [NSLocale currentLocale];
             for (NSString *label in tmpArr) {
                 NSString *dateString = label;
-                NSDateFormatter *format = [NSDateFormatter new];
-                format.locale = [NSLocale currentLocale];
                 format.dateFormat = @"yyyy-MM-dd";
                 NSDate *date = [format dateFromString:label];
                 format.dateFormat = @"EEE";
