@@ -59,6 +59,8 @@
 #define GLOBALSEARCH_INDEX_ARTISTS 4
 #define GLOBALSEARCH_INDEX_ALBUMS 5
 #define GLOBALSEARCH_INDEX_SONGS 6
+#define INDEX_WIDTH 40
+#define INDEX_PADDING 2
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -660,14 +662,9 @@
     return menuItem;
 }
 
-- (void)setCollectionViewIndexVisibility {
-    if (enableCollectionView) {
-        // Only show the collection view index, if there are valid index titles to show
-        self.indexView.hidden = self.indexView.indexTitles.count > 1 ? NO : YES;
-    }
-    else {
-        self.indexView.hidden = YES;
-    }
+- (void)setIndexViewVisibility {
+    // Only show the collection view index, if there are valid index titles to show
+    self.indexView.hidden = self.indexView.indexTitles.count <= 1;
 }
 
 - (NSDictionary*)getItemFromIndexPath:(NSIndexPath*)indexPath {
@@ -1117,8 +1114,6 @@
         dataList.scrollsToTop = NO;
         collectionView.scrollsToTop = YES;
         activeLayoutView = collectionView;
-        [self initCollectionIndexView];
-        [self buildCollectionViewIndex];
         
         [self initSearchController];
         self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
@@ -1142,7 +1137,9 @@
         self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
         imgName = @"st_view_list";
     }
-    [self setCollectionViewIndexVisibility];
+    [self initIndexView];
+    [self buildIndexView];
+    [self setIndexViewVisibility];
     
     UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:UIColor.lightGrayColor];
     [button6 setBackgroundImage:image forState:UIControlStateNormal];
@@ -1856,39 +1853,69 @@
     [self.view addSubview:sectionNameOverlayView];
 }
 
-- (void)initCollectionIndexView {
+- (void)initIndexView {
     if (self.indexView) {
         return;
     }
-    CGFloat indexWidth = 40;
-    CGRect frame = CGRectMake(CGRectGetWidth(collectionView.frame) - indexWidth,
-                              CGRectGetMinY(collectionView.frame) + collectionView.contentInset.top,
-                              indexWidth,
-                              CGRectGetHeight(collectionView.frame) - collectionView.contentInset.top - collectionView.contentInset.bottom - bottomPadding);
+    UITableView *activeView = activeLayoutView;
+    CGRect frame = CGRectMake(CGRectGetWidth(activeView.frame) - INDEX_WIDTH - INDEX_PADDING,
+                              CGRectGetMinY(activeView.frame) + activeView.contentInset.top,
+                              INDEX_WIDTH,
+                              CGRectGetHeight(activeView.frame) - activeView.contentInset.top - activeView.contentInset.bottom - bottomPadding);
     self.indexView = [BDKCollectionIndexView indexViewWithFrame:frame indexTitles:@[]];
     self.indexView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin);
     self.indexView.alpha = 1.0;
     self.indexView.hidden = YES;
     [self.indexView addTarget:self action:@selector(indexViewValueChanged:) forControlEvents:UIControlEventValueChanged];
-    [detailView addSubview:self.indexView];
 }
 
-- (void)buildCollectionViewIndex {
+- (void)buildIndexView {
     // Get the index titles
     NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
     if (tmpArr.count > 1) {
         [tmpArr replaceObjectAtIndex:0 withObject:@"🔍"];
     }
-    self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
+    if (self.sectionArray.count > 1 && !episodesView && !channelGuideView) {
+        self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
+        [detailView addSubview:self.indexView];
+    }
+    else if (channelGuideView) {
+        if (self.sectionArray.count > 0) {
+            NSMutableArray *channelGuideTableIndexTitles = [NSMutableArray new];
+            NSDateFormatter *format = [NSDateFormatter new];
+            format.locale = [NSLocale currentLocale];
+            for (NSString *label in tmpArr) {
+                NSString *dateString = label;
+                format.dateFormat = @"yyyy-MM-dd";
+                NSDate *date = [format dateFromString:label];
+                format.dateFormat = @"EEE";
+                if ([format stringFromDate:date] != nil) {
+                    dateString = [format stringFromDate:date];
+                }
+                [channelGuideTableIndexTitles addObject:dateString];
+            }
+            self.indexView.indexTitles = channelGuideTableIndexTitles;
+            [detailView addSubview:self.indexView];
+        }
+    }
+    else {
+        self.indexView.indexTitles = @[];
+        [self.indexView removeFromSuperview];
+    }
 }
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView*)sender {
     if (sender.currentIndex == 0) {
-        [collectionView setContentOffset:CGPointZero animated:NO];
-        if (sectionNameOverlayView == nil && stackscrollFullscreen) {
-            [self initSectionNameOverlayView];
+        if (enableCollectionView) {
+            [collectionView setContentOffset:CGPointZero animated:NO];
+            if (sectionNameOverlayView == nil && stackscrollFullscreen) {
+                [self initSectionNameOverlayView];
+            }
         }
-        sectionNameLabel.text = [NSString stringWithFormat:@"%C%C", 0xD83D, 0xDD0D];
+        else {
+            [dataList setContentOffset:CGPointZero animated:NO];
+        }
+        sectionNameLabel.text = @"🔍";
         return;
     }
     else if (stackscrollFullscreen) {
@@ -1931,10 +1958,25 @@
         }
         return;
     }
-    else {
+    else if (enableCollectionView) {
         NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
         [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-        collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT + 4);
+        CGFloat offset = collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT;
+        
+        // Use correct scroll to bottom (not hiding a portion underneath the toolbar)
+        CGFloat height_content = collectionView.contentSize.height;
+        CGFloat height_bounds = collectionView.bounds.size.height;
+        CGFloat bottom = buttonsView.frame.size.height;
+        CGFloat bottom_scroll = MAX(height_content - height_bounds + bottom, 0);
+        if (offset > height_content - height_bounds) {
+            offset = bottom_scroll;
+        }
+        
+        collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, offset);
+    }
+    else {
+        NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
+        [dataList scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
 }
 
@@ -1948,7 +1990,7 @@
     if (stackscrollFullscreen) {
         [Utilities alphaView:sectionNameOverlayView AnimDuration:0.3 Alpha:0];
     }
-    _indexView.alpha = 1.0;
+    self.indexView.alpha = 1.0;
 }
 
 #pragma mark - Cell Formatting 
@@ -2311,36 +2353,7 @@
 }
 
 - (NSArray*)sectionIndexTitlesForTableView:(UITableView*)tableView {
-    if ([self doesShowSearchResults]) {
-        return nil;
-    }
-    else {
-        if (self.sectionArray.count > 1 && !episodesView && !channelGuideView) {
-            return self.sectionArray;
-        }
-        else if (channelGuideView) {
-            if (self.sectionArray.count > 0) {
-                NSMutableArray *channelGuideTableIndexTitles = [NSMutableArray new];
-                for (NSString *label in self.sectionArray) {
-                        NSString *dateString = label;
-                        NSDateFormatter *format = [NSDateFormatter new];
-                        format.locale = [NSLocale currentLocale];
-                        format.dateFormat = @"yyyy-MM-dd";
-                        NSDate *date = [format dateFromString:label];
-                        format.dateFormat = @"EEE";
-                    if ([format stringFromDate:date] != nil) {
-                        dateString = [format stringFromDate:date];
-                    }
-                    [channelGuideTableIndexTitles addObject:dateString];
-                }
-                return channelGuideTableIndexTitles;
-            }
-            return self.sectionArray;
-        }
-        else {
-            return nil;
-        }
-    }
+    return nil;
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -5672,7 +5685,7 @@ NSIndexPath *selected;
 - (void)willDismissSearchController:(UISearchController*)controller {
     showbar = NO;
     [self showSearchBar];
-    [self setCollectionViewIndexVisibility];
+    [self setIndexViewVisibility];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -5702,7 +5715,7 @@ NSIndexPath *selected;
     if (self.searchController.isActive) {
         BOOL hideToolbarAndIndex = searchString.length > 0;
         [self hideButtonList:hideToolbarAndIndex];
-        self.indexView.hidden = enableCollectionView ? hideToolbarAndIndex : YES;
+        self.indexView.hidden = hideToolbarAndIndex;
     }
 }
 
@@ -5771,9 +5784,6 @@ NSIndexPath *selected;
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-    dataList.sectionIndexBackgroundColor = UIColor.clearColor;
-    dataList.sectionIndexColor = UIColor.systemBlueColor;
-    dataList.sectionIndexTrackingBackgroundColor = UIColor.clearColor;
     dataList.separatorInset = UIEdgeInsetsMake(0, 53, 0, 0);
     dataList.indicatorStyle = UIScrollViewIndicatorStyleDefault;
     
