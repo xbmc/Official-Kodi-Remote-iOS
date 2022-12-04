@@ -68,7 +68,7 @@
 		0F747734151DD91D00EF78AD /* RemoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F747732151DD91D00EF78AD /* RemoteController.m */; };
 		0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F747733151DD91D00EF78AD /* RemoteController.xib */; };
 		0F74773A151E094C00EF78AD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F747739151E094C00EF78AD /* AudioToolbox.framework */; };
-		0F74776F151E5E8600EF78AD /* DSJSONRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776A151E5E8600EF78AD /* DSJSONRPC.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0F74776F151E5E8600EF78AD /* DSJSONRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776A151E5E8600EF78AD /* DSJSONRPC.m */; };
 		0F747770151E5E8600EF78AD /* DSJSONRPCError.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776C151E5E8600EF78AD /* DSJSONRPCError.m */; };
 		0F7A8A921926776900313C17 /* AppInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F7A8A911926776900313C17 /* AppInfoViewController.xib */; };
 		0F7B951A1708975500880F33 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B95141708975500880F33 /* UIImage+Resize.m */; };
