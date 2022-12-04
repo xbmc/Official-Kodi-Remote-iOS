@@ -10,7 +10,7 @@
 #import "SDWebImageDownloader.h"
 #import "SDWebImageOperation.h"
 
-@interface SDWebImageDownloaderOperation : NSOperation <SDWebImageOperation>
+@interface SDWebImageDownloaderOperation : NSOperation <SDWebImageOperation, NSURLSessionDataDelegate>
 
 @property (strong, nonatomic, readonly) NSURLRequest *request;
 @property (assign, nonatomic, readonly) SDWebImageDownloaderOptions options;

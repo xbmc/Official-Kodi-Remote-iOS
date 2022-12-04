@@ -40,35 +40,25 @@
 
 @implementation DSJSONRPCError
 
-@synthesize code, message, data;
-
 - (id)initWithErrorData:(NSDictionary*)errorData {
     if (!(self = [super init])) {
         return self;
     }
     
-    code    = [errorData[@"code"] intValue];
-    message = errorData[@"message"];
-    data    = errorData[@"data"];
-    
-    DS_RETAIN(message)
-    DS_RETAIN(data)
+    self.code    = [errorData[@"code"] intValue];
+    self.message = errorData[@"message"];
+    self.data    = errorData[@"data"];
     
     return self;
 }
 
 + (DSJSONRPCError*)errorWithData:(NSDictionary*)errorData {
     DSJSONRPCError *error = [[self alloc] initWithErrorData:errorData];
-    DS_AUTORELEASE(error)
     
     return error;
 }
 
 - (void)dealloc {
-    DS_RELEASE(message)
-    DS_RELEASE(data)
-    
-    DS_SUPERDEALLOC()
 }
 
 - (NSString*)description {

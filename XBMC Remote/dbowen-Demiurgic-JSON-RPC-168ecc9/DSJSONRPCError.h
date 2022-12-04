@@ -37,7 +37,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "DSARCHelpers.h"
 
 typedef enum {
     JSONRPCParseError = -32700,
@@ -50,9 +49,9 @@ typedef enum {
 
 @interface DSJSONRPCError : NSObject
 
-@property (nonatomic, readonly)            NSInteger code;
-@property (nonatomic, DS_STRONG, readonly) NSString  *message;
-@property (nonatomic, DS_STRONG, readonly) id        data;
+@property (nonatomic, assign) NSInteger code;
+@property (nonatomic, strong) NSString *message;
+@property (nonatomic, strong) id data;
 
 - (id)initWithErrorData:(NSDictionary*)errorData;
 + (DSJSONRPCError*)errorWithData:(NSDictionary*)errorData;
