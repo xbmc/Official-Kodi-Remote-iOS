@@ -38,12 +38,7 @@
 
 #import "DSJSONRPC.h"
 
-#ifdef __OBJC_GC__
-#error Demiurgic JSON-RPC does not support Objective-C Garbage Collection
-#endif
-
 #define RPC_DOMAIN @"it.joethefox.json-rpc"
-
 
 @interface DSJSONRPC () // Private
 @property (nonatomic, copy) NSURL *serviceEndpoint;
@@ -76,7 +71,6 @@
 }
 
 - (void)dealloc {
-    DS_SUPERDEALLOC()
 }
 
 #pragma mark - Web Service Invocation Methods
@@ -178,7 +172,6 @@
             if (completionHandler) {
                 NSError *aError = [NSError errorWithDomain:RPC_DOMAIN code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[jsonError localizedDescription], NSLocalizedDescriptionKey, nil]];
                 completionHandler(methodName, aID, nil, nil, aError);
-                DS_RELEASE(completionHandler)
             }
         }
         // The JSON server passed back an error for the response
@@ -187,7 +180,6 @@
             if (completionHandler) {
                 DSJSONRPCError *jsonRPCError = [DSJSONRPCError errorWithData:jsonResult[@"error"]];
                 completionHandler(methodName, aID, nil, jsonRPCError, nil);
-                DS_RELEASE(completionHandler)
             }
         }
         // No error
@@ -195,7 +187,6 @@
             // Pass the method result to completion handler
             if (completionHandler) {
                 completionHandler(methodName, aID, jsonResult[@"result"], nil, nil);
-                DS_RELEASE(completionHandler)
             }
         }
     }
@@ -205,10 +196,8 @@
         if (completionHandler) {
             NSError *aError = [NSError errorWithDomain:RPC_DOMAIN code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
             completionHandler(methodName, aID, nil, nil, aError);
-            DS_RELEASE(completionHandler)
         }
     }
-    DS_RELEASE(data)
 }
 
 - (void)URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask didReceiveData:(NSData*)data {

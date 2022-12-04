@@ -222,7 +222,6 @@
 		0F747732151DD91D00EF78AD /* RemoteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteController.m; sourceTree = "<group>"; };
 		0F747733151DD91D00EF78AD /* RemoteController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RemoteController.xib; sourceTree = "<group>"; };
 		0F747739151E094C00EF78AD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		0F747768151E5E8600EF78AD /* DSARCHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSARCHelpers.h; sourceTree = "<group>"; };
 		0F747769151E5E8600EF78AD /* DSJSONRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSJSONRPC.h; sourceTree = "<group>"; };
 		0F74776A151E5E8600EF78AD /* DSJSONRPC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSJSONRPC.m; sourceTree = "<group>"; };
 		0F74776B151E5E8600EF78AD /* DSJSONRPCError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSJSONRPCError.h; sourceTree = "<group>"; };
@@ -585,7 +584,6 @@
 		0F747767151E5E8600EF78AD /* Demiurgic-JSON-RPC */ = {
 			isa = PBXGroup;
 			children = (
-				0F747768151E5E8600EF78AD /* DSARCHelpers.h */,
 				0F747769151E5E8600EF78AD /* DSJSONRPC.h */,
 				0F74776A151E5E8600EF78AD /* DSJSONRPC.m */,
 				0F74776B151E5E8600EF78AD /* DSJSONRPCError.h */,

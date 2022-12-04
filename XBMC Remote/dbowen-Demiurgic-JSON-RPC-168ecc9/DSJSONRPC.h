@@ -39,7 +39,6 @@
 
 #import <Foundation/Foundation.h>
 #import "DSJSONRPCError.h"
-#import "DSARCHelpers.h"
 
 @class DSJSONRPC;
 
