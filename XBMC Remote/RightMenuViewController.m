@@ -136,6 +136,9 @@
         cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
         cell.tintColor = UIColor.lightGrayColor;
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        if (@available(iOS 13.0, *)) {
+            cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+        }
         icon = (UIImageView*)[cell viewWithTag:1];
         title = (UILabel*)[cell viewWithTag:3];
         line = (UIImageView*)[cell viewWithTag:4];
