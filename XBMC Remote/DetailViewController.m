@@ -2948,19 +2948,6 @@
         gradient.frame = albumDetailView.bounds;
         gradient.colors = @[(id)[[Utilities getSystemGray5] CGColor], (id)[[Utilities getSystemGray1] CGColor]];
         [albumDetailView.layer insertSublayer:gradient atIndex:0];
-        if (section > 0) {
-            UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, -1, viewWidth, 1)];
-            lineView.backgroundColor = [Utilities getGrayColor:242 alpha:1];
-            [albumDetailView addSubview:lineView];
-        }
-        CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
-        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        toolbarShadow.image = [UIImage imageNamed:@"tableUp"];
-        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        toolbarShadow.opaque = YES;
-        toolbarShadow.alpha = 0.3;
-        [albumDetailView addSubview:toolbarShadow];
-        
         NSDictionary *item;
         if ([self doesShowSearchResults]) {
             item = self.richResults[0];
@@ -3116,7 +3103,7 @@
         return albumViewHeight + 2;
     }
     else if (episodesView && self.richResults.count > 0 && ![self doesShowSearchResults]) {
-        return albumViewHeight + 2;
+        return albumViewHeight;
     }
     else if (section != 0 || [self doesShowSearchResults]) {
         return sectionHeight;
