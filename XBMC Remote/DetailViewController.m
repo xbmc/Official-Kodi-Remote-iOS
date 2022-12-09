@@ -5713,9 +5713,15 @@ NSIndexPath *selected;
     
     // Hide the toolbar and index while search is active with a non-empty string
     if (self.searchController.isActive) {
-        BOOL hideToolbarAndIndex = searchString.length > 0;
-        [self hideButtonList:hideToolbarAndIndex];
-        self.indexView.hidden = hideToolbarAndIndex;
+        BOOL hasNonEmptySearchString = searchString.length > 0;
+        
+        // Hide toolbar when search string is non-empty or no toolbar buttons exist
+        BOOL hasEmptyToolbar = button1.hidden && button2.hidden && button3.hidden && button4.hidden && button5.hidden && button6.hidden && button7.hidden;
+        BOOL hideToolbar = hasNonEmptySearchString || hasEmptyToolbar;
+        [self hideButtonList:hideToolbar];
+        
+        // Hide index when search string is non-empty
+        self.indexView.hidden = hasNonEmptySearchString;
     }
 }
 
