@@ -847,12 +847,15 @@
 
 - (void)toggleOpen:(UITapGestureRecognizer*)sender {
     NSInteger section = [sender.view tag];
+    // Toggle the section's state (open/close)
     [self.sectionArrayOpen replaceObjectAtIndex:section withObject:@(![self.sectionArrayOpen[section] boolValue])];
+    // Build the section content
     NSInteger countEpisodes = [[self.sections objectForKey:self.sectionArray[section]] count];
     NSMutableArray *indexPaths = [NSMutableArray new];
     for (NSInteger i = 0; i < countEpisodes; i++) {
         [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:section]];
     }
+    // Add/remove the section content
     UIButton *toggleButton = (UIButton*)[sender.view viewWithTag:99];
     if ([self.sectionArrayOpen[section] boolValue]) {
         [dataList beginUpdates];
@@ -865,11 +868,13 @@
         [dataList beginUpdates];
         [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
         [dataList endUpdates];
-        if (section > 0) {
-            CGRect sectionRect = [dataList rectForSection:section - 1];
-            [dataList scrollRectToVisible:sectionRect animated:YES];
-        }
     }
+    // Refresh leyout
+    [self configureLibraryView];
+    [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
+    // Scroll to section
+    CGRect sectionRect = [dataList rectForSection:section];
+    [dataList scrollRectToVisible:sectionRect animated:YES];
 }
 
 - (void)goBack:(id)sender {
