@@ -79,20 +79,22 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
         cell = nib[0];
+        
+        // Set background view
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         backView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         cell.selectedBackgroundView = backView;
-        UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
-        xbmc_logo.alpha = 0.25;
-        xbmc_logo.image = logo;
-        xbmc_logo.tag = 101;
-        [cell.contentView insertSubview:xbmc_logo atIndex:0];
     }
+    UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
+    UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
+    xbmc_logo.alpha = 0.25;
+    xbmc_logo.image = logo;
+    xbmc_logo.tag = 101;
+    [cell.contentView insertSubview:xbmc_logo atIndex:0];
+    
     UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
     UIImageView *line = (UIImageView*)[cell viewWithTag:4];
-    UIImageView *xbmc_logo = (UIImageView*)[cell viewWithTag:101];
     icon.hidden = NO;
     xbmc_logo.hidden = YES;
     cell.accessoryView = nil;
