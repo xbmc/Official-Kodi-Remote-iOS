@@ -137,9 +137,6 @@
         cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
         cell.tintColor = UIColor.lightGrayColor;
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        icon = (UIImageView*)[cell viewWithTag:1];
-        title = (UILabel*)[cell viewWithTag:3];
-        line = (UIImageView*)[cell viewWithTag:4];
         
         UIViewAutoresizing storeMask = title.autoresizingMask;
         title.autoresizingMask = UIViewAutoresizingNone;
