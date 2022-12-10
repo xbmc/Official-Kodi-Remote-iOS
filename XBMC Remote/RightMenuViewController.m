@@ -93,6 +93,9 @@
     UIImageView *line = (UIImageView*)[cell viewWithTag:4];
     icon.hidden = NO;
     cell.accessoryView = nil;
+    if (@available(iOS 13.0, *)) {
+        cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+    }
     NSString *iconName = @"blank";
     if ([tableData[indexPath.row][@"label"] isEqualToString:@"ServerInfo"]) {
         UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
