@@ -20,6 +20,7 @@
 #define RIGHT_MENU_ITEM_HEIGHT 50.0
 #define RIGHT_MENU_ICON_SIZE 18.0
 #define RIGHT_MENU_ICON_SPACING 16.0
+#define RIGHT_MENU_CELL_SPACING 6.0
 #define BUTTON_SPACING 8.0
 #define BUTTON_WIDTH 100.0
 
@@ -94,7 +95,7 @@
     NSString *iconName = @"blank";
     if ([tableData[indexPath.row][@"label"] isEqualToString:@"ServerInfo"]) {
         UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
+        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:SERVER_INFO_HEIGHT width:self.view.bounds.size.width]];
         xbmc_logo.alpha = 0.25;
         xbmc_logo.image = logo;
         xbmc_logo.hidden = NO;
@@ -143,8 +144,8 @@
         UIViewAutoresizing storeMask = title.autoresizingMask;
         title.autoresizingMask = UIViewAutoresizingNone;
         CGRect frame = title.frame;
-        frame.origin.y = 6;
-        frame.size.height = frame.size.height - 12;
+        frame.origin.y = RIGHT_MENU_CELL_SPACING;
+        frame.size.height = frame.size.height - 2 * RIGHT_MENU_CELL_SPACING;
         if ([tableData[indexPath.row][@"type"] isEqualToString:@"boolean"]) {
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
@@ -177,7 +178,7 @@
             cell.accessoryView = onoffview;
         }
         else {
-            frame.size.width = 202;
+            frame.size.width = cell.frame.size.width - frame.origin.x - RIGHT_MENU_ICON_SIZE - 2 * RIGHT_MENU_ICON_SPACING;
         }
         title.frame = frame;
         title.autoresizingMask = storeMask;
