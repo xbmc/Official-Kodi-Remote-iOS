@@ -364,7 +364,7 @@ long currentItemID;
     shuffleButton.hidden = YES;
     hiresImage.hidden = YES;
     musicPartyMode = 0;
-    [self setIOS7backgroundEffect:UIColor.clearColor barTintColor:TINT_COLOR];
+    [self setIOS7backgroundEffect:UIColor.clearColor];
     [self hidePlaylistProgressbarWithDeselect:YES];
     [self showPlaylistTable];
     [self toggleSongDetails];
@@ -421,7 +421,7 @@ long currentItemID;
                     completion:NULL];
 }
 
-- (void)IOS7effect:(UIColor*)color barTintColor:(UIColor*)barColor effectDuration:(NSTimeInterval)time {
+- (void)IOS7effect:(UIColor*)color effectDuration:(NSTimeInterval)time {
     [UIView animateWithDuration:time
                      animations:^{
                          iOS7bgEffect.backgroundColor = color;
@@ -456,11 +456,11 @@ long currentItemID;
                      completion:NULL];
 }
 
-- (void)setIOS7backgroundEffect:(UIColor*)color barTintColor:(UIColor*)barColor {
+- (void)setIOS7backgroundEffect:(UIColor*)color {
     foundEffectColor = color;
     if (!nowPlayingView.hidden) {
         [self IOS7colorProgressSlider:color];
-        [self IOS7effect:color barTintColor:barColor effectDuration:1.0];
+        [self IOS7effect:color effectDuration:1.0];
     }
 }
 
@@ -585,7 +585,7 @@ long currentItemID;
                                      if ([thumbnailPath isEqualToString:@""]) {
                                          UIImage *buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"coverbox_back"]];
                                          [self setButtonImageAndStartDemo:buttonImage];
-                                         [self setIOS7backgroundEffect:UIColor.clearColor barTintColor:TINT_COLOR];
+                                         [self setIOS7backgroundEffect:UIColor.clearColor];
                                          if (enableJewel) {
                                              thumbnailView.image = [UIImage imageNamed:@"coverbox_back"];
                                          }
@@ -607,7 +607,7 @@ long currentItemID;
                                                  }
                                                  [self setButtonImageAndStartDemo:buttonImage];
                                                  UIColor *effectColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                 [self setIOS7backgroundEffect:effectColor barTintColor:effectColor];
+                                                 [self setIOS7backgroundEffect:effectColor];
                                              }
                                              else {
                                                  __weak NowPlaying *sf = self;
@@ -621,7 +621,7 @@ long currentItemID;
                                                                                   UIImage *buttonImage = [sf resizeToolbarThumb:[sf imageWithBorderFromImage:image]];
                                                                                   [sf setButtonImageAndStartDemo:buttonImage];
                                                                                   newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                                                  [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
+                                                                                  [sf setIOS7backgroundEffect:newColor];
                                                                               }
                                                                           }];
                                                  }
@@ -635,7 +635,7 @@ long currentItemID;
                                                               UIImage *buttonImage = [sf resizeToolbarThumb:jV.image];
                                                               [sf setButtonImageAndStartDemo:buttonImage];
                                                               newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                              [sf setIOS7backgroundEffect:newColor barTintColor:newColor];
+                                                              [sf setIOS7backgroundEffect:newColor];
                                                           }
                                                       }];
                                                  }
@@ -1368,7 +1368,6 @@ long currentItemID;
 
 - (void)animViews {
     UIColor *effectColor;
-    UIColor *barColor;
     __block CGRect playlistToolBarOriginY = playlistActionView.frame;
     NSTimeInterval iOS7effectDuration = 1.0;
     if (!nowPlayingView.hidden) {
@@ -1379,9 +1378,8 @@ long currentItemID;
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromRight;
         effectColor = UIColor.clearColor;
-        barColor = TINT_COLOR;
         playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height - playlistTableView.scrollIndicatorInsets.bottom;
-        [self IOS7effect:effectColor barTintColor:barColor effectDuration:0.2];
+        [self IOS7effect:effectColor effectDuration:0.2];
     }
     else {
         transitionView = playlistView;
@@ -1391,11 +1389,9 @@ long currentItemID;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
         if (foundEffectColor == nil) {
             effectColor = UIColor.clearColor;
-            barColor = TINT_COLOR;
         }
         else {
             effectColor = foundEffectColor;
-            barColor = foundEffectColor;
         }
         playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height;
     }
@@ -1420,7 +1416,7 @@ long currentItemID;
                                           }
                                           completion:^(BOOL finished) {
                                               if (iOS7effectDuration) {
-                                                  [self IOS7effect:effectColor barTintColor:barColor effectDuration:iOS7effectDuration];
+                                                  [self IOS7effect:effectColor effectDuration:iOS7effectDuration];
                                               }
                                           }];
                      }];
