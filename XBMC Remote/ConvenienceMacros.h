@@ -21,7 +21,8 @@
  * Color defines
  */
 #define APP_TINT_COLOR [Utilities getGrayColor:0 alpha:0.3]
-#define TINT_COLOR [Utilities getGrayColor:255 alpha:.35]
+#define ICON_TINT_COLOR UIColor.lightGrayColor
+#define ICON_TINT_COLOR_ACTIVE UIColor.systemBlueColor
 #define BAR_TINT_COLOR [Utilities getGrayColor:26 alpha:1]
 #define REMOTE_CONTROL_BAR_TINT_COLOR [Utilities getGrayColor:12 alpha:1]
 #define SLIDER_DEFAULT_COLOR [Utilities getSystemTeal]

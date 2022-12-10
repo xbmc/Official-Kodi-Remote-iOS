@@ -427,7 +427,7 @@ long currentItemID;
                          iOS7bgEffect.backgroundColor = color;
                          iOS7navBarEffect.backgroundColor = color;
                          if ([color isEqual:UIColor.clearColor]) {
-                             self.navigationController.navigationBar.tintColor = TINT_COLOR;
+                             self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
                              [Utilities imageView:backgroundImageView AnimDuration:1.0 Image:[UIImage imageNamed:@"shiny_black_back"]];
                              if (IS_IPAD) {
                                  NSDictionary *params = @{@"startColor": [Utilities getGrayColor:36 alpha:1],
@@ -2487,7 +2487,7 @@ long currentItemID;
     [timer invalidate];
     currentItemID = SELECTED_NONE;
     self.slidingViewController.panGesture.delegate = nil;
-    self.navigationController.navigationBar.tintColor = TINT_COLOR;
+    self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

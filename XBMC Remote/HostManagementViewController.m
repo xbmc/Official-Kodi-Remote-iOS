@@ -577,7 +577,7 @@ static inline BOOL IsEmpty(id obj) {
         backgroundImageView.frame = frame;
         self.view.backgroundColor = UIColor.blackColor;
         self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-        self.navigationController.navigationBar.tintColor = TINT_COLOR;
+        self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     }
     else {
         int barHeight = 44;

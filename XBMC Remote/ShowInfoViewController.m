@@ -1758,7 +1758,7 @@ double round(double d) {
             }
         }
         
-        [self setIOS7barTintColor:TINT_COLOR];
+        [self setIOS7barTintColor:ICON_TINT_COLOR];
         viewTitle.textAlignment = NSTextAlignmentCenter;
         bottomShadow.hidden = YES;
     }
@@ -1774,7 +1774,7 @@ double round(double d) {
         [self setIOS7barTintColor:foundTintColor];
     }
     else {
-        [self setIOS7barTintColor:TINT_COLOR];
+        [self setIOS7barTintColor:ICON_TINT_COLOR];
     }
     CGFloat alphaValue = 0.2;
     if (closeButton.alpha == 1) {
@@ -1803,7 +1803,7 @@ double round(double d) {
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [self setIOS7barTintColor:TINT_COLOR];
+    [self setIOS7barTintColor:ICON_TINT_COLOR];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -1853,7 +1853,7 @@ double round(double d) {
     enableKenBurns = [userDefaults boolForKey:@"ken_preference"];;
     self.kenView = nil;
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
-    foundTintColor = TINT_COLOR;
+    foundTintColor = ICON_TINT_COLOR;
     [self configureView];
     
     xbmcDateFormatter = [NSDateFormatter new];

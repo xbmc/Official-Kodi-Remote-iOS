@@ -36,7 +36,7 @@
     UINavigationBar *newBar = navController.navigationBar;
     newBar.barStyle = UIBarStyleBlackTranslucent;
     [self setNeedsStatusBarAppearanceUpdate];
-    newBar.tintColor = TINT_COLOR;
+    newBar.tintColor = ICON_TINT_COLOR;
     self.view.tintColor = APP_TINT_COLOR;
     [navController hideNavBarBottomLine:YES];
     hostManagementViewController.mainMenu = self.mainMenu;
