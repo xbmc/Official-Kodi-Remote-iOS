@@ -445,6 +445,9 @@
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (services.count == 0) {
+        return;
+    }
     [self resolveIPAddress:services[indexPath.row]];
 }
 
