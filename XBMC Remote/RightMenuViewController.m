@@ -23,6 +23,7 @@
 #define RIGHT_MENU_CELL_SPACING 6.0
 #define BUTTON_SPACING 8.0
 #define BUTTON_WIDTH 100.0
+#define ONOFF_BUTTON_TAG_OFFSET 1000
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -150,7 +151,7 @@
             [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
             onoff.frame = CGRectMake(0, (RIGHT_MENU_ITEM_HEIGHT - onoff.frame.size.height) / 2, onoff.frame.size.width, onoff.frame.size.height);
             onoff.hidden = NO;
-            onoff.tag = 1000 + indexPath.row;
+            onoff.tag = ONOFF_BUTTON_TAG_OFFSET + indexPath.row;
 
             UIView *onoffview = [[UIView alloc] initWithFrame: CGRectMake(0, 0, onoff.frame.size.width, RIGHT_MENU_ITEM_HEIGHT)];
             [onoffview addSubview:onoff];
@@ -302,7 +303,7 @@
 
 - (void)toggleSwitch:(id)sender {
     UISwitch *onoff = (UISwitch*)sender;
-    NSInteger tableIdx = onoff.tag - 1000;
+    NSInteger tableIdx = onoff.tag - ONOFF_BUTTON_TAG_OFFSET;
     if (tableIdx < tableData.count) {
         NSString *command = tableData[tableIdx][@"action"][@"command"];
         NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys: tableData[tableIdx][@"action"][@"params"][@"setting"], @"setting", @(onoff.on), @"value", nil];
@@ -346,10 +347,10 @@
 }
 
 - (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
-    UISwitch *onoffSource = (UISwitch*)[[[tableView cellForRowAtIndexPath:sourceIndexPath]accessoryView] viewWithTag:1000 + sourceIndexPath.row];
-    UISwitch *onoffDestination = (UISwitch*)[[[tableView cellForRowAtIndexPath:destinationIndexPath]accessoryView] viewWithTag:1000 + destinationIndexPath.row];
-    onoffSource.tag = 1000 + destinationIndexPath.row;
-    onoffDestination.tag = 1000 + sourceIndexPath.row;
+    UISwitch *onoffSource = (UISwitch*)[[[tableView cellForRowAtIndexPath:sourceIndexPath]accessoryView] viewWithTag:ONOFF_BUTTON_TAG_OFFSET + sourceIndexPath.row];
+    UISwitch *onoffDestination = (UISwitch*)[[[tableView cellForRowAtIndexPath:destinationIndexPath]accessoryView] viewWithTag:ONOFF_BUTTON_TAG_OFFSET + destinationIndexPath.row];
+    onoffSource.tag = ONOFF_BUTTON_TAG_OFFSET + destinationIndexPath.row;
+    onoffDestination.tag = ONOFF_BUTTON_TAG_OFFSET + sourceIndexPath.row;
 
     id objectMove = tableData[sourceIndexPath.row];
     [tableData removeObjectAtIndex:sourceIndexPath.row];
