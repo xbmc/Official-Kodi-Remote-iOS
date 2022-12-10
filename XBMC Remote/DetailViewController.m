@@ -4360,9 +4360,24 @@ NSIndexPath *selected;
 
 
 - (void)showAlbumActions:(UITapGestureRecognizer*)tap {
-    NSArray *sheetActions = @[LOCALIZED_STR(@"Queue after current"), LOCALIZED_STR(@"Queue"), LOCALIZED_STR(@"Play"), LOCALIZED_STR(@"Play in shuffle mode"), LOCALIZED_STR(@"Album Details"), LOCALIZED_STR(@"Search Wikipedia")];
+    if (self.sectionArray.count == 0) {
+        return;
+    };
+    id sectionKey = self.sectionArray[0];
+    id sectionItem = [self.sections[sectionKey] firstObject];
+    if (!sectionItem) {
+        return;
+    };
+    NSArray *sheetActions = @[
+        LOCALIZED_STR(@"Queue after current"),
+        LOCALIZED_STR(@"Queue"),
+        LOCALIZED_STR(@"Play"),
+        LOCALIZED_STR(@"Play in shuffle mode"),
+        LOCALIZED_STR(@"Album Details"),
+        LOCALIZED_STR(@"Search Wikipedia"),
+    ];
     selected = [NSIndexPath indexPathForRow:0 inSection:0];
-    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:[self.sections objectForKey:self.sectionArray[0]][0]];
+    NSMutableDictionary *item = [sectionItem mutableCopy];
     item[@"label"] = self.navigationItem.title;
     forceMusicAlbumMode = YES;
     int rectOrigin = (int)((albumViewHeight - (albumViewPadding * 2))/2);
