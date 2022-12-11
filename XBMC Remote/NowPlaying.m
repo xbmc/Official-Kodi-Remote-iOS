@@ -1586,18 +1586,24 @@ long currentItemID;
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     UITouch *touch = [touches anyObject];
-    CGPoint locationPoint = [touch locationInView:songDetailsView];
-    CGPoint viewPoint1 = [shuffleButton convertPoint:locationPoint fromView:songDetailsView];
-    CGPoint viewPoint2 = [repeatButton convertPoint:locationPoint fromView:songDetailsView];
-    CGPoint viewPoint3 = [itemLogoImage convertPoint:locationPoint fromView:songDetailsView];
-    CGPoint viewPoint4 = [closeButton convertPoint:locationPoint fromView:songDetailsView];
     if (songDetailsView.alpha == 0) {
-        // songDetailsView is not shown, bring it up
-        [self toggleSongDetails];
+        // songDetailsView is not shown
+        CGPoint locationPoint = [touch locationInView:nowPlayingView];
+        CGPoint viewPoint = [jewelView convertPoint:locationPoint fromView:nowPlayingView];
+        BOOL iPadStackActive = AppDelegate.instance.windowController.stackScrollViewController.viewControllersStack.count > 0;
+        if ([jewelView pointInside:viewPoint withEvent:event] && !iPadStackActive) {
+            // We have no iPad stack shown amd jewelView was touched, bring up songDetailsView
+            [self toggleSongDetails];
+        }
     }
     else {
         // songDetailsView is shown, process touches
-        if ([shuffleButton pointInside:viewPoint1 withEvent:event]&& !shuffleButton.hidden) {
+        CGPoint locationPoint = [touch locationInView:songDetailsView];
+        CGPoint viewPoint1 = [shuffleButton convertPoint:locationPoint fromView:songDetailsView];
+        CGPoint viewPoint2 = [repeatButton convertPoint:locationPoint fromView:songDetailsView];
+        CGPoint viewPoint3 = [itemLogoImage convertPoint:locationPoint fromView:songDetailsView];
+        CGPoint viewPoint4 = [closeButton convertPoint:locationPoint fromView:songDetailsView];
+        if ([shuffleButton pointInside:viewPoint1 withEvent:event] && !shuffleButton.hidden) {
             [self changeShuffle:nil];
         }
         else if ([repeatButton pointInside:viewPoint2 withEvent:event] && !repeatButton.hidden) {
