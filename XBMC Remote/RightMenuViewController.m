@@ -115,8 +115,6 @@
         title.textAlignment = NSTextAlignmentLeft;
         title.text = AppDelegate.instance.serverName;
         title.numberOfLines = 2;
-        UIImageView *arrowRight = (UIImageView*)[cell viewWithTag:5];
-        arrowRight.frame = CGRectMake(arrowRight.frame.origin.x, (SERVER_INFO_HEIGHT - arrowRight.frame.size.height) / 2, arrowRight.frame.size.width, arrowRight.frame.size.height);
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"VolumeControl"]) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
