@@ -44,10 +44,7 @@
 @property (nonatomic, copy) NSURL *serviceEndpoint;
 @property (nonatomic, copy) NSDictionary *httpHeaders;
 @property (nonatomic, strong) NSURLSession *rpcSession;
-@property (nonatomic, strong) NSMutableData *dataBuffer;
-@property (nonatomic, assign) NSInteger requestID;
-@property (nonatomic, copy) NSString *methodName;
-@property (nonatomic, copy) DSJSONRPCCompletionHandler callback;
+@property (nonatomic, strong) NSMutableDictionary *activeDataTasks;
 @end
 
 @implementation DSJSONRPC
@@ -63,6 +60,7 @@
     
     self.serviceEndpoint = serviceEndpoint;
     self.httpHeaders     = httpHeaders;
+    self.activeDataTasks = [NSMutableDictionary new];
     self.rpcSession      = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
                                                          delegate:self
                                                     delegateQueue:[NSOperationQueue mainQueue]];
@@ -123,12 +121,6 @@
         }
     }
     
-    // Set properties for current request
-    self.dataBuffer = nil;
-    self.requestID = aID;
-    self.callback = completionHandler;
-    self.methodName = methodName;
-    
     // Create the JSON-RPC request
     NSMutableURLRequest *serviceRequest = [NSMutableURLRequest requestWithURL:self.serviceEndpoint];
     [serviceRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -148,6 +140,15 @@
     NSURLSessionDataTask *rpcDataTask = [self.rpcSession dataTaskWithRequest:serviceRequest];
     [rpcDataTask resume];
     
+    // Set properties for current data task
+    NSMutableDictionary *dataTaskProp = [NSMutableDictionary new];
+    dataTaskProp[@"requestID"] = @(aID);
+    dataTaskProp[@"methodName"] = methodName;
+    if (completionHandler) {
+        dataTaskProp[@"callback"] = [completionHandler copy];
+    }
+    self.activeDataTasks[rpcDataTask] = dataTaskProp;
+    
     return aID;
 }
 
@@ -155,10 +156,11 @@
 
 - (void)URLSession:(NSURLSession*)session task:(NSURLSessionTask*)task didCompleteWithError:(NSError*)error {
     // Restore variables from activeConnection
-    DSJSONRPCCompletionHandler completionHandler = self.callback;
-    NSString *methodName = self.methodName;
-    NSData *data = self.dataBuffer;
-    long aID = self.requestID;
+    NSDictionary *dataTaskProp = self.activeDataTasks[task];
+    DSJSONRPCCompletionHandler completionHandler = dataTaskProp[@"callback"];
+    NSString *methodName = dataTaskProp[@"methodName"];
+    NSData *data = dataTaskProp[@"dataBuffer"];
+    long aID = [dataTaskProp[@"requestID"] longValue];
     
     // No error, process the received data
     if (error == nil) {
@@ -198,16 +200,18 @@
             completionHandler(methodName, aID, nil, nil, aError);
         }
     }
+    // Clean up finished request
+    [self.activeDataTasks removeObjectForKey:task];
 }
 
 - (void)URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask didReceiveData:(NSData*)data {
     // Append data to existing buffer
-    [self.dataBuffer appendData:data];
+    [self.activeDataTasks[dataTask][@"dataBuffer"] appendData:data];
 }
 
 - (void)URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask didReceiveResponse:(NSURLResponse*)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
     // Connections established, create buffer
-    self.dataBuffer = [NSMutableData new];
+    self.activeDataTasks[dataTask][@"dataBuffer"] = [NSMutableData new];
     completionHandler(NSURLSessionResponseAllow);
 }
 
