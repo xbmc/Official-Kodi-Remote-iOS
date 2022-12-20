@@ -2447,13 +2447,7 @@ long currentItemID;
     if (fromItself) {
         [self handleXBMCPlaylistHasChanged:nil];
     }
-    [self playbackInfo];
-    updateProgressBar = YES;
-    if (timer != nil) {
-        [timer invalidate];
-        timer = nil;
-    }
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+    [self startNowPlayingUpdates];
     fromItself = NO;
     if (IS_IPHONE) {
         self.slidingViewController.underRightViewController = nil;
@@ -2480,6 +2474,13 @@ long currentItemID;
 
 - (void)startFlipDemo {
     [self flipAnimButton:playlistButton demo:YES];
+}
+     
+- (void)startNowPlayingUpdates {
+    [self playbackInfo];
+    updateProgressBar = YES;
+    [timer invalidate];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -2616,13 +2617,7 @@ long currentItemID;
 
 - (void)handleEnterForeground:(NSNotification*)sender {
     [self handleXBMCPlaylistHasChanged:nil];
-    [self playbackInfo];
-    updateProgressBar = YES;
-    if (timer != nil) {
-        [timer invalidate];
-        timer = nil;
-    }
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+    [self startNowPlayingUpdates];
 }
 
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
