@@ -55,6 +55,7 @@
 #define TAG_SEEK_FORWARD 7
 #define TAG_ID_EDIT 88
 #define SELECTED_NONE -1
+#define ID_INVALID -2
 #define FLIP_DEMO_DELAY 0.5
 #define FADE_OUT_TIME 0.2
 #define FADE_IN_TIME 0.5
@@ -276,7 +277,6 @@ long lastSelected = SELECTED_NONE;
 int currentPlayerID = PLAYERID_UNKNOWN;
 int storePosSeconds;
 long storedItemID;
-long currentItemID;
 
 - (void)setCoverSize:(NSString*)type {
     NSString *jewelImg = @"";
@@ -522,12 +522,7 @@ long currentItemID;
                              if (methodResult[@"item"] != [NSNull null]) {
                                  nowPlayingInfo = methodResult[@"item"];
                              }
-                             if (nowPlayingInfo[@"id"] == nil) {
-                                 currentItemID = -2;
-                             }
-                             else {
-                                 currentItemID = [nowPlayingInfo[@"id"] longValue];
-                             }
+                             long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
                              if ((nowPlayingInfo.count && currentItemID != storedItemID) || nowPlayingInfo[@"id"] == nil || ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
                                  storedItemID = currentItemID;
                                  [self performSelector:@selector(loadCodecView) withObject:nil afterDelay:.5];
