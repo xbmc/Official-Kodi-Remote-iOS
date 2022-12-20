@@ -64,8 +64,8 @@
 "LED Torch" = "Torcia LED";
 "No connection" = "Nessuna Connessione";
 "Queue after current" = "Accoda dopo il corrente";
-"Queue" = "Accoda";
-"Play" = "Riproduci";
+"Queue" = "Coda";
+"Play" = "Play";
 "Search Wikipedia" = "Ricerca Wikipedia";
 "Search last.fm charts" = "Ricerca classifiche last.fm";
 "Album Tracks" = "Tracce Album";
@@ -272,7 +272,7 @@
 "Nearly four hours" = "Quasi quattro ore";
 "About four hours" = "Circa quattro ore";
 "More than four hours" = "Più di quattro ore";
-"Unknown" = "sconosciuto";
+"Unknown" = "Sconosciuto";
 "Audio stream" = "Traccia audio";
 "Disable subtitles" = "Disabilita i sottotitoli";
 "Subtitles" = "Sottotitoli";
