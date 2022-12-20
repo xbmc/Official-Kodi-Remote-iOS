@@ -2487,7 +2487,7 @@ long currentItemID;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [timer invalidate];
-    currentItemID = SELECTED_NONE;
+    storedItemID = SELECTED_NONE;
     self.slidingViewController.panGesture.delegate = nil;
     self.navigationController.navigationBar.tintColor = TINT_COLOR;
 }
