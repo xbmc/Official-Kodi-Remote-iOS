@@ -2477,6 +2477,7 @@ long currentItemID;
 }
      
 - (void)startNowPlayingUpdates {
+    storedItemID = SELECTED_NONE;
     [self playbackInfo];
     updateProgressBar = YES;
     [timer invalidate];
