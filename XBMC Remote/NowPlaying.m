@@ -2123,6 +2123,10 @@ long currentItemID;
     return UITableViewCellEditingStyleDelete;
 }
 
+- (void)tableView:(UITableView*)tableView didEndEditingRowAtIndexPath:(NSIndexPath*)indexPath {
+    [self createPlaylist:NO animTableView:YES];
+}
+
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gestureRecognizer {
     if (playlistTableView.editing) {
         return NO;
