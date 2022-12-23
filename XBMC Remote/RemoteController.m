@@ -393,25 +393,7 @@
 # pragma mark - view Effects
 
 - (void)showSubInfo:(NSString*)message timeout:(NSTimeInterval)timeout color:(UIColor*)color {
-    // first fade in
-    [UIView animateWithDuration:0.1
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        subsInfoLabel.alpha = 0.8;
-        subsInfoLabel.text = message;
-        subsInfoLabel.textColor = color;
-    }
-                     completion:^(BOOL finished) {
-        // then fade out
-        [UIView animateWithDuration:0.2
-                              delay:timeout
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-            subsInfoLabel.alpha = 0.0;
-        }
-                         completion:^(BOOL finished) {}];
-    }];
+    [messagesView showMessage:message timeout:timeout color:color];
 }
 
 # pragma mark - ToolBar
@@ -709,7 +691,7 @@
                             id audiostreamIndex = audiostreamsDictionary[@"audiostreams"][i][@"index"];
                             if (audiostreamIndex) {
                                 [self playbackAction:@"Player.SetAudioStream" params:@{@"stream": audiostreamIndex}];
-                                [self showSubInfo:actiontitle timeout:2.0 color:UIColor.whiteColor];
+                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:1.0]];
                             }
                         }
                     }
@@ -756,7 +738,7 @@
                             if (subsIndex) {
                                 [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": subsIndex}];
                                 [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"on"}];
-                                [self showSubInfo:actiontitle timeout:2.0 color:UIColor.whiteColor];
+                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:1.0]];
                             }
                         }
                     }
@@ -1397,6 +1379,10 @@ NSInteger buttonAction;
     [[SDImageCache sharedImageCache] clearMemory];
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundImage_repeat"]];
+    
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, TransitionalView.frame.size.height / 2 - DEFAULT_MSG_HEIGHT / 2, TransitionalView.frame.size.width, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];
+    messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    [TransitionalView addSubview:messagesView];
 }
 
 - (void)handleSettingsButton:(id)sender {
