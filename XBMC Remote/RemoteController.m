@@ -734,8 +734,8 @@
         UIButton *audioStreamsButton = (UIButton*)[self.view viewWithTag:TAG_BUTTON_AUDIOSTREAMS];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
-            popPresenter.sourceView = self.view;
-            popPresenter.sourceRect = CGRectMake(audioStreamsButton.center.x, audioStreamsButton.center.y, 1, 1);
+            popPresenter.sourceView = remoteControlView;
+            popPresenter.sourceRect = audioStreamsButton.frame;
         }
         [self presentViewController:actionView animated:YES completion:nil];
     }
@@ -773,8 +773,8 @@
         UIButton *subsButton = (UIButton*)[self.view viewWithTag:TAG_BUTTON_SUBTITLES];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
-            popPresenter.sourceView = self.view;
-            popPresenter.sourceRect = CGRectMake(subsButton.center.x, subsButton.center.y, 1, 1);
+            popPresenter.sourceView = remoteControlView;
+            popPresenter.sourceRect = subsButton.frame;
         }
         [self presentViewController:actionView animated:YES completion:nil];
     }
