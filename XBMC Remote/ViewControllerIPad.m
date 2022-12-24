@@ -464,6 +464,8 @@
     
     menuViewController.tableView.separatorInset = UIEdgeInsetsZero;
     
+    [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL clearCache = [userDefaults boolForKey:@"clearcache_preference"];
     if (clearCache) {
