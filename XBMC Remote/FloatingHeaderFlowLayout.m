@@ -44,6 +44,9 @@
         if ([layoutAttributes.representedElementKind isEqualToString:UICollectionElementKindSectionHeader]) {
             
             NSInteger section = layoutAttributes.indexPath.section;
+            if (section >= cv.numberOfSections) {
+                return answer;
+            }
             NSInteger numberOfItemsInSection = [cv numberOfItemsInSection:section];
             
             NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
