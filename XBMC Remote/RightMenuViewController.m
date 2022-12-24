@@ -21,8 +21,11 @@
 #define RIGHT_MENU_ICON_SIZE 18.0
 #define RIGHT_MENU_ICON_SPACING 16.0
 #define RIGHT_MENU_CELL_SPACING 6.0
+#define RIGHT_MENU_TITLE_START 24.0
+#define RIGHT_MENU_TITLE_WIDTH 202.0
 #define BUTTON_SPACING 8.0
 #define BUTTON_WIDTH 100.0
+#define STATUS_SPACING 10.0
 #define ONOFF_BUTTON_TAG_OFFSET 1000
 
 @interface RightMenuViewController ()
@@ -88,37 +91,63 @@
         cell.selectedBackgroundView = backView;
     }
     
+    // Reset to default for each cell to allow dequeuing
     UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
+    UIImageView *status = (UIImageView*)[cell viewWithTag:2];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
     UIImageView *line = (UIImageView*)[cell viewWithTag:4];
+    status.hidden = YES;
+    status.image = nil;
     icon.hidden = NO;
+    icon.image = nil;
+    icon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    icon.alpha = 0.6;
+    title.textAlignment = NSTextAlignmentRight;
+    title.numberOfLines = 2;
+    title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
+    title.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    title.frame = CGRectMake(RIGHT_MENU_TITLE_START,
+                             0,
+                             RIGHT_MENU_TITLE_WIDTH,
+                             RIGHT_MENU_ITEM_HEIGHT);
+    title.text = @"";
     cell.accessoryView = nil;
+    cell.editingAccessoryType = UITableViewCellAccessoryNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (@available(iOS 13.0, *)) {
         cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
     }
     NSString *iconName = @"blank";
+    
+    // Tailor cell layout for content type
     if ([tableData[indexPath.row][@"label"] isEqualToString:@"ServerInfo"]) {
+        // Load Kodi background logo
         UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
         UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:SERVER_INFO_HEIGHT width:self.view.bounds.size.width]];
         xbmc_logo.alpha = 0.25;
         xbmc_logo.image = logo;
         xbmc_logo.hidden = NO;
         [cell.contentView insertSubview:xbmc_logo atIndex:0];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        iconName = [Utilities getConnectionStatusIconName];
-        icon.alpha = 1;
+        
+        // Enable connection status icon and place it
+        status.frame = CGRectMake(STATUS_SPACING,
+                                  (SERVER_INFO_HEIGHT - RIGHT_MENU_ICON_SIZE) / 2,
+                                  RIGHT_MENU_ICON_SIZE,
+                                  RIGHT_MENU_ICON_SIZE);
+        status.image = [UIImage imageNamed:[Utilities getConnectionStatusIconName]];
+        status.alpha = 1.0;
+        status.hidden = NO;
+        
+        // Adapt text field to align with connection status
+        title.frame = CGRectMake(CGRectGetMaxX(status.frame) + STATUS_SPACING,
+                                 (SERVER_INFO_HEIGHT - RIGHT_MENU_ITEM_HEIGHT) / 2,
+                                 CGRectGetMaxX(cell.frame) - CGRectGetMaxX(status.frame) - 2 * STATUS_SPACING,
+                                 RIGHT_MENU_ITEM_HEIGHT);
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
-        title.autoresizingMask = UIViewAutoresizingNone;
-        icon.autoresizingMask = UIViewAutoresizingNone;
-        icon.frame = CGRectMake(10, (SERVER_INFO_HEIGHT - RIGHT_MENU_ICON_SIZE) / 2, RIGHT_MENU_ICON_SIZE, RIGHT_MENU_ICON_SIZE);
-        title.frame = CGRectMake(icon.frame.size.width + RIGHT_MENU_ICON_SPACING, (SERVER_INFO_HEIGHT - title.frame.size.height) / 2, tableView.frame.size.width - (icon.frame.size.width + 2 * RIGHT_MENU_ICON_SPACING), title.frame.size.height);
         title.textAlignment = NSTextAlignmentLeft;
         title.text = AppDelegate.instance.serverName;
-        title.numberOfLines = 2;
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"VolumeControl"]) {
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        title.text = @"";
         if (volumeSliderView == nil) {
             volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
             [volumeSliderView startTimer];
@@ -126,8 +155,6 @@
         [cell.contentView addSubview:volumeSliderView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"RemoteControl"]) {
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        title.text = @"";
         if (remoteControllerView == nil) {
             remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:YES bundle:nil];
             remoteControllerView.panFallbackImageView.frame = cell.frame;
@@ -135,20 +162,14 @@
         [cell.contentView addSubview:remoteControllerView.view];
     }
     else {
-        cell.accessoryView = nil;
-        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
-        cell.tintColor = UIColor.lightGrayColor;
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         
-        UIViewAutoresizing storeMask = title.autoresizingMask;
-        title.autoresizingMask = UIViewAutoresizingNone;
         CGRect frame = title.frame;
         frame.origin.y = RIGHT_MENU_CELL_SPACING;
-        frame.size.height = frame.size.height - 2 * RIGHT_MENU_CELL_SPACING;
+        frame.size.height = RIGHT_MENU_ITEM_HEIGHT - 2 * RIGHT_MENU_CELL_SPACING;
         if ([tableData[indexPath.row][@"type"] isEqualToString:@"boolean"]) {
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
-            onoff.autoresizingMask = icon.autoresizingMask;
+            onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
             [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
             onoff.frame = CGRectMake(0, (RIGHT_MENU_ITEM_HEIGHT - onoff.frame.size.height) / 2, onoff.frame.size.width, onoff.frame.size.height);
             onoff.hidden = NO;
@@ -180,11 +201,7 @@
             frame.size.width = cell.frame.size.width - frame.origin.x - RIGHT_MENU_ICON_SIZE - 2 * RIGHT_MENU_ICON_SPACING;
         }
         title.frame = frame;
-        title.autoresizingMask = storeMask;
-        title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
-        title.numberOfLines = 2;
         title.text = tableData[indexPath.row][@"label"];
-        icon.alpha = 0.6;
         iconName = tableData[indexPath.row][@"icon"];
     }
     if ([tableData[indexPath.row][@"hideLineSeparator"] boolValue]) {
