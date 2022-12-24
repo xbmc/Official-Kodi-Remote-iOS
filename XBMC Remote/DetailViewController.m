@@ -2140,6 +2140,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView*)theScrollView {
     // Hide keyboard on drag
+    showkeyboard = NO;
     [self.searchController.searchBar resignFirstResponder];
     // Stop an empty search on drag
     NSString *searchString = self.searchController.searchBar.text;
