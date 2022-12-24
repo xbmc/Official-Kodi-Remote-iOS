@@ -790,7 +790,7 @@
 
 - (void)setSortButtonImage:(NSString*)sortOrder {
     NSString *imgName = [sortOrder isEqualToString:@"descending"] ? @"st_sort_desc" : @"st_sort_asc";
-    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:UIColor.lightGrayColor];
+    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:ICON_TINT_COLOR];
     [button7 setBackgroundImage:image forState:UIControlStateNormal];
 }
 
@@ -1122,7 +1122,7 @@
         
         [self initSearchController];
         self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
-        self.searchController.searchBar.tintColor = UIColor.lightGrayColor;
+        self.searchController.searchBar.tintColor = ICON_TINT_COLOR;
         imgName = @"st_view_grid";
     }
     else {
@@ -1146,7 +1146,7 @@
     [self buildIndexView];
     [self setIndexViewVisibility];
     
-    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:UIColor.lightGrayColor];
+    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:ICON_TINT_COLOR];
     [button6 setBackgroundImage:image forState:UIControlStateNormal];
     
     if (!isViewDidLoad) {
@@ -5320,7 +5320,7 @@ NSIndexPath *selected;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
-    self.navigationController.navigationBar.tintColor = UIColor.lightGrayColor;
+    self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     [channelListUpdateTimer invalidate];
     channelListUpdateTimer = nil;
 }
@@ -5383,7 +5383,7 @@ NSIndexPath *selected;
         self.navigationController.navigationBar.tintColor = [Utilities lighterColorForColor:albumColor];
     }
     else {
-        self.navigationController.navigationBar.tintColor = UIColor.lightGrayColor;
+        self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     }
     if (isViewDidLoad) {
         [activeLayoutView addSubview:self.searchController.searchBar];
@@ -5437,8 +5437,8 @@ NSIndexPath *selected;
     activeTab = MIN(activeTab, MAX_NORMAL_BUTTONS);
     for (int i = 0; i < count; i++) {
         img = [UIImage imageNamed:buttons[i]];
-        imageOff = [Utilities colorizeImage:img withColor:UIColor.lightGrayColor];
-        imageOn = [Utilities colorizeImage:img withColor:UIColor.systemBlueColor];
+        imageOff = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
+        imageOn = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR_ACTIVE];
         [buttonsIB[i] setBackgroundImage:imageOff forState:UIControlStateNormal];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateSelected];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
@@ -5469,8 +5469,8 @@ NSIndexPath *selected;
         default:
             // 5 or more buttons/actions require a "more" button
             img = [UIImage imageNamed:@"st_more"];
-            imageOff = [Utilities colorizeImage:img withColor:UIColor.lightGrayColor];
-            imageOn = [Utilities colorizeImage:img withColor:UIColor.systemBlueColor];
+            imageOff = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
+            imageOn = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR_ACTIVE];
             [buttonsIB.lastObject setBackgroundImage:imageOff forState:UIControlStateNormal];
             [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateSelected];
             [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateHighlighted];

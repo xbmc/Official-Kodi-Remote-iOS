@@ -188,7 +188,7 @@
     
     UINavigationBar *newBar = navController.navigationBar;
     newBar.barStyle = UIBarStyleBlack;
-    newBar.tintColor = TINT_COLOR;
+    newBar.tintColor = ICON_TINT_COLOR;
     if (setBarTintColor) {
         newBar.backgroundColor = [Utilities getGrayColor:204 alpha:0.35];
     }
