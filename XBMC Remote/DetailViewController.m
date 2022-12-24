@@ -1240,7 +1240,6 @@
     self.indexView.hidden = YES;
     startTime = 0;
     [countExecutionTime invalidate];
-    countExecutionTime = nil;
     if (longTimeout != nil) {
         [longTimeout removeFromSuperview];
         longTimeout = nil;
@@ -4778,7 +4777,6 @@ NSIndexPath *selected;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          startTime = 0;
          [countExecutionTime invalidate];
-         countExecutionTime = nil;
          if (longTimeout != nil) {
              [longTimeout removeFromSuperview];
              longTimeout = nil;
@@ -5366,13 +5364,11 @@ NSIndexPath *selected;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     [channelListUpdateTimer invalidate];
-    channelListUpdateTimer = nil;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [channelListUpdateTimer invalidate];
-    channelListUpdateTimer = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -5441,7 +5437,6 @@ NSIndexPath *selected;
     }
     if (channelListView || channelGuideView) {
         [channelListUpdateTimer invalidate];
-        channelListUpdateTimer = nil;
         // Set up a timer that will always trigger at the start of each local minute. This supports
         // to move highlighting to the current running broadcast in channel lists.
         NSDate *now = [NSDate date];

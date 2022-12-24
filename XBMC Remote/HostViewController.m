@@ -436,7 +436,6 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [timer invalidate];
-    timer = nil;
     netServiceBrowser = nil;
     services = nil;
     [Utilities AnimView:discoveredInstancesView AnimDuration:0.0 Alpha:1.0 XPos:self.view.frame.size.width];

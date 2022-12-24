@@ -151,7 +151,6 @@
         }
     }
     [extraTimer invalidate];
-    extraTimer = nil;
 }
 
 # pragma mark - toolbar management

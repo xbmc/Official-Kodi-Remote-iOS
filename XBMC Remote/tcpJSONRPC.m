@@ -47,7 +47,6 @@ NSInputStream	*inStream;
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {
     [heartbeatTimer invalidate];
-    heartbeatTimer = nil;
 }
 
 - (void)handleEnterForeground:(NSNotification*)sender {
