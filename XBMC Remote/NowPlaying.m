@@ -55,6 +55,7 @@
 #define TAG_SEEK_FORWARD 7
 #define TAG_ID_EDIT 88
 #define SELECTED_NONE -1
+#define ID_INVALID -2
 #define FLIP_DEMO_DELAY 0.5
 #define FADE_OUT_TIME 0.2
 #define FADE_IN_TIME 0.5
@@ -276,7 +277,6 @@ long lastSelected = SELECTED_NONE;
 int currentPlayerID = PLAYERID_UNKNOWN;
 int storePosSeconds;
 long storedItemID;
-long currentItemID;
 
 - (void)setCoverSize:(NSString*)type {
     NSString *jewelImg = @"";
@@ -516,12 +516,7 @@ long currentItemID;
                              if (methodResult[@"item"] != [NSNull null]) {
                                  nowPlayingInfo = methodResult[@"item"];
                              }
-                             if (nowPlayingInfo[@"id"] == nil) {
-                                 currentItemID = -2;
-                             }
-                             else {
-                                 currentItemID = [nowPlayingInfo[@"id"] longValue];
-                             }
+                             long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
                              if ((nowPlayingInfo.count && currentItemID != storedItemID) || nowPlayingInfo[@"id"] == nil || ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
                                  storedItemID = currentItemID;
                                  [self performSelector:@selector(loadCodecView) withObject:nil afterDelay:.5];
@@ -2450,13 +2445,7 @@ long currentItemID;
     if (fromItself) {
         [self handleXBMCPlaylistHasChanged:nil];
     }
-    [self playbackInfo];
-    updateProgressBar = YES;
-    if (timer != nil) {
-        [timer invalidate];
-        timer = nil;
-    }
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+    [self startNowPlayingUpdates];
     fromItself = NO;
     if (IS_IPHONE) {
         self.slidingViewController.underRightViewController = nil;
@@ -2484,11 +2473,19 @@ long currentItemID;
 - (void)startFlipDemo {
     [self flipAnimButton:playlistButton demo:YES];
 }
+     
+- (void)startNowPlayingUpdates {
+    storedItemID = SELECTED_NONE;
+    [self playbackInfo];
+    updateProgressBar = YES;
+    [timer invalidate];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+}
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [timer invalidate];
-    currentItemID = SELECTED_NONE;
+    storedItemID = SELECTED_NONE;
     self.slidingViewController.panGesture.delegate = nil;
     self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
 }
@@ -2619,13 +2616,7 @@ long currentItemID;
 
 - (void)handleEnterForeground:(NSNotification*)sender {
     [self handleXBMCPlaylistHasChanged:nil];
-    [self playbackInfo];
-    updateProgressBar = YES;
-    if (timer != nil) {
-        [timer invalidate];
-        timer = nil;
-    }
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+    [self startNowPlayingUpdates];
 }
 
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
