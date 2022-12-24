@@ -10,6 +10,7 @@
 #import <StoreKit/StoreKit.h>
 #import "Utilities.h"
 #import "AppDelegate.h"
+#import "NSString+MD5.h"
 
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
@@ -531,7 +532,20 @@
 }
 
 + (DSJSONRPC*)getJsonRPC {
-    return [[DSJSONRPC alloc] initWithServiceEndpoint:AppDelegate.instance.getServerJSONEndPoint andHTTPHeaders:AppDelegate.instance.getServerHTTPHeaders];
+    static DSJSONRPC *jsonRPC;
+    static NSString *checkRPC;
+    
+    // Calculate checksum for requested JSONRPC configuration
+    NSString *text = [NSString stringWithFormat:@"%@ %@", AppDelegate.instance.getServerJSONEndPoint, AppDelegate.instance.getServerHTTPHeaders];
+    NSString *checksum = [text SHA256String];
+    
+    // Create JSONRPC object if not yet created or new configuration is required
+    if (jsonRPC == nil || ![checkRPC isEqualToString:checksum]) {
+        jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:AppDelegate.instance.getServerJSONEndPoint
+                                              andHTTPHeaders:AppDelegate.instance.getServerHTTPHeaders];
+        checkRPC = checksum;
+    }
+    return jsonRPC;
 }
 
 + (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array {
