@@ -315,14 +315,8 @@ long currentItemID;
 }
 
 - (void)nothingIsPlaying {
-    if (startFlipDemo) {
-        UIImage *image = [UIImage imageNamed:@"st_kodi_window"];
-        [playlistButton setImage:image forState:UIControlStateNormal];
-        [playlistButton setImage:image forState:UIControlStateHighlighted];
-        [playlistButton setImage:image forState:UIControlStateSelected];
-        [NSTimer scheduledTimerWithTimeInterval:FLIP_DEMO_DELAY target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
-        startFlipDemo = NO;
-    }
+    UIImage *image = [UIImage imageNamed:@"st_kodi_window"];
+    [self setButtonImageAndStartDemo:image];
     if (nothingIsPlaying) {
         return;
     }
