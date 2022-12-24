@@ -1521,7 +1521,8 @@ double round(double d) {
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if (AppDelegate.instance.serverVersion > 11 && ![self isModal]) {
-        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"table_arrow_right_selected"]];
+        UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:@"table_arrow_right"] withColor:UIColor.grayColor];
+        cell.accessoryView = [[UIImageView alloc] initWithImage:image];
         cell.accessoryView.alpha = ARROW_ALPHA;
     }
     else {
