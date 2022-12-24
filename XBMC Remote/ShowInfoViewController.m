@@ -1849,6 +1849,7 @@ double round(double d) {
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     scrollView.scrollsToTop = YES;
+    scrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     enableKenBurns = [userDefaults boolForKey:@"ken_preference"];;
     self.kenView = nil;
