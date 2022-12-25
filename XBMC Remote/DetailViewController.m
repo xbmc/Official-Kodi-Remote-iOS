@@ -4118,24 +4118,24 @@ NSIndexPath *selected;
                          }];
                      }
                      else {
-                         [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
+                         [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:queuing];
                      }
                  }
                  else {
-                     [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
+                     [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:queuing];
                  }
              }
              else {
-                [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
+                [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:queuing];
              }
          }];
     }
     else {
-        [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
+        [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:queuing];
     }
 }
 
-- (void)addToPlaylist:(NSInteger)playlistid currentItem:(id)value currentKey:(NSString*)key currentActivityIndicator:(UIActivityIndicatorView*)queuing {
+- (void)addToPlaylist:(NSInteger)playlistid currentItem:(id)value currentKey:(NSString*)key indicator:(UIActivityIndicatorView*)queuing {
     NSDictionary *params = @{
         @"playlistid": @(playlistid),
         @"item": [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil],
