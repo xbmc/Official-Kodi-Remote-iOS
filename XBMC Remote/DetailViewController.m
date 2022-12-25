@@ -37,7 +37,6 @@
 @implementation DetailViewController
 
 @synthesize detailItem = _detailItem;
-@synthesize activityIndicatorView;
 @synthesize sections;
 @synthesize filteredListContent;
 @synthesize richResults;

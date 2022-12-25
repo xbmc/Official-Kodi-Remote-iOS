@@ -136,7 +136,6 @@
 
 @property (nonatomic, strong) NSMutableArray *filteredListContent;
 @property (strong, nonatomic) id detailItem;
-@property (nonatomic, readonly) UIActivityIndicatorView *activityIndicatorView;
 @property (strong, nonatomic) BDKCollectionIndexView *indexView;
 @property (nonatomic, strong) NSMutableDictionary *sections;
 @property (nonatomic, strong) NSMutableArray *richResults;
