@@ -4152,6 +4152,10 @@ NSIndexPath *selected;
 - (void)playerOpen:(NSDictionary*)params index:(NSIndexPath*)indexPath {
     id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    [self playerOpen:params index:indexPath indicator:queuing];
+}
+
+- (void)playerOpen:(NSDictionary*)params index:(NSIndexPath*)indexPath indicator:(UIActivityIndicatorView*)queuing {
     [queuing startAnimating];
     [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [queuing stopAnimating];
@@ -4189,13 +4193,13 @@ NSIndexPath *selected;
         NSDictionary *itemParams = @{
             @"item": [NSDictionary dictionaryWithObjectsAndKeys: channelid, @"channelid", nil],
         };
-        [self playerOpen:itemParams index:indexPath];
+        [self playerOpen:itemParams index:indexPath indicator:queuing];
     }
     else if ([mainFields[@"row7"] isEqualToString:@"plugin"]) {
         NSDictionary *itemParams = @{
             @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil],
         };
-        [self playerOpen:itemParams index:indexPath];
+        [self playerOpen:itemParams index:indexPath indicator:queuing];
     }
     else {
         id optionsParam = nil;
@@ -4231,13 +4235,15 @@ NSIndexPath *selected;
                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
                          [self playlistAndPlay:playlistParams
                                 playbackParams:playbackParams
-                                     indexPath:indexPath];
+                                     indexPath:indexPath
+                                     indicator:queuing];
                      }];
                 }
                 else {
                     [self playlistAndPlay:playlistParams
                            playbackParams:playbackParams
-                                indexPath:indexPath];
+                                indexPath:indexPath
+                                indicator:queuing];
                 }
             }
             else {
@@ -4247,15 +4253,13 @@ NSIndexPath *selected;
     }
 }
 
-- (void)playlistAndPlay:(NSDictionary*)playlistParams playbackParams:(NSDictionary*)playbackParams indexPath:(NSIndexPath*)indexPath {
+- (void)playlistAndPlay:(NSDictionary*)playlistParams playbackParams:(NSDictionary*)playbackParams indexPath:(NSIndexPath*)indexPath indicator:(UIActivityIndicatorView*)queuing {
     [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-            [self playerOpen:playbackParams index:indexPath];
+            [self playerOpen:playbackParams index:indexPath indicator:queuing];
         }
         else {
-            id cell = [self getCell:indexPath];
-            UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
             [queuing stopAnimating];
         }
     }];
