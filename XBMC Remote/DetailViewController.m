@@ -2006,7 +2006,15 @@
     self.indexView.alpha = 1.0;
 }
 
-#pragma mark - Cell Formatting 
+#pragma mark - Cell Formatting
+
+- (UIActivityIndicatorView*)getCellActivityIndicator:(NSIndexPath*)indexPath {
+    // Get the indicator view and place it in the middle of the thumb (if no thumb keep it at least fully visible)
+    id cell = [self getCell:indexPath];
+    UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    cellActivityIndicator.center = CGPointMake(MAX(thumbWidth / 2, cellActivityIndicator.frame.size.width / 2), cellHeight / 2);
+    return cellActivityIndicator;
+}
 
 - (void)setTVshowThumbSize {
     mainMenu *Menuitem = self.detailItem;
@@ -3314,8 +3322,7 @@ NSIndexPath *selected;
 }
 
 - (void)markVideo:(NSMutableDictionary*)item indexPath:(NSIndexPath*)indexPath watched:(int)watched {
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
 
     NSString *methodToCall = @"";
@@ -3972,8 +3979,7 @@ NSIndexPath *selected;
     if ([itemid longValue] == 0) {
         return;
     }
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     NSString *methodToCall = @"PVR.DeleteTimer";
     NSDictionary *parameters = @{@"timerid": itemid};
 
@@ -4027,8 +4033,7 @@ NSIndexPath *selected;
             parameterName = @"broadcastid";
         }
     }
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
     NSDictionary *parameters = @{parameterName: itemid};
     [[Utilities getJsonRPC] callMethod:methodToCall
@@ -4037,6 +4042,7 @@ NSIndexPath *selected;
                [cellActivityIndicator stopAnimating];
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
+                   id cell = [self getCell:indexPath];
                    UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
                    isRecordingImageView.hidden = !isRecordingImageView.hidden;
                    NSNumber *status = @(![item[@"isrecording"] boolValue]);
@@ -4071,8 +4077,7 @@ NSIndexPath *selected;
 }
 
 - (void)addQueue:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath afterCurrentItem:(BOOL)afterCurrent {
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
     mainMenu *menuItem = [self getMainMenu:item];
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
@@ -4150,8 +4155,7 @@ NSIndexPath *selected;
 }
 
 - (void)playerOpen:(NSDictionary*)params index:(NSIndexPath*)indexPath {
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [self playerOpen:params index:indexPath indicator:cellActivityIndicator];
 }
 
@@ -4180,8 +4184,7 @@ NSIndexPath *selected;
     if (mainFields.count == 0) {
         return;
     }
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
     int playlistid = [mainFields[@"playlistid"] intValue];
     if ([mainFields[@"row8"] isEqualToString:@"channelid"] ||
@@ -4435,8 +4438,7 @@ NSIndexPath *selected;
         return; // something goes wrong
     }
     
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
     
     NSMutableArray *newProperties = [parameters[@"properties"] mutableCopy];
