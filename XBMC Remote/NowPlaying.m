@@ -1286,8 +1286,8 @@ long storedItemID;
      callMethod:methodToCall
      withParameters:newParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+         [queuing stopAnimating];
          if (error == nil && methodError == nil) {
-             [queuing stopAnimating];
              if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                  NSString *itemid_extra_info = @"";
                  if ((NSNull*)mainFields[@"itemid_extra_info"] != [NSNull null]) {
@@ -1366,13 +1366,9 @@ long storedItemID;
                   nil];
                  [self displayInfoView:newItem];
              }
-             else {
-                 [queuing stopAnimating];
-             }
          }
          else {
              [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
-             [queuing stopAnimating];
          }
      }];
 }
@@ -2050,16 +2046,11 @@ long storedItemID;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil) {
              storedItemID = SELECTED_NONE;
-             UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-             [queuing stopAnimating];
              UIView *timePlaying = (UIView*)[cell viewWithTag:5];
              [self fadeView:timePlaying hidden:NO];
              [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
          }
-         else {
-             UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-             [queuing stopAnimating];
-         }
+         [queuing stopAnimating];
      }
      ];
     

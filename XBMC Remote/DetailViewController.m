@@ -4232,35 +4232,32 @@ NSIndexPath *selected;
                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
                          [self playlistAndPlay:playlistParams
                                 playbackParams:playbackParams
-                                     indexPath:indexPath
-                                          cell:cell];
+                                     indexPath:indexPath];
                      }];
                 }
                 else {
                     [self playlistAndPlay:playlistParams
                            playbackParams:playbackParams
-                                indexPath:indexPath
-                                     cell:cell];
+                                indexPath:indexPath];
                 }
             }
             else {
-                UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
                 [queuing stopAnimating];
             }
         }];
     }
 }
 
-- (void)playlistAndPlay:(NSDictionary*)playlistParams playbackParams:(NSDictionary*)playbackParams indexPath:(NSIndexPath*)indexPath cell:(id)cell {
+- (void)playlistAndPlay:(NSDictionary*)playlistParams playbackParams:(NSDictionary*)playbackParams indexPath:(NSIndexPath*)indexPath {
     [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
             [self playerOpen:playbackParams index:indexPath];
         }
         else {
+            id cell = [self getCell:indexPath];
             UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
             [queuing stopAnimating];
-            //                                            NSLog(@"secondo errore %@", methodError);
         }
     }];
 }
@@ -4435,13 +4432,10 @@ NSIndexPath *selected;
         return; // something goes wrong
     }
 
-    UIActivityIndicatorView *queuing = nil;
+    id cell = [self getCell:indexPath];
+    UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    [queuing startAnimating];
     
-    if (indexPath != nil) {
-        id cell = [self getCell:indexPath];
-        queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-        [queuing startAnimating];
-    }
     NSMutableArray *newProperties = [parameters[@"properties"] mutableCopy];
     if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
         for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
@@ -4460,9 +4454,10 @@ NSIndexPath *selected;
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
+
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+         [queuing stopAnimating];
          if (error == nil && methodError == nil) {
-             [queuing stopAnimating];
              if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                  NSString *itemid_extra_info = @"";
                  if ((NSNull*)mainFields[@"itemid_extra_info"] != [NSNull null]) {
@@ -4485,14 +4480,10 @@ NSIndexPath *selected;
                                                                          useIcon:methodResult[@"recordingdetails"] != nil];
                  [self displayInfoView:newItem];
              }
-             else {
-                 [queuing stopAnimating];
-             }
          }
          else {
              UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Details not found") message:nil];
              [self presentViewController:alertView animated:YES completion:nil];
-             [queuing stopAnimating];
          }
      }];
 }
