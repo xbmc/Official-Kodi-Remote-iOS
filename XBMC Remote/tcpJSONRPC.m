@@ -15,7 +15,7 @@
 #define MRMC_TIMEWARP 14.0
 
 NSInputStream	*inStream;
-NSOutputStream	*outStream;
+//  NSOutputStream	*outStream;
 //	CFWriteStreamRef writeStream;
 
 @implementation tcpJSONRPC
