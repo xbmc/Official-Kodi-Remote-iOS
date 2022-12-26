@@ -872,7 +872,7 @@
         [dataList endUpdates];
     }
     // Refresh leyout
-    [self configureLibraryView];
+    dataList.tableHeaderView = self.searchController.searchBar;
     [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     // Scroll to first item in section (first episode in season)
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
