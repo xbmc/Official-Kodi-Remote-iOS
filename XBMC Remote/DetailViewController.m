@@ -872,8 +872,9 @@
     // Refresh leyout
     [self configureLibraryView];
     [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-    // Scroll to section
-    CGRect sectionRect = [dataList rectForSection:section];
+    // Scroll to first item in section (first episode in season)
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
+    CGRect sectionRect = [dataList rectForRowAtIndexPath:indexPath];
     [dataList scrollRectToVisible:sectionRect animated:YES];
 }
 
