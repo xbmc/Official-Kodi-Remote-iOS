@@ -846,6 +846,8 @@
 }
 
 - (void)toggleOpen:(UITapGestureRecognizer*)sender {
+    [self.searchController.searchBar resignFirstResponder];
+    [self.searchController setActive:NO];
     NSInteger section = [sender.view tag];
     // Toggle the section's state (open/close)
     [self.sectionArrayOpen replaceObjectAtIndex:section withObject:@(![self.sectionArrayOpen[section] boolValue])];
