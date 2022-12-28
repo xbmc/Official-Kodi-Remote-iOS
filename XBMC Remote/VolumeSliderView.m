@@ -196,10 +196,7 @@
 }
 
 - (void)stopTimer {
-    if (self.timer != nil) {
-        [self.timer invalidate];
-        self.timer = nil;
-    }
+    [self.timer invalidate];
 }
 
 - (void)volumeInfo {
@@ -276,10 +273,7 @@
 
 - (IBAction)stopVolume:(id)timer {
     // Volume change ended (slider or buttons untouched)
-    if (self.holdVolumeTimer != nil) {
-        [self.holdVolumeTimer invalidate];
-        self.holdVolumeTimer = nil;
-    }
+    [self.holdVolumeTimer invalidate];
     [self startTimer];
     isChangingVolume = NO;
 }
