@@ -163,7 +163,7 @@
 }
 
 - (void)handleApplicationOnVolumeChanged:(NSNotification*)sender {
-    if (!holdVolumeTimer.valid) {
+    if (!isChangingVolume) {
         NSDictionary *theData = sender.userInfo;
         AppDelegate.instance.serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
         [self handleServerStatusChanged:nil];
@@ -264,6 +264,7 @@
 
 - (IBAction)holdVolume:(id)sender {
     // Volume up/down button is touched
+    isChangingVolume = YES;
     [self stopTimer];
     [self changeVolume:sender];
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_HOLD_TIMEOUT
@@ -280,6 +281,7 @@
         self.holdVolumeTimer = nil;
     }
     [self startTimer];
+    isChangingVolume = NO;
 }
 - (void)longpressVolume:(id)timer {
     // Volume up/down was lomgpressed
@@ -300,6 +302,7 @@
 
 - (void)changeVolume:(id)sender {
     // Process the volume change
+    isChangingVolume = YES;
     NSInteger action = [sender tag];
     switch (action) {
         case VOLUME_BUTTON_UP: // Volume Increase
