@@ -2095,9 +2095,6 @@
         labelPosition = thumbWidth + 8;
     }
     int newWidthLabel = 0;
-    if (menuItem.originLabel && !parameters[@"thumbWidth"]) {
-        labelPosition = menuItem.originLabel;
-    }
     
     // label position for TVShow banner view needs to be tailored to match the default thumb size
     if (tvshowsView && choosedTab == 0) {

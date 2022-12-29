@@ -3789,7 +3789,6 @@
     menu_TVShows.rowHeight = tvshowHeight;
     menu_TVShows.thumbWidth = thumbWidth;
     menu_TVShows.defaultThumb = @"nocover_tvshows";
-    menu_TVShows.originLabel = 60;
     menu_TVShows.sheetActions = @[
         @[LOCALIZED_STR(@"TV Show Details")],
         [self action_queue_to_episodedetails],

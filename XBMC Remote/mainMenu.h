@@ -44,7 +44,6 @@ typedef enum {
 @property int thumbWidth;
 @property (nonatomic, copy) NSArray *showInfo;
 @property int originYearDuration;
-@property int originLabel;
 @property int widthLabel;
 @property int chooseTab;
 @property BOOL disableNowPlaying;
