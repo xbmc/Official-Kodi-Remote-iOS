@@ -105,7 +105,7 @@
     };
 }
 
-- (NSDictionary*)itemSizes_Music_insets:(NSString*)inset {
+- (NSDictionary*)itemSizes_Music_insets:(NSNumber*)inset {
     return @{
         @"iphone": @{
                 @"width": @ITEM_MUSIC_PHONE_WIDTH,
@@ -119,7 +119,7 @@
     };
 }
 
-- (NSDictionary*)itemSizes_TVShowsfullscreen_insets:(NSString*)inset {
+- (NSDictionary*)itemSizes_TVShowsfullscreen_insets:(NSNumber*)inset {
     return @{
         @"iphone": @{
                 @"width": @ITEM_TVSHOW_PHONE_WIDTH,
@@ -178,7 +178,7 @@
     };
 }
 
-- (NSDictionary*)itemSizes_Movie_insets:(NSString*)inset {
+- (NSDictionary*)itemSizes_Movie_insets:(NSNumber*)inset {
     return @{
         @"iphone": @{
                 @"width": @ITEM_MOVIE_PHONE_WIDTH,
@@ -192,7 +192,7 @@
     };
 }
 
-- (NSDictionary*)itemSizes_insets:(NSString*)inset {
+- (NSDictionary*)itemSizes_insets:(NSNumber*)inset {
     return @{
         @"separatorInset": inset,
     };
@@ -463,11 +463,11 @@
     
     int thumbWidth;
     int tvshowHeight;
-    NSString *filemodeRowHeight= @"44";
-    NSString *filemodeThumbWidth= @"44";
-    NSString *livetvThumbWidth= @"64";
-    NSString *livetvRowHeight= @"76";
-    NSString *channelEPGRowHeight= @"82";
+    NSNumber *filemodeRowHeight= @44;
+    NSNumber *filemodeThumbWidth= @44;
+    NSNumber *livetvThumbWidth= @64;
+    NSNumber *livetvRowHeight= @76;
+    NSNumber *channelEPGRowHeight= @82;
 
 
     NSString *filemodeVideoType = @"video";
@@ -1530,7 +1530,7 @@
             LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
-            @"53", @"thumbWidth",
+            @53, @"thumbWidth",
             @YES, @"enableCollectionView",
             [self itemSizes_Movie], @"itemSizes",
         ],
@@ -1894,11 +1894,11 @@
         @[],
         @[
             filemodeRowHeight, @"rowHeight",
-            @"53", @"thumbWidth",
+            @53, @"thumbWidth",
         ],
         @[
             filemodeRowHeight, @"rowHeight",
-            @"53", @"thumbWidth",
+            @53, @"thumbWidth",
         ],
           
         @[
@@ -2769,8 +2769,8 @@
             }, @"parameters",
             LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
-            @"76", @"rowHeight",
-            @"53", @"thumbWidth",
+            @76, @"rowHeight",
+            @53, @"thumbWidth",
             @YES, @"enableCollectionView",
             @YES, @"FrodoExtraArt",
             [self itemSizes_Movie], @"itemSizes",
@@ -3372,8 +3372,8 @@
             }, @"parameters",
             LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
-            @"76", @"rowHeight",
-            @"53", @"thumbWidth",
+            @76, @"rowHeight",
+            @53, @"thumbWidth",
             @YES, @"enableCollectionView",
             @YES, @"FrodoExtraArt",
             [self itemSizes_Movie], @"itemSizes",
@@ -3633,12 +3633,12 @@
                 ],
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Added Episodes"), @"label",
-            @"53", @"rowHeight",
-            @"95", @"thumbWidth",
+            @53, @"rowHeight",
+            @95, @"thumbWidth",
             @"nocover_tvshows_episode", @"defaultThumb",
             @YES, @"FrodoExtraArt",
             //@YES, @"enableCollectionView",
-            [self itemSizes_TVShowsfullscreen_insets:@"95"], @"itemSizes",
+            [self itemSizes_TVShowsfullscreen_insets:@95], @"itemSizes",
         ],
                             
         @[
@@ -3650,7 +3650,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            [self itemSizes_insets:@"53"], @"itemSizes",
+            [self itemSizes_insets:@53], @"itemSizes",
         ],
                             
         @[
@@ -3940,8 +3940,8 @@
             }, @"parameters",
             LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
-            @"76", @"rowHeight",
-            @"53", @"thumbWidth",
+            @76, @"rowHeight",
+            @53, @"thumbWidth",
             @YES, @"enableCollectionView",
             @YES, @"FrodoExtraArt",
             [self itemSizes_Movie], @"itemSizes",
@@ -4181,9 +4181,9 @@
             @"nocover_channels", @"defaultThumb",
             @YES, @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
-            @"48", @"thumbWidth",
+            @48, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@"56"], @"itemSizes",
+            [self itemSizes_Music_insets:@56], @"itemSizes",
         ],
                           
         @[
@@ -4262,10 +4262,10 @@
             LOCALIZED_STR(@"Recordings"), @"morelabel",
             @"nocover_recording", @"defaultThumb",
             channelEPGRowHeight, @"rowHeight",
-            @"48", @"thumbWidth",
+            @48, @"thumbWidth",
             @YES, @"enableCollectionView",
             @YES, @"enableLibraryCache",
-            [self itemSizes_Music_insets:@"60"], @"itemSizes",
+            [self itemSizes_Music_insets:@60], @"itemSizes",
         ],
                           
         @[
@@ -4307,10 +4307,10 @@
             LOCALIZED_STR(@"Timers"), @"label",
             LOCALIZED_STR(@"Timers"), @"morelabel",
             @"nocover_timers", @"defaultThumb",
-            @"53", @"rowHeight",
-            @"53", @"thumbWidth",
+            @53, @"rowHeight",
+            @53, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@"60"], @"itemSizes",
+            [self itemSizes_Music_insets:@60], @"itemSizes",
         ],
         
         @[
@@ -4352,10 +4352,10 @@
             LOCALIZED_STR(@"Timer rules"), @"label",
             LOCALIZED_STR(@"Timer rules"), @"morelabel",
             @"nocover_timerrules", @"defaultThumb",
-            @"53", @"rowHeight",
-            @"53", @"thumbWidth",
+            @53, @"rowHeight",
+            @53, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@"60"], @"itemSizes",
+            [self itemSizes_Music_insets:@60], @"itemSizes",
         ],
     ] mutableCopy];
     
@@ -4506,7 +4506,7 @@
             @YES, @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
             livetvThumbWidth, @"thumbWidth",
-            [self itemSizes_Music_insets:@"48"], @"itemSizes",
+            [self itemSizes_Music_insets:@48], @"itemSizes",
             @YES, @"forceActionSheet",
         ],
                                   
@@ -4527,9 +4527,9 @@
             @"nocover_channels", @"defaultThumb",
             @YES, @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
-            @"48", @"thumbWidth",
+            @48, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@"56"], @"itemSizes",
+            [self itemSizes_Music_insets:@56], @"itemSizes",
         ],
                                   
         @[],
@@ -4639,7 +4639,7 @@
             @YES, @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
             livetvThumbWidth, @"thumbWidth",
-            [self itemSizes_Music_insets:@"48"], @"itemSizes",
+            [self itemSizes_Music_insets:@48], @"itemSizes",
             @YES, @"forceActionSheet",
         ],
                                             
@@ -4749,9 +4749,9 @@
             @"nocover_channels", @"defaultThumb",
             @YES, @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
-            @"48", @"thumbWidth",
+            @48, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@"56"], @"itemSizes",
+            [self itemSizes_Music_insets:@56], @"itemSizes",
         ],
                           
         @[
@@ -4828,10 +4828,10 @@
             LOCALIZED_STR(@"Recordings"), @"morelabel",
             @"nocover_recording", @"defaultThumb",
             channelEPGRowHeight, @"rowHeight",
-            @"48", @"thumbWidth",
+            @48, @"thumbWidth",
             @YES, @"enableCollectionView",
             @YES, @"enableLibraryCache",
-            [self itemSizes_Music_insets:@"60"], @"itemSizes",
+            [self itemSizes_Music_insets:@60], @"itemSizes",
         ],
                           
         @[
@@ -4873,10 +4873,10 @@
             LOCALIZED_STR(@"Timers"), @"label",
             LOCALIZED_STR(@"Timers"), @"morelabel",
             @"nocover_timers", @"defaultThumb",
-            @"53", @"rowHeight",
-            @"53", @"thumbWidth",
+            @53, @"rowHeight",
+            @53, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@"60"], @"itemSizes",
+            [self itemSizes_Music_insets:@60], @"itemSizes",
         ],
         
         @[
@@ -4918,10 +4918,10 @@
             LOCALIZED_STR(@"Timer rules"), @"label",
             LOCALIZED_STR(@"Timer rules"), @"morelabel",
             @"nocover_timerrules", @"defaultThumb",
-            @"53", @"rowHeight",
-            @"53", @"thumbWidth",
+            @53, @"rowHeight",
+            @53, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@"60"], @"itemSizes",
+            [self itemSizes_Music_insets:@60], @"itemSizes",
         ],
     ] mutableCopy];
     
@@ -5072,7 +5072,7 @@
             @YES, @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
             livetvThumbWidth, @"thumbWidth",
-            [self itemSizes_Music_insets:@"48"], @"itemSizes",
+            [self itemSizes_Music_insets:@48], @"itemSizes",
             @YES, @"forceActionSheet",
         ],
                                   
@@ -5093,9 +5093,9 @@
             @"nocover_channels", @"defaultThumb",
             @YES, @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
-            @"48", @"thumbWidth",
+            @48, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@"56"], @"itemSizes",
+            [self itemSizes_Music_insets:@56], @"itemSizes",
         ],
                                   
         @[],
@@ -5205,7 +5205,7 @@
             @YES, @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
             livetvThumbWidth, @"thumbWidth",
-            [self itemSizes_Music_insets:@"48"], @"itemSizes",
+            [self itemSizes_Music_insets:@48], @"itemSizes",
             @YES, @"forceActionSheet",
         ],
                                             
@@ -5614,7 +5614,7 @@
             }, @"parameters",
             LOCALIZED_STR(@"XBMC Settings"), @"label",
             @"nocover_settings", @"defaultThumb",
-            [self itemSizes_insets:@"53"], @"itemSizes",
+            [self itemSizes_insets:@53], @"itemSizes",
             animationStartX, @"animationStartX",
             animationStartBottomScreen, @"animationStartBottomScreen",
         ],
@@ -5632,9 +5632,9 @@
             }, @"parameters",
              LOCALIZED_STR(@"Programs"), @"label",
              @"nocover_filemode", @"defaultThumb",
-             @"65", @"rowHeight",
-             @"65", @"thumbWidth",
-            [self itemSizes_Music_insets:@"65"], @"itemSizes",
+             @65, @"rowHeight",
+             @65, @"thumbWidth",
+            [self itemSizes_Music_insets:@65], @"itemSizes",
             @YES, @"enableCollectionView",
         ],
                                    
@@ -5651,9 +5651,9 @@
             }, @"parameters",
             LOCALIZED_STR(@"Video Add-ons"), @"label",
             @"nocover_filemode", @"defaultThumb",
-            @"65", @"rowHeight",
-            @"65", @"thumbWidth",
-            [self itemSizes_Music_insets:@"65"], @"itemSizes",
+            @65, @"rowHeight",
+            @65, @"thumbWidth",
+            [self itemSizes_Music_insets:@65], @"itemSizes",
             @YES, @"enableCollectionView",
         ],
                                    
@@ -5670,9 +5670,9 @@
             }, @"parameters",
             LOCALIZED_STR(@"Music Add-ons"), @"label",
             @"nocover_filemode", @"defaultThumb",
-            @"65", @"rowHeight",
-            @"65", @"thumbWidth",
-            [self itemSizes_Music_insets:@"65"], @"itemSizes",
+            @65, @"rowHeight",
+            @65, @"thumbWidth",
+            [self itemSizes_Music_insets:@65], @"itemSizes",
             @YES, @"enableCollectionView",
         ],
                                    
@@ -5686,9 +5686,9 @@
             LOCALIZED_STR(@"Kodi actions"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
-            @"0", @"thumbWidth",
+            @0, @"thumbWidth",
             LOCALIZED_STR(@"Execute a specific action"), @"morelabel",
-            [self itemSizes_insets:@"0"], @"itemSizes",
+            [self itemSizes_insets:@0], @"itemSizes",
         ],
                                    
         @[
@@ -5701,9 +5701,9 @@
             LOCALIZED_STR(@"Kodi windows"), @"label",
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
-            @"0", @"thumbWidth",
+            @0, @"thumbWidth",
             LOCALIZED_STR(@"Activate a specific window"), @"morelabel",
-            [self itemSizes_insets:@"0"], @"itemSizes",
+            [self itemSizes_insets:@0], @"itemSizes",
         ],
     ] mutableCopy];
     
@@ -5833,9 +5833,9 @@
         @[
             LOCALIZED_STR(@"Settings"), @"label",
             @"nocover_filemode", @"defaultThumb",
-            @"65", @"rowHeight",
-            @"32", @"thumbWidth",
-            [self itemSizes_insets:@"40"], @"itemSizes",
+            @65, @"rowHeight",
+            @32, @"thumbWidth",
+            [self itemSizes_insets:@40], @"itemSizes",
         ],
 
         @[
@@ -5893,9 +5893,9 @@
         @[
             LOCALIZED_STR(@"Settings"), @"label",
             @"nocover_filemode", @"defaultThumb",
-            @"65", @"rowHeight",
-            @"0", @"thumbWidth",
-            [self itemSizes_insets:@"8"], @"itemSizes",
+            @65, @"rowHeight",
+            @0, @"thumbWidth",
+            [self itemSizes_insets:@8], @"itemSizes",
         ],
     ] mutableCopy];
     

@@ -1275,7 +1275,7 @@
         self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
         dataList.separatorColor = [Utilities getGrayColor:191 alpha:1];
     }
-    if ([parameters[@"itemSizes"][@"separatorInset"] length]) {
+    if (parameters[@"itemSizes"][@"separatorInset"]) {
         dataList.separatorInset = UIEdgeInsetsMake(0, [parameters[@"itemSizes"][@"separatorInset"] intValue], 0, 0);
     }
     if (methods[@"method"] != nil) {
@@ -1298,14 +1298,8 @@
     int rectOriginY = point.y;
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     
-    NSString *libraryRowHeight = [NSString stringWithFormat:@"%d", menuItem.subItem.rowHeight];
-    NSString *libraryThumbWidth = [NSString stringWithFormat:@"%d", menuItem.subItem.thumbWidth];
-    if (parameters[@"rowHeight"] != nil) {
-        libraryRowHeight = parameters[@"rowHeight"];
-    }
-    if (parameters[@"thumbWidth"] != nil) {
-        libraryThumbWidth = parameters[@"thumbWidth"];
-    }
+    NSNumber *libraryRowHeight = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
+    NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
     
     if (parameters[@"parameters"][@"properties"] != nil) { // CHILD IS LIBRARY MODE
         NSString *key = @"null";
@@ -1406,14 +1400,8 @@
         }
     }
     else { // CHILD IS FILEMODE
-        NSString *filemodeRowHeight = @"44";
-        NSString *filemodeThumbWidth = @"44";
-        if (parameters[@"rowHeight"] != nil) {
-            filemodeRowHeight = parameters[@"rowHeight"];
-        }
-        if (parameters[@"thumbWidth"] != nil) {
-            filemodeThumbWidth = parameters[@"thumbWidth"];
-        }
+        NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
+        NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @44;
         if ([item[@"filetype"] length] != 0) { // WE ARE ALREADY IN BROWSING FILES MODE
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
                 [parameters removeAllObjects];
@@ -2071,7 +2059,7 @@
     else {
         defaultThumb = menuItem.defaultThumb;
     }
-    if (parameters[@"rowHeight"] != 0) {
+    if (parameters[@"rowHeight"]) {
         cellHeight = [parameters[@"rowHeight"] intValue];
     }
     else if (menuItem.rowHeight != 0) {
@@ -2081,7 +2069,7 @@
         cellHeight = 76;
     }
 
-    if (parameters[@"thumbWidth"] != 0) {
+    if (parameters[@"thumbWidth"]) {
         thumbWidth = [parameters[@"thumbWidth"] intValue];
     }
     else if (menuItem.thumbWidth != 0) {
@@ -3933,22 +3921,10 @@ NSIndexPath *selected;
     mainMenu *menuItem = [self getMainMenu:item];
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[menuItem.subItem mainParameters][choosedTab]];
-    NSString *libraryRowHeight = [NSString stringWithFormat:@"%d", menuItem.subItem.rowHeight];
-    NSString *libraryThumbWidth = [NSString stringWithFormat:@"%d", menuItem.subItem.thumbWidth];
-    if (parameters[@"rowHeight"] != nil) {
-        libraryRowHeight = parameters[@"rowHeight"];
-    }
-    if (parameters[@"thumbWidth"] != nil) {
-        libraryThumbWidth = parameters[@"thumbWidth"];
-    }
-    NSString *filemodeRowHeight = @"44";
-    NSString *filemodeThumbWidth = @"44";
-    if (parameters[@"rowHeight"] != nil) {
-        filemodeRowHeight = parameters[@"rowHeight"];
-    }
-    if (parameters[@"thumbWidth"] != nil) {
-        filemodeThumbWidth = parameters[@"thumbWidth"];
-    }
+    NSNumber *libraryRowHeight = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
+    NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
+    NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
+    NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @44;
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"file_properties"] mutableCopy];
     if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
         [mutableProperties addObject:@"art"];
@@ -5900,7 +5876,7 @@ NSIndexPath *selected;
         [self setIpadInterface:itemSizes[@"ipad"]];
     }
     
-    if ([parameters[@"itemSizes"][@"separatorInset"] length]) {
+    if (parameters[@"itemSizes"][@"separatorInset"]) {
         dataList.separatorInset = UIEdgeInsetsMake(0, [parameters[@"itemSizes"][@"separatorInset"] intValue], 0, 0);
     }
     
