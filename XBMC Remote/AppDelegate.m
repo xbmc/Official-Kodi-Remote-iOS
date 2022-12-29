@@ -5920,25 +5920,24 @@
     }
     NSMutableArray<NSData*> *result = [NSMutableArray array];
     for (struct ifaddrs *cursor = addrList; cursor != NULL; cursor = cursor->ifa_next) {
-        if ( (cursor->ifa_flags & IFF_BROADCAST) &&
-             (cursor->ifa_addr != NULL)
-           ) {
+        if ((cursor->ifa_flags & IFF_BROADCAST) &&
+            (cursor->ifa_addr != NULL)) {
             switch (cursor->ifa_addr->sa_family) {
-            case AF_INET: {
-                struct sockaddr_in sin = *(struct sockaddr_in*)cursor->ifa_addr;
-                sin.sin_port = htons(9);
-                NSData *addr = [NSData dataWithBytes:&sin length:sizeof(sin)];
-                [result addObject:addr];
-            } break;
-            case AF_INET6: {
-                struct sockaddr_in6 sin6 = *(struct sockaddr_in6*)cursor->ifa_addr;
-                sin6.sin6_port = htons(9);
-                NSData *addr = [NSData dataWithBytes:&sin6 length:sizeof(sin6)];
-                [result addObject:addr];
-            } break;
-            default: {
-                // do nothing
-            } break;
+                case AF_INET: {
+                    struct sockaddr_in sin = *(struct sockaddr_in*)cursor->ifa_addr;
+                    sin.sin_port = htons(9);
+                    NSData *addr = [NSData dataWithBytes:&sin length:sizeof(sin)];
+                    [result addObject:addr];
+                } break;
+                case AF_INET6: {
+                    struct sockaddr_in6 sin6 = *(struct sockaddr_in6*)cursor->ifa_addr;
+                    sin6.sin6_port = htons(9);
+                    NSData *addr = [NSData dataWithBytes:&sin6 length:sizeof(sin6)];
+                    [result addObject:addr];
+                } break;
+                default: {
+                    // do nothing
+                } break;
             }
         }
     }

@@ -2206,7 +2206,7 @@
 - (NSString*)buildSortInfo:(NSString*)sectionName {
     if ([sortMethodName isEqualToString:@"year"]) {
         if (sectionName.length > 3) {
-        sectionName = [NSString stringWithFormat:LOCALIZED_STR(@"The %@s decade"), sectionName];
+            sectionName = [NSString stringWithFormat:LOCALIZED_STR(@"The %@s decade"), sectionName];
         }
         else {
             sectionName = LOCALIZED_STR(@"Year not available");

@@ -540,7 +540,7 @@
                                          [actionSheetTitles addObject:title];
                                      }
                                      [self showActionSubtitles:actionSheetTitles];
-                                }
+                                 }
                                  else {
                                      [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
                                  }
