@@ -233,7 +233,7 @@ double round(double d) {
     choosedTab = 0;
     id movieObj = nil;
     id movieObjKey = nil;
-    NSString *blackTableSeparator = @"NO";
+    BOOL blackTableSeparator = NO;
     if ([item[@"family"] isEqualToString:@"albumid"]) {
         notificationName = @"MainMenuDeselectSection";
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
@@ -281,7 +281,7 @@ double round(double d) {
             }
             menuItem.thumbWidth = thumbWidth;
             menuItem.rowHeight = tvshowHeight;
-            blackTableSeparator = @"YES";
+            blackTableSeparator = YES;
         }
     }
     else {
@@ -316,15 +316,15 @@ double round(double d) {
                                         parameters[@"parameters"][@"properties"], @"properties",
                                         parameters[@"parameters"][@"sort"], @"sort",
                                         nil], @"parameters",
-                                       blackTableSeparator, @"blackTableSeparator",
+                                       @(blackTableSeparator), @"blackTableSeparator",
                                        parameters[@"label"], @"label",
                                        @YES, @"fromShowInfo",
-                                       [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                       @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                        parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                       [NSString stringWithFormat:@"%d", [parameters[@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
-                                       [NSString stringWithFormat:@"%d", [parameters[@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
-                                       [NSString stringWithFormat:@"%d", [parameters[@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
+                                       @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
+                                       @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
+                                       @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
                                        newSectionParameters, @"extra_section_parameters",
                                        nil];
         [[choosedMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];

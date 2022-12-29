@@ -649,9 +649,9 @@
                 ],
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Albums"), @"label",
-            @"YES", @"enableCollectionView",
-            @"YES", @"enableLibraryCache",
-            @"YES", @"enableLibraryFullScreen",
+            @YES, @"enableCollectionView",
+            @YES, @"enableLibraryCache",
+            @YES, @"enableLibraryFullScreen",
             [self watchedListenedString], @"watchedListenedStrings",
             [self itemSizes_Musicfullscreen], @"itemSizes",
         ],
@@ -688,9 +688,9 @@
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Artists"), @"label",
             @"nocover_artist", @"defaultThumb",
-            @"YES", @"enableCollectionView",
-            @"YES", @"enableLibraryCache",
-            @"YES", @"enableLibraryFullScreen",
+            @YES, @"enableCollectionView",
+            @YES, @"enableLibraryCache",
+            @YES, @"enableLibraryFullScreen",
             [self itemSizes_Musicfullscreen], @"itemSizes",
         ],
                           
@@ -705,7 +705,7 @@
             @"nocover_genre", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableLibraryCache",
+            @YES, @"enableLibraryCache",
         ],
                           
         @[
@@ -746,7 +746,7 @@
             }, @"extra_info_parameters",
            LOCALIZED_STR(@"Added Albums"), @"label",
            LOCALIZED_STR(@"Recently added albums"), @"morelabel",
-           @"YES", @"enableCollectionView",
+           @YES, @"enableCollectionView",
            [self itemSizes_Music], @"itemSizes",
         ],
                           
@@ -816,7 +816,7 @@
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Top 100 Albums"), @"label",
             LOCALIZED_STR(@"Top 100 Albums"), @"morelabel",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
             
@@ -877,7 +877,7 @@
             }, @"parameters",
             LOCALIZED_STR(@"Played albums"), @"label",
             LOCALIZED_STR(@"Recently played albums"), @"morelabel",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
                           
@@ -939,7 +939,7 @@
             }, @"available_sort_methods",
             LOCALIZED_STR(@"All songs"), @"label",
             LOCALIZED_STR(@"All songs"), @"morelabel",
-            @"YES", @"enableLibraryCache",
+            @YES, @"enableLibraryCache",
             @5, @"numberOfStars",
             [self watchedListenedString], @"watchedListenedStrings",
         ],
@@ -959,7 +959,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
                           
@@ -988,7 +988,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"isMusicPlaylist",
+            @YES, @"isMusicPlaylist",
         ],
                             
         @[
@@ -1300,7 +1300,7 @@
     menu_Music.subItem.mainMethod = @[
         @[
             @"AudioLibrary.GetSongs", @"method",
-            @"YES", @"albumView",
+            @YES, @"albumView",
         ],
         @[
             @"AudioLibrary.GetAlbums", @"method",
@@ -1315,17 +1315,17 @@
         ],
         @[
             @"AudioLibrary.GetSongs", @"method",
-            @"YES", @"albumView",
+            @YES, @"albumView",
         ],
         @[],
         @[
             @"AudioLibrary.GetSongs", @"method",
-            @"YES", @"albumView",
+            @YES, @"albumView",
         ],
         @[],
         @[
             @"AudioLibrary.GetSongs", @"method",
-            @"YES", @"albumView",
+            @YES, @"albumView",
         ],
         @[],
         @[],
@@ -1387,7 +1387,7 @@
                 },
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Albums"), @"label",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
                                   
@@ -1432,8 +1432,8 @@
                 ],
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Albums"), @"label",
-            @"YES", @"enableCollectionView",
-            @"YES", @"enableLibraryCache",
+            @YES, @"enableCollectionView",
+            @YES, @"enableLibraryCache",
             [self watchedListenedString], @"watchedListenedStrings",
             [self itemSizes_Music], @"itemSizes",
          ],
@@ -1531,7 +1531,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             @"53", @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Movie], @"itemSizes",
         ],
         
@@ -1584,7 +1584,7 @@
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Artists"), @"label",
             @"nocover_artist", @"defaultThumb",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Musicfullscreen], @"itemSizes",
         ],
     ] mutableCopy];
@@ -1811,11 +1811,11 @@
         @[],
         @[
             @"AudioLibrary.GetSongs", @"method",
-            @"YES", @"albumView",
+            @YES, @"albumView",
         ],
         @[
             @"AudioLibrary.GetSongs", @"method",
-            @"YES", @"albumView",
+            @YES, @"albumView",
         ],
         @[
             @"Files.GetDirectory", @"method",
@@ -1927,7 +1927,7 @@
                 },
             }, @"extra_info_parameters",
             LOCALIZED_STR(@"Albums"), @"label",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             @"roleid", @"combinedFilter",
             [self itemSizes_Music], @"itemSizes",
         ],
@@ -2051,7 +2051,7 @@
         @[],
         @[
             @"AudioLibrary.GetSongs", @"method",
-            @"YES", @"albumView",
+            @YES, @"albumView",
         ],
     ];
     
@@ -2260,10 +2260,10 @@
                 ],
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Movies"), @"label",
-            @"YES", @"FrodoExtraArt",
-            @"YES", @"enableCollectionView",
-            @"YES", @"enableLibraryCache",
-            @"YES", @"enableLibraryFullScreen",
+            @YES, @"FrodoExtraArt",
+            @YES, @"enableCollectionView",
+            @YES, @"enableLibraryCache",
+            @YES, @"enableLibraryFullScreen",
             [self itemSizes_Moviefullscreen], @"itemSizes",
         ],
               
@@ -2279,7 +2279,7 @@
             @"nocover_movie_genre", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableLibraryCache",
+            @YES, @"enableLibraryCache",
         ],
               
         @[
@@ -2310,9 +2310,9 @@
                         @"playcount",
                 ],
             }, @"available_sort_methods",
-            @"YES", @"FrodoExtraArt",
-            @"YES", @"enableCollectionView",
-            @"YES", @"enableLibraryCache",
+            @YES, @"FrodoExtraArt",
+            @YES, @"enableCollectionView",
+            @YES, @"enableLibraryCache",
             @"nocover_movie_sets", @"defaultThumb",
             [self itemSizes_Movie], @"itemSizes",
             LOCALIZED_STR(@"Movie Sets"), @"label",
@@ -2354,10 +2354,10 @@
                         @"trailer",
                 ],
             }, @"extra_info_parameters",
-            @"YES", @"FrodoExtraArt",
-            @"YES", @"enableCollectionView",
-            @"YES", @"collectionViewRecentlyAdded",
-            @"YES", @"enableLibraryFullScreen",
+            @YES, @"FrodoExtraArt",
+            @YES, @"enableCollectionView",
+            @YES, @"collectionViewRecentlyAdded",
+            @YES, @"enableLibraryFullScreen",
             [self itemSizes_MovieRecentlyfullscreen], @"itemSizes",
         ],
 
@@ -2386,7 +2386,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
 
@@ -2409,7 +2409,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"isVideoPlaylist",
+            @YES, @"isVideoPlaylist",
         ],
     ] mutableCopy];
     
@@ -2647,9 +2647,9 @@
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Movies"), @"label",
             @"nocover_movies", @"defaultThumb",
-            @"YES", @"FrodoExtraArt",
-            @"YES", @"enableCollectionView",
-            @"YES", @"enableLibraryCache",
+            @YES, @"FrodoExtraArt",
+            @YES, @"enableCollectionView",
+            @YES, @"enableLibraryCache",
             [self itemSizes_Movie], @"itemSizes",
         ],
                                   
@@ -2708,8 +2708,8 @@
             }, @"available_sort_methods",
             LOCALIZED_STR(@"Movies"), @"label",
             @"nocover_movies", @"defaultThumb",
-            @"YES", @"FrodoExtraArt",
-            @"YES", @"enableCollectionView",
+            @YES, @"FrodoExtraArt",
+            @YES, @"enableCollectionView",
             [self itemSizes_Movie], @"itemSizes",
         ],
                                   
@@ -2738,7 +2738,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
                                   
@@ -2771,8 +2771,8 @@
             @"nocover_filemode", @"defaultThumb",
             @"76", @"rowHeight",
             @"53", @"thumbWidth",
-            @"YES", @"enableCollectionView",
-            @"YES", @"FrodoExtraArt",
+            @YES, @"enableCollectionView",
+            @YES, @"FrodoExtraArt",
             [self itemSizes_Movie], @"itemSizes",
         ],
     ] mutableCopy];
@@ -3076,9 +3076,9 @@
             }, @"kodiExtrasPropertiesMinimumVersion",
             LOCALIZED_STR(@"Music Videos"), @"label",
             LOCALIZED_STR(@"Music Videos"), @"morelabel",
-            @"YES", @"enableCollectionView",
-            @"YES", @"enableLibraryCache",
-            @"YES", @"enableLibraryFullScreen",
+            @YES, @"enableCollectionView",
+            @YES, @"enableLibraryCache",
+            @YES, @"enableLibraryFullScreen",
             [self itemSizes_Moviefullscreen], @"itemSizes",
         ],
               
@@ -3127,9 +3127,9 @@
                 ],
             }, @"kodiExtrasPropertiesMinimumVersion",
             LOCALIZED_STR(@"Added Music Videos"), @"label",
-            @"YES", @"enableCollectionView",
-            @"YES", @"collectionViewRecentlyAdded",
-            @"YES", @"enableLibraryFullScreen",
+            @YES, @"enableCollectionView",
+            @YES, @"collectionViewRecentlyAdded",
+            @YES, @"enableLibraryFullScreen",
             [self itemSizes_MovieRecentlyfullscreen], @"itemSizes",
         ],
         
@@ -3158,7 +3158,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
 
@@ -3181,7 +3181,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"isVideoPlaylist",
+            @YES, @"isVideoPlaylist",
         ],
     ] mutableCopy];
     
@@ -3341,7 +3341,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
                                   
@@ -3374,8 +3374,8 @@
             @"nocover_filemode", @"defaultThumb",
             @"76", @"rowHeight",
             @"53", @"thumbWidth",
-            @"YES", @"enableCollectionView",
-            @"YES", @"FrodoExtraArt",
+            @YES, @"enableCollectionView",
+            @YES, @"FrodoExtraArt",
             [self itemSizes_Movie], @"itemSizes",
         ],
     ] mutableCopy];
@@ -3533,7 +3533,7 @@
     menu_TVShows.mainMethod = [@[
         @[  @"VideoLibrary.GetTVShows", @"method",
             @"VideoLibrary.GetTVShowDetails", @"extra_info_method",
-            @"YES", @"tvshowsView",
+            @YES, @"tvshowsView",
         ],
         @[
             @"VideoLibrary.GetRecentlyAddedEpisodes", @"method",
@@ -3593,11 +3593,11 @@
                 ],
             }, @"available_sort_methods",
             LOCALIZED_STR(@"TV Shows"), @"label",
-            @"YES", @"blackTableSeparator",
-            @"YES", @"FrodoExtraArt",
-            @"YES", @"enableLibraryCache",
-            @"YES", @"enableCollectionView",
-            @"YES", @"enableLibraryFullScreen",
+            @YES, @"blackTableSeparator",
+            @YES, @"FrodoExtraArt",
+            @YES, @"enableLibraryCache",
+            @YES, @"enableCollectionView",
+            @YES, @"enableLibraryFullScreen",
             [self itemSizes_Moviefullscreen], @"itemSizes",
         ],
                             
@@ -3636,8 +3636,8 @@
             @"53", @"rowHeight",
             @"95", @"thumbWidth",
             @"nocover_tvshows_episode", @"defaultThumb",
-            @"YES", @"FrodoExtraArt",
-            //@"YES", @"enableCollectionView",
+            @YES, @"FrodoExtraArt",
+            //@YES, @"enableCollectionView",
             [self itemSizes_TVShowsfullscreen_insets:@"95"], @"itemSizes",
         ],
                             
@@ -3667,7 +3667,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music_insets:filemodeThumbWidth], @"itemSizes",
         ],
         
@@ -3690,7 +3690,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"isVideoPlaylist",
+            @YES, @"isVideoPlaylist",
         ],
     ] mutableCopy];
 
@@ -3818,7 +3818,7 @@
         @[
             @"VideoLibrary.GetEpisodes", @"method",
             @"VideoLibrary.GetEpisodeDetails", @"extra_info_method",
-            @"YES", @"episodesView",
+            @YES, @"episodesView",
             @"VideoLibrary.GetSeasons", @"extra_section_method",
         ],
         @[],
@@ -3880,8 +3880,8 @@
                 ],
             }, @"extra_section_parameters",
             LOCALIZED_STR(@"Episodes"), @"label",
-            @"YES", @"disableFilterParameter",
-            @"YES", @"FrodoExtraArt",
+            @YES, @"disableFilterParameter",
+            @YES, @"FrodoExtraArt",
         ],
 
         @[],
@@ -3909,7 +3909,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
         
@@ -3942,8 +3942,8 @@
             @"nocover_filemode", @"defaultThumb",
             @"76", @"rowHeight",
             @"53", @"thumbWidth",
-            @"YES", @"enableCollectionView",
-            @"YES", @"FrodoExtraArt",
+            @YES, @"enableCollectionView",
+            @YES, @"FrodoExtraArt",
             [self itemSizes_Movie], @"itemSizes",
         ],
     ] mutableCopy];
@@ -4145,7 +4145,7 @@
     menu_LiveTV.mainMethod = [@[
         @[
             @"PVR.GetChannels", @"method",
-            @"YES", @"channelListView",
+            @YES, @"channelListView",
         ],
         @[
             @"PVR.GetChannelGroups", @"method",
@@ -4179,10 +4179,10 @@
             }, @"kodiExtrasPropertiesMinimumVersion",
             LOCALIZED_STR(@"All channels"), @"label",
             @"nocover_channels", @"defaultThumb",
-            @"YES", @"disableFilterParameter",
+            @YES, @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
             @"48", @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music_insets:@"56"], @"itemSizes",
         ],
                           
@@ -4195,7 +4195,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
 
@@ -4263,8 +4263,8 @@
             @"nocover_recording", @"defaultThumb",
             channelEPGRowHeight, @"rowHeight",
             @"48", @"thumbWidth",
-            @"YES", @"enableCollectionView",
-            @"YES", @"enableLibraryCache",
+            @YES, @"enableCollectionView",
+            @YES, @"enableLibraryCache",
             [self itemSizes_Music_insets:@"60"], @"itemSizes",
         ],
                           
@@ -4309,7 +4309,7 @@
             @"nocover_timers", @"defaultThumb",
             @"53", @"rowHeight",
             @"53", @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music_insets:@"60"], @"itemSizes",
         ],
         
@@ -4354,7 +4354,7 @@
             @"nocover_timerrules", @"defaultThumb",
             @"53", @"rowHeight",
             @"53", @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music_insets:@"60"], @"itemSizes",
         ],
     ] mutableCopy];
@@ -4474,11 +4474,11 @@
     menu_LiveTV.subItem.mainMethod = [@[
         @[
             @"PVR.GetBroadcasts", @"method",
-            @"YES", @"channelGuideView",
+            @YES, @"channelGuideView",
         ],
         @[
             @"PVR.GetChannels", @"method",
-            @"YES", @"channelListView",
+            @YES, @"channelListView",
         ],
         @[],
         @[],
@@ -4503,7 +4503,7 @@
             }, @"parameters",
             LOCALIZED_STR(@"Live TV"), @"label",
             @"icon_video", @"defaultThumb",
-            @"YES", @"disableFilterParameter",
+            @YES, @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
             livetvThumbWidth, @"thumbWidth",
             [self itemSizes_Music_insets:@"48"], @"itemSizes",
@@ -4525,10 +4525,10 @@
             }, @"kodiExtrasPropertiesMinimumVersion",
             LOCALIZED_STR(@"Live TV"), @"label",
             @"nocover_channels", @"defaultThumb",
-            @"YES", @"disableFilterParameter",
+            @YES, @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
             @"48", @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music_insets:@"56"], @"itemSizes",
         ],
                                   
@@ -4611,7 +4611,7 @@
         @[],
         @[
             @"PVR.GetBroadcasts", @"method",
-            @"YES", @"channelGuideView",
+            @YES, @"channelGuideView",
         ],
         @[],
         @[],
@@ -4636,7 +4636,7 @@
             }, @"parameters",
             LOCALIZED_STR(@"Live TV"), @"label",
             @"icon_video", @"defaultThumb",
-            @"YES", @"disableFilterParameter",
+            @YES, @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
             livetvThumbWidth, @"thumbWidth",
             [self itemSizes_Music_insets:@"48"], @"itemSizes",
@@ -4713,7 +4713,7 @@
     menu_Radio.mainMethod = [@[
         @[
             @"PVR.GetChannels", @"method",
-            @"YES", @"channelListView",
+            @YES, @"channelListView",
         ],
         @[
             @"PVR.GetChannelGroups", @"method",
@@ -4747,10 +4747,10 @@
             }, @"kodiExtrasPropertiesMinimumVersion",
             LOCALIZED_STR(@"All channels"), @"label",
             @"nocover_channels", @"defaultThumb",
-            @"YES", @"disableFilterParameter",
+            @YES, @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
             @"48", @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music_insets:@"56"], @"itemSizes",
         ],
                           
@@ -4763,7 +4763,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
 
@@ -4829,8 +4829,8 @@
             @"nocover_recording", @"defaultThumb",
             channelEPGRowHeight, @"rowHeight",
             @"48", @"thumbWidth",
-            @"YES", @"enableCollectionView",
-            @"YES", @"enableLibraryCache",
+            @YES, @"enableCollectionView",
+            @YES, @"enableLibraryCache",
             [self itemSizes_Music_insets:@"60"], @"itemSizes",
         ],
                           
@@ -4875,7 +4875,7 @@
             @"nocover_timers", @"defaultThumb",
             @"53", @"rowHeight",
             @"53", @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music_insets:@"60"], @"itemSizes",
         ],
         
@@ -4920,7 +4920,7 @@
             @"nocover_timerrules", @"defaultThumb",
             @"53", @"rowHeight",
             @"53", @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music_insets:@"60"], @"itemSizes",
         ],
     ] mutableCopy];
@@ -5040,11 +5040,11 @@
     menu_Radio.subItem.mainMethod = [@[
         @[
             @"PVR.GetBroadcasts", @"method",
-            @"YES", @"channelGuideView",
+            @YES, @"channelGuideView",
         ],
         @[
             @"PVR.GetChannels", @"method",
-            @"YES", @"channelListView",
+            @YES, @"channelListView",
         ],
         @[],
         @[],
@@ -5069,7 +5069,7 @@
             }, @"parameters",
             LOCALIZED_STR(@"Radio"), @"label",
             @"icon_video", @"defaultThumb",
-            @"YES", @"disableFilterParameter",
+            @YES, @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
             livetvThumbWidth, @"thumbWidth",
             [self itemSizes_Music_insets:@"48"], @"itemSizes",
@@ -5091,10 +5091,10 @@
             }, @"kodiExtrasPropertiesMinimumVersion",
             LOCALIZED_STR(@"Radio"), @"label",
             @"nocover_channels", @"defaultThumb",
-            @"YES", @"disableFilterParameter",
+            @YES, @"disableFilterParameter",
             livetvRowHeight, @"rowHeight",
             @"48", @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music_insets:@"56"], @"itemSizes",
         ],
                                   
@@ -5177,7 +5177,7 @@
         @[],
         @[
             @"PVR.GetBroadcasts", @"method",
-            @"YES", @"channelGuideView",
+            @YES, @"channelGuideView",
         ],
         @[],
         @[],
@@ -5202,7 +5202,7 @@
             }, @"parameters",
             LOCALIZED_STR(@"Radio"), @"label",
             @"icon_video", @"defaultThumb",
-            @"YES", @"disableFilterParameter",
+            @YES, @"disableFilterParameter",
             channelEPGRowHeight, @"rowHeight",
             livetvThumbWidth, @"thumbWidth",
             [self itemSizes_Music_insets:@"48"], @"itemSizes",
@@ -5307,7 +5307,7 @@
             @"nocover_filemode", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
     ] mutableCopy];
@@ -5471,7 +5471,7 @@
             @"nocover_favourites", @"defaultThumb",
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
     ] mutableCopy];
@@ -5531,7 +5531,7 @@
                         @"label",
                 ],
             }, @"available_sort_methods",
-            @"YES", @"enableLibraryCache",
+            @YES, @"enableLibraryCache",
         ],
     ] mutableCopy];
     
@@ -5635,7 +5635,7 @@
              @"65", @"rowHeight",
              @"65", @"thumbWidth",
             [self itemSizes_Music_insets:@"65"], @"itemSizes",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
         ],
                                    
         @[
@@ -5654,7 +5654,7 @@
             @"65", @"rowHeight",
             @"65", @"thumbWidth",
             [self itemSizes_Music_insets:@"65"], @"itemSizes",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
         ],
                                    
         @[
@@ -5673,7 +5673,7 @@
             @"65", @"rowHeight",
             @"65", @"thumbWidth",
             [self itemSizes_Music_insets:@"65"], @"itemSizes",
-            @"YES", @"enableCollectionView",
+            @YES, @"enableCollectionView",
         ],
                                    
         @[

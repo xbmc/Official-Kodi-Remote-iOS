@@ -1930,7 +1930,7 @@ long storedItemID;
                                         nil], @"parameters", parameters[@"label"], @"label",
                                        parameters[@"extra_info_parameters"], @"extra_info_parameters",
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                       [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                       @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                        nil];
         [[menuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         menuItem.subItem.chooseTab = choosedTab;

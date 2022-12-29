@@ -1322,9 +1322,6 @@
                    nil];
             objKey = @"filter";
         }
-        if (parameters[@"disableFilterParameter"] == nil) {
-            parameters[@"disableFilterParameter"] = @"NO";
-        }
         NSMutableDictionary *newSectionParameters = [NSMutableDictionary dictionary];
         if (parameters[@"extra_section_parameters"] != nil) {
             newSectionParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1352,17 +1349,17 @@
                                         parameters[@"parameters"][@"sort"], @"sort",
                                         item[mainFields[@"row15"]], key,
                                         nil], @"parameters",
-                                       parameters[@"disableFilterParameter"], @"disableFilterParameter",
+                                       @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
                                        libraryRowHeight, @"rowHeight",
                                        libraryThumbWidth, @"thumbWidth",
                                        parameters[@"label"], @"label",
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                       [NSString stringWithFormat:@"%d", [parameters[@"FrodoExtraArt"] boolValue]], @"FrodoExtraArt",
-                                       [NSString stringWithFormat:@"%d", [parameters[@"enableLibraryCache"] boolValue]], @"enableLibraryCache",
-                                       [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
-                                       [NSString stringWithFormat:@"%d", [parameters[@"forceActionSheet"] boolValue]], @"forceActionSheet",
-                                       [NSString stringWithFormat:@"%d", [parameters[@"collectionViewRecentlyAdded"] boolValue]], @"collectionViewRecentlyAdded",
-                                       [NSString stringWithFormat:@"%d", [parameters[@"blackTableSeparator"] boolValue]], @"blackTableSeparator",
+                                       @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
+                                       @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
+                                       @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                       @([parameters[@"forceActionSheet"] boolValue]), @"forceActionSheet",
+                                       @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
+                                       @([parameters[@"blackTableSeparator"] boolValue]), @"blackTableSeparator",
                                        pvrExtraInfo, @"pvrExtraInfo",
                                        kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
                                        parameters[@"extra_info_parameters"], @"extra_info_parameters",
@@ -1434,8 +1431,8 @@
                                                filemodeThumbWidth, @"thumbWidth",
                                                @"icon_song", @"fileThumb",
                                                [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                               [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
-                                               parameters[@"disableFilterParameter"], @"disableFilterParameter",
+                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                               @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
                                                nil];
                 menuItem.mainLabel = item[@"label"];
                 mainMenu *newMenuItem = [menuItem copy];
@@ -1500,8 +1497,8 @@
                                            filemodeRowHeight, @"rowHeight",
                                            filemodeThumbWidth, @"thumbWidth",
                                            [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                           [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
-                                           parameters[@"disableFilterParameter"], @"disableFilterParameter",
+                                           @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                           @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
                                            nil];
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
                 newParameters[0][@"level"] = @"expert";
@@ -3970,9 +3967,9 @@ NSIndexPath *selected;
                                    filemodeRowHeight, @"rowHeight",
                                    filemodeThumbWidth, @"thumbWidth",
                                    [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                   [NSString stringWithFormat:@"%d", [parameters[@"enableCollectionView"] boolValue]], @"enableCollectionView",
+                                   @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                    @"Files.GetDirectory", @"exploreCommand",
-                                   parameters[@"disableFilterParameter"], @"disableFilterParameter",
+                                   @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
                                    nil];
     menuItem.subItem.mainLabel = item[@"label"];
     mainMenu *newMenuItem = [menuItem.subItem copy];
