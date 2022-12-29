@@ -591,14 +591,20 @@
             iconName = @"nocover_filemode";
         }
         else if ([filetype isEqualToString:@"file"]) {
-            if ([mainFields[@"playlistid"] intValue] == 0) {
-                iconName = @"icon_song";
-            }
-            else if ([mainFields[@"playlistid"] intValue] == 1) {
-                iconName = @"icon_video";
-            }
-            else if ([mainFields[@"playlistid"] intValue] == 2) {
-                iconName = @"icon_picture";
+            int playlistid = [mainFields[@"playlistid"] intValue];
+            switch (playlistid) {
+                case 0:
+                    iconName = @"icon_song";
+                    break;
+                case 1:
+                    iconName = @"icon_video";
+                    break;
+                case 2:
+                    iconName = @"icon_picture";
+                    break;
+                default:
+                    NSLog(@"getItemIconFromDictionary: unknown playlistid %d", playlistid);
+                    break;
             }
         }
     }
