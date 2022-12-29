@@ -438,26 +438,27 @@ double round(double d) {
 }
 
 - (void)recordChannel {
-    NSNumber *channelid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] longValue]);
+    NSDictionary *item = self.detailItem;
+    NSNumber *channelid = @([item[@"pvrExtraInfo"][@"channelid"] longValue]);
     if ([channelid longValue] == 0) {
         return;
     }
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
-    NSNumber *itemid = @([self.detailItem[@"channelid"] longValue]);
+    NSNumber *itemid = @([item[@"channelid"] longValue]);
     NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = @([self.detailItem[@"broadcastid"] longValue]);
+    NSNumber *storeBroadcastid = @([item[@"broadcastid"] longValue]);
     if ([itemid longValue] == 0) {
-        itemid = @([self.detailItem[@"pvrExtraInfo"][@"channelid"] longValue]);
+        itemid = @([item[@"pvrExtraInfo"][@"channelid"] longValue]);
         if ([itemid longValue] == 0) {
             return;
         }
         storeChannelid = itemid;
-        NSDate *starttime = [xbmcDateFormatter dateFromString:self.detailItem[@"starttime"]];
-        NSDate *endtime = [xbmcDateFormatter dateFromString:self.detailItem[@"endtime"]];
+        NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
+        NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
         float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
         if (percent_elapsed < 0) {
-            itemid = @([self.detailItem[@"broadcastid"] longValue]);
+            itemid = @([item[@"broadcastid"] longValue]);
             storeBroadcastid = itemid;
             storeChannelid = @(0);
             methodToCall = @"PVR.ToggleTimer";
@@ -476,9 +477,9 @@ double round(double d) {
                self.navigationItem.rightBarButtonItem.enabled = YES;
                if (error == nil && methodError == nil) {
                    [self animateRecordAction];
-                   NSNumber *status = @(![self.detailItem[@"isrecording"] boolValue]);
-                   if ([self.detailItem[@"broadcastid"] longValue] > 0) {
-                       status = @(![self.detailItem[@"hastimer"] boolValue]);
+                   NSNumber *status = @(![item[@"isrecording"] boolValue]);
+                   if ([item[@"broadcastid"] longValue] > 0) {
+                       status = @(![item[@"hastimer"] boolValue]);
                    }
                    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            storeChannelid, @"channelid",
@@ -775,7 +776,7 @@ double round(double d) {
         if (item[@"pvrExtraInfo"][@"channel_icon"] != nil) {
             item[@"thumbnail"] = item[@"pvrExtraInfo"][@"channel_icon"];
         }
-        item[@"genre"] = [self.detailItem[@"plotoutline"] length] > 0 ? self.detailItem[@"plotoutline"] : item[@"genre"];
+        item[@"genre"] = [item[@"plotoutline"] length] > 0 ? item[@"plotoutline"] : item[@"genre"];
         
         label1.text = LOCALIZED_STR(@"TIME");
         label2.text = LOCALIZED_STR(@"DESCRIPTION");
@@ -819,7 +820,7 @@ double round(double d) {
         label6.text = @"";
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
         directorLabel.text = [self formatBroadcastTime:item];
-        genreLabel.text = [Utilities getStringFromItem:self.detailItem[@"plotoutline"]];
+        genreLabel.text = [Utilities getStringFromItem:item[@"plotoutline"]];
         numVotesLabel.text = item[@"pvrExtraInfo"][@"channel_name"];
         summaryLabel.text = [Utilities getStringFromItem:item[@"genre"]];
         
@@ -1551,7 +1552,7 @@ double round(double d) {
     NSString *param = item[@"family"];
     id value = item[item[@"family"]];
     // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
-    if (![VersionCheck hasRecordingIdPlaylistSupport] && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
+    if (![VersionCheck hasRecordingIdPlaylistSupport] && [item[@"family"] isEqualToString:@"recordingid"]) {
         param = @"file";
         value = item[@"file"];
     }
@@ -1609,19 +1610,19 @@ double round(double d) {
 }
 
 - (void)addPlayback:(float)resumePointLocal {
-    if ([self.detailItem[@"family"] isEqualToString:@"broadcastid"]) {
-        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"pvrExtraInfo"][@"channelid"], @"channelid", nil], @"item", nil]];
+    NSDictionary *item = self.detailItem;
+    if ([item[@"family"] isEqualToString:@"broadcastid"]) {
+        [self openFile:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"pvrExtraInfo"][@"channelid"], @"channelid", nil], @"item", nil]];
     }
     else {
         self.navigationItem.rightBarButtonItem.enabled = NO;
         [activityIndicatorView startAnimating];
-        NSDictionary *item = self.detailItem;
         [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: item[@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
                 NSString *param = item[@"family"];
                 id value = item[item[@"family"]];
                 // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
-                if (![VersionCheck hasRecordingIdPlaylistSupport] && [self.detailItem[@"family"] isEqualToString:@"recordingid"]) {
+                if (![VersionCheck hasRecordingIdPlaylistSupport] && [item[@"family"] isEqualToString:@"recordingid"]) {
                     param = @"file";
                     value = item[@"file"];
                 }
