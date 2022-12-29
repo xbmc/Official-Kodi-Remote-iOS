@@ -4115,6 +4115,7 @@ NSIndexPath *selected;
         mainFields = [AppDelegate.instance.playlistArtistAlbums mainFields][0];
         forceMusicAlbumMode = NO;
     }
+    int playlistid = [mainFields[@"playlistid"] intValue];
     NSString *key = mainFields[@"row9"];
     id value = item[key];
     if ([item[@"filetype"] isEqualToString:@"directory"]) {
@@ -4129,7 +4130,7 @@ NSIndexPath *selected;
         [[Utilities getJsonRPC]
          callMethod:@"Player.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                         mainFields[@"playlistid"], @"playerid",
+                         @(playlistid), @"playerid",
                          @[@"percentage", @"time", @"totaltime", @"partymode", @"position"], @"properties",
                          nil] 
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -4140,7 +4141,7 @@ NSIndexPath *selected;
                          int newPos = [methodResult[@"position"] intValue] + 1;
                          NSString *action2 = @"Playlist.Insert";
                          NSDictionary *params2 = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                mainFields[@"playlistid"], @"playlistid",
+                                                @(playlistid), @"playlistid",
                                                 [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item",
                                                 @(newPos), @"position",
                                                 nil];
@@ -4151,25 +4152,25 @@ NSIndexPath *selected;
                          }];
                      }
                      else {
-                         [self addToPlaylist:mainFields currentItem:value currentKey:key currentActivityIndicator:queuing];
+                         [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
                      }
                  }
                  else {
-                     [self addToPlaylist:mainFields currentItem:value currentKey:key currentActivityIndicator:queuing];
+                     [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
                  }
              }
              else {
-                [self addToPlaylist:mainFields currentItem:value currentKey:key currentActivityIndicator:queuing];
+                [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
              }
          }];
     }
     else {
-        [self addToPlaylist:mainFields currentItem:value currentKey:key currentActivityIndicator:queuing];
+        [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
     }
 }
 
-- (void)addToPlaylist:(NSDictionary*)mainFields currentItem:(id)value currentKey:(NSString*)key currentActivityIndicator:(UIActivityIndicatorView*)queuing {
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:mainFields[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+- (void)addToPlaylist:(NSInteger)playlistid currentItem:(id)value currentKey:(NSString*)key currentActivityIndicator:(UIActivityIndicatorView*)queuing {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@(playlistid), @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [queuing stopAnimating];
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -4208,6 +4209,7 @@ NSIndexPath *selected;
     id cell = [self getCell:indexPath];
     UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
     [queuing startAnimating];
+    int playlistid = [mainFields[@"playlistid"] intValue];
     if ([mainFields[@"row8"] isEqualToString:@"channelid"] ||
         [mainFields[@"row8"] isEqualToString:@"broadcastid"]) {
         NSNumber *channelid = item[mainFields[@"row8"]];
@@ -4227,7 +4229,7 @@ NSIndexPath *selected;
             optionsParam = @"options";
             optionsValue = [NSDictionary dictionaryWithObjectsAndKeys: @(shuffled), @"shuffled", nil];
         }
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: mainFields[@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(playlistid), @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
                 NSString *key = mainFields[@"row8"];
                 id value = item[key];
@@ -4245,13 +4247,13 @@ NSIndexPath *selected;
                      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@(0), @"playerid", @NO, @"partymode", nil]
                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
                          [self playlistAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                mainFields[@"playlistid"], @"playlistid",
+                                                @(playlistid), @"playlistid",
                                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                                  value, key, nil], @"item",
                                                 nil]
                                 playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
                                                 [NSDictionary dictionaryWithObjectsAndKeys:
-                                                 mainFields[@"playlistid"], @"playlistid",
+                                                 @(playlistid), @"playlistid",
                                                  @(pos), @"position",
                                                  nil], @"item",
                                                 optionsValue, optionsParam,
@@ -4262,13 +4264,13 @@ NSIndexPath *selected;
                 }
                 else {
                     [self playlistAndPlay:[NSDictionary dictionaryWithObjectsAndKeys:
-                                           mainFields[@"playlistid"], @"playlistid",
+                                           @(playlistid), @"playlistid",
                                            [NSDictionary dictionaryWithObjectsAndKeys:
                                             value, key, nil], @"item",
                                            nil]
                            playbackParams:[NSDictionary dictionaryWithObjectsAndKeys:
                                            [NSDictionary dictionaryWithObjectsAndKeys:
-                                            mainFields[@"playlistid"], @"playlistid",
+                                            @(playlistid), @"playlistid",
                                             @(pos), @"position",
                                             nil], @"item",
                                            optionsValue, optionsParam,

@@ -1549,6 +1549,7 @@ double round(double d) {
 - (void)addQueueAfterCurrent:(BOOL)afterCurrent {
     self.navigationItem.rightBarButtonItem.enabled = NO;
     NSDictionary *item = self.detailItem;
+    int playlistid = [item[@"playlistid"] intValue];
     NSString *param = item[@"family"];
     id value = item[item[@"family"]];
     // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
@@ -1561,7 +1562,7 @@ double round(double d) {
         [[Utilities getJsonRPC]
          callMethod:@"Player.GetProperties"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                         item[@"playlistid"], @"playerid",
+                         @(playlistid), @"playerid",
                          @[@"percentage", @"time", @"totaltime", @"partymode", @"position"], @"properties",
                          nil]
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -1572,7 +1573,7 @@ double round(double d) {
                          int newPos = [methodResult[@"position"] intValue] + 1;
                          NSString *action2 = @"Playlist.Insert";
                          NSDictionary *params2 = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                item[@"playlistid"], @"playlistid",
+                                                @(playlistid), @"playlistid",
                                                 [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item",
                                                 @(newPos), @"position",
                                                 nil];
@@ -1599,7 +1600,7 @@ double round(double d) {
     }
     else {
         [activityIndicatorView startAnimating];
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@(playlistid), @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             [activityIndicatorView stopAnimating];
             if (error == nil && methodError == nil) {
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -1617,7 +1618,8 @@ double round(double d) {
     else {
         self.navigationItem.rightBarButtonItem.enabled = NO;
         [activityIndicatorView startAnimating];
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: item[@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        int playlistid = [item[@"playlistid"] intValue];
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(playlistid), @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
                 NSString *param = item[@"family"];
                 id value = item[item[@"family"]];
@@ -1626,10 +1628,10 @@ double round(double d) {
                     param = @"file";
                     value = item[@"file"];
                 }
-                [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@(playlistid), @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                     if (error == nil && methodError == nil) {
                         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"playlistid"], @"playlistid", @(0), @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: @(playlistid), @"playlistid", @(0), @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                             if (error == nil && methodError == nil) {
                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                                 [activityIndicatorView stopAnimating];
@@ -1637,7 +1639,7 @@ double round(double d) {
                                 [Utilities checkForReviewRequest];
                                 if (resumePointLocal) {
                                     [NSThread sleepForTimeInterval:1.0];
-                                    [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:[item[@"playlistid"] intValue] percentage:resumePointLocal]];
+                                    [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:playlistid percentage:resumePointLocal]];
                                 }
                             }
                             else {
