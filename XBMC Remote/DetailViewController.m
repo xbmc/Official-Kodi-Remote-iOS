@@ -4723,7 +4723,7 @@ NSIndexPath *selected;
         }
     }
     
-    if ([self loadedDataFromDisk:methodToCall parameters:(sectionParameters == nil) ? mutableParameters : [NSMutableDictionary dictionaryWithDictionary:sectionParameters] refresh:forceRefresh]) {
+    if ([self loadedDataFromDisk:methodToCall parameters:(sectionParameters == nil) ? mutableParameters : [sectionParameters mutableCopy] refresh:forceRefresh]) {
         return;
     }
     
