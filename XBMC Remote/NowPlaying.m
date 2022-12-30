@@ -536,6 +536,7 @@ long storedItemID;
                                                 @"season",
                                                 @"fanart",
                                                 @"description",
+                                                @"director",
                                                 @"plot"] mutableCopy];
                 if (AppDelegate.instance.serverVersion > 11) {
                     [properties addObject:@"art"];
@@ -579,6 +580,10 @@ long storedItemID;
                                  }
                                  if (title.length == 0) {
                                      title = label;
+                                 }
+                                 NSString *director = [Utilities getStringFromItem:nowPlayingInfo[@"director"]];
+                                 if (album.length == 0 && director.length) {
+                                     album = director;
                                  }
                                  NSString *studio = [Utilities getStringFromItem:nowPlayingInfo[@"studio"]];
                                  if (artist.length == 0 && studio.length) {
