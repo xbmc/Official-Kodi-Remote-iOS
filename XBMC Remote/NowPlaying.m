@@ -555,28 +555,40 @@ long storedItemID;
                              long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
                              if ((nowPlayingInfo.count && currentItemID != storedItemID) || nowPlayingInfo[@"id"] == nil || ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
                                  storedItemID = currentItemID;
-                                 itemDescription.text = [nowPlayingInfo[@"description"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"description"]] : [nowPlayingInfo[@"plot"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"plot"]] : @"";
+
+                                 // Set song details description text
+                                 NSString *description = [Utilities getStringFromItem:nowPlayingInfo[@"description"]];
+                                 NSString *plot = [Utilities getStringFromItem:nowPlayingInfo[@"plot"]];
+                                 itemDescription.text = description.length ? description : (plot.length ? plot : @"");
                                  [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
+                                 
+                                 // Set NowPlaying text fields
                                  NSString *album = [Utilities getStringFromItem:nowPlayingInfo[@"album"]];
+                                 NSString *label = [Utilities getStringFromItem:nowPlayingInfo[@"label"]];
                                  if ([nowPlayingInfo[@"type"] isEqualToString:@"channel"]) {
-                                     album = nowPlayingInfo[@"label"];
+                                     album = label;
                                  }
                                  NSString *title = [Utilities getStringFromItem:nowPlayingInfo[@"title"]];
                                  storeLiveTVTitle = title;
                                  NSString *artist = [Utilities getStringFromItem:nowPlayingInfo[@"artist"]];
-                                 if (album.length == 0 && ((NSNull*)nowPlayingInfo[@"showtitle"] != [NSNull null]) && nowPlayingInfo[@"season"] > 0) {
-                                     album = [nowPlayingInfo[@"showtitle"] length] != 0 ? [NSString stringWithFormat:@"%@ - S%@E%@", nowPlayingInfo[@"showtitle"], nowPlayingInfo[@"season"], nowPlayingInfo[@"episode"]] : @"";
+                                 NSString *showtitle = [Utilities getStringFromItem:nowPlayingInfo[@"showtitle"]];
+                                 NSString *season = [Utilities getStringFromItem:nowPlayingInfo[@"season"]];
+                                 NSString *episode = [Utilities getStringFromItem:nowPlayingInfo[@"episode"]];
+                                 if (album.length == 0 && showtitle.length && [season intValue] > 0) {
+                                     album = showtitle.length ? [NSString stringWithFormat:@"%@ - S%@E%@", showtitle, season, episode] : @"";
                                  }
                                  if (title.length == 0) {
-                                     title = [Utilities getStringFromItem:nowPlayingInfo[@"label"]];
+                                     title = label;
                                  }
-
-                                 if (artist.length == 0 && ((NSNull*)nowPlayingInfo[@"studio"] != [NSNull null])) {
-                                     artist = [Utilities getStringFromItem:nowPlayingInfo[@"studio"]];
+                                 NSString *studio = [Utilities getStringFromItem:nowPlayingInfo[@"studio"]];
+                                 if (artist.length == 0 && studio.length) {
+                                     artist = studio;
                                  }
-                                 albumName.text = album;
+                                 // top to bottom: songName, artistName, albumName
                                  songName.text = title;
                                  artistName.text = artist;
+                                 albumName.text = album;
+                                 
                                  NSString *type = [Utilities getStringFromItem:nowPlayingInfo[@"type"]];
                                  currentType = type;
                                  [self setCoverSize:currentType];
