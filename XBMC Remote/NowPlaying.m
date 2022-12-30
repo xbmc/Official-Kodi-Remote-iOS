@@ -564,36 +564,43 @@ long storedItemID;
                                  [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
                                  
                                  // Set NowPlaying text fields
-                                 NSString *album = [Utilities getStringFromItem:nowPlayingInfo[@"album"]];
+                                 // 1st: title
                                  NSString *label = [Utilities getStringFromItem:nowPlayingInfo[@"label"]];
+                                 NSString *title = [Utilities getStringFromItem:nowPlayingInfo[@"title"]];
+                                 storeLiveTVTitle = title;
+                                 if (title.length == 0) {
+                                     title = label;
+                                 }
+                                 
+                                 // 2nd: artists
+                                 NSString *artist = [Utilities getStringFromItem:nowPlayingInfo[@"artist"]];
+                                 NSString *studio = [Utilities getStringFromItem:nowPlayingInfo[@"studio"]];
+                                 if (artist.length == 0 && studio.length) {
+                                     artist = studio;
+                                 }
+                                 
+                                 // 3rd: album
+                                 NSString *album = [Utilities getStringFromItem:nowPlayingInfo[@"album"]];
                                  if ([nowPlayingInfo[@"type"] isEqualToString:@"channel"]) {
                                      album = label;
                                  }
-                                 NSString *title = [Utilities getStringFromItem:nowPlayingInfo[@"title"]];
-                                 storeLiveTVTitle = title;
-                                 NSString *artist = [Utilities getStringFromItem:nowPlayingInfo[@"artist"]];
                                  NSString *showtitle = [Utilities getStringFromItem:nowPlayingInfo[@"showtitle"]];
                                  NSString *season = [Utilities getStringFromItem:nowPlayingInfo[@"season"]];
                                  NSString *episode = [Utilities getStringFromItem:nowPlayingInfo[@"episode"]];
                                  if (album.length == 0 && showtitle.length && [season intValue] > 0) {
                                      album = showtitle.length ? [NSString stringWithFormat:@"%@ - S%@E%@", showtitle, season, episode] : @"";
                                  }
-                                 if (title.length == 0) {
-                                     title = label;
-                                 }
                                  NSString *director = [Utilities getStringFromItem:nowPlayingInfo[@"director"]];
                                  if (album.length == 0 && director.length) {
                                      album = director;
                                  }
-                                 NSString *studio = [Utilities getStringFromItem:nowPlayingInfo[@"studio"]];
-                                 if (artist.length == 0 && studio.length) {
-                                     artist = studio;
-                                 }
+                                 
                                  // top to bottom: songName, artistName, albumName
                                  songName.text = title;
                                  artistName.text = artist;
                                  albumName.text = album;
                                  
+                                 // Set cover size and load covers
                                  NSString *type = [Utilities getStringFromItem:nowPlayingInfo[@"type"]];
                                  currentType = type;
                                  [self setCoverSize:currentType];
