@@ -329,12 +329,12 @@ long storedItemID;
     if ([self enableJewelCases]) {
         jewelView.image = [UIImage imageNamed:jewelImg];
         thumbnailView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
-        [nowPlayingView bringSubviewToFront:jewelView];
-        thumbnailView.hidden = NO;
+        thumbnailView.contentMode = UIViewContentModeScaleAspectFill;
     }
     else {
-        [nowPlayingView sendSubviewToBack:jewelView];
-        thumbnailView.hidden = YES;
+        jewelView.image = nil;
+        thumbnailView.frame = jewelView.frame;
+        thumbnailView.contentMode = UIViewContentModeScaleAspectFit;
     }
     songDetailsView.frame = jewelView.frame;
     songDetailsView.center = [jewelView.superview convertPoint:jewelView.center toView:songDetailsView.superview];
@@ -479,7 +479,7 @@ long storedItemID;
 }
 
 - (void)changeImage:(UIImageView*)imageView image:(UIImage*)newImage {
-    [Utilities imageView:jewelView AnimDuration:0.2 Image:newImage];
+    [Utilities imageView:imageView AnimDuration:0.2 Image:newImage];
 }
 
 - (void)setWaitForInfoLabelsToSettle {
@@ -648,55 +648,42 @@ long storedItemID;
                                              thumbnailView.image = [UIImage imageNamed:@"coverbox_back"];
                                          }
                                          else {
-                                             [self changeImage:jewelView image:[UIImage imageNamed:@"coverbox_back"]];
+                                             [self changeImage:thumbnailView image:[UIImage imageNamed:@"coverbox_back"]];
                                          }
                                      }
                                      else {
                                          [[SDImageCache sharedImageCache] queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
                                              if (image != nil) {
-                                                 UIImage *buttonImage = nil;
+                                                 UIImage *processedImage = [self imageWithBorderFromImage:image];
+                                                 UIImage *buttonImage = [self resizeToolbarThumb:processedImage];
                                                  if (enableJewel) {
                                                      thumbnailView.image = image;
-                                                     buttonImage = [self resizeToolbarThumb:[self imageWithBorderFromImage:image]];
                                                  }
                                                  else {
-                                                     [self changeImage:jewelView image:[self imageWithBorderFromImage:image]];
-                                                     buttonImage = [self resizeToolbarThumb:jewelView.image];
+                                                     [self changeImage:thumbnailView image:processedImage];
                                                  }
                                                  [self setButtonImageAndStartDemo:buttonImage];
                                                  UIColor *effectColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
                                                  [self setColorEffect:effectColor];
                                              }
                                              else {
+                                                 __weak UIImageView *thumb = thumbnailView;
                                                  __weak NowPlaying *sf = self;
                                                  __block UIColor *newColor = nil;
-                                                 if (enableJewel) {
-                                                     [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
-                                                                   placeholderImage:[UIImage imageNamed:@"coverbox_back"]
-                                                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                                                              if (error == nil) {
-                                                                                  
-                                                                                  UIImage *buttonImage = [sf resizeToolbarThumb:[sf imageWithBorderFromImage:image]];
-                                                                                  [sf setButtonImageAndStartDemo:buttonImage];
-                                                                                  newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                                                  [sf setColorEffect:newColor];
-                                                                              }
-                                                                          }];
-                                                 }
-                                                 else {
-                                                     __weak UIImageView *jV = jewelView;
-                                                     [jewelView setImageWithURL:[NSURL URLWithString:stringURL]
-                                                               placeholderImage:[UIImage imageNamed:@"coverbox_back"]
-                                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                                          if (error == nil) {
-                                                              [sf changeImage:jV image:[sf imageWithBorderFromImage:image]];
-                                                              UIImage *buttonImage = [sf resizeToolbarThumb:jV.image];
-                                                              [sf setButtonImageAndStartDemo:buttonImage];
-                                                              newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                              [sf setColorEffect:newColor];
+                                                 [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
+                                                           placeholderImage:[UIImage imageNamed:@"coverbox_back"]
+                                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                                      if (error == nil) {
+                                                          UIImage *processedImage = [sf imageWithBorderFromImage:image];
+                                                          UIImage *buttonImage = [sf resizeToolbarThumb:processedImage];
+                                                          if (!enableJewel) {
+                                                              [sf changeImage:thumb image:processedImage];
                                                           }
-                                                      }];
-                                                 }
+                                                          [sf setButtonImageAndStartDemo:buttonImage];
+                                                          newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
+                                                          [sf setColorEffect:newColor];
+                                                      }
+                                                  }];
                                              }
                                          }];
                                      }
@@ -719,12 +706,19 @@ long storedItemID;
                          else {
                              storedItemID = SELECTED_NONE;
                              lastThumbnail = @"";
+                             [self setCoverSize:@"song"];
+                             UIImage *image = [UIImage imageNamed:@"coverbox_back"];
+                             UIImage *processedImage = [self imageWithBorderFromImage:image];
+                             UIImage *buttonImage = [self resizeToolbarThumb:processedImage];
                              if (enableJewel) {
-                                 thumbnailView.image = [UIImage imageNamed:@"coverbox_back"];
+                                 thumbnailView.image = image;
                              }
                              else {
-                                 jewelView.image = [UIImage imageNamed:@"coverbox_back"];
+                                 [self changeImage:thumbnailView image:processedImage];
                              }
+                             [self setButtonImageAndStartDemo:buttonImage];
+                             UIColor *effectColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
+                             [self setColorEffect:effectColor];
                          }
                      }
                      else {
@@ -1421,11 +1415,9 @@ long storedItemID;
     }
     UIImage *buttonImage;
     if (!nowPlayingView.hidden && !demo) {
-        if ([self enableJewelCases] && thumbnailView.image.size.width) {
-            buttonImage = [self resizeToolbarThumb:[self imageWithBorderFromImage:thumbnailView.image]];
-        }
-        else if (jewelView.image.size.width) {
-            buttonImage = [self resizeToolbarThumb:jewelView.image];
+        if (thumbnailView.image.size.width) {
+            UIImage *image = [self enableJewelCases] ? [self imageWithBorderFromImage:thumbnailView.image] : thumbnailView.image;
+            buttonImage = [self resizeToolbarThumb:image];
         }
         if (!buttonImage.size.width) {
             buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"st_kodi_window"]];
