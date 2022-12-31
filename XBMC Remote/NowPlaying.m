@@ -641,47 +641,22 @@ long storedItemID;
                                          }
                                      }
                                      if ([thumbnailPath isEqualToString:@""]) {
-                                         UIImage *buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"coverbox_back"]];
-                                         [self setButtonImageAndStartDemo:buttonImage];
-                                         [self setColorEffect:UIColor.clearColor];
-                                         if (enableJewel) {
-                                             thumbnailView.image = [UIImage imageNamed:@"coverbox_back"];
-                                         }
-                                         else {
-                                             [self changeImage:thumbnailView image:[UIImage imageNamed:@"coverbox_back"]];
-                                         }
+                                         UIImage *image = [UIImage imageNamed:@"coverbox_back"];
+                                         [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
                                      }
                                      else {
                                          [[SDImageCache sharedImageCache] queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
                                              if (image != nil) {
-                                                 UIImage *processedImage = [self imageWithBorderFromImage:image];
-                                                 UIImage *buttonImage = [self resizeToolbarThumb:processedImage];
-                                                 if (enableJewel) {
-                                                     thumbnailView.image = image;
-                                                 }
-                                                 else {
-                                                     [self changeImage:thumbnailView image:processedImage];
-                                                 }
-                                                 [self setButtonImageAndStartDemo:buttonImage];
-                                                 UIColor *effectColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                 [self setColorEffect:effectColor];
+                                                 [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
                                              }
                                              else {
                                                  __weak UIImageView *thumb = thumbnailView;
                                                  __weak NowPlaying *sf = self;
-                                                 __block UIColor *newColor = nil;
                                                  [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
                                                            placeholderImage:[UIImage imageNamed:@"coverbox_back"]
                                                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                       if (error == nil) {
-                                                          UIImage *processedImage = [sf imageWithBorderFromImage:image];
-                                                          UIImage *buttonImage = [sf resizeToolbarThumb:processedImage];
-                                                          if (!enableJewel) {
-                                                              [sf changeImage:thumb image:processedImage];
-                                                          }
-                                                          [sf setButtonImageAndStartDemo:buttonImage];
-                                                          newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                          [sf setColorEffect:newColor];
+                                                          [sf processLoadedThumbImage:sf thumb:thumb image:image enableJewel:enableJewel];
                                                       }
                                                   }];
                                              }
@@ -708,17 +683,7 @@ long storedItemID;
                              lastThumbnail = @"";
                              [self setCoverSize:@"song"];
                              UIImage *image = [UIImage imageNamed:@"coverbox_back"];
-                             UIImage *processedImage = [self imageWithBorderFromImage:image];
-                             UIImage *buttonImage = [self resizeToolbarThumb:processedImage];
-                             if (enableJewel) {
-                                 thumbnailView.image = image;
-                             }
-                             else {
-                                 [self changeImage:thumbnailView image:processedImage];
-                             }
-                             [self setButtonImageAndStartDemo:buttonImage];
-                             UIColor *effectColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                             [self setColorEffect:effectColor];
+                             [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
                          }
                      }
                      else {
@@ -881,6 +846,20 @@ long storedItemID;
             [self nothingIsPlaying];
         }
     }];
+}
+
+- (void)processLoadedThumbImage:(NowPlaying*)sf thumb:(UIImageView*)thumb image:(UIImage*)image enableJewel:(BOOL)enableJewel {
+    UIImage *processedImage = [sf imageWithBorderFromImage:image];
+    UIImage *buttonImage = [sf resizeToolbarThumb:processedImage];
+    if (enableJewel) {
+        thumb.image = image;
+    }
+    else {
+        [sf changeImage:thumb image:processedImage];
+    }
+    [sf setButtonImageAndStartDemo:buttonImage];
+    UIColor *newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
+    [sf setColorEffect:newColor];
 }
 
 - (NSString*)formatArtistYear:(NSString*)artist year:(NSString*)year {
