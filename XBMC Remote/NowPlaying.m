@@ -622,22 +622,15 @@ long storedItemID;
                                          NSString *fanart = (NSNull*)nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
                                          if (![fanart isEqualToString:@""]) {
                                              NSString *fanartURL = [Utilities formatStringURL:fanart serverURL:serverURL];
+                                             __weak NowPlaying *sf = self;
                                              [tempFanartImageView setImageWithURL:[NSURL URLWithString:fanartURL]
                                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                                                            if (error == nil && image != nil) {
-                                                                                NSDictionary *params = @{@"image": image};
-                                                                                [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
-                                                                            }
-                                                                            else {
-                                                                                NSDictionary *params = @{@"image": [UIImage new]};
-                                                                                [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
-                                                                            }
-                                                                            
-                                                                        }];
+                                                 UIImage *fanartImage = (error == nil && image != nil) ? image : [UIImage new];
+                                                 [sf notifyChangeForBackgroundImage:fanartImage];
+                                            }];
                                          }
                                          else {
-                                             NSDictionary *params = @{@"image": [UIImage new]};
-                                             [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
+                                             [self notifyChangeForBackgroundImage:[UIImage new]];
                                          }
                                      }
                                      if ([thumbnailPath isEqualToString:@""]) {
@@ -846,6 +839,11 @@ long storedItemID;
             [self nothingIsPlaying];
         }
     }];
+}
+
+- (void)notifyChangeForBackgroundImage:(UIImage*)bgimage {
+    NSDictionary *params = @{@"image": bgimage};
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
 }
 
 - (void)processLoadedThumbImage:(NowPlaying*)sf thumb:(UIImageView*)thumb image:(UIImage*)image enableJewel:(BOOL)enableJewel {
