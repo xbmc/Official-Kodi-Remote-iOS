@@ -536,6 +536,7 @@ long storedItemID;
                                                 @"season",
                                                 @"fanart",
                                                 @"description",
+                                                @"year",
                                                 @"director",
                                                 @"plot"] mutableCopy];
                 if (AppDelegate.instance.serverVersion > 11) {
@@ -594,6 +595,10 @@ long storedItemID;
                                  if (album.length == 0 && director.length) {
                                      album = director;
                                  }
+                                 
+                                 // Add year to artist string, if available
+                                 NSString *year = [Utilities getYearFromItem:nowPlayingInfo[@"year"]];
+                                 artist = [self formatArtistYear:artist year:year];
                                  
                                  // top to bottom: songName, artistName, albumName
                                  songName.text = title;
@@ -877,6 +882,20 @@ long storedItemID;
             [self nothingIsPlaying];
         }
     }];
+}
+
+- (NSString*)formatArtistYear:(NSString*)artist year:(NSString*)year {
+    NSString *text = @"";
+    if (artist.length && year.length) {
+        text = [NSString stringWithFormat:@"%@ (%@)", artist, year];
+    }
+    else if (year.length) {
+        text = year;
+    }
+    else if (artist.length) {
+        text = artist;
+    }
+    return text;
 }
 
 - (void)loadCodecView {
