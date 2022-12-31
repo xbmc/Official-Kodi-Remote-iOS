@@ -588,8 +588,13 @@ long storedItemID;
                                  NSString *showtitle = [Utilities getStringFromItem:nowPlayingInfo[@"showtitle"]];
                                  NSString *season = [Utilities getStringFromItem:nowPlayingInfo[@"season"]];
                                  NSString *episode = [Utilities getStringFromItem:nowPlayingInfo[@"episode"]];
-                                 if (album.length == 0 && showtitle.length && [season intValue] > 0) {
-                                     album = showtitle.length ? [NSString stringWithFormat:@"%@ - S%@E%@", showtitle, season, episode] : @"";
+                                 if (album.length == 0 && showtitle.length) {
+                                     if ([season intValue] > 0 && [episode intValue] > 0) {
+                                         album = [NSString stringWithFormat:@"%@ - S%@E%@", showtitle, season, episode];
+                                     }
+                                     else {
+                                         album = showtitle;
+                                     }
                                  }
                                  NSString *director = [Utilities getStringFromItem:nowPlayingInfo[@"director"]];
                                  if (album.length == 0 && director.length) {
