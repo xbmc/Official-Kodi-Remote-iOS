@@ -1,6 +1,6 @@
 /* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
 
-"General" = "General";
+"General" = "Général";
 "Automatic" = "Automatique";
 "Show connection notice" = "Afficher les notes de connexion";
 "Direct Play mode" = "Mode de lecture du direct";
@@ -8,7 +8,7 @@
 "Shake to clear playlist" = "Agiter pour effacer la liste de lecture";
 "Show jewel cases" = "Afficher les écrins";
 "Hide labels in wall view" = "Masquer les étiquettes dans la vue murale";
-"Prefer posters for TV shows" = "Posters pour les séries TV";
+"Prefer posters for TV shows" = "Préférer les affiches pour les séries TV";
 "Remote Control" = "Télécommande";
 "Vibrate remote control" = "Télécommande vibrante";
 "Clear cache on next start" = "Vider le cache au prochain démarrage";
@@ -17,7 +17,7 @@
 "Show all files in filemode" = "Afficher tous les fichiers en mode fichier";
 "Filemode changes needs app restart" = "Les changements du mode de fichier nécessitent le redémarrage de l'application";
 "Main Menu" = "Menu principal";
-"Light" = "Légère";
+"Light" = "Lumière";
 "Dark" = "Sombre";
 "Global Search" = "Recherche globale";
 "Now Playing" = "En cours de lecture";
