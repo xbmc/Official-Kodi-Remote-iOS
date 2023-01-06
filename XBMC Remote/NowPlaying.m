@@ -327,10 +327,8 @@ long storedItemID;
     ProgressSlider.hidden = YES;
     currentTime.text = @"";
     thumbnailView.image = nil;
+    jewelView.image = nil;
     lastThumbnail = @"";
-    if (![self enableJewelCases]) {
-        jewelView.image = nil;
-    }
     duration.text = @"";
     albumName.text = @"";
     songName.text = @"";
