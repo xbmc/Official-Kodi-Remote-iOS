@@ -23,7 +23,8 @@
 
 #define SERVER_TIMEOUT 2.0
 #define CONNECTION_ICON_SIZE 18
-#define CONNECTION_ICON_MARGIN 8
+#define MENU_ICON_SIZE 30
+#define ICON_MARGIN 10
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -88,44 +89,50 @@
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCellIdentifier"];
-    mainMenu *item = self.mainMenu[indexPath.row];
-    NSString *iconName = item.icon;
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:nil];
         cell = nib[0];
-        UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
+        
+        // Set background view
+        UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
         backgroundView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         cell.selectedBackgroundView = backgroundView;
-        ((UILabel*)[cell viewWithTag:3]).text = LOCALIZED_STR(@"No connection");
-        UILabel *title = (UILabel*)[cell viewWithTag:3];
-        if (indexPath.row == 0) {
-            UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
-            int cellHeight = PHONE_MENU_INFO_HEIGHT;
-            UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:cellHeight width:self.view.bounds.size.width]];
-            xbmc_logo.alpha = 0.25;
-            xbmc_logo.image = logo;
-            xbmc_logo.highlightedImage = [UIImage imageNamed:@"xbmc_logo_selected"];
-            [cell insertSubview:xbmc_logo atIndex:0];
-            UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
-            UIImageView *line = (UIImageView*)[cell viewWithTag:4];
-            UIImageView *arrowRight = (UIImageView*)[cell viewWithTag:5];
-            line.hidden = YES;
-            title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
-            icon.frame = CGRectMake(icon.frame.origin.x, (int)((cellHeight - CONNECTION_ICON_SIZE) / 2), CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE);
-            title.frame = CGRectMake(CGRectGetMaxX(icon.frame) + CONNECTION_ICON_MARGIN, 0, title.frame.size.width - arrowRight.frame.size.width - 10, cellHeight);
-            title.numberOfLines = 2;
-            arrowRight.frame = CGRectMake(arrowRight.frame.origin.x, (int)((cellHeight/2) - (arrowRight.frame.size.height/2)), arrowRight.frame.size.width, arrowRight.frame.size.height);
-        }
     }
+    mainMenu *item = self.mainMenu[indexPath.row];
+    NSString *iconName = item.icon;
     UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
+    UIImageView *line = (UIImageView*)[cell viewWithTag:4];
     if (indexPath.row == 0) {
+        // Load Kodi background logo
+        UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
+        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:PHONE_MENU_INFO_HEIGHT width:self.view.bounds.size.width]];
+        xbmc_logo.alpha = 0.25;
+        xbmc_logo.image = logo;
+        xbmc_logo.hidden = NO;
+        xbmc_logo.highlightedImage = [UIImage imageNamed:@"xbmc_logo_selected"];
+        [cell insertSubview:xbmc_logo atIndex:0];
+        
+        // Adapt layout for first cell (showing connection status)
+        [self setFrameSizes:cell height:PHONE_MENU_INFO_HEIGHT iconsize:CONNECTION_ICON_SIZE];
+        
+        // Set icon and text content
+        title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
+        title.numberOfLines = 2;
+        title.text = LOCALIZED_STR(@"No connection");
+        line.hidden = YES;
         iconName = [Utilities getConnectionStatusIconName];
         icon.image = [UIImage imageNamed:iconName];
     }
     else {
+        // Adapt layout for main menu cells
+        [self setFrameSizes:cell height:PHONE_MENU_HEIGHT iconsize:MENU_ICON_SIZE];
+        
+        // Set icon and text content
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
+        title.numberOfLines = 1;
         title.text = item.mainLabel;
+        line.hidden = NO;
         icon.highlightedImage = [UIImage imageNamed:iconName];
         icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
     }
@@ -233,6 +240,28 @@
         return PHONE_MENU_INFO_HEIGHT;
     }
     return PHONE_MENU_HEIGHT;
+}
+
+#pragma mark - Helper
+
+- (void)setFrameSizes:(UITableViewCell*)cell height:(CGFloat)height iconsize:(CGFloat)iconsize {
+    UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
+    UILabel *title = (UILabel*)[cell viewWithTag:3];
+    UIImageView *arrowRight = (UIImageView*)[cell viewWithTag:5];
+    
+    // Adapt layout for first cell (showing connection status)
+    icon.frame = CGRectMake(icon.frame.origin.x,
+                            (height - iconsize) / 2,
+                            iconsize,
+                            iconsize);
+    title.frame = CGRectMake(CGRectGetMaxX(icon.frame) + ICON_MARGIN,
+                             0,
+                             CGRectGetMinX(arrowRight.frame) - CGRectGetMaxX(icon.frame) - 2 * ICON_MARGIN,
+                             height);
+    arrowRight.frame = CGRectMake(arrowRight.frame.origin.x,
+                                  (height - arrowRight.frame.size.height) / 2,
+                                  arrowRight.frame.size.width,
+                                  arrowRight.frame.size.height);
 }
 
 #pragma mark - App clear disk cache methods

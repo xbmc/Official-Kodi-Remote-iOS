@@ -95,6 +95,9 @@
         ((UILabel*)[cell viewWithTag:3]).textColor = [Utilities getSystemGray1];
         cell.tintColor = UIColor.lightGrayColor;
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        if (@available(iOS 13.0, *)) {
+            cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+        }
     }
     if (AppDelegate.instance.arrayServerList.count == 0) {
         ((UIImageView*)[cell viewWithTag:1]).hidden = YES;
