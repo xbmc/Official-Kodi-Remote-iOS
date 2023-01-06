@@ -834,7 +834,8 @@ long storedItemID;
              hiresImage.hidden = YES;
              if (playerID == PLAYERID_MUSIC && currentPlayerID == playerID) {
                  NSString *codec = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
-                 [self setSongDetails:songCodec image:songCodecImage item:[self processSongCodecName:codec]];
+                 codec = [self processSongCodecName:codec];
+                 [self setSongDetails:songCodec image:songCodecImage item:codec];
                  [self setSongDetails:songBitRate image:songBitRateImage item:methodResult[@"MusicPlayer.Channels"]];
                  
                  BOOL isLossless = [self isLosslessFormat:codec];
