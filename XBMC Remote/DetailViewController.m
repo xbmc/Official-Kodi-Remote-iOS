@@ -846,6 +846,8 @@
 }
 
 - (void)toggleOpen:(UITapGestureRecognizer*)sender {
+    [self.searchController.searchBar resignFirstResponder];
+    [self.searchController setActive:NO];
     NSInteger section = [sender.view tag];
     // Toggle the section's state (open/close)
     [self.sectionArrayOpen replaceObjectAtIndex:section withObject:@(![self.sectionArrayOpen[section] boolValue])];
@@ -870,10 +872,11 @@
         [dataList endUpdates];
     }
     // Refresh leyout
-    [self configureLibraryView];
+    dataList.tableHeaderView = self.searchController.searchBar;
     [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-    // Scroll to section
-    CGRect sectionRect = [dataList rectForSection:section];
+    // Scroll to first item in section (first episode in season)
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
+    CGRect sectionRect = [dataList rectForRowAtIndexPath:indexPath];
     [dataList scrollRectToVisible:sectionRect animated:YES];
 }
 
