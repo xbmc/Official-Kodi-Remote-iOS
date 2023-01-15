@@ -20,8 +20,13 @@
 #define RIGHT_MENU_ITEM_HEIGHT 50.0
 #define RIGHT_MENU_ICON_SIZE 18.0
 #define RIGHT_MENU_ICON_SPACING 16.0
+#define RIGHT_MENU_CELL_SPACING 6.0
+#define RIGHT_MENU_TITLE_START 24.0
+#define RIGHT_MENU_TITLE_WIDTH 202.0
 #define BUTTON_SPACING 8.0
 #define BUTTON_WIDTH 100.0
+#define STATUS_SPACING 10.0
+#define ONOFF_BUTTON_TAG_OFFSET 1000
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -79,43 +84,70 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
         cell = nib[0];
+        
+        // Set background view
         UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
         backView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         cell.selectedBackgroundView = backView;
-        UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
-        xbmc_logo.alpha = 0.25;
-        xbmc_logo.image = logo;
-        xbmc_logo.tag = 101;
-        [cell.contentView insertSubview:xbmc_logo atIndex:0];
     }
+    
+    // Reset to default for each cell to allow dequeuing
     UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
+    UIImageView *status = (UIImageView*)[cell viewWithTag:2];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
     UIImageView *line = (UIImageView*)[cell viewWithTag:4];
-    UIImageView *xbmc_logo = (UIImageView*)[cell viewWithTag:101];
+    status.hidden = YES;
+    status.image = nil;
     icon.hidden = NO;
-    xbmc_logo.hidden = YES;
+    icon.image = nil;
+    icon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    icon.alpha = 0.6;
+    title.textAlignment = NSTextAlignmentRight;
+    title.numberOfLines = 2;
+    title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
+    title.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    title.frame = CGRectMake(RIGHT_MENU_TITLE_START,
+                             0,
+                             RIGHT_MENU_TITLE_WIDTH,
+                             RIGHT_MENU_ITEM_HEIGHT);
+    title.text = @"";
     cell.accessoryView = nil;
+    cell.editingAccessoryType = UITableViewCellAccessoryNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (@available(iOS 13.0, *)) {
+        cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+    }
     NSString *iconName = @"blank";
+    
+    // Tailor cell layout for content type
     if ([tableData[indexPath.row][@"label"] isEqualToString:@"ServerInfo"]) {
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        // Load Kodi background logo
+        UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
+        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:SERVER_INFO_HEIGHT width:self.view.bounds.size.width]];
+        xbmc_logo.alpha = 0.25;
+        xbmc_logo.image = logo;
         xbmc_logo.hidden = NO;
-        iconName = [Utilities getConnectionStatusIconName];
-        icon.alpha = 1;
+        [cell.contentView insertSubview:xbmc_logo atIndex:0];
+        
+        // Enable connection status icon and place it
+        status.frame = CGRectMake(STATUS_SPACING,
+                                  (SERVER_INFO_HEIGHT - RIGHT_MENU_ICON_SIZE) / 2,
+                                  RIGHT_MENU_ICON_SIZE,
+                                  RIGHT_MENU_ICON_SIZE);
+        status.image = [UIImage imageNamed:[Utilities getConnectionStatusIconName]];
+        status.alpha = 1.0;
+        status.hidden = NO;
+        
+        // Adapt text field to align with connection status
+        title.frame = CGRectMake(CGRectGetMaxX(status.frame) + STATUS_SPACING,
+                                 (SERVER_INFO_HEIGHT - RIGHT_MENU_ITEM_HEIGHT) / 2,
+                                 CGRectGetMaxX(cell.frame) - CGRectGetMaxX(status.frame) - 2 * STATUS_SPACING,
+                                 RIGHT_MENU_ITEM_HEIGHT);
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
-        title.autoresizingMask = UIViewAutoresizingNone;
-        icon.autoresizingMask = UIViewAutoresizingNone;
-        icon.frame = CGRectMake(10, (SERVER_INFO_HEIGHT - RIGHT_MENU_ICON_SIZE) / 2, RIGHT_MENU_ICON_SIZE, RIGHT_MENU_ICON_SIZE);
-        title.frame = CGRectMake(icon.frame.size.width + RIGHT_MENU_ICON_SPACING, (SERVER_INFO_HEIGHT - title.frame.size.height) / 2, tableView.frame.size.width - (icon.frame.size.width + 2 * RIGHT_MENU_ICON_SPACING), title.frame.size.height);
         title.textAlignment = NSTextAlignmentLeft;
         title.text = AppDelegate.instance.serverName;
-        title.numberOfLines = 2;
-        UIImageView *arrowRight = (UIImageView*)[cell viewWithTag:5];
-        arrowRight.frame = CGRectMake(arrowRight.frame.origin.x, (SERVER_INFO_HEIGHT - arrowRight.frame.size.height) / 2, arrowRight.frame.size.width, arrowRight.frame.size.height);
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"VolumeControl"]) {
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        title.text = @"";
         if (volumeSliderView == nil) {
             volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
             [volumeSliderView startTimer];
@@ -123,8 +155,6 @@
         [cell.contentView addSubview:volumeSliderView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"RemoteControl"]) {
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        title.text = @"";
         if (remoteControllerView == nil) {
             remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:YES bundle:nil];
             remoteControllerView.panFallbackImageView.frame = cell.frame;
@@ -132,37 +162,18 @@
         [cell.contentView addSubview:remoteControllerView.view];
     }
     else {
-        cell.accessoryView = nil;
-        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
-        cell.tintColor = UIColor.lightGrayColor;
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        icon = (UIImageView*)[cell viewWithTag:1];
-        title = (UILabel*)[cell viewWithTag:3];
-        line = (UIImageView*)[cell viewWithTag:4];
-        UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
-        backView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
-        cell.selectedBackgroundView = backView;
-        UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:44 width:self.view.bounds.size.width]];
-        xbmc_logo.alpha = 0.25;
-        xbmc_logo.image = logo;
-        xbmc_logo.tag = 101;
-        xbmc_logo.hidden = YES;
-        [cell.contentView insertSubview:xbmc_logo atIndex:0];
         
-        UIViewAutoresizing storeMask = title.autoresizingMask;
-        title.autoresizingMask = UIViewAutoresizingNone;
         CGRect frame = title.frame;
-        frame.origin.y = 6;
-        frame.size.height = frame.size.height - 12;
+        frame.origin.y = RIGHT_MENU_CELL_SPACING;
+        frame.size.height = RIGHT_MENU_ITEM_HEIGHT - 2 * RIGHT_MENU_CELL_SPACING;
         if ([tableData[indexPath.row][@"type"] isEqualToString:@"boolean"]) {
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
-            onoff.autoresizingMask = icon.autoresizingMask;
+            onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
             [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
             onoff.frame = CGRectMake(0, (RIGHT_MENU_ITEM_HEIGHT - onoff.frame.size.height) / 2, onoff.frame.size.width, onoff.frame.size.height);
             onoff.hidden = NO;
-            onoff.tag = 1000 + indexPath.row;
+            onoff.tag = ONOFF_BUTTON_TAG_OFFSET + indexPath.row;
 
             UIView *onoffview = [[UIView alloc] initWithFrame: CGRectMake(0, 0, onoff.frame.size.width, RIGHT_MENU_ITEM_HEIGHT)];
             [onoffview addSubview:onoff];
@@ -187,14 +198,10 @@
             cell.accessoryView = onoffview;
         }
         else {
-            frame.size.width = 202;
+            frame.size.width = cell.frame.size.width - frame.origin.x - RIGHT_MENU_ICON_SIZE - 2 * RIGHT_MENU_ICON_SPACING;
         }
         title.frame = frame;
-        title.autoresizingMask = storeMask;
-        title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
-        title.numberOfLines = 2;
         title.text = tableData[indexPath.row][@"label"];
-        icon.alpha = 0.6;
         iconName = tableData[indexPath.row][@"icon"];
     }
     if ([tableData[indexPath.row][@"hideLineSeparator"] boolValue]) {
@@ -314,7 +321,7 @@
 
 - (void)toggleSwitch:(id)sender {
     UISwitch *onoff = (UISwitch*)sender;
-    NSInteger tableIdx = onoff.tag - 1000;
+    NSInteger tableIdx = onoff.tag - ONOFF_BUTTON_TAG_OFFSET;
     if (tableIdx < tableData.count) {
         NSString *command = tableData[tableIdx][@"action"][@"command"];
         NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys: tableData[tableIdx][@"action"][@"params"][@"setting"], @"setting", @(onoff.on), @"value", nil];
@@ -358,10 +365,10 @@
 }
 
 - (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
-    UISwitch *onoffSource = (UISwitch*)[[[tableView cellForRowAtIndexPath:sourceIndexPath]accessoryView] viewWithTag:1000 + sourceIndexPath.row];
-    UISwitch *onoffDestination = (UISwitch*)[[[tableView cellForRowAtIndexPath:destinationIndexPath]accessoryView] viewWithTag:1000 + destinationIndexPath.row];
-    onoffSource.tag = 1000 + destinationIndexPath.row;
-    onoffDestination.tag = 1000 + sourceIndexPath.row;
+    UISwitch *onoffSource = (UISwitch*)[[[tableView cellForRowAtIndexPath:sourceIndexPath]accessoryView] viewWithTag:ONOFF_BUTTON_TAG_OFFSET + sourceIndexPath.row];
+    UISwitch *onoffDestination = (UISwitch*)[[[tableView cellForRowAtIndexPath:destinationIndexPath]accessoryView] viewWithTag:ONOFF_BUTTON_TAG_OFFSET + destinationIndexPath.row];
+    onoffSource.tag = ONOFF_BUTTON_TAG_OFFSET + destinationIndexPath.row;
+    onoffDestination.tag = ONOFF_BUTTON_TAG_OFFSET + sourceIndexPath.row;
 
     id objectMove = tableData[sourceIndexPath.row];
     [tableData removeObjectAtIndex:sourceIndexPath.row];

@@ -15,7 +15,6 @@
 
 @interface RightMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     UITableView *menuTableView;
-    IBOutlet UITableViewCell *rightMenuCell;
     NSMutableArray *tableData;
     UILabel *infoLabel;
     VolumeSliderView *volumeSliderView;
