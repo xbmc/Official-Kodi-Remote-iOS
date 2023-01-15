@@ -1,21 +1,21 @@
 Features:
-- Add "UI auto-color" setting 
-- Support Catalan (Spain) and Spanish (Mexico)
-- Support clear art for movie set details
+- Support rotation for iPad fullscreen
+- Support art for music videos
+- Support for Croatian language
 
 Bugfixes:
-- Fix marking TV Shows as watched/unwatched
-- Fix sometimes invisible search bar in grid view
-- Fix long press action on few filtered lists
-- Fix album view for albums with >100 titles
-- Fix glitches in fullscreen fanart
-- Further bugfixes and stability improvements
+- Fix crash when editing a custom button label
+- Fix potential crashes in Global Search
+- Fix non-touchable progress bar after using remote on iPad
+- Fix unwanted rotation to portrait on iPads with iOS16+
+- Fix unreadable layout with TV Show default thumbs
+- Fix sporadically empty cover in NowPlaying view
+- Further bugfixes for numerous UI glitches
 
 Improvements:
-- Update translations for many languages
-- Improve clear art handling for movies, movie sets and album artists
-- Improve sync behaviour when filters are active
-
-"UI auto-color" setting allows to switch on/off the automatic coloration of UI elements based on the thumbnail's color. This is mainly used in the TV Show episode view, the item detail view and the now playing screen. When switched off a grayscale is used.
+- Performance improvement when loading from Kodi 
+- Consistent index for grid/list view
+- Smoother volume control via slider
+- Update translations for few languages
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
