@@ -297,6 +297,8 @@
 		C7A030F228B60DB200B27764 /* ca-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ca-ES"; path = "ca-ES.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7A030F328B60EB900B27764 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C7A030F428B60EB900B27764 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		C7A1381F296AF0B500D84A72 /* hr-HR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hr-HR"; path = "hr-HR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		C7A13820296AF0B500D84A72 /* hr-HR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hr-HR"; path = "hr-HR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7F28D4826961FE50004B112 /* ConvenienceMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConvenienceMacros.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -726,6 +728,7 @@
 				"ko-KR",
 				"ca-ES",
 				"es-MX",
+				"hr-HR",
 			);
 			mainGroup = 0F5548EB151D1187007E633F;
 			productRefGroup = 0F5548F7151D1187007E633F /* Products */;
@@ -862,6 +865,7 @@
 				C746406927E6209C00F6AD47 /* ko-KR */,
 				C7A030F128B60DB200B27764 /* ca-ES */,
 				C7A030F328B60EB900B27764 /* es-MX */,
+				C7A1381F296AF0B500D84A72 /* hr-HR */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -886,6 +890,7 @@
 				C746406A27E6209C00F6AD47 /* ko-KR */,
 				C7A030F228B60DB200B27764 /* ca-ES */,
 				C7A030F428B60EB900B27764 /* es-MX */,
+				C7A13820296AF0B500D84A72 /* hr-HR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
