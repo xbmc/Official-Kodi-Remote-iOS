@@ -17,6 +17,7 @@
     IBOutlet UIButton *plusButton;
     IBOutlet UIButton *minusButton;
     BOOL isMuted;
+    BOOL isChangingVolume;
     UIColor *muteIconColor;
 }
 

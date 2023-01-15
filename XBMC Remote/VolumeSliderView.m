@@ -16,6 +16,12 @@
 #define VOLUMELABEL_PADDING 5 /* space left/right from volume label */
 #define VOLUMESLIDER_HEIGHT 44
 #define SERVER_TIMEOUT 3.0
+#define VOLUME_HOLD_TIMEOUT 0.2
+#define VOLUME_REPEAT_TIMEOUT 0.05
+#define VOLUME_INFO_TIMEOUT 1.0
+#define VOLUME_BUTTON_UP 1
+#define VOLUME_BUTTON_DOWN 2
+#define VOLUME_SLIDER 10
 
 @implementation VolumeSliderView
 
@@ -32,10 +38,9 @@
         [volumeSlider setThumbImage:img forState:UIControlStateNormal];
         [volumeSlider setThumbImage:img forState:UIControlStateHighlighted];
         [self volumeInfo];
-        volumeSlider.tag = 10;
-        [volumeSlider addTarget:self action:@selector(changeServerVolume:) forControlEvents:UIControlEventTouchUpInside];
-        [volumeSlider addTarget:self action:@selector(changeServerVolume:) forControlEvents:UIControlEventTouchUpOutside];
-        [volumeSlider addTarget:self action:@selector(stopTimer) forControlEvents:UIControlEventTouchDown];
+        [volumeSlider addTarget:self action:@selector(changeVolume:) forControlEvents:UIControlEventValueChanged];
+        [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpInside];
+        [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpOutside];
         CGRect frame_tmp;
         UIColor *volumeIconColor = nil;
         UIImage *muteBackgroundImage = nil;
@@ -158,7 +163,7 @@
 }
 
 - (void)handleApplicationOnVolumeChanged:(NSNotification*)sender {
-    if (holdVolumeTimer == nil) {
+    if (!isChangingVolume) {
         NSDictionary *theData = sender.userInfo;
         AppDelegate.instance.serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
         [self handleServerStatusChanged:nil];
@@ -176,24 +181,22 @@
 - (void)changeServerVolume:(id)sender {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume" 
-     withParameters:[NSDictionary dictionaryWithObjectsAndKeys: @(volumeSlider.value), @"volume", nil]];
-    if ([sender tag] == 10) {
-        [self startTimer];
-    }
+     withParameters:@{@"volume": @(volumeSlider.value)}];
 }
 
 - (void)startTimer {
     volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
     volumeSlider.value = AppDelegate.instance.serverVolume;
     [self stopTimer];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(volumeInfo) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_INFO_TIMEOUT
+                                                  target:self
+                                                selector:@selector(volumeInfo)
+                                                userInfo:nil
+                                                 repeats:YES];
 }
 
 - (void)stopTimer {
-    if (self.timer != nil) {
-        [self.timer invalidate];
-        self.timer = nil;
-    }
+    [self.timer invalidate];
 }
 
 - (void)volumeInfo {
@@ -256,39 +259,57 @@
     }];
 }
 
-NSInteger action;
-
 - (IBAction)holdVolume:(id)sender {
+    // Volume up/down button is touched
+    isChangingVolume = YES;
     [self stopTimer];
-    action = [sender tag];
-    [self changeVolume];
-    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];
+    [self changeVolume:sender];
+    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_HOLD_TIMEOUT
+                                                            target:self
+                                                          selector:@selector(longpressVolume:)
+                                                          userInfo:sender
+                                                           repeats:NO];
 }
 
-- (IBAction)stopVolume:(id)sender {
-    if (self.holdVolumeTimer != nil) {
-        [self.holdVolumeTimer invalidate];
-        self.holdVolumeTimer = nil;
-    }
-    action = 0;
+- (IBAction)stopVolume:(id)timer {
+    // Volume change ended (slider or buttons untouched)
+    [self.holdVolumeTimer invalidate];
     [self startTimer];
+    isChangingVolume = NO;
+}
+- (void)longpressVolume:(id)timer {
+    // Volume up/down was lomgpressed
+    id sender = [timer userInfo];
+    [self.holdVolumeTimer invalidate];
+    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_REPEAT_TIMEOUT
+                                                            target:self
+                                                          selector:@selector(autoChangeVolume:)
+                                                          userInfo:sender
+                                                           repeats:YES];
 }
 
-- (void)changeVolume {
-    if (self.holdVolumeTimer.timeInterval == 0.5) {
-        [self.holdVolumeTimer invalidate];
-        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(changeVolume) userInfo:nil repeats:YES];
-    }
-    if (action == 1 ) { // Volume Raise
-       volumeSlider.value = (int)volumeSlider.value + 2;
-        
-    }
-    else if (action == 2) { // Volume Lower
-        volumeSlider.value = (int)volumeSlider.value - 2;
+- (void)autoChangeVolume:(id)timer {
+    // Volume up/down is automatically changed until holdVolumeTimer is stopped when button is untouched again
+    id sender = [timer userInfo];
+    [self changeVolume:sender];
+}
 
-    }
-    else { // Volume in 2-step resolution
-        volumeSlider.value = ((int)volumeSlider.value / 2) * 2;
+- (void)changeVolume:(id)sender {
+    // Process the volume change
+    isChangingVolume = YES;
+    NSInteger action = [sender tag];
+    switch (action) {
+        case VOLUME_BUTTON_UP: // Volume Increase
+            volumeSlider.value += 2;
+            break;
+        case VOLUME_BUTTON_DOWN: // Volume Decrease
+            volumeSlider.value -= 2;
+            break;
+        case VOLUME_SLIDER: // Volume slider in 2-step resolution
+            volumeSlider.value = ((int)volumeSlider.value / 2) * 2;
+            break;
+        default:
+            break;
     }
     AppDelegate.instance.serverVolume = volumeSlider.value;
     volumeLabel.text = [NSString stringWithFormat:@"%.0f", volumeSlider.value];
