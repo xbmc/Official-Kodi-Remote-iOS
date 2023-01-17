@@ -117,6 +117,7 @@
     if (@available(iOS 13.0, *)) {
         cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
     }
+    cell.tintColor = UIColor.lightGrayColor;
     NSString *iconName = @"blank";
     
     // Tailor cell layout for content type
