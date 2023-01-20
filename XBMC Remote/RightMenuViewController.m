@@ -161,17 +161,13 @@
         title.text = AppDelegate.instance.serverName;
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"VolumeControl"]) {
-        if (volumeSliderView == nil) {
-            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
-            [volumeSliderView startTimer];
-        }
+        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
+        [volumeSliderView startTimer];
         [cell.contentView addSubview:volumeSliderView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"RemoteControl"]) {
-        if (remoteControllerView == nil) {
-            remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:YES bundle:nil];
-            remoteControllerView.panFallbackImageView.frame = cell.frame;
-        }
+        remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:YES bundle:nil];
+        remoteControllerView.panFallbackImageView.frame = cell.frame;
         [cell.contentView addSubview:remoteControllerView.view];
     }
     else {
