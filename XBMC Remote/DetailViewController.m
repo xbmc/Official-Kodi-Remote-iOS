@@ -510,7 +510,7 @@
     NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
     NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
     if (!stringURL.length) {
-        stringURL = [Utilities getItemIconFromDictionary:item mainFields:mainFields];
+        stringURL = [Utilities getItemIconFromDictionary:item];
     }
     mainMenu *menuItem = self.detailItem;
     BOOL disableNowPlaying = NO;
@@ -570,7 +570,7 @@
     NSString *bannerURL = [Utilities formatStringURL:bannerPath serverURL:serverURL];
     NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
     if (!stringURL.length) {
-        stringURL = [Utilities getItemIconFromDictionary:item mainFields:mainFields];
+        stringURL = [Utilities getItemIconFromDictionary:item];
     }
     NSString *row7key = mainFields[@"row7"] ?: @"none";
     NSString *row7obj = mainFields[@"row7"] ? [NSString stringWithFormat:@"%@", item[mainFields[@"row7"]]] : @"";
