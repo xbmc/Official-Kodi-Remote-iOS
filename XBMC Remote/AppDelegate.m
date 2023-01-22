@@ -2549,7 +2549,6 @@
         [self action_queue_to_showcontent],
     ];
     
-    //    menu_Movies.showInfo = YES;
     menu_Movies.showInfo = @[
         @YES,
         @YES,
@@ -3289,7 +3288,6 @@
         [self action_queue_to_showcontent],
     ];
     
-    //    menu_Videos.showInfo = YES;
     menu_Videos.showInfo = @[
         @YES,
         @YES,
@@ -4462,7 +4460,6 @@
         @[LOCALIZED_STR(@"Delete timer")],
     ];
     
-    //    menu_LiveTV.showInfo = YES;
     menu_LiveTV.showInfo = @[
         @NO,
         @YES,
@@ -5030,7 +5027,6 @@
         @[LOCALIZED_STR(@"Delete timer")],
     ];
     
-    //    menu_Radio.showInfo = YES;
     menu_Radio.showInfo = @[
         @NO,
         @YES,
