@@ -4110,7 +4110,7 @@
     menu_TVShows.subItem.subItem.widthLabel = 208;
     menu_TVShows.subItem.subItem.showRuntime = @[
         @NO,
-        //@NO,
+        @NO,
         @NO,
         @NO,
         @NO,
@@ -4119,7 +4119,7 @@
     menu_TVShows.subItem.subItem.noConvertTime = YES;
     menu_TVShows.subItem.subItem.showInfo = @[
         @YES,
-        //@YES,
+        @YES,
         @YES,
         @YES,
         @YES,
