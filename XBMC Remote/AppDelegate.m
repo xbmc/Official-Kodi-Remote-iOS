@@ -556,53 +556,53 @@
     ];
     
     menu_Music.mainMethod = @[
-            @[
-                @"AudioLibrary.GetAlbums", @"method",
-                @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-            ],
-            @[
-                @"AudioLibrary.GetArtists", @"method",
-                @"AudioLibrary.GetArtistDetails", @"extra_info_method",
-            ],
-            @[
-                @"AudioLibrary.GetGenres", @"method",
-            ],
-            @[
-                @"Files.GetSources", @"method",
-            ],
-            @[
-                @"AudioLibrary.GetRecentlyAddedAlbums", @"method",
-                @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-            ],
-            @[
-                @"AudioLibrary.GetRecentlyAddedSongs", @"method",
-            ],
-            @[
-                @"AudioLibrary.GetAlbums", @"method",
-                @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-            ],
-            @[
-                @"AudioLibrary.GetSongs", @"method",
-            ],
-            @[
-                @"AudioLibrary.GetRecentlyPlayedAlbums", @"method",
-            ],
-            @[
-                @"AudioLibrary.GetRecentlyPlayedSongs", @"method",
-            ],
-            @[
-                @"AudioLibrary.GetSongs", @"method",
-            ],
-            @[
-                @"Files.GetDirectory", @"method",
-            ],
-            @[
-                @"Files.GetDirectory", @"method",
-            ],
-            @[
-                @"AudioLibrary.GetRoles", @"method",
-            ],
-        ];
+        @[
+            @"AudioLibrary.GetAlbums", @"method",
+            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
+        ],
+        @[
+            @"AudioLibrary.GetArtists", @"method",
+            @"AudioLibrary.GetArtistDetails", @"extra_info_method",
+        ],
+        @[
+            @"AudioLibrary.GetGenres", @"method",
+        ],
+        @[
+            @"Files.GetSources", @"method",
+        ],
+        @[
+            @"AudioLibrary.GetRecentlyAddedAlbums", @"method",
+            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
+        ],
+        @[
+            @"AudioLibrary.GetRecentlyAddedSongs", @"method",
+        ],
+        @[
+            @"AudioLibrary.GetAlbums", @"method",
+            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
+        ],
+        @[
+            @"AudioLibrary.GetSongs", @"method",
+        ],
+        @[
+            @"AudioLibrary.GetRecentlyPlayedAlbums", @"method",
+        ],
+        @[
+            @"AudioLibrary.GetRecentlyPlayedSongs", @"method",
+        ],
+        @[
+            @"AudioLibrary.GetSongs", @"method",
+        ],
+        @[
+            @"Files.GetDirectory", @"method",
+        ],
+        @[
+            @"Files.GetDirectory", @"method",
+        ],
+        @[
+            @"AudioLibrary.GetRoles", @"method",
+        ],
+    ];
     
     menu_Music.mainParameters = [@[
         @[
@@ -1295,46 +1295,46 @@
     ];
     
     menu_Music.subItem.mainMethod = @[
-            @[
-                @"AudioLibrary.GetSongs", @"method",
-                @"YES", @"albumView",
-            ],
-            @[
-                @"AudioLibrary.GetAlbums", @"method",
-                @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-            ],
-            @[
-                @"AudioLibrary.GetAlbums", @"method",
-                @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-            ],
-            @[
-                @"Files.GetDirectory", @"method",
-            ],
-            @[
-                @"AudioLibrary.GetSongs", @"method",
-                @"YES", @"albumView",
-            ],
-            @[],
-            @[
-                @"AudioLibrary.GetSongs", @"method",
-                @"YES", @"albumView",
-            ],
-            @[],
-            @[
-                @"AudioLibrary.GetSongs", @"method",
-                @"YES", @"albumView",
-            ],
-            @[],
-            @[],
-            @[
-                @"Files.GetDirectory", @"method",
-            ],
-            @[],
-            @[
-                @"AudioLibrary.GetArtists", @"method",
-                @"AudioLibrary.GetArtistDetails", @"extra_info_method",
-            ],
-        ];
+        @[
+            @"AudioLibrary.GetSongs", @"method",
+            @"YES", @"albumView",
+        ],
+        @[
+            @"AudioLibrary.GetAlbums", @"method",
+            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
+        ],
+        @[
+            @"AudioLibrary.GetAlbums", @"method",
+            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
+        ],
+        @[
+            @"Files.GetDirectory", @"method",
+        ],
+        @[
+            @"AudioLibrary.GetSongs", @"method",
+            @"YES", @"albumView",
+        ],
+        @[],
+        @[
+            @"AudioLibrary.GetSongs", @"method",
+            @"YES", @"albumView",
+        ],
+        @[],
+        @[
+            @"AudioLibrary.GetSongs", @"method",
+            @"YES", @"albumView",
+        ],
+        @[],
+        @[],
+        @[
+            @"Files.GetDirectory", @"method",
+        ],
+        @[],
+        @[
+            @"AudioLibrary.GetArtists", @"method",
+            @"AudioLibrary.GetArtistDetails", @"extra_info_method",
+        ],
+    ];
     
     menu_Music.subItem.mainParameters = [@[
         @[
@@ -1805,36 +1805,36 @@
     ];
     
     menu_Music.subItem.subItem.mainMethod = @[
-            @[],
-            @[
-                @"AudioLibrary.GetSongs", @"method",
-                @"YES", @"albumView",
-            ],
-            @[
-                @"AudioLibrary.GetSongs", @"method",
-                @"YES", @"albumView",
-            ],
-            @[
-                @"Files.GetDirectory", @"method",
-            ],
-            @[],
-            @[],
-            @[],
-            @[],
-            @[],
-            @[],
-            @[],
-            @[
-                @"Files.GetDirectory", @"method",
-            ],
-            @[
-                @"Files.GetDirectory", @"method",
-            ],
-            @[
-                @"AudioLibrary.GetAlbums", @"method",
-                @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-            ],
-        ];
+        @[],
+        @[
+            @"AudioLibrary.GetSongs", @"method",
+            @"YES", @"albumView",
+        ],
+        @[
+            @"AudioLibrary.GetSongs", @"method",
+            @"YES", @"albumView",
+        ],
+        @[
+            @"Files.GetDirectory", @"method",
+        ],
+        @[],
+        @[],
+        @[],
+        @[],
+        @[],
+        @[],
+        @[],
+        @[
+            @"Files.GetDirectory", @"method",
+        ],
+        @[
+            @"Files.GetDirectory", @"method",
+        ],
+        @[
+            @"AudioLibrary.GetAlbums", @"method",
+            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
+        ],
+    ];
     
     menu_Music.subItem.subItem.mainParameters = [@[
         @[],
@@ -2175,31 +2175,31 @@
     ];
     
     menu_Movies.mainMethod = @[
-            @[
-                @"VideoLibrary.GetMovies", @"method",
-                @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-            ],
-            @[
-                @"VideoLibrary.GetGenres", @"method",
-            ],
-            @[
-                @"VideoLibrary.GetMovieSets", @"method",
-                @"VideoLibrary.GetMovieSetDetails", @"extra_info_method",
-            ],
-            @[
-                @"VideoLibrary.GetRecentlyAddedMovies", @"method",
-                @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-            ],
-            @[
-                @"Files.GetSources", @"method",
-            ],
-            @[
-                @"Files.GetDirectory", @"method",
-            ],
-            @[
-                @"Files.GetDirectory", @"method",
-            ],
-        ];
+        @[
+            @"VideoLibrary.GetMovies", @"method",
+            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
+        ],
+        @[
+            @"VideoLibrary.GetGenres", @"method",
+        ],
+        @[
+            @"VideoLibrary.GetMovieSets", @"method",
+            @"VideoLibrary.GetMovieSetDetails", @"extra_info_method",
+        ],
+        @[
+            @"VideoLibrary.GetRecentlyAddedMovies", @"method",
+            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
+        ],
+        @[
+            @"Files.GetSources", @"method",
+        ],
+        @[
+            @"Files.GetDirectory", @"method",
+        ],
+        @[
+            @"Files.GetDirectory", @"method",
+        ],
+    ];
     
     menu_Movies.mainParameters = [@[
         @[
@@ -2991,24 +2991,24 @@
     ];
     
     menu_Videos.mainMethod = @[
-            @[
-                @"VideoLibrary.GetMusicVideos", @"method",
-                @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method",
-            ],
-            @[
-                @"VideoLibrary.GetRecentlyAddedMusicVideos", @"method",
-                @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method",
-            ],
-            @[
-                @"Files.GetSources", @"method",
-            ],
-            @[
-                @"Files.GetDirectory", @"method",
-            ],
-            @[
-                @"Files.GetDirectory", @"method",
-            ],
-        ];
+        @[
+            @"VideoLibrary.GetMusicVideos", @"method",
+            @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method",
+        ],
+        @[
+            @"VideoLibrary.GetRecentlyAddedMusicVideos", @"method",
+            @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method",
+        ],
+        @[
+            @"Files.GetSources", @"method",
+        ],
+        @[
+            @"Files.GetDirectory", @"method",
+        ],
+        @[
+            @"Files.GetDirectory", @"method",
+        ],
+    ];
     
     menu_Videos.mainParameters = [@[
         @[
@@ -5440,59 +5440,59 @@
     ];
     
 #pragma mark - Favourites
-        menu_Favourites.mainLabel = LOCALIZED_STR(@"Favourites");
-        menu_Favourites.icon = @"icon_menu_favourites";
-        menu_Favourites.family = FamilyDetailView;
-        menu_Favourites.enableSection = YES;
-        menu_Favourites.mainButtons = @[
-            @"st_filemode",
-        ];
-        
-        menu_Favourites.mainMethod = [@[
-            @[
-                @"Favourites.GetFavourites", @"method",
-            ],
-        ] mutableCopy];
-        
-        menu_Favourites.mainParameters = [@[
-            @[
-                @{
-                    @"properties": @[
-                            @"thumbnail",
-                            @"path",
-                            @"window",
-                            @"windowparameter",
-                    ],
-                }, @"parameters",
-                LOCALIZED_STR(@"Favourites"), @"label",
-                @"nocover_favourites", @"defaultThumb",
-                filemodeRowHeight, @"rowHeight",
-                filemodeThumbWidth, @"thumbWidth",
-                @"YES", @"enableCollectionView",
-                [self itemSizes_Music], @"itemSizes",
-            ],
-        ] mutableCopy];
-        
-        menu_Favourites.mainFields = @[
+    menu_Favourites.mainLabel = LOCALIZED_STR(@"Favourites");
+    menu_Favourites.icon = @"icon_menu_favourites";
+    menu_Favourites.family = FamilyDetailView;
+    menu_Favourites.enableSection = YES;
+    menu_Favourites.mainButtons = @[
+        @"st_filemode",
+    ];
+    
+    menu_Favourites.mainMethod = [@[
+        @[
+            @"Favourites.GetFavourites", @"method",
+        ],
+    ] mutableCopy];
+    
+    menu_Favourites.mainParameters = [@[
+        @[
             @{
-                @"itemid": @"favourites",
-                @"row1": @"title",
-                @"row2": [NSNull null],
-                @"row3": [NSNull null],
-                @"row4": [NSNull null],
-                @"row5": [NSNull null],
-                @"row6": @"title",
-                @"row7": @"path",
-                @"playlistid": @(-1),
-                @"row8": @"type",
-                @"row9": @"window",
-                @"row10": @"windowparameter",
-            },
-        ];
-        
-        menu_Favourites.rowHeight = 53;
-        menu_Favourites.thumbWidth = 53;
-        menu_Favourites.defaultThumb = @"nocover_filemode";
+                @"properties": @[
+                        @"thumbnail",
+                        @"path",
+                        @"window",
+                        @"windowparameter",
+                ],
+            }, @"parameters",
+            LOCALIZED_STR(@"Favourites"), @"label",
+            @"nocover_favourites", @"defaultThumb",
+            filemodeRowHeight, @"rowHeight",
+            filemodeThumbWidth, @"thumbWidth",
+            @"YES", @"enableCollectionView",
+            [self itemSizes_Music], @"itemSizes",
+        ],
+    ] mutableCopy];
+    
+    menu_Favourites.mainFields = @[
+        @{
+            @"itemid": @"favourites",
+            @"row1": @"title",
+            @"row2": [NSNull null],
+            @"row3": [NSNull null],
+            @"row4": [NSNull null],
+            @"row5": [NSNull null],
+            @"row6": @"title",
+            @"row7": @"path",
+            @"playlistid": @(-1),
+            @"row8": @"type",
+            @"row9": @"window",
+            @"row10": @"windowparameter",
+        },
+    ];
+    
+    menu_Favourites.rowHeight = 53;
+    menu_Favourites.thumbWidth = 53;
+    menu_Favourites.defaultThumb = @"nocover_filemode";
     
 #pragma mark - Now Playing
     menu_NowPlaying.mainLabel = LOCALIZED_STR(@"Now Playing");
