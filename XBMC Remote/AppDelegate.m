@@ -1002,7 +1002,6 @@
             filemodeThumbWidth, @"thumbWidth",
             [self itemSizes_Music], @"itemSizes",
         ],
-                            
     ] mutableCopy];
     
     menu_Music.mainFields = @[
@@ -1585,7 +1584,6 @@
             @"YES", @"enableCollectionView",
             [self itemSizes_Musicfullscreen], @"itemSizes",
         ],
-                                  
     ] mutableCopy];
     
     menu_Music.subItem.mainFields = @[
@@ -1839,7 +1837,6 @@
         ];
     
     menu_Music.subItem.subItem.mainParameters = [@[
-                                          
         @[],
 
         @[
@@ -1931,7 +1928,6 @@
             @"roleid", @"combinedFilter",
             [self itemSizes_Music], @"itemSizes",
         ],
-                                          
     ] mutableCopy];
     
     menu_Music.subItem.subItem.mainFields = @[
@@ -2412,7 +2408,6 @@
             filemodeThumbWidth, @"thumbWidth",
             @"YES", @"isVideoPlaylist",
         ],
-        
     ] mutableCopy];
     
     menu_Movies.mainFields = @[
@@ -2592,7 +2587,6 @@
     menu_Movies.subItem.noConvertTime = YES;
 
     menu_Movies.subItem.mainParameters = [@[
-                                  
         @[],
                                   
         @[
@@ -3186,7 +3180,6 @@
             filemodeThumbWidth, @"thumbWidth",
             @"YES", @"isVideoPlaylist",
         ],
-        
     ] mutableCopy];
     
     menu_Videos.mainFields = @[
@@ -4361,7 +4354,6 @@
             @"YES", @"enableCollectionView",
             [self itemSizes_Music_insets:@"60"], @"itemSizes",
         ],
-                          
     ] mutableCopy];
     
     menu_LiveTV.mainFields = @[
@@ -4928,7 +4920,6 @@
             @"YES", @"enableCollectionView",
             [self itemSizes_Music_insets:@"60"], @"itemSizes",
         ],
-                          
     ] mutableCopy];
     
     menu_Radio.mainFields = @[
@@ -5316,7 +5307,6 @@
             @"YES", @"enableCollectionView",
             [self itemSizes_Music], @"itemSizes",
         ],
-        
     ] mutableCopy];
     
     menu_Pictures.mainFields = @[
@@ -5360,7 +5350,6 @@
     ] mutableCopy];
     
     menu_Pictures.subItem.mainParameters = [@[
-                                  
         @[
             @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
@@ -5388,11 +5377,9 @@
             filemodeRowHeight, @"rowHeight",
             filemodeThumbWidth, @"thumbWidth",
         ],
-                                  
     ] mutableCopy];
     
     menu_Pictures.subItem.mainFields = @[
-                              
         @{
             @"itemid": @"files",
             @"row1": @"label",
@@ -5618,7 +5605,6 @@
     ] mutableCopy];
     
     xbmcSettings.mainParameters = [@[
-                                   
         @[
             @{
                 @"level": @"expert",
@@ -5716,7 +5702,6 @@
             LOCALIZED_STR(@"Activate a specific window"), @"morelabel",
             [self itemSizes_insets:@"0"], @"itemSizes",
         ],
-                                   
     ] mutableCopy];
     
     xbmcSettings.mainFields = @[
