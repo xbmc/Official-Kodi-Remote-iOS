@@ -119,7 +119,7 @@
         // Set icon and text content
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
         title.numberOfLines = 2;
-        title.text = LOCALIZED_STR(@"No connection");
+        title.text = [Utilities getConnectionStatusServerName];
         line.hidden = YES;
         iconName = [Utilities getConnectionStatusIconName];
         icon.image = [UIImage imageNamed:iconName];
