@@ -101,6 +101,15 @@
     UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
     backView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
     cell.selectedBackgroundView = backView;
+    
+    // Load Kodi background logo
+    UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
+    UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:PHONE_MENU_INFO_HEIGHT width:self.view.bounds.size.width]];
+    xbmc_logo.alpha = 0.25;
+    xbmc_logo.image = logo;
+    xbmc_logo.highlightedImage = [UIImage imageNamed:@"xbmc_logo_selected"];
+    xbmc_logo.hidden = YES;
+    [cell insertSubview:xbmc_logo atIndex:0];
     // WROKAROUND END
     
     // Reset to default for each cell to allow dequeuing
@@ -134,13 +143,8 @@
     
     // Tailor cell layout for content type
     if ([tableData[indexPath.row][@"label"] isEqualToString:@"ServerInfo"]) {
-        // Load Kodi background logo
-        UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:SERVER_INFO_HEIGHT width:self.view.bounds.size.width]];
-        xbmc_logo.alpha = 0.25;
-        xbmc_logo.image = logo;
+        // Show kodi logo
         xbmc_logo.hidden = NO;
-        [cell.contentView insertSubview:xbmc_logo atIndex:0];
         
         // Enable connection status icon and place it
         status.frame = CGRectMake(STATUS_SPACING,

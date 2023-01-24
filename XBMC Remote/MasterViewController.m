@@ -97,21 +97,25 @@
         UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
         backgroundView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         cell.selectedBackgroundView = backgroundView;
+        
+        // Load Kodi background logo
+        UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
+        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:PHONE_MENU_INFO_HEIGHT width:self.view.bounds.size.width]];
+        xbmc_logo.alpha = 0.25;
+        xbmc_logo.image = logo;
+        xbmc_logo.highlightedImage = [UIImage imageNamed:@"xbmc_logo_selected"];
+        xbmc_logo.tag = 6;
+        [cell insertSubview:xbmc_logo atIndex:0];
     }
     mainMenu *item = self.mainMenu[indexPath.row];
     NSString *iconName = item.icon;
     UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
     UIImageView *line = (UIImageView*)[cell viewWithTag:4];
+    UIImageView *xbmc_logo = (UIImageView*)[cell viewWithTag:6];
     if (indexPath.row == 0) {
-        // Load Kodi background logo
-        UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:PHONE_MENU_INFO_HEIGHT width:self.view.bounds.size.width]];
-        xbmc_logo.alpha = 0.25;
-        xbmc_logo.image = logo;
+        // Show kodi logo
         xbmc_logo.hidden = NO;
-        xbmc_logo.highlightedImage = [UIImage imageNamed:@"xbmc_logo_selected"];
-        [cell insertSubview:xbmc_logo atIndex:0];
         
         // Adapt layout for first cell (showing connection status)
         [self setFrameSizes:cell height:PHONE_MENU_INFO_HEIGHT iconsize:CONNECTION_ICON_SIZE];
@@ -125,6 +129,9 @@
         icon.image = [UIImage imageNamed:iconName];
     }
     else {
+        // Hide kodi logo
+        xbmc_logo.hidden = YES;
+        
         // Adapt layout for main menu cells
         [self setFrameSizes:cell height:PHONE_MENU_HEIGHT iconsize:MENU_ICON_SIZE];
         
