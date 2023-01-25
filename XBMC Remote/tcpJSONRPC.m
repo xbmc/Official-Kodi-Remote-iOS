@@ -93,14 +93,9 @@ NSInputStream	*inStream;
 
 	switch (streamEvent) {
     
-        case NSStreamEventOpenCompleted:{
+        case NSStreamEventOpenCompleted:
             AppDelegate.instance.serverTCPConnectionOpen = YES;
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    infoTitle, @"message",
-                                    @"connection_on", @"icon_connection",
-                                    nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionSuccess" object:nil userInfo:params];
-        }
+            [self tcpConnectionNotifications:YES];
 			break;
             
 		case NSStreamEventHasBytesAvailable:
@@ -151,6 +146,14 @@ NSInputStream	*inStream;
 	}
 }
 
+- (void)tcpConnectionNotifications:(BOOL)hasTcpConnection {
+    NSString *connectionIcon = hasTcpConnection ? @"connection_on" : @"connection_on_notcp";
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            infoTitle, @"message",
+                            connectionIcon, @"icon_connection",
+                            nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionSuccess" object:nil userInfo:params];
+}
 
 - (void)noConnectionNotifications {
     NSDictionary *params = @{
