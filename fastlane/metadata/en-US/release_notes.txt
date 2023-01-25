@@ -1,21 +1,11 @@
-Features:
-- Support rotation for iPad fullscreen
-- Support art for music videos
-- Support for Croatian language
-
 Bugfixes:
-- Fix crash when editing a custom button label
-- Fix potential crashes in Global Search
-- Fix non-touchable progress bar after using remote on iPad
-- Fix unwanted rotation to portrait on iPads with iOS16+
-- Fix unreadable layout with TV Show default thumbs
-- Fix sporadically empty cover in NowPlaying view
-- Further bugfixes for numerous UI glitches
+- Fix server status issues on iPhone after scrolling
+- Fix loss of TCP when entering iOS App Switcher or Notification Center
+- Fix potentially wrong A/V codec info in NowPlaying overlay
 
 Improvements:
-- Performance improvement when loading from Kodi 
-- Consistent index for grid/list view
-- Smoother volume control via slider
-- Update translations for few languages
+- Improve readability of NowPlaying overlay content
+- Support newly added aspect ratios (Kodi 20)
+- Add missing video codec icons
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
