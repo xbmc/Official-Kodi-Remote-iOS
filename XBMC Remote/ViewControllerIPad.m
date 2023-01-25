@@ -599,7 +599,6 @@
 }
 
 - (void)handleWillResignActive:(NSNotification*)sender {
-    [self.tcpJSONRPCconnection stopNetworkCommunication];
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {
