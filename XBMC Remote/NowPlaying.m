@@ -1431,8 +1431,8 @@ long storedItemID;
     UIColor *effectColor;
     __block CGFloat playtoolbarAlpha = 1.0;
     if (!nowPlayingView.hidden) {
-        transitionView = nowPlayingView;
-        transitionedView = playlistView;
+        transitionFromView = nowPlayingView;
+        transitionToView = playlistView;
         self.navigationItem.title = LOCALIZED_STR(@"Playlist");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromRight;
@@ -1441,8 +1441,8 @@ long storedItemID;
         playtoolbarAlpha = 1.0;
     }
     else {
-        transitionView = playlistView;
-        transitionedView = nowPlayingView;
+        transitionFromView = playlistView;
+        transitionToView = nowPlayingView;
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
@@ -1456,20 +1456,20 @@ long storedItemID;
     }
     [self animateToColors:effectColor];
     
-    [UIView transitionWithView:transitionView
+    [UIView transitionWithView:transitionFromView
                       duration:FADE_OUT_TIME
                        options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
                     animations:^{
-                          transitionView.alpha = 0.0;
+                          transitionFromView.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {
-                        [UIView transitionWithView:transitionedView
+                        [UIView transitionWithView:transitionToView
                                           duration:FADE_IN_TIME
                                            options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                                         animations:^{
-                                              transitionView.hidden = YES;
-                                              transitionedView.hidden = NO;
-                                              transitionedView.alpha = 1.0;
+                                              transitionFromView.hidden = YES;
+                                              transitionToView.hidden = NO;
+                                              transitionToView.alpha = 1.0;
                                               playlistActionView.alpha = playtoolbarAlpha;
                                               self.navigationItem.titleView.hidden = NO;
                                           }
