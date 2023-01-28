@@ -166,13 +166,17 @@ NSInputStream	*inStream;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCChangeServerStatus" object:nil userInfo:params];
 }
 
+- (void)showSetupNotifications:(BOOL)showSetup {
+    NSDictionary *params = @{@"showSetup": @(showSetup)};
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
+}
+
 - (void)checkServer {
     if (inCheck) {
         return;
     }
     if (AppDelegate.instance.obj.serverIP.length == 0) {
-        NSDictionary *params = @{@"showSetup": @YES};
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
+        [self showSetupNotifications:YES];
         if (AppDelegate.instance.serverOnLine) {
             [self jsonConnectionNotifications:NO];
         }
@@ -217,15 +221,13 @@ NSInputStream	*inStream;
                                           serverInfo[@"minor"],
                                           serverInfo[@"tag"]];//, serverInfo[@"revision"]
                      [self jsonConnectionNotifications:YES];
-                     NSDictionary *params = @{@"showSetup": @NO};
-                     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
+                     [self showSetupNotifications:NO];
                  }
                  else {
                      if (AppDelegate.instance.serverOnLine) {
                          [self jsonConnectionNotifications:NO];
                      }
-                     NSDictionary *params = @{@"showSetup": @YES};
-                     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
+                     [self showSetupNotifications:YES];
                  }
              }
          }
@@ -237,8 +239,7 @@ NSInputStream	*inStream;
              if (AppDelegate.instance.serverOnLine) {
                  [self jsonConnectionNotifications:NO];
              }
-             NSDictionary *params = @{@"showSetup": @YES};
-             [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
+             [self showSetupNotifications:YES];
          }
      }];
 }
