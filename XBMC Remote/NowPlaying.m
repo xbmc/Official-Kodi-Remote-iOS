@@ -2287,7 +2287,7 @@ long storedItemID;
     playlistToolbar.items = iPhoneItems;
     
     CGRect frame = playlistActionView.frame;
-    frame.origin.y = CGRectGetMinY(playlistToolbar.frame) - playlistActionView.frame.size.height;
+    frame.origin.y = playlistTableView.frame.size.height - playlistActionView.frame.size.height;
     playlistActionView.frame = frame;
     playlistActionView.alpha = 0.0;
 }
