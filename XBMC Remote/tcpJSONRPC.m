@@ -173,9 +173,6 @@ NSInputStream	*inStream;
         }
         return;
     }
-    if (AppDelegate.instance.serverTCPConnectionOpen) {
-        return;
-    }
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"wol_preference"] &&
         AppDelegate.instance.obj.serverHWAddr != nil) {
         [AppDelegate.instance sendWOL:AppDelegate.instance.obj.serverHWAddr withPort:WOL_PORT];
@@ -190,6 +187,9 @@ NSInputStream	*inStream;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          inCheck = NO;
          if (error == nil && methodError == nil) {
+             if (AppDelegate.instance.serverOnLine) {
+                 return;
+             }
              // Read JSON RPC API version
              [self readJSONRPCAPIVersion];
              
