@@ -17,6 +17,7 @@
 @class DetailViewController;
 
 @interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIGestureRecognizerDelegate> {
+    IBOutlet UIView *transitionView;
     IBOutlet UITableView *playlistTableView;
     IBOutlet UILabel *albumName;
     IBOutlet UILabel *songName;

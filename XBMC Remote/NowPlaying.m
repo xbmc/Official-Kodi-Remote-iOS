@@ -57,8 +57,7 @@
 #define SELECTED_NONE -1
 #define ID_INVALID -2
 #define FLIP_DEMO_DELAY 0.5
-#define FADE_OUT_TIME 0.2
-#define FADE_IN_TIME 0.5
+#define TRANSITION_TIME 0.7
 
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
@@ -1391,7 +1390,7 @@ long storedItemID;
         startFlipDemo = NO;
     }
     UIImage *buttonImage;
-    if (!nowPlayingView.hidden && !demo) {
+    if (nowPlayingView.hidden && !demo) {
         if (thumbnailView.image.size.width) {
             UIImage *image = [self enableJewelCases] ? [self imageWithBorderFromImage:thumbnailView.image] : thumbnailView.image;
             buttonImage = [self resizeToolbarThumb:image];
@@ -1404,26 +1403,15 @@ long storedItemID;
         buttonImage = [UIImage imageNamed:@"now_playing_playlist"];
     }
     [UIView transitionWithView:button
-                      duration:FADE_OUT_TIME
-                       options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
+                      duration:TRANSITION_TIME
+                       options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                     animations:^{
-                         // fade out current button image
-                         button.alpha = 0.0;
-                     }
-                     completion:^(BOOL finished) {
-                        [UIView transitionWithView:button
-                                          duration:FADE_IN_TIME
-                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
-                                        animations:^{
-                                            // fade in new button image
-                                            button.alpha = 1.0;
-                                            [button setImage:buttonImage forState:UIControlStateNormal];
-                                            [button setImage:buttonImage forState:UIControlStateHighlighted];
-                                            [button setImage:buttonImage forState:UIControlStateSelected];
-                                        }
-                                        completion:^(BOOL finished) {}
-                        ];
-                     }
+        // Animate transition to new button image
+        [button setImage:buttonImage forState:UIControlStateNormal];
+        [button setImage:buttonImage forState:UIControlStateHighlighted];
+        [button setImage:buttonImage forState:UIControlStateSelected];
+                     } 
+                     completion:^(BOOL finished) {}
     ];
 }
 
@@ -1456,27 +1444,18 @@ long storedItemID;
     }
     [self animateToColors:effectColor];
     
-    [UIView transitionWithView:transitionFromView
-                      duration:FADE_OUT_TIME
-                       options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
+    [UIView transitionWithView:transitionView
+                      duration:TRANSITION_TIME
+                       options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                     animations:^{
-                          transitionFromView.alpha = 0.0;
+        transitionFromView.hidden = YES;
+        transitionToView.hidden = NO;
+        playlistActionView.alpha = playtoolbarAlpha;
+        self.navigationItem.titleView.hidden = NO;
                      }
                      completion:^(BOOL finished) {
-                        [UIView transitionWithView:transitionToView
-                                          duration:FADE_IN_TIME
-                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
-                                        animations:^{
-                                              transitionFromView.hidden = YES;
-                                              transitionToView.hidden = NO;
-                                              transitionToView.alpha = 1.0;
-                                              playlistActionView.alpha = playtoolbarAlpha;
-                                              self.navigationItem.titleView.hidden = NO;
-                                          }
-                                        completion:^(BOOL finished) {
-                                              [self setIPadBackgroundColor:effectColor effectDuration:1.0];
-                                      }];
-                     }];
+        [self setIPadBackgroundColor:effectColor effectDuration:1.0];
+    }];
     [self flipAnimButton:playlistButton demo:NO];
 }
 

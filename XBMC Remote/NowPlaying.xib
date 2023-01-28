@@ -49,6 +49,7 @@
                 <outlet property="songSampleRate" destination="112" id="115"/>
                 <outlet property="songSampleRateImage" destination="b3u-Km-zml" id="mcn-U2-3U2"/>
                 <outlet property="thumbnailView" destination="52" id="53"/>
+                <outlet property="transitionView" destination="98" id="Hxy-bA-FyS"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="xbmcOverlayImage" destination="154" id="155"/>
                 <outlet property="xbmcOverlayImage_iphone" destination="156" id="157"/>
