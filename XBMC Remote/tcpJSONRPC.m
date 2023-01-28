@@ -148,10 +148,11 @@ NSInputStream	*inStream;
 
 - (void)tcpConnectionNotifications:(BOOL)hasTcpConnection {
     NSString *connectionIcon = hasTcpConnection ? @"connection_on" : @"connection_on_notcp";
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            infoTitle, @"message",
-                            connectionIcon, @"icon_connection",
-                            nil];
+    NSString *connectionName = infoTitle ?: @"";
+    NSDictionary *params = @{
+        @"message": connectionName,
+        @"icon_connection": connectionIcon,
+    };
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionSuccess" object:nil userInfo:params];
 }
 
@@ -220,7 +221,7 @@ NSInputStream	*inStream;
                          @"icon_connection": @"connection_on_notcp",
                      };
                      [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCChangeServerStatus" object:nil userInfo:params];
-                     params = @{@"showSetup": @(NO)};
+                     params = @{@"showSetup": @NO};
                      [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
                  }
                  else {
