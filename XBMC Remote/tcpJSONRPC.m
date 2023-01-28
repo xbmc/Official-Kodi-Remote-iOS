@@ -110,14 +110,13 @@ NSInputStream	*inStream;
                             NSError *parseError = nil;
                             NSDictionary *notification = [NSJSONSerialization JSONObjectWithData:output options:kNilOptions error:&parseError];
                             if (parseError == nil) {
-                                NSString *method = @"";
-                                NSDictionary *paramsDict;
-                                if ((NSNull*)notification[@"method"] != [NSNull null]) {
-                                        method = notification[@"method"];
-                                    if ((NSNull*)notification[@"params"] != [NSNull null]) {
-                                        paramsDict = [NSDictionary dictionaryWithObject:notification[@"params"] forKey:@"params"];
+                                if (notification[@"method"] != [NSNull null]) {
+                                    NSString *method = notification[@"method"];
+                                    NSDictionary *params;
+                                    if (notification[@"params"] != [NSNull null]) {
+                                        params = @{@"params": notification[@"params"]};
                                     }
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:method object:nil userInfo:paramsDict];
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:method object:nil userInfo:params];
                                 }
                             }
 						}
