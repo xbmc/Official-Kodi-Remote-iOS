@@ -17,7 +17,6 @@
                 <outlet property="quickHelpImageView" destination="168" id="172"/>
                 <outlet property="quickHelpView" destination="167" id="171"/>
                 <outlet property="remoteControlView" destination="1" id="135"/>
-                <outlet property="subsInfoLabel" destination="136" id="137"/>
                 <outlet property="view" destination="133" id="134"/>
             </connections>
         </placeholder>
@@ -423,16 +422,6 @@
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="68"/>
                             </connections>
                         </button>
-                        <label clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" fixedFrame="YES" text="subtitles info" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="136" userLabel="Label - subs info">
-                            <rect key="frame" x="0.0" y="270" width="320" height="50"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <size key="shadowOffset" width="1" height="1"/>
-                        </label>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="167" userLabel="Quick Help - View">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

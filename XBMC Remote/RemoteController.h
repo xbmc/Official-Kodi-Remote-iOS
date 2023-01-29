@@ -17,7 +17,6 @@ typedef enum {
 
 @interface RemoteController : UIViewController <UIGestureRecognizerDelegate> {
     IBOutlet UIView *remoteControlView;
-    IBOutlet UILabel *subsInfoLabel;
     IBOutlet UIView *quickHelpView;
     IBOutlet UIImageView *quickHelpImageView;
     IBOutlet UIView *gestureZoneView;

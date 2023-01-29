@@ -184,11 +184,6 @@
     frame.size.height -= shift;
     quickHelpView.frame = frame;
     
-    frame = subsInfoLabel.frame;
-    frame.origin.x = 0;
-    frame.size.width = newWidth;
-    subsInfoLabel.frame = frame;
-    
     [self setupGestureView];
     if ([Utilities hasRemoteToolBar]) {
         [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_PARENT_HEIGHT isEmbedded:YES];
@@ -235,11 +230,6 @@
         
         frame.origin.y = 0;
         quickHelpView.frame = frame;
-        
-        frame = subsInfoLabel.frame;
-        frame.size.width = UIScreen.mainScreen.bounds.size.width;
-        frame.origin.x = (remoteControlView.frame.size.width - UIScreen.mainScreen.bounds.size.width) / 2;
-        subsInfoLabel.frame = frame;
     }
     else {
         VolumeSliderView *volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
@@ -266,11 +256,6 @@
         
         frame.origin = CGPointZero;
         quickHelpView.frame = frame;
-        
-        frame = subsInfoLabel.frame;
-        frame.size.width = remoteControlView.frame.size.width;
-        frame.origin.x = 0;
-        subsInfoLabel.frame = frame;
         
         frame = remoteControlView.frame;
         frame.size.height += TOOLBAR_HEIGHT + CGRectGetMaxY(volumeSliderView.frame);
