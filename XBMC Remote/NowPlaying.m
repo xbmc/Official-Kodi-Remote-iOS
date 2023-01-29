@@ -1259,8 +1259,8 @@ long storedItemID;
         return; // something goes wrong
     }
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
-    UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-    [queuing startAnimating];
+    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    [activityIndicator startAnimating];
     id object = @([item[itemid] intValue]);
     if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {// WORKAROUND due the lack of the artistid with Playlist.GetItems
         methodToCall = @"AudioLibrary.GetArtists";
@@ -1286,7 +1286,7 @@ long storedItemID;
      callMethod:methodToCall
      withParameters:newParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-         [queuing stopAnimating];
+         [activityIndicator stopAnimating];
          if (error == nil && methodError == nil) {
              if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                  NSString *itemid_extra_info = @"";
@@ -2037,9 +2037,9 @@ long storedItemID;
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
-    UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
     storeSelection = nil;
-    [queuing startAnimating];
+    [activityIndicator startAnimating];
     [[Utilities getJsonRPC]
      callMethod:@"Player.Open" 
      withParameters:@{@"item": @{@"position": @(indexPath.row), @"playlistid": @(playerID)}}
@@ -2050,7 +2050,7 @@ long storedItemID;
              [self fadeView:timePlaying hidden:NO];
              [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
          }
-         [queuing stopAnimating];
+         [activityIndicator stopAnimating];
      }
      ];
     
