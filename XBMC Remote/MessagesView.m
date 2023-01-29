@@ -37,6 +37,7 @@
         viewMessage.textAlignment = NSTextAlignmentCenter;
         viewMessage.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [self addSubview:viewMessage];
+        self.alpha = 0.0;
     }
     return self;
 }
