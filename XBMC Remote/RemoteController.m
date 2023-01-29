@@ -509,7 +509,7 @@
                                      [self showActionSubtitles:actionSheetTitles];
                                  }
                                  else {
-                                     [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
                                  }
                              }
                          }
@@ -517,7 +517,7 @@
                  }];
             }
             else {
-                [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
             }
         }
     }];
@@ -576,7 +576,7 @@
                                      [self showActionAudiostreams:actionSheetTitles];
                                  }
                                  else {
-                                     [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
                                  }
                              }
                         }
@@ -584,7 +584,7 @@
                  }];
             }
             else {
-                [self showSubInfo:LOCALIZED_STR(@"Audiostream not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                [self showSubInfo:LOCALIZED_STR(@"Audiostream not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
             }
         }
     }];
@@ -676,7 +676,7 @@
                             id audiostreamIndex = audiostreamsDictionary[@"audiostreams"][i][@"index"];
                             if (audiostreamIndex) {
                                 [self playbackAction:@"Player.SetAudioStream" params:@{@"stream": audiostreamIndex}];
-                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:1.0]];
+                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:0.95]];
                             }
                         }
                     }
@@ -703,9 +703,9 @@
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Subtitles") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
-        
+
         UIAlertAction *action_disable = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Disable subtitles") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") timeout:2.0 color:[Utilities getSystemRed:1.0]];
+            [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
             [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"off"}];
         }];
         if ([subsDictionary[@"subtitleenabled"] boolValue]) {
@@ -723,7 +723,7 @@
                             if (subsIndex) {
                                 [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": subsIndex}];
                                 [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"on"}];
-                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:1.0]];
+                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:0.95]];
                             }
                         }
                     }
