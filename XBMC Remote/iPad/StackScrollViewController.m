@@ -47,6 +47,7 @@
 #define SLIDE_VIEWS_MINUS_X_POSITION -200 /* Lets two stacks slightly overlap in landscape. */
 #define SLIDE_VIEWS_START_X_POS 0
 #define STACK_OVERLAP 53
+#define SLIDE_TRANSITION_TIME 0.2
 
 @implementation StackScrollViewController
 
@@ -243,7 +244,7 @@
     CGFloat posX = (IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
     
     [UIView transitionWithView:self.view
-                      duration:0.2
+                      duration:SLIDE_TRANSITION_TIME
                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                     animations:^{
                          for (UIView *subview in slideViews.subviews) {
@@ -502,7 +503,7 @@
 			if (viewAtRight != nil) {
 				if ([slideViews.subviews indexOfObject:viewAtLeft] == 0 && !(viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION || viewAtLeft.frame.origin.x == SLIDE_VIEWS_START_X_POS)) {
                     [UIView transitionWithView:self.view
-                                      duration:0.2
+                                      duration:SLIDE_TRANSITION_TIME
                                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                                     animations:^{
                         if (viewAtLeft.frame.origin.x < SLIDE_VIEWS_START_X_POS && viewAtRight != nil) {
@@ -530,7 +531,7 @@
 				}
                 else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && CGRectGetMaxX(viewAtRight.frame) > self.view.frame.size.width) {
                     [UIView transitionWithView:self.view
-                                      duration:0.2
+                                      duration:SLIDE_TRANSITION_TIME
                                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                                     animations:^{
                         [self changeFrame:viewAtRight
@@ -541,7 +542,7 @@
 				}
                 else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && CGRectGetMaxX(viewAtRight.frame) < self.view.frame.size.width) {
                     [UIView transitionWithView:self.view
-                                      duration:0.2
+                                      duration:SLIDE_TRANSITION_TIME
                                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                                     animations:^{
                         [self changeFrame:viewAtRight
@@ -555,7 +556,7 @@
 				else if (viewAtLeft.frame.origin.x > SLIDE_VIEWS_MINUS_X_POSITION) {
                     __block NSString *animationDirection;
                     [UIView transitionWithView:self.view
-                                      duration:0.2
+                                      duration:SLIDE_TRANSITION_TIME
                                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                                     animations:^{
                         if (CGRectGetMaxX(viewAtLeft.frame) > self.view.frame.size.width && viewAtLeft.frame.origin.x < (self.view.frame.size.width - viewAtLeft.frame.size.width / 2)) {
@@ -593,7 +594,7 @@
 			}
 			else {
                 [UIView transitionWithView:self.view
-                                  duration:0.2
+                                  duration:SLIDE_TRANSITION_TIME
                                    options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                                 animations:^{
                     [self changeFrame:viewAtLeft
@@ -607,7 +608,7 @@
 			if (viewAtLeft != nil) {
 				if ([slideViews.subviews indexOfObject:viewAtLeft] == 0 && !(viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION || viewAtLeft.frame.origin.x == SLIDE_VIEWS_START_X_POS)) {
                     [UIView transitionWithView:self.view
-                                      duration:0.2
+                                      duration:SLIDE_TRANSITION_TIME
                                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                                     animations:^{
                         if (viewAtLeft.frame.origin.x > SLIDE_VIEWS_MINUS_X_POSITION || viewAtRight == nil) {
@@ -652,7 +653,7 @@
 - (void)moveStack {
     if (viewAtRight.frame.origin.x < CGRectGetMaxX(viewAtLeft.frame) && viewAtRight.frame.origin.x < (self.view.frame.size.width - viewAtRight.frame.size.width / 2)) {
         [UIView transitionWithView:self.view
-                          duration:0.2
+                          duration:SLIDE_TRANSITION_TIME
                            options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                         animations:^{
             [self changeFrame:viewAtRight
@@ -665,7 +666,7 @@
     }
     else {
         [UIView transitionWithView:self.view
-                          duration:0.2
+                          duration:SLIDE_TRANSITION_TIME
                            options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                         animations:^{
             if ([slideViews.subviews indexOfObject:viewAtLeft] > 0) {
@@ -901,7 +902,7 @@
             controller.view.frame = CGRectMake(animX, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
 
             [UIView transitionWithView:viewAtLeft
-                              duration:0.2
+                              duration:SLIDE_TRANSITION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^{
                 controller.view.frame = CGRectMake(viewXPosition, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
@@ -919,7 +920,7 @@
 			viewAtRight2 = nil;
             
             [UIView transitionWithView:viewAtLeft
-                              duration:0.2
+                              duration:SLIDE_TRANSITION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^{
                 [self changeFrame:viewAtLeft
@@ -939,7 +940,7 @@
             viewAtRight2 = nil;
             
             [UIView transitionWithView:viewAtLeft
-                              duration:0.2
+                              duration:SLIDE_TRANSITION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^{
                 [self changeFrame:viewAtLeft2
