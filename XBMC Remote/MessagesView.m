@@ -52,6 +52,7 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
         self.frame = CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height);
+        self.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {}];
     viewMessage.text = message;
