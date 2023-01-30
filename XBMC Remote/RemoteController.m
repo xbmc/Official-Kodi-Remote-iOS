@@ -1365,9 +1365,17 @@ NSInteger buttonAction;
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundImage_repeat"]];
     
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, TransitionalView.frame.size.height / 2 - DEFAULT_MSG_HEIGHT / 2, TransitionalView.frame.size.width, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];
+    UIView *rootView = IS_IPHONE ? UIApplication.sharedApplication.keyWindow.rootViewController.view : self.view;
+    CGFloat deltaY = IS_IPHONE ? UIApplication.sharedApplication.statusBarFrame.size.height : 0;
+    CGFloat originX = isEmbeddedMode ? ANCHOR_RIGHT_PEEK : 0;
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(originX,
+                                                                  0,
+                                                                  TransitionalView.frame.size.width,
+                                                                  DEFAULT_MSG_HEIGHT + deltaY)
+                                                deltaY:deltaY
+                                                deltaX:0];
     messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    [TransitionalView addSubview:messagesView];
+    [rootView addSubview:messagesView];
 }
 
 - (void)handleSettingsButton:(id)sender {
