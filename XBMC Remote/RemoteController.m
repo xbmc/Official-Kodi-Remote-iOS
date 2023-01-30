@@ -1376,6 +1376,19 @@ NSInteger buttonAction;
                                                 deltaX:0];
     messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     [rootView addSubview:messagesView];
+    
+    if (isEmbeddedMode) {
+        // Shadow on right side of movable screen
+        CGRect shadowRect = CGRectMake(0,
+                                       0,
+                                       PANEL_SHADOW_SIZE,
+                                       messagesView.frame.size.height);
+        UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
+        shadowRight.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
+        shadowRight.image = [UIImage imageNamed:@"tableRight"];
+        shadowRight.opaque = YES;
+        [messagesView addSubview:shadowRight];
+    }
 }
 
 - (void)handleSettingsButton:(id)sender {
