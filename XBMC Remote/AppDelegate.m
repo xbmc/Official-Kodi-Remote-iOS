@@ -2352,6 +2352,7 @@
 
         @[
             @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
             }, @"parameters",
             LOCALIZED_STR(@"Files"), @"label",
@@ -3120,6 +3121,7 @@
         
         @[
             @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
             }, @"parameters",
             LOCALIZED_STR(@"Files"), @"label",
