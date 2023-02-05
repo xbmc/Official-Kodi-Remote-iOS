@@ -5033,8 +5033,10 @@ NSIndexPath *selected;
 - (void)indexAndDisplayData {
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
     NSArray *copyRichResults = [self.richResults copy];
     BOOL addUITableViewIndexSearch = NO;
+    BOOL isFileBrowsing = [methods[@"method"] isEqualToString:@"Files.GetDirectory"];
     self.sectionArray = nil;
     autoScrollTable = nil;
     if (copyRichResults.count == 0) {
@@ -5062,7 +5064,7 @@ NSIndexPath *selected;
     // Sort tokens need to be processed outside of other conditions to ensure they are applied
     // also for default sorting coming from Kodi server.
     NSString *sortbymethod = sortMethodName;
-    if (sortMethodName != nil) {
+    if (sortMethodName != nil && !isFileBrowsing) {
         if ([self isEligibleForSorttokenSort]) {
             copyRichResults = [self applySortTokens:copyRichResults sortmethod:sortbymethod];
             sortbymethod = @"sortby";
