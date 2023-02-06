@@ -151,7 +151,7 @@ typedef enum {
 - (UIImage*)loadImageFromName:(NSString*)imageName {
     UIImage *image = nil;
     if (imageName.length != 0) {
-        image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", imageName]];
+        image = [UIImage imageNamed:imageName];
     }
     return image;
 }
