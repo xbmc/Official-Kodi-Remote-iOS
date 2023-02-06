@@ -133,6 +133,36 @@ typedef enum {
     return codec;
 }
 
+- (NSString*)processChannelString:(NSString*)channels {
+    NSDictionary *channelSetupTable = @{
+        @"0": @"0.0",
+        @"1": @"1.0",
+        @"2": @"2.0",
+        @"3": @"2.1",
+        @"4": @"4.0",
+        @"5": @"4.1",
+        @"6": @"5.1",
+        @"7": @"6.1",
+        @"8": @"7.1",
+        @"9": @"8.1",
+        @"10": @"9.1",
+    };
+    channels = channelSetupTable[channels] ?: channels;
+    channels = channels.length ? [NSString stringWithFormat:@"%@\n", channels] : @"";
+    return channels;
+}
+
+- (NSString*)processAspectString:(NSString*)aspect {
+    NSDictionary *aspectTable = @{
+        @"1.00": @"1:1",
+        @"1.33": @"4:3",
+        @"1.78": @"16:9",
+        @"2.00": @"2:1",
+    };
+    aspect = aspectTable[aspect] ?: aspect;
+    return aspect;
+}
+
 - (BOOL)isLosslessFormat:(NSString*)codec {
     NSString *upperCaseCodec = [codec uppercaseString];
     return ([upperCaseCodec isEqualToString:@"WMALOSSLESS"] ||
@@ -834,7 +864,12 @@ long storedItemID;
                  NSString *codec = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
                  codec = [self processSongCodecName:codec];
                  [self setSongDetails:songCodec image:songCodecImage item:codec];
-                 [self setSongDetails:songBitRate image:songBitRateImage item:methodResult[@"MusicPlayer.Channels"]];
+                 
+                 NSString *channels = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Channels"]];
+                 channels = [self processChannelString:channels];
+                 songBitRate.text = channels;
+                 songBitRateImage.image = [self loadImageFromName:@"channels"];
+                 songBitRate.hidden = songBitRateImage.hidden = channels.length == 0;
                  
                  BOOL isLossless = [self isLosslessFormat:codec];
                  
@@ -865,9 +900,14 @@ long storedItemID;
              }
              else if (playerID == PLAYERID_VIDEO && currentPlayerID == playerID) {
                  [self setSongDetails:songCodec image:songCodecImage item:methodResult[@"VideoPlayer.VideoResolution"]];
-                 [self setSongDetails:songBitRate image:songBitRateImage item:methodResult[@"VideoPlayer.VideoAspect"]];
                  [self setSongDetails:songSampleRate image:songSampleRateImage item:methodResult[@"VideoPlayer.VideoCodec"]];
                  [self setSongDetails:songNumChannels image:songNumChanImage item:methodResult[@"VideoPlayer.AudioCodec"]];
+                 
+                 NSString *aspect = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoAspect"]];
+                 aspect = [self processAspectString:aspect];
+                 songBitRate.text = aspect;
+                 songBitRateImage.image = [self loadImageFromName:@"aspect"];
+                 songBitRateImage.hidden = songBitRate.hidden = aspect.length == 0;
              }
              else {
                  songCodec.hidden = YES;
