@@ -118,6 +118,7 @@ typedef enum {
 - (void)setSongDetails:(UILabel*)label image:(UIImageView*)imageView item:(id)item {
     label.text = [Utilities getStringFromItem:item];
     imageView.image = [self loadImageFromName:label.text];
+    imageView.hidden = NO;
     label.hidden = imageView.image != nil;
 }
 
@@ -914,6 +915,10 @@ long storedItemID;
                  songBitRate.hidden = YES;
                  songSampleRate.hidden = YES;
                  songNumChannels.hidden = YES;
+                 songCodecImage.hidden = YES;
+                 songBitRateImage.hidden = YES;
+                 songSampleRateImage.hidden = YES;
+                 songNumChanImage.hidden = YES;
              }
          }
     }];
