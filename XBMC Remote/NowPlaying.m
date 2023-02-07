@@ -2245,6 +2245,12 @@ long storedItemID;
     [self setCoverSize:currentType];
 }
 
+- (void)setAVCodecFont:(UILabel*)label size:(CGFloat)fontsize {
+    label.font = [UIFont boldSystemFontOfSize:fontsize];
+    label.numberOfLines = 2;
+    label.minimumScaleFactor = 11.0 / fontsize;
+}
+
 - (void)setFontSizes {
     // Scale is derived from the minimum increase in NowPlaying's width or height
     CGFloat height = IS_IPHONE ? GET_MAINSCREEN_HEIGHT : GET_MAINSCREEN_WIDTH;
@@ -2258,6 +2264,10 @@ long storedItemID;
     duration.font         = [UIFont systemFontOfSize:floor(12 * scale)];
     scrabbingMessage.font = [UIFont systemFontOfSize:floor(10 * scale)];
     scrabbingRate.font    = [UIFont systemFontOfSize:floor(10 * scale)];
+    songBitRate.font      = [UIFont systemFontOfSize:floor(16 * scale) weight:UIFontWeightHeavy];
+    [self setAVCodecFont:songCodec size:floor(15 * scale)];
+    [self setAVCodecFont:songSampleRate size:floor(15 * scale)];
+    [self setAVCodecFont:songNumChannels size:floor(15 * scale)];
 }
 
 - (void)setIphoneInterface {
