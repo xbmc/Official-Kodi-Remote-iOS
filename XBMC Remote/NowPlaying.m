@@ -860,7 +860,7 @@ long storedItemID;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
              hiresImage.hidden = YES;
-             if (playerID == PLAYERID_MUSIC && currentPlayerID == playerID) {
+             if (currentPlayerID == PLAYERID_MUSIC) {
                  NSString *codec = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
                  codec = [self processSongCodecName:codec];
                  [self setSongDetails:songCodec image:songCodecImage item:codec];
@@ -898,7 +898,7 @@ long storedItemID;
                  songSampleRate.hidden = NO;
                  songSampleRateImage.image = nil;
              }
-             else if (playerID == PLAYERID_VIDEO && currentPlayerID == playerID) {
+             else if (currentPlayerID == PLAYERID_VIDEO) {
                  [self setSongDetails:songCodec image:songCodecImage item:methodResult[@"VideoPlayer.VideoResolution"]];
                  [self setSongDetails:songSampleRate image:songSampleRateImage item:methodResult[@"VideoPlayer.VideoCodec"]];
                  [self setSongDetails:songNumChannels image:songNumChanImage item:methodResult[@"VideoPlayer.AudioCodec"]];
@@ -1525,7 +1525,7 @@ long storedItemID;
 }
 
 - (void)toggleSongDetails {
-    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || playerID == PLAYERID_PICTURES) {
+    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || currentPlayerID == PLAYERID_PICTURES) {
         return;
     }
     [UIView animateWithDuration:0.2
