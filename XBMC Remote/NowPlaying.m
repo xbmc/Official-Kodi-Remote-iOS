@@ -518,6 +518,9 @@ long storedItemID;
                         }
                     }
                 }
+                // Codec view uses "XBMC.GetInfoLabels" which might change asynchronously. Therefore check each time.
+                [self loadCodecView];
+                
                 NSMutableArray *properties = [@[@"album",
                                                 @"artist",
                                                 @"title",
@@ -548,7 +551,6 @@ long storedItemID;
                              long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
                              if ((nowPlayingInfo.count && currentItemID != storedItemID) || nowPlayingInfo[@"id"] == nil || ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
                                  storedItemID = currentItemID;
-                                 [self performSelector:@selector(loadCodecView) withObject:nil afterDelay:.5];
                                  itemDescription.text = [nowPlayingInfo[@"description"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"description"]] : [nowPlayingInfo[@"plot"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"plot"]] : @"";
                                  [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
                                  NSString *album = [Utilities getStringFromItem:nowPlayingInfo[@"album"]];
