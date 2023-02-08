@@ -518,6 +518,10 @@ long storedItemID;
                         }
                     }
                 }
+                // Switch off overlay if the picture player is active
+                if (currentPlayerID == PLAYERID_PICTURES) {
+                    [self toggleSongDetails];
+                }
                 // Codec view uses "XBMC.GetInfoLabels" which might change asynchronously. Therefore check each time.
                 [self loadCodecView];
                 
@@ -1532,7 +1536,7 @@ long storedItemID;
 }
 
 - (void)toggleSongDetails {
-    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || currentPlayerID == PLAYERID_PICTURES) {
+    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || (currentPlayerID == PLAYERID_PICTURES && songDetailsView.alpha == 0.0)) {
         return;
     }
     [UIView animateWithDuration:0.2
