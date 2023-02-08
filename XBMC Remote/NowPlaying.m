@@ -491,6 +491,10 @@ long storedItemID;
     [Utilities imageView:jewelView AnimDuration:0.2 Image:newImage];
 }
 
+- (void)setWaitForInfoLabelsToSettle {
+    waitForInfoLabelsToSettle = NO;
+}
+
 - (void)getActivePlayers {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
@@ -516,6 +520,9 @@ long storedItemID;
                         if (playerID != currentPlayerID) {
                             [self createPlaylist:NO animTableView:YES];
                         }
+                        // Pause the A/V codec updates until Kodi's info labels settled
+                        waitForInfoLabelsToSettle = YES;
+                        [self performSelector:@selector(setWaitForInfoLabelsToSettle) withObject:nil afterDelay:1.0];
                     }
                 }
                 // Switch off overlay if the picture player is active
@@ -523,7 +530,7 @@ long storedItemID;
                     [self toggleSongDetails];
                 }
                 // Codec view uses "XBMC.GetInfoLabels" which might change asynchronously. Therefore check each time.
-                if (songDetailsView.alpha) {
+                if (songDetailsView.alpha && !waitForInfoLabelsToSettle) {
                     [self loadCodecView];
                 }
                 
