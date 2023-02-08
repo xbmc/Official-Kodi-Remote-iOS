@@ -523,7 +523,9 @@ long storedItemID;
                     [self toggleSongDetails];
                 }
                 // Codec view uses "XBMC.GetInfoLabels" which might change asynchronously. Therefore check each time.
-                [self loadCodecView];
+                if (songDetailsView.alpha) {
+                    [self loadCodecView];
+                }
                 
                 NSMutableArray *properties = [@[@"album",
                                                 @"artist",
