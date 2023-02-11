@@ -944,6 +944,14 @@
     return iconName;
 }
 
++ (NSString*)getConnectionStatusServerName {
+    NSString *serverName = @"No connection";
+    if (AppDelegate.instance.serverOnLine) {
+        serverName = AppDelegate.instance.serverName;
+    }
+    return serverName;
+}
+
 + (void)addShadowsToView:(UIView*)view viewFrame:(CGRect)frame {
     view.clipsToBounds = NO;
     
