@@ -118,6 +118,7 @@ typedef enum {
 - (void)setSongDetails:(UILabel*)label image:(UIImageView*)imageView item:(id)item {
     label.text = [Utilities getStringFromItem:item];
     imageView.image = [self loadImageFromName:label.text];
+    imageView.hidden = NO;
     label.hidden = imageView.image != nil;
 }
 
@@ -131,6 +132,36 @@ typedef enum {
         codec = @"pcm";
     }
     return codec;
+}
+
+- (NSString*)processChannelString:(NSString*)channels {
+    NSDictionary *channelSetupTable = @{
+        @"0": @"0.0",
+        @"1": @"1.0",
+        @"2": @"2.0",
+        @"3": @"2.1",
+        @"4": @"4.0",
+        @"5": @"4.1",
+        @"6": @"5.1",
+        @"7": @"6.1",
+        @"8": @"7.1",
+        @"9": @"8.1",
+        @"10": @"9.1",
+    };
+    channels = channelSetupTable[channels] ?: channels;
+    channels = channels.length ? [NSString stringWithFormat:@"%@\n", channels] : @"";
+    return channels;
+}
+
+- (NSString*)processAspectString:(NSString*)aspect {
+    NSDictionary *aspectTable = @{
+        @"1.00": @"1:1",
+        @"1.33": @"4:3",
+        @"1.78": @"16:9",
+        @"2.00": @"2:1",
+    };
+    aspect = aspectTable[aspect] ?: aspect;
+    return aspect;
 }
 
 - (BOOL)isLosslessFormat:(NSString*)codec {
@@ -151,7 +182,7 @@ typedef enum {
 - (UIImage*)loadImageFromName:(NSString*)imageName {
     UIImage *image = nil;
     if (imageName.length != 0) {
-        image = [UIImage imageNamed:[NSString stringWithFormat:@"%@", imageName]];
+        image = [UIImage imageNamed:imageName];
     }
     return image;
 }
@@ -460,6 +491,10 @@ long storedItemID;
     [Utilities imageView:jewelView AnimDuration:0.2 Image:newImage];
 }
 
+- (void)setWaitForInfoLabelsToSettle {
+    waitForInfoLabelsToSettle = NO;
+}
+
 - (void)getActivePlayers {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
         if (error == nil && methodError == nil) {
@@ -485,8 +520,20 @@ long storedItemID;
                         if (playerID != currentPlayerID) {
                             [self createPlaylist:NO animTableView:YES];
                         }
+                        // Pause the A/V codec updates until Kodi's info labels settled
+                        waitForInfoLabelsToSettle = YES;
+                        [self performSelector:@selector(setWaitForInfoLabelsToSettle) withObject:nil afterDelay:1.0];
                     }
                 }
+                // Switch off overlay if the picture player is active
+                if (currentPlayerID == PLAYERID_PICTURES) {
+                    [self toggleSongDetails];
+                }
+                // Codec view uses "XBMC.GetInfoLabels" which might change asynchronously. Therefore check each time.
+                if (songDetailsView.alpha && !waitForInfoLabelsToSettle) {
+                    [self loadCodecView];
+                }
+                
                 NSMutableArray *properties = [@[@"album",
                                                 @"artist",
                                                 @"title",
@@ -517,7 +564,6 @@ long storedItemID;
                              long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
                              if ((nowPlayingInfo.count && currentItemID != storedItemID) || nowPlayingInfo[@"id"] == nil || ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
                                  storedItemID = currentItemID;
-                                 [self performSelector:@selector(loadCodecView) withObject:nil afterDelay:.5];
                                  itemDescription.text = [nowPlayingInfo[@"description"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"description"]] : [nowPlayingInfo[@"plot"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"plot"]] : @"";
                                  [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
                                  NSString *album = [Utilities getStringFromItem:nowPlayingInfo[@"album"]];
@@ -830,11 +876,16 @@ long storedItemID;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
              hiresImage.hidden = YES;
-             if (playerID == PLAYERID_MUSIC && currentPlayerID == playerID) {
+             if (currentPlayerID == PLAYERID_MUSIC) {
                  NSString *codec = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
                  codec = [self processSongCodecName:codec];
                  [self setSongDetails:songCodec image:songCodecImage item:codec];
-                 [self setSongDetails:songBitRate image:songBitRateImage item:methodResult[@"MusicPlayer.Channels"]];
+                 
+                 NSString *channels = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Channels"]];
+                 channels = [self processChannelString:channels];
+                 songBitRate.text = channels;
+                 songBitRateImage.image = [self loadImageFromName:@"channels"];
+                 songBitRate.hidden = songBitRateImage.hidden = channels.length == 0;
                  
                  BOOL isLossless = [self isLosslessFormat:codec];
                  
@@ -863,17 +914,26 @@ long storedItemID;
                  songSampleRate.hidden = NO;
                  songSampleRateImage.image = nil;
              }
-             else if (playerID == PLAYERID_VIDEO && currentPlayerID == playerID) {
+             else if (currentPlayerID == PLAYERID_VIDEO) {
                  [self setSongDetails:songCodec image:songCodecImage item:methodResult[@"VideoPlayer.VideoResolution"]];
-                 [self setSongDetails:songBitRate image:songBitRateImage item:methodResult[@"VideoPlayer.VideoAspect"]];
                  [self setSongDetails:songSampleRate image:songSampleRateImage item:methodResult[@"VideoPlayer.VideoCodec"]];
                  [self setSongDetails:songNumChannels image:songNumChanImage item:methodResult[@"VideoPlayer.AudioCodec"]];
+                 
+                 NSString *aspect = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoAspect"]];
+                 aspect = [self processAspectString:aspect];
+                 songBitRate.text = aspect;
+                 songBitRateImage.image = [self loadImageFromName:@"aspect"];
+                 songBitRateImage.hidden = songBitRate.hidden = aspect.length == 0;
              }
              else {
                  songCodec.hidden = YES;
                  songBitRate.hidden = YES;
                  songSampleRate.hidden = YES;
                  songNumChannels.hidden = YES;
+                 songCodecImage.hidden = YES;
+                 songBitRateImage.hidden = YES;
+                 songSampleRateImage.hidden = YES;
+                 songNumChanImage.hidden = YES;
              }
          }
     }];
@@ -1485,7 +1545,7 @@ long storedItemID;
 }
 
 - (void)toggleSongDetails {
-    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || playerID == PLAYERID_PICTURES) {
+    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || (currentPlayerID == PLAYERID_PICTURES && songDetailsView.alpha == 0.0)) {
         return;
     }
     [UIView animateWithDuration:0.2
@@ -2205,6 +2265,12 @@ long storedItemID;
     [self setCoverSize:currentType];
 }
 
+- (void)setAVCodecFont:(UILabel*)label size:(CGFloat)fontsize {
+    label.font = [UIFont boldSystemFontOfSize:fontsize];
+    label.numberOfLines = 2;
+    label.minimumScaleFactor = 11.0 / fontsize;
+}
+
 - (void)setFontSizes {
     // Scale is derived from the minimum increase in NowPlaying's width or height
     CGFloat height = IS_IPHONE ? GET_MAINSCREEN_HEIGHT : GET_MAINSCREEN_WIDTH;
@@ -2218,6 +2284,10 @@ long storedItemID;
     duration.font         = [UIFont systemFontOfSize:floor(12 * scale)];
     scrabbingMessage.font = [UIFont systemFontOfSize:floor(10 * scale)];
     scrabbingRate.font    = [UIFont systemFontOfSize:floor(10 * scale)];
+    songBitRate.font      = [UIFont systemFontOfSize:floor(16 * scale) weight:UIFontWeightHeavy];
+    [self setAVCodecFont:songCodec size:floor(15 * scale)];
+    [self setAVCodecFont:songSampleRate size:floor(15 * scale)];
+    [self setAVCodecFont:songNumChannels size:floor(15 * scale)];
 }
 
 - (void)setIphoneInterface {
