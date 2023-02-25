@@ -391,35 +391,20 @@
 				
                 CGFloat atRightDisplacement = positionOfViewAtRightAtTouchBegan.x + translatedPoint.x + displacementPosition;
 				if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION && CGRectGetMaxX(viewAtRight.frame) > self.view.frame.size.width) {
-					if (atRightDisplacement + viewAtRight.frame.size.width <= self.view.frame.size.width) {
-                        [self changeFrame:viewAtRight
-                                  originX:self.view.frame.size.width - viewAtRight.frame.size.width];
-					}
-                    else {
-                        [self changeFrame:viewAtRight
-                                  originX:atRightDisplacement];
-					}
+                    CGFloat originX = MAX(atRightDisplacement, self.view.frame.size.width - viewAtRight.frame.size.width);
+                    [self changeFrame:viewAtRight
+                              originX:originX];
 				}
 				else if (([slideViews.subviews indexOfObject:viewAtRight] == slideViews.subviews.count - 1) && viewAtRight.frame.origin.x <= (self.view.frame.size.width - viewAtRight.frame.size.width)) {
-					if (atRightDisplacement <= SLIDE_VIEWS_MINUS_X_POSITION) {
-                        [self changeFrame:viewAtRight
-                                  originX:SLIDE_VIEWS_MINUS_X_POSITION];
-					}
-                    else {
-                        [self changeFrame:viewAtRight
-                                  originX:atRightDisplacement];
-					}
+                    CGFloat originX = MAX(atRightDisplacement, SLIDE_VIEWS_MINUS_X_POSITION);
+                    [self changeFrame:viewAtRight
+                              originX:originX];
 				}
 				else {
                     CGFloat atLeftDisplacement = positionOfViewAtLeftAtTouchBegan.x + translatedPoint.x + displacementPosition;
-                    if (atLeftDisplacement <= SLIDE_VIEWS_MINUS_X_POSITION) {
-                        [self changeFrame:viewAtLeft
-                                  originX:SLIDE_VIEWS_MINUS_X_POSITION];
-					}
-                    else {
-                        [self changeFrame:viewAtLeft
-                                  originX:atLeftDisplacement];
-					}
+                    CGFloat originX = MAX(atLeftDisplacement, SLIDE_VIEWS_MINUS_X_POSITION);
+                    [self changeFrame:viewAtLeft
+                              originX:originX];
                     [self changeFrame:viewAtRight
                               originX:CGRectGetMaxX(viewAtLeft.frame)];
 					
@@ -470,14 +455,9 @@
                 CGFloat atRightDisplacement = positionOfViewAtRightAtTouchBegan.x + translatedPoint.x - displacementPosition;
                 CGFloat overlapLeftRight = viewAtRight.frame.origin.x - viewAtLeft.frame.size.width;
 				if (viewAtRight.frame.origin.x < CGRectGetMaxX(viewAtLeft.frame) && viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION) {
-					if (atRightDisplacement >= CGRectGetMaxX(viewAtLeft.frame)) {
-                        [self changeFrame:viewAtRight
-                                  originX:CGRectGetMaxX(viewAtLeft.frame)];
-					}
-                    else {
-                        [self changeFrame:viewAtRight
-                                  originX:atRightDisplacement];
-					}
+                    CGFloat originX = MIN(atRightDisplacement, CGRectGetMaxX(viewAtLeft.frame));
+                    [self changeFrame:viewAtRight
+                              originX:originX];
 				}
                 else if ([slideViews.subviews indexOfObject:viewAtLeft] == 0) {
 					if (viewAtRight == nil) {
@@ -488,33 +468,20 @@
                     else {
                         [self changeFrame:viewAtRight
                                   originX:atRightDisplacement];
-						if (overlapLeftRight < SLIDE_VIEWS_MINUS_X_POSITION) {
-                            [self changeFrame:viewAtLeft
-                                      originX:SLIDE_VIEWS_MINUS_X_POSITION];
-						}
-                        else {
-                            [self changeFrame:viewAtLeft
-                                      originX:overlapLeftRight];
-						}
+                        CGFloat originX = MAX(overlapLeftRight, SLIDE_VIEWS_MINUS_X_POSITION);
+                        [self changeFrame:viewAtLeft
+                                  originX:originX];
 					}
 				}					
 				else {
-					if (atRightDisplacement >= self.view.frame.size.width) {
-                        [self changeFrame:viewAtRight
-                                  originX:self.view.frame.size.width];
-					}
-                    else {
-                        [self changeFrame:viewAtRight
-                                  originX:atRightDisplacement];
-					}
-					if (overlapLeftRight < SLIDE_VIEWS_MINUS_X_POSITION) {
-                        [self changeFrame:viewAtLeft
-                                  originX:SLIDE_VIEWS_MINUS_X_POSITION];
-					}
-					else {
-                        [self changeFrame:viewAtLeft
-                                  originX:overlapLeftRight];
-					}
+                    CGFloat originX = MIN(atRightDisplacement, self.view.frame.size.width);
+                    [self changeFrame:viewAtRight
+                              originX:originX];
+                    
+                    originX = MAX(overlapLeftRight, SLIDE_VIEWS_MINUS_X_POSITION);
+                    [self changeFrame:viewAtLeft
+                              originX:originX];
+                    
 					if (viewAtRight.frame.origin.x >= self.view.frame.size.width) {
 						positionOfViewAtRightAtTouchBegan = viewAtRight.frame.origin;
 						positionOfViewAtLeftAtTouchBegan = viewAtLeft.frame.origin;
@@ -975,10 +942,8 @@
                               duration:0.2
                                options:UIViewAnimationOptionTransitionNone
                             animations:^{
-                if (viewAtLeft2.frame.origin.x != SLIDE_VIEWS_MINUS_X_POSITION) {
-                    [self changeFrame:viewAtLeft2
-                              originX:SLIDE_VIEWS_MINUS_X_POSITION];
-                }
+                [self changeFrame:viewAtLeft2
+                          originX:SLIDE_VIEWS_MINUS_X_POSITION];
                 [self changeFrame:viewAtLeft
                           originX:SLIDE_VIEWS_MINUS_X_POSITION];
                 [self changeFrame:viewAtRight
