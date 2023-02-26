@@ -57,14 +57,7 @@
         [serverListTableView deselectRowAtIndexPath:item animated:YES];
         cell.accessoryType = UITableViewCellAccessoryNone;
         storeServerSelection = nil;
-        AppDelegate.instance.obj.serverDescription = @"";
-        AppDelegate.instance.obj.serverUser = @"";
-        AppDelegate.instance.obj.serverPass = @"";
-        AppDelegate.instance.obj.serverRawIP = @"";
-        AppDelegate.instance.obj.serverIP = @"";
-        AppDelegate.instance.obj.serverPort = @"";
-        AppDelegate.instance.obj.serverHWAddr = @"";
-        AppDelegate.instance.obj.tcpPort = 0;
+        [Utilities resetKodiServerParameters];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:@(-1) forKey:@"lastServer"];
@@ -169,15 +162,8 @@
     [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
     cell.accessoryType = UITableViewCellAccessoryNone;
     storeServerSelection = nil;
-    AppDelegate.instance.obj.serverDescription = @"";
-    AppDelegate.instance.obj.serverUser = @"";
-    AppDelegate.instance.obj.serverPass = @"";
-    AppDelegate.instance.obj.serverRawIP = @"";
-    AppDelegate.instance.obj.serverIP = @"";
-    AppDelegate.instance.obj.serverPort = @"";
-    AppDelegate.instance.obj.serverHWAddr = @"";
+    [Utilities resetKodiServerParameters];
     AppDelegate.instance.serverOnLine = NO;
-    AppDelegate.instance.obj.tcpPort = 0;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:@(-1) forKey:@"lastServer"];
     ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:@"connection_off"];
@@ -235,14 +221,7 @@
             }
             else if (storeServerSelection.row == indexPath.row) {
                 storeServerSelection = nil;
-                AppDelegate.instance.obj.serverDescription = @"";
-                AppDelegate.instance.obj.serverUser = @"";
-                AppDelegate.instance.obj.serverPass = @"";
-                AppDelegate.instance.obj.serverRawIP = @"";
-                AppDelegate.instance.obj.serverIP = @"";
-                AppDelegate.instance.obj.serverPort = @"";
-                AppDelegate.instance.obj.serverHWAddr = @"";
-                AppDelegate.instance.obj.tcpPort = 0;
+                [Utilities resetKodiServerParameters];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
                 [userDefaults setObject:@(-1) forKey:@"lastServer"];
             }
