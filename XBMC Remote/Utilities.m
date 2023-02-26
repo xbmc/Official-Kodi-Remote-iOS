@@ -1417,4 +1417,15 @@
     return vmInfo.phys_footprint;
 }
 
++ (void)resetKodiServerParameters {
+    AppDelegate.instance.obj.serverDescription = @"";
+    AppDelegate.instance.obj.serverUser = @"";
+    AppDelegate.instance.obj.serverPass = @"";
+    AppDelegate.instance.obj.serverRawIP = @"";
+    AppDelegate.instance.obj.serverIP = @"";
+    AppDelegate.instance.obj.serverPort = @"";
+    AppDelegate.instance.obj.serverHWAddr = @"";
+    AppDelegate.instance.obj.tcpPort = 0;
+}
+
 @end
