@@ -1913,7 +1913,10 @@
 }
 
 - (void)indexViewValueChanged:(BDKCollectionIndexView*)sender {
-    if (sender.currentIndex == 0) {
+    if (sender.currentIndex == -1) {
+        return;
+    }
+    else if (sender.currentIndex == 0) {
         if (enableCollectionView) {
             [collectionView setContentOffset:CGPointZero animated:NO];
             if (sectionNameOverlayView == nil && stackscrollFullscreen) {
@@ -1966,7 +1969,7 @@
         }
         return;
     }
-    else if (enableCollectionView) {
+    else if (enableCollectionView && sender.currentIndex < collectionView.numberOfSections) {
         NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
         [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
         CGFloat offset = collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT;
@@ -1982,7 +1985,7 @@
         
         collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, offset);
     }
-    else {
+    else if (sender.currentIndex < dataList.numberOfSections) {
         NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:sender.currentIndex];
         [dataList scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
