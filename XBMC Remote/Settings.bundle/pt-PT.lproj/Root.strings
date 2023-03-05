@@ -1,5 +1,5 @@
-"Main Menu" = "Menú principal";
-"Light" = "Leve";
+"Main Menu" = "Menu principal";
+"Light" = "Claro";
 "Dark" = "Escuro";
 "Automatic" = "Automático";
 "General" = "Geral";
@@ -21,7 +21,8 @@
 "Colorize UI automatically" = "Colorizar interface automaticamente";
 "Use rounded corner images" = "Imagens com cantos redondos";
 "Hide labels in wall view" = "Ocultar nomes na vista de parede";
-"Shake to clear playlist" = "Agitar para limpar playlist";
+"Shake to clear playlist" = "Agitar para limpar lista de reprodução";
 "Ken Burns effect" = "Efeito Ken Burns";
-"Direct Play mode" = "Modo de reproduçao directo";
+"Direct Play mode" = "Modo de reprodução directa";
 "Send Wake-On-LAN automatically" = "Enviar Wake-On-Lan automaticamente";
+"Show connection notice" = "Mostrar aviso de ligação";
