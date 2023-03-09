@@ -56,10 +56,8 @@
         AppDelegate.instance.obj.serverPort = @"";
         AppDelegate.instance.obj.serverHWAddr = @"";
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
-        NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-        if (standardUserDefaults) {
-            [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
-        }
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject: @(-1) forKey:@"lastServer"];
         [connectingActivityIndicator stopAnimating];
     }
     HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
@@ -167,10 +165,8 @@ static inline BOOL IsEmpty(id obj) {
     AppDelegate.instance.obj.serverHWAddr = @"";
     AppDelegate.instance.serverOnLine = NO;
     AppDelegate.instance.obj.tcpPort = 0;
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    if (standardUserDefaults) {
-        [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
-    }
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject: @(-1) forKey:@"lastServer"];
     ((UIImageView*)[cell viewWithTag:1]).image = [UIImage imageNamed:@"connection_off"];
 }
 
@@ -190,10 +186,8 @@ static inline BOOL IsEmpty(id obj) {
             UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             [self selectServerAtIndexPath:indexPath];
-            NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-            if (standardUserDefaults) {
-                [standardUserDefaults setObject: @(indexPath.row) forKey:@"lastServer"];
-            }
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject: @(indexPath.row) forKey:@"lastServer"];
             // Trigger Local Network Privacy Alert (if not already done for the App)
             [AppDelegate.instance triggerLocalNetworkPrivacyAlert];
         }
@@ -223,12 +217,10 @@ static inline BOOL IsEmpty(id obj) {
         [AppDelegate.instance.arrayServerList removeObjectAtIndex:indexPath.row];
         [AppDelegate.instance saveServerList];
         if (storeServerSelection) {
-            NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             if (indexPath.row < storeServerSelection.row) {
                 storeServerSelection = [NSIndexPath indexPathForRow:storeServerSelection.row - 1 inSection:storeServerSelection.section];
-                if (standardUserDefaults) {
-                    [standardUserDefaults setObject: @(storeServerSelection.row) forKey:@"lastServer"];
-                }
+                [userDefaults setObject: @(storeServerSelection.row) forKey:@"lastServer"];
             }
             else if (storeServerSelection.row == indexPath.row) {
                 storeServerSelection = nil;
@@ -240,7 +232,7 @@ static inline BOOL IsEmpty(id obj) {
                 AppDelegate.instance.obj.serverHWAddr = @"";
                 AppDelegate.instance.obj.tcpPort = 0;
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
-                [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
+                [userDefaults setObject: @(-1) forKey:@"lastServer"];
             }
         }
         if (indexPath.row < [tableView numberOfRowsInSection:indexPath.section]) {
