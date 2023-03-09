@@ -41,8 +41,6 @@
 
 @implementation HostViewController
 
-@synthesize detailItem = _detailItem;
-
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
@@ -85,13 +83,7 @@
     }
 }
 
-- (void)setDetailItem:(id)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-    }
-}
-
-- (IBAction) dismissView:(id)sender {
+- (IBAction)dismissView:(id)sender {
     
     [self textFieldDoneEditing:nil];
     
@@ -269,7 +261,6 @@
 }
 
 - (void)handleError:(NSNumber*)error {
-//    NSLog(@"An error occurred. Error code = %d", [error intValue]);
     // Handle error here
 }
 
@@ -294,7 +285,7 @@
 #pragma mark - resolveMacAddress Methods
 
 - (NSString*)resolveMacFromIP:(NSString*)ipAddress {
-    NSString* res = nil;
+    NSString *res = nil;
     
     in_addr_t host = inet_addr([ipAddress UTF8String]);
     int sockfd;
@@ -327,7 +318,7 @@
     if (n != 0) {
         int index = sizeof(struct rt_msghdr) + sizeof(struct sockaddr_inarp) + 8;
         res = [NSString stringWithFormat:@"%2.2X:%2.2X:%2.2X:%2.2X:%2.2X:%2.2X",
-               buf2[index+0], buf2[index+1], buf2[index+2], buf2[index+3], buf2[index+4], buf2[index+5]];
+               buf2[index + 0], buf2[index + 1], buf2[index + 2], buf2[index + 3], buf2[index + 4], buf2[index + 5]];
     }
     
     return res;
@@ -362,12 +353,12 @@
 
 - (void)netServiceDidResolveAddress:(NSNetService*)service {
 
-    for (NSData* data in [service addresses]) {
+    for (NSData *data in [service addresses]) {
         char addressBuffer[100];
-        struct sockaddr_in* socketAddress = (struct sockaddr_in*)[data bytes];
+        struct sockaddr_in *socketAddress = (struct sockaddr_in*)[data bytes];
         int sockFamily = socketAddress->sin_family;
         if (sockFamily == AF_INET) {//|| sockFamily == AF_INET6 should be considered
-            const char* addressStr = inet_ntop(sockFamily,
+            const char *addressStr = inet_ntop(sockFamily,
                                                &(socketAddress->sin_addr), addressBuffer,
                                                sizeof(addressBuffer));
             int port = ntohs(socketAddress->sin_port);
@@ -437,7 +428,7 @@
 	if (count == 0) {
 		return cell;
 	}
-    NSNetService* service = services[indexPath.row];
+    NSNetService *service = services[indexPath.row];
 	cell.textLabel.text = service.name;
 	cell.textLabel.textColor = [Utilities get1stLabelColor];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

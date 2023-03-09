@@ -14,7 +14,7 @@
 
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
-#define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+#define RGBA(r, g, b, a) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:(a)]
 #define XBMC_LOGO_PADDING 10
 #define PERSISTENCE_KEY_VERSION @"VersionUnderReview"
 #define PERSISTENCE_KEY_PLAYBACK_ATTEMPTS @"PlaybackAttempts"
@@ -25,7 +25,7 @@
 + (CGContextRef)createBitmapContextFromImage:(CGImageRef)inImage format:(uint32_t)format {
     size_t width = CGImageGetWidth(inImage);
     size_t height = CGImageGetHeight(inImage);
-    unsigned long bytesPerRow = (width * 4); // 4 bytes for alpha, red, green and blue
+    unsigned long bytesPerRow = width * 4; // 4 bytes for alpha, red, green and blue
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     if (colorSpace == NULL) {
@@ -72,7 +72,7 @@
 //        return UIColor.clearColor;
 //    }
     
-    // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault)  before analyzing them
+    // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
     if (anyNonAlpha && (bitmapInfo != kCGImageAlphaNoneSkipLast || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
         rawImageRef = [Utilities create32bppImage:rawImageRef format:kCGImageAlphaNoneSkipLast];
     }
@@ -166,7 +166,7 @@
         // de-saturate, but do not remove saturation fully
         sat = MIN(MAX(sat * satscale, 0), 1);
         // scale and limit brightness to range [brightmin ... brightmax]
-        bright = MIN((MAX(bright * brightscale, brightmin)), brightmax);
+        bright = MIN(MAX(bright * brightscale, brightmin), brightmax);
         color_out = [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
     }
     return color_out;
@@ -194,7 +194,7 @@
         return lighter;
     }
     const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
-    CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
+    CGFloat colorBrightness = (componentColors[0] * 299 + componentColors[1] * 587 + componentColors[2] * 114) / 1000;
     if (colorBrightness < trigger) {
         return lighter;
     }
@@ -214,7 +214,7 @@
     CGSize itemImageSize = image.size;
     CGPoint itemImagePosition;
     itemImagePosition.x = ceilf((contextRect.size.width - itemImageSize.width) / 2);
-    itemImagePosition.y = ceilf((contextRect.size.height - itemImageSize.height));
+    itemImagePosition.y = ceilf(contextRect.size.height - itemImageSize.height);
     
     UIGraphicsBeginImageContextWithOptions(contextRect.size, NO, 0);
     
@@ -226,7 +226,7 @@
 
     CGColorSpaceRef colorSpace = CGColorGetColorSpace(color.CGColor);
     CGColorSpaceModel model = CGColorSpaceGetModel(colorSpace);
-    const CGFloat* colors = CGColorGetComponents(color.CGColor);
+    const CGFloat *colors = CGColorGetComponents(color.CGColor);
     
     if (model == kCGColorSpaceModelMonochrome) {
         CGContextSetRGBFillColor(c, colors[0], colors[0], colors[0], colors[1]);
@@ -442,10 +442,10 @@
 
 + (CGRect)createXBMCInfoframe:(UIImage*)logo height:(CGFloat)height width:(CGFloat)width {
     if (IS_IPHONE) {
-        return CGRectMake(width - ANCHOR_RIGHT_PEEK - logo.size.width - XBMC_LOGO_PADDING, (height - logo.size.height)/2, logo.size.width, logo.size.height);
+        return CGRectMake(width - ANCHOR_RIGHT_PEEK - logo.size.width - XBMC_LOGO_PADDING, (height - logo.size.height) / 2, logo.size.width, logo.size.height);
     }
     else {
-        return CGRectMake(width - logo.size.width/2 - XBMC_LOGO_PADDING, (height - logo.size.height/2)/2, logo.size.width/2, logo.size.height/2);
+        return CGRectMake(width - logo.size.width / 2 - XBMC_LOGO_PADDING, (height - logo.size.height / 2) / 2, logo.size.width / 2, logo.size.height / 2);
     }
 }
 
@@ -479,25 +479,25 @@
     CGRect frame = jewelView.frame;
     frame.size.width = ceil((jewelView.image.size.width - border_left - border_right) * factor);
     frame.size.height = ceil((jewelView.image.size.height - border_top - border_bottom) * factor);
-    frame.origin.y = floor(jewelView.center.y - frame.size.height/2 + (border_top - border_bottom)/2 * factor);
-    frame.origin.x = floor(jewelView.center.x - frame.size.width/2 + (border_left - border_right)/2 * factor);
+    frame.origin.y = floor(jewelView.center.y - frame.size.height / 2 + (border_top - border_bottom) / 2 * factor);
+    frame.origin.x = floor(jewelView.center.x - frame.size.width / 2 + (border_left - border_right) / 2 * factor);
     return frame;
 }
 
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg {
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+    UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}];
     [alertView addAction:okButton];
     return alertView;
 }
 
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg {
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* copyButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Copy to clipboard") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    UIAlertAction *copyButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Copy to clipboard") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
             pasteboard.string = msg;
     }];
-    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
     [alertView addAction:copyButton];
     [alertView addAction:cancelButton];
     return alertView;
@@ -551,8 +551,8 @@
 + (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array {
     NSMutableDictionary *mutableDictionary = [NSMutableDictionary new];
     NSInteger numelement = array.count;
-    for (int i = 0; i < numelement-1; i += 2) {
-        mutableDictionary[array[i+1]] = array[i];
+    for (int i = 0; i < numelement - 1; i += 2) {
+        mutableDictionary[array[i + 1]] = array[i];
     }
     return (NSDictionary*)mutableDictionary;
 }
@@ -560,8 +560,8 @@
 + (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array {
     NSMutableDictionary *mutableDictionary = [NSMutableDictionary new];
     NSInteger numelement = array.count;
-    for (int i = 0; i < numelement-1; i += 2) {
-        mutableDictionary[array[i+1]] = array[i];
+    for (int i = 0; i < numelement - 1; i += 2) {
+        mutableDictionary[array[i + 1]] = array[i];
     }
     return (NSMutableDictionary*)mutableDictionary;
 }
@@ -735,7 +735,7 @@
 + (NSString*)getImageServerURL {
     GlobalData *obj = [GlobalData getInstance];
     NSString *stringFormat = (AppDelegate.instance.serverVersion > 11) ? @"%@:%@/image/" : @"%@:%@/vfs/";
-    return [NSString stringWithFormat:stringFormat, obj.serverIP, obj.serverPort];;
+    return [NSString stringWithFormat:stringFormat, obj.serverIP, obj.serverPort];
 }
 
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL {
@@ -1060,7 +1060,8 @@
         unarchived = [NSKeyedUnarchiver unarchivedObjectOfClasses:objectClasses
                                                          fromData:data
                                                             error:&error];
-    } else {
+    }
+    else {
         unarchived = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     }
     return unarchived;
@@ -1075,7 +1076,8 @@
         if (!error) {
             [archiveData writeToFile:filePath options:NSDataWritingAtomic error:&error];
         }
-    } else {
+    }
+    else {
         [NSKeyedArchiver archiveRootObject:data toFile:filePath];
     }
 }

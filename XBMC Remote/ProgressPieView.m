@@ -36,7 +36,7 @@
     self.backgroundColor = UIColor.clearColor;
     pieColor = color;
     radius = (MIN(self.frame.size.width, self.frame.size.height) / 2) - padding;
-    pieLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (radius * 2) + 4, self.frame.size.width, 8)];
+    pieLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, radius * 2 + 4, self.frame.size.width, 8)];
     pieLabel.backgroundColor = UIColor.clearColor;
     pieLabel.font = [UIFont systemFontOfSize:pieLabelFontSize];
     pieLabel.adjustsFontSizeToFitWidth = YES;

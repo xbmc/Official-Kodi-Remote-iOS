@@ -45,10 +45,6 @@
         bitmapInfo |= kCGImageAlphaPremultipliedFirst;
     }
 
-//    CGRect newRect;
-//    CGFloat ImageWidth = imageSize.width;
-//    CGFloat ImageHeight = imageSize.height;
-
     if (newSize.width && newSize.height) {
         CGFloat horizontalRatio = newSize.width / imageSize.width;
         CGFloat verticalRatio = newSize.height / imageSize.height;
@@ -72,7 +68,6 @@
         return image;
     }
     
-//    CGContextSetInterpolationQuality(context, quality);
     CGContextDrawImage(context, imageRect, imageRef);
     CGImageRef decompressedImageRef = CGBitmapContextCreateImage(context);
 	

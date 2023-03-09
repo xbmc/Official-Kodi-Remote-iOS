@@ -197,7 +197,7 @@
             break;
     }
     navController = [[CustomNavigationController alloc] initWithRootViewController:object];
-    UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+    UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
     object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
     
     UINavigationBar *newBar = navController.navigationBar;

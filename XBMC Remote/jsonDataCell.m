@@ -3,10 +3,8 @@
 
 @implementation jsonDataCell
 
-//@synthesize urlLabel;
 @synthesize urlImageView;
 @synthesize lineSeparator;
-//@synthesize queueActivity;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

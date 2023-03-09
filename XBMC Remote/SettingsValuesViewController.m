@@ -21,21 +21,13 @@
 
 @implementation SettingsValuesViewController
 
-@synthesize detailItem = _detailItem;
-
-- (void)setDetailItem:(id)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-    }
-}
-
 - (id)initWithFrame:(CGRect)frame withItem:(id)item {
     if (self = [super init]) {
 		
         self.view.frame = frame;
         
         UIImageView *imageBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shiny_black_back"]];
-        imageBackground.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        imageBackground.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         imageBackground.frame = frame;
         [self.view addSubview:imageBackground];
         
@@ -134,7 +126,7 @@
 		_tableView.delegate = self;
 		_tableView.dataSource = self;
         _tableView.backgroundColor = UIColor.clearColor;
-        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
 		_tableView.tableFooterView = footerView;
         self.view.backgroundColor = UIColor.clearColor;
         [self.view addSubview:_tableView];
@@ -219,10 +211,10 @@
                 textField.placeholder = @"";
                 textField.text = [self getActionButtonTitle];
             }];
-            UIAlertAction* addButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Add button") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            UIAlertAction *addButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Add button") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                     [self addActionButton:alertView];
                 }];
-            UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+            UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
             [alertView addAction:addButton];
             [alertView addAction:cancelButton];
             [self presentViewController:alertView animated:YES completion:nil];
@@ -306,7 +298,7 @@
         [sender setUserInteractionEnabled:NO];
     }
     [activityIndicator startAnimating];
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [activityIndicator stopAnimating];
         if (methodError == nil && error == nil) {
             [messagesView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
@@ -325,7 +317,7 @@
     [activityIndicator startAnimating];
     [[Utilities getJsonRPC] callMethod: method
          withParameters: params
-           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                [activityIndicator stopAnimating];
                if (error == nil && methodError == nil) {
                    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc]
@@ -408,7 +400,7 @@
 	UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
-        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellHeight/2 - 11, self.view.bounds.size.width - cellLabelOffset - 38, 22)];
+        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellHeight / 2 - 11, self.view.bounds.size.width - cellLabelOffset - 38, 22)];
         cellLabel.tag = 1;
         cellLabel.font = [UIFont systemFontOfSize:18];
         cellLabel.adjustsFontSizeToFitWidth = YES;
@@ -528,12 +520,12 @@
             slider.hidden = NO;
             sliderLabel.hidden = NO;
             descriptionLabel.hidden = NO;
-            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46);
+            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset * 2, 46);
             cellLabel.numberOfLines = 2;
             cellLabel.textAlignment = NSTextAlignmentCenter;
             cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
-            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 116);
+            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - cellLabelOffset * 2, 116);
             descriptionLabel.textAlignment = NSTextAlignmentCenter;
             descriptionLabel.numberOfLines = 8;
             descriptionLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
@@ -549,12 +541,12 @@
             
             descriptionLabel.hidden = NO;
             textInputField.hidden = NO;
-            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - (cellLabelOffset * 2), 46);
+            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset * 2, 46);
             cellLabel.numberOfLines = 2;
             cellLabel.textAlignment = NSTextAlignmentCenter;
             cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
-            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - (cellLabelOffset * 2), 74);
+            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - cellLabelOffset * 2, 74);
             descriptionLabel.textAlignment = NSTextAlignmentCenter;
             descriptionLabel.numberOfLines = 5;
             descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[B]" withString:@""];
@@ -775,7 +767,7 @@
 
 - (void)sliderAction:(id)sender {
     OBSlider *slider = (OBSlider*)sender;
-    float newStep = roundf((slider.value) / [self.detailItem[@"step"] intValue]);
+    float newStep = roundf(slider.value / [self.detailItem[@"step"] intValue]);
     float newValue = newStep * [self.detailItem[@"step"] intValue];
     if (newValue != storeSliderValue) {
         storeSliderValue = newValue;

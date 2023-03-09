@@ -37,7 +37,6 @@
 
 @implementation ShowInfoViewController
 
-@synthesize detailItem = _detailItem;
 @synthesize kenView;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
@@ -66,7 +65,7 @@ double round(double d) {
                         ] mutableCopy];
         NSDictionary *resumePointDict = item[@"resume"];
         if (resumePointDict != nil) {
-            if (((NSNull*)resumePointDict[@"position"] != [NSNull null])) {
+            if ((NSNull*)resumePointDict[@"position"] != [NSNull null]) {
                 if ([resumePointDict[@"position"] floatValue] > 0 && [resumePointDict[@"total"] floatValue] > 0) {
                     resumePointPercentage = ([resumePointDict[@"position"] floatValue] * 100) / [resumePointDict[@"total"] floatValue];
                     [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
@@ -74,18 +73,18 @@ double round(double d) {
             }
         }
         BOOL fromAlbumView = NO;
-        if (((NSNull*)item[@"fromAlbumView"] != [NSNull null])) {
+        if ((NSNull*)item[@"fromAlbumView"] != [NSNull null]) {
             fromAlbumView = [item[@"fromAlbumView"] boolValue];
         }
         BOOL fromEpisodesView = NO;
-        if (((NSNull*)item[@"fromEpisodesView"] != [NSNull null])) {
+        if ((NSNull*)item[@"fromEpisodesView"] != [NSNull null]) {
             fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         }
         UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
         extraButton = nil;
         if ([item[@"family"] isEqualToString:@"albumid"]) {
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_songs"];
+            UIImage *extraButtonImg = [UIImage imageNamed:@"st_songs"];
             if (fromAlbumView) {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
@@ -94,12 +93,12 @@ double round(double d) {
             }
         }
         else if ([item[@"family"] isEqualToString:@"artistid"]) {
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_album"];
+            UIImage *extraButtonImg = [UIImage imageNamed:@"st_album"];
             extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(showContent:)];
         }
         else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
             actionSheetButtonItem = nil;
-            UIImage* extraButtonImg = [UIImage imageNamed:@"st_tv"];
+            UIImage *extraButtonImg = [UIImage imageNamed:@"st_tv"];
             if (fromEpisodesView) {
                 extraButton = [[UIBarButtonItem alloc] initWithImage:extraButtonImg style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
             }
@@ -370,11 +369,11 @@ double round(double d) {
         
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:sheetTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction* action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+        UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
         
         for (NSString *actionName in sheetActions) {
             NSString *actiontitle = actionName;
-            UIAlertAction* action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self actionSheetHandler:actiontitle];
             }];
             [actionView addAction:action];
@@ -401,8 +400,8 @@ double round(double d) {
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play")]) {
         [self addPlayback:0.0];
     }
-    else if (([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
-              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")])) {
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
         [self recordChannel];
     }
     else if ([actiontitle rangeOfString:LOCALIZED_STR(@"Resume from")].location != NSNotFound) {
@@ -472,7 +471,7 @@ double round(double d) {
                                 nil];
     [[Utilities getJsonRPC] callMethod:methodToCall
          withParameters:parameters
-           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                [activityIndicatorView stopAnimating];
                self.navigationItem.rightBarButtonItem.enabled = YES;
                if (error == nil && methodError == nil) {
@@ -542,7 +541,7 @@ double round(double d) {
         CGRect frame;
         frame.size.width = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.9);
         frame.size.height = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.7);
-        frame.origin.x = jewelView.frame.origin.x + (jewelView.frame.size.width - frame.size.width)/2;
+        frame.origin.x = jewelView.frame.origin.x + (jewelView.frame.size.width - frame.size.width) / 2;
         frame.origin.y = jewelView.frame.origin.y + 4;
         jewelView.frame = frame;
         
@@ -1420,7 +1419,7 @@ double round(double d) {
         if (closeButton == nil) {
             int cbWidth = clearLogoWidth / 2;
             int cbHeight = clearLogoHeight / 2;
-            closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - cbWidth/2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
+            closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - cbWidth / 2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
             closeButton.titleLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.8];
             closeButton.titleLabel.shadowOffset = CGSizeMake(0, 1);
             closeButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin |
@@ -1571,7 +1570,7 @@ double round(double d) {
                          item[@"playlistid"], @"playerid",
                          @[@"percentage", @"time", @"totaltime", @"partymode", @"position"], @"properties",
                          nil]
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (error == nil && methodError == nil) {
                  if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                      if ([methodResult count]) {
@@ -1583,7 +1582,7 @@ double round(double d) {
                                                 [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item",
                                                 @(newPos), @"position",
                                                 nil];
-                         [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                         [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                              if (error == nil && methodError == nil) {
                                  [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                              }
@@ -1606,7 +1605,7 @@ double round(double d) {
     }
     else {
         [activityIndicatorView startAnimating];
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             [activityIndicatorView stopAnimating];
             if (error == nil && methodError == nil) {
                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -1624,7 +1623,7 @@ double round(double d) {
         self.navigationItem.rightBarButtonItem.enabled = NO;
         [activityIndicatorView startAnimating];
         NSDictionary *item = self.detailItem;
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: item[@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:[NSDictionary dictionaryWithObjectsAndKeys: item[@"playlistid"], @"playlistid", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
                 NSString *param = item[@"family"];
                 id value = item[item[@"family"]];
@@ -1633,10 +1632,10 @@ double round(double d) {
                     param = @"file";
                     value = item[@"file"];
                 }
-                [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"playlistid"], @"playlistid", [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                     if (error == nil && methodError == nil) {
                         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"playlistid"], @"playlistid", @(0), @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSDictionary dictionaryWithObjectsAndKeys: item[@"playlistid"], @"playlistid", @(0), @"position", nil], @"item", nil] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                             if (error == nil && methodError == nil) {
                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
                                 [activityIndicatorView stopAnimating];
@@ -1669,7 +1668,7 @@ double round(double d) {
 
 - (void)openFile:(NSDictionary*)params {
     [activityIndicatorView startAnimating];
-    [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [activityIndicatorView stopAnimating];
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -1721,13 +1720,6 @@ double round(double d) {
 }
 
 # pragma mark - Life Cycle
-
-- (void)setDetailItem:(id)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        // Update the view.
-    }
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -1852,7 +1844,7 @@ double round(double d) {
     scrollView.scrollsToTop = YES;
     scrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    enableKenBurns = [userDefaults boolForKey:@"ken_preference"];;
+    enableKenBurns = [userDefaults boolForKey:@"ken_preference"];
     self.kenView = nil;
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
     foundTintColor = ICON_TINT_COLOR;

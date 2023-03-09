@@ -39,20 +39,20 @@
 }
 @end
 
-@interface UIViewExt : UIView {} 
+@interface UIViewExt : UIView {}
 @end
 
 
 @implementation UIViewExt
 - (UIView*)hitTest:(CGPoint)pt withEvent:(UIEvent*)event {
-	UIView* viewToReturn = nil;
+	UIView *viewToReturn = nil;
 	CGPoint pointToReturn;
-	UIView* uiRightView = (UIView*)(self.subviews[1]);
+	UIView *uiRightView = (UIView*)(self.subviews[1]);
 	if (uiRightView.subviews[0]) {
-		UIView* uiStackScrollView = uiRightView.subviews[0];
+		UIView *uiStackScrollView = uiRightView.subviews[0];
 		if (uiStackScrollView.subviews[1]) {
-			UIView* uiSlideView = uiStackScrollView.subviews[1];
-			for (UIView* subView in uiSlideView.subviews) {
+			UIView *uiSlideView = uiStackScrollView.subviews[1];
+			for (UIView *subView in uiSlideView.subviews) {
 				CGPoint point = [subView convertPoint:pt fromView:self];
 				if ([subView pointInside:point withEvent:event]) {
 					viewToReturn = subView;
@@ -216,7 +216,7 @@
     UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     if (!AppDelegate.instance.serverOnLine) {
-        UIAlertAction* action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Send Wake-On-LAN") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction *action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Send Wake-On-LAN") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             if (AppDelegate.instance.obj.serverHWAddr != nil) {
                 [self wakeUp:AppDelegate.instance.obj.serverHWAddr];
                 UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
@@ -230,53 +230,53 @@
         [actionView addAction:action_wake];
     }
     else {
-        UIAlertAction* action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+        UIAlertAction *action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Shutdown" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_pwr_off_system];
         
-        UIAlertAction* action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction *action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"Application.Quit" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_quit_kodi];
         
-        UIAlertAction* action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction *action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Hibernate" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_hibernate];
         
-        UIAlertAction* action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction *action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Suspend" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_suspend];
         
-        UIAlertAction* action_reboot = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Reboot") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction *action_reboot = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Reboot") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Reboot" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_reboot];
         
-        UIAlertAction* action_scan_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction *action_scan_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_scan_audio_lib];
         
-        UIAlertAction* action_clean_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction *action_clean_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"AudioLibrary.Clean" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_clean_audio_lib];
         
-        UIAlertAction* action_scan_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction *action_scan_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_scan_video_lib];
         
-        UIAlertAction* action_clean_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertAction *action_clean_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"VideoLibrary.Clean" params:[NSDictionary dictionary]];
         }];
         [actionView addAction:action_clean_video_lib];
     }
     
-    UIAlertAction* cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {}];
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
     [actionView addAction:cancelButton];
     actionView.modalPresentationStyle = UIModalPresentationPopover;
     
@@ -289,7 +289,7 @@
 }
 
 - (void)powerAction:(NSString*)action params:(NSDictionary*)params {
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         NSString *alertTitle = nil;
         if (methodError == nil && error == nil) {
             alertTitle = LOCALIZED_STR(@"Command executed");
@@ -340,7 +340,7 @@
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     firstRun = YES;
-    AppDelegate.instance.obj = [GlobalData getInstance]; 
+    AppDelegate.instance.obj = [GlobalData getInstance];
 
     int cellHeight = PAD_MENU_HEIGHT;
     NSInteger tableHeight = [(NSMutableArray*)mainMenu count] * cellHeight;
@@ -366,7 +366,7 @@
 	[menuViewController viewDidAppear:NO];
 	[leftMenuView addSubview:menuViewController.view];
     
-    UIView* horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight, tableWidth, LINE_HEIGHT)];
+    UIView *horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight, tableWidth, LINE_HEIGHT)];
     horizontalLineView1.backgroundColor = [Utilities getGrayColor:77 alpha:0.6];
     [leftMenuView addSubview:horizontalLineView1];
     

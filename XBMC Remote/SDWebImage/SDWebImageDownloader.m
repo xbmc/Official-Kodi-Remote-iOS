@@ -61,7 +61,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
 }
 
 - (id)init {
-    if ((self = [super init])) {
+    if (self = [super init]) {
         _executionOrder = SDWebImageDownloaderFIFOExecutionOrder;
         _downloadQueue = NSOperationQueue.new;
         _downloadQueue.maxConcurrentOperationCount = 2;

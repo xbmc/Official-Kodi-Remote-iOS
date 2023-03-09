@@ -36,20 +36,19 @@
 //  Copyright 2011 raw engineering . All rights reserved.
 //
 
-#import <UIKit/UIKit.h> 
+#import <UIKit/UIKit.h>
 
 
 @interface MenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	UITableView *_tableView;
     NSMutableArray *mainMenuItems;
-    IBOutlet UITableViewCell *resultMenuCell;
     int lastSelected;
 }
 
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu;
 - (void)setLastSelected:(int)selection;
 
-@property (nonatomic, strong) UITableView* tableView;
+@property (nonatomic, strong) UITableView *tableView;
 
 
 @end

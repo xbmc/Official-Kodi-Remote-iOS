@@ -38,7 +38,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 31; // 1 month
 }
 
 - (id)initWithNamespace:(NSString*)ns {
-    if ((self = [super init])) {
+    if (self = [super init]) {
         NSString *fullNamespace = [@"com.hackemist.SDWebImageCache." stringByAppendingString:ns];
 
         // Create IO serial queue

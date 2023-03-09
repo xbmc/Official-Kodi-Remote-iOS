@@ -62,14 +62,14 @@
 		borderViews = [[UIView alloc] initWithFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION - 2, -2, 2, self.view.frame.size.height + 2)];
 		borderViews.backgroundColor = UIColor.clearColor;
         borderViews.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-		UIView* verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, borderViews.frame.size.height)];
+		UIView *verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, borderViews.frame.size.height)];
 		verticalLineView1.backgroundColor = UIColor.whiteColor;
 		verticalLineView1.tag = 1 + VIEW_TAG;
 		verticalLineView1.hidden = YES;
         verticalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		[borderViews addSubview:verticalLineView1];
 		
-		UIView* verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 2, borderViews.frame.size.height)];
+		UIView *verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 2, borderViews.frame.size.height)];
 		verticalLineView2.backgroundColor = UIColor.grayColor;
 		verticalLineView2.tag = 2 + VIEW_TAG;
 		verticalLineView2.hidden = YES;
@@ -95,7 +95,7 @@
 		viewAtRight2 = nil;
 		viewAtRightAtTouchBegan = nil;
 		
-		UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+		UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
         panRecognizer.delegate = self;
 		panRecognizer.maximumNumberOfTouches = 1;
 		panRecognizer.delaysTouchesBegan = YES;
@@ -141,7 +141,7 @@
                      animations:^{
                          int i = 0;
                          // Find the view requesting fullscreen and expand the frame
-                         for (UIView* subview in slideViews.subviews) {
+                         for (UIView *subview in slideViews.subviews) {
                              if ([subview isEqual:[sender object]]) {
                                  fullscreenView = subview;
                                  originalFrame = subview.frame;
@@ -187,7 +187,7 @@
                      animations:^{
                          int i = 0;
                          // Find the view leaving fullscreen and restore the frame
-                         for (UIView* subview in slideViews.subviews) {
+                         for (UIView *subview in slideViews.subviews) {
                              if ([subview isEqual:[sender object]]) {
                                  fullscreenView = nil;
                                  CGRect frame = subview.frame;
@@ -218,7 +218,7 @@
 //        [self.view removeGestureRecognizer:self.view.gestureRecognizers[0]];
 //    }
 //    if (!fallbackView.gestureRecognizers.count) {
-//        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+//        UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
 //        panRecognizer.maximumNumberOfTouches = 1;
 //        panRecognizer.delaysTouchesBegan = YES;
 //        panRecognizer.delaysTouchesEnded = YES;
@@ -230,7 +230,7 @@
 - (void)enablePanGestureRecognizer {
     return;
 //    if (!self.view.gestureRecognizers.count) {
-//        UIPanGestureRecognizer* panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+//        UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
 //		panRecognizer.maximumNumberOfTouches = 1;
 //		panRecognizer.delaysTouchesBegan = YES;
 //		panRecognizer.delaysTouchesEnded = YES;
@@ -270,7 +270,7 @@
                       duration:0.2
                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                     animations:^{
-                         for (UIView* subview in slideViews.subviews) {
+                         for (UIView *subview in slideViews.subviews) {
                              subview.frame = CGRectMake(posX, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height);
                          }
                          [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
@@ -282,14 +282,14 @@
                          viewAtRight2 = nil;
                     }
                     completion:^(BOOL finished) {
-                         for (UIView* subview in slideViews.subviews) {
+                         for (UIView *subview in slideViews.subviews) {
                              [subview removeFromSuperview];
                          }
                          [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
                          [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
                          [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
                          [viewControllersStack removeAllObjects];
-                         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOffScreen" object: nil]; 
+                         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOffScreen" object: nil];
                     }];
 }
 
@@ -499,15 +499,15 @@
                                     [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
                                 }
                                 // Removes the selection of row for the first slide view
-                                for (UIView* tableView in slideViews.subviews[0].subviews) {
+                                for (UIView *tableView in slideViews.subviews[0].subviews) {
                                     if ([tableView isKindOfClass:[UIView class]]) {
-                                        for (UIView* tableView2 in tableView.subviews) {
+                                        for (UIView *tableView2 in tableView.subviews) {
                                             if ([tableView2 isKindOfClass:[UITableView class]]) {
-                                                NSIndexPath* selectedRow = [(UITableView*)tableView2 indexPathForSelectedRow];
+                                                NSIndexPath *selectedRow = [(UITableView*)tableView2 indexPathForSelectedRow];
                                                 [(UITableView*)tableView2 deselectRowAtIndexPath:selectedRow animated:YES];
                                             }
                                             if ([tableView2 isKindOfClass:[UICollectionView class]]) {
-                                                for (NSIndexPath* selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
+                                                for (NSIndexPath *selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
                                                     [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
                                                 }
                                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
@@ -516,11 +516,11 @@
                                         }
                                     }
                                     if ([tableView isKindOfClass:[UITableView class]]) {
-                                        NSIndexPath* selectedRow = [(UITableView*)tableView indexPathForSelectedRow];
+                                        NSIndexPath *selectedRow = [(UITableView*)tableView indexPathForSelectedRow];
                                         [(UITableView*)tableView deselectRowAtIndexPath:selectedRow animated:YES];
                                     }
                                     if ([tableView isKindOfClass:[UICollectionView class]]) {
-                                        for (NSIndexPath* selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
+                                        for (NSIndexPath *selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
                                             [(UICollectionView*)tableView deselectItemAtIndexPath:selection animated:YES];
                                         }
                                         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
@@ -569,7 +569,7 @@
                                       duration:0.2
                                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                                     animations:^{
-                        if ((viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width > self.view.frame.size.width) && viewAtLeft.frame.origin.x < (self.view.frame.size.width - (viewAtLeft.frame.size.width)/2)) {
+                        if ((viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width > self.view.frame.size.width) && viewAtLeft.frame.origin.x < (self.view.frame.size.width - viewAtLeft.frame.size.width / 2)) {
                             animationDirection = @"LEFT-WITH-LEFT";
                             viewAtLeft.frame = CGRectMake(self.view.frame.size.width - viewAtLeft.frame.size.width, viewAtLeft.frame.origin.y, viewAtLeft.frame.size.width, viewAtLeft.frame.size.height);
                             
@@ -631,15 +631,15 @@
                                     [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
                                 }
                                 // Removes the selection of row for the first slide view
-                                for (UIView* tableView in slideViews.subviews[0].subviews) {
+                                for (UIView *tableView in slideViews.subviews[0].subviews) {
                                     if ([tableView isKindOfClass:[UIView class]]) {
-                                        for (UIView* tableView2 in tableView.subviews) {
+                                        for (UIView *tableView2 in tableView.subviews) {
                                             if ([tableView2 isKindOfClass:[UITableView class]]) {
-                                                NSIndexPath* selectedRow = [(UITableView*)tableView2 indexPathForSelectedRow];
+                                                NSIndexPath *selectedRow = [(UITableView*)tableView2 indexPathForSelectedRow];
                                                 [(UITableView*)tableView2 deselectRowAtIndexPath:selectedRow animated:YES];
                                             }
                                             if ([tableView2 isKindOfClass:[UICollectionView class]]) {
-                                                for (NSIndexPath* selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
+                                                for (NSIndexPath *selection in [(UICollectionView*)tableView2 indexPathsForSelectedItems]) {
                                                     [(UICollectionView*)tableView2 deselectItemAtIndexPath:selection animated:YES];
                                                 }
                                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
@@ -647,11 +647,11 @@
                                         }
                                     }
                                     if ([tableView isKindOfClass:[UITableView class]]) {
-                                        NSIndexPath* selectedRow = [(UITableView*)tableView indexPathForSelectedRow];
+                                        NSIndexPath *selectedRow = [(UITableView*)tableView indexPathForSelectedRow];
                                         [(UITableView*)tableView deselectRowAtIndexPath:selectedRow animated:YES];
                                     }
                                     if ([tableView isKindOfClass:[UICollectionView class]]) {
-                                        for (NSIndexPath* selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
+                                        for (NSIndexPath *selection in [(UICollectionView*)tableView indexPathsForSelectedItems]) {
                                             [(UICollectionView*)tableView deselectItemAtIndexPath:selection animated:YES];
                                         }
                                         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollCardDropNotification" object: nil];
@@ -692,7 +692,7 @@
 }
 
 - (void)moveStack {
-    if ((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtRight.frame.origin.x < (self.view.frame.size.width - (viewAtRight.frame.size.width/2))) {
+    if ((viewAtRight.frame.origin.x < (viewAtLeft.frame.origin.x + viewAtLeft.frame.size.width)) && viewAtRight.frame.origin.x < (self.view.frame.size.width - viewAtRight.frame.size.width / 2)) {
         [UIView transitionWithView:self.view
                           duration:0.2
                            options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
@@ -829,7 +829,7 @@
                     if (viewAtLeft2Position > 0) {
                         slideViews.subviews[viewAtLeft2Position - 1].hidden = NO;
                     }
-                    CABasicAnimation* bounceAnimationLeft2 = [CABasicAnimation animationWithKeyPath:@"position.x"];
+                    CABasicAnimation *bounceAnimationLeft2 = [CABasicAnimation animationWithKeyPath:@"position.x"];
                     bounceAnimationLeft2.duration = 0.2;
                     bounceAnimationLeft2.fromValue = @(viewAtLeft2.center.x);
                     bounceAnimationLeft2.toValue = @(viewAtLeft2.center.x + 10);
@@ -889,7 +889,7 @@
 		slideStartPosition = SLIDE_VIEWS_START_X_POS;
 		viewXPosition = slideStartPosition;
 		
-		for (UIView* subview in slideViews.subviews) {
+		for (UIView *subview in slideViews.subviews) {
 			[subview removeFromSuperview];
 		}
 		
@@ -931,7 +931,7 @@
 	}
     else if (viewControllersStack.count == 0) {
 //        NSLog(@"TRE"); //FIRST
-		for (UIView* subview in slideViews.subviews) {
+		for (UIView *subview in slideViews.subviews) {
 			[subview removeFromSuperview];
 		}		[viewControllersStack removeAllObjects];
 		[borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
@@ -941,7 +941,7 @@
 	
 	if (slideViews.subviews.count != 0) {
 //        NSLog(@"QUATTRO");
-        UIView* verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(-40, 0, 40, self.view.frame.size.height - bottomPadding)];
+        UIView *verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(-40, 0, 40, self.view.frame.size.height - bottomPadding)];
 		verticalLineView.backgroundColor = UIColor.clearColor;
 		verticalLineView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 		verticalLineView.clipsToBounds = NO;
@@ -1045,7 +1045,7 @@
     if (viewControllersStack.count == 1) {
         posX = slideViews.subviews[0].frame.origin.x;
     }
-    for (UIViewController* subController in viewControllersStack) {
+    for (UIViewController *subController in viewControllersStack) {
         // If we have a view in fullscreen, keep it fullscreen
         if (fullscreenView != nil && [fullscreenView isEqual:subController.view]) {
             CGRect frame = self.view.frame;
@@ -1097,7 +1097,7 @@
         }
         
     }
-    for (UIViewController* subController in viewControllersStack) {
+    for (UIViewController *subController in viewControllersStack) {
         [subController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
         if (!((viewAtRight != nil && [viewAtRight isEqual:subController.view]) || (viewAtLeft != nil && [viewAtLeft isEqual:subController.view]) || (viewAtLeft2 != nil && [viewAtLeft2 isEqual:subController.view]))) {
             subController.view.hidden = YES;
@@ -1106,7 +1106,7 @@
     
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        for (UIViewController* subController in viewControllersStack) {
+        for (UIViewController *subController in viewControllersStack) {
             [subController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
         }
         viewAtLeft.hidden = NO;

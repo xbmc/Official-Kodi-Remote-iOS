@@ -29,9 +29,9 @@
 
 - (void)stopTimer;
 
-@property (nonatomic, strong) NSTimer* timer;
+@property (nonatomic, strong) NSTimer *timer;
 
-@property (nonatomic, strong) NSTimer* holdVolumeTimer;
+@property (nonatomic, strong) NSTimer *holdVolumeTimer;
 
 
 @end

@@ -42,7 +42,7 @@
         CGSize screenSize = screenBound.size;
         screenWidth = screenSize.width;
         
-        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(keyboardTitlePadding, 0, screenWidth - keyboardTitlePadding * 2, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom + 1)];
+        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(keyboardTitlePadding, 0, screenWidth - keyboardTitlePadding * 2, (int)(accessoryHeight / 2) - (int)(verboseHeight / 2) + alignBottom + 1)];
         keyboardTitle.contentMode = UIViewContentModeScaleToFill;
         keyboardTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
         keyboardTitle.textAlignment = NSTextAlignmentCenter;
@@ -52,7 +52,7 @@
         keyboardTitle.minimumScaleFactor = 0.6;
         keyboardTitle.textColor = [Utilities get1stLabelColor];
 
-        backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
+        backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight / 2) - (int)(verboseHeight / 2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
         backgroundTextField.userInteractionEnabled = YES;
         backgroundTextField.borderStyle = UITextBorderStyleRoundedRect;
         backgroundTextField.backgroundColor = [Utilities getSystemGray6];
@@ -109,16 +109,16 @@
     keyboardTitle.text = @"";
     backgroundTextField.keyboardType = UIKeyboardTypeDefault;
     if (params != nil) {
-        if (((NSNull*)params[@"data"] != [NSNull null])) {
-            if (((NSNull*)params[@"data"][@"title"] != [NSNull null])) {
+        if ((NSNull*)params[@"data"] != [NSNull null]) {
+            if ((NSNull*)params[@"data"][@"title"] != [NSNull null]) {
                 keyboardTitle.text = params[@"data"][@"title"];
             }
-            if (((NSNull*)params[@"data"][@"value"] != [NSNull null])) {
+            if ((NSNull*)params[@"data"][@"value"] != [NSNull null]) {
                 if (![params[@"data"][@"value"] isEqualToString:@""]) {
                     backgroundTextField.text = params[@"data"][@"value"];
                 }
             }
-            if (((NSNull*)params[@"data"][@"type"] != [NSNull null])) {
+            if ((NSNull*)params[@"data"][@"type"] != [NSNull null]) {
                 if ([params[@"data"][@"type"] isEqualToString:@"number"]) {
                     backgroundTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
                 }
@@ -151,12 +151,12 @@
     
     if ([keyboardTitle.text isEqualToString:@""]) {
         inputAccView.frame = CGRectMake(0, 0, screenWidth, finalHeight);
-        backgroundTextField.frame = CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) - (int)(alignBottom/2), screenWidth - (padding - background_padding) * 2, verboseHeight);
+        backgroundTextField.frame = CGRectMake(padding - background_padding, (int)(accessoryHeight / 2) - (int)(verboseHeight / 2) - (int)(alignBottom / 2), screenWidth - (padding - background_padding) * 2, verboseHeight);
     }
     else {
         finalHeight = accessoryHeight;
         inputAccView.frame = CGRectMake(0, 0, screenWidth, finalHeight);
-        backgroundTextField.frame = CGRectMake(padding - background_padding, (int)(accessoryHeight/2) - (int)(verboseHeight/2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight);
+        backgroundTextField.frame = CGRectMake(padding - background_padding, (int)(accessoryHeight / 2) - (int)(verboseHeight / 2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight);
     }
     textField.inputAccessoryView = inputAccView;
     if (textField.inputAccessoryView.constraints.count > 0) {
@@ -209,7 +209,7 @@
 #pragma mark - json commands
 
 - (void)GUIAction:(NSString*)action params:(NSDictionary*)params httpAPIcallback:(NSString*)callback {
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if ((methodError != nil || error != nil) && callback != nil) { // Backward compatibility
             [Utilities sendXbmcHttp:callback];
         }

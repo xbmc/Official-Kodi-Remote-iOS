@@ -160,17 +160,17 @@ static char UIScrollViewPullToRefreshView;
     return self;
 }
 
-- (void)willMoveToSuperview:(UIView*)newSuperview { 
+- (void)willMoveToSuperview:(UIView*)newSuperview {
     if (self.superview && newSuperview == nil) {
         //use self.superview, not self.scrollView. Why self.scrollView == nil here?
         UIScrollView *scrollView = (UIScrollView*)self.superview;
         if (scrollView.showsPullToRefresh) {
-          if (self.isObserving) {
-            //If enter this branch, it is the moment just before "SVPullToRefreshView's dealloc", so remove observer here
-            [scrollView removeObserver:self forKeyPath:@"contentOffset"];
-            [scrollView removeObserver:self forKeyPath:@"frame"];
-            self.isObserving = NO;
-          }
+            if (self.isObserving) {
+                //If enter this branch, it is the moment just before "SVPullToRefreshView's dealloc", so remove observer here
+                [scrollView removeObserver:self forKeyPath:@"contentOffset"];
+                [scrollView removeObserver:self forKeyPath:@"frame"];
+                self.isObserving = NO;
+            }
         }
     }
 }
@@ -193,7 +193,7 @@ static char UIScrollViewPullToRefreshView;
     if (hasCustomView) {
         [self addSubview:customView];
         CGRect viewBounds = [customView bounds];
-        CGPoint origin = CGPointMake(roundf((self.bounds.size.width-viewBounds.size.width)/2), roundf((self.bounds.size.height-viewBounds.size.height)/2));
+        CGPoint origin = CGPointMake(roundf((self.bounds.size.width - viewBounds.size.width) / 2), roundf((self.bounds.size.height - viewBounds.size.height) / 2));
         [customView setFrame:CGRectMake(origin.x, origin.y, viewBounds.size.width, viewBounds.size.height)];
     }
     else {
@@ -239,11 +239,11 @@ static char UIScrollViewPullToRefreshView;
         
         CGFloat maxLabelWidth = MAX(titleSize.width, subtitleSize.width);
         CGFloat totalMaxWidth = leftViewWidth + margin + maxLabelWidth;
-        CGFloat labelX = (self.bounds.size.width / 2) - (totalMaxWidth / 2) + leftViewWidth + margin;
+        CGFloat labelX = self.bounds.size.width / 2 - totalMaxWidth / 2 + leftViewWidth + margin;
         
         if (subtitleSize.height > 0) {
             CGFloat totalHeight = titleSize.height + subtitleSize.height + marginY;
-            CGFloat minY = (self.bounds.size.height / 2) - (totalHeight / 2);
+            CGFloat minY = self.bounds.size.height / 2 - totalHeight / 2;
             
             CGFloat titleY = minY;
             self.titleLabel.frame = CGRectIntegral(CGRectMake(labelX, titleY, titleSize.width, titleSize.height));
@@ -251,16 +251,16 @@ static char UIScrollViewPullToRefreshView;
         }
         else {
             CGFloat totalHeight = titleSize.height;
-            CGFloat minY = (self.bounds.size.height / 2) - (totalHeight / 2);
+            CGFloat minY = self.bounds.size.height / 2 - totalHeight / 2;
             
             CGFloat titleY = minY;
             self.titleLabel.frame = CGRectIntegral(CGRectMake(labelX, titleY, titleSize.width, titleSize.height));
             self.subtitleLabel.frame = CGRectIntegral(CGRectMake(labelX, titleY + titleSize.height + marginY, subtitleSize.width, subtitleSize.height));
         }
         
-        CGFloat arrowX = (self.bounds.size.width / 2) - (totalMaxWidth / 2) + (leftViewWidth - self.arrow.bounds.size.width) / 2;
+        CGFloat arrowX = self.bounds.size.width / 2 - totalMaxWidth / 2 + (leftViewWidth - self.arrow.bounds.size.width) / 2;
         self.arrow.frame = CGRectMake(arrowX,
-                                      (self.bounds.size.height / 2) - (self.arrow.bounds.size.height / 2),
+                                      self.bounds.size.height / 2 - self.arrow.bounds.size.height / 2,
                                       self.arrow.bounds.size.width,
                                       self.arrow.bounds.size.height);
         self.activityIndicatorView.center = self.arrow.center;
@@ -285,7 +285,7 @@ static char UIScrollViewPullToRefreshView;
 - (void)setScrollViewContentInset:(UIEdgeInsets)contentInset {
     [UIView animateWithDuration:0.3
                           delay:0
-                        options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState
+                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
                          self.scrollView.contentInset = contentInset;
                      }
@@ -294,7 +294,7 @@ static char UIScrollViewPullToRefreshView;
 
 #pragma mark - Observing
 
-- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context { 
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
     if ([keyPath isEqualToString:@"contentOffset"]) {
         [self scrollViewDidScroll:[[change objectForKey:NSKeyValueChangeNewKey] CGPointValue]];
     }
@@ -329,7 +329,7 @@ static char UIScrollViewPullToRefreshView;
 
 - (SVPullToRefreshArrow*)arrow {
     if (!_arrow) {
-		_arrow = [[SVPullToRefreshArrow alloc]initWithFrame:CGRectMake(0, self.bounds.size.height-54, 22, 48)];
+		_arrow = [[SVPullToRefreshArrow alloc]initWithFrame:CGRectMake(0, self.bounds.size.height - 54, 22, 48)];
         _arrow.backgroundColor = UIColor.clearColor;
 		[self addSubview:_arrow];
     }
@@ -573,7 +573,7 @@ static char UIScrollViewPullToRefreshView;
 	CGFloat alphaGradientLocations[] = {0, 0.8};
     
 	CGGradientRef alphaGradient = nil;
-    NSArray* alphaGradientColors = @[
+    NSArray *alphaGradientColors = @[
                                     (id)[self.arrowColor colorWithAlphaComponent:0].CGColor,
                                     (id)[self.arrowColor colorWithAlphaComponent:1].CGColor
                                     ];

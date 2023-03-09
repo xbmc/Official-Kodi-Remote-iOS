@@ -13,7 +13,7 @@
 #import "AppInfoViewController.h"
 #import "Utilities.h"
 
-// +2 to cover two single-line separators
+// + 2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
 #define MARGIN 5
 #define BLOCK_MARGIN 10
@@ -55,7 +55,7 @@
         AppDelegate.instance.obj.serverIP = @"";
         AppDelegate.instance.obj.serverPort = @"";
         AppDelegate.instance.obj.serverHWAddr = @"";
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
         if (standardUserDefaults) {
             [standardUserDefaults setObject: @(-1) forKey:@"lastServer"];
@@ -75,7 +75,7 @@
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     if (AppDelegate.instance.arrayServerList.count == 0 && !tableView.editing) {
-        return 1; 
+        return 1;
     }
     return AppDelegate.instance.arrayServerList.count;
 }
@@ -198,7 +198,7 @@ static inline BOOL IsEmpty(id obj) {
             [AppDelegate.instance triggerLocalNetworkPrivacyAlert];
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil]; 
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
 }
 
 - (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -255,10 +255,6 @@ static inline BOOL IsEmpty(id obj) {
 
 - (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
     return nil;
-//    UIImage *myImage = [UIImage imageNamed:@"blank"];
-//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage];
-//	imageView.frame = CGRectMake(0, 0, 320, 8);
-//	return imageView;
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
@@ -267,10 +263,6 @@ static inline BOOL IsEmpty(id obj) {
 
 - (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
     return nil;
-//    UIImage *myImage = [UIImage imageNamed:@"blank"];
-//	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage];
-//	imageView.frame = CGRectMake(0, 0, 320, 8);
-//	return imageView;
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
@@ -380,7 +372,7 @@ static inline BOOL IsEmpty(id obj) {
                                    @"System.ScreenResolution",
                                    @"System.HddTemperature",
                                    @"System.OSVersionInfo"]}
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
             NSMutableAttributedString *infoString = [NSMutableAttributedString new];
             NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
@@ -606,9 +598,9 @@ static inline BOOL IsEmpty(id obj) {
         xbmcLogo.showsTouchWhenHighlighted = NO;
         [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = xbmcLogo;
-        UIImage* menuImg = [UIImage imageNamed:@"button_menu"];
+        UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
-        UIImage* settingsImg = [UIImage imageNamed:@"icon_power_up"];
+        UIImage *settingsImg = [UIImage imageNamed:@"icon_power_up"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealUnderRight:)];
     }
     doRevealMenu = YES;
@@ -733,7 +725,7 @@ static inline BOOL IsEmpty(id obj) {
                                 nil];
     [[Utilities getJsonRPC] callMethod: methodToCall
          withParameters: parameters
-           onCompletion: ^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+           onCompletion: ^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                if (error == nil && methodError == nil) {
                    [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationWillEnterForegroundNotification" object:nil userInfo:nil];
                }

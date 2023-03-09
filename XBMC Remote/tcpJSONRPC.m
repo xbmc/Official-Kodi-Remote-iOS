@@ -15,13 +15,13 @@
 #define MRMC_TIMEWARP 14.0
 
 NSInputStream	*inStream;
-NSOutputStream	*outStream;
+//  NSOutputStream	*outStream;
 //	CFWriteStreamRef writeStream;
 
 @implementation tcpJSONRPC
 
 - (id)init {
-    if ((self = [super init])) {
+    if (self = [super init]) {
         heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleSystemOnSleep:)
@@ -71,7 +71,7 @@ NSOutputStream	*outStream;
 //	[outStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 	[inStream open];
 //	[outStream open];
-    CFRelease((__bridge CFTypeRef)(server));
+    CFRelease((__bridge CFTypeRef)server);
 }
 
 - (NSStreamStatus)currentSocketInStatus {
@@ -117,9 +117,9 @@ NSOutputStream	*outStream;
                             if (parseError == nil) {
                                 NSString *method = @"";
                                 NSDictionary *paramsDict;
-                                if (((NSNull*)notification[@"method"] != [NSNull null])) {
+                                if ((NSNull*)notification[@"method"] != [NSNull null]) {
                                         method = notification[@"method"];
-                                    if (((NSNull*)notification[@"params"] != [NSNull null])) {
+                                    if ((NSNull*)notification[@"params"] != [NSNull null]) {
                                         paramsDict = [NSDictionary dictionaryWithObject:notification[@"params"] forKey:@"params"];
                                     }
                                     [[NSNotificationCenter defaultCenter] postNotificationName:method object:nil userInfo:paramsDict];
@@ -182,15 +182,13 @@ NSOutputStream	*outStream;
         [AppDelegate.instance sendWOL:AppDelegate.instance.obj.serverHWAddr withPort:WOL_PORT];
     }
     inCheck = YES;
-//    NSString *userPassword = [AppDelegate.instance.obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", AppDelegate.instance.obj.serverPass];
-//    NSString *serverJSON = [NSString stringWithFormat:@"http://%@%@@%@:%@/jsonrpc", AppDelegate.instance.obj.serverUser, userPassword, AppDelegate.instance.obj.serverIP, AppDelegate.instance.obj.serverPort];
     
     NSDictionary *checkServerParams = [NSDictionary dictionaryWithObjectsAndKeys: @[@"version", @"volume", @"name"], @"properties", nil];
     [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
      withParameters:checkServerParams
      withTimeout: SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          inCheck = NO;
          if (error == nil && methodError == nil) {
              // Read JSON RPC API version
@@ -252,7 +250,7 @@ NSOutputStream	*outStream;
      callMethod:@"Settings.GetSettingValue"
      withParameters:@{@"setting": @"filelists.ignorethewhensorting"}
      withTimeout: SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (!error && !methodError) {
              AppDelegate.instance.isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
          }
@@ -268,7 +266,7 @@ NSOutputStream	*outStream;
      callMethod:@"JSONRPC.Version"
      withParameters:nil
      withTimeout: SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (!error && !methodError) {
              // Kodi 11 and earlier do not support "major"/"minor"/"patch" and reply with "version" only
              if (![methodResult[@"version"] isKindOfClass:[NSNumber class]]) {
@@ -296,7 +294,7 @@ NSOutputStream	*outStream;
          callMethod:@"Settings.GetSettingValue"
          withParameters:@{@"setting": @"videolibrary.groupsingleitemsets"}
          withTimeout: SERVER_TIMEOUT
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (!error && !methodError) {
                  AppDelegate.instance.isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
              }
@@ -318,7 +316,7 @@ NSOutputStream	*outStream;
          callMethod:@"Application.GetProperties"
          withParameters:@{@"properties":@[@"sorttokens"]}
          withTimeout: SERVER_TIMEOUT
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (!error && !methodError) {
                  AppDelegate.instance.KodiSorttokens = methodResult[@"sorttokens"];
              }

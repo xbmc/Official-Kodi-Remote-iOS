@@ -44,18 +44,6 @@
 /**
  * Set the imageView `image` with an `url`.
  *
- * The downloand is asynchronous and cached. After the image is downloaded the result image is cropped.
- *
- * @param url The url for the image.
- * @param bounds Bounds of the cropped image.
- * @param size Resize the downloaded image to the specified size
- * @param mode Content mode of the resize strategy. Can be UIViewContentModeScaleAspectFill or UIViewContentModeScaleAspectFit
- */
-//- (void)setImageWithURL:(NSURL*)url andResize:(CGSize)size withContentMode:(UIViewContentMode)mode;
-
-/**
- * Set the imageView `image` with an `url`.
- *
  * The downloand is asynchronous and cached.
  *
  * @param url The url for the image.

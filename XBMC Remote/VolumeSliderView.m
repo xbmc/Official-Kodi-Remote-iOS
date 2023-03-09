@@ -44,7 +44,7 @@
         CGRect frame_tmp;
         UIColor *volumeIconColor = nil;
         UIImage *muteBackgroundImage = nil;
-        if (!isSliderType){
+        if (!isSliderType) {
             volumeLabel.alpha = 1.0;
             volumeView.hidden = YES;
             volumeSlider.hidden = YES;
@@ -251,7 +251,7 @@
      callMethod:@"Application.GetProperties"
      withParameters:@{@"properties": @[@"muted"]}
      withTimeout: SERVER_TIMEOUT
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError* error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil) {
              isMuted = [methodResult[@"muted"] boolValue];
              [self handleMute:isMuted];

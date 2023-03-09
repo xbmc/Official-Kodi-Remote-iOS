@@ -143,7 +143,7 @@
         [self.imagesArray removeObjectAtIndex:0];
         [self.imagesArray addObject:[self _downloadImageFrom:urls[urlIndex]]];
         
-        if (bufferIndex == self.imagesArray.count -1) {
+        if (bufferIndex == self.imagesArray.count - 1) {
             bufferIndex = -1;
         }
         
@@ -155,7 +155,7 @@
 }
 
 - (void)_animate:(NSNumber*)num {
-    UIImage* image = self.imagesArray[[num intValue]];
+    UIImage *image = self.imagesArray[[num intValue]];
     UIImageView *imageView;
     
     CGFloat resizeRatio   = -1;
@@ -327,7 +327,7 @@
         
         if ([imageIndex intValue] == (self.imagesArray.count - 1) && !isLoop && [self.delegate respondsToSelector:@selector(didFinishAllAnimations)]) {
             [self.delegate didFinishAllAnimations];
-        } 
+        }
     }
 }
 

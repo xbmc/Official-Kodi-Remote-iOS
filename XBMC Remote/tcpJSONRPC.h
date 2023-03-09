@@ -11,7 +11,7 @@
 
 @interface tcpJSONRPC : NSObject <NSStreamDelegate> {
     BOOL inCheck;
-    NSTimer* heartbeatTimer;
+    NSTimer *heartbeatTimer;
     NSString *infoTitle;
 }
 

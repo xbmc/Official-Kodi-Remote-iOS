@@ -382,7 +382,7 @@
 #pragma mark init
 
 - (id)init {
-	if ((self = [super init])) {
+	if (self = [super init]) {
         NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         self.dataFilePath = docPaths[0];
         NSMutableArray *tempArray = [Utilities unarchivePath:self.dataFilePath file:@"serverList_saved.dat"];
@@ -485,7 +485,7 @@
         animationStartBottomScreen = @NO;
         animationStartX = @STACKSCROLL_WIDTH;
         thumbWidth = (int)(PAD_TV_SHOWS_BANNER_WIDTH * transform);
-        tvshowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT* transform);
+        tvshowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT * transform);
     }
     
     [self.window makeKeyAndVisible];
@@ -5882,7 +5882,7 @@
     UIApplication.sharedApplication.idleTimerDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"lockscreen_preference"];
 }
     
-- (NSNumber*)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel{
+- (NSNumber*)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel {
     // Search for the method index with the desired sub label (e.g. "All Songs")
     int k;
     for (k = 0; k < menuItem.mainMethod.count; ++k) {
@@ -5912,7 +5912,7 @@
 /// broadcast-capable interface.
 ///
 /// Each array entry contains either a `sockaddr_in` or `sockaddr_in6`.
-- (NSArray<NSData*>*) addressesOfDiscardServiceOnBroadcastCapableInterfaces {
+- (NSArray<NSData*>*)addressesOfDiscardServiceOnBroadcastCapableInterfaces {
     struct ifaddrs *addrList = NULL;
     int err = getifaddrs(&addrList);
     if (err != 0) {
@@ -5920,25 +5920,24 @@
     }
     NSMutableArray<NSData*> *result = [NSMutableArray array];
     for (struct ifaddrs *cursor = addrList; cursor != NULL; cursor = cursor->ifa_next) {
-        if ( (cursor->ifa_flags & IFF_BROADCAST) &&
-             (cursor->ifa_addr != NULL)
-           ) {
+        if ((cursor->ifa_flags & IFF_BROADCAST) &&
+            (cursor->ifa_addr != NULL)) {
             switch (cursor->ifa_addr->sa_family) {
-            case AF_INET: {
-                struct sockaddr_in sin = *(struct sockaddr_in*) cursor->ifa_addr;
-                sin.sin_port = htons(9);
-                NSData *addr = [NSData dataWithBytes:&sin length:sizeof(sin)];
-                [result addObject:addr];
-            } break;
-            case AF_INET6: {
-                struct sockaddr_in6 sin6 = *(struct sockaddr_in6*) cursor->ifa_addr;
-                sin6.sin6_port = htons(9);
-                NSData *addr = [NSData dataWithBytes:&sin6 length:sizeof(sin6)];
-                [result addObject:addr];
-            } break;
-            default: {
-                // do nothing
-            } break;
+                case AF_INET: {
+                    struct sockaddr_in sin = *(struct sockaddr_in*)cursor->ifa_addr;
+                    sin.sin_port = htons(9);
+                    NSData *addr = [NSData dataWithBytes:&sin length:sizeof(sin)];
+                    [result addObject:addr];
+                } break;
+                case AF_INET6: {
+                    struct sockaddr_in6 sin6 = *(struct sockaddr_in6*)cursor->ifa_addr;
+                    sin6.sin6_port = htons(9);
+                    NSData *addr = [NSData dataWithBytes:&sin6 length:sizeof(sin6)];
+                    [result addObject:addr];
+                } break;
+                default: {
+                    // do nothing
+                } break;
             }
         }
     }
@@ -5969,11 +5968,11 @@
     int sock4 = socket(AF_INET, SOCK_DGRAM, 0);
     int sock6 = socket(AF_INET6, SOCK_DGRAM, 0);
     
-    if ((sock4 >= 0) && (sock6 >= 0)) {
+    if (sock4 >= 0 && sock6 >= 0) {
         char message = '!';
         NSArray<NSData*> *addresses = [self addressesOfDiscardServiceOnBroadcastCapableInterfaces];
         for (NSData *address in addresses) {
-            int sock = ((const struct sockaddr*) address.bytes)->sa_family == AF_INET ? sock4 : sock6;
+            int sock = ((const struct sockaddr*)address.bytes)->sa_family == AF_INET ? sock4 : sock6;
             (void) sendto(sock, &message, sizeof(message), MSG_DONTWAIT, address.bytes, (socklen_t) address.length);
         }
     }
@@ -5992,7 +5991,7 @@
         desc = CFSocketGetNative(WOLsocket);
         int yes = -1;
         
-        if (setsockopt (desc, SOL_SOCKET, SO_BROADCAST, (char*)&yes, sizeof (yes)) < 0) {
+        if (setsockopt (desc, SOL_SOCKET, SO_BROADCAST, (char*)&yes, sizeof(yes)) < 0) {
             NSLog(@"Set Socket options failed");
         }
         
@@ -6008,7 +6007,7 @@
             unsigned int intValue;
             [scanner scanHexInt:&intValue];
             
-            ether_addr[idx/3] = intValue;
+            ether_addr[idx / 3] = intValue;
         }
         
         /* Build the message to send - 6 x 0xff then 16 x MAC address */
@@ -6095,7 +6094,7 @@
 
 - (void)clearAppDiskCache {
     // OLD SDWEBImageCache
-    NSString *fullNamespace = @"ImageCache"; 
+    NSString *fullNamespace = @"ImageCache";
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *diskCachePath = [paths[0] stringByAppendingPathComponent:fullNamespace];
     [[NSFileManager defaultManager] removeItemAtPath:diskCachePath error:nil];

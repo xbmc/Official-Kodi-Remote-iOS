@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "GlobalData.h"
 
 #define SERVERPOPUP_BOTTOMPADDING 10
 
-@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate>{
-//    GlobalData *obj;
+@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate> {
     IBOutlet UITextField *descriptionUI;
     IBOutlet UITextField *ipUI;
     IBOutlet UITextField *portUI;
