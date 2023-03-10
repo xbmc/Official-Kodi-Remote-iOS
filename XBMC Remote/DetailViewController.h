@@ -94,7 +94,6 @@
     UILabel *sectionNameLabel;
     BOOL recentlyAddedView;
     BOOL enableDiskCache;
-    BOOL blackTableSeparator;
     CGFloat iOSYDelta;
     __weak IBOutlet UIToolbar *buttonsViewBgToolbar;
     BOOL isViewDidLoad;

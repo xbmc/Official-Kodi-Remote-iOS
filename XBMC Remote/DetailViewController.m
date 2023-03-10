@@ -1267,11 +1267,9 @@
     [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:NO];
     [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
     if ([parameters[@"blackTableSeparator"] boolValue] && ![Utilities getPreferTvPosterMode]) {
-        blackTableSeparator = YES;
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
     }
     else {
-        blackTableSeparator = NO;
         self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
         dataList.separatorColor = [Utilities getGrayColor:191 alpha:1];
     }
@@ -5848,7 +5846,6 @@ NSIndexPath *selected;
     }
     
     if ([parameters[@"blackTableSeparator"] boolValue] && ![Utilities getPreferTvPosterMode]) {
-        blackTableSeparator = YES;
         dataList.separatorInset = UIEdgeInsetsZero;
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
     }
