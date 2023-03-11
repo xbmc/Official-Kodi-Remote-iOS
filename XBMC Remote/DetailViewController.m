@@ -592,13 +592,13 @@
 }
 
 - (CGPoint)getGlobalSearchThumbsize:(NSDictionary*)item {
-    CGPoint thumbSize = CGPointMake(53, 53);
+    CGPoint thumbSize = CGPointMake(DEFAULT_THUMB_WIDTH, DEFAULT_ROW_HEIGHT);
     if ([item[@"family"] isEqualToString:@"movieid"] ||
         [item[@"family"] isEqualToString:@"setid"] ||
         [item[@"family"] isEqualToString:@"musicvideoid"] ||
         [item[@"family"] isEqualToString:@"tvshowid"]) {
-        thumbSize.x = 53;
-        thumbSize.y = 76;
+        thumbSize.x = DEFAULT_THUMB_WIDTH;
+        thumbSize.y = PORTRAIT_ROW_HEIGHT;
     }
     return thumbSize;
 }
@@ -2064,7 +2064,7 @@
         cellHeight = menuItem.rowHeight;
     }
     else {
-        cellHeight = 76;
+        cellHeight = PORTRAIT_ROW_HEIGHT;
     }
 
     if (parameters[@"thumbWidth"]) {
@@ -2074,7 +2074,7 @@
         thumbWidth = menuItem.thumbWidth;
     }
     else {
-        thumbWidth = 53;
+        thumbWidth = DEFAULT_THUMB_WIDTH;
     }
     if (albumView) {
         thumbWidth = 0;
