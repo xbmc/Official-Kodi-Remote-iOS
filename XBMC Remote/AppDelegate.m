@@ -1781,8 +1781,6 @@
         [self action_queue_to_fmcharts],
     ];
     
-    menu_Music.subItem.originYearDuration = 248;
-    menu_Music.subItem.widthLabel = 252;
     menu_Music.subItem.showRuntime = @[
         @YES,
         @NO,
@@ -2135,8 +2133,6 @@
         [self action_queue_to_play],
     ];
     
-    menu_Music.subItem.subItem.subItem.originYearDuration = 248;
-    menu_Music.subItem.subItem.subItem.widthLabel = 252;
     menu_Music.subItem.subItem.subItem.showRuntime = @[
         @YES,
         @NO,
@@ -2916,8 +2912,6 @@
         [self modes_icons_empty],
     ];
 
-    menu_Movies.subItem.widthLabel = 252;
-    
     menu_Movies.subItem.subItem.noConvertTime = YES;
     menu_Movies.subItem.subItem.mainMethod = [@[
         @[],
@@ -2969,8 +2963,6 @@
         [self action_queue_to_play],
         [self action_queue_to_play],
     ];
-    
-    menu_Movies.subItem.subItem.widthLabel = 252;
     
 #pragma mark - Videos
     menu_Videos.mainLabel = LOCALIZED_STR(@"Videos");
@@ -3462,8 +3454,6 @@
         [self modes_icons_empty],
     ];
 
-    menu_Videos.subItem.widthLabel = 252;
-    
     menu_Videos.subItem.subItem.noConvertTime = YES;
     menu_Videos.subItem.subItem.mainMethod = [@[
         @[],
@@ -3507,8 +3497,6 @@
         [self action_queue_to_play],
         [self action_queue_to_play],
     ];
-    
-    menu_Videos.subItem.subItem.widthLabel = 252;
     
 #pragma mark - TV Shows
     menu_TVShows.mainLabel = LOCALIZED_STR(@"TV Shows");
@@ -4039,8 +4027,6 @@
         [self action_queue_to_moviedetails],
     ];
     
-    menu_TVShows.subItem.originYearDuration = 248;
-    menu_TVShows.subItem.widthLabel = 208;
     menu_TVShows.subItem.showRuntime = @[
         @NO,
         @NO,
@@ -4101,8 +4087,6 @@
         [self action_queue_to_play],
     ];
         
-    menu_TVShows.subItem.subItem.originYearDuration = 248;
-    menu_TVShows.subItem.subItem.widthLabel = 208;
     menu_TVShows.subItem.subItem.showRuntime = @[
         @NO,
         @NO,
