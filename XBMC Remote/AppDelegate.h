@@ -63,6 +63,12 @@
 
 #define EPISODE_THUMB_WIDTH 95
 
+/* Global definition for player id */
+#define PLAYERID_UNKNOWN -1
+#define PLAYERID_MUSIC 0
+#define PLAYERID_VIDEO 1
+#define PLAYERID_PICTURES 2
+
 #define WOL_PORT 9
 
 + (AppDelegate*)instance;

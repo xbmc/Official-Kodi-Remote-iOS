@@ -60,13 +60,6 @@
 #define FADE_OUT_TIME 0.2
 #define FADE_IN_TIME 0.5
 
-typedef enum {
-    PLAYERID_UNKNOWN = -1,
-    PLAYERID_MUSIC = 0,
-    PLAYERID_VIDEO = 1,
-    PLAYERID_PICTURES = 2
-} PlayerIDs;
-
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;

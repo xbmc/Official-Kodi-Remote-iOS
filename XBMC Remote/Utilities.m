@@ -593,13 +593,13 @@
         else if ([filetype isEqualToString:@"file"]) {
             int playlistid = [mainFields[@"playlistid"] intValue];
             switch (playlistid) {
-                case 0:
+                case PLAYERID_MUSIC:
                     iconName = @"icon_song";
                     break;
-                case 1:
+                case PLAYERID_VIDEO:
                     iconName = @"icon_video";
                     break;
-                case 2:
+                case PLAYERID_PICTURES:
                     iconName = @"icon_picture";
                     break;
                 default:
