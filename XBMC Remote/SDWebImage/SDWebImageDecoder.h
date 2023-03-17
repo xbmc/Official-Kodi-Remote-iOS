@@ -13,7 +13,6 @@
 
 @interface UIImage (ForceDecode)
 
-+ (UIImage*)decodedImageWithImage:(UIImage*)image;
-+ (UIImage*)decodedImageWithImage:(UIImage*)image size:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality;
++ (UIImage *)decodedImageWithImage:(UIImage *)image;
 
 @end
