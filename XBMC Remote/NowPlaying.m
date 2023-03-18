@@ -624,8 +624,8 @@ long storedItemID;
                                          if (![fanart isEqualToString:@""]) {
                                              NSString *fanartURL = [Utilities formatStringURL:fanart serverURL:serverURL];
                                              __weak NowPlaying *sf = self;
-                                             [tempFanartImageView setImageWithURL:[NSURL URLWithString:fanartURL]
-                                                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                             [tempFanartImageView sd_setImageWithURL:[NSURL URLWithString:fanartURL]
+                                                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                                  UIImage *fanartImage = (error == nil && image != nil) ? image : [UIImage new];
                                                  [sf notifyChangeForBackgroundImage:fanartImage];
                                             }];
@@ -646,9 +646,9 @@ long storedItemID;
                                              else {
                                                  __weak UIImageView *thumb = thumbnailView;
                                                  __weak NowPlaying *sf = self;
-                                                 [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
-                                                           placeholderImage:[UIImage imageNamed:@"coverbox_back"]
-                                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                                 [thumbnailView sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                                                                  placeholderImage:[UIImage imageNamed:@"coverbox_back"]
+                                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                                       if (error == nil) {
                                                           [sf processLoadedThumbImage:sf thumb:thumb image:image enableJewel:enableJewel];
                                                       }
@@ -667,7 +667,7 @@ long storedItemID;
                                  }
                                  if (![storeClearlogo isEqualToString:@""]) {
                                      NSString *stringURL = [Utilities formatStringURL:storeClearlogo serverURL:serverURL];
-                                     [itemLogoImage setImageWithURL:[NSURL URLWithString:stringURL]];
+                                     [itemLogoImage sd_setImageWithURL:[NSURL URLWithString:stringURL]];
                                      storeCurrentLogo = storeClearlogo;
                                  }
                              }
@@ -1650,8 +1650,8 @@ long storedItemID;
     }
     if (![storeCurrentLogo isEqualToString:@""]) {
         NSString *stringURL = [Utilities formatStringURL:storeCurrentLogo serverURL:serverURL];
-        [itemLogoImage setImageWithURL:[NSURL URLWithString:stringURL]
-                      placeholderImage:itemLogoImage.image];
+        [itemLogoImage sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                         placeholderImage:itemLogoImage.image];
     }
 }
 
@@ -1999,8 +1999,8 @@ long storedItemID;
             break;
     }
     NSString *stringURL = item[@"thumbnail"];
-    [thumb setImageWithURL:[NSURL URLWithString:stringURL]
-          placeholderImage:defaultThumb];
+    [thumb sd_setImageWithURL:[NSURL URLWithString:stringURL]
+             placeholderImage:defaultThumb];
     thumb = [Utilities applyRoundedEdgesView:thumb drawBorder:YES];
     [self setPlaylistCellProgressBar:cell hidden:YES];
     

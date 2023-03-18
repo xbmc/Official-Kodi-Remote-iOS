@@ -935,18 +935,16 @@
     [Utilities applyRoundedEdgesView:imgView drawBorder:showBorder];
     if (![stringURL isEqualToString:@""]) {
         // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
-        // ensure setImageWithURL falls back to this icon.
+        // ensure sd_setImageWithURL falls back to this icon.
         if ([UIImage imageNamed:stringURL]) {
             displayThumb = stringURL;
         }
         __auto_type __weak weakImageView = imgView;
-        [imgView setImageWithURL:[NSURL URLWithString:stringURL]
-                placeholderImage:[UIImage imageNamed:displayThumb]
-                         options:0
-                       andResize:viewSize
-                      withBorder:showBorder
-                        progress:nil
-                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+        [imgView sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                   placeholderImage:[UIImage imageNamed:displayThumb]
+                            options:0
+                           progress:nil
+                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
             // Only set the logo background, if the attempt to load it was successful (image != nil).
             // This avoids a possibly wrong background for a default thumb.
             if (image && (channelListView || channelGuideView || recordingListView || isOnPVR)) {
@@ -957,13 +955,11 @@
         }];
     }
     else {
-        [imgView setImageWithURL:[NSURL URLWithString:@""]
-                placeholderImage:[UIImage imageNamed:displayThumb]
-                         options:0
-                       andResize:CGSizeZero
-                      withBorder:showBorder
-                        progress:nil
-                       completed:nil];
+        [imgView sd_setImageWithURL:[NSURL URLWithString:@""]
+                   placeholderImage:[UIImage imageNamed:displayThumb]
+                            options:0
+                           progress:nil
+                          completed:nil];
         // Special handling for TV SHow cells, this is already in default thumb state
         [self layoutTVShowCell:cell useDefaultThumb:YES imgView:imgView];
     }
@@ -1783,14 +1779,11 @@
     else {
         static NSString *identifier = @"recentlyAddedCell";
         RecentlyAddedCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-        CGFloat posterWidth = cellthumbHeight * 0.66;
-        CGFloat fanartWidth = cellthumbWidth - posterWidth;
 
         if (![stringURL isEqualToString:@""]) {
-            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:stringURL]
-                                 placeholderImage:[UIImage imageNamed:displayThumb]
-                                        andResize:CGSizeMake(posterWidth, cellthumbHeight)
-                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [cell.posterThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                                    placeholderImage:[UIImage imageNamed:displayThumb]
+                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                 UIColor *averageColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
                 CGFloat hue, saturation, brightness, alpha;
                 BOOL ok = [averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
@@ -1801,18 +1794,17 @@
             }];
         }
         else {
-            [cell.posterThumbnail setImageWithURL:[NSURL URLWithString:@""]
-                                 placeholderImage:[UIImage imageNamed:displayThumb]];
+            [cell.posterThumbnail sd_setImageWithURL:[NSURL URLWithString:@""]
+                                    placeholderImage:[UIImage imageNamed:displayThumb]];
         }
 
         if (![fanartURL isEqualToString:@""]) {
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:fanartURL]
-                              placeholderImage:[UIImage imageNamed:@"blank"]
-                                     andResize:CGSizeMake(fanartWidth, cellthumbHeight)];
+            [cell.posterFanart sd_setImageWithURL:[NSURL URLWithString:fanartURL]
+                                 placeholderImage:[UIImage imageNamed:@"blank"]];
         }
         else {
-            [cell.posterFanart setImageWithURL:[NSURL URLWithString:@""]
-                              placeholderImage:[UIImage imageNamed:@"blank"]];
+            [cell.posterFanart sd_setImageWithURL:[NSURL URLWithString:@""]
+                                 placeholderImage:[UIImage imageNamed:@"blank"]];
         }
         
         cell.posterLabel.font = [UIFont boldSystemFontOfSize:fanartFontSize + 8];
@@ -2823,10 +2815,9 @@
                 displayThumb = stringURL;
             }
             __weak UIImageView *weakThumbView = thumbImageView;
-            [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
-                           placeholderImage:[UIImage imageNamed:displayThumb]
-                                  andResize:CGSizeMake(albumThumbHeight, albumThumbHeight)
-                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                              placeholderImage:[UIImage imageNamed:displayThumb]
+                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                       if (image != nil) {
                                           weakThumbView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];
                                           [self setViewColor:albumDetailView
@@ -2847,8 +2838,8 @@
                                   }];
         }
         else {
-            [thumbImageView setImageWithURL:[NSURL URLWithString:@""]
-                           placeholderImage:[UIImage imageNamed:displayThumb]];
+            [thumbImageView sd_setImageWithURL:[NSURL URLWithString:@""]
+                              placeholderImage:[UIImage imageNamed:displayThumb]];
             [self setLabelColor:albumFontColor
                    label34Color:albumDetailsColor
                      fontshadow:albumFontShadowColor
@@ -2864,8 +2855,8 @@
             fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
             fanartBackgroundImage.alpha = 0.1;
                 fanartBackgroundImage.clipsToBounds = YES;
-            [fanartBackgroundImage setImageWithURL:[NSURL URLWithString:stringURL]
-                                  placeholderImage:[UIImage imageNamed:@"blank"]];
+            [fanartBackgroundImage sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                                     placeholderImage:[UIImage imageNamed:@"blank"]];
             [albumDetailView addSubview:fanartBackgroundImage];
         }
         [thumbImageContainer addSubview:thumbImageView];
@@ -3001,10 +2992,9 @@
                     displayThumb = stringURL;
                 }
                 __weak UIImageView *weakThumbView = thumbImageView;
-                [thumbImageView setImageWithURL:[NSURL URLWithString:stringURL]
-                               placeholderImage:[UIImage imageNamed:displayThumb]
-                                      andResize:CGSizeMake(seasonThumbWidth, albumViewHeight - albumViewPadding * 2)
-                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                                  placeholderImage:[UIImage imageNamed:displayThumb]
+                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                     if (image != nil) {
                         weakThumbView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];
                         [self setViewColor:albumDetailView
@@ -3021,8 +3011,8 @@
                 }];
             }
             else {
-                [thumbImageView setImageWithURL:[NSURL URLWithString:@""]
-                               placeholderImage:[UIImage imageNamed:displayThumb]];
+                [thumbImageView sd_setImageWithURL:[NSURL URLWithString:@""]
+                                  placeholderImage:[UIImage imageNamed:displayThumb]];
                 [self setLabelColor:seasonFontColor
                        label34Color:seasonDetailsColor
                          fontshadow:seasonFontShadowColor
