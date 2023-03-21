@@ -1567,6 +1567,14 @@
                        failure: LOCALIZED_STR(@"Unable to activate the window")
              ];
         }
+        // Selected favourite item is a script type -> run it
+        else if ([item[@"type"] isEqualToString:@"script"]) {
+            [self SimpleAction: @"Addons.ExecuteAddon"
+                        params: @{@"addonid": item[@"path"]}
+                       success: LOCALIZED_STR(@"Action executed successfully")
+                       failure: LOCALIZED_STR(@"Unable to execute the action")
+             ];
+        }
         // Selected favourite item is a media type -> play it
         else if ([item[@"type"] isEqualToString:@"media"]) {
             [self playerOpen: @{@"item": @{@"file": item[@"path"] }} index:nil];
