@@ -20,7 +20,6 @@
 "Enable contents cache" = "Activar caché de contenidos";
 "Override Lockscreen" = "Ignorar Pantalla de bloqueo";
 "Show all files in filemode" = "Mostrar todos los archivos en modo archivo";
-"Filemode changes needs app restart" = "Los cambios en el modo archivo necesitan reiniciar la app";
 "Main Menu" = "Menú Principal";
 "Start in view" = "Arrancar en vista";
 "Music" = "Música";
@@ -31,7 +30,7 @@
 "Live TV" = "TV en Directo";
 "Radio" = "Radio";
 "Favourites" = "Favoritos";
-"Now Playing" = "Reproduciendo Ahora";
+"Now Playing" = "Reproduciendo";
 "Global Search" = "Búsqueda Global";
 "Main Menu changes needs app restart" = "Los cambios en el Menú Principal necesitan reiniciar la app";
 "Use thumbnail when fanart is missing" = "Usar miniatura cuando no existe fanart";
