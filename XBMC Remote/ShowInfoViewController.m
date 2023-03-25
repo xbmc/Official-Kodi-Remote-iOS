@@ -872,13 +872,6 @@ double round(double d) {
     
     [self loadThumbnail:item[@"thumbnail"] placeHolder:placeHolderImage jewelType:jeweltype jewelEnabled:enableJewel];
     
-    NSString *fanart = item[@"fanart"];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if (fanart.length == 0 && [userDefaults boolForKey:@"fanart_fallback_preference"]) {
-        fanart = item[@"thumbnail"];
-    }
-    [self loadFanart:fanart];
-    
     voteLabel.text = [Utilities getStringFromItem:item[@"rating"]];
     starsView.image = [UIImage imageNamed:[NSString stringWithFormat:@"stars_%.0f", roundf([item[@"rating"] floatValue])]];
     NSString *numVotes = [Utilities getStringFromItem:item[@"votes"]];
@@ -1774,14 +1767,17 @@ double round(double d) {
         alphaValue = 1;
         [self.navigationController setNavigationBarHidden:YES animated:YES];
     }
+    
+    NSString *fanart = self.detailItem[@"fanart"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (fanart.length == 0 && [userDefaults boolForKey:@"fanart_fallback_preference"]) {
+        fanart = self.detailItem[@"thumbnail"];
+    }
+    [self loadFanart:fanart];
     if (!enableKenBurns) {
         [Utilities alphaView:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
     else {
-        if (fanartView.image != nil && self.kenView == nil) {
-            fanartView.alpha = 0;
-            [self elabKenBurns:fanartView.image];
-        }
         [Utilities alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
     }
     if ([self isModal]) {
