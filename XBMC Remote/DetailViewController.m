@@ -1561,15 +1561,29 @@
     else if ([item[@"family"] isEqualToString:@"type"]) {
         // Selected favourite item is a window type -> activate it
         if ([item[@"type"] isEqualToString:@"window"]) {
-            [self SimpleAction: @"GUI.ActivateWindow"
-                        params: @{@"window": item[@"window"], @"parameters": @[item[@"windowparameter"]]}
-                       success: LOCALIZED_STR(@"Window activated successfully")
-                       failure: LOCALIZED_STR(@"Unable to activate the window")
-             ];
+            if (item[@"window"] && item[@"windowparameter"]) {
+                [self SimpleAction:@"GUI.ActivateWindow"
+                            params:@{@"window": item[@"window"], @"parameters": @[item[@"windowparameter"]]}
+                           success:LOCALIZED_STR(@"Window activated successfully")
+                           failure:LOCALIZED_STR(@"Unable to activate the window")
+                 ];
+            }
+        }
+        // Selected favourite item is a script type -> run it
+        else if ([item[@"type"] isEqualToString:@"script"]) {
+            if (item[@"path"]) {
+                [self SimpleAction:@"Addons.ExecuteAddon"
+                            params:@{@"addonid": item[@"path"]}
+                           success:LOCALIZED_STR(@"Action executed successfully")
+                           failure:LOCALIZED_STR(@"Unable to execute the action")
+                 ];
+            }
         }
         // Selected favourite item is a media type -> play it
         else if ([item[@"type"] isEqualToString:@"media"]) {
-            [self playerOpen: @{@"item": @{@"file": item[@"path"] }} index:nil];
+            if (item[@"path"]) {
+                [self playerOpen:@{@"item": @{@"file": item[@"path"]}} index:nil];
+            }
         }
         // Selected favourite item is an unknown type -> throw an error
         else {
