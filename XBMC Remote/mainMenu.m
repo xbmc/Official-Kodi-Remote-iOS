@@ -10,7 +10,7 @@
 
 @implementation mainMenu
 
-@synthesize rootLabel, mainLabel, icon, family, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, originLabel, noConvertTime, chooseTab, disableNowPlaying, filterModes, currentFilterMode;
+@synthesize rootLabel, mainLabel, icon, family, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, noConvertTime, chooseTab, disableNowPlaying, filterModes, currentFilterMode;
 
 - (id)copyWithZone:(NSZone*)zone {
     mainMenu *menuCopy = [[mainMenu allocWithZone: zone] init];
@@ -30,7 +30,6 @@
     menuCopy.thumbWidth = self.thumbWidth;
     menuCopy.showInfo = self.showInfo;
     menuCopy.originYearDuration = self.originYearDuration;
-    menuCopy.originLabel = self.originLabel;
     menuCopy.widthLabel = self.widthLabel;
     menuCopy.chooseTab = self.chooseTab;
     menuCopy.disableNowPlaying = self.disableNowPlaying;

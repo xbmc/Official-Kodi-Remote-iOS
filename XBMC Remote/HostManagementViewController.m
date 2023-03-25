@@ -719,10 +719,10 @@ static inline BOOL IsEmpty(id obj) {
 
 - (void)enableTCPconnection {
     NSString *methodToCall = @"Settings.SetSettingValue";
-    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"services.esallinterfaces", @"setting",
-                                @YES, @"value",
-                                nil];
+    NSDictionary *parameters = @{
+        @"setting": @"services.esallinterfaces",
+        @"value": @YES,
+    };
     [[Utilities getJsonRPC] callMethod: methodToCall
          withParameters: parameters
            onCompletion: ^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {

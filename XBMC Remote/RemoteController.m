@@ -778,10 +778,7 @@ NSInteger buttonAction;
 - (IBAction)holdKey:(id)sender {
     buttonAction = [sender tag];
     [self sendAction];
-    if (self.holdVolumeTimer != nil) {
-        [self.holdVolumeTimer invalidate];
-        self.holdVolumeTimer = nil;
-    }
+    [self.holdVolumeTimer invalidate];
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -793,10 +790,7 @@ NSInteger buttonAction;
 }
 
 - (IBAction)stopHoldKey:(id)sender {
-    if (self.holdVolumeTimer != nil) {
-        [self.holdVolumeTimer invalidate];
-        self.holdVolumeTimer = nil;
-    }
+    [self.holdVolumeTimer invalidate];
     buttonAction = 0;
 }
 

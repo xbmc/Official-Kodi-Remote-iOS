@@ -87,69 +87,37 @@
     
     [self textFieldDoneEditing:nil];
     
-    if (descriptionUI.text == nil) {
-        descriptionUI.text = @"";
-    }
-    if (usernameUI.text == nil) {
-        usernameUI.text = @"";
-    }
-    if (passwordUI.text == nil) {
-        passwordUI.text = @"";
-    }
-    if (ipUI.text == nil) {
-        ipUI.text = @"";
-    }
-    if (portUI.text == nil) {
-        portUI.text = @"";
-    }
-    if (tcpPortUI.text == nil) {
-        tcpPortUI.text = @"";
-    }
-    if (mac_0_UI.text == nil) {
-        mac_0_UI.text = @"";
-    }
-    if (mac_1_UI.text == nil) {
-        mac_1_UI.text = @"";
-    }
-    if (mac_2_UI.text == nil) {
-        mac_2_UI.text = @"";
-    }
-    if (mac_3_UI.text == nil) {
-        mac_3_UI.text = @"";
-    }
-    if (mac_4_UI.text == nil) {
-        mac_4_UI.text = @"";
-    }
-    if (mac_5_UI.text == nil) {
-        mac_5_UI.text = @"";
-    }
+    descriptionUI.text = descriptionUI.text ?: @"";
+    usernameUI.text = usernameUI.text ?: @"";
+    passwordUI.text = passwordUI.text ?: @"";
+    ipUI.text = ipUI.text ?: @"";
+    portUI.text = portUI.text ?: @"";
+    tcpPortUI.text = tcpPortUI.text ?: @"";
+    mac_0_UI.text = mac_0_UI.text ?: @"";
+    mac_1_UI.text = mac_1_UI.text ?: @"";
+    mac_2_UI.text = mac_2_UI.text ?: @"";
+    mac_3_UI.text = mac_3_UI.text ?: @"";
+    mac_4_UI.text = mac_4_UI.text ?: @"";
+    mac_5_UI.text = mac_5_UI.text ?: @"";
 
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
+    
+    NSDictionary *serverParameters = @{
+        @"serverDescription": descriptionUI.text,
+        @"serverUser": usernameUI.text,
+        @"serverPass": passwordUI.text,
+        @"serverIP": ipUI.text,
+        @"serverPort": portUI.text,
+        @"serverMacAddress": macAddress,
+        @"tcpPort": tcpPortUI.text,
+    };
     if (self.detailItem == nil) {
-        [AppDelegate.instance.arrayServerList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                           descriptionUI.text, @"serverDescription",
-                                                           usernameUI.text, @"serverUser",
-                                                           passwordUI.text, @"serverPass",
-                                                           ipUI.text, @"serverIP",
-                                                           portUI.text, @"serverPort",
-                                                           macAddress, @"serverMacAddress",
-                                                           tcpPortUI.text, @"tcpPort",
-                                                           nil
-                                                           ]];
+        [AppDelegate.instance.arrayServerList addObject:serverParameters];
     }
     else {
         NSIndexPath *idx = self.detailItem;
         [AppDelegate.instance.arrayServerList removeObjectAtIndex:idx.row];
-        [AppDelegate.instance.arrayServerList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                              descriptionUI.text, @"serverDescription",
-                                                              usernameUI.text, @"serverUser",
-                                                              passwordUI.text, @"serverPass",
-                                                              ipUI.text, @"serverIP",
-                                                              portUI.text, @"serverPort",
-                                                              macAddress, @"serverMacAddress",
-                                                              tcpPortUI.text, @"tcpPort",
-                                                              nil
-                                                              ] atIndex:idx.row];
+        [AppDelegate.instance.arrayServerList insertObject:serverParameters atIndex:idx.row];
     }
     [AppDelegate.instance saveServerList];
     [self.navigationController popViewControllerAnimated:YES];
@@ -460,7 +428,6 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [timer invalidate];
-    timer = nil;
     netServiceBrowser = nil;
     services = nil;
     [Utilities AnimView:discoveredInstancesView AnimDuration:0.0 Alpha:1.0 XPos:self.view.frame.size.width];
