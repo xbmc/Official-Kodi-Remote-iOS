@@ -126,6 +126,9 @@
 		_tableView.delegate = self;
 		_tableView.dataSource = self;
         _tableView.backgroundColor = UIColor.clearColor;
+        if (@available(iOS 15.0, *)) {
+            _tableView.sectionHeaderTopPadding = 0;
+        }
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
 		_tableView.tableFooterView = footerView;
         self.view.backgroundColor = UIColor.clearColor;
@@ -674,7 +677,7 @@
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
-    return 1;
+    return 0;
 }
 
 - (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
