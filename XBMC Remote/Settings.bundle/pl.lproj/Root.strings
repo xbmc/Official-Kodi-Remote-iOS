@@ -39,3 +39,5 @@
 "Cache Settings" = "Ustawienia pamięci podręcznej";
 "Interface" = "Interfejs";
 "Colorize UI automatically" = "Koloruj interfejs użytkownika automatycznie";
+"Filemode and Theme changes need app restart" = "Zmiany trybu plików i motywu wymagają ponownego uruchomienia aplikacji";
+"Theme (iOS 13+)" = "Motyw (iOS 13+)";

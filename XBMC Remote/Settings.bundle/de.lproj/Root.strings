@@ -39,3 +39,5 @@
 "Global Search" = "Globale Suche";
 "Main Menu changes needs app restart" = "Hauptmenü-Änderungen erfordern einen App-Neustart";
 "Colorize UI automatically" = "Benutzeroberfläche automatisch einfärben";
+"Filemode and Theme changes need app restart" = "Änderungen von Dateimodus oder Thema erfordern einen App-Neustart";
+"Theme (iOS 13+)" = "Thema (iOS 13+)";

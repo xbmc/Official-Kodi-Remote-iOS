@@ -39,3 +39,5 @@
 "Use thumbnail when fanart is missing" = "Näytä pienoiskuvat puuttuvien fanart-kuvien tilalla";
 "Send Wake-On-LAN automatically" = "Lähetä Wake-on-LAN-komento automaattisesti";
 "Colorize UI automatically" = "Väritä käyttöliittymä automaattisesti";
+"Filemode and Theme changes need app restart" = "Tiedostotila ja teeman vaihto vaatii sovelluksen uudelleenkäynnistyksen";
+"Theme (iOS 13+)" = "Teema (iOS 13+)";
