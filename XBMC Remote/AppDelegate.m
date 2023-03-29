@@ -1514,7 +1514,7 @@
                                   
         @[
             @{
-                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"file_properties": @[
                     @"thumbnail",
                 ],
@@ -2352,6 +2352,7 @@
 
         @[
             @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
             }, @"parameters",
             LOCALIZED_STR(@"Files"), @"label",
@@ -2717,7 +2718,7 @@
                                   
         @[
             @{
-                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"file_properties": @[
                     @"thumbnail",
@@ -3120,6 +3121,7 @@
         
         @[
             @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
             }, @"parameters",
             LOCALIZED_STR(@"Files"), @"label",
@@ -3879,7 +3881,7 @@
                                     
         @[
             @{
-                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"file_properties": @[
                     @"thumbnail",
@@ -5341,7 +5343,7 @@
                                   
         @[
             @{
-                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"pictures",
                 @"file_properties": @[
                     @"thumbnail",
