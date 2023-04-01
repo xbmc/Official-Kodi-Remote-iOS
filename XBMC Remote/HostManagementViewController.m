@@ -248,9 +248,9 @@
             }
         }
         if (indexPath.row < [tableView numberOfRowsInSection:indexPath.section]) {
-            [tableView beginUpdates];
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-            [tableView endUpdates];
+            [tableView performBatchUpdates:^{
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            } completion:nil];
         }
         // Are there still editable entries?
         editTableButton.selected = editTableButton.enabled = AppDelegate.instance.arrayServerList.count > 0;

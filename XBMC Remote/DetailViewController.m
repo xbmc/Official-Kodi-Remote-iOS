@@ -960,14 +960,14 @@
     // Add/remove the section content
     UIButton *toggleButton = (UIButton*)[sender.view viewWithTag:SEASON_VIEW_CELL_TOGGLE];
     if (expandSection) {
-        [dataList beginUpdates];
-        [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
-        [dataList endUpdates];
+        [dataList performBatchUpdates:^{
+            [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        } completion:nil];
     }
     else {
-        [dataList beginUpdates];
-        [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
-        [dataList endUpdates];
+        [dataList performBatchUpdates:^{
+            [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        } completion:nil];
     }
     toggleButton.selected = expandSection;
     
