@@ -43,6 +43,8 @@
     
     UIView *slideViews;
     UIView *borderViews;
+    UIView *verticalLineView1;
+    UIView *verticalLineView2;
     
     UIView *viewAtLeft;
     UIView *viewAtRight;
