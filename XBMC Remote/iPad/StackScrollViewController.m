@@ -253,7 +253,6 @@
                                        viewAtLeft.frame.size.width,
                                        viewAtLeft.frame.size.height);
         }
-        [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
         [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
         [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
         viewAtLeft2 = nil;
@@ -265,7 +264,6 @@
         for (UIView *subview in slideViews.subviews) {
             [subview removeFromSuperview];
         }
-        [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
         [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
         [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
         [viewControllersStack removeAllObjects];
@@ -294,7 +292,6 @@
             [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
             [viewControllersStack removeLastObject];
         }
-        [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
         [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
         [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
     }
@@ -828,7 +825,6 @@
             [subview removeFromSuperview];
         }
         
-        [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
         [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
         [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
         [viewControllersStack removeAllObjects];
@@ -867,7 +863,6 @@
         for (UIView *subview in slideViews.subviews) {
             [subview removeFromSuperview];
         }		[viewControllersStack removeAllObjects];
-        [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
         [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
         [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
     }
