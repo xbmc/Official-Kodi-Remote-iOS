@@ -893,6 +893,13 @@
     return bottomPadding;
 }
 
++ (CGFloat)getTopPadding {
+    CGFloat topPadding = 0;
+    UIWindow *window = UIApplication.sharedApplication.keyWindow;
+    topPadding = window.safeAreaInsets.top;
+    return topPadding;
+}
+
 + (void)sendXbmcHttp:(NSString*)command {
     GlobalData *obj = [GlobalData getInstance];
     NSString *userPassword = [obj.serverPass isEqualToString:@""] ? @"" : [NSString stringWithFormat:@":%@", obj.serverPass];
