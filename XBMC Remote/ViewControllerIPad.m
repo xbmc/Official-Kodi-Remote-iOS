@@ -332,7 +332,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    int deltaY = [Utilities getTopPadding] + 2; // + 2 used by horizontanLineView
+    int deltaY = [Utilities getTopPadding];
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
     self.tcpJSONRPCconnection = [tcpJSONRPC new];
