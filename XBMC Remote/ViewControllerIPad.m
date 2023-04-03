@@ -32,6 +32,8 @@
 #define CONNECTION_PADDING 20
 #define REMOTE_PADDING_LEFT 45
 #define PLAYLIST_HEADER_HEIGHT 24
+#define PLAYLIST_ACTION_HEIGHT 44
+#define PLAYLIST_CELL_HEIGHT 53
 
 @interface ViewControllerIPad () {
     NSMutableArray *mainMenu;
@@ -435,7 +437,8 @@
     AppDelegate.instance.obj = [GlobalData getInstance];
     
     // Create the left menu
-    [self createLeftMenu:[(NSMutableArray*)mainMenu count]];
+    NSInteger maxMenuItems = floor((GET_MAINSCREEN_WIDTH - deltaY - PLAYLIST_HEADER_HEIGHT - TOOLBAR_HEIGHT - PLAYLIST_ACTION_HEIGHT - [Utilities getBottomPadding] - PLAYLIST_CELL_HEIGHT) / PAD_MENU_HEIGHT);
+    [self createLeftMenu:maxMenuItems];
     
     rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY)];
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
