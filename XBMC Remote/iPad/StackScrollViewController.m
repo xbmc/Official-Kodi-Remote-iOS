@@ -190,7 +190,7 @@
                 CGRect frame = subview.frame;
                 frame.origin.x = 0;
                 frame.origin.y = 0;
-                frame.size.height = self.view.frame.size.height;
+                frame.size.height = self.view.frame.size.height - [Utilities getBottomPadding];
                 frame.size.width = originalFrame.size.width;
                 subview.frame = frame;
                 break;
