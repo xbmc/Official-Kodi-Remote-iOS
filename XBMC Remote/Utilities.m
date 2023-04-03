@@ -889,10 +889,8 @@
 
 + (CGFloat)getBottomPadding {
     CGFloat bottomPadding = 0;
-    if (@available(iOS 11.0, *)) {
-        UIWindow *window = UIApplication.sharedApplication.keyWindow;
-        bottomPadding = window.safeAreaInsets.bottom;
-    }
+    UIWindow *window = UIApplication.sharedApplication.keyWindow;
+    bottomPadding = window.safeAreaInsets.bottom;
     return bottomPadding;
 }
 
@@ -910,9 +908,7 @@
 }
 
 + (void)showReviewController {
-    if (@available(iOS 10.3, *)) {
-        [SKStoreReviewController requestReview];
-    }
+    [SKStoreReviewController requestReview];
 }
 
 + (void)checkForReviewRequest {
@@ -1045,46 +1041,33 @@
 
 + (id)unarchivePath:(NSString*)path file:(NSString*)filename {
     NSString *filePath = [path stringByAppendingPathComponent:filename];
-    id unarchived;
-    
-    if (@available(iOS 11.0, *)) {
-        NSData *data = [[NSFileManager defaultManager] contentsAtPath:filePath];
-        NSError *error;
-        NSSet *objectClasses = [NSSet setWithArray:@[
-            // Supported non-mutable classes
-            [NSDictionary class],
-            [NSString class],
-            [NSArray class],
-            [NSNumber class],
-            [NSDate class],
-            [NSData class],
-            // Supported mutable classes
-            [NSMutableDictionary class],
-            [NSMutableString class],
-            [NSMutableArray class],
-        ]];
-        unarchived = [NSKeyedUnarchiver unarchivedObjectOfClasses:objectClasses
-                                                         fromData:data
-                                                            error:&error];
-    }
-    else {
-        unarchived = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    }
+    NSData *data = [[NSFileManager defaultManager] contentsAtPath:filePath];
+    NSError *error;
+    NSSet *objectClasses = [NSSet setWithArray:@[
+        // Supported non-mutable classes
+        [NSDictionary class],
+        [NSString class],
+        [NSArray class],
+        [NSNumber class],
+        [NSDate class],
+        [NSData class],
+        // Supported mutable classes
+        [NSMutableDictionary class],
+        [NSMutableString class],
+        [NSMutableArray class],
+    ]];
+    id unarchived = [NSKeyedUnarchiver unarchivedObjectOfClasses:objectClasses
+                                                     fromData:data
+                                                        error:&error];
     return unarchived;
 }
 
 + (void)archivePath:(NSString*)path file:(NSString*)filename data:(id)data {
     NSString *filePath = [path stringByAppendingPathComponent:filename];
-    
-    if (@available(iOS 11.0, *)) {
-        NSError *error;
-        NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:NO error:&error];
-        if (!error) {
-            [archiveData writeToFile:filePath options:NSDataWritingAtomic error:&error];
-        }
-    }
-    else {
-        [NSKeyedArchiver archiveRootObject:data toFile:filePath];
+    NSError *error;
+    NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:NO error:&error];
+    if (!error) {
+        [archiveData writeToFile:filePath options:NSDataWritingAtomic error:&error];
     }
 }
 

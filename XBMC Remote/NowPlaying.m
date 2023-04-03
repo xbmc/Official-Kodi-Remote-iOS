@@ -2300,19 +2300,8 @@ long storedItemID;
     [iPadItems removeObjectAtIndex:iPadItems.count - 1];
     
     // Step 2: Handle spacing
-    if (@available(iOS 11.0, *)) {
-        // iOS11+ handles the right hand flex space correctly
-        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
-        [iPadItems addObject:spacer];
-    }
-    else {
-        // WORKAROUND for iOS10 and earlier: Use a fixed width with magic number
-        for (NSInteger i = iPadItems.count - 1; i >= 0; --i) {
-            UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:NULL];
-            spacer.width = -7;
-            [iPadItems insertObject:spacer atIndex:i];
-        }
-    }
+    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+    [iPadItems addObject:spacer];
     
     playlistToolbar.items = iPadItems;
     playlistToolbar.alpha = 1.0;

@@ -5265,11 +5265,9 @@ NSIndexPath *selected;
     
     BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel];
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
-    if (@available(iOS 11.0, *)) {
-        self.navigationItem.backButtonTitle = labelText;
-        if (!albumView) {
-            labelText = [labelText stringByAppendingFormat:@" (%d)", numResults];
-        }
+    self.navigationItem.backButtonTitle = labelText;
+    if (!albumView) {
+        labelText = [labelText stringByAppendingFormat:@" (%d)", numResults];
     }
     [self setFilternameLabel:labelText runFullscreenButtonCheck:NO forceHide:NO];
     
