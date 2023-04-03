@@ -346,7 +346,7 @@
     int tableWidth = PAD_MENU_TABLE_WIDTH;
     int headerHeight = 0;
    
-    rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY - 1)];
+    rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY)];
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
 	rootView.backgroundColor = UIColor.clearColor;
 	
