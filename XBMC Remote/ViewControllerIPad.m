@@ -338,6 +338,9 @@
     NSInteger maxMenuItems = round(CGRectGetMinY(playlistHeader.frame) / PAD_MENU_HEIGHT);
     CGFloat tableHeight = MIN([(NSMutableArray*)mainMenu count], maxMenuItems) * PAD_MENU_HEIGHT;
     [self changeLeftMenu:tableHeight];
+    
+    // Save configuration
+    [self saveLeftMenuSplit:maxMenuItems];
 }
 
 #pragma mark - App clear disk cache methods
@@ -359,6 +362,28 @@
                          NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
                          [userDefaults removeObjectForKey:@"clearcache_preference"];
                      }];
+}
+
+#pragma mark - Persistence
+
+- (void)saveLeftMenuSplit:(NSInteger)numberOfMenuItems {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setInteger:numberOfMenuItems forKey:@"numberOfMenuItemsShownInLeftMenu"];
+    return;
+}
+
+- (NSInteger)loadLeftMenuSplit {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *maxMenuItemSaved = [userDefaults objectForKey:@"numberOfMenuItemsShownInLeftMenu"];
+    NSInteger maxMenuItems;
+    if (maxMenuItemSaved) {
+        maxMenuItems = [maxMenuItemSaved intValue];
+    }
+    else {
+        // At least keep 1 playlist item visible
+        maxMenuItems = floor((GET_MAINSCREEN_WIDTH - [Utilities getTopPadding] - PLAYLIST_HEADER_HEIGHT - TOOLBAR_HEIGHT - PLAYLIST_ACTION_HEIGHT - [Utilities getBottomPadding] - PLAYLIST_CELL_HEIGHT) / PAD_MENU_HEIGHT);
+    }
+    return maxMenuItems;
 }
 
 #pragma mark - Lifecycle
@@ -437,7 +462,7 @@
     AppDelegate.instance.obj = [GlobalData getInstance];
     
     // Create the left menu
-    NSInteger maxMenuItems = floor((GET_MAINSCREEN_WIDTH - deltaY - PLAYLIST_HEADER_HEIGHT - TOOLBAR_HEIGHT - PLAYLIST_ACTION_HEIGHT - [Utilities getBottomPadding] - PLAYLIST_CELL_HEIGHT) / PAD_MENU_HEIGHT);
+    NSInteger maxMenuItems = [self loadLeftMenuSplit];
     [self createLeftMenu:maxMenuItems];
     
     rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY)];
