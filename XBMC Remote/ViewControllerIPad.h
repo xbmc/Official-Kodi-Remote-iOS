@@ -24,6 +24,7 @@
 	UIViewExt *rootView;
 	UIView *leftMenuView;
 	UIView *rightSlideView;
+    UILabel *playlistHeader;
 	MenuViewController *menuViewController;
     NowPlaying *nowPlayingController;
 	StackScrollViewController *stackScrollViewController;
