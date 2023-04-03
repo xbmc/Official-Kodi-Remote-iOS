@@ -286,7 +286,7 @@
 
 - (CGFloat)getRemoteViewOffsetY {
     // Layout is (top-down): status bar > server info > volume slider > (menu items) > remote view
-    CGFloat statusBarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGFloat statusBarHeight = [Utilities getTopPadding];
     CGFloat sliderHeight = volumeSliderView.frame.size.height;
     CGFloat menuItemsHeight = [Utilities hasRemoteToolBar] ? 0 : 3 * RIGHT_MENU_ITEM_HEIGHT;
     return statusBarHeight + SERVER_INFO_HEIGHT + sliderHeight + menuItemsHeight;
@@ -583,7 +583,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGFloat deltaY = UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGFloat deltaY = [Utilities getTopPadding];
     self.peekLeftAmount = ANCHOR_RIGHT_PEEK;
     CGRect frame = UIScreen.mainScreen.bounds;
     CGFloat deltaX = ANCHOR_RIGHT_PEEK;

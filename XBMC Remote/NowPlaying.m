@@ -2200,7 +2200,7 @@ long storedItemID;
     
     // Maximum allowed height excludes status bar, toolbar and safe area
     CGFloat bottomPadding = [Utilities getBottomPadding];
-    CGFloat statusBar = UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGFloat statusBar = [Utilities getTopPadding];
     CGFloat maxheight = height - bottomPadding - statusBar - TOOLBAR_HEIGHT;
     
     nowPlayingView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH + 2,

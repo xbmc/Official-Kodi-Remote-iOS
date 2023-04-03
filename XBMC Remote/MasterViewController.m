@@ -308,7 +308,7 @@
     [super viewDidLoad];
     
     // The menu list starts at the bottom of the status bar to not overlap with it
-    CGFloat statuBarHeight = CGRectGetHeight(UIApplication.sharedApplication.statusBarFrame);
+    CGFloat statuBarHeight = [Utilities getTopPadding];
     CGRect frame = menuList.frame;
     frame.origin.y = statuBarHeight;
     frame.size.height = frame.size.height - statuBarHeight;
