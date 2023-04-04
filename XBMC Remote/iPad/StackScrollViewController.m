@@ -985,6 +985,7 @@
                 frame.origin.y -= statusbarHeight;
                 frame.size.height += statusbarHeight;
             }
+            frame.size.height -= [Utilities getBottomPadding];
             subController.view.frame = frame;
         }
         else if (viewAtRight != nil && [viewAtRight isEqual:subController.view]) {
