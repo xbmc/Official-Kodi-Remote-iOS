@@ -59,6 +59,7 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = UIColor.clearColor;
+        _tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         mainMenuItems = menu;
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
         _tableView.tableFooterView = footerView;
