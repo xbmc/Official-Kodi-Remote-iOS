@@ -21,13 +21,13 @@
 
 
 @interface ViewControllerIPad : UIViewController {
-	UIViewExt *rootView;
-	UIView *leftMenuView;
-	UIView *rightSlideView;
+    UIViewExt *rootView;
+    UIView *leftMenuView;
+    UIView *rightSlideView;
     UILabel *playlistHeader;
-	MenuViewController *menuViewController;
+    MenuViewController *menuViewController;
     NowPlaying *nowPlayingController;
-	StackScrollViewController *stackScrollViewController;
+    StackScrollViewController *stackScrollViewController;
     NSIndexPath *storeServerSelection;
     int YPOS;
     UIButton *remoteButton;
