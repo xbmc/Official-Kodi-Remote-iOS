@@ -311,6 +311,7 @@
     if ([playlistHeader pointInside:locationPoint withEvent:event]) {
         playlistHeader.backgroundColor = UIColor.systemBlueColor;
         playlistHeader.textColor = UIColor.whiteColor;
+        didTouchLeftMenu = YES;
     }
 }
 
@@ -330,17 +331,20 @@
     // Hand over to nowPlayingController
     [self.nowPlayingController touchesEnded:touches withEvent:event];
     
-    // Untouching restores default color of playlist header and lets header snap into desired position
-    playlistHeader.backgroundColor = UIColor.clearColor;
-    playlistHeader.textColor = UIColor.lightGrayColor;
-    
-    // Finalize the left menu layout
-    NSInteger maxMenuItems = round(CGRectGetMinY(playlistHeader.frame) / PAD_MENU_HEIGHT);
-    CGFloat tableHeight = MIN([(NSMutableArray*)mainMenu count], maxMenuItems) * PAD_MENU_HEIGHT;
-    [self changeLeftMenu:tableHeight];
-    
-    // Save configuration
-    [self saveLeftMenuSplit:maxMenuItems];
+    if (didTouchLeftMenu) {
+        // Untouching restores default color of playlist header and lets header snap into desired position
+        playlistHeader.backgroundColor = UIColor.clearColor;
+        playlistHeader.textColor = UIColor.lightGrayColor;
+        
+        // Finalize the left menu layout
+        NSInteger maxMenuItems = round(CGRectGetMinY(playlistHeader.frame) / PAD_MENU_HEIGHT);
+        CGFloat tableHeight = MIN([(NSMutableArray*)mainMenu count], maxMenuItems) * PAD_MENU_HEIGHT;
+        [self changeLeftMenu:tableHeight];
+        
+        // Save configuration
+        [self saveLeftMenuSplit:maxMenuItems];
+        didTouchLeftMenu = NO;
+    }
 }
 
 #pragma mark - App clear disk cache methods
