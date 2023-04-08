@@ -52,8 +52,8 @@
 "Power off System" = "Power off System";
 "Power off" = "Power off";
 "Hibernate" = "Hibernate";
-"Suspend" = "Suspend";
-"Reboot" = "Reboot";
+"Suspend" = "Ooteseisund";
+"Reboot" = "Taaskäivitus";
 "Quit XBMC application" = "Quit Kodi application";
 "Update Audio Library" = "Update Audio Library";
 "Update Audio" = "Update Audio";
@@ -63,7 +63,7 @@
 "Update Video" = "Update Video";
 "Clean Video Library" = "Clean Video Library";
 "Clean Video" = "Clean Video";
-"Quit" = "Quit";
+"Quit" = "Sulge";
 "Keyboard" = "Keyboard";
 "Gesture Zone" = "Gesture Zone";
 "Button Pad" = "Button Pad";
@@ -71,8 +71,8 @@
 "LED Torch" = "LED Torch";
 "No connection" = "No connection";
 "Queue after current" = "Queue after current";
-"Queue" = "Queue";
-"Play" = "Play";
+"Queue" = "Järjekord";
+"Play" = "Esita";
 "Search Wikipedia" = "Search Wikipedia";
 "Search last.fm charts" = "Search last.fm charts";
 "Album Tracks" = "Album Tracks";
@@ -211,7 +211,7 @@
 "Add-on executed successfully" = "Add-on executed successfully";
 "Unable to execute the add-on" = "Unable to execute the add-on";
 "...more" = "...more";
-"Edit" = "Edit";
+"Edit" = "Muuda";
 "Done" = "Done";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi version 13 or superior is required to access Kodi settings";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the Kodi GUI for changing this setting.\nThank you.";
@@ -285,7 +285,7 @@
 "Nearly four hours" = "Nearly four hours";
 "About four hours" = "About four hours";
 "More than four hours" = "More than four hours";
-"Unknown" = "Unknown";
+"Unknown" = "Teadmata";
 "Audio stream" = "Audio stream";
 "Disable subtitles" = "Disable subtitles";
 "Subtitles" = "Subtitles";
