@@ -88,8 +88,7 @@
     __weak IBOutlet UIImageView *playlistLeftShadow;
     __weak IBOutlet UILabel *scrabbingMessage;
     __weak IBOutlet UILabel *scrabbingRate;
-    UIView *iOS7bgEffect;
-    UIView *iOS7navBarEffect;
+    UIView *toolbarBackground;
     UIColor *foundEffectColor;
     UISegmentedControl *playlistSegmentedControl;
     __weak IBOutlet UILabel *noItemsLabel;

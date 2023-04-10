@@ -380,7 +380,7 @@ long storedItemID;
     shuffleButton.hidden = YES;
     hiresImage.hidden = YES;
     musicPartyMode = 0;
-    [self setIOS7backgroundEffect:UIColor.clearColor];
+    [self setColorEffect:UIColor.clearColor];
     [self hidePlaylistProgressbarWithDeselect:YES];
     [self showPlaylistTable];
     [self toggleSongDetails];
@@ -398,12 +398,13 @@ long storedItemID;
     }
 }
 
-- (void)IOS7colorProgressSlider:(UIColor*)color {
+- (void)animateToColors:(UIColor*)color {
     [UIView transitionWithView:ProgressSlider
                       duration:0.3
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
                         if ([color isEqual:UIColor.clearColor]) {
+                            self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
                             ProgressSlider.minimumTrackTintColor = SLIDER_DEFAULT_COLOR;
                             if (ProgressSlider.userInteractionEnabled) {
                                 UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
@@ -421,6 +422,7 @@ long storedItemID;
                             UIColor *slightLighterColor = [Utilities slightLighterColorForColor:color];
                             UIColor *progressColor = slightLighterColor;
                             UIColor *pgThumbColor = lighterColor;
+                            self.navigationController.navigationBar.tintColor = lighterColor;
                             ProgressSlider.minimumTrackTintColor = progressColor;
                             if (ProgressSlider.userInteractionEnabled) {
                                 UIImage *thumbImage = [Utilities colorizeImage:[UIImage imageNamed:@"pgbar_thumb_iOS7"] withColor:pgThumbColor];
@@ -437,46 +439,36 @@ long storedItemID;
                     completion:NULL];
 }
 
-- (void)IOS7effect:(UIColor*)color effectDuration:(NSTimeInterval)time {
-    [UIView animateWithDuration:time
-                     animations:^{
-                         iOS7bgEffect.backgroundColor = color;
-                         iOS7navBarEffect.backgroundColor = color;
-                         if ([color isEqual:UIColor.clearColor]) {
-                             self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
-                             [Utilities imageView:backgroundImageView AnimDuration:1.0 Image:[UIImage imageNamed:@"shiny_black_back"]];
-                             if (IS_IPAD) {
-                                 NSDictionary *params = @{@"startColor": [Utilities getGrayColor:36 alpha:1],
-                                                          @"endColor": [Utilities getGrayColor:22 alpha:1]};
-                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundGradientColor" object:nil userInfo:params];
-                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
-                             }
-                         }
-                         else {
-                             UIColor *lighterColor = [Utilities lighterColorForColor:color];
-                             self.navigationController.navigationBar.tintColor = lighterColor;
-                             [Utilities imageView:backgroundImageView AnimDuration:1.0 Image:[Utilities colorizeImage:[UIImage imageNamed:@"shiny_black_back"] withColor:lighterColor]];
-                             if (IS_IPAD) {
-                                 CGFloat hue, saturation, brightness, alpha;
-                                 BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-                                 if (ok) {
-                                     UIColor *iPadStartColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2 alpha:alpha];
-                                     UIColor *iPadEndColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.1 alpha:alpha];
-                                     NSDictionary *params = @{@"startColor": iPadStartColor,
-                                                              @"endColor": iPadEndColor};
-                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundGradientColor" object:nil userInfo:params];
-                                 }
-                             }
-                         }
-                     }
-                     completion:NULL];
+- (void)setIPadBackgroundColor:(UIColor*)color effectDuration:(NSTimeInterval)time {
+    if (IS_IPAD) {
+        NSDictionary *params;
+        if ([color isEqual:UIColor.clearColor]) {
+            params = @{
+                @"startColor": [Utilities getGrayColor:36 alpha:1.0],
+                @"endColor": [Utilities getGrayColor:22 alpha:1.0],
+            };
+        }
+        else {
+            CGFloat hue, saturation, brightness, alpha;
+            BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+            if (ok) {
+                UIColor *iPadStartColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2 alpha:alpha];
+                UIColor *iPadEndColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.1 alpha:alpha];
+                params = @{
+                    @"startColor": iPadStartColor,
+                    @"endColor": iPadEndColor,
+                };
+            }
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundGradientColor" object:nil userInfo:params];
+    }
 }
 
-- (void)setIOS7backgroundEffect:(UIColor*)color {
+- (void)setColorEffect:(UIColor*)color {
     foundEffectColor = color;
     if (!nowPlayingView.hidden) {
-        [self IOS7colorProgressSlider:color];
-        [self IOS7effect:color effectDuration:1.0];
+        [self animateToColors:color];
+        [self setIPadBackgroundColor:color effectDuration:1.0];
     }
 }
 
@@ -611,7 +603,7 @@ long storedItemID;
                                      if ([thumbnailPath isEqualToString:@""]) {
                                          UIImage *buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"coverbox_back"]];
                                          [self setButtonImageAndStartDemo:buttonImage];
-                                         [self setIOS7backgroundEffect:UIColor.clearColor];
+                                         [self setColorEffect:UIColor.clearColor];
                                          if (enableJewel) {
                                              thumbnailView.image = [UIImage imageNamed:@"coverbox_back"];
                                          }
@@ -633,7 +625,7 @@ long storedItemID;
                                                  }
                                                  [self setButtonImageAndStartDemo:buttonImage];
                                                  UIColor *effectColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                 [self setIOS7backgroundEffect:effectColor];
+                                                 [self setColorEffect:effectColor];
                                              }
                                              else {
                                                  __weak NowPlaying *sf = self;
@@ -647,7 +639,7 @@ long storedItemID;
                                                                                   UIImage *buttonImage = [sf resizeToolbarThumb:[sf imageWithBorderFromImage:image]];
                                                                                   [sf setButtonImageAndStartDemo:buttonImage];
                                                                                   newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                                                  [sf setIOS7backgroundEffect:newColor];
+                                                                                  [sf setColorEffect:newColor];
                                                                               }
                                                                           }];
                                                  }
@@ -661,7 +653,7 @@ long storedItemID;
                                                               UIImage *buttonImage = [sf resizeToolbarThumb:jV.image];
                                                               [sf setButtonImageAndStartDemo:buttonImage];
                                                               newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                              [sf setIOS7backgroundEffect:newColor];
+                                                              [sf setColorEffect:newColor];
                                                           }
                                                       }];
                                                  }
@@ -1411,18 +1403,16 @@ long storedItemID;
 
 - (void)animViews {
     UIColor *effectColor;
-    __block CGRect playlistToolBarOriginY = playlistActionView.frame;
-    NSTimeInterval iOS7effectDuration = 1.0;
+    __block CGFloat playtoolbarAlpha = 1.0;
     if (!nowPlayingView.hidden) {
-        iOS7effectDuration = 0.0;
         transitionView = nowPlayingView;
         transitionedView = playlistView;
         self.navigationItem.title = LOCALIZED_STR(@"Playlist");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromRight;
         effectColor = UIColor.clearColor;
-        playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height - playlistTableView.scrollIndicatorInsets.bottom;
-        [self IOS7effect:effectColor effectDuration:0.2];
+        [self setIPadBackgroundColor:effectColor effectDuration:0.2];
+        playtoolbarAlpha = 1.0;
     }
     else {
         transitionView = playlistView;
@@ -1436,9 +1426,9 @@ long storedItemID;
         else {
             effectColor = foundEffectColor;
         }
-        playlistToolBarOriginY.origin.y = playlistTableView.frame.size.height;
+        playtoolbarAlpha = 0.0;
     }
-    [self IOS7colorProgressSlider:effectColor];
+    [self animateToColors:effectColor];
     
     [UIView transitionWithView:transitionView
                       duration:FADE_OUT_TIME
@@ -1454,14 +1444,12 @@ long storedItemID;
                                               transitionView.hidden = YES;
                                               transitionedView.hidden = NO;
                                               transitionedView.alpha = 1.0;
+                                              playlistActionView.alpha = playtoolbarAlpha;
                                               self.navigationItem.titleView.hidden = NO;
-                                              playlistActionView.frame = playlistToolBarOriginY;
                                           }
-                                          completion:^(BOOL finished) {
-                                              if (iOS7effectDuration) {
-                                                  [self IOS7effect:effectColor effectDuration:iOS7effectDuration];
-                                              }
-                                          }];
+                                        completion:^(BOOL finished) {
+                                              [self setIPadBackgroundColor:effectColor effectDuration:1.0];
+                                      }];
                      }];
     [self flipAnimButton:playlistButton demo:NO];
 }
@@ -2246,9 +2234,9 @@ long storedItemID;
     frame.origin.x = 0;
     playlistToolbar.frame = frame;
     
-    frame = iOS7bgEffect.frame;
+    frame = toolbarBackground.frame;
     frame.size.width = width;
-    iOS7bgEffect.frame = frame;
+    toolbarBackground.frame = frame;
     
     frame = TopView.frame;
     frame.size.height = CGRectGetMinY(songDetailsView.frame);
@@ -2296,9 +2284,9 @@ long storedItemID;
     playlistToolbar.items = iPhoneItems;
     
     CGRect frame = playlistActionView.frame;
-    frame.origin.y = CGRectGetMaxY(playlistToolbar.frame);
+    frame.origin.y = CGRectGetMinY(playlistToolbar.frame) - playlistActionView.frame.size.height;
     playlistActionView.frame = frame;
-    playlistActionView.alpha = 1.0;
+    playlistActionView.alpha = 0.0;
 }
 
 - (void)setIpadInterface {
@@ -2312,19 +2300,8 @@ long storedItemID;
     [iPadItems removeObjectAtIndex:iPadItems.count - 1];
     
     // Step 2: Handle spacing
-    if (@available(iOS 11.0, *)) {
-        // iOS11+ handles the right hand flex space correctly
-        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
-        [iPadItems addObject:spacer];
-    }
-    else {
-        // WORKAROUND for iOS10 and earlier: Use a fixed width with magic number
-        for (NSInteger i = iPadItems.count - 1; i >= 0; --i) {
-            UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:NULL];
-            spacer.width = -7;
-            [iPadItems insertObject:spacer atIndex:i];
-        }
-    }
+    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+    [iPadItems addObject:spacer];
     
     playlistToolbar.items = iPadItems;
     playlistToolbar.alpha = 1.0;
@@ -2514,21 +2491,6 @@ long storedItemID;
         rightMenuViewController.rightMenuItems = AppDelegate.instance.nowPlayingMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
     }
-    // upper half of bottom area is colored in album color
-    if (iOS7bgEffect == nil) {
-        CGFloat bottomBarHeight = playlistToolbar.frame.size.height + bottomPadding;
-        CGFloat effectHeight = bottomBarHeight / 2;
-        iOS7bgEffect = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - bottomBarHeight, self.view.frame.size.width, effectHeight)];
-        iOS7bgEffect.autoresizingMask = playlistToolbar.autoresizingMask;
-        [self.view insertSubview:iOS7bgEffect atIndex:0];
-    }
-    // lower half of top area is colored in album color
-    if (iOS7navBarEffect == nil && IS_IPHONE) {
-        CGFloat effectHeight = CGRectGetMaxY(self.navigationController.navigationBar.frame) / 2;
-        iOS7navBarEffect = [[UIView alloc] initWithFrame:CGRectMake(0, -effectHeight, self.view.frame.size.width, effectHeight)];
-        iOS7navBarEffect.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        [self.view insertSubview:iOS7navBarEffect atIndex:0];
-    }
 }
 
 - (void)startFlipDemo {
@@ -2559,7 +2521,7 @@ long storedItemID;
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-- (void)setIOS7toolbar {
+- (void)setToolbar {
     UIButton *buttonItem = nil;
     for (int i = 1; i < 8; i++) {
         buttonItem = (UIButton*)[self.view viewWithTag:i];
@@ -2609,7 +2571,7 @@ long storedItemID;
     noItemsLabel.text = LOCALIZED_STR(@"No items found.");
     [self addSegmentControl];
     bottomPadding = [Utilities getBottomPadding];
-    [self setIOS7toolbar];
+    [self setToolbar];
 
     if (bottomPadding > 0) {
         CGRect frame = playlistToolbar.frame;
@@ -2627,6 +2589,21 @@ long storedItemID;
     }
     playlistTableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    // Transparent toolbar
+    [Utilities createTransparentToolbar:playlistToolbar];
+    
+    // Background of toolbar
+    CGFloat bottomBarHeight = playlistToolbar.frame.size.height + bottomPadding;
+    toolbarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - bottomBarHeight, self.view.frame.size.width, bottomBarHeight)];
+    toolbarBackground.autoresizingMask = playlistToolbar.autoresizingMask;
+    toolbarBackground.backgroundColor = [Utilities getGrayColor:38 alpha:0.95];
+    [self.view insertSubview:toolbarBackground atIndex:1];
+    
+    // Set correct size for background image
+    CGRect frame = backgroundImageView.frame;
+    frame.size.height = self.view.frame.size.height - bottomBarHeight;
+    backgroundImageView.frame = frame;
     
     ProgressSlider.minimumTrackTintColor = SLIDER_DEFAULT_COLOR;
     ProgressSlider.maximumTrackTintColor = APP_TINT_COLOR;

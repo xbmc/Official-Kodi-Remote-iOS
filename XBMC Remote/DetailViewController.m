@@ -5265,11 +5265,9 @@ NSIndexPath *selected;
     
     BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel];
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
-    if (@available(iOS 11.0, *)) {
-        self.navigationItem.backButtonTitle = labelText;
-        if (!albumView) {
-            labelText = [labelText stringByAppendingFormat:@" (%d)", numResults];
-        }
+    self.navigationItem.backButtonTitle = labelText;
+    if (!albumView) {
+        labelText = [labelText stringByAppendingFormat:@" (%d)", numResults];
     }
     [self setFilternameLabel:labelText runFullscreenButtonCheck:NO forceHide:NO];
     
@@ -5642,7 +5640,7 @@ NSIndexPath *selected;
 - (void)initSearchController {
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
-    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.obscuresBackgroundDuringPresentation = NO;
     self.searchController.searchBar.delegate = self;
     self.searchController.delegate = self;
     self.searchController.hidesNavigationBarDuringPresentation = NO;
@@ -5825,6 +5823,12 @@ NSIndexPath *selected;
     if ([parameters[@"numberOfStars"] intValue] > 0) {
         numberOfStars = [parameters[@"numberOfStars"] intValue];
     }
+    
+    // Transparent toolbar
+    [Utilities createTransparentToolbar:buttonsViewBgToolbar];
+    
+    // Gray background for toolbar
+    buttonsView.backgroundColor = [Utilities getGrayColor:38 alpha:0.95];
     
     if ([methods[@"albumView"] boolValue]) {
         albumView = YES;
