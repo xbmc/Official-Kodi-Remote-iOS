@@ -5809,7 +5809,12 @@ NSIndexPath *selected;
     [Utilities createTransparentToolbar:buttonsViewBgToolbar];
     
     // Gray background for toolbar
-    buttonsView.backgroundColor = [Utilities getGrayColor:38 alpha:0.95];
+    if (IS_IPHONE) {
+        buttonsView.backgroundColor = [Utilities getGrayColor:38 alpha:0.95];
+    }
+    else {
+        buttonsViewBgToolbar.backgroundColor = [Utilities getGrayColor:38 alpha:0.95];
+    }
     
     if ([methods[@"albumView"] boolValue]) {
         albumView = YES;
