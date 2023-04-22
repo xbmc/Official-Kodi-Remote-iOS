@@ -4634,29 +4634,6 @@ NSIndexPath *selected;
                         }
                     }
                 }
-                else if ([itemDict isKindOfClass:[NSDictionary class]]) {
-                    id itemType = methodResult[itemid][mainFields[@"typename"]];
-                    id itemField = mainFields[@"fieldname"];
-                    if ([itemType isKindOfClass:[NSDictionary class]]) {
-                        if ([itemType[itemField] isKindOfClass:[NSArray class]]) {
-                            itemDict = itemType[itemField];
-                            NSString *sublabel = [Utilities indexKeyedDictionaryFromArray:[self.detailItem mainParameters][choosedTab]][@"morelabel"];
-                            if (!sublabel || [sublabel isKindOfClass:[NSNull class]]) {
-                                sublabel = @"";
-                            }
-                            for (NSDictionary *item in itemDict) {
-                                [richData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                             item, @"label",
-                                                             sublabel, @"genre",
-                                                             @"file", @"family",
-                                                             mainFields[@"thumbnail"], @"thumbnail",
-                                                             @"", @"fanart",
-                                                             @"", @"runtime",
-                                                             nil]];
-                            }
-                        }
-                    }
-                }
             }
             [self loadDetailedData:itemsAndTabs index:index + 1 results:richData];
         }
