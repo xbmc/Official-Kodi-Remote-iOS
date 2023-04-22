@@ -458,16 +458,14 @@
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
-                NSNumber *response;
-                if (methodResult[0][@"playerid"] != [NSNull null]) {
-                    response = methodResult[0][@"playerid"];
-                }
+                NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
+                NSDictionary *params = @{
+                    @"playerid": @([response intValue]),
+                    @"properties": @[@"subtitleenabled", @"currentsubtitle", @"subtitles"],
+                };
                 [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties"
-                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 response, @"playerid",
-                                 @[@"subtitleenabled", @"currentsubtitle", @"subtitles"], @"properties",
-                                 nil]
+                 withParameters:params
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                      if (error == nil && methodError == nil) {
                          if ([methodResult isKindOfClass:[NSDictionary class]]) {
@@ -527,16 +525,14 @@
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
-                NSNumber *response;
-                if (methodResult[0][@"playerid"] != [NSNull null]) {
-                    response = methodResult[0][@"playerid"];
-                }
+                NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
+                NSDictionary *params = @{
+                    @"playerid": @([response intValue]),
+                    @"properties": @[@"currentaudiostream", @"audiostreams"],
+                };
                 [[Utilities getJsonRPC]
                  callMethod:@"Player.GetProperties"
-                 withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 response, @"playerid",
-                                 @[@"currentaudiostream", @"audiostreams"], @"properties",
-                                 nil]
+                 withParameters:params
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                      if (error == nil && methodError == nil) {
                          if ([methodResult isKindOfClass:[NSDictionary class]]) {
@@ -595,9 +591,9 @@
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
                 NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
-                NSNumber *response = methodResult[0][@"playerid"];
+                NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
                 if (response != nil) {
-                    commonParams[@"playerid"] = response;
+                    commonParams[@"playerid"] = @([response intValue]);
                 }
                 [[Utilities getJsonRPC] callMethod:action withParameters:commonParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                 }];

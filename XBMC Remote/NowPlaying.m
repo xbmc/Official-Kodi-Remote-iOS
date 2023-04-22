@@ -491,10 +491,7 @@ long storedItemID;
         if (error == nil && methodError == nil) {
             if ([methodResult isKindOfClass:[NSArray class]] && [methodResult count] > 0) {
                 nothingIsPlaying = NO;
-                NSNumber *response;
-                if (methodResult[0][@"playerid"] != [NSNull null]) {
-                    response = methodResult[0][@"playerid"];
-                }
+                NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
                 currentPlayerID = [response intValue];
                 if (playerID != currentPlayerID ||
                     lastPlayerID != currentPlayerID ||
