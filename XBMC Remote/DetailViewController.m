@@ -257,16 +257,18 @@
     dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"]; // all times in Kodi PVR are UTC
 
     for (id EPGobject in broadcasts) {
-        NSDate *starttime = [dateFormatter dateFromString:EPGobject[@"starttime"]];
-        NSDate *endtime = [dateFormatter dateFromString:EPGobject[@"endtime"]];
-        [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 starttime, @"starttime",
-                                 endtime, @"endtime",
-                                 EPGobject[@"title"], @"title",
-                                 EPGobject[@"label"], @"label",
-                                 EPGobject[@"plot"], @"plot",
-                                 EPGobject[@"plotoutline"], @"plotoutline",
-                                 nil]];
+        if ([EPGobject isKindOfClass:[NSDictionary class]]) {
+            NSDate *starttime = [dateFormatter dateFromString:EPGobject[@"starttime"]];
+            NSDate *endtime = [dateFormatter dateFromString:EPGobject[@"endtime"]];
+            [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                     starttime, @"starttime",
+                                     endtime, @"endtime",
+                                     EPGobject[@"title"], @"title",
+                                     EPGobject[@"label"], @"label",
+                                     EPGobject[@"plot"], @"plot",
+                                     EPGobject[@"plotoutline"], @"plotoutline",
+                                     nil]];
+        }
     }
     [self saveEPGToDisk:channelid epgData:retrievedEPG];
     NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -290,14 +292,14 @@
                          nil]
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
-                   if (methodResult[@"broadcasts"] != [NSNull null]) {
-                       
+                   NSArray *broadcasts = methodResult[@"broadcasts"];
+                   if (broadcasts && [broadcasts isKindOfClass:[NSArray class]]) {
                        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                                channelid, @"channelid",
                                                indexPath, @"indexPath",
                                                tableView, @"tableView",
                                                item, @"item",
-                                               methodResult[@"broadcasts"], @"broadcasts",
+                                               broadcasts, @"broadcasts",
                                                nil];
                        [NSThread detachNewThreadSelector:@selector(parseBroadcasts:) toTarget:self withObject:params];
                    }
@@ -3371,17 +3373,19 @@ NSIndexPath *selected;
          callMethod:@"VideoLibrary.GetEpisodes"
          withParameters:params
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            if (error == nil && methodError == nil) {
+            if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                 // Set the playcount for each episode of the TV Show (fire-and-forget, no error check)
                 for (id arrayItem in methodResult[@"episodes"]) {
-                    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            arrayItem[@"episodeid"], @"episodeid",
-                                            @(watched), @"playcount",
-                                            nil];
-                    [[Utilities getJsonRPC]
-                     callMethod:methodToCall
-                     withParameters:params
-                     onCompletion:nil];
+                    if ([arrayItem isKindOfClass:[NSDictionary class]]) {
+                        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                arrayItem[@"episodeid"], @"episodeid",
+                                                @(watched), @"playcount",
+                                                nil];
+                        [[Utilities getJsonRPC]
+                         callMethod:methodToCall
+                         withParameters:params
+                         onCompletion:nil];
+                    }
                 }
                 [self updateCellAndSaveRichData:indexPath watched:watched item:item];
             }
@@ -4143,7 +4147,7 @@ NSIndexPath *selected;
          withParameters:params
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (error == nil && methodError == nil) {
-                 if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                 if ([methodResult isKindOfClass:[NSDictionary class]]) {
                      if ([methodResult count]) {
                          [cellActivityIndicator stopAnimating];
                          int newPos = [methodResult[@"position"] intValue] + 1;
@@ -4473,27 +4477,20 @@ NSIndexPath *selected;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          [cellActivityIndicator stopAnimating];
          if (error == nil && methodError == nil) {
-             if ([NSJSONSerialization isValidJSONObject:methodResult]) {
-                 NSString *itemid_extra_info = @"";
-                 if ((NSNull*)mainFields[@"itemid_extra_info"] != [NSNull null]) {
-                     itemid_extra_info = mainFields[@"itemid_extra_info"];
-                 }
-                 else {
-                     return; // something goes wrong
-                 }
+             if ([methodResult isKindOfClass:[NSDictionary class]]) {
+                 NSString *itemid_extra_info = mainFields[@"itemid_extra_info"] ?: @"";
                  NSDictionary *itemExtraDict = methodResult[itemid_extra_info];
-                 if ((NSNull*)itemExtraDict == [NSNull null] || itemExtraDict == nil) {
-                     return; // something goes wrong
+                 if (itemExtraDict && [itemExtraDict isKindOfClass:[NSDictionary class]]) {
+                     NSString *serverURL = [Utilities getImageServerURL];
+                     int secondsToMinute = [Utilities getSec2Min:YES];
+                     NSDictionary *newItem = [self getNewDictionaryFromExtraInfoItem:itemExtraDict
+                                                                          mainFields:mainFields
+                                                                           serverURL:serverURL
+                                                                             sec2min:secondsToMinute
+                                                                           useBanner:NO
+                                                                             useIcon:methodResult[@"recordingdetails"] != nil];
+                     [self displayInfoView:newItem];
                  }
-                 NSString *serverURL = [Utilities getImageServerURL];
-                 int secondsToMinute = [Utilities getSec2Min:YES];
-                 NSDictionary *newItem = [self getNewDictionaryFromExtraInfoItem:itemExtraDict
-                                                                      mainFields:mainFields
-                                                                       serverURL:serverURL
-                                                                         sec2min:secondsToMinute
-                                                                       useBanner:NO
-                                                                         useIcon:methodResult[@"recordingdetails"] != nil];
-                 [self displayInfoView:newItem];
              }
          }
          else {
@@ -4608,7 +4605,7 @@ NSIndexPath *selected;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [activeLayoutView reloadData];
-            if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+            if ([methodResult isKindOfClass:[NSDictionary class]]) {
                 NSString *itemid = @"";
                 if ((NSNull*)mainFields[@"itemid"] != [NSNull null]) {
                     itemid = mainFields[@"itemid"];
@@ -4618,21 +4615,23 @@ NSIndexPath *selected;
                 int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
                 if ([itemDict isKindOfClass:[NSArray class]]) {
                     for (NSDictionary *item in itemDict) {
-                        NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
-                                                                           mainFields:mainFields
-                                                                            serverURL:serverURL
-                                                                              sec2min:secondsToMinute
-                                                                            useBanner:NO
-                                                                              useIcon:NO];
-                        // Convert from array to string to allow searching globally
-                        if (newDict[@"artist"]) {
-                            newDict[@"artist"] = [Utilities getStringFromItem:newDict[@"artist"]];
+                        if ([item isKindOfClass:[NSDictionary class]]) {
+                            NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
+                                                                               mainFields:mainFields
+                                                                                serverURL:serverURL
+                                                                                  sec2min:secondsToMinute
+                                                                                useBanner:NO
+                                                                                  useIcon:NO];
+                            // Convert from array to string to allow searching globally
+                            if (newDict[@"artist"]) {
+                                newDict[@"artist"] = [Utilities getStringFromItem:newDict[@"artist"]];
+                            }
+                            if (newDict[@"director"]) {
+                                newDict[@"director"] = [Utilities getStringFromItem:newDict[@"director"]];
+                            }
+                            [self addItemGroup:newDict];
+                            [richData addObject:newDict];
                         }
-                        if (newDict[@"director"]) {
-                            newDict[@"director"] = [Utilities getStringFromItem:newDict[@"director"]];
-                        }
-                        [self addItemGroup:newDict];
-                        [richData addObject:newDict];
                     }
                 }
                 else if ([itemDict isKindOfClass:[NSDictionary class]]) {
@@ -4791,7 +4790,7 @@ NSIndexPath *selected;
              [resultStoreArray removeAllObjects];
              [self.sections removeAllObjects];
              [activeLayoutView reloadData];
-             if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+             if ([methodResult isKindOfClass:[NSDictionary class]]) {
                  NSString *itemid = @"";
                  NSMutableDictionary *mainFields = [[self.detailItem mainFields][choosedTab] mutableCopy];
                  if ((NSNull*)mainFields[@"itemid"] != [NSNull null]) {
@@ -4821,44 +4820,48 @@ NSIndexPath *selected;
                  if ([itemDict isKindOfClass:[NSArray class]]) {
                      dispatch_group_t group = dispatch_group_create();
                      for (NSDictionary *item in itemDict) {
-                         NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
-                                                                            mainFields:mainFields
-                                                                             serverURL:serverURL
-                                                                               sec2min:secondsToMinute
-                                                                             useBanner:tvshowsView
-                                                                               useIcon:recordingListView];
-                         
-                         // Check if we need to ignore the current item
-                         BOOL isRadioItem = [item[@"radio"] boolValue] ||
-                                            [item[@"isradio"] boolValue];
-                         BOOL isTimerRule = [item[@"istimerrule"] boolValue];
-                         BOOL ignorePvrItem = (ignoreRadioItems && isRadioItem) ||
-                                              (ignoreTvItems && !isRadioItem) ||
-                                              (ignoreTimerRulesItems && isTimerRule) ||
-                                              (ignoreTimerItems && !isTimerRule);
-                         
-                         // Postprocessing of movie sets lists to ignore 1-movie-sets
-                         if (ignoreSingleMovieSets) {
-                             NSString *newMethodToCall = @"VideoLibrary.GetMovieSetDetails";
-                             NSDictionary *newParameter = @{@"setid": @([item[@"setid"] longValue])};
-                             dispatch_group_enter(group);
-                             [[Utilities getJsonRPC]
-                              callMethod:newMethodToCall
-                              withParameters:newParameter
-                              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                                 if (error == nil && methodError == nil) {
-                                     if ([methodResult[@"setdetails"][@"movies"] count] > 1) {
-                                         [resultStoreArray addObject:newDict];
+                         if ([item isKindOfClass:[NSDictionary class]]) {
+                             NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
+                                                                                mainFields:mainFields
+                                                                                 serverURL:serverURL
+                                                                                   sec2min:secondsToMinute
+                                                                                 useBanner:tvshowsView
+                                                                                   useIcon:recordingListView];
+                             
+                             // Check if we need to ignore the current item
+                             BOOL isRadioItem = [item[@"radio"] boolValue] ||
+                             [item[@"isradio"] boolValue];
+                             BOOL isTimerRule = [item[@"istimerrule"] boolValue];
+                             BOOL ignorePvrItem = (ignoreRadioItems && isRadioItem) ||
+                             (ignoreTvItems && !isRadioItem) ||
+                             (ignoreTimerRulesItems && isTimerRule) ||
+                             (ignoreTimerItems && !isTimerRule);
+                             
+                             // Postprocessing of movie sets lists to ignore 1-movie-sets
+                             if (ignoreSingleMovieSets) {
+                                 NSString *newMethodToCall = @"VideoLibrary.GetMovieSetDetails";
+                                 NSDictionary *newParameter = @{@"setid": @([item[@"setid"] longValue])};
+                                 dispatch_group_enter(group);
+                                 [[Utilities getJsonRPC]
+                                  callMethod:newMethodToCall
+                                  withParameters:newParameter
+                                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                                     if (error == nil && methodError == nil) {
+                                         if ([methodResult isKindOfClass:[NSDictionary class]]) {
+                                             if ([methodResult[@"setdetails"][@"movies"] count] > 1) {
+                                                 [resultStoreArray addObject:newDict];
+                                             }
+                                         }
                                      }
-                                 }
-                                 dispatch_group_leave(group);
-                             }];
-                         }
-                         else if (ignorePvrItem) {
-                             NSLog(@"Ignore PVR item as not matching current TV/Radio mode.");
-                         }
-                         else {
-                             [resultStoreArray addObject:newDict];
+                                     dispatch_group_leave(group);
+                                 }];
+                             }
+                             else if (ignorePvrItem) {
+                                 NSLog(@"Ignore PVR item as not matching current TV/Radio mode.");
+                             }
+                             else {
+                                 [resultStoreArray addObject:newDict];
+                             }
                          }
                      }
                      // Finish the processing for 1-movie sets
@@ -4885,15 +4888,17 @@ NSIndexPath *selected;
                              if (!sublabel || [sublabel isKindOfClass:[NSNull class]]) {
                                  sublabel = @"";
                              }
-                             for (NSDictionary *item in itemDict) {
-                                 [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                              item, @"label",
-                                                              sublabel, @"genre",
-                                                              @"file", @"family",
-                                                              mainFields[@"thumbnail"], @"thumbnail",
-                                                              @"", @"fanart",
-                                                              @"", @"runtime",
-                                                              nil]];
+                             for (id item in itemDict) {
+                                 if ([item isKindOfClass:[NSString class]]) {
+                                     [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                                  item, @"label",
+                                                                  sublabel, @"genre",
+                                                                  @"file", @"family",
+                                                                  mainFields[@"thumbnail"], @"thumbnail",
+                                                                  @"", @"fanart",
+                                                                  @"", @"runtime",
+                                                                  nil]];
+                                 }
                              }
                          }
                      }

@@ -456,7 +456,7 @@
 
 - (void)subtitlesActionSheet {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (error == nil && methodError == nil) {
+        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
                 NSNumber *response;
                 if (methodResult[0][@"playerid"] != [NSNull null]) {
@@ -470,7 +470,7 @@
                                  nil]
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                      if (error == nil && methodError == nil) {
-                         if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                         if ([methodResult isKindOfClass:[NSDictionary class]]) {
                              if ([methodResult count]) {
                                  NSDictionary *currentSubtitle = methodResult[@"currentsubtitle"];
                                  BOOL subtitleEnabled = [methodResult[@"subtitleenabled"] boolValue];
@@ -525,7 +525,7 @@
 
 - (void)audioStreamActionSheet {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (error == nil && methodError == nil) {
+        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
                 NSNumber *response;
                 if (methodResult[0][@"playerid"] != [NSNull null]) {
@@ -539,7 +539,7 @@
                                  nil]
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                      if (error == nil && methodError == nil) {
-                         if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                         if ([methodResult isKindOfClass:[NSDictionary class]]) {
                              if ([methodResult count]) {
                                  NSDictionary *currentAudiostream = methodResult[@"currentaudiostream"];
                                  NSArray *audiostreams = methodResult[@"audiostreams"];
@@ -592,7 +592,7 @@
 
 - (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (error == nil && methodError == nil) {
+        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
                 NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
                 NSNumber *response = methodResult[0][@"playerid"];
@@ -630,8 +630,8 @@
 //     callMethod:@"Application.GetProperties" 
 //     withParameters:@{"properties": @[@"volume"]}
 //     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-//         if (error == nil && methodError == nil) {
-//             if ([NSJSONSerialization isValidJSONObject:methodResult] && [methodResult count]) {
+//         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+//             if ([methodResult count]) {
 //                 audioVolume = [methodResult[@"volume"] intValue];
 //             }
 //         }

@@ -206,7 +206,7 @@ NSInputStream	*inStream;
 
             AppDelegate.instance.serverVolume = [methodResult[@"volume"] intValue];
             if (!AppDelegate.instance.serverOnLine) {
-                if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                if ([methodResult isKindOfClass:[NSDictionary class]]) {
                     NSDictionary *serverInfo = methodResult[@"version"];
                     AppDelegate.instance.serverVersion = [serverInfo[@"major"] intValue];
                     AppDelegate.instance.serverMinorVersion = [serverInfo[@"minor"] intValue];
@@ -250,7 +250,7 @@ NSInputStream	*inStream;
      withParameters:@{@"setting": @"filelists.ignorethewhensorting"}
      withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (!error && !methodError) {
+        if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
             AppDelegate.instance.isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
         }
         else {
@@ -266,7 +266,7 @@ NSInputStream	*inStream;
      withParameters:nil
      withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (!error && !methodError) {
+        if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
             // Kodi 11 and earlier do not support "major"/"minor"/"patch" and reply with "version" only
             if (![methodResult[@"version"] isKindOfClass:[NSNumber class]]) {
                 AppDelegate.instance.APImajorVersion = [methodResult[@"version"][@"major"] intValue];
@@ -294,7 +294,7 @@ NSInputStream	*inStream;
          withParameters:@{@"setting": @"videolibrary.groupsingleitemsets"}
          withTimeout: SERVER_TIMEOUT
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            if (!error && !methodError) {
+            if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
                 AppDelegate.instance.isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
             }
             else {
@@ -316,7 +316,7 @@ NSInputStream	*inStream;
          withParameters:@{@"properties":@[@"sorttokens"]}
          withTimeout: SERVER_TIMEOUT
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            if (!error && !methodError) {
+            if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
                 AppDelegate.instance.KodiSorttokens = methodResult[@"sorttokens"];
             }
             else {

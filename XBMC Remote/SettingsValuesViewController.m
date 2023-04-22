@@ -322,7 +322,7 @@
          withParameters: params
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                [activityIndicator stopAnimating];
-               if (error == nil && methodError == nil) {
+               if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc]
                                                    initWithKey:@"name"
                                                    ascending:YES

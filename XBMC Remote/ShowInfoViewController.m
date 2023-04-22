@@ -1548,7 +1548,7 @@ double round(double d) {
          withParameters:params
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (error == nil && methodError == nil) {
-                 if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                 if ([methodResult isKindOfClass:[NSDictionary class]]) {
                      if ([methodResult count]) {
                          [activityIndicatorView stopAnimating];
                          int newPos = [methodResult[@"position"] intValue] + 1;

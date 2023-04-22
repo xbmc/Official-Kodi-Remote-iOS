@@ -546,10 +546,10 @@ long storedItemID;
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                      if (error == nil && methodError == nil) {
                          bool enableJewel = [self enableJewelCases];
-                         if ([NSJSONSerialization isValidJSONObject:methodResult]) {
-                             NSDictionary *nowPlayingInfo = nil;
-                             if (methodResult[@"item"] != [NSNull null]) {
-                                 nowPlayingInfo = methodResult[@"item"];
+                         if ([methodResult isKindOfClass:[NSDictionary class]]) {
+                             NSDictionary *nowPlayingInfo = methodResult[@"item"];
+                             if (![nowPlayingInfo isKindOfClass:[NSDictionary class]]) {
+                                 return;
                              }
                              long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
                              if ((nowPlayingInfo.count && currentItemID != storedItemID) || nowPlayingInfo[@"id"] == nil || ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
@@ -683,7 +683,7 @@ long storedItemID;
                                                    @"canseek"]}
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                      if (error == nil && methodError == nil) {
-                         if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                         if ([methodResult isKindOfClass:[NSDictionary class]]) {
                              if ([methodResult count]) {
                                  if (updateProgressBar) {
                                      ProgressSlider.value = [(NSNumber*)methodResult[@"percentage"] floatValue];
@@ -1126,7 +1126,7 @@ long storedItemID;
                if (error == nil && methodError == nil) {
                    [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
                    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-                   if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                   if ([methodResult isKindOfClass:[NSDictionary class]]) {
                        NSArray *playlistItems = methodResult[@"items"];
                        if (playlistItems.count == 0) {
                            [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
@@ -1334,7 +1334,7 @@ long storedItemID;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          [activityIndicator stopAnimating];
          if (error == nil && methodError == nil) {
-             if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+             if ([methodResult isKindOfClass:[NSDictionary class]]) {
                  NSString *itemid_extra_info = @"";
                  if ((NSNull*)mainFields[@"itemid_extra_info"] != [NSNull null]) {
                      itemid_extra_info = mainFields[@"itemid_extra_info"];
