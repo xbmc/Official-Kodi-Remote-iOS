@@ -5686,7 +5686,7 @@
                 },
             }, @"parameters",
             LOCALIZED_STR(@"Kodi actions"), @"label",
-            @"nocover_filemode", @"defaultThumb",
+            @"default-right-action-icon", @"defaultThumb",
             @FILEMODE_ROW_HEIGHT, @"rowHeight",
             @0, @"thumbWidth",
             LOCALIZED_STR(@"Execute a specific action"), @"morelabel",
@@ -5701,7 +5701,7 @@
                 },
             }, @"parameters",
             LOCALIZED_STR(@"Kodi windows"), @"label",
-            @"nocover_filemode", @"defaultThumb",
+            @"default-right-window-icon", @"defaultThumb",
             @FILEMODE_ROW_HEIGHT, @"rowHeight",
             @0, @"thumbWidth",
             LOCALIZED_STR(@"Activate a specific window"), @"morelabel",
@@ -5775,7 +5775,6 @@
             @"playlistid": @PLAYERID_PICTURES,
             @"row8": @"addonid",
             @"row9": @"addonid",
-            @"thumbnail": @"default-right-action-icon",
         },
                                
         @{
@@ -5791,7 +5790,6 @@
             @"playlistid": @PLAYERID_PICTURES,
             @"row8": @"addonid",
             @"row9": @"addonid",
-            @"thumbnail": @"default-right-window-icon",
         },
     ];
     

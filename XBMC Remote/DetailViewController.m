@@ -4791,7 +4791,7 @@ NSIndexPath *selected;
                  else {
                      recordingListView = NO;
                  }
-                 NSArray *itemDict = methodResult[itemid];
+                 id itemDict = methodResult[itemid];
                  NSString *serverURL = [Utilities getImageServerURL];
                  int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
                  if ([itemDict isKindOfClass:[NSArray class]]) {
@@ -4856,25 +4856,23 @@ NSIndexPath *selected;
                      }
                  }
                  else if ([itemDict isKindOfClass:[NSDictionary class]]) {
-                     id itemType = methodResult[itemid][mainFields[@"typename"]];
+                     id itemType = itemDict[mainFields[@"typename"]];
                      id itemField = mainFields[@"fieldname"];
                      if ([itemType isKindOfClass:[NSDictionary class]]) {
-                         if ([itemType[itemField] isKindOfClass:[NSArray class]]) {
-                             itemDict = itemType[itemField];
-                             NSString *sublabel = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]][@"morelabel"];
-                             if (!sublabel || [sublabel isKindOfClass:[NSNull class]]) {
-                                 sublabel = @"";
-                             }
+                         itemDict = itemType[itemField];
+                         if ([itemDict isKindOfClass:[NSArray class]]) {
+                             NSString *sublabel = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]][@"morelabel"] ?: @"";
                              for (id item in itemDict) {
                                  if ([item isKindOfClass:[NSString class]]) {
-                                     [resultStoreArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                                  item, @"label",
-                                                                  sublabel, @"genre",
-                                                                  @"file", @"family",
-                                                                  mainFields[@"thumbnail"], @"thumbnail",
-                                                                  @"", @"fanart",
-                                                                  @"", @"runtime",
-                                                                  nil]];
+                                     NSDictionary *listEntry = @{
+                                         @"label": item,
+                                         @"genre": sublabel,
+                                         @"family": @"file",
+                                         @"thumbnail": @"",
+                                         @"fanart": @"",
+                                         @"runtime": @"",
+                                     };
+                                     [resultStoreArray addObject:listEntry];
                                  }
                              }
                          }
