@@ -5064,12 +5064,8 @@ NSIndexPath *selected;
     
     if (episodesView) {
         for (NSDictionary *item in self.richResults) {
-            BOOL found;
             NSString *c = [NSString stringWithFormat:@"%@", item[@"season"]];
-            found = NO;
-            if ([[self.sections allKeys] containsObject:c]) {
-                found = YES;
-            }
+            BOOL found = [[self.sections allKeys] containsObject:c];
             if (!found) {
                 [self.sections setValue:[NSMutableArray new] forKey:c];
             }
@@ -5078,7 +5074,6 @@ NSIndexPath *selected;
     }
     else if (channelGuideView) {
         addUITableViewIndexSearch = YES;
-        BOOL found;
         NSDateFormatter *localDate = [NSDateFormatter new];
         localDate.dateFormat = @"yyyy-MM-dd";
         localDate.timeZone = [NSTimeZone systemTimeZone];
@@ -5106,10 +5101,7 @@ NSIndexPath *selected;
                 if (!c || [c isKindOfClass:[NSNull class]]) {
                     c = @"";
                 }
-                found = NO;
-                if ([[self.sections allKeys] containsObject:c]) {
-                    found = YES;
-                }
+                BOOL found = [[self.sections allKeys] containsObject:c];
                 if (!found) {
                     [self.sections setValue:[NSMutableArray new] forKey:c];
                     countRow = 0;
@@ -5141,10 +5133,8 @@ NSIndexPath *selected;
     }
     else {
         if (!albumView && sortbymethod && ![sortbymethod isEqualToString:@"random"] && ([self isSortDifferentToDefault] || [self isEligibleForSections:copyRichResults] || [sortbymethod isEqualToString:@"itemgroup"])) {
-            BOOL found;
             addUITableViewIndexSearch = YES;
             for (NSDictionary *item in copyRichResults) {
-                found = NO;
                 NSString *searchKey = @"";
                 if ([item[sortbymethod] isKindOfClass:[NSMutableArray class]] || [item[sortbymethod] isKindOfClass:[NSArray class]]) {
                     searchKey = [item[sortbymethod] componentsJoinedByString:@""];
@@ -5153,9 +5143,7 @@ NSIndexPath *selected;
                     searchKey = item[sortbymethod];
                 }
                 NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
-                if ([[self.sections allKeys] containsObject:key]) {
-                    found = YES;
-                }
+                BOOL found = [[self.sections allKeys] containsObject:key];
                 if (!found) {
                     [self.sections setValue:[NSMutableArray new] forKey:key];
                 }
