@@ -4949,6 +4949,7 @@ NSIndexPath *selected;
 - (void)animateNoResultsFound {
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     [activityIndicatorView stopAnimating];
+    [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
 }
 
 - (void)showNoResultsFound:(NSMutableArray*)resultStoreArray refresh:(BOOL)forceRefresh {
