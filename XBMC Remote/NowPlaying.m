@@ -996,21 +996,12 @@ long storedItemID;
 }
 
 - (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters checkPartyMode:(BOOL)checkPartyMode {
-    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+    NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
+    commonParams[@"playerid"] = @(currentPlayerID);
+    [[Utilities getJsonRPC] callMethod:action withParameters:commonParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
-            if ([methodResult count] > 0) {
-                NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
-                NSNumber *response = methodResult[0][@"playerid"];
-                if (response != nil) {
-                    commonParams[@"playerid"] = response;
-                }
-                [[Utilities getJsonRPC] callMethod:action withParameters:commonParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                    if (error == nil && methodError == nil) {
-                        if (musicPartyMode && checkPartyMode) {
-                            [self checkPartyMode];
-                        }
-                    }
-                }];
+            if (musicPartyMode && checkPartyMode) {
+                [self checkPartyMode];
             }
         }
     }];
