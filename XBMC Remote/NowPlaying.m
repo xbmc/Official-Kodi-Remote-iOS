@@ -995,16 +995,16 @@ long storedItemID;
     }];
 }
 
-- (void)playbackAction:(NSString*)action params:(NSArray*)parameters checkPartyMode:(BOOL)checkPartyMode {
+- (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters checkPartyMode:(BOOL)checkPartyMode {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             if ([methodResult count] > 0) {
+                NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
                 NSNumber *response = methodResult[0][@"playerid"];
-                NSMutableArray *commonParams = [NSMutableArray arrayWithObjects:response, @"playerid", nil];
-                if (parameters != nil) {
-                    [commonParams addObjectsFromArray:parameters];
+                if (response != nil) {
+                    commonParams[@"playerid"] = response;
                 }
-                [[Utilities getJsonRPC] callMethod:action withParameters:[Utilities indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                [[Utilities getJsonRPC] callMethod:action withParameters:commonParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                     if (error == nil && methodError == nil) {
                         if (musicPartyMode && checkPartyMode) {
                             [self checkPartyMode];
@@ -1463,12 +1463,12 @@ long storedItemID;
 
 - (IBAction)startVibrate:(id)sender {
     NSString *action;
-    NSArray *params;
+    NSDictionary *params;
     switch ([sender tag]) {
         case TAG_ID_PREVIOUS:
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
-                params = @[@"previous", @"to"];
+                params = @{@"to": @"previous"};
                 [self playbackAction:action params:params checkPartyMode:YES];
             }
             else {
@@ -1495,7 +1495,7 @@ long storedItemID;
         case TAG_ID_NEXT:
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
-                params = @[@"next", @"to"];
+                params = @{@"to": @"next"};
                 [self playbackAction:action params:params checkPartyMode:YES];
             }
             else {
@@ -1750,11 +1750,11 @@ long storedItemID;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         switch (gestureRecognizer.view.tag) {
             case TAG_SEEK_BACKWARD:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@[@"decrement", @"speed"] checkPartyMode:NO];
+                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"} checkPartyMode:NO];
                 break;
                 
             case TAG_SEEK_FORWARD:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@[@"increment", @"speed"] checkPartyMode:NO];
+                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"} checkPartyMode:NO];
                 break;
                 
             case TAG_ID_EDIT:// EDIT TABLE
