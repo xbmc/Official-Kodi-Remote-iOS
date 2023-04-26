@@ -4371,32 +4371,6 @@ NSIndexPath *selected;
     [self showActionSheet:nil sheetActions:sheetActions item:item rectOriginX:rectOrigin + albumViewPadding rectOriginY:rectOrigin];
 }
 
-//- (void)playbackAction:(NSString*)action params:(NSArray*)parameters {
-//    [[Utilities getJsonRPC] callMethod:@"Playlist.GetPlaylists" withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-//        if (error == nil && methodError == nil) {
-////            NSLog(@"RISPOSRA %@", methodResult);
-//            if (methodResult.count > 0) {
-//                NSNumber *response = methodResult[0][@"playerid"];
-////                NSMutableArray *commonParams = [NSMutableArray arrayWithObjects:response, @"playerid", nil];
-////                if (parameters != nil) {
-////                    [commonParams addObjectsFromArray:parameters];
-////                }
-////                [[Utilities getJsonRPC] callMethod:action withParameters:nil onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-////                    if (error == nil && methodError == nil) {
-////                        //                        NSLog(@"comando %@ eseguito ", action);
-////                    }
-////                    else {
-////                        NSLog(@"ci deve essere un secondo problema %@", methodError);
-////                    }
-////                }];
-//            }
-//        }
-//        else {
-//            NSLog(@"ci deve essere un primo problema %@", methodError);
-//        }
-//    }];
-//}
-
 # pragma mark - JSON DATA Management
 
 - (void)checkExecutionTime {
