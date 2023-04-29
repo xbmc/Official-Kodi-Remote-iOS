@@ -17,6 +17,7 @@
 @class DetailViewController;
 
 @interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIGestureRecognizerDelegate> {
+    IBOutlet UIView *transitionView;
     IBOutlet UITableView *playlistTableView;
     IBOutlet UILabel *albumName;
     IBOutlet UILabel *songName;
@@ -26,9 +27,8 @@
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *thumbnailView;
     IBOutlet UIView *BottomView;
-    IBOutlet UIView *TopView;
-    UIView *transitionView;
-    UIView *transitionedView;
+    UIView *transitionFromView;
+    UIView *transitionToView;
     IBOutlet UIView *nowPlayingView;
     IBOutlet UIView *playlistView;
     IBOutlet UIView *songDetailsView;

@@ -57,8 +57,7 @@
 #define SELECTED_NONE -1
 #define ID_INVALID -2
 #define FLIP_DEMO_DELAY 0.5
-#define FADE_OUT_TIME 0.2
-#define FADE_IN_TIME 0.5
+#define TRANSITION_TIME 0.7
 
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
@@ -101,6 +100,11 @@
 }
 
 #pragma mark - utility
+
+- (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode title:(NSString*)title {
+    NSString *text = [NSString stringWithFormat:@"S%@E%@ - %@", season, episode, title];
+    return text;
+}
 
 - (NSString*)getNowPlayingThumbnailPath:(NSDictionary*)item {
     // If a recording is played, we can use the iocn (typically the station logo)
@@ -324,12 +328,12 @@ long storedItemID;
     if ([self enableJewelCases]) {
         jewelView.image = [UIImage imageNamed:jewelImg];
         thumbnailView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
-        [nowPlayingView bringSubviewToFront:jewelView];
-        thumbnailView.hidden = NO;
+        thumbnailView.contentMode = UIViewContentModeScaleAspectFill;
     }
     else {
-        [nowPlayingView sendSubviewToBack:jewelView];
-        thumbnailView.hidden = YES;
+        jewelView.image = nil;
+        thumbnailView.frame = jewelView.frame;
+        thumbnailView.contentMode = UIViewContentModeScaleAspectFit;
     }
     songDetailsView.frame = jewelView.frame;
     songDetailsView.center = [jewelView.superview convertPoint:jewelView.center toView:songDetailsView.superview];
@@ -411,9 +415,9 @@ long storedItemID;
                                 [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
                             }
-                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:UIColor.whiteColor];
-                            [Utilities colorLabel:songName AnimDuration:1.0 Color:[Utilities getGrayColor:230 alpha:1]];
-                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:UIColor.lightGrayColor];
+                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:UIColor.lightGrayColor];
+                            [Utilities colorLabel:songName AnimDuration:1.0 Color:UIColor.whiteColor];
+                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:UIColor.whiteColor];
                             [Utilities colorLabel:currentTime AnimDuration:1.0 Color:UIColor.lightGrayColor];
                             [Utilities colorLabel:duration AnimDuration:1.0 Color:UIColor.lightGrayColor];
                         }
@@ -429,11 +433,11 @@ long storedItemID;
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
                                 [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
                             }
-                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:pgThumbColor];
-                            [Utilities colorLabel:songName AnimDuration:1.0 Color:pgThumbColor];
-                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:progressColor];
-                            [Utilities colorLabel:currentTime AnimDuration:1.0 Color:progressColor];
-                            [Utilities colorLabel:duration AnimDuration:1.0 Color:progressColor];
+                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:slightLighterColor];
+                            [Utilities colorLabel:songName AnimDuration:1.0 Color:lighterColor];
+                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:lighterColor];
+                            [Utilities colorLabel:currentTime AnimDuration:1.0 Color:slightLighterColor];
+                            [Utilities colorLabel:duration AnimDuration:1.0 Color:slightLighterColor];
                         }
                     }
                     completion:NULL];
@@ -474,7 +478,7 @@ long storedItemID;
 }
 
 - (void)changeImage:(UIImageView*)imageView image:(UIImage*)newImage {
-    [Utilities imageView:jewelView AnimDuration:0.2 Image:newImage];
+    [Utilities imageView:imageView AnimDuration:0.2 Image:newImage];
 }
 
 - (void)setWaitForInfoLabelsToSettle {
@@ -531,6 +535,8 @@ long storedItemID;
                                                 @"season",
                                                 @"fanart",
                                                 @"description",
+                                                @"year",
+                                                @"director",
                                                 @"plot"] mutableCopy];
                 if (AppDelegate.instance.serverVersion > 11) {
                     [properties addObject:@"art"];
@@ -550,28 +556,60 @@ long storedItemID;
                              long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
                              if ((nowPlayingInfo.count && currentItemID != storedItemID) || nowPlayingInfo[@"id"] == nil || ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
                                  storedItemID = currentItemID;
-                                 itemDescription.text = [nowPlayingInfo[@"description"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"description"]] : [nowPlayingInfo[@"plot"] length] != 0 ? [NSString stringWithFormat:@"%@", nowPlayingInfo[@"plot"]] : @"";
+
+                                 // Set song details description text
+                                 NSString *description = [Utilities getStringFromItem:nowPlayingInfo[@"description"]];
+                                 NSString *plot = [Utilities getStringFromItem:nowPlayingInfo[@"plot"]];
+                                 itemDescription.text = description.length ? description : (plot.length ? plot : @"");
                                  [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
-                                 NSString *album = [Utilities getStringFromItem:nowPlayingInfo[@"album"]];
-                                 if ([nowPlayingInfo[@"type"] isEqualToString:@"channel"]) {
-                                     album = nowPlayingInfo[@"label"];
-                                 }
+                                 
+                                 // Set NowPlaying text fields
+                                 // 1st: title
+                                 NSString *label = [Utilities getStringFromItem:nowPlayingInfo[@"label"]];
                                  NSString *title = [Utilities getStringFromItem:nowPlayingInfo[@"title"]];
                                  storeLiveTVTitle = title;
-                                 NSString *artist = [Utilities getStringFromItem:nowPlayingInfo[@"artist"]];
-                                 if (album.length == 0 && ((NSNull*)nowPlayingInfo[@"showtitle"] != [NSNull null]) && nowPlayingInfo[@"season"] > 0) {
-                                     album = [nowPlayingInfo[@"showtitle"] length] != 0 ? [NSString stringWithFormat:@"%@ - %@x%@", nowPlayingInfo[@"showtitle"], nowPlayingInfo[@"season"], nowPlayingInfo[@"episode"]] : @"";
-                                 }
                                  if (title.length == 0) {
-                                     title = [Utilities getStringFromItem:nowPlayingInfo[@"label"]];
+                                     title = label;
                                  }
-
-                                 if (artist.length == 0 && ((NSNull*)nowPlayingInfo[@"studio"] != [NSNull null])) {
-                                     artist = [Utilities getStringFromItem:nowPlayingInfo[@"studio"]];
+                                 
+                                 // 2nd: artists
+                                 NSString *artist = [Utilities getStringFromItem:nowPlayingInfo[@"artist"]];
+                                 NSString *studio = [Utilities getStringFromItem:nowPlayingInfo[@"studio"]];
+                                 if (artist.length == 0 && studio.length) {
+                                     artist = studio;
                                  }
-                                 albumName.text = album;
+                                 
+                                 // 3rd: album
+                                 NSString *album = [Utilities getStringFromItem:nowPlayingInfo[@"album"]];
+                                 if ([nowPlayingInfo[@"type"] isEqualToString:@"channel"]) {
+                                     album = label;
+                                 }
+                                 NSString *showtitle = [Utilities getStringFromItem:nowPlayingInfo[@"showtitle"]];
+                                 NSString *season = [Utilities getStringFromItem:nowPlayingInfo[@"season"]];
+                                 NSString *episode = [Utilities getStringFromItem:nowPlayingInfo[@"episode"]];
+                                 if (album.length == 0 && showtitle.length) {
+                                     if ([season intValue] > 0 && [episode intValue] > 0) {
+                                         album = [NSString stringWithFormat:@"%@ - S%@E%@", showtitle, season, episode];
+                                     }
+                                     else {
+                                         album = showtitle;
+                                     }
+                                 }
+                                 NSString *director = [Utilities getStringFromItem:nowPlayingInfo[@"director"]];
+                                 if (album.length == 0 && director.length) {
+                                     album = director;
+                                 }
+                                 
+                                 // Add year to artist string, if available
+                                 NSString *year = [Utilities getYearFromItem:nowPlayingInfo[@"year"]];
+                                 artist = [self formatArtistYear:artist year:year];
+                                 
+                                 // top to bottom: songName, artistName, albumName
                                  songName.text = title;
                                  artistName.text = artist;
+                                 albumName.text = album;
+                                 
+                                 // Set cover size and load covers
                                  NSString *type = [Utilities getStringFromItem:nowPlayingInfo[@"type"]];
                                  currentType = type;
                                  [self setCoverSize:currentType];
@@ -583,81 +621,36 @@ long storedItemID;
                                          NSString *fanart = (NSNull*)nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
                                          if (![fanart isEqualToString:@""]) {
                                              NSString *fanartURL = [Utilities formatStringURL:fanart serverURL:serverURL];
+                                             __weak NowPlaying *sf = self;
                                              [tempFanartImageView setImageWithURL:[NSURL URLWithString:fanartURL]
                                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                                                            if (error == nil && image != nil) {
-                                                                                NSDictionary *params = @{@"image": image};
-                                                                                [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
-                                                                            }
-                                                                            else {
-                                                                                NSDictionary *params = @{@"image": [UIImage new]};
-                                                                                [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
-                                                                            }
-                                                                            
-                                                                        }];
+                                                 UIImage *fanartImage = (error == nil && image != nil) ? image : [UIImage new];
+                                                 [sf notifyChangeForBackgroundImage:fanartImage];
+                                            }];
                                          }
                                          else {
-                                             NSDictionary *params = @{@"image": [UIImage new]};
-                                             [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
+                                             [self notifyChangeForBackgroundImage:[UIImage new]];
                                          }
                                      }
                                      if ([thumbnailPath isEqualToString:@""]) {
-                                         UIImage *buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"coverbox_back"]];
-                                         [self setButtonImageAndStartDemo:buttonImage];
-                                         [self setColorEffect:UIColor.clearColor];
-                                         if (enableJewel) {
-                                             thumbnailView.image = [UIImage imageNamed:@"coverbox_back"];
-                                         }
-                                         else {
-                                             [self changeImage:jewelView image:[UIImage imageNamed:@"coverbox_back"]];
-                                         }
+                                         UIImage *image = [UIImage imageNamed:@"coverbox_back"];
+                                         [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
                                      }
                                      else {
                                          [[SDImageCache sharedImageCache] queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
                                              if (image != nil) {
-                                                 UIImage *buttonImage = nil;
-                                                 if (enableJewel) {
-                                                     thumbnailView.image = image;
-                                                     buttonImage = [self resizeToolbarThumb:[self imageWithBorderFromImage:image]];
-                                                 }
-                                                 else {
-                                                     [self changeImage:jewelView image:[self imageWithBorderFromImage:image]];
-                                                     buttonImage = [self resizeToolbarThumb:jewelView.image];
-                                                 }
-                                                 [self setButtonImageAndStartDemo:buttonImage];
-                                                 UIColor *effectColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                 [self setColorEffect:effectColor];
+                                                 [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
                                              }
                                              else {
+                                                 __weak UIImageView *thumb = thumbnailView;
                                                  __weak NowPlaying *sf = self;
-                                                 __block UIColor *newColor = nil;
-                                                 if (enableJewel) {
-                                                     [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
-                                                                   placeholderImage:[UIImage imageNamed:@"coverbox_back"]
-                                                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                                                              if (error == nil) {
-                                                                                  
-                                                                                  UIImage *buttonImage = [sf resizeToolbarThumb:[sf imageWithBorderFromImage:image]];
-                                                                                  [sf setButtonImageAndStartDemo:buttonImage];
-                                                                                  newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                                                  [sf setColorEffect:newColor];
-                                                                              }
-                                                                          }];
-                                                 }
-                                                 else {
-                                                     __weak UIImageView *jV = jewelView;
-                                                     [jewelView setImageWithURL:[NSURL URLWithString:stringURL]
-                                                               placeholderImage:[UIImage imageNamed:@"coverbox_back"]
-                                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                                          if (error == nil) {
-                                                              [sf changeImage:jV image:[sf imageWithBorderFromImage:image]];
-                                                              UIImage *buttonImage = [sf resizeToolbarThumb:jV.image];
-                                                              [sf setButtonImageAndStartDemo:buttonImage];
-                                                              newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                                                              [sf setColorEffect:newColor];
-                                                          }
-                                                      }];
-                                                 }
+                                                 [thumbnailView setImageWithURL:[NSURL URLWithString:stringURL]
+                                                           placeholderImage:[UIImage imageNamed:@"coverbox_back"]
+                                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                                      if (error == nil) {
+                                                          [sf processLoadedThumbImage:sf thumb:thumb image:image enableJewel:enableJewel];
+                                                      }
+                                                  }];
                                              }
                                          }];
                                      }
@@ -680,12 +673,9 @@ long storedItemID;
                          else {
                              storedItemID = SELECTED_NONE;
                              lastThumbnail = @"";
-                             if (enableJewel) {
-                                 thumbnailView.image = [UIImage imageNamed:@"coverbox_back"];
-                             }
-                             else {
-                                 jewelView.image = [UIImage imageNamed:@"coverbox_back"];
-                             }
+                             [self setCoverSize:@"song"];
+                             UIImage *image = [UIImage imageNamed:@"coverbox_back"];
+                             [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
                          }
                      }
                      else {
@@ -848,6 +838,39 @@ long storedItemID;
             [self nothingIsPlaying];
         }
     }];
+}
+
+- (void)notifyChangeForBackgroundImage:(UIImage*)bgimage {
+    NSDictionary *params = @{@"image": bgimage};
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
+}
+
+- (void)processLoadedThumbImage:(NowPlaying*)sf thumb:(UIImageView*)thumb image:(UIImage*)image enableJewel:(BOOL)enableJewel {
+    UIImage *processedImage = [sf imageWithBorderFromImage:image];
+    UIImage *buttonImage = [sf resizeToolbarThumb:processedImage];
+    if (enableJewel) {
+        thumb.image = image;
+    }
+    else {
+        [sf changeImage:thumb image:processedImage];
+    }
+    [sf setButtonImageAndStartDemo:buttonImage];
+    UIColor *newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
+    [sf setColorEffect:newColor];
+}
+
+- (NSString*)formatArtistYear:(NSString*)artist year:(NSString*)year {
+    NSString *text = @"";
+    if (artist.length && year.length) {
+        text = [NSString stringWithFormat:@"%@ (%@)", artist, year];
+    }
+    else if (year.length) {
+        text = year;
+    }
+    else if (artist.length) {
+        text = artist;
+    }
+    return text;
 }
 
 - (void)loadCodecView {
@@ -1367,12 +1390,10 @@ long storedItemID;
         startFlipDemo = NO;
     }
     UIImage *buttonImage;
-    if (!nowPlayingView.hidden && !demo) {
-        if ([self enableJewelCases] && thumbnailView.image.size.width) {
-            buttonImage = [self resizeToolbarThumb:[self imageWithBorderFromImage:thumbnailView.image]];
-        }
-        else if (jewelView.image.size.width) {
-            buttonImage = [self resizeToolbarThumb:jewelView.image];
+    if (nowPlayingView.hidden && !demo) {
+        if (thumbnailView.image.size.width) {
+            UIImage *image = [self enableJewelCases] ? [self imageWithBorderFromImage:thumbnailView.image] : thumbnailView.image;
+            buttonImage = [self resizeToolbarThumb:image];
         }
         if (!buttonImage.size.width) {
             buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"st_kodi_window"]];
@@ -1382,26 +1403,15 @@ long storedItemID;
         buttonImage = [UIImage imageNamed:@"now_playing_playlist"];
     }
     [UIView transitionWithView:button
-                      duration:FADE_OUT_TIME
-                       options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
+                      duration:TRANSITION_TIME
+                       options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                     animations:^{
-                         // fade out current button image
-                         button.alpha = 0.0;
-                     }
-                     completion:^(BOOL finished) {
-                        [UIView transitionWithView:button
-                                          duration:FADE_IN_TIME
-                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
-                                        animations:^{
-                                            // fade in new button image
-                                            button.alpha = 1.0;
-                                            [button setImage:buttonImage forState:UIControlStateNormal];
-                                            [button setImage:buttonImage forState:UIControlStateHighlighted];
-                                            [button setImage:buttonImage forState:UIControlStateSelected];
-                                        }
-                                        completion:^(BOOL finished) {}
-                        ];
-                     }
+        // Animate transition to new button image
+        [button setImage:buttonImage forState:UIControlStateNormal];
+        [button setImage:buttonImage forState:UIControlStateHighlighted];
+        [button setImage:buttonImage forState:UIControlStateSelected];
+                     } 
+                     completion:^(BOOL finished) {}
     ];
 }
 
@@ -1409,8 +1419,8 @@ long storedItemID;
     UIColor *effectColor;
     __block CGFloat playtoolbarAlpha = 1.0;
     if (!nowPlayingView.hidden) {
-        transitionView = nowPlayingView;
-        transitionedView = playlistView;
+        transitionFromView = nowPlayingView;
+        transitionToView = playlistView;
         self.navigationItem.title = LOCALIZED_STR(@"Playlist");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromRight;
@@ -1419,8 +1429,8 @@ long storedItemID;
         playtoolbarAlpha = 1.0;
     }
     else {
-        transitionView = playlistView;
-        transitionedView = nowPlayingView;
+        transitionFromView = playlistView;
+        transitionToView = nowPlayingView;
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
@@ -1435,26 +1445,17 @@ long storedItemID;
     [self animateToColors:effectColor];
     
     [UIView transitionWithView:transitionView
-                      duration:FADE_OUT_TIME
-                       options:UIViewAnimationOptionCurveEaseIn | animationOptionTransition
+                      duration:TRANSITION_TIME
+                       options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                     animations:^{
-                          transitionView.alpha = 0.0;
+        transitionFromView.hidden = YES;
+        transitionToView.hidden = NO;
+        playlistActionView.alpha = playtoolbarAlpha;
+        self.navigationItem.titleView.hidden = NO;
                      }
                      completion:^(BOOL finished) {
-                        [UIView transitionWithView:transitionedView
-                                          duration:FADE_IN_TIME
-                                           options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
-                                        animations:^{
-                                              transitionView.hidden = YES;
-                                              transitionedView.hidden = NO;
-                                              transitionedView.alpha = 1.0;
-                                              playlistActionView.alpha = playtoolbarAlpha;
-                                              self.navigationItem.titleView.hidden = NO;
-                                          }
-                                        completion:^(BOOL finished) {
-                                              [self setIPadBackgroundColor:effectColor effectDuration:1.0];
-                                      }];
-                     }];
+        [self setIPadBackgroundColor:effectColor effectDuration:1.0];
+    }];
     [self flipAnimButton:playlistButton demo:NO];
 }
 
@@ -1736,7 +1737,8 @@ long storedItemID;
                     title = [NSString stringWithFormat:@"%@\n%@\n%@", item[@"label"], item[@"album"], item[@"artist"]];
                 }
                 else if ([item[@"type"] isEqualToString:@"episode"]) {
-                    title = [NSString stringWithFormat:@"%@\n%@x%@. %@", item[@"showtitle"], item[@"season"], item[@"episode"], item[@"label"]];
+                    NSString *tvshowText = [self formatTVShowStringForSeason:item[@"season"] episode:item[@"episode"] title:item[@"label"]];
+                    title = [NSString stringWithFormat:@"%@\n%@", item[@"showtitle"], tvshowText];
                 }
                 [self showActionNowPlaying:sheetActions title:title point:selectedPoint];
             }
@@ -1976,7 +1978,7 @@ long storedItemID;
     ((UILabel*)[cell viewWithTag:2]).text = @"";
     if ([item[@"type"] isEqualToString:@"episode"]) {
         if ([item[@"season"] intValue] != 0 || [item[@"episode"] intValue] != 0) {
-            mainLabel.text = [NSString stringWithFormat:@"%@x%02i. %@", item[@"season"], [item[@"episode"] intValue], item[@"title"]];
+            mainLabel.text = [self formatTVShowStringForSeason:item[@"season"] episode:item[@"episode"] title:item[@"title"]];
         }
         subLabel.text = [NSString stringWithFormat:@"%@", item[@"showtitle"]];
     }
@@ -2243,10 +2245,6 @@ long storedItemID;
     frame.size.width = width;
     toolbarBackground.frame = frame;
     
-    frame = TopView.frame;
-    frame.size.height = CGRectGetMinY(songDetailsView.frame);
-    TopView.frame = frame;
-    
     [self setCoverSize:currentType];
 }
 
@@ -2262,9 +2260,9 @@ long storedItemID;
     CGFloat width = IS_IPHONE ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH;
     CGFloat scale = MIN(height / IPHONE_SCREEN_DESIGN_HEIGHT, width / IPHONE_SCREEN_DESIGN_WIDTH);
     
-    albumName.font        = [UIFont systemFontOfSize:floor(18 * scale)];
-    songName.font         = [UIFont systemFontOfSize:floor(16 * scale)];
-    artistName.font       = [UIFont systemFontOfSize:floor(14 * scale)];
+    albumName.font        = [UIFont systemFontOfSize:floor(16 * scale)];
+    songName.font         = [UIFont boldSystemFontOfSize:floor(20 * scale)];
+    artistName.font       = [UIFont systemFontOfSize:floor(16 * scale)];
     currentTime.font      = [UIFont systemFontOfSize:floor(12 * scale)];
     duration.font         = [UIFont systemFontOfSize:floor(12 * scale)];
     scrabbingMessage.font = [UIFont systemFontOfSize:floor(10 * scale)];
@@ -2289,7 +2287,7 @@ long storedItemID;
     playlistToolbar.items = iPhoneItems;
     
     CGRect frame = playlistActionView.frame;
-    frame.origin.y = CGRectGetMinY(playlistToolbar.frame) - playlistActionView.frame.size.height;
+    frame.origin.y = playlistTableView.frame.size.height - playlistActionView.frame.size.height;
     playlistActionView.frame = frame;
     playlistActionView.alpha = 0.0;
 }
