@@ -39,3 +39,5 @@
 "Cache Settings" = "캐시 설정";
 "Interface" = "인터페이스";
 "Colorize UI automatically" = "자동으로 UI 색상 지정";
+"Filemode and Theme changes need app restart" = "파일 모드와 테마를 바꾸려면 앱을 다시 시작합니다";
+"Theme (iOS 13+)" = "테마 (iOS 13+)";
