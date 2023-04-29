@@ -447,6 +447,7 @@ long storedItemID;
                 @"startColor": [Utilities getGrayColor:36 alpha:1.0],
                 @"endColor": [Utilities getGrayColor:22 alpha:1.0],
             };
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
         }
         else {
             CGFloat hue, saturation, brightness, alpha;
