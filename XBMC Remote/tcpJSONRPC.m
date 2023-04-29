@@ -37,7 +37,6 @@ NSInputStream	*inStream;
                                                  selector: @selector(handleDidEnterBackground:)
                                                      name: @"UIApplicationDidEnterBackgroundNotification"
                                                    object: nil];
-
     }
     return self;
 }
@@ -62,15 +61,15 @@ NSInputStream	*inStream;
         return;
     }
     CFReadStreamRef readStream;
-	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)CFBridgingRetain(server), port, &readStream, NULL);
-	inStream = (__bridge NSInputStream*)readStream;
-//	outStream = (__bridge NSOutputStream*)writeStream;
-	inStream.delegate = self;
-//	outStream.delegate = self;
-	[inStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-//	[outStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	[inStream open];
-//	[outStream open];
+    CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)CFBridgingRetain(server), port, &readStream, NULL);
+    inStream = (__bridge NSInputStream*)readStream;
+    //	outStream = (__bridge NSOutputStream*)writeStream;
+    inStream.delegate = self;
+    //	outStream.delegate = self;
+    [inStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    //	[outStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [inStream open];
+    //	[outStream open];
     CFRelease((__bridge CFTypeRef)server);
 }
 
@@ -91,74 +90,84 @@ NSInputStream	*inStream;
 
 - (void)stream:(NSStream*)theStream handleEvent:(NSStreamEvent)streamEvent {
 
-	switch (streamEvent) {
-    
-        case NSStreamEventOpenCompleted:{
+    switch (streamEvent) {
+
+        case NSStreamEventOpenCompleted:
             AppDelegate.instance.serverTCPConnectionOpen = YES;
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    infoTitle, @"message",
-                                    @"connection_on", @"icon_connection",
-                                    nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionSuccess" object:nil userInfo:params];
-        }
-			break;
+            [self tcpConnectionNotifications:YES];
+            break;
             
-		case NSStreamEventHasBytesAvailable:
-			if (theStream == inStream) {
-				uint8_t buffer[1024];
-				int len;
-				while ([inStream hasBytesAvailable]) {
-					len = (int)[inStream read:buffer maxLength:sizeof(buffer)];
-					if (len > 0) {
-						NSData *output = [[NSData alloc] initWithBytes:buffer length:len];
-						if (nil != output) {
+        case NSStreamEventHasBytesAvailable:
+            if (theStream == inStream) {
+                uint8_t buffer[1024];
+                int len;
+                while ([inStream hasBytesAvailable]) {
+                    len = (int)[inStream read:buffer maxLength:sizeof(buffer)];
+                    if (len > 0) {
+                        NSData *output = [[NSData alloc] initWithBytes:buffer length:len];
+                        if (nil != output) {
                             NSError *parseError = nil;
                             NSDictionary *notification = [NSJSONSerialization JSONObjectWithData:output options:kNilOptions error:&parseError];
                             if (parseError == nil) {
-                                NSString *method = @"";
-                                NSDictionary *paramsDict;
-                                if ((NSNull*)notification[@"method"] != [NSNull null]) {
-                                        method = notification[@"method"];
-                                    if ((NSNull*)notification[@"params"] != [NSNull null]) {
-                                        paramsDict = [NSDictionary dictionaryWithObject:notification[@"params"] forKey:@"params"];
+                                if (notification[@"method"] != [NSNull null]) {
+                                    NSString *method = notification[@"method"];
+                                    NSDictionary *params;
+                                    if (notification[@"params"] != [NSNull null]) {
+                                        params = @{@"params": notification[@"params"]};
                                     }
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:method object:nil userInfo:paramsDict];
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:method object:nil userInfo:params];
                                 }
                             }
-						}
-					}
-				}
-			}
-			break;
+                        }
+                    }
+                }
+            }
+            break;
             
-		case NSStreamEventErrorOccurred:
+        case NSStreamEventErrorOccurred:
             AppDelegate.instance.serverTCPConnectionOpen = NO;
             inCheck = NO;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionError" object:nil userInfo:nil];
-			break;
-			
-		case NSStreamEventEndEncountered:
+            break;
+
+        case NSStreamEventEndEncountered:
             AppDelegate.instance.serverTCPConnectionOpen = NO;
             inCheck = NO;
             [theStream close];
             [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
             theStream.delegate = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionClosed" object:nil userInfo:nil];
-
+            [self tcpConnectionNotifications:NO];
             break;
-		default:
+        default:
             break;
-	}
+    }
 }
 
-
-- (void)noConnectionNotifications {
+- (void)tcpConnectionNotifications:(BOOL)hasTcpConnection {
+    NSString *connectionIcon = hasTcpConnection ? @"connection_on" : @"connection_on_notcp";
+    NSString *connectionName = infoTitle ?: @"";
     NSDictionary *params = @{
-        @"status": @NO,
-        @"message": LOCALIZED_STR(@"No connection"),
-        @"icon_connection": @"connection_off",
+        @"message": connectionName,
+        @"icon_connection": connectionIcon,
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionSuccess" object:nil userInfo:params];
+}
+
+- (void)jsonConnectionNotifications:(BOOL)hasJsonConnection {
+    NSString *connectionIcon = hasJsonConnection ? @"connection_on_notcp" : @"connection_off";
+    NSString *connectionName = hasJsonConnection ? (infoTitle ?: @"") : LOCALIZED_STR(@"No connection");
+    NSDictionary *params = @{
+        @"status": @(hasJsonConnection),
+        @"message": connectionName,
+        @"icon_connection": connectionIcon,
     };
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCChangeServerStatus" object:nil userInfo:params];
+}
+
+- (void)showSetupNotifications:(BOOL)showSetup {
+    NSDictionary *params = @{@"showSetup": @(showSetup)};
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
 }
 
 - (void)checkServer {
@@ -166,14 +175,10 @@ NSInputStream	*inStream;
         return;
     }
     if (AppDelegate.instance.obj.serverIP.length == 0) {
-        NSDictionary *params = @{@"showSetup": @YES};
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
+        [self showSetupNotifications:YES];
         if (AppDelegate.instance.serverOnLine) {
-            [self noConnectionNotifications];
+            [self jsonConnectionNotifications:NO];
         }
-        return;
-    }
-    if (AppDelegate.instance.serverTCPConnectionOpen) {
         return;
     }
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"wol_preference"] &&
@@ -188,59 +193,54 @@ NSInputStream	*inStream;
      withParameters:checkServerParams
      withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-         inCheck = NO;
-         if (error == nil && methodError == nil) {
-             // Read JSON RPC API version
-             [self readJSONRPCAPIVersion];
-             
-             // Read if ignorearticles is enabled
-             [self readIgnoreArticlesEnabled];
-             
-             AppDelegate.instance.serverVolume = [methodResult[@"volume"] intValue];
-             if (!AppDelegate.instance.serverOnLine) {
-                 if ([NSJSONSerialization isValidJSONObject:methodResult]) {
-                     NSDictionary *serverInfo = methodResult[@"version"];
-                     AppDelegate.instance.serverVersion = [serverInfo[@"major"] intValue];
-                     AppDelegate.instance.serverMinorVersion = [serverInfo[@"minor"] intValue];
-                     NSString *realServerName = methodResult[@"name"];
-                     if ([realServerName isEqualToString:@"MrMC"]) {
-                         AppDelegate.instance.serverVersion += MRMC_TIMEWARP;
-                     }
-                     infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
-                                          AppDelegate.instance.obj.serverDescription,
-                                          serverInfo[@"major"],
-                                          serverInfo[@"minor"],
-                                          serverInfo[@"tag"]];//, serverInfo[@"revision"]
-                     NSDictionary *params = @{
-                         @"status": @YES,
-                         @"message": infoTitle,
-                         @"icon_connection": @"connection_on_notcp",
-                     };
-                     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCChangeServerStatus" object:nil userInfo:params];
-                     params = @{@"showSetup": @(NO)};
-                     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
-                 }
-                 else {
-                     if (AppDelegate.instance.serverOnLine) {
-                         [self noConnectionNotifications];
-                     }
-                     NSDictionary *params = @{@"showSetup": @YES};
-                     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
-                 }
-             }
-         }
-         else {
-             if (error != nil) {
-                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionError" object:nil userInfo:@{@"error_message": [error localizedDescription]}];
-             }
-             AppDelegate.instance.serverVolume = -1;
-             if (AppDelegate.instance.serverOnLine) {
-                 [self noConnectionNotifications];
-             }
-             NSDictionary *params = @{@"showSetup": @YES};
-             [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
-         }
-     }];
+        inCheck = NO;
+        if (error == nil && methodError == nil) {
+            if (AppDelegate.instance.serverOnLine) {
+                return;
+            }
+            // Read JSON RPC API version
+            [self readJSONRPCAPIVersion];
+
+            // Read if ignorearticles is enabled
+            [self readIgnoreArticlesEnabled];
+
+            AppDelegate.instance.serverVolume = [methodResult[@"volume"] intValue];
+            if (!AppDelegate.instance.serverOnLine) {
+                if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                    NSDictionary *serverInfo = methodResult[@"version"];
+                    AppDelegate.instance.serverVersion = [serverInfo[@"major"] intValue];
+                    AppDelegate.instance.serverMinorVersion = [serverInfo[@"minor"] intValue];
+                    NSString *realServerName = methodResult[@"name"];
+                    if ([realServerName isEqualToString:@"MrMC"]) {
+                        AppDelegate.instance.serverVersion += MRMC_TIMEWARP;
+                    }
+                    infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
+                                 AppDelegate.instance.obj.serverDescription,
+                                 serverInfo[@"major"],
+                                 serverInfo[@"minor"],
+                                 serverInfo[@"tag"]];//, serverInfo[@"revision"]
+                    [self jsonConnectionNotifications:YES];
+                    [self showSetupNotifications:NO];
+                }
+                else {
+                    if (AppDelegate.instance.serverOnLine) {
+                        [self jsonConnectionNotifications:NO];
+                    }
+                    [self showSetupNotifications:YES];
+                }
+            }
+        }
+        else {
+            if (error != nil) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionError" object:nil userInfo:@{@"error_message": [error localizedDescription]}];
+            }
+            AppDelegate.instance.serverVolume = -1;
+            if (AppDelegate.instance.serverOnLine) {
+                [self jsonConnectionNotifications:NO];
+            }
+            [self showSetupNotifications:YES];
+        }
+    }];
 }
 
 - (void)readIgnoreArticlesEnabled {
@@ -250,12 +250,12 @@ NSInputStream	*inStream;
      withParameters:@{@"setting": @"filelists.ignorethewhensorting"}
      withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-         if (!error && !methodError) {
-             AppDelegate.instance.isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
-         }
-         else {
-             AppDelegate.instance.isIgnoreArticlesEnabled = NO;
-         }
+        if (!error && !methodError) {
+            AppDelegate.instance.isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
+        }
+        else {
+            AppDelegate.instance.isIgnoreArticlesEnabled = NO;
+        }
     }];
 }
 
@@ -266,23 +266,23 @@ NSInputStream	*inStream;
      withParameters:nil
      withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-         if (!error && !methodError) {
-             // Kodi 11 and earlier do not support "major"/"minor"/"patch" and reply with "version" only
-             if (![methodResult[@"version"] isKindOfClass:[NSNumber class]]) {
-                 AppDelegate.instance.APImajorVersion = [methodResult[@"version"][@"major"] intValue];
-                 AppDelegate.instance.APIminorVersion = [methodResult[@"version"][@"minor"] intValue];
-                 AppDelegate.instance.APIpatchVersion = [methodResult[@"version"][@"patch"] intValue];
-             }
-             else {
-                 AppDelegate.instance.APImajorVersion = [methodResult[@"version"] intValue];
-                 AppDelegate.instance.APIminorVersion = 0;
-                 AppDelegate.instance.APIpatchVersion = 0;
-             }
-         }
-         // Read the sorttokens
-         [self readSorttokens];
-         // Read 1-movie-set setting
-         [self readGroupSingleItemSets];
+        if (!error && !methodError) {
+            // Kodi 11 and earlier do not support "major"/"minor"/"patch" and reply with "version" only
+            if (![methodResult[@"version"] isKindOfClass:[NSNumber class]]) {
+                AppDelegate.instance.APImajorVersion = [methodResult[@"version"][@"major"] intValue];
+                AppDelegate.instance.APIminorVersion = [methodResult[@"version"][@"minor"] intValue];
+                AppDelegate.instance.APIpatchVersion = [methodResult[@"version"][@"patch"] intValue];
+            }
+            else {
+                AppDelegate.instance.APImajorVersion = [methodResult[@"version"] intValue];
+                AppDelegate.instance.APIminorVersion = 0;
+                AppDelegate.instance.APIpatchVersion = 0;
+            }
+        }
+        // Read the sorttokens
+        [self readSorttokens];
+        // Read 1-movie-set setting
+        [self readGroupSingleItemSets];
     }];
 }
 
@@ -294,12 +294,12 @@ NSInputStream	*inStream;
          withParameters:@{@"setting": @"videolibrary.groupsingleitemsets"}
          withTimeout: SERVER_TIMEOUT
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-             if (!error && !methodError) {
-                 AppDelegate.instance.isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
-             }
-             else {
-                 AppDelegate.instance.isGroupSingleItemSetsEnabled = YES;
-             }
+            if (!error && !methodError) {
+                AppDelegate.instance.isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
+            }
+            else {
+                AppDelegate.instance.isGroupSingleItemSetsEnabled = YES;
+            }
         }];
     }
     else {
@@ -316,12 +316,12 @@ NSInputStream	*inStream;
          withParameters:@{@"properties":@[@"sorttokens"]}
          withTimeout: SERVER_TIMEOUT
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-             if (!error && !methodError) {
-                 AppDelegate.instance.KodiSorttokens = methodResult[@"sorttokens"];
-             }
-             else {
-                 AppDelegate.instance.KodiSorttokens = defaultTokens;
-             }
+            if (!error && !methodError) {
+                AppDelegate.instance.KodiSorttokens = methodResult[@"sorttokens"];
+            }
+            else {
+                AppDelegate.instance.KodiSorttokens = defaultTokens;
+            }
         }];
     }
     else {
