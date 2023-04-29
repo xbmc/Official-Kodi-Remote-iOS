@@ -1768,7 +1768,7 @@ long storedItemID;
 }
 
 - (IBAction)startUpdateProgressBar:(id)sender {
-    [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:playerID percentage:ProgressSlider.value] reloadPlaylist:NO startProgressBar:YES];
+    [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:currentPlayerID percentage:ProgressSlider.value] reloadPlaylist:NO startProgressBar:YES];
     [Utilities alphaView:scrabbingView AnimDuration:0.3 Alpha:0.0];
 }
 
