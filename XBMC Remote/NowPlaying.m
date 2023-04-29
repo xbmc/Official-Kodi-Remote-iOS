@@ -793,7 +793,6 @@ long storedItemID;
                                      currentTime.hidden = YES;
                                      duration.hidden = YES;
                                  }
-                                 [self updatePlaylistProgressbar:percentage actual:actualTime];
                                  long playlistPosition = [methodResult[@"position"] longValue];
                                  if (playlistPosition > -1) {
                                      playlistPosition += 1;
@@ -819,6 +818,10 @@ long storedItemID;
                                          storeSelection = newSelection;
                                          lastSelected = playlistPosition;
                                      }
+                                     [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
+                                 }
+                                 else {
+                                     [self updatePlaylistProgressbar:percentage actual:actualTime];
                                  }
                              }
                              else {
@@ -2049,6 +2052,7 @@ long storedItemID;
              [queuing stopAnimating];
              UIView *timePlaying = (UIView*)[cell viewWithTag:5];
              [self fadeView:timePlaying hidden:NO];
+             [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
          }
          else {
              UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
