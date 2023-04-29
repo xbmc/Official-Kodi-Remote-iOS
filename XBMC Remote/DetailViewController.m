@@ -3584,7 +3584,9 @@ NSIndexPath *selected;
         NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
         NSMutableDictionary *sortDictionary = parameters[@"available_sort_methods"];
         if (sortDictionary[@"label"] != nil) {
-            NSUInteger sort_method_index = [sortDictionary[@"label"] indexOfObject:actiontitle];
+            // In case of random still find index despite leading @"\u2713". This avoids inversion of sort order.
+            NSString *targetedAction = [actiontitle containsString:LOCALIZED_STR(@"Random")] ? LOCALIZED_STR(@"Random") : actiontitle;
+            NSUInteger sort_method_index = [sortDictionary[@"label"] indexOfObject:targetedAction];
             if (sort_method_index != NSNotFound) {
                 if (sort_method_index < [sortDictionary[@"method"] count]) {
                     [activityIndicatorView startAnimating];
@@ -5056,6 +5058,15 @@ NSIndexPath *selected;
         sortMethodName = nil;
     }
     
+    // In case of random sort create a random number to sort by
+    if ([sortMethodName isEqualToString:@"random"]) {
+        NSMutableArray *tempArray = [copyRichResults mutableCopy];
+        for (NSMutableDictionary *item in tempArray) {
+            item[@"random"] = @(arc4random());
+        }
+        copyRichResults = [tempArray copy];
+    }
+    
     // If a sort method is defined which is not found as key, we select @"label" as sort method.
     // This happens for example when sorting by @"artist".
     if (sortMethodName != nil && copyRichResults.count > 0 && copyRichResults[0][sortMethodName] == nil) {
@@ -5160,7 +5171,7 @@ NSIndexPath *selected;
         [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];
     }
     else {
-        if (!albumView && sortbymethod && ([self isSortDifferentToDefault] || [self isEligibleForSections:copyRichResults] || [sortbymethod isEqualToString:@"itemgroup"])) {
+        if (!albumView && sortbymethod && ![sortbymethod isEqualToString:@"random"] && ([self isSortDifferentToDefault] || [self isEligibleForSections:copyRichResults] || [sortbymethod isEqualToString:@"itemgroup"])) {
             BOOL found;
             addUITableViewIndexSearch = YES;
             for (NSDictionary *item in copyRichResults) {
