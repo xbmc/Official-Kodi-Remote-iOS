@@ -231,8 +231,9 @@
     return;
 }
 
-- (void)fadeView:(UIView*)view hidden:(BOOL)value {
+- (void)setPlaylistCellProgressBar:(UITableViewCell*)cell hidden:(BOOL)value {
     // Do not unhide the playlist progress bar while in pictures playlist
+    UIView *view = (UIView*)[cell viewWithTag:5];
     if (!value && currentPlayerID == PLAYERID_PICTURES) {
         return;
     }
@@ -803,8 +804,7 @@ long storedItemID;
                                          }
                                          [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
                                          UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
-                                         UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-                                         [self fadeView:timePlaying hidden:NO];
+                                         [self setPlaylistCellProgressBar:cell hidden:NO];
                                          storeSelection = newSelection;
                                          lastSelected = playlistPosition;
                                      }
@@ -1154,8 +1154,7 @@ long storedItemID;
     UIImageView *playlistActualBar = (UIImageView*)[cell viewWithTag:7];
     CGFloat newx = MAX(MAX_CELLBAR_WIDTH * percentage / 100.0, 1.0);
     [self resizeCellBar:newx image:playlistActualBar];
-    UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-    [self fadeView:timePlaying hidden:NO];
+    [self setPlaylistCellProgressBar:cell hidden:NO];
 }
 
 - (void)hidePlaylistProgressbarWithDeselect:(BOOL)deselect {
@@ -1167,8 +1166,7 @@ long storedItemID;
         [playlistTableView deselectRowAtIndexPath:selection animated:YES];
     }
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-    UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-    [self fadeView:timePlaying hidden:YES];
+    [self setPlaylistCellProgressBar:cell hidden:YES];
     UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
     coverView.alpha = 1.0;
 }
@@ -2003,8 +2001,7 @@ long storedItemID;
     [thumb setImageWithURL:[NSURL URLWithString:stringURL]
           placeholderImage:defaultThumb];
     thumb = [Utilities applyRoundedEdgesView:thumb drawBorder:YES];
-    UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-    [self fadeView:timePlaying hidden:YES];
+    [self setPlaylistCellProgressBar:cell hidden:YES];
     
     return cell;
 }
@@ -2013,9 +2010,8 @@ long storedItemID;
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
     UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
     coverView.alpha = 1.0;
-    UIView *timePlaying = (UIView*)[cell viewWithTag:5];
     storeSelection = nil;
-    [self fadeView:timePlaying hidden:YES];
+    [self setPlaylistCellProgressBar:cell hidden:YES];
 }
 
 - (void)checkPartyMode {
@@ -2037,8 +2033,7 @@ long storedItemID;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil) {
              storedItemID = SELECTED_NONE;
-             UIView *timePlaying = (UIView*)[cell viewWithTag:5];
-             [self fadeView:timePlaying hidden:NO];
+             [self setPlaylistCellProgressBar:cell hidden:NO];
              [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
          }
          [activityIndicator stopAnimating];
