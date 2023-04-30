@@ -37,7 +37,6 @@
 @implementation DetailViewController
 
 @synthesize detailItem = _detailItem;
-@synthesize activityIndicatorView;
 @synthesize sections;
 @synthesize filteredListContent;
 @synthesize richResults;
@@ -2007,7 +2006,15 @@
     self.indexView.alpha = 1.0;
 }
 
-#pragma mark - Cell Formatting 
+#pragma mark - Cell Formatting
+
+- (UIActivityIndicatorView*)getCellActivityIndicator:(NSIndexPath*)indexPath {
+    // Get the indicator view and place it in the middle of the thumb (if no thumb keep it at least fully visible)
+    id cell = [self getCell:indexPath];
+    UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    cellActivityIndicator.center = CGPointMake(MAX(thumbWidth / 2, cellActivityIndicator.frame.size.width / 2), cellHeight / 2);
+    return cellActivityIndicator;
+}
 
 - (void)setTVshowThumbSize {
     mainMenu *Menuitem = self.detailItem;
@@ -3315,9 +3322,8 @@ NSIndexPath *selected;
 }
 
 - (void)markVideo:(NSMutableDictionary*)item indexPath:(NSIndexPath*)indexPath watched:(int)watched {
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-    [queuing startAnimating];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
+    [cellActivityIndicator startAnimating];
 
     NSString *methodToCall = @"";
     NSString *family = item[@"family"];
@@ -3342,7 +3348,7 @@ NSIndexPath *selected;
                 }
                 [self updateCellAndSaveRichData:indexPath watched:watched item:item];
             }
-            [queuing stopAnimating];
+            [cellActivityIndicator stopAnimating];
          }];
         return;
     }
@@ -3356,7 +3362,7 @@ NSIndexPath *selected;
         methodToCall = @"VideoLibrary.SetMusicVideoDetails";
     }
     else {
-        [queuing stopAnimating];
+        [cellActivityIndicator stopAnimating];
         return;
     }
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3370,7 +3376,7 @@ NSIndexPath *selected;
          if (error == nil && methodError == nil) {
              [self updateCellAndSaveRichData:indexPath watched:watched item:item];
          }
-        [queuing stopAnimating];
+        [cellActivityIndicator stopAnimating];
      }];
 }
 
@@ -3973,16 +3979,15 @@ NSIndexPath *selected;
     if ([itemid longValue] == 0) {
         return;
     }
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     NSString *methodToCall = @"PVR.DeleteTimer";
     NSDictionary *parameters = @{@"timerid": itemid};
 
-    [queuing startAnimating];
+    [cellActivityIndicator startAnimating];
     [[Utilities getJsonRPC] callMethod:methodToCall
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-               [queuing stopAnimating];
+               [cellActivityIndicator stopAnimating];
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
@@ -4028,16 +4033,16 @@ NSIndexPath *selected;
             parameterName = @"broadcastid";
         }
     }
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-    [queuing startAnimating];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
+    [cellActivityIndicator startAnimating];
     NSDictionary *parameters = @{parameterName: itemid};
     [[Utilities getJsonRPC] callMethod:methodToCall
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-               [queuing stopAnimating];
+               [cellActivityIndicator stopAnimating];
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
+                   id cell = [self getCell:indexPath];
                    UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
                    isRecordingImageView.hidden = !isRecordingImageView.hidden;
                    NSNumber *status = @(![item[@"isrecording"] boolValue]);
@@ -4072,9 +4077,8 @@ NSIndexPath *selected;
 }
 
 - (void)addQueue:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath afterCurrentItem:(BOOL)afterCurrent {
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-    [queuing startAnimating];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
+    [cellActivityIndicator startAnimating];
     mainMenu *menuItem = [self getMainMenu:item];
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     if (forceMusicAlbumMode) {
@@ -4104,7 +4108,7 @@ NSIndexPath *selected;
              if (error == nil && methodError == nil) {
                  if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                      if ([methodResult count]) {
-                         [queuing stopAnimating];
+                         [cellActivityIndicator stopAnimating];
                          int newPos = [methodResult[@"position"] intValue] + 1;
                          NSString *action2 = @"Playlist.Insert";
                          NSDictionary *params2 = @{
@@ -4119,30 +4123,30 @@ NSIndexPath *selected;
                          }];
                      }
                      else {
-                         [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
+                         [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:cellActivityIndicator];
                      }
                  }
                  else {
-                     [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
+                     [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:cellActivityIndicator];
                  }
              }
              else {
-                [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
+                [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:cellActivityIndicator];
              }
          }];
     }
     else {
-        [self addToPlaylist:playlistid currentItem:value currentKey:key currentActivityIndicator:queuing];
+        [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:cellActivityIndicator];
     }
 }
 
-- (void)addToPlaylist:(NSInteger)playlistid currentItem:(id)value currentKey:(NSString*)key currentActivityIndicator:(UIActivityIndicatorView*)queuing {
+- (void)addToPlaylist:(NSInteger)playlistid currentItem:(id)value currentKey:(NSString*)key indicator:(UIActivityIndicatorView*)cellActivityIndicator {
     NSDictionary *params = @{
         @"playlistid": @(playlistid),
         @"item": [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil],
     };
     [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        [queuing stopAnimating];
+        [cellActivityIndicator stopAnimating];
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
         }
@@ -4151,11 +4155,14 @@ NSIndexPath *selected;
 }
 
 - (void)playerOpen:(NSDictionary*)params index:(NSIndexPath*)indexPath {
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-    [queuing startAnimating];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
+    [self playerOpen:params index:indexPath indicator:cellActivityIndicator];
+}
+
+- (void)playerOpen:(NSDictionary*)params index:(NSIndexPath*)indexPath indicator:(UIActivityIndicatorView*)cellActivityIndicator {
+    [cellActivityIndicator startAnimating];
     [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        [queuing stopAnimating];
+        [cellActivityIndicator stopAnimating];
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
             [self showNowPlaying];
@@ -4177,9 +4184,8 @@ NSIndexPath *selected;
     if (mainFields.count == 0) {
         return;
     }
-    id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-    [queuing startAnimating];
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
+    [cellActivityIndicator startAnimating];
     int playlistid = [mainFields[@"playlistid"] intValue];
     if ([mainFields[@"row8"] isEqualToString:@"channelid"] ||
         [mainFields[@"row8"] isEqualToString:@"broadcastid"]) {
@@ -4190,13 +4196,13 @@ NSIndexPath *selected;
         NSDictionary *itemParams = @{
             @"item": [NSDictionary dictionaryWithObjectsAndKeys: channelid, @"channelid", nil],
         };
-        [self playerOpen:itemParams index:indexPath];
+        [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
     }
     else if ([mainFields[@"row7"] isEqualToString:@"plugin"]) {
         NSDictionary *itemParams = @{
             @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil],
         };
-        [self playerOpen:itemParams index:indexPath];
+        [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
     }
     else {
         id optionsParam = nil;
@@ -4233,34 +4239,31 @@ NSIndexPath *selected;
                          [self playlistAndPlay:playlistParams
                                 playbackParams:playbackParams
                                      indexPath:indexPath
-                                          cell:cell];
+                                     indicator:cellActivityIndicator];
                      }];
                 }
                 else {
                     [self playlistAndPlay:playlistParams
                            playbackParams:playbackParams
                                 indexPath:indexPath
-                                     cell:cell];
+                                indicator:cellActivityIndicator];
                 }
             }
             else {
-                UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-                [queuing stopAnimating];
+                [cellActivityIndicator stopAnimating];
             }
         }];
     }
 }
 
-- (void)playlistAndPlay:(NSDictionary*)playlistParams playbackParams:(NSDictionary*)playbackParams indexPath:(NSIndexPath*)indexPath cell:(id)cell {
+- (void)playlistAndPlay:(NSDictionary*)playlistParams playbackParams:(NSDictionary*)playbackParams indexPath:(NSIndexPath*)indexPath indicator:(UIActivityIndicatorView*)cellActivityIndicator {
     [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-            [self playerOpen:playbackParams index:indexPath];
+            [self playerOpen:playbackParams index:indexPath indicator:cellActivityIndicator];
         }
         else {
-            UIActivityIndicatorView *queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-            [queuing stopAnimating];
-            //                                            NSLog(@"secondo errore %@", methodError);
+            [cellActivityIndicator stopAnimating];
         }
     }];
 }
@@ -4408,14 +4411,10 @@ NSIndexPath *selected;
     else {
         return; // something goes wrong
     }
-
-    UIActivityIndicatorView *queuing = nil;
     
-    if (indexPath != nil) {
-        id cell = [self getCell:indexPath];
-        queuing = (UIActivityIndicatorView*)[cell viewWithTag:8];
-        [queuing startAnimating];
-    }
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
+    [cellActivityIndicator startAnimating];
+    
     NSMutableArray *newProperties = [parameters[@"properties"] mutableCopy];
     if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
         for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
@@ -4435,8 +4434,8 @@ NSIndexPath *selected;
      callMethod:methodToCall
      withParameters:newParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+         [cellActivityIndicator stopAnimating];
          if (error == nil && methodError == nil) {
-             [queuing stopAnimating];
              if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                  NSString *itemid_extra_info = @"";
                  if ((NSNull*)mainFields[@"itemid_extra_info"] != [NSNull null]) {
@@ -4459,14 +4458,10 @@ NSIndexPath *selected;
                                                                          useIcon:methodResult[@"recordingdetails"] != nil];
                  [self displayInfoView:newItem];
              }
-             else {
-                 [queuing stopAnimating];
-             }
          }
          else {
              UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Details not found") message:nil];
              [self presentViewController:alertView animated:YES completion:nil];
-             [queuing stopAnimating];
          }
      }];
 }
