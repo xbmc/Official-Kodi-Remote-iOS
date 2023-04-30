@@ -2485,7 +2485,7 @@
         title.text = [NSString stringWithFormat:@"%@. %@", item[@"channelnumber"], item[@"label"]];
     }
     else if (item[@"episodeid"]) {
-        title.text = [NSString stringWithFormat:@"S%@E%@ - %@", item[@"season"], item[@"episode"], item[@"title"]];
+        title.text = [Utilities formatTVShowStringForSeason:item[@"season"] episode:item[@"episode"] title:item[@"title"]];
     }
     else {
         title.text = item[@"label"];
