@@ -2484,6 +2484,9 @@
     if (channelListView && item[@"channelnumber"]) {
         title.text = [NSString stringWithFormat:@"%@. %@", item[@"channelnumber"], item[@"label"]];
     }
+    else if (item[@"episodeid"]) {
+        title.text = [NSString stringWithFormat:@"S%@E%@ - %@", item[@"season"], item[@"episode"], item[@"title"]];
+    }
     else {
         title.text = item[@"label"];
     }
