@@ -41,11 +41,11 @@
 
 @interface MenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	UITableView *_tableView;
-    NSMutableArray *mainMenuItems;
+    NSArray *mainMenuItems;
     int lastSelected;
 }
 
-- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu menuHeight:(CGFloat)tableHeight;
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSArray*)menu menuHeight:(CGFloat)tableHeight;
 - (void)setMenuHeight:(CGFloat)tableHeight;
 - (void)setLastSelected:(int)selection;
 

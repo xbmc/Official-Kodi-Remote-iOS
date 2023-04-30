@@ -51,7 +51,7 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu menuHeight:(CGFloat)tableHeight {
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSArray*)menu menuHeight:(CGFloat)tableHeight {
     if (self = [super init]) {
         self.view.frame = frame;
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, tableHeight) style:UITableViewStylePlain];
