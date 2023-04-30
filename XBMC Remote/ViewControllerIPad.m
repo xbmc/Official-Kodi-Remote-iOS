@@ -392,6 +392,16 @@
 
 #pragma mark - Lifecycle
 
+- (void)layoutPlaylistNowplayingForTableHeight:(CGFloat)tableHeight {
+    CGRect frame = self.nowPlayingController.view.frame;
+    YPOS = (int)(tableHeight + PLAYLIST_HEADER_HEIGHT);
+    frame.origin.y = YPOS;
+    frame.size.width = PAD_MENU_TABLE_WIDTH;
+    frame.size.height = self.view.frame.size.height - YPOS - [Utilities getTopPadding];
+    self.nowPlayingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.nowPlayingController.view.frame = frame;
+}
+
 - (void)changeLeftMenu:(CGFloat)tableHeight {
     // Main menu
     [menuViewController setMenuHeight:tableHeight];
@@ -402,13 +412,7 @@
     playlistHeader.frame = frame;
     
     // Playlist and NowPlaying
-    frame = self.nowPlayingController.view.frame;
-    YPOS = (int)(tableHeight + PLAYLIST_HEADER_HEIGHT);
-    frame.origin.y = YPOS;
-    frame.size.width = PAD_MENU_TABLE_WIDTH;
-    frame.size.height = self.view.frame.size.height - YPOS - [Utilities getTopPadding];
-    self.nowPlayingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    self.nowPlayingController.view.frame = frame;
+    [self layoutPlaylistNowplayingForTableHeight:tableHeight];
     
     [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
                                                height:[self screenSizeOrientationIndependent].height
@@ -439,13 +443,7 @@
     
     // Playlist and NowPlaying
     self.nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-    CGRect frame = self.nowPlayingController.view.frame;
-    YPOS = (int)(tableHeight + PLAYLIST_HEADER_HEIGHT);
-    frame.origin.y = YPOS;
-    frame.size.width = PAD_MENU_TABLE_WIDTH;
-    frame.size.height = self.view.frame.size.height - YPOS - [Utilities getTopPadding];
-    self.nowPlayingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    self.nowPlayingController.view.frame = frame;
+    [self layoutPlaylistNowplayingForTableHeight:tableHeight];
     
     [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
                                                height:[self screenSizeOrientationIndependent].height
