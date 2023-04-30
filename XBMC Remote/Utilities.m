@@ -18,7 +18,6 @@
 #define XBMC_LOGO_PADDING 10
 #define PERSISTENCE_KEY_VERSION @"VersionUnderReview"
 #define PERSISTENCE_KEY_PLAYBACK_ATTEMPTS @"PlaybackAttempts"
-#define PANEL_SHADOW_SIZE 16
 
 @implementation Utilities
 

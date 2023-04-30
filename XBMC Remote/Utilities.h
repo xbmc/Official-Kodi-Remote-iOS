@@ -24,6 +24,8 @@ typedef enum {
     bgTrans
 } LogoBackgroundType;
 
+#define PANEL_SHADOW_SIZE 16
+
 @interface Utilities : NSObject
 
 + (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse autoColorCheck:(BOOL)autoColorCheck;

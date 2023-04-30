@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
+#import "MessagesView.h"
 
 typedef enum {
     remoteTop,
@@ -16,7 +17,6 @@ typedef enum {
 
 @interface RemoteController : UIViewController <UIGestureRecognizerDelegate> {
     IBOutlet UIView *remoteControlView;
-    IBOutlet UILabel *subsInfoLabel;
     IBOutlet UIView *quickHelpView;
     IBOutlet UIImageView *quickHelpImageView;
     IBOutlet UIView *gestureZoneView;
@@ -37,6 +37,7 @@ typedef enum {
     BOOL isGestureViewActive;
     NSDictionary *subsDictionary;
     NSDictionary *audiostreamsDictionary;
+    MessagesView *messagesView;
 }
 
 - (IBAction)startVibrate:(id)sender;

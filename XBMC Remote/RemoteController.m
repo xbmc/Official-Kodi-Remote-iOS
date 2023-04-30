@@ -184,11 +184,6 @@
     frame.size.height -= shift;
     quickHelpView.frame = frame;
     
-    frame = subsInfoLabel.frame;
-    frame.origin.x = 0;
-    frame.size.width = newWidth;
-    subsInfoLabel.frame = frame;
-    
     [self setupGestureView];
     if ([Utilities hasRemoteToolBar]) {
         [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_PARENT_HEIGHT isEmbedded:YES];
@@ -235,11 +230,6 @@
         
         frame.origin.y = 0;
         quickHelpView.frame = frame;
-        
-        frame = subsInfoLabel.frame;
-        frame.size.width = UIScreen.mainScreen.bounds.size.width;
-        frame.origin.x = (remoteControlView.frame.size.width - UIScreen.mainScreen.bounds.size.width) / 2;
-        subsInfoLabel.frame = frame;
     }
     else {
         VolumeSliderView *volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
@@ -266,11 +256,6 @@
         
         frame.origin = CGPointZero;
         quickHelpView.frame = frame;
-        
-        frame = subsInfoLabel.frame;
-        frame.size.width = remoteControlView.frame.size.width;
-        frame.origin.x = 0;
-        subsInfoLabel.frame = frame;
         
         frame = remoteControlView.frame;
         frame.size.height += TOOLBAR_HEIGHT + CGRectGetMaxY(volumeSliderView.frame);
@@ -393,25 +378,7 @@
 # pragma mark - view Effects
 
 - (void)showSubInfo:(NSString*)message timeout:(NSTimeInterval)timeout color:(UIColor*)color {
-    // first fade in
-    [UIView animateWithDuration:0.1
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        subsInfoLabel.alpha = 0.8;
-        subsInfoLabel.text = message;
-        subsInfoLabel.textColor = color;
-    }
-                     completion:^(BOOL finished) {
-        // then fade out
-        [UIView animateWithDuration:0.2
-                              delay:timeout
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-            subsInfoLabel.alpha = 0.0;
-        }
-                         completion:^(BOOL finished) {}];
-    }];
+    [messagesView showMessage:message timeout:timeout color:color];
 }
 
 # pragma mark - ToolBar
@@ -542,7 +509,7 @@
                                      [self showActionSubtitles:actionSheetTitles];
                                  }
                                  else {
-                                     [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
                                  }
                              }
                          }
@@ -550,7 +517,7 @@
                  }];
             }
             else {
-                [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
             }
         }
     }];
@@ -609,7 +576,7 @@
                                      [self showActionAudiostreams:actionSheetTitles];
                                  }
                                  else {
-                                     [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
                                  }
                              }
                         }
@@ -617,7 +584,7 @@
                  }];
             }
             else {
-                [self showSubInfo:LOCALIZED_STR(@"Audiostream not available") timeout:2.0 color:[Utilities getSystemRed:1.0]];
+                [self showSubInfo:LOCALIZED_STR(@"Audiostream not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
             }
         }
     }];
@@ -709,7 +676,7 @@
                             id audiostreamIndex = audiostreamsDictionary[@"audiostreams"][i][@"index"];
                             if (audiostreamIndex) {
                                 [self playbackAction:@"Player.SetAudioStream" params:@{@"stream": audiostreamIndex}];
-                                [self showSubInfo:actiontitle timeout:2.0 color:UIColor.whiteColor];
+                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:0.95]];
                             }
                         }
                     }
@@ -736,9 +703,9 @@
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Subtitles") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
-        
+
         UIAlertAction *action_disable = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Disable subtitles") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") timeout:2.0 color:[Utilities getSystemRed:1.0]];
+            [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
             [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"off"}];
         }];
         if ([subsDictionary[@"subtitleenabled"] boolValue]) {
@@ -756,7 +723,7 @@
                             if (subsIndex) {
                                 [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": subsIndex}];
                                 [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"on"}];
-                                [self showSubInfo:actiontitle timeout:2.0 color:UIColor.whiteColor];
+                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:0.95]];
                             }
                         }
                     }
@@ -1397,6 +1364,31 @@ NSInteger buttonAction;
     [[SDImageCache sharedImageCache] clearMemory];
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundImage_repeat"]];
+    
+    UIView *rootView = IS_IPHONE ? UIApplication.sharedApplication.keyWindow.rootViewController.view : self.view;
+    CGFloat deltaY = IS_IPHONE ? UIApplication.sharedApplication.statusBarFrame.size.height : 0;
+    CGFloat originX = isEmbeddedMode ? ANCHOR_RIGHT_PEEK : 0;
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(originX,
+                                                                  0,
+                                                                  TransitionalView.frame.size.width,
+                                                                  DEFAULT_MSG_HEIGHT + deltaY)
+                                                deltaY:deltaY
+                                                deltaX:0];
+    messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    [rootView addSubview:messagesView];
+    
+    if (isEmbeddedMode) {
+        // Shadow on right side of movable screen
+        CGRect shadowRect = CGRectMake(0,
+                                       0,
+                                       PANEL_SHADOW_SIZE,
+                                       messagesView.frame.size.height);
+        UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
+        shadowRight.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
+        shadowRight.image = [UIImage imageNamed:@"tableRight"];
+        shadowRight.opaque = YES;
+        [messagesView addSubview:shadowRight];
+    }
 }
 
 - (void)handleSettingsButton:(id)sender {

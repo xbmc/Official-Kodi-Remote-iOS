@@ -23,11 +23,12 @@
         bottomBorder.backgroundColor = [Utilities getGrayColor:0 alpha:0.35].CGColor;
         [self.layer addSublayer:bottomBorder];
         self.backgroundColor = [Utilities getGrayColor:0 alpha:0.9];
+        messageOrigin = frame.origin.y;
         slideHeight = frame.size.height;
         if (IS_IPAD) {
             slideHeight += 22.0;
         }
-        self.frame = CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height);
+        self.frame = CGRectMake(frame.origin.x, messageOrigin - slideHeight, frame.size.width, frame.size.height);
         viewMessage = [[UILabel alloc] initWithFrame:CGRectMake(deltaX, deltaY, frame.size.width - deltaX, frame.size.height - deltaY)];
         viewMessage.backgroundColor = UIColor.clearColor;
         viewMessage.font = [UIFont boldSystemFontOfSize:16];
@@ -37,6 +38,7 @@
         viewMessage.textAlignment = NSTextAlignmentCenter;
         viewMessage.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [self addSubview:viewMessage];
+        self.alpha = 0.0;
     }
     return self;
 }
@@ -50,7 +52,8 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-        self.frame = CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height);
+        self.frame = CGRectMake(frame.origin.x, messageOrigin - slideHeight, frame.size.width, frame.size.height);
+        self.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {}];
     viewMessage.text = message;
@@ -60,7 +63,7 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-        self.frame = CGRectMake(frame.origin.x, 0, frame.size.width, frame.size.height);
+        self.frame = CGRectMake(frame.origin.x, messageOrigin, frame.size.width, frame.size.height);
         self.alpha = 1.0;
                      }
                      completion:^(BOOL finished) {}];
@@ -75,7 +78,7 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-        self.frame = CGRectMake(frame.origin.x, -slideHeight, frame.size.width, frame.size.height);
+        self.frame = CGRectMake(frame.origin.x, messageOrigin - slideHeight, frame.size.width, frame.size.height);
         self.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {}];
