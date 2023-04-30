@@ -5810,10 +5810,10 @@ NSIndexPath *selected;
     
     // Gray background for toolbar
     if (IS_IPHONE) {
-        buttonsView.backgroundColor = [Utilities getGrayColor:38 alpha:0.95];
+        buttonsView.backgroundColor = TOOLBAR_TINT_COLOR;
     }
     else {
-        buttonsViewBgToolbar.backgroundColor = [Utilities getGrayColor:38 alpha:0.95];
+        buttonsViewBgToolbar.backgroundColor = TOOLBAR_TINT_COLOR;
     }
     
     if ([methods[@"albumView"] boolValue]) {

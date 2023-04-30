@@ -26,6 +26,7 @@
 #define BAR_TINT_COLOR [Utilities getGrayColor:26 alpha:1]
 #define REMOTE_CONTROL_BAR_TINT_COLOR [Utilities getGrayColor:12 alpha:1]
 #define SLIDER_DEFAULT_COLOR [Utilities getSystemTeal]
+#define TOOLBAR_TINT_COLOR [Utilities getGrayColor:38 alpha:0.95]
 
 /*
  * Dimension and layout macros
