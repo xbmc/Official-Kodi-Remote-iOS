@@ -38,7 +38,7 @@ typedef enum {
 + (BOOL)getPreferTvPosterMode;
 + (LogoBackgroundType)getLogoBackgroundMode;
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage;
-+ (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode;
++ (NSDictionary*)buildPlayerSeekStepParams:(NSString*)stepmode;
 + (CGFloat)getTransformX;
 + (UIColor*)getSystemRed:(CGFloat)alpha;
 + (UIColor*)getSystemGreen:(CGFloat)alpha;

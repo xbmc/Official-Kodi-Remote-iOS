@@ -313,13 +313,13 @@
     return params;
 }
 
-+ (NSArray*)buildPlayerSeekStepParams:(NSString*)stepmode {
-    NSArray *params = nil;
++ (NSDictionary*)buildPlayerSeekStepParams:(NSString*)stepmode {
+    NSDictionary *params = nil;
     if (AppDelegate.instance.serverVersion < 15) {
-        params = @[stepmode, @"value"];
+        params = @{@"value": stepmode};
     }
     else {
-        params = @[@{@"step": stepmode}, @"value"];
+        params = @{@"value": @{@"step": stepmode}};
     }
     return params;
 }

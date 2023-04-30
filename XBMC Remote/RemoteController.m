@@ -623,28 +623,19 @@
     }];
 }
 
-- (void)playbackAction:(NSString*)action params:(NSArray*)parameters {
+- (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             if ([methodResult count] > 0) {
+                NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
                 NSNumber *response = methodResult[0][@"playerid"];
-                NSMutableArray *commonParams = [NSMutableArray arrayWithObjects:response, @"playerid", nil];
-                if (parameters != nil) {
-                    [commonParams addObjectsFromArray:parameters];
+                if (response != nil) {
+                    commonParams[@"playerid"] = response;
                 }
-                [[Utilities getJsonRPC] callMethod:action withParameters:[Utilities indexKeyedDictionaryFromArray:commonParams] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-//                    if (error == nil && methodError == nil) {
-//                        NSLog(@"comando %@ eseguito. Risultato: %@", action, methodResult);
-//                    }
-//                    else {
-//                        NSLog(@"ci deve essere un secondo problema %@", methodError);
-//                    }
+                [[Utilities getJsonRPC] callMethod:action withParameters:commonParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                 }];
             }
         }
-//        else {
-//            NSLog(@"ci deve essere un primo problema %@", methodError);
-//        }
     }];
 }
 
@@ -712,9 +703,16 @@
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                if (![audiostreamsDictionary[@"audiostreams"][i] isEqual:audiostreamsDictionary[@"currentaudiostream"]]) {
-                    [self playbackAction:@"Player.SetAudioStream" params:[NSArray arrayWithObjects:audiostreamsDictionary[@"audiostreams"][i][@"index"], @"stream", nil]];
-                    [self showSubInfo:actiontitle timeout:2.0 color:UIColor.whiteColor];
+                if (audiostreamsDictionary[@"audiostreams"]) {
+                    if (audiostreamsDictionary[@"audiostreams"][i]) {
+                        if (![audiostreamsDictionary[@"audiostreams"][i] isEqual:audiostreamsDictionary[@"currentaudiostream"]]) {
+                            id audiostreamIndex = audiostreamsDictionary[@"audiostreams"][i][@"index"];
+                            if (audiostreamIndex) {
+                                [self playbackAction:@"Player.SetAudioStream" params:@{@"stream": audiostreamIndex}];
+                                [self showSubInfo:actiontitle timeout:2.0 color:UIColor.whiteColor];
+                            }
+                        }
+                    }
                 }
             }];
             [actionView addAction:action];
@@ -741,7 +739,7 @@
         
         UIAlertAction *action_disable = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Disable subtitles") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") timeout:2.0 color:[Utilities getSystemRed:1.0]];
-            [self playbackAction:@"Player.SetSubtitle" params:@[@"off", @"subtitle"]];
+            [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"off"}];
         }];
         if ([subsDictionary[@"subtitleenabled"] boolValue]) {
             [actionView addAction:action_disable];
@@ -750,10 +748,18 @@
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                if (![subsDictionary[@"subtitles"][i] isEqual:subsDictionary[@"currentsubtitle"]] || ![subsDictionary[@"subtitleenabled"] boolValue]) {
-                    [self playbackAction:@"Player.SetSubtitle" params:[NSArray arrayWithObjects:subsDictionary[@"subtitles"][i][@"index"], @"subtitle", nil]];
-                    [self playbackAction:@"Player.SetSubtitle" params:@[@"on", @"subtitle"]];
-                    [self showSubInfo:actiontitle timeout:2.0 color:UIColor.whiteColor];
+                if (subsDictionary[@"subtitles"]) {
+                    if (subsDictionary[@"subtitles"][i]) {
+                        if (![subsDictionary[@"subtitles"][i] isEqual:subsDictionary[@"currentsubtitle"]] ||
+                            ![subsDictionary[@"subtitleenabled"] boolValue]) {
+                            id subsIndex = subsDictionary[@"subtitles"][i][@"index"];
+                            if (subsIndex) {
+                                [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": subsIndex}];
+                                [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"on"}];
+                                [self showSubInfo:actiontitle timeout:2.0 color:UIColor.whiteColor];
+                            }
+                        }
+                    }
                 }
             }];
             [actionView addAction:action];
@@ -840,7 +846,7 @@ NSInteger buttonAction;
                                   [self playbackAction:@"Player.Seek" params:[Utilities buildPlayerSeekStepParams:step]];
                               }
                               else if (winID == WINDOW_VISUALISATION && musicAction != nil) {
-                                  [self playbackAction:@"Player.GoTo" params:@[musicAction, @"to"]];
+                                  [self playbackAction:@"Player.GoTo" params:@{@"to": musicAction}];
                               }
                               else if (winID == WINDOW_VISUALISATION && musicMethod != nil) {
                                   [self GUIAction:@"Input.ExecuteAction" params:@{@"action": musicMethod} httpAPIcallback:nil];
@@ -913,7 +919,7 @@ NSInteger buttonAction;
 
 - (IBAction)startVibrate:(id)sender {
     NSString *action;
-    NSArray *params;
+    NSDictionary *params;
     NSDictionary *dicParams;
     switch ([sender tag]) {
         case TAG_BUTTON_FULLSCREEN:
@@ -942,7 +948,7 @@ NSInteger buttonAction;
         case TAG_BUTTON_PREVIOUS:
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
-                params = @[@"previous", @"to"];
+                params = @{@"to": @"previous"};
                 [self playbackAction:action params:params];
             }
             else {
@@ -961,7 +967,7 @@ NSInteger buttonAction;
         case TAG_BUTTON_NEXT:
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
-                params = @[@"next", @"to"];
+                params = @{@"to": @"next"};
                 [self playbackAction:action params:params];
             }
             else {
@@ -1059,11 +1065,11 @@ NSInteger buttonAction;
                 break;
                 
             case TAG_BUTTON_SEEK_BACKWARD: // DECREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@[@"decrement", @"speed"]];
+                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
                 break;
                 
             case TAG_BUTTON_SEEK_FORWARD: // INCREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@[@"increment", @"speed"]];
+                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
                 break;
                 
             case TAG_BUTTON_INFO: // CODEC INFO
