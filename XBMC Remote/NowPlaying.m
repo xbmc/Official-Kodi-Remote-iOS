@@ -2200,7 +2200,7 @@ long storedItemID;
     
     // Maximum allowed height excludes status bar, toolbar and safe area
     CGFloat bottomPadding = [Utilities getBottomPadding];
-    CGFloat statusBar = UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGFloat statusBar = [Utilities getTopPadding];
     CGFloat maxheight = height - bottomPadding - statusBar - TOOLBAR_HEIGHT;
     
     nowPlayingView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH + 2,
@@ -2577,7 +2577,7 @@ long storedItemID;
     CGFloat bottomBarHeight = playlistToolbar.frame.size.height + bottomPadding;
     toolbarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - bottomBarHeight, self.view.frame.size.width, bottomBarHeight)];
     toolbarBackground.autoresizingMask = playlistToolbar.autoresizingMask;
-    toolbarBackground.backgroundColor = [Utilities getGrayColor:38 alpha:0.95];
+    toolbarBackground.backgroundColor = TOOLBAR_TINT_COLOR;
     [self.view insertSubview:toolbarBackground atIndex:1];
     
     // Set correct size for background image

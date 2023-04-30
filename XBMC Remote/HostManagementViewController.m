@@ -479,7 +479,7 @@ static inline BOOL IsEmpty(id obj) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGFloat deltaY = 44 + UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGFloat deltaY = 44 + [Utilities getTopPadding];
     if (IS_IPAD) {
         deltaY = 0;
     }
@@ -568,7 +568,7 @@ static inline BOOL IsEmpty(id obj) {
     }
     else {
         int barHeight = 44;
-        int statusBarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+        int statusBarHeight = [Utilities getTopPadding];
         
         CGRect frame = supportedVersionView.frame;
         frame.origin.y = frame.origin.y + barHeight + statusBarHeight;

@@ -26,7 +26,7 @@
         messageOrigin = frame.origin.y;
         slideHeight = frame.size.height;
         if (IS_IPAD) {
-            slideHeight += 22.0;
+            slideHeight += [Utilities getTopPadding];
         }
         self.frame = CGRectMake(frame.origin.x, messageOrigin - slideHeight, frame.size.width, frame.size.height);
         viewMessage = [[UILabel alloc] initWithFrame:CGRectMake(deltaX, deltaY, frame.size.width - deltaX, frame.size.height - deltaY)];

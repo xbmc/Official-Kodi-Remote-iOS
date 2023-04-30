@@ -146,7 +146,7 @@
                 CGRect frame = subview.frame;
                 frame.origin.x = 0 - PAD_MENU_TABLE_WIDTH;
                 if (hideToolbar) {
-                    CGFloat statusbarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+                    CGFloat statusbarHeight = [Utilities getTopPadding];
                     frame.origin.y -= statusbarHeight;
                     frame.size.height += statusbarHeight;
                 }
@@ -190,7 +190,7 @@
                 CGRect frame = subview.frame;
                 frame.origin.x = 0;
                 frame.origin.y = 0;
-                frame.size.height = self.view.frame.size.height;
+                frame.size.height = self.view.frame.size.height - [Utilities getBottomPadding];
                 frame.size.width = originalFrame.size.width;
                 subview.frame = frame;
                 break;
@@ -981,10 +981,11 @@
             frame.size.width += PAD_MENU_TABLE_WIDTH;
             frame.origin.x -= PAD_MENU_TABLE_WIDTH;
             if (hideToolbar) {
-                CGFloat statusbarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+                CGFloat statusbarHeight = [Utilities getTopPadding];
                 frame.origin.y -= statusbarHeight;
                 frame.size.height += statusbarHeight;
             }
+            frame.size.height -= [Utilities getBottomPadding];
             subController.view.frame = frame;
         }
         else if (viewAtRight != nil && [viewAtRight isEqual:subController.view]) {

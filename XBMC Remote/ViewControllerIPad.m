@@ -332,7 +332,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    int deltaY = UIApplication.sharedApplication.statusBarFrame.size.height + 2; // + 2 used by horizontanLineView
+    int deltaY = [Utilities getTopPadding];
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
     self.tcpJSONRPCconnection = [tcpJSONRPC new];
@@ -346,7 +346,7 @@
     int tableWidth = PAD_MENU_TABLE_WIDTH;
     int headerHeight = 0;
    
-    rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY - 1)];
+    rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY)];
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
 	rootView.backgroundColor = UIColor.clearColor;
 	

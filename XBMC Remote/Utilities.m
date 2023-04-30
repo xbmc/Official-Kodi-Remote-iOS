@@ -887,10 +887,13 @@
 }
 
 + (CGFloat)getBottomPadding {
-    CGFloat bottomPadding = 0;
-    UIWindow *window = UIApplication.sharedApplication.keyWindow;
-    bottomPadding = window.safeAreaInsets.bottom;
+    CGFloat bottomPadding = UIApplication.sharedApplication.keyWindow.safeAreaInsets.bottom;
     return bottomPadding;
+}
+
++ (CGFloat)getTopPadding {
+    CGFloat topPadding = UIApplication.sharedApplication.keyWindow.safeAreaInsets.top;
+    return topPadding;
 }
 
 + (void)sendXbmcHttp:(NSString*)command {
