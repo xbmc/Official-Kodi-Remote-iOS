@@ -51,15 +51,15 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu {
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSArray*)menu menuHeight:(CGFloat)tableHeight {
     if (self = [super init]) {
         self.view.frame = frame;
-        CGFloat tableHeight = menu.count * PAD_MENU_HEIGHT;
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, tableHeight) style:UITableViewStylePlain];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = UIColor.clearColor;
+        _tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         mainMenuItems = menu;
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
         _tableView.tableFooterView = footerView;
@@ -91,6 +91,12 @@
                                              selector: @selector(handleEnablingDefaultController)
                                                  name: @"KodiStartDefaultController"
                                                object: nil];
+}
+
+- (void)setMenuHeight:(CGFloat)tableHeight {
+    CGRect frame = _tableView.frame;
+    frame.size.height = tableHeight;
+    _tableView.frame = frame;
 }
 
 - (void)handleDeselectSection {

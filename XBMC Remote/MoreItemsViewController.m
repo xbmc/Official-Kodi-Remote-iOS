@@ -14,7 +14,7 @@
 
 @synthesize tableView = _tableView;
 
-- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu {
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSArray*)menu {
     if (self = [super init]) {
         cellLabelOffset = 50;
 		self.view.frame = frame;

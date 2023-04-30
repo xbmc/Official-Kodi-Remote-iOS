@@ -21,12 +21,13 @@
 
 
 @interface ViewControllerIPad : UIViewController {
-	UIViewExt *rootView;
-	UIView *leftMenuView;
-	UIView *rightSlideView;
-	MenuViewController *menuViewController;
+    UIViewExt *rootView;
+    UIView *leftMenuView;
+    UIView *rightSlideView;
+    UILabel *playlistHeader;
+    MenuViewController *menuViewController;
     NowPlaying *nowPlayingController;
-	StackScrollViewController *stackScrollViewController;
+    StackScrollViewController *stackScrollViewController;
     NSIndexPath *storeServerSelection;
     int YPOS;
     UIButton *remoteButton;
@@ -36,6 +37,7 @@
     UIImageView *connectionStatus;
     VolumeSliderView *volumeSliderView;
     BOOL firstRun;
+    BOOL didTouchLeftMenu;
     NSTimer *extraTimer;
     HostManagementViewController *_hostPickerViewController;
     BOOL serverPicker;

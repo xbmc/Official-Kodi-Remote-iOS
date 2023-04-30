@@ -10,11 +10,11 @@
 
 @interface MoreItemsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	UITableView *_tableView;
-    NSMutableArray *mainMenuItems;
+    NSArray *mainMenuItems;
     int cellLabelOffset;
 }
 
-- (id)initWithFrame:(CGRect)frame mainMenu:(NSMutableArray*)menu;
+- (id)initWithFrame:(CGRect)frame mainMenu:(NSArray*)menu;
 
 @property (nonatomic, strong) UITableView *tableView;
 

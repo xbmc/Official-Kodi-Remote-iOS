@@ -43,6 +43,7 @@
 #define PARTYBUTTON_PADDING_LEFT 8
 #define PROGRESSBAR_PADDING_LEFT 20
 #define PROGRESSBAR_PADDING_BOTTOM 80
+#define COVERVIEW_PADDING 10
 #define SEGMENTCONTROL_WIDTH 122
 #define SEGMENTCONTROL_HEIGHT 32
 #define TOOLBAR_HEIGHT 44
@@ -2209,9 +2210,9 @@ long storedItemID;
                                       maxheight);
     
     BottomView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH,
-                                  CGRectGetMaxY(songDetailsView.frame),
+                                  CGRectGetMaxY(thumbnailView.frame) + COVERVIEW_PADDING,
                                   width - PAD_MENU_TABLE_WIDTH,
-                                  maxheight - CGRectGetMaxY(songDetailsView.frame));
+                                  maxheight - CGRectGetMaxY(thumbnailView.frame));
     
     frame = playlistToolbar.frame;
     frame.size.width = width;

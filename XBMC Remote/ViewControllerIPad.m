@@ -32,7 +32,8 @@
 #define CONNECTION_PADDING 20
 #define REMOTE_PADDING_LEFT 45
 #define PLAYLIST_HEADER_HEIGHT 24
-#define LINE_HEIGHT 1
+#define PLAYLIST_ACTION_HEIGHT 44
+#define PLAYLIST_CELL_HEIGHT 53
 
 @interface ViewControllerIPad () {
     NSMutableArray *mainMenu;
@@ -303,8 +304,47 @@
 
 #pragma mark - Touch Events
 
+- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
+    UITouch *touch = [touches anyObject];
+    // Touching the playlist header marks it in blue and brings it on top.
+    CGPoint locationPoint = [touch locationInView:playlistHeader];
+    if ([playlistHeader pointInside:locationPoint withEvent:event]) {
+        playlistHeader.backgroundColor = UIColor.systemBlueColor;
+        playlistHeader.textColor = UIColor.whiteColor;
+        didTouchLeftMenu = YES;
+    }
+}
+
+- (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
+    UITouch *touch = [touches anyObject];
+    // Moving the playlist header
+    CGPoint locationPoint = [touch locationInView:leftMenuView];
+    if ([leftMenuView pointInside:locationPoint withEvent:event]) {
+        // Change the left menu layout
+        CGFloat maxMenuItems = locationPoint.y / PAD_MENU_HEIGHT;
+        CGFloat tableHeight = MIN([(NSMutableArray*)mainMenu count], maxMenuItems) * PAD_MENU_HEIGHT;
+        [self changeLeftMenu:tableHeight];
+    }
+}
+
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
+    // Hand over to nowPlayingController
     [self.nowPlayingController touchesEnded:touches withEvent:event];
+    
+    if (didTouchLeftMenu) {
+        // Untouching restores default color of playlist header and lets header snap into desired position
+        playlistHeader.backgroundColor = UIColor.clearColor;
+        playlistHeader.textColor = UIColor.lightGrayColor;
+        
+        // Finalize the left menu layout
+        NSInteger maxMenuItems = round(CGRectGetMinY(playlistHeader.frame) / PAD_MENU_HEIGHT);
+        CGFloat tableHeight = MIN([(NSMutableArray*)mainMenu count], maxMenuItems) * PAD_MENU_HEIGHT;
+        [self changeLeftMenu:tableHeight];
+        
+        // Save configuration
+        [self saveLeftMenuSplit:maxMenuItems];
+        didTouchLeftMenu = NO;
+    }
 }
 
 #pragma mark - App clear disk cache methods
@@ -328,7 +368,89 @@
                      }];
 }
 
+#pragma mark - Persistence
+
+- (void)saveLeftMenuSplit:(NSInteger)numberOfMenuItems {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setInteger:numberOfMenuItems forKey:@"numberOfMenuItemsShownInLeftMenu"];
+    return;
+}
+
+- (NSInteger)loadLeftMenuSplit {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *maxMenuItemSaved = [userDefaults objectForKey:@"numberOfMenuItemsShownInLeftMenu"];
+    NSInteger maxMenuItems;
+    if (maxMenuItemSaved) {
+        maxMenuItems = [maxMenuItemSaved intValue];
+    }
+    else {
+        // At least keep 1 playlist item visible
+        maxMenuItems = floor((GET_MAINSCREEN_WIDTH - [Utilities getTopPadding] - PLAYLIST_HEADER_HEIGHT - TOOLBAR_HEIGHT - PLAYLIST_ACTION_HEIGHT - [Utilities getBottomPadding] - PLAYLIST_CELL_HEIGHT) / PAD_MENU_HEIGHT);
+    }
+    return maxMenuItems;
+}
+
 #pragma mark - Lifecycle
+
+- (void)layoutPlaylistNowplayingForTableHeight:(CGFloat)tableHeight {
+    CGRect frame = self.nowPlayingController.view.frame;
+    YPOS = (int)(tableHeight + PLAYLIST_HEADER_HEIGHT);
+    frame.origin.y = YPOS;
+    frame.size.width = PAD_MENU_TABLE_WIDTH;
+    frame.size.height = self.view.frame.size.height - YPOS - [Utilities getTopPadding];
+    self.nowPlayingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.nowPlayingController.view.frame = frame;
+}
+
+- (void)changeLeftMenu:(CGFloat)tableHeight {
+    // Main menu
+    [menuViewController setMenuHeight:tableHeight];
+    
+    // Seperator
+    CGRect frame = playlistHeader.frame;
+    frame.origin.y = tableHeight;
+    playlistHeader.frame = frame;
+    
+    // Playlist and NowPlaying
+    [self layoutPlaylistNowplayingForTableHeight:tableHeight];
+    
+    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
+                                               height:[self screenSizeOrientationIndependent].height
+                                                 YPOS:-YPOS];
+}
+
+- (void)createLeftMenu:(NSInteger)maxMenuItems {
+    NSInteger tableHeight = MIN([(NSMutableArray*)mainMenu count], maxMenuItems) * PAD_MENU_HEIGHT;
+    
+    // Create left menu
+    leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PAD_MENU_TABLE_WIDTH, self.view.frame.size.height)];
+    leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    
+    // Main menu
+    menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, 0, leftMenuView.frame.size.width, leftMenuView.frame.size.height) mainMenu:mainMenu menuHeight:tableHeight];
+    menuViewController.view.backgroundColor = UIColor.clearColor;
+    [leftMenuView addSubview:menuViewController.view];
+    
+    // Seperator
+    playlistHeader = [[UILabel alloc] initWithFrame:CGRectMake(0, tableHeight, PAD_MENU_TABLE_WIDTH, PLAYLIST_HEADER_HEIGHT)];
+    playlistHeader.backgroundColor = UIColor.clearColor;
+    playlistHeader.textColor = UIColor.lightGrayColor;
+    playlistHeader.text = LOCALIZED_STR(@"Playlist");
+    playlistHeader.textAlignment = NSTextAlignmentCenter;
+    playlistHeader.layer.borderColor = [Utilities getGrayColor:77 alpha:0.6].CGColor;
+    playlistHeader.layer.borderWidth = 1.0;
+    [leftMenuView addSubview:playlistHeader];
+    
+    // Playlist and NowPlaying
+    self.nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+    [self layoutPlaylistNowplayingForTableHeight:tableHeight];
+    
+    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
+                                               height:[self screenSizeOrientationIndependent].height
+                                                 YPOS:-YPOS];
+    
+    [leftMenuView addSubview:self.nowPlayingController.view];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -340,12 +462,11 @@
     [self.view addSubview:virtualKeyboard];
     firstRun = YES;
     AppDelegate.instance.obj = [GlobalData getInstance];
-
-    int cellHeight = PAD_MENU_HEIGHT;
-    NSInteger tableHeight = [(NSMutableArray*)mainMenu count] * cellHeight;
-    int tableWidth = PAD_MENU_TABLE_WIDTH;
-    int headerHeight = 0;
-   
+    
+    // Create the left menu
+    NSInteger maxMenuItems = [self loadLeftMenuSplit];
+    [self createLeftMenu:maxMenuItems];
+    
     rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY)];
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
 	rootView.backgroundColor = UIColor.clearColor;
@@ -355,41 +476,8 @@
     fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
     fanartBackgroundImage.alpha = 0.05;
     [self.view addSubview:fanartBackgroundImage];
-    
-	leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableWidth, self.view.frame.size.height)];
-	leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;	
-    
-	menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, headerHeight, leftMenuView.frame.size.width, leftMenuView.frame.size.height) mainMenu:mainMenu];
-	menuViewController.view.backgroundColor = UIColor.clearColor;
-	[menuViewController viewWillAppear:NO];
-	[menuViewController viewDidAppear:NO];
-	[leftMenuView addSubview:menuViewController.view];
-    
-    UIView *horizontalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, tableHeight, tableWidth, LINE_HEIGHT)];
-    horizontalLineView1.backgroundColor = [Utilities getGrayColor:77 alpha:0.6];
-    [leftMenuView addSubview:horizontalLineView1];
-    
-    UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(0, tableHeight, PAD_MENU_TABLE_WIDTH, PLAYLIST_HEADER_HEIGHT)];
-    header.backgroundColor = UIColor.clearColor;
-    header.textColor = UIColor.lightGrayColor;
-    header.text = LOCALIZED_STR(@"Playlist");
-    header.textAlignment = NSTextAlignmentCenter;
-    [leftMenuView addSubview:header];
 
-    self.nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-    CGRect frame = self.nowPlayingController.view.frame;
-    YPOS = (int)(tableHeight + LINE_HEIGHT + headerHeight + PLAYLIST_HEADER_HEIGHT);
-    frame.origin.y = YPOS;
-    frame.size.width = tableWidth;
-    frame.size.height = self.view.frame.size.height - YPOS - deltaY;
-    self.nowPlayingController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    self.nowPlayingController.view.frame = frame;
-    
-    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width height:[self screenSizeOrientationIndependent].height YPOS:-YPOS];
-    
-    [leftMenuView addSubview:self.nowPlayingController.view];
-
-	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, 0, rootView.frame.size.width - leftMenuView.frame.size.width, rootView.frame.size.height - TOOLBAR_HEIGHT)];
+	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(PAD_MENU_TABLE_WIDTH, 0, rootView.frame.size.width - PAD_MENU_TABLE_WIDTH, rootView.frame.size.height - TOOLBAR_HEIGHT)];
 	rightSlideView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
     
 	stackScrollViewController = [StackScrollViewController new];
@@ -477,7 +565,7 @@
     int bottomPadding = [Utilities getBottomPadding];
     
     if (bottomPadding > 0) {
-        frame = volumeSliderView.frame;
+        CGRect frame = volumeSliderView.frame;
         frame.origin.y -= bottomPadding;
         volumeSliderView.frame = frame;
         
