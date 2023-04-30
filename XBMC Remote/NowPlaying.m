@@ -2292,7 +2292,7 @@ long storedItemID;
     playlistLeftShadow.hidden = NO;
     
     frame = playlistActionView.frame;
-    frame.origin.y = playlistToolbar.frame.origin.y - playlistToolbar.frame.size.height;
+    frame.origin.y = playlistTableView.frame.size.height - playlistActionView.frame.size.height;
     playlistActionView.frame = frame;
     playlistActionView.alpha = 1.0;
     
