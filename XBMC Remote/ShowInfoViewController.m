@@ -583,6 +583,7 @@ double round(double d) {
     isPvrDetail = item[@"recordingid"] != nil || item[@"broadcastid"] != nil;
 //    NSLog(@"ITEM %@", item);
     eJewelType jeweltype = jewelTypeUnknown;
+    NSString *jewelImg = @"";
     lineSpacing = IS_IPAD ? 2 : 0;
     castFontSize = IS_IPAD ? 16 : 14;
     
@@ -595,12 +596,6 @@ double round(double d) {
     clearLogoHeight = ceil(clearLogoWidth * 31.0 / 80.0);
     
     bool enableJewel = [self enableJewelCases];
-    if (!enableJewel) {
-        jewelView.image = nil;
-        CGRect frame = jewelView.frame;
-        frame.origin.x = 0;
-        jewelView.frame = frame;
-    }
     
     CGFloat transform = [Utilities getTransformX];
     NSString *contributorString = @"cast";
@@ -648,10 +643,8 @@ double round(double d) {
             frame.size.height = coverHeight;
             jewelView.frame = frame;
         }
-        if (enableJewel) {
-            jewelView.image = [UIImage imageNamed:@"jewel_dvd.9"];
-            jeweltype = jewelTypeDVD;
-        }
+        jewelImg = @"jewel_dvd.9";
+        jeweltype = jewelTypeDVD;
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleAspectFill;
     }
@@ -675,10 +668,8 @@ double round(double d) {
         parentalRatingLabel.hidden = YES;
         jewelView.hidden = NO;
         
-        if (enableJewel) {
-            jewelView.image = [UIImage imageNamed:@"jewel_tv.9"];
-            jeweltype = jewelTypeTV;
-        }
+        jewelImg = @"jewel_tv.9";
+        jeweltype = jewelTypeTV;
         int coverHeight = IS_IPAD ? 280 : 200;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
@@ -710,10 +701,8 @@ double round(double d) {
         parentalRatingLabel.hidden = YES;
         jewelView.hidden = NO;
         
-        if (enableJewel) {
-            jewelView.image = [UIImage imageNamed:@"jewel_cd.9"];
-            jeweltype = jewelTypeCD;
-        }
+        jewelImg = @"jewel_cd.9";
+        jeweltype = jewelTypeCD;
         int coverHeight = IS_IPAD ? 380 : 290;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
@@ -738,10 +727,8 @@ double round(double d) {
         studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
         summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
         
-        if (enableJewel) {
-            jewelView.image = [UIImage imageNamed:@"jewel_cd.9"];
-            jeweltype = jewelTypeCD;
-        }
+        jewelImg = @"jewel_cd.9";
+        jeweltype = jewelTypeCD;
         int coverHeight = IS_IPAD ? 380 : 290;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
@@ -774,7 +761,6 @@ double round(double d) {
         numVotesLabel.hidden = YES;
         
         enableJewel = NO;
-        jewelView.image = nil;
     }
     else if ([item[@"family"] isEqualToString:@"recordingid"]) {
         placeHolderImage = @"nocover_channels";
@@ -863,10 +849,8 @@ double round(double d) {
         studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
         summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
         
-        if (enableJewel) {
-            jewelView.image = [UIImage imageNamed:@"jewel_dvd.9"];
-            jeweltype = jewelTypeDVD;
-        }
+        jewelImg = @"jewel_dvd.9";
+        jeweltype = jewelTypeDVD;
         if (IS_IPAD) {
             int coverHeight = 560;
             CGRect frame = jewelView.frame;
@@ -878,10 +862,12 @@ double round(double d) {
     }
 
     if (enableJewel) {
+        jewelView.image = [UIImage imageNamed:jewelImg];
         coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
         coverView.contentMode = UIViewContentModeScaleAspectFill;
     }
     else {
+        jewelView.image = nil;
         coverView.frame = jewelView.frame;
         coverView.contentMode = UIViewContentModeScaleAspectFit;
     }
