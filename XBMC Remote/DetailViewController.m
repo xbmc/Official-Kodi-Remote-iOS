@@ -919,7 +919,9 @@
 }
 
 - (void)setCellImageView:(UIImageView*)imgView cell:(UIView*)cell dictItem:(NSDictionary*)item url:(NSString*)stringURL size:(CGSize)viewSize defaultImg:(NSString*)displayThumb {
-    if ([item[@"family"] isEqualToString:@"channelid"] || [item[@"family"] isEqualToString:@"type"]) {
+    if ([item[@"family"] isEqualToString:@"channelid"] ||
+        [item[@"family"] isEqualToString:@"recordingid"] ||
+        [item[@"family"] isEqualToString:@"type"]) {
         imgView.contentMode = UIViewContentModeScaleAspectFit;
     }
     BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
