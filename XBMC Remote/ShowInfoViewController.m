@@ -31,6 +31,12 @@
 #define ARROW_ALPHA 0.5
 #define IPAD_NAVBAR_PADDING 20
 #define FANART_FULLSCREEN_DISABLE 1
+#define DVD_HEIGHT_IPAD 560
+#define DVD_HEIGHT_IPHONE 376
+#define TV_HEIGHT_IPAD 280
+#define TV_HEIGHT_IPHONE 200
+#define CD_HEIGHT_IPAD 380
+#define CD_HEIGHT_IPHONE 290
 
 @interface ShowInfoViewController ()
 @end
@@ -632,19 +638,14 @@ double round(double d) {
         runtimeLabel.text = [Utilities getStringFromItem:item[@"genre"]];
         studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
         summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
-        
-        if (![Utilities getPreferTvPosterMode] && AppDelegate.instance.serverVersion < 12) {
-            placeHolderImage = @"blank";
-            jewelView.hidden = YES;
-        }
-        else if (IS_IPAD) {
-            int coverHeight = 560;
-            CGRect frame = jewelView.frame;
-            frame.size.height = coverHeight;
-            jewelView.frame = frame;
-        }
+
         jewelImg = @"jewel_dvd.9";
         jeweltype = jewelTypeDVD;
+        int coverHeight = IS_IPAD ? DVD_HEIGHT_IPAD : DVD_HEIGHT_IPHONE;
+        CGRect frame = jewelView.frame;
+        frame.size.height = coverHeight;
+        jewelView.frame = frame;
+        
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleAspectFill;
     }
@@ -670,7 +671,7 @@ double round(double d) {
         
         jewelImg = @"jewel_tv.9";
         jeweltype = jewelTypeTV;
-        int coverHeight = IS_IPAD ? 280 : 200;
+        int coverHeight = IS_IPAD ? TV_HEIGHT_IPAD : TV_HEIGHT_IPHONE;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
@@ -703,7 +704,7 @@ double round(double d) {
         
         jewelImg = @"jewel_cd.9";
         jeweltype = jewelTypeCD;
-        int coverHeight = IS_IPAD ? 380 : 290;
+        int coverHeight = IS_IPAD ? CD_HEIGHT_IPAD : CD_HEIGHT_IPHONE;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
@@ -729,7 +730,7 @@ double round(double d) {
         
         jewelImg = @"jewel_cd.9";
         jeweltype = jewelTypeCD;
-        int coverHeight = IS_IPAD ? 380 : 290;
+        int coverHeight = IS_IPAD ? CD_HEIGHT_IPAD : CD_HEIGHT_IPHONE;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
@@ -851,12 +852,10 @@ double round(double d) {
         
         jewelImg = @"jewel_dvd.9";
         jeweltype = jewelTypeDVD;
-        if (IS_IPAD) {
-            int coverHeight = 560;
-            CGRect frame = jewelView.frame;
-            frame.size.height = coverHeight;
-            jewelView.frame = frame;
-        }
+        int coverHeight = IS_IPAD ? DVD_HEIGHT_IPAD : DVD_HEIGHT_IPHONE;
+        CGRect frame = jewelView.frame;
+        frame.size.height = coverHeight;
+        jewelView.frame = frame;
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleToFill;
     }
