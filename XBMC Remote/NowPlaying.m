@@ -340,6 +340,7 @@ long storedItemID;
         thumbnailView.frame = jewelView.frame;
         thumbnailView.contentMode = UIViewContentModeScaleAspectFit;
     }
+    thumbnailView.clipsToBounds = YES;
     songDetailsView.frame = jewelView.frame;
     songDetailsView.center = [jewelView.superview convertPoint:jewelView.center toView:songDetailsView.superview];
     [nowPlayingView bringSubviewToFront:songDetailsView];
