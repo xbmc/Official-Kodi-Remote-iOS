@@ -327,10 +327,11 @@ long storedItemID;
         jewelImg = @"jewel_cd.9";
         jeweltype = jewelTypeCD;
     }
+    BOOL forceAspectFit = [type isEqual:@"channel"] || [type isEqual:@"recording"];
     if ([self enableJewelCases]) {
         jewelView.image = [UIImage imageNamed:jewelImg];
         thumbnailView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
-        thumbnailView.contentMode = UIViewContentModeScaleAspectFill;
+        thumbnailView.contentMode = forceAspectFit ? UIViewContentModeScaleAspectFit : UIViewContentModeScaleAspectFill;
     }
     else {
         jewelView.image = nil;
