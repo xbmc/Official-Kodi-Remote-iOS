@@ -319,7 +319,9 @@ long storedItemID;
         jewelImg = @"jewel_dvd.9";
         jeweltype = jewelTypeDVD;
     }
-    else if ([type isEqualToString:@"episode"]) {
+    else if ([type isEqualToString:@"episode"] ||
+             [type isEqualToString:@"channel"] ||
+             [type isEqualToString:@"recording"]) {
         jewelImg = @"jewel_tv.9";
         jeweltype = jewelTypeTV;
     }
