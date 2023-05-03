@@ -540,6 +540,7 @@ long storedItemID;
                                                 @"episode",
                                                 @"season",
                                                 @"fanart",
+                                                @"channel",
                                                 @"description",
                                                 @"year",
                                                 @"director",
@@ -581,15 +582,16 @@ long storedItemID;
                                  // 2nd: artists
                                  NSString *artist = [Utilities getStringFromItem:nowPlayingInfo[@"artist"]];
                                  NSString *studio = [Utilities getStringFromItem:nowPlayingInfo[@"studio"]];
+                                 NSString *channel = [Utilities getStringFromItem:nowPlayingInfo[@"channel"]];
                                  if (artist.length == 0 && studio.length) {
                                      artist = studio;
+                                 }
+                                 if (artist.length == 0 && channel.length) {
+                                     artist = channel;
                                  }
                                  
                                  // 3rd: album
                                  NSString *album = [Utilities getStringFromItem:nowPlayingInfo[@"album"]];
-                                 if ([nowPlayingInfo[@"type"] isEqualToString:@"channel"]) {
-                                     album = label;
-                                 }
                                  NSString *showtitle = [Utilities getStringFromItem:nowPlayingInfo[@"showtitle"]];
                                  NSString *season = [Utilities getStringFromItem:nowPlayingInfo[@"season"]];
                                  NSString *episode = [Utilities getStringFromItem:nowPlayingInfo[@"episode"]];
