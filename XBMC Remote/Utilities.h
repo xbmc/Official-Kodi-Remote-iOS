@@ -104,5 +104,7 @@ typedef enum {
 + (void)colorLabel:(UILabel*)view AnimDuration:(NSTimeInterval)seconds Color:(UIColor*)color;
 + (float)getPercentElapsed:(NSDate*)startDate EndDate:(NSDate*)endDate;
 + (void)createTransparentToolbar:(UIToolbar*)toolbar;
++ (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode title:(NSString*)title;
++ (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode;
 
 @end

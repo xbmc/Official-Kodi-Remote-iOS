@@ -1144,4 +1144,15 @@
          forToolbarPosition:UIBarPositionAny];
 }
 
++ (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode title:(NSString*)title {
+    NSString *seasonAndEpisode = [Utilities formatTVShowStringForSeason:season episode:episode];
+    NSString *text = [NSString stringWithFormat:@"%@ - %@", seasonAndEpisode, title];
+    return text;
+}
+
++ (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode {
+    NSString *text = [NSString stringWithFormat:@"S%@E%@", season, episode];
+    return text;
+}
+
 @end
