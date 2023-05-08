@@ -319,7 +319,9 @@ long storedItemID;
         jewelImg = @"jewel_dvd.9";
         jeweltype = jewelTypeDVD;
     }
-    else if ([type isEqualToString:@"episode"]) {
+    else if ([type isEqualToString:@"episode"] ||
+             [type isEqualToString:@"channel"] ||
+             [type isEqualToString:@"recording"]) {
         jewelImg = @"jewel_tv.9";
         jeweltype = jewelTypeTV;
     }
@@ -327,16 +329,18 @@ long storedItemID;
         jewelImg = @"jewel_cd.9";
         jeweltype = jewelTypeCD;
     }
+    BOOL forceAspectFit = [type isEqual:@"channel"] || [type isEqual:@"recording"];
     if ([self enableJewelCases]) {
         jewelView.image = [UIImage imageNamed:jewelImg];
         thumbnailView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
-        thumbnailView.contentMode = UIViewContentModeScaleAspectFill;
+        thumbnailView.contentMode = forceAspectFit ? UIViewContentModeScaleAspectFit : UIViewContentModeScaleAspectFill;
     }
     else {
         jewelView.image = nil;
         thumbnailView.frame = jewelView.frame;
         thumbnailView.contentMode = UIViewContentModeScaleAspectFit;
     }
+    thumbnailView.clipsToBounds = YES;
     songDetailsView.frame = jewelView.frame;
     songDetailsView.center = [jewelView.superview convertPoint:jewelView.center toView:songDetailsView.superview];
     [nowPlayingView bringSubviewToFront:songDetailsView];
@@ -536,6 +540,7 @@ long storedItemID;
                                                 @"episode",
                                                 @"season",
                                                 @"fanart",
+                                                @"channel",
                                                 @"description",
                                                 @"year",
                                                 @"director",
@@ -577,15 +582,16 @@ long storedItemID;
                                  // 2nd: artists
                                  NSString *artist = [Utilities getStringFromItem:nowPlayingInfo[@"artist"]];
                                  NSString *studio = [Utilities getStringFromItem:nowPlayingInfo[@"studio"]];
+                                 NSString *channel = [Utilities getStringFromItem:nowPlayingInfo[@"channel"]];
                                  if (artist.length == 0 && studio.length) {
                                      artist = studio;
+                                 }
+                                 if (artist.length == 0 && channel.length) {
+                                     artist = channel;
                                  }
                                  
                                  // 3rd: album
                                  NSString *album = [Utilities getStringFromItem:nowPlayingInfo[@"album"]];
-                                 if ([nowPlayingInfo[@"type"] isEqualToString:@"channel"]) {
-                                     album = label;
-                                 }
                                  NSString *showtitle = [Utilities getStringFromItem:nowPlayingInfo[@"showtitle"]];
                                  NSString *season = [Utilities getStringFromItem:nowPlayingInfo[@"season"]];
                                  NSString *episode = [Utilities getStringFromItem:nowPlayingInfo[@"episode"]];
