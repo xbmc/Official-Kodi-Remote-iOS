@@ -29,7 +29,7 @@
 #define REC_DOT_SIZE 10
 #define REC_DOT_PADDING 4
 #define ARROW_ALPHA 0.5
-#define IPAD_NAVBAR_SPACING 120
+#define IPAD_NAVBAR_PADDING 20
 #define FANART_FULLSCREEN_DISABLE 1
 
 @interface ShowInfoViewController ()
@@ -80,7 +80,7 @@ double round(double d) {
         if ((NSNull*)item[@"fromEpisodesView"] != [NSNull null]) {
             fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         }
-        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        
         actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
         extraButton = nil;
         if ([item[@"family"] isEqualToString:@"albumid"]) {
@@ -119,17 +119,10 @@ double round(double d) {
             }
         }
         if (IS_IPAD) {
-            CGFloat titleWidth;
-            if (@available(iOS 12.0, *)) {
-                titleWidth = STACKSCROLL_WIDTH;
-            }
-            else {
-                titleWidth = STACKSCROLL_WIDTH - IPAD_NAVBAR_SPACING;
-            }
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlack;
             toolbar.translucent = YES;
-            viewTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, titleWidth, TITLE_HEIGHT)];
+            viewTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, STACKSCROLL_WIDTH, TITLE_HEIGHT)];
             viewTitle.backgroundColor = UIColor.clearColor;
             viewTitle.textAlignment = NSTextAlignmentLeft;
             viewTitle.textColor = UIColor.whiteColor;
@@ -144,15 +137,32 @@ double round(double d) {
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
             [viewTitle sizeThatFits:viewTitle.frame.size];
             UIBarButtonItem *title = [[UIBarButtonItem alloc] initWithCustomView:viewTitle];
-            if (extraButton == nil) {
-                extraButton = spacer;
+            
+            // Spacing items for alignment and desired left/right padding
+            UIBarButtonItem *spaceFlex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+            UIView *paddingViewLeft = [[UIView alloc] initWithFrame:CGRectMake(0, 0, IPAD_NAVBAR_PADDING, TITLE_HEIGHT)];
+            UIBarButtonItem *spaceFixedLeft = [[UIBarButtonItem alloc] initWithCustomView:paddingViewLeft];
+            UIView *paddingViewRight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, IPAD_NAVBAR_PADDING, TITLE_HEIGHT)];
+            UIBarButtonItem *spaceFixedRight = [[UIBarButtonItem alloc] initWithCustomView:paddingViewRight];
+            
+            // An "undo" fixed space with negative width is needed to remove automatic padding by some iOS versioms
+            UIBarButtonItem *spaceUndo = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+            spaceUndo.width = -1;
+            
+            // Build the toolbar (fixed space, title, flex space, button1, button2, fixed space)
+            NSMutableArray *items = [@[spaceUndo, spaceFixedLeft, title] mutableCopy];
+            if (extraButton || actionSheetButtonItem) {
+                [items addObject:spaceFlex];
+                if (extraButton) {
+                    [items addObject:extraButton];
+                }
+                if (actionSheetButtonItem) {
+                    [items addObject:actionSheetButtonItem];
+                }
             }
-            NSArray *items = [NSArray arrayWithObjects: 
-                              title,
-                              spacer,
-                              extraButton,
-                              actionSheetButtonItem,
-                              nil];
+            [items addObject:spaceFixedRight];
+            [items addObject:spaceUndo];
+            
             toolbar.items = items;
             toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
             toolbar.contentMode = UIViewContentModeScaleAspectFill;
