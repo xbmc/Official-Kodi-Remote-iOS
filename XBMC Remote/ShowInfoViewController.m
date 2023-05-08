@@ -31,6 +31,12 @@
 #define ARROW_ALPHA 0.5
 #define IPAD_NAVBAR_PADDING 20
 #define FANART_FULLSCREEN_DISABLE 1
+#define DVD_HEIGHT_IPAD 560
+#define DVD_HEIGHT_IPHONE 376
+#define TV_HEIGHT_IPAD 280
+#define TV_HEIGHT_IPHONE 200
+#define CD_HEIGHT_IPAD 380
+#define CD_HEIGHT_IPHONE 290
 
 @interface ShowInfoViewController ()
 @end
@@ -540,38 +546,35 @@ double round(double d) {
 
 - (void)elaborateImage:(UIImage*)image fallbackImage:(UIImage*)fallback {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [activityIndicatorView startAnimating];
         [self showImage:image fallbackImage:fallback];
     });
 }
 
 - (void)showImage:(UIImage*)image fallbackImage:(UIImage*)fallback {
     [activityIndicatorView stopAnimating];
-    jewelView.alpha = 0;
     UIImage *imageToShow = image != nil ? image : fallback;
     if (isPvrDetail) {
         CGRect frame;
         frame.size.width = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.9);
         frame.size.height = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.7);
-        frame.origin.x = jewelView.frame.origin.x + (jewelView.frame.size.width - frame.size.width) / 2;
-        frame.origin.y = jewelView.frame.origin.y + 4;
-        jewelView.frame = frame;
+        frame.origin.x = coverView.frame.origin.x + (coverView.frame.size.width - frame.size.width) / 2;
+        frame.origin.y = coverView.frame.origin.y + 4;
+        coverView.frame = frame;
         
         // Ensure we draw the rounded edges around TV station logo view
-        jewelView.image = imageToShow;
-        jewelView = [Utilities applyRoundedEdgesView:jewelView drawBorder:YES];
+        coverView.image = imageToShow;
+        coverView = [Utilities applyRoundedEdgesView:coverView drawBorder:YES];
         
         // Choose correct background color for station logos
         if (image != nil) {
-            [Utilities setLogoBackgroundColor:jewelView mode:logoBackgroundMode];
+            [Utilities setLogoBackgroundColor:coverView mode:logoBackgroundMode];
         }
     }
     else {
         // Ensure we draw the rounded edges around thumbnail images
-        jewelView.image = [Utilities applyRoundedEdgesImage:imageToShow drawBorder:YES];
+        coverView.image = [Utilities applyRoundedEdgesImage:imageToShow drawBorder:YES];
     }
-    jewelView.hidden = NO;
-    [Utilities alphaView:jewelView AnimDuration:0.1 Alpha:1.0];
+    [Utilities alphaView:coverView AnimDuration:0.1 Alpha:1.0];
 }
 
 - (void)setIOS7barTintColor:(UIColor*)tintColor {
@@ -586,6 +589,7 @@ double round(double d) {
     isPvrDetail = item[@"recordingid"] != nil || item[@"broadcastid"] != nil;
 //    NSLog(@"ITEM %@", item);
     eJewelType jeweltype = jewelTypeUnknown;
+    NSString *jewelImg = @"";
     lineSpacing = IS_IPAD ? 2 : 0;
     castFontSize = IS_IPAD ? 16 : 14;
     
@@ -598,12 +602,6 @@ double round(double d) {
     clearLogoHeight = ceil(clearLogoWidth * 31.0 / 80.0);
     
     bool enableJewel = [self enableJewelCases];
-    if (!enableJewel) {
-        jewelView.image = nil;
-        CGRect frame = jewelView.frame;
-        frame.origin.x = 0;
-        jewelView.frame = frame;
-    }
     
     CGFloat transform = [Utilities getTransformX];
     NSString *contributorString = @"cast";
@@ -640,21 +638,14 @@ double round(double d) {
         runtimeLabel.text = [Utilities getStringFromItem:item[@"genre"]];
         studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
         summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
+
+        jewelImg = @"jewel_dvd.9";
+        jeweltype = jewelTypeDVD;
+        int coverHeight = IS_IPAD ? DVD_HEIGHT_IPAD : DVD_HEIGHT_IPHONE;
+        CGRect frame = jewelView.frame;
+        frame.size.height = coverHeight;
+        jewelView.frame = frame;
         
-        if (![Utilities getPreferTvPosterMode] && AppDelegate.instance.serverVersion < 12) {
-            placeHolderImage = @"blank";
-            jewelView.hidden = YES;
-        }
-        else if (IS_IPAD) {
-            int coverHeight = 560;
-            CGRect frame = jewelView.frame;
-            frame.size.height = coverHeight;
-            jewelView.frame = frame;
-        }
-        if (enableJewel) {
-            jewelView.image = [UIImage imageNamed:@"jewel_dvd.9"];
-            jeweltype = jewelTypeDVD;
-        }
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleAspectFill;
     }
@@ -678,11 +669,9 @@ double round(double d) {
         parentalRatingLabel.hidden = YES;
         jewelView.hidden = NO;
         
-        if (enableJewel) {
-            jewelView.image = [UIImage imageNamed:@"jewel_tv.9"];
-            jeweltype = jewelTypeTV;
-        }
-        int coverHeight = IS_IPAD ? 280 : 200;
+        jewelImg = @"jewel_tv.9";
+        jeweltype = jewelTypeTV;
+        int coverHeight = IS_IPAD ? TV_HEIGHT_IPAD : TV_HEIGHT_IPHONE;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
@@ -713,11 +702,9 @@ double round(double d) {
         parentalRatingLabel.hidden = YES;
         jewelView.hidden = NO;
         
-        if (enableJewel) {
-            jewelView.image = [UIImage imageNamed:@"jewel_cd.9"];
-            jeweltype = jewelTypeCD;
-        }
-        int coverHeight = IS_IPAD ? 380 : 290;
+        jewelImg = @"jewel_cd.9";
+        jeweltype = jewelTypeCD;
+        int coverHeight = IS_IPAD ? CD_HEIGHT_IPAD : CD_HEIGHT_IPHONE;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
@@ -741,11 +728,9 @@ double round(double d) {
         studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
         summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
         
-        if (enableJewel) {
-            jewelView.image = [UIImage imageNamed:@"jewel_cd.9"];
-            jeweltype = jewelTypeCD;
-        }
-        int coverHeight = IS_IPAD ? 380 : 290;
+        jewelImg = @"jewel_cd.9";
+        jeweltype = jewelTypeCD;
+        int coverHeight = IS_IPAD ? CD_HEIGHT_IPAD : CD_HEIGHT_IPHONE;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
         jewelView.frame = frame;
@@ -777,7 +762,6 @@ double round(double d) {
         numVotesLabel.hidden = YES;
         
         enableJewel = NO;
-        jewelView.image = nil;
     }
     else if ([item[@"family"] isEqualToString:@"recordingid"]) {
         placeHolderImage = @"nocover_channels";
@@ -801,7 +785,6 @@ double round(double d) {
         numVotesLabel.text = item[@"channel"];
         summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
         
-        coverView.hidden = YES;
         starsView.hidden = YES;
         label3.hidden = YES;
         label4.hidden = YES;
@@ -835,7 +818,6 @@ double round(double d) {
         numVotesLabel.text = item[@"pvrExtraInfo"][@"channel_name"];
         summaryLabel.text = [Utilities getStringFromItem:item[@"genre"]];
         
-        coverView.hidden = YES;
         starsView.hidden = YES;
         label3.hidden = YES;
         label4.hidden = YES;
@@ -868,18 +850,25 @@ double round(double d) {
         studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
         summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
         
-        if (enableJewel) {
-            jewelView.image = [UIImage imageNamed:@"jewel_dvd.9"];
-            jeweltype = jewelTypeDVD;
-        }
-        if (IS_IPAD) {
-            int coverHeight = 560;
-            CGRect frame = jewelView.frame;
-            frame.size.height = coverHeight;
-            jewelView.frame = frame;
-        }
+        jewelImg = @"jewel_dvd.9";
+        jeweltype = jewelTypeDVD;
+        int coverHeight = IS_IPAD ? DVD_HEIGHT_IPAD : DVD_HEIGHT_IPHONE;
+        CGRect frame = jewelView.frame;
+        frame.size.height = coverHeight;
+        jewelView.frame = frame;
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleToFill;
+    }
+
+    if (enableJewel) {
+        jewelView.image = [UIImage imageNamed:jewelImg];
+        coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jeweltype];
+        coverView.contentMode = UIViewContentModeScaleAspectFill;
+    }
+    else {
+        jewelView.image = nil;
+        coverView.frame = jewelView.frame;
+        coverView.contentMode = UIViewContentModeScaleAspectFit;
     }
     
     [self loadThumbnail:item[@"thumbnail"] placeHolder:placeHolderImage jewelType:jeweltype jewelEnabled:enableJewel];
@@ -1253,53 +1242,29 @@ double round(double d) {
 }
 
 - (void)loadThumbnail:(NSString*)thumbnailPath placeHolder:(NSString*)placeHolderImage jewelType:(eJewelType)jewelType jewelEnabled:(BOOL)enableJewel {
-    if (thumbnailPath.length > 0) {
-        jewelView.alpha = 0;
-        [activityIndicatorView startAnimating];
+    [activityIndicatorView startAnimating];
+    if (thumbnailPath.length) {
+        coverView.alpha = 0.0;
     }
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image != nil) {
             foundTintColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
             [self setIOS7barTintColor:foundTintColor];
-            if (enableJewel) {
-                coverView.image = image;
-                coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jewelType];
-                [activityIndicatorView stopAnimating];
-                jewelView.alpha = 1;
-            }
-            else {
-                [self elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
-            }
+            [self elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
         }
         else {
             __weak ShowInfoViewController *sf = self;
             __block UIColor *newColor = nil;
-            if (enableJewel) {
-                [coverView sd_setImageWithURL:[NSURL URLWithString:thumbnailPath]
-                             placeholderImage:[UIImage imageNamed:placeHolderImage]
-                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                                    if (image != nil) {
-                                        newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
-                                        [sf setIOS7barTintColor:newColor];
-                                        foundTintColor = newColor;
-                                    }
-                }];
-                coverView.frame = [Utilities createCoverInsideJewel:jewelView jewelType:jewelType];
-                [activityIndicatorView stopAnimating];
-                jewelView.alpha = 1;
-            }
-            else {
-                [jewelView sd_setImageWithURL:[NSURL URLWithString:thumbnailPath]
-                             placeholderImage:[UIImage imageNamed:placeHolderImage]
-                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                                    if (image != nil) {
-                                        newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
-                                        [sf setIOS7barTintColor:newColor];
-                                        foundTintColor = newColor;
-                                    }
-                                    [sf elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
-                }];
-            }
+            [coverView sd_setImageWithURL:[NSURL URLWithString:thumbnailPath]
+                         placeholderImage:[UIImage imageNamed:placeHolderImage]
+                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
+                                if (image != nil) {
+                                    newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
+                                    [sf setIOS7barTintColor:newColor];
+                                    foundTintColor = newColor;
+                                }
+                                [sf elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
+            }];
         }
     }];
 }
