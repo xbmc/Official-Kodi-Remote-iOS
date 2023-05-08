@@ -479,7 +479,7 @@ static inline BOOL IsEmpty(id obj) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGFloat deltaY = 44 + [Utilities getTopPadding];
+    CGFloat deltaY = self.navigationController.navigationBar.frame.size.height + [Utilities getTopPadding];
     if (IS_IPAD) {
         deltaY = 0;
     }
@@ -512,7 +512,8 @@ static inline BOOL IsEmpty(id obj) {
     messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     [self.view addSubview:messagesView];
     
-    serverInfoView = [[UITextView alloc] initWithFrame:CGRectMake(MARGIN, deltaY + MARGIN, self.view.frame.size.width - 2 * MARGIN, self.view.frame.size.height - bottomPadding - deltaY - 44 - 2 * MARGIN)];
+    CGFloat toolbarHeight = bottomToolbar.frame.size.height;
+    serverInfoView = [[UITextView alloc] initWithFrame:CGRectMake(MARGIN, deltaY + MARGIN, self.view.frame.size.width - 2 * MARGIN, self.view.frame.size.height - deltaY - toolbarHeight - 2 * MARGIN)];
     serverInfoView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
                                       UIViewAutoresizingFlexibleHeight |
                                       UIViewAutoresizingFlexibleLeftMargin |
@@ -567,7 +568,7 @@ static inline BOOL IsEmpty(id obj) {
         self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     }
     else {
-        int barHeight = 44;
+        int barHeight = self.navigationController.navigationBar.frame.size.height;
         int statusBarHeight = [Utilities getTopPadding];
         
         CGRect frame = supportedVersionView.frame;
