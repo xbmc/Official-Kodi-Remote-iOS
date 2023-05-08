@@ -913,7 +913,13 @@
         }
         // Other tabs (e.g. list of episodes) use default layout
         else {
-            cell.backgroundColor = [Utilities getSystemGray6];
+            if (enableCollectionView) {
+                // Gray:28 is similar to systemGray6 in Dark Mode
+                cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+            }
+            else {
+                cell.backgroundColor = [Utilities getSystemGray6];
+            }
         }
     }
 }
