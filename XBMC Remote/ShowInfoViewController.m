@@ -1231,8 +1231,8 @@ double round(double d) {
         clearLogoImageView.contentMode = UIViewContentModeScaleAspectFit;
         NSString *serverURL = [Utilities getImageServerURL];
         NSString *stringURL = [Utilities formatStringURL:item[@"clearlogo"] serverURL:serverURL];
-        [clearLogoImageView setImageWithURL:[NSURL URLWithString:stringURL]
-                           placeholderImage:[UIImage imageNamed:@"blank"]];
+        [clearLogoImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                              placeholderImage:[UIImage imageNamed:@"blank"]];
         [clearlogoButton addSubview:clearLogoImageView];
     }
     else {
@@ -1265,9 +1265,9 @@ double round(double d) {
             __weak ShowInfoViewController *sf = self;
             __block UIColor *newColor = nil;
             if (enableJewel) {
-                [coverView setImageWithURL:[NSURL URLWithString:thumbnailPath]
-                          placeholderImage:[UIImage imageNamed:placeHolderImage]
-                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                [coverView sd_setImageWithURL:[NSURL URLWithString:thumbnailPath]
+                             placeholderImage:[UIImage imageNamed:placeHolderImage]
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                     if (image != nil) {
                                         newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
                                         [sf setIOS7barTintColor:newColor];
@@ -1279,9 +1279,9 @@ double round(double d) {
                 jewelView.alpha = 1;
             }
             else {
-                [jewelView setImageWithURL:[NSURL URLWithString:thumbnailPath]
-                          placeholderImage:[UIImage imageNamed:placeHolderImage]
-                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                [jewelView sd_setImageWithURL:[NSURL URLWithString:thumbnailPath]
+                             placeholderImage:[UIImage imageNamed:placeHolderImage]
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                     if (image != nil) {
                                         newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
                                         [sf setIOS7barTintColor:newColor];
@@ -1307,9 +1307,9 @@ double round(double d) {
             }
         }
         else {
-            [fanartView setImageWithURL:[NSURL URLWithString:fanartPath]
-                       placeholderImage:[UIImage imageNamed:@"blank"]
-                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [fanartView sd_setImageWithURL:[NSURL URLWithString:fanartPath]
+                          placeholderImage:[UIImage imageNamed:@"blank"]
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                   __auto_type strongSelf = sf;
                                   if (strongSelf != nil && strongSelf->enableKenBurns) {
                                       [sf elabKenBurns:image];
@@ -1503,9 +1503,8 @@ double round(double d) {
     }
     NSString *serverURL = [Utilities getImageServerURL];
     NSString *stringURL = [Utilities formatStringURL:cast[indexPath.row][@"thumbnail"] serverURL:serverURL];
-    [cell.actorThumbnail setImageWithURL:[NSURL URLWithString:stringURL]
-                        placeholderImage:[UIImage imageNamed:@"person"]
-                               andResize:CGSizeMake(castWidth, castHeight)];
+    [cell.actorThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                           placeholderImage:[UIImage imageNamed:@"person"]];
     [Utilities applyRoundedEdgesView:cell.actorThumbnail drawBorder:YES];
     cell.actorName.text = cast[indexPath.row][@"name"] == nil ? self.detailItem[@"label"] : cast[indexPath.row][@"name"];
     if ([cast[indexPath.row][@"role"] length] != 0) {
