@@ -2210,9 +2210,9 @@ long storedItemID;
                                       maxheight);
     
     BottomView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH,
-                                  CGRectGetMaxY(thumbnailView.frame) + COVERVIEW_PADDING,
+                                  CGRectGetMaxY(jewelView.frame) + COVERVIEW_PADDING,
                                   width - PAD_MENU_TABLE_WIDTH,
-                                  maxheight - CGRectGetMaxY(thumbnailView.frame));
+                                  maxheight - CGRectGetMaxY(jewelView.frame));
     
     frame = playlistToolbar.frame;
     frame.size.width = width;
