@@ -925,6 +925,9 @@
 }
 
 - (void)setCellImageView:(UIImageView*)imgView cell:(UIView*)cell dictItem:(NSDictionary*)item url:(NSString*)stringURL size:(CGSize)viewSize defaultImg:(NSString*)displayThumb {
+    if (viewSize.width == 0 || viewSize.height == 0) {
+        return;
+    }
     if ([item[@"family"] isEqualToString:@"channelid"] ||
         [item[@"family"] isEqualToString:@"recordingid"] ||
         [item[@"family"] isEqualToString:@"type"]) {
