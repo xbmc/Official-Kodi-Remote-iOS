@@ -944,12 +944,15 @@
                         [item[@"family"] isEqualToString:@"file"]);
     BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
     [Utilities applyRoundedEdgesView:imgView drawBorder:showBorder];
-    if (![stringURL isEqualToString:@""]) {
-        // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
-        // ensure sd_setImageWithURL falls back to this icon.
+    // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
+    // ensure sd_setImageWithURL falls back to this icon.
+    if (stringURL.length) {
         if ([UIImage imageNamed:stringURL]) {
             displayThumb = stringURL;
+            stringURL = @"";
         }
+    }
+    if (![stringURL isEqualToString:@""]) {
         __auto_type __weak weakImageView = imgView;
         [imgView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                    placeholderImage:[UIImage imageNamed:displayThumb]
