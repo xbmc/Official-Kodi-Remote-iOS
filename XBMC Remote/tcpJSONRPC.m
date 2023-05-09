@@ -57,7 +57,7 @@ NSInputStream	*inStream;
     if (port == 0) {
         port = 9090;
     }
-    if ([server isEqualToString:@""]) {
+    if (!server.length) {
         return;
     }
     CFReadStreamRef readStream;

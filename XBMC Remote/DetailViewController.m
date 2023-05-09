@@ -485,7 +485,7 @@
     NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
     NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
     NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
-    if ([stringURL isEqualToString:@""]) {
+    if (!stringURL.length) {
         stringURL = [Utilities getItemIconFromDictionary:item mainFields:mainFields];
     }
     mainMenu *menuItem = self.detailItem;
@@ -545,7 +545,7 @@
     NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
     NSString *bannerURL = [Utilities formatStringURL:bannerPath serverURL:serverURL];
     NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
-    if ([stringURL isEqualToString:@""]) {
+    if (!stringURL.length) {
         stringURL = [Utilities getItemIconFromDictionary:item mainFields:mainFields];
     }
     NSString *row7key = mainFields[@"row7"] ?: @"none";
@@ -980,7 +980,7 @@
             stringURL = @"";
         }
     }
-    if (![stringURL isEqualToString:@""]) {
+    if (stringURL.length) {
         __auto_type __weak weakImageView = imgView;
         [imgView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                    placeholderImage:[UIImage imageNamed:displayThumb]
@@ -1782,7 +1782,7 @@
         }
         cell.posterThumbnail.frame = cell.bounds;
         [self setCellImageView:cell.posterThumbnail cell:cell dictItem:item url:stringURL size:CGSizeMake(cellthumbWidth, cellthumbHeight) defaultImg:displayThumb];
-        if ([stringURL isEqualToString:@""]) {
+        if (!stringURL.length) {
             cell.posterThumbnail.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
         }
         // Set label visibility based on setting and current view
@@ -1808,7 +1808,7 @@
         static NSString *identifier = @"recentlyAddedCell";
         RecentlyAddedCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
 
-        if (![stringURL isEqualToString:@""]) {
+        if (stringURL.length) {
             [cell.posterThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                     placeholderImage:[UIImage imageNamed:displayThumb]
                                              options:SDWebImageScaleToNativeSize
@@ -1826,7 +1826,7 @@
             cell.posterThumbnail.image = [UIImage imageNamed:displayThumb];
         }
 
-        if (![fanartURL isEqualToString:@""]) {
+        if (fanartURL.length) {
             [cell.posterFanart sd_setImageWithURL:[NSURL URLWithString:fanartURL]
                                  placeholderImage:[UIImage imageNamed:@"blank"]
                                           options:SDWebImageScaleToNativeSize];
@@ -2845,7 +2845,7 @@
         NSString *stringURL = item[@"thumbnail"];
         NSString *displayThumb = @"coverbox_back";
         [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
-        if (![stringURL isEqualToString:@""]) {
+        if (stringURL.length) {
             // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
             // ensure setImageWithURL falls back to this icon.
             if ([UIImage imageNamed:stringURL]) {
@@ -2884,7 +2884,7 @@
                          label4:releasedLabel];
         }
         stringURL = item[@"fanart"];
-        if (![stringURL isEqualToString:@""]) {
+        if (stringURL.length) {
             UIImageView *fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, - self.searchController.searchBar.frame.size.height, viewWidth, albumViewHeight + 2 + self.searchController.searchBar.frame.size.height)];
             fanartBackgroundImage.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
             fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
@@ -3022,7 +3022,7 @@
                 self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
             }
             [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
-            if (![stringURL isEqualToString:@""]) {
+            if (stringURL.length) {
                 // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
                 // ensure setImageWithURL falls back to this icon.
                 if ([UIImage imageNamed:stringURL]) {

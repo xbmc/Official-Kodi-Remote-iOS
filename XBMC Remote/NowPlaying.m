@@ -620,7 +620,7 @@
                                          NSString *fanart = nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
                                          [self notifyChangeForBackgroundImage:fanart];
                                      }
-                                     if ([thumbnailPath isEqualToString:@""]) {
+                                     if (!thumbnailPath.length) {
                                          UIImage *image = [UIImage imageNamed:@"coverbox_back"];
                                          [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
                                      }
@@ -641,10 +641,10 @@
                                  NSDictionary *art = nowPlayingInfo[@"art"];
                                  storeClearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
                                  storeClearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
-                                 if ([storeClearlogo isEqualToString:@""]) {
+                                 if (!storeClearlogo.length) {
                                      storeClearlogo = storeClearart;
                                  }
-                                 if (![storeClearlogo isEqualToString:@""]) {
+                                 if (storeClearlogo.length) {
                                      NSString *stringURL = [Utilities formatStringURL:storeClearlogo serverURL:serverURL];
                                      [itemLogoImage sd_setImageWithURL:[NSURL URLWithString:stringURL]];
                                      storeCurrentLogo = storeClearlogo;
@@ -910,7 +910,7 @@
                      hiresImage.hidden = NO;
                  }
                 
-                 NSString *newLine = ![bps isEqualToString:@""] && ![kHz isEqualToString:@""] ? @"\n" : @"";
+                 NSString *newLine = bps.length && kHz.length ? @"\n" : @"";
                  NSString *samplerate = [NSString stringWithFormat:@"%@%@%@", bps, newLine, kHz];
                  songNumChannels.text = samplerate;
                  songNumChannels.hidden = NO;
@@ -1368,7 +1368,7 @@
                  NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
                  NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                  NSString *fanartURL = [Utilities formatStringURL:itemExtraDict[@"fanart"] serverURL:serverURL];
-                 if ([stringURL isEqualToString:@""]) {
+                 if (!stringURL.length) {
                      stringURL = [Utilities getItemIconFromDictionary:itemExtraDict mainFields:mainFields];
                  }
                  BOOL disableNowPlaying = YES;
@@ -1699,7 +1699,7 @@
     else {
         storeCurrentLogo = storeClearart;
     }
-    if (![storeCurrentLogo isEqualToString:@""]) {
+    if (storeCurrentLogo.length) {
         NSString *stringURL = [Utilities formatStringURL:storeCurrentLogo serverURL:serverURL];
         [itemLogoImage sd_setImageWithURL:[NSURL URLWithString:stringURL]
                          placeholderImage:itemLogoImage.image];

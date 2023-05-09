@@ -814,11 +814,11 @@
         NSIndexPath *serverRow = [self getIndexPathForKey:@"label" withValue:@"ServerInfo" inArray:tableData];
         if (serverRow != nil) {
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:serverRow];
-            if (serverTxt != nil && ![serverTxt isEqualToString:@""]) {
+            if (serverTxt.length) {
                 UILabel *title = (UILabel*)[cell viewWithTag:3];
                 title.text = serverTxt;
             }
-            if (icon_connection != nil && ![icon_connection isEqualToString:@""]) {
+            if (icon_connection.length) {
                 UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
                 icon.image = [UIImage imageNamed:icon_connection];
             }
