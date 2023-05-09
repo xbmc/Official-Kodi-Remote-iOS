@@ -807,8 +807,7 @@
     return foundIndex;
 }
 
-- (void)connectionSuccess:(NSNotification*)note {
-    NSDictionary *theData = note.userInfo;
+- (void)updateConnectionStatusAndName:(NSDictionary*)theData {
     if (theData != nil) {
         NSString *serverTxt = theData[@"message"];
         NSString *icon_connection = theData[@"icon_connection"];
@@ -825,29 +824,17 @@
             }
         }
     }
+}
+
+- (void)connectionSuccess:(NSNotification*)note {
+    [self updateConnectionStatusAndName:note.userInfo];
     [self setRightMenuOption:@"online" reloadTableData:YES];
     infoLabel.alpha = 0;
     moreButton.enabled = YES;
 }
 
 - (void)connectionFailed:(NSNotification*)note {
-    NSDictionary *theData = note.userInfo;
-    if (theData != nil) {
-        NSString *serverTxt = theData[@"message"];
-        NSString *icon_connection = theData[@"icon_connection"];
-        NSIndexPath *serverRow = [self getIndexPathForKey:@"label" withValue:@"ServerInfo" inArray:tableData];
-        if (serverRow != nil) {
-            UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:serverRow];
-            if (serverTxt != nil && ![serverTxt isEqualToString:@""]) {
-                UILabel *title = (UILabel*)[cell viewWithTag:3];
-                title.text = serverTxt;
-            }
-            if (icon_connection != nil && ![icon_connection isEqualToString:@""]) {
-                UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
-                icon.image = [UIImage imageNamed:icon_connection];
-            }
-        }
-    }
+    [self updateConnectionStatusAndName:note.userInfo];
     if (AppDelegate.instance.obj.serverIP.length != 0) {
         infoLabel.alpha = 0;
         [self setRightMenuOption:@"offline" reloadTableData:YES];
