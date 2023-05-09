@@ -1020,8 +1020,6 @@
     if (moreItemsViewController == nil) {
         moreItemsViewController = [[MoreItemsViewController alloc] initWithFrame:CGRectMake(dataList.bounds.size.width, 0, dataList.bounds.size.width, dataList.bounds.size.height) mainMenu:moreMenu];
         moreItemsViewController.view.backgroundColor = UIColor.clearColor;
-        [moreItemsViewController viewWillAppear:NO];
-        [moreItemsViewController viewDidAppear:NO];
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
         tableViewInsets.bottom = buttonsViewBgToolbar.frame.size.height;
         moreItemsViewController.tableView.contentInset = tableViewInsets;

@@ -890,8 +890,6 @@
     }
     controller.view.frame = CGRectMake(viewXPosition, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
     controller.view.tag = viewControllersStack.count - 1 + VIEW_TAG;
-    [controller viewWillAppear:NO];
-    [controller viewDidAppear:NO];
     
     [Utilities addShadowsToView:controller.view viewFrame:controller.view.frame];
     
