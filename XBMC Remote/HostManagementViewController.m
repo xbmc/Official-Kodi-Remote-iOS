@@ -450,7 +450,6 @@ static inline BOOL IsEmpty(id obj) {
     CGSize size = CGSizeMake(320, 400); // size of view in popover
     self.preferredContentSize = size;
     [super viewWillAppear:animated];
-    [self selectIndex:nil reloadData:YES];
     if (IS_IPHONE) {
         self.slidingViewController.underRightViewController = nil;
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
@@ -467,6 +466,11 @@ static inline BOOL IsEmpty(id obj) {
         UIImageView *xbmcLogoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom_logo_up"]];
         self.navigationItem.titleView = xbmcLogoView;
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self selectIndex:nil reloadData:YES];
 }
 
 - (void)revealMenu:(NSNotification*)note {
