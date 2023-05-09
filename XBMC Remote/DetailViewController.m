@@ -997,11 +997,7 @@
         }];
     }
     else {
-        [imgView sd_setImageWithURL:[NSURL URLWithString:@""]
-                   placeholderImage:[UIImage imageNamed:displayThumb]
-                            options:0
-                           progress:nil
-                          completed:nil];
+        imgView.image = [UIImage imageNamed:displayThumb];
         // Special handling for TV SHow cells, this is already in default thumb state
         [self layoutTVShowCell:cell useDefaultThumb:YES imgView:imgView];
     }
@@ -1827,8 +1823,7 @@
             }];
         }
         else {
-            [cell.posterThumbnail sd_setImageWithURL:[NSURL URLWithString:@""]
-                                    placeholderImage:[UIImage imageNamed:displayThumb]];
+            cell.posterThumbnail.image = [UIImage imageNamed:displayThumb];
         }
 
         if (![fanartURL isEqualToString:@""]) {
@@ -1837,8 +1832,7 @@
                                           options:SDWebImageScaleToNativeSize];
         }
         else {
-            [cell.posterFanart sd_setImageWithURL:[NSURL URLWithString:@""]
-                                 placeholderImage:[UIImage imageNamed:@"blank"]];
+            cell.posterFanart.image = [UIImage imageNamed:@"blank"];
         }
         
         cell.posterLabel.font = [UIFont boldSystemFontOfSize:fanartFontSize + 8];
@@ -2880,8 +2874,7 @@
                                   }];
         }
         else {
-            [thumbImageView sd_setImageWithURL:[NSURL URLWithString:@""]
-                              placeholderImage:[UIImage imageNamed:displayThumb]];
+            thumbImageView.image = [UIImage imageNamed:displayThumb];
             [self setLabelColor:albumFontColor
                    label34Color:albumDetailsColor
                      fontshadow:albumFontShadowColor
@@ -3054,8 +3047,7 @@
                 }];
             }
             else {
-                [thumbImageView sd_setImageWithURL:[NSURL URLWithString:@""]
-                                  placeholderImage:[UIImage imageNamed:displayThumb]];
+                thumbImageView.image = [UIImage imageNamed:displayThumb];
                 [self setLabelColor:seasonFontColor
                        label34Color:seasonDetailsColor
                          fontshadow:seasonFontShadowColor
