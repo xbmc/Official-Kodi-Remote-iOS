@@ -6259,6 +6259,9 @@
 }
 
 - (NSURL*)getServerJSONEndPoint {
+    if (!obj.serverIP || !obj.serverPort) {
+        return nil;
+    }
     NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", obj.serverIP, obj.serverPort];
     return [NSURL URLWithString:serverJSON];
 }

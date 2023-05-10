@@ -122,6 +122,13 @@
     }
     
     // Create the JSON-RPC request
+    if (!self.serviceEndpoint) {
+        if (completionHandler) {
+            NSError *aError = [NSError errorWithDomain:RPC_DOMAIN code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
+            completionHandler(methodName, aID, nil, nil, aError);
+        }
+        return aID;
+    }
     NSMutableURLRequest *serviceRequest = [NSMutableURLRequest requestWithURL:self.serviceEndpoint];
     [serviceRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [serviceRequest setValue:@"DSJSONRPC/1.0" forHTTPHeaderField:@"User-Agent"];
