@@ -1296,23 +1296,24 @@ long storedItemID;
 }
 
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem {
-    NSString *itemid = @"";
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-    if ((NSNull*)mainFields[@"row6"] != [NSNull null]) {
-        itemid = mainFields[@"row6"];
-    }
-    else {
-        return; // something goes wrong
-    }
+    NSString *itemid = mainFields[@"row6"] ?: @"";
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
-    [activityIndicator startAnimating];
-    id object = @([item[itemid] intValue]);
-    if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {// WORKAROUND due the lack of the artistid with Playlist.GetItems
+    id object;
+    if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {
+        // WORKAROUND due to the lack of the artistid with Playlist.GetItems
         methodToCall = @"AudioLibrary.GetArtists";
         object = @{@"songid": @([item[@"idItem"] intValue])};
         itemid = @"filter";
     }
+    else {
+        object = @([item[itemid] intValue]);
+    }
+    if (!object) {
+        return; // something goes wrong
+    }
+    [activityIndicator startAnimating];
     NSMutableArray *newProperties = [parameters[@"properties"] mutableCopy];
     if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
         for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
@@ -1335,30 +1336,21 @@ long storedItemID;
          [activityIndicator stopAnimating];
          if (error == nil && methodError == nil) {
              if ([methodResult isKindOfClass:[NSDictionary class]]) {
-                 NSString *itemid_extra_info = @"";
-                 if ((NSNull*)mainFields[@"itemid_extra_info"] != [NSNull null]) {
-                     itemid_extra_info = mainFields[@"itemid_extra_info"];
-                 }
-                 else {
-                     [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
-                     return;
-                 }
-                 if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]) {// WORKAROUND due the lack of the artistid with Playlist.GetItems
-                     itemid_extra_info = @"artists";
-                 }
-                 NSDictionary *itemExtraDict = methodResult[itemid_extra_info];
-                 if ((NSNull*)itemExtraDict == [NSNull null] || itemExtraDict == nil) {
-                     [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
-                     return;
-                 }
-                 if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]) {// WORKAROUND due the lack of the artistid with Playlist.GetItems
+                 NSDictionary *itemExtraDict;
+                 if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]) {
+                     // WORKAROUND due to the lack of the artistid with Playlist.GetItems
+                     NSString *itemid_extra_info = @"artists";
                      if ([methodResult[itemid_extra_info] count]) {
                          itemExtraDict = methodResult[itemid_extra_info][0];
                      }
-                     else {
-                         [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
-                         return;
-                     }
+                 }
+                 else {
+                     NSString *itemid_extra_info = mainFields[@"itemid_extra_info"] ?: @"";
+                     itemExtraDict = methodResult[itemid_extra_info];
+                 }
+                 if (!itemExtraDict || ![itemExtraDict isKindOfClass:[NSDictionary class]]) {
+                     [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
+                     return;
                  }
                  NSString *serverURL = [Utilities getImageServerURL];
                  int runtimeInMinute = [Utilities getSec2Min:YES];
@@ -1942,7 +1934,8 @@ long storedItemID;
         id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
-            if ([mainFields[@"row6"] isEqualToString:@"artistid"]) { // WORKAROUND due the lack of the artistid with Playlist.GetItems
+            if ([mainFields[@"row6"] isEqualToString:@"artistid"]) {
+                // WORKAROUND due to the lack of the artistid with Playlist.GetItems
                 NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item[@"artist"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
                 obj = @{@"artist": artistFrodoWorkaround};
             }

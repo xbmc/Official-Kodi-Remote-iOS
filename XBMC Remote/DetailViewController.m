@@ -4444,12 +4444,10 @@ NSIndexPath *selected;
 // retrieveData and retrieveExtraInfoData should be unified in an unique method!
 
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem tabToShow:(int)tabToShow {
-    NSString *itemid = @"";
     NSDictionary *mainFields = menuItem.mainFields[tabToShow];
-    if ((NSNull*)mainFields[@"row6"] != [NSNull null]) {
-        itemid = mainFields[@"row6"];
-    }
-    else {
+    NSString *itemid = mainFields[@"row6"] != [NSNull null] ? mainFields[@"row6"] : @"";
+    id object = item[itemid];
+    if (!object) {
         return; // something goes wrong
     }
     
@@ -4469,7 +4467,7 @@ NSIndexPath *selected;
     }
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      newProperties, @"properties",
-                                     item[itemid], itemid,
+                                     object, itemid,
                                      nil];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
@@ -4606,14 +4604,11 @@ NSIndexPath *selected;
         if (error == nil && methodError == nil) {
             [activeLayoutView reloadData];
             if ([methodResult isKindOfClass:[NSDictionary class]]) {
-                NSString *itemid = @"";
-                if ((NSNull*)mainFields[@"itemid"] != [NSNull null]) {
-                    itemid = mainFields[@"itemid"];
-                }
+                NSString *itemid = mainFields[@"itemid"];
                 NSArray *itemDict = methodResult[itemid];
-                NSString *serverURL = [Utilities getImageServerURL];
-                int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
                 if ([itemDict isKindOfClass:[NSArray class]]) {
+                    NSString *serverURL = [Utilities getImageServerURL];
+                    int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
                     for (NSDictionary *item in itemDict) {
                         if ([item isKindOfClass:[NSDictionary class]]) {
                             NSMutableDictionary *newDict = [self getNewDictionaryFromItem:item
@@ -4768,33 +4763,17 @@ NSIndexPath *selected;
              [self.sections removeAllObjects];
              [activeLayoutView reloadData];
              if ([methodResult isKindOfClass:[NSDictionary class]]) {
-                 NSString *itemid = @"";
                  NSMutableDictionary *mainFields = [[self.detailItem mainFields][choosedTab] mutableCopy];
-                 if ((NSNull*)mainFields[@"itemid"] != [NSNull null]) {
-                     itemid = mainFields[@"itemid"];
-                 }
-                 if (extraSectionCallBool) {
-                     if ((NSNull*)mainFields[@"itemid_extra_section"] != [NSNull null]) {
-                         itemid = mainFields[@"itemid_extra_section"];
-                     }
-                     else {
-                         return;
-                     }
-                 }
-                 // "VideoLibrary.GetSeasons" does not support "title" for API < 9.7.0. Instead, we look for "label" which is always provided.
-                 if ([methodName isEqualToString:@"VideoLibrary.GetSeasons"]) {
-                     mainFields[@"row1"] = @"label";
-                 }
-                 if (methodResult[@"recordings"] != nil) {
-                     recordingListView = YES;
-                 }
-                 else {
-                     recordingListView = NO;
-                 }
+                 NSString *itemid = extraSectionCallBool ? mainFields[@"itemid_extra_section"] : mainFields[@"itemid"];
                  id itemDict = methodResult[itemid];
-                 NSString *serverURL = [Utilities getImageServerURL];
-                 int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
                  if ([itemDict isKindOfClass:[NSArray class]]) {
+                     // "VideoLibrary.GetSeasons" does not support "title" for API < 9.7.0. Instead, we look for "label" which is always provided.
+                     if ([methodName isEqualToString:@"VideoLibrary.GetSeasons"]) {
+                         mainFields[@"row1"] = @"label";
+                     }
+                     recordingListView = methodResult[@"recordings"] ? YES : NO;
+                     NSString *serverURL = [Utilities getImageServerURL];
+                     int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
                      dispatch_group_t group = dispatch_group_create();
                      for (NSDictionary *item in itemDict) {
                          if ([item isKindOfClass:[NSDictionary class]]) {
