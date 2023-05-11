@@ -682,9 +682,10 @@
 }
 
 + (NSString*)getRatingFromItem:(id)item {
-    NSString *rating = [NSString stringWithFormat:@"%.1f", [(NSNumber*)item floatValue]];
-    if ([rating isEqualToString:@"0.0"]) {
-        rating = @"";
+    NSString *rating = @"";
+    float ratingValue = [Utilities getFloatValueFromItem:item];
+    if (ratingValue > 0) {
+        rating = [NSString stringWithFormat:@"%.1f", ratingValue];
     }
     return rating;
 }
