@@ -3702,7 +3702,7 @@ NSIndexPath *selected;
     mainMenu *menuItem = self.detailItem;
     if (menuItem.mainParameters.count > 0) {
         NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[0]];
-        if ((NSNull*)parameters[@"fromWikipedia"] != [NSNull null]) {
+        if (parameters[@"fromWikipedia"] != [NSNull null]) {
             if ([parameters[@"fromWikipedia"] boolValue]) {
                 [self goBack:nil];
                 return;
@@ -4348,7 +4348,7 @@ NSIndexPath *selected;
     mainMenu *menuItem = self.detailItem;
     if (menuItem.mainParameters.count > 0) {
         NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[0]];
-        if ((NSNull*)parameters[@"fromShowInfo"] != [NSNull null]) {
+        if (parameters[@"fromShowInfo"] != [NSNull null]) {
             if ([parameters[@"fromShowInfo"] boolValue]) {
                 [self goBack:nil];
                 return;

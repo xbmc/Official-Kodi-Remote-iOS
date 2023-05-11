@@ -79,11 +79,11 @@ double round(double d) {
             }
         }
         BOOL fromAlbumView = NO;
-        if ((NSNull*)item[@"fromAlbumView"] != [NSNull null]) {
+        if (item[@"fromAlbumView"] != [NSNull null]) {
             fromAlbumView = [item[@"fromAlbumView"] boolValue];
         }
         BOOL fromEpisodesView = NO;
-        if ((NSNull*)item[@"fromEpisodesView"] != [NSNull null]) {
+        if (item[@"fromEpisodesView"] != [NSNull null]) {
             fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         }
         

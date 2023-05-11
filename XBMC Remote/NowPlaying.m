@@ -612,7 +612,7 @@ long storedItemID;
                                  NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                                  if (![lastThumbnail isEqualToString:stringURL] || [lastThumbnail isEqualToString:@""]) {
                                      if (IS_IPAD) {
-                                         NSString *fanart = (NSNull*)nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
+                                         NSString *fanart = nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
                                          [self notifyChangeForBackgroundImage:fanart];
                                      }
                                      if ([thumbnailPath isEqualToString:@""]) {
