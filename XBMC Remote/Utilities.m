@@ -673,6 +673,14 @@
     return year;
 }
 
++ (float)getFloatValueFromItem:(id)item {
+    float floatval = 0.0f;
+    if ([item respondsToSelector:@selector(floatValue)]) {
+        floatval = [item floatValue];
+    }
+    return floatval;
+}
+
 + (NSString*)getRatingFromItem:(id)item {
     NSString *rating = [NSString stringWithFormat:@"%.1f", [(NSNumber*)item floatValue]];
     if ([rating isEqualToString:@"0.0"]) {
