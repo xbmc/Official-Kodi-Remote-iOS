@@ -165,8 +165,10 @@
 - (void)handleApplicationOnVolumeChanged:(NSNotification*)sender {
     if (!isChangingVolume) {
         NSDictionary *theData = sender.userInfo;
-        AppDelegate.instance.serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
-        [self handleServerStatusChanged:nil];
+        if ([theData isKindOfClass:[NSDictionary class]]) {
+            AppDelegate.instance.serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
+            [self handleServerStatusChanged:nil];
+        }
     }
 }
 

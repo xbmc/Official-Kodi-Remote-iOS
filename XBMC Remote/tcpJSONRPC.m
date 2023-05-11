@@ -109,10 +109,10 @@ NSInputStream	*inStream;
                             NSError *parseError = nil;
                             NSDictionary *notification = [NSJSONSerialization JSONObjectWithData:output options:kNilOptions error:&parseError];
                             if (parseError == nil) {
-                                if (notification[@"method"] != [NSNull null]) {
+                                if (notification[@"method"] && notification[@"method"] != [NSNull null]) {
                                     NSString *method = notification[@"method"];
                                     NSDictionary *params;
-                                    if (notification[@"params"] != [NSNull null]) {
+                                    if (notification[@"params"] && notification[@"params"] != [NSNull null]) {
                                         params = @{@"params": notification[@"params"]};
                                     }
                                     [[NSNotificationCenter defaultCenter] postNotificationName:method object:nil userInfo:params];

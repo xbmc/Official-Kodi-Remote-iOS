@@ -2688,8 +2688,9 @@ long storedItemID;
 }
 
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
-    if (sender.userInfo) {
-        selectedPlayerID = [sender.userInfo[@"params"][@"data"][@"playlistid"] intValue];
+    NSDictionary *theData = sender.userInfo;
+    if ([theData isKindOfClass:[NSDictionary class]]) {
+        selectedPlayerID = [theData[@"params"][@"data"][@"playlistid"] intValue];
     }
     playerID = PLAYERID_UNKNOWN;
     lastSelected = SELECTED_NONE;
