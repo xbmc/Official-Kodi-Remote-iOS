@@ -70,12 +70,12 @@ double round(double d) {
                           LOCALIZED_STR(@"Play")
                         ] mutableCopy];
         NSDictionary *resumePointDict = item[@"resume"];
-        if (resumePointDict != nil) {
-            if ((NSNull*)resumePointDict[@"position"] != [NSNull null]) {
-                if ([resumePointDict[@"position"] floatValue] > 0 && [resumePointDict[@"total"] floatValue] > 0) {
-                    resumePointPercentage = ([resumePointDict[@"position"] floatValue] * 100) / [resumePointDict[@"total"] floatValue];
-                    [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
-                }
+        if (resumePointDict && [resumePointDict isKindOfClass:[NSDictionary class]]) {
+            float position = [Utilities getFloatValueFromItem:resumePointDict[@"position"]];
+            float total = [Utilities getFloatValueFromItem:resumePointDict[@"total"]];
+            if (position > 0 && total > 0) {
+                resumePointPercentage = (position * 100) / total;
+                [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @(position)]]];
             }
         }
         BOOL fromAlbumView = NO;
