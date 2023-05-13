@@ -39,3 +39,5 @@
 "Use thumbnail when fanart is missing" = "同人画缺失时使用缩略图";
 "Send Wake-On-LAN automatically" = "自动发送网络唤醒";
 "Colorize UI automatically" = "自动为 UI 着色";
+"Filemode and Theme changes need app restart" = "文件模式和主题更改需要重新启动应用";
+"Theme (iOS 13+)" = "主题（iOS 13+）";

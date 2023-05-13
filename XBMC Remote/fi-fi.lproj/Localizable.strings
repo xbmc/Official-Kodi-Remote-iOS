@@ -309,3 +309,4 @@
 "Runtime" = "Kesto";
 "Send Wake-On-LAN" = "Lähetä Wake-On-LAN-komento";
 "Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "Virallinen Kodi Remote -sovellus käyttää Kodi-palvelimelta tai Internetistä ladattavia mediakuvituksia Kodi-palvelimen viitatessa niihin. Vapauta upeat kuvitukset Kodin universaalien tietolähteiden tai muiden tietolähdelisäosien avulla.\n\nKodi-logo, Zappy-maskotti ja viralliset Kodi Remote -kuvakkeet ovat Kodi-säätiön omaisuutta.\nhttp://www.kodi.tv/contribute\n\n - Kodin tiimi";
+"Random" = "Satunnainen";
