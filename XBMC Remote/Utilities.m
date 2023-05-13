@@ -608,18 +608,7 @@
             iconName = @"nocover_filemode";
         }
         else if ([filetype isEqualToString:@"file"]) {
-            NSString *mediatype = dict[@"type"];
-            if ([mediatype isEqualToString:@"song"]) {
-                iconName = @"icon_song";
-            }
-            else if ([mediatype isEqualToString:@"movie"] ||
-                     [mediatype isEqualToString:@"episode"] ||
-                     [mediatype isEqualToString:@"musicvideo"]) {
-                iconName = @"icon_video";
-            }
-            else {
-                iconName = @"icon_file";
-            }
+            iconName = @"icon_file";
         }
     }
     return iconName;
