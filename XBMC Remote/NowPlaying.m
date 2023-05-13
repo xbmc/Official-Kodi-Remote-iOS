@@ -885,6 +885,7 @@ long storedItemID;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
              hiresImage.hidden = YES;
+             itemDescription.textAlignment = NSTextAlignmentJustified;
              if (currentPlayerID == PLAYERID_MUSIC) {
                  NSString *codec = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
                  codec = [self processSongCodecName:codec];
@@ -2232,6 +2233,7 @@ long storedItemID;
     CGFloat width = IS_IPHONE ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH;
     CGFloat scale = MIN(height / IPHONE_SCREEN_DESIGN_HEIGHT, width / IPHONE_SCREEN_DESIGN_WIDTH);
     
+    itemDescription.font  = [UIFont systemFontOfSize:floor(12 * scale)];
     albumName.font        = [UIFont systemFontOfSize:floor(16 * scale)];
     songName.font         = [UIFont boldSystemFontOfSize:floor(20 * scale)];
     artistName.font       = [UIFont systemFontOfSize:floor(16 * scale)];
@@ -2243,6 +2245,7 @@ long storedItemID;
     [self setAVCodecFont:songCodec size:floor(15 * scale)];
     [self setAVCodecFont:songSampleRate size:floor(15 * scale)];
     [self setAVCodecFont:songNumChannels size:floor(15 * scale)];
+    descriptionFontSize = floor(12 * scale);
 }
 
 - (void)setIphoneInterface {
@@ -2290,8 +2293,6 @@ long storedItemID;
     frame.origin.y = playlistTableView.frame.size.height - playlistActionView.frame.size.height;
     playlistActionView.frame = frame;
     playlistActionView.alpha = 1.0;
-    
-    itemDescription.font = [UIFont systemFontOfSize:15];
 }
 
 - (BOOL)enableJewelCases {

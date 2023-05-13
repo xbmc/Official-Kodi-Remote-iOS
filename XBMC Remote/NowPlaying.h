@@ -99,6 +99,7 @@
     NSString *storeCurrentLogo;
     CGFloat bottomPadding;
     BOOL waitForInfoLabelsToSettle;
+    CGFloat descriptionFontSize;
 }
 
 - (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS;
