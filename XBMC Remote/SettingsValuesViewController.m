@@ -466,9 +466,6 @@
         textInputField.delegate = self;
         textInputField.tag = 301;
         [cell.contentView addSubview:textInputField];
-        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
-        descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-        uiSliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
 	}
     cell.accessoryType = UITableViewCellAccessoryNone;
 
