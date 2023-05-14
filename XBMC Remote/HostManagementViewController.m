@@ -87,20 +87,26 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:nil];
         cell = nib[0];
-        ((UILabel*)[cell viewWithTag:2]).highlightedTextColor = [Utilities get1stLabelColor];
-        ((UILabel*)[cell viewWithTag:3]).highlightedTextColor = [Utilities get1stLabelColor];
-        ((UILabel*)[cell viewWithTag:2]).textColor = [Utilities getSystemGray1];
-        ((UILabel*)[cell viewWithTag:3]).textColor = [Utilities getSystemGray1];
+        UILabel *cellLabel = (UILabel*)[cell viewWithTag:2];
+        UILabel *cellIP = (UILabel*)[cell viewWithTag:3];
+        
+        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
+        cellIP.highlightedTextColor = [Utilities get1stLabelColor];
+        
+        cellLabel.textColor = [Utilities getSystemGray1];
+        cellIP.textColor = [Utilities getSystemGray1];
+        
         cell.tintColor = UIColor.lightGrayColor;
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         if (@available(iOS 13.0, *)) {
             cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
         }
     }
+    UIImageView *iconView = (UIImageView*)[cell viewWithTag:1];
+    UILabel *cellLabel = (UILabel*)[cell viewWithTag:2];
+    UILabel *cellIP = (UILabel*)[cell viewWithTag:3];
     if (AppDelegate.instance.arrayServerList.count == 0) {
-        ((UIImageView*)[cell viewWithTag:1]).hidden = YES;
-        UILabel *cellLabel = (UILabel*)[cell viewWithTag:2];
-        UILabel *cellIP = (UILabel*)[cell viewWithTag:3];
+        iconView.hidden = YES;
         cellLabel.textAlignment = NSTextAlignmentCenter;
         cellLabel.text = LOCALIZED_STR(@"No saved hosts found");
         cellIP.text = @"";
@@ -109,9 +115,6 @@
         return cell;
     }
     else {
-        UIImageView *iconView = (UIImageView*)[cell viewWithTag:1];
-        UILabel *cellLabel = (UILabel*)[cell viewWithTag:2];
-        UILabel *cellIP = (UILabel*)[cell viewWithTag:3];
         iconView.hidden = NO;
         cellLabel.textAlignment = NSTextAlignmentLeft;
         NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
