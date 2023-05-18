@@ -93,7 +93,7 @@
         
         UIView *bgView = [[UIView alloc] initWithFrame:frame];
         bgView.layer.borderWidth = borderWidth;
-        bgView.layer.borderColor = [Utilities getSystemGreen:1.0].CGColor;
+        bgView.layer.borderColor = [Utilities getSystemBlue].CGColor;
         self.selectedBackgroundView = bgView;
     }
     return self;
