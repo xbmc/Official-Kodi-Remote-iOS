@@ -60,6 +60,9 @@
 #define GLOBALSEARCH_INDEX_SONGS 6
 #define INDEX_WIDTH 40
 #define INDEX_PADDING 2
+#define RUNTIMEYEAR_WIDTH 63
+#define LABEL_PADDING 8
+#define SMALL_PADDING 4
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -2099,62 +2102,39 @@
     }
     if (albumView || episodesView) {
         thumbWidth = 0;
-        labelPosition = albumViewPadding + trackCountLabelWidth;
+        labelPosition = SMALL_PADDING + trackCountLabelWidth + SMALL_PADDING;
     }
     else if (channelGuideView) {
         thumbWidth = 0;
-        labelPosition = epgChannelTimeLabelWidth;
+        labelPosition = SMALL_PADDING + epgChannelTimeLabelWidth + SMALL_PADDING;
     }
     else {
-        labelPosition = thumbWidth + 8;
+        labelPosition = thumbWidth + LABEL_PADDING;
     }
-    dataList.separatorInset = UIEdgeInsetsMake(0, thumbWidth + 8, 0, 0);
-    int newWidthLabel = 0;
+    dataList.separatorInset = UIEdgeInsetsMake(0, thumbWidth + LABEL_PADDING, 0, 0);
     
     // label position for TVShow banner view needs to be tailored to match the default thumb size
     if (tvshowsView && choosedTab == 0) {
         CGFloat targetHeight = IS_IPAD ? PAD_TV_SHOWS_BANNER_HEIGHT : PHONE_TV_SHOWS_BANNER_HEIGHT;
         CGFloat factor = targetHeight / PHONE_TV_SHOWS_POSTER_HEIGHT * [Utilities getTransformX];
-        labelPosition = PAD_TV_SHOWS_POSTER_WIDTH * factor + 8;
+        labelPosition = PAD_TV_SHOWS_POSTER_WIDTH * factor + LABEL_PADDING;
     }
-    // CHECK IF THERE ARE SECTIONS
     
-    int iOS7offset = 0;
-    int iOS7insetSeparator = 0;
-    if (IS_IPHONE) {
-        iOS7offset = 12;
-        iOS7insetSeparator = 20;
-    }
-    else {
-        iOS7offset = 4;
-        iOS7insetSeparator = 30;
-    }
+    int newWidthLabel = 0;
     if (episodesView || (self.sectionArray.count == 1 && !channelGuideView)) {
-        newWidthLabel = viewWidth - 8 - labelPosition;
-        menuItem.originYearDuration = viewWidth - 72;
+        newWidthLabel = viewWidth - LABEL_PADDING - labelPosition;
+        menuItem.originYearDuration = viewWidth - RUNTIMEYEAR_WIDTH - LABEL_PADDING;
         UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
         dataListSeparatorInset.right = 0;
         dataList.separatorInset = dataListSeparatorInset;
     }
     else {
-        int extraPadding = 0;
-        if ([sortMethodName isEqualToString:@"year"] || [sortMethodName isEqualToString:@"dateadded"]) {
-            extraPadding = 18;
-        }
-        else if ([sortMethodName isEqualToString:@"runtime"]) {
-            extraPadding = 12;
-        }
-        if (iOS7offset > 0) {
-            UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
-            dataListSeparatorInset.right = iOS7insetSeparator + extraPadding;
-            dataList.separatorInset = dataListSeparatorInset;
-        }
-        if (channelGuideView) {
-            iOS7offset += 6;
-        }
-        
-        newWidthLabel = viewWidth - 38 - labelPosition + iOS7offset - extraPadding;
-        menuItem.originYearDuration = viewWidth - 100 + iOS7offset - extraPadding;
+        int indexPadding = INDEX_WIDTH + INDEX_PADDING;
+        UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
+        dataListSeparatorInset.right = indexPadding;
+        dataList.separatorInset = dataListSeparatorInset;
+        newWidthLabel = viewWidth - labelPosition - indexPadding;
+        menuItem.originYearDuration = viewWidth - indexPadding - RUNTIMEYEAR_WIDTH;
     }
     menuItem.widthLabel = newWidthLabel;
     [self setWatchedOverlayPosition];
@@ -2397,11 +2377,12 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = nib[0];
         if (albumView || episodesView) {
-            UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewPadding, cellHeight / 2 - (artistFontSize + labelPadding) / 2, trackCountLabelWidth - 2, artistFontSize + labelPadding)];
+            UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, cellHeight / 2 - (artistFontSize + labelPadding) / 2, trackCountLabelWidth, artistFontSize + labelPadding)];
             trackNumberLabel.backgroundColor = UIColor.clearColor;
             trackNumberLabel.font = [UIFont systemFontOfSize:artistFontSize];
             trackNumberLabel.adjustsFontSizeToFitWidth = YES;
             trackNumberLabel.minimumScaleFactor = (artistFontSize - 4) / artistFontSize;
+            trackNumberLabel.textAlignment = NSTextAlignmentCenter;
             trackNumberLabel.tag = 101;
             trackNumberLabel.highlightedTextColor = [Utilities get1stLabelColor];
             trackNumberLabel.textColor = [Utilities get1stLabelColor];
@@ -2409,7 +2390,7 @@
         }
         else if (channelGuideView) {
             UILabel *title = (UILabel*)[cell viewWithTag:1];
-            UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(4, 8, epgChannelTimeLabelWidth - 8, 12 + labelPadding)];
+            UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, 8, epgChannelTimeLabelWidth, 12 + labelPadding)];
             programTimeLabel.backgroundColor = UIColor.clearColor;
             programTimeLabel.center = CGPointMake(programTimeLabel.center.x, title.center.y);
             programTimeLabel.font = [UIFont systemFontOfSize:12];
@@ -2420,13 +2401,17 @@
             programTimeLabel.highlightedTextColor = [Utilities get2ndLabelColor];
             programTimeLabel.textColor = [Utilities get2ndLabelColor];
             [cell.contentView addSubview:programTimeLabel];
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(4, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 7, epgChannelTimeLabelWidth - 8, epgChannelTimeLabelWidth - 8)];
+            
+            CGFloat pieSize = epgChannelTimeLabelWidth;
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(SMALL_PADDING, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 7, pieSize, pieSize)];
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
             
-            UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake((int)(2 + (epgChannelTimeLabelWidth - 8) - 6) / 2, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 14, 12, 12)];
+            CGFloat dotSize = 12;
+            UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize / 2 - dotSize / 2, progressView.frame.origin.y + [progressView getPieRadius] / 2 + [progressView getLineWidth] + 0.5, dotSize, dotSize)];
             hasTimer.image = [UIImage imageNamed:@"button_timer"];
+            hasTimer.contentMode = UIViewContentModeScaleToFill;
             hasTimer.tag = 104;
             hasTimer.hidden = YES;
             hasTimer.backgroundColor = UIColor.clearColor;
@@ -2434,7 +2419,7 @@
         }
         else if (channelListView) {
             CGFloat pieSize = 28;
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2, 10, pieSize, pieSize) color:[Utilities get1stLabelColor]];
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - SMALL_PADDING, LABEL_PADDING, pieSize, pieSize) color:[Utilities get1stLabelColor]];
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
@@ -2556,7 +2541,7 @@
     if (!albumView && !episodesView && !channelGuideView) {
         if (channelListView || recordingListView) {
             CGRect frame;
-            frame.origin.x = 4;
+            frame.origin.x = SMALL_PADDING;
             frame.origin.y = 8;
             frame.size.width = ceil(thumbWidth * 0.9);
             frame.size.height = ceil(thumbWidth * 0.7);
@@ -2761,7 +2746,7 @@
     }
     if (!runtimeyear.hidden) {
         frame = genre.frame;
-        frame.size.width = menuItem.widthLabel - [Utilities getWidthOfLabel:runtimeyear] - 8;
+        frame.size.width = menuItem.widthLabel - [Utilities getWidthOfLabel:runtimeyear] - LABEL_PADDING;
         genre.frame = frame;
     }
     
@@ -5829,7 +5814,7 @@ NSIndexPath *selected;
     
     detailView.clipsToBounds = YES;
     trackCountLabelWidth = 26;
-    epgChannelTimeLabelWidth = 48;
+    epgChannelTimeLabelWidth = 40;
     NSDictionary *itemSizes = parameters[@"itemSizes"];
     if (IS_IPHONE) {
         [self setIphoneInterface:itemSizes[@"iphone"]];
