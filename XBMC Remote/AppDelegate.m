@@ -108,21 +108,7 @@
     };
 }
 
-- (NSDictionary*)itemSizes_Music_insets:(NSNumber*)inset {
-    return @{
-        @"iphone": @{
-                @"width": @ITEM_MUSIC_PHONE_WIDTH,
-                @"height": @ITEM_MUSIC_PHONE_HEIGHT,
-            },
-        @"ipad": @{
-                @"width": @ITEM_MUSIC_PAD_WIDTH,
-                @"height": @ITEM_MUSIC_PAD_HEIGHT,
-            },
-        @"separatorInset": inset,
-    };
-}
-
-- (NSDictionary*)itemSizes_TVShowsfullscreen_insets:(NSNumber*)inset {
+- (NSDictionary*)itemSizes_TVShowsfullscreen {
     return @{
         @"iphone": @{
                 @"width": @ITEM_TVSHOW_PHONE_WIDTH,
@@ -134,7 +120,6 @@
                 @"fullscreenWidth": @ITEM_TVSHOW_PAD_WIDTH_FULLSCREEN,
                 @"fullscreenHeight": @ITEM_TVSHOW_PAD_HEIGHT_FULLSCREEN,
             },
-        @"separatorInset": inset,
     };
 }
 
@@ -178,26 +163,6 @@
                 @"width": @ITEM_MOVIE_PAD_WIDTH,
                 @"height": @ITEM_MOVIE_PAD_HEIGHT,
             },
-    };
-}
-
-- (NSDictionary*)itemSizes_Movie_insets:(NSNumber*)inset {
-    return @{
-        @"iphone": @{
-                @"width": @ITEM_MOVIE_PHONE_WIDTH,
-                @"height": @ITEM_MOVIE_PHONE_HEIGHT,
-            },
-        @"ipad": @{
-                @"width": @ITEM_MOVIE_PAD_WIDTH,
-                @"height": @ITEM_MOVIE_PAD_HEIGHT,
-            },
-        @"separatorInset": inset,
-    };
-}
-
-- (NSDictionary*)itemSizes_insets:(NSNumber*)inset {
-    return @{
-        @"separatorInset": inset,
     };
 }
 
@@ -3651,7 +3616,7 @@
             @"nocover_tvshows_episode", @"defaultThumb",
             @YES, @"FrodoExtraArt",
             //@YES, @"enableCollectionView",
-            [self itemSizes_TVShowsfullscreen_insets:@EPISODE_THUMB_WIDTH], @"itemSizes",
+            [self itemSizes_TVShowsfullscreen], @"itemSizes",
         ],
                             
         @[
@@ -3663,7 +3628,6 @@
             @"nocover_filemode", @"defaultThumb",
             @FILEMODE_ROW_HEIGHT, @"rowHeight",
             @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            [self itemSizes_insets:@FILEMODE_THUMB_WIDTH], @"itemSizes",
         ],
                             
         @[
@@ -3681,7 +3645,7 @@
             @FILEMODE_ROW_HEIGHT, @"rowHeight",
             @FILEMODE_THUMB_WIDTH, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@FILEMODE_THUMB_WIDTH], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
         ],
         
         @[
@@ -4190,7 +4154,7 @@
             @LIVETV_ROW_HEIGHT, @"rowHeight",
             @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@LIVETV_THUMB_WIDTH_SMALL], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
         ],
                           
         @[
@@ -4274,7 +4238,7 @@
             @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
             @YES, @"enableCollectionView",
             @YES, @"enableLibraryCache",
-            [self itemSizes_Music_insets:@LIVETV_THUMB_WIDTH_SMALL], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
         ],
                           
         @[
@@ -4319,7 +4283,7 @@
             @DEFAULT_ROW_HEIGHT, @"rowHeight",
             @DEFAULT_THUMB_WIDTH, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@DEFAULT_THUMB_WIDTH], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
         ],
         
         @[
@@ -4364,7 +4328,7 @@
             @DEFAULT_ROW_HEIGHT, @"rowHeight",
             @DEFAULT_THUMB_WIDTH, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@DEFAULT_THUMB_WIDTH], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
         ],
     ] mutableCopy];
     
@@ -4515,7 +4479,7 @@
             @YES, @"disableFilterParameter",
             @CHANNEL_EPG_ROW_HEIGHT, @"rowHeight",
             @LIVETV_THUMB_WIDTH, @"thumbWidth",
-            [self itemSizes_Music_insets:@LIVETV_THUMB_WIDTH], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
             @YES, @"forceActionSheet",
         ],
                                   
@@ -4538,7 +4502,7 @@
             @LIVETV_ROW_HEIGHT, @"rowHeight",
             @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@LIVETV_THUMB_WIDTH_SMALL], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
         ],
                                   
         @[],
@@ -4647,7 +4611,7 @@
             @YES, @"disableFilterParameter",
             @CHANNEL_EPG_ROW_HEIGHT, @"rowHeight",
             @LIVETV_THUMB_WIDTH, @"thumbWidth",
-            [self itemSizes_Music_insets:@LIVETV_THUMB_WIDTH], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
             @YES, @"forceActionSheet",
         ],
                                             
@@ -4758,7 +4722,7 @@
             @LIVETV_ROW_HEIGHT, @"rowHeight",
             @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@LIVETV_THUMB_WIDTH_SMALL], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
         ],
                           
         @[
@@ -4840,7 +4804,7 @@
             @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
             @YES, @"enableCollectionView",
             @YES, @"enableLibraryCache",
-            [self itemSizes_Music_insets:@LIVETV_THUMB_WIDTH_SMALL], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
         ],
                           
         @[
@@ -4885,7 +4849,7 @@
             @DEFAULT_ROW_HEIGHT, @"rowHeight",
             @DEFAULT_THUMB_WIDTH, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@DEFAULT_THUMB_WIDTH], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
         ],
         
         @[
@@ -4930,7 +4894,7 @@
             @DEFAULT_ROW_HEIGHT, @"rowHeight",
             @DEFAULT_THUMB_WIDTH, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@DEFAULT_THUMB_WIDTH], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
         ],
     ] mutableCopy];
     
@@ -5081,7 +5045,7 @@
             @YES, @"disableFilterParameter",
             @CHANNEL_EPG_ROW_HEIGHT, @"rowHeight",
             @LIVETV_THUMB_WIDTH, @"thumbWidth",
-            [self itemSizes_Music_insets:@LIVETV_THUMB_WIDTH], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
             @YES, @"forceActionSheet",
         ],
                                   
@@ -5104,7 +5068,7 @@
             @LIVETV_ROW_HEIGHT, @"rowHeight",
             @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
             @YES, @"enableCollectionView",
-            [self itemSizes_Music_insets:@LIVETV_THUMB_WIDTH_SMALL], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
         ],
                                   
         @[],
@@ -5213,7 +5177,7 @@
             @YES, @"disableFilterParameter",
             @CHANNEL_EPG_ROW_HEIGHT, @"rowHeight",
             @LIVETV_THUMB_WIDTH, @"thumbWidth",
-            [self itemSizes_Music_insets:@LIVETV_THUMB_WIDTH], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
             @YES, @"forceActionSheet",
         ],
                                             
@@ -5621,7 +5585,6 @@
             }, @"parameters",
             LOCALIZED_STR(@"XBMC Settings"), @"label",
             @"nocover_settings", @"defaultThumb",
-            [self itemSizes_insets:@53], @"itemSizes",
             animationStartX, @"animationStartX",
             animationStartBottomScreen, @"animationStartBottomScreen",
         ],
@@ -5641,7 +5604,7 @@
              @"nocover_filemode", @"defaultThumb",
              @SETTINGS_ROW_HEIGHT, @"rowHeight",
              @SETTINGS_THUMB_WIDTH_BIG, @"thumbWidth",
-            [self itemSizes_Music_insets:@SETTINGS_THUMB_WIDTH_BIG], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
             @YES, @"enableCollectionView",
         ],
                                    
@@ -5660,7 +5623,7 @@
             @"nocover_filemode", @"defaultThumb",
             @SETTINGS_ROW_HEIGHT, @"rowHeight",
             @SETTINGS_THUMB_WIDTH_BIG, @"thumbWidth",
-            [self itemSizes_Music_insets:@SETTINGS_THUMB_WIDTH_BIG], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
             @YES, @"enableCollectionView",
         ],
                                    
@@ -5679,7 +5642,7 @@
             @"nocover_filemode", @"defaultThumb",
             @SETTINGS_ROW_HEIGHT, @"rowHeight",
             @SETTINGS_THUMB_WIDTH_BIG, @"thumbWidth",
-            [self itemSizes_Music_insets:@SETTINGS_THUMB_WIDTH_BIG], @"itemSizes",
+            [self itemSizes_Music], @"itemSizes",
             @YES, @"enableCollectionView",
         ],
                                    
@@ -5695,7 +5658,6 @@
             @FILEMODE_ROW_HEIGHT, @"rowHeight",
             @0, @"thumbWidth",
             LOCALIZED_STR(@"Execute a specific action"), @"morelabel",
-            [self itemSizes_insets:@0], @"itemSizes",
         ],
                                    
         @[
@@ -5710,7 +5672,6 @@
             @FILEMODE_ROW_HEIGHT, @"rowHeight",
             @0, @"thumbWidth",
             LOCALIZED_STR(@"Activate a specific window"), @"morelabel",
-            [self itemSizes_insets:@0], @"itemSizes",
         ],
     ] mutableCopy];
     
@@ -5840,7 +5801,6 @@
             @"nocover_filemode", @"defaultThumb",
             @SETTINGS_ROW_HEIGHT, @"rowHeight",
             @SETTINGS_THUMB_WIDTH_SMALL, @"thumbWidth",
-            [self itemSizes_insets:@SETTINGS_THUMB_WIDTH_SMALL], @"itemSizes",
         ],
 
         @[
@@ -5900,7 +5860,6 @@
             @"nocover_filemode", @"defaultThumb",
             @SETTINGS_ROW_HEIGHT, @"rowHeight",
             @0, @"thumbWidth",
-            [self itemSizes_insets:@8], @"itemSizes",
         ],
     ] mutableCopy];
     

@@ -1291,9 +1291,6 @@
         self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
         dataList.separatorColor = [Utilities getGrayColor:191 alpha:1];
     }
-    if (parameters[@"itemSizes"][@"separatorInset"]) {
-        dataList.separatorInset = UIEdgeInsetsMake(0, [parameters[@"itemSizes"][@"separatorInset"] intValue], 0, 0);
-    }
     if (methods[@"method"] != nil) {
         [self retrieveData:methods[@"method"] parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:refresh];
     }
@@ -5839,10 +5836,6 @@ NSIndexPath *selected;
     }
     else {
         [self setIpadInterface:itemSizes[@"ipad"]];
-    }
-    
-    if (parameters[@"itemSizes"][@"separatorInset"]) {
-        dataList.separatorInset = UIEdgeInsetsMake(0, [parameters[@"itemSizes"][@"separatorInset"] intValue], 0, 0);
     }
     
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];
