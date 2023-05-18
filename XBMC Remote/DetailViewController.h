@@ -74,7 +74,6 @@
     int albumFontSize;
     int trackCountFontSize;
     int trackCountLabelWidth;
-    int epgChannelTimeLabelWidth;
     int sectionHeight;
     UIColor *albumColor;
     UICollectionView *collectionView;

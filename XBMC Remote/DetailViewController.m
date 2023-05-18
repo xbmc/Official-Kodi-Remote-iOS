@@ -61,6 +61,7 @@
 #define INDEX_WIDTH 40
 #define INDEX_PADDING 2
 #define RUNTIMEYEAR_WIDTH 63
+#define EPGCHANNELTIME_WIDTH 40
 #define LABEL_PADDING 8
 #define VERTICAL_PADDING 8
 #define SMALL_PADDING 4
@@ -2107,7 +2108,7 @@
     }
     else if (channelGuideView) {
         thumbWidth = 0;
-        labelPosition = SMALL_PADDING + epgChannelTimeLabelWidth + SMALL_PADDING;
+        labelPosition = SMALL_PADDING + EPGCHANNELTIME_WIDTH + SMALL_PADDING;
     }
     else {
         labelPosition = thumbWidth + LABEL_PADDING;
@@ -2391,7 +2392,7 @@
         }
         else if (channelGuideView) {
             UILabel *title = (UILabel*)[cell viewWithTag:1];
-            UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, VERTICAL_PADDING, epgChannelTimeLabelWidth, 12 + VERTICAL_PADDING)];
+            UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, VERTICAL_PADDING, EPGCHANNELTIME_WIDTH, 12 + VERTICAL_PADDING)];
             programTimeLabel.backgroundColor = UIColor.clearColor;
             programTimeLabel.center = CGPointMake(programTimeLabel.center.x, title.center.y);
             programTimeLabel.font = [UIFont systemFontOfSize:12];
@@ -2403,7 +2404,7 @@
             programTimeLabel.textColor = [Utilities get2ndLabelColor];
             [cell.contentView addSubview:programTimeLabel];
             
-            CGFloat pieSize = epgChannelTimeLabelWidth;
+            CGFloat pieSize = EPGCHANNELTIME_WIDTH;
             ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(SMALL_PADDING, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 7, pieSize, pieSize)];
             progressView.tag = 103;
             progressView.hidden = YES;
@@ -5819,7 +5820,6 @@ NSIndexPath *selected;
     
     detailView.clipsToBounds = YES;
     trackCountLabelWidth = 26;
-    epgChannelTimeLabelWidth = 40;
     NSDictionary *itemSizes = parameters[@"itemSizes"];
     if (IS_IPHONE) {
         [self setIphoneInterface:itemSizes[@"iphone"]];
