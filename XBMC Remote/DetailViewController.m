@@ -62,6 +62,7 @@
 #define INDEX_PADDING 2
 #define RUNTIMEYEAR_WIDTH 63
 #define LABEL_PADDING 8
+#define VERTICAL_PADDING 8
 #define SMALL_PADDING 4
 
 - (id)initWithFrame:(CGRect)frame {
@@ -1871,7 +1872,7 @@
     sectionNameOverlayView.layer.cornerRadius = cornerRadius;
     
     int fontSize = 32;
-    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height / 2 - (fontSize + 8) / 2, sectionNameOverlayView.frame.size.width, fontSize + 8)];
+    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height / 2 - (fontSize + VERTICAL_PADDING) / 2, sectionNameOverlayView.frame.size.width, fontSize + VERTICAL_PADDING)];
     sectionNameLabel.font = [UIFont boldSystemFontOfSize:fontSize];
     sectionNameLabel.textColor = UIColor.whiteColor;
     sectionNameLabel.backgroundColor = UIColor.clearColor;
@@ -2377,7 +2378,7 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = nib[0];
         if (albumView || episodesView) {
-            UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, cellHeight / 2 - (artistFontSize + labelPadding) / 2, trackCountLabelWidth, artistFontSize + labelPadding)];
+            UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, cellHeight / 2 - (artistFontSize + VERTICAL_PADDING) / 2, trackCountLabelWidth, artistFontSize + VERTICAL_PADDING)];
             trackNumberLabel.backgroundColor = UIColor.clearColor;
             trackNumberLabel.font = [UIFont systemFontOfSize:artistFontSize];
             trackNumberLabel.adjustsFontSizeToFitWidth = YES;
@@ -2390,7 +2391,7 @@
         }
         else if (channelGuideView) {
             UILabel *title = (UILabel*)[cell viewWithTag:1];
-            UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, 8, epgChannelTimeLabelWidth, 12 + labelPadding)];
+            UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, VERTICAL_PADDING, epgChannelTimeLabelWidth, 12 + VERTICAL_PADDING)];
             programTimeLabel.backgroundColor = UIColor.clearColor;
             programTimeLabel.center = CGPointMake(programTimeLabel.center.x, title.center.y);
             programTimeLabel.font = [UIFont systemFontOfSize:12];
@@ -2548,7 +2549,7 @@
         if (channelListView || recordingListView) {
             CGRect frame;
             frame.origin.x = SMALL_PADDING;
-            frame.origin.y = 8;
+            frame.origin.y = VERTICAL_PADDING;
             frame.size.width = ceil(thumbWidth * 0.9);
             frame.size.height = ceil(thumbWidth * 0.7);
             cell.urlImageView.frame = frame;
@@ -2810,12 +2811,12 @@
         __block UIColor *albumDetailsColor = [Utilities getGrayColor:0 alpha:0.6];
 
         CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
-        CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + labelPadding / 2 - 1);
+        CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + VERTICAL_PADDING / 2 - 1);
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
-        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewPadding / 2 - 1, labelwidth, artistFontSize + labelPadding)];
-        UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
-        UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin, labelwidth, trackCountFontSize + labelPadding)];
-        UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize -labelPadding / 2, labelwidth, trackCountFontSize + labelPadding)];
+        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewPadding / 2 - 1, labelwidth, artistFontSize + VERTICAL_PADDING)];
+        UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + VERTICAL_PADDING)];
+        UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin, labelwidth, trackCountFontSize + VERTICAL_PADDING)];
+        UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize - VERTICAL_PADDING / 2, labelwidth, trackCountFontSize + VERTICAL_PADDING)];
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = albumDetailView.bounds;
         gradient.colors = @[(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor]];
@@ -2920,7 +2921,7 @@
         CGSize expectedLabelSize = expectedLabelRect.size;
         
         CGRect newFrame = albumLabel.frame;
-        newFrame.size.height = expectedLabelSize.height + 8;
+        newFrame.size.height = expectedLabelSize.height + VERTICAL_PADDING;
         albumLabel.frame = newFrame;
         [albumDetailView addSubview:albumLabel];
         
@@ -3008,11 +3009,11 @@
         if (seasonIdx != NSNotFound) {
             CGFloat origin_x = seasonThumbWidth + toggleIconSpace + albumViewPadding * 2;
             CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
-            CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + labelPadding / 2 - 1);
-            UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, albumViewPadding / 2, labelwidth, artistFontSize + labelPadding)];
-            UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
-            UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
-            UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize - labelPadding / 2, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
+            CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + VERTICAL_PADDING / 2 - 1);
+            UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, albumViewPadding / 2, labelwidth, artistFontSize + VERTICAL_PADDING)];
+            UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + VERTICAL_PADDING)];
+            UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin, labelwidth - toggleIconSpace, trackCountFontSize + VERTICAL_PADDING)];
+            UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize - VERTICAL_PADDING / 2, labelwidth - toggleIconSpace, trackCountFontSize + VERTICAL_PADDING)];
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - albumViewPadding * 2)];
             thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
             NSString *stringURL = self.extraSectionRichResults[seasonIdx][@"thumbnail"];
@@ -3080,7 +3081,7 @@
                                                         context:nil];
             CGSize expectedLabelSize = expectedLabelRect.size;
             CGRect newFrame = albumLabel.frame;
-            newFrame.size.height = expectedLabelSize.height + 8;
+            newFrame.size.height = expectedLabelSize.height + VERTICAL_PADDING;
             albumLabel.frame = newFrame;
             [albumDetailView addSubview:albumLabel];
             
@@ -5472,7 +5473,6 @@ NSIndexPath *selected;
     artistFontSize = 12;
     albumFontSize = 15;
     trackCountFontSize = 11;
-    labelPadding = 8;
     cellGridWidth = 105;
     cellGridHeight = 151;
     posterFontSize = 10;
@@ -5493,7 +5493,6 @@ NSIndexPath *selected;
     artistFontSize = 14;
     albumFontSize = 18;
     trackCountFontSize = 13;
-    labelPadding = 8;
     cellGridWidth = 117;
     cellGridHeight = 168;
     fullscreenCellGridWidth = 164;
