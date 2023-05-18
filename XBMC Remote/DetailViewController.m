@@ -2090,7 +2090,7 @@
     }
     else if (episodesView) {
         thumbWidth = 0;
-        labelPosition = 18;
+        labelPosition = thumbWidth + albumViewPadding + trackCountLabelWidth;
     }
     else if (channelGuideView) {
         thumbWidth = 0;
@@ -2386,7 +2386,7 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = nib[0];
-        if (albumView) {
+        if (albumView || episodesView) {
             UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewPadding, cellHeight / 2 - (artistFontSize + labelPadding) / 2, trackCountLabelWidth - 2, artistFontSize + labelPadding)];
             trackNumberLabel.backgroundColor = UIColor.clearColor;
             trackNumberLabel.font = [UIFont systemFontOfSize:artistFontSize];
@@ -2484,7 +2484,7 @@
     if (channelListView && item[@"channelnumber"]) {
         title.text = [NSString stringWithFormat:@"%@. %@", item[@"channelnumber"], item[@"label"]];
     }
-    else if (item[@"episodeid"]) {
+    else if (item[@"episodeid"] && !episodesView) {
         title.text = [Utilities formatTVShowStringForSeason:item[@"season"] episode:item[@"episode"] title:item[@"label"]];
     }
     else {
@@ -2671,6 +2671,10 @@
     else if (albumView) {
         UILabel *trackNumber = (UILabel*)[cell viewWithTag:101];
         trackNumber.text = item[@"track"];
+    }
+    else if (episodesView) {
+        UILabel *trackNumber = (UILabel*)[cell viewWithTag:101];
+        trackNumber.text = item[@"episode"];
     }
     else if (channelGuideView) {
         runtimeyear.hidden = YES;
