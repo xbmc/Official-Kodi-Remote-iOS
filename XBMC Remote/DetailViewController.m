@@ -2409,7 +2409,10 @@
             [cell.contentView addSubview:progressView];
             
             CGFloat dotSize = 12;
-            UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize / 2 - dotSize / 2, progressView.frame.origin.y + [progressView getPieRadius] / 2 + [progressView getLineWidth] + 0.5, dotSize, dotSize)];
+            __auto_type hasTimerOrigin = progressView.frame.origin;
+            hasTimerOrigin.x += pieSize / 2 - dotSize / 2;
+            hasTimerOrigin.y += [progressView getPieRadius] + [progressView getLineWidth] - dotSize / 2;
+            UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:(CGRect){hasTimerOrigin, CGSizeMake(dotSize, dotSize)}];
             hasTimer.image = [UIImage imageNamed:@"button_timer"];
             hasTimer.contentMode = UIViewContentModeScaleToFill;
             hasTimer.tag = 104;
@@ -2425,7 +2428,10 @@
             [cell.contentView addSubview:progressView];
             
             CGFloat dotSize = 6;
-            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize / 2 - dotSize / 2, progressView.frame.origin.y + [progressView getPieRadius] / 2 + [progressView getLineWidth] + 0.5, dotSize, dotSize)];
+            __auto_type isRecordingImageOrigin = progressView.frame.origin;
+            isRecordingImageOrigin.x += pieSize / 2 - dotSize / 2;
+            isRecordingImageOrigin.y += [progressView getPieRadius] + [progressView getLineWidth] - dotSize / 2;
+            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:(CGRect){isRecordingImageOrigin, CGSizeMake(dotSize, dotSize)}];
             isRecordingImageView.image = [UIImage imageNamed:@"button_timer"];
             isRecordingImageView.contentMode = UIViewContentModeScaleToFill;
             isRecordingImageView.tag = 104;
