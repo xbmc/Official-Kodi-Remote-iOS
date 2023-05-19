@@ -3129,9 +3129,6 @@
     else if (section != 0 || [self doesShowSearchResults]) {
         return sectionHeight;
     }
-    if ([self.sections allKeys].count == 1) {
-        return 1;
-    }
     return 0;
 }
 
