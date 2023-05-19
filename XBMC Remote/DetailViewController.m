@@ -2083,14 +2083,9 @@
     else {
         thumbWidth = DEFAULT_THUMB_WIDTH;
     }
-    if (albumView) {
+    if (albumView || episodesView) {
         thumbWidth = 0;
-        labelPosition = thumbWidth + albumViewPadding + trackCountLabelWidth;
-        dataList.separatorInset = UIEdgeInsetsMake(0, 8, 0, 0);
-    }
-    else if (episodesView) {
-        thumbWidth = 0;
-        labelPosition = thumbWidth + albumViewPadding + trackCountLabelWidth;
+        labelPosition = albumViewPadding + trackCountLabelWidth;
     }
     else if (channelGuideView) {
         thumbWidth = 0;
@@ -2099,6 +2094,7 @@
     else {
         labelPosition = thumbWidth + 8;
     }
+    dataList.separatorInset = UIEdgeInsetsMake(0, thumbWidth + 8, 0, 0);
     int newWidthLabel = 0;
     
     // label position for TVShow banner view needs to be tailored to match the default thumb size
@@ -5770,7 +5766,6 @@ NSIndexPath *selected;
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-    dataList.separatorInset = UIEdgeInsetsMake(0, 53, 0, 0);
     dataList.indicatorStyle = UIScrollViewIndicatorStyleDefault;
     
     CGRect frame = dataList.frame;
@@ -5826,7 +5821,6 @@ NSIndexPath *selected;
     }
     else if ([methods[@"episodesView"] boolValue]) {
         episodesView = YES;
-        dataList.separatorInset = UIEdgeInsetsMake(0, 18, 0, 0);
     }
     else if ([methods[@"tvshowsView"] boolValue]) {
         tvshowsView = AppDelegate.instance.serverVersion > 11 && ![Utilities getPreferTvPosterMode];
