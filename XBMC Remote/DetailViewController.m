@@ -921,6 +921,9 @@
                 cell.backgroundColor = [Utilities getSystemGray6];
             }
         }
+        if ([cell isKindOfClass:[UITableViewCell class]]) {
+            [(UITableViewCell*)cell contentView].backgroundColor = cell.backgroundColor;
+        }
     }
 }
 
