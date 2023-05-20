@@ -58,6 +58,10 @@
 #define GLOBALSEARCH_INDEX_ARTISTS 4
 #define GLOBALSEARCH_INDEX_ALBUMS 5
 #define GLOBALSEARCH_INDEX_SONGS 6
+#define IPHONE_SEASON_SECTION_HEIGHT 99
+#define IPHONE_ALBUM_SECTION_HEIGHT 116
+#define IPAD_SEASON_SECTION_HEIGHT 120
+#define IPAD_ALBUM_SECTION_HEIGHT 166
 #define INDEX_WIDTH 40
 #define INDEX_PADDING 2
 #define RUNTIMEYEAR_WIDTH 63
@@ -5438,6 +5442,10 @@ NSIndexPath *selected;
 }
 
 - (void)checkParamSize:(NSDictionary*)itemSizes viewWidth:(int)fullWidth {
+    cellGridWidth = 0;
+    cellGridHeight = 0;
+    fullscreenCellGridWidth = 0;
+    fullscreenCellGridHeight = 0;
     if (itemSizes[@"width"] && itemSizes[@"height"]) {
         CGFloat transform = [Utilities getTransformX];
         if ([itemSizes[@"width"] isKindOfClass:[NSString class]]) {
@@ -5466,16 +5474,11 @@ NSIndexPath *selected;
 
 - (void)setIphoneInterface:(NSDictionary*)itemSizes {
     viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
-    albumViewHeight = 116;
     albumViewPadding = 8;
-    if (episodesView) {
-        albumViewHeight = 99;
-    }
+    albumViewHeight = episodesView ? IPHONE_SEASON_SECTION_HEIGHT : IPHONE_ALBUM_SECTION_HEIGHT;
     artistFontSize = 12;
     albumFontSize = 15;
     trackCountFontSize = 11;
-    cellGridWidth = 105;
-    cellGridHeight = 151;
     posterFontSize = 10;
     fanartFontSize = 10;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
@@ -5486,18 +5489,11 @@ NSIndexPath *selected;
     // ensure modal views are forced to width = STACKSCROLL_WIDTH, this eases the layout
     CGSize size = CGSizeMake(STACKSCROLL_WIDTH, self.view.frame.size.height);
     self.preferredContentSize = size;
-    albumViewHeight = 166;
-    if (episodesView) {
-        albumViewHeight = 120;
-    }
     albumViewPadding = 12;
+    albumViewHeight = episodesView ? IPAD_SEASON_SECTION_HEIGHT : IPAD_ALBUM_SECTION_HEIGHT;
     artistFontSize = 14;
     albumFontSize = 18;
     trackCountFontSize = 13;
-    cellGridWidth = 117;
-    cellGridHeight = 168;
-    fullscreenCellGridWidth = 164;
-    fullscreenCellGridHeight = 246;
     posterFontSize = 11;
     fanartFontSize = 13;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
