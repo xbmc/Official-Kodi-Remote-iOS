@@ -66,6 +66,8 @@
 #define LABEL_PADDING 8
 #define VERTICAL_PADDING 8
 #define SMALL_PADDING 4
+#define TINY_PADDING 2
+#define FLAG_SIZE 16
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -2063,15 +2065,12 @@
 }
 
 - (void)setWatchedOverlayPosition {
-    flagX = thumbWidth - 10;
-    flagY = cellHeight - 19;
-    if (flagX + 22 > self.view.bounds.size.width) {
-        flagX = 2;
-        flagY = 2;
-    }
-    if (thumbWidth == 0) {
-        flagX = 6;
-        flagY = 4;
+    flagX = thumbWidth - FLAG_SIZE / 2 - TINY_PADDING;
+    flagY = cellHeight - FLAG_SIZE - TINY_PADDING;
+    // Top left position, if no thumb (e.g. album tracks) or full size banner (TV Show banner)
+    if (thumbWidth == 0 || flagX + FLAG_SIZE + TINY_PADDING > self.view.bounds.size.width) {
+        flagX = TINY_PADDING;
+        flagY = TINY_PADDING;
     }
 }
 
