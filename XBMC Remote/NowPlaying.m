@@ -591,13 +591,7 @@ long storedItemID;
                                  NSString *season = [Utilities getStringFromItem:nowPlayingInfo[@"season"]];
                                  NSString *episode = [Utilities getStringFromItem:nowPlayingInfo[@"episode"]];
                                  if (album.length == 0 && showtitle.length) {
-                                     if ([season intValue] > 0 && [episode intValue] > 0) {
-                                         NSString *seasonAndEpisode = [Utilities formatTVShowStringForSeason:season episode:episode];
-                                         album = [NSString stringWithFormat:@"%@ - %@", showtitle, seasonAndEpisode];
-                                     }
-                                     else {
-                                         album = showtitle;
-                                     }
+                                     album = [Utilities formatTVShowStringForSeasonTrailing:season episode:episode title:showtitle];
                                  }
                                  NSString *director = [Utilities getStringFromItem:nowPlayingInfo[@"director"]];
                                  if (album.length == 0 && director.length) {
@@ -1725,8 +1719,8 @@ long storedItemID;
                     title = [NSString stringWithFormat:@"%@\n%@\n%@", item[@"label"], item[@"album"], item[@"artist"]];
                 }
                 else if ([item[@"type"] isEqualToString:@"episode"]) {
-                    NSString *tvshowText = [Utilities formatTVShowStringForSeason:item[@"season"] episode:item[@"episode"] title:item[@"label"]];
-                    title = [NSString stringWithFormat:@"%@\n%@", item[@"showtitle"], tvshowText];
+                    NSString *tvshowText = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];
+                    title = [NSString stringWithFormat:@"%@%@%@", item[@"label"], tvshowText.length ? @"\n" : @"", tvshowText];
                 }
                 [self showActionNowPlaying:sheetActions title:title point:selectedPoint];
             }
@@ -1965,10 +1959,8 @@ long storedItemID;
     mainLabel.text = ![item[@"title"] isEqualToString:@""] ? item[@"title"] : item[@"label"];
     ((UILabel*)[cell viewWithTag:2]).text = @"";
     if ([item[@"type"] isEqualToString:@"episode"]) {
-        if ([item[@"season"] intValue] != 0 || [item[@"episode"] intValue] != 0) {
-            mainLabel.text = [Utilities formatTVShowStringForSeason:item[@"season"] episode:item[@"episode"] title:item[@"label"]];
-        }
-        subLabel.text = [NSString stringWithFormat:@"%@", item[@"showtitle"]];
+        mainLabel.text = [NSString stringWithFormat:@"%@", item[@"label"]];
+        subLabel.text = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];
     }
     else if ([item[@"type"] isEqualToString:@"song"] ||
              [item[@"type"] isEqualToString:@"musicvideo"]) {
