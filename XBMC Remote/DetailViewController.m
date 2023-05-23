@@ -2393,8 +2393,10 @@
             [cell.contentView addSubview:trackNumberLabel];
         }
         else if (channelGuideView) {
+            UILabel *title = (UILabel*)[cell viewWithTag:1];
             UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(4, 8, epgChannelTimeLabelWidth - 8, 12 + labelPadding)];
             programTimeLabel.backgroundColor = UIColor.clearColor;
+            programTimeLabel.center = CGPointMake(programTimeLabel.center.x, title.center.y);
             programTimeLabel.font = [UIFont systemFontOfSize:12];
             programTimeLabel.adjustsFontSizeToFitWidth = YES;
             programTimeLabel.minimumScaleFactor = 8.0 / 12.0;
@@ -2530,7 +2532,7 @@
         if (channelListView || recordingListView) {
             CGRect frame;
             frame.origin.x = 4;
-            frame.origin.y = 10;
+            frame.origin.y = 8;
             frame.size.width = ceil(thumbWidth * 0.9);
             frame.size.height = ceil(thumbWidth * 0.7);
             cell.urlImageView.frame = frame;
