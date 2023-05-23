@@ -1158,9 +1158,11 @@
 
 + (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode {
     NSString *text = @"";
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *format = [userDefaults stringForKey:@"episode_identifier"];
     if ([season respondsToSelector:@selector(intValue)] && [episode respondsToSelector:@selector(intValue)]) {
         if ([season intValue] && [episode intValue]) {
-            text = [NSString stringWithFormat:@"%d.%02d", [season intValue], [episode intValue]];
+            text = [NSString stringWithFormat:format, [season intValue], [episode intValue]];
         }
     }
     return text;
