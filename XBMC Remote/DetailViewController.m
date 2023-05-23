@@ -2567,6 +2567,7 @@
         }
         if ([item[@"filetype"] length] != 0 ||
             [item[@"family"] isEqualToString:@"file"] ||
+            [item[@"family"] isEqualToString:@"type"] ||
             [item[@"family"] isEqualToString:@"genreid"] ||
             [item[@"family"] isEqualToString:@"channelgroupid"] ||
             [item[@"family"] isEqualToString:@"roleid"]) {
