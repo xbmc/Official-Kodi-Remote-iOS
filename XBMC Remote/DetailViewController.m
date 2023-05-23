@@ -2691,7 +2691,7 @@
         programStartTime.text = [localHourMinuteFormatter stringFromDate:starttime];
         float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
 
-        if (percent_elapsed >= 0 && percent_elapsed < 100) {
+        if (percent_elapsed > 0 && percent_elapsed < 100) {
             title.textColor = [Utilities getSystemBlue];
             genre.textColor = [Utilities getSystemBlue];
             programStartTime.textColor = [Utilities getSystemBlue];
