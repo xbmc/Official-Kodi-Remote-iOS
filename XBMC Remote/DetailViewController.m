@@ -921,6 +921,9 @@
                 cell.backgroundColor = [Utilities getSystemGray6];
             }
         }
+        if ([cell isKindOfClass:[UITableViewCell class]]) {
+            [(UITableViewCell*)cell contentView].backgroundColor = cell.backgroundColor;
+        }
     }
 }
 
@@ -3128,9 +3131,6 @@
     }
     else if (section != 0 || [self doesShowSearchResults]) {
         return sectionHeight;
-    }
-    if ([self.sections allKeys].count == 1) {
-        return 1;
     }
     return 0;
 }
