@@ -1966,7 +1966,7 @@ long storedItemID;
     ((UILabel*)[cell viewWithTag:2]).text = @"";
     if ([item[@"type"] isEqualToString:@"episode"]) {
         if ([item[@"season"] intValue] != 0 || [item[@"episode"] intValue] != 0) {
-            mainLabel.text = [Utilities formatTVShowStringForSeason:item[@"season"] episode:item[@"episode"] title:item[@"title"]];
+            mainLabel.text = [Utilities formatTVShowStringForSeason:item[@"season"] episode:item[@"episode"] title:item[@"label"]];
         }
         subLabel.text = [NSString stringWithFormat:@"%@", item[@"showtitle"]];
     }
