@@ -756,6 +756,14 @@
     return urlString;
 }
 
++ (CGFloat)getWidthOfLabel:(UILabel*)label {
+    CGRect expectedLabelRect = [label.text boundingRectWithSize:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)
+                                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                                     attributes:@{NSFontAttributeName: label.font}
+                                                        context:nil];
+    return ceil(expectedLabelRect.size.width);
+}
+
 + (CGFloat)getHeightOfLabel:(UILabel*)label {
     CGRect expectedLabelRect = [label.text boundingRectWithSize:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)
                                                         options:NSStringDrawingUsesLineFragmentOrigin

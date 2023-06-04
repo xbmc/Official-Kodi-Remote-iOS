@@ -2733,6 +2733,12 @@
             hasTimer.hidden = YES;
         }
     }
+    if (!runtimeyear.hidden) {
+        frame = genre.frame;
+        frame.size.width = menuItem.widthLabel - [Utilities getWidthOfLabel:runtimeyear] - 8;
+        genre.frame = frame;
+    }
+    
     NSString *playcount = [NSString stringWithFormat:@"%@", item[@"playcount"]];
     UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
     frame = flagView.frame;
