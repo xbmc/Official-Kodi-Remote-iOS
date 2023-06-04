@@ -349,3 +349,14 @@
 "Date" = "Date";
 "Runtime" = "Runtime";
 "Random" = "Random";
+
+"Date & time" = "Date & time";
+"ISO equivalence" = "ISO equivalence";
+"Resolution" = "Resolution";
+"Aperture" = "Aperture";
+"Exposure time" =  "Exposure time";
+"Exposure mode" = "Exposure mode";
+"Exposure bias" = "Exposure bias";
+"Metering mode" = "Metering mode";
+"Focal length" = "Focal length";
+"Camera model" = "Camera model";

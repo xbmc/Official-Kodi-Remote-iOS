@@ -429,14 +429,14 @@ static inline BOOL IsEmpty(id obj) {
     name = [NSString stringWithFormat:@"%@: ", name];
     NSDictionary *boldFontAttrib = @{
         NSFontAttributeName: [UIFont boldSystemFontOfSize:fontSize],
-        NSForegroundColorAttributeName: UIColor.lightGrayColor
+        NSForegroundColorAttributeName: UIColor.lightGrayColor,
     };
     // Normal and white for the text
     NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:name attributes:boldFontAttrib];
     text = [NSString stringWithFormat:@"%@\n", text];
     NSDictionary *normalFontAttrib = @{
         NSFontAttributeName: [UIFont systemFontOfSize:fontSize],
-        NSForegroundColorAttributeName: UIColor.whiteColor
+        NSForegroundColorAttributeName: UIColor.whiteColor,
     };
     NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:text attributes:normalFontAttrib];
     // Build the complete string

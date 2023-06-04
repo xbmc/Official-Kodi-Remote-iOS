@@ -516,10 +516,6 @@ long storedItemID;
                         [self performSelector:@selector(setWaitForInfoLabelsToSettle) withObject:nil afterDelay:1.0];
                     }
                 }
-                // Switch off overlay if the picture player is active
-                if (currentPlayerID == PLAYERID_PICTURES) {
-                    [self toggleSongDetails];
-                }
                 // Codec view uses "XBMC.GetInfoLabels" which might change asynchronously. Therefore check each time.
                 if (songDetailsView.alpha && !waitForInfoLabelsToSettle) {
                     [self loadCodecView];
@@ -560,10 +556,12 @@ long storedItemID;
                                  storedItemID = currentItemID;
 
                                  // Set song details description text
-                                 NSString *description = [Utilities getStringFromItem:nowPlayingInfo[@"description"]];
-                                 NSString *plot = [Utilities getStringFromItem:nowPlayingInfo[@"plot"]];
-                                 itemDescription.text = description.length ? description : (plot.length ? plot : @"");
-                                 [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
+                                 if (currentPlayerID != PLAYERID_PICTURES) {
+                                     NSString *description = [Utilities getStringFromItem:nowPlayingInfo[@"description"]];
+                                     NSString *plot = [Utilities getStringFromItem:nowPlayingInfo[@"plot"]];
+                                     itemDescription.text = description.length ? description : (plot.length ? plot : @"");
+                                     [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
+                                 }
                                  
                                  // Set NowPlaying text fields
                                  // 1st: title
@@ -878,6 +876,17 @@ long storedItemID;
                                    @"MusicPlayer.BitRate",
                                    @"MusicPlayer.BitsPerSample",
                                    @"MusicPlayer.Channels",
+                                   @"Slideshow.Resolution",
+                                   @"Slideshow.Filename",
+                                   @"Slideshow.CameraModel",
+                                   @"Slideshow.EXIFTime",
+                                   @"Slideshow.Aperture",
+                                   @"Slideshow.ISOEquivalence",
+                                   @"Slideshow.ExposureTime",
+                                   @"Slideshow.Exposure",
+                                   @"Slideshow.ExposureBias",
+                                   @"Slideshow.MeteringMode",
+                                   @"Slideshow.FocalLength",
                                    @"VideoPlayer.VideoResolution",
                                    @"VideoPlayer.VideoAspect",
                                    @"VideoPlayer.AudioCodec",
@@ -885,6 +894,7 @@ long storedItemID;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
              hiresImage.hidden = YES;
+             itemDescription.textAlignment = NSTextAlignmentJustified;
              if (currentPlayerID == PLAYERID_MUSIC) {
                  NSString *codec = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
                  codec = [self processSongCodecName:codec];
@@ -934,6 +944,45 @@ long storedItemID;
                  songBitRateImage.image = [self loadImageFromName:@"aspect"];
                  songBitRateImage.hidden = songBitRate.hidden = aspect.length == 0;
              }
+             else if (currentPlayerID == PLAYERID_PICTURES) {
+                 NSString *filename = [Utilities getStringFromItem:methodResult[@"Slideshow.Filename"]];
+                 NSString *filetype = [[filename pathExtension] uppercaseString];
+                 songBitRate.text = filetype;
+                 
+                 NSString *resolution = [Utilities getStringFromItem:methodResult[@"Slideshow.Resolution"]];
+                 resolution = [resolution stringByReplacingOccurrencesOfString:@" x " withString:@"\n"];
+                 songCodec.text = resolution;
+                 songCodecImage.image = [self loadImageFromName:@"aspect"];
+                 
+                 NSString *camera = [Utilities getStringFromItem:methodResult[@"Slideshow.CameraModel"]];
+                 songSampleRate.text = camera;
+                 
+                 BOOL hasEXIF = camera.length;
+                 songNumChannels.text = @"EXIF\n";
+                 songNumChanImage.image = [self loadImageFromName:@"exif"];
+                 songNumChannels.hidden = songNumChanImage.hidden = !hasEXIF;
+                 
+                 songCodec.hidden = !songCodec.text.length;
+                 songBitRate.hidden = !songBitRate.text.length;
+                 songSampleRate.hidden = !songSampleRate.text.length;
+                 songBitRateImage.hidden = YES;
+                 songSampleRateImage.hidden = YES;
+                 
+                 NSMutableAttributedString *infoString = [NSMutableAttributedString new];
+                 if (hasEXIF) {
+                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Date & time") text:methodResult[@"Slideshow.EXIFTime"]]];
+                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"ISO equivalence") text:methodResult[@"Slideshow.ISOEquivalence"]]];
+                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Resolution") text:methodResult[@"Slideshow.Resolution"]]];
+                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Aperture") text:methodResult[@"Slideshow.Aperture"]]];
+                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Exposure time") text:methodResult[@"Slideshow.ExposureTime"]]];
+                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Exposure mode") text:methodResult[@"Slideshow.Exposure"]]];
+                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Exposure bias") text:methodResult[@"Slideshow.ExposureBias"]]];
+                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Metering mode") text:methodResult[@"Slideshow.MeteringMode"]]];
+                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Focal length") text:methodResult[@"Slideshow.FocalLength"]]];
+                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Camera model") text:methodResult[@"Slideshow.CameraModel"]]];
+                 }
+                 itemDescription.attributedText = infoString;
+             }
              else {
                  songCodec.hidden = YES;
                  songBitRate.hidden = YES;
@@ -946,6 +995,27 @@ long storedItemID;
              }
          }
     }];
+}
+
+- (NSAttributedString*)formatInfo:(NSString*)name text:(NSString*)text {
+    int fontSize = descriptionFontSize;
+    // Bold and gray for label
+    name = [NSString stringWithFormat:@"%@: ", name];
+    NSDictionary *boldFontAttrib = @{
+        NSFontAttributeName: [UIFont boldSystemFontOfSize:fontSize],
+        NSForegroundColorAttributeName: UIColor.lightGrayColor,
+    };
+    // Normal and white for the text
+    NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:name attributes:boldFontAttrib];
+    text = [NSString stringWithFormat:@"%@\n", text];
+    NSDictionary *normalFontAttrib = @{
+        NSFontAttributeName: [UIFont systemFontOfSize:fontSize],
+        NSForegroundColorAttributeName: UIColor.whiteColor,
+    };
+    NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:text attributes:normalFontAttrib];
+    // Build the complete string
+    [string1 appendAttributedString:string2];
+    return string1;
 }
 
 - (void)playbackInfo {
@@ -1513,7 +1583,7 @@ long storedItemID;
 }
 
 - (void)toggleSongDetails {
-    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || (currentPlayerID == PLAYERID_PICTURES && songDetailsView.alpha == 0.0)) {
+    if ((nothingIsPlaying && songDetailsView.alpha == 0.0)) {
         return;
     }
     [UIView animateWithDuration:0.2
@@ -2232,6 +2302,7 @@ long storedItemID;
     CGFloat width = IS_IPHONE ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH;
     CGFloat scale = MIN(height / IPHONE_SCREEN_DESIGN_HEIGHT, width / IPHONE_SCREEN_DESIGN_WIDTH);
     
+    itemDescription.font  = [UIFont systemFontOfSize:floor(12 * scale)];
     albumName.font        = [UIFont systemFontOfSize:floor(16 * scale)];
     songName.font         = [UIFont boldSystemFontOfSize:floor(20 * scale)];
     artistName.font       = [UIFont systemFontOfSize:floor(16 * scale)];
@@ -2243,6 +2314,7 @@ long storedItemID;
     [self setAVCodecFont:songCodec size:floor(15 * scale)];
     [self setAVCodecFont:songSampleRate size:floor(15 * scale)];
     [self setAVCodecFont:songNumChannels size:floor(15 * scale)];
+    descriptionFontSize = floor(12 * scale);
 }
 
 - (void)setIphoneInterface {
@@ -2290,8 +2362,6 @@ long storedItemID;
     frame.origin.y = playlistTableView.frame.size.height - playlistActionView.frame.size.height;
     playlistActionView.frame = frame;
     playlistActionView.alpha = 1.0;
-    
-    itemDescription.font = [UIFont systemFontOfSize:15];
 }
 
 - (BOOL)enableJewelCases {
