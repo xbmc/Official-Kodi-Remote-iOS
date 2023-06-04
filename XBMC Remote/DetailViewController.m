@@ -928,6 +928,9 @@
 }
 
 - (void)setCellImageView:(UIImageView*)imgView cell:(UIView*)cell dictItem:(NSDictionary*)item url:(NSString*)stringURL size:(CGSize)viewSize defaultImg:(NSString*)displayThumb {
+    if (viewSize.width == 0 || viewSize.height == 0) {
+        return;
+    }
     if ([item[@"family"] isEqualToString:@"channelid"] ||
         [item[@"family"] isEqualToString:@"recordingid"] ||
         [item[@"family"] isEqualToString:@"type"]) {
@@ -944,12 +947,15 @@
                         [item[@"family"] isEqualToString:@"file"]);
     BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
     [Utilities applyRoundedEdgesView:imgView drawBorder:showBorder];
-    if (![stringURL isEqualToString:@""]) {
-        // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
-        // ensure sd_setImageWithURL falls back to this icon.
+    // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
+    // ensure sd_setImageWithURL falls back to this icon.
+    if (stringURL.length) {
         if ([UIImage imageNamed:stringURL]) {
             displayThumb = stringURL;
+            stringURL = @"";
         }
+    }
+    if (![stringURL isEqualToString:@""]) {
         __auto_type __weak weakImageView = imgView;
         [imgView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                    placeholderImage:[UIImage imageNamed:displayThumb]
@@ -1020,8 +1026,6 @@
     if (moreItemsViewController == nil) {
         moreItemsViewController = [[MoreItemsViewController alloc] initWithFrame:CGRectMake(dataList.bounds.size.width, 0, dataList.bounds.size.width, dataList.bounds.size.height) mainMenu:moreMenu];
         moreItemsViewController.view.backgroundColor = UIColor.clearColor;
-        [moreItemsViewController viewWillAppear:NO];
-        [moreItemsViewController viewDidAppear:NO];
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
         tableViewInsets.bottom = buttonsViewBgToolbar.frame.size.height;
         moreItemsViewController.tableView.contentInset = tableViewInsets;

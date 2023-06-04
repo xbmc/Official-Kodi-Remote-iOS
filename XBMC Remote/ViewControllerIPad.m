@@ -483,8 +483,6 @@
 	stackScrollViewController = [StackScrollViewController new];
 	stackScrollViewController.view.frame = CGRectMake(0, 0, rightSlideView.frame.size.width, rightSlideView.frame.size.height);
 	stackScrollViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
-	[stackScrollViewController viewWillAppear:NO];
-	[stackScrollViewController viewDidAppear:NO];
 	[rightSlideView addSubview:stackScrollViewController.view];
 	
 	[rootView addSubview:leftMenuView];
