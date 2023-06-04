@@ -22,6 +22,18 @@ typedef enum {
     IBOutlet UIView *gestureZoneView;
     IBOutlet UIView *buttonZoneView;
     IBOutlet UIImageView *panFallbackImageView;
+    IBOutlet UIButton *buttonSeekBackward;
+    IBOutlet UIButton *buttonPlayPause;
+    IBOutlet UIButton *buttonSeekForward;
+    IBOutlet UIButton *buttonPrevious;
+    IBOutlet UIButton *buttonNext;
+    IBOutlet UIButton *buttonStop;
+    IBOutlet UIButton *buttonMusic;
+    IBOutlet UIButton *buttonMovies;
+    IBOutlet UIButton *buttonTVShows;
+    IBOutlet UIButton *buttonPictures;
+    IBOutlet UIButton *buttonSubtitles;
+    IBOutlet UIButton *buttonAudiostreams;
     int audioVolume;
     CGFloat lastRotation;
     RemotePositionType positionMode;

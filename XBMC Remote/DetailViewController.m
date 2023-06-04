@@ -2396,7 +2396,8 @@
             trackNumberLabel.adjustsFontSizeToFitWidth = YES;
             trackNumberLabel.minimumScaleFactor = (artistFontSize - 4) / artistFontSize;
             trackNumberLabel.tag = 101;
-            trackNumberLabel.highlightedTextColor = UIColor.whiteColor;
+            trackNumberLabel.highlightedTextColor = [Utilities get1stLabelColor];
+            trackNumberLabel.textColor = [Utilities get1stLabelColor];
             [cell.contentView addSubview:trackNumberLabel];
         }
         else if (channelGuideView) {
@@ -2409,7 +2410,8 @@
             programTimeLabel.minimumScaleFactor = 8.0 / 12.0;
             programTimeLabel.textAlignment = NSTextAlignmentCenter;
             programTimeLabel.tag = 102;
-            programTimeLabel.highlightedTextColor = UIColor.whiteColor;
+            programTimeLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+            programTimeLabel.textColor = [Utilities get2ndLabelColor];
             [cell.contentView addSubview:programTimeLabel];
             ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(4, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 7, epgChannelTimeLabelWidth - 8, epgChannelTimeLabelWidth - 8)];
             progressView.tag = 103;
@@ -2439,20 +2441,24 @@
             isRecordingImageView.backgroundColor = UIColor.clearColor;
             [cell.contentView addSubview:isRecordingImageView];
         }
-        ((UILabel*)[cell viewWithTag:1]).highlightedTextColor = [Utilities get1stLabelColor];
-        ((UILabel*)[cell viewWithTag:2]).highlightedTextColor = [Utilities get2ndLabelColor];
-        ((UILabel*)[cell viewWithTag:3]).highlightedTextColor = [Utilities get2ndLabelColor];
-        ((UILabel*)[cell viewWithTag:4]).highlightedTextColor = [Utilities get2ndLabelColor];
-        ((UILabel*)[cell viewWithTag:5]).highlightedTextColor = [Utilities get2ndLabelColor];
-        ((UILabel*)[cell viewWithTag:101]).highlightedTextColor = [Utilities get1stLabelColor];
-        ((UILabel*)[cell viewWithTag:102]).highlightedTextColor = [Utilities get2ndLabelColor];
-        ((UILabel*)[cell viewWithTag:1]).textColor = [Utilities get1stLabelColor];
-        ((UILabel*)[cell viewWithTag:2]).textColor = [Utilities get2ndLabelColor];
-        ((UILabel*)[cell viewWithTag:3]).textColor = [Utilities get2ndLabelColor];
-        ((UILabel*)[cell viewWithTag:4]).textColor = [Utilities get2ndLabelColor];
-        ((UILabel*)[cell viewWithTag:5]).textColor = [Utilities get2ndLabelColor];
-        ((UILabel*)[cell viewWithTag:101]).textColor = [Utilities get1stLabelColor];
-        ((UILabel*)[cell viewWithTag:102]).textColor = [Utilities get2ndLabelColor];
+        UILabel *title = (UILabel*)[cell viewWithTag:1];
+        UILabel *genre = (UILabel*)[cell viewWithTag:2];
+        UILabel *runtimeyear = (UILabel*)[cell viewWithTag:3];
+        UILabel *runtime = (UILabel*)[cell viewWithTag:4];
+        UILabel *rating = (UILabel*)[cell viewWithTag:5];
+        
+        title.highlightedTextColor = [Utilities get1stLabelColor];
+        genre.highlightedTextColor = [Utilities get2ndLabelColor];
+        runtimeyear.highlightedTextColor = [Utilities get2ndLabelColor];
+        runtime.highlightedTextColor = [Utilities get2ndLabelColor];
+        rating.highlightedTextColor = [Utilities get2ndLabelColor];
+        
+        title.textColor = [Utilities get1stLabelColor];
+        genre.textColor = [Utilities get2ndLabelColor];
+        runtimeyear.textColor = [Utilities get2ndLabelColor];
+        runtime.textColor = [Utilities get2ndLabelColor];
+        rating.textColor = [Utilities get2ndLabelColor];
+        
         cell.backgroundColor = [Utilities getSystemGray6];
     }
     mainMenu *menuItem = self.detailItem;

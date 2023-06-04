@@ -62,16 +62,14 @@
         borderViews = [[UIView alloc] initWithFrame:CGRectMake(SLIDE_VIEWS_MINUS_X_POSITION - 2, -2, 2, self.view.frame.size.height + 2)];
         borderViews.backgroundColor = UIColor.clearColor;
         borderViews.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-        UIView *verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, borderViews.frame.size.height)];
+        verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, borderViews.frame.size.height)];
         verticalLineView1.backgroundColor = UIColor.whiteColor;
-        verticalLineView1.tag = 1 + VIEW_TAG;
         verticalLineView1.hidden = YES;
         verticalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         [borderViews addSubview:verticalLineView1];
         
-        UIView *verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 2, borderViews.frame.size.height)];
+        verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 2, borderViews.frame.size.height)];
         verticalLineView2.backgroundColor = UIColor.grayColor;
-        verticalLineView2.tag = 2 + VIEW_TAG;
         verticalLineView2.hidden = YES;
         verticalLineView2.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         [borderViews addSubview:verticalLineView2];
@@ -219,8 +217,8 @@
 
 - (void)arrangeVerticalBar {
     if (slideViews.subviews.count > 2) {
-        [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
-        [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
+        verticalLineView2.hidden = YES;
+        verticalLineView1.hidden = YES;
         NSInteger stackCount = 0;
         if (viewAtLeft != nil) {
             stackCount = [slideViews.subviews indexOfObject:viewAtLeft];
@@ -231,11 +229,11 @@
         }
         
         if (stackCount == 2) {
-            [borderViews viewWithTag:2 + VIEW_TAG].hidden = NO;
+            verticalLineView2.hidden = NO;
         }
         if (stackCount >= 3) {
-            [borderViews viewWithTag:2 + VIEW_TAG].hidden = NO;
-            [borderViews viewWithTag:1 + VIEW_TAG].hidden = NO;
+            verticalLineView2.hidden = NO;
+            verticalLineView1.hidden = NO;
         }
     }
 }
@@ -253,9 +251,8 @@
                                        viewAtLeft.frame.size.width,
                                        viewAtLeft.frame.size.height);
         }
-        [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
-        [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
-        [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
+        verticalLineView2.hidden = YES;
+        verticalLineView1.hidden = YES;
         viewAtLeft2 = nil;
         viewAtRight = nil;
         viewAtLeft = nil;
@@ -265,9 +262,8 @@
         for (UIView *subview in slideViews.subviews) {
             [subview removeFromSuperview];
         }
-        [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
-        [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
-        [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
+        verticalLineView2.hidden = YES;
+        verticalLineView1.hidden = YES;
         [viewControllersStack removeAllObjects];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOffScreen" object: nil];
     }];
@@ -294,9 +290,8 @@
             [[slideViews viewWithTag:i + VIEW_TAG] removeFromSuperview];
             [viewControllersStack removeLastObject];
         }
-        [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
-        [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
-        [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
+        verticalLineView2.hidden = YES;
+        verticalLineView1.hidden = YES;
     }
     // Removes the selection of row for the first slide view
     for (UIView* tableView in slideViews.subviews[0].subviews) {
@@ -782,7 +777,7 @@
     }
     [self arrangeVerticalBar];
     if ([slideViews.subviews indexOfObject:viewAtLeft2] == 1 && isBouncing) {
-        [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
+        verticalLineView2.hidden = YES;
     }
 }
 
@@ -828,9 +823,8 @@
             [subview removeFromSuperview];
         }
         
-        [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
-        [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
-        [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
+        verticalLineView2.hidden = YES;
+        verticalLineView1.hidden = YES;
         [viewControllersStack removeAllObjects];
     }
     
@@ -867,9 +861,8 @@
         for (UIView *subview in slideViews.subviews) {
             [subview removeFromSuperview];
         }		[viewControllersStack removeAllObjects];
-        [borderViews viewWithTag:3 + VIEW_TAG].hidden = YES;
-        [borderViews viewWithTag:2 + VIEW_TAG].hidden = YES;
-        [borderViews viewWithTag:1 + VIEW_TAG].hidden = YES;
+        verticalLineView2.hidden = YES;
+        verticalLineView1.hidden = YES;
     }
     
     if (slideViews.subviews.count != 0) {

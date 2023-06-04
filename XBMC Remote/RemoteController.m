@@ -142,32 +142,32 @@
     CGRect frame = TransitionalView.frame;
     CGFloat newWidth = GET_MAINSCREEN_WIDTH - ANCHOR_RIGHT_PEEK;
     CGFloat shift;
-    [self hideButton:@[[self.view viewWithTag:TAG_BUTTON_SEEK_BACKWARD],
-                       [self.view viewWithTag:TAG_BUTTON_PLAY_PAUSE],
-                       [self.view viewWithTag:TAG_BUTTON_SEEK_FORWARD],
-                       [self.view viewWithTag:TAG_BUTTON_PREVIOUS],
-                       [self.view viewWithTag:TAG_BUTTON_NEXT]]
+    [self hideButton:@[buttonSeekBackward,
+                       buttonPlayPause,
+                       buttonSeekForward,
+                       buttonPrevious,
+                       buttonNext]
                 hide:YES];
     if ([Utilities hasRemoteToolBar]) {
-        shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_NEXT].frame);
-        [self moveButton:@[[self.view viewWithTag:TAG_BUTTON_MUSIC],
-                           [self.view viewWithTag:TAG_BUTTON_MOVIES],
-                           [self.view viewWithTag:TAG_BUTTON_TVSHOWS],
-                           [self.view viewWithTag:TAG_BUTTON_PICTURES]]
+        shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY(buttonNext.frame);
+        [self moveButton:@[buttonMusic,
+                           buttonMovies,
+                           buttonTVShows,
+                           buttonPictures]
                     ypos: -shift];
     }
     else {
-        shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_STOP].frame);
-        [self hideButton:@[[self.view viewWithTag:TAG_BUTTON_MUSIC],
-                           [self.view viewWithTag:TAG_BUTTON_MOVIES],
-                           [self.view viewWithTag:TAG_BUTTON_TVSHOWS],
-                           [self.view viewWithTag:TAG_BUTTON_PICTURES]]
+        shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY(buttonStop.frame);
+        [self hideButton:@[buttonMusic,
+                           buttonMovies,
+                           buttonTVShows,
+                           buttonPictures]
                     hide: YES];
     }
     
     // Place the transitional view in the middle between the two button rows
-    CGFloat lowerButtonUpperBorder = CGRectGetMinY([self.view viewWithTag:TAG_BUTTON_MUSIC].frame);
-    CGFloat upperButtonLowerBorder = CGRectGetMaxY([self.view viewWithTag:TAG_BUTTON_STOP].frame);
+    CGFloat lowerButtonUpperBorder = CGRectGetMinY(buttonMusic.frame);
+    CGFloat upperButtonLowerBorder = CGRectGetMaxY(buttonStop.frame);
     CGFloat transViewY = (lowerButtonUpperBorder + upperButtonLowerBorder - TransitionalView.frame.size.height) / 2;
     TransitionalView.frame = CGRectMake(frame.origin.x, transViewY, frame.size.width, frame.size.height);
     
@@ -190,7 +190,7 @@
     }
     else {
         // Overload "stop" button with gesture icon in case the toolbar cannot be displayed (e.g. iPhone 4S)
-        UIButton *gestureButton = (UIButton*)[self.view viewWithTag:TAG_BUTTON_STOP];
+        UIButton *gestureButton = buttonStop;
         gestureButton.contentMode = UIViewContentModeScaleAspectFit;
         gestureButton.showsTouchWhenHighlighted = NO;
         [gestureButton setImage:gestureImage forState:UIControlStateNormal];
@@ -687,11 +687,10 @@
         [actionView addAction:action_cancel];
         actionView.modalPresentationStyle = UIModalPresentationPopover;
         
-        UIButton *audioStreamsButton = (UIButton*)[self.view viewWithTag:TAG_BUTTON_AUDIOSTREAMS];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = remoteControlView;
-            popPresenter.sourceRect = audioStreamsButton.frame;
+            popPresenter.sourceRect = buttonAudiostreams.frame;
         }
         [self presentViewController:actionView animated:YES completion:nil];
     }
@@ -734,11 +733,10 @@
         [actionView addAction:action_cancel];
         actionView.modalPresentationStyle = UIModalPresentationPopover;
         
-        UIButton *subsButton = (UIButton*)[self.view viewWithTag:TAG_BUTTON_SUBTITLES];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = remoteControlView;
-            popPresenter.sourceRect = subsButton.frame;
+            popPresenter.sourceRect = buttonSubtitles.frame;
         }
         [self presentViewController:actionView animated:YES completion:nil];
     }

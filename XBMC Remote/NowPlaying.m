@@ -2011,13 +2011,17 @@ long storedItemID;
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"playlistCellView" owner:self options:nil];
         cell = nib[0];
-        ((UILabel*)[cell viewWithTag:1]).highlightedTextColor = [Utilities get1stLabelColor];
-        ((UILabel*)[cell viewWithTag:2]).highlightedTextColor = [Utilities get2ndLabelColor];
-        ((UILabel*)[cell viewWithTag:3]).highlightedTextColor = [Utilities get2ndLabelColor];
+        UILabel *mainLabel = (UILabel*)[cell viewWithTag:1];
+        UILabel *subLabel = (UILabel*)[cell viewWithTag:2];
+        UILabel *cornerLabel = (UILabel*)[cell viewWithTag:3];
         
-        ((UILabel*)[cell viewWithTag:1]).textColor = [Utilities get1stLabelColor];
-        ((UILabel*)[cell viewWithTag:2]).textColor = [Utilities get2ndLabelColor];
-        ((UILabel*)[cell viewWithTag:3]).textColor = [Utilities get2ndLabelColor];
+        mainLabel.highlightedTextColor = [Utilities get1stLabelColor];
+        subLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        cornerLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        
+        mainLabel.textColor = [Utilities get1stLabelColor];
+        subLabel.textColor = [Utilities get2ndLabelColor];
+        cornerLabel.textColor = [Utilities get2ndLabelColor];
     }
     NSDictionary *item = (playlistData.count > indexPath.row) ? playlistData[indexPath.row] : nil;
     UIImageView *thumb = (UIImageView*)[cell viewWithTag:4];
@@ -2027,7 +2031,7 @@ long storedItemID;
     UILabel *cornerLabel = (UILabel*)[cell viewWithTag:3];
 
     mainLabel.text = ![item[@"title"] isEqualToString:@""] ? item[@"title"] : item[@"label"];
-    ((UILabel*)[cell viewWithTag:2]).text = @"";
+    subLabel.text = @"";
     if ([item[@"type"] isEqualToString:@"episode"]) {
         mainLabel.text = [NSString stringWithFormat:@"%@", item[@"label"]];
         subLabel.text = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];

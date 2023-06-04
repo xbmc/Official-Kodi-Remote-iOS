@@ -466,9 +466,6 @@
         textInputField.delegate = self;
         textInputField.tag = 301;
         [cell.contentView addSubview:textInputField];
-        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
-        descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-        uiSliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
 	}
     cell.accessoryType = UITableViewCellAccessoryNone;
 
@@ -774,8 +771,8 @@
     float newValue = newStep * [self.detailItem[@"step"] intValue];
     if (newValue != storeSliderValue) {
         storeSliderValue = newValue;
-        if ([[[slider superview] viewWithTag:102] isKindOfClass:[UILabel class]]) {
-            UILabel *sliderLabel = (UILabel*)[[slider superview] viewWithTag:102];
+        UILabel *sliderLabel = [[slider superview] viewWithTag:102];
+        if (sliderLabel) {
             NSString *stringFormat = @"%i";
             stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
             sliderLabel.text = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
