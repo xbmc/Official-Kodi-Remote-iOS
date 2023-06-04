@@ -128,6 +128,28 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
+			<string>1.01</string>
+			<key>Key</key>
+			<string>episode_identifier</string>
+			<key>Title</key>
+			<string>Episode identifier</string>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Titles</key>
+			<array>
+				<string>1.01</string>
+				<string>1x01</string>
+				<string>S1E01</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>%d.%02d</string>
+				<string>%dx%02d</string>
+				<string>S%dE%02d</string>
+			</array>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
 			<true/>
 			<key>Key</key>
 			<string>ken_preference</string>

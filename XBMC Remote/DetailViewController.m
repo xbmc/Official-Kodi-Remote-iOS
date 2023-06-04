@@ -2086,14 +2086,9 @@
     else {
         thumbWidth = DEFAULT_THUMB_WIDTH;
     }
-    if (albumView) {
+    if (albumView || episodesView) {
         thumbWidth = 0;
-        labelPosition = thumbWidth + albumViewPadding + trackCountLabelWidth;
-        dataList.separatorInset = UIEdgeInsetsMake(0, 8, 0, 0);
-    }
-    else if (episodesView) {
-        thumbWidth = 0;
-        labelPosition = 18;
+        labelPosition = albumViewPadding + trackCountLabelWidth;
     }
     else if (channelGuideView) {
         thumbWidth = 0;
@@ -2102,6 +2097,7 @@
     else {
         labelPosition = thumbWidth + 8;
     }
+    dataList.separatorInset = UIEdgeInsetsMake(0, thumbWidth + 8, 0, 0);
     int newWidthLabel = 0;
     
     // label position for TVShow banner view needs to be tailored to match the default thumb size
@@ -2389,7 +2385,7 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = nib[0];
-        if (albumView) {
+        if (albumView || episodesView) {
             UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewPadding, cellHeight / 2 - (artistFontSize + labelPadding) / 2, trackCountLabelWidth - 2, artistFontSize + labelPadding)];
             trackNumberLabel.backgroundColor = UIColor.clearColor;
             trackNumberLabel.font = [UIFont systemFontOfSize:artistFontSize];
@@ -2400,8 +2396,10 @@
             [cell.contentView addSubview:trackNumberLabel];
         }
         else if (channelGuideView) {
+            UILabel *title = (UILabel*)[cell viewWithTag:1];
             UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(4, 8, epgChannelTimeLabelWidth - 8, 12 + labelPadding)];
             programTimeLabel.backgroundColor = UIColor.clearColor;
+            programTimeLabel.center = CGPointMake(programTimeLabel.center.x, title.center.y);
             programTimeLabel.font = [UIFont systemFontOfSize:12];
             programTimeLabel.adjustsFontSizeToFitWidth = YES;
             programTimeLabel.minimumScaleFactor = 8.0 / 12.0;
@@ -2487,8 +2485,8 @@
     if (channelListView && item[@"channelnumber"]) {
         title.text = [NSString stringWithFormat:@"%@. %@", item[@"channelnumber"], item[@"label"]];
     }
-    else if (item[@"episodeid"]) {
-        title.text = [Utilities formatTVShowStringForSeason:item[@"season"] episode:item[@"episode"] title:item[@"label"]];
+    else if (item[@"episodeid"] && !episodesView) {
+        title.text = [Utilities formatTVShowStringForSeasonLeading:item[@"season"] episode:item[@"episode"] title:item[@"label"]];
     }
     else {
         title.text = item[@"label"];
@@ -2537,7 +2535,7 @@
         if (channelListView || recordingListView) {
             CGRect frame;
             frame.origin.x = 4;
-            frame.origin.y = 10;
+            frame.origin.y = 8;
             frame.size.width = ceil(thumbWidth * 0.9);
             frame.size.height = ceil(thumbWidth * 0.7);
             cell.urlImageView.frame = frame;
@@ -2572,6 +2570,7 @@
         }
         if ([item[@"filetype"] length] != 0 ||
             [item[@"family"] isEqualToString:@"file"] ||
+            [item[@"family"] isEqualToString:@"type"] ||
             [item[@"family"] isEqualToString:@"genreid"] ||
             [item[@"family"] isEqualToString:@"channelgroupid"] ||
             [item[@"family"] isEqualToString:@"roleid"]) {
@@ -2675,6 +2674,10 @@
         UILabel *trackNumber = (UILabel*)[cell viewWithTag:101];
         trackNumber.text = item[@"track"];
     }
+    else if (episodesView) {
+        UILabel *trackNumber = (UILabel*)[cell viewWithTag:101];
+        trackNumber.text = item[@"episode"];
+    }
     else if (channelGuideView) {
         runtimeyear.hidden = YES;
         runtime.hidden = YES;
@@ -2734,6 +2737,12 @@
             hasTimer.hidden = YES;
         }
     }
+    if (!runtimeyear.hidden) {
+        frame = genre.frame;
+        frame.size.width = menuItem.widthLabel - [Utilities getWidthOfLabel:runtimeyear] - 8;
+        genre.frame = frame;
+    }
+    
     NSString *playcount = [NSString stringWithFormat:@"%@", item[@"playcount"]];
     UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
     frame = flagView.frame;
@@ -5766,7 +5775,6 @@ NSIndexPath *selected;
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-    dataList.separatorInset = UIEdgeInsetsMake(0, 53, 0, 0);
     dataList.indicatorStyle = UIScrollViewIndicatorStyleDefault;
     
     CGRect frame = dataList.frame;
@@ -5822,7 +5830,6 @@ NSIndexPath *selected;
     }
     else if ([methods[@"episodesView"] boolValue]) {
         episodesView = YES;
-        dataList.separatorInset = UIEdgeInsetsMake(0, 18, 0, 0);
     }
     else if ([methods[@"tvshowsView"] boolValue]) {
         tvshowsView = AppDelegate.instance.serverVersion > 11 && ![Utilities getPreferTvPosterMode];

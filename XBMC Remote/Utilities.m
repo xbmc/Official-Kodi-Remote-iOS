@@ -756,6 +756,14 @@
     return urlString;
 }
 
++ (CGFloat)getWidthOfLabel:(UILabel*)label {
+    CGRect expectedLabelRect = [label.text boundingRectWithSize:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)
+                                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                                     attributes:@{NSFontAttributeName: label.font}
+                                                        context:nil];
+    return ceil(expectedLabelRect.size.width);
+}
+
 + (CGFloat)getHeightOfLabel:(UILabel*)label {
     CGRect expectedLabelRect = [label.text boundingRectWithSize:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)
                                                         options:NSStringDrawingUsesLineFragmentOrigin
@@ -1144,14 +1152,27 @@
          forToolbarPosition:UIBarPositionAny];
 }
 
-+ (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode title:(NSString*)title {
++ (NSString*)formatTVShowStringForSeasonLeading:(id)season episode:(id)episode title:(NSString*)title {
     NSString *seasonAndEpisode = [Utilities formatTVShowStringForSeason:season episode:episode];
-    NSString *text = [NSString stringWithFormat:@"%@ - %@", seasonAndEpisode, title];
+    NSString *text = [NSString stringWithFormat:@"%@%@%@", seasonAndEpisode, seasonAndEpisode.length ? @" " : @"", title];
+    return text;
+}
+
++ (NSString*)formatTVShowStringForSeasonTrailing:(id)season episode:(id)episode title:(NSString*)title {
+    NSString *seasonAndEpisode = [Utilities formatTVShowStringForSeason:season episode:episode];
+    NSString *text = [NSString stringWithFormat:@"%@%@%@", title, seasonAndEpisode.length ? @" " : @"", seasonAndEpisode];
     return text;
 }
 
 + (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode {
-    NSString *text = [NSString stringWithFormat:@"S%@E%@", season, episode];
+    NSString *text = @"";
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *format = [userDefaults stringForKey:@"episode_identifier"];
+    if ([season respondsToSelector:@selector(intValue)] && [episode respondsToSelector:@selector(intValue)]) {
+        if ([season intValue] && [episode intValue]) {
+            text = [NSString stringWithFormat:format, [season intValue], [episode intValue]];
+        }
+    }
     return text;
 }
 

@@ -77,6 +77,7 @@ typedef enum {
 + (int)getSec2Min:(BOOL)convert;
 + (NSString*)getImageServerURL;
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
++ (CGFloat)getWidthOfLabel:(UILabel*)label;
 + (CGFloat)getHeightOfLabel:(UILabel*)label;
 + (UIImage*)roundedCornerImage:(UIImage*)image drawBorder:(BOOL)drawBorder;
 + (UIImageView*)roundedCornerView:(UIImageView*)view drawBorder:(BOOL)drawBorder;
@@ -104,7 +105,8 @@ typedef enum {
 + (void)colorLabel:(UILabel*)view AnimDuration:(NSTimeInterval)seconds Color:(UIColor*)color;
 + (float)getPercentElapsed:(NSDate*)startDate EndDate:(NSDate*)endDate;
 + (void)createTransparentToolbar:(UIToolbar*)toolbar;
-+ (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode title:(NSString*)title;
++ (NSString*)formatTVShowStringForSeasonTrailing:(id)season episode:(id)episode title:(NSString*)title;
++ (NSString*)formatTVShowStringForSeasonLeading:(id)season episode:(id)episode title:(NSString*)title;
 + (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode;
 
 @end
