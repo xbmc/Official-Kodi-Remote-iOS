@@ -721,6 +721,7 @@
                         @"year",
                         @"thumbnail",
                         @"artist",
+                        @"playcount",
                 ],
             }, @"parameters",
             @{
@@ -868,6 +869,7 @@
                         @"year",
                         @"thumbnail",
                         @"artist",
+                        @"playcount",
                 ],
             }, @"parameters",
             LOCALIZED_STR(@"Played albums"), @"label",
@@ -1083,6 +1085,7 @@
             @"row4": @"fanart",
             @"row5": @"rating",
             @"row6": @"albumid",
+            @"row7": @"playcount",
             @"playlistid": @PLAYERID_MUSIC,
             @"row8": @"albumid",
             @"row9": @"albumid",
@@ -1108,6 +1111,7 @@
             @"row10": @"file",
             @"row11": @"artist",
             @"row12": @"album",
+            @"row13": @"playcount",
         },
                       
         @{
@@ -1118,6 +1122,7 @@
             @"row4": @"fanart",
             @"row5": @"rating",
             @"row6": @"albumid",
+            @"row7": @"playcount",
             @"playlistid": @PLAYERID_MUSIC,
             @"row8": @"albumid",
             @"row9": @"albumid",
@@ -1125,7 +1130,6 @@
             @"row11": @"genre",
             @"row12": @"description",
             @"row13": @"albumlabel",
-            @"row14": @"playcount",
             @"itemid_extra_info": @"albumdetails",
         },
                       
@@ -1146,6 +1150,7 @@
             @"row12": @"album",
             @"row13": @"duration",
             @"row14": @"rating",
+            @"row15": @"playcount",
         },
                       
         @{
@@ -1365,6 +1370,7 @@
                         @"year",
                         @"thumbnail",
                         @"artist",
+                        @"playcount",
                 ],
             }, @"parameters",
             @{
@@ -1611,6 +1617,7 @@
             @"row4": @"fanart",
             @"row5": @"rating",
             @"row6": @"albumid",
+            @"row7": @"playcount",
             @"playlistid": @PLAYERID_MUSIC,
             @"row8": @"albumid",
             @"row9": @"albumid",
@@ -1903,6 +1910,7 @@
                         @"year",
                         @"thumbnail",
                         @"artist",
+                        @"playcount",
                 ],
             }, @"parameters",
             @{
@@ -1982,6 +1990,7 @@
             @"row4": @"fanart",
             @"row5": @"rating",
             @"row6": @"albumid",
+            @"row7": @"playcount",
             @"playlistid": @PLAYERID_MUSIC,
             @"row8": @"albumid",
             @"row9": @"albumid",
