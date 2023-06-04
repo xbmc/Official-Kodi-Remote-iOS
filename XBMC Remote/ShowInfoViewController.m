@@ -1037,13 +1037,13 @@ double round(double d) {
     if (!mainLabel.hidden) {
         CGRect frame = mainLabel.frame;
         frame.origin.y = offset;
-        frame.size.height = [Utilities getHeightOfLabel:mainLabel] + lineSpacing;
+        frame.size.height = [Utilities getSizeOfLabel:mainLabel].height + lineSpacing;
         mainLabel.frame = frame;
         offset += frame.size.height;
         
         frame = subLabel.frame;
         frame.origin.y = offset;
-        frame.size.height = [Utilities getHeightOfLabel:subLabel] + lineSpacing;
+        frame.size.height = [Utilities getSizeOfLabel:subLabel].height + lineSpacing;
         subLabel.frame = frame;
         offset += frame.size.height + VERTICAL_PADDING;
     }
@@ -1054,7 +1054,7 @@ double round(double d) {
     if (trailerLabel != nil) {
         CGRect frame = trailerLabel.frame;
         frame.origin.y = offset;
-        frame.size.height = [Utilities getHeightOfLabel:trailerLabel] + lineSpacing;
+        frame.size.height = [Utilities getSizeOfLabel:trailerLabel].height + lineSpacing;
         trailerLabel.frame = frame;
         offset += frame.size.height;
         
@@ -1070,7 +1070,7 @@ double round(double d) {
     if (cast.count) {
         CGRect frame = label6.frame;
         frame.origin.y = offset;
-        frame.size.height = [Utilities getHeightOfLabel:label6] + lineSpacing;
+        frame.size.height = [Utilities getSizeOfLabel:label6].height + lineSpacing;
         label6.frame = frame;
         offset += frame.size.height;
         

@@ -2752,7 +2752,7 @@
     }
     if (!runtimeyear.hidden) {
         frame = genre.frame;
-        frame.size.width = menuItem.widthLabel - [Utilities getWidthOfLabel:runtimeyear] - LABEL_PADDING;
+        frame.size.width = menuItem.widthLabel - [Utilities getSizeOfLabel:runtimeyear].width - LABEL_PADDING;
         genre.frame = frame;
     }
     

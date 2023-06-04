@@ -784,20 +784,13 @@
     return urlString;
 }
 
-+ (CGFloat)getWidthOfLabel:(UILabel*)label {
++ (CGSize)getSizeOfLabel:(UILabel*)label {
     CGRect expectedLabelRect = [label.text boundingRectWithSize:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)
                                                         options:NSStringDrawingUsesLineFragmentOrigin
                                                      attributes:@{NSFontAttributeName: label.font}
                                                         context:nil];
-    return ceil(expectedLabelRect.size.width);
-}
-
-+ (CGFloat)getHeightOfLabel:(UILabel*)label {
-    CGRect expectedLabelRect = [label.text boundingRectWithSize:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)
-                                                        options:NSStringDrawingUsesLineFragmentOrigin
-                                                     attributes:@{NSFontAttributeName: label.font}
-                                                        context:nil];
-    return ceil(expectedLabelRect.size.height);
+    CGSize labelSize = CGSizeMake(ceil(expectedLabelRect.size.width), ceil(expectedLabelRect.size.height));
+    return labelSize;
 }
 
 + (UIImage*)roundedCornerImage:(UIImage*)image drawBorder:(BOOL)drawBorder {
