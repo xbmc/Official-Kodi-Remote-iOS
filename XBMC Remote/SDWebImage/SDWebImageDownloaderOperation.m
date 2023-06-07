@@ -11,6 +11,7 @@
 #import "UIImage+MultiFormat.h"
 #import <ImageIO/ImageIO.h>
 #import "SDWebImageManager.h"
+#import "UIImage+Resize.h"
 
 NSString *const SDWebImageDownloadStartNotification = @"SDWebImageDownloadStartNotification";
 NSString *const SDWebImageDownloadReceiveResponseNotification = @"SDWebImageDownloadReceiveResponseNotification";
@@ -26,6 +27,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
 @property (assign, nonatomic, getter = isExecuting) BOOL executing;
 @property (assign, nonatomic, getter = isFinished) BOOL finished;
 @property (strong, nonatomic) NSMutableData *imageData;
+@property (strong, nonatomic) NSDictionary *userInfo;
 
 // This is weak because it is injected by whoever manages this session. If this gets nil-ed out, we won't be able to run
 // the task associated with this operation
@@ -54,6 +56,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
 
 - (id)initWithRequest:(NSURLRequest *)request
               options:(SDWebImageDownloaderOptions)options
+             userInfo:(NSDictionary *)userInfo
              progress:(SDWebImageDownloaderProgressBlock)progressBlock
             completed:(SDWebImageDownloaderCompletedBlock)completedBlock
             cancelled:(SDWebImageNoParamsBlock)cancelBlock {
@@ -61,6 +64,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
     return [self initWithRequest:request
                        inSession:nil
                          options:options
+                        userInfo:userInfo
                         progress:progressBlock
                        completed:completedBlock
                        cancelled:cancelBlock];
@@ -69,6 +73,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
 - (id)initWithRequest:(NSURLRequest *)request
             inSession:(NSURLSession *)session
               options:(SDWebImageDownloaderOptions)options
+             userInfo:(NSDictionary *)userInfo
              progress:(SDWebImageDownloaderProgressBlock)progressBlock
             completed:(SDWebImageDownloaderCompletedBlock)completedBlock
             cancelled:(SDWebImageNoParamsBlock)cancelBlock {
@@ -83,6 +88,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
         _finished = NO;
         _expectedSize = 0;
         _unownedSession = session;
+        _userInfo = userInfo;
         responseFromCached = YES; // Initially wrong until `- URLSession:dataTask:willCacheResponse:completionHandler: is called or not called
     }
     return self;
@@ -212,6 +218,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
     self.progressBlock = nil;
     self.dataTask = nil;
     self.imageData = nil;
+    self.userInfo = nil;
     self.thread = nil;
     if (self.ownedSession) {
         [self.ownedSession invalidateAndCancel];
@@ -341,7 +348,7 @@ didReceiveResponse:(NSURLResponse *)response
 
             if (partialImageRef) {
                 UIImage *image = [UIImage imageWithCGImage:partialImageRef scale:1 orientation:orientation];
-                NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
+                NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL userInfo:nil];
                 UIImage *scaledImage = [self scaledImageForKey:key image:image];
                 if (self.shouldDecompressImages) {
                     image = [UIImage decodedImageWithImage:scaledImage];
@@ -415,8 +422,15 @@ didReceiveResponse:(NSURLResponse *)response
                 completionBlock(nil, nil, nil, YES);
             } else if (self.imageData) {
                 UIImage *image = [UIImage sd_imageWithData:self.imageData];
-                NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
+                NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL userInfo:nil];
                 image = [self scaledImageForKey:key image:image];
+                
+                if (self.userInfo[@"nativeSize"]) {
+                    CGSize size = CGSizeFromString(self.userInfo[@"nativeSize"]);
+                    image = [image resizedImage:image.CGImage size:size interpolationQuality:kCGInterpolationHigh];
+                    NSData *elabData = UIImagePNGRepresentation(image);
+                    self.imageData = [NSMutableData dataWithData:elabData];
+                }
                 
                 // Do not force decoding animated GIFs
                 if (!image.images) {

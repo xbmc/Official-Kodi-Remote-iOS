@@ -53,32 +53,40 @@
     return self;
 }
 
-- (NSString *)cacheKeyForURL:(NSURL *)url {
+- (NSString *)cacheKeyForURL:(NSURL *)url userInfo:(NSDictionary *)userInfo {
     if (!url) {
         return @"";
     }
     
+    NSString *cacheKey = @"";
     if (self.cacheKeyFilter) {
-        return self.cacheKeyFilter(url);
+        cacheKey = self.cacheKeyFilter(url);
     } else {
-        return [url absoluteString];
+        cacheKey = [url absoluteString];
     }
+    
+    if (userInfo[@"nativeSize"]) {
+        NSString *suffix = userInfo[@"nativeSize"];
+        cacheKey = [NSString stringWithFormat:@"%@_resize_%@", cacheKey, suffix];
+    }
+    
+    return cacheKey;
 }
 
 - (BOOL)cachedImageExistsForURL:(NSURL *)url {
-    NSString *key = [self cacheKeyForURL:url];
+    NSString *key = [self cacheKeyForURL:url userInfo:nil];
     if ([self.imageCache imageFromMemoryCacheForKey:key] != nil) return YES;
     return [self.imageCache diskImageExistsWithKey:key];
 }
 
 - (BOOL)diskImageExistsForURL:(NSURL *)url {
-    NSString *key = [self cacheKeyForURL:url];
+    NSString *key = [self cacheKeyForURL:url userInfo:nil];
     return [self.imageCache diskImageExistsWithKey:key];
 }
 
 - (void)cachedImageExistsForURL:(NSURL *)url
                      completion:(SDWebImageCheckCacheCompletionBlock)completionBlock {
-    NSString *key = [self cacheKeyForURL:url];
+    NSString *key = [self cacheKeyForURL:url userInfo:nil];
     
     BOOL isInMemoryCache = ([self.imageCache imageFromMemoryCacheForKey:key] != nil);
     
@@ -102,7 +110,7 @@
 
 - (void)diskImageExistsForURL:(NSURL *)url
                    completion:(SDWebImageCheckCacheCompletionBlock)completionBlock {
-    NSString *key = [self cacheKeyForURL:url];
+    NSString *key = [self cacheKeyForURL:url userInfo:nil];
     
     [self.imageCache diskImageExistsWithKey:key completion:^(BOOL isInDiskCache) {
         // the completion block of checkDiskCacheForImageWithKey:completion: is always called on the main queue, no need to further dispatch
@@ -114,6 +122,7 @@
 
 - (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url
                                          options:(SDWebImageOptions)options
+                                        userInfo:(NSDictionary *)userInfo
                                         progress:(SDWebImageDownloaderProgressBlock)progressBlock
                                        completed:(SDWebImageCompletionWithFinishedBlock)completedBlock {
     // Invoking this method without a completedBlock is pointless
@@ -173,7 +182,7 @@
             }
         };
     }
-    NSString *key = [self cacheKeyForURL:url];
+    NSString *key = [self cacheKeyForURL:url userInfo:userInfo];
 
     operation.cacheOperation = [self.imageCache queryDiskCacheForKey:key done:^(UIImage *image, SDImageCacheType cacheType) {
         if (operation.isCancelled) {
@@ -208,7 +217,7 @@
                 // ignore image read from NSURLCache if image if cached but force refreshing
                 downloaderOptions |= SDWebImageDownloaderIgnoreCachedResponse;
             }
-            id <SDWebImageOperation> subOperation = [self.imageDownloader downloadImageWithURL:url options:downloaderOptions progress:progressBlock completed:^(UIImage *downloadedImage, NSData *data, NSError *error, BOOL finished) {
+            id <SDWebImageOperation> subOperation = [self.imageDownloader downloadImageWithURL:url options:downloaderOptions userInfo:userInfo progress:progressBlock completed:^(UIImage *downloadedImage, NSData *data, NSError *error, BOOL finished) {
                 __strong __typeof(weakOperation) strongOperation = weakOperation;
                 if (!strongOperation || strongOperation.isCancelled) {
                     // Do nothing if the operation was cancelled
@@ -324,7 +333,7 @@
 
 - (void)saveImageToCache:(UIImage *)image forURL:(NSURL *)url {
     if (image && url) {
-        NSString *key = [self cacheKeyForURL:url];
+        NSString *key = [self cacheKeyForURL:url userInfo:nil];
         [self.imageCache storeImage:image forKey:key toDisk:YES];
     }
 }
@@ -385,9 +394,10 @@
 
 // deprecated method, uses the non deprecated method
 // adapter for the completion block
-- (id <SDWebImageOperation>)downloadWithURL:(NSURL *)url options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedWithFinishedBlock)completedBlock {
+- (id <SDWebImageOperation>)downloadWithURL:(NSURL *)url options:(SDWebImageOptions)options userInfo:(NSDictionary *)userInfo progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedWithFinishedBlock)completedBlock {
     return [self downloadImageWithURL:url
                               options:options
+                             userInfo:userInfo
                              progress:progressBlock
                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                                 if (completedBlock) {
