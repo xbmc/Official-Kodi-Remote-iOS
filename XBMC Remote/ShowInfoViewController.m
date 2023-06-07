@@ -1479,7 +1479,8 @@ double round(double d) {
     NSString *serverURL = [Utilities getImageServerURL];
     NSString *stringURL = [Utilities formatStringURL:cast[indexPath.row][@"thumbnail"] serverURL:serverURL];
     [cell.actorThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
-                           placeholderImage:[UIImage imageNamed:@"person"]];
+                           placeholderImage:[UIImage imageNamed:@"person"]
+                                    options:SDWebImageScaleToNativeSize];
     [Utilities applyRoundedEdgesView:cell.actorThumbnail drawBorder:YES];
     cell.actorName.text = cast[indexPath.row][@"name"] == nil ? self.detailItem[@"label"] : cast[indexPath.row][@"name"];
     if ([cast[indexPath.row][@"role"] length] != 0) {

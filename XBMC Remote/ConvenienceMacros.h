@@ -40,5 +40,6 @@
  * Other
  */
 #define LOCALIZED_STR(string) NSLocalizedString(string, nil)
+#define SD_NATIVESIZE_KEY @"nativeSize"
 
 #endif /* ConvenienceMacros_h */

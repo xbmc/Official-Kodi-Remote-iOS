@@ -960,7 +960,7 @@
         __auto_type __weak weakImageView = imgView;
         [imgView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                    placeholderImage:[UIImage imageNamed:displayThumb]
-                            options:0
+                            options:SDWebImageScaleToNativeSize
                            progress:nil
                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
             // Only set the logo background, if the attempt to load it was successful (image != nil).
@@ -1799,6 +1799,7 @@
         if (![stringURL isEqualToString:@""]) {
             [cell.posterThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                     placeholderImage:[UIImage imageNamed:displayThumb]
+                                             options:SDWebImageScaleToNativeSize
                                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                 UIColor *averageColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
                 CGFloat hue, saturation, brightness, alpha;
@@ -1816,7 +1817,8 @@
 
         if (![fanartURL isEqualToString:@""]) {
             [cell.posterFanart sd_setImageWithURL:[NSURL URLWithString:fanartURL]
-                                 placeholderImage:[UIImage imageNamed:@"blank"]];
+                                 placeholderImage:[UIImage imageNamed:@"blank"]
+                                          options:SDWebImageScaleToNativeSize];
         }
         else {
             [cell.posterFanart sd_setImageWithURL:[NSURL URLWithString:@""]
@@ -2856,6 +2858,7 @@
             __weak UIImageView *weakThumbView = thumbImageView;
             [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                               placeholderImage:[UIImage imageNamed:displayThumb]
+                                       options:SDWebImageScaleToNativeSize
                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                       if (image != nil) {
                                           weakThumbView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];
@@ -3033,6 +3036,7 @@
                 __weak UIImageView *weakThumbView = thumbImageView;
                 [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                   placeholderImage:[UIImage imageNamed:displayThumb]
+                                           options:SDWebImageScaleToNativeSize
                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                     if (image != nil) {
                         weakThumbView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];

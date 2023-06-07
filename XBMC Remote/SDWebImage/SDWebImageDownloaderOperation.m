@@ -348,7 +348,7 @@ didReceiveResponse:(NSURLResponse *)response
 
             if (partialImageRef) {
                 UIImage *image = [UIImage imageWithCGImage:partialImageRef scale:1 orientation:orientation];
-                NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL userInfo:nil];
+                NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
                 UIImage *scaledImage = [self scaledImageForKey:key image:image];
                 if (self.shouldDecompressImages) {
                     image = [UIImage decodedImageWithImage:scaledImage];
@@ -422,14 +422,13 @@ didReceiveResponse:(NSURLResponse *)response
                 completionBlock(nil, nil, nil, YES);
             } else if (self.imageData) {
                 UIImage *image = [UIImage sd_imageWithData:self.imageData];
-                NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL userInfo:nil];
+                NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
                 image = [self scaledImageForKey:key image:image];
                 
-                if (self.userInfo[@"nativeSize"]) {
-                    CGSize size = CGSizeFromString(self.userInfo[@"nativeSize"]);
+                if (self.userInfo[SD_NATIVESIZE_KEY]) {
+                    CGSize size = CGSizeFromString(self.userInfo[SD_NATIVESIZE_KEY]);
                     image = [image resizedImage:image.CGImage size:size interpolationQuality:kCGInterpolationHigh];
-                    NSData *elabData = UIImagePNGRepresentation(image);
-                    self.imageData = [NSMutableData dataWithData:elabData];
+                    self.imageData = [UIImagePNGRepresentation(image) mutableCopy];
                 }
                 
                 // Do not force decoding animated GIFs

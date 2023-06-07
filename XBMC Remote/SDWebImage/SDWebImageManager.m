@@ -53,6 +53,10 @@
     return self;
 }
 
+- (NSString *)cacheKeyForURL:(NSURL *)url {
+    return [self cacheKeyForURL:url userInfo:nil];
+}
+
 - (NSString *)cacheKeyForURL:(NSURL *)url userInfo:(NSDictionary *)userInfo {
     if (!url) {
         return @"";
@@ -65,8 +69,8 @@
         cacheKey = [url absoluteString];
     }
     
-    if (userInfo[@"nativeSize"]) {
-        NSString *suffix = userInfo[@"nativeSize"];
+    if (userInfo[SD_NATIVESIZE_KEY]) {
+        NSString *suffix = userInfo[SD_NATIVESIZE_KEY];
         cacheKey = [NSString stringWithFormat:@"%@_resize_%@", cacheKey, suffix];
     }
     
@@ -74,19 +78,19 @@
 }
 
 - (BOOL)cachedImageExistsForURL:(NSURL *)url {
-    NSString *key = [self cacheKeyForURL:url userInfo:nil];
+    NSString *key = [self cacheKeyForURL:url];
     if ([self.imageCache imageFromMemoryCacheForKey:key] != nil) return YES;
     return [self.imageCache diskImageExistsWithKey:key];
 }
 
 - (BOOL)diskImageExistsForURL:(NSURL *)url {
-    NSString *key = [self cacheKeyForURL:url userInfo:nil];
+    NSString *key = [self cacheKeyForURL:url];
     return [self.imageCache diskImageExistsWithKey:key];
 }
 
 - (void)cachedImageExistsForURL:(NSURL *)url
                      completion:(SDWebImageCheckCacheCompletionBlock)completionBlock {
-    NSString *key = [self cacheKeyForURL:url userInfo:nil];
+    NSString *key = [self cacheKeyForURL:url];
     
     BOOL isInMemoryCache = ([self.imageCache imageFromMemoryCacheForKey:key] != nil);
     
@@ -110,7 +114,7 @@
 
 - (void)diskImageExistsForURL:(NSURL *)url
                    completion:(SDWebImageCheckCacheCompletionBlock)completionBlock {
-    NSString *key = [self cacheKeyForURL:url userInfo:nil];
+    NSString *key = [self cacheKeyForURL:url];
     
     [self.imageCache diskImageExistsWithKey:key completion:^(BOOL isInDiskCache) {
         // the completion block of checkDiskCacheForImageWithKey:completion: is always called on the main queue, no need to further dispatch
@@ -333,7 +337,7 @@
 
 - (void)saveImageToCache:(UIImage *)image forURL:(NSURL *)url {
     if (image && url) {
-        NSString *key = [self cacheKeyForURL:url userInfo:nil];
+        NSString *key = [self cacheKeyForURL:url];
         [self.imageCache storeImage:image forKey:key toDisk:YES];
     }
 }

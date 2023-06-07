@@ -61,7 +61,7 @@ static char TAG_ACTIVITY_SHOW;
         NSDictionary *userInfo = nil;
         if ((options & SDWebImageScaleToNativeSize) && nativeViewSize.width && nativeViewSize.height) {
             userInfo = @{
-                @"nativeSize": NSStringFromCGSize(nativeViewSize),
+                SD_NATIVESIZE_KEY: NSStringFromCGSize(nativeViewSize),
             };
         }
 
@@ -108,7 +108,7 @@ static char TAG_ACTIVITY_SHOW;
 }
 
 - (void)sd_setImageWithPreviousCachedImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock {
-    NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:url userInfo:nil];
+    NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:url];
     UIImage *lastPreviousCachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:key];
     
     [self sd_setImageWithURL:url placeholderImage:lastPreviousCachedImage ?: placeholder options:options progress:progressBlock completed:completedBlock];    
