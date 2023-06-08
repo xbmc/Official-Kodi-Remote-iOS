@@ -65,7 +65,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="18">
-                            <rect key="frame" x="6" y="31" width="76" height="31"/>
+                            <rect key="frame" x="5" y="31" width="80" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <string key="text">Host : port /
 TCP port</string>
@@ -76,7 +76,7 @@ TCP port</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text=":" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="55">
-                            <rect key="frame" x="187" y="37" width="10" height="20"/>
+                            <rect key="frame" x="196" y="37" width="6" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.89980614185333252" green="0.89980614185333252" blue="0.89980614185333252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -85,7 +85,7 @@ TCP port</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="/" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="98">
-                            <rect key="frame" x="242" y="37" width="10" height="20"/>
+                            <rect key="frame" x="253" y="37" width="6" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.89980614185333252" green="0.89980614185333252" blue="0.89980614185333252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -94,7 +94,7 @@ TCP port</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text=":" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="77">
-                            <rect key="frame" x="118" y="67" width="6" height="20"/>
+                            <rect key="frame" x="120" y="67" width="6" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.89980614185333252" green="0.89980614185333252" blue="0.89980614185333252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -103,7 +103,7 @@ TCP port</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text=":" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="78">
-                            <rect key="frame" x="153" y="67" width="6" height="20"/>
+                            <rect key="frame" x="158" y="67" width="6" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.89980614185333252" green="0.89980614185333252" blue="0.89980614185333252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -112,7 +112,7 @@ TCP port</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text=":" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="79">
-                            <rect key="frame" x="190" y="67" width="6" height="20"/>
+                            <rect key="frame" x="196" y="67" width="6" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.89980614185333252" green="0.89980614185333252" blue="0.89980614185333252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -121,7 +121,7 @@ TCP port</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text=":" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="80">
-                            <rect key="frame" x="227" y="67" width="6" height="20"/>
+                            <rect key="frame" x="234" y="67" width="6" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.89980614185333252" green="0.89980614185333252" blue="0.89980614185333252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -130,7 +130,7 @@ TCP port</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text=":" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="81">
-                            <rect key="frame" x="262" y="67" width="6" height="20"/>
+                            <rect key="frame" x="272" y="67" width="6" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.89980614185333252" green="0.89980614185333252" blue="0.89980614185333252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -139,7 +139,7 @@ TCP port</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Username and Password" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="16">
-                            <rect key="frame" x="13" y="91" width="70" height="31"/>
+                            <rect key="frame" x="5" y="91" width="80" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="0.89980614185333252" green="0.89980614185333252" blue="0.89980614185333252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -148,7 +148,7 @@ TCP port</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="MAC Address" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="76">
-                            <rect key="frame" x="3" y="61" width="80" height="31"/>
+                            <rect key="frame" x="5" y="61" width="80" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                             <color key="textColor" red="0.89980614185333252" green="0.89980614185333252" blue="0.89980614185333252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -157,7 +157,7 @@ TCP port</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Description" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="10">
-                            <rect key="frame" x="13" y="7" width="70" height="20"/>
+                            <rect key="frame" x="5" y="7" width="80" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.89980614185333252" green="0.89980614185333252" blue="0.89980614185333252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -166,7 +166,7 @@ TCP port</string>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <textField clipsSubviews="YES" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="e.g. 192.168.0.8" textAlignment="center" minimumFontSize="10" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="9">
-                            <rect key="frame" x="86" y="34" width="104" height="26"/>
+                            <rect key="frame" x="88" y="34" width="108" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -177,7 +177,7 @@ TCP port</string>
                             </connections>
                         </textField>
                         <textField clipsSubviews="YES" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="e.g. My XBMC" textAlignment="center" minimumFontSize="10" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                            <rect key="frame" x="86" y="4" width="213" height="26"/>
+                            <rect key="frame" x="88" y="4" width="222" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -188,7 +188,7 @@ TCP port</string>
                             </connections>
                         </textField>
                         <textField clipsSubviews="YES" tag="5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="00" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="58">
-                            <rect key="frame" x="86" y="64" width="32" height="26"/>
+                            <rect key="frame" x="88" y="64" width="32" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -199,7 +199,7 @@ TCP port</string>
                             </connections>
                         </textField>
                         <textField clipsSubviews="YES" tag="6" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="00" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="61">
-                            <rect key="frame" x="123" y="64" width="32" height="26"/>
+                            <rect key="frame" x="126" y="64" width="32" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -210,7 +210,7 @@ TCP port</string>
                             </connections>
                         </textField>
                         <textField clipsSubviews="YES" tag="7" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="00" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="64">
-                            <rect key="frame" x="158" y="64" width="32" height="26"/>
+                            <rect key="frame" x="164" y="64" width="32" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -221,7 +221,7 @@ TCP port</string>
                             </connections>
                         </textField>
                         <textField clipsSubviews="YES" tag="8" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="00" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="67">
-                            <rect key="frame" x="195" y="64" width="32" height="26"/>
+                            <rect key="frame" x="202" y="64" width="32" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -232,7 +232,7 @@ TCP port</string>
                             </connections>
                         </textField>
                         <textField clipsSubviews="YES" tag="9" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="00" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="70">
-                            <rect key="frame" x="232" y="64" width="32" height="26"/>
+                            <rect key="frame" x="240" y="64" width="32" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -243,7 +243,7 @@ TCP port</string>
                             </connections>
                         </textField>
                         <textField clipsSubviews="YES" tag="10" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="00" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="73">
-                            <rect key="frame" x="267" y="64" width="32" height="26"/>
+                            <rect key="frame" x="278" y="64" width="32" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -254,7 +254,7 @@ TCP port</string>
                             </connections>
                         </textField>
                         <textField clipsSubviews="YES" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="8080" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="14">
-                            <rect key="frame" x="195" y="34" width="48" height="26"/>
+                            <rect key="frame" x="202" y="34" width="51" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -265,7 +265,7 @@ TCP port</string>
                             </connections>
                         </textField>
                         <textField clipsSubviews="YES" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="9090" borderStyle="line" placeholder="9090" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="93">
-                            <rect key="frame" x="252" y="34" width="48" height="26"/>
+                            <rect key="frame" x="259" y="34" width="51" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -276,7 +276,7 @@ TCP port</string>
                             </connections>
                         </textField>
                         <textField clipsSubviews="YES" tag="11" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Username" textAlignment="center" minimumFontSize="10" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="13">
-                            <rect key="frame" x="86" y="94" width="104" height="26"/>
+                            <rect key="frame" x="88" y="94" width="108" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -287,7 +287,7 @@ TCP port</string>
                             </connections>
                         </textField>
                         <textField clipsSubviews="YES" tag="12" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Password" textAlignment="center" minimumFontSize="10" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="11">
-                            <rect key="frame" x="195" y="94" width="105" height="26"/>
+                            <rect key="frame" x="202" y="94" width="108" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -302,7 +302,7 @@ TCP port</string>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="37">
-                            <rect key="frame" x="195" y="141" width="103" height="28"/>
+                            <rect key="frame" x="202" y="141" width="108" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -321,7 +321,7 @@ TCP port</string>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="39">
-                            <rect key="frame" x="86" y="141" width="104" height="28"/>
+                            <rect key="frame" x="88" y="141" width="108" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="4" maxY="0.0"/>
@@ -421,7 +421,7 @@ TCP port</string>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-13" y="117"/>
+            <point key="canvasLocation" x="-13.043478260869566" y="116.51785714285714"/>
         </view>
     </objects>
     <resources>
