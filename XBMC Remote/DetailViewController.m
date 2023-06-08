@@ -3007,7 +3007,7 @@
         }
         NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d", [item[@"season"] intValue]] inArray:self.extraSectionRichResults];
         NSInteger firstListedSeason = [self getFirstListedSeason:self.extraSectionRichResults];
-        CGFloat seasonThumbWidth = (albumViewHeight - albumViewPadding * 2) * 0.71;
+        CGFloat seasonThumbWidth = floor((albumViewHeight - albumViewPadding * 2) * 0.71);
         if (seasonIdx != NSNotFound) {
             CGFloat origin_x = seasonThumbWidth + toggleIconSpace + albumViewPadding * 2;
             CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
