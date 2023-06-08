@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -64,10 +64,6 @@
                                 <action selector="textFieldDoneEditing:" destination="-1" eventType="touchUpInside" id="25"/>
                             </connections>
                         </button>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="tableUp" translatesAutoresizingMaskIntoConstraints="NO" id="6">
-                            <rect key="frame" x="0.0" y="452" width="320" height="8"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                        </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="18">
                             <rect key="frame" x="6" y="31" width="76" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -415,10 +411,6 @@ TCP port</string>
                                         <outlet property="delegate" destination="-1" id="51"/>
                                     </connections>
                                 </tableView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="tableUp" translatesAutoresizingMaskIntoConstraints="NO" id="48">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="4"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                </imageView>
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
@@ -435,7 +427,6 @@ TCP port</string>
     <resources>
         <image name="button_find" width="104" height="28"/>
         <image name="shiny_black_back" width="240" height="408"/>
-        <image name="tableUp" width="480" height="8"/>
         <image name="tip" width="15" height="15"/>
     </resources>
 </document>

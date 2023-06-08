@@ -357,10 +357,6 @@
                     <rect key="frame" x="0.0" y="416" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.49999999999999961" contentMode="scaleToFill" fixedFrame="YES" image="tableDown" translatesAutoresizingMaskIntoConstraints="NO" id="118">
-                            <rect key="frame" x="0.0" y="-3" width="320" height="4"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        </imageView>
                         <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="playlist_background" translatesAutoresizingMaskIntoConstraints="NO" id="150">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
@@ -614,7 +610,6 @@
         <image name="now_playing_stop" width="38" height="34"/>
         <image name="playlist_background" width="60" height="44"/>
         <image name="shiny_black_back" width="240" height="408"/>
-        <image name="tableDown" width="480" height="8"/>
         <image name="tableLeft" width="16" height="16"/>
         <image name="xbmc_overlay" width="512.5" height="127"/>
         <image name="xbmc_overlay_small" width="38" height="9.5"/>
