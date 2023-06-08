@@ -860,14 +860,14 @@
     UIButton *toggleButton = (UIButton*)[sender.view viewWithTag:99];
     if ([self.sectionArrayOpen[section] boolValue]) {
         [dataList beginUpdates];
-        [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
         [dataList endUpdates];
         toggleButton.selected = YES;
     }
     else {
         toggleButton.selected = NO;
         [dataList beginUpdates];
-        [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
         [dataList endUpdates];
     }
     // Refresh leyout
