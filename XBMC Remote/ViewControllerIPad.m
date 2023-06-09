@@ -475,6 +475,8 @@
     fanartBackgroundImage.autoresizingMask = rootView.autoresizingMask;
     fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
     fanartBackgroundImage.alpha = 0.05;
+    fanartBackgroundImage.layer.minificationFilter = kCAFilterTrilinear;
+    fanartBackgroundImage.layer.magnificationFilter = kCAFilterTrilinear;
     [self.view addSubview:fanartBackgroundImage];
 
 	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(PAD_MENU_TABLE_WIDTH, 0, rootView.frame.size.width - PAD_MENU_TABLE_WIDTH, rootView.frame.size.height - TOOLBAR_HEIGHT)];

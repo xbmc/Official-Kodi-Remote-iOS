@@ -2596,6 +2596,8 @@ long storedItemID;
     songBitRateImage.layer.minificationFilter = kCAFilterTrilinear;
     songSampleRateImage.layer.minificationFilter = kCAFilterTrilinear;
     songNumChanImage.layer.minificationFilter = kCAFilterTrilinear;
+    thumbnailView.layer.minificationFilter = kCAFilterTrilinear;
+    thumbnailView.layer.magnificationFilter = kCAFilterTrilinear;
     [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateNormal];
     [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateHighlighted];
     [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateSelected];

@@ -1685,6 +1685,8 @@ double round(double d) {
     [self.kenView stopAnimation];
     [self.kenView removeFromSuperview];
     self.kenView = [[KenBurnsView alloc] initWithFrame:targetedFrame];
+    self.kenView.layer.minificationFilter = kCAFilterTrilinear;
+    self.kenView.layer.magnificationFilter = kCAFilterTrilinear;
     self.kenView.autoresizingMask = fanartView.autoresizingMask;
     self.kenView.contentMode = fanartView.contentMode;
     self.kenView.delegate = self;
@@ -1843,6 +1845,11 @@ double round(double d) {
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
     foundTintColor = ICON_TINT_COLOR;
     [self configureView];
+    
+    coverView.layer.minificationFilter = kCAFilterTrilinear;
+    coverView.layer.magnificationFilter = kCAFilterTrilinear;
+    fanartView.layer.minificationFilter = kCAFilterTrilinear;
+    fanartView.layer.magnificationFilter = kCAFilterTrilinear;
     
     xbmcDateFormatter = [NSDateFormatter new];
     xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
