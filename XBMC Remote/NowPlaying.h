@@ -92,7 +92,6 @@
     UIColor *foundEffectColor;
     UISegmentedControl *playlistSegmentedControl;
     __weak IBOutlet UILabel *noItemsLabel;
-    UIImageView *tempFanartImageView;
     NSString *storeLiveTVTitle;
     NSString *storeClearlogo;
     NSString *storeClearart;

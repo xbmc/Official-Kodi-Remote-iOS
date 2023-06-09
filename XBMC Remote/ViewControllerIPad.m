@@ -634,7 +634,19 @@
 }
 
 - (void)handleChangeBackgroundImage:(NSNotification*)sender {
-    [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:[sender.userInfo objectForKey:@"image"]];
+    NSString *fanart = [sender.userInfo objectForKey:@"image"];
+    if (fanart.length) {
+        NSString *serverURL = [Utilities getImageServerURL];
+        NSString *fanartURL = [Utilities formatStringURL:fanart serverURL:serverURL];
+        [fanartBackgroundImage sd_setImageWithURL:[NSURL URLWithString:fanartURL]
+                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
+            UIImage *fanartImage = (error == nil && image != nil) ? image : [UIImage new];
+            [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:fanartImage];
+       }];
+    }
+    else {
+        [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:[UIImage new]];
+    }
 }
 
 - (void)handleChangeBackgroundGradientColor:(NSNotification*)sender {

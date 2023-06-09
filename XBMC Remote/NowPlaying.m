@@ -452,7 +452,7 @@ long storedItemID;
                 @"startColor": [Utilities getGrayColor:36 alpha:1.0],
                 @"endColor": [Utilities getGrayColor:22 alpha:1.0],
             };
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:nil];
         }
         else {
             CGFloat hue, saturation, brightness, alpha;
@@ -615,18 +615,7 @@ long storedItemID;
                                  if (![lastThumbnail isEqualToString:stringURL] || [lastThumbnail isEqualToString:@""]) {
                                      if (IS_IPAD) {
                                          NSString *fanart = (NSNull*)nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
-                                         if (![fanart isEqualToString:@""]) {
-                                             NSString *fanartURL = [Utilities formatStringURL:fanart serverURL:serverURL];
-                                             __weak NowPlaying *sf = self;
-                                             [tempFanartImageView sd_setImageWithURL:[NSURL URLWithString:fanartURL]
-                                                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                                                 UIImage *fanartImage = (error == nil && image != nil) ? image : [UIImage new];
-                                                 [sf notifyChangeForBackgroundImage:fanartImage];
-                                            }];
-                                         }
-                                         else {
-                                             [self notifyChangeForBackgroundImage:[UIImage new]];
-                                         }
+                                         [self notifyChangeForBackgroundImage:fanart];
                                      }
                                      if ([thumbnailPath isEqualToString:@""]) {
                                          UIImage *image = [UIImage imageNamed:@"coverbox_back"];
@@ -835,8 +824,8 @@ long storedItemID;
     }];
 }
 
-- (void)notifyChangeForBackgroundImage:(UIImage*)bgimage {
-    NSDictionary *params = @{@"image": bgimage};
+- (void)notifyChangeForBackgroundImage:(NSString*)bgImagePath {
+    NSDictionary *params = @{@"image": bgImagePath};
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
 }
 
@@ -2607,9 +2596,6 @@ long storedItemID;
     songBitRateImage.layer.minificationFilter = kCAFilterTrilinear;
     songSampleRateImage.layer.minificationFilter = kCAFilterTrilinear;
     songNumChanImage.layer.minificationFilter = kCAFilterTrilinear;
-    tempFanartImageView = [UIImageView new];
-    tempFanartImageView.hidden = YES;
-    [self.view addSubview:tempFanartImageView];
     [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateNormal];
     [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateHighlighted];
     [PartyModeButton setTitle:LOCALIZED_STR(@"Party") forState:UIControlStateSelected];
