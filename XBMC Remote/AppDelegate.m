@@ -6518,46 +6518,26 @@
     [Utilities archivePath:self.dataFilePath file:@"serverList_saved.dat" data:arrayServerList];
 }
 
+- (void)clearDiskCacheAtPath:(NSString*)cachePath {
+    [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:cachePath
+                              withIntermediateDirectories:YES
+                                               attributes:nil
+                                                    error:NULL];
+}
+
 - (void)clearAppDiskCache {
-    // OLD SDWEBImageCache
-    NSString *fullNamespace = @"ImageCache";
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *diskCachePath = [paths[0] stringByAppendingPathComponent:fullNamespace];
-    [[NSFileManager defaultManager] removeItemAtPath:diskCachePath error:nil];
-    [[NSFileManager defaultManager] removeItemAtPath:paths[0] error:nil];
+    // Clear SDWebImage image cache
+    [[SDImageCache sharedImageCache] clearDisk];
     
-    // TO BE CHANGED!!!
-    fullNamespace = @"com.hackemist.SDWebImageCache.default";
-    diskCachePath = [paths[0] stringByAppendingPathComponent:fullNamespace];
-    [[NSFileManager defaultManager] removeItemAtPath:diskCachePath error:nil];
-    [[NSFileManager defaultManager] createDirectoryAtPath:diskCachePath
-                              withIntermediateDirectories:YES
-                                               attributes:nil
-                                                    error:NULL];
+    // Clear library cache
+    [self clearDiskCacheAtPath:self.libraryCachePath];
     
-    [[NSFileManager defaultManager] removeItemAtPath:self.libraryCachePath error:nil];
-    [[NSFileManager defaultManager] createDirectoryAtPath:self.libraryCachePath
-                              withIntermediateDirectories:YES
-                                               attributes:nil
-                                                    error:NULL];
+    // Clear EPG cache
+    [self clearDiskCacheAtPath:self.epgCachePath];
     
-    [[NSFileManager defaultManager] removeItemAtPath:self.epgCachePath error:nil];
-    [[NSFileManager defaultManager] createDirectoryAtPath:self.epgCachePath
-                              withIntermediateDirectories:YES
-                                               attributes:nil
-                                                    error:NULL];
-    
-    // Clean NetworkCache
-    NSString *caches = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, TRUE)[0];
-    NSString *appID = [[NSBundle mainBundle] infoDictionary][@"CFBundleIdentifier"];
-    NSString *path = [NSString stringWithFormat:@"%@/%@/Cache.db-wal", caches, appID];
-    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
-    path = [NSString stringWithFormat:@"%@/%@/Cache.db-shm", caches, appID];
-    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
-    path = [NSString stringWithFormat:@"%@/%@/Cache.db", caches, appID];
-    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
-    path = [NSString stringWithFormat:@"%@/%@/fsCachedData", caches, appID];
-    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    // Clear network cache
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
 @end
