@@ -9,6 +9,7 @@
 #import "SDImageCache.h"
 #import "SDWebImageDecoder.h"
 #import "UIImage+MultiFormat.h"
+#import "NSString+MD5.h"
 #import <CommonCrypto/CommonDigest.h>
 
 // See https://github.com/rs/SDWebImage/pull/1141 for discussion
@@ -175,17 +176,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 #pragma mark SDImageCache (private)
 
 - (NSString *)cachedFileNameForKey:(NSString *)key {
-    const char *str = [key UTF8String];
-    if (str == NULL) {
-        str = "";
-    }
-    unsigned char r[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(str, (CC_LONG)strlen(str), r);
-    NSString *filename = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%@",
-                          r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10],
-                          r[11], r[12], r[13], r[14], r[15], [[key pathExtension] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@".%@", [key pathExtension]]];
-
-    return filename;
+    return [key SHA256String];
 }
 
 #pragma mark ImageCache
@@ -193,7 +184,9 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 // Init the disk cache
 -(NSString *)makeDiskCachePath:(NSString*)fullNamespace{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    return [paths[0] stringByAppendingPathComponent:fullNamespace];
+    // Keep path compatible to old SDWebImage path to re-use existing caches after upgrading the App
+    //return [paths[0] stringByAppendingPathComponent:fullNamespace];
+    return paths[0];
 }
 
 - (void)storeImage:(UIImage *)image recalculateFromImage:(BOOL)recalculate imageData:(NSData *)imageData forKey:(NSString *)key toDisk:(BOOL)toDisk {
