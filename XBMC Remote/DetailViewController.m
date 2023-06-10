@@ -2957,18 +2957,6 @@
         [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
         [albumDetailView addSubview:albumInfoButton];
         albumInfoButton.hidden = [self isModal];
-        
-//        UIButton *albumPlaybackButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        albumPlaybackButton.tag = 0;
-//        albumPlaybackButton.showsTouchWhenHighlighted = YES;
-//        UIImage *btnImage = [UIImage imageNamed:@"button_play"];
-//        albumPlaybackButton.image = btnImage forState:UIControlStateNormal;
-//        albumPlaybackButton.alpha = 0.8;
-//        int playbackOriginX = [[formatter stringFromNumber:@(albumThumbHeight / 2 - btnImage.size.width / 2 + albumViewPadding)] intValue];
-//        int playbackOriginY = [[formatter stringFromNumber:@(albumThumbHeight / 2 - btnImage.size.height / 2 + albumViewPadding)] intValue];
-//        albumPlaybackButton.frame = CGRectMake(playbackOriginX, playbackOriginY, btnImage.size.width, btnImage.size.height);
-//        [albumPlaybackButton addTarget:self action:@selector(preparePlaybackAlbum:) forControlEvents:UIControlEventTouchUpInside];
-//        [albumDetailView addSubview:albumPlaybackButton];
 
         return albumDetailView;
     }
