@@ -2849,19 +2849,18 @@
     
         NSString *stringURL = item[@"thumbnail"];
         NSString *displayThumb = @"coverbox_back";
+        [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
         if (![stringURL isEqualToString:@""]) {
             // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
             // ensure setImageWithURL falls back to this icon.
             if ([UIImage imageNamed:stringURL]) {
                 displayThumb = stringURL;
             }
-            __weak UIImageView *weakThumbView = thumbImageView;
             [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                               placeholderImage:[UIImage imageNamed:displayThumb]
                                        options:SDWebImageScaleToNativeSize
                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                       if (image != nil) {
-                                          weakThumbView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];
                                           [self setViewColor:albumDetailView
                                                        image:image
                                                    isTopMost:YES
@@ -3027,19 +3026,18 @@
                 self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
                 self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
             }
+            [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
             if (![stringURL isEqualToString:@""]) {
                 // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
                 // ensure setImageWithURL falls back to this icon.
                 if ([UIImage imageNamed:stringURL]) {
                     displayThumb = stringURL;
                 }
-                __weak UIImageView *weakThumbView = thumbImageView;
                 [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                   placeholderImage:[UIImage imageNamed:displayThumb]
                                            options:SDWebImageScaleToNativeSize
                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                     if (image != nil) {
-                        weakThumbView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];
                         [self setViewColor:albumDetailView
                                      image:image
                                  isTopMost:isFirstListedSeason
