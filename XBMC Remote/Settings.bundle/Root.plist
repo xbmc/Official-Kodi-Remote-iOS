@@ -128,7 +128,7 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<string>1.01</string>
+			<string>%d.%02d</string>
 			<key>Key</key>
 			<string>episode_identifier</string>
 			<key>Title</key>
