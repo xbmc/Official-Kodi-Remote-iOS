@@ -849,29 +849,31 @@
     [self.searchController.searchBar resignFirstResponder];
     [self.searchController setActive:NO];
     NSInteger section = [sender.view tag];
+    
     // Toggle the section's state (open/close)
-    [self.sectionArrayOpen replaceObjectAtIndex:section withObject:@(![self.sectionArrayOpen[section] boolValue])];
+    BOOL expandSection = ![self.sectionArrayOpen[section] boolValue];
+    self.sectionArrayOpen[section] = @(expandSection);
+    
     // Build the section content
-    NSInteger countEpisodes = [[self.sections objectForKey:self.sectionArray[section]] count];
+    NSInteger countEpisodes = [self.sections[self.sectionArray[section]] count];
     NSMutableArray *indexPaths = [NSMutableArray new];
     for (NSInteger i = 0; i < countEpisodes; i++) {
         [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:section]];
     }
+    
     // Add/remove the section content
-    BOOL expandSection = [self.sectionArrayOpen[section] boolValue];
     UIButton *toggleButton = (UIButton*)[sender.view viewWithTag:99];
     if (expandSection) {
         [dataList beginUpdates];
         [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
         [dataList endUpdates];
-        toggleButton.selected = YES;
     }
     else {
-        toggleButton.selected = NO;
         [dataList beginUpdates];
         [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
         [dataList endUpdates];
     }
+    toggleButton.selected = expandSection;
     dataList.tableHeaderView = self.searchController.searchBar;
     
     // Refresh layout (moves section header to top when expanding any season or when toggling the first season)
