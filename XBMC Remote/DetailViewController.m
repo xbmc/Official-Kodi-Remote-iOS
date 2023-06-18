@@ -872,13 +872,18 @@
         [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
         [dataList endUpdates];
     }
-    // Refresh leyout
     dataList.tableHeaderView = self.searchController.searchBar;
-    [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-    // Scroll to first item in section (first episode in season)
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
-    CGRect sectionRect = [dataList rectForRowAtIndexPath:indexPath];
-    [dataList scrollRectToVisible:sectionRect animated:YES];
+    
+    // Refresh layout (moves section header to top when expanding any season or when toggling the first season)
+    int visibleRows = 0;
+    for (int i = 0; i < section; i++) {
+        visibleRows += [dataList numberOfRowsInSection:i];
+    }
+    int insetToMoveSectionToTop = iOSYDelta + section * albumViewHeight + visibleRows * cellHeight;
+    if (expandSection || section == 0) {
+        // Moves inset to show current section on top
+        [dataList setContentOffset:CGPointMake(0, insetToMoveSectionToTop) animated:YES];
+    }
 }
 
 - (void)goBack:(id)sender {
