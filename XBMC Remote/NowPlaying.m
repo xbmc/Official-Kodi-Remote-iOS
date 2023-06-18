@@ -1418,6 +1418,7 @@ long storedItemID;
                   itemExtraDict[mainFields[@"row16"]], mainFields[@"row16"],
                   itemExtraDict[mainFields[@"row17"]], mainFields[@"row17"],
                   itemExtraDict[mainFields[@"row18"]], mainFields[@"row18"],
+                  itemExtraDict[mainFields[@"row19"]], mainFields[@"row19"],
                   itemExtraDict[mainFields[@"row20"]], mainFields[@"row20"],
                   nil];
                  [self displayInfoView:newItem];
