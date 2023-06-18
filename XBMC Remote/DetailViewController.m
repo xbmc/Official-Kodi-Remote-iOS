@@ -858,8 +858,9 @@
         [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:section]];
     }
     // Add/remove the section content
+    BOOL expandSection = [self.sectionArrayOpen[section] boolValue];
     UIButton *toggleButton = (UIButton*)[sender.view viewWithTag:99];
-    if ([self.sectionArrayOpen[section] boolValue]) {
+    if (expandSection) {
         [dataList beginUpdates];
         [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
         [dataList endUpdates];
