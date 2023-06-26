@@ -310,3 +310,13 @@
 "Global Search" = "Wyszukiwanie globalne";
 "Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "Oficjalna aplikacja Kodi Remote wykorzystuje grafikę pobraną z serwera Kodi lub z Internetu, gdy serwer Kodi się do niej odwołuje. Aby uwolnić piękno grafiki, użyj „Universal Scraper” Kodi lub innych dodatków do skrobaków.\n\nLogo Kodi, maskotka Zappy i oficjalne ikony Kodi Remote są własnością Fundacji Kodi.\nhttp://www.kodi.tv/contribute\n\n - Zespół Kodi";
 "Random" = "Losowo";
+"ISO equivalence" = "Równoważność ISO";
+"Aperture" = "Przesłona";
+"Exposure time" = "Czas ekspozycji";
+"Exposure mode" = "Tryb ekspozycji";
+"Focal length" = "Ogniskowa";
+"Camera model" = "Model aparatu";
+"Date & time" = "Data i godzina";
+"Resolution" = "Rozdzielczość";
+"Exposure bias" = "Korekta ekspozycji";
+"Metering mode" = "Tryb pomiaru";
