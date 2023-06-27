@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -76,10 +76,6 @@
                                 <outletCollection property="gestureRecognizers" destination="97" appends="YES" id="151"/>
                             </connections>
                         </tableView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.30000001192092896" contentMode="scaleToFill" fixedFrame="YES" image="tableDown" translatesAutoresizingMaskIntoConstraints="NO" id="163">
-                            <rect key="frame" x="0.0" y="602" width="839" height="4"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        </imageView>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="116" userLabel="Buttons View">
                             <rect key="frame" x="0.0" y="562" width="839" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -233,6 +229,5 @@
         <image name="st_more" width="34" height="30"/>
         <image name="st_sort_asc" width="34" height="34"/>
         <image name="st_view_list" width="34" height="34"/>
-        <image name="tableDown" width="480" height="8"/>
     </resources>
 </document>

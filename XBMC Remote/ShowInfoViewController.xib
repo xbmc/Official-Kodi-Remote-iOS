@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,7 +12,6 @@
                 <outlet property="activityIndicatorView" destination="32" id="33"/>
                 <outlet property="arrow_back_up" destination="WHd-MZ-RVV" id="6DM-lM-sXh"/>
                 <outlet property="arrow_continue_down" destination="87" id="88"/>
-                <outlet property="bottomShadow" destination="92" id="93"/>
                 <outlet property="coverView" destination="23" id="24"/>
                 <outlet property="directorLabel" destination="38" id="69"/>
                 <outlet property="fanartView" destination="90" id="91"/>
@@ -207,10 +206,6 @@
                         <outlet property="delegate" destination="-1" id="34"/>
                     </connections>
                 </scrollView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" image="tableDown" translatesAutoresizingMaskIntoConstraints="NO" id="92">
-                    <rect key="frame" x="0.0" y="414" width="320" height="2"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                </imageView>
                 <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87" userLabel="Arrow Continue Button">
                     <rect key="frame" x="285" y="381" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
@@ -258,6 +253,5 @@
         <image name="jewel_dvd.9" width="243.5" height="309.5"/>
         <image name="shiny_black_back" width="240" height="408"/>
         <image name="stars_9" width="97.5" height="34"/>
-        <image name="tableDown" width="480" height="8"/>
     </resources>
 </document>

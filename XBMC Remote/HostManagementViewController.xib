@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,7 +12,6 @@
                 <outlet property="addHostButton" destination="10" id="nxP-ze-Fwa"/>
                 <outlet property="backgroundImageView" destination="9" id="24"/>
                 <outlet property="bottomToolbar" destination="q9g-cA-CZS" id="9Kn-SK-f4i"/>
-                <outlet property="bottomToolbarShadowImageView" destination="7" id="bbf-9z-IcL"/>
                 <outlet property="connectingActivityIndicator" destination="26" id="27"/>
                 <outlet property="editTableButton" destination="5" id="18"/>
                 <outlet property="lpgr" destination="20" id="22"/>
@@ -117,17 +116,9 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="tableUp" translatesAutoresizingMaskIntoConstraints="NO" id="6">
-                            <rect key="frame" x="0.0" y="34" width="320" height="2"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        </imageView>
                     </subviews>
                     <color key="backgroundColor" red="0.16470588235294117" green="0.16470588235294117" blue="0.16078431372549018" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="tableDown" translatesAutoresizingMaskIntoConstraints="NO" id="7">
-                    <rect key="frame" x="0.0" y="201" width="320" height="2"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                </imageView>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="26">
                     <rect key="frame" x="142" y="95" width="37" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -147,7 +138,5 @@
     <resources>
         <image name="button_info" width="25" height="25"/>
         <image name="shiny_black_back" width="240" height="408"/>
-        <image name="tableDown" width="480" height="8"/>
-        <image name="tableUp" width="480" height="8"/>
     </resources>
 </document>
