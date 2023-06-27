@@ -659,7 +659,7 @@ double round(double d) {
         label5.text = LOCALIZED_STR(@"SUMMARY");
         label6.text = LOCALIZED_STR(@"CAST");
         parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [Utilities getStringFromItem:item[@"showtitle"]];
+        directorLabel.text = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];
         genreLabel.text = [Utilities getDateFromItem:item[@"firstaired"] dateStyle:NSDateFormatterLongStyle];
         runtimeLabel.text = [Utilities getStringFromItem:item[@"director"]];
         studioLabel.text = [Utilities getStringFromItem:item[@"writer"]];

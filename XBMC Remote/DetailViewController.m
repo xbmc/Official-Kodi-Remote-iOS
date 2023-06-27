@@ -518,6 +518,7 @@
                              item[mainFields[@"row16"]], mainFields[@"row16"],
                              item[mainFields[@"row17"]], mainFields[@"row17"],
                              item[mainFields[@"row18"]], mainFields[@"row18"],
+                             item[mainFields[@"row19"]], mainFields[@"row19"],
                              item[mainFields[@"row20"]], mainFields[@"row20"],
                              nil];
     return newItem;
@@ -2506,7 +2507,12 @@
     frame.size.width = frame.size.width - (labelPosition - frame.origin.x);
     frame.origin.x = labelPosition;
     genre.frame = frame;
-    genre.text = [item[@"genre"] stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
+    if (item[@"episodeid"] && episodesView && [self doesShowSearchResults]) {
+        genre.text = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"genre"]];
+    }
+    else {
+        genre.text = [item[@"genre"] stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
+    }
 
     frame = runtimeyear.frame;
     frame.origin.x = menuItem.originYearDuration;
