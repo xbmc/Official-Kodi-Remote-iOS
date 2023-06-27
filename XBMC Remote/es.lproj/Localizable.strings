@@ -261,7 +261,7 @@
 "Less than one hour" = "Menos de una hora";
 "About one hour" = "Sobre una hora";
 "About an hour and a half" = "Sobre una hora y media";
-"Nearly two hours" = "Cerca de dos horas";
+"Nearly two hours" = "Aproximadamente dos horas";
 "About two hours" = "Sobre dos horas";
 "Two hours" = "Dos horas";
 "About two and a half hours" = "Sobre dos horas y media";
@@ -271,7 +271,7 @@
 "Nearly three and half hours" = "Cerca de tres horas y media";
 "About three and half hours" = "Sobre tres horas y media";
 "Nearly four hours" = "Cerca de cuatro horas";
-"About four hours" = "Cerca de cuatro horas";
+"About four hours" = "Aproximadamente cuatro horas";
 "More than four hours" = "Más de cuatro horas";
 "Unknown" = "Desconocido";
 "Audio stream" = "Stream de Audio";
@@ -310,3 +310,13 @@
 "Global Search" = "Búsqueda Global";
 "Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "La app Kodi Remote Oficial usa arte descargado de tu servidor Kodi o de internet cuando el servidor Kodi lo indica así. Para desatar toda la belleza del arte usa el \"Universal Scraper\" de Kodi o algun otro add-on scraper.\n\nEl logo de Kodi, la mascota Zappy y el icono de Kodi Remote Oficial son propiedad de Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Equipo Kodi";
 "Random" = "Aleatorio";
+"ISO equivalence" = "Equivalencia ISO";
+"Resolution" = "Resolución";
+"Aperture" = "Apertura";
+"Exposure time" = "Tiempo de exposición";
+"Exposure mode" = "Modo de exposición";
+"Exposure bias" = "Sesgo de exposición";
+"Metering mode" = "Modo de medición";
+"Focal length" = "Distancia focal";
+"Camera model" = "Modelo de cámara";
+"Date & time" = "Fecha y hora";
