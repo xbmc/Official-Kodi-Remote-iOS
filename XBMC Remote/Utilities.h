@@ -108,5 +108,6 @@ typedef enum {
 + (NSString*)formatTVShowStringForSeasonTrailing:(id)season episode:(id)episode title:(NSString*)title;
 + (NSString*)formatTVShowStringForSeasonLeading:(id)season episode:(id)episode title:(NSString*)title;
 + (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode;
++ (NSString*)stripBBandHTML:(NSString*)text;
 
 @end
