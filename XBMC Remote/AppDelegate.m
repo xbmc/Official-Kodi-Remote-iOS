@@ -3883,7 +3883,6 @@
                         @"playcount",
                         @"episode",
                         @"art",
-                        @"title",
                 ],
             }, @"extra_section_parameters",
             LOCALIZED_STR(@"Episodes"), @"label",

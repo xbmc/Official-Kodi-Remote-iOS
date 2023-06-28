@@ -4782,7 +4782,7 @@ NSIndexPath *selected;
              [activeLayoutView reloadData];
              if ([NSJSONSerialization isValidJSONObject:methodResult]) {
                  NSString *itemid = @"";
-                 NSDictionary *mainFields = [self.detailItem mainFields][choosedTab];
+                 NSMutableDictionary *mainFields = [[self.detailItem mainFields][choosedTab] mutableCopy];
                  if ((NSNull*)mainFields[@"itemid"] != [NSNull null]) {
                      itemid = mainFields[@"itemid"];
                  }
@@ -4793,6 +4793,10 @@ NSIndexPath *selected;
                      else {
                          return;
                      }
+                 }
+                 // "VideoLibrary.GetSeasons" does not support "title" for API < 9.7.0. Instead, we look for "label" which is always provided.
+                 if ([methodName isEqualToString:@"VideoLibrary.GetSeasons"]) {
+                     mainFields[@"row1"] = @"label";
                  }
                  if (methodResult[@"recordings"] != nil) {
                      recordingListView = YES;
