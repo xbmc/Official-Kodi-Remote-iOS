@@ -849,35 +849,43 @@
     [self.searchController.searchBar resignFirstResponder];
     [self.searchController setActive:NO];
     NSInteger section = [sender.view tag];
+    
     // Toggle the section's state (open/close)
-    [self.sectionArrayOpen replaceObjectAtIndex:section withObject:@(![self.sectionArrayOpen[section] boolValue])];
+    BOOL expandSection = ![self.sectionArrayOpen[section] boolValue];
+    self.sectionArrayOpen[section] = @(expandSection);
+    
     // Build the section content
-    NSInteger countEpisodes = [[self.sections objectForKey:self.sectionArray[section]] count];
+    NSInteger countEpisodes = [self.sections[self.sectionArray[section]] count];
     NSMutableArray *indexPaths = [NSMutableArray new];
     for (NSInteger i = 0; i < countEpisodes; i++) {
         [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:section]];
     }
+    
     // Add/remove the section content
     UIButton *toggleButton = (UIButton*)[sender.view viewWithTag:99];
-    if ([self.sectionArrayOpen[section] boolValue]) {
+    if (expandSection) {
         [dataList beginUpdates];
-        [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
         [dataList endUpdates];
-        toggleButton.selected = YES;
     }
     else {
-        toggleButton.selected = NO;
         [dataList beginUpdates];
-        [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [dataList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
         [dataList endUpdates];
     }
-    // Refresh leyout
+    toggleButton.selected = expandSection;
     dataList.tableHeaderView = self.searchController.searchBar;
-    [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-    // Scroll to first item in section (first episode in season)
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
-    CGRect sectionRect = [dataList rectForRowAtIndexPath:indexPath];
-    [dataList scrollRectToVisible:sectionRect animated:YES];
+    
+    // Refresh layout (moves section header to top when expanding any season or when toggling the first season)
+    int visibleRows = 0;
+    for (int i = 0; i < section; i++) {
+        visibleRows += [dataList numberOfRowsInSection:i];
+    }
+    int insetToMoveSectionToTop = iOSYDelta + section * albumViewHeight + visibleRows * cellHeight;
+    if (expandSection || section == 0) {
+        // Moves inset to show current section on top
+        [dataList setContentOffset:CGPointMake(0, insetToMoveSectionToTop) animated:YES];
+    }
 }
 
 - (void)goBack:(id)sender {
