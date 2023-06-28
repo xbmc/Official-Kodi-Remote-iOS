@@ -560,6 +560,7 @@ long storedItemID;
                                      NSString *description = [Utilities getStringFromItem:nowPlayingInfo[@"description"]];
                                      NSString *plot = [Utilities getStringFromItem:nowPlayingInfo[@"plot"]];
                                      itemDescription.text = description.length ? description : (plot.length ? plot : @"");
+                                     itemDescription.text = [Utilities stripBBandHTML:itemDescription.text];
                                      [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
                                  }
                                  

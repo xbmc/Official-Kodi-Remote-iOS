@@ -883,6 +883,8 @@ double round(double d) {
 
     parentalRatingLabel.text = [Utilities getStringFromItem:item[@"mpaa"]];
     
+    summaryLabel.text = [Utilities stripBBandHTML:summaryLabel.text];
+    
     if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
         [self processTrailerFromString:item[@"trailer"]];
     }

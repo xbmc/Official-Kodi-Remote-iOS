@@ -444,7 +444,7 @@
 }
 
 - (void)setFilternameLabel:(NSString*)labelText runFullscreenButtonCheck:(BOOL)check forceHide:(BOOL)forceHide {
-    self.navigationItem.title = labelText;
+    self.navigationItem.title = [Utilities stripBBandHTML:labelText];
     if (IS_IPHONE) {
         return;
     }
@@ -1759,12 +1759,12 @@
         cell.posterLabelFullscreen.font = [UIFont boldSystemFontOfSize:posterFontSize];
         cell.posterThumbnail.contentMode = UIViewContentModeScaleAspectFill;
         if (stackscrollFullscreen) {
-            cell.posterLabelFullscreen.text = item[@"label"];
+            cell.posterLabelFullscreen.text = [Utilities stripBBandHTML:item[@"label"]];
             cell.labelImageView.hidden = YES;
             cell.posterLabelFullscreen.hidden = NO;
         }
         else {
-            cell.posterLabel.text = item[@"label"];
+            cell.posterLabel.text = [Utilities stripBBandHTML:item[@"label"]];
             cell.posterLabelFullscreen.hidden = YES;
         }
         
@@ -2508,7 +2508,7 @@
         title.text = [Utilities formatTVShowStringForSeasonLeading:item[@"season"] episode:item[@"episode"] title:item[@"label"]];
     }
     else {
-        title.text = item[@"label"];
+        title.text = [Utilities stripBBandHTML:item[@"label"]];
     }
 
     frame = genre.frame;
