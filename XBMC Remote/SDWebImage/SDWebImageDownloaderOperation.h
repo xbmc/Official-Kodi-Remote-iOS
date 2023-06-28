@@ -77,6 +77,7 @@ extern NSString *const SDWebImageDownloadFinishNotification;
 - (id)initWithRequest:(NSURLRequest *)request
             inSession:(NSURLSession *)session
               options:(SDWebImageDownloaderOptions)options
+             userInfo:(NSDictionary *)userInfo
              progress:(SDWebImageDownloaderProgressBlock)progressBlock
             completed:(SDWebImageDownloaderCompletedBlock)completedBlock
             cancelled:(SDWebImageNoParamsBlock)cancelBlock;
@@ -98,6 +99,7 @@ extern NSString *const SDWebImageDownloadFinishNotification;
  */
 - (id)initWithRequest:(NSURLRequest *)request
               options:(SDWebImageDownloaderOptions)options
+             userInfo:(NSDictionary *)userInfo
              progress:(SDWebImageDownloaderProgressBlock)progressBlock
             completed:(SDWebImageDownloaderCompletedBlock)completedBlock
             cancelled:(SDWebImageNoParamsBlock)cancelBlock

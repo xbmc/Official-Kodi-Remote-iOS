@@ -968,7 +968,7 @@
         __auto_type __weak weakImageView = imgView;
         [imgView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                    placeholderImage:[UIImage imageNamed:displayThumb]
-                            options:0
+                            options:SDWebImageScaleToNativeSize
                            progress:nil
                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
             // Only set the logo background, if the attempt to load it was successful (image != nil).
@@ -1807,6 +1807,7 @@
         if (![stringURL isEqualToString:@""]) {
             [cell.posterThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                     placeholderImage:[UIImage imageNamed:displayThumb]
+                                             options:SDWebImageScaleToNativeSize
                                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                 UIColor *averageColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
                 CGFloat hue, saturation, brightness, alpha;
@@ -1824,7 +1825,8 @@
 
         if (![fanartURL isEqualToString:@""]) {
             [cell.posterFanart sd_setImageWithURL:[NSURL URLWithString:fanartURL]
-                                 placeholderImage:[UIImage imageNamed:@"blank"]];
+                                 placeholderImage:[UIImage imageNamed:@"blank"]
+                                          options:SDWebImageScaleToNativeSize];
         }
         else {
             [cell.posterFanart sd_setImageWithURL:[NSURL URLWithString:@""]
@@ -2855,18 +2857,18 @@
     
         NSString *stringURL = item[@"thumbnail"];
         NSString *displayThumb = @"coverbox_back";
+        [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
         if (![stringURL isEqualToString:@""]) {
             // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
             // ensure setImageWithURL falls back to this icon.
             if ([UIImage imageNamed:stringURL]) {
                 displayThumb = stringURL;
             }
-            __weak UIImageView *weakThumbView = thumbImageView;
             [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                               placeholderImage:[UIImage imageNamed:displayThumb]
+                                       options:SDWebImageScaleToNativeSize
                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                       if (image != nil) {
-                                          weakThumbView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];
                                           [self setViewColor:albumDetailView
                                                        image:image
                                                    isTopMost:YES
@@ -3015,7 +3017,7 @@
         }
         NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d", [item[@"season"] intValue]] inArray:self.extraSectionRichResults];
         NSInteger firstListedSeason = [self getFirstListedSeason:self.extraSectionRichResults];
-        CGFloat seasonThumbWidth = (albumViewHeight - albumViewPadding * 2) * 0.71;
+        CGFloat seasonThumbWidth = floor((albumViewHeight - albumViewPadding * 2) * 0.71);
         if (seasonIdx != NSNotFound) {
             CGFloat origin_x = seasonThumbWidth + toggleIconSpace + albumViewPadding * 2;
             CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
@@ -3025,6 +3027,7 @@
             UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
             UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize - labelPadding / 2, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - albumViewPadding * 2)];
+            thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
             NSString *stringURL = self.extraSectionRichResults[seasonIdx][@"thumbnail"];
             NSString *displayThumb = @"coverbox_back_section";
             BOOL isFirstListedSeason = [item[@"season"] intValue] == firstListedSeason;
@@ -3032,18 +3035,18 @@
                 self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
                 self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
             }
+            [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
             if (![stringURL isEqualToString:@""]) {
                 // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
                 // ensure setImageWithURL falls back to this icon.
                 if ([UIImage imageNamed:stringURL]) {
                     displayThumb = stringURL;
                 }
-                __weak UIImageView *weakThumbView = thumbImageView;
                 [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                   placeholderImage:[UIImage imageNamed:displayThumb]
+                                           options:SDWebImageScaleToNativeSize
                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                     if (image != nil) {
-                        weakThumbView.image = [Utilities applyRoundedEdgesImage:image drawBorder:YES];
                         [self setViewColor:albumDetailView
                                      image:image
                                  isTopMost:isFirstListedSeason

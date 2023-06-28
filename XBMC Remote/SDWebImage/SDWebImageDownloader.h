@@ -180,6 +180,7 @@ typedef NSDictionary *(^SDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDi
  */
 - (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url
                                          options:(SDWebImageDownloaderOptions)options
+                                        userInfo:(NSDictionary *)userInfo
                                         progress:(SDWebImageDownloaderProgressBlock)progressBlock
                                        completed:(SDWebImageDownloaderCompletedBlock)completedBlock;
 

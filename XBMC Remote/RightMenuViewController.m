@@ -241,7 +241,8 @@
     }
     if ([tableData[indexPath.row][@"type"] isEqualToString:@"xbmc-exec-addon"]) {
         [icon sd_setImageWithURL:[NSURL URLWithString:tableData[indexPath.row][@"icon"]]
-                placeholderImage:[UIImage imageNamed:@"blank"]];
+                placeholderImage:[UIImage imageNamed:@"blank"]
+                         options:SDWebImageScaleToNativeSize];
         icon.alpha = 1.0;
     }
     else {

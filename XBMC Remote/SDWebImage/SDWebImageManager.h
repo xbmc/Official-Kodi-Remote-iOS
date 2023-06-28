@@ -87,7 +87,13 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
      * have the hand before setting the image (apply a filter or add it with cross-fade animation for instance)
      * Use this flag if you want to manually set the image in the completion when success
      */
-    SDWebImageAvoidAutoSetImage = 1 << 11
+    SDWebImageAvoidAutoSetImage = 1 << 11,
+    
+    /**
+     * To imperove the app performance we scale some of the images to the desired native size before
+     * caching them. This avoids rescaling to the image native size at runtime.
+     */
+    SDWebImageScaleToNativeSize = 1 << 12
 };
 
 typedef void(^SDWebImageCompletionBlock)(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL);
@@ -211,6 +217,7 @@ SDWebImageManager *manager = [SDWebImageManager sharedManager];
  */
 - (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url
                                          options:(SDWebImageOptions)options
+                                        userInfo:(NSDictionary *)userInfo
                                         progress:(SDWebImageDownloaderProgressBlock)progressBlock
                                        completed:(SDWebImageCompletionWithFinishedBlock)completedBlock;
 
@@ -279,6 +286,7 @@ SDWebImageManager *manager = [SDWebImageManager sharedManager];
  *Return the cache key for a given URL
  */
 - (NSString *)cacheKeyForURL:(NSURL *)url;
+- (NSString *)cacheKeyForURL:(NSURL *)url userInfo:(NSDictionary *)userInfo;
 
 @end
 
@@ -298,6 +306,7 @@ typedef void(^SDWebImageCompletedWithFinishedBlock)(UIImage *image, NSError *err
  */
 - (id <SDWebImageOperation>)downloadWithURL:(NSURL *)url
                                     options:(SDWebImageOptions)options
+                                   userInfo:(NSDictionary *)userInfo
                                    progress:(SDWebImageDownloaderProgressBlock)progressBlock
                                   completed:(SDWebImageCompletedWithFinishedBlock)completedBlock __deprecated_msg("Method deprecated. Use `downloadImageWithURL:options:progress:completed:`");
 

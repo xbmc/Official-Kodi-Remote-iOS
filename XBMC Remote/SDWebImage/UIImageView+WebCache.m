@@ -17,6 +17,10 @@ static char TAG_ACTIVITY_SHOW;
 
 @implementation UIImageView (WebCache)
 
+- (CGSize)doubleSizeRetina:(CGSize)size {
+    return CGSizeMake(size.width * UIScreen.mainScreen.scale, size.height * UIScreen.mainScreen.scale);
+}
+
 - (void)sd_setImageWithURL:(NSURL *)url {
     [self sd_setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:nil];
 }
@@ -52,6 +56,14 @@ static char TAG_ACTIVITY_SHOW;
     }
     
     if (url) {
+        // We want to fill the cache with images the size of the native views to reduce scaling load
+        CGSize nativeViewSize = [self doubleSizeRetina:self.frame.size];
+        NSDictionary *userInfo = nil;
+        if ((options & SDWebImageScaleToNativeSize) && nativeViewSize.width && nativeViewSize.height) {
+            userInfo = @{
+                SD_NATIVESIZE_KEY: NSStringFromCGSize(nativeViewSize),
+            };
+        }
 
         // check if activityView is enabled or not
         if ([self showActivityIndicatorView]) {
@@ -59,7 +71,7 @@ static char TAG_ACTIVITY_SHOW;
         }
 
         __weak __typeof(self)wself = self;
-        id <SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadImageWithURL:url options:options progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        id <SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadImageWithURL:url options:options userInfo:userInfo progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             [wself removeActivityIndicator];
             if (!wself) return;
             dispatch_main_sync_safe(^{
@@ -113,7 +125,7 @@ static char TAG_ACTIVITY_SHOW;
     NSMutableArray *operationsArray = [[NSMutableArray alloc] init];
 
     for (NSURL *logoImageURL in arrayOfURLs) {
-        id <SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadImageWithURL:logoImageURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        id <SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadImageWithURL:logoImageURL options:0 userInfo:nil progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             if (!wself) return;
             dispatch_main_sync_safe(^{
                 __strong UIImageView *sself = wself;
