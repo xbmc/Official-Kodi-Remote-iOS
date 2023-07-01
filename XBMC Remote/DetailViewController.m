@@ -2501,7 +2501,7 @@
     }
 
     frame = genre.frame;
-    frame.size.width = frame.size.width - (labelPosition - frame.origin.x);
+    frame.size.width = menuItem.widthLabel;
     frame.origin.x = labelPosition;
     genre.frame = frame;
     if (item[@"episodeid"] && episodesView && [self doesShowSearchResults]) {
@@ -2556,7 +2556,6 @@
         }
         if (channelListView) {
             CGRect frame = genre.frame;
-            genre.autoresizingMask = title.autoresizingMask;
             frame.size.width = title.frame.size.width;
             genre.frame = frame;
             genre.textColor = [Utilities get1stLabelColor];
@@ -2590,6 +2589,10 @@
             genre.hidden = YES;
             runtimeyear.hidden = YES;
             title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
+        }
+        else if ([item[@"family"] isEqualToString:@"channelid"]) {
+            runtimeyear.hidden = YES;
+            rating.hidden = YES;
         }
         else if ([item[@"family"] isEqualToString:@"recordingid"] ||
                  [item[@"family"] isEqualToString:@"timerid"]) {
@@ -2636,7 +2639,6 @@
                 genre.text = [NSString stringWithFormat:@"%@ - %@", item[@"channel"], item[@"plot"]];
                 genre.numberOfLines = 3;
             }
-            genre.autoresizingMask = title.autoresizingMask;
             CGRect frame = genre.frame;
             frame.size.width = title.frame.size.width;
             frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
@@ -2663,7 +2665,6 @@
             runtimeyear.hidden = YES;
             runtime.hidden = YES;
             rating.hidden = YES;
-            genre.autoresizingMask = title.autoresizingMask;
             frame = genre.frame;
             frame.size.width = title.frame.size.width;
             frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
@@ -2695,7 +2696,6 @@
         runtimeyear.hidden = YES;
         runtime.hidden = YES;
         rating.hidden = YES;
-        genre.autoresizingMask = title.autoresizingMask;
         CGRect frame = genre.frame;
         frame.size.width = title.frame.size.width;
         frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
