@@ -2639,7 +2639,7 @@
             }
             CGRect frame = genre.frame;
             frame.size.width = title.frame.size.width;
-            frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
+            frame.size.height = cellHeight - frame.origin.y - SMALL_PADDING;
             genre.frame = frame;
             frame = title.frame;
             frame.origin.y = 0;
