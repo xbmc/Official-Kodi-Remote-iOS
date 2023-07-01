@@ -2532,7 +2532,7 @@
         }
     }
     frame = runtime.frame;
-    frame.size.width = frame.size.width - (labelPosition - frame.origin.x);
+    frame.size.width = menuItem.widthLabel;
     frame.origin.x = labelPosition;
     runtime.frame = frame;
     runtime.text = item[@"runtime"];
@@ -2560,9 +2560,6 @@
             genre.frame = frame;
             genre.textColor = [Utilities get1stLabelColor];
             genre.font = [UIFont boldSystemFontOfSize:genre.font.pointSize];
-            frame = runtime.frame;
-            frame.size.width = menuItem.widthLabel;
-            runtime.frame = frame;
             ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:103];
             progressView.hidden = YES;
             UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
@@ -2675,6 +2672,7 @@
             [genre sizeToFit];
         }
         else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
+            rating.hidden = YES;
             genre.text = [Utilities getStringFromItem:item[@"genre"]];
             runtime.text = [Utilities getStringFromItem:item[@"artist"]];
         }
@@ -2754,6 +2752,11 @@
         frame = genre.frame;
         frame.size.width = menuItem.widthLabel - [Utilities getSizeOfLabel:runtimeyear].width - LABEL_PADDING;
         genre.frame = frame;
+    }
+    if (!rating.hidden) {
+        frame = runtime.frame;
+        frame.size.width = menuItem.widthLabel - [Utilities getSizeOfLabel:rating].width - LABEL_PADDING;
+        runtime.frame = frame;
     }
     
     NSString *playcount = [NSString stringWithFormat:@"%@", item[@"playcount"]];
