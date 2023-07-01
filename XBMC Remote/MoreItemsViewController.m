@@ -13,6 +13,8 @@
 @implementation MoreItemsViewController
 
 @synthesize tableView = _tableView;
+#define LABEL_PADDING 8
+#define INDICATOR_SIZE 16
 
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSArray*)menu {
     if (self = [super init]) {
@@ -62,7 +64,7 @@
 	}
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 0, self.view.bounds.size.width - cellLabelOffset - 24, 43)];
+    UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 0, self.view.bounds.size.width - cellLabelOffset - INDICATOR_SIZE - 2 * LABEL_PADDING, cell.frame.size.height)];
     cellLabel.font = [UIFont systemFontOfSize:18];
     cellLabel.textColor = [Utilities get1stLabelColor];
     cellLabel.highlightedTextColor = [Utilities get1stLabelColor];

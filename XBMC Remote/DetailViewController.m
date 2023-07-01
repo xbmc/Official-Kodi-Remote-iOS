@@ -72,6 +72,7 @@
 #define SMALL_PADDING 4
 #define TINY_PADDING 2
 #define FLAG_SIZE 16
+#define INDICATOR_SIZE 16
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -2654,7 +2655,7 @@
             CGRect frame;
             if ([item[@"family"] isEqualToString:@"id"]) {
                 frame = title.frame;
-                frame.size.width = frame.size.width - 22;
+                frame.size.width = frame.size.width - INDICATOR_SIZE - LABEL_PADDING;
                 title.frame = frame;
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
