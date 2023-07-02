@@ -359,8 +359,24 @@
     }
     NSLog(@"Discovery finished: %@", serverAddresses);
     if (serverAddresses.count) {
-        // Select desired type
-        NSDictionary *server = serverAddresses[@"ipv4"];
+        // Select preferred address type
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *mode = [userDefaults stringForKey:@"preferred_server_address"];
+        NSDictionary *server = serverAddresses[mode];
+        
+        // Fallback order: ipv4 > ipv6 > hostname
+        if (!server) {
+            server = serverAddresses[@"ipv4"];
+        }
+        if (!server) {
+            server = serverAddresses[@"ipv6"];
+        }
+        if (!server) {
+            server = serverAddresses[@"hostname"];
+        }
+        if (!server) {
+            return;
+        }
         
         // Set values for UI and persistency
         descriptionUI.text = service.name;
