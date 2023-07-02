@@ -112,5 +112,6 @@ typedef enum {
 + (NSString*)stripBBandHTML:(NSString*)text;
 + (BOOL)isValidMacAddress:(NSString*)macAddress;
 + (void)wakeUp:(NSString*)macAddress;
++ (NSString*)getUrlStyleAddress:(NSString*)address;
 
 @end

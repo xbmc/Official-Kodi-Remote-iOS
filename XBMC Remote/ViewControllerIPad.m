@@ -98,7 +98,8 @@
     AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
     AppDelegate.instance.obj.serverUser = item[@"serverUser"];
     AppDelegate.instance.obj.serverPass = item[@"serverPass"];
-    AppDelegate.instance.obj.serverIP = item[@"serverIP"];
+    AppDelegate.instance.obj.serverRawIP = item[@"serverIP"];
+    AppDelegate.instance.obj.serverIP = [Utilities getUrlStyleAddress:item[@"serverIP"]];
     AppDelegate.instance.obj.serverPort = item[@"serverPort"];
     AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue];
 }
@@ -115,7 +116,7 @@
                                    iconName, @"icon_connection",
                                    nil];
     if (status) {
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];
         AppDelegate.instance.serverOnLine = YES;
         AppDelegate.instance.serverName = infoText;
@@ -705,7 +706,7 @@
         if (self.tcpJSONRPCconnection == nil) {
             self.tcpJSONRPCconnection = [tcpJSONRPC new];
         }
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
     }
 }
 

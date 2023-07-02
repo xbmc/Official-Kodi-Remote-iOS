@@ -8,6 +8,7 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <StoreKit/StoreKit.h>
+#import <arpa/inet.h>
 #import "Utilities.h"
 #import "AppDelegate.h"
 #import "NSString+MD5.h"
@@ -1212,6 +1213,24 @@
 
 + (void)wakeUp:(NSString*)macAddress {
     [AppDelegate.instance sendWOL:macAddress withPort:WOL_PORT];
+}
+
++ (BOOL)isValidIP6Address:(NSString *)ip {
+    const char *utf8 = [ip UTF8String];
+
+    // Check valid IPv6.
+    struct in6_addr dst6;
+    int success = inet_pton(AF_INET6, utf8, &dst6);
+    
+    return (success == 1);
+}
+
++ (NSString*)getUrlStyleAddress:(NSString*)address {
+    NSString *URLaddress = address;
+    if ([Utilities isValidIP6Address:address]) {
+        URLaddress = [NSString stringWithFormat:@"[%@]", address];
+    }
+    return URLaddress;
 }
 
 @end

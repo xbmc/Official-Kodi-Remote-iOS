@@ -52,6 +52,7 @@
         AppDelegate.instance.obj.serverDescription = @"";
         AppDelegate.instance.obj.serverUser = @"";
         AppDelegate.instance.obj.serverPass = @"";
+        AppDelegate.instance.obj.serverRawIP = @"";
         AppDelegate.instance.obj.serverIP = @"";
         AppDelegate.instance.obj.serverPort = @"";
         AppDelegate.instance.obj.serverHWAddr = @"";
@@ -140,7 +141,8 @@
     AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
     AppDelegate.instance.obj.serverUser = item[@"serverUser"];
     AppDelegate.instance.obj.serverPass = item[@"serverPass"];
-    AppDelegate.instance.obj.serverIP = item[@"serverIP"];
+    AppDelegate.instance.obj.serverRawIP = item[@"serverIP"];
+    AppDelegate.instance.obj.serverIP = [Utilities getUrlStyleAddress:item[@"serverIP"]];
     AppDelegate.instance.obj.serverPort = item[@"serverPort"];
     AppDelegate.instance.obj.serverHWAddr = item[@"serverMacAddress"];
     AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue];
@@ -155,6 +157,7 @@
     AppDelegate.instance.obj.serverDescription = @"";
     AppDelegate.instance.obj.serverUser = @"";
     AppDelegate.instance.obj.serverPass = @"";
+    AppDelegate.instance.obj.serverRawIP = @"";
     AppDelegate.instance.obj.serverIP = @"";
     AppDelegate.instance.obj.serverPort = @"";
     AppDelegate.instance.obj.serverHWAddr = @"";
@@ -222,6 +225,7 @@
                 AppDelegate.instance.obj.serverDescription = @"";
                 AppDelegate.instance.obj.serverUser = @"";
                 AppDelegate.instance.obj.serverPass = @"";
+                AppDelegate.instance.obj.serverRawIP = @"";
                 AppDelegate.instance.obj.serverIP = @"";
                 AppDelegate.instance.obj.serverPort = @"";
                 AppDelegate.instance.obj.serverHWAddr = @"";
