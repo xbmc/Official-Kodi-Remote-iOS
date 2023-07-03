@@ -197,6 +197,8 @@
 - (void)netServiceBrowser:(NSNetServiceBrowser*)browser didNotSearch:(NSDictionary*)errorDict {
     searching = NO;
     [self handleError:errorDict[NSNetServicesErrorCode]];
+    [activityIndicatorView stopAnimating];
+    startDiscover.enabled = YES;
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser*)browser
