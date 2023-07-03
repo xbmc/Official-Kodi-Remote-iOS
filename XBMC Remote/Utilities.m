@@ -1206,4 +1206,12 @@
     return textOut;
 }
 
++ (BOOL)isValidMacAddress:(NSString*)macAddress {
+    return macAddress && macAddress.length && ![macAddress isEqualToString:@":::::"];
+}
+
++ (void)wakeUp:(NSString*)macAddress {
+    [AppDelegate.instance sendWOL:macAddress withPort:WOL_PORT];
+}
+
 @end

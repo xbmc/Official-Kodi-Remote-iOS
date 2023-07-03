@@ -182,8 +182,8 @@ NSInputStream	*inStream;
         return;
     }
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"wol_preference"] &&
-        AppDelegate.instance.obj.serverHWAddr != nil) {
-        [AppDelegate.instance sendWOL:AppDelegate.instance.obj.serverHWAddr withPort:WOL_PORT];
+        [Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
+        [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
     }
     inCheck = YES;
     

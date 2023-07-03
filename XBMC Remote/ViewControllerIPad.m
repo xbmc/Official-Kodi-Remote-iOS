@@ -103,10 +103,6 @@
     AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue];
 }
 
-- (void)wakeUp:(NSString*)macAddress {
-    [AppDelegate.instance sendWOL:macAddress withPort:WOL_PORT];
-}
-
 - (void)connectionStatus:(NSNotification*)note {
     NSDictionary *theData = note.userInfo;
     NSString *icon_connection = theData[@"icon_connection"];
@@ -217,8 +213,8 @@
     
     if (!AppDelegate.instance.serverOnLine) {
         UIAlertAction *action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Send Wake-On-LAN") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            if (AppDelegate.instance.obj.serverHWAddr != nil) {
-                [self wakeUp:AppDelegate.instance.obj.serverHWAddr];
+            if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
+                [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
                 UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
                 [self presentViewController:alertView animated:YES completion:nil];
             }

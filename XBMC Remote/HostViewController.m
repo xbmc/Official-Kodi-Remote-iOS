@@ -60,25 +60,14 @@
         ipUI.text = item[@"serverIP"];
         portUI.text = item[@"serverPort"];
         NSString *macAddress = item[@"serverMacAddress"];
-        NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
-        NSInteger num_octects = mac_octect.count;
-        if (num_octects > 0) {
-            mac_0_UI.text = mac_octect[0];
-        }
-        if (num_octects > 1) {
-            mac_1_UI.text = mac_octect[1];
-        }
-        if (num_octects > 2) {
-            mac_2_UI.text = mac_octect[2];
-        }
-        if (num_octects > 3) {
-            mac_3_UI.text = mac_octect[3];
-        }
-        if (num_octects > 4) {
-            mac_4_UI.text = mac_octect[4];
-        }
-        if (num_octects > 5) {
-            mac_5_UI.text = mac_octect[5];
+        NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
+        if (macPart.count == 6) {
+            mac_0_UI.text = macPart[0];
+            mac_1_UI.text = macPart[1];
+            mac_2_UI.text = macPart[2];
+            mac_3_UI.text = macPart[3];
+            mac_4_UI.text = macPart[4];
+            mac_5_UI.text = macPart[5];
         }
         tcpPortUI.text = item[@"tcpPort"];
     }
@@ -296,19 +285,19 @@
 - (void)fillMacAddressInfo {
     NSString *macAddress = [self resolveMacFromIP:ipUI.text];
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
-    if (macPart.count == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]) {
-        mac_0_UI.text = macPart[0];
-        mac_0_UI.textColor = [Utilities getSystemBlue];
-        mac_1_UI.text = macPart[1];
-        mac_1_UI.textColor = [Utilities getSystemBlue];
-        mac_2_UI.text = macPart[2];
-        mac_2_UI.textColor = [Utilities getSystemBlue];
-        mac_3_UI.text = macPart[3];
-        mac_3_UI.textColor = [Utilities getSystemBlue];
-        mac_4_UI.text = macPart[4];
-        mac_4_UI.textColor = [Utilities getSystemBlue];
-        mac_5_UI.text = macPart[5];
-        mac_5_UI.textColor = [Utilities getSystemBlue];
+    if (macPart.count == 6 && ![macAddress isEqualToString:@"00:00:00:00:00:00"]) {
+        NSArray *macLabels = @[
+            mac_0_UI,
+            mac_1_UI,
+            mac_2_UI,
+            mac_3_UI,
+            mac_4_UI,
+            mac_5_UI,
+        ];
+        [macLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
+            label.text = macPart[idx];
+            label.textColor = [Utilities getSystemBlue];
+        }];
     }
 }
 
