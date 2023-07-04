@@ -53,12 +53,13 @@
     else {
         self.navigationItem.title = LOCALIZED_STR(@"Modify XBMC Server");
         NSIndexPath *idx = self.detailItem;
-        descriptionUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverDescription"];
-        usernameUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverUser"];
-        passwordUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverPass"];
-        ipUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverIP"];
-        portUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverPort"];
-        NSString *macAddress = AppDelegate.instance.arrayServerList[idx.row][@"serverMacAddress"];
+        NSDictionary *item = AppDelegate.instance.arrayServerList[idx.row];
+        descriptionUI.text = item[@"serverDescription"];
+        usernameUI.text = item[@"serverUser"];
+        passwordUI.text = item[@"serverPass"];
+        ipUI.text = item[@"serverIP"];
+        portUI.text = item[@"serverPort"];
+        NSString *macAddress = item[@"serverMacAddress"];
         NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
         NSInteger num_octects = mac_octect.count;
         if (num_octects > 0) {
@@ -79,7 +80,7 @@
         if (num_octects > 5) {
             mac_5_UI.text = mac_octect[5];
         }
-        tcpPortUI.text = AppDelegate.instance.arrayServerList[idx.row][@"tcpPort"];
+        tcpPortUI.text = item[@"tcpPort"];
     }
 }
 

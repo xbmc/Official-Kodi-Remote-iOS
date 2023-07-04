@@ -135,22 +135,14 @@
     return cell;
 }
 
-static inline BOOL IsEmpty(id obj) {
-    return obj == nil
-    || ([obj respondsToSelector:@selector(length)]
-        && [(NSData*)obj length] == 0)
-    || ([obj respondsToSelector:@selector(count)]
-        && [(NSArray*)obj count] == 0);
-}
-
 - (void)selectServerAtIndexPath:(NSIndexPath*)indexPath {
     NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
-    AppDelegate.instance.obj.serverDescription = IsEmpty(item[@"serverDescription"]) ? @"" : item[@"serverDescription"];
-    AppDelegate.instance.obj.serverUser = IsEmpty(item[@"serverUser"]) ? @"" : item[@"serverUser"];
-    AppDelegate.instance.obj.serverPass = IsEmpty(item[@"serverPass"]) ? @"" : item[@"serverPass"];
-    AppDelegate.instance.obj.serverIP = IsEmpty(item[@"serverIP"]) ? @"" : item[@"serverIP"];
-    AppDelegate.instance.obj.serverPort = IsEmpty(item[@"serverPort"]) ? @"" : item[@"serverPort"];
-    AppDelegate.instance.obj.serverHWAddr = IsEmpty(item[@"serverMacAddress"]) ? @"" : item[@"serverMacAddress"];
+    AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
+    AppDelegate.instance.obj.serverUser = item[@"serverUser"];
+    AppDelegate.instance.obj.serverPass = item[@"serverPass"];
+    AppDelegate.instance.obj.serverIP = item[@"serverIP"];
+    AppDelegate.instance.obj.serverPort = item[@"serverPort"];
+    AppDelegate.instance.obj.serverHWAddr = item[@"serverMacAddress"];
     AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue];
 }
 
