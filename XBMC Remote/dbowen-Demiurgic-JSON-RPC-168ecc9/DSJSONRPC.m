@@ -119,6 +119,7 @@
             NSError *aError = [NSError errorWithDomain:RPC_DOMAIN code:DSJSONRPCParseError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
             completionHandler(methodName, aID, nil, nil, aError);
         }
+        return aID;
     }
     
     // Create the JSON-RPC request

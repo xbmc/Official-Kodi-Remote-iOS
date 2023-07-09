@@ -491,10 +491,7 @@ long storedItemID;
         if (error == nil && methodError == nil) {
             if ([methodResult isKindOfClass:[NSArray class]] && [methodResult count] > 0) {
                 nothingIsPlaying = NO;
-                NSNumber *response;
-                if (methodResult[0][@"playerid"] != [NSNull null]) {
-                    response = methodResult[0][@"playerid"];
-                }
+                NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
                 currentPlayerID = [response intValue];
                 if (playerID != currentPlayerID ||
                     lastPlayerID != currentPlayerID ||
@@ -546,10 +543,10 @@ long storedItemID;
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                      if (error == nil && methodError == nil) {
                          bool enableJewel = [self enableJewelCases];
-                         if ([NSJSONSerialization isValidJSONObject:methodResult]) {
-                             NSDictionary *nowPlayingInfo = nil;
-                             if (methodResult[@"item"] != [NSNull null]) {
-                                 nowPlayingInfo = methodResult[@"item"];
+                         if ([methodResult isKindOfClass:[NSDictionary class]]) {
+                             NSDictionary *nowPlayingInfo = methodResult[@"item"];
+                             if (![nowPlayingInfo isKindOfClass:[NSDictionary class]]) {
+                                 return;
                              }
                              long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
                              if ((nowPlayingInfo.count && currentItemID != storedItemID) || nowPlayingInfo[@"id"] == nil || ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
@@ -615,7 +612,7 @@ long storedItemID;
                                  NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                                  if (![lastThumbnail isEqualToString:stringURL] || [lastThumbnail isEqualToString:@""]) {
                                      if (IS_IPAD) {
-                                         NSString *fanart = (NSNull*)nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
+                                         NSString *fanart = nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
                                          [self notifyChangeForBackgroundImage:fanart];
                                      }
                                      if ([thumbnailPath isEqualToString:@""]) {
@@ -683,7 +680,7 @@ long storedItemID;
                                                    @"canseek"]}
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                      if (error == nil && methodError == nil) {
-                         if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                         if ([methodResult isKindOfClass:[NSDictionary class]]) {
                              if ([methodResult count]) {
                                  if (updateProgressBar) {
                                      ProgressSlider.value = [(NSNumber*)methodResult[@"percentage"] floatValue];
@@ -1126,7 +1123,7 @@ long storedItemID;
                if (error == nil && methodError == nil) {
                    [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
                    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-                   if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                   if ([methodResult isKindOfClass:[NSDictionary class]]) {
                        NSArray *playlistItems = methodResult[@"items"];
                        if (playlistItems.count == 0) {
                            [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
@@ -1296,23 +1293,24 @@ long storedItemID;
 }
 
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem {
-    NSString *itemid = @"";
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-    if ((NSNull*)mainFields[@"row6"] != [NSNull null]) {
-        itemid = mainFields[@"row6"];
-    }
-    else {
-        return; // something goes wrong
-    }
+    NSString *itemid = mainFields[@"row6"] ?: @"";
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
     UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
-    [activityIndicator startAnimating];
-    id object = @([item[itemid] intValue]);
-    if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {// WORKAROUND due the lack of the artistid with Playlist.GetItems
+    id object;
+    if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {
+        // WORKAROUND due to the lack of the artistid with Playlist.GetItems
         methodToCall = @"AudioLibrary.GetArtists";
         object = @{@"songid": @([item[@"idItem"] intValue])};
         itemid = @"filter";
     }
+    else {
+        object = @([item[itemid] intValue]);
+    }
+    if (!object) {
+        return; // something goes wrong
+    }
+    [activityIndicator startAnimating];
     NSMutableArray *newProperties = [parameters[@"properties"] mutableCopy];
     if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
         for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
@@ -1334,31 +1332,22 @@ long storedItemID;
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          [activityIndicator stopAnimating];
          if (error == nil && methodError == nil) {
-             if ([NSJSONSerialization isValidJSONObject:methodResult]) {
-                 NSString *itemid_extra_info = @"";
-                 if ((NSNull*)mainFields[@"itemid_extra_info"] != [NSNull null]) {
-                     itemid_extra_info = mainFields[@"itemid_extra_info"];
-                 }
-                 else {
-                     [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
-                     return;
-                 }
-                 if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]) {// WORKAROUND due the lack of the artistid with Playlist.GetItems
-                     itemid_extra_info = @"artists";
-                 }
-                 NSDictionary *itemExtraDict = methodResult[itemid_extra_info];
-                 if ((NSNull*)itemExtraDict == [NSNull null] || itemExtraDict == nil) {
-                     [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
-                     return;
-                 }
-                 if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]) {// WORKAROUND due the lack of the artistid with Playlist.GetItems
+             if ([methodResult isKindOfClass:[NSDictionary class]]) {
+                 NSDictionary *itemExtraDict;
+                 if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]) {
+                     // WORKAROUND due to the lack of the artistid with Playlist.GetItems
+                     NSString *itemid_extra_info = @"artists";
                      if ([methodResult[itemid_extra_info] count]) {
                          itemExtraDict = methodResult[itemid_extra_info][0];
                      }
-                     else {
-                         [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
-                         return;
-                     }
+                 }
+                 else {
+                     NSString *itemid_extra_info = mainFields[@"itemid_extra_info"] ?: @"";
+                     itemExtraDict = methodResult[itemid_extra_info];
+                 }
+                 if (!itemExtraDict || ![itemExtraDict isKindOfClass:[NSDictionary class]]) {
+                     [self somethingGoesWrong:LOCALIZED_STR(@"Details not found")];
+                     return;
                  }
                  NSString *serverURL = [Utilities getImageServerURL];
                  int runtimeInMinute = [Utilities getSec2Min:YES];
@@ -1942,7 +1931,8 @@ long storedItemID;
         id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
-            if ([mainFields[@"row6"] isEqualToString:@"artistid"]) { // WORKAROUND due the lack of the artistid with Playlist.GetItems
+            if ([mainFields[@"row6"] isEqualToString:@"artistid"]) {
+                // WORKAROUND due to the lack of the artistid with Playlist.GetItems
                 NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item[@"artist"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
                 obj = @{@"artist": artistFrodoWorkaround};
             }
@@ -2698,8 +2688,9 @@ long storedItemID;
 }
 
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
-    if (sender.userInfo) {
-        selectedPlayerID = [sender.userInfo[@"params"][@"data"][@"playlistid"] intValue];
+    NSDictionary *theData = sender.userInfo;
+    if ([theData isKindOfClass:[NSDictionary class]]) {
+        selectedPlayerID = [theData[@"params"][@"data"][@"playlistid"] intValue];
     }
     playerID = PLAYERID_UNKNOWN;
     lastSelected = SELECTED_NONE;

@@ -552,7 +552,7 @@
         [sender setUserInteractionEnabled:NO];
     }
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (methodError == nil && error == nil) {
+        if (methodError == nil && error == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
             [busyView stopAnimating];
             if ([sender respondsToSelector:@selector(setHidden:)]) {
                 [sender setHidden:NO];

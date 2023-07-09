@@ -612,7 +612,7 @@
 
 + (NSString*)getStringFromItem:(id)item {
     NSString *text = @"";
-    if (item == nil) {
+    if (item == nil || [item isKindOfClass:[NSNull class]]) {
         text = @"";
     }
     else if ([item isKindOfClass:[NSArray class]]) {
@@ -630,7 +630,7 @@
 
 + (NSString*)getTimeFromItem:(id)item sec2min:(int)secondsToMinute {
     NSString *runtime = @"";
-    if (item == nil) {
+    if (item == nil || [item isKindOfClass:[NSNull class]]) {
         runtime = @"";
     }
     else if ([item isKindOfClass:[NSArray class]]) {
@@ -645,7 +645,7 @@
 
 + (NSString*)getYearFromItem:(id)item {
     NSString *year = @"";
-    if (item == nil) {
+    if (item == nil || [item isKindOfClass:[NSNull class]]) {
         year = @"";
     }
     else if ([item isKindOfClass:[NSNumber class]]) {
@@ -673,10 +673,19 @@
     return year;
 }
 
++ (float)getFloatValueFromItem:(id)item {
+    float floatval = 0.0f;
+    if ([item respondsToSelector:@selector(floatValue)]) {
+        floatval = [item floatValue];
+    }
+    return floatval;
+}
+
 + (NSString*)getRatingFromItem:(id)item {
-    NSString *rating = [NSString stringWithFormat:@"%.1f", [(NSNumber*)item floatValue]];
-    if ([rating isEqualToString:@"0.0"]) {
-        rating = @"";
+    NSString *rating = @"";
+    float ratingValue = [Utilities getFloatValueFromItem:item];
+    if (ratingValue > 0) {
+        rating = [NSString stringWithFormat:@"%.1f", ratingValue];
     }
     return rating;
 }
@@ -722,7 +731,7 @@
 
 + (NSString*)getDateFromItem:(id)item dateStyle:(NSDateFormatterStyle)dateStyle {
     NSString *dateString = @"";
-    if ([item length] > 0) {
+    if ([item isKindOfClass:[NSString class]] && [item length] > 0) {
         NSDateFormatter *format = [NSDateFormatter new];
         format.locale = [NSLocale currentLocale];
         format.dateFormat = @"yyyy-MM-dd";

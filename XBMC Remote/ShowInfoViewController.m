@@ -70,20 +70,20 @@ double round(double d) {
                           LOCALIZED_STR(@"Play")
                         ] mutableCopy];
         NSDictionary *resumePointDict = item[@"resume"];
-        if (resumePointDict != nil) {
-            if ((NSNull*)resumePointDict[@"position"] != [NSNull null]) {
-                if ([resumePointDict[@"position"] floatValue] > 0 && [resumePointDict[@"total"] floatValue] > 0) {
-                    resumePointPercentage = ([resumePointDict[@"position"] floatValue] * 100) / [resumePointDict[@"total"] floatValue];
-                    [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @([resumePointDict[@"position"] floatValue])]]];
-                }
+        if (resumePointDict && [resumePointDict isKindOfClass:[NSDictionary class]]) {
+            float position = [Utilities getFloatValueFromItem:resumePointDict[@"position"]];
+            float total = [Utilities getFloatValueFromItem:resumePointDict[@"total"]];
+            if (position > 0 && total > 0) {
+                resumePointPercentage = (position * 100) / total;
+                [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @(position)]]];
             }
         }
         BOOL fromAlbumView = NO;
-        if ((NSNull*)item[@"fromAlbumView"] != [NSNull null]) {
+        if (item[@"fromAlbumView"] != [NSNull null]) {
             fromAlbumView = [item[@"fromAlbumView"] boolValue];
         }
         BOOL fromEpisodesView = NO;
-        if ((NSNull*)item[@"fromEpisodesView"] != [NSNull null]) {
+        if (item[@"fromEpisodesView"] != [NSNull null]) {
             fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         }
         
@@ -1548,7 +1548,7 @@ double round(double d) {
          withParameters:params
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (error == nil && methodError == nil) {
-                 if ([NSJSONSerialization isValidJSONObject:methodResult]) {
+                 if ([methodResult isKindOfClass:[NSDictionary class]]) {
                      if ([methodResult count]) {
                          [activityIndicatorView stopAnimating];
                          int newPos = [methodResult[@"position"] intValue] + 1;

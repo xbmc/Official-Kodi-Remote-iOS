@@ -165,8 +165,10 @@
 - (void)handleApplicationOnVolumeChanged:(NSNotification*)sender {
     if (!isChangingVolume) {
         NSDictionary *theData = sender.userInfo;
-        AppDelegate.instance.serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
-        [self handleServerStatusChanged:nil];
+        if ([theData isKindOfClass:[NSDictionary class]]) {
+            AppDelegate.instance.serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
+            [self handleServerStatusChanged:nil];
+        }
     }
 }
 
@@ -252,7 +254,7 @@
      withParameters:@{@"properties": @[@"muted"]}
      withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-         if (error == nil && methodError == nil) {
+         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
              isMuted = [methodResult[@"muted"] boolValue];
              [self handleMute:isMuted];
          }
