@@ -315,6 +315,34 @@
     }
 }
 
+- (void)fillAddressPort:(NSMutableDictionary*)serverAddresses port:(int)httpPort addr:(NSString*)addr name:(NSString*)name ip:(NSString*)ipversion {
+    if (httpPort > 0) {
+        NSString *port = [NSString stringWithFormat:@"%d", httpPort];
+        serverAddresses[@"hostname"] = @{
+            @"addr": name,
+            @"port": port,
+        };
+        if (addr.length) {
+            serverAddresses[ipversion] = @{
+                @"addr": addr,
+                @"port": port,
+            };
+        }
+    }
+}
+
+- (void)fillTcpPort:(NSMutableDictionary*)serverAddresses port:(int)tcpPort ip:(NSString*)ipversion {
+    if (tcpPort > 0) {
+        NSString *port = [NSString stringWithFormat:@"%d", tcpPort];
+        serverAddresses[@"hostname"] = @{
+            @"tcpport": port,
+        };
+        serverAddresses[ipversion] = @{
+            @"tcpport": port,
+        };
+    }
+}
+
 # pragma mark - resolveIPAddress Methods
 
 - (void)resolveIPAddress:(NSNetService*)service {
@@ -336,19 +364,8 @@
                                                    &(socketAddress->sin_addr),
                                                    addressBuffer,
                                                    INET_ADDRSTRLEN);
-                int port = ntohs(socketAddress->sin_port);
-                if (port) {
-                    serverAddresses[@"hostname"] = @{
-                        @"addr": service.hostName,
-                        @"port": [NSString stringWithFormat:@"%d", port],
-                    };
-                    if (addressStr) {
-                        serverAddresses[@"ipv4"] = @{
-                            @"addr": [NSString stringWithFormat:@"%s", addressStr],
-                            @"port": [NSString stringWithFormat:@"%d", port],
-                        };
-                    }
-                }
+                NSString *addr = addressStr ? @(addressStr) : @"";
+                [self fillAddressPort:serverAddresses port:ntohs(socketAddress->sin_port) addr:addr name:service.hostName ip:@"ipv4"];
             }
             else if (sockFamily == AF_INET6) {
                 const struct sockaddr_in6 *addr6 = (const struct sockaddr_in6*)[data bytes];
@@ -356,19 +373,8 @@
                                                    &addr6->sin6_addr,
                                                    addressBuffer,
                                                    INET6_ADDRSTRLEN);
-                int port = ntohs(addr6->sin6_port);
-                if (port) {
-                    serverAddresses[@"hostname"] = @{
-                        @"addr": service.hostName,
-                        @"port": [NSString stringWithFormat:@"%d", port],
-                    };
-                    if (addressStr) {
-                        serverAddresses[@"ipv6"] = @{
-                            @"addr": [NSString stringWithFormat:@"%s", addressStr],
-                            @"port": [NSString stringWithFormat:@"%d", port],
-                        };
-                    }
-                }
+                NSString *addr = addressStr ? @(addressStr) : @"";
+                [self fillAddressPort:serverAddresses port:ntohs(addr6->sin6_port) addr:addr name:service.hostName ip:@"ipv6"];
             }
         }
         NSLog(@"Resolved address/port for service '%@' by '%@': %@", type, service.name, serverAddresses);
@@ -378,23 +384,11 @@
             struct sockaddr_in *socketAddress = (struct sockaddr_in*)[data bytes];
             int sockFamily = socketAddress->sin_family;
             if (sockFamily == AF_INET) {
-                int port = ntohs(socketAddress->sin_port);
-                serverAddresses[@"ipv4"] = @{
-                    @"tcpport": [NSString stringWithFormat:@"%d", port],
-                };
-                serverAddresses[@"hostname"] = @{
-                    @"tcpport": [NSString stringWithFormat:@"%d", port],
-                };
+                [self fillTcpPort:serverAddresses port:ntohs(socketAddress->sin_port) ip:@"ipv4"];
             }
             else if (sockFamily == AF_INET6) {
                 const struct sockaddr_in6 *addr6 = (const struct sockaddr_in6*)[data bytes];
-                int port = ntohs(addr6->sin6_port);
-                serverAddresses[@"ipv6"] = @{
-                    @"tcpport": [NSString stringWithFormat:@"%d", port],
-                };
-                serverAddresses[@"hostname"] = @{
-                    @"tcpport": [NSString stringWithFormat:@"%d", port],
-                };
+                [self fillTcpPort:serverAddresses port:ntohs(addr6->sin6_port) ip:@"ipv6"];
             }
         }
     }
