@@ -277,7 +277,14 @@ didReceiveResponse:(NSURLResponse *)response
     // Identify the operation that runs this task and pass it the delegate method
     SDWebImageDownloaderOperation *dataOperation = [self operationWithTask:dataTask];
 
-    [dataOperation URLSession:session dataTask:dataTask didReceiveResponse:response completionHandler:completionHandler];
+    if (dataOperation) {
+        [dataOperation URLSession:session dataTask:dataTask didReceiveResponse:response completionHandler:completionHandler];
+    }
+    else {
+        if (completionHandler) {
+            completionHandler(NSURLSessionResponseAllow);
+        }
+    }
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
@@ -285,7 +292,9 @@ didReceiveResponse:(NSURLResponse *)response
     // Identify the operation that runs this task and pass it the delegate method
     SDWebImageDownloaderOperation *dataOperation = [self operationWithTask:dataTask];
 
-    [dataOperation URLSession:session dataTask:dataTask didReceiveData:data];
+    if (dataOperation) {
+        [dataOperation URLSession:session dataTask:dataTask didReceiveData:data];
+    }
 }
 
 - (void)URLSession:(NSURLSession *)session
@@ -296,7 +305,14 @@ didReceiveResponse:(NSURLResponse *)response
     // Identify the operation that runs this task and pass it the delegate method
     SDWebImageDownloaderOperation *dataOperation = [self operationWithTask:dataTask];
 
-    [dataOperation URLSession:session dataTask:dataTask willCacheResponse:proposedResponse completionHandler:completionHandler];
+    if (dataOperation) {
+        [dataOperation URLSession:session dataTask:dataTask willCacheResponse:proposedResponse completionHandler:completionHandler];
+    }
+    else {
+        if (completionHandler) {
+            completionHandler(proposedResponse);
+        }
+    }
 }
 
 #pragma mark NSURLSessionTaskDelegate
@@ -305,7 +321,9 @@ didReceiveResponse:(NSURLResponse *)response
     // Identify the operation that runs this task and pass it the delegate method
     SDWebImageDownloaderOperation *dataOperation = [self operationWithTask:task];
 
-    [dataOperation URLSession:session task:task didCompleteWithError:error];
+    if (dataOperation) {
+        [dataOperation URLSession:session task:task didCompleteWithError:error];
+    }
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
@@ -313,7 +331,14 @@ didReceiveResponse:(NSURLResponse *)response
     // Identify the operation that runs this task and pass it the delegate method
     SDWebImageDownloaderOperation *dataOperation = [self operationWithTask:task];
 
-    [dataOperation URLSession:session task:task didReceiveChallenge:challenge completionHandler:completionHandler];
+    if (dataOperation) {
+        [dataOperation URLSession:session task:task didReceiveChallenge:challenge completionHandler:completionHandler];
+    }
+    else {
+        if (completionHandler) {
+            completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+        }
+    }
 }
 
 @end
