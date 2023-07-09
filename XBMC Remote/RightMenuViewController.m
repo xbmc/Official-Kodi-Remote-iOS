@@ -475,9 +475,8 @@
         else {
             NSString *command = tableData[indexPath.row][@"action"][@"command"];
             if ([command isEqualToString:@"System.WOL"]) {
-                NSString *serverMAC = AppDelegate.instance.obj.serverHWAddr;
-                if (serverMAC != nil && ![serverMAC isEqualToString:@":::::"]) {
-                    [self wakeUp:AppDelegate.instance.obj.serverHWAddr];
+                if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
+                    [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
                     [messagesView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
                 }
                 else {
@@ -568,10 +567,6 @@
             [sender setUserInteractionEnabled:YES];
         }
     }];
-}
-
-- (void)wakeUp:(NSString*)macAddress {
-    [AppDelegate.instance sendWOL:macAddress withPort:WOL_PORT];
 }
 
 #pragma mark - LifeCycle

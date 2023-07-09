@@ -27,7 +27,8 @@
 #import <netinet/in.h>
 #import "Utilities.h"
 
-#define serviceType @"_xbmc-jsonrpc-h._tcp"
+#define serviceTypeHTTP @"_xbmc-jsonrpc-h._tcp"
+#define serviceTypeTCP @"_xbmc-jsonrpc._tcp"
 #define domainName @"local"
 #define DISCOVER_TIMEOUT 15.0
 #define BUFLEN (sizeof(struct rt_msghdr) + 512)
@@ -53,33 +54,23 @@
     else {
         self.navigationItem.title = LOCALIZED_STR(@"Modify XBMC Server");
         NSIndexPath *idx = self.detailItem;
-        descriptionUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverDescription"];
-        usernameUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverUser"];
-        passwordUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverPass"];
-        ipUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverIP"];
-        portUI.text = AppDelegate.instance.arrayServerList[idx.row][@"serverPort"];
-        NSString *macAddress = AppDelegate.instance.arrayServerList[idx.row][@"serverMacAddress"];
-        NSArray *mac_octect = [macAddress componentsSeparatedByString:@":"];
-        NSInteger num_octects = mac_octect.count;
-        if (num_octects > 0) {
-            mac_0_UI.text = mac_octect[0];
+        NSDictionary *item = AppDelegate.instance.arrayServerList[idx.row];
+        descriptionUI.text = item[@"serverDescription"];
+        usernameUI.text = item[@"serverUser"];
+        passwordUI.text = item[@"serverPass"];
+        ipUI.text = item[@"serverIP"];
+        portUI.text = item[@"serverPort"];
+        NSString *macAddress = item[@"serverMacAddress"];
+        NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
+        if (macPart.count == 6) {
+            mac_0_UI.text = macPart[0];
+            mac_1_UI.text = macPart[1];
+            mac_2_UI.text = macPart[2];
+            mac_3_UI.text = macPart[3];
+            mac_4_UI.text = macPart[4];
+            mac_5_UI.text = macPart[5];
         }
-        if (num_octects > 1) {
-            mac_1_UI.text = mac_octect[1];
-        }
-        if (num_octects > 2) {
-            mac_2_UI.text = mac_octect[2];
-        }
-        if (num_octects > 3) {
-            mac_3_UI.text = mac_octect[3];
-        }
-        if (num_octects > 4) {
-            mac_4_UI.text = mac_octect[4];
-        }
-        if (num_octects > 5) {
-            mac_5_UI.text = mac_octect[5];
-        }
-        tcpPortUI.text = AppDelegate.instance.arrayServerList[idx.row][@"tcpPort"];
+        tcpPortUI.text = item[@"tcpPort"];
     }
 }
 
@@ -207,22 +198,35 @@
 - (void)netServiceBrowser:(NSNetServiceBrowser*)browser didNotSearch:(NSDictionary*)errorDict {
     searching = NO;
     [self handleError:errorDict[NSNetServicesErrorCode]];
+    [activityIndicatorView stopAnimating];
+    startDiscover.enabled = YES;
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser*)browser
            didFindService:(NSNetService*)aNetService
                moreComing:(BOOL)moreComing {
-    [services addObject:aNetService];
-    if (!moreComing) {
-        [self stopDiscovery];
-        [self updateUI];
+    NSString *type = aNetService.type;
+    NSString *name = aNetService.name;
+    NSLog(@"Found '%@', '%@'", name, type);
+    if ([type containsString:serviceTypeHTTP]) {
+        [services addObject:aNetService];
+        if (!moreComing) {
+            [self stopDiscovery];
+        }
+    }
+    else if ([name isEqualToString:descriptionUI.text]) {
+        // Trigger [service resolveWithTimeout:0] to have netServiceDidResolveAddress called which reads the TCP port
+        [self resolveIPAddress:aNetService];
     }
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser*)browser
          didRemoveService:(NSNetService*)aNetService
                moreComing:(BOOL)moreComing {
-    [services removeObject:aNetService];
+    NSString *type = aNetService.type;
+    if ([type containsString:serviceTypeHTTP]) {
+        [services removeObject:aNetService];
+    }
     if (!moreComing) {
         [self updateUI];
     }
@@ -295,60 +299,150 @@
 - (void)fillMacAddressInfo {
     NSString *macAddress = [self resolveMacFromIP:ipUI.text];
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
-    if (macPart.count == 6 && ![macAddress isEqualToString:@"02:00:00:00:00:00"]) {
-        mac_0_UI.text = macPart[0];
-        mac_0_UI.textColor = [Utilities getSystemBlue];
-        mac_1_UI.text = macPart[1];
-        mac_1_UI.textColor = [Utilities getSystemBlue];
-        mac_2_UI.text = macPart[2];
-        mac_2_UI.textColor = [Utilities getSystemBlue];
-        mac_3_UI.text = macPart[3];
-        mac_3_UI.textColor = [Utilities getSystemBlue];
-        mac_4_UI.text = macPart[4];
-        mac_4_UI.textColor = [Utilities getSystemBlue];
-        mac_5_UI.text = macPart[5];
-        mac_5_UI.textColor = [Utilities getSystemBlue];
+    if (macPart.count == 6 && ![macAddress isEqualToString:@"00:00:00:00:00:00"]) {
+        NSArray *macLabels = @[
+            mac_0_UI,
+            mac_1_UI,
+            mac_2_UI,
+            mac_3_UI,
+            mac_4_UI,
+            mac_5_UI,
+        ];
+        [macLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
+            label.text = macPart[idx];
+            label.textColor = [Utilities getSystemBlue];
+        }];
+    }
+}
+
+- (void)fillAddressPort:(NSMutableDictionary*)serverAddresses port:(int)httpPort addr:(NSString*)addr name:(NSString*)name ip:(NSString*)ipversion {
+    if (httpPort > 0) {
+        NSString *port = [NSString stringWithFormat:@"%d", httpPort];
+        serverAddresses[@"hostname"] = @{
+            @"addr": name,
+            @"port": port,
+        };
+        if (addr.length) {
+            serverAddresses[ipversion] = @{
+                @"addr": addr,
+                @"port": port,
+            };
+        }
+    }
+}
+
+- (void)fillTcpPort:(NSMutableDictionary*)serverAddresses port:(int)tcpPort ip:(NSString*)ipversion {
+    if (tcpPort > 0) {
+        NSString *port = [NSString stringWithFormat:@"%d", tcpPort];
+        serverAddresses[@"hostname"] = @{
+            @"tcpport": port,
+        };
+        serverAddresses[ipversion] = @{
+            @"tcpport": port,
+        };
     }
 }
 
 # pragma mark - resolveIPAddress Methods
 
 - (void)resolveIPAddress:(NSNetService*)service {
-    NSNetService *remoteService = service;
+    remoteService = service;
     remoteService.delegate = self;
     [remoteService resolveWithTimeout:0];
 }
 
 - (void)netServiceDidResolveAddress:(NSNetService*)service {
-
-    for (NSData *data in [service addresses]) {
-        char addressBuffer[100];
-        struct sockaddr_in *socketAddress = (struct sockaddr_in*)[data bytes];
-        int sockFamily = socketAddress->sin_family;
-        if (sockFamily == AF_INET) {//|| sockFamily == AF_INET6 should be considered
-            const char *addressStr = inet_ntop(sockFamily,
-                                               &(socketAddress->sin_addr), addressBuffer,
-                                               sizeof(addressBuffer));
-            int port = ntohs(socketAddress->sin_port);
-            if (addressStr && port) {
-                descriptionUI.text = service.name;
-                ipUI.text = [NSString stringWithFormat:@"%s", addressStr];
-                portUI.text = [NSString stringWithFormat:@"%d", port];
-                descriptionUI.textColor = [Utilities getSystemBlue];
-                ipUI.textColor = [Utilities getSystemBlue];
-                portUI.textColor = [Utilities getSystemBlue];
-                NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
-                NSURL *url = [[NSURL alloc] initWithString:serverJSON];
-                NSURLSession *pingSession = [NSURLSession sharedSession];
-                NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url
-                                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self fillMacAddressInfo];
-                    });
-                }];
-                [pingConnection resume];
-                [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
+    NSMutableDictionary *serverAddresses = [NSMutableDictionary new];
+    NSString *type = service.type;
+    if ([type containsString:serviceTypeHTTP]) {
+        for (NSData *data in [service addresses]) {
+            char addressBuffer[MAX(INET_ADDRSTRLEN, INET6_ADDRSTRLEN)];
+            struct sockaddr_in *socketAddress = (struct sockaddr_in*)[data bytes];
+            int sockFamily = socketAddress->sin_family;
+            if (sockFamily == AF_INET) {
+                const char *addressStr = inet_ntop(sockFamily,
+                                                   &(socketAddress->sin_addr),
+                                                   addressBuffer,
+                                                   INET_ADDRSTRLEN);
+                NSString *addr = addressStr ? @(addressStr) : @"";
+                [self fillAddressPort:serverAddresses port:ntohs(socketAddress->sin_port) addr:addr name:service.hostName ip:@"ipv4"];
             }
+            else if (sockFamily == AF_INET6) {
+                const struct sockaddr_in6 *addr6 = (const struct sockaddr_in6*)[data bytes];
+                const char *addressStr = inet_ntop(AF_INET6,
+                                                   &addr6->sin6_addr,
+                                                   addressBuffer,
+                                                   INET6_ADDRSTRLEN);
+                NSString *addr = addressStr ? @(addressStr) : @"";
+                [self fillAddressPort:serverAddresses port:ntohs(addr6->sin6_port) addr:addr name:service.hostName ip:@"ipv6"];
+            }
+        }
+        NSLog(@"Resolved address/port for service '%@' by '%@': %@", type, service.name, serverAddresses);
+    }
+    else {
+        for (NSData *data in [service addresses]) {
+            struct sockaddr_in *socketAddress = (struct sockaddr_in*)[data bytes];
+            int sockFamily = socketAddress->sin_family;
+            if (sockFamily == AF_INET) {
+                [self fillTcpPort:serverAddresses port:ntohs(socketAddress->sin_port) ip:@"ipv4"];
+            }
+            else if (sockFamily == AF_INET6) {
+                const struct sockaddr_in6 *addr6 = (const struct sockaddr_in6*)[data bytes];
+                [self fillTcpPort:serverAddresses port:ntohs(addr6->sin6_port) ip:@"ipv6"];
+            }
+        }
+    }
+    if (serverAddresses.count) {
+        // Select preferred address type
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *mode = [userDefaults stringForKey:@"preferred_server_address"];
+        NSDictionary *server = serverAddresses[mode];
+        
+        // Fallback order: ipv4 > ipv6 > hostname
+        if (!server) {
+            server = serverAddresses[@"ipv4"];
+        }
+        if (!server) {
+            server = serverAddresses[@"ipv6"];
+        }
+        if (!server) {
+            server = serverAddresses[@"hostname"];
+        }
+        if (!server) {
+            return;
+        }
+        
+        if ([type containsString:serviceTypeHTTP]) {
+            // Set values for UI and persistency
+            descriptionUI.text = service.name;
+            ipUI.text = server[@"addr"];
+            portUI.text = server[@"port"];
+            descriptionUI.textColor = [Utilities getSystemBlue];
+            ipUI.textColor = [Utilities getSystemBlue];
+            portUI.textColor = [Utilities getSystemBlue];
+            
+            // Ping server
+            NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
+            NSURL *url = [[NSURL alloc] initWithString:serverJSON];
+            NSURLSession *pingSession = [NSURLSession sharedSession];
+            NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url
+                                                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self fillMacAddressInfo];
+                });
+            }];
+            [pingConnection resume];
+            [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
+            
+            // Trigger search for TCP service
+            [netServiceBrowser searchForServicesOfType:serviceTypeTCP inDomain:domainName];
+            timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
+        }
+        else {
+            // Set values for UI and persistency
+            tcpPortUI.text = server[@"tcpport"];
+            tcpPortUI.textColor = [Utilities getSystemBlue];
+            NSLog(@"TCP port for '%@': %@", service.name, tcpPortUI.text);
         }
     }
 }
@@ -369,7 +463,7 @@
 
     searching = NO;
     netServiceBrowser.delegate = self;
-    [netServiceBrowser searchForServicesOfType:serviceType inDomain:domainName];
+    [netServiceBrowser searchForServicesOfType:serviceTypeHTTP inDomain:domainName];
     timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
 }
 

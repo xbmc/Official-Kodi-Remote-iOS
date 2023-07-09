@@ -98,13 +98,10 @@
     AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
     AppDelegate.instance.obj.serverUser = item[@"serverUser"];
     AppDelegate.instance.obj.serverPass = item[@"serverPass"];
-    AppDelegate.instance.obj.serverIP = item[@"serverIP"];
+    AppDelegate.instance.obj.serverRawIP = item[@"serverIP"];
+    AppDelegate.instance.obj.serverIP = [Utilities getUrlStyleAddress:item[@"serverIP"]];
     AppDelegate.instance.obj.serverPort = item[@"serverPort"];
     AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue];
-}
-
-- (void)wakeUp:(NSString*)macAddress {
-    [AppDelegate.instance sendWOL:macAddress withPort:WOL_PORT];
 }
 
 - (void)connectionStatus:(NSNotification*)note {
@@ -119,7 +116,7 @@
                                    iconName, @"icon_connection",
                                    nil];
     if (status) {
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];
         AppDelegate.instance.serverOnLine = YES;
         AppDelegate.instance.serverName = infoText;
@@ -217,8 +214,8 @@
     
     if (!AppDelegate.instance.serverOnLine) {
         UIAlertAction *action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Send Wake-On-LAN") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            if (AppDelegate.instance.obj.serverHWAddr != nil) {
-                [self wakeUp:AppDelegate.instance.obj.serverHWAddr];
+            if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
+                [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
                 UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
                 [self presentViewController:alertView animated:YES completion:nil];
             }
@@ -709,7 +706,7 @@
         if (self.tcpJSONRPCconnection == nil) {
             self.tcpJSONRPCconnection = [tcpJSONRPC new];
         }
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
     }
 }
 

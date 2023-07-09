@@ -53,7 +53,7 @@
                                    nil];
     NSString *notificationName;
     if (status) {
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
         notificationName = @"XBMCServerConnectionSuccess";
     }
     else {
@@ -396,7 +396,7 @@
         if (self.tcpJSONRPCconnection == nil) {
             self.tcpJSONRPCconnection = [tcpJSONRPC new];
         }
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverIP serverPort:AppDelegate.instance.obj.tcpPort];
+        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
     }
 }
 

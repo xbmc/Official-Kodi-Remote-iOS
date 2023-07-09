@@ -13,6 +13,7 @@
 @synthesize serverDescription;
 @synthesize serverUser;
 @synthesize serverPass;
+@synthesize serverRawIP;
 @synthesize serverIP;
 @synthesize serverPort;
 @synthesize tcpPort;

@@ -26,6 +26,7 @@
     NSMutableArray *services;
     BOOL searching;
     NSNetServiceBrowser *netServiceBrowser;
+    NSNetService *remoteService;
     NSTimer *timer;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     IBOutlet UIView *noInstances;

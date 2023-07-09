@@ -12,6 +12,28 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
+			<string>ipv4</string>
+			<key>Key</key>
+			<string>preferred_server_address</string>
+			<key>Title</key>
+			<string>Preferred server address</string>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Titles</key>
+			<array>
+				<string>IPv4</string>
+				<string>IPv6</string>
+				<string>Host name</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>ipv4</string>
+				<string>ipv6</string>
+				<string>hostname</string>
+			</array>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
 			<true/>
 			<key>Key</key>
 			<string>connection_info_preference</string>
