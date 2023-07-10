@@ -47,6 +47,7 @@
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_xbmc-jsonrpc-h._tcp</string>
+		<string>_xbmc-jsonrpc._tcp</string>
 	</array>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Kodi Remote App uses local network to find and communicate to Kodi instances in the network.</string>
