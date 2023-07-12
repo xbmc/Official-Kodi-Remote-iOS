@@ -299,7 +299,10 @@
 - (void)fillMacAddressInfo {
     NSString *macAddress = [self resolveMacFromIP:ipUI.text];
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
-    if (macPart.count == 6 && ![macAddress isEqualToString:@"00:00:00:00:00:00"]) {
+    // Both 02:... and 00:... are invalid addresses (first seen on target, second on simulator)
+    if (macPart.count == 6 &&
+        ![macAddress isEqualToString:@"02:00:00:00:00:00"] &&
+        ![macAddress isEqualToString:@"00:00:00:00:00:00"]) {
         NSArray *macLabels = @[
             mac_0_UI,
             mac_1_UI,
