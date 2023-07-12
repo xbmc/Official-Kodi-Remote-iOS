@@ -42,3 +42,5 @@
 "Filemode and Theme changes need app restart" = "Los cambios de modo de archivo y tema requieren reiniciar la aplicación";
 "Theme (iOS 13+)" = "Tema (iOS 13+)";
 "Episode identifier" = "Identificador de episodio";
+"Host name" = "Nombre de equipo";
+"Preferred server address" = "Dirección del servidor preferido";
