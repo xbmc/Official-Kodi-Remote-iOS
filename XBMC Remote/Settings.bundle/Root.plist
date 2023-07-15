@@ -16,7 +16,7 @@
 			<key>Key</key>
 			<string>preferred_server_address</string>
 			<key>Title</key>
-			<string>Preferred server address</string>
+			<string>Find Kodi prefers</string>
 			<key>Type</key>
 			<string>PSMultiValueSpecifier</string>
 			<key>Titles</key>
