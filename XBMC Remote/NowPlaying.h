@@ -99,6 +99,11 @@
     CGFloat bottomPadding;
     BOOL waitForInfoLabelsToSettle;
     CGFloat descriptionFontSize;
+    int lastPlayerID;
+    long lastSelected;
+    int currentPlayerID;
+    int storePosSeconds;
+    long storedItemID;
 }
 
 - (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS;

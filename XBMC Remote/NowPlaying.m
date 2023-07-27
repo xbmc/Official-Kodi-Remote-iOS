@@ -90,6 +90,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        lastPlayerID = PLAYERID_UNKNOWN;
+        lastSelected = SELECTED_NONE;
+        currentPlayerID = PLAYERID_UNKNOWN;
     }
     return self;
 }
@@ -296,12 +299,6 @@
 }
 
 #pragma mark - JSON management
-
-int lastPlayerID = PLAYERID_UNKNOWN;
-long lastSelected = SELECTED_NONE;
-int currentPlayerID = PLAYERID_UNKNOWN;
-int storePosSeconds;
-long storedItemID;
 
 - (void)setCoverSize:(NSString*)type {
     NSString *jewelImg = @"";
