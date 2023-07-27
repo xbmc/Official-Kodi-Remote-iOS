@@ -488,6 +488,10 @@ long storedItemID;
 
 - (void)getActivePlayers {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        // Do not process further, if the view is already off the view hierarchy.
+        if (!self.viewIfLoaded.window) {
+            return;
+        }
         if (error == nil && methodError == nil) {
             if ([methodResult isKindOfClass:[NSArray class]] && [methodResult count] > 0) {
                 nothingIsPlaying = NO;
@@ -541,6 +545,10 @@ long storedItemID;
                  withParameters:@{@"playerid": @(currentPlayerID),
                                   @"properties": properties}
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                     // Do not process further, if the view is already off the view hierarchy.
+                     if (!self.viewIfLoaded.window) {
+                         return;
+                     }
                      if (error == nil && methodError == nil) {
                          bool enableJewel = [self enableJewelCases];
                          if ([methodResult isKindOfClass:[NSDictionary class]]) {
@@ -679,6 +687,10 @@ long storedItemID;
                                                    @"shuffled",
                                                    @"canseek"]}
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                     // Do not process further, if the view is already off the view hierarchy.
+                     if (!self.viewIfLoaded.window) {
+                         return;
+                     }
                      if (error == nil && methodError == nil) {
                          if ([methodResult isKindOfClass:[NSDictionary class]]) {
                              if ([methodResult count]) {
