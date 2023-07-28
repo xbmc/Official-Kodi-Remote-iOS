@@ -44,6 +44,7 @@ typedef enum {
 + (CGFloat)getTransformX;
 + (UIColor*)getSystemRed:(CGFloat)alpha;
 + (UIColor*)getSystemGreen:(CGFloat)alpha;
++ (UIColor*)getKodiBlue;
 + (UIColor*)getSystemBlue;
 + (UIColor*)getSystemTeal;
 + (UIColor*)getSystemGray1;
