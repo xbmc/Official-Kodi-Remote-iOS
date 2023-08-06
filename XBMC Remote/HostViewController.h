@@ -43,6 +43,7 @@
     IBOutlet UILabel *howtoLabel;
     IBOutlet UILabel *howtoLaterLabel;
     IBOutlet UIButton *saveButton;
+    IBOutlet UISegmentedControl *segmentServerType;
 }
 
 @property (strong, nonatomic) id detailItem;
