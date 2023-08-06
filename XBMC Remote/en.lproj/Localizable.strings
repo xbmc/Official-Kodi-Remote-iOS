@@ -265,6 +265,8 @@
 "Host : port /\nTCP port" = "Host : port /\nTCP port";
 "MAC Address" = "MAC Address";
 "Username and Password" = "Username and Password";
+"Preference" = "Preference";
+"Host name" = "Host name";
 "Find XBMC" = "Find Kodi";
 "Save" = "Save";
 "No XBMC instances were found :(" = "No Kodi instances were found :(";

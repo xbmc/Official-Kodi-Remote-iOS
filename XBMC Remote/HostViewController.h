@@ -37,6 +37,7 @@
     IBOutlet UILabel *hostLabel;
     IBOutlet UILabel *macLabel;
     IBOutlet UILabel *userLabel;
+    IBOutlet UILabel *preferenceLabel;
     IBOutlet UILabel *noInstancesLabel;
     IBOutlet UILabel *findLabel;
     IBOutlet UIView *tipView;

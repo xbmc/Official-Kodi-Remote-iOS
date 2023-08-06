@@ -558,6 +558,7 @@
     hostLabel.text = LOCALIZED_STR(@"Host : port /\nTCP port");
     macLabel.text = LOCALIZED_STR(@"MAC Address");
     userLabel.text = LOCALIZED_STR(@"Username and Password");
+    preferenceLabel.text = LOCALIZED_STR(@"Preference");
     noInstancesLabel.text = LOCALIZED_STR(@"No XBMC instances were found :(");
     findLabel.text = LOCALIZED_STR(@"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled");
     howtoLabel.text = LOCALIZED_STR(@"How-to activate the remote app in Kodi");
