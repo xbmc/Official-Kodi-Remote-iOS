@@ -452,6 +452,7 @@
 }
 
 - (void)stopDiscovery {
+    [timer invalidate];
     [netServiceBrowser stop];
     [activityIndicatorView stopAnimating];
     startDiscover.enabled = YES;
@@ -459,6 +460,7 @@
 
 - (IBAction)startDiscover:(id)sender {
     [self resignKeyboard];
+    [netServiceBrowser stop];
     [activityIndicatorView startAnimating];
     [services removeAllObjects];
     startDiscover.enabled = NO;
