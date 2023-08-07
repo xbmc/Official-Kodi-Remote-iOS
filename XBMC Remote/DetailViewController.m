@@ -5730,6 +5730,7 @@ NSIndexPath *selected;
     xbmcDateFormatter = [NSDateFormatter new];
     xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     xbmcDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"]; // all times in Kodi PVR are UTC
+    xbmcDateFormatter.locale = [NSLocale systemLocale]; // Needed to work with 12h system setting in combination with "UTC"
     localHourMinuteFormatter = [NSDateFormatter new];
     localHourMinuteFormatter.dateFormat = @"HH:mm";
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];
