@@ -252,14 +252,10 @@
     UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
     NSMutableArray *retrievedEPG = [NSMutableArray new];
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"]; // all times in Kodi PVR are UTC
-
     for (id EPGobject in broadcasts) {
         if ([EPGobject isKindOfClass:[NSDictionary class]]) {
-            NSDate *starttime = [dateFormatter dateFromString:EPGobject[@"starttime"]];
-            NSDate *endtime = [dateFormatter dateFromString:EPGobject[@"endtime"]];
+            NSDate *starttime = [xbmcDateFormatter dateFromString:EPGobject[@"starttime"]];
+            NSDate *endtime = [xbmcDateFormatter dateFromString:EPGobject[@"endtime"]];
             [retrievedEPG addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                      starttime, @"starttime",
                                      endtime, @"endtime",
