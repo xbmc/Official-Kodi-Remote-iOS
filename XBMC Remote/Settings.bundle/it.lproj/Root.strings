@@ -41,3 +41,6 @@
 "Send Wake-On-LAN automatically" = "Invia Wake-On-LAN automaticamente";
 "Filemode and Theme changes need app restart" = "Le modifiche alla modalità file e al tema richiedono il riavvio dell'app";
 "Theme (iOS 13+)" = "Tema (iOS 13+)";
+"Preferred server address" = "Indirizzo server preferito";
+"Host name" = "Nome host";
+"Episode identifier" = "Identificatore episodio";
