@@ -90,6 +90,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        lastPlayerID = PLAYERID_UNKNOWN;
+        lastSelected = SELECTED_NONE;
+        currentPlayerID = PLAYERID_UNKNOWN;
     }
     return self;
 }
@@ -297,12 +300,6 @@
 
 #pragma mark - JSON management
 
-int lastPlayerID = PLAYERID_UNKNOWN;
-long lastSelected = SELECTED_NONE;
-int currentPlayerID = PLAYERID_UNKNOWN;
-int storePosSeconds;
-long storedItemID;
-
 - (void)setCoverSize:(NSString*)type {
     NSString *jewelImg = @"";
     eJewelType jeweltype;
@@ -488,6 +485,10 @@ long storedItemID;
 
 - (void)getActivePlayers {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        // Do not process further, if the view is already off the view hierarchy.
+        if (!self.viewIfLoaded.window) {
+            return;
+        }
         if (error == nil && methodError == nil) {
             if ([methodResult isKindOfClass:[NSArray class]] && [methodResult count] > 0) {
                 nothingIsPlaying = NO;
@@ -541,6 +542,10 @@ long storedItemID;
                  withParameters:@{@"playerid": @(currentPlayerID),
                                   @"properties": properties}
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                     // Do not process further, if the view is already off the view hierarchy.
+                     if (!self.viewIfLoaded.window) {
+                         return;
+                     }
                      if (error == nil && methodError == nil) {
                          bool enableJewel = [self enableJewelCases];
                          if ([methodResult isKindOfClass:[NSDictionary class]]) {
@@ -679,6 +684,10 @@ long storedItemID;
                                                    @"shuffled",
                                                    @"canseek"]}
                  onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                     // Do not process further, if the view is already off the view hierarchy.
+                     if (!self.viewIfLoaded.window) {
+                         return;
+                     }
                      if (error == nil && methodError == nil) {
                          if ([methodResult isKindOfClass:[NSDictionary class]]) {
                              if ([methodResult count]) {
