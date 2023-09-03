@@ -32,8 +32,8 @@
     self = nib[0];
     if (self) {
         UIImage *img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
-        img = [Utilities colorizeImage:img withColor:SLIDER_DEFAULT_COLOR];
-        volumeSlider.minimumTrackTintColor = SLIDER_DEFAULT_COLOR;
+        img = [Utilities colorizeImage:img withColor:KODI_BLUE_COLOR];
+        volumeSlider.minimumTrackTintColor = KODI_BLUE_COLOR;
         volumeSlider.maximumTrackTintColor = APP_TINT_COLOR;
         [volumeSlider setThumbImage:img forState:UIControlStateNormal];
         [volumeSlider setThumbImage:img forState:UIControlStateHighlighted];
@@ -229,7 +229,7 @@
 - (void)handleMute:(BOOL)mute {
     isMuted = mute;
     UIColor *buttonColor = isMuted ? UIColor.systemRedColor : muteIconColor;
-    UIColor *sliderColor = isMuted ? UIColor.darkGrayColor : SLIDER_DEFAULT_COLOR;
+    UIColor *sliderColor = isMuted ? UIColor.darkGrayColor : KODI_BLUE_COLOR;
 
     UIImage *img = [UIImage imageNamed:@"volume_slash"];
     img = [Utilities colorizeImage:img withColor:buttonColor];

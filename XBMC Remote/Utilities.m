@@ -343,6 +343,10 @@
     return [UIColor.systemGreenColor colorWithAlphaComponent:alpha];
 }
 
++ (UIColor*)getKodiBlue {
+    return RGBA(20, 178, 231, 1.0);
+}
+
 + (UIColor*)getSystemBlue {
     return UIColor.systemBlueColor;
 }
