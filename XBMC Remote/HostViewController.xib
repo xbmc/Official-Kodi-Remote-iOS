@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,6 +16,8 @@
                 <outlet property="discoveredInstancesTableView" destination="46" id="53"/>
                 <outlet property="discoveredInstancesView" destination="47" id="54"/>
                 <outlet property="findLabel" destination="91" id="trV-T4-ywQ"/>
+                <outlet property="helpForumButton" destination="WjS-8Z-d9q" id="GPY-Vl-WOc"/>
+                <outlet property="helpWikiButton" destination="qfc-bq-JEV" id="ZHz-qm-evB"/>
                 <outlet property="hostLabel" destination="18" id="g9M-4W-xGi"/>
                 <outlet property="howtoLabel" destination="92" id="6rb-Qy-7ne"/>
                 <outlet property="howtoLaterLabel" destination="100" id="m1c-iF-3c7"/>
@@ -365,15 +367,16 @@ TCP port</string>
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z1M-ev-5kX" userLabel="View - tip">
-                            <rect key="frame" x="0.0" y="285" width="320" height="130"/>
+                            <rect key="frame" x="0.0" y="260" width="320" height="155"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="tip" translatesAutoresizingMaskIntoConstraints="NO" id="101">
-                                    <rect key="frame" x="5" y="4" width="15" height="14"/>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="button_info" translatesAutoresizingMaskIntoConstraints="NO" id="101">
+                                    <rect key="frame" x="2" y="6" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <color key="tintColor" systemColor="linkColor"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="How-to activate the remote app in Kodi" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="92">
-                                    <rect key="frame" x="25" y="0.0" width="285" height="20"/>
+                                    <rect key="frame" x="25" y="5" width="285" height="20"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="0.65000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
@@ -382,7 +385,7 @@ TCP port</string>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="100">
-                                    <rect key="frame" x="25" y="22" width="285" height="105"/>
+                                    <rect key="frame" x="25" y="27" width="285" height="105"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <string key="text">Settings &gt; Services &gt; Control:
 1. Web Server &gt; Allow remote control via HTTP
@@ -393,6 +396,35 @@ TCP port</string>
                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="st_kodi_action" id="dVE-tO-jAs">
+                                    <rect key="frame" x="150" y="134" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <color key="tintColor" systemColor="linkColor"/>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qfc-bq-JEV" userLabel="Help Wiki">
+                                    <rect key="frame" x="5" y="134" width="145" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="Wiki (English)">
+                                        <color key="titleColor" systemColor="linkColor"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="openHelpWiki:" destination="-1" eventType="touchUpInside" id="AXB-tR-uPi"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WjS-8Z-d9q" userLabel="Help Forum">
+                                    <rect key="frame" x="170" y="134" width="145" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="Forum (English)">
+                                        <color key="titleColor" systemColor="linkColor"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="openHelpForum:" destination="-1" eventType="touchUpInside" id="7UJ-2W-qDp"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -448,8 +480,12 @@ TCP port</string>
     </objects>
     <resources>
         <image name="button_find" width="104" height="28"/>
+        <image name="button_info" width="25" height="25"/>
         <image name="shiny_black_back" width="240" height="408"/>
-        <image name="tip" width="15" height="15"/>
+        <image name="st_kodi_action" width="34" height="30"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

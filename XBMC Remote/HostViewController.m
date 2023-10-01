@@ -473,6 +473,16 @@
     timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
 }
 
+#pragma mark - Help URLs
+
+- (IBAction)openHelpWiki:(id)sender {
+    [Utilities SFloadURL:@"https://kodi.wiki/view/Smartphone/tablet_remotes" fromctrl:self];
+}
+
+- (IBAction)openHelpForum:(id)sender {
+    [Utilities SFloadURL:@"https://forum.kodi.tv/showthread.php?tid=372379" fromctrl:self];
+}
+
 #pragma mark - TableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {

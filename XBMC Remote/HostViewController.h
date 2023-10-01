@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SafariServices/SafariServices.h>
 
 #define SERVERPOPUP_BOTTOMPADDING 10
 
-@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate, SFSafariViewControllerDelegate> {
     IBOutlet UITextField *descriptionUI;
     IBOutlet UITextField *ipUI;
     IBOutlet UITextField *portUI;
@@ -45,6 +46,8 @@
     IBOutlet UILabel *howtoLaterLabel;
     IBOutlet UIButton *saveButton;
     IBOutlet UISegmentedControl *segmentServerType;
+    IBOutlet UIButton *helpWikiButton;
+    IBOutlet UIButton *helpForumButton;
 }
 
 @property (strong, nonatomic) id detailItem;
