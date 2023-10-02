@@ -4918,6 +4918,8 @@ NSIndexPath *selected;
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     [activityIndicatorView stopAnimating];
     [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+    [self setGridListButtonImage:enableCollectionView];
+    [self setSortButtonImage:sortAscDesc];
 }
 
 - (void)showNoResultsFound:(NSMutableArray*)resultStoreArray refresh:(BOOL)forceRefresh {
