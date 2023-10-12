@@ -362,3 +362,5 @@
 "Metering mode" = "Metering mode";
 "Focal length" = "Focal length";
 "Camera model" = "Camera model";
+
+"Received unexpected JSON object." = "Received unexpected JSON object.";
