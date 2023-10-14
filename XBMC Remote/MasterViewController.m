@@ -126,6 +126,7 @@
         title.text = [Utilities getConnectionStatusServerName];
         line.hidden = YES;
         iconName = [Utilities getConnectionStatusIconName];
+        icon.highlightedImage = nil;
         icon.image = [UIImage imageNamed:iconName];
     }
     else {
