@@ -1016,8 +1016,15 @@
     }
 }
 
-+ (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active {
++ (void)setStyleOfMenuItemCell:(UITableViewCell*)cell active:(BOOL)active {
     CGFloat alpha = active ? 1.0 : 0.3;
+    UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
+    UILabel *title = (UILabel*)[cell viewWithTag:3];
+    icon.alpha = alpha;
+    title.alpha = alpha;
+}
+
++ (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active {
     for (NSIndexPath *indexPath in tableView.indexPathsForVisibleRows) {
         // The iPhone uses the top most cell as connection status. This should not be faded/unfaded.
         if (IS_IPHONE && indexPath.row == 0 && indexPath.section == 0) {
@@ -1026,9 +1033,7 @@
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [UIView animateWithDuration:0.3
                          animations:^{
-                            ((UIImageView*)[cell viewWithTag:1]).alpha = alpha;
-                            ((UIImageView*)[cell viewWithTag:2]).alpha = alpha;
-                            ((UIImageView*)[cell viewWithTag:3]).alpha = alpha;
+                            [Utilities setStyleOfMenuItemCell:cell active:active];
                          }];
     }
 }

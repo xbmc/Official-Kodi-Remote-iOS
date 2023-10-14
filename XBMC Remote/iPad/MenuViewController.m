@@ -159,14 +159,7 @@
     title.text = item.mainLabel;
     icon.highlightedImage = [UIImage imageNamed:iconName];
     icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
-    if (AppDelegate.instance.serverOnLine) {
-        icon.alpha = 1.0;
-        title.alpha = 1.0;
-    }
-    else {
-        icon.alpha = 0.3;
-        title.alpha = 0.3;
-    }
+    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine];
     return cell;
 }
 
