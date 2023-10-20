@@ -1,6 +1,4 @@
-/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
-
-"General" = "General";
+"General" = "సాధారణం";
 "Automatic" = "Automatic";
 "Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play mode";
@@ -22,11 +20,11 @@
 "Show all files in filemode" = "Show all files in filemode";
 "Main Menu" = "Main Menu";
 "Start in view" = "Start in view";
-"Music" = "Music";
+"Music" = "సంగీతం";
 "Movies" = "Movies";
-"Videos" = "Videos";
+"Videos" = "దృశ్యకాలు";
 "TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Pictures" = "చిత్రాలు";
 "Live TV" = "Live TV";
 "Radio" = "Radio";
 "Favourites" = "Favourites";

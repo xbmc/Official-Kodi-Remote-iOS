@@ -1,5 +1,3 @@
-/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
-
 "General" = "Orokorra";
 "Automatic" = "Automatikoa";
 "Show connection notice" = "Show connection notice";
@@ -11,7 +9,7 @@
 "Prefer posters for TV shows" = "Prefer posters for TV shows";
 "Use rounded corner images" = "Use rounded corner images";
 "TV logo background" = "TV logo background";
-"Dark" = "Dark";
+"Dark" = "Ilun";
 "Light" = "Argia";
 "Transparent" = "Transparent";
 "Remote Control" = "Urrutiko kontrola";
@@ -33,3 +31,6 @@
 "Now Playing" = "Orain erreproduzitzen";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
+"Host name" = "Hostalari-izena";
+"Main Menu Items" = "Menuko elementu nagusiak";
+"Interface" = "Interfazea";

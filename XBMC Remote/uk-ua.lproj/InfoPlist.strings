@@ -1,3 +1,1 @@
-/* Localized versions of Info.plist keys */
-
 NSLocalNetworkUsageDescription="Kodi Remote використовує локальну мережу для пошуку та підтримки зв'язку з екземплярами Kodi в мережі.";

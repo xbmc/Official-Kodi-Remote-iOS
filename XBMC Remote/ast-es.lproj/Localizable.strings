@@ -1,26 +1,15 @@
-/* 
-  Localisable.strings
-  XBMC Remote
-
-  Created by Pierrick Rouxel on 21/12/12.
-  Copyright (c) 2012 joethefox inc. All rights reserved.
- */
-
 "Music" = "Música";
 "Movies" = "Películes";
 "TV Shows" = "Programes de TV";
 "Pictures" = "Semeyes";
 "Now Playing" = "En reproducción";
 "Favourites" = "Favoritos";
-"Global Search" = "";
-"Remote Control" = "";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
 "Modify XBMC Server" = "Modify Kodi Server";
 "Select an XBMC Server from the list" = "Select a Kodi Server from the list";
 "Files" = "Ficheros";
 "Video Add-ons" = "Video Add-ons";
-"Live TV" = "";
 "Radio" = "Radio";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Vídeos musicales";

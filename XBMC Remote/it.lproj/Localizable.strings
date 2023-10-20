@@ -1,11 +1,3 @@
-/* 
-  Localisable.strings
-  XBMC Remote
-
-  Created by joethefox on 21/12/12.
-  Copyright (c) 2012 joethefox inc. All rights reserved.
- */
-
 "Music" = "Musica";
 "Movies" = "Film";
 "TV Shows" = "Serie TV";
@@ -157,20 +149,20 @@
 "Scrubbing 0.1" = "Velocità scrub: bassa";
 "Scrubbing 0.05" = "Velocità scrub: molto bassa";
 "Scrubbing 0.025" = "Velocità scrub: bassissima";
-"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Rimozione cache dal disco...\n\nPer favore attendere, l'operazione potrebbe richiedere qualche minuto";
+"Clearing app disk cache...\n\nPlease wait, since this may take a while" = "Cancellazione della cache del disco dell'app...\n\nPer favore attendere, l'operazione potrebbe richiedere del tempo";
 "Pull to sync with XBMC..." = "Trascina per sincronizzare con Kodi...";
 "Release to sync with XBMC..." = "Rilascia per sincronizzare con Kodi...";
 "Syncing..." = "Sincronizzazione...";
 "Last sync" = "Ultima sincronizzazione";
-"Show Content" = "Mostra Contenuto";
+"Show Content" = "Mostra contenuto";
 "Play in party mode" = "Riproduci in modalità party";
 "Play in shuffle mode" = "Riproduci in modalità casuale";
-"Channel Guide" = "Guida Canale";
+"Channel Guide" = "Guida canale";
 "Record" = "Registra";
-"Stop Recording" = "Ferma la Registrazione";
+"Stop Recording" = "Ferma registrazione";
 "Recordings" = "Registrazioni";
 "Timers" = "Timer";
-"Delete timer" = "Cancella timer";
+"Delete timer" = "Elimina timer";
 "Broadcast Details" = "Dettagli trasmissione";
 "TIME" = "DATA";
 "ERROR" = "ERRORE";
@@ -178,21 +170,21 @@
 "Subtitle" = "Sottotitolo";
 "Mark as watched" = "Segna come già visto";
 "Mark as unwatched" = "Segna come non visto";
-"Button Pad/Gesture Zone" = "Tasti Direzionali/Zona Gesti";
+"Button Pad/Gesture Zone" = "Pulsantiera/Zona gesti";
 "Slide your finger up or down to adjust the scrubbing rate." = "Scorri il dito verso l'alto o il basso per regolare la velocità di scrubbing.";
 "Programs" = "Programmi";
 "XBMC Settings" = "Impostazioni Kodi";
-"Custom button" = "Bottone personalizzato";
+"Custom button" = "Pulsante personalizzato";
 "Modify label:" = "Modifica etichetta:";
 "Update label" = "Aggiorna etichetta";
-"Add a new button" = "Aggiungi un nuovo bottone";
-"Enter the label:" = "Inserisci l'etichetta:";
-"Add button" = "Aggiungi bottone";
-"Button added" = "Bottone aggiunto";
-"enter value" = "inserisci il valore";
-"Tap and hold a setting to add a new button." = "Tocca e tieni premuto un'impostazione per aggiungere un nuovo bottone.";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Nessun bottone personalizzato definito.\r\nPremere \"...altro\" in basso per aggiungerne di nuovi.";
-"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- ATTENZIONE --\nLe API di Kodi precedenti alla versione Krypton (v17) non consentono la modifica dei timer. Utilizzare l'interfaccia di Kodi per l'aggiunta, la modifica e la cancellazione dei timer. Grazie.";
+"Add a new button" = "Aggiungi un nuovo pulsante";
+"Enter the label:" = "Inserisci etichetta:";
+"Add button" = "Aggiungi pulsante";
+"Button added" = "Pulsante aggiunto";
+"enter value" = "inserisci valore";
+"Tap and hold a setting to add a new button." = "Tocca e tieni premuta un'impostazione per aggiungere un nuovo pulsante.";
+"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Nessun pulsante personalizzato definito.\nPremi \"...altro\" qui sotto per aggiungerne di nuovi.";
+"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- AVVERTIMENTO --\nL'API di Kodi precedente alla versione Krypton (v17) non consente la modifica dei timer. Utilizza l'interfaccia di Kodi per aggiungere, modificare e rimuovere i timer. Grazie.";
 "Execute program" = "Esegui programma";
 "Execute video add-on" = "Esegui add-on video";
 "Execute audio add-on" = "Esegui add-on audio";
@@ -201,16 +193,16 @@
 "...more" = "...altro";
 "Edit" = "Modifica";
 "Done" = "Fatto";
-"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi versione 13 o superiore è necessario per accedere alle impostazioni Kodi";
-"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- ATTENZIONE --\nQuesto tipo di impostazione non può essere configurata da remoto. Utilizzare l'interfaccia di Kodi per modificare questa impostazione.\nGrazie.";
-"Official XBMC Remote\nfor iOS" = "Official Kodi Remote\nper iOS";
+"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Per accedere alle impostazioni di Kodi è necessaria la versione 13 o successiva di Kodi";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- AVVERTIMENTO --\nQuesto tipo di impostazione non può essere configurato da remoto. Utilizza l'interfaccia di Kodi per modificare questa impostazione.\nGrazie.";
+"Official XBMC Remote\nfor iOS" = "Kodi Remote ufficiale\nper iOS";
 "enjoy!" = "buon divertimento!";
 "No items found." = "Nessun elemento trovato.";
 "Video" = "Video";
 "Party" = "Party";
 "Search" = "Ricerca";
-"Supported XBMC version is Eden (11) or higher" = "Versione Kodi supportata Eden (11) o superiore";
-"Add Host" = "Aggiungi";
+"Supported XBMC version is Eden (11) or higher" = "La versione Kodi supportata è Eden (11) o successiva";
+"Add Host" = "Aggiungi host";
 "Kodi connection notice" = "Avviso di connessione Kodi";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Sembra che la connessione TCP con Kodi non può essere stabilita. Ciò impedirà all'app di ascoltare Kodi. Ad esempio, l'input da tastiera all'interno dell'app non verrà visualizzato quando Kodi richiede input da tastiera.";
 "Do you want to enable this connection now?" = "Si desidera abilitare la connessione ora?";
@@ -293,7 +285,7 @@
 "Radio" = "Radio";
 "Channel" = "Canale";
 "Timer rules" = "Regole timer";
-"Channel Groups" = "Gruppi Canali";
+"Channel Groups" = "Gruppi canali";
 "All channels" = "Tutti i canali";
 "Global Search" = "Ricerca globale";
 "For search switch to list view" = "Per la ricerca passa a visualizzazione elenco";
@@ -302,7 +294,7 @@
 "Window activated successfully" = "Finestra attivata con successo";
 "Unable to execute the action" = "Impossibile eseguire l'azione";
 "Action executed successfully" = "Azione eseguita con successo";
-"Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "L'app ufficiale Kodi Remote utilizza la grafica scaricata dal tuo server Kodi o da Internet quando il tuo server Kodi fa riferimento ad essa. Per liberare la bellezza delle opere d'arte, usa \"Universal Scraper\" di Kodi o altri add-on come scraper.\n\nIl logo Kodi, la mascotte Zappy e le icone ufficiali del telecomando Kodi sono di proprietà della Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Il team Kodi";
+"Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "L'app ufficiale Kodi Remote utilizza la grafica scaricata dal tuo server Kodi o da Internet quando il tuo server Kodi fa riferimento ad essa. Per liberare la bellezza degli artwork usa \"Universal Scraper\" di Kodi o altri add-on scraper.\n\nIl logo Kodi, la mascotte Zappy e le icone ufficiali di Kodi Remote sono di proprietà della Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Il team Kodi";
 "MUSIC ROLES" = "RUOLI MUSICALI";
 "Recording Details" = "Dettagli registrazione";
 "Movie Set Details" = "Dettagli saga cinematografica";

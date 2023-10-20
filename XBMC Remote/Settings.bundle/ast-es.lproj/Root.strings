@@ -1,36 +1,10 @@
-/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
-
 "General" = "Xeneral";
-"Automatic" = "";
-"Show connection notice" = "";
-"Direct Play mode" = "";
-"Ken Burns effect" = "";
-"Shake to clear playlist" = "";
-"Show jewel cases" = "";
-"Hide labels in wall view" = "";
-"Prefer posters for TV shows" = "";
-"Use rounded corner images" = "";
-"TV logo background" = "";
-"Dark" = "";
-"Light" = "";
-"Transparent" = "";
-"Remote Control" = "";
-"Vibrate remote control" = "";
-"Clear cache on next start" = "";
-"Enable contents cache" = "";
-"Override Lockscreen" = "";
-"Show all files in filemode" = "";
-"Main Menu" = "";
-"Start in view" = "";
 "Music" = "Música";
 "Movies" = "Películes";
 "Videos" = "Vídeos";
 "TV Shows" = "Programes de TV";
 "Pictures" = "Semeyes";
-"Live TV" = "";
 "Radio" = "Radio";
 "Favourites" = "Favoritos";
 "Now Playing" = "En reproducción";
-"Global Search" = "";
-"Main Menu changes needs app restart" = "";
 "Interface" = "Interfaz";

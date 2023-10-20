@@ -1,11 +1,3 @@
-/* 
-  Localisable.strings
-  XBMC Remote
-
-  Created by Andree Buschmann on 21/11/20.
-  Copyright (c) 2021 Team Kodi. All rights reserved.
- */
-
 "Music" = "Music";
 "Movies" = "Movies";
 "TV Shows" = "TV Shows";
@@ -308,3 +300,13 @@
 "Date" = "Date";
 "Runtime" = "Runtime";
 "Global Search" = "Global Search";
+"Random" = "Random";
+"Date & time" = "Date & time";
+"Resolution" = "Resolution";
+"Aperture" = "Aperture";
+"Exposure time" = "Exposure time";
+"Exposure mode" = "Exposure mode";
+"Exposure bias" = "Exposure bias";
+"Metering mode" = "Metering mode";
+"Focal length" = "Focal length";
+"Camera model" = "Camera model";

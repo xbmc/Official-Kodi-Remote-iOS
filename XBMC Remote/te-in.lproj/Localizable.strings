@@ -1,15 +1,7 @@
-/* 
-  Localisable.strings
-  XBMC Remote
-
-  Created by Pierrick Rouxel on 21/12/12.
-  Copyright (c) 2012 joethefox inc. All rights reserved.
- */
-
-"Music" = "Music";
+"Music" = "సంగీతం";
 "Movies" = "Movies";
 "TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"Pictures" = "చిత్రాలు";
 "Now Playing" = "Now playing";
 "Favourites" = "Favourites";
 "Global Search" = "Global Search";

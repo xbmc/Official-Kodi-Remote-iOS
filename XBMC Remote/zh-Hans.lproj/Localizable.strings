@@ -1,11 +1,3 @@
-/* 
-  Localisable.strings
-  XBMC Remote
-
-  Created by taxigps on 21/12/12.
-  Copyright (c) 2012 joethefox inc. All rights reserved.
- */
-
 "Music" = "音乐";
 "Movies" = "电影";
 "TV Shows" = "剧集";
