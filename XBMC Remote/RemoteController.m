@@ -1361,28 +1361,15 @@ NSInteger buttonAction;
     
     UIView *rootView = IS_IPHONE ? UIApplication.sharedApplication.keyWindow.rootViewController.view : self.view;
     CGFloat deltaY = IS_IPHONE ? UIApplication.sharedApplication.statusBarFrame.size.height : 0;
-    CGFloat originX = isEmbeddedMode ? ANCHOR_RIGHT_PEEK : 0;
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(originX,
+    CGFloat messageWidth = IS_IPHONE ? UIApplication.sharedApplication.statusBarFrame.size.width : TransitionalView.frame.size.width;
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0,
                                                                   0,
-                                                                  TransitionalView.frame.size.width,
+                                                                  messageWidth,
                                                                   DEFAULT_MSG_HEIGHT + deltaY)
                                                 deltaY:deltaY
                                                 deltaX:0];
     messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     [rootView addSubview:messagesView];
-    
-    if (isEmbeddedMode) {
-        // Shadow on right side of movable screen
-        CGRect shadowRect = CGRectMake(0,
-                                       0,
-                                       PANEL_SHADOW_SIZE,
-                                       messagesView.frame.size.height);
-        UIImageView *shadowRight = [[UIImageView alloc] initWithFrame:shadowRect];
-        shadowRight.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
-        shadowRight.image = [UIImage imageNamed:@"tableRight"];
-        shadowRight.opaque = YES;
-        [messagesView addSubview:shadowRight];
-    }
 }
 
 - (void)handleSettingsButton:(id)sender {
