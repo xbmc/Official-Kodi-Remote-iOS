@@ -531,6 +531,9 @@
         ctrl = UIApplication.sharedApplication.keyWindow.rootViewController;
     }
     if (![svc isBeingPresented]) {
+        if (ctrl.presentedViewController) {
+            [ctrl dismissViewControllerAnimated:YES completion:nil];
+        }
         [ctrl presentViewController:svc animated:YES completion:nil];
     }
 }
