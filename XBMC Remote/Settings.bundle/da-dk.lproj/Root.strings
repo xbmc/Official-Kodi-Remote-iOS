@@ -1,5 +1,3 @@
-/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
-
 "General" = "Generel";
 "Automatic" = "Automatisk";
 "Show connection notice" = "Vis forbindelsesmeddelelse";
@@ -42,3 +40,5 @@
 "Filemode and Theme changes need app restart" = "Ændringer i filtilstand og tema kræver genstart af app";
 "Theme (iOS 13+)" = "Tema (iOS 13+)";
 "Episode identifier" = "Identificering af afsnit";
+"Preferred server address" = "Foretrukket server-adresse";
+"Host name" = "Værtsnavn";

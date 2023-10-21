@@ -1,11 +1,3 @@
-/* 
-  Localisable.strings
-  XBMC Remote
-
-  Created by Percin on 06/12/16.
-  Copyright (c) 2016 joethefox inc. All rights reserved.
- */
-
 "Music" = "Müzik";
 "Movies" = "Filmler";
 "TV Shows" = "Diziler";

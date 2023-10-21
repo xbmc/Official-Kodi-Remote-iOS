@@ -1,38 +1,30 @@
-/* 
-  Localisable.strings
-  XBMC Remote
-
-  Created by Pierrick Rouxel on 21/12/12.
-  Copyright (c) 2012 joethefox inc. All rights reserved.
- */
-
 "Music" = "Musik";
 "Movies" = "Film";
 "TV Shows" = "Acara TV";
 "Pictures" = "Foto";
 "Now Playing" = "Sedang Memainkan";
 "Favourites" = "Kegemaran";
-"Global Search" = "Global Search";
+"Global Search" = "Pencarian Global";
 "Remote Control" = "Pengendali jarak jauh";
-"XBMC Server" = "Kodi Server";
-"New XBMC Server" = "New Kodi Server";
-"Modify XBMC Server" = "Modify Kodi Server";
-"Select an XBMC Server from the list" = "Select a Kodi Server from the list";
-"Files" = "Files";
-"Video Add-ons" = "Video Add-ons";
+"XBMC Server" = "Server Kodi";
+"New XBMC Server" = "Server Kodi Baru";
+"Modify XBMC Server" = "Ubah Server Kodi";
+"Select an XBMC Server from the list" = "Pilih Server Kodi dari daftar";
+"Files" = "Berkas";
+"Video Add-ons" = "Pengaya Video";
 "Live TV" = "Siaran TV Langsung";
 "Radio" = "Radio";
-"Movie Genres" = "Movie Genres";
-"Music Videos" = "Music Videos";
-"Added Music Videos" = "Added Music Videos";
-"Added Movies" = "Added Movies";
-"More (%d)" = "More (%d)";
-"Movie Sets" = "Movie Sets";
-"Type" = "Type";
+"Movie Genres" = "Aliran Film";
+"Music Videos" = "Video Musik";
+"Added Music Videos" = "Menambahkan Video Musik";
+"Added Movies" = "Menambahkan Film";
+"More (%d)" = "Lebih (%d)";
+"Movie Sets" = "Set Film";
+"Type" = "Tipe";
 "Albums" = "Album";
 "Artists" = "Artis";
 "Genres" = "Aliran";
-"Added Albums" = "Added Albums";
+"Added Albums" = "Album Ditambahkan";
 "Recently added albums" = "Recently added albums";
 "Added Songs" = "Added Songs";
 "Recently added songs" = "Recently added songs";

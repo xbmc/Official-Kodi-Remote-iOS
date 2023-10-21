@@ -1,6 +1,4 @@
-/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
-
-"General" = "General";
+"General" = "Umumiy";
 "Automatic" = "Automatic";
 "Show connection notice" = "Show connection notice";
 "Direct Play mode" = "Direct Play mode";
@@ -14,7 +12,7 @@
 "Dark" = "Dark";
 "Light" = "Light";
 "Transparent" = "Transparent";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Masofadagi boshqaruv";
 "Vibrate remote control" = "Vibrate remote control";
 "Clear cache on next start" = "Clear cache on next start";
 "Enable contents cache" = "Enable contents cache";
@@ -22,14 +20,14 @@
 "Show all files in filemode" = "Show all files in filemode";
 "Main Menu" = "Main Menu";
 "Start in view" = "Start in view";
-"Music" = "Music";
-"Movies" = "Movies";
-"Videos" = "Videos";
+"Music" = "Musiqa";
+"Movies" = "Filmlar";
+"Videos" = "Video";
 "TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
-"Live TV" = "Live TV";
+"Pictures" = "Rasmlar";
+"Live TV" = "TV";
 "Radio" = "Radio";
-"Favourites" = "Favourites";
+"Favourites" = "Favorites";
 "Now Playing" = "Now Playing";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";

@@ -1,11 +1,3 @@
-/* 
-  Localisable.strings
-  XBMC Remote
-
-  Created by Pierrick Rouxel on 21/12/12.
-  Copyright (c) 2012 joethefox inc. All rights reserved.
- */
-
 "Music" = "Musiikki";
 "Movies" = "Elokuvat";
 "TV Shows" = "Sarjat";
@@ -111,9 +103,9 @@
 "Cannot do that" = "Se ei ole mahdollista";
 "No saved hosts found" = "Tallennettuja palvelimia ei ole";
 "Are you sure you want to clear the playlist?" = "Haluatko varmasti tyhjentää toistolistan?";
-"Are you sure you want to clear the music playlist?" = "Haluatko varmasti tyhjentää musiikin toistolistan?";
-"Are you sure you want to clear the video playlist?" = "Haluatko varmasti tyhjentää videoiden toistolistan?";
-"Are you sure you want to clear the picture playlist?" = "Haluatko varmasti tyhjentää kuvien toistolistan?";
+"Are you sure you want to clear the music playlist?" = "Haluatko varmasti tyhjentää musiikkitoistolistan?";
+"Are you sure you want to clear the video playlist?" = "Haluatko varmasti tyhjentää videotoistolistan?";
+"Are you sure you want to clear the picture playlist?" = "Haluatko varmasti tyhjentää kuvatoistolistan?";
 "Are you sure you want to power off your XBMC system now?" = "Haluatko varmasti sammuttaa Kodi-järjestelmäsi nyt?";
 "Are you sure you want to hibernate your XBMC system now?" = "Haluatko varmasti asettaa Kodi-järjestelmäsi nyt lepotilaan?";
 "Are you sure you want to suspend your XBMC system now?" = "Haluatko varmasti asettaa Kodi-järjestelmäsi nyt valmiustilaan?";

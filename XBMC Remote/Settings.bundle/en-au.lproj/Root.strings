@@ -1,8 +1,7 @@
-/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
-
 "General" = "General";
 "Automatic" = "Automatic";
 "Show connection notice" = "Show connection notice";
+"Send Wake-On-LAN automatically" = "Send Wake-On-LAN automatically";
 "Direct Play mode" = "Direct Play mode";
 "Ken Burns effect" = "Ken Burns effect";
 "Shake to clear playlist" = "Shake to clear playlist";
@@ -10,17 +9,24 @@
 "Hide labels in wall view" = "Hide labels in wall view";
 "Prefer posters for TV shows" = "Prefer posters for TV shows";
 "Use rounded corner images" = "Use rounded corner images";
+"Colorize UI automatically" = "Colorize UI automatically";
+"Use thumbnail when fanart is missing" = "Use thumbnail when fanart is missing";
 "TV logo background" = "TV logo background";
 "Dark" = "Dark";
 "Light" = "Light";
 "Transparent" = "Transparent";
-"Remote Control" = "Remote Control";
+"Remote Control" = "Remote control";
 "Vibrate remote control" = "Vibrate remote control";
+"Interface" = "Interface";
+"Cache Settings" = "Cache Settings";
 "Clear cache on next start" = "Clear cache on next start";
 "Enable contents cache" = "Enable contents cache";
 "Override Lockscreen" = "Override Lockscreen";
 "Show all files in filemode" = "Show all files in filemode";
+"Theme (iOS 13+)" = "Theme (iOS 13+)";
+"Filemode and Theme changes need app restart" = "Filemode and Theme changes need app restart";
 "Main Menu" = "Main Menu";
+"Main Menu Items" = "Main Menu Items";
 "Start in view" = "Start in view";
 "Music" = "Music";
 "Movies" = "Movies";
@@ -33,3 +39,6 @@
 "Now Playing" = "Now Playing";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
+"Episode identifier" = "Episode identifier";
+"Preferred server address" = "Preferred server address";
+"Host name" = "Host name";

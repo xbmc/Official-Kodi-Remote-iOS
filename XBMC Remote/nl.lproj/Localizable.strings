@@ -1,13 +1,3 @@
-/*
- Localisable.strings
- XBMC Remote
-
- Created by Rick (Ludacrash) on 26/02/2016
- Updated by Pieter Jan (pieterjandesmedt) on 10/01/2017
- Updated by Pieter Jan (pieterjandesmedt) on 22/02/2017
- Copyright (c) 2012 joethefox inc. All rights reserved.
- */
-
 "Music" = "Muziek";
 "Movies" = "Films";
 "TV Shows" = "TV Series";

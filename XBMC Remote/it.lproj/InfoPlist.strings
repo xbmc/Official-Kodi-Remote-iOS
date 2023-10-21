@@ -1,3 +1,1 @@
-/* Localized versions of Info.plist keys */
-
 NSLocalNetworkUsageDescription="L'app Kodi Remote usa la rete locale per trovare e comunicare con le istanze Kodi nella rete.";

@@ -1,5 +1,3 @@
-/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
-
 "General" = "General";
 "Automatic" = "Automatic";
 "Show connection notice" = "Show connection notice";
@@ -22,14 +20,14 @@
 "Show all files in filemode" = "Show all files in filemode";
 "Main Menu" = "Main Menu";
 "Start in view" = "Start in view";
-"Music" = "Music";
-"Movies" = "Movies";
+"Music" = "Muzyka";
+"Movies" = "Filmy";
 "Videos" = "Videos";
-"TV Shows" = "TV Shows";
-"Pictures" = "Pictures";
+"TV Shows" = "Seriale";
+"Pictures" = "Bildy";
 "Live TV" = "Live TV";
 "Radio" = "Radio";
-"Favourites" = "Favourites";
+"Favourites" = "Wertowne";
 "Now Playing" = "Terŏz grŏ";
 "Global Search" = "Global Search";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";

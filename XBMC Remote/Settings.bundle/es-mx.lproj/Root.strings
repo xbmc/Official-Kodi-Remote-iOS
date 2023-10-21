@@ -1,5 +1,3 @@
-/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
-
 "General" = "General";
 "Automatic" = "Automático";
 "Show connection notice" = "Mostrar aviso de conexión";
@@ -25,7 +23,7 @@
 "Music" = "Música";
 "Movies" = "Películas";
 "Videos" = "Videos";
-"TV Shows" = "Series";
+"TV Shows" = "Series de TV";
 "Pictures" = "Imágenes";
 "Live TV" = "TV en vivo";
 "Radio" = "Radio";
@@ -39,3 +37,7 @@
 "Use thumbnail when fanart is missing" = "Utilizar vista de miniatura cuando no haya fanart";
 "Send Wake-On-LAN automatically" = "Enviar Wake-On-LAN automáticamente";
 "Colorize UI automatically" = "Colorear UI automáticamente";
+"Preferred server address" = "Alocución de servidor preferido";
+"Host name" = "Nombre anfitrión";
+"Theme (iOS 13+)" = "Tema (iOS 13+)";
+"Episode identifier" = "Identificador de episodio";
