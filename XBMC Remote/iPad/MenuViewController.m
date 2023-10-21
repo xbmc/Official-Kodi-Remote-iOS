@@ -153,8 +153,8 @@
         cell.selectedBackgroundView = backgroundView;
     }
     mainMenu *item = mainMenuItems[indexPath.row];
-    UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
-    UILabel *title = (UILabel*)[cell viewWithTag:3];
+    UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
+    UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
     NSString *iconName = item.icon;
     title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
     title.text = item.mainLabel;
