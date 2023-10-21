@@ -136,6 +136,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine];
     cell.backgroundColor = UIColor.clearColor;
 }
 
@@ -159,7 +160,6 @@
     title.text = item.mainLabel;
     icon.highlightedImage = [UIImage imageNamed:iconName];
     icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
-    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine];
     return cell;
 }
 
