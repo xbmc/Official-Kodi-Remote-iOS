@@ -397,8 +397,9 @@
     }
     if (serverAddresses.count) {
         // Select preferred address type
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *mode = [userDefaults stringForKey:@"preferred_server_address"];
+        NSArray *segmentModes = @[@"ipv4", @"ipv6", @"hostname"];
+        long index = segmentServerType.selectedSegmentIndex;
+        NSString *mode = index < segmentModes.count ? segmentModes[index] : segmentModes[0];
         NSDictionary *server = serverAddresses[mode];
         
         // Fallback order: ipv4 > ipv6 > hostname
@@ -451,6 +452,7 @@
 }
 
 - (void)stopDiscovery {
+    [timer invalidate];
     [netServiceBrowser stop];
     [activityIndicatorView stopAnimating];
     startDiscover.enabled = YES;
@@ -458,6 +460,7 @@
 
 - (IBAction)startDiscover:(id)sender {
     [self resignKeyboard];
+    [netServiceBrowser stop];
     [activityIndicatorView startAnimating];
     [services removeAllObjects];
     startDiscover.enabled = NO;
@@ -557,6 +560,7 @@
     hostLabel.text = LOCALIZED_STR(@"Host : port /\nTCP port");
     macLabel.text = LOCALIZED_STR(@"MAC Address");
     userLabel.text = LOCALIZED_STR(@"Username and Password");
+    preferenceLabel.text = LOCALIZED_STR(@"Preference");
     noInstancesLabel.text = LOCALIZED_STR(@"No XBMC instances were found :(");
     findLabel.text = LOCALIZED_STR(@"\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled");
     howtoLabel.text = LOCALIZED_STR(@"How-to activate the remote app in Kodi");
@@ -618,6 +622,14 @@
         frame.origin.y -= bottomPadding;
         tipView.frame = frame;
     }
+    
+    // We use white fonts for the segment control
+    [segmentServerType setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColor.whiteColor} forState:UIControlStateNormal];
+    [segmentServerType setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColor.whiteColor} forState:UIControlStateHighlighted];
+    [segmentServerType setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColor.whiteColor} forState:UIControlStateSelected];
+    
+    // Set segment control text for "host name" mode
+    [segmentServerType setTitle:LOCALIZED_STR(@"Host name") forSegmentAtIndex:2];
 }
 
 - (BOOL)shouldAutorotate {

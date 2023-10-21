@@ -37,12 +37,14 @@
     IBOutlet UILabel *hostLabel;
     IBOutlet UILabel *macLabel;
     IBOutlet UILabel *userLabel;
+    IBOutlet UILabel *preferenceLabel;
     IBOutlet UILabel *noInstancesLabel;
     IBOutlet UILabel *findLabel;
     IBOutlet UIView *tipView;
     IBOutlet UILabel *howtoLabel;
     IBOutlet UILabel *howtoLaterLabel;
     IBOutlet UIButton *saveButton;
+    IBOutlet UISegmentedControl *segmentServerType;
 }
 
 @property (strong, nonatomic) id detailItem;
