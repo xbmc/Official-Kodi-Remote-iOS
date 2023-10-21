@@ -81,6 +81,10 @@
     return self.mainMenu.count;
 }
 
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine || indexPath.row == 0];
+}
+
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCellIdentifier"];
     if (cell == nil) {
@@ -139,14 +143,6 @@
         icon.highlightedImage = [UIImage imageNamed:iconName];
         icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
         cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
-    }
-    if (AppDelegate.instance.serverOnLine || indexPath.row == 0) {
-        icon.alpha = 1.0;
-        title.alpha = 1.0;
-    }
-    else {
-        icon.alpha = 0.3;
-        title.alpha = 0.3;
     }
     return cell;
 }

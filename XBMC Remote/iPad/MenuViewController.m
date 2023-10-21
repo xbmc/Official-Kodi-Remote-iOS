@@ -136,6 +136,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine];
     cell.backgroundColor = UIColor.clearColor;
 }
 
@@ -159,14 +160,6 @@
     title.text = item.mainLabel;
     icon.highlightedImage = [UIImage imageNamed:iconName];
     icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
-    if (AppDelegate.instance.serverOnLine) {
-        icon.alpha = 1.0;
-        title.alpha = 1.0;
-    }
-    else {
-        icon.alpha = 0.3;
-        title.alpha = 0.3;
-    }
     return cell;
 }
 

@@ -96,6 +96,7 @@ typedef enum {
 + (NSString*)getConnectionStatusIconName;
 + (NSString*)getConnectionStatusServerName;
 + (void)addShadowsToView:(UIView*)view viewFrame:(CGRect)frame;
++ (void)setStyleOfMenuItemCell:(UITableViewCell*)cell active:(BOOL)active;
 + (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active;
 + (void)enableDefaultController:(id<UITableViewDelegate>)viewController tableView:(UITableView*)tableView menuItems:(NSArray*)menuItems;
 + (id)unarchivePath:(NSString*)path file:(NSString*)filename;
