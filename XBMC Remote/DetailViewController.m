@@ -786,6 +786,12 @@
     return textfield;
 }
 
+- (void)setGridListButtonImage:(BOOL)isGridView {
+    NSString *imgName = isGridView ? @"st_view_grid" : @"st_view_list";
+    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:ICON_TINT_COLOR];
+    [button6 setBackgroundImage:image forState:UIControlStateNormal];
+}
+
 - (void)setSortButtonImage:(NSString*)sortOrder {
     NSString *imgName = [sortOrder isEqualToString:@"descending"] ? @"st_sort_desc" : @"st_sort_asc";
     UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:ICON_TINT_COLOR];
@@ -1120,7 +1126,6 @@
 }
 
 - (void)configureLibraryView {
-    NSString *imgName = nil;
     if (enableCollectionView) {
         [self initCollectionView];
         if (longPressGesture == nil) {
@@ -1140,7 +1145,6 @@
         [self initSearchController];
         self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         self.searchController.searchBar.tintColor = ICON_TINT_COLOR;
-        imgName = @"st_view_grid";
     }
     else {
         dataList.delegate = self;
@@ -1157,14 +1161,11 @@
         [self initSearchController];
         self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
         self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
-        imgName = @"st_view_list";
     }
     [self initIndexView];
     [self buildIndexView];
     [self setIndexViewVisibility];
-    
-    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:ICON_TINT_COLOR];
-    [button6 setBackgroundImage:image forState:UIControlStateNormal];
+    [self setGridListButtonImage:enableCollectionView];
     
     if (!isViewDidLoad) {
         [activeLayoutView addSubview:self.searchController.searchBar];
@@ -4917,6 +4918,8 @@ NSIndexPath *selected;
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     [activityIndicatorView stopAnimating];
     [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+    [self setGridListButtonImage:enableCollectionView];
+    [self setSortButtonImage:sortAscDesc];
 }
 
 - (void)showNoResultsFound:(NSMutableArray*)resultStoreArray refresh:(BOOL)forceRefresh {
