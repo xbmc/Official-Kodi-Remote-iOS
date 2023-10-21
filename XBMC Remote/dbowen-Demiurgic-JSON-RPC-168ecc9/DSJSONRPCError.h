@@ -43,7 +43,8 @@ typedef enum {
     JSONRPCInvalidRequest = -32600,
     JSONRPCMethodNotFound = -32601,
     JSONRPCInvalidParams = -32602,
-    JSONRPCInternalError = -32603
+    JSONRPCInternalError = -32603,
+    JSONRPCInvalidObject = -32604,
 } JSONRPCErrorType;
 
 
