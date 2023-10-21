@@ -81,12 +81,6 @@
     return self.mainMenu.count;
 }
 
-- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (indexPath.row == 0) {
-        cell.backgroundColor = [Utilities getGrayColor:53 alpha:1];
-    }
-}
-
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCellIdentifier"];
     if (cell == nil) {
@@ -120,13 +114,15 @@
         // Adapt layout for first cell (showing connection status)
         [self setFrameSizes:cell height:PHONE_MENU_INFO_HEIGHT iconsize:CONNECTION_ICON_SIZE];
         
-        // Set icon and text content
+        // Set icon, background color and text content
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
         title.numberOfLines = 2;
         title.text = [Utilities getConnectionStatusServerName];
         line.hidden = YES;
         iconName = [Utilities getConnectionStatusIconName];
+        icon.highlightedImage = nil;
         icon.image = [UIImage imageNamed:iconName];
+        cell.backgroundColor = [Utilities getGrayColor:53 alpha:1];
     }
     else {
         // Hide kodi logo
@@ -135,13 +131,14 @@
         // Adapt layout for main menu cells
         [self setFrameSizes:cell height:PHONE_MENU_HEIGHT iconsize:MENU_ICON_SIZE];
         
-        // Set icon and text content
+        // Set icon, background color and text content
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
         title.numberOfLines = 1;
         title.text = item.mainLabel;
         line.hidden = NO;
         icon.highlightedImage = [UIImage imageNamed:iconName];
         icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
+        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
     }
     if (AppDelegate.instance.serverOnLine || indexPath.row == 0) {
         icon.alpha = 1.0;
