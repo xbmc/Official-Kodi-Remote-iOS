@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 #import "Utilities.h"
 
+#define VIRTUAL_KEYBOARD_TEXTFIELD 10
+
 @implementation XBMCVirtualKeyboard
 
 - (id)initWithFrame:(CGRect)frame {
@@ -63,7 +65,7 @@
         backgroundTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         backgroundTextField.textAlignment = NSTextAlignmentCenter;
         backgroundTextField.delegate = self;
-        backgroundTextField.tag = 10;
+        backgroundTextField.tag = VIRTUAL_KEYBOARD_TEXTFIELD;
         
         inputAccView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
         inputAccView.backgroundColor = accessoryBackgroundColor;
@@ -201,7 +203,7 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField*)textField {
-    if (textField.tag == 10) {
+    if (textField.tag == VIRTUAL_KEYBOARD_TEXTFIELD) {
         [self performSelectorOnMainThread:@selector(hideKeyboard:) withObject:nil waitUntilDone:NO];
     }
 }
