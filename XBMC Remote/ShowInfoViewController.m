@@ -1761,7 +1761,7 @@ double round(double d) {
     self.kenView.contentMode = fanartView.contentMode;
     self.kenView.delegate = self;
     self.kenView.alpha = 0;
-    self.kenView.tag = 1;
+    self.kenView.tag = FANART_FULLSCREEN_DISABLE;
     NSArray *backgroundImages = [NSArray arrayWithObjects:
                                  image,
                                  nil];
@@ -1894,7 +1894,7 @@ double round(double d) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     isViewDidLoad = YES;
-    fanartView.tag = 1;
+    fanartView.tag = FANART_FULLSCREEN_DISABLE;
     fanartView.userInteractionEnabled = YES;
     UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];
     touchOnKenView.numberOfTapsRequired = 1;
