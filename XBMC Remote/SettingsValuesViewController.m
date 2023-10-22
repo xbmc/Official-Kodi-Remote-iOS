@@ -15,6 +15,13 @@
 #import "StackScrollViewController.h"
 #import "Utilities.h"
 
+#define SETTINGS_CELL_LABEL 1
+#define SETTINGS_CELL_DESCRIPTION 2
+#define SETTINGS_CELL_SLIDER 101
+#define SETTINGS_CELL_SLIDER_LABEL 102
+#define SETTINGS_CELL_ONOFF_SWITCH 201
+#define SETTINGS_CELL_TEXTFIELD 301
+
 @interface SettingsValuesViewController ()
 
 @end
@@ -401,7 +408,7 @@
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
         UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellHeight / 2 - 11, self.view.bounds.size.width - cellLabelOffset - 38, 22)];
-        cellLabel.tag = 1;
+        cellLabel.tag = SETTINGS_CELL_LABEL;
         cellLabel.font = [UIFont systemFontOfSize:18];
         cellLabel.adjustsFontSizeToFitWidth = YES;
         cellLabel.minimumScaleFactor = 12.0 / 18.0;
@@ -410,13 +417,13 @@
         [cell.contentView addSubview:cellLabel];
         
         UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
-        onoff.tag = 201;
+        onoff.tag = SETTINGS_CELL_ONOFF_SWITCH;
         [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
         onoff.frame = CGRectMake(self.view.bounds.size.width - onoff.frame.size.width - 12, cellHeight / 2 - onoff.frame.size.height / 2 + 20, onoff.frame.size.width, onoff.frame.size.height);
         [cell.contentView addSubview: onoff];
 
         UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 54, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, cellHeight - 54 - 10)];
-        descriptionLabel.tag = 2;
+        descriptionLabel.tag = SETTINGS_CELL_DESCRIPTION;
         descriptionLabel.font = [UIFont systemFontOfSize:12];
         descriptionLabel.adjustsFontSizeToFitWidth = YES;
         descriptionLabel.numberOfLines = 0;
@@ -430,7 +437,7 @@
         [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
         slider.backgroundColor = UIColor.clearColor;
         slider.continuous = YES;
-        slider.tag = 101;
+        slider.tag = SETTINGS_CELL_SLIDER;
         [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventEditingDidEnd];
         [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchCancel];
         [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchUpInside];
@@ -440,7 +447,7 @@
         
         int uiSliderLabelWidth = cell.frame.size.width - 14 * 2;
         UILabel *uiSliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - uiSliderLabelWidth / 2, slider.frame.origin.y - 28, uiSliderLabelWidth, 20)];
-        uiSliderLabel.tag = 102;
+        uiSliderLabel.tag = SETTINGS_CELL_SLIDER_LABEL;
         uiSliderLabel.textAlignment = NSTextAlignmentCenter;
         uiSliderLabel.font = [UIFont systemFontOfSize:14];
         uiSliderLabel.adjustsFontSizeToFitWidth = YES;
@@ -461,17 +468,17 @@
         textInputField.clearButtonMode = UITextFieldViewModeWhileEditing;
         textInputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textInputField.delegate = self;
-        textInputField.tag = 301;
+        textInputField.tag = SETTINGS_CELL_TEXTFIELD;
         [cell.contentView addSubview:textInputField];
 	}
     cell.accessoryType = UITableViewCellAccessoryNone;
 
-    UILabel *cellLabel = (UILabel*)[cell viewWithTag:1];
-    UILabel *descriptionLabel = (UILabel*)[cell viewWithTag:2];
-    UISlider *slider = (UISlider*)[cell viewWithTag:101];
-    UILabel *sliderLabel = (UILabel*)[cell viewWithTag:102];
-    UISwitch *onoff = (UISwitch*)[cell viewWithTag:201];
-    UITextField *textInputField = (UITextField*)[cell viewWithTag:301];
+    UILabel *cellLabel = (UILabel*)[cell viewWithTag:SETTINGS_CELL_LABEL];
+    UILabel *descriptionLabel = (UILabel*)[cell viewWithTag:SETTINGS_CELL_DESCRIPTION];
+    UISlider *slider = (UISlider*)[cell viewWithTag:SETTINGS_CELL_SLIDER];
+    UILabel *sliderLabel = (UILabel*)[cell viewWithTag:SETTINGS_CELL_SLIDER_LABEL];
+    UISwitch *onoff = (UISwitch*)[cell viewWithTag:SETTINGS_CELL_ONOFF_SWITCH];
+    UITextField *textInputField = (UITextField*)[cell viewWithTag:SETTINGS_CELL_TEXTFIELD];
 
     descriptionLabel.hidden = YES;
     slider.hidden = YES;
@@ -771,7 +778,7 @@
     float newValue = newStep * [self.detailItem[@"step"] intValue];
     if (newValue != storeSliderValue) {
         storeSliderValue = newValue;
-        UILabel *sliderLabel = [[slider superview] viewWithTag:102];
+        UILabel *sliderLabel = [[slider superview] viewWithTag:SETTINGS_CELL_SLIDER_LABEL];
         if (sliderLabel) {
             NSString *stringFormat = @"%i";
             stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
