@@ -1650,7 +1650,7 @@
 - (void)setFlowLayoutParams {
     if (stackscrollFullscreen) {
         flowLayout.itemSize = CGSizeMake(fullscreenCellGridWidth, fullscreenCellGridHeight);
-        if (!recentlyAddedView) {
+        if (!recentlyAddedView && !hiddenLabel) {
             flowLayout.minimumLineSpacing = 38;
         }
         else {
@@ -1790,6 +1790,7 @@
         if (hiddenLabel || stackscrollFullscreen) {
             cell.posterLabel.hidden = YES;
             cell.labelImageView.hidden = YES;
+            cell.posterLabelFullscreen.hidden = hiddenLabel;
         }
         else {
             cell.posterLabel.hidden = NO;
@@ -1845,6 +1846,9 @@
         cell.posterYear.font = [UIFont systemFontOfSize:fanartFontSize];
 //        cell.posterYear.text = [NSString stringWithFormat:@"%@%@", item[@"year"], item[@"runtime"] == nil ? @"" : [NSString stringWithFormat:@" - %@", item[@"runtime"]]];
         cell.posterYear.text = item[@"year"];
+        
+        // Set label visibility based on setting
+        cell.posterLabel.hidden = cell.posterGenre.hidden = cell.posterYear.hidden = hiddenLabel;
         if ([playcount intValue]) {
             [cell setOverlayWatched:YES];
         }
