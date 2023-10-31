@@ -73,6 +73,9 @@
 #define TINY_PADDING 2
 #define FLAG_SIZE 16
 #define INDICATOR_SIZE 16
+#define FLOWLAYOUT_FULLSCREEN_INSET 8
+#define FLOWLAYOUT_FULLSCREEN_MIN_SPACE 4
+#define FLOWLAYOUT_FULLSCREEN_LABEL 38
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -1649,14 +1652,20 @@
 
 - (void)setFlowLayoutParams {
     if (stackscrollFullscreen) {
-        flowLayout.itemSize = CGSizeMake(fullscreenCellGridWidth, fullscreenCellGridHeight);
+        // Calculate the dimensions of the items to match the screen size.
+        CGFloat screenwidth = IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT;
+        CGFloat numItemsPerRow = screenwidth / fullscreenCellGridWidth;
+        int num = round(numItemsPerRow);
+        CGFloat newWidth = (screenwidth - num * FLOWLAYOUT_FULLSCREEN_MIN_SPACE - 2 * FLOWLAYOUT_FULLSCREEN_INSET) / num;
+        
+        flowLayout.itemSize = CGSizeMake(newWidth, fullscreenCellGridHeight * newWidth / fullscreenCellGridWidth);
         if (!recentlyAddedView && !hiddenLabel) {
-            flowLayout.minimumLineSpacing = 38;
+            flowLayout.minimumLineSpacing = FLOWLAYOUT_FULLSCREEN_LABEL;
         }
         else {
-            flowLayout.minimumLineSpacing = 4;
+            flowLayout.minimumLineSpacing = FLOWLAYOUT_FULLSCREEN_MIN_SPACE;
         }
-        flowLayout.minimumInteritemSpacing = cellMinimumLineSpacing;
+        flowLayout.minimumInteritemSpacing = FLOWLAYOUT_FULLSCREEN_MIN_SPACE;
     }
     else {
         flowLayout.itemSize = CGSizeMake(cellGridWidth, cellGridHeight);
