@@ -63,6 +63,8 @@
 
 #define EPISODE_THUMB_WIDTH 95
 
+#define FULLSCREEN_LABEL_HEIGHT 20
+
 /* Global definition for player id */
 #define PLAYERID_UNKNOWN -1
 #define PLAYERID_MUSIC 0

@@ -75,7 +75,7 @@
 #define INDICATOR_SIZE 16
 #define FLOWLAYOUT_FULLSCREEN_INSET 8
 #define FLOWLAYOUT_FULLSCREEN_MIN_SPACE 4
-#define FLOWLAYOUT_FULLSCREEN_LABEL 38
+#define FLOWLAYOUT_FULLSCREEN_LABEL (FULLSCREEN_LABEL_HEIGHT * [Utilities getTransformX] + 8)
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
