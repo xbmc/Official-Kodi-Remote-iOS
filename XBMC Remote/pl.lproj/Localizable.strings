@@ -312,3 +312,6 @@
 "Resolution" = "Rozdzielczość";
 "Exposure bias" = "Korekta ekspozycji";
 "Metering mode" = "Tryb pomiaru";
+"Host name" = "Nazwa hosta";
+"Preference" = "Preferencje";
+"Received unexpected JSON object." = "Odebrano nieoczekiwany obiekt JSON.";

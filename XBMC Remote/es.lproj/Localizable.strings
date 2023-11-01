@@ -312,3 +312,6 @@
 "Focal length" = "Distancia focal";
 "Camera model" = "Modelo de cámara";
 "Date & time" = "Fecha y hora";
+"Host name" = "Nombre de equipo";
+"Received unexpected JSON object." = "Recibido objeto JSON inesperado.";
+"Preference" = "Preferencia";

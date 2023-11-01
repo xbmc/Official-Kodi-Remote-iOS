@@ -312,3 +312,6 @@
 "Camera model" = "Modello fotocamera";
 "Date & time" = "Data e ora";
 "Exposure bias" = "Bias esposizione";
+"Preference" = "Preferenza";
+"Host name" = "Nome host";
+"Received unexpected JSON object." = "Ricevuto oggetto JSON non previsto.";

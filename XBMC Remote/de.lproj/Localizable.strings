@@ -312,3 +312,6 @@
 "Focal length" = "Brennweite";
 "Camera model" = "Kameramodell";
 "Exposure mode" = "Belichtungsmodus";
+"Host name" = "Hostname";
+"Preference" = "Präferenz";
+"Received unexpected JSON object." = "Unerwartetes JSON-Objekt empfangen.";
