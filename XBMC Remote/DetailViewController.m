@@ -5638,7 +5638,11 @@ NSIndexPath *selected;
     sectionNameOverlayView = nil;
     
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        [self setFlowLayoutParams];
+        if (stackscrollFullscreen) {
+            [self setFlowLayoutParams];
+            [collectionView.collectionViewLayout invalidateLayout];
+            [collectionView reloadData];
+        }
         [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     }
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {}];
