@@ -312,3 +312,6 @@
 "Exposure bias" = "Valotuskorjaus";
 "Date & time" = "Päivämäärä ja aika";
 "Camera model" = "Kameramalli";
+"Preference" = "Asetus";
+"Host name" = "Osoite";
+"Received unexpected JSON object." = "Vastaanotettiin odottamaton JSON-objekti.";

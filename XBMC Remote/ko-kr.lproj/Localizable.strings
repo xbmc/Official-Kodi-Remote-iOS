@@ -312,3 +312,6 @@
 "Camera model" = "카메라 모델";
 "Date & time" = "날짜와 시간";
 "Metering mode" = "측광 모드";
+"Host name" = "호스트 이름";
+"Preference" = "선호";
+"Received unexpected JSON object." = "예상치 못한 JSON 개체를 받았습니다.";
