@@ -1807,11 +1807,6 @@ double round(double d) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-    NSDictionary *httpHeaders = AppDelegate.instance.getServerHTTPHeaders;
-    if (httpHeaders[@"Authorization"] != nil) {
-        [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
-    }
     isViewDidLoad = YES;
     fanartView.tag = 1;
     fanartView.userInteractionEnabled = YES;

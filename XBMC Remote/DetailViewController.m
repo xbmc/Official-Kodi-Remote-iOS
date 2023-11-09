@@ -5714,11 +5714,6 @@ NSIndexPath *selected;
     serverMinorVersion = AppDelegate.instance.serverMinorVersion;
     libraryCachePath = AppDelegate.instance.libraryCachePath;
     epgCachePath = AppDelegate.instance.epgCachePath;
-    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-    NSDictionary *httpHeaders = AppDelegate.instance.getServerHTTPHeaders;
-    if (httpHeaders[@"Authorization"] != nil) {
-        [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
-    }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     hiddenLabel = [userDefaults boolForKey:@"hidden_label_preference"];
     noItemsLabel.text = LOCALIZED_STR(@"No items found.");

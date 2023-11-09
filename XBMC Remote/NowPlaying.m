@@ -2580,11 +2580,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-    NSDictionary *httpHeaders = AppDelegate.instance.getServerHTTPHeaders;
-    if (httpHeaders[@"Authorization"] != nil) {
-        [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
-    }
     itemDescription.selectable = NO;
     itemLogoImage.layer.minificationFilter = kCAFilterTrilinear;
     songCodecImage.layer.minificationFilter = kCAFilterTrilinear;
@@ -2669,11 +2664,6 @@
 }
 
 - (void)connectionSuccess:(NSNotification*)note {
-    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-    NSDictionary *httpHeaders = AppDelegate.instance.getServerHTTPHeaders;
-    if (httpHeaders[@"Authorization"] != nil) {
-        [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
-    }
 }
 
 - (void)handleShakeNotification {

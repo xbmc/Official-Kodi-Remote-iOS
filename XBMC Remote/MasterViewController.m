@@ -368,6 +368,9 @@
     icon.image = [UIImage imageNamed:icon_connection];
     UILabel *title = (UILabel*)[cell viewWithTag:3];
     title.text = infoText;
+    
+    // We are connected to server, we now need to share credentials with SDWebImageManager
+    [Utilities setWebImageAuthorizationOnSuccessNotification:note];
 }
 
 - (void)handleTcpJSONRPCChangeServerStatus:(NSNotification*)sender {

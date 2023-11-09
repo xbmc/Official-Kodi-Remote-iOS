@@ -1338,11 +1338,6 @@ NSInteger buttonAction;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-    NSDictionary *httpHeaders = AppDelegate.instance.getServerHTTPHeaders;
-    if (httpHeaders[@"Authorization"] != nil) {
-        [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
-    }
 
     self.edgesForExtendedLayout = 0;
     self.view.tintColor = APP_TINT_COLOR;
