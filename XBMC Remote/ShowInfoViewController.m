@@ -1248,54 +1248,35 @@ double round(double d) {
     if (thumbnailPath.length) {
         coverView.alpha = 0.0;
     }
-    [[SDImageCache sharedImageCache] queryDiskCacheForKey:thumbnailPath done:^(UIImage *image, SDImageCacheType cacheType) {
-        if (image != nil) {
-            foundTintColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
-            [self setIOS7barTintColor:foundTintColor];
-            [self elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
-        }
-        else {
-            __weak ShowInfoViewController *sf = self;
-            __block UIColor *newColor = nil;
-            [coverView sd_setImageWithURL:[NSURL URLWithString:thumbnailPath]
-                         placeholderImage:[UIImage imageNamed:placeHolderImage]
-                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                                if (image != nil) {
-                                    newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
-                                    [sf setIOS7barTintColor:newColor];
-                                    foundTintColor = newColor;
-                                }
-                                [sf elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
-            }];
-        }
+    __weak ShowInfoViewController *sf = self;
+    [coverView sd_setImageWithURL:[NSURL URLWithString:thumbnailPath]
+                 placeholderImage:[UIImage imageNamed:placeHolderImage]
+                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
+                        __auto_type strongSelf = sf;
+                        if (!strongSelf) {
+                            return;
+                        }
+                        if (image != nil) {
+                            UIColor *newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
+                            [strongSelf setIOS7barTintColor:newColor];
+                            foundTintColor = newColor;
+                        }
+                        [strongSelf elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
     }];
 }
 
 - (void)loadFanart:(NSString*)fanartPath {
     __weak ShowInfoViewController *sf = self;
-    [[SDImageCache sharedImageCache] queryDiskCacheForKey:fanartPath done:^(UIImage *image, SDImageCacheType cacheType) {
-        __auto_type strongSelf = sf;
-        if (image != nil) {
-            fanartView.image = image;
-            if (strongSelf != nil && strongSelf->enableKenBurns) {
-                fanartView.alpha = 0;
-                [sf elabKenBurns:image];
-                [Utilities alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
-            }
-        }
-        else {
-            [fanartView sd_setImageWithURL:[NSURL URLWithString:fanartPath]
-                          placeholderImage:[UIImage imageNamed:@"blank"]
-                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                                  __auto_type strongSelf = sf;
-                                  if (strongSelf != nil && strongSelf->enableKenBurns) {
-                                      [sf elabKenBurns:image];
-                                      [Utilities alphaView:sf.kenView AnimDuration:1.5 Alpha:0.2];
-                                  }
-                              }
-             ];
-        }
-    }];
+    [fanartView sd_setImageWithURL:[NSURL URLWithString:fanartPath]
+                  placeholderImage:[UIImage imageNamed:@"blank"]
+                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
+                          __auto_type strongSelf = sf;
+                          if (strongSelf != nil && strongSelf->enableKenBurns) {
+                              [strongSelf elabKenBurns:image];
+                              [Utilities alphaView:strongSelf.kenView AnimDuration:1.5 Alpha:0.2];
+                          }
+                      }
+     ];
     fanartView.clipsToBounds = YES;
 }
 
