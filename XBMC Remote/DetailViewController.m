@@ -5386,8 +5386,6 @@ NSIndexPath *selected;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-//    [SDWebImageManager.sharedManager cancelAll];
-//    [[SDImageCache sharedImageCache] clearMemory];
 }
 
 - (void)revealMenu:(id)sender {
