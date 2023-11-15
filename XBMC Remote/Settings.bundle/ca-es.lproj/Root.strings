@@ -37,3 +37,6 @@
 "Use thumbnail when fanart is missing" = "Utilitzeu la miniatura quan falti el fanart";
 "Colorize UI automatically" = "Acoloreix la interfície d'usuari automàticament";
 "Send Wake-On-LAN automatically" = "Envia Wake-On-LAN automàticament";
+"Theme (iOS 13+)" = "Tema (iOS 13+)";
+"Filemode and Theme changes need app restart" = "Els canvis en el mode de fitxer i el tema necessiten reiniciar l'aplicació";
+"Episode identifier" = "Identificador d'episodi";
