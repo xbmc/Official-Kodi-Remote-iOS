@@ -902,7 +902,7 @@
     BOOL torchIsOn = NO;
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     if (device.hasTorch && device.hasFlash) {
-        torchIsOn = device.torchLevel;
+        torchIsOn = device.torchActive;
     }
     return torchIsOn;
 }
