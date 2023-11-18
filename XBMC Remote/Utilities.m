@@ -898,6 +898,11 @@
     [device unlockForConfiguration];
 }
 
++ (BOOL)hasTorch {
+    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    return device.hasTorch && device.hasFlash;
+}
+
 + (BOOL)isTorchOn {
     BOOL torchIsOn = NO;
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
