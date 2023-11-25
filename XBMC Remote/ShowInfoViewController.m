@@ -369,10 +369,6 @@ double round(double d) {
     }
 }
 
-- (void)callbrowser:(id)sender {
-    [Utilities SFloadURL:embedVideoURL fromctrl:self];
-}
-
 #pragma mark - ActionSheet
 
 - (void)showActionSheet {
@@ -928,7 +924,7 @@ double round(double d) {
         parentalRatingLabelUp.hidden = YES;
     }
     if (trailerLabel == nil) {
-        playTrailerButton.hidden = YES;
+        trailerWebView.hidden = YES;
         trailerLabel.hidden = YES;
     }
     if (cast.count == 0) {
@@ -1058,9 +1054,9 @@ double round(double d) {
         trailerLabel.frame = frame;
         offset += frame.size.height;
         
-        frame = playTrailerButton.frame;
+        frame = trailerWebView.frame;
         frame.origin.y = offset;
-        playTrailerButton.frame = frame;
+        trailerWebView.frame = frame;
         offset += frame.size.height + lineSpacing + VERTICAL_PADDING;
     }
     return offset;
@@ -1181,7 +1177,7 @@ double round(double d) {
                 NSArray *queryItems = urlComponents.queryItems;
                 for (NSURLQueryItem *item in queryItems) {
                     if ([item.name isEqualToString:@"videoid"]) {
-                        embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", item.value];
+                        embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/embed/%@", item.value];
                         break; // We can leave the loop as we found what we were looking for.
                     }
                 }
@@ -1200,16 +1196,20 @@ double round(double d) {
             trailerLabel.shadowOffset = label1.shadowOffset;
             trailerLabel.backgroundColor = UIColor.clearColor;
             [scrollView addSubview:trailerLabel];
-
-            UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
-            playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            playTrailerButton.frame = CGRectMake(LEFT_RIGHT_PADDING, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE);
-            playTrailerButton.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin |
-                                                 UIViewAutoresizingFlexibleRightMargin |
-                                                 UIViewAutoresizingFlexibleLeftMargin;
-            [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
-            [playTrailerButton addTarget:self action:@selector(callbrowser:) forControlEvents:UIControlEventTouchUpInside];
-            [scrollView addSubview:playTrailerButton];
+            
+            WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
+            webViewConfiguration.allowsInlineMediaPlayback = NO;
+            frame = CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, floor(clearLogoWidth * 9.0 / 16.0));
+            trailerWebView = [[WKWebView alloc] initWithFrame:frame configuration:webViewConfiguration];
+            trailerWebView.contentMode = UIViewContentModeScaleAspectFit;
+            trailerWebView.opaque = NO;
+            trailerWebView.backgroundColor = UIColor.blackColor;
+            trailerWebView.UIDelegate = self;
+            [scrollView addSubview:trailerWebView];
+            
+            NSURL *nsurl = [NSURL URLWithString:embedVideoURL];
+            NSURLRequest *urlrequest = [NSURLRequest requestWithURL:nsurl];
+            [trailerWebView loadRequest:urlrequest];
         }
     }
 }
@@ -1488,12 +1488,6 @@ double round(double d) {
     if (AppDelegate.instance.serverVersion > 11 && ![self isModal]) {
         [self showContent:cast[indexPath.row][@"name"]];
     }
-}
-
-#pragma mark - Safari
-
-- (void)safariViewControllerDidFinish:(SFSafariViewController*)controller {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Gestures

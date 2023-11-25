@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 #import "DSJSONRPC.h"
 #import "JBKenBurnsView.h"
 #import "Utilities.h"
@@ -15,7 +16,7 @@
 @class NowPlaying;
 @class DetailViewController;
 
-@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate, SFSafariViewControllerDelegate> {
+@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate, SFSafariViewControllerDelegate, WKUIDelegate> {
     IBOutlet UIImageView *coverView;
     IBOutlet UIImageView *starsView;
     IBOutlet UILabel *voteLabel;
@@ -43,7 +44,7 @@
     IBOutlet UILabel *label6;
 
     UILabel *trailerLabel;
-    UIButton *playTrailerButton;
+    WKWebView *trailerWebView;
 
     IBOutlet UIButton *arrow_back_up;
     IBOutlet UIButton *arrow_continue_down;
