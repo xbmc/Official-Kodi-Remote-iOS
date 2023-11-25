@@ -90,6 +90,7 @@
 		1A9786C01683D87800B4F3F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9786C21683D87800B4F3F8 /* Localizable.strings */; };
 		C703692927148CEF0049F9BF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C703692827148CEF0049F9BF /* StoreKit.framework */; };
 		C718444625FFD06400F5A060 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C718444525FFD06300F5A060 /* SafariServices.framework */; };
+		C7432A6E2B12195600100E83 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7432A6D2B12195600100E83 /* WebKit.framework */; };
 		C7478BF9257258E700161C1E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7478BF8257258E700161C1E /* Launch Screen.storyboard */; };
 		C76451CE29C51221000AE949 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */; };
 		C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B129C51220000AE949 /* UIImage+WebP.m */; };
@@ -274,6 +275,7 @@
 		B1FF37DF1709D1ED005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C703692827148CEF0049F9BF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C718444525FFD06300F5A060 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		C7432A6D2B12195600100E83 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		C746406727E6200200F6AD47 /* fi-FI */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fi-FI"; path = "fi-FI.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C746406827E6200200F6AD47 /* fi-FI */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fi-FI"; path = "fi-FI.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C746406927E6209C00F6AD47 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7432A6E2B12195600100E83 /* WebKit.framework in Frameworks */,
 				C703692927148CEF0049F9BF /* StoreKit.framework in Frameworks */,
 				0F32093016FE193400636BA2 /* ImageIO.framework in Frameworks */,
 				0FB8598615FF9ED10070F324 /* AVFoundation.framework in Frameworks */,
@@ -514,6 +517,7 @@
 		0F5548F9151D1187007E633F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C7432A6D2B12195600100E83 /* WebKit.framework */,
 				C703692827148CEF0049F9BF /* StoreKit.framework */,
 				C718444525FFD06300F5A060 /* SafariServices.framework */,
 				0F32092F16FE193400636BA2 /* ImageIO.framework */,
