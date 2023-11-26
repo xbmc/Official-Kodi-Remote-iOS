@@ -1182,7 +1182,7 @@ double round(double d) {
                 NSArray *queryItems = urlComponents.queryItems;
                 for (NSURLQueryItem *item in queryItems) {
                     if ([item.name isEqualToString:@"videoid"]) {
-                        embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/embed/%@", item.value];
+                        embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/embed/%@?&vq=hd1080", item.value];
                         break; // We can leave the loop as we found what we were looking for.
                     }
                 }
