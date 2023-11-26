@@ -816,7 +816,7 @@
     return roundedCornerImage;
 }
 
-+ (UIImageView*)roundedCornerView:(UIImageView*)view drawBorder:(BOOL)drawBorder {
++ (void)roundedCornerView:(UIView*)view drawBorder:(BOOL)drawBorder {
     CALayer *imageLayer = view.layer;
     
     // Set radius for corners
@@ -842,8 +842,6 @@
     else {
         imageLayer.borderWidth = 0;
     }
-    
-    return view;
 }
 
 + (UIImage*)applyRoundedEdgesImage:(UIImage*)image drawBorder:(BOOL)drawBorder {
@@ -855,13 +853,12 @@
     return image;
 }
 
-+ (UIImageView*)applyRoundedEdgesView:(UIImageView*)imageView drawBorder:(BOOL)drawBorder {
++ (void)applyRoundedEdgesView:(UIView*)view drawBorder:(BOOL)drawBorder {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
     if (corner_preference) {
-        imageView = [Utilities roundedCornerView:imageView drawBorder:drawBorder];
+        [Utilities roundedCornerView:view drawBorder:drawBorder];
     }
-    return imageView;
 }
 
 + (void)turnTorchOn:(id)sender on:(BOOL)torchOn {

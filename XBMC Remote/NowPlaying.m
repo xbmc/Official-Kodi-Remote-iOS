@@ -2060,7 +2060,7 @@
     [thumb sd_setImageWithURL:[NSURL URLWithString:stringURL]
              placeholderImage:defaultThumb
                       options:SDWebImageScaleToNativeSize];
-    thumb = [Utilities applyRoundedEdgesView:thumb drawBorder:YES];
+    [Utilities applyRoundedEdgesView:thumb drawBorder:YES];
     [self setPlaylistCellProgressBar:cell hidden:YES];
     
     return cell;
