@@ -44,6 +44,7 @@
     IBOutlet UILabel *label6;
 
     UILabel *trailerLabel;
+    UIButton *trailerPlayButton;
     WKWebView *trailerWebView;
 
     IBOutlet UIButton *arrow_back_up;

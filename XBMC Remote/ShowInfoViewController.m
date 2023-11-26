@@ -1167,6 +1167,11 @@ double round(double d) {
     [scrollView addSubview:actorsTable];
 }
 
+- (BOOL)isEmbeddedYoutubeLink:(NSString*)urlPath {
+    // Checks for "http://" OR "https://", "www" OR not AND "youtube.com/embed/" (4 variations)
+    return [urlPath rangeOfString:@"^https?://(www\\.)?youtube\\.com/embed/" options:NSRegularExpressionSearch].location != NSNotFound;
+}
+
 - (void)processTrailerFromString:(NSString*)trailerString {
     embedVideoURL = nil;
     if (trailerString.length > 0) {
@@ -1207,9 +1212,19 @@ double round(double d) {
             trailerWebView.UIDelegate = self;
             [scrollView addSubview:trailerWebView];
             
-            NSURL *nsurl = [NSURL URLWithString:embedVideoURL];
-            NSURLRequest *urlrequest = [NSURLRequest requestWithURL:nsurl];
-            [trailerWebView loadRequest:urlrequest];
+            if ([self isEmbeddedYoutubeLink:embedVideoURL]) {
+                [self loadTrailerInWebKit:nil];
+            }
+            else {
+                UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
+                trailerPlayButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                trailerPlayButton.frame = CGRectMake(0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE);
+                trailerPlayButton.center = trailerWebView.center;
+                trailerPlayButton.hidden = NO;
+                [trailerPlayButton setImage:playTrailerImg forState:UIControlStateNormal];
+                [trailerPlayButton addTarget:self action:@selector(loadTrailerInWebKit:) forControlEvents:UIControlEventTouchUpInside];
+                [trailerWebView addSubview:trailerPlayButton];
+            }
         }
     }
 }
@@ -1497,6 +1512,13 @@ double round(double d) {
         [webView loadRequest:navigationAction.request];
     }
     return nil;
+}
+
+- (void)loadTrailerInWebKit:(id)sender {
+    trailerPlayButton.hidden = YES;
+    NSURL *nsurl = [NSURL URLWithString:embedVideoURL];
+    NSURLRequest *urlrequest = [NSURLRequest requestWithURL:nsurl];
+    [trailerWebView loadRequest:urlrequest];
 }
 
 #pragma mark - Gestures
