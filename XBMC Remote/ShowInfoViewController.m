@@ -1210,6 +1210,7 @@ double round(double d) {
             trailerWebView.opaque = NO;
             trailerWebView.backgroundColor = UIColor.blackColor;
             trailerWebView.UIDelegate = self;
+            [Utilities applyRoundedEdgesView:trailerWebView drawBorder:YES];
             [scrollView addSubview:trailerWebView];
             
             if ([self isEmbeddedYoutubeLink:embedVideoURL]) {
