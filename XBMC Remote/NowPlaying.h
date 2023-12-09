@@ -57,8 +57,7 @@
     NSIndexPath *storeSelection;
     int slideFrom;
     int numResults;
-    IBOutlet UIToolbar *playlistToolbar;
-    
+    IBOutlet UIView *playlistToolbarView;
     int iPadOrigX;
     int iPadOrigY;
     int iPadthumbWidth;

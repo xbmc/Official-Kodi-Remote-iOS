@@ -46,6 +46,8 @@
 #define COVERVIEW_PADDING 10
 #define SEGMENTCONTROL_WIDTH 122
 #define SEGMENTCONTROL_HEIGHT 32
+#define BOTTOMVIEW_WIDTH 320
+#define BOTTOMVIEW_HEIGHT 158
 #define TOOLBAR_HEIGHT 44
 #define TAG_ID_PREVIOUS 1
 #define TAG_ID_PLAYPAUSE 2
@@ -410,13 +412,15 @@
 }
 
 - (void)animateToColors:(UIColor*)color {
+    color = UIColor.clearColor;
     [UIView transitionWithView:ProgressSlider
                       duration:0.3
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
                         if ([color isEqual:UIColor.clearColor]) {
                             self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
-                            ProgressSlider.minimumTrackTintColor = SLIDER_DEFAULT_COLOR;
+                            ProgressSlider.minimumTrackTintColor = UIColor.lightGrayColor;
+                            ProgressSlider.maximumTrackTintColor = UIColor.grayColor;
                             if (ProgressSlider.userInteractionEnabled) {
                                 UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
                                 [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
@@ -710,10 +714,14 @@
                                          repeatButton.hidden = NO;
                                      }
                                      if ([repeatStatus isEqualToString:@"all"]) {
-                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
+                                         UIImage *image = [UIImage imageNamed:@"button_repeat_all"];
+                                         image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+                                         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
                                      }
                                      else if ([repeatStatus isEqualToString:@"one"]) {
-                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
+                                         UIImage *image = [UIImage imageNamed:@"button_repeat_one"];
+                                         image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+                                         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
                                      }
                                      else {
                                          [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
@@ -729,7 +737,9 @@
                                          shuffleButton.hidden = NO;
                                      }
                                      if (shuffled) {
-                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
+                                         UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
+                                         image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+                                         [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
                                      }
                                      else {
                                          [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
@@ -1612,7 +1622,9 @@
             [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
         }
         else {
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
+            UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
+            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
         }
     }
     else {
@@ -1633,11 +1645,14 @@
     if (AppDelegate.instance.serverVersion > 11) {
         [self SimpleAction:@"Player.SetRepeat" params:@{@"playerid": @(currentPlayerID), @"repeat": @"cycle"} reloadPlaylist:NO startProgressBar:NO];
         if ([repeatStatus isEqualToString:@"off"]) {
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
+            UIImage *image = [UIImage imageNamed:@"button_repeat_all"];
+            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
         }
         else if ([repeatStatus isEqualToString:@"all"]) {
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
-
+            UIImage *image = [UIImage imageNamed:@"button_repeat_one"];
+            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
         }
         else if ([repeatStatus isEqualToString:@"one"]) {
             [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
@@ -1677,20 +1692,12 @@
     else {
         // songDetailsView is shown, process touches
         CGPoint locationPoint = [touch locationInView:songDetailsView];
-        CGPoint viewPoint1 = [shuffleButton convertPoint:locationPoint fromView:songDetailsView];
-        CGPoint viewPoint2 = [repeatButton convertPoint:locationPoint fromView:songDetailsView];
-        CGPoint viewPoint3 = [itemLogoImage convertPoint:locationPoint fromView:songDetailsView];
-        CGPoint viewPoint4 = [closeButton convertPoint:locationPoint fromView:songDetailsView];
-        if ([shuffleButton pointInside:viewPoint1 withEvent:event] && !shuffleButton.hidden) {
-            [self changeShuffle:nil];
-        }
-        else if ([repeatButton pointInside:viewPoint2 withEvent:event] && !repeatButton.hidden) {
-            [self changeRepeat:nil];
-        }
-        else if ([itemLogoImage pointInside:viewPoint3 withEvent:event] && itemLogoImage.image != nil) {
+        CGPoint viewPointImage = [itemLogoImage convertPoint:locationPoint fromView:songDetailsView];
+        CGPoint viewPointClose = [closeButton convertPoint:locationPoint fromView:songDetailsView];
+        if ([itemLogoImage pointInside:viewPointImage withEvent:event] && itemLogoImage.image != nil) {
             [self updateCurrentLogo];
         }
-        else if ([closeButton pointInside:viewPoint4 withEvent:event] && !closeButton.hidden) {
+        else if ([closeButton pointInside:viewPointClose withEvent:event] && !closeButton.hidden) {
             [self toggleSongDetails];
         }
         else if (![songDetailsView pointInside:locationPoint withEvent:event] && !closeButton.hidden) {
@@ -2260,6 +2267,31 @@
 
 #pragma mark - Interface customizations
 
+- (void)setNowPlayingDimensionIPhone:(int)width height:(int)height {
+    CGFloat scaleX = width / BottomView.frame.size.width;
+    CGFloat scaleY = height / BottomView.frame.size.height;
+    CGFloat scale = MIN(scaleX, scaleY);
+    
+    CGFloat newWidth = floor(BottomView.frame.size.width * scale);
+    CGFloat newHeight = floor(BottomView.frame.size.height * scale);
+    
+    BottomView.frame = CGRectMake((nowPlayingView.frame.size.width - newWidth) / 2,
+                                  nowPlayingView.frame.size.height - newHeight,
+                                  newWidth,
+                                  newHeight);
+    
+    jewelView.frame = CGRectMake(jewelView.frame.origin.x,
+                                 jewelView.frame.origin.y,
+                                 jewelView.frame.size.width,
+                                 CGRectGetMinY(BottomView.frame) - jewelView.frame.origin.y);
+    
+    // Set position for shuffle and repeat
+    UIButton *buttonStop = [playlistToolbarView viewWithTag:TAG_ID_STOP];
+    UIButton *buttonToggle = [playlistToolbarView viewWithTag:TAG_ID_TOGGLE];
+    shuffleButton.center = CGPointMake(buttonStop.center.x, shuffleButton.center.y);
+    repeatButton.center  = CGPointMake(buttonToggle.center.x, repeatButton.center.y);
+}
+
 - (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS {
     CGRect frame;
     
@@ -2273,15 +2305,26 @@
                                       width - (PAD_MENU_TABLE_WIDTH + 2),
                                       maxheight);
     
-    BottomView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH,
-                                  CGRectGetMaxY(jewelView.frame) + COVERVIEW_PADDING,
-                                  width - PAD_MENU_TABLE_WIDTH,
-                                  maxheight - CGRectGetMaxY(jewelView.frame));
+    CGFloat scaleX = MIN(nowPlayingView.frame.size.width, PAD_REMOTE_WIDTH) / BOTTOMVIEW_WIDTH;
+    CGFloat scaleY = nowPlayingView.frame.size.height / BOTTOMVIEW_HEIGHT;
+    CGFloat scale = MIN(scaleX, scaleY);
     
-    frame = playlistToolbar.frame;
+    CGFloat newWidth = (GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH) - 2 * COVERVIEW_PADDING;
+    CGFloat newHeight = floor(BOTTOMVIEW_HEIGHT * scale);
+    BottomView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH + (nowPlayingView.frame.size.width - newWidth) / 2,
+                                  nowPlayingView.frame.size.height - newHeight,
+                                  newWidth,
+                                  newHeight);
+    
+    jewelView.frame = CGRectMake(jewelView.frame.origin.x,
+                                 jewelView.frame.origin.y,
+                                 jewelView.frame.size.width,
+                                 CGRectGetMinY(BottomView.frame) - jewelView.frame.origin.y - statusBar);
+    
+    frame = playlistToolbarView.frame;
     frame.size.width = width;
     frame.origin.x = 0;
-    playlistToolbar.frame = frame;
+    playlistToolbarView.frame = frame;
     
     frame = toolbarBackground.frame;
     frame.size.width = width;
@@ -2306,10 +2349,10 @@
     albumName.font        = [UIFont systemFontOfSize:floor(16 * scale)];
     songName.font         = [UIFont boldSystemFontOfSize:floor(20 * scale)];
     artistName.font       = [UIFont systemFontOfSize:floor(16 * scale)];
-    currentTime.font      = [UIFont systemFontOfSize:floor(12 * scale)];
-    duration.font         = [UIFont systemFontOfSize:floor(12 * scale)];
-    scrabbingMessage.font = [UIFont systemFontOfSize:floor(10 * scale)];
-    scrabbingRate.font    = [UIFont systemFontOfSize:floor(10 * scale)];
+    currentTime.font      = [UIFont systemFontOfSize:floor(14 * scale)];
+    duration.font         = [UIFont systemFontOfSize:floor(14 * scale)];
+    scrabbingMessage.font = [UIFont systemFontOfSize:floor(11 * scale)];
+    scrabbingRate.font    = [UIFont systemFontOfSize:floor(11 * scale)];
     songBitRate.font      = [UIFont systemFontOfSize:floor(16 * scale) weight:UIFontWeightHeavy];
     [self setAVCodecFont:songCodec size:floor(15 * scale)];
     [self setAVCodecFont:songSampleRate size:floor(15 * scale)];
@@ -2320,15 +2363,6 @@
 - (void)setIphoneInterface {
     slideFrom = [self currentScreenBoundsDependOnOrientation].size.width;
     xbmcOverlayImage.hidden = YES;
-    [playlistToolbar setShadowImage:[UIImage imageNamed:@"blank"] forToolbarPosition:UIBarPositionAny];
-    
-    // Add flex spaces for iPhone's toolbar
-    NSMutableArray *iPhoneItems = [playlistToolbar.items mutableCopy];
-    for (NSInteger i = iPhoneItems.count; i >= 0; --i) {
-        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
-        [iPhoneItems insertObject:spacer atIndex:i];
-    }
-    playlistToolbar.items = iPhoneItems;
     
     CGRect frame = playlistActionView.frame;
     frame.origin.y = playlistTableView.frame.size.height - playlistActionView.frame.size.height;
@@ -2341,17 +2375,7 @@
     CGRect frame = playlistTableView.frame;
     frame.origin.x = slideFrom;
     playlistTableView.frame = frame;
-    
-    // Step 1: Remove iPhone's toggle button
-    NSMutableArray *iPadItems = [playlistToolbar.items mutableCopy];
-    [iPadItems removeObjectAtIndex:iPadItems.count - 1];
-    
-    // Step 2: Handle spacing
-    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
-    [iPadItems addObject:spacer];
-    
-    playlistToolbar.items = iPadItems;
-    playlistToolbar.alpha = 1.0;
+    playlistToolbarView.alpha = 1.0;
     
     nowPlayingView.hidden = NO;
     playlistView.hidden = NO;
@@ -2456,6 +2480,9 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
         self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.panGesture.delegate = self;
+        
+        [self setNowPlayingDimensionIPhone:nowPlayingView.frame.size.width
+                                    height:nowPlayingView.frame.size.height];
     }
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
@@ -2610,9 +2637,9 @@
     [self setToolbar];
 
     if (bottomPadding > 0) {
-        CGRect frame = playlistToolbar.frame;
+        CGRect frame = playlistToolbarView.frame;
         frame.origin.y -= bottomPadding;
-        playlistToolbar.frame = frame;
+        playlistToolbarView.frame = frame;
         
         frame = nowPlayingView.frame;
         frame.size.height -= bottomPadding;
@@ -2626,15 +2653,19 @@
     playlistTableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    // Transparent toolbar
-    [Utilities createTransparentToolbar:playlistToolbar];
-    
     // Background of toolbar
-    CGFloat bottomBarHeight = playlistToolbar.frame.size.height + bottomPadding;
-    toolbarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - bottomBarHeight, self.view.frame.size.width, bottomBarHeight)];
-    toolbarBackground.autoresizingMask = playlistToolbar.autoresizingMask;
-    toolbarBackground.backgroundColor = TOOLBAR_TINT_COLOR;
-    [self.view insertSubview:toolbarBackground atIndex:1];
+    CGFloat bottomBarHeight = playlistToolbarView.frame.size.height + bottomPadding;
+    if (IS_IPAD) {
+        // iPad needs clear background for the playlist (to show the fanart), but a colored background for the toolbar.
+        toolbarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - bottomBarHeight, self.view.frame.size.width, bottomBarHeight)];
+        toolbarBackground.autoresizingMask = playlistToolbarView.autoresizingMask;
+        toolbarBackground.backgroundColor = TOOLBAR_TINT_COLOR;
+        [self.view insertSubview:toolbarBackground atIndex:1];
+        self.view.backgroundColor = UIColor.clearColor;
+    }
+    else {
+        self.view.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+    }
     
     // Set correct size for background image
     CGRect frame = backgroundImageView.frame;
@@ -2642,7 +2673,7 @@
     backgroundImageView.frame = frame;
     
     ProgressSlider.minimumTrackTintColor = SLIDER_DEFAULT_COLOR;
-    ProgressSlider.maximumTrackTintColor = APP_TINT_COLOR;
+    ProgressSlider.maximumTrackTintColor = UIColor.darkGrayColor;
     playlistTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
@@ -2670,6 +2701,12 @@
         startFlipDemo = YES;
     }
     playlistData = [NSMutableArray new];
+    
+    songName.text = @"";
+    artistName.text = @"";
+    albumName.text = @"";
+    duration.text = @"";
+    currentTime.text = @"";
 }
 
 - (void)connectionSuccess:(NSNotification*)note {
