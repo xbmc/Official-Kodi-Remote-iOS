@@ -1308,6 +1308,7 @@ NSInteger buttonAction;
     [torchButton setImage:[UIImage imageNamed:torchIsOn ? @"torch_on" : @"torch"] forState:UIControlStateNormal];
     [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
     torchButton.alpha = 0.8;
+    torchButton.enabled = [Utilities hasTorch];
     [remoteToolbar addSubview:torchButton];
     
     if (IS_IPHONE) {

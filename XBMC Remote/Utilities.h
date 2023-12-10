@@ -86,6 +86,7 @@ typedef enum {
 + (UIImage*)applyRoundedEdgesImage:(UIImage*)image drawBorder:(BOOL)drawBorder;
 + (void)applyRoundedEdgesView:(UIView*)view drawBorder:(BOOL)drawBorder;
 + (void)turnTorchOn:(id)sender on:(BOOL)torchOn;
++ (BOOL)hasTorch;
 + (BOOL)isTorchOn;
 + (BOOL)hasRemoteToolBar;
 + (CGFloat)getBottomPadding;
