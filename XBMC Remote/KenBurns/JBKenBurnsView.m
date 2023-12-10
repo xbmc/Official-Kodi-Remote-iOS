@@ -159,8 +159,6 @@
     UIImageView *imageView;
     
     CGFloat resizeRatio   = -1;
-    CGFloat widthDiff     = -1;
-    CGFloat heightDiff    = -1;
     CGFloat originX       = -1;
     CGFloat originY       = -1;
     CGFloat zoomInX       = -1;
@@ -170,65 +168,10 @@
     CGFloat frameWidth    = isLandscape ? self.frame.size.width : self.frame.size.height;
     CGFloat frameHeight   = isLandscape ? self.frame.size.height : self.frame.size.width;
     
-    // Widder than screen 
-    if (image.size.width > frameWidth) {
-        widthDiff = image.size.width - frameWidth;
-        
-        // Higher than screen
-//        if (image.size.height > frameHeight)
-//        {
-            heightDiff = image.size.height - frameHeight;
-            
-            if (widthDiff > heightDiff) {
-                resizeRatio = frameHeight / image.size.height;
-            }
-            else {
-                resizeRatio = frameWidth / image.size.width;
-            }
-            
-            // No higher than screen
-//        }
-//        else
-//        {
-//
-//            heightDiff = frameHeight - image.size.height;
-//            
-//            if (widthDiff > heightDiff) 
-//                resizeRatio = frameWidth / image.size.width;
-//            else
-//                resizeRatio = self.bounds.size.height / image.size.height;
-//        }
-        
-        // No widder than screen
-    }
-//    else
-//    {
-//        widthDiff = frameWidth - image.size.width;
-//        
-//        // Higher than screen
-//        if (image.size.height > frameHeight)
-//        {
-//
-//            heightDiff = image.size.height - frameHeight;
-//            
-//            if (widthDiff > heightDiff) 
-//                resizeRatio = image.size.height / frameHeight;
-//            else
-//                resizeRatio = frameWidth / image.size.width;
-//            
-//            // No higher than screen
-//        }
-//        else
-//        {
-//
-//            heightDiff = frameHeight - image.size.height;
-//            
-//            if (widthDiff > heightDiff) 
-//                resizeRatio = frameWidth / image.size.width;
-//            else
-//                resizeRatio = frameHeight / image.size.height;
-//        }
-//    }
+    // Calculate scale factor to fill screen
+    CGFloat scaleX = frameWidth / image.size.width;
+    CGFloat scaleY = frameHeight / image.size.height;
+    resizeRatio = MAX(scaleX, scaleY);
     
     // Resize the image.
     CGFloat optimusWidth  = (image.size.width * resizeRatio) * newEnlargeRatio;
