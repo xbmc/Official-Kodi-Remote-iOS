@@ -84,7 +84,7 @@
 "%d results" = "%d resultados";
 "Songs" = "Canciones";
 "Song" = "Canción";
-"Mins." = "Min";
+"Mins." = "Mins.";
 "Min" = "Min";
 "Released %d" = "Lanzado %d";
 "Clear Playlist" = "Limpiar Lista de Reproducción";
@@ -209,7 +209,7 @@
 "Don't show this message again" = "No mostrar este mensaje de nuevo";
 "Enable TCP connection on Kodi" = "Activar conexión TCP en Kodi";
 "Description" = "Descripción";
-"Host : port /\nTCP port" = "Host : puerto /\npuerto TCP";
+"Host : port /\nTCP port" = "Host : puerto /\nPuerto TCP";
 "MAC Address" = "Dirección MAC";
 "Username and Password" = "Usuario y Contraseña";
 "Find XBMC" = "Encontrar Kodi";
