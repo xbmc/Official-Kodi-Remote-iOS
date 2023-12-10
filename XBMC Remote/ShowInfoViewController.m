@@ -563,7 +563,7 @@ double round(double d) {
         
         // Ensure we draw the rounded edges around TV station logo view
         coverView.image = imageToShow;
-        coverView = [Utilities applyRoundedEdgesView:coverView drawBorder:YES];
+        [Utilities applyRoundedEdgesView:coverView drawBorder:YES];
         
         // Choose correct background color for station logos
         if (image != nil) {

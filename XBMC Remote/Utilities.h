@@ -82,9 +82,9 @@ typedef enum {
 + (CGFloat)getWidthOfLabel:(UILabel*)label;
 + (CGFloat)getHeightOfLabel:(UILabel*)label;
 + (UIImage*)roundedCornerImage:(UIImage*)image drawBorder:(BOOL)drawBorder;
-+ (UIImageView*)roundedCornerView:(UIImageView*)view drawBorder:(BOOL)drawBorder;
++ (void)roundedCornerView:(UIView*)view drawBorder:(BOOL)drawBorder;
 + (UIImage*)applyRoundedEdgesImage:(UIImage*)image drawBorder:(BOOL)drawBorder;
-+ (UIImageView*)applyRoundedEdgesView:(UIImageView*)imageView drawBorder:(BOOL)drawBorder;
++ (void)applyRoundedEdgesView:(UIView*)view drawBorder:(BOOL)drawBorder;
 + (void)turnTorchOn:(id)sender on:(BOOL)torchOn;
 + (BOOL)isTorchOn;
 + (BOOL)hasRemoteToolBar;
