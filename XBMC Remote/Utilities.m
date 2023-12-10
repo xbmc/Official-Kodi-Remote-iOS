@@ -1199,6 +1199,10 @@
 }
 
 + (NSString*)stripRegEx:(NSString*)regExp text:(NSString*)textIn {
+    // Returns unchanged string, if regExp is nil. Returns nil, if string is nil.
+    if (!textIn || !regExp) {
+        return textIn;
+    }
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regExp options:NSRegularExpressionCaseInsensitive error:NULL];
     NSString *textOut = [regex stringByReplacingMatchesInString:textIn options:0 range:NSMakeRange(0, [textIn length]) withTemplate:@""];
     return textOut;
