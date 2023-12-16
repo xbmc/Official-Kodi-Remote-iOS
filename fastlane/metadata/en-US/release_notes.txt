@@ -1,20 +1,6 @@
-Features:
-- Support user selectable dark/light/automatic theme
-- Support user resizable left menu on iPad
-- Support random sort in library view
-- Show EXIF data in NowPlaying overlay
-
-Bugfixes:
-- Exit loop when entering wrong username/password
-- Fix potential crash when scrolling via index
-- Fix potentially non-working progress slider
-- Fix potentially empty NowPlaying screen
-- Fix several layout issues
-
-Improvements:
-- Improve readability of NowPlaying screen
-- Enhance service discovery via "Find Kodi"
-- Translation updates for several languages
-- Many more improvements
+Changes:
+- Fix low resolution NowPlaying covers
+- Fix crash in library, info and NowPlaying view
+- Other minor bugfixes and improvements
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
