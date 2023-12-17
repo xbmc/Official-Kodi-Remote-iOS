@@ -21,7 +21,7 @@
 #import "Utilities.h"
 #import "VersionCheck.h"
 
-#define PLAY_BUTTON_SIZE 20
+#define PLAY_BUTTON_SIZE 40
 #define TV_LOGO_SIZE_REC_DETAILS 72
 #define TITLE_HEIGHT 44
 #define LEFT_RIGHT_PADDING 10
