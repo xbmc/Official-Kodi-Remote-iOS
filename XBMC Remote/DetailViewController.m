@@ -2948,7 +2948,7 @@
     
     // Set dimensions for thumb view
     int thumbHeight = albumViewHeight - albumViewPadding * 2;
-    int thumbWidth = episodesView ? (int)(thumbHeight * 0.71) : thumbHeight;
+    int thumbWidth = episodesView ? (int)(thumbHeight * 0.67) : thumbHeight;
     
     // Set main layout root parameters
     CGFloat toggleIconSpace = episodesView ? LABEL_PADDING : 0;
