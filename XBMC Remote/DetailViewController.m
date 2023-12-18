@@ -5155,14 +5155,11 @@ NSIndexPath *selected;
     }
     self.sectionArray = sectionKeys;
     self.sectionArrayOpen = [NSMutableArray new];
-    BOOL defaultValue = NO;
-    if (self.sectionArray.count == 1) {
-        defaultValue = YES;
-    }
-    [self setSortButtonImage:sortAscDesc];
+    BOOL defaultValue = self.sectionArray.count == 1;
     for (int i = 0; i < self.sectionArray.count; i++) {
         [self.sectionArrayOpen addObject:@(defaultValue)];
     }
+    [self setSortButtonImage:sortAscDesc];
     [self displayData];
 }
 
