@@ -73,7 +73,6 @@
     int artistFontSize;
     int albumFontSize;
     int trackCountFontSize;
-    int trackCountLabelWidth;
     int sectionHeight;
     UIColor *albumColor;
     UICollectionView *collectionView;

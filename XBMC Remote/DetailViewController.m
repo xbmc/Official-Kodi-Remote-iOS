@@ -62,6 +62,7 @@
 #define INDEX_PADDING 2
 #define RUNTIMEYEAR_WIDTH 63
 #define EPGCHANNELTIME_WIDTH 40
+#define TRACKCOUNT_WIDTH 26
 #define LABEL_PADDING 8
 #define VERTICAL_PADDING 8
 #define SMALL_PADDING 4
@@ -2104,7 +2105,7 @@
     }
     if (albumView || episodesView) {
         thumbWidth = 0;
-        labelPosition = SMALL_PADDING + trackCountLabelWidth + SMALL_PADDING;
+        labelPosition = SMALL_PADDING + TRACKCOUNT_WIDTH + SMALL_PADDING;
     }
     else if (channelGuideView) {
         thumbWidth = 0;
@@ -2379,7 +2380,7 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = nib[0];
         if (albumView || episodesView) {
-            UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, cellHeight / 2 - (artistFontSize + VERTICAL_PADDING) / 2, trackCountLabelWidth, artistFontSize + VERTICAL_PADDING)];
+            UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, cellHeight / 2 - (artistFontSize + VERTICAL_PADDING) / 2, TRACKCOUNT_WIDTH, artistFontSize + VERTICAL_PADDING)];
             trackNumberLabel.backgroundColor = UIColor.clearColor;
             trackNumberLabel.font = [UIFont systemFontOfSize:artistFontSize];
             trackNumberLabel.adjustsFontSizeToFitWidth = YES;
@@ -5819,7 +5820,6 @@ NSIndexPath *selected;
     }
     
     detailView.clipsToBounds = YES;
-    trackCountLabelWidth = 26;
     NSDictionary *itemSizes = parameters[@"itemSizes"];
     if (IS_IPHONE) {
         [self setIphoneInterface:itemSizes[@"iphone"]];
