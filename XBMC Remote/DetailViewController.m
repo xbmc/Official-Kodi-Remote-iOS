@@ -3214,7 +3214,10 @@
                         [sheetActions addObject:LOCALIZED_STR(@"Play Trailer")];
                     }
                 }
-                if ([item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"episodeid"]|| [item[@"family"] isEqualToString:@"musicvideoid"] || [item[@"family"] isEqualToString:@"tvshowid"]) {
+                if ([item[@"family"] isEqualToString:@"movieid"] ||
+                    [item[@"family"] isEqualToString:@"episodeid"] ||
+                    [item[@"family"] isEqualToString:@"musicvideoid"] ||
+                    [item[@"family"] isEqualToString:@"tvshowid"]) {
                     if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
                         NSString *actionString = @"";
                         if ([item[@"playcount"] intValue] == 0) {
