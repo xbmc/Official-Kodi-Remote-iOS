@@ -3153,7 +3153,7 @@
         BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
         UIViewController *showFromCtrl = [self topMostController];
-        [self showActionSheetOptions:title options:sheetActions recording:isRecording point:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
+        [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
         [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
@@ -3163,18 +3163,14 @@
 
 - (IBAction)handleLongPress {
     if (lpgr.state == UIGestureRecognizerStateBegan || longPressGesture.state == UIGestureRecognizerStateBegan) {
-        CGPoint p;
-        CGPoint selectedPoint;
+        UILongPressGestureRecognizer *activeRecognizer = enableCollectionView ? longPressGesture : lpgr;
+        CGPoint selectedPointInView = [activeRecognizer locationInView:activeLayoutView];
         NSIndexPath *indexPath = nil;
         if (enableCollectionView) {
-            p = [longPressGesture locationInView:collectionView];
-            selectedPoint = [longPressGesture locationInView:self.view];
-            indexPath = [collectionView indexPathForItemAtPoint:p];
+            indexPath = [collectionView indexPathForItemAtPoint:selectedPointInView];
         }
         else {
-            p = [lpgr locationInView:dataList];
-            selectedPoint = [lpgr locationInView:self.view];
-            indexPath = [dataList indexPathForRowAtPoint:p];
+            indexPath = [dataList indexPathForRowAtPoint:selectedPointInView];
         }
         
         if (indexPath != nil) {
@@ -3238,9 +3234,9 @@
                 }
                 else {
                     showfromview = enableCollectionView ? collectionView : [showFromCtrl.view superview];
-                    selectedPoint = enableCollectionView ? p : [lpgr locationInView:showfromview];
                 }
-                [self showActionSheetOptions:title options:sheetActions recording:isRecording point:selectedPoint fromcontroller:showFromCtrl fromview:showfromview];
+                CGPoint sheetOrigin = [activeRecognizer locationInView:showfromview];
+                [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:showfromview];
             }
             // In case of Global Search restore choosedTab after processing
             if (globalSearchView) {
@@ -3250,7 +3246,7 @@
     }
 }
 
-- (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording point:(CGPoint)origin fromcontroller:(UIViewController*)fromctrl fromview:(UIView*)fromview {
+- (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording origin:(CGPoint)origin fromcontroller:(UIViewController*)fromctrl fromview:(UIView*)fromview {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
         UIAlertController *actionTemp = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
