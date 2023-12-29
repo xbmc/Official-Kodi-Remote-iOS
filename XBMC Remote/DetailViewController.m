@@ -6002,39 +6002,6 @@
     [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - button7.frame.size.height / 2];
 }
 
-- (void)handleLongPressSortButton:(UILongPressGestureRecognizer*)gestureRecognizer {
-    mainMenu *menuItem = self.detailItem;
-    switch (gestureRecognizer.state) {
-        case UIGestureRecognizerStateBegan: {
-            NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
-            [activityIndicatorView startAnimating];
-            [UIView transitionWithView: activeLayoutView
-                              duration: 0.2
-                               options: UIViewAnimationOptionBeginFromCurrentState
-                            animations: ^{
-                                ((UITableView*)activeLayoutView).alpha = 1.0;
-                                CGRect frame;
-                                frame = [activeLayoutView frame];
-                                frame.origin.x = viewWidth;
-                                frame.origin.y = 0;
-                                ((UITableView*)activeLayoutView).frame = frame;
-                            }
-                            completion:^(BOOL finished) {
-                                sortAscDesc = !([sortAscDesc isEqualToString:@"ascending"] || sortAscDesc == nil) ? @"ascending" : @"descending";
-                                [self saveSortAscDesc:sortAscDesc parameters:[parameters mutableCopy]];
-                                storeSectionArray = [sectionArray copy];
-                                storeSections = [sections mutableCopy];
-                                self.sectionArray = nil;
-                                self.sections = [NSMutableDictionary new];
-                                [self indexAndDisplayData];
-                            }];
-            }
-            break;
-        default:
-            break;
-    }
-}
-
 - (void)dealloc {
     [self.richResults removeAllObjects];
     [self.filteredListContent removeAllObjects];
