@@ -994,6 +994,9 @@
 }
 
 - (NSAttributedString*)formatInfo:(NSString*)name text:(NSString*)text {
+    if (!text.length) {
+        text = @"-";
+    }
     int fontSize = descriptionFontSize;
     // Bold and gray for label
     name = [NSString stringWithFormat:@"%@: ", name];
