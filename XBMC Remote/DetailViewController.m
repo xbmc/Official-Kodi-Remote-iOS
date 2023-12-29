@@ -1320,7 +1320,7 @@
 #pragma mark - Library item didSelect
 
 - (void)viewChild:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint)point {
-    selected = indexPath;
+    selectedIndexPath = indexPath;
     mainMenu *menuItem = [self getMainMenu:item];
     NSMutableArray *sheetActions = menuItem.sheetActions[choosedTab];
     NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[menuItem.subItem mainParameters][choosedTab]];
@@ -1618,7 +1618,7 @@
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             if (![userDefaults boolForKey:@"song_preference"] || [parameters[@"forceActionSheet"] boolValue]) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[choosedTab]]];
-                selected = indexPath;
+                selectedIndexPath = indexPath;
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
             }
             else {
@@ -3140,8 +3140,6 @@
 
 #pragma mark - Long Press & Action sheet
 
-NSIndexPath *selected;
-
 - (void)showActionSheet:(NSIndexPath*)indexPath sheetActions:(NSArray*)sheetActions item:(NSDictionary*)item rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
@@ -3180,7 +3178,7 @@ NSIndexPath *selected;
         }
         
         if (indexPath != nil) {
-            selected = indexPath;
+            selectedIndexPath = indexPath;
             
             NSDictionary *item = [self getItemFromIndexPath:indexPath];
             
@@ -3209,7 +3207,7 @@ NSIndexPath *selected;
                 if (item[@"genre"] != nil && ![item[@"genre"] isEqualToString:@""]) {
                     title = [NSString stringWithFormat:@"%@\n%@", title, item[@"genre"]];
                 }
-                id cell = [self getCell:selected];
+                id cell = [self getCell:selectedIndexPath];
                 
                 if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
                     if ([item[@"trailer"] length] != 0 && [sheetActions isKindOfClass:[NSMutableArray class]]) {
@@ -3257,7 +3255,7 @@ NSIndexPath *selected;
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             forceMusicAlbumMode = NO;
-            [self deselectAtIndexPath:selected];
+            [self deselectAtIndexPath:selectedIndexPath];
         }];
         
         for (NSString *actionName in sheetActions) {
@@ -3395,8 +3393,8 @@ NSIndexPath *selected;
 
 - (void)actionSheetHandler:(NSString*)actiontitle {
     NSDictionary *item = nil;
-    if (selected != nil) {
-        item = [self getItemFromIndexPath:selected];
+    if (selectedIndexPath != nil) {
+        item = [self getItemFromIndexPath:selectedIndexPath];
         if (item == nil) {
             return;
         }
@@ -3405,42 +3403,42 @@ NSIndexPath *selected;
     if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play")]) {
         NSString *songid = [NSString stringWithFormat:@"%@", item[@"songid"]];
         if ([songid intValue]) {
-            [self addPlayback:item indexPath:selected position:(int)selected.row shuffle:NO];
+            [self addPlayback:item indexPath:selectedIndexPath position:(int)selectedIndexPath.row shuffle:NO];
         }
         else {
-            [self addPlayback:item indexPath:selected position:0 shuffle:NO];
+            [self addPlayback:item indexPath:selectedIndexPath position:0 shuffle:NO];
         }
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
-        [self recordChannel:item indexPath:selected];
+        [self recordChannel:item indexPath:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Delete timer")]) {
-        [self deleteTimer:item indexPath:selected];
+        [self deleteTimer:item indexPath:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play in shuffle mode")]) {
-        [self addPlayback:item indexPath:selected position:0 shuffle:YES];
+        [self addPlayback:item indexPath:selectedIndexPath position:0 shuffle:YES];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue")]) {
-        [self addQueue:item indexPath:selected];
+        [self addQueue:item indexPath:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue after current")]) {
-        [self addQueue:item indexPath:selected afterCurrentItem:YES];
+        [self addQueue:item indexPath:selectedIndexPath afterCurrentItem:YES];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Show Content")]) {
         [self exploreItem:item];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Channel Guide")]) {
-        [self viewChild:selected item:item displayPoint:CGPointMake(0, 0)];
+        [self viewChild:selectedIndexPath item:item displayPoint:CGPointMake(0, 0)];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Mark as watched")]) {
-        [self markVideo:(NSMutableDictionary*)item indexPath:selected watched:1];
+        [self markVideo:(NSMutableDictionary*)item indexPath:selectedIndexPath watched:1];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Mark as unwatched")]) {
-        [self markVideo:(NSMutableDictionary*)item indexPath:selected watched:0];
+        [self markVideo:(NSMutableDictionary*)item indexPath:selectedIndexPath watched:0];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play in party mode")]) {
-        [self partyModeItem:item indexPath:selected];
+        [self partyModeItem:item indexPath:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Artist Details")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Album Details")] ||
@@ -3454,20 +3452,20 @@ NSIndexPath *selected;
             [self prepareShowAlbumInfo:nil];
         }
         else {
-            [self showInfo:selected menuItem:menuItem item:item tabToShow:choosedTab];
+            [self showInfo:selectedIndexPath menuItem:menuItem item:item tabToShow:choosedTab];
         }
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
         NSDictionary *itemParams = @{
             @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"trailer"], @"file", nil],
         };
-        [self playerOpen:itemParams index:selected];
+        [self playerOpen:itemParams index:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Search Wikipedia")]) {
-        [self searchWeb:item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", LOCALIZED_STR(@"WIKI_LANG")]];
+        [self searchWeb:item indexPath:selectedIndexPath serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", LOCALIZED_STR(@"WIKI_LANG")]];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Search last.fm charts")]) {
-        [self searchWeb:item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
+        [self searchWeb:item indexPath:selectedIndexPath serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Execute program")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute video add-on")] ||
@@ -4319,7 +4317,7 @@ NSIndexPath *selected;
         LOCALIZED_STR(@"Album Details"),
         LOCALIZED_STR(@"Search Wikipedia"),
     ];
-    selected = [NSIndexPath indexPathForRow:0 inSection:0];
+    selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     NSMutableDictionary *item = [sectionItem mutableCopy];
     item[@"label"] = self.navigationItem.title;
     forceMusicAlbumMode = YES;
@@ -5986,7 +5984,7 @@ NSIndexPath *selected;
     if ([self doesShowSearchResults] || self.searchController.isActive) {
         return;
     }
-    selected = nil;
+    selectedIndexPath = nil;
     mainMenu *menuItem = self.detailItem;
     if (choosedTab >= menuItem.mainParameters.count) {
         return;

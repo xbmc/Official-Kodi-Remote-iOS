@@ -125,6 +125,7 @@
     LogoBackgroundType logoBackgroundMode;
     BOOL showkeyboard;
     __weak UIAlertController *actionView;
+    NSIndexPath *selectedIndexPath;
 }
 
 - (id)initWithFrame:(CGRect)frame;
