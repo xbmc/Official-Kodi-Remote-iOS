@@ -3837,10 +3837,7 @@
     menu_TVShows.subItem.mainParameters = [@[
         @[
             @{
-                @"sort": @{
-                        @"order": @"ascending",
-                        @"method": @"episode",
-                },
+                @"sort": [self sortmethod:@"episode" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"episode",
                         @"thumbnail",
