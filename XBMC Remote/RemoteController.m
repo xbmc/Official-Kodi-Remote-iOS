@@ -460,7 +460,7 @@
             return;
         }
         NSString *language = LOCALIZED_STR(@"Unknown");
-        NSString *currentItemLanguage = itemDict[@"language"] != [NSNull null] ? itemDict[@"language"] : nil;
+        NSString *currentItemLanguage = [Utilities getStringFromItem:itemDict[@"language"]];
         if (currentItemLanguage.length) {
             NSLocale *currentLocale = [NSLocale currentLocale];
             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:currentItemLanguage];

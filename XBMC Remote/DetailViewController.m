@@ -4420,7 +4420,7 @@ NSIndexPath *selected;
 
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem tabToShow:(int)tabToShow {
     NSDictionary *mainFields = menuItem.mainFields[tabToShow];
-    NSString *itemid = mainFields[@"row6"] != [NSNull null] ? mainFields[@"row6"] : @"";
+    NSString *itemid = [Utilities getStringFromItem:mainFields[@"row6"]];
     id object = item[itemid];
     if (!object) {
         return; // something goes wrong

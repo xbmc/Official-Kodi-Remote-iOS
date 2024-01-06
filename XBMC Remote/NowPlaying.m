@@ -617,7 +617,7 @@
                                  NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                                  if (![lastThumbnail isEqualToString:stringURL] || [lastThumbnail isEqualToString:@""]) {
                                      if (IS_IPAD) {
-                                         NSString *fanart = nowPlayingInfo[@"fanart"] == [NSNull null] ? @"" : nowPlayingInfo[@"fanart"];
+                                         NSString *fanart = [Utilities getStringFromItem:nowPlayingInfo[@"fanart"]];
                                          [self notifyChangeForBackgroundImage:fanart];
                                      }
                                      if (!thumbnailPath.length) {
