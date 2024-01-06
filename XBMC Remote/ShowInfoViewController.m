@@ -21,7 +21,7 @@
 #import "Utilities.h"
 #import "VersionCheck.h"
 
-#define PLAY_BUTTON_SIZE 20
+#define PLAY_BUTTON_SIZE 40
 #define TV_LOGO_SIZE_REC_DETAILS 72
 #define TITLE_HEIGHT 44
 #define LEFT_RIGHT_PADDING 10
@@ -367,10 +367,6 @@ double round(double d) {
             }
         }
     }
-}
-
-- (void)callbrowser:(id)sender {
-    [Utilities SFloadURL:embedVideoURL fromctrl:self];
 }
 
 #pragma mark - ActionSheet
@@ -928,7 +924,7 @@ double round(double d) {
         parentalRatingLabelUp.hidden = YES;
     }
     if (trailerLabel == nil) {
-        playTrailerButton.hidden = YES;
+        trailerWebView.hidden = YES;
         trailerLabel.hidden = YES;
     }
     if (cast.count == 0) {
@@ -1058,9 +1054,9 @@ double round(double d) {
         trailerLabel.frame = frame;
         offset += frame.size.height;
         
-        frame = playTrailerButton.frame;
+        frame = trailerWebView.frame;
         frame.origin.y = offset;
-        playTrailerButton.frame = frame;
+        trailerWebView.frame = frame;
         offset += frame.size.height + lineSpacing + VERTICAL_PADDING;
     }
     return offset;
@@ -1171,6 +1167,11 @@ double round(double d) {
     [scrollView addSubview:actorsTable];
 }
 
+- (BOOL)isEmbeddedYoutubeLink:(NSString*)urlPath {
+    // Checks for "http://" OR "https://", "www" OR not AND "youtube.com/embed/" (4 variations)
+    return [urlPath rangeOfString:@"^https?://(www\\.)?youtube\\.com/embed/" options:NSRegularExpressionSearch].location != NSNotFound;
+}
+
 - (void)processTrailerFromString:(NSString*)trailerString {
     embedVideoURL = nil;
     if (trailerString.length > 0) {
@@ -1181,7 +1182,7 @@ double round(double d) {
                 NSArray *queryItems = urlComponents.queryItems;
                 for (NSURLQueryItem *item in queryItems) {
                     if ([item.name isEqualToString:@"videoid"]) {
-                        embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", item.value];
+                        embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/embed/%@?&vq=hd1080", item.value];
                         break; // We can leave the loop as we found what we were looking for.
                     }
                 }
@@ -1200,16 +1201,31 @@ double round(double d) {
             trailerLabel.shadowOffset = label1.shadowOffset;
             trailerLabel.backgroundColor = UIColor.clearColor;
             [scrollView addSubview:trailerLabel];
-
-            UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
-            playTrailerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            playTrailerButton.frame = CGRectMake(LEFT_RIGHT_PADDING, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE);
-            playTrailerButton.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin |
-                                                 UIViewAutoresizingFlexibleRightMargin |
-                                                 UIViewAutoresizingFlexibleLeftMargin;
-            [playTrailerButton setImage:playTrailerImg forState:UIControlStateNormal];
-            [playTrailerButton addTarget:self action:@selector(callbrowser:) forControlEvents:UIControlEventTouchUpInside];
-            [scrollView addSubview:playTrailerButton];
+            
+            WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
+            webViewConfiguration.allowsInlineMediaPlayback = NO;
+            frame = CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, floor(clearLogoWidth * 9.0 / 16.0));
+            trailerWebView = [[WKWebView alloc] initWithFrame:frame configuration:webViewConfiguration];
+            trailerWebView.contentMode = UIViewContentModeScaleAspectFit;
+            trailerWebView.opaque = NO;
+            trailerWebView.backgroundColor = UIColor.blackColor;
+            trailerWebView.UIDelegate = self;
+            [Utilities applyRoundedEdgesView:trailerWebView drawBorder:YES];
+            [scrollView addSubview:trailerWebView];
+            
+            if ([self isEmbeddedYoutubeLink:embedVideoURL]) {
+                [self loadTrailerInWebKit:nil];
+            }
+            else {
+                UIImage *playTrailerImg = [UIImage imageNamed:@"button_play"];
+                trailerPlayButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                trailerPlayButton.frame = CGRectMake(0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE);
+                trailerPlayButton.center = trailerWebView.center;
+                trailerPlayButton.hidden = NO;
+                [trailerPlayButton setImage:playTrailerImg forState:UIControlStateNormal];
+                [trailerPlayButton addTarget:self action:@selector(loadTrailerInWebKit:) forControlEvents:UIControlEventTouchUpInside];
+                [trailerWebView addSubview:trailerPlayButton];
+            }
         }
     }
 }
@@ -1490,10 +1506,20 @@ double round(double d) {
     }
 }
 
-#pragma mark - Safari
+#pragma mark - WebKit
 
-- (void)safariViewControllerDidFinish:(SFSafariViewController*)controller {
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (WKWebView*)webView:(WKWebView*)webView createWebViewWithConfiguration:(WKWebViewConfiguration*)configuration forNavigationAction:(WKNavigationAction*)navigationAction windowFeatures:(WKWindowFeatures*)windowFeatures {
+    if (!navigationAction.targetFrame.isMainFrame) {
+        [webView loadRequest:navigationAction.request];
+    }
+    return nil;
+}
+
+- (void)loadTrailerInWebKit:(id)sender {
+    trailerPlayButton.hidden = YES;
+    NSURL *nsurl = [NSURL URLWithString:embedVideoURL];
+    NSURLRequest *urlrequest = [NSURLRequest requestWithURL:nsurl];
+    [trailerWebView loadRequest:urlrequest];
 }
 
 #pragma mark - Gestures
