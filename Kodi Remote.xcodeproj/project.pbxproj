@@ -17,7 +17,6 @@
 		0F1F67F61563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */; };
 		0F284A5216F63C9A00AFC1EF /* PosterLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F284A5116F63C9A00AFC1EF /* PosterLabel.m */; };
 		0F284A5516F6419700AFC1EF /* PosterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F284A5416F6419700AFC1EF /* PosterCell.m */; };
-		0F32093016FE193400636BA2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F32092F16FE193400636BA2 /* ImageIO.framework */; };
 		0F370054151F6A9E00A3D42C /* jsonDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F370053151F6A9E00A3D42C /* jsonDataCell.m */; };
 		0F4019B018F3ECEB0064E4DC /* customButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4019AF18F3ECEB0064E4DC /* customButton.m */; };
 		0F4019B318F415A50064E4DC /* MessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4019B218F415A50064E4DC /* MessagesView.m */; };
@@ -34,14 +33,11 @@
 		0F4883D21521CC7300883243 /* VolumeSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883D11521CC7300883243 /* VolumeSliderView.m */; };
 		0F4883D41521CD1C00883243 /* VolumeSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F4883D31521CD1C00883243 /* VolumeSliderView.xib */; };
 		0F4883E51522418E00883243 /* ShowInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883E31522418C00883243 /* ShowInfoViewController.m */; };
-		0F49885D152879FF0041DA92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F49885C152879FF0041DA92 /* QuartzCore.framework */; };
 		0F4AB81A1903DDCE005DEC5C /* RemoteControllerGestureZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4AB8191903DDCE005DEC5C /* RemoteControllerGestureZoneView.m */; };
 		0F540662160C82E900853B02 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F540661160C82E900853B02 /* CustomNavigationController.m */; };
 		0F545D0B1575563100B6320D /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D071575563100B6320D /* OBShapedButton.m */; };
 		0F545D0C1575563100B6320D /* UIImage+ColorAtPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D091575563100B6320D /* UIImage+ColorAtPixel.m */; };
 		0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FA151D1187007E633F /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		0F5548FD151D1187007E633F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FC151D1187007E633F /* Foundation.framework */; };
-		0F5548FF151D1187007E633F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FE151D1187007E633F /* CoreGraphics.framework */; };
 		0F554905151D1187007E633F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F554903151D1187007E633F /* InfoPlist.strings */; };
 		0F554907151D1187007E633F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554906151D1187007E633F /* main.m */; };
 		0F55490B151D1187007E633F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55490A151D1187007E633F /* AppDelegate.m */; };
@@ -59,7 +55,6 @@
 		0F74772E151DD77400EF78AD /* NowPlaying.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74772C151DD77400EF78AD /* NowPlaying.m */; };
 		0F747734151DD91D00EF78AD /* RemoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F747732151DD91D00EF78AD /* RemoteController.m */; };
 		0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F747733151DD91D00EF78AD /* RemoteController.xib */; };
-		0F74773A151E094C00EF78AD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F747739151E094C00EF78AD /* AudioToolbox.framework */; };
 		0F74776F151E5E8600EF78AD /* DSJSONRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776A151E5E8600EF78AD /* DSJSONRPC.m */; };
 		0F747770151E5E8600EF78AD /* DSJSONRPCError.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776C151E5E8600EF78AD /* DSJSONRPCError.m */; };
 		0F7A8A921926776900313C17 /* AppInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F7A8A911926776900313C17 /* AppInfoViewController.xib */; };
@@ -78,7 +73,6 @@
 		0FB4044F1928D0D300346300 /* HostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB4044E1928D0D300346300 /* HostViewController.xib */; };
 		0FB40451192922E100346300 /* ShowInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB40450192922E100346300 /* ShowInfoViewController.xib */; };
 		0FB8598315FF9DCF0070F324 /* sign.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0FB8598215FF9DCF0070F324 /* sign.mp3 */; };
-		0FB8598615FF9ED10070F324 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB8598515FF9ED10070F324 /* AVFoundation.framework */; };
 		0FCCA21817B25F07000FF09C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FCCA21717B25F07000FF09C /* Images.xcassets */; };
 		0FDC891A170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDC8919170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m */; };
 		0FDFC67D15377CE9000BE837 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FDFC67C15377CE9000BE837 /* Settings.bundle */; };
@@ -88,9 +82,6 @@
 		0FEE08161704819A00EC9BC7 /* FloatingHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEE08151704819A00EC9BC7 /* FloatingHeaderFlowLayout.m */; };
 		1A6742E9168479FD00E8D5AF /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A6742E8168479FC00E8D5AF /* MasterViewController.xib */; };
 		1A9786C01683D87800B4F3F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9786C21683D87800B4F3F8 /* Localizable.strings */; };
-		C703692927148CEF0049F9BF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C703692827148CEF0049F9BF /* StoreKit.framework */; };
-		C718444625FFD06400F5A060 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C718444525FFD06300F5A060 /* SafariServices.framework */; };
-		C7432A6E2B12195600100E83 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7432A6D2B12195600100E83 /* WebKit.framework */; };
 		C7478BF9257258E700161C1E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7478BF8257258E700161C1E /* Launch Screen.storyboard */; };
 		C76451CE29C51221000AE949 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */; };
 		C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B129C51220000AE949 /* UIImage+WebP.m */; };
@@ -330,16 +321,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7432A6E2B12195600100E83 /* WebKit.framework in Frameworks */,
-				C703692927148CEF0049F9BF /* StoreKit.framework in Frameworks */,
-				0F32093016FE193400636BA2 /* ImageIO.framework in Frameworks */,
-				0FB8598615FF9ED10070F324 /* AVFoundation.framework in Frameworks */,
-				0F49885D152879FF0041DA92 /* QuartzCore.framework in Frameworks */,
-				0F74773A151E094C00EF78AD /* AudioToolbox.framework in Frameworks */,
 				0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */,
-				0F5548FD151D1187007E633F /* Foundation.framework in Frameworks */,
-				C718444625FFD06400F5A060 /* SafariServices.framework in Frameworks */,
-				0F5548FF151D1187007E633F /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -949,6 +931,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -999,6 +982,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
