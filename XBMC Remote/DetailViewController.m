@@ -747,8 +747,8 @@
                                         lightColor:[Utilities getGrayColor:255 alpha:1.0]
                                          darkColor:[Utilities getGrayColor:0 alpha:1.0]];
     UIColor *label34Color = [Utilities updateColor:mainColor
-                                        lightColor:[Utilities getGrayColor:255 alpha:0.7]
-                                         darkColor:[Utilities getGrayColor:0 alpha:0.6]];
+                                        lightColor:[Utilities getGrayColor:255 alpha:0.8]
+                                         darkColor:[Utilities getGrayColor:0 alpha:0.7]];
     UIColor *shadowColor = [Utilities updateColor:mainColor
                                        lightColor:[Utilities getGrayColor:0 alpha:0.3]
                                         darkColor:[Utilities getGrayColor:255 alpha:0.3]];
