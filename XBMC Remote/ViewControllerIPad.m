@@ -108,6 +108,9 @@
     NSDictionary *theData = note.userInfo;
     NSString *icon_connection = theData[@"icon_connection"];
     connectionStatus.image = [UIImage imageNamed:icon_connection];
+    
+    // We are connected to server, we now need to share credentials with SDWebImageManager
+    [Utilities setWebImageAuthorizationOnSuccessNotification:note];
 }
 
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {

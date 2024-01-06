@@ -625,22 +625,15 @@
                                          [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
                                      }
                                      else {
-                                         [[SDImageCache sharedImageCache] queryDiskCacheForKey:stringURL done:^(UIImage *image, SDImageCacheType cacheType) {
-                                             if (image != nil) {
-                                                 [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
-                                             }
-                                             else {
-                                                 __weak UIImageView *thumb = thumbnailView;
-                                                 __weak NowPlaying *sf = self;
-                                                 [thumbnailView sd_setImageWithURL:[NSURL URLWithString:stringURL]
-                                                                  placeholderImage:[UIImage imageNamed:@"coverbox_back"]
-                                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                                                      if (error == nil) {
-                                                          [sf processLoadedThumbImage:sf thumb:thumb image:image enableJewel:enableJewel];
-                                                      }
-                                                  }];
-                                             }
-                                         }];
+                                         __weak UIImageView *thumb = thumbnailView;
+                                         __weak NowPlaying *sf = self;
+                                         [thumbnailView sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                                                          placeholderImage:[UIImage imageNamed:@"coverbox_back"]
+                                                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
+                                              if (error == nil) {
+                                                  [sf processLoadedThumbImage:sf thumb:thumb image:image enableJewel:enableJewel];
+                                              }
+                                          }];
                                      }
                                  }
                                  lastThumbnail = stringURL;
@@ -2587,11 +2580,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-    NSDictionary *httpHeaders = AppDelegate.instance.getServerHTTPHeaders;
-    if (httpHeaders[@"Authorization"] != nil) {
-        [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
-    }
     itemDescription.selectable = NO;
     itemLogoImage.layer.minificationFilter = kCAFilterTrilinear;
     songCodecImage.layer.minificationFilter = kCAFilterTrilinear;
@@ -2676,11 +2664,6 @@
 }
 
 - (void)connectionSuccess:(NSNotification*)note {
-    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-    NSDictionary *httpHeaders = AppDelegate.instance.getServerHTTPHeaders;
-    if (httpHeaders[@"Authorization"] != nil) {
-        [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
-    }
 }
 
 - (void)handleShakeNotification {

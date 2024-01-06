@@ -12,6 +12,7 @@
 #import "Utilities.h"
 #import "AppDelegate.h"
 #import "NSString+MD5.h"
+#import "SDWebImageManager.h"
 
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
@@ -553,6 +554,16 @@
         checkRPC = checksum;
     }
     return jsonRPC;
+}
+
++ (void)setWebImageAuthorizationOnSuccessNotification:(NSNotification*)note {
+    if ([note.name isEqualToString:@"XBMCServerConnectionSuccess"]) {
+        SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
+        NSDictionary *httpHeaders = AppDelegate.instance.getServerHTTPHeaders;
+        if (httpHeaders[@"Authorization"] != nil) {
+            [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
+        }
+    }
 }
 
 + (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array {
