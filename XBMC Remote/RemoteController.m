@@ -452,7 +452,36 @@
 
 # pragma mark - JSON
 
-/* method to show an action sheet for subs. */
+- (NSArray*)buildActionSheetForArray:(NSArray*)languageArray currentLanguage:(NSDictionary*)currentActiveLanguage featureEnabled:(BOOL)featureEnabled  {
+    NSUInteger numItems = languageArray.count;
+    NSMutableArray *actionSheetTitles = [NSMutableArray arrayWithCapacity:numItems];
+    [languageArray enumerateObjectsUsingBlock:^(NSDictionary *itemDict, NSUInteger idx, BOOL *stop) {
+        if (![itemDict isKindOfClass:[NSDictionary class]]) {
+            return;
+        }
+        NSString *language = LOCALIZED_STR(@"Unknown");
+        NSString *currentItemLanguage = [Utilities getStringFromItem:itemDict[@"language"]];
+        if (currentItemLanguage.length) {
+            NSLocale *currentLocale = [NSLocale currentLocale];
+            NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:currentItemLanguage];
+            NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
+            if (displayNameString.length > 0) {
+                language = displayNameString;
+            }
+            else {
+                language = currentItemLanguage;
+            }
+        }
+        NSString *tickMark = @"";
+        if (featureEnabled && [currentActiveLanguage isEqual:itemDict]) {
+            tickMark = @"\u2713 ";
+        }
+        NSString *name = itemDict[@"name"];
+        NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%lu/%lu)", tickMark, language, name.length ? @" - " : @"", name, idx + 1, numItems];
+        [actionSheetTitles addObject:title];
+    }];
+    return [actionSheetTitles copy];
+}
 
 - (void)subtitlesActionSheet {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -479,31 +508,9 @@
                                                        @(subtitleEnabled), @"subtitleenabled",
                                                        subtitles, @"subtitles",
                                                        nil];
-                                     NSInteger numSubs = subtitles.count;
-                                     NSMutableArray *actionSheetTitles = [NSMutableArray array];
-                                     for (int i = 0; i < numSubs; i++) {
-                                         NSString *language = @"?";
-                                         if (subtitles[i][@"language"] != [NSNull null]) {
-                                             NSLocale *currentLocale = [NSLocale currentLocale];
-                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:subtitles[i][@"language"]];
-                                             NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
-                                             if (displayNameString.length > 0) {
-                                                 language = displayNameString;
-                                             }
-                                             else {
-                                                 language = subtitles[i][@"language"];
-                                             }
-                                             if (language.length == 0) {
-                                                 language = LOCALIZED_STR(@"Unknown");
-                                             }
-                                         }
-                                         NSString *tickMark = @"";
-                                         if (subtitleEnabled && [currentSubtitle isEqual:subtitles[i]]) {
-                                             tickMark = @"\u2713 ";
-                                         }
-                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [subtitles[i][@"name"] isEqual:@""] ? @"" : @" - ", subtitles[i][@"name"], i + 1, (long)numSubs];
-                                         [actionSheetTitles addObject:title];
-                                     }
+                                     NSArray *actionSheetTitles = [self buildActionSheetForArray:subtitles
+                                                                                 currentLanguage:currentSubtitle
+                                                                                  featureEnabled:subtitleEnabled];
                                      [self showActionSubtitles:actionSheetTitles];
                                  }
                                  else {
@@ -544,31 +551,9 @@
                                                        currentAudiostream, @"currentaudiostream",
                                                        audiostreams, @"audiostreams",
                                                        nil];
-                                     NSInteger numAudio = audiostreams.count;
-                                     NSMutableArray *actionSheetTitles = [NSMutableArray array];
-                                     for (int i = 0; i < numAudio; i++) {
-                                         NSString *language = @"?";
-                                         if (audiostreams[i][@"language"] != [NSNull null]) {
-                                             NSLocale *currentLocale = [NSLocale currentLocale];
-                                             NSString *canonicalID = [NSLocale canonicalLanguageIdentifierFromString:audiostreams[i][@"language"]];
-                                             NSString *displayNameString = [currentLocale displayNameForKey:NSLocaleIdentifier value:canonicalID];
-                                             if (displayNameString.length > 0) {
-                                                 language = displayNameString;
-                                             }
-                                             else {
-                                                 language = audiostreams[i][@"language"];
-                                             }
-                                             if (language.length == 0) {
-                                                 language = LOCALIZED_STR(@"Unknown");
-                                             }
-                                         }
-                                         NSString *tickMark = @"";
-                                         if ([currentAudiostream isEqual:audiostreams[i]]) {
-                                             tickMark = @"\u2713 ";
-                                         }
-                                         NSString *title = [NSString stringWithFormat:@"%@%@%@%@ (%d/%ld)", tickMark, language, [audiostreams[i][@"name"] isEqual:@""] ? @"" : @" - ", audiostreams[i][@"name"], i + 1, (long)numAudio];
-                                         [actionSheetTitles addObject:title];
-                                     }
+                                     NSArray *actionSheetTitles = [self buildActionSheetForArray:audiostreams
+                                                                                 currentLanguage:currentAudiostream
+                                                                                  featureEnabled:YES];
                                      [self showActionAudiostreams:actionSheetTitles];
                                  }
                                  else {
@@ -656,7 +641,7 @@
 
 #pragma mark - Action Sheet Method
 
-- (void)showActionAudiostreams:(NSMutableArray*)sheetActions {
+- (void)showActionAudiostreams:(NSArray*)sheetActions {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Audio stream") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -692,7 +677,7 @@
     }
 }
 
-- (void)showActionSubtitles:(NSMutableArray*)sheetActions {
+- (void)showActionSubtitles:(NSArray*)sheetActions {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Subtitles") message:nil preferredStyle:UIAlertControllerStyleActionSheet];

@@ -58,8 +58,21 @@
 #define GLOBALSEARCH_INDEX_ARTISTS 4
 #define GLOBALSEARCH_INDEX_ALBUMS 5
 #define GLOBALSEARCH_INDEX_SONGS 6
+#define IPHONE_SEASON_SECTION_HEIGHT 99
+#define IPHONE_ALBUM_SECTION_HEIGHT 116
+#define IPAD_SEASON_SECTION_HEIGHT 120
+#define IPAD_ALBUM_SECTION_HEIGHT 166
 #define INDEX_WIDTH 40
 #define INDEX_PADDING 2
+#define RUNTIMEYEAR_WIDTH 63
+#define EPGCHANNELTIME_WIDTH 40
+#define TRACKCOUNT_WIDTH 26
+#define LABEL_PADDING 8
+#define VERTICAL_PADDING 8
+#define SMALL_PADDING 4
+#define TINY_PADDING 2
+#define FLAG_SIZE 16
+#define INDICATOR_SIZE 16
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -473,7 +486,7 @@
     NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
     NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
     NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
-    if ([stringURL isEqualToString:@""]) {
+    if (!stringURL.length) {
         stringURL = [Utilities getItemIconFromDictionary:item mainFields:mainFields];
     }
     mainMenu *menuItem = self.detailItem;
@@ -533,7 +546,7 @@
     NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
     NSString *bannerURL = [Utilities formatStringURL:bannerPath serverURL:serverURL];
     NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
-    if ([stringURL isEqualToString:@""]) {
+    if (!stringURL.length) {
         stringURL = [Utilities getItemIconFromDictionary:item mainFields:mainFields];
     }
     NSString *row7key = mainFields[@"row7"] ?: @"none";
@@ -968,7 +981,7 @@
             stringURL = @"";
         }
     }
-    if (![stringURL isEqualToString:@""]) {
+    if (stringURL.length) {
         __auto_type __weak weakImageView = imgView;
         [imgView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                    placeholderImage:[UIImage imageNamed:displayThumb]
@@ -985,11 +998,7 @@
         }];
     }
     else {
-        [imgView sd_setImageWithURL:[NSURL URLWithString:@""]
-                   placeholderImage:[UIImage imageNamed:displayThumb]
-                            options:0
-                           progress:nil
-                          completed:nil];
+        imgView.image = [UIImage imageNamed:displayThumb];
         // Special handling for TV SHow cells, this is already in default thumb state
         [self layoutTVShowCell:cell useDefaultThumb:YES imgView:imgView];
     }
@@ -1290,9 +1299,6 @@
     else {
         self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
         dataList.separatorColor = [Utilities getGrayColor:191 alpha:1];
-    }
-    if (parameters[@"itemSizes"][@"separatorInset"]) {
-        dataList.separatorInset = UIEdgeInsetsMake(0, [parameters[@"itemSizes"][@"separatorInset"] intValue], 0, 0);
     }
     if (methods[@"method"] != nil) {
         [self retrieveData:methods[@"method"] parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:refresh];
@@ -1777,7 +1783,7 @@
         }
         cell.posterThumbnail.frame = cell.bounds;
         [self setCellImageView:cell.posterThumbnail cell:cell dictItem:item url:stringURL size:CGSizeMake(cellthumbWidth, cellthumbHeight) defaultImg:displayThumb];
-        if ([stringURL isEqualToString:@""]) {
+        if (!stringURL.length) {
             cell.posterThumbnail.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
         }
         // Set label visibility based on setting and current view
@@ -1803,7 +1809,7 @@
         static NSString *identifier = @"recentlyAddedCell";
         RecentlyAddedCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
 
-        if (![stringURL isEqualToString:@""]) {
+        if (stringURL.length) {
             [cell.posterThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                     placeholderImage:[UIImage imageNamed:displayThumb]
                                              options:SDWebImageScaleToNativeSize
@@ -1818,18 +1824,16 @@
             }];
         }
         else {
-            [cell.posterThumbnail sd_setImageWithURL:[NSURL URLWithString:@""]
-                                    placeholderImage:[UIImage imageNamed:displayThumb]];
+            cell.posterThumbnail.image = [UIImage imageNamed:displayThumb];
         }
 
-        if (![fanartURL isEqualToString:@""]) {
+        if (fanartURL.length) {
             [cell.posterFanart sd_setImageWithURL:[NSURL URLWithString:fanartURL]
                                  placeholderImage:[UIImage imageNamed:@"blank"]
                                           options:SDWebImageScaleToNativeSize];
         }
         else {
-            [cell.posterFanart sd_setImageWithURL:[NSURL URLWithString:@""]
-                                 placeholderImage:[UIImage imageNamed:@"blank"]];
+            cell.posterFanart.image = [UIImage imageNamed:@"blank"];
         }
         
         cell.posterLabel.font = [UIFont boldSystemFontOfSize:fanartFontSize + 8];
@@ -1871,7 +1875,7 @@
     sectionNameOverlayView.layer.cornerRadius = cornerRadius;
     
     int fontSize = 32;
-    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height / 2 - (fontSize + 8) / 2, sectionNameOverlayView.frame.size.width, fontSize + 8)];
+    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height / 2 - (fontSize + VERTICAL_PADDING) / 2, sectionNameOverlayView.frame.size.width, fontSize + VERTICAL_PADDING)];
     sectionNameLabel.font = [UIFont boldSystemFontOfSize:fontSize];
     sectionNameLabel.textColor = UIColor.whiteColor;
     sectionNameLabel.backgroundColor = UIColor.clearColor;
@@ -2060,15 +2064,12 @@
 }
 
 - (void)setWatchedOverlayPosition {
-    flagX = thumbWidth - 10;
-    flagY = cellHeight - 19;
-    if (flagX + 22 > self.view.bounds.size.width) {
-        flagX = 2;
-        flagY = 2;
-    }
-    if (thumbWidth == 0) {
-        flagX = 6;
-        flagY = 4;
+    flagX = thumbWidth - FLAG_SIZE / 2 - TINY_PADDING;
+    flagY = cellHeight - FLAG_SIZE - TINY_PADDING;
+    // Top left position, if no thumb (e.g. album tracks) or full size banner (TV Show banner)
+    if (thumbWidth == 0 || flagX + FLAG_SIZE + TINY_PADDING > self.view.bounds.size.width) {
+        flagX = TINY_PADDING;
+        flagY = TINY_PADDING;
     }
 }
 
@@ -2102,62 +2103,39 @@
     }
     if (albumView || episodesView) {
         thumbWidth = 0;
-        labelPosition = albumViewPadding + trackCountLabelWidth;
+        labelPosition = SMALL_PADDING + TRACKCOUNT_WIDTH + SMALL_PADDING;
     }
     else if (channelGuideView) {
         thumbWidth = 0;
-        labelPosition = epgChannelTimeLabelWidth;
+        labelPosition = SMALL_PADDING + EPGCHANNELTIME_WIDTH + SMALL_PADDING;
     }
     else {
-        labelPosition = thumbWidth + 8;
+        labelPosition = thumbWidth + LABEL_PADDING;
     }
-    dataList.separatorInset = UIEdgeInsetsMake(0, thumbWidth + 8, 0, 0);
-    int newWidthLabel = 0;
+    dataList.separatorInset = UIEdgeInsetsMake(0, thumbWidth + LABEL_PADDING, 0, 0);
     
     // label position for TVShow banner view needs to be tailored to match the default thumb size
     if (tvshowsView && choosedTab == 0) {
         CGFloat targetHeight = IS_IPAD ? PAD_TV_SHOWS_BANNER_HEIGHT : PHONE_TV_SHOWS_BANNER_HEIGHT;
         CGFloat factor = targetHeight / PHONE_TV_SHOWS_POSTER_HEIGHT * [Utilities getTransformX];
-        labelPosition = PAD_TV_SHOWS_POSTER_WIDTH * factor + 8;
+        labelPosition = PAD_TV_SHOWS_POSTER_WIDTH * factor + LABEL_PADDING;
     }
-    // CHECK IF THERE ARE SECTIONS
     
-    int iOS7offset = 0;
-    int iOS7insetSeparator = 0;
-    if (IS_IPHONE) {
-        iOS7offset = 12;
-        iOS7insetSeparator = 20;
-    }
-    else {
-        iOS7offset = 4;
-        iOS7insetSeparator = 30;
-    }
+    int newWidthLabel = 0;
     if (episodesView || (self.sectionArray.count == 1 && !channelGuideView)) {
-        newWidthLabel = viewWidth - 8 - labelPosition;
-        menuItem.originYearDuration = viewWidth - 72;
+        newWidthLabel = viewWidth - LABEL_PADDING - labelPosition;
+        menuItem.originYearDuration = viewWidth - RUNTIMEYEAR_WIDTH - LABEL_PADDING;
         UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
         dataListSeparatorInset.right = 0;
         dataList.separatorInset = dataListSeparatorInset;
     }
     else {
-        int extraPadding = 0;
-        if ([sortMethodName isEqualToString:@"year"] || [sortMethodName isEqualToString:@"dateadded"]) {
-            extraPadding = 18;
-        }
-        else if ([sortMethodName isEqualToString:@"runtime"]) {
-            extraPadding = 12;
-        }
-        if (iOS7offset > 0) {
-            UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
-            dataListSeparatorInset.right = iOS7insetSeparator + extraPadding;
-            dataList.separatorInset = dataListSeparatorInset;
-        }
-        if (channelGuideView) {
-            iOS7offset += 6;
-        }
-        
-        newWidthLabel = viewWidth - 38 - labelPosition + iOS7offset - extraPadding;
-        menuItem.originYearDuration = viewWidth - 100 + iOS7offset - extraPadding;
+        int indexPadding = INDEX_WIDTH + INDEX_PADDING;
+        UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
+        dataListSeparatorInset.right = indexPadding;
+        dataList.separatorInset = dataListSeparatorInset;
+        newWidthLabel = viewWidth - labelPosition - indexPadding;
+        menuItem.originYearDuration = viewWidth - indexPadding - RUNTIMEYEAR_WIDTH;
     }
     menuItem.widthLabel = newWidthLabel;
     [self setWatchedOverlayPosition];
@@ -2400,11 +2378,12 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"jsonDataCell" owner:self options:nil];
         cell = nib[0];
         if (albumView || episodesView) {
-            UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewPadding, cellHeight / 2 - (artistFontSize + labelPadding) / 2, trackCountLabelWidth - 2, artistFontSize + labelPadding)];
+            UILabel *trackNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, cellHeight / 2 - (artistFontSize + VERTICAL_PADDING) / 2, TRACKCOUNT_WIDTH, artistFontSize + VERTICAL_PADDING)];
             trackNumberLabel.backgroundColor = UIColor.clearColor;
             trackNumberLabel.font = [UIFont systemFontOfSize:artistFontSize];
             trackNumberLabel.adjustsFontSizeToFitWidth = YES;
             trackNumberLabel.minimumScaleFactor = (artistFontSize - 4) / artistFontSize;
+            trackNumberLabel.textAlignment = NSTextAlignmentCenter;
             trackNumberLabel.tag = 101;
             trackNumberLabel.highlightedTextColor = [Utilities get1stLabelColor];
             trackNumberLabel.textColor = [Utilities get1stLabelColor];
@@ -2412,7 +2391,7 @@
         }
         else if (channelGuideView) {
             UILabel *title = (UILabel*)[cell viewWithTag:1];
-            UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(4, 8, epgChannelTimeLabelWidth - 8, 12 + labelPadding)];
+            UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, VERTICAL_PADDING, EPGCHANNELTIME_WIDTH, 12 + VERTICAL_PADDING)];
             programTimeLabel.backgroundColor = UIColor.clearColor;
             programTimeLabel.center = CGPointMake(programTimeLabel.center.x, title.center.y);
             programTimeLabel.font = [UIFont systemFontOfSize:12];
@@ -2423,13 +2402,20 @@
             programTimeLabel.highlightedTextColor = [Utilities get2ndLabelColor];
             programTimeLabel.textColor = [Utilities get2ndLabelColor];
             [cell.contentView addSubview:programTimeLabel];
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(4, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 7, epgChannelTimeLabelWidth - 8, epgChannelTimeLabelWidth - 8)];
+            
+            CGFloat pieSize = EPGCHANNELTIME_WIDTH;
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(SMALL_PADDING, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 7, pieSize, pieSize)];
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
             
-            UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:CGRectMake((int)(2 + (epgChannelTimeLabelWidth - 8) - 6) / 2, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 14, 12, 12)];
+            CGFloat dotSize = 12;
+            __auto_type hasTimerOrigin = progressView.frame.origin;
+            hasTimerOrigin.x += pieSize / 2 - dotSize / 2;
+            hasTimerOrigin.y += [progressView getPieRadius] + [progressView getLineWidth] - dotSize / 2;
+            UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:(CGRect){hasTimerOrigin, CGSizeMake(dotSize, dotSize)}];
             hasTimer.image = [UIImage imageNamed:@"button_timer"];
+            hasTimer.contentMode = UIViewContentModeScaleToFill;
             hasTimer.tag = 104;
             hasTimer.hidden = YES;
             hasTimer.backgroundColor = UIColor.clearColor;
@@ -2437,13 +2423,16 @@
         }
         else if (channelListView) {
             CGFloat pieSize = 28;
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - 2, 10, pieSize, pieSize) color:[Utilities get1stLabelColor]];
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - SMALL_PADDING, LABEL_PADDING, pieSize, pieSize) color:[Utilities get1stLabelColor]];
             progressView.tag = 103;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
             
             CGFloat dotSize = 6;
-            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(progressView.frame.origin.x + pieSize / 2 - dotSize / 2, progressView.frame.origin.y + [progressView getPieRadius] / 2 + [progressView getLineWidth] + 0.5, dotSize, dotSize)];
+            __auto_type isRecordingImageOrigin = progressView.frame.origin;
+            isRecordingImageOrigin.x += pieSize / 2 - dotSize / 2;
+            isRecordingImageOrigin.y += [progressView getPieRadius] + [progressView getLineWidth] - dotSize / 2;
+            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:(CGRect){isRecordingImageOrigin, CGSizeMake(dotSize, dotSize)}];
             isRecordingImageView.image = [UIImage imageNamed:@"button_timer"];
             isRecordingImageView.contentMode = UIViewContentModeScaleToFill;
             isRecordingImageView.tag = 104;
@@ -2513,7 +2502,7 @@
     }
 
     frame = genre.frame;
-    frame.size.width = frame.size.width - (labelPosition - frame.origin.x);
+    frame.size.width = menuItem.widthLabel;
     frame.origin.x = labelPosition;
     genre.frame = frame;
     if (item[@"episodeid"] && episodesView && [self doesShowSearchResults]) {
@@ -2544,7 +2533,7 @@
         }
     }
     frame = runtime.frame;
-    frame.size.width = frame.size.width - (labelPosition - frame.origin.x);
+    frame.size.width = menuItem.widthLabel;
     frame.origin.x = labelPosition;
     runtime.frame = frame;
     runtime.text = item[@"runtime"];
@@ -2559,8 +2548,8 @@
     if (!albumView && !episodesView && !channelGuideView) {
         if (channelListView || recordingListView) {
             CGRect frame;
-            frame.origin.x = 4;
-            frame.origin.y = 8;
+            frame.origin.x = SMALL_PADDING;
+            frame.origin.y = VERTICAL_PADDING;
             frame.size.width = ceil(thumbWidth * 0.9);
             frame.size.height = ceil(thumbWidth * 0.7);
             cell.urlImageView.frame = frame;
@@ -2568,14 +2557,10 @@
         }
         if (channelListView) {
             CGRect frame = genre.frame;
-            genre.autoresizingMask = title.autoresizingMask;
             frame.size.width = title.frame.size.width;
             genre.frame = frame;
             genre.textColor = [Utilities get1stLabelColor];
             genre.font = [UIFont boldSystemFontOfSize:genre.font.pointSize];
-            frame = runtime.frame;
-            frame.size.width = menuItem.widthLabel;
-            runtime.frame = frame;
             ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:103];
             progressView.hidden = YES;
             UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
@@ -2602,6 +2587,10 @@
             genre.hidden = YES;
             runtimeyear.hidden = YES;
             title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
+        }
+        else if ([item[@"family"] isEqualToString:@"channelid"]) {
+            runtimeyear.hidden = YES;
+            rating.hidden = YES;
         }
         else if ([item[@"family"] isEqualToString:@"recordingid"] ||
                  [item[@"family"] isEqualToString:@"timerid"]) {
@@ -2648,10 +2637,9 @@
                 genre.text = [NSString stringWithFormat:@"%@ - %@", item[@"channel"], item[@"plot"]];
                 genre.numberOfLines = 3;
             }
-            genre.autoresizingMask = title.autoresizingMask;
             CGRect frame = genre.frame;
             frame.size.width = title.frame.size.width;
-            frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
+            frame.size.height = cellHeight - frame.origin.y - SMALL_PADDING;
             genre.frame = frame;
             frame = title.frame;
             frame.origin.y = 0;
@@ -2667,7 +2655,7 @@
             CGRect frame;
             if ([item[@"family"] isEqualToString:@"id"]) {
                 frame = title.frame;
-                frame.size.width = frame.size.width - 22;
+                frame.size.width = frame.size.width - INDICATOR_SIZE - LABEL_PADDING;
                 title.frame = frame;
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
@@ -2675,7 +2663,6 @@
             runtimeyear.hidden = YES;
             runtime.hidden = YES;
             rating.hidden = YES;
-            genre.autoresizingMask = title.autoresizingMask;
             frame = genre.frame;
             frame.size.width = title.frame.size.width;
             frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
@@ -2686,6 +2673,7 @@
             [genre sizeToFit];
         }
         else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
+            rating.hidden = YES;
             genre.text = [Utilities getStringFromItem:item[@"genre"]];
             runtime.text = [Utilities getStringFromItem:item[@"artist"]];
         }
@@ -2707,7 +2695,6 @@
         runtimeyear.hidden = YES;
         runtime.hidden = YES;
         rating.hidden = YES;
-        genre.autoresizingMask = title.autoresizingMask;
         CGRect frame = genre.frame;
         frame.size.width = title.frame.size.width;
         frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
@@ -2764,8 +2751,13 @@
     }
     if (!runtimeyear.hidden) {
         frame = genre.frame;
-        frame.size.width = menuItem.widthLabel - [Utilities getWidthOfLabel:runtimeyear] - 8;
+        frame.size.width = menuItem.widthLabel - [Utilities getSizeOfLabel:runtimeyear].width - LABEL_PADDING;
         genre.frame = frame;
+    }
+    if (!rating.hidden) {
+        frame = runtime.frame;
+        frame.size.width = menuItem.widthLabel - [Utilities getSizeOfLabel:rating].width - LABEL_PADDING;
+        runtime.frame = frame;
     }
     
     NSString *playcount = [NSString stringWithFormat:@"%@", item[@"playcount"]];
@@ -2822,12 +2814,12 @@
         __block UIColor *albumDetailsColor = [Utilities getGrayColor:0 alpha:0.6];
 
         CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
-        CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + labelPadding / 2 - 1);
+        CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + VERTICAL_PADDING / 2 - 1);
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
-        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewPadding / 2 - 1, labelwidth, artistFontSize + labelPadding)];
-        UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
-        UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin, labelwidth, trackCountFontSize + labelPadding)];
-        UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize -labelPadding / 2, labelwidth, trackCountFontSize + labelPadding)];
+        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewPadding / 2 - 1, labelwidth, artistFontSize + VERTICAL_PADDING)];
+        UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + VERTICAL_PADDING)];
+        UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin, labelwidth, trackCountFontSize + VERTICAL_PADDING)];
+        UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize - VERTICAL_PADDING / 2, labelwidth, trackCountFontSize + VERTICAL_PADDING)];
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = albumDetailView.bounds;
         gradient.colors = @[(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor]];
@@ -2857,7 +2849,7 @@
         NSString *stringURL = item[@"thumbnail"];
         NSString *displayThumb = @"coverbox_back";
         [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
-        if (![stringURL isEqualToString:@""]) {
+        if (stringURL.length) {
             // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
             // ensure setImageWithURL falls back to this icon.
             if ([UIImage imageNamed:stringURL]) {
@@ -2886,8 +2878,7 @@
                                   }];
         }
         else {
-            [thumbImageView sd_setImageWithURL:[NSURL URLWithString:@""]
-                              placeholderImage:[UIImage imageNamed:displayThumb]];
+            thumbImageView.image = [UIImage imageNamed:displayThumb];
             [self setLabelColor:albumFontColor
                    label34Color:albumDetailsColor
                      fontshadow:albumFontShadowColor
@@ -2897,7 +2888,7 @@
                          label4:releasedLabel];
         }
         stringURL = item[@"fanart"];
-        if (![stringURL isEqualToString:@""]) {
+        if (stringURL.length) {
             UIImageView *fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, - self.searchController.searchBar.frame.size.height, viewWidth, albumViewHeight + 2 + self.searchController.searchBar.frame.size.height)];
             fanartBackgroundImage.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
             fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
@@ -2932,7 +2923,7 @@
         CGSize expectedLabelSize = expectedLabelRect.size;
         
         CGRect newFrame = albumLabel.frame;
-        newFrame.size.height = expectedLabelSize.height + 8;
+        newFrame.size.height = expectedLabelSize.height + VERTICAL_PADDING;
         albumLabel.frame = newFrame;
         [albumDetailView addSubview:albumLabel];
         
@@ -2966,18 +2957,6 @@
         [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
         [albumDetailView addSubview:albumInfoButton];
         albumInfoButton.hidden = [self isModal];
-        
-//        UIButton *albumPlaybackButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        albumPlaybackButton.tag = 0;
-//        albumPlaybackButton.showsTouchWhenHighlighted = YES;
-//        UIImage *btnImage = [UIImage imageNamed:@"button_play"];
-//        albumPlaybackButton.image = btnImage forState:UIControlStateNormal;
-//        albumPlaybackButton.alpha = 0.8;
-//        int playbackOriginX = [[formatter stringFromNumber:@(albumThumbHeight / 2 - btnImage.size.width / 2 + albumViewPadding)] intValue];
-//        int playbackOriginY = [[formatter stringFromNumber:@(albumThumbHeight / 2 - btnImage.size.height / 2 + albumViewPadding)] intValue];
-//        albumPlaybackButton.frame = CGRectMake(playbackOriginX, playbackOriginY, btnImage.size.width, btnImage.size.height);
-//        [albumPlaybackButton addTarget:self action:@selector(preparePlaybackAlbum:) forControlEvents:UIControlEventTouchUpInside];
-//        [albumDetailView addSubview:albumPlaybackButton];
 
         return albumDetailView;
     }
@@ -3020,11 +2999,11 @@
         if (seasonIdx != NSNotFound) {
             CGFloat origin_x = seasonThumbWidth + toggleIconSpace + albumViewPadding * 2;
             CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
-            CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + labelPadding / 2 - 1);
-            UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, albumViewPadding / 2, labelwidth, artistFontSize + labelPadding)];
-            UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + labelPadding)];
-            UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
-            UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize - labelPadding / 2, labelwidth - toggleIconSpace, trackCountFontSize + labelPadding)];
+            CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + VERTICAL_PADDING / 2 - 1);
+            UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, albumViewPadding / 2, labelwidth, artistFontSize + VERTICAL_PADDING)];
+            UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + VERTICAL_PADDING)];
+            UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin, labelwidth - toggleIconSpace, trackCountFontSize + VERTICAL_PADDING)];
+            UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize - VERTICAL_PADDING / 2, labelwidth - toggleIconSpace, trackCountFontSize + VERTICAL_PADDING)];
             UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - albumViewPadding * 2)];
             thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
             NSString *stringURL = self.extraSectionRichResults[seasonIdx][@"thumbnail"];
@@ -3035,7 +3014,7 @@
                 self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
             }
             [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
-            if (![stringURL isEqualToString:@""]) {
+            if (stringURL.length) {
                 // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
                 // ensure setImageWithURL falls back to this icon.
                 if ([UIImage imageNamed:stringURL]) {
@@ -3060,8 +3039,7 @@
                 }];
             }
             else {
-                [thumbImageView sd_setImageWithURL:[NSURL URLWithString:@""]
-                                  placeholderImage:[UIImage imageNamed:displayThumb]];
+                thumbImageView.image = [UIImage imageNamed:displayThumb];
                 [self setLabelColor:seasonFontColor
                        label34Color:seasonDetailsColor
                          fontshadow:seasonFontShadowColor
@@ -3092,7 +3070,7 @@
                                                         context:nil];
             CGSize expectedLabelSize = expectedLabelRect.size;
             CGRect newFrame = albumLabel.frame;
-            newFrame.size.height = expectedLabelSize.height + 8;
+            newFrame.size.height = expectedLabelSize.height + VERTICAL_PADDING;
             albumLabel.frame = newFrame;
             [albumDetailView addSubview:albumLabel];
             
@@ -4442,7 +4420,7 @@ NSIndexPath *selected;
 
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem tabToShow:(int)tabToShow {
     NSDictionary *mainFields = menuItem.mainFields[tabToShow];
-    NSString *itemid = mainFields[@"row6"] != [NSNull null] ? mainFields[@"row6"] : @"";
+    NSString *itemid = [Utilities getStringFromItem:mainFields[@"row6"]];
     id object = item[itemid];
     if (!object) {
         return; // something goes wrong
@@ -5165,14 +5143,11 @@ NSIndexPath *selected;
     }
     self.sectionArray = sectionKeys;
     self.sectionArrayOpen = [NSMutableArray new];
-    BOOL defaultValue = NO;
-    if (self.sectionArray.count == 1) {
-        defaultValue = YES;
-    }
-    [self setSortButtonImage:sortAscDesc];
+    BOOL defaultValue = self.sectionArray.count == 1;
     for (int i = 0; i < self.sectionArray.count; i++) {
         [self.sectionArrayOpen addObject:@(defaultValue)];
     }
+    [self setSortButtonImage:sortAscDesc];
     [self displayData];
 }
 
@@ -5448,6 +5423,10 @@ NSIndexPath *selected;
 }
 
 - (void)checkParamSize:(NSDictionary*)itemSizes viewWidth:(int)fullWidth {
+    cellGridWidth = 0;
+    cellGridHeight = 0;
+    fullscreenCellGridWidth = 0;
+    fullscreenCellGridHeight = 0;
     if (itemSizes[@"width"] && itemSizes[@"height"]) {
         CGFloat transform = [Utilities getTransformX];
         if ([itemSizes[@"width"] isKindOfClass:[NSString class]]) {
@@ -5476,17 +5455,11 @@ NSIndexPath *selected;
 
 - (void)setIphoneInterface:(NSDictionary*)itemSizes {
     viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
-    albumViewHeight = 116;
     albumViewPadding = 8;
-    if (episodesView) {
-        albumViewHeight = 99;
-    }
+    albumViewHeight = episodesView ? IPHONE_SEASON_SECTION_HEIGHT : IPHONE_ALBUM_SECTION_HEIGHT;
     artistFontSize = 12;
     albumFontSize = 15;
     trackCountFontSize = 11;
-    labelPadding = 8;
-    cellGridWidth = 105;
-    cellGridHeight = 151;
     posterFontSize = 10;
     fanartFontSize = 10;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
@@ -5497,19 +5470,11 @@ NSIndexPath *selected;
     // ensure modal views are forced to width = STACKSCROLL_WIDTH, this eases the layout
     CGSize size = CGSizeMake(STACKSCROLL_WIDTH, self.view.frame.size.height);
     self.preferredContentSize = size;
-    albumViewHeight = 166;
-    if (episodesView) {
-        albumViewHeight = 120;
-    }
     albumViewPadding = 12;
+    albumViewHeight = episodesView ? IPAD_SEASON_SECTION_HEIGHT : IPAD_ALBUM_SECTION_HEIGHT;
     artistFontSize = 14;
     albumFontSize = 18;
     trackCountFontSize = 13;
-    labelPadding = 8;
-    cellGridWidth = 117;
-    cellGridHeight = 168;
-    fullscreenCellGridWidth = 164;
-    fullscreenCellGridHeight = 246;
     posterFontSize = 11;
     fanartFontSize = 13;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
@@ -5831,18 +5796,12 @@ NSIndexPath *selected;
     }
     
     detailView.clipsToBounds = YES;
-    trackCountLabelWidth = 26;
-    epgChannelTimeLabelWidth = 48;
     NSDictionary *itemSizes = parameters[@"itemSizes"];
     if (IS_IPHONE) {
         [self setIphoneInterface:itemSizes[@"iphone"]];
     }
     else {
         [self setIpadInterface:itemSizes[@"ipad"]];
-    }
-    
-    if (parameters[@"itemSizes"][@"separatorInset"]) {
-        dataList.separatorInset = UIEdgeInsetsMake(0, [parameters[@"itemSizes"][@"separatorInset"] intValue], 0, 0);
     }
     
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];

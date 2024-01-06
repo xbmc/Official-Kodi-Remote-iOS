@@ -78,19 +78,10 @@
     
     [self textFieldDoneEditing:nil];
     
-    descriptionUI.text = descriptionUI.text ?: @"";
-    usernameUI.text = usernameUI.text ?: @"";
-    passwordUI.text = passwordUI.text ?: @"";
-    ipUI.text = ipUI.text ?: @"";
-    portUI.text = portUI.text ?: @"";
-    tcpPortUI.text = tcpPortUI.text ?: @"";
-    mac_0_UI.text = mac_0_UI.text ?: @"";
-    mac_1_UI.text = mac_1_UI.text ?: @"";
-    mac_2_UI.text = mac_2_UI.text ?: @"";
-    mac_3_UI.text = mac_3_UI.text ?: @"";
-    mac_4_UI.text = mac_4_UI.text ?: @"";
-    mac_5_UI.text = mac_5_UI.text ?: @"";
-
+    for (UILabel *label in [self getAllEntryMaskLabels]) {
+        label.text = label.text ?: @"";
+    }
+    
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
     
     NSDictionary *serverParameters = @{
@@ -128,6 +119,24 @@
     else {
         tipView.hidden = NO;
     }
+}
+
+- (NSArray*)getAllEntryMaskLabels {
+    NSArray *allEntryMaskLabels = @[
+        descriptionUI,
+        ipUI,
+        portUI,
+        tcpPortUI,
+        usernameUI,
+        passwordUI,
+        mac_0_UI,
+        mac_1_UI,
+        mac_2_UI,
+        mac_3_UI,
+        mac_4_UI,
+        mac_5_UI,
+    ];
+    return allEntryMaskLabels;
 }
 
 #pragma mark - UITextFieldDelegate Methods
@@ -541,26 +550,10 @@
     netServiceBrowser = nil;
     services = nil;
     [Utilities AnimView:discoveredInstancesView AnimDuration:0.0 Alpha:1.0 XPos:self.view.frame.size.width];
-    descriptionUI.text = @"";
-    usernameUI.text = @"";
-    passwordUI.text = @"";
-    ipUI.text = @"";
-    portUI.text = @"";
-    mac_0_UI.text = @"";
-    mac_1_UI.text = @"";
-    mac_2_UI.text = @"";
-    mac_3_UI.text = @"";
-    mac_4_UI.text = @"";
-    mac_5_UI.text = @"";
-    descriptionUI.textColor = [Utilities get1stLabelColor];
-    ipUI.textColor = [Utilities get1stLabelColor];
-    portUI.textColor = [Utilities get1stLabelColor];
-    mac_0_UI.textColor = [Utilities get1stLabelColor];
-    mac_1_UI.textColor = [Utilities get1stLabelColor];
-    mac_2_UI.textColor = [Utilities get1stLabelColor];
-    mac_3_UI.textColor = [Utilities get1stLabelColor];
-    mac_4_UI.textColor = [Utilities get1stLabelColor];
-    mac_5_UI.textColor = [Utilities get1stLabelColor];
+    for (UILabel *label in [self getAllEntryMaskLabels]) {
+        label.text = @"";
+        label.textColor = [Utilities get1stLabelColor];
+    }
     [Utilities AnimView:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
 }
 
@@ -592,30 +585,11 @@
     usernameUI.placeholder = LOCALIZED_STR(@"Username");
     passwordUI.placeholder = LOCALIZED_STR(@"Password");
     self.edgesForExtendedLayout = 0;
-    descriptionUI.backgroundColor = [Utilities getSystemGray6];
-    ipUI.backgroundColor = [Utilities getSystemGray6];
-    portUI.backgroundColor = [Utilities getSystemGray6];
-    tcpPortUI.backgroundColor = [Utilities getSystemGray6];
-    usernameUI.backgroundColor = [Utilities getSystemGray6];
-    passwordUI.backgroundColor = [Utilities getSystemGray6];
-    mac_0_UI.backgroundColor = [Utilities getSystemGray6];
-    mac_1_UI.backgroundColor = [Utilities getSystemGray6];
-    mac_2_UI.backgroundColor = [Utilities getSystemGray6];
-    mac_3_UI.backgroundColor = [Utilities getSystemGray6];
-    mac_4_UI.backgroundColor = [Utilities getSystemGray6];
-    mac_5_UI.backgroundColor = [Utilities getSystemGray6];
-    descriptionUI.tintColor = [Utilities get1stLabelColor];
-    ipUI.tintColor = [Utilities get1stLabelColor];
-    portUI.tintColor = [Utilities get1stLabelColor];
-    tcpPortUI.tintColor = [Utilities get1stLabelColor];
-    usernameUI.tintColor = [Utilities get1stLabelColor];
-    passwordUI.tintColor = [Utilities get1stLabelColor];
-    mac_0_UI.tintColor = [Utilities get1stLabelColor];
-    mac_1_UI.tintColor = [Utilities get1stLabelColor];
-    mac_2_UI.tintColor = [Utilities get1stLabelColor];
-    mac_3_UI.tintColor = [Utilities get1stLabelColor];
-    mac_4_UI.tintColor = [Utilities get1stLabelColor];
-    mac_5_UI.tintColor = [Utilities get1stLabelColor];
+    
+    for (UILabel *label in [self getAllEntryMaskLabels]) {
+        label.backgroundColor = [Utilities getSystemGray6];
+        label.tintColor = [Utilities get1stLabelColor];
+    }
     discoveredInstancesTableView.backgroundColor = [Utilities getSystemGray6];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
     rightSwipe.numberOfTouchesRequired = 1;

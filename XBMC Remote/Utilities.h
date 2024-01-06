@@ -80,8 +80,7 @@ typedef enum {
 + (int)getSec2Min:(BOOL)convert;
 + (NSString*)getImageServerURL;
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
-+ (CGFloat)getWidthOfLabel:(UILabel*)label;
-+ (CGFloat)getHeightOfLabel:(UILabel*)label;
++ (CGSize)getSizeOfLabel:(UILabel*)label;
 + (UIImage*)roundedCornerImage:(UIImage*)image drawBorder:(BOOL)drawBorder;
 + (void)roundedCornerView:(UIView*)view drawBorder:(BOOL)drawBorder;
 + (UIImage*)applyRoundedEdgesImage:(UIImage*)image drawBorder:(BOOL)drawBorder;

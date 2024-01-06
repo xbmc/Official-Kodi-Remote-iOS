@@ -592,7 +592,7 @@
             break;
     }
 
-    if ([cellText isEqualToString:@""] || cellText == nil) {
+    if (!cellText.length) {
         cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
     }
 
