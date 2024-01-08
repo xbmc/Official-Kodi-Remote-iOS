@@ -80,7 +80,7 @@
     int thumbWidth;
     int tvshowHeight;
     UITableView *actorsTable;
-    NSString *embedVideoURL;
+    NSURL *embedVideoURL;
     UIColor *foundTintColor;
     UILabel *viewTitle;
     __weak IBOutlet UIImageView *bottomShadow;
