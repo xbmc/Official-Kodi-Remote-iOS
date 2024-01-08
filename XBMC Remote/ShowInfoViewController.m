@@ -1264,11 +1264,11 @@ double round(double d) {
     if (thumbnailPath.length) {
         coverView.alpha = 0.0;
     }
-    __weak ShowInfoViewController *sf = self;
+    __typeof__(self) __weak weakSelf = self;
     [coverView sd_setImageWithURL:[NSURL URLWithString:thumbnailPath]
                  placeholderImage:[UIImage imageNamed:placeHolderImage]
                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                        __auto_type strongSelf = sf;
+                        __auto_type strongSelf = weakSelf;
                         if (!strongSelf) {
                             return;
                         }
@@ -1282,11 +1282,11 @@ double round(double d) {
 }
 
 - (void)loadFanart:(NSString*)fanartPath {
-    __weak ShowInfoViewController *sf = self;
+    __typeof__(self) __weak weakSelf = self;
     [fanartView sd_setImageWithURL:[NSURL URLWithString:fanartPath]
                   placeholderImage:[UIImage imageNamed:@"blank"]
                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                          __auto_type strongSelf = sf;
+                          __auto_type strongSelf = weakSelf;
                           if (strongSelf != nil && strongSelf->enableKenBurns) {
                               [strongSelf elabKenBurns:image];
                               [Utilities alphaView:strongSelf.kenView AnimDuration:1.5 Alpha:0.2];
