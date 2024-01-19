@@ -83,8 +83,8 @@
 "1 result" = "1 resultado";
 "%d results" = "%d resultados";
 "Song" = "Música";
-"Mins." = "Mins.";
-"Min" = "Min";
+"Mins." = "Minutos.";
+"Min" = "Minuto";
 "Clear Playlist" = "Limpar lista de reprodução";
 "No server MAC address defined" = "Nenhum MAC address de servidor definido";
 "Command executed" = "Comando executado";
@@ -292,7 +292,7 @@
 "All channels" = "Todos os canais";
 "Channel Groups" = "Grupos de Canais";
 "Disable subtitles" = "Desactivar legendas";
-"XBMC Server" = "Kodi Server";
+"XBMC Server" = "Servidor Kodi";
 "New XBMC Server" = "Novo servidor Kodi";
 "Episodes: %@" = "Episódios: %@";
 "Are you sure you want to clear the music playlist?" = "Tem a certeza de que quer apagar a lista de reprodução de música?";
