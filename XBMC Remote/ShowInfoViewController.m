@@ -1167,29 +1167,88 @@ double round(double d) {
     [scrollView addSubview:actorsTable];
 }
 
-- (BOOL)isEmbeddedYoutubeLink:(NSString*)urlPath {
-    // Checks for "http://" OR "https://", "www" OR not AND "youtube.com/embed/" (4 variations)
-    return [urlPath rangeOfString:@"^https?://(www\\.)?youtube\\.com/embed/" options:NSRegularExpressionSearch].location != NSNotFound;
+- (BOOL)isEmbeddedYoutubeLink:(NSURLComponents*)urlComponents {
+    if (urlComponents) {
+        NSString *path = urlComponents.path;
+        NSString *host = urlComponents.host;
+        NSString *scheme = urlComponents.scheme;
+        if ([scheme isEqualToString:@"http"] ||
+            [scheme isEqualToString:@"https"]) {
+            if ([host isEqualToString:@"www.youtube.com"] ||
+                [host isEqualToString:@"youtube.com"]) {
+                if ([path hasPrefix:@"/embed/"]) {
+                    return YES;
+                }
+            }
+        }
+    }
+    return NO;
+}
+
+- (BOOL)isYoutubePluginLink:(NSURLComponents*)urlComponents {
+    BOOL isPluginLink = NO;
+    if (urlComponents) {
+        NSString *host = urlComponents.host;
+        NSString *scheme = urlComponents.scheme;
+        isPluginLink = [scheme isEqualToString:@"plugin"] && [host isEqualToString:@"plugin.video.youtube"];
+    }
+    return isPluginLink;
+}
+
+- (BOOL)isYoutubeLink:(NSURLComponents*)urlComponents {
+    if (urlComponents) {
+        NSArray *queryItems = urlComponents.queryItems;
+        NSString *path = urlComponents.path;
+        NSString *host = urlComponents.host;
+        NSString *scheme = urlComponents.scheme;
+        if ([scheme isEqualToString:@"http"] ||
+            [scheme isEqualToString:@"https"]) {
+            if ([host isEqualToString:@"www.youtube.com"] ||
+                [host isEqualToString:@"youtube.com"] ||
+                [host isEqualToString:@"youtu.be"]) {
+                if ([path isEqualToString:@"/watch"]) {
+                    for (NSURLQueryItem *item in queryItems) {
+                        if ([item.name isEqualToString:@"v"]) {
+                            if (item.value.length > 0) {
+                                return YES;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return NO;
+}
+
+- (NSURL*)getEmbeddedYoutubeLink:(NSURLComponents*)urlComponents queryItemName:(NSString*)queryItemName {
+    // Extracts the video id from the URL and creates a new embedded youtube video link
+    NSString *videoURLpath;
+    if (urlComponents) {
+        NSArray *queryItems = urlComponents.queryItems;
+        for (NSURLQueryItem *item in queryItems) {
+            if ([item.name isEqualToString:queryItemName]) {
+                videoURLpath = [NSString stringWithFormat:@"https://www.youtube.com/embed/%@?&vq=hd1080", item.value];
+                break;
+            }
+        }
+    }
+    return [NSURL URLWithString:videoURLpath];
 }
 
 - (void)processTrailerFromString:(NSString*)trailerString {
     embedVideoURL = nil;
     if (trailerString.length > 0) {
-        if ([trailerString hasPrefix:@"plugin://plugin.video.youtube"]) {
-            NSURL *url = [NSURL URLWithString:trailerString];
-            if (url) {
-                NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
-                NSArray *queryItems = urlComponents.queryItems;
-                for (NSURLQueryItem *item in queryItems) {
-                    if ([item.name isEqualToString:@"videoid"]) {
-                        embedVideoURL = [NSString stringWithFormat:@"https://www.youtube.com/embed/%@?&vq=hd1080", item.value];
-                        break; // We can leave the loop as we found what we were looking for.
-                    }
-                }
-            }
+        NSURL *trailerURL = [NSURL URLWithString:trailerString];
+        NSURLComponents *trailerComponents = [NSURLComponents componentsWithURL:trailerURL resolvingAgainstBaseURL:YES];
+        if ([self isYoutubePluginLink:trailerComponents]) {
+            embedVideoURL = [self getEmbeddedYoutubeLink:trailerComponents queryItemName:@"videoid"];
+        }
+        else if ([self isYoutubeLink:trailerComponents]) {
+            embedVideoURL = [self getEmbeddedYoutubeLink:trailerComponents queryItemName:@"v"];
         }
         else {
-            embedVideoURL = trailerString;
+            embedVideoURL = [NSURL URLWithString:trailerString];
         }
         if (embedVideoURL != nil) {
             CGRect frame = CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, label1.frame.size.height);
@@ -1213,7 +1272,8 @@ double round(double d) {
             [Utilities applyRoundedEdgesView:trailerWebView drawBorder:YES];
             [scrollView addSubview:trailerWebView];
             
-            if ([self isEmbeddedYoutubeLink:embedVideoURL]) {
+            trailerComponents = [NSURLComponents componentsWithURL:embedVideoURL resolvingAgainstBaseURL:YES];
+            if ([self isEmbeddedYoutubeLink:trailerComponents]) {
                 [self loadTrailerInWebKit:nil];
             }
             else {
@@ -1517,8 +1577,7 @@ double round(double d) {
 
 - (void)loadTrailerInWebKit:(id)sender {
     trailerPlayButton.hidden = YES;
-    NSURL *nsurl = [NSURL URLWithString:embedVideoURL];
-    NSURLRequest *urlrequest = [NSURLRequest requestWithURL:nsurl];
+    NSURLRequest *urlrequest = [NSURLRequest requestWithURL:embedVideoURL];
     [trailerWebView loadRequest:urlrequest];
 }
 
