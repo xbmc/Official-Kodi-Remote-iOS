@@ -626,12 +626,12 @@
                                      }
                                      else {
                                          __weak UIImageView *thumb = thumbnailView;
-                                         __weak NowPlaying *sf = self;
+                                         __typeof__(self) __weak weakSelf = self;
                                          [thumbnailView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                                           placeholderImage:[UIImage imageNamed:@"coverbox_back"]
                                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                               if (error == nil) {
-                                                  [sf processLoadedThumbImage:sf thumb:thumb image:image enableJewel:enableJewel];
+                                                  [weakSelf processLoadedThumbImage:weakSelf thumb:thumb image:image enableJewel:enableJewel];
                                               }
                                           }];
                                      }
