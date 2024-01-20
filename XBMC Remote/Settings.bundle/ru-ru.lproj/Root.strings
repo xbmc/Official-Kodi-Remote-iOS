@@ -36,3 +36,7 @@
 "Interface" = "Интерфейс";
 "Use thumbnail when fanart is missing" = "Использовать миниатюру, когда фанарт отсутствует";
 "Send Wake-On-LAN automatically" = "Отправлять Wake-On-LAN автоматически";
+"Theme (iOS 13+)" = "Тема (iOS 13+)";
+"Filemode and Theme changes need app restart" = "Изменения файлового режима и темы требуют перезапуска приложения";
+"Episode identifier" = "Идентификатор эпизода";
+"Colorize UI automatically" = "Автоматическое изменение цвета интерфейса";

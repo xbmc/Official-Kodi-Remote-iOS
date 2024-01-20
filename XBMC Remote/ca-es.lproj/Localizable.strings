@@ -194,7 +194,7 @@
 "Add button" = "Afegir botó";
 "Button added" = "Botó afegit";
 "enter value" = "introduïu valor";
-"Tap and hold a setting to add a new button." = "Toca i mantingues apretat sobre una configuració per afegir un nou botó.";
+"Tap and hold a setting to add a new button." = "Manté premuda una opció de configuració per afegir un nou botó.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "No hi ha definit cap botó personalitzat.\nPremeu \"...més\" a continuació per afegir-ne de nous.";
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- AVÍS --\nL'API de Kodi anterior a Krypton (v17) no permet l'edició de temporitzadors. Utilitza la GUI de Kodi per afegir, editar i eliminar temporitzadors. Gràcies.";
 "Execute program" = "Executa el programa";
@@ -301,3 +301,17 @@
 "Runtime" = "Durada";
 "Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "L'aplicació oficial Kodi Remote utilitza obres d'art descarregades del vostre servidor Kodi o d'Internet quan el vostre servidor de Kodi hi fa referència. Per alliberar la bellesa de les obres d'art, utilitzeu \"Universal Scraper\" de Kodi o altres complements scraper.\n\nEl logotip de Kodi, la mascota Zappy i les icones oficials de Kodi Remote són propietat de la Fundació Kodi.\nhttp://www.kodi.tv/contribute\n\n - Equip Kodi";
 "Send Wake-On-LAN" = "Envia Wake-On-LAN";
+"Random" = "Aleatori";
+"Host name" = "Nom de l'amfitrió";
+"Camera model" = "Model de la càmera";
+"Received unexpected JSON object." = "S'ha rebut un objecte JSON inesperat.";
+"Date & time" = "Data i hora";
+"ISO equivalence" = "Equivalència ISO";
+"Resolution" = "Resolució";
+"Aperture" = "Apertura";
+"Exposure time" = "Temps d'exposició";
+"Exposure mode" = "Mode d'exposició";
+"Exposure bias" = "Biaix d'exposició";
+"Metering mode" = "Mode de mesurament";
+"Focal length" = "Longitud focal";
+"Preference" = "Preferència";
