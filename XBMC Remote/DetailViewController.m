@@ -3949,15 +3949,10 @@ NSIndexPath *selected;
                    [self startRetrieveDataWithRefresh:YES];
                }
                else {
-                   NSString *message = @"";
-                   message = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
-                   if (methodError != nil) {
-                       message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
-                   }
-                   if (error != nil) {
-                       message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
-                       
-                   }
+                   NSString *message = [Utilities formatClipboardMessage:methodToCall
+                                                              parameters:parameters
+                                                                   error:error
+                                                             methodError:methodError];
                    UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
                    [self presentViewController:alertView animated:YES completion:nil];
                }
@@ -4011,15 +4006,10 @@ NSIndexPath *selected;
                    [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
                }
                else {
-                   NSString *message = @"";
-                    message = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
-                   if (methodError != nil) {
-                       message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
-                   }
-                   if (error != nil) {
-                       message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
-                       
-                   }
+                   NSString *message = [Utilities formatClipboardMessage:methodToCall
+                                                              parameters:parameters
+                                                                   error:error
+                                                             methodError:methodError];
                    UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
                    [self presentViewController:alertView animated:YES completion:nil];
                }
@@ -4622,7 +4612,6 @@ NSIndexPath *selected;
 
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
 //    NSLog(@"START");
-    debugText.text = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", mutableParameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
@@ -4669,7 +4658,6 @@ NSIndexPath *selected;
          }
         
          if (error == nil && methodError == nil) {
-//             debugText.text = [NSString stringWithFormat:@"%@\n*DATA: %@", debugText.text, methodResult];
 //             NSLog(@"END JSON");
 //             NSLog(@"DATO RICEVUTO %@", methodResult);
              [resultStoreArray removeAllObjects];
@@ -4793,14 +4781,11 @@ NSIndexPath *selected;
          }
          else {
 //             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
-             if (methodError != nil) {
-                 debugText.text = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, debugText.text];
-             }
-             if (error != nil) {
-                 debugText.text = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, debugText.text];
-                 
-             }
-             UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:debugText.text];
+             NSString *message = [Utilities formatClipboardMessage:methodToCall
+                                                        parameters:mutableParameters
+                                                             error:error
+                                                       methodError:methodError];
+             UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
              [self presentViewController:alertView animated:YES completion:nil];
              
              [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
