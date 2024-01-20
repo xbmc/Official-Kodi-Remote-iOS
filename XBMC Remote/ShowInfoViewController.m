@@ -75,7 +75,7 @@ double round(double d) {
             float total = [Utilities getFloatValueFromItem:resumePointDict[@"total"]];
             if (position > 0 && total > 0) {
                 resumePointPercentage = (position * 100) / total;
-                [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @(position)]]];
+                [sheetActions addObject:LOCALIZED_STR_ARGS(@"Resume from %@", [Utilities convertTimeFromSeconds: @(position)])];
             }
         }
         BOOL fromAlbumView = NO;

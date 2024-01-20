@@ -704,7 +704,7 @@
     int numResult = (int)self.filteredListContent.count;
     if (numResult) {
         if (numResult != 1) {
-            results = [NSString stringWithFormat:LOCALIZED_STR(@"%d results"), numResult];
+            results = LOCALIZED_STR_ARGS(@"%d results", numResult);
         }
         else {
             results = LOCALIZED_STR(@"1 result");
@@ -1046,7 +1046,7 @@
     }
 
     [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
-    NSString *labelText = [NSString stringWithFormat:LOCALIZED_STR(@"More (%d)"), (int)(count - MAX_NORMAL_BUTTONS)];
+    NSString *labelText = LOCALIZED_STR_ARGS(@"More (%d)", (int)(count - MAX_NORMAL_BUTTONS));
     [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:YES];
     [activityIndicatorView stopAnimating];
 }
@@ -2200,14 +2200,14 @@
 - (NSString*)buildSortInfo:(NSString*)sectionName {
     if ([sortMethodName isEqualToString:@"year"]) {
         if (sectionName.length > 3) {
-            sectionName = [NSString stringWithFormat:LOCALIZED_STR(@"The %@s decade"), sectionName];
+            sectionName = LOCALIZED_STR_ARGS(@"The %@s decade", sectionName);
         }
         else {
             sectionName = LOCALIZED_STR(@"Year not available");
         }
     }
     else if ([sortMethodName isEqualToString:@"dateadded"]) {
-        sectionName = [NSString stringWithFormat:LOCALIZED_STR(@"Year %@"), sectionName];
+        sectionName = LOCALIZED_STR_ARGS(@"Year %@", sectionName);
     }
     else if ([sortMethodName isEqualToString:@"playcount"]) {
         if ([sectionName intValue] == 0) {
@@ -2240,7 +2240,7 @@
         int start = 0;
         int num_stars = [sectionName intValue];
         int stop = numberOfStars;
-        NSString *newName = [NSString stringWithFormat:LOCALIZED_STR(@"Rated %@"), sectionName];
+        NSString *newName = LOCALIZED_STR_ARGS(@"Rated %@", sectionName);
         NSMutableString *stars = [NSMutableString string];
         for (start = 0; start < num_stars; start++) {
             [stars appendString:@"\u2605"];
@@ -2307,7 +2307,7 @@
         }
     }
     else if ([sortMethodName isEqualToString:@"track"]) {
-        sectionName = [NSString stringWithFormat:LOCALIZED_STR(@"Track n.%@"), sectionName];
+        sectionName = LOCALIZED_STR_ARGS(@"Track n.%@", sectionName);
     }
     else if ([sortMethodName isEqualToString:@"itemgroup"]) {
         int index = [sectionName intValue];
@@ -2829,7 +2829,7 @@
         
         // Get year of release
         int year = [item[@"year"] intValue];
-        NSString *releasedText = (year > 0) ? [NSString stringWithFormat:LOCALIZED_STR(@"Released %d"), year] : @"";
+        NSString *releasedText = (year > 0) ? LOCALIZED_STR_ARGS(@"Released %d", year) : @"";
         
         [self layoutSectionView:albumDetailView
                       thumbView:thumbImageView
@@ -2878,11 +2878,11 @@
             NSString *albumText = self.extraSectionRichResults[seasonIdx][@"label"];
             
             // Get amount of episodes
-            NSString *trackCountText = [NSString stringWithFormat:LOCALIZED_STR(@"Episodes: %@"), self.extraSectionRichResults[seasonIdx][@"episode"]];
+            NSString *trackCountText = LOCALIZED_STR_ARGS(@"Episodes: %@", self.extraSectionRichResults[seasonIdx][@"episode"]);
             
             // Get info on when first aired
             NSString *aired = [Utilities getDateFromItem:item[@"year"] dateStyle:NSDateFormatterLongStyle];
-            NSString *releasedText = aired ? [NSString stringWithFormat:LOCALIZED_STR(@"First aired on %@"), aired] : @"";
+            NSString *releasedText = aired ? LOCALIZED_STR_ARGS(@"First aired on %@", aired) : @"";
             
             [self layoutSectionView:albumDetailView
                           thumbView:thumbImageView
