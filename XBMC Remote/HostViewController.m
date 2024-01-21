@@ -39,6 +39,10 @@
 #define RTF_IFSCOPE 0x1000000   // has valid interface scope
 #define RTA_DST	0x1             // destination sockaddr present
 
+#define XIB_PASSWORD_FIELD 12
+#define XIB_FIRST_MAC_ADDRESS_FIELD 5
+#define XIB_LAST_MAC_ADDRESS_FIELD 10
+
 
 @implementation HostViewController
 
@@ -163,7 +167,7 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField*)theTextField {
-    if (theTextField.tag < 12) {
+    if (theTextField.tag < XIB_PASSWORD_FIELD) {
         UITextField *next = (UITextField*)[self.view viewWithTag:theTextField.tag + 1];
         [next becomeFirstResponder];
         //[next selectAll:self];
@@ -182,7 +186,7 @@
 
 - (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {
     NSUInteger newLength = textField.text.length + string.length - range.length;
-    return (newLength > 2 && textField.tag >= 5 && textField.tag <= 10) ? NO : YES;
+    return !(newLength > 2 && textField.tag >= XIB_FIRST_MAC_ADDRESS_FIELD && textField.tag <= XIB_LAST_MAC_ADDRESS_FIELD);
 }
 
 # pragma mark - Gestures
