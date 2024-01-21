@@ -2421,7 +2421,7 @@
             [cell.contentView addSubview:programTimeLabel];
             
             CGFloat pieSize = EPGCHANNELTIME_WIDTH;
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(SMALL_PADDING, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 7, pieSize, pieSize)];
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(SMALL_PADDING, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + VERTICAL_PADDING, pieSize, pieSize)];
             progressView.tag = EPG_VIEW_CELL_PROGRESSVIEW;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
