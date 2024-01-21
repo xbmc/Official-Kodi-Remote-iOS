@@ -65,6 +65,9 @@
 #define INDEX_WIDTH 34
 #define RUNTIMEYEAR_WIDTH 63
 #define EPGCHANNELTIME_WIDTH 40
+#define EPG_RECORDING_DOT_SIZE 12
+#define CHANNELLIST_DOT_SIZE 6
+#define CHANNELLIST_PIE_SIZE 28
 #define TRACKCOUNT_WIDTH 26
 #define LABEL_PADDING 8
 #define VERTICAL_PADDING 8
@@ -2423,7 +2426,7 @@
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
             
-            CGFloat dotSize = 12;
+            CGFloat dotSize = EPG_RECORDING_DOT_SIZE;
             __auto_type hasTimerOrigin = progressView.frame.origin;
             hasTimerOrigin.x += pieSize / 2 - dotSize / 2;
             hasTimerOrigin.y += [progressView getPieRadius] + [progressView getLineWidth] - dotSize / 2;
@@ -2436,13 +2439,13 @@
             [cell.contentView addSubview:hasTimer];
         }
         else if (channelListView) {
-            CGFloat pieSize = 28;
+            CGFloat pieSize = CHANNELLIST_PIE_SIZE;
             ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - SMALL_PADDING, LABEL_PADDING, pieSize, pieSize) color:[Utilities get1stLabelColor]];
             progressView.tag = EPG_VIEW_CELL_PROGRESSVIEW;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
             
-            CGFloat dotSize = 6;
+            CGFloat dotSize = CHANNELLIST_DOT_SIZE;
             __auto_type isRecordingImageOrigin = progressView.frame.origin;
             isRecordingImageOrigin.x += pieSize / 2 - dotSize / 2;
             isRecordingImageOrigin.y += [progressView getPieRadius] + [progressView getLineWidth] - dotSize / 2;
