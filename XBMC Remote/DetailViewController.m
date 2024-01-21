@@ -568,13 +568,13 @@
         row19obj = [NSString stringWithFormat:@"%@", item[mainFields[@"row19"]]];
     }
     id row13key = mainFields[@"row13"];
-    id row13obj = [row13key isEqualToString:@"options"] ? (item[row13key] == nil ? @"" : item[row13key]) : item[row13key];
+    id row13obj = [row13key isEqualToString:@"options"] ? (item[row13key] ?: @"") : item[row13key];
     
     id row14key = mainFields[@"row14"];
-    id row14obj = [row14key isEqualToString:@"allowempty"] ? (item[row14key] == nil ? @"" : item[row14key]) : item[row14key];
+    id row14obj = [row14key isEqualToString:@"allowempty"] ? (item[row14key] ?: @"") : item[row14key];
     
     id row15key = mainFields[@"row15"];
-    id row15obj = [row15key isEqualToString:@"addontype"] ? (item[row15key] == nil ? @"" : item[row15key]) : item[row15key];
+    id row15obj = [row15key isEqualToString:@"addontype"] ? (item[row15key] ?: @"") : item[row15key];
     
     NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                  label, @"label",
