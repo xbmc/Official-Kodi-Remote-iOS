@@ -468,7 +468,7 @@
     [self createLeftMenu:maxMenuItems];
     
     rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY)];
-	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
+	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	rootView.backgroundColor = UIColor.clearColor;
 	
     fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -480,11 +480,11 @@
     [self.view addSubview:fanartBackgroundImage];
 
 	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(PAD_MENU_TABLE_WIDTH, 0, rootView.frame.size.width - PAD_MENU_TABLE_WIDTH, rootView.frame.size.height - TOOLBAR_HEIGHT)];
-	rightSlideView.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
+	rightSlideView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
 	stackScrollViewController = [StackScrollViewController new];
 	stackScrollViewController.view.frame = CGRectMake(0, 0, rightSlideView.frame.size.width, rightSlideView.frame.size.height);
-	stackScrollViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
+	stackScrollViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[rightSlideView addSubview:stackScrollViewController.view];
 	
 	[rootView addSubview:leftMenuView];

@@ -76,6 +76,8 @@
 #define FLOWLAYOUT_FULLSCREEN_INSET 8
 #define FLOWLAYOUT_FULLSCREEN_MIN_SPACE 4
 #define FLOWLAYOUT_FULLSCREEN_LABEL (FULLSCREEN_LABEL_HEIGHT * [Utilities getTransformX] + 8)
+#define TOGGLE_BUTTON_SIZE 11
+#define LABEL_HEIGHT(fontsize) (fontsize + 6)
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
@@ -729,8 +731,7 @@
     self.searchController.searchBar.barTintColor = lightAlbumColor;
 }
 
-- (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost lab12color:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
-
+- (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
     // Gather average cover color and limit saturation
     UIColor *mainColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
     mainColor = [Utilities limitSaturation:mainColor satmax:0.33];
@@ -739,26 +740,23 @@
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = view.bounds;
     gradient.colors = @[(id)[mainColor CGColor], (id)[[Utilities lighterColorForColor:mainColor] CGColor]];
-    [view.layer insertSublayer:gradient atIndex:1];
+    [view.layer insertSublayer:gradient atIndex:0];
     
     // Set text/shadow colors
-    lab12color = [Utilities updateColor:mainColor
-                             lightColor:[Utilities getGrayColor:255 alpha:1.0]
-                              darkColor:[Utilities getGrayColor:0 alpha:1.0]];
-    shadow = [Utilities updateColor:mainColor
-                         lightColor:[Utilities getGrayColor:0 alpha:0.3]
-                          darkColor:[Utilities getGrayColor:255 alpha:0.3]];
-    lab34color = [Utilities updateColor:mainColor
-                             lightColor:[Utilities getGrayColor:255 alpha:0.7]
-                              darkColor:[Utilities getGrayColor:0 alpha:0.6]];
+    UIColor *label12Color = [Utilities updateColor:mainColor
+                                        lightColor:[Utilities getGrayColor:255 alpha:1.0]
+                                         darkColor:[Utilities getGrayColor:0 alpha:1.0]];
+    UIColor *label34Color = [Utilities updateColor:mainColor
+                                        lightColor:[Utilities getGrayColor:255 alpha:0.8]
+                                         darkColor:[Utilities getGrayColor:0 alpha:0.7]];
+    UIColor *shadowColor = [Utilities updateColor:mainColor
+                                       lightColor:[Utilities getGrayColor:0 alpha:0.3]
+                                        darkColor:[Utilities getGrayColor:255 alpha:0.3]];
     
-    [self setLabelColor:lab12color
-           label34Color:lab34color
-             fontshadow:shadow
-                 label1:label1
-                 label2:label2
-                 label3:label3
-                 label4:label4];
+    // Set colors for the different labels
+    label1.textColor = label2.textColor = label12Color;
+    label3.textColor = label4.textColor = label34Color;
+    label1.shadowColor = label2.shadowColor = label3.shadowColor = label4.shadowColor = shadowColor;
     
     // Only the top most item shall define albumcolor, searchbar tint and navigationbar tint
     if (isTopMost) {
@@ -766,17 +764,6 @@
         [self setSearchBarColor:albumColor];
         self.navigationController.navigationBar.tintColor = [Utilities lighterColorForColor:albumColor];
     }
-}
-
-- (void)setLabelColor:(UIColor*)lab12color label34Color:(UIColor*)lab34color fontshadow:(UIColor*)shadow label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
-    label1.shadowColor = shadow;
-    label1.textColor = lab12color;
-    label2.shadowColor = shadow;
-    label2.textColor = lab12color;
-    label3.shadowColor = shadow;
-    label3.textColor = lab34color;
-    label4.shadowColor = shadow;
-    label4.textColor = lab34color;
 }
 
 - (BOOL)doesShowSearchResults {
@@ -2822,300 +2809,105 @@
 
 - (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
     if (albumView && self.richResults.count > 0) {
-        __block UIColor *albumFontColor = [Utilities getGrayColor:0 alpha:1];
-        __block UIColor *albumFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
-        __block UIColor *albumDetailsColor = [Utilities getGrayColor:0 alpha:0.6];
-
-        CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
-        CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + VERTICAL_PADDING / 2 - 1);
-        UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
-        UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, albumViewPadding / 2 - 1, labelwidth, artistFontSize + VERTICAL_PADDING)];
-        UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + VERTICAL_PADDING)];
-        UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin, labelwidth, trackCountFontSize + VERTICAL_PADDING)];
-        UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(albumViewHeight, bottomMargin - trackCountFontSize - VERTICAL_PADDING / 2, labelwidth, trackCountFontSize + VERTICAL_PADDING)];
-        CAGradientLayer *gradient = [CAGradientLayer layer];
-        gradient.frame = albumDetailView.bounds;
-        gradient.colors = @[(id)[[Utilities getSystemGray1] CGColor], (id)[[Utilities getSystemGray5] CGColor]];
-        [albumDetailView.layer insertSublayer:gradient atIndex:0];
-        CGRect toolbarShadowFrame = CGRectMake(0, albumViewHeight + 1, viewWidth, 8);
-        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        toolbarShadow.image = [UIImage imageNamed:@"tableUp"];
-        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        toolbarShadow.opaque = YES;
-        toolbarShadow.alpha = 0.3;
-        [albumDetailView addSubview:toolbarShadow];
-        NSDictionary *item;
-        item = self.richResults[0];
-        int albumThumbHeight = albumViewHeight - albumViewPadding * 2;
-        UIView *thumbImageContainer = [[UIView alloc] initWithFrame:CGRectMake(albumViewPadding, albumViewPadding, albumThumbHeight, albumThumbHeight)];
-        thumbImageContainer.clipsToBounds = NO;
-        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, albumThumbHeight, albumThumbHeight)];
-        thumbImageView.userInteractionEnabled = YES;
-        thumbImageView.clipsToBounds = YES;
-        thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight)];
         
-        UITapGestureRecognizer *touchOnAlbumView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAlbumActions:)];
-        touchOnAlbumView.numberOfTapsRequired = 1;
-        touchOnAlbumView.numberOfTouchesRequired = 1;
-        [thumbImageView addGestureRecognizer:touchOnAlbumView];
-    
-        NSString *stringURL = item[@"thumbnail"];
-        NSString *displayThumb = @"coverbox_back";
-        [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
-        if (stringURL.length) {
-            // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
-            // ensure setImageWithURL falls back to this icon.
-            if ([UIImage imageNamed:stringURL]) {
-                displayThumb = stringURL;
-            }
-            [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
-                              placeholderImage:[UIImage imageNamed:displayThumb]
-                                       options:SDWebImageScaleToNativeSize
-                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                                      if (image != nil) {
-                                          [self setViewColor:albumDetailView
-                                                       image:image
-                                                   isTopMost:YES
-                                                  lab12color:albumFontColor
-                                                label34Color:albumDetailsColor
-                                                  fontshadow:albumFontShadowColor
-                                                      label1:artist
-                                                      label2:albumLabel
-                                                      label3:trackCountLabel
-                                                      label4:releasedLabel];
-                                          
-                                          if ([[self.searchController.searchBar subviews][0] isKindOfClass:[UIImageView class]]) {
-                                              [[self.searchController.searchBar subviews][0] removeFromSuperview];
-                                          }
-                                      }
-                                  }];
-        }
-        else {
-            thumbImageView.image = [UIImage imageNamed:displayThumb];
-            [self setLabelColor:albumFontColor
-                   label34Color:albumDetailsColor
-                     fontshadow:albumFontShadowColor
-                         label1:artist
-                         label2:albumLabel
-                         label3:trackCountLabel
-                         label4:releasedLabel];
-        }
-        stringURL = item[@"fanart"];
-        if (stringURL.length) {
-            UIImageView *fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, - self.searchController.searchBar.frame.size.height, viewWidth, albumViewHeight + 2 + self.searchController.searchBar.frame.size.height)];
-            fanartBackgroundImage.autoresizingMask = UIViewAutoresizingFlexibleWidth + UIViewAutoresizingFlexibleHeight;
-            fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
-            fanartBackgroundImage.alpha = 0.1;
-                fanartBackgroundImage.clipsToBounds = YES;
-            [fanartBackgroundImage sd_setImageWithURL:[NSURL URLWithString:stringURL]
-                                     placeholderImage:[UIImage imageNamed:@"blank"]];
-            [albumDetailView addSubview:fanartBackgroundImage];
-        }
-        [thumbImageContainer addSubview:thumbImageView];
-        [albumDetailView addSubview:thumbImageContainer];
+        NSDictionary *item = self.richResults[0];
         
-        artist .backgroundColor = UIColor.clearColor;
-        artist.shadowOffset = CGSizeMake(0, 1);
-        artist.font = [UIFont systemFontOfSize:artistFontSize];
-        artist.adjustsFontSizeToFitWidth = YES;
-        artist.minimumScaleFactor = 9.0 / artistFontSize;
-        artist.text = [Utilities getStringFromItem:item[@"albumartist"]];
-        [albumDetailView addSubview:artist];
+        // Get artist and album
+        NSString *artistText = [Utilities getStringFromItem:item[@"albumartist"]];
+        NSString *albumText = self.navigationItem.title;
         
-        albumLabel.backgroundColor = UIColor.clearColor;
-        albumLabel.shadowOffset = CGSizeMake(0, 1);
-        albumLabel.font = [UIFont boldSystemFontOfSize:albumFontSize];
-        albumLabel.text = self.navigationItem.title;
-        albumLabel.numberOfLines = 0;
-        CGSize maximunLabelSize = CGSizeMake(labelwidth, albumViewHeight - albumViewPadding * 4 - 28);
-        
-        CGRect expectedLabelRect = [albumLabel.text boundingRectWithSize:maximunLabelSize
-                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                        attributes:@{NSFontAttributeName:albumLabel.font}
-                                           context:nil];
-        CGSize expectedLabelSize = expectedLabelRect.size;
-        
-        CGRect newFrame = albumLabel.frame;
-        newFrame.size.height = expectedLabelSize.height + VERTICAL_PADDING;
-        albumLabel.frame = newFrame;
-        [albumDetailView addSubview:albumLabel];
-        
-        float totalTime = 0;
+        // Get total runtime in minutes
+        int totalTimeSeconds = 0;
         for (NSDictionary *item in self.richResults) {
-            totalTime += [item[@"runtime"] intValue];
+            totalTimeSeconds += [item[@"runtime"] intValue];
         }
+        int totalTimeMinutes = (int)round(totalTimeSeconds / 60.0);
+        NSString *trackCounText = [NSString stringWithFormat:@"%lu %@, %d %@",
+                                (unsigned long)self.richResults.count, self.richResults.count > 1 ? LOCALIZED_STR(@"Songs") : LOCALIZED_STR(@"Song"),
+                                totalTimeMinutes, totalTimeMinutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
         
-        NSNumberFormatter *formatter = [NSNumberFormatter new];
-        formatter.maximumFractionDigits = 0;
-        formatter.roundingMode = NSNumberFormatterRoundHalfEven;
-        NSString *numberString = [formatter stringFromNumber:@(totalTime / 60)];
-        
-        trackCountLabel.backgroundColor = UIColor.clearColor;
-        trackCountLabel.shadowOffset = CGSizeMake(0, 1);
-        trackCountLabel.font = [UIFont systemFontOfSize:trackCountFontSize];
-        trackCountLabel.text = [NSString stringWithFormat:@"%lu %@, %@ %@", (unsigned long)self.richResults.count, self.richResults.count > 1 ? LOCALIZED_STR(@"Songs") : LOCALIZED_STR(@"Song"), numberString, totalTime / 60 > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
-        [albumDetailView addSubview:trackCountLabel];
+        // Get year of release
         int year = [item[@"year"] intValue];
-        releasedLabel.backgroundColor = UIColor.clearColor;
-        releasedLabel.shadowOffset = CGSizeMake(0, 1);
-        releasedLabel.font = [UIFont systemFontOfSize:trackCountFontSize];
-        releasedLabel.text = [NSString stringWithFormat:@"%@", (year > 0) ? [NSString stringWithFormat:LOCALIZED_STR(@"Released %d"), year] : @""];
-        [albumDetailView addSubview:releasedLabel];
+        NSString *releasedText = (year > 0) ? [NSString stringWithFormat:LOCALIZED_STR(@"Released %d"), year] : @"";
         
-        UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-        albumInfoButton.alpha = 0.8;
-        albumInfoButton.showsTouchWhenHighlighted = YES;
-        albumInfoButton.frame = CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 3, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height);
-        albumInfoButton.tag = 0;
-        [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
-        [albumDetailView addSubview:albumInfoButton];
-        albumInfoButton.hidden = [self isModal];
+        [self layoutSectionView:albumDetailView
+                      thumbView:thumbImageView
+                       thumbURL:item[@"thumbnail"]
+                      fanartURL:item[@"fanart"]
+                     artistText:artistText
+                      albumText:albumText
+                   releasedText:releasedText
+                 trackCountText:trackCounText
+                      isTopMost:YES];
+        
+        // Add tap gesture to show album details
+        UITapGestureRecognizer *touchOnAlbumView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAlbumActions:)];
+        [thumbImageView addGestureRecognizer:touchOnAlbumView];
 
         return albumDetailView;
     }
-    else if (episodesView && self.richResults.count > 0 && ![self doesShowSearchResults]) {
-        __block UIColor *seasonFontColor = [Utilities getGrayColor:0 alpha:1];
-        __block UIColor *seasonFontShadowColor = [Utilities getGrayColor:255 alpha:0.3];
-        __block UIColor *seasonDetailsColor = [Utilities getGrayColor:0 alpha:0.6];
-        UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight + 2)];
+    else if (episodesView && self.sectionArray.count > section && ![self doesShowSearchResults]) {
+        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight)];
         albumDetailView.tag = section;
-        int toggleIconSpace = 0;
-        if (self.sectionArray.count > 1) {
-            toggleIconSpace = 8;
-            UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleOpen:)];
-            [albumDetailView addGestureRecognizer:tapGesture];
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            button.tag = 99;
-            button.alpha = 0.5;
-            button.frame = CGRectMake(3, (int)(albumViewHeight / 2) - 6, 11, 11);
-            [button setImage:[UIImage imageNamed:@"arrow_close"] forState:UIControlStateNormal];
-            [button setImage:[UIImage imageNamed:@"arrow_open"] forState:UIControlStateSelected];
-            if ([self.sectionArrayOpen[section] boolValue]) {
-                button.selected = YES;
-            }
-            [albumDetailView addSubview:button];
-        }
-        CAGradientLayer *gradient = [CAGradientLayer layer];
-        gradient.frame = albumDetailView.bounds;
-        gradient.colors = @[(id)[[Utilities getSystemGray5] CGColor], (id)[[Utilities getSystemGray1] CGColor]];
-        [albumDetailView.layer insertSublayer:gradient atIndex:0];
+        
+        // Get the first listed episode of the season in this section
         NSDictionary *item;
-        if ([self doesShowSearchResults]) {
-            item = self.richResults[0];
+        id seasonNumber = self.sectionArray[section];
+        NSArray *episodesInSeason = self.sections[seasonNumber];
+        if ([episodesInSeason isKindOfClass:[NSArray class]] && episodesInSeason.count > 0) {
+            item = episodesInSeason[0];
         }
         else {
-            item = self.sections[self.sectionArray[section]][0];
+            return nil;
         }
+        
         NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d", [item[@"season"] intValue]] inArray:self.extraSectionRichResults];
         NSInteger firstListedSeason = [self getFirstListedSeason:self.extraSectionRichResults];
-        CGFloat seasonThumbWidth = floor((albumViewHeight - albumViewPadding * 2) * 0.71);
-        if (seasonIdx != NSNotFound) {
-            CGFloat origin_x = seasonThumbWidth + toggleIconSpace + albumViewPadding * 2;
-            CGFloat labelwidth = viewWidth - albumViewHeight - albumViewPadding;
-            CGFloat bottomMargin = albumViewHeight - albumViewPadding - (trackCountFontSize + VERTICAL_PADDING / 2 - 1);
-            UILabel *artist = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, albumViewPadding / 2, labelwidth, artistFontSize + VERTICAL_PADDING)];
-            UILabel *albumLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, artist.frame.origin.y + artistFontSize + 2, labelwidth, albumFontSize + VERTICAL_PADDING)];
-            UILabel *trackCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin, labelwidth - toggleIconSpace, trackCountFontSize + VERTICAL_PADDING)];
-            UILabel *releasedLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin_x, bottomMargin - trackCountFontSize - VERTICAL_PADDING / 2, labelwidth - toggleIconSpace, trackCountFontSize + VERTICAL_PADDING)];
-            UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, seasonThumbWidth, albumViewHeight - albumViewPadding * 2)];
-            thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
-            NSString *stringURL = self.extraSectionRichResults[seasonIdx][@"thumbnail"];
-            NSString *displayThumb = @"coverbox_back_section";
+        
+        if (seasonIdx != NSNotFound && self.extraSectionRichResults.count > seasonIdx) {
             BOOL isFirstListedSeason = [item[@"season"] intValue] == firstListedSeason;
             if (isFirstListedSeason) {
                 self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
                 self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
             }
-            [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
-            if (stringURL.length) {
-                // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
-                // ensure setImageWithURL falls back to this icon.
-                if ([UIImage imageNamed:stringURL]) {
-                    displayThumb = stringURL;
-                }
-                [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
-                                  placeholderImage:[UIImage imageNamed:displayThumb]
-                                           options:SDWebImageScaleToNativeSize
-                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                    if (image != nil) {
-                        [self setViewColor:albumDetailView
-                                     image:image
-                                 isTopMost:isFirstListedSeason
-                                lab12color:seasonFontColor
-                              label34Color:seasonDetailsColor
-                                fontshadow:seasonFontShadowColor
-                                    label1:artist
-                                    label2:albumLabel
-                                    label3:trackCountLabel
-                                    label4:releasedLabel];
-                    }
-                }];
-            }
-            else {
-                thumbImageView.image = [UIImage imageNamed:displayThumb];
-                [self setLabelColor:seasonFontColor
-                       label34Color:seasonDetailsColor
-                         fontshadow:seasonFontShadowColor
-                             label1:artist
-                             label2:albumLabel
-                             label3:trackCountLabel
-                             label4:releasedLabel];
-            }
-            [albumDetailView addSubview:thumbImageView];
             
-            artist.backgroundColor = UIColor.clearColor;
-            artist.shadowOffset = CGSizeMake(0, 1);
-            artist.font = [UIFont systemFontOfSize:artistFontSize];
-            artist.adjustsFontSizeToFitWidth = YES;
-            artist.minimumScaleFactor = 9.0 / artistFontSize;
-            artist.text = item[@"genre"];
-            [albumDetailView addSubview:artist];
+            // Get show name ("genre") and season ("label")
+            NSString *artistText = item[@"genre"];
+            NSString *albumText = self.extraSectionRichResults[seasonIdx][@"label"];
             
-            albumLabel.backgroundColor = UIColor.clearColor;
-            albumLabel.shadowOffset = CGSizeMake(0, 1);
-            albumLabel.font = [UIFont boldSystemFontOfSize:albumFontSize];
-            albumLabel.text = self.extraSectionRichResults[seasonIdx][@"label"];
-            albumLabel.numberOfLines = 0;
-            CGSize maximumLabelSize = CGSizeMake(labelwidth - toggleIconSpace, albumViewHeight - albumViewPadding * 4 - 28);
-            CGRect expectedLabelRect = [albumLabel.text boundingRectWithSize:maximumLabelSize
-                                                        options:NSStringDrawingUsesLineFragmentOrigin
-                                                        attributes:@{NSFontAttributeName:albumLabel.font}
-                                                        context:nil];
-            CGSize expectedLabelSize = expectedLabelRect.size;
-            CGRect newFrame = albumLabel.frame;
-            newFrame.size.height = expectedLabelSize.height + VERTICAL_PADDING;
-            albumLabel.frame = newFrame;
-            [albumDetailView addSubview:albumLabel];
+            // Get amount of episodes
+            NSString *trackCountText = [NSString stringWithFormat:LOCALIZED_STR(@"Episodes: %@"), self.extraSectionRichResults[seasonIdx][@"episode"]];
             
-            trackCountLabel.backgroundColor = UIColor.clearColor;
-            trackCountLabel.shadowOffset = CGSizeMake(0, 1);
-            trackCountLabel.font = [UIFont systemFontOfSize:trackCountFontSize];
-            trackCountLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"Episodes: %@"), self.extraSectionRichResults[seasonIdx][@"episode"]];
-            [albumDetailView addSubview:trackCountLabel];
-
-            releasedLabel.backgroundColor = UIColor.clearColor;
-            releasedLabel.shadowOffset = CGSizeMake(0, 1);
-            releasedLabel.font = [UIFont systemFontOfSize:trackCountFontSize];
-            releasedLabel.minimumScaleFactor = (trackCountFontSize - 2) / trackCountFontSize;
-            releasedLabel.numberOfLines = 1;
-            releasedLabel.adjustsFontSizeToFitWidth = YES;
-            
+            // Get info on when first aired
             NSString *aired = [Utilities getDateFromItem:item[@"year"] dateStyle:NSDateFormatterLongStyle];
+            NSString *releasedText = aired ? [NSString stringWithFormat:LOCALIZED_STR(@"First aired on %@"), aired] : @"";
             
-            releasedLabel.text = @"";
-            if (aired != nil) {
-                releasedLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"First aired on %@"), aired];
-            }
-            [albumDetailView addSubview:releasedLabel];
-
-            UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-            albumInfoButton.alpha = 0.8;
-            albumInfoButton.showsTouchWhenHighlighted = YES;
-            albumInfoButton.frame = CGRectMake(viewWidth - albumInfoButton.frame.size.width - albumViewPadding, bottomMargin - 6, albumInfoButton.frame.size.width, albumInfoButton.frame.size.height);
-            albumInfoButton.tag = 1;
-            [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
-            [albumDetailView addSubview:albumInfoButton];
-            albumInfoButton.hidden = [self isModal];
+            [self layoutSectionView:albumDetailView
+                          thumbView:thumbImageView
+                           thumbURL:self.extraSectionRichResults[seasonIdx][@"thumbnail"]
+                          fanartURL:item[@"thumbnail"]
+                         artistText:artistText
+                          albumText:albumText
+                       releasedText:releasedText
+                     trackCountText:trackCountText
+                          isTopMost:isFirstListedSeason];
+            
+            // Add tap gesture to toggle open/close the section
+            UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleOpen:)];
+            [albumDetailView addGestureRecognizer:tapGesture];
+            
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.tag = 99;
+            button.alpha = 0.5;
+            button.frame = CGRectMake(0, 0, TOGGLE_BUTTON_SIZE, TOGGLE_BUTTON_SIZE);
+            button.center = CGPointMake(thumbImageView.frame.origin.x / 2, thumbImageView.center.y);
+            [button setImage:[UIImage imageNamed:@"arrow_close"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"arrow_open"] forState:UIControlStateSelected];
+            button.selected = [self.sectionArrayOpen[section] boolValue];
+            [albumDetailView addSubview:button];
         }
         return albumDetailView;
     }
@@ -3148,9 +2940,143 @@
     return sectionView;
 }
 
+- (void)layoutSectionView:(UIView*)albumDetailView thumbView:(UIImageView*)thumbImageView thumbURL:(NSString*)stringURL fanartURL:(NSString*)fanartURL artistText:(NSString*)artistText albumText:(NSString*)albumText releasedText:(NSString*)releasedText trackCountText:(NSString*)trackCountText isTopMost:(BOOL)isTopMost {
+    UILabel *artist = [UILabel new];
+    UILabel *album = [UILabel new];
+    UILabel *trackCount = [UILabel new];
+    UILabel *released = [UILabel new];
+    
+    // Set dimensions for thumb view
+    int thumbHeight = albumViewHeight - albumViewPadding * 2;
+    int thumbWidth = episodesView ? (int)(thumbHeight * 0.67) : thumbHeight;
+    
+    // Set main layout root parameters
+    CGFloat toggleIconSpace = episodesView ? LABEL_PADDING : 0;
+    CGFloat originX = thumbWidth + albumViewPadding * 2 + toggleIconSpace;
+    CGFloat labelwidth = viewWidth - originX - LABEL_PADDING;
+    
+    // Layout for thumb
+    thumbImageView.frame = CGRectMake(albumViewPadding + toggleIconSpace, albumViewPadding, thumbWidth, thumbHeight);
+    thumbImageView.userInteractionEnabled = episodesView ? NO : YES;
+    thumbImageView.clipsToBounds = YES;
+    thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    // Load fanart, if present
+    if (fanartURL.length) {
+        CGFloat topExpansion = isTopMost ? self.searchController.searchBar.frame.size.height : 0;
+        UIImageView *fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, -topExpansion, viewWidth, albumViewHeight + topExpansion)];
+        fanartBackgroundImage.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
+        fanartBackgroundImage.alpha = 0.1;
+        fanartBackgroundImage.clipsToBounds = YES;
+        [fanartBackgroundImage sd_setImageWithURL:[NSURL URLWithString:fanartURL]
+                                 placeholderImage:[UIImage imageNamed:@"blank"]];
+        [albumDetailView addSubview:fanartBackgroundImage];
+    }
+    
+    // Load the thumb image and set the colors for the labels
+    NSString *displayThumb = episodesView ? @"coverbox_back_section" : @"coverbox_back";
+    [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
+    if (stringURL.length) {
+        // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
+        // ensure setImageWithURL falls back to this icon.
+        if ([UIImage imageNamed:stringURL]) {
+            displayThumb = stringURL;
+        }
+        [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                          placeholderImage:[UIImage imageNamed:displayThumb]
+                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
+            if (image) {
+                [self setViewColor:albumDetailView
+                             image:image
+                         isTopMost:isTopMost
+                            label1:artist
+                            label2:album
+                            label3:trackCount
+                            label4:released];
+            }
+        }];
+    }
+    else {
+        thumbImageView.image = [UIImage imageNamed:displayThumb];
+        [self setViewColor:albumDetailView
+                     image:thumbImageView.image
+                 isTopMost:isTopMost
+                    label1:artist
+                    label2:album
+                    label3:trackCount
+                    label4:released];
+    }
+    [albumDetailView addSubview:thumbImageView];
+    
+    // Add Info button to bottom-right corner
+    UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    albumInfoButton.alpha = 0.8;
+    albumInfoButton.showsTouchWhenHighlighted = YES;
+    albumInfoButton.frame = CGRectMake(albumDetailView.bounds.size.width - albumInfoButton.frame.size.width - albumViewPadding,
+                                       albumDetailView.bounds.size.height - albumInfoButton.frame.size.height - albumViewPadding,
+                                       albumInfoButton.frame.size.width,
+                                       albumInfoButton.frame.size.height);
+    albumInfoButton.tag = episodesView ? 1 : 0;
+    albumInfoButton.hidden = [self isModal];
+    [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
+    [albumDetailView addSubview:albumInfoButton];
+    
+    // Top down
+    // Layout for artist
+    artist.text = artistText;
+    artist.frame = CGRectMake(originX, albumViewPadding, labelwidth, LABEL_HEIGHT(artistFontSize));
+    artist.backgroundColor = UIColor.clearColor;
+    artist.shadowOffset = CGSizeMake(0, 1);
+    artist.font = [UIFont systemFontOfSize:artistFontSize];
+    artist.numberOfLines = 1;
+    artist.lineBreakMode = NSLineBreakByTruncatingTail;
+    artist.adjustsFontSizeToFitWidth = YES;
+    artist.minimumScaleFactor = 9.0 / artistFontSize;
+    [albumDetailView addSubview:artist];
+    
+    // Layout for album
+    album.text = albumText;
+    album.frame = CGRectMake(originX, CGRectGetMaxY(artist.frame), labelwidth, LABEL_HEIGHT(albumFontSize * 2));
+    album.backgroundColor = UIColor.clearColor;
+    album.shadowOffset = CGSizeMake(0, 1);
+    album.font = [UIFont boldSystemFontOfSize:albumFontSize];
+    album.numberOfLines = 2;
+    album.lineBreakMode = NSLineBreakByTruncatingTail;
+    [album sizeToFit];
+    [albumDetailView addSubview:album];
+    
+    // Bottom up
+    CGFloat labelwidthBottom = CGRectGetMinX(albumInfoButton.frame) - originX - LABEL_PADDING;
+    
+    // Layout for track count
+    trackCount.text = trackCountText;
+    trackCount.frame = CGRectMake(originX, albumViewHeight - albumViewPadding - LABEL_HEIGHT(trackCountFontSize), labelwidthBottom, LABEL_HEIGHT(trackCountFontSize));
+    trackCount.backgroundColor = UIColor.clearColor;
+    trackCount.shadowOffset = CGSizeMake(0, 1);
+    trackCount.font = [UIFont systemFontOfSize:trackCountFontSize];
+    trackCount.numberOfLines = 1;
+    trackCount.lineBreakMode = NSLineBreakByTruncatingTail;
+    trackCount.minimumScaleFactor = (trackCountFontSize - 2) / trackCountFontSize;
+    trackCount.adjustsFontSizeToFitWidth = YES;
+    [albumDetailView addSubview:trackCount];
+    
+    // Layout for released date
+    released.text = releasedText;
+    released.frame = CGRectMake(originX, CGRectGetMinY(trackCount.frame) - LABEL_HEIGHT(trackCountFontSize), labelwidthBottom, LABEL_HEIGHT(trackCountFontSize));
+    released.backgroundColor = UIColor.clearColor;
+    released.shadowOffset = CGSizeMake(0, 1);
+    released.font = [UIFont systemFontOfSize:trackCountFontSize];
+    released.numberOfLines = 1;
+    released.lineBreakMode = NSLineBreakByTruncatingTail;
+    released.minimumScaleFactor = (trackCountFontSize - 2) / trackCountFontSize;
+    released.adjustsFontSizeToFitWidth = YES;
+    [albumDetailView addSubview:released];
+}
+
 - (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
     if (albumView && self.richResults.count > 0) {
-        return albumViewHeight + 2;
+        return albumViewHeight;
     }
     else if (episodesView && self.richResults.count > 0 && ![self doesShowSearchResults]) {
         return albumViewHeight;
