@@ -65,6 +65,7 @@
 #define INDEX_WIDTH 34
 #define RUNTIMEYEAR_WIDTH 63
 #define EPGCHANNELTIME_WIDTH 40
+#define EPGCHANNELTIME_HEIGHT 12
 #define EPG_RECORDING_DOT_SIZE 12
 #define CHANNELLIST_DOT_SIZE 6
 #define CHANNELLIST_PIE_SIZE 28
@@ -2408,7 +2409,7 @@
         }
         else if (channelGuideView) {
             UILabel *title = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_TITLE];
-            UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, VERTICAL_PADDING, EPGCHANNELTIME_WIDTH, 12 + VERTICAL_PADDING)];
+            UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, VERTICAL_PADDING, EPGCHANNELTIME_WIDTH, EPGCHANNELTIME_HEIGHT)];
             programTimeLabel.backgroundColor = UIColor.clearColor;
             programTimeLabel.center = CGPointMake(programTimeLabel.center.x, title.center.y);
             programTimeLabel.font = [UIFont systemFontOfSize:12];
@@ -2421,7 +2422,7 @@
             [cell.contentView addSubview:programTimeLabel];
             
             CGFloat pieSize = EPGCHANNELTIME_WIDTH;
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(SMALL_PADDING, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + VERTICAL_PADDING, pieSize, pieSize)];
+            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(SMALL_PADDING, (cellHeight + CGRectGetMaxY(programTimeLabel.frame) - pieSize) / 2, pieSize, pieSize)];
             progressView.tag = EPG_VIEW_CELL_PROGRESSVIEW;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
