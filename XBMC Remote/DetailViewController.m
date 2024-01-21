@@ -140,7 +140,7 @@
     NSIndexPath *indexPath = parameters[@"indexPath"];
     UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
-    if ([channelid intValue] > 0) {
+    if ([channelid isKindOfClass:[NSNumber class]] && [channelid longValue] > 0) {
         NSMutableArray *retrievedEPG = [self loadEPGFromMemory:channelid];
         NSMutableDictionary *channelEPG = [self parseEpgData:retrievedEPG];
         NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
