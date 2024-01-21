@@ -2422,41 +2422,13 @@
             [cell.contentView addSubview:programTimeLabel];
             
             CGFloat pieSize = EPGCHANNELTIME_WIDTH;
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(SMALL_PADDING, (cellHeight + CGRectGetMaxY(programTimeLabel.frame) - pieSize) / 2, pieSize, pieSize)];
-            progressView.tag = EPG_VIEW_CELL_PROGRESSVIEW;
-            progressView.hidden = YES;
-            [cell.contentView addSubview:progressView];
-            
-            CGFloat dotSize = EPG_RECORDING_DOT_SIZE;
-            __auto_type hasTimerOrigin = progressView.frame.origin;
-            hasTimerOrigin.x += pieSize / 2 - dotSize / 2;
-            hasTimerOrigin.y += [progressView getPieRadius] + [progressView getLineWidth] - dotSize / 2;
-            UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:(CGRect){hasTimerOrigin, CGSizeMake(dotSize, dotSize)}];
-            hasTimer.image = [UIImage imageNamed:@"button_timer"];
-            hasTimer.contentMode = UIViewContentModeScaleToFill;
-            hasTimer.tag = EPG_VIEW_CELL_RECORDING_ICON;
-            hasTimer.hidden = YES;
-            hasTimer.backgroundColor = UIColor.clearColor;
-            [cell.contentView addSubview:hasTimer];
+            CGRect pieFrame = CGRectMake(SMALL_PADDING, (cellHeight + CGRectGetMaxY(programTimeLabel.frame) - pieSize) / 2, pieSize, pieSize);
+            [self layoutProgressPie:pieFrame pieSize:pieSize dotSize:EPG_RECORDING_DOT_SIZE color:[Utilities getSystemBlue] cell:cell];
         }
         else if (channelListView) {
             CGFloat pieSize = CHANNELLIST_PIE_SIZE;
-            ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - SMALL_PADDING, LABEL_PADDING, pieSize, pieSize) color:[Utilities get1stLabelColor]];
-            progressView.tag = EPG_VIEW_CELL_PROGRESSVIEW;
-            progressView.hidden = YES;
-            [cell.contentView addSubview:progressView];
-            
-            CGFloat dotSize = CHANNELLIST_DOT_SIZE;
-            __auto_type isRecordingImageOrigin = progressView.frame.origin;
-            isRecordingImageOrigin.x += pieSize / 2 - dotSize / 2;
-            isRecordingImageOrigin.y += [progressView getPieRadius] + [progressView getLineWidth] - dotSize / 2;
-            UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:(CGRect){isRecordingImageOrigin, CGSizeMake(dotSize, dotSize)}];
-            isRecordingImageView.image = [UIImage imageNamed:@"button_timer"];
-            isRecordingImageView.contentMode = UIViewContentModeScaleToFill;
-            isRecordingImageView.tag = EPG_VIEW_CELL_RECORDING_ICON;
-            isRecordingImageView.hidden = YES;
-            isRecordingImageView.backgroundColor = UIColor.clearColor;
-            [cell.contentView addSubview:isRecordingImageView];
+            CGRect pieFrame = CGRectMake(viewWidth - pieSize - SMALL_PADDING, LABEL_PADDING, pieSize, pieSize);
+            [self layoutProgressPie:pieFrame pieSize:pieSize dotSize:CHANNELLIST_DOT_SIZE color:[Utilities get1stLabelColor] cell:cell];
         }
         UILabel *title = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_TITLE];
         UILabel *genre = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_GENRE];
@@ -3090,6 +3062,24 @@
     released.minimumScaleFactor = (trackCountFontSize - 2) / trackCountFontSize;
     released.adjustsFontSizeToFitWidth = YES;
     [albumDetailView addSubview:released];
+}
+
+- (void)layoutProgressPie:(CGRect)pieFrame pieSize:(CGFloat)pieSize dotSize:(CGFloat)dotSize color:(UIColor*)color cell:(UITableViewCell*)cell {
+    ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:pieFrame color:color];
+    progressView.tag = EPG_VIEW_CELL_PROGRESSVIEW;
+    progressView.hidden = YES;
+    [cell.contentView addSubview:progressView];
+    
+    CGPoint timerOrigin = progressView.frame.origin;
+    timerOrigin.x += pieSize / 2 - dotSize / 2;
+    timerOrigin.y += [progressView getPieRadius] + 2 * [progressView getLineWidth] - dotSize / 2;
+    UIImageView *timerView = [[UIImageView alloc] initWithFrame:(CGRect){timerOrigin, CGSizeMake(dotSize, dotSize)}];
+    timerView.image = [UIImage imageNamed:@"button_timer"];
+    timerView.contentMode = UIViewContentModeScaleToFill;
+    timerView.tag = EPG_VIEW_CELL_RECORDING_ICON;
+    timerView.hidden = YES;
+    timerView.backgroundColor = UIColor.clearColor;
+    [cell.contentView addSubview:timerView];
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
