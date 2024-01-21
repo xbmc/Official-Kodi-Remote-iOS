@@ -589,7 +589,7 @@
                                  item[mainFields[@"row6"]], mainFields[@"row6"],
                                  item[mainFields[@"row8"]], mainFields[@"row8"],
                                  year, @"year",
-                                 [NSString stringWithFormat:@"%@", rating], @"rating",
+                                 rating, @"rating",
                                  mainFields[@"playlistid"], @"playlistid",
                                  row7obj, row7key,
                                  item[mainFields[@"row9"]], mainFields[@"row9"],
