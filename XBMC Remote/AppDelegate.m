@@ -472,6 +472,7 @@
     __auto_type menu_Radio = [mainMenu new];
     __auto_type menu_Search = [mainMenu new];
     __auto_type menu_Addons = [mainMenu new];
+    __auto_type menu_Files = [mainMenu new];
 
     menu_Music.subItem = [mainMenu new];
     menu_Music.subItem.subItem = [mainMenu new];
@@ -496,6 +497,9 @@
     menu_Radio.subItem.subItem = [mainMenu new];
 
     menu_Addons.subItem = [mainMenu new];
+    
+    menu_Files.subItem = [mainMenu new];
+    menu_Files.subItem.subItem = [mainMenu new];
     
 #pragma mark - Music
     menu_Music.mainLabel = LOCALIZED_STR(@"Music");
@@ -5627,6 +5631,296 @@
         },
     ] mutableCopy];
     
+#pragma mark - Files
+    menu_Files.mainLabel = LOCALIZED_STR(@"Files");
+    menu_Files.icon = @"st_filemode";
+    menu_Files.family = FamilyDetailView;
+    menu_Files.enableSection = YES;
+    menu_Files.noConvertTime = YES;
+    menu_Files.mainButtons = @[
+        @"icon_song",
+        @"icon_video",
+        @"icon_picture",
+    ];
+    
+    menu_Files.mainMethod = @[
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+    ];
+    
+    menu_Files.mainParameters = [@[
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": @"music",
+            },
+            @"label": LOCALIZED_STR(@"Music"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": @"video",
+            },
+            @"label": LOCALIZED_STR(@"Videos"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": @"pictures",
+            },
+            @"label": LOCALIZED_STR(@"Pictures"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+    ] mutableCopy];
+    
+    menu_Files.mainFields = @[
+        @{
+            @"itemid": @"sources",
+            @"row1": @"label",
+            @"row2": @"year",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"file",
+            @"playlistid": @PLAYERID_MUSIC,
+            @"row8": @"file",
+            @"row9": @"file",
+        },
+        
+        @{
+            @"itemid": @"sources",
+            @"row1": @"label",
+            @"row2": @"year",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"file",
+            @"playlistid": @PLAYERID_VIDEO,
+            @"row8": @"file",
+            @"row9": @"file",
+        },
+        
+        @{
+            @"itemid": @"sources",
+            @"row1": @"label",
+            @"row2": @"year",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"file",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row8": @"file",
+            @"row9": @"file",
+        },
+    ];
+    
+    menu_Files.rowHeight = PORTRAIT_ROW_HEIGHT;
+    menu_Files.thumbWidth = DEFAULT_THUMB_WIDTH;
+    menu_Files.defaultThumb = @"nocover_musicvideos";
+    menu_Files.sheetActions = @[
+        [self action_filemode_music],
+        [self action_queue_to_play],
+        [self action_pictures],
+    ];
+    
+    menu_Files.showInfo = @[
+        @NO,
+        @NO,
+        @NO,
+    ];
+    
+    menu_Files.filterModes = @[
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+    ];
+    
+    menu_Files.subItem.mainMethod = [@[
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+    ] mutableCopy];
+    
+    menu_Files.subItem.noConvertTime = YES;
+
+    menu_Files.subItem.mainParameters = [@[
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": filemodeMusicType,
+                @"file_properties": @[
+                    @"thumbnail",
+                    @"art",
+                    @"playcount",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": filemodeVideoType,
+                @"file_properties": @[
+                    @"thumbnail",
+                    @"art",
+                    @"playcount",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": @"pictures",
+                @"file_properties": @[
+                    @"thumbnail",
+                    @"art",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+    ] mutableCopy];
+    
+    menu_Files.subItem.mainFields = @[
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"row7": @"playcount",
+            @"playlistid": @PLAYERID_MUSIC,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"row7": @"playcount",
+            @"playlistid": @PLAYERID_VIDEO,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+    ];
+    
+    menu_Files.subItem.enableSection = YES;
+    menu_Files.subItem.rowHeight = PORTRAIT_ROW_HEIGHT;
+    menu_Files.subItem.thumbWidth = DEFAULT_THUMB_WIDTH;
+    menu_Files.subItem.defaultThumb = @"nocover_musicvideos";
+    menu_Files.subItem.sheetActions = @[
+        [self action_filemode_music],
+        [self action_queue_to_play],
+        [self action_pictures],
+    ];
+    
+    menu_Files.subItem.showInfo = @[
+        @NO,
+        @NO,
+        @NO,
+    ];
+    
+    menu_Files.subItem.filterModes = @[
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+    ];
+
+    menu_Files.subItem.subItem.noConvertTime = YES;
+    menu_Files.subItem.subItem.mainMethod = [@[
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+    ] mutableCopy];
+    
+    menu_Files.subItem.subItem.mainParameters = [@[
+        @{},
+        @{},
+        @{},
+    ] mutableCopy];
+    
+    menu_Files.subItem.subItem.mainFields = @[
+        @{},
+        @{},
+        @{},
+    ];
+    
+    menu_Files.subItem.subItem.enableSection = NO;
+    menu_Files.subItem.subItem.rowHeight = PORTRAIT_ROW_HEIGHT;
+    menu_Files.subItem.subItem.thumbWidth = DEFAULT_THUMB_WIDTH;
+    menu_Files.subItem.subItem.defaultThumb = @"nocover_filemode";
+    menu_Files.subItem.subItem.sheetActions = @[
+        @[],
+        @[],
+        @[],
+    ];
+    
 #pragma mark - XBMC Server Management
     menu_Server.mainLabel = LOCALIZED_STR(@"XBMC Server");
     menu_Server.icon = @"";
@@ -6270,6 +6564,9 @@
     }
     if ([self isMenuEntryEnabled:@"menu_search"]) {
         [mainMenuItems addObject:menu_Search];
+    }
+    if ([self isMenuEntryEnabled:@"menu_files"]) {
+        [mainMenuItems addObject:menu_Files];
     }
     if ([self isMenuEntryEnabled:@"menu_addons"]) {
         [mainMenuItems addObject:menu_Addons];
