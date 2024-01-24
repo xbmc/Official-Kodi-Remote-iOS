@@ -1514,6 +1514,9 @@
                             menuItem.mainParameters[activeTab][@"parameters"][@"section"], @"section",
                             nil];
             }
+            else if ([item[@"family"] isEqualToString:@"addonid"]) {
+                objValue = [@"plugin://" stringByAppendingString: objValue];
+            }
             NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                   [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    objValue, fileModeKey,
@@ -3578,6 +3581,7 @@
         [self searchWeb:item indexPath:selectedIndexPath serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Execute program")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Execute add-on")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute video add-on")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute audio add-on")]) {
         [self SimpleAction:@"Addons.ExecuteAddon"

@@ -471,6 +471,7 @@
     __auto_type menu_LiveTV = [mainMenu new];
     __auto_type menu_Radio = [mainMenu new];
     __auto_type menu_Search = [mainMenu new];
+    __auto_type menu_Addons = [mainMenu new];
 
     menu_Music.subItem = [mainMenu new];
     menu_Music.subItem.subItem = [mainMenu new];
@@ -494,6 +495,7 @@
     menu_Radio.subItem = [mainMenu new];
     menu_Radio.subItem.subItem = [mainMenu new];
 
+    menu_Addons.subItem = [mainMenu new];
     
 #pragma mark - Music
     menu_Music.mainLabel = LOCALIZED_STR(@"Music");
@@ -5645,6 +5647,308 @@
 #pragma mark - Playlist PVR
     playlistPVR = [menu_LiveTV copy];
     
+#pragma mark - Addons
+    menu_Addons.mainLabel = LOCALIZED_STR(@"Add-ons");
+    menu_Addons.icon = @"st_addons";
+    menu_Addons.family = FamilyDetailView;
+    menu_Addons.enableSection = YES;
+    menu_Addons.rowHeight = SETTINGS_ROW_HEIGHT;
+    menu_Addons.thumbWidth = SETTINGS_THUMB_WIDTH;
+    menu_Addons.mainButtons = @[
+        @"st_addons",
+        @"icon_song",
+        @"icon_video",
+        @"icon_picture",
+    ];
+    
+    menu_Addons.mainMethod = [@[
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+    ] mutableCopy];
+    
+    menu_Addons.mainParameters = [@[
+        @{
+            @"parameters": @{
+                @"type": @"xbmc.addon.executable",
+                @"enabled": @YES,
+                @"properties": @[
+                    @"name",
+                    @"version",
+                    @"summary",
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Programs"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+        },
+                                   
+        @{
+            @"parameters": @{
+                @"type": @"xbmc.addon.audio",
+                @"enabled": @YES,
+                @"properties": @[
+                    @"name",
+                    @"version",
+                    @"summary",
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Music Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+        },
+                                   
+        @{
+            @"parameters": @{
+                @"type": @"xbmc.addon.video",
+                @"enabled": @YES,
+                @"properties": @[
+                    @"name",
+                    @"version",
+                    @"summary",
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+        },
+        
+        @{
+            @"parameters": @{
+                @"type": @"xbmc.addon.image",
+                @"enabled": @YES,
+                @"properties": @[
+                    @"name",
+                    @"version",
+                    @"summary",
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Pictures Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+        },
+    ] mutableCopy];
+    
+    menu_Addons.mainFields = @[
+        @{
+            @"itemid": @"addons",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+                               
+        @{
+            @"itemid": @"addons",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+                               
+        @{
+            @"itemid": @"addons",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+        
+        @{
+            @"itemid": @"addons",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+    ];
+    
+    menu_Addons.sheetActions = @[
+        @[
+            LOCALIZED_STR(@"Execute program"),
+            LOCALIZED_STR(@"Add button"),
+        ],
+        @[
+            LOCALIZED_STR(@"Execute audio add-on"),
+            LOCALIZED_STR(@"Add button"),
+        ],
+        @[
+            LOCALIZED_STR(@"Execute video add-on"),
+            LOCALIZED_STR(@"Add button"),
+        ],
+        @[
+            LOCALIZED_STR(@"Execute add-on"),
+            LOCALIZED_STR(@"Add button"),
+        ],
+    ];
+    
+    menu_Addons.subItem.mainMethod = [@[
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+    ] mutableCopy];
+    
+    menu_Addons.subItem.mainParameters = [@[
+        @{
+            @"forceActionSheet": @YES,
+        },
+
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
+                @"media": @"music",
+                @"file_properties": @[
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Music Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
+
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
+                @"media": @"video",
+                @"file_properties": @[
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
+                @"media": @"pictures",
+                @"file_properties": @[
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Pictures Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
+    ] mutableCopy];
+    
+    menu_Addons.subItem.mainFields = @[
+        @{},
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"row7": @"plugin",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"row7": @"plugin",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"row7": @"plugin",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+    ];
+    
+    menu_Addons.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
+    menu_Addons.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
+    
 #pragma mark - XBMC Settings 
     xbmcSettings = [mainMenu new];
     xbmcSettings.subItem = [mainMenu new];
@@ -6098,6 +6402,9 @@
     }
     if ([self isMenuEntryEnabled:@"menu_search"]) {
         [mainMenuItems addObject:menu_Search];
+    }
+    if ([self isMenuEntryEnabled:@"menu_addons"]) {
+        [mainMenuItems addObject:menu_Addons];
     }
     if ([self isMenuEntryEnabled:@"menu_settings"]) {
         [mainMenuItems addObject:xbmcSettings];
