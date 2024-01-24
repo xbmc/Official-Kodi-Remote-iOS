@@ -5962,9 +5962,6 @@
     xbmcSettings.thumbWidth = SETTINGS_THUMB_WIDTH;
     xbmcSettings.mainButtons = @[
         @"st_filemode",
-        @"st_addons",
-        @"st_video_addon",
-        @"st_music_addon",
         @"st_kodi_action",
         @"st_kodi_window",
     ];
@@ -5972,15 +5969,6 @@
     xbmcSettings.mainMethod = [@[
         @{
             @"method": @"Settings.GetSections",
-        },
-        @{
-            @"method": @"Addons.GetAddons",
-        },
-        @{
-            @"method": @"Addons.GetAddons",
-        },
-        @{
-            @"method": @"Addons.GetAddons",
         },
         @{
             @"method": @"JSONRPC.Introspect",
@@ -5998,66 +5986,6 @@
             @"label": LOCALIZED_STR(@"XBMC Settings"),
             @"animationStartBottomScreen": @(IS_IPHONE),
             @"thumbWidth": @0,
-        },
-                                   
-        @{
-            @"parameters": @{
-                @"type": @"xbmc.addon.executable",
-                @"enabled": @YES,
-                @"properties": @[
-                        @"name",
-                        @"version",
-                        @"summary",
-                        @"thumbnail",
-                ],
-            },
-            @"label": LOCALIZED_STR(@"Programs"),
-            @"defaultThumb": @"nocover_filemode",
-            @"rowHeight": @SETTINGS_ROW_HEIGHT,
-            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
-            @"itemSizes": [self itemSizes_Music],
-            @"enableCollectionView": @YES,
-            @"forceActionSheet": @YES,
-        },
-                                   
-        @{
-            @"parameters": @{
-                @"type": @"xbmc.addon.video",
-                @"enabled": @YES,
-                @"properties": @[
-                        @"name",
-                        @"version",
-                        @"summary",
-                        @"thumbnail",
-                ],
-            },
-            @"label": LOCALIZED_STR(@"Video Add-ons"),
-            @"defaultThumb": @"nocover_filemode",
-            @"rowHeight": @SETTINGS_ROW_HEIGHT,
-            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
-            @"itemSizes": [self itemSizes_Music],
-            @"enableCollectionView": @YES,
-            @"forceActionSheet": @YES,
-        },
-                                   
-        @{
-            @"parameters": @{
-                @"type": @"xbmc.addon.audio",
-                @"enabled": @YES,
-                @"properties": @[
-                        @"name",
-                        @"version",
-                        @"summary",
-                        @"thumbnail",
-                ],
-            },
-            @"label": LOCALIZED_STR(@"Music Add-ons"),
-            @"defaultThumb": @"nocover_filemode",
-            @"rowHeight": @SETTINGS_ROW_HEIGHT,
-            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
-            @"itemSizes": [self itemSizes_Music],
-            @"enableCollectionView": @YES,
-            @"forceActionSheet": @YES,
         },
                                    
         @{
@@ -6106,45 +6034,6 @@
         },
                                
         @{
-            @"itemid": @"addons",
-            @"row1": @"name",
-            @"row2": @"summary",
-            @"row3": @"blank",
-            @"row4": @"blank",
-            @"row5": @"addonid",
-            @"row6": @"addonid",
-            @"playlistid": @PLAYERID_PICTURES,
-            @"row8": @"addonid",
-            @"row9": @"addonid",
-        },
-                               
-        @{
-            @"itemid": @"addons",
-            @"row1": @"name",
-            @"row2": @"summary",
-            @"row3": @"blank",
-            @"row4": @"blank",
-            @"row5": @"addonid",
-            @"row6": @"addonid",
-            @"playlistid": @PLAYERID_PICTURES,
-            @"row8": @"addonid",
-            @"row9": @"addonid",
-        },
-                               
-        @{
-            @"itemid": @"addons",
-            @"row1": @"name",
-            @"row2": @"summary",
-            @"row3": @"blank",
-            @"row4": @"blank",
-            @"row5": @"addonid",
-            @"row6": @"addonid",
-            @"playlistid": @PLAYERID_PICTURES,
-            @"row8": @"addonid",
-            @"row9": @"addonid",
-        },
-                               
-        @{
             @"itemid": @"types",
             @"typename": @"Input.Action",
             @"fieldname": @"enums",
@@ -6178,18 +6067,6 @@
     xbmcSettings.sheetActions = @[
         @[],
         @[
-            LOCALIZED_STR(@"Execute program"),
-            LOCALIZED_STR(@"Add button"),
-        ],
-        @[
-            LOCALIZED_STR(@"Execute video add-on"),
-            LOCALIZED_STR(@"Add button"),
-        ],
-        @[
-            LOCALIZED_STR(@"Execute audio add-on"),
-            LOCALIZED_STR(@"Add button"),
-        ],
-        @[
             LOCALIZED_STR(@"Execute action"),
             LOCALIZED_STR(@"Add action button"),
         ],
@@ -6205,9 +6082,6 @@
         },
         @{},
         @{},
-        @{},
-        @{},
-        @{},
     ] mutableCopy];
     
     xbmcSettings.subItem.mainParameters = [@[
@@ -6217,9 +6091,6 @@
             @"rowHeight": @SETTINGS_ROW_HEIGHT,
             @"thumbWidth": @0,
         },
-        @{},
-        @{},
-        @{},
         @{},
         @{},
     ] mutableCopy];
@@ -6237,9 +6108,6 @@
             @"row8": @"categoryid",
             @"row9": @"id",
         },
-        @{},
-        @{},
-        @{},
         @{},
         @{},
     ];
