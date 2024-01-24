@@ -6099,6 +6099,9 @@
     if ([self isMenuEntryEnabled:@"menu_search"]) {
         [mainMenuItems addObject:menu_Search];
     }
+    if ([self isMenuEntryEnabled:@"menu_settings"]) {
+        [mainMenuItems addObject:xbmcSettings];
+    }
     
     // Set rootLabel for all menu entries
     for (mainMenu *menuItem in mainMenuItems) {
