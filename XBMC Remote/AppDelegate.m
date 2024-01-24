@@ -5656,7 +5656,6 @@
     xbmcSettings.enableSection = YES;
     xbmcSettings.rowHeight = SETTINGS_ROW_HEIGHT;
     xbmcSettings.thumbWidth = SETTINGS_THUMB_WIDTH;
-    xbmcSettings.disableNowPlaying = YES;
     xbmcSettings.mainButtons = @[
         @"st_filemode",
         @"st_addons",
@@ -5896,7 +5895,6 @@
         ],
     ];
     
-    xbmcSettings.subItem.disableNowPlaying = YES;
     xbmcSettings.subItem.mainMethod = [@[
         @{
             @"method": @"Settings.GetCategories",
@@ -5945,7 +5943,6 @@
     xbmcSettings.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
     xbmcSettings.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
-    xbmcSettings.subItem.subItem.disableNowPlaying = YES;
     xbmcSettings.subItem.subItem.mainMethod = [@[
         @{
             @"method": @"Settings.GetSettings",
