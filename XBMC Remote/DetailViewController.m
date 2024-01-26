@@ -62,8 +62,7 @@
 #define IPHONE_ALBUM_SECTION_HEIGHT 116
 #define IPAD_SEASON_SECTION_HEIGHT 120
 #define IPAD_ALBUM_SECTION_HEIGHT 166
-#define INDEX_WIDTH 40
-#define INDEX_PADDING 2
+#define INDEX_WIDTH 34
 #define RUNTIMEYEAR_WIDTH 63
 #define EPGCHANNELTIME_WIDTH 40
 #define TRACKCOUNT_WIDTH 26
@@ -1889,7 +1888,7 @@
         return;
     }
     UITableView *activeView = activeLayoutView;
-    CGRect frame = CGRectMake(CGRectGetWidth(activeView.frame) - INDEX_WIDTH - INDEX_PADDING,
+    CGRect frame = CGRectMake(CGRectGetWidth(activeView.frame) - INDEX_WIDTH,
                               CGRectGetMinY(activeView.frame) + activeView.contentInset.top,
                               INDEX_WIDTH,
                               CGRectGetHeight(activeView.frame) - activeView.contentInset.top - activeView.contentInset.bottom - bottomPadding);
@@ -2130,7 +2129,7 @@
         dataList.separatorInset = dataListSeparatorInset;
     }
     else {
-        int indexPadding = INDEX_WIDTH + INDEX_PADDING;
+        int indexPadding = INDEX_WIDTH;
         UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
         dataListSeparatorInset.right = indexPadding;
         dataList.separatorInset = dataListSeparatorInset;

@@ -62,7 +62,7 @@
 
         _currentIndex = -1;
         _endPadding = 16;
-        _labelPadding = 4;
+        _labelPadding = 0;
 
         _tapper = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         _tapper.minimumPressDuration = 0;
