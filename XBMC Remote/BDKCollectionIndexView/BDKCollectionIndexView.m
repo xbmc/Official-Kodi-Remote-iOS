@@ -90,7 +90,7 @@
             cumulativeLength = self.endPadding;
             break;
         case BDKCollectionIndexViewDirectionVertical:
-            _theDimension = CGRectGetWidth(self.frame);
+            _theDimension = CGRectGetWidth(self.frame) - self.labelPadding * 2;
             if (IS_IPHONE) {
                 maxLength = self.indexLabels.count * INDEX_HEIGHT_IPHONE;
             }
