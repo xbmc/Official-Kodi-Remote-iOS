@@ -1240,6 +1240,9 @@ double round(double d) {
     embedVideoURL = nil;
     if (trailerString.length > 0) {
         NSURL *trailerURL = [NSURL URLWithString:trailerString];
+        if (!trailerURL) {
+            return;
+        }
         NSURLComponents *trailerComponents = [NSURLComponents componentsWithURL:trailerURL resolvingAgainstBaseURL:YES];
         if ([self isYoutubePluginLink:trailerComponents]) {
             embedVideoURL = [self getEmbeddedYoutubeLink:trailerComponents queryItemName:@"videoid"];
