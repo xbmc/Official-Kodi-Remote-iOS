@@ -564,7 +564,10 @@
                     else {
                         delimiter = [NSString stringWithFormat:@"%@ ", delimiter];
                     }
-                    cellText = [self.detailItem[@"value"] componentsJoinedByString:delimiter];
+                    NSArray *settingsArray = self.detailItem[@"value"];
+                    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:YES];
+                    settingsArray = [settingsArray sortedArrayUsingDescriptors:@[descriptor]];
+                    cellText = [settingsArray componentsJoinedByString:delimiter];
                 }
                 else {
                     cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
