@@ -772,8 +772,7 @@
     [self xbmcAction:command params:params uiControl:sender];
 }
 
-- (void)sliderAction:(id)sender {
-    OBSlider *slider = (OBSlider*)sender;
+- (void)sliderAction:(OBSlider*)slider {
     float newStep = roundf(slider.value / [self.detailItem[@"step"] intValue]);
     float newValue = newStep * [self.detailItem[@"step"] intValue];
     if (!FLOAT_EQUAL_ZERO(newValue - storeSliderValue)) {
