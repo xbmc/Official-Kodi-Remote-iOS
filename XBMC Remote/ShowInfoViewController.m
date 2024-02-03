@@ -75,7 +75,7 @@ double round(double d) {
             float total = [Utilities getFloatValueFromItem:resumePointDict[@"total"]];
             if (position > 0 && total > 0) {
                 resumePointPercentage = (position * 100) / total;
-                [sheetActions addObject:[NSString stringWithFormat:LOCALIZED_STR(@"Resume from %@"), [Utilities convertTimeFromSeconds: @(position)]]];
+                [sheetActions addObject:LOCALIZED_STR_ARGS(@"Resume from %@", [Utilities convertTimeFromSeconds: @(position)])];
             }
         }
         BOOL fromAlbumView = NO;
@@ -502,13 +502,10 @@ double round(double d) {
                    [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
                }
                else {
-                   NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"METHOD\n%@\n\nPARAMETERS\n%@\n"), methodToCall, [[[NSString stringWithFormat:@"%@", parameters] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
-                   if (methodError != nil) {
-                       message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
-                   }
-                   if (error != nil) {
-                       message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
-                   }
+                   NSString *message = [Utilities formatClipboardMessage:methodToCall
+                                                              parameters:parameters
+                                                                   error:error
+                                                             methodError:methodError];
                    UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
                    [self presentViewController:alertView animated:YES completion:nil];
                }

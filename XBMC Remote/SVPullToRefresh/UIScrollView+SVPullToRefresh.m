@@ -465,7 +465,7 @@ static char UIScrollViewPullToRefreshView;
 
 - (void)setLastUpdatedDate:(NSDate*)newLastUpdatedDate {
     self.showsDateLabel = YES;
-    self.dateLabel.text = [NSString stringWithFormat:LOCALIZED_STR(@"Last Updated: %@"), newLastUpdatedDate ? [self.dateFormatter stringFromDate:newLastUpdatedDate] : LOCALIZED_STR(@"Never")];
+    self.dateLabel.text = LOCALIZED_STR_ARGS(@"Last Updated: %@", newLastUpdatedDate ? [self.dateFormatter stringFromDate:newLastUpdatedDate] : LOCALIZED_STR(@"Never"));
 }
 
 #pragma mark -

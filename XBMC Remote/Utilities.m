@@ -1204,6 +1204,23 @@
     return text;
 }
 
++ (NSString*)formatClipboardMessage:(NSString*)method parameters:(NSDictionary*)parameters error:(NSError*)error methodError:(DSJSONRPCError*)methodError {
+    // Convert dictionary to string and remove spaces and newlines
+    NSString *parameterString = [NSString stringWithFormat:@"%@", parameters];
+    parameterString = [parameterString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    parameterString = [parameterString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    
+    // Build and return message
+    NSString *message = [NSString stringWithFormat:@"METHOD\n%@\n\nPARAMETERS\n%@\n", method, parameterString];
+    if (methodError != nil) {
+        message = [NSString stringWithFormat:@"%@\n\n%@\n", methodError, message];
+    }
+    if (error != nil) {
+        message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
+    }
+    return message;
+}
+
 + (NSString*)stripRegEx:(NSString*)regExp text:(NSString*)textIn {
     // Returns unchanged string, if regExp is nil. Returns nil, if string is nil.
     if (!textIn || !regExp) {

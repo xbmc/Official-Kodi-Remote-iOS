@@ -57,7 +57,6 @@
     NSTimeInterval startTime;
     NSTimeInterval elapsedTime;
     NSTimer *countExecutionTime;
-    __weak IBOutlet UITextView *debugText;
     int labelPosition;
     int flagX;
     int flagY;

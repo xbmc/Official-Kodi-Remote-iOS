@@ -112,6 +112,7 @@ typedef enum {
 + (NSString*)formatTVShowStringForSeasonTrailing:(id)season episode:(id)episode title:(NSString*)title;
 + (NSString*)formatTVShowStringForSeasonLeading:(id)season episode:(id)episode title:(NSString*)title;
 + (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode;
++ (NSString*)formatClipboardMessage:(NSString*)method parameters:(NSDictionary*)parameters error:(NSError*)error methodError:(DSJSONRPCError*)methodError;
 + (NSString*)stripBBandHTML:(NSString*)text;
 + (BOOL)isValidMacAddress:(NSString*)macAddress;
 + (void)wakeUp:(NSString*)macAddress;
