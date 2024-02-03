@@ -776,7 +776,7 @@
     OBSlider *slider = (OBSlider*)sender;
     float newStep = roundf(slider.value / [self.detailItem[@"step"] intValue]);
     float newValue = newStep * [self.detailItem[@"step"] intValue];
-    if (newValue != storeSliderValue) {
+    if (!FLOAT_EQUAL_ZERO(newValue - storeSliderValue)) {
         storeSliderValue = newValue;
         UILabel *sliderLabel = [[slider superview] viewWithTag:SETTINGS_CELL_SLIDER_LABEL];
         if (sliderLabel) {

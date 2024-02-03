@@ -43,5 +43,6 @@
 #define LOCALIZED_STR(string) NSLocalizedString(string, nil)
 #define LOCALIZED_STR_ARGS(string, ...) [NSString stringWithFormat:LOCALIZED_STR(string), __VA_ARGS__]
 #define SD_NATIVESIZE_KEY @"nativeSize"
+#define FLOAT_EQUAL_ZERO(x) (fabs(x) < FLT_EPSILON)
 
 #endif /* ConvenienceMacros_h */
