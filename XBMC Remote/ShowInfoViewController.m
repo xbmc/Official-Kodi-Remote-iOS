@@ -927,7 +927,7 @@ double round(double d) {
         trailerWebView.hidden = YES;
         trailerLabel.hidden = YES;
     }
-    if (cast.count == 0) {
+    if (castList.count == 0) {
         label6.hidden = YES;
     }
     
@@ -1063,7 +1063,7 @@ double round(double d) {
 }
 
 - (CGFloat)layoutCastRoles:(CGFloat)offset {
-    if (cast.count) {
+    if (castList.count) {
         CGRect frame = label6.frame;
         frame.origin.y = offset;
         frame.size.height = [Utilities getSizeOfLabel:label6].height + lineSpacing;
@@ -1150,9 +1150,9 @@ double round(double d) {
 }
 
 - (void)processCastFromArray:(NSArray*)array {
-    cast = array;
+    castList = array;
     if (actorsTable == nil) {
-        CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, cast.count * (castHeight + VERTICAL_PADDING));
+        CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, castList.count * (castHeight + VERTICAL_PADDING));
         actorsTable = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
     }
     actorsTable.scrollsToTop = NO;
@@ -1529,7 +1529,7 @@ double round(double d) {
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    return cast.count;
+    return castList.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -1538,15 +1538,16 @@ double round(double d) {
     if (cell == nil) {
         cell = [[ActorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier castWidth:castWidth castHeight:castHeight size:lineSpacing castFontSize:castFontSize];
     }
-    NSString *serverURL = [Utilities getImageServerURL];
-    NSString *stringURL = [Utilities formatStringURL:cast[indexPath.row][@"thumbnail"] serverURL:serverURL];
-    [cell.actorThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
-                           placeholderImage:[UIImage imageNamed:@"person"]
-                                    options:SDWebImageScaleToNativeSize];
-    [Utilities applyRoundedEdgesView:cell.actorThumbnail drawBorder:YES];
-    cell.actorName.text = cast[indexPath.row][@"name"] == nil ? self.detailItem[@"label"] : cast[indexPath.row][@"name"];
-    if ([cast[indexPath.row][@"role"] length] != 0) {
-        cell.actorRole.text = [NSString stringWithFormat:@"%@", cast[indexPath.row][@"role"]];
+    if (castList.count > indexPath.row) {
+        NSDictionary *castMember = castList[indexPath.row];
+        NSString *serverURL = [Utilities getImageServerURL];
+        NSString *stringURL = [Utilities formatStringURL:castMember[@"thumbnail"] serverURL:serverURL];
+        [cell.actorThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                               placeholderImage:[UIImage imageNamed:@"person"]
+                                        options:SDWebImageScaleToNativeSize];
+        [Utilities applyRoundedEdgesView:cell.actorThumbnail drawBorder:YES];
+        cell.actorName.text = castMember[@"name"] ?: self.detailItem[@"label"];
+        cell.actorRole.text = castMember[@"role"];
         [cell.actorRole sizeToFit];
     }
     return cell;
@@ -1564,8 +1565,8 @@ double round(double d) {
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (AppDelegate.instance.serverVersion > 11 && ![self isModal]) {
-        [self showContent:cast[indexPath.row][@"name"]];
+    if (AppDelegate.instance.serverVersion > 11 && ![self isModal] && castList.count > indexPath.row) {
+        [self showContent:castList[indexPath.row][@"name"]];
     }
 }
 

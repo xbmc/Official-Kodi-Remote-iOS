@@ -72,7 +72,7 @@
     int clearLogoWidth;
     int clearLogoHeight;
     int clearlogoScrollViewY;
-    NSArray *cast;
+    NSArray *castList;
     int castWidth;
     int castHeight;
     int castFontSize;

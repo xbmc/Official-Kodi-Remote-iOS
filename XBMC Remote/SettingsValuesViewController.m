@@ -109,7 +109,7 @@
             footerMessage = LOCALIZED_STR(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.");
         }
         else if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cMultiselect) {
-            footerMessage = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"] == nil ? self.detailItem[@"label"] : self.detailItem[@"genre"]];
+            footerMessage = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"] ?: self.detailItem[@"label"]];
         }
         if (xbmcSetting != cUnsupported) {
             footerMessage = [NSString stringWithFormat:@"%@\xE2\x84\xB9 %@", footerMessage == nil ? @"" : [NSString stringWithFormat:@"%@\n\n", footerMessage], LOCALIZED_STR(@"Tap and hold a setting to add a new button.")];
@@ -247,10 +247,7 @@
 - (void)addActionButton:(UIAlertController*)alertView {
     NSString *command = @"Settings.SetSettingValue";
     id value = @"";
-    NSString *type = @"string";
-    if (self.detailItem[@"year"] != nil) {
-        type = self.detailItem[@"year"];
-    }
+    NSString *type = self.detailItem[@"year"] ?: @"string";
     switch (xbmcSetting) {
         case cList:
             if ([type isEqualToString:@"integer"]) {
