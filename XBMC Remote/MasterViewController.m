@@ -102,15 +102,15 @@
         xbmc_logo.alpha = 0.25;
         xbmc_logo.image = logo;
         xbmc_logo.highlightedImage = [UIImage imageNamed:@"xbmc_logo_selected"];
-        xbmc_logo.tag = 6;
+        xbmc_logo.tag = XIB_MAIN_MENU_CELL_XBMC_LOGO;
         [cell insertSubview:xbmc_logo atIndex:0];
     }
     mainMenu *item = self.mainMenu[indexPath.row];
     NSString *iconName = item.icon;
-    UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
-    UILabel *title = (UILabel*)[cell viewWithTag:3];
-    UIImageView *line = (UIImageView*)[cell viewWithTag:4];
-    UIImageView *xbmc_logo = (UIImageView*)[cell viewWithTag:6];
+    UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
+    UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
+    UIImageView *line = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_SEPARATOR];
+    UIImageView *xbmc_logo = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_XBMC_LOGO];
     if (indexPath.row == 0) {
         // Show kodi logo
         xbmc_logo.hidden = NO;
@@ -245,9 +245,9 @@
 #pragma mark - Helper
 
 - (void)setFrameSizes:(UITableViewCell*)cell height:(CGFloat)height iconsize:(CGFloat)iconsize {
-    UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
-    UILabel *title = (UILabel*)[cell viewWithTag:3];
-    UIImageView *arrowRight = (UIImageView*)[cell viewWithTag:5];
+    UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
+    UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
+    UIImageView *arrowRight = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ARROW_RIGHT];
     
     // Adapt layout for first cell (showing connection status)
     icon.frame = CGRectMake(icon.frame.origin.x,
@@ -364,9 +364,9 @@
     NSString *icon_connection = theData[@"icon_connection"];
     NSString *infoText = theData[@"message"];
     UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
+    UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
     icon.image = [UIImage imageNamed:icon_connection];
-    UILabel *title = (UILabel*)[cell viewWithTag:3];
+    UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
     title.text = infoText;
     
     // We are connected to server, we now need to share credentials with SDWebImageManager

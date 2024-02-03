@@ -71,6 +71,15 @@
 #define PLAYERID_VIDEO 1
 #define PLAYERID_PICTURES 2
 
+/* Global definition of view tags */
+#define XIB_MAIN_MENU_CELL_ICON 1
+#define XIB_MAIN_MENU_CELL_TITLE 3
+#define XIB_MAIN_MENU_CELL_SEPARATOR 4
+#define XIB_MAIN_MENU_CELL_ARROW_RIGHT 5
+#define XIB_MAIN_MENU_CELL_XBMC_LOGO 6
+#define SHARED_CELL_ACTIVTYINDICATOR 8
+#define SHARED_CELL_RECORDING_ICON 104
+
 #define WOL_PORT 9
 
 + (AppDelegate*)instance;

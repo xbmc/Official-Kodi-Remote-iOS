@@ -78,6 +78,21 @@
 #define TOGGLE_BUTTON_SIZE 11
 #define LABEL_HEIGHT(fontsize) (fontsize + 6)
 
+#define XIB_JSON_DATA_CELL_TITLE 1
+#define XIB_JSON_DATA_CELL_GENRE 2
+#define XIB_JSON_DATA_CELL_RUNTIMEYEAR 3
+#define XIB_JSON_DATA_CELL_RUNTIME 4
+#define XIB_JSON_DATA_CELL_RATING 5
+#define XIB_JSON_DATA_CELL_WATCHED_FLAG 9
+#define XIB_JSON_DATA_CELL_ACTIVTYINDICATOR SHARED_CELL_ACTIVTYINDICATOR
+#define ALBUM_VIEW_CELL_TRACKNUMBER 101
+#define SEASON_VIEW_CELL_TOGGLE 99
+#define DETAIL_VIEW_INFO_ALBUM 0
+#define DETAIL_VIEW_INFO_TVSHOW 1
+#define EPG_VIEW_CELL_STARTTIME 102
+#define EPG_VIEW_CELL_PROGRESSVIEW 103
+#define EPG_VIEW_CELL_RECORDING_ICON SHARED_CELL_RECORDING_ICON
+
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super init]) {
 		self.view.frame = frame;
@@ -237,14 +252,14 @@
     NSIndexPath *indexPath = parameters[@"indexPath"];
     NSMutableDictionary *item = parameters[@"item"];
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
-    UILabel *current = (UILabel*)[cell viewWithTag:2];
-    UILabel *next = (UILabel*)[cell viewWithTag:4];
+    UILabel *current = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_GENRE];
+    UILabel *next = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIME];
     current.text = channelEPG[@"current"];
     next.text = channelEPG[@"next"];
     if (channelEPG[@"current_details"] != nil) {
         item[@"genre"] = channelEPG[@"current_details"];
     }
-    ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:103];
+    ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
     if (![current.text isEqualToString:LOCALIZED_STR(@"Not Available")] && [channelEPG[@"starttime"] isKindOfClass:[NSDate class]] && [channelEPG[@"endtime"] isKindOfClass:[NSDate class]]) {
         float percent_elapsed = [Utilities getPercentElapsed:channelEPG[@"starttime"] EndDate:channelEPG[@"endtime"]];
         [progressView updateProgressPercentage:percent_elapsed];
@@ -868,7 +883,7 @@
     }
     
     // Add/remove the section content
-    UIButton *toggleButton = (UIButton*)[sender.view viewWithTag:99];
+    UIButton *toggleButton = (UIButton*)[sender.view viewWithTag:SEASON_VIEW_CELL_TOGGLE];
     if (expandSection) {
         [dataList beginUpdates];
         [dataList insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
@@ -2031,7 +2046,7 @@
 - (UIActivityIndicatorView*)getCellActivityIndicator:(NSIndexPath*)indexPath {
     // Get the indicator view and place it in the middle of the thumb (if no thumb keep it at least fully visible)
     id cell = [self getCell:indexPath];
-    UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:XIB_JSON_DATA_CELL_ACTIVTYINDICATOR];
     cellActivityIndicator.center = CGPointMake(MAX(thumbWidth / 2, cellActivityIndicator.frame.size.width / 2), cellHeight / 2);
     return cellActivityIndicator;
 }
@@ -2383,13 +2398,13 @@
             trackNumberLabel.adjustsFontSizeToFitWidth = YES;
             trackNumberLabel.minimumScaleFactor = (artistFontSize - 4) / artistFontSize;
             trackNumberLabel.textAlignment = NSTextAlignmentCenter;
-            trackNumberLabel.tag = 101;
+            trackNumberLabel.tag = ALBUM_VIEW_CELL_TRACKNUMBER;
             trackNumberLabel.highlightedTextColor = [Utilities get1stLabelColor];
             trackNumberLabel.textColor = [Utilities get1stLabelColor];
             [cell.contentView addSubview:trackNumberLabel];
         }
         else if (channelGuideView) {
-            UILabel *title = (UILabel*)[cell viewWithTag:1];
+            UILabel *title = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_TITLE];
             UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, VERTICAL_PADDING, EPGCHANNELTIME_WIDTH, 12 + VERTICAL_PADDING)];
             programTimeLabel.backgroundColor = UIColor.clearColor;
             programTimeLabel.center = CGPointMake(programTimeLabel.center.x, title.center.y);
@@ -2397,14 +2412,14 @@
             programTimeLabel.adjustsFontSizeToFitWidth = YES;
             programTimeLabel.minimumScaleFactor = 8.0 / 12.0;
             programTimeLabel.textAlignment = NSTextAlignmentCenter;
-            programTimeLabel.tag = 102;
+            programTimeLabel.tag = EPG_VIEW_CELL_STARTTIME;
             programTimeLabel.highlightedTextColor = [Utilities get2ndLabelColor];
             programTimeLabel.textColor = [Utilities get2ndLabelColor];
             [cell.contentView addSubview:programTimeLabel];
             
             CGFloat pieSize = EPGCHANNELTIME_WIDTH;
             ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(SMALL_PADDING, programTimeLabel.frame.origin.y + programTimeLabel.frame.size.height + 7, pieSize, pieSize)];
-            progressView.tag = 103;
+            progressView.tag = EPG_VIEW_CELL_PROGRESSVIEW;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
             
@@ -2415,7 +2430,7 @@
             UIImageView *hasTimer = [[UIImageView alloc] initWithFrame:(CGRect){hasTimerOrigin, CGSizeMake(dotSize, dotSize)}];
             hasTimer.image = [UIImage imageNamed:@"button_timer"];
             hasTimer.contentMode = UIViewContentModeScaleToFill;
-            hasTimer.tag = 104;
+            hasTimer.tag = EPG_VIEW_CELL_RECORDING_ICON;
             hasTimer.hidden = YES;
             hasTimer.backgroundColor = UIColor.clearColor;
             [cell.contentView addSubview:hasTimer];
@@ -2423,7 +2438,7 @@
         else if (channelListView) {
             CGFloat pieSize = 28;
             ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:CGRectMake(viewWidth - pieSize - SMALL_PADDING, LABEL_PADDING, pieSize, pieSize) color:[Utilities get1stLabelColor]];
-            progressView.tag = 103;
+            progressView.tag = EPG_VIEW_CELL_PROGRESSVIEW;
             progressView.hidden = YES;
             [cell.contentView addSubview:progressView];
             
@@ -2434,16 +2449,16 @@
             UIImageView *isRecordingImageView = [[UIImageView alloc] initWithFrame:(CGRect){isRecordingImageOrigin, CGSizeMake(dotSize, dotSize)}];
             isRecordingImageView.image = [UIImage imageNamed:@"button_timer"];
             isRecordingImageView.contentMode = UIViewContentModeScaleToFill;
-            isRecordingImageView.tag = 104;
+            isRecordingImageView.tag = EPG_VIEW_CELL_RECORDING_ICON;
             isRecordingImageView.hidden = YES;
             isRecordingImageView.backgroundColor = UIColor.clearColor;
             [cell.contentView addSubview:isRecordingImageView];
         }
-        UILabel *title = (UILabel*)[cell viewWithTag:1];
-        UILabel *genre = (UILabel*)[cell viewWithTag:2];
-        UILabel *runtimeyear = (UILabel*)[cell viewWithTag:3];
-        UILabel *runtime = (UILabel*)[cell viewWithTag:4];
-        UILabel *rating = (UILabel*)[cell viewWithTag:5];
+        UILabel *title = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_TITLE];
+        UILabel *genre = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_GENRE];
+        UILabel *runtimeyear = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIMEYEAR];
+        UILabel *runtime = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIME];
+        UILabel *rating = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RATING];
         
         title.highlightedTextColor = [Utilities get1stLabelColor];
         genre.highlightedTextColor = [Utilities get2ndLabelColor];
@@ -2479,11 +2494,11 @@
     cell.urlImageView.autoresizingMask = UIViewAutoresizingNone;
     cell.urlImageView.backgroundColor = UIColor.clearColor;
     
-    UILabel *title = (UILabel*)[cell viewWithTag:1];
-    UILabel *genre = (UILabel*)[cell viewWithTag:2];
-    UILabel *runtimeyear = (UILabel*)[cell viewWithTag:3];
-    UILabel *runtime = (UILabel*)[cell viewWithTag:4];
-    UILabel *rating = (UILabel*)[cell viewWithTag:5];
+    UILabel *title = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_TITLE];
+    UILabel *genre = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_GENRE];
+    UILabel *runtimeyear = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIMEYEAR];
+    UILabel *runtime = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIME];
+    UILabel *rating = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RATING];
 
     frame = title.frame;
     frame.origin.x = labelPosition;
@@ -2560,9 +2575,9 @@
             genre.frame = frame;
             genre.textColor = [Utilities get1stLabelColor];
             genre.font = [UIFont boldSystemFontOfSize:genre.font.pointSize];
-            ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:103];
+            ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
             progressView.hidden = YES;
-            UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
+            UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
             isRecordingImageView.hidden = ![item[@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     @([item[@"channelid"] integerValue]), @"channelid",
@@ -2683,11 +2698,11 @@
         [self setCellImageView:cell.urlImageView cell:cell dictItem:item url:stringURL size:CGSizeMake(thumbWidth, cellHeight) defaultImg:displayThumb];
     }
     else if (albumView) {
-        UILabel *trackNumber = (UILabel*)[cell viewWithTag:101];
+        UILabel *trackNumber = (UILabel*)[cell viewWithTag:ALBUM_VIEW_CELL_TRACKNUMBER];
         trackNumber.text = item[@"track"];
     }
     else if (episodesView) {
-        UILabel *trackNumber = (UILabel*)[cell viewWithTag:101];
+        UILabel *trackNumber = (UILabel*)[cell viewWithTag:ALBUM_VIEW_CELL_TRACKNUMBER];
         trackNumber.text = item[@"episode"];
     }
     else if (channelGuideView) {
@@ -2701,8 +2716,8 @@
         genre.numberOfLines = 3;
         genre.font = [genre.font fontWithSize:11];
         genre.minimumScaleFactor = 10.0 / 11.0;
-        UILabel *programStartTime = (UILabel*)[cell viewWithTag:102];
-        ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:103];
+        UILabel *programStartTime = (UILabel*)[cell viewWithTag:EPG_VIEW_CELL_STARTTIME];
+        ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
         NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
         NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
         programStartTime.text = [localHourMinuteFormatter stringFromDate:starttime];
@@ -2740,7 +2755,7 @@
             genre.highlightedTextColor = [Utilities get2ndLabelColor];
             programStartTime.highlightedTextColor = [Utilities get2ndLabelColor];
         }
-        UIImageView *hasTimer = (UIImageView*)[cell viewWithTag:104];
+        UIImageView *hasTimer = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
         if ([item[@"hastimer"] boolValue]) {
             hasTimer.hidden = NO;
         }
@@ -2760,7 +2775,7 @@
     }
     
     NSString *playcount = [NSString stringWithFormat:@"%@", item[@"playcount"]];
-    UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
+    UIImageView *flagView = (UIImageView*)[cell viewWithTag:XIB_JSON_DATA_CELL_WATCHED_FLAG];
     frame = flagView.frame;
     frame.origin.x = flagX;
     frame.origin.y = flagY;
@@ -2899,7 +2914,7 @@
             [albumDetailView addGestureRecognizer:tapGesture];
             
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            button.tag = 99;
+            button.tag = SEASON_VIEW_CELL_TOGGLE;
             button.alpha = 0.5;
             button.frame = CGRectMake(0, 0, TOGGLE_BUTTON_SIZE, TOGGLE_BUTTON_SIZE);
             button.center = CGPointMake(thumbImageView.frame.origin.x / 2, thumbImageView.center.y);
@@ -3016,7 +3031,7 @@
                                        albumDetailView.bounds.size.height - albumInfoButton.frame.size.height - albumViewPadding,
                                        albumInfoButton.frame.size.width,
                                        albumInfoButton.frame.size.height);
-    albumInfoButton.tag = episodesView ? 1 : 0;
+    albumInfoButton.tag = episodesView ? DETAIL_VIEW_INFO_TVSHOW : DETAIL_VIEW_INFO_ALBUM;
     albumInfoButton.hidden = [self isModal];
     [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
     [albumDetailView addSubview:albumInfoButton];
@@ -3142,7 +3157,7 @@ NSIndexPath *selected;
             sheetActions = @[LOCALIZED_STR(@"Ok")];
         }
         id cell = [self getCell:indexPath];
-        UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
+        UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
         BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
         UIViewController *showFromCtrl = [self topMostController];
@@ -3219,7 +3234,7 @@ NSIndexPath *selected;
                         [sheetActions addObject:actionString];
                     }
                 }
-                UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
+                UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
                 UIViewController *showFromCtrl = [self topMostController];
                 UIView *showfromview = nil;
@@ -3344,7 +3359,7 @@ NSIndexPath *selected;
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     }
     else {
-        UIImageView *flagView = (UIImageView*)[cell viewWithTag:9];
+        UIImageView *flagView = (UIImageView*)[cell viewWithTag:XIB_JSON_DATA_CELL_WATCHED_FLAG];
         flagView.hidden = !wasWatched;
         [dataList deselectRowAtIndexPath:indexPath animated:YES];
     }
@@ -3992,7 +4007,7 @@ NSIndexPath *selected;
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    id cell = [self getCell:indexPath];
-                   UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:104];
+                   UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
                    isRecordingImageView.hidden = !isRecordingImageView.hidden;
                    NSNumber *status = @(![item[@"isrecording"] boolValue]);
                    if ([item[@"broadcastid"] longValue] > 0) {
@@ -4259,10 +4274,10 @@ NSIndexPath *selected;
         }
     }
     menuItem = nil;
-    if ([sender tag] == 0) {
+    if ([sender tag] == DETAIL_VIEW_INFO_ALBUM) {
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
     }
-    else if ([sender tag] == 1) {
+    else if ([sender tag] == DETAIL_VIEW_INFO_TVSHOW) {
         menuItem = [AppDelegate.instance.playlistTvShows copy];
     }
     menuItem.subItem.mainLabel = self.navigationItem.title;

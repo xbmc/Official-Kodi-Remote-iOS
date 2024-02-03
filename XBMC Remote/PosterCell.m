@@ -10,6 +10,9 @@
 #import "Utilities.h"
 #import "AppDelegate.h"
 
+#define POSTER_CELL_ACTIVTYINDICATOR SHARED_CELL_ACTIVTYINDICATOR
+#define POSTER_CELL_RECORDING_ICON SHARED_CELL_RECORDING_ICON
+
 @implementation PosterCell
 
 @synthesize posterThumbnail = _posterThumbnail;
@@ -63,7 +66,7 @@
         _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _busyView.hidesWhenStopped = YES;
         _busyView.center = CGPointMake(frame.size.width / 2, (frame.size.height / 2) - borderWidth);
-        _busyView.tag = 8;
+        _busyView.tag = POSTER_CELL_ACTIVTYINDICATOR;
         [self.contentView addSubview:_busyView];
 
         UIView *bgView = [[UIView alloc] initWithFrame:frame];
@@ -85,7 +88,7 @@
             isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, dotSize, dotSize)];
             isRecordingImageView.image = [UIImage imageNamed:@"button_timer"];
             isRecordingImageView.contentMode = UIViewContentModeScaleToFill;
-            isRecordingImageView.tag = 104;
+            isRecordingImageView.tag = POSTER_CELL_RECORDING_ICON;
             isRecordingImageView.backgroundColor = UIColor.clearColor;
             [self.contentView addSubview:isRecordingImageView];
         }

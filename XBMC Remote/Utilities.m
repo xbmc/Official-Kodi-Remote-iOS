@@ -1027,8 +1027,8 @@
 
 + (void)setStyleOfMenuItemCell:(UITableViewCell*)cell active:(BOOL)active {
     CGFloat alpha = active ? 1.0 : 0.3;
-    UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
-    UILabel *title = (UILabel*)[cell viewWithTag:3];
+    UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
+    UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
     icon.alpha = alpha;
     title.alpha = alpha;
 }

@@ -60,6 +60,15 @@
 #define FLIP_DEMO_DELAY 0.5
 #define TRANSITION_TIME 0.7
 
+#define XIB_PLAYLIST_CELL_MAINTITLE 1
+#define XIB_PLAYLIST_CELL_SUBTITLE 2
+#define XIB_PLAYLIST_CELL_CORNERTITLE 3
+#define XIB_PLAYLIST_CELL_COVER 4
+#define XIB_PLAYLIST_CELL_PROGRESSVIEW 5
+#define XIB_PLAYLIST_CELL_ACTUALTIME 6
+#define XIB_PLAYLIST_CELL_PROGRESSBAR 7
+#define XIB_PLAYLIST_CELL_ACTIVTYINDICATOR 8
+
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
@@ -232,7 +241,7 @@
 
 - (void)setPlaylistCellProgressBar:(UITableViewCell*)cell hidden:(BOOL)value {
     // Do not unhide the playlist progress bar while in pictures playlist
-    UIView *view = (UIView*)[cell viewWithTag:5];
+    UIView *view = (UIView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSVIEW];
     if (!value && currentPlayerID == PLAYERID_PICTURES) {
         return;
     }
@@ -1208,9 +1217,9 @@
         return;
     }
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-    UILabel *playlistActualTime = (UILabel*)[cell viewWithTag:6];
+    UILabel *playlistActualTime = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_ACTUALTIME];
     playlistActualTime.text = actualTime;
-    UIImageView *playlistActualBar = (UIImageView*)[cell viewWithTag:7];
+    UIImageView *playlistActualBar = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSBAR];
     CGFloat newx = MAX(MAX_CELLBAR_WIDTH * percentage / 100.0, 1.0);
     [self resizeCellBar:newx image:playlistActualBar];
     [self setPlaylistCellProgressBar:cell hidden:NO];
@@ -1226,7 +1235,7 @@
     }
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
     [self setPlaylistCellProgressBar:cell hidden:YES];
-    UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
+    UIImageView *coverView = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
     coverView.alpha = 1.0;
 }
 
@@ -1301,7 +1310,7 @@
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     NSString *itemid = mainFields[@"row6"] ?: @"";
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
-    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:XIB_PLAYLIST_CELL_ACTIVTYINDICATOR];
     id object;
     if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {
         // WORKAROUND due to the lack of the artistid with Playlist.GetItems
@@ -1997,9 +2006,9 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"playlistCellView" owner:self options:nil];
         cell = nib[0];
-        UILabel *mainLabel = (UILabel*)[cell viewWithTag:1];
-        UILabel *subLabel = (UILabel*)[cell viewWithTag:2];
-        UILabel *cornerLabel = (UILabel*)[cell viewWithTag:3];
+        UILabel *mainLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_MAINTITLE];
+        UILabel *subLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_SUBTITLE];
+        UILabel *cornerLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_CORNERTITLE];
         
         mainLabel.highlightedTextColor = [Utilities get1stLabelColor];
         subLabel.highlightedTextColor = [Utilities get2ndLabelColor];
@@ -2010,11 +2019,11 @@
         cornerLabel.textColor = [Utilities get2ndLabelColor];
     }
     NSDictionary *item = (playlistData.count > indexPath.row) ? playlistData[indexPath.row] : nil;
-    UIImageView *thumb = (UIImageView*)[cell viewWithTag:4];
+    UIImageView *thumb = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
     
-    UILabel *mainLabel = (UILabel*)[cell viewWithTag:1];
-    UILabel *subLabel = (UILabel*)[cell viewWithTag:2];
-    UILabel *cornerLabel = (UILabel*)[cell viewWithTag:3];
+    UILabel *mainLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_MAINTITLE];
+    UILabel *subLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_SUBTITLE];
+    UILabel *cornerLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_CORNERTITLE];
 
     mainLabel.text = ![item[@"title"] isEqualToString:@""] ? item[@"title"] : item[@"label"];
     subLabel.text = @"";
@@ -2064,7 +2073,7 @@
 
 - (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
-    UIImageView *coverView = (UIImageView*)[cell viewWithTag:4];
+    UIImageView *coverView = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
     coverView.alpha = 1.0;
     storeSelection = nil;
     [self setPlaylistCellProgressBar:cell hidden:YES];
@@ -2080,7 +2089,7 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
-    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:8];
+    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:XIB_PLAYLIST_CELL_ACTIVTYINDICATOR];
     storeSelection = nil;
     [activityIndicator startAnimating];
     [[Utilities getJsonRPC]

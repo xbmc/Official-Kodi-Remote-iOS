@@ -18,6 +18,10 @@
 #define MARGIN 5
 #define BLOCK_MARGIN 10
 
+#define XIB_HOST_MGMT_CELL_ICON 1
+#define XIB_HOST_MGMT_CELL_LABEL 2
+#define XIB_HOST_MGMT_CELL_IP 3
+
 @interface HostManagementViewController ()
 
 @end
@@ -45,7 +49,7 @@
 - (void)modifyHost:(NSIndexPath*)item {
     if (storeServerSelection && item.row == storeServerSelection.row) {
         UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:item];
-        ((UIImageView*)[cell viewWithTag:1]).image = [UIImage imageNamed:@"connection_off"];
+        ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:@"connection_off"];
         [serverListTableView deselectRowAtIndexPath:item animated:YES];
         cell.accessoryType = UITableViewCellAccessoryNone;
         storeServerSelection = nil;
@@ -88,8 +92,8 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:nil];
         cell = nib[0];
-        UILabel *cellLabel = (UILabel*)[cell viewWithTag:2];
-        UILabel *cellIP = (UILabel*)[cell viewWithTag:3];
+        UILabel *cellLabel = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_LABEL];
+        UILabel *cellIP = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_IP];
         
         cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
         cellIP.highlightedTextColor = [Utilities get1stLabelColor];
@@ -103,9 +107,9 @@
             cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
         }
     }
-    UIImageView *iconView = (UIImageView*)[cell viewWithTag:1];
-    UILabel *cellLabel = (UILabel*)[cell viewWithTag:2];
-    UILabel *cellIP = (UILabel*)[cell viewWithTag:3];
+    UIImageView *iconView = (UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON];
+    UILabel *cellLabel = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_LABEL];
+    UILabel *cellIP = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_IP];
     if (AppDelegate.instance.arrayServerList.count == 0) {
         iconView.hidden = YES;
         cellLabel.textAlignment = NSTextAlignmentCenter;
@@ -165,7 +169,7 @@
     AppDelegate.instance.obj.tcpPort = 0;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject: @(-1) forKey:@"lastServer"];
-    ((UIImageView*)[cell viewWithTag:1]).image = [UIImage imageNamed:@"connection_off"];
+    ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:@"connection_off"];
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -196,7 +200,7 @@
 - (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryNone;
-    ((UIImageView*)[cell viewWithTag:1]).image = [UIImage imageNamed:@"connection_off"];
+    ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:@"connection_off"];
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView*)aTableView editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -756,7 +760,7 @@
     NSDictionary *theData = note.userInfo;
     if (storeServerSelection != nil) {
         UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-        ((UIImageView*)[cell viewWithTag:1]).image = [UIImage imageNamed:theData[@"icon_connection"]];
+        ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:theData[@"icon_connection"]];
     }
     [connectingActivityIndicator stopAnimating];
     if (doRevealMenu) {
@@ -768,7 +772,7 @@
     NSDictionary *theData = note.userInfo;
     if (storeServerSelection != nil) {
         UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-        ((UIImageView*)[cell viewWithTag:1]).image = [UIImage imageNamed:theData[@"icon_connection"]];
+        ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:theData[@"icon_connection"]];
     }
 }
 

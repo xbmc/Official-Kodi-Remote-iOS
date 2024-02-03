@@ -28,6 +28,11 @@
 #define STATUS_SPACING 10.0
 #define ONOFF_BUTTON_TAG_OFFSET 1000
 
+#define XIB_RIGHT_MENU_CELL__ICON 1
+#define XIB_RIGHT_MENU_CELL__STATUS 2
+#define XIB_RIGHT_MENU_CELL__TITLE 3
+#define XIB_RIGHT_MENU_CELL__SEPARATOR 4
+
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
 @end
@@ -113,10 +118,10 @@
     // WROKAROUND END
     
     // Reset to default for each cell to allow dequeuing
-    UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
-    UIImageView *status = (UIImageView*)[cell viewWithTag:2];
-    UILabel *title = (UILabel*)[cell viewWithTag:3];
-    UIImageView *line = (UIImageView*)[cell viewWithTag:4];
+    UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__ICON];
+    UIImageView *status = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__STATUS];
+    UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__TITLE];
+    UIImageView *line = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__SEPARATOR];
     status.hidden = YES;
     status.image = nil;
     icon.hidden = NO;
@@ -427,7 +432,7 @@
         tableData[indexPath.row][@"label"] = alertView.textFields[0].text;
             
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
-            UILabel *title = (UILabel*)[cell viewWithTag:3];
+            UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__TITLE];
             title.text = alertView.textFields[0].text;
             
             customButton *arrayButtons = [customButton new];
@@ -518,7 +523,7 @@
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
-        UIImageView *torchIcon = (UIImageView*)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1];
+        UIImageView *torchIcon = (UIImageView*)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:XIB_RIGHT_MENU_CELL__ICON];
         torchIsOn = !torchIsOn;
         [Utilities turnTorchOn:torchIcon on:torchIsOn];
     }
@@ -815,11 +820,11 @@
         if (serverRow != nil) {
             UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:serverRow];
             if (serverTxt.length) {
-                UILabel *title = (UILabel*)[cell viewWithTag:3];
+                UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__TITLE];
                 title.text = serverTxt;
             }
             if (icon_connection.length) {
-                UIImageView *icon = (UIImageView*)[cell viewWithTag:1];
+                UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__ICON];
                 icon.image = [UIImage imageNamed:icon_connection];
             }
         }
