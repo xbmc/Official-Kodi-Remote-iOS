@@ -299,7 +299,7 @@
 "Channel" = "Canal";
 "Date" = "Data";
 "Runtime" = "Durada";
-"Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "L'aplicació oficial Kodi Remote utilitza obres d'art descarregades del vostre servidor Kodi o d'Internet quan el vostre servidor de Kodi hi fa referència. Per alliberar la bellesa de les obres d'art, utilitzeu \"Universal Scraper\" de Kodi o altres complements scraper.\n\nEl logotip de Kodi, la mascota Zappy i les icones oficials de Kodi Remote són propietat de la Fundació Kodi.\nhttp://www.kodi.tv/contribute\n\n - Equip Kodi";
+"Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "L'aplicació oficial Kodi Remote utilitza obres d'art descarregades del vostre servidor Kodi o d'Internet quan el vostre servidor de Kodi hi fa referència. Per alliberar la bellesa de les obres d'art, utilitzeu el \"Raspador Universal\" del Kodi o altres complements de raspadors.\n\nEl logotip de Kodi, la mascota Zappy i les icones oficials de Kodi Remote són propietat de la Fundació Kodi.\nhttp://www.kodi.tv/contribute\n\n - Equip Kodi";
 "Send Wake-On-LAN" = "Envia Wake-On-LAN";
 "Random" = "Aleatori";
 "Host name" = "Nom de l'amfitrió";
