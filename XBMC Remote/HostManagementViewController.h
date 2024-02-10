@@ -19,7 +19,7 @@
 @interface HostManagementViewController : UIViewController {
     IBOutlet UITableView *serverListTableView;
     IBOutlet UIButton *editTableButton;
-    IBOutlet UILongPressGestureRecognizer *lpgr;
+    UILongPressGestureRecognizer *longPressGesture;
     IBOutlet UIImageView *backgroundImageView;
     NSIndexPath *storeServerSelection;
     __weak IBOutlet UIActivityIndicatorView *connectingActivityIndicator;

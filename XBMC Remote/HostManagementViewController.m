@@ -297,11 +297,11 @@
 
 #pragma mark - Long Press & Action sheet
 
-- (IBAction)handleLongPress {
+- (void)handleLongPress {
     serverInfoView.hidden = YES;
-    if (lpgr.state == UIGestureRecognizerStateBegan) {
-        CGPoint p = [lpgr locationInView:serverListTableView];
-        NSIndexPath *indexPath = [serverListTableView indexPathForRowAtPoint:p];
+    if (longPressGesture.state == UIGestureRecognizerStateBegan) {
+        CGPoint origin = [longPressGesture locationInView:serverListTableView];
+        NSIndexPath *indexPath = [serverListTableView indexPathForRowAtPoint:origin];
         if (indexPath != nil && indexPath.row < AppDelegate.instance.arrayServerList.count) {
             [self modifyHost:indexPath];
         }
@@ -620,6 +620,10 @@
             }
         }
     }
+    
+    longPressGesture = [UILongPressGestureRecognizer new];
+    [longPressGesture addTarget:self action:@selector(handleLongPress)];
+    [self.view addGestureRecognizer:longPressGesture];
 
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(revealMenu:)

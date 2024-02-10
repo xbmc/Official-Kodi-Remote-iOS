@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,7 +14,6 @@
                 <outlet property="bottomToolbar" destination="q9g-cA-CZS" id="9Kn-SK-f4i"/>
                 <outlet property="connectingActivityIndicator" destination="26" id="27"/>
                 <outlet property="editTableButton" destination="5" id="18"/>
-                <outlet property="lpgr" destination="20" id="22"/>
                 <outlet property="serverInfoButton" destination="WtD-wt-do5" id="6jU-nT-b83"/>
                 <outlet property="serverListTableView" destination="8" id="15"/>
                 <outlet property="supportedVersionLabel" destination="12" id="fyu-35-aWq"/>
@@ -100,7 +99,6 @@
                     <connections>
                         <outlet property="dataSource" destination="-1" id="16"/>
                         <outlet property="delegate" destination="-1" id="17"/>
-                        <outletCollection property="gestureRecognizers" destination="20" appends="YES" id="21"/>
                     </connections>
                 </tableView>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TtA-IV-ddn" userLabel="View - Supported Version">
@@ -129,11 +127,6 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-20.289855072463769" y="39.508928571428569"/>
         </view>
-        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="20">
-            <connections>
-                <action selector="handleLongPress" destination="-1" id="23"/>
-            </connections>
-        </pongPressGestureRecognizer>
     </objects>
     <resources>
         <image name="button_info" width="25" height="25"/>
