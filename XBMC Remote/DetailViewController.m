@@ -4644,6 +4644,14 @@ NSIndexPath *selected;
                  return;
              }
          }
+         // Ignore error when aborting a search or sending an empty search string within an addon. Just show "no results".
+         NSString *directory = mutableParameters[@"directory"];
+         if (error == nil && methodError != nil && [directory hasPrefix:@"plugin://"] && [directory containsString:@"search"]) {
+             if (methodError.code == -32602) {
+                 [self animateNoResultsFound];
+                 return;
+             }
+         }
          // If the feature to also show movies sets with only 1 movie is disabled and the current results
          // are movie sets, enable the postprocessing to ignore movies sets with only 1 movie.
          BOOL ignoreSingleMovieSets = !AppDelegate.instance.isGroupSingleItemSetsEnabled && [methodToCall isEqualToString:@"VideoLibrary.GetMovieSets"];
