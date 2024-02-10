@@ -3801,7 +3801,8 @@
         @[
             @"Files.GetDirectory", @"method",
         ],
-        @[  @"Files.GetDirectory", @"method",
+        @[
+            @"Files.GetDirectory", @"method",
         ],
         @[],
     ] mutableCopy];
