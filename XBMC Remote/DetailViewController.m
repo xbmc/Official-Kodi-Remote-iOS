@@ -1144,12 +1144,6 @@
 
 - (void)configureLibraryView {
     if (enableCollectionView) {
-        [self initCollectionView];
-        if (longPressGesture == nil) {
-            longPressGesture = [UILongPressGestureRecognizer new];
-            [longPressGesture addTarget:self action:@selector(handleLongPress)];
-        }
-        [collectionView addGestureRecognizer:longPressGesture];
         collectionView.contentInset = dataList.contentInset;
         dataList.delegate = nil;
         dataList.dataSource = nil;
@@ -3161,9 +3155,8 @@
     }
 }
 
-- (IBAction)handleLongPress {
-    if (lpgr.state == UIGestureRecognizerStateBegan || longPressGesture.state == UIGestureRecognizerStateBegan) {
-        UILongPressGestureRecognizer *activeRecognizer = enableCollectionView ? longPressGesture : lpgr;
+- (void)handleLongPress:(UILongPressGestureRecognizer*)activeRecognizer {
+    if (activeRecognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint selectedPointInView = [activeRecognizer locationInView:activeLayoutView];
         NSIndexPath *indexPath = nil;
         if (enableCollectionView) {
@@ -5769,6 +5762,16 @@
     self.extraSectionRichResults = [NSMutableArray new];
     
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
+    
+    [self initCollectionView];
+    
+    longPressGestureCollection = [UILongPressGestureRecognizer new];
+    [longPressGestureCollection addTarget:self action:@selector(handleLongPress:)];
+    [collectionView addGestureRecognizer:longPressGestureCollection];
+    
+    longPressGestureList = [UILongPressGestureRecognizer new];
+    [longPressGestureList addTarget:self action:@selector(handleLongPress:)];
+    [dataList addGestureRecognizer:longPressGestureList];
     
     [activityIndicatorView startAnimating];
     
