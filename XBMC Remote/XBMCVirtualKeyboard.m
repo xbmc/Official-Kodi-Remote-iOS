@@ -173,8 +173,8 @@
             [Utilities sendXbmcHttp:@"SendKey(0xf108)"];
         }
         else { // CHARACTER
-            int x = (unichar) [string characterAtIndex: 0];
-            if (x == 10) {
+            unichar x = [string characterAtIndex:0];
+            if (x == '\n') {
                 [self GUIAction:@"Input.Select" params:[NSDictionary dictionary] httpAPIcallback:nil];
                 [backgroundTextField resignFirstResponder];
                 [xbmcVirtualKeyboard resignFirstResponder];
@@ -186,18 +186,20 @@
         return NO;
     }
     else {
+        BOOL inputFinished = NO;
         NSString *stringToSend = [theTextField.text stringByReplacingCharactersInRange:range withString:string];
         if (string.length != 0) {
-            int x = (unichar) [string characterAtIndex: 0];
-            if (x == 10) {
-                [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:[stringToSend substringToIndex:stringToSend.length - 1], @"text", @YES, @"done", nil] httpAPIcallback:nil];
+            unichar x = [string characterAtIndex:0];
+            if (x == '\n') {
+                stringToSend = [stringToSend substringToIndex:stringToSend.length - 1];
                 [backgroundTextField resignFirstResponder];
                 [xbmcVirtualKeyboard resignFirstResponder];
                 theTextField.text = @"";
-                return YES;
+                inputFinished = YES;
             }
         }
-        [self GUIAction:@"Input.SendText" params:[NSDictionary dictionaryWithObjectsAndKeys:stringToSend, @"text", @NO, @"done", nil] httpAPIcallback:nil];
+        stringToSend = stringToSend ?: @"";
+        [self GUIAction:@"Input.SendText" params:@{@"text": stringToSend, @"done": @(inputFinished)} httpAPIcallback:nil];
         return YES;
     }
 }
