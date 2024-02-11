@@ -4639,7 +4639,7 @@ NSIndexPath *selected;
          // methodError "-32100" combined with "PVR." method calls. Other errors are still
          // shown via debug message.
          if (error == nil && methodError != nil && [methodToCall containsString:@"PVR."]) {
-             if (methodError.code == -32100) {
+             if (methodError.code == JSONRPCMethodExecutionFailure) {
                  [self animateNoResultsFound];
                  return;
              }
@@ -4647,7 +4647,7 @@ NSIndexPath *selected;
          // Ignore error when aborting a search or sending an empty search string within an addon. Just show "no results".
          NSString *directory = mutableParameters[@"directory"];
          if (error == nil && methodError != nil && [directory hasPrefix:@"plugin://"] && [directory containsString:@"search"]) {
-             if (methodError.code == -32602) {
+             if (methodError.code == JSONRPCInvalidParams) {
                  [self animateNoResultsFound];
                  return;
              }
