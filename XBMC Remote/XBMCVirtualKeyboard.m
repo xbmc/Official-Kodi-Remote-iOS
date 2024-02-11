@@ -76,15 +76,15 @@
                                                      name: @"Input.OnInputRequested"
                                                    object: nil];
         [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(hideKeyboard:)
+                                                 selector: @selector(hideKeyboard)
                                                      name: @"Input.OnInputFinished"
                                                    object: nil];
         [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(cancelKeyboard:)
+                                                 selector: @selector(cancelKeyboard)
                                                      name: @"Input.OnInputCanceled"
                                                    object: nil];
         [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(toggleVirtualKeyboard:)
+                                                 selector: @selector(toggleVirtualKeyboard)
                                                      name: @"toggleVirtualKeyboard"
                                                    object: nil];
     }
@@ -97,14 +97,14 @@
     return NO;
 }
 
-- (void)cancelKeyboard:(id)sender {
+- (void)cancelKeyboard {
     if ([backgroundTextField isEditing]) {
         [self GUIAction:@"Input.Back" params:[NSDictionary dictionary] httpAPIcallback:nil];
     }
-    [self hideKeyboard:nil];
+    [self hideKeyboard];
 }
 
-- (void)hideKeyboard:(id)sender {
+- (void)hideKeyboard {
     [backgroundTextField resignFirstResponder];
     backgroundTextField.text = @"";
     [xbmcVirtualKeyboard resignFirstResponder];
@@ -142,9 +142,9 @@
     [backgroundTextField becomeFirstResponder];
 }
 
-- (void)toggleVirtualKeyboard:(id)sender {
+- (void)toggleVirtualKeyboard {
     if ([xbmcVirtualKeyboard isFirstResponder] || [backgroundTextField isFirstResponder]) {
-        [self hideKeyboard:nil];
+        [self hideKeyboard];
     }
     else {
         [self showKeyboard:nil];
@@ -217,7 +217,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField*)textField {
     if (textField.tag == VIRTUAL_KEYBOARD_TEXTFIELD) {
-        [self performSelectorOnMainThread:@selector(hideKeyboard:) withObject:nil waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(hideKeyboard) withObject:nil waitUntilDone:NO];
     }
 }
 
