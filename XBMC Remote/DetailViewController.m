@@ -5208,7 +5208,7 @@ NSIndexPath *selected;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputCanceled" object:nil userInfo:nil];
     self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     [channelListUpdateTimer invalidate];
 }

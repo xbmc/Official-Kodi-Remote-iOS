@@ -80,6 +80,10 @@
                                                      name: @"Input.OnInputFinished"
                                                    object: nil];
         [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(cancelKeyboard:)
+                                                     name: @"Input.OnInputCanceled"
+                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(toggleVirtualKeyboard:)
                                                      name: @"toggleVirtualKeyboard"
                                                    object: nil];
@@ -91,6 +95,13 @@
 
 - (BOOL)canBecomeFirstResponder {
     return NO;
+}
+
+- (void)cancelKeyboard:(id)sender {
+    if ([backgroundTextField isEditing]) {
+        [self GUIAction:@"Input.Back" params:[NSDictionary dictionary] httpAPIcallback:nil];
+    }
+    [self hideKeyboard:nil];
 }
 
 - (void)hideKeyboard:(id)sender {
