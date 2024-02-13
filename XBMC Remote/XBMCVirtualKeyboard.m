@@ -11,6 +11,7 @@
 #import "Utilities.h"
 
 #define VIRTUAL_KEYBOARD_TEXTFIELD 10
+#define WINDOW_VIRTUAL_KEYBOARD 10103
 
 @implementation XBMCVirtualKeyboard
 
@@ -99,7 +100,18 @@
 
 - (void)cancelKeyboard {
     if ([backgroundTextField isEditing]) {
-        [self GUIAction:@"Input.Back" params:[NSDictionary dictionary] httpAPIcallback:nil];
+        [[Utilities getJsonRPC]
+         callMethod:@"GUI.GetProperties"
+         withParameters:@{@"properties": @[@"currentwindow"]}
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+             if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
+                 if (methodResult[@"currentwindow"] != [NSNull null]) {
+                     if ([methodResult[@"currentwindow"][@"id"] longValue] == WINDOW_VIRTUAL_KEYBOARD) {
+                         [self GUIAction:@"Input.Back" params:[NSDictionary dictionary] httpAPIcallback:nil];
+                     }
+                 }
+             }
+         }];
     }
     [self hideKeyboard];
 }
