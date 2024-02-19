@@ -1497,7 +1497,7 @@
                                   
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"file_properties": @[
                     @"thumbnail",
                 ],
@@ -2706,7 +2706,7 @@
                                   
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"file_properties": @[
                     @"thumbnail",
@@ -3801,7 +3801,8 @@
         @[
             @"Files.GetDirectory", @"method",
         ],
-        @[  @"Files.GetDirectory", @"method",
+        @[
+            @"Files.GetDirectory", @"method",
         ],
         @[],
     ] mutableCopy];
@@ -3874,7 +3875,7 @@
                                     
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"file_properties": @[
                     @"thumbnail",
@@ -5340,7 +5341,7 @@
                                   
         @[
             @{
-                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"media": @"pictures",
                 @"file_properties": @[
                     @"thumbnail",
