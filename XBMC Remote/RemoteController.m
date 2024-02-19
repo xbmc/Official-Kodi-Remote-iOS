@@ -305,7 +305,7 @@
 }
 
 - (void)twoFingersTap {
-    [self GUIAction:@"Input.Home" params:[NSDictionary dictionary] httpAPIcallback:nil];
+    [self GUIAction:@"Input.Home" params:@{} httpAPIcallback:nil];
 }
 
 - (void)handleTouchpadLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
@@ -336,11 +336,11 @@
                      [self sendActionNoRepeat];
                  }
                  else {
-                     [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF043)"];
+                     [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
                  }
              }
              else {
-                 [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF043)"];
+                 [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
              }
          }];
     }
@@ -484,7 +484,7 @@
 }
 
 - (void)subtitlesActionSheet {
-    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
                 NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
@@ -529,7 +529,7 @@
 }
 
 - (void)audioStreamActionSheet {
-    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
                 NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
@@ -572,7 +572,7 @@
 }
 
 - (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters {
-    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
                 NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
@@ -750,7 +750,7 @@ NSInteger buttonAction;
 //    NSString *action;
     switch (buttonAction) {
         case TAG_BUTTON_MENU: // MENU OSD
-            [self GUIAction:@"Input.ShowOSD" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04D)"];
+            [self GUIAction:@"Input.ShowOSD" params:@{} httpAPIcallback:@"SendKey(0xF04D)"];
             break;
         default:
             break;
@@ -825,37 +825,37 @@ NSInteger buttonAction;
     switch (buttonAction) {
         case TAG_BUTTON_ARROW_UP:
             action = @"Input.Up";
-            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
+            [self GUIAction:action params:@{} httpAPIcallback:nil];
             [self playerStep:@"bigforward" musicPlayerGo:nil musicPlayerAction:@"increaserating"];
             break;
             
         case TAG_BUTTON_ARROW_LEFT:
             action = @"Input.Left";
-            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
+            [self GUIAction:action params:@{} httpAPIcallback:nil];
             [self playerStep:@"smallbackward" musicPlayerGo:@"previous" musicPlayerAction:nil];
             break;
 
         case TAG_BUTTON_SELECT:
             action = @"Input.Select";
-            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
+            [self GUIAction:action params:@{} httpAPIcallback:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
             break;
 
         case TAG_BUTTON_ARROW_RIGHT:
             action = @"Input.Right";
-            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
+            [self GUIAction:action params:@{} httpAPIcallback:nil];
             [self playerStep:@"smallforward" musicPlayerGo:@"next" musicPlayerAction:nil];
             break;
             
         case TAG_BUTTON_ARROW_DOWN:
             action = @"Input.Down";
-            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
+            [self GUIAction:action params:@{} httpAPIcallback:nil];
             [self playerStep:@"bigbackward" musicPlayerGo:nil musicPlayerAction:@"decreaserating"];
             break;
             
         case TAG_BUTTON_BACK:
             action = @"Input.Back";
-            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
+            [self GUIAction:action params:@{} httpAPIcallback:nil];
             break;
             
         default:
@@ -925,23 +925,23 @@ NSInteger buttonAction;
         
         case TAG_BUTTON_HOME: // HOME
             action = @"Input.Home";
-            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
+            [self GUIAction:action params:@{} httpAPIcallback:nil];
             break;
             
         case TAG_BUTTON_INFO: // INFO
             action = @"Input.Info";
-            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF049)"];
+            [self GUIAction:action params:@{} httpAPIcallback:@"SendKey(0xF049)"];
             break;
             
         case TAG_BUTTON_SELECT:
             action = @"Input.Select";
-            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:nil];
+            [self GUIAction:action params:@{} httpAPIcallback:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
             break;
             
         case TAG_BUTTON_MENU: // MENU OSD
             action = @"Input.ShowOSD";
-            [self GUIAction:action params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04D)"];
+            [self GUIAction:action params:@{} httpAPIcallback:@"SendKey(0xF04D)"];
             break;
         
         case TAG_BUTTON_SUBTITLES:
@@ -1023,13 +1023,13 @@ NSInteger buttonAction;
                     [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"playerdebug"} httpAPIcallback:nil];
                 }
                 else {
-                    [self GUIAction:@"Input.ShowCodec" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF04F)"];
+                    [self GUIAction:@"Input.ShowCodec" params:@{} httpAPIcallback:@"SendKey(0xF04F)"];
                 }
                 break;
 
             case TAG_BUTTON_SELECT: // CONTEXT MENU
             case TAG_BUTTON_MENU:
-                [self GUIAction:@"Input.ContextMenu" params:[NSDictionary dictionary] httpAPIcallback:@"SendKey(0xF043)"];
+                [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
                 break;
 
             case TAG_BUTTON_SUBTITLES: // SUBTITLES BUTTON

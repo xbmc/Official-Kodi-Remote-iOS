@@ -231,47 +231,47 @@
     }
     else {
         UIAlertAction *action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Shutdown" params:[NSDictionary dictionary]];
+            [self powerAction:@"System.Shutdown" params:@{}];
         }];
         [actionView addAction:action_pwr_off_system];
         
         UIAlertAction *action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"Application.Quit" params:[NSDictionary dictionary]];
+            [self powerAction:@"Application.Quit" params:@{}];
         }];
         [actionView addAction:action_quit_kodi];
         
         UIAlertAction *action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Hibernate" params:[NSDictionary dictionary]];
+            [self powerAction:@"System.Hibernate" params:@{}];
         }];
         [actionView addAction:action_hibernate];
         
         UIAlertAction *action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Suspend" params:[NSDictionary dictionary]];
+            [self powerAction:@"System.Suspend" params:@{}];
         }];
         [actionView addAction:action_suspend];
         
         UIAlertAction *action_reboot = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Reboot") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Reboot" params:[NSDictionary dictionary]];
+            [self powerAction:@"System.Reboot" params:@{}];
         }];
         [actionView addAction:action_reboot];
         
         UIAlertAction *action_scan_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"AudioLibrary.Scan" params:[NSDictionary dictionary]];
+            [self powerAction:@"AudioLibrary.Scan" params:@{}];
         }];
         [actionView addAction:action_scan_audio_lib];
         
         UIAlertAction *action_clean_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"AudioLibrary.Clean" params:[NSDictionary dictionary]];
+            [self powerAction:@"AudioLibrary.Clean" params:@{}];
         }];
         [actionView addAction:action_clean_audio_lib];
         
         UIAlertAction *action_scan_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"VideoLibrary.Scan" params:[NSDictionary dictionary]];
+            [self powerAction:@"VideoLibrary.Scan" params:@{}];
         }];
         [actionView addAction:action_scan_video_lib];
         
         UIAlertAction *action_clean_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"VideoLibrary.Clean" params:[NSDictionary dictionary]];
+            [self powerAction:@"VideoLibrary.Clean" params:@{}];
         }];
         [actionView addAction:action_clean_video_lib];
     }

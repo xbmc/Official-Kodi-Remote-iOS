@@ -107,7 +107,7 @@
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                  if (methodResult[@"currentwindow"] != [NSNull null]) {
                      if ([methodResult[@"currentwindow"][@"id"] longValue] == WINDOW_VIRTUAL_KEYBOARD) {
-                         [self GUIAction:@"Input.Back" params:[NSDictionary dictionary] httpAPIcallback:nil];
+                         [self GUIAction:@"Input.Back" params:@{} httpAPIcallback:nil];
                      }
                  }
              }
@@ -198,7 +198,7 @@
         else { // CHARACTER
             unichar x = [string characterAtIndex:0];
             if (x == '\n') {
-                [self GUIAction:@"Input.Select" params:[NSDictionary dictionary] httpAPIcallback:nil];
+                [self GUIAction:@"Input.Select" params:@{} httpAPIcallback:nil];
                 [backgroundTextField resignFirstResponder];
                 [xbmcVirtualKeyboard resignFirstResponder];
             }
