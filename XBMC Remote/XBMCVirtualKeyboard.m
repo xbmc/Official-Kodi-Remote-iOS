@@ -12,28 +12,24 @@
 
 #define VIRTUAL_KEYBOARD_TEXTFIELD 10
 #define WINDOW_VIRTUAL_KEYBOARD 10103
+#define INPUT_PADDING_LEFT_RIGHT 18
+#define INPUT_PADDING_BOTTOM 10
+#define TEXT_FONT_SIZE 14
+#define TEXT_HEIGHT 24
+#define TITLE_PADDING 6
 
 @implementation XBMCVirtualKeyboard
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        CGFloat keyboardTitlePadding = 6;
-        accessoryHeight = 52;
-        padding = 25;
-        verboseHeight = 24;
-        textSize = 14;
-        background_padding = 6;
-        alignBottom = 10;
-        UIColor *accessoryBackgroundColor = [Utilities getSystemGray4];
-        if (IS_IPAD) {
-            accessoryHeight = 74;
-            verboseHeight = 34;
-            padding = 50;
-            textSize = 20;
-            alignBottom = 12;
-        }
-
+        CGFloat scale = IS_IPAD ? 1.4 : 1.0;
+        paddingLeftRight = floor(INPUT_PADDING_LEFT_RIGHT * scale);
+        paddingTopBottom = floor(INPUT_PADDING_BOTTOM * scale);
+        keyboardTitleHeight = floor(TEXT_HEIGHT * scale);
+        textFieldHeight = floor(TEXT_HEIGHT * scale);
+        textFontSize = floor(TEXT_FONT_SIZE * scale);
+        
         xbmcVirtualKeyboard = [[UITextField alloc] initWithFrame:frame];
         xbmcVirtualKeyboard.hidden = YES;
         xbmcVirtualKeyboard.delegate = self;
@@ -41,25 +37,23 @@
         xbmcVirtualKeyboard.autocapitalizationType = UITextAutocapitalizationTypeNone;
         [self addSubview:xbmcVirtualKeyboard];
         
-        CGRect screenBound = UIScreen.mainScreen.bounds;
-        CGSize screenSize = screenBound.size;
-        screenWidth = screenSize.width;
+        screenWidth = UIScreen.mainScreen.bounds.size.width;
         
-        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(keyboardTitlePadding, 0, screenWidth - keyboardTitlePadding * 2, (int)(accessoryHeight / 2) - (int)(verboseHeight / 2) + alignBottom + 1)];
+        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_PADDING, 0, screenWidth - TITLE_PADDING * 2, keyboardTitleHeight)];
         keyboardTitle.contentMode = UIViewContentModeScaleToFill;
         keyboardTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
         keyboardTitle.textAlignment = NSTextAlignmentCenter;
         keyboardTitle.backgroundColor = UIColor.clearColor;
-        keyboardTitle.font = [UIFont boldSystemFontOfSize:textSize];
+        keyboardTitle.font = [UIFont boldSystemFontOfSize:textFontSize];
         keyboardTitle.adjustsFontSizeToFitWidth = YES;
         keyboardTitle.minimumScaleFactor = 0.6;
         keyboardTitle.textColor = [Utilities get1stLabelColor];
 
-        backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(padding - background_padding, (int)(accessoryHeight / 2) - (int)(verboseHeight / 2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight)];
+        backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(paddingLeftRight, keyboardTitleHeight, screenWidth - paddingLeftRight * 2, textFieldHeight)];
         backgroundTextField.userInteractionEnabled = YES;
         backgroundTextField.borderStyle = UITextBorderStyleRoundedRect;
         backgroundTextField.backgroundColor = [Utilities getSystemGray6];
-        backgroundTextField.font = [UIFont systemFontOfSize:textSize];
+        backgroundTextField.font = [UIFont systemFontOfSize:textFontSize];
         backgroundTextField.textColor = [Utilities get1stLabelColor];
         backgroundTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
         backgroundTextField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -68,8 +62,8 @@
         backgroundTextField.delegate = self;
         backgroundTextField.tag = VIRTUAL_KEYBOARD_TEXTFIELD;
         
-        inputAccView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, accessoryHeight)];
-        inputAccView.backgroundColor = accessoryBackgroundColor;
+        inputAccView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, keyboardTitleHeight + textFieldHeight + paddingTopBottom)];
+        inputAccView.backgroundColor = [Utilities getSystemGray4];
         [inputAccView addSubview:keyboardTitle];
         [inputAccView addSubview:backgroundTextField];
         [[NSNotificationCenter defaultCenter] addObserver: self
@@ -166,28 +160,11 @@
 #pragma mark - UITextFieldDelegate Methods
 
 - (void)textFieldDidBeginEditing:(UITextField*)textField {
-    CGFloat finalHeight = accessoryHeight - alignBottom;
-    CGRect screenBound = UIScreen.mainScreen.bounds;
-    CGSize screenSize = screenBound.size;
-    screenWidth = screenSize.width;
-    CGRect frame = inputAccView.frame;
-    frame.size.width = screenWidth;
-    inputAccView.frame = frame;
-    
-    if ([keyboardTitle.text isEqualToString:@""]) {
-        inputAccView.frame = CGRectMake(0, 0, screenWidth, finalHeight);
-        backgroundTextField.frame = CGRectMake(padding - background_padding, (int)(accessoryHeight / 2) - (int)(verboseHeight / 2) - (int)(alignBottom / 2), screenWidth - (padding - background_padding) * 2, verboseHeight);
-    }
-    else {
-        finalHeight = accessoryHeight;
-        inputAccView.frame = CGRectMake(0, 0, screenWidth, finalHeight);
-        backgroundTextField.frame = CGRectMake(padding - background_padding, (int)(accessoryHeight / 2) - (int)(verboseHeight / 2) + alignBottom, screenWidth - (padding - background_padding) * 2, verboseHeight);
-    }
+    int titleHeight = keyboardTitle.text.length ? keyboardTitleHeight : paddingTopBottom;
+    screenWidth = UIScreen.mainScreen.bounds.size.width;
+    inputAccView.frame = CGRectMake(0, 0, screenWidth, titleHeight + textFieldHeight + paddingTopBottom);
+    backgroundTextField.frame = CGRectMake(paddingLeftRight, titleHeight, screenWidth - paddingLeftRight * 2, textFieldHeight);
     textField.inputAccessoryView = inputAccView;
-    if (textField.inputAccessoryView.constraints.count > 0) {
-            NSLayoutConstraint *constraint = textField.inputAccessoryView.constraints[0];
-        constraint.constant = finalHeight;
-    }
 }
 
 - (BOOL)textField:(UITextField*)theTextField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {

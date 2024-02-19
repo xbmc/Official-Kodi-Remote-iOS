@@ -14,12 +14,11 @@
     UIView *inputAccView;
     UILabel *keyboardTitle;
     UITextField *backgroundTextField;
-    int accessoryHeight;
-    int padding;
-    int verboseHeight;
-    int textSize;
-    int background_padding;
-    int alignBottom;
+    int paddingLeftRight;
+    int paddingTopBottom;
+    int textFieldHeight;
+    int textFontSize;
+    int keyboardTitleHeight;
     CGFloat screenWidth;
 }
 
