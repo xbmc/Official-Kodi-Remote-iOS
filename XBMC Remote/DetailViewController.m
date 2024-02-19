@@ -5462,12 +5462,12 @@ NSIndexPath *selected;
             }
             
             if (arr_properties == nil) {
-                arr_properties = [NSArray array];
+                arr_properties = @[];
             }
             
             NSArray *arr_sort = parameters[@"parameters"][@"sort"];
             if (arr_sort == nil) {
-                arr_sort = [NSArray array];
+                arr_sort = @[];
             }
             tempDict[@"properties"] = arr_properties;
             tempDict[@"sort"] = arr_sort;
