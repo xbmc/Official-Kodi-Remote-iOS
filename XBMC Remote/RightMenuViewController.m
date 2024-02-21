@@ -470,7 +470,7 @@
                 NSIndexPath *commandIdx = [self getIndexPathForKey:@"ok_button" withValue:ok_button inArray:[tableData valueForKey:@"action"]];
                 NSString *command = [tableData valueForKey:@"action"][commandIdx.row][@"command"];
                 if (command != nil) {
-                    [self xbmcAction:command params:[NSDictionary dictionary] uiControl:nil];
+                    [self xbmcAction:command params:@{} uiControl:nil];
                 }
             }];
             [alertView addAction:cancelButton];

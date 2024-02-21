@@ -493,7 +493,7 @@
 }
 
 - (void)getActivePlayers {
-    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:[NSDictionary dictionary] withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:@{} withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         // Do not process further, if the view is already off the view hierarchy.
         if (!self.viewIfLoaded.window) {
             return;

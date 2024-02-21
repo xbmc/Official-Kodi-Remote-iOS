@@ -39,6 +39,7 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
+    JSONRPCMethodExecutionFailure = -32100,
     JSONRPCParseError = -32700,
     JSONRPCInvalidRequest = -32600,
     JSONRPCMethodNotFound = -32601,

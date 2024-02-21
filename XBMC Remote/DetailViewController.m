@@ -4639,7 +4639,15 @@ NSIndexPath *selected;
          // methodError "-32100" combined with "PVR." method calls. Other errors are still
          // shown via debug message.
          if (error == nil && methodError != nil && [methodToCall containsString:@"PVR."]) {
-             if (methodError.code == -32100) {
+             if (methodError.code == JSONRPCMethodExecutionFailure) {
+                 [self animateNoResultsFound];
+                 return;
+             }
+         }
+         // Ignore error when aborting a search or sending an empty search string within an addon. Just show "no results".
+         NSString *directory = mutableParameters[@"directory"];
+         if (error == nil && methodError != nil && [directory hasPrefix:@"plugin://"] && [directory containsString:@"search"]) {
+             if (methodError.code == JSONRPCInvalidParams) {
                  [self animateNoResultsFound];
                  return;
              }
@@ -5200,7 +5208,7 @@ NSIndexPath *selected;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputCanceled" object:nil userInfo:nil];
     self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     [channelListUpdateTimer invalidate];
 }
@@ -5454,12 +5462,12 @@ NSIndexPath *selected;
             }
             
             if (arr_properties == nil) {
-                arr_properties = [NSArray array];
+                arr_properties = @[];
             }
             
             NSArray *arr_sort = parameters[@"parameters"][@"sort"];
             if (arr_sort == nil) {
-                arr_sort = [NSArray array];
+                arr_sort = @[];
             }
             tempDict[@"properties"] = arr_properties;
             tempDict[@"sort"] = arr_sort;
