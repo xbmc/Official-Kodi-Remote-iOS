@@ -1144,12 +1144,6 @@
 
 - (void)configureLibraryView {
     if (enableCollectionView) {
-        [self initCollectionView];
-        if (longPressGesture == nil) {
-            longPressGesture = [UILongPressGestureRecognizer new];
-            [longPressGesture addTarget:self action:@selector(handleLongPress)];
-        }
-        [collectionView addGestureRecognizer:longPressGesture];
         collectionView.contentInset = dataList.contentInset;
         dataList.delegate = nil;
         dataList.dataSource = nil;
@@ -1320,7 +1314,7 @@
 #pragma mark - Library item didSelect
 
 - (void)viewChild:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint)point {
-    selected = indexPath;
+    selectedIndexPath = indexPath;
     mainMenu *menuItem = [self getMainMenu:item];
     NSMutableArray *sheetActions = menuItem.sheetActions[choosedTab];
     NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[menuItem.subItem mainParameters][choosedTab]];
@@ -1618,7 +1612,7 @@
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             if (![userDefaults boolForKey:@"song_preference"] || [parameters[@"forceActionSheet"] boolValue]) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[choosedTab]]];
-                selected = indexPath;
+                selectedIndexPath = indexPath;
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
             }
             else {
@@ -3140,8 +3134,6 @@
 
 #pragma mark - Long Press & Action sheet
 
-NSIndexPath *selected;
-
 - (void)showActionSheet:(NSIndexPath*)indexPath sheetActions:(NSArray*)sheetActions item:(NSDictionary*)item rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
@@ -3155,7 +3147,7 @@ NSIndexPath *selected;
         BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
         UIViewController *showFromCtrl = [self topMostController];
-        [self showActionSheetOptions:title options:sheetActions recording:isRecording point:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
+        [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
         [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
@@ -3163,24 +3155,19 @@ NSIndexPath *selected;
     }
 }
 
-- (IBAction)handleLongPress {
-    if (lpgr.state == UIGestureRecognizerStateBegan || longPressGesture.state == UIGestureRecognizerStateBegan) {
-        CGPoint p;
-        CGPoint selectedPoint;
+- (void)handleLongPress:(UILongPressGestureRecognizer*)activeRecognizer {
+    if (activeRecognizer.state == UIGestureRecognizerStateBegan) {
+        CGPoint selectedPointInView = [activeRecognizer locationInView:activeLayoutView];
         NSIndexPath *indexPath = nil;
         if (enableCollectionView) {
-            p = [longPressGesture locationInView:collectionView];
-            selectedPoint = [longPressGesture locationInView:self.view];
-            indexPath = [collectionView indexPathForItemAtPoint:p];
+            indexPath = [collectionView indexPathForItemAtPoint:selectedPointInView];
         }
         else {
-            p = [lpgr locationInView:dataList];
-            selectedPoint = [lpgr locationInView:self.view];
-            indexPath = [dataList indexPathForRowAtPoint:p];
+            indexPath = [dataList indexPathForRowAtPoint:selectedPointInView];
         }
         
         if (indexPath != nil) {
-            selected = indexPath;
+            selectedIndexPath = indexPath;
             
             NSDictionary *item = [self getItemFromIndexPath:indexPath];
             
@@ -3209,14 +3196,17 @@ NSIndexPath *selected;
                 if (item[@"genre"] != nil && ![item[@"genre"] isEqualToString:@""]) {
                     title = [NSString stringWithFormat:@"%@\n%@", title, item[@"genre"]];
                 }
-                id cell = [self getCell:selected];
+                id cell = [self getCell:selectedIndexPath];
                 
                 if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
                     if ([item[@"trailer"] length] != 0 && [sheetActions isKindOfClass:[NSMutableArray class]]) {
                         [sheetActions addObject:LOCALIZED_STR(@"Play Trailer")];
                     }
                 }
-                if ([item[@"family"] isEqualToString:@"movieid"] || [item[@"family"] isEqualToString:@"episodeid"]|| [item[@"family"] isEqualToString:@"musicvideoid"] || [item[@"family"] isEqualToString:@"tvshowid"]) {
+                if ([item[@"family"] isEqualToString:@"movieid"] ||
+                    [item[@"family"] isEqualToString:@"episodeid"] ||
+                    [item[@"family"] isEqualToString:@"musicvideoid"] ||
+                    [item[@"family"] isEqualToString:@"tvshowid"]) {
                     if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
                         NSString *actionString = @"";
                         if ([item[@"playcount"] intValue] == 0) {
@@ -3237,9 +3227,9 @@ NSIndexPath *selected;
                 }
                 else {
                     showfromview = enableCollectionView ? collectionView : [showFromCtrl.view superview];
-                    selectedPoint = enableCollectionView ? p : [lpgr locationInView:showfromview];
                 }
-                [self showActionSheetOptions:title options:sheetActions recording:isRecording point:selectedPoint fromcontroller:showFromCtrl fromview:showfromview];
+                CGPoint sheetOrigin = [activeRecognizer locationInView:showfromview];
+                [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:showfromview];
             }
             // In case of Global Search restore choosedTab after processing
             if (globalSearchView) {
@@ -3249,7 +3239,7 @@ NSIndexPath *selected;
     }
 }
 
-- (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording point:(CGPoint)origin fromcontroller:(UIViewController*)fromctrl fromview:(UIView*)fromview {
+- (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording origin:(CGPoint)origin fromcontroller:(UIViewController*)fromctrl fromview:(UIView*)fromview {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
         UIAlertController *actionTemp = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -3257,7 +3247,7 @@ NSIndexPath *selected;
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             forceMusicAlbumMode = NO;
-            [self deselectAtIndexPath:selected];
+            [self deselectAtIndexPath:selectedIndexPath];
         }];
         
         for (NSString *actionName in sheetActions) {
@@ -3395,8 +3385,8 @@ NSIndexPath *selected;
 
 - (void)actionSheetHandler:(NSString*)actiontitle {
     NSDictionary *item = nil;
-    if (selected != nil) {
-        item = [self getItemFromIndexPath:selected];
+    if (selectedIndexPath != nil) {
+        item = [self getItemFromIndexPath:selectedIndexPath];
         if (item == nil) {
             return;
         }
@@ -3405,42 +3395,42 @@ NSIndexPath *selected;
     if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play")]) {
         NSString *songid = [NSString stringWithFormat:@"%@", item[@"songid"]];
         if ([songid intValue]) {
-            [self addPlayback:item indexPath:selected position:(int)selected.row shuffle:NO];
+            [self addPlayback:item indexPath:selectedIndexPath position:(int)selectedIndexPath.row shuffle:NO];
         }
         else {
-            [self addPlayback:item indexPath:selected position:0 shuffle:NO];
+            [self addPlayback:item indexPath:selectedIndexPath position:0 shuffle:NO];
         }
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
-        [self recordChannel:item indexPath:selected];
+        [self recordChannel:item indexPath:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Delete timer")]) {
-        [self deleteTimer:item indexPath:selected];
+        [self deleteTimer:item indexPath:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play in shuffle mode")]) {
-        [self addPlayback:item indexPath:selected position:0 shuffle:YES];
+        [self addPlayback:item indexPath:selectedIndexPath position:0 shuffle:YES];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue")]) {
-        [self addQueue:item indexPath:selected];
+        [self addQueue:item indexPath:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue after current")]) {
-        [self addQueue:item indexPath:selected afterCurrentItem:YES];
+        [self addQueue:item indexPath:selectedIndexPath afterCurrentItem:YES];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Show Content")]) {
         [self exploreItem:item];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Channel Guide")]) {
-        [self viewChild:selected item:item displayPoint:CGPointMake(0, 0)];
+        [self viewChild:selectedIndexPath item:item displayPoint:CGPointMake(0, 0)];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Mark as watched")]) {
-        [self markVideo:(NSMutableDictionary*)item indexPath:selected watched:1];
+        [self markVideo:(NSMutableDictionary*)item indexPath:selectedIndexPath watched:1];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Mark as unwatched")]) {
-        [self markVideo:(NSMutableDictionary*)item indexPath:selected watched:0];
+        [self markVideo:(NSMutableDictionary*)item indexPath:selectedIndexPath watched:0];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play in party mode")]) {
-        [self partyModeItem:item indexPath:selected];
+        [self partyModeItem:item indexPath:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Artist Details")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Album Details")] ||
@@ -3454,20 +3444,20 @@ NSIndexPath *selected;
             [self prepareShowAlbumInfo:nil];
         }
         else {
-            [self showInfo:selected menuItem:menuItem item:item tabToShow:choosedTab];
+            [self showInfo:selectedIndexPath menuItem:menuItem item:item tabToShow:choosedTab];
         }
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
         NSDictionary *itemParams = @{
             @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"trailer"], @"file", nil],
         };
-        [self playerOpen:itemParams index:selected];
+        [self playerOpen:itemParams index:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Search Wikipedia")]) {
-        [self searchWeb:item indexPath:selected serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", LOCALIZED_STR(@"WIKI_LANG")]];
+        [self searchWeb:item indexPath:selectedIndexPath serviceURL:[NSString stringWithFormat:@"http://%@.m.wikipedia.org/wiki?search=%%@", LOCALIZED_STR(@"WIKI_LANG")]];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Search last.fm charts")]) {
-        [self searchWeb:item indexPath:selected serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
+        [self searchWeb:item indexPath:selectedIndexPath serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Execute program")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute video add-on")] ||
@@ -4319,7 +4309,7 @@ NSIndexPath *selected;
         LOCALIZED_STR(@"Album Details"),
         LOCALIZED_STR(@"Search Wikipedia"),
     ];
-    selected = [NSIndexPath indexPathForRow:0 inSection:0];
+    selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     NSMutableDictionary *item = [sectionItem mutableCopy];
     item[@"label"] = self.navigationItem.title;
     forceMusicAlbumMode = YES;
@@ -5773,6 +5763,16 @@ NSIndexPath *selected;
     
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
     
+    [self initCollectionView];
+    
+    longPressGestureCollection = [UILongPressGestureRecognizer new];
+    [longPressGestureCollection addTarget:self action:@selector(handleLongPress:)];
+    [collectionView addGestureRecognizer:longPressGestureCollection];
+    
+    longPressGestureList = [UILongPressGestureRecognizer new];
+    [longPressGestureList addTarget:self action:@selector(handleLongPress:)];
+    [dataList addGestureRecognizer:longPressGestureList];
+    
     [activityIndicatorView startAnimating];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -5986,7 +5986,7 @@ NSIndexPath *selected;
     if ([self doesShowSearchResults] || self.searchController.isActive) {
         return;
     }
-    selected = nil;
+    selectedIndexPath = nil;
     mainMenu *menuItem = self.detailItem;
     if (choosedTab >= menuItem.mainParameters.count) {
         return;
@@ -6002,39 +6002,6 @@ NSIndexPath *selected;
         [sortOptions replaceObjectAtIndex:sortMethodIndex withObject:[NSString stringWithFormat:@"\u2713 %@", sortOptions[sortMethodIndex]]];
     }
     [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - button7.frame.size.height / 2];
-}
-
-- (void)handleLongPressSortButton:(UILongPressGestureRecognizer*)gestureRecognizer {
-    mainMenu *menuItem = self.detailItem;
-    switch (gestureRecognizer.state) {
-        case UIGestureRecognizerStateBegan: {
-            NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
-            [activityIndicatorView startAnimating];
-            [UIView transitionWithView: activeLayoutView
-                              duration: 0.2
-                               options: UIViewAnimationOptionBeginFromCurrentState
-                            animations: ^{
-                                ((UITableView*)activeLayoutView).alpha = 1.0;
-                                CGRect frame;
-                                frame = [activeLayoutView frame];
-                                frame.origin.x = viewWidth;
-                                frame.origin.y = 0;
-                                ((UITableView*)activeLayoutView).frame = frame;
-                            }
-                            completion:^(BOOL finished) {
-                                sortAscDesc = !([sortAscDesc isEqualToString:@"ascending"] || sortAscDesc == nil) ? @"ascending" : @"descending";
-                                [self saveSortAscDesc:sortAscDesc parameters:[parameters mutableCopy]];
-                                storeSectionArray = [sectionArray copy];
-                                storeSections = [sections mutableCopy];
-                                self.sectionArray = nil;
-                                self.sections = [NSMutableDictionary new];
-                                [self indexAndDisplayData];
-                            }];
-            }
-            break;
-        default:
-            break;
-    }
 }
 
 - (void)dealloc {

@@ -30,7 +30,6 @@
     NSMutableArray *storeRichResults;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;
-    IBOutlet UILongPressGestureRecognizer *lpgr;
     int choosedTab;
     int numTabs;
     int filterModeIndex;
@@ -82,7 +81,8 @@
     int fullscreenCellGridHeight;
     int cellMinimumLineSpacing;
     id activeLayoutView;
-    UILongPressGestureRecognizer *longPressGesture;
+    UILongPressGestureRecognizer *longPressGestureCollection;
+    UILongPressGestureRecognizer *longPressGestureList;
     int posterFontSize;
     int fanartFontSize;
     FloatingHeaderFlowLayout *flowLayout;
@@ -125,6 +125,7 @@
     LogoBackgroundType logoBackgroundMode;
     BOOL showkeyboard;
     __weak UIAlertController *actionView;
+    NSIndexPath *selectedIndexPath;
 }
 
 - (id)initWithFrame:(CGRect)frame;

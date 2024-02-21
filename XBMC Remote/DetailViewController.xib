@@ -21,18 +21,12 @@
                 <outlet property="buttonsViewBgToolbar" destination="sPd-OR-uGy" id="DhA-1U-cyk"/>
                 <outlet property="dataList" destination="37" id="93"/>
                 <outlet property="detailView" destination="1" id="158"/>
-                <outlet property="lpgr" destination="97" id="100"/>
                 <outlet property="noFoundView" destination="135" id="140"/>
                 <outlet property="noItemsLabel" destination="136" id="4WA-ed-7Pa"/>
                 <outlet property="view" destination="156" id="157"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.59999999999999998" id="97">
-            <connections>
-                <action selector="handleLongPress" destination="-1" id="101"/>
-            </connections>
-        </pongPressGestureRecognizer>
         <view contentMode="scaleToFill" id="156">
             <rect key="frame" x="0.0" y="0.0" width="839" height="606"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -72,7 +66,6 @@
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="91"/>
                                 <outlet property="delegate" destination="-1" id="92"/>
-                                <outletCollection property="gestureRecognizers" destination="97" appends="YES" id="151"/>
                             </connections>
                         </tableView>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="116" userLabel="Buttons View">
