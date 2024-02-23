@@ -1,6 +1,14 @@
-Changes:
-- Fix low resolution NowPlaying covers
-- Fix crash in library, info and NowPlaying view
-- Other minor bugfixes and improvements
+Features:
+- In-app view for movie trailers
+
+Bugfixes:
+- Do not sort add-on menus alphabetically
+- Avoid potential error popup with virtual keyboard
+
+Improvements:
+- iPad grid view automatically tailors item sizes
+- iPad fullscreen follows "hide label" setting
+- Some minor layout improvements
+- Translation updates for several languages
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
