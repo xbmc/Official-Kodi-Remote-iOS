@@ -15,6 +15,7 @@
                 <outlet property="activityIndicatorView" destination="139" id="140"/>
                 <outlet property="albumName" destination="5" id="45"/>
                 <outlet property="artistName" destination="9" id="48"/>
+                <outlet property="backgroundImageView" destination="bfh-WW-03Y" id="Yqp-38-A14"/>
                 <outlet property="closeButton" destination="Lna-Os-O4e" id="6DX-6t-qrC"/>
                 <outlet property="currentTime" destination="30" id="51"/>
                 <outlet property="duration" destination="31" id="49"/>
@@ -63,6 +64,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="bfh-WW-03Y" userLabel="Background">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
                         <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="xbmc_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="156" userLabel="Image View - xbmc_overlay_iphone">
                             <rect key="frame" x="20" y="120" width="280" height="73"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>

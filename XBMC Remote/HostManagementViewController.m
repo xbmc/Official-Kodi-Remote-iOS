@@ -555,7 +555,6 @@
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     editTableButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
     supportedVersionLabel.text = LOCALIZED_STR(@"Supported XBMC version is Eden (11) or higher");
-    self.navigationController.navigationBar.barTintColor = BAR_TINT_COLOR;
     
     editTableButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateDisabled];

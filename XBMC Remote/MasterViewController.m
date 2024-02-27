@@ -162,7 +162,6 @@
     
     itemIsActive = YES;
     UIViewController *object;
-    BOOL setBarTintColor = NO;
     BOOL hideBottonLine = NO;
     switch (item.family) {
         case FamilyNowPlaying:
@@ -179,7 +178,6 @@
         case FamilyServer:
             self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
             object = self.hostController;
-            setBarTintColor = YES;
             hideBottonLine = YES;
             break;
         case FamilyDetailView:
@@ -190,15 +188,14 @@
             break;
     }
     navController = [[CustomNavigationController alloc] initWithRootViewController:object];
+    navController.navigationBar.barStyle = UIBarStyleBlack;
+    navController.navigationBar.tintColor = ICON_TINT_COLOR;
     UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
-    object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
+    object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg 
+                                                                               style:UIBarButtonItemStylePlain
+                                                                              target:nil
+                                                                              action:@selector(revealMenu:)];
     
-    UINavigationBar *newBar = navController.navigationBar;
-    newBar.barStyle = UIBarStyleBlack;
-    newBar.tintColor = ICON_TINT_COLOR;
-    if (setBarTintColor) {
-        newBar.backgroundColor = [Utilities getGrayColor:204 alpha:0.35];
-    }
     if (hideBottonLine) {
         [navController hideNavBarBottomLine:YES];
     }

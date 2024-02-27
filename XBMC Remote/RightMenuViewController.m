@@ -309,9 +309,8 @@
         detailViewController.detailItem = AppDelegate.instance.xbmcSettings;
         if (IS_IPHONE) {
             CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:detailViewController];
-            UINavigationBar *newBar = navController.navigationBar;
-            newBar.barStyle = UIBarStyleBlack;
-            newBar.tintColor = ICON_TINT_COLOR;
+            navController.navigationBar.barStyle = UIBarStyleBlack;
+            navController.navigationBar.tintColor = ICON_TINT_COLOR;
             navController.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:navController animated:YES completion:NULL];
         }
