@@ -1504,6 +1504,8 @@
                       duration:TRANSITION_TIME
                        options:UIViewAnimationOptionCurveEaseOut | animationOptionTransition
                     animations:^{
+        self.slidingViewController.underRightViewController.view.hidden = YES;
+        self.slidingViewController.underLeftViewController.view.hidden = YES;
         transitionFromView.hidden = YES;
         transitionToView.hidden = NO;
         playlistActionView.alpha = playtoolbarAlpha;
@@ -1511,6 +1513,8 @@
                      }
                      completion:^(BOOL finished) {
         [self setIPadBackgroundColor:effectColor effectDuration:1.0];
+        self.slidingViewController.underRightViewController.view.hidden = NO;
+        self.slidingViewController.underLeftViewController.view.hidden = NO;
     }];
     [self flipAnimButton:playlistButton demo:NO];
 }
@@ -2272,6 +2276,27 @@
     CGFloat scaleY = height / BottomView.frame.size.height;
     CGFloat scale = MIN(scaleX, scaleY);
     
+    // Set correct size for background image
+    CGRect frame = transitionView.frame;
+    CGFloat topBarHeight = self.navigationController.navigationBar.frame.size.height + [Utilities getTopPadding];
+    frame.size.height += topBarHeight;
+    frame.origin.y = -topBarHeight;
+    transitionView.frame = frame;
+    
+    frame = backgroundImageView.frame;
+    frame.size.height += self.navigationController.navigationBar.frame.size.height;
+    backgroundImageView.frame = frame;
+    
+    frame = nowPlayingView.frame;
+    frame.size.height -= topBarHeight;
+    frame.origin.y = topBarHeight;
+    nowPlayingView.frame = frame;
+    
+    frame = playlistView.frame;
+    frame.size.height -= topBarHeight;
+    frame.origin.y = topBarHeight;
+    playlistView.frame = frame;
+    
     CGFloat newWidth = floor(BottomView.frame.size.width * scale);
     CGFloat newHeight = floor(BottomView.frame.size.height * scale);
     
@@ -2664,13 +2689,18 @@
         self.view.backgroundColor = UIColor.clearColor;
     }
     else {
-        self.view.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+        // Make navigation bar transparent
+        if (@available(iOS 15, *)) {
+            UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+            [appearance configureWithOpaqueBackground];
+            [appearance configureWithTransparentBackground];
+            appearance.titleTextAttributes = @{NSForegroundColorAttributeName : UIColor.whiteColor};
+            appearance.backgroundColor = UIColor.clearColor;
+            self.navigationItem.standardAppearance = appearance;
+            self.navigationItem.scrollEdgeAppearance = appearance;
+        }
+        self.view.backgroundColor = UIColor.clearColor;
     }
-    
-    // Set correct size for background image
-    CGRect frame = backgroundImageView.frame;
-    frame.size.height = self.view.frame.size.height - bottomBarHeight;
-    backgroundImageView.frame = frame;
     
     ProgressSlider.minimumTrackTintColor = SLIDER_DEFAULT_COLOR;
     ProgressSlider.maximumTrackTintColor = UIColor.darkGrayColor;
