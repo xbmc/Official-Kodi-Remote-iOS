@@ -416,7 +416,8 @@
     
     [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
                                                height:[self screenSizeOrientationIndependent].height
-                                                 YPOS:-YPOS];
+                                                 YPOS:-YPOS
+                                           fullscreen:isFullscreen];
 }
 
 - (void)createLeftMenu:(NSInteger)maxMenuItems {
@@ -447,7 +448,8 @@
     
     [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
                                                height:[self screenSizeOrientationIndependent].height
-                                                 YPOS:-YPOS];
+                                                 YPOS:-YPOS
+                                           fullscreen:isFullscreen];
     
     [leftMenuView addSubview:self.nowPlayingController.view];
 }
@@ -553,6 +555,8 @@
     menuViewController.tableView.separatorInset = UIEdgeInsetsZero;
     
     [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
+    [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:self.nowPlayingController.songDetailsView];
+    [self.view insertSubview:self.nowPlayingController.playlistToolbarView belowSubview:self.nowPlayingController.BottomView];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL clearCache = [userDefaults boolForKey:@"clearcache_preference"];
@@ -631,9 +635,27 @@
                                              selector: @selector(handleChangeBackgroundImage:)
                                                  name: @"UIViewChangeBackgroundImage"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleNowPlayingFullscreenToggle)
+                                                 name: @"NowPlayingFullscreenToggle"
+                                               object: nil];
     
     [(gradientUIView*)self.view setColoursWithCGColors:[Utilities getGrayColor:36 alpha:1].CGColor
                                                endColor:[Utilities getGrayColor:22 alpha:1].CGColor];
+}
+
+- (void)handleNowPlayingFullscreenToggle {
+    isFullscreen = !isFullscreen;
+    [UIView animateWithDuration:0.3
+                     animations:^{
+        playlistHeader.alpha = menuViewController.view.alpha = isFullscreen ? 0 : 1;
+        [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width
+                                                   height:[self currentScreenBoundsDependOnOrientation].size.height
+                                                     YPOS:-YPOS
+                                               fullscreen:isFullscreen];
+                     }
+                     completion:^(BOOL finished) {
+                     }];
 }
 
 - (void)handleChangeBackgroundImage:(NSNotification*)sender {
@@ -680,11 +702,13 @@
 
 - (void)handleStackScrollOnScreen:(NSNotification*)sender {
     [self.view insertSubview:self.nowPlayingController.BottomView belowSubview:rootView];
+    [self.view insertSubview:self.nowPlayingController.playlistToolbarView belowSubview:rootView];
     [self hideSongInfoView];
 }
 
 - (void)handleStackScrollOffScreen:(NSNotification*)sender {
-    [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:rootView];
+    [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:self.nowPlayingController.songDetailsView];
+    [self.view insertSubview:self.nowPlayingController.playlistToolbarView belowSubview:self.nowPlayingController.BottomView];
 }
 
 - (void)handleXBMCServerHasChanged:(NSNotification*)sender {
@@ -757,7 +781,10 @@
 }
 
 - (void)viewWillLayoutSubviews {
-    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:-YPOS];
+    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width
+                                               height:[self currentScreenBoundsDependOnOrientation].size.height
+                                                 YPOS:-YPOS
+                                           fullscreen:isFullscreen];
 }
 
 - (BOOL)shouldAutorotate {
