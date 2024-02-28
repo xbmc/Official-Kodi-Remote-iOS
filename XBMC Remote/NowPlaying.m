@@ -36,6 +36,7 @@
 @synthesize songDetailsView;
 @synthesize ProgressSlider;
 @synthesize BottomView;
+@synthesize playlistToolbarView;
 @synthesize scrabbingView;
 @synthesize itemDescription;
 
@@ -49,6 +50,9 @@
 #define BOTTOMVIEW_WIDTH 320
 #define BOTTOMVIEW_HEIGHT 158
 #define TOOLBAR_HEIGHT 44
+#define SHUFFLE_REPEAT_VERTICAL_PADDING 3
+#define SHUFFLE_REPEAT_HORIZONTAL_PADDING 5
+#define IPAD_NUM_PLAYCONTROLS 9
 #define TAG_ID_PREVIOUS 1
 #define TAG_ID_PLAYPAUSE 2
 #define TAG_ID_STOP 3
@@ -1570,7 +1574,12 @@
             break;
             
         case TAG_ID_TOGGLE:
-            [self animViews];
+            if (IS_IPHONE) {
+                [self animViews];
+            }
+            else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"NowPlayingFullscreenToggle" object:nil];
+            }
             break;
             
         case TAG_SEEK_BACKWARD:
@@ -2330,7 +2339,7 @@
     repeatButton.center  = CGPointMake(buttonToggle.center.x, repeatButton.center.y);
 }
 
-- (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS {
+- (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS fullscreen:(BOOL)isFullscreen {
     CGRect frame;
     
     // Maximum allowed height excludes status bar, toolbar and safe area
@@ -2338,10 +2347,11 @@
     CGFloat statusBar = [Utilities getTopPadding];
     CGFloat maxheight = height - bottomPadding - statusBar - TOOLBAR_HEIGHT;
     
-    nowPlayingView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH + 2,
-                                      YPOS,
-                                      width - (PAD_MENU_TABLE_WIDTH + 2),
-                                      maxheight);
+    CGFloat viewOriginX = isFullscreen ? 0 : PAD_MENU_TABLE_WIDTH + 2;
+    CGFloat viewOriginY = YPOS;
+    CGFloat viewWidth = isFullscreen ? width : width - (PAD_MENU_TABLE_WIDTH + 2);
+    CGFloat viewHeight = maxheight;
+    nowPlayingView.frame = CGRectMake(viewOriginX, viewOriginY, viewWidth, viewHeight);
     
     CGFloat scaleX = MIN(nowPlayingView.frame.size.width, PAD_REMOTE_WIDTH) / BOTTOMVIEW_WIDTH;
     CGFloat scaleY = nowPlayingView.frame.size.height / BOTTOMVIEW_HEIGHT;
@@ -2349,8 +2359,10 @@
     
     CGFloat newWidth = (GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH) - 2 * COVERVIEW_PADDING;
     CGFloat newHeight = floor(BOTTOMVIEW_HEIGHT * scale);
-    BottomView.frame = CGRectMake(PAD_MENU_TABLE_WIDTH + (nowPlayingView.frame.size.width - newWidth) / 2,
-                                  nowPlayingView.frame.size.height - newHeight,
+    viewOriginX = (nowPlayingView.frame.size.width - newWidth) / 2;
+    viewOriginX = isFullscreen ? viewOriginX : PAD_MENU_TABLE_WIDTH + viewOriginX;
+    BottomView.frame = CGRectMake(viewOriginX,
+                                  nowPlayingView.frame.size.height - newHeight + statusBar - CGRectGetHeight(playlistToolbarView.frame),
                                   newWidth,
                                   newHeight);
     
@@ -2360,15 +2372,61 @@
                                  CGRectGetMinY(BottomView.frame) - jewelView.frame.origin.y - statusBar);
     
     frame = playlistToolbarView.frame;
-    frame.size.width = width;
-    frame.origin.x = 0;
+    frame.origin.x = viewOriginX;
+    frame.origin.y = CGRectGetMaxY(BottomView.frame);
+    frame.size.width = CGRectGetWidth(BottomView.frame);
     playlistToolbarView.frame = frame;
+    [self buildIpadPlaylistToolbar];
     
     frame = toolbarBackground.frame;
     frame.size.width = width;
     toolbarBackground.frame = frame;
     
+    backgroundImageView.frame = nowPlayingView.frame;
+    playlistActionView.alpha = playlistView.alpha = isFullscreen ? 0 : 1;
+    
+    // Adapt fullscreen toggle button icon to current screen mode
+    NSString *imageName = isFullscreen ? @"button_exit_fullscreen" : @"button_fullscreen";
+    UIImage *image = [UIImage imageNamed:imageName];
+    image = [Utilities colorizeImage:image withColor:UIColor.whiteColor];
+    [fullscreenToggleButton setImage:image forState:UIControlStateNormal];
+    [fullscreenToggleButton setImage:image forState:UIControlStateHighlighted];
+    
     [self setCoverSize:currentType];
+}
+
+- (void)buildIpadPlaylistToolbar {
+    // Move shuffle/repeat to play control bar
+    [playlistToolbarView addSubview:shuffleButton];
+    [playlistToolbarView addSubview:repeatButton];
+    
+    // Update layout of play control bar
+    CGFloat borderPadding = MAX(CGRectGetWidth(shuffleButton.frame), CGRectGetWidth(repeatButton.frame)) / 2 + SHUFFLE_REPEAT_HORIZONTAL_PADDING;
+    CGFloat buttonPadding = floor((CGRectGetWidth(playlistToolbarView.frame) - 2 * borderPadding) / (IPAD_NUM_PLAYCONTROLS - 1));
+    
+    // Center button is playpause
+    CGFloat centerX = playlistToolbarView.center.x - CGRectGetMinX(playlistToolbarView.frame);
+    UIButton *button = [playlistToolbarView viewWithTag:TAG_ID_PLAYPAUSE];
+    button.center = CGPointMake(centerX, button.center.y);
+    
+    // All other buttons have relative position to the center
+    button = [playlistToolbarView viewWithTag:TAG_ID_STOP];
+    button.center = CGPointMake(centerX - 3 * buttonPadding, button.center.y);
+    button = [playlistToolbarView viewWithTag:TAG_SEEK_BACKWARD];
+    button.center = CGPointMake(centerX - 2 * buttonPadding, button.center.y);
+    button = [playlistToolbarView viewWithTag:TAG_ID_PREVIOUS];
+    button.center = CGPointMake(centerX - 1 * buttonPadding, button.center.y);
+    button = [playlistToolbarView viewWithTag:TAG_ID_NEXT];
+    button.center = CGPointMake(centerX + 1 * buttonPadding, button.center.y);
+    button = [playlistToolbarView viewWithTag:TAG_SEEK_FORWARD];
+    button.center = CGPointMake(centerX + 2 * buttonPadding, button.center.y);
+    button = [playlistToolbarView viewWithTag:TAG_ID_TOGGLE];
+    button.center = CGPointMake(centerX + 3 * buttonPadding, button.center.y);
+    
+    // Set position for shuffle and repeat
+    CGFloat centerY = playlistToolbarView.frame.size.height / 2 + SHUFFLE_REPEAT_VERTICAL_PADDING;
+    shuffleButton.center = CGPointMake(centerX - 4 * buttonPadding, centerY);
+    repeatButton.center  = CGPointMake(centerX + 4 * buttonPadding, centerY);
 }
 
 - (void)setAVCodecFont:(UILabel*)label size:(CGFloat)fontsize {
@@ -2422,6 +2480,10 @@
     frame.origin.y = playlistTableView.frame.size.height - playlistActionView.frame.size.height;
     playlistActionView.frame = frame;
     playlistActionView.alpha = 1.0;
+    
+    // Prepare iPad fullscreen toggle button
+    fullscreenToggleButton = [self.view viewWithTag:TAG_ID_TOGGLE];
+    fullscreenToggleButton.showsTouchWhenHighlighted = YES;
 }
 
 - (BOOL)enableJewelCases {
@@ -2698,7 +2760,7 @@
         toolbarBackground.backgroundColor = TOOLBAR_TINT_COLOR;
         [self.view insertSubview:toolbarBackground atIndex:1];
         self.view.backgroundColor = UIColor.clearColor;
-        backgroundImageView.image = nil;
+        backgroundImageView.alpha = 0.0;
     }
     else {
         // Make navigation bar transparent

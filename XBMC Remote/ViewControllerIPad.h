@@ -43,6 +43,7 @@
     BOOL serverPicker;
     BOOL appInfo;
     UIImageView *fanartBackgroundImage;
+    BOOL isFullscreen;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;

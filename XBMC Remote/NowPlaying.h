@@ -75,6 +75,7 @@
     IBOutlet UIButton *shuffleButton;
     IBOutlet UIButton *repeatButton;
     IBOutlet UIButton *closeButton;
+    UIButton *fullscreenToggleButton;
     BOOL shuffled;
     NSString *repeatStatus;
     BOOL updateProgressBar;
@@ -103,7 +104,7 @@
     long storedItemID;
 }
 
-- (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS;
+- (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS fullscreen:(BOOL)isFullscreen;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil;
 - (IBAction)startVibrate:(id)sender;
 - (void)toggleSongDetails;
@@ -121,6 +122,7 @@
 @property (strong, nonatomic) UIView *songDetailsView;
 @property (strong, nonatomic) OBSlider *ProgressSlider;
 @property (strong, nonatomic) UIView *BottomView;
+@property (strong, nonatomic) UIView *playlistToolbarView;
 @property (strong, nonatomic) IBOutlet UIView *scrabbingView;
 @property (strong, nonatomic) IBOutlet UITextView *itemDescription;
 
