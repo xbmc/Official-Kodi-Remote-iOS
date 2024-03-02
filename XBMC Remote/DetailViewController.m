@@ -1650,6 +1650,9 @@
 }
 
 - (void)setFlowLayoutParams {
+    if (![self collectionViewCanBeEnabled]) {
+        return;
+    }
     if (stackscrollFullscreen) {
         // Calculate the dimensions of the items to match the screen size.
         CGFloat screenwidth = IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT;
@@ -1676,7 +1679,7 @@
 #pragma mark - UICollectionView methods
 
 - (void)initCollectionView {
-    if (collectionView == nil) {
+    if ([self collectionViewCanBeEnabled] && !collectionView) {
         flowLayout = [FloatingHeaderFlowLayout new];
         [flowLayout setSearchBarHeight:self.searchController.searchBar.frame.size.height];
         
