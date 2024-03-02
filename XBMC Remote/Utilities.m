@@ -345,7 +345,7 @@
 }
 
 + (UIColor*)getKodiBlue {
-    return RGBA(20, 178, 231, 1.0);
+    return RGBA(50, 174, 225, 1.0);
 }
 
 + (UIColor*)getSystemBlue {
