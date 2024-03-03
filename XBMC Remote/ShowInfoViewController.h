@@ -23,25 +23,23 @@
     IBOutlet UILabel *numVotesLabel;
     IBOutlet UIScrollView *scrollView;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
-    IBOutlet UILabel *directorLabel;
-    IBOutlet UILabel *genreLabel;
-    IBOutlet UILabel *runtimeLabel;
-    IBOutlet UILabel *studioLabel;
-    IBOutlet UILabel *summaryLabel;
-    IBOutlet UILabel *parentalRatingLabelUp;
-    IBOutlet UILabel *parentalRatingLabel;
     
-    IBOutlet UILabel *label1;
-
-    IBOutlet UILabel *label2;
-
-    IBOutlet UILabel *label3;
-
-    IBOutlet UILabel *label4;
-
-    IBOutlet UILabel *label5;
-
-    IBOutlet UILabel *label6;
+    UILabel *mainLabel0;
+    UILabel *mainLabel1;
+    UILabel *mainLabel2;
+    UILabel *mainLabel3;
+    UILabel *mainLabel4;
+    UILabel *mainLabel5;
+    UILabel *parentalRatingMainLabel;
+    UILabel *castMainLabel;
+    
+    UILabel *subLabel0;
+    UILabel *subLabel1;
+    UILabel *subLabel2;
+    UILabel *subLabel3;
+    UILabel *subLabel4;
+    UILabel *subLabel5;
+    UILabel *parentalRatingSubLabel;
 
     UILabel *trailerLabel;
     UIButton *trailerPlayButton;
