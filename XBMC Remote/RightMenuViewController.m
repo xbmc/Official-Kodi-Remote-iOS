@@ -80,7 +80,7 @@
                                                alpha:1];
     }
     else { // xcode xib bug with ipad?
-        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
+        cell.backgroundColor = UIColor.clearColor;
     }
 }
 
@@ -122,6 +122,7 @@
     UIImageView *status = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__STATUS];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__TITLE];
     UIImageView *line = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__SEPARATOR];
+    line.hidden = YES;
     status.hidden = YES;
     status.image = nil;
     icon.hidden = NO;
@@ -629,8 +630,7 @@
         [volumeSliderView startTimer];
     }
     menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - footerHeight - 1) style:UITableViewStylePlain];
-    menuTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    menuTableView.separatorColor = [Utilities getGrayColor:29 alpha:1];
+    menuTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     menuTableView.delegate = self;
     menuTableView.dataSource = self;
     menuTableView.backgroundColor = UIColor.clearColor;
