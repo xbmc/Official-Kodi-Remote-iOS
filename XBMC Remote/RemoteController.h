@@ -58,6 +58,5 @@ typedef enum {
 - (id)initWithNibName:(NSString*)nibNameOrNil withEmbedded:(BOOL)withEmbedded bundle:(NSBundle*)nibBundleOrNil;
 @property (strong, nonatomic) id detailItem;
 @property (nonatomic, strong) NSTimer *holdVolumeTimer;
-@property (strong, nonatomic) UIImageView *panFallbackImageView;
 
 @end

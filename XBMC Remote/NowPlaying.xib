@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -51,8 +51,6 @@
                 <outlet property="thumbnailView" destination="52" id="53"/>
                 <outlet property="transitionView" destination="98" id="Hxy-bA-FyS"/>
                 <outlet property="view" destination="1" id="3"/>
-                <outlet property="xbmcOverlayImage" destination="154" id="155"/>
-                <outlet property="xbmcOverlayImage_iphone" destination="156" id="157"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -64,13 +62,9 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="bfh-WW-03Y" userLabel="Background">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="appViewBackground" id="bfh-WW-03Y" userLabel="Background">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        </imageView>
-                        <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="xbmc_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="156" userLabel="Image View - xbmc_overlay_iphone">
-                            <rect key="frame" x="20" y="120" width="280" height="73"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="93" userLabel="Playlist View">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
@@ -122,10 +116,6 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="xbmc_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="154" userLabel="Image View - xbmc_overlay_ipad">
-                                    <rect key="frame" x="20" y="91" width="280" height="72"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                </imageView>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="52" userLabel="Image View - thumbnail">
                                     <rect key="frame" x="40" y="12" width="240" height="180"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -268,7 +258,7 @@
                                                     </connections>
                                                 </slider>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30" userLabel="Label Current Time">
-                                                    <rect key="frame" x="0.0" y="30" width="88" height="20"/>
+                                                    <rect key="frame" x="0.0" y="30" width="87" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -358,10 +348,6 @@
                     <rect key="frame" x="0.0" y="416" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="playlist_background" translatesAutoresizingMaskIntoConstraints="NO" id="150">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                        </imageView>
                         <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="i72-28-e1U">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -373,7 +359,7 @@
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </imageView>
                         <button opaque="NO" tag="88" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="117">
-                            <rect key="frame" x="237" y="8" width="72" height="28"/>
+                            <rect key="frame" x="236" y="8" width="73" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -440,7 +426,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="9JE-J0-LsM" userLabel="Button Back">
-                            <rect key="frame" x="51" y="5" width="38" height="34"/>
+                            <rect key="frame" x="50" y="5" width="38" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" image="now_playing_previous">
@@ -562,6 +548,7 @@
         </pongPressGestureRecognizer>
     </objects>
     <resources>
+        <image name="appViewBackground" width="320" height="480"/>
         <image name="button_close" width="30" height="30"/>
         <image name="button_party_off" width="72" height="28"/>
         <image name="button_party_on" width="72" height="28"/>
@@ -576,8 +563,6 @@
         <image name="now_playing_seek_backward" width="38" height="34"/>
         <image name="now_playing_seek_forward" width="38" height="34"/>
         <image name="now_playing_stop" width="38" height="34"/>
-        <image name="playlist_background" width="60" height="44"/>
         <image name="tableLeft" width="16" height="16"/>
-        <image name="xbmc_overlay" width="512.5" height="127"/>
     </resources>
 </document>

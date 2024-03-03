@@ -142,7 +142,7 @@
         line.hidden = NO;
         icon.highlightedImage = [UIImage imageNamed:iconName];
         icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
-        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
+        cell.backgroundColor = UIColor.clearColor;
     }
     return cell;
 }

@@ -36,7 +36,7 @@
         UIImage *img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
         img = [Utilities colorizeImage:img withColor:KODI_BLUE_COLOR];
         volumeSlider.minimumTrackTintColor = KODI_BLUE_COLOR;
-        volumeSlider.maximumTrackTintColor = APP_TINT_COLOR;
+        volumeSlider.maximumTrackTintColor = UIColor.darkGrayColor;
         [volumeSlider setThumbImage:img forState:UIControlStateNormal];
         [volumeSlider setThumbImage:img forState:UIControlStateHighlighted];
         [self volumeInfo];
