@@ -849,6 +849,7 @@ double round(double d) {
         NSString *director = [Utilities getStringFromItem:item[@"director"]];
         NSString *year = [Utilities getYearFromItem:item[@"year"]];
         
+        mainLabel0.text = LOCALIZED_STR(@"TAGLINE");
         mainLabel1.text = [self formatDirectorYearHeading:director year:year];
         mainLabel2.text = LOCALIZED_STR(@"GENRE");
         mainLabel3.text = LOCALIZED_STR(@"RUNTIME");
@@ -856,6 +857,7 @@ double round(double d) {
         mainLabel5.text = LOCALIZED_STR(@"SUMMARY");
         castMainLabel.text = LOCALIZED_STR(@"CAST");
         parentalRatingMainLabel.text = LOCALIZED_STR(@"PARENTAL RATING");
+        subLabel0.text = [Utilities getStringFromItem:item[@"tagline"]];
         subLabel1.text = [self formatDirectorYear:director year:year];
         subLabel2.text = [Utilities getStringFromItem:item[@"genre"]];
         subLabel3.text = [Utilities getStringFromItem:item[@"runtime"]];
@@ -915,6 +917,10 @@ double round(double d) {
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
     }
+    if (subLabel0.text.length == 0) {
+        subLabel0.hidden = YES;
+        mainLabel0.hidden = YES;
+    }
     if (subLabel1.text.length == 0) {
         subLabel1.hidden = YES;
         mainLabel1.hidden = YES;
@@ -954,6 +960,7 @@ double round(double d) {
         numVotesLabel.font = [UIFont systemFontOfSize:16];
         
         // Headers
+        mainLabel0.font = [UIFont systemFontOfSize:13];
         mainLabel1.font = [UIFont systemFontOfSize:13];
         mainLabel2.font = [UIFont systemFontOfSize:13];
         mainLabel3.font = [UIFont systemFontOfSize:13];
@@ -964,6 +971,7 @@ double round(double d) {
         parentalRatingMainLabel.font = [UIFont systemFontOfSize:13];
         
         // Text fields
+        subLabel0.font = [UIFont systemFontOfSize:16];
         subLabel1.font = [UIFont systemFontOfSize:16];
         subLabel2.font = [UIFont systemFontOfSize:16];
         subLabel3.font = [UIFont systemFontOfSize:16];
@@ -975,6 +983,7 @@ double round(double d) {
     // Layout
     CGFloat offset = CGRectGetMaxY(jewelView.frame);
     offset = [self layoutStars:offset];
+    offset = [self layoutLabel:mainLabel0 sub:subLabel0 offset:offset];
     offset = [self layoutLabel:mainLabel1 sub:subLabel1 offset:offset];
     offset = [self layoutLabel:mainLabel2 sub:subLabel2 offset:offset];
     offset = [self layoutLabel:mainLabel3 sub:subLabel3 offset:offset];
