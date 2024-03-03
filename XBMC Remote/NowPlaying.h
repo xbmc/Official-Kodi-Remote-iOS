@@ -65,8 +65,6 @@
     IBOutlet UIView *playlistActionView;
     NSString *currentType;
     BOOL nothingIsPlaying;
-    IBOutlet UIImageView *xbmcOverlayImage;
-    IBOutlet UIImageView *xbmcOverlayImage_iphone;
     IBOutlet UIButton *playlistButton;
     int animationOptionTransition;
     BOOL startFlipDemo;

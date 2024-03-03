@@ -176,7 +176,6 @@
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"RemoteControl"]) {
         remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:YES bundle:nil];
-        remoteControllerView.panFallbackImageView.frame = cell.frame;
         [cell.contentView addSubview:remoteControllerView.view];
     }
     else {

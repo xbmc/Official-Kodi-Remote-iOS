@@ -348,7 +348,6 @@
     songDetailsView.center = [jewelView.superview convertPoint:jewelView.center toView:songDetailsView.superview];
     [nowPlayingView bringSubviewToFront:songDetailsView];
     [nowPlayingView bringSubviewToFront:BottomView];
-    [nowPlayingView sendSubviewToBack:xbmcOverlayImage];
 }
 
 - (void)nothingIsPlaying {
@@ -2283,10 +2282,6 @@
     frame.origin.y = -topBarHeight;
     transitionView.frame = frame;
     
-    frame = backgroundImageView.frame;
-    frame.size.height += self.navigationController.navigationBar.frame.size.height;
-    backgroundImageView.frame = frame;
-    
     frame = nowPlayingView.frame;
     frame.size.height -= topBarHeight;
     frame.origin.y = topBarHeight;
@@ -2387,7 +2382,6 @@
 
 - (void)setIphoneInterface {
     slideFrom = [self currentScreenBoundsDependOnOrientation].size.width;
-    xbmcOverlayImage.hidden = YES;
     
     CGRect frame = playlistActionView.frame;
     frame.origin.y = playlistTableView.frame.size.height - playlistActionView.frame.size.height;
@@ -2404,7 +2398,6 @@
     
     nowPlayingView.hidden = NO;
     playlistView.hidden = NO;
-    xbmcOverlayImage_iphone.hidden = YES;
     playlistLeftShadow.hidden = NO;
     
     frame = playlistActionView.frame;
@@ -2687,6 +2680,7 @@
         toolbarBackground.backgroundColor = TOOLBAR_TINT_COLOR;
         [self.view insertSubview:toolbarBackground atIndex:1];
         self.view.backgroundColor = UIColor.clearColor;
+        backgroundImageView.image = nil;
     }
     else {
         // Make navigation bar transparent
