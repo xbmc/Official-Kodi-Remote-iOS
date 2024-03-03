@@ -139,7 +139,7 @@
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
         title.numberOfLines = 1;
         title.text = item.mainLabel;
-        line.hidden = NO;
+        line.hidden = YES;
         icon.highlightedImage = [UIImage imageNamed:iconName];
         icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
         cell.backgroundColor = UIColor.clearColor;
