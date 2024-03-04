@@ -464,6 +464,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:nil];
         }
         else {
+            color = UIColor.blackColor;
             CGFloat hue, saturation, brightness, alpha;
             BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
             if (ok) {
