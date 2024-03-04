@@ -724,7 +724,9 @@
                                          [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
                                      }
                                      else {
-                                         [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
+                                         UIImage *image = [UIImage imageNamed:@"button_repeat"];
+                                         image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+                                         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
                                      }
                                  }
                                  else if (!repeatButton.hidden) {
@@ -742,7 +744,9 @@
                                          [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
                                      }
                                      else {
-                                         [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
+                                         UIImage *image = [UIImage imageNamed:@"button_shuffle"];
+                                         image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+                                         [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
                                      }
                                  }
                                  else if (!shuffleButton.hidden) {
@@ -1623,7 +1627,9 @@
     if (AppDelegate.instance.serverVersion > 11) {
         [self SimpleAction:@"Player.SetShuffle" params:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"} reloadPlaylist:YES startProgressBar:NO];
         if (shuffled) {
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
+            UIImage *image = [UIImage imageNamed:@"button_shuffle"];
+            image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
         }
         else {
             UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
@@ -1634,11 +1640,15 @@
     else {
         if (shuffled) {
             [self SimpleAction:@"Player.UnShuffle" params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle"] forState:UIControlStateNormal];
+            UIImage *image = [UIImage imageNamed:@"button_shuffle"];
+            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
         }
         else {
             [self SimpleAction:@"Player.Shuffle" params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
-            [shuffleButton setBackgroundImage:[UIImage imageNamed:@"button_shuffle_on"] forState:UIControlStateNormal];
+            UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
+            image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
         }
     }
 }
@@ -1659,22 +1669,29 @@
             [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
         }
         else if ([repeatStatus isEqualToString:@"one"]) {
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
+            UIImage *image = [UIImage imageNamed:@"button_repeat"];
+            image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
         }
     }
     else {
         if ([repeatStatus isEqualToString:@"off"]) {
             [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": @"all"} reloadPlaylist:NO startProgressBar:NO];
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_all"] forState:UIControlStateNormal];
+            UIImage *image = [UIImage imageNamed:@"button_repeat_all"];
+            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
         }
         else if ([repeatStatus isEqualToString:@"all"]) {
             [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": @"one"} reloadPlaylist:NO startProgressBar:NO];
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat_one"] forState:UIControlStateNormal];
-            
+            UIImage *image = [UIImage imageNamed:@"button_repeat_one"];
+            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
         }
         else if ([repeatStatus isEqualToString:@"one"]) {
             [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": @"off"} reloadPlaylist:NO startProgressBar:NO];
-            [repeatButton setBackgroundImage:[UIImage imageNamed:@"button_repeat"] forState:UIControlStateNormal];
+            UIImage *image = [UIImage imageNamed:@"button_repeat"];
+            image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
         }
     }
 }
