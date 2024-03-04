@@ -454,6 +454,7 @@
 }
 
 - (void)setIPadBackgroundColor:(UIColor*)color effectDuration:(NSTimeInterval)time {
+    color = UIColor.blackColor;
     if (IS_IPAD) {
         NSDictionary *params;
         if ([color isEqual:UIColor.clearColor]) {
