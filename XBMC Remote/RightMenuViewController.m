@@ -620,7 +620,7 @@
     };
     
     mainMenu *menuItems = self.rightMenuItems[0];
-    CGFloat bottomPadding = [Utilities getBottomPadding];
+    CGFloat bottomPadding = IS_IPAD ? 0 : [Utilities getBottomPadding];
     CGFloat footerHeight = 0;
     if (menuItems.family == FamilyRemote) {
         footerHeight = TOOLBAR_HEIGHT + bottomPadding;
