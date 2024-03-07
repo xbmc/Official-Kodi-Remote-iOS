@@ -2302,6 +2302,8 @@
     CGFloat scaleY = height / BottomView.frame.size.height;
     CGFloat scale = MIN(scaleX, scaleY);
     
+    [self setFontSizes:scale];
+    
     // Set correct size for background image
     CGRect frame = transitionView.frame;
     CGFloat topBarHeight = self.navigationController.navigationBar.frame.size.height + [Utilities getTopPadding];
@@ -2356,6 +2358,8 @@
     CGFloat scaleX = MIN(nowPlayingView.frame.size.width, PAD_REMOTE_WIDTH) / BOTTOMVIEW_WIDTH;
     CGFloat scaleY = nowPlayingView.frame.size.height / BOTTOMVIEW_HEIGHT;
     CGFloat scale = MIN(scaleX, scaleY);
+    
+    [self setFontSizes:scale];
     
     CGFloat newWidth = (GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH) - 2 * COVERVIEW_PADDING;
     CGFloat newHeight = floor(BOTTOMVIEW_HEIGHT * scale);
@@ -2435,12 +2439,7 @@
     label.minimumScaleFactor = 11.0 / fontsize;
 }
 
-- (void)setFontSizes {
-    // Scale is derived from the minimum increase in NowPlaying's width or height
-    CGFloat height = IS_IPHONE ? GET_MAINSCREEN_HEIGHT : GET_MAINSCREEN_WIDTH;
-    CGFloat width = IS_IPHONE ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH;
-    CGFloat scale = MIN(height / IPHONE_SCREEN_DESIGN_HEIGHT, width / IPHONE_SCREEN_DESIGN_WIDTH);
-    
+- (void)setFontSizes:(CGFloat)scale {
     itemDescription.font  = [UIFont systemFontOfSize:floor(12 * scale)];
     albumName.font        = [UIFont systemFontOfSize:floor(16 * scale)];
     songName.font         = [UIFont boldSystemFontOfSize:floor(20 * scale)];
@@ -2791,7 +2790,6 @@
     lastSelected = SELECTED_NONE;
     storedItemID = SELECTED_NONE;
     storeSelection = nil;
-    [self setFontSizes];
     if (IS_IPHONE) {
         [self setIphoneInterface];
     }
