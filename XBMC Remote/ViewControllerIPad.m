@@ -683,7 +683,7 @@
 }
 
 - (void)handleStackScrollOffScreen:(NSNotification*)sender {
-    [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:rootView];
+    [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:self.nowPlayingController.songDetailsView];
 }
 
 - (void)handleXBMCServerHasChanged:(NSNotification*)sender {
