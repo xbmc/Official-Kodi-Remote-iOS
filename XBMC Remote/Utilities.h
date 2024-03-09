@@ -68,7 +68,7 @@ typedef enum {
 + (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array;
 + (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array;
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds;
-+ (NSString*)getItemIconFromDictionary:(NSDictionary*)dict mainFields:(NSDictionary*)mainFields;
++ (NSString*)getItemIconFromDictionary:(NSDictionary*)dict;
 + (NSString*)getStringFromItem:(id)item;
 + (NSString*)getTimeFromItem:(id)item sec2min:(int)secondsToMinute;
 + (NSString*)getYearFromItem:(id)item;

@@ -510,7 +510,7 @@
     NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
     NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
     if (!stringURL.length) {
-        stringURL = [Utilities getItemIconFromDictionary:item mainFields:mainFields];
+        stringURL = [Utilities getItemIconFromDictionary:item];
     }
     mainMenu *menuItem = self.detailItem;
     BOOL disableNowPlaying = NO;
@@ -570,7 +570,7 @@
     NSString *bannerURL = [Utilities formatStringURL:bannerPath serverURL:serverURL];
     NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
     if (!stringURL.length) {
-        stringURL = [Utilities getItemIconFromDictionary:item mainFields:mainFields];
+        stringURL = [Utilities getItemIconFromDictionary:item];
     }
     NSString *row7key = mainFields[@"row7"] ?: @"none";
     NSString *row7obj = mainFields[@"row7"] ? [NSString stringWithFormat:@"%@", item[mainFields[@"row7"]]] : @"";
@@ -1441,7 +1441,6 @@
                                                @"nocover_filemode", @"defaultThumb",
                                                filemodeRowHeight, @"rowHeight",
                                                filemodeThumbWidth, @"thumbWidth",
-                                               @"icon_song", @"fileThumb",
                                                [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                                @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                                @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
@@ -3364,8 +3363,13 @@
         mutableParameters[@"properties"] = mutableProperties;
     }
     if (mutableParameters[@"file_properties"] != nil) {
-        mutableParameters[@"properties"] = mutableParameters[@"file_properties"];
-        [mutableParameters removeObjectForKey: @"file_properties"];
+        mutableParameters[@"properties"] = [mutableParameters[@"file_properties"] mutableCopy];
+        [mutableParameters removeObjectForKey:@"file_properties"];
+        
+        // Kodi 11 does not support art for file properties
+        if (AppDelegate.instance.serverVersion < 11) {
+            [mutableParameters[@"properties"] removeObject:@"art"];
+        }
     }
     [self saveData:mutableParameters];
 }
@@ -4544,8 +4548,13 @@
     mainMenu *menuItem = self.detailItem;
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
     if (mutableParameters[@"file_properties"] != nil) {
-        mutableParameters[@"properties"] = mutableParameters[@"file_properties"];
-        [mutableParameters removeObjectForKey: @"file_properties"];
+        mutableParameters[@"properties"] = [mutableParameters[@"file_properties"] mutableCopy];
+        [mutableParameters removeObjectForKey:@"file_properties"];
+        
+        // Kodi 11 does not support art for file properties
+        if (AppDelegate.instance.serverVersion < 11) {
+            [mutableParameters[@"properties"] removeObject:@"art"];
+        }
     }
     
     // Artist filter is active. We change the API call parameters and continue.

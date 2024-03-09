@@ -600,30 +600,15 @@
     return result;
 }
 
-+ (NSString*)getItemIconFromDictionary:(NSDictionary*)dict mainFields:(NSDictionary*)mainFields {
-    NSString *filetype = @"";
++ (NSString*)getItemIconFromDictionary:(NSDictionary*)dict {
     NSString *iconName = @"";
     if (dict[@"filetype"] != nil) {
-        filetype = dict[@"filetype"];
+        NSString *filetype = dict[@"filetype"];
         if ([filetype isEqualToString:@"directory"]) {
             iconName = @"nocover_filemode";
         }
         else if ([filetype isEqualToString:@"file"]) {
-            int playlistid = [mainFields[@"playlistid"] intValue];
-            switch (playlistid) {
-                case PLAYERID_MUSIC:
-                    iconName = @"icon_song";
-                    break;
-                case PLAYERID_VIDEO:
-                    iconName = @"icon_video";
-                    break;
-                case PLAYERID_PICTURES:
-                    iconName = @"icon_picture";
-                    break;
-                default:
-                    NSLog(@"getItemIconFromDictionary: unknown playlistid %d", playlistid);
-                    break;
-            }
+            iconName = @"icon_file";
         }
     }
     return iconName;
