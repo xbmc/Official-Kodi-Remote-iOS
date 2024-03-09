@@ -1453,7 +1453,6 @@
                                                @"nocover_filemode", @"defaultThumb",
                                                filemodeRowHeight, @"rowHeight",
                                                filemodeThumbWidth, @"thumbWidth",
-                                               @"icon_song", @"fileThumb",
                                                [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                                @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                                @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
