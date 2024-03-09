@@ -27,6 +27,8 @@
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *thumbnailView;
     IBOutlet UIView *BottomView;
+    IBOutlet UIImageView *fullscreenCover;
+    IBOutlet UIVisualEffectView *visualEffectView;
     UIView *transitionFromView;
     UIView *transitionToView;
     IBOutlet UIView *nowPlayingView;
@@ -52,7 +54,6 @@
     IBOutlet UIButton *editTableButton;
     IBOutlet UIButton *PartyModeButton;
     IBOutlet UIImageView *backgroundImageView;
-
     IBOutlet UIView *noFoundView;
     NSIndexPath *storeSelection;
     int slideFrom;

@@ -400,6 +400,10 @@
     [self hidePlaylistProgressbarWithDeselect:YES];
     [self showPlaylistTable];
     [self toggleSongDetails];
+    
+    // Unload and hide blurred cover effect
+    fullscreenCover.image = nil;
+    visualEffectView.alpha = 0;
 }
 
 - (void)setButtonImageAndStartDemo:(UIImage*)buttonImage {
@@ -649,6 +653,17 @@
                                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                               if (error == nil) {
                                                   [weakSelf processLoadedThumbImage:weakSelf thumb:thumb image:image enableJewel:enableJewel];
+                                                  
+                                                  // Show blurred cover background (iPhone only, as iPad uses other layout)
+                                                  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                                                  if ([userDefaults boolForKey:@"blurred_cover_preference"] && IS_IPHONE) {
+                                                      [Utilities imageView:fullscreenCover AnimDuration:1.0 Image:image];
+                                                      visualEffectView.alpha = 1;
+                                                  }
+                                                  else {
+                                                      fullscreenCover.image = nil;
+                                                      visualEffectView.alpha = 0;
+                                                  }
                                               }
                                           }];
                                      }
@@ -2339,6 +2354,9 @@
     UIButton *buttonToggle = [playlistToolbarView viewWithTag:TAG_ID_TOGGLE];
     shuffleButton.center = CGPointMake(buttonStop.center.x, shuffleButton.center.y);
     repeatButton.center  = CGPointMake(buttonToggle.center.x, repeatButton.center.y);
+    
+    // Blurred cover uses the transtion view's dimensions
+    fullscreenCover.frame = visualEffectView.frame = transitionView.frame;
 }
 
 - (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS fullscreen:(BOOL)isFullscreen {
@@ -2809,6 +2827,18 @@
     albumName.text = @"";
     duration.text = @"";
     currentTime.text = @"";
+    
+    // Prepare and add blur effect
+    UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    visualEffectView.effect = blurEffect;
+    
+    // Add gradient overlay to improve readability of control elements and labels
+    UIImageView *overlayGradient = [[UIImageView alloc] initWithFrame:backgroundImageView.frame];
+    overlayGradient.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    overlayGradient.image = [UIImage imageNamed:@"overlay_gradient"];
+    overlayGradient.contentMode = UIViewContentModeScaleToFill;
+    overlayGradient.alpha = 0.5;
+    [visualEffectView.contentView addSubview:overlayGradient];
 }
 
 - (void)connectionSuccess:(NSNotification*)note {
