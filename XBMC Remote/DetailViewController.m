@@ -3364,8 +3364,13 @@
         mutableParameters[@"properties"] = mutableProperties;
     }
     if (mutableParameters[@"file_properties"] != nil) {
-        mutableParameters[@"properties"] = mutableParameters[@"file_properties"];
-        [mutableParameters removeObjectForKey: @"file_properties"];
+        mutableParameters[@"properties"] = [mutableParameters[@"file_properties"] mutableCopy];
+        [mutableParameters removeObjectForKey:@"file_properties"];
+        
+        // Kodi 11 does not support art for file properties
+        if (AppDelegate.instance.serverVersion < 11) {
+            [mutableParameters[@"properties"] removeObject:@"art"];
+        }
     }
     [self saveData:mutableParameters];
 }
@@ -4544,8 +4549,13 @@
     mainMenu *menuItem = self.detailItem;
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
     if (mutableParameters[@"file_properties"] != nil) {
-        mutableParameters[@"properties"] = mutableParameters[@"file_properties"];
-        [mutableParameters removeObjectForKey: @"file_properties"];
+        mutableParameters[@"properties"] = [mutableParameters[@"file_properties"] mutableCopy];
+        [mutableParameters removeObjectForKey:@"file_properties"];
+        
+        // Kodi 11 does not support art for file properties
+        if (AppDelegate.instance.serverVersion < 11) {
+            [mutableParameters[@"properties"] removeObject:@"art"];
+        }
     }
     
     // Artist filter is active. We change the API call parameters and continue.
