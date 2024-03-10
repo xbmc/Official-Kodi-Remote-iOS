@@ -17,10 +17,13 @@
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
 #define MARGIN 5
 #define BLOCK_MARGIN 10
+#define IPAD_POPOVER_WIDTH 400
+#define IPAD_POPOVER_HEIGHT 500
 
 #define XIB_HOST_MGMT_CELL_ICON 1
 #define XIB_HOST_MGMT_CELL_LABEL 2
 #define XIB_HOST_MGMT_CELL_IP 3
+#define XIB_HOST_MGMT_CELL_NO_SERVER_FOUND 4
 
 @interface HostManagementViewController ()
 
@@ -92,12 +95,15 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:nil];
         cell = nib[0];
+        UILabel *cellNoServerFound = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_NO_SERVER_FOUND];
         UILabel *cellLabel = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_LABEL];
         UILabel *cellIP = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_IP];
         
+        cellNoServerFound.highlightedTextColor = [Utilities get1stLabelColor];
         cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
         cellIP.highlightedTextColor = [Utilities get1stLabelColor];
         
+        cellNoServerFound.textColor = [Utilities getSystemGray1];
         cellLabel.textColor = [Utilities getSystemGray1];
         cellIP.textColor = [Utilities getSystemGray1];
         
@@ -108,12 +114,14 @@
         }
     }
     UIImageView *iconView = (UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON];
+    UILabel *cellNoServerFound = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_NO_SERVER_FOUND];
     UILabel *cellLabel = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_LABEL];
     UILabel *cellIP = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_IP];
     if (AppDelegate.instance.arrayServerList.count == 0) {
         iconView.hidden = YES;
-        cellLabel.textAlignment = NSTextAlignmentCenter;
-        cellLabel.text = LOCALIZED_STR(@"No saved hosts found");
+        cellNoServerFound.hidden = NO;
+        cellNoServerFound.text = LOCALIZED_STR(@"No saved hosts found");
+        cellLabel.text = @"";
         cellIP.text = @"";
         cell.accessoryType = UITableViewCellAccessoryNone;
         editTableButton.enabled = NO;
@@ -121,6 +129,7 @@
     }
     else {
         iconView.hidden = NO;
+        cellNoServerFound.hidden = YES;
         cellLabel.textAlignment = NSTextAlignmentLeft;
         NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
         cellLabel.text = item[@"serverDescription"];
@@ -450,7 +459,7 @@
 #pragma mark - LifeCycle
 
 - (void)viewWillAppear:(BOOL)animated {
-    CGSize size = CGSizeMake(320, 400); // size of view in popover
+    CGSize size = CGSizeMake(IPAD_POPOVER_WIDTH, IPAD_POPOVER_HEIGHT); // size of view in popover
     self.preferredContentSize = size;
     [super viewWillAppear:animated];
     if (IS_IPHONE) {
@@ -619,6 +628,11 @@
                 [serverListTableView selectRowAtIndexPath:lastServerIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             }
         }
+    }
+    
+    // If there is no host saved at all, enter "add host" automatically
+    if (AppDelegate.instance.arrayServerList.count == 0) {
+        [self addHost:nil];
     }
     
     longPressGesture = [UILongPressGestureRecognizer new];
