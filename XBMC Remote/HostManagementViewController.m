@@ -628,6 +628,11 @@
         }
     }
     
+    // If there is no host saved at all, enter "add host" automatically
+    if (AppDelegate.instance.arrayServerList.count == 0) {
+        [self addHost:nil];
+    }
+    
     longPressGesture = [UILongPressGestureRecognizer new];
     [longPressGesture addTarget:self action:@selector(handleLongPress)];
     [self.view addGestureRecognizer:longPressGesture];
