@@ -1130,7 +1130,11 @@ NSInteger buttonAction;
         rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
         UIImage *settingsImg = [UIImage imageNamed:@"default-right-menu-icon"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(handleSettingsButton:)];
+        UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
+        self.navigationItem.rightBarButtonItems = @[
+            [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(handleSettingsButton:)],
+            [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)]
+        ];
         self.navigationController.navigationBar.barTintColor = REMOTE_CONTROL_BAR_TINT_COLOR;
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -1361,6 +1365,14 @@ NSInteger buttonAction;
     else {
         [self addButtonToListIPad];
     }
+}
+
+- (void)powerControl {
+    if (AppDelegate.instance.obj.serverIP.length == 0) {
+        return;
+    }
+    UIAlertController *actionView = [Utilities createPowerControl:self];
+    [self presentViewController:actionView animated:YES completion:nil];
 }
 
 - (void)addButtonToListIPad {

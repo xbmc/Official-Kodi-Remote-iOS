@@ -464,9 +464,7 @@
     [super viewWillAppear:animated];
     if (IS_IPHONE) {
         self.slidingViewController.underRightViewController = nil;
-        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-        rightMenuViewController.rightMenuItems = AppDelegate.instance.rightMenuItems;
-        self.slidingViewController.underRightViewController = rightMenuViewController;
+        self.slidingViewController.underRightViewController = nil;
         if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
             MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
             masterViewController.mainMenu = self.mainMenu;
@@ -608,8 +606,8 @@
         self.navigationItem.titleView = xbmcLogo;
         UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
-        UIImage *settingsImg = [UIImage imageNamed:@"icon_power_up"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealUnderRight:)];
+        UIImage *powerImg = [UIImage imageNamed:@"icon_power_up"];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)];
     }
     doRevealMenu = YES;
 
@@ -678,6 +676,17 @@
                                              selector: @selector(enablePopGestureRecognizer:)
                                                  name: @"ECSlidingViewTopDidReset"
                                                object: nil];
+}
+
+- (void)powerControl {
+    UIAlertController *actionView;
+    if (AppDelegate.instance.obj.serverIP.length == 0) {
+        actionView = [Utilities createAlertOK:LOCALIZED_STR(@"Select an XBMC Server from the list") message:nil];
+    }
+    else {
+        actionView = [Utilities createPowerControl:self];
+    }
+    [self presentViewController:actionView animated:YES completion:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

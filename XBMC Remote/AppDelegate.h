@@ -109,7 +109,6 @@
 @property (nonatomic, strong) mainMenu *playlistPVR;
 @property (nonatomic, strong) mainMenu *xbmcSettings;
 @property (nonatomic, strong) NSArray *globalSearchMenuLookup;
-@property (nonatomic, strong) NSMutableArray *rightMenuItems;
 @property (nonatomic, strong) NSMutableArray *nowPlayingMenuItems;
 @property (nonatomic, strong) NSMutableArray *remoteControlMenuItems;
 @property (nonatomic, assign) BOOL serverOnLine;

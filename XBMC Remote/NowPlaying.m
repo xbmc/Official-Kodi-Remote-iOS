@@ -2591,8 +2591,12 @@
             UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
         }
-        UIImage *settingsImg = [UIImage imageNamed:@"icon_menu_remote"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
+        UIImage *remoteImg = [UIImage imageNamed:@"icon_menu_remote"];
+        UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
+        self.navigationItem.rightBarButtonItems = @[
+            [[UIBarButtonItem alloc] initWithImage:remoteImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)],
+            [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)]
+        ];
         self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.panGesture.delegate = self;
         
@@ -2662,6 +2666,14 @@
 
 - (void)revealUnderRight:(id)sender {
     [self.slidingViewController anchorTopViewTo:ECLeft];
+}
+
+- (void)powerControl {
+    if (AppDelegate.instance.obj.serverIP.length == 0) {
+        return;
+    }
+    UIAlertController *actionView = [Utilities createPowerControl:self];
+    [self presentViewController:actionView animated:YES completion:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

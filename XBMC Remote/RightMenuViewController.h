@@ -16,7 +16,6 @@
 @interface RightMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     UITableView *menuTableView;
     NSMutableArray *tableData;
-    UILabel *infoLabel;
     VolumeSliderView *volumeSliderView;
     RemoteController *remoteControllerView;
     BOOL torchIsOn;

@@ -318,7 +318,83 @@
         [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
         editTableButton.enabled = NO;
         [arrayButtons.buttons addObject:infoCustomButton];
-        [self setRightMenuOption:@"online" reloadTableData:YES];
+        [self loadRightMenuContentConnected:YES];
+        [menuTableView reloadData];
+    }
+}
+
+- (void)loadRightMenuContentConnected:(BOOL)isConnected {
+    NSString *menuKey = isConnected ? @"online" : @"offline";
+    mainMenu *menuItem = self.rightMenuItems[0];
+    tableData = [NSMutableArray new];
+    for (NSDictionary *item in menuItem.mainMethod[0][menuKey]) {
+        NSString *label = item[@"label"] ?: @"";
+        NSDictionary *bgColor = item[@"bgColor"] ?: @{};
+        NSNumber *hideLine = item[@"hideLineSeparator"] ?: @NO;
+        NSDictionary *fontColor = item[@"fontColor"] ?: @{};
+        NSString *icon = item[@"icon"] ?: @"blank";
+        NSDictionary *action = item[@"action"] ?: @{};
+        NSNumber *showTop = item[@"revealViewTop"] ?: @NO;
+        
+        NSDictionary *itemDict = @{
+            @"label": label,
+            @"bgColor": bgColor,
+            @"hideLineSeparator": hideLine,
+            @"fontColor": fontColor,
+            @"icon": icon,
+            @"action": action,
+            @"revealViewTop": showTop,
+            @"isSetting": @NO,
+            @"type": @"embedded",
+        };
+         
+        // Do not show the remoteToolBar items in the menu while in "online" state
+        if (![self itemShownInRemoteToolBar:item]) {
+            [tableData addObject:itemDict];
+        }
+        // "embedded remote" (reachable from NowPlaying screen) always has the volume bar
+        if ([self showEmbeddedVolumeBar:item mainLabel:menuItem.mainLabel]) {
+            [tableData addObject:itemDict];
+        }
+    }
+    editableRowStartAt = tableData.count;
+    [self loadCustomButtons];
+}
+
+- (void)loadCustomButtons {
+    mainMenu *menuItem = self.rightMenuItems[0];
+    if (menuItem.family != FamilyRemote) {
+        return;
+    }
+    
+    customButton *arrayButtons = [customButton new];
+    if (arrayButtons.buttons.count == 0) {
+        editTableButton.enabled = NO;
+        [arrayButtons.buttons addObject:infoCustomButton];
+    }
+    else {
+        editTableButton.enabled = YES;
+    }
+    for (NSDictionary *item in arrayButtons.buttons) {
+        NSString *label = item[@"label"] ?: @"";
+        NSString *icon = item[@"icon"] ?: @"";
+        NSString *type = item[@"type"] ?: @"";
+        NSNumber *isSetting = item[@"isSetting"] ?: @YES;
+        NSDictionary *action = item[@"action"] ?: @{};
+        
+        NSMutableDictionary *itemDict = [@{
+            @"label": label,
+            @"bgColor": @{},
+            @"hideLineSeparator": @NO,
+            @"fontColor": @{},
+            @"icon": icon,
+            @"isSetting": isSetting,
+            @"revealViewTop": @NO,
+            @"type": type,
+            @"action": action,
+        } mutableCopy];
+        
+        [tableData addObject:itemDict];
     }
 }
 
@@ -443,46 +519,13 @@
         return;
     }
     if ([tableData[indexPath.row][@"action"] count]) {
-        NSString *message = tableData[indexPath.row][@"action"][@"message"];
-        if (message != nil) {
-            NSString *countdown_message = tableData[indexPath.row][@"action"][@"countdown_message"];
-            if (countdown_message != nil) {
-                countdown_message = [NSString stringWithFormat:@"%@ %d seconds.", countdown_message, [tableData[indexPath.row][@"action"][@"countdown_time"] intValue]];
-            }
-            NSString *cancel_button = tableData[indexPath.row][@"action"][@"cancel_button"] ?: LOCALIZED_STR(@"Cancel");
-            NSString *ok_button = tableData[indexPath.row][@"action"][@"ok_button"] ?: LOCALIZED_STR(@"Yes");
-            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:countdown_message preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:cancel_button style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
-            UIAlertAction *okButton = [UIAlertAction actionWithTitle:ok_button style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                NSIndexPath *commandIdx = [self getIndexPathForKey:@"ok_button" withValue:ok_button inArray:[tableData valueForKey:@"action"]];
-                NSString *command = [tableData valueForKey:@"action"][commandIdx.row][@"command"];
-                if (command != nil) {
-                    [self xbmcAction:command params:@{} uiControl:nil];
-                }
-            }];
-            [alertView addAction:cancelButton];
-            [alertView addAction:okButton];
-            [self presentViewController:alertView animated:YES completion:nil];
+        NSString *command = tableData[indexPath.row][@"action"][@"command"];
+        if ([command isEqualToString:@"AddButton"]) {
+            [self addButtonToList:nil];
         }
-        else {
-            NSString *command = tableData[indexPath.row][@"action"][@"command"];
-            if ([command isEqualToString:@"System.WOL"]) {
-                if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
-                    [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
-                    [messagesView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
-                }
-                else {
-                    UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Warning") message:LOCALIZED_STR(@"No server MAC address defined")];
-                    [self presentViewController:alertView animated:YES completion:nil];
-                }
-            }
-            else if ([command isEqualToString:@"AddButton"]) {
-                [self addButtonToList:nil];
-            }
-            else if (command != nil) {
-                NSDictionary *parameters = tableData[indexPath.row][@"action"][@"params"] ?: @{};
-                [self xbmcAction:command params:parameters uiControl:nil];
-            }
+        else if (command != nil) {
+            NSDictionary *parameters = tableData[indexPath.row][@"action"][@"params"] ?: @{};
+            [self xbmcAction:command params:parameters uiControl:nil];
         }
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Keyboard")]) {
@@ -583,16 +626,6 @@
     torchIsOn = [Utilities isTorchOn];
     self.slidingViewController.anchorLeftPeekAmount = self.peekLeftAmount;
     self.slidingViewController.underRightWidthLayout = ECFullWidth;
-    CGFloat infoLabelHeight = 2 * RIGHT_MENU_ITEM_HEIGHT;
-    infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.peekLeftAmount, (frame.size.height - infoLabelHeight) / 2, frame.size.width - self.peekLeftAmount, infoLabelHeight)];
-    infoLabel.numberOfLines = 2;
-    infoLabel.text = LOCALIZED_STR(@"Select an XBMC Server from the list");
-    infoLabel.backgroundColor = UIColor.clearColor;
-    infoLabel.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
-    infoLabel.textAlignment = NSTextAlignmentCenter;
-    infoLabel.textColor = [Utilities getGrayColor:125 alpha:1];
-    infoLabel.alpha = 0;
-    [self.view addSubview:infoLabel];
     
     infoCustomButton = @{
         @"label": LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."),
@@ -629,17 +662,13 @@
 
     if (AppDelegate.instance.obj.serverIP.length != 0) {
         if (!AppDelegate.instance.serverOnLine) {
-            [self setRightMenuOption:@"offline" reloadTableData:NO];
+            [self loadRightMenuContentConnected:NO];
             moreButton.enabled = NO;
         }
         else {
-            [self setRightMenuOption:@"online" reloadTableData:NO];
+            [self loadRightMenuContentConnected:YES];
             moreButton.enabled = YES;
         }
-    }
-    else {
-        infoLabel.alpha = 1;
-        [self setRightMenuOption:@"utility" reloadTableData:NO];
     }
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, DEFAULT_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:deltaX];
     [self.view addSubview:messagesView];
@@ -690,7 +719,8 @@
 }
 
 - (void)reloadCustomButtonTable:(NSNotification*)note {
-    [self setRightMenuOption:@"online" reloadTableData:YES];
+    [self loadRightMenuContentConnected:YES];
+    [menuTableView reloadData];
 }
 
 - (void)startTimer:(id)sender {
@@ -713,76 +743,6 @@
 - (BOOL)showEmbeddedVolumeBar:(NSDictionary*)item mainLabel:(NSString*)mainLabel {
     return [item[@"label"] isEqualToString:LOCALIZED_STR(@"VolumeControl")] &&
            [mainLabel isEqualToString:@"EmbeddedRemote"] && [Utilities hasRemoteToolBar];
-}
-
-- (void)setRightMenuOption:(NSString*)key reloadTableData:(BOOL)reload {
-    mainMenu *menuItem = self.rightMenuItems[0];
-    tableData = [[NSMutableArray alloc] initWithCapacity:0];
-
-    for (NSDictionary *item in menuItem.mainMethod[0][key]) {
-        NSString *label = item[@"label"] ?: @"";
-        NSDictionary *bgColor = item[@"bgColor"] ?: @{};
-        NSNumber *hideLine = item[@"hideLineSeparator"] ?: @NO;
-        NSDictionary *fontColor = item[@"fontColor"] ?: @{};
-        NSString *icon = item[@"icon"] ?: @"blank";
-        NSDictionary *action = item[@"action"] ?: @{};
-        NSNumber *showTop = item[@"revealViewTop"] ?: @NO;
-        
-        NSDictionary *itemDict = @{@"label": label,
-                                   @"bgColor": bgColor,
-                                   @"hideLineSeparator": hideLine,
-                                   @"fontColor": fontColor,
-                                   @"icon": icon,
-                                   @"action": action,
-                                   @"revealViewTop": showTop,
-                                   @"isSetting": @NO,
-                                   @"type": @"embedded"};
-         
-        // Do not show the remoteToolBar items in the menu while in "online" state
-        if (!([self itemShownInRemoteToolBar:item] && [key isEqualToString:@"online"])) {
-            [tableData addObject:itemDict];
-        }
-        // "embedded remote" (reachable from NowPlaying screen) always has the volume bar
-        if ([self showEmbeddedVolumeBar:item mainLabel:menuItem.mainLabel] && [key isEqualToString:@"online"]) {
-            [tableData addObject:itemDict];
-        }
-    }
-    editableRowStartAt = tableData.count;
-    if ([key isEqualToString:@"online"] && menuItem.family == FamilyRemote) {
-        customButton *arrayButtons = [customButton new];
-        if (arrayButtons.buttons.count == 0) {
-            editTableButton.enabled = NO;
-            [arrayButtons.buttons addObject:infoCustomButton];
-        }
-        else {
-            editTableButton.enabled = YES;
-        }
-        for (NSDictionary *item in arrayButtons.buttons) {
-            NSString *label = item[@"label"] ?: @"";
-            NSString *icon = item[@"icon"] ?: @"";
-            NSString *type = item[@"type"] ?: @"";
-            NSNumber *isSetting = item[@"isSetting"] ?: @YES;
-            NSDictionary *action = item[@"action"] ?: @{};
-            
-            NSMutableDictionary *itemDict = [@{
-                @"label": label,
-                @"bgColor": @{},
-                @"hideLineSeparator": @NO,
-                @"fontColor": @{},
-                @"icon": icon,
-                @"isSetting": isSetting,
-                @"revealViewTop": @NO,
-                @"type": type,
-                @"action": action,
-            } mutableCopy];
-            
-            [tableData addObject:itemDict];
-        }
-    }
-
-    if (reload) {
-        [menuTableView reloadData];
-    }
 }
 
 - (NSIndexPath*)getIndexPathForKey:(NSString*)key withValue:(NSString*)value inArray:(NSMutableArray*)array {
@@ -818,23 +778,22 @@
 
 - (void)connectionSuccess:(NSNotification*)note {
     [self updateConnectionStatusAndName:note.userInfo];
-    [self setRightMenuOption:@"online" reloadTableData:YES];
-    infoLabel.alpha = 0;
+    [self loadRightMenuContentConnected:YES];
+    [menuTableView reloadData];
     moreButton.enabled = YES;
 }
 
 - (void)connectionFailed:(NSNotification*)note {
     [self updateConnectionStatusAndName:note.userInfo];
     if (AppDelegate.instance.obj.serverIP.length != 0) {
-        infoLabel.alpha = 0;
-        [self setRightMenuOption:@"offline" reloadTableData:YES];
+        [self loadRightMenuContentConnected:YES];
+        [menuTableView reloadData];
         moreButton.enabled = NO;
     }
     else {
         [tableData removeAllObjects];
+        [self loadRightMenuContentConnected:YES];
         [menuTableView reloadData];
-        infoLabel.alpha = 1;
-        [self setRightMenuOption:@"utility" reloadTableData:YES];
     }
 }
 
