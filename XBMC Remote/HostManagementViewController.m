@@ -17,6 +17,8 @@
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
 #define MARGIN 5
 #define BLOCK_MARGIN 10
+#define IPAD_POPOVER_WIDTH 400
+#define IPAD_POPOVER_HEIGHT 500
 
 #define XIB_HOST_MGMT_CELL_ICON 1
 #define XIB_HOST_MGMT_CELL_LABEL 2
@@ -457,7 +459,7 @@
 #pragma mark - LifeCycle
 
 - (void)viewWillAppear:(BOOL)animated {
-    CGSize size = CGSizeMake(320, 400); // size of view in popover
+    CGSize size = CGSizeMake(IPAD_POPOVER_WIDTH, IPAD_POPOVER_HEIGHT); // size of view in popover
     self.preferredContentSize = size;
     [super viewWillAppear:animated];
     if (IS_IPHONE) {
