@@ -2460,6 +2460,12 @@
         ];
         self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.panGesture.delegate = self;
+        
+        UIView *rootView = IS_IPHONE ? UIApplication.sharedApplication.keyWindow.rootViewController.view : self.view;
+        CGFloat deltaY = IS_IPHONE ? UIApplication.sharedApplication.statusBarFrame.size.height : 0;
+        messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:0];
+        messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        [rootView addSubview:messagesView];
     }
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
@@ -2530,7 +2536,7 @@
     if (AppDelegate.instance.obj.serverIP.length == 0) {
         return;
     }
-    UIAlertController *actionView = [Utilities createPowerControl:self];
+    UIAlertController *actionView = [Utilities createPowerControl:self messageView:messagesView];
     [self presentViewController:actionView animated:YES completion:nil];
 }
 
