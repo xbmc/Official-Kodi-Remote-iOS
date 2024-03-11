@@ -216,7 +216,7 @@
         [self toggleSetup];
         return;
     }
-    UIAlertController *actionView = [Utilities createPowerControl:self];
+    UIAlertController *actionView = [Utilities createPowerControl:self messageView:messagesView];
     UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
     if (popPresenter != nil) {
         popPresenter.sourceView = powerButton;
@@ -521,6 +521,10 @@
         frame.origin.y -= bottomPadding;
         xbmcLogo.frame = frame;
     }
+    
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];
+    messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    [self.view addSubview:messagesView];
 
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleXBMCServerHasChanged:)

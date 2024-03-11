@@ -10,6 +10,7 @@
 #import "DSJSONRPC.h"
 #import "gradientUIView.h"
 #import "tcpJSONRPC.h"
+#import "MessagesView.h"
 
 @class MenuViewController;
 @class StackScrollViewController;
@@ -43,6 +44,7 @@
     BOOL appInfo;
     UIImageView *fanartBackgroundImage;
     BOOL isFullscreen;
+    MessagesView *messagesView;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
