@@ -606,7 +606,7 @@
         self.navigationItem.titleView = xbmcLogo;
         UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
-        UIImage *powerImg = [UIImage imageNamed:@"icon_power_up"];
+        UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)];
     }
     doRevealMenu = YES;

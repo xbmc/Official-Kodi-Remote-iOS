@@ -459,7 +459,7 @@
     [self.view addSubview:xbmcLogo];
     
     // 3rd right most element
-    image = [UIImage imageNamed:@"icon_power_up"];
+    image = [UIImage imageNamed:@"icon_power"];
     image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - POWERBUTTON_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
     [powerButton setImage:image forState:UIControlStateNormal];
