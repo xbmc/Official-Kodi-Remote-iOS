@@ -63,8 +63,8 @@
 #define TAG_ID_EDIT 88
 #define SELECTED_NONE -1
 #define ID_INVALID -2
-#define FLIP_DEMO_DELAY 0.5
-#define TRANSITION_TIME 0.7
+#define FLIP_DEMO_DELAY 1.0
+#define TRANSITION_TIME 0.2
 
 #define XIB_PLAYLIST_CELL_MAINTITLE 1
 #define XIB_PLAYLIST_CELL_SUBTITLE 2
@@ -1450,7 +1450,7 @@
 
 - (void)flipAnimButton:(UIButton*)button demo:(BOOL)demo {
     if (demo) {
-        animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
+        animationOptionTransition = UIViewAnimationOptionTransitionCrossDissolve;
         startFlipDemo = NO;
     }
     UIImage *buttonImage;
@@ -1487,7 +1487,7 @@
         transitionToView = playlistView;
         self.navigationItem.title = LOCALIZED_STR(@"Playlist");
         self.navigationItem.titleView.hidden = YES;
-        animationOptionTransition = UIViewAnimationOptionTransitionFlipFromRight;
+        animationOptionTransition = UIViewAnimationOptionTransitionCrossDissolve;
         effectColor = UIColor.clearColor;
         [self setIPadBackgroundColor:effectColor effectDuration:0.2];
         playtoolbarAlpha = 1.0;
@@ -1497,7 +1497,7 @@
         transitionToView = nowPlayingView;
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
-        animationOptionTransition = UIViewAnimationOptionTransitionFlipFromLeft;
+        animationOptionTransition = UIViewAnimationOptionTransitionCrossDissolve;
         if (foundEffectColor == nil) {
             effectColor = UIColor.clearColor;
         }
