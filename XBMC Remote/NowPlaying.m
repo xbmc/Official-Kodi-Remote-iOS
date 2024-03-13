@@ -2690,7 +2690,7 @@
     }
     else {
         // Make navigation bar transparent
-        if (@available(iOS 15, *)) {
+        if (@available(iOS 13, *)) {
             UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
             [appearance configureWithOpaqueBackground];
             [appearance configureWithTransparentBackground];
