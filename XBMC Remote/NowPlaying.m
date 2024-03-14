@@ -2477,7 +2477,7 @@
     slideFrom = [self currentScreenBoundsDependOnOrientation].size.width;
     
     CGRect frame = playlistActionView.frame;
-    frame.origin.y = playlistTableView.frame.size.height - playlistActionView.frame.size.height;
+    frame.origin.y = CGRectGetMinY(playlistToolbarView.frame) - CGRectGetHeight(playlistActionView.frame);
     playlistActionView.frame = frame;
     playlistActionView.alpha = 0.0;
 }
@@ -2494,7 +2494,7 @@
     playlistLeftShadow.hidden = NO;
     
     frame = playlistActionView.frame;
-    frame.origin.y = playlistTableView.frame.size.height - playlistActionView.frame.size.height;
+    frame.origin.y = CGRectGetHeight(playlistTableView.frame) - CGRectGetHeight(playlistActionView.frame);
     playlistActionView.frame = frame;
     playlistActionView.alpha = 1.0;
     
