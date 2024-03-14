@@ -187,6 +187,10 @@
     }
 }
 
+- (void)showDesktop {
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollRemoveAll" object:nil];
+}
+
 - (void)showRemote {
     RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
     remoteController.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -508,6 +512,16 @@
     remoteButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     [remoteButton addTarget:self action:@selector(showRemote) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:remoteButton];
+    
+    // "show desktop" button next to remote button
+    image = [UIImage imageNamed:@"icon_menu_playing"];
+    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    UIButton *showDesktopButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width + 25, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
+    [showDesktopButton setImage:image forState:UIControlStateNormal];
+    [showDesktopButton setImage:image forState:UIControlStateHighlighted];
+    showDesktopButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
+    [showDesktopButton addTarget:self action:@selector(showDesktop) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:showDesktopButton];
     
     // right most element
     connectionStatus = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - CONNECTION_ICON_SIZE - VIEW_PADDING, self.view.frame.size.height - (TOOLBAR_HEIGHT + CONNECTION_ICON_SIZE) / 2 - [Utilities getBottomPadding], CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE)];
