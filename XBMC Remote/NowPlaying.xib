@@ -220,7 +220,7 @@
                                             <rect key="frame" x="180" y="156" width="44" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hires" translatesAutoresizingMaskIntoConstraints="NO" id="wNZ-yG-OdQ" userLabel="HiRes Image">
+                                        <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hires" translatesAutoresizingMaskIntoConstraints="NO" id="wNZ-yG-OdQ" userLabel="HiRes Image">
                                             <rect key="frame" x="225" y="158" width="16" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         </imageView>
