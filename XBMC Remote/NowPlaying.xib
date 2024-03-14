@@ -159,7 +159,7 @@
                                                 <action selector="buttonToggleItemInfo:" destination="-1" eventType="touchUpInside" id="Zpm-ON-5ec"/>
                                             </connections>
                                         </button>
-                                        <textView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" indicatorStyle="white" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HhJ-Ci-xP8" userLabel="Item description">
+                                        <textView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" indicatorStyle="white" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="HhJ-Ci-xP8" userLabel="Item description">
                                             <rect key="frame" x="10" y="37" width="220" height="115"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
