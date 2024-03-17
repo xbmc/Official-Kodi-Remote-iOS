@@ -89,7 +89,7 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"tabHasChanged" object: indexPath];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"tabHasChanged" object:indexPath];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

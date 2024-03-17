@@ -67,22 +67,22 @@
         [inputAccView addSubview:keyboardTitle];
         [inputAccView addSubview:backgroundTextField];
         
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(showKeyboard:)
-                                                     name: @"Input.OnInputRequested"
-                                                   object: nil];
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(hideKeyboard)
-                                                     name: @"Input.OnInputFinished"
-                                                   object: nil];
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(cancelKeyboard)
-                                                     name: @"Input.OnInputCanceled"
-                                                   object: nil];
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(toggleVirtualKeyboard)
-                                                     name: @"toggleVirtualKeyboard"
-                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(showKeyboard:)
+                                                     name:@"Input.OnInputRequested"
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(hideKeyboard)
+                                                     name:@"Input.OnInputFinished"
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(cancelKeyboard)
+                                                     name:@"Input.OnInputCanceled"
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(toggleVirtualKeyboard)
+                                                     name:@"toggleVirtualKeyboard"
+                                                   object:nil];
     }
     return self;
 }
@@ -99,7 +99,7 @@
          callMethod:@"GUI.GetProperties"
          withParameters:@{@"properties": @[@"currentwindow"]}
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-             if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
+             if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                  if (methodResult[@"currentwindow"] != [NSNull null]) {
                      if ([methodResult[@"currentwindow"][@"id"] longLongValue] == WINDOW_VIRTUAL_KEYBOARD) {
                          [self GUIAction:@"Input.Back" params:@{} httpAPIcallback:nil];

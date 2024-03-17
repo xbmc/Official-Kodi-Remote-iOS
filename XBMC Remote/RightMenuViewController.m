@@ -146,14 +146,14 @@
         frame.origin.y = RIGHT_MENU_CELL_SPACING;
         frame.size.height = RIGHT_MENU_ITEM_HEIGHT - 2 * RIGHT_MENU_CELL_SPACING;
         if ([tableData[indexPath.row][@"type"] isEqualToString:@"boolean"]) {
-            UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
+            UISwitch *onoff = [[UISwitch alloc] initWithFrame:CGRectZero];
             onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-            [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
+            [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
             onoff.frame = CGRectMake(0, (RIGHT_MENU_ITEM_HEIGHT - onoff.frame.size.height) / 2, onoff.frame.size.width, onoff.frame.size.height);
             onoff.hidden = NO;
             onoff.tag = ONOFF_BUTTON_TAG_OFFSET + indexPath.row;
 
-            UIView *onoffview = [[UIView alloc] initWithFrame: CGRectMake(0, 0, onoff.frame.size.width, RIGHT_MENU_ITEM_HEIGHT)];
+            UIView *onoffview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, onoff.frame.size.width, RIGHT_MENU_ITEM_HEIGHT)];
             [onoffview addSubview:onoff];
 
             UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -170,7 +170,7 @@
                 onoff.hidden = YES;
                 [indicator startAnimating];
                 NSString *command = @"Settings.GetSettingValue";
-                NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys: tableData[indexPath.row][@"action"][@"params"][@"setting"], @"setting", nil];
+                NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:tableData[indexPath.row][@"action"][@"params"][@"setting"], @"setting", nil];
                 [self getXBMCValue:command params:parameters uiControl:onoff storeSetting: tableData[indexPath.row][@"action"][@"params"] indicator:indicator];
             }
             cell.accessoryView = onoffview;
@@ -357,7 +357,7 @@
     NSInteger tableIdx = onoff.tag - ONOFF_BUTTON_TAG_OFFSET;
     if (tableIdx < tableData.count) {
         NSString *command = tableData[tableIdx][@"action"][@"command"];
-        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys: tableData[tableIdx][@"action"][@"params"][@"setting"], @"setting", @(onoff.on), @"value", nil];
+        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:tableData[tableIdx][@"action"][@"params"][@"setting"], @"setting", @(onoff.on), @"value", nil];
         if ([tableData[tableIdx][@"action"][@"params"] respondsToSelector:@selector(setObject:forKey:)]) {
             tableData[tableIdx][@"action"][@"params"][@"value"] = @(onoff.on);
         }
@@ -484,27 +484,27 @@
         }
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Keyboard")]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleVirtualKeyboard" object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleVirtualKeyboard" object:nil userInfo:nil];
         if ([tableData[indexPath.row][@"revealViewTop"] boolValue]) {
             [self.slidingViewController resetTopView];
         }
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Help Screen")]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleQuickHelp" object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleQuickHelp" object:nil userInfo:nil];
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Gesture Zone")]) {
         NSDictionary *userInfo = @{@"forceGestureZone": @YES};
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad")]) {
         NSDictionary *userInfo = @{@"forceGestureZone": @NO};
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleGestureZone" object:nil userInfo:userInfo];
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad/Gesture Zone")]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIToggleGestureZone" object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleGestureZone" object:nil userInfo:nil];
         [self.slidingViewController resetTopView];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
@@ -594,7 +594,7 @@
     CGFloat footerHeight = 0;
     if (menuItems.family == FamilyRemote) {
         footerHeight = TOOLBAR_HEIGHT + bottomPadding;
-        [self.view addSubview:[self createTableFooterView: footerHeight]];
+        [self.view addSubview:[self createTableFooterView:footerHeight]];
     }
     if (menuItems.family == FamilyNowPlaying || menuItems.family == FamilyRemote) {
         volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
@@ -622,25 +622,25 @@
         }
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(connectionSuccess:)
-                                                 name: @"XBMCServerConnectionSuccess"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(connectionSuccess:)
+                                                 name:@"XBMCServerConnectionSuccess"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(connectionFailed:)
-                                                 name: @"XBMCServerConnectionFailed"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(connectionFailed:)
+                                                 name:@"XBMCServerConnectionFailed"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(stopTimer:)
-                                                 name: @"ECSlidingViewUnderRightWillDisappear"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(stopTimer:)
+                                                 name:@"ECSlidingViewUnderRightWillDisappear"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(reloadCustomButtonTable:)
-                                                 name: @"UIInterfaceCustomButtonAdded"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadCustomButtonTable:)
+                                                 name:@"UIInterfaceCustomButtonAdded"
+                                               object:nil];
 }
 
 - (void)reloadCustomButtonTable:(NSNotification*)note {

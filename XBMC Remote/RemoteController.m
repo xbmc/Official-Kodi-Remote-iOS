@@ -158,7 +158,7 @@
                            buttonMovies,
                            buttonTVShows,
                            buttonPictures]
-                    ypos: -shift];
+                    ypos:-shift];
     }
     else {
         shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY(buttonStop.frame);
@@ -166,7 +166,7 @@
                            buttonMovies,
                            buttonTVShows,
                            buttonPictures]
-                    hide: YES];
+                    hide:YES];
     }
     
     // Place the transitional view in the middle between the two button rows
@@ -336,7 +336,7 @@
                                          @"Window.IsActive(slideshow)"]}
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              
-             if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
+             if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                  NSNumber *fullscreenActive = 0;
                  NSNumber *visualisationActive = 0;
                  NSNumber *slideshowActive = 0;
@@ -457,12 +457,12 @@
                          completion:nil];
         imageName = @"finger";
     }
-    if ([sender isKindOfClass: [UIButton class]]) {
+    if ([sender isKindOfClass:[UIButton class]]) {
         [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
         [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateHighlighted];
 
     }
-    else if ([sender isKindOfClass: [UIBarButtonItem class]]) {
+    else if ([sender isKindOfClass:[UIBarButtonItem class]]) {
         [sender setImage:[UIImage imageNamed:imageName]];
     }
     [self saveRemoteMode];
@@ -768,7 +768,7 @@
          withParameters:@{@"properties": @[@"currentwindow",
                                            @"fullscreen"]}
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-             if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
+             if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                  long winID = 0;
                  BOOL isFullscreen = NO;
                  if (methodResult[@"fullscreen"] != [NSNull null]) {
@@ -783,7 +783,7 @@
                       withParameters:@{@"booleans": @[@"VideoPlayer.HasMenu",
                                                       @"Pvr.IsPlayingTv"]}
                       onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                          if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
+                          if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                               BOOL VideoPlayerHasMenu = NO;
                               BOOL PvrIsPlayingTv = NO;
                               if (methodResult[@"VideoPlayer.HasMenu"] != [NSNull null]) {
@@ -1144,42 +1144,42 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
     [self volumeInfo];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(revealMenu:)
-                                                 name: @"RevealMenu"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(toggleVirtualKeyboard:)
-                                                 name: @"UIToggleVirtualKeyboard"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(toggleQuickHelp:)
-                                                 name: @"UIToggleQuickHelp"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(toggleGestureZone:)
-                                                 name: @"UIToggleGestureZone"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(hideKeyboard:)
-                                                 name: @"ECSlidingViewTopWillReset"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(hideKeyboard:)
-                                                 name: @"ECSlidingViewUnderRightWillAppear"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(hideKeyboard:)
-                                                 name: @"ECSlidingViewUnderLeftWillAppear"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(disablePopGestureRecognizer:)
-                                                 name: @"ECSlidingViewUnderRightWillAppear"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(enablePopGestureRecognizer:)
-                                                 name: @"ECSlidingViewTopDidReset"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(revealMenu:)
+                                                 name:@"RevealMenu"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(toggleVirtualKeyboard:)
+                                                 name:@"UIToggleVirtualKeyboard"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(toggleQuickHelp:)
+                                                 name:@"UIToggleQuickHelp"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(toggleGestureZone:)
+                                                 name:@"UIToggleGestureZone"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideKeyboard:)
+                                                 name:@"ECSlidingViewTopWillReset"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideKeyboard:)
+                                                 name:@"ECSlidingViewUnderRightWillAppear"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideKeyboard:)
+                                                 name:@"ECSlidingViewUnderLeftWillAppear"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(disablePopGestureRecognizer:)
+                                                 name:@"ECSlidingViewUnderRightWillAppear"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(enablePopGestureRecognizer:)
+                                                 name:@"ECSlidingViewTopDidReset"
+                                               object:nil];
 }
 
 - (void)enablePopGestureRecognizer:(id)sender {
@@ -1384,7 +1384,7 @@
         [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:rightMenuViewController invokeByController:self isStackStartView:NO];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"LeaveFullscreen" object:nil userInfo:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOnScreen" object:nil];
     }
 }
 

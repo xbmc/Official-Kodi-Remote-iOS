@@ -81,15 +81,15 @@
         [self.view addGestureRecognizer:panRecognizer];
         [self.view addSubview:slideViews];
         
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(handleStackScrollFullScreenEnabled:)
-                                                     name: @"StackScrollFullScreenEnabled"
-                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleStackScrollFullScreenEnabled:)
+                                                     name:@"StackScrollFullScreenEnabled"
+                                                   object:nil];
         
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(handleStackScrollFullScreenDisabled:)
-                                                     name: @"StackScrollFullScreenDisabled"
-                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleStackScrollFullScreenDisabled:)
+                                                     name:@"StackScrollFullScreenDisabled"
+                                                   object:nil];
     }
     
     return self;
@@ -219,7 +219,7 @@
             [subview removeFromSuperview];
         }
         [viewControllersStack removeAllObjects];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOffScreen" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOffScreen" object:nil];
     }];
 }
 
@@ -473,10 +473,10 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleAutoPan)
-                                                 name: @"UIApplicationEnableStackPan"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleAutoPan)
+                                                 name:@"UIApplicationEnableStackPan"
+                                               object:nil];
 }
 
 - (void)handleAutoPan {

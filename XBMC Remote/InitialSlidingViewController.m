@@ -61,7 +61,7 @@
 }
 
 - (void)handleMenuButton {
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"RevealMenu" object: nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"RevealMenu" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

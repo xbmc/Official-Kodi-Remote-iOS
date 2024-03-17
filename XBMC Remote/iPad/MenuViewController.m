@@ -75,18 +75,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     lastSelected = -1;
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleDeselectSection)
-                                                 name: @"MainMenuDeselectSection"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleEnablingDefaultController)
-                                                 name: @"KodiStartDefaultController"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleRemoveStack)
-                                                 name: @"StackScrollRemoveAll"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDeselectSection)
+                                                 name:@"MainMenuDeselectSection"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleEnablingDefaultController)
+                                                 name:@"KodiStartDefaultController"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleRemoveStack)
+                                                 name:@"StackScrollRemoveAll"
+                                               object:nil];
 }
 
 - (void)setMenuHeight:(CGFloat)tableHeight {
@@ -188,7 +188,7 @@
             return;
         }
         if (item.family == FamilyDetailView) {
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOnScreen" object:nil];
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:YES];
         }

@@ -72,7 +72,7 @@
             float position = [Utilities getFloatValueFromItem:resumePointDict[@"position"]];
             float total = [Utilities getFloatValueFromItem:resumePointDict[@"total"]];
             if (position > 0 && total > 0 && [VersionCheck hasPlayerOpenOptions]) {
-                [sheetActions addObject:LOCALIZED_STR_ARGS(@"Resume from %@", [Utilities convertTimeFromSeconds: @(position)])];
+                [sheetActions addObject:LOCALIZED_STR_ARGS(@"Resume from %@", [Utilities convertTimeFromSeconds:@(position)])];
             }
         }
         BOOL fromAlbumView = NO;
@@ -125,7 +125,7 @@
             toolbar = [UIToolbar new];
             toolbar.barStyle = UIBarStyleBlack;
             toolbar.translucent = YES;
-            viewTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, STACKSCROLL_WIDTH, TITLE_HEIGHT)];
+            viewTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, TITLE_HEIGHT)];
             viewTitle.backgroundColor = UIColor.clearColor;
             viewTitle.textAlignment = NSTextAlignmentLeft;
             viewTitle.textColor = UIColor.whiteColor;
@@ -221,7 +221,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableStackPan" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableStackPan" object:nil];
     }
 }
 
@@ -299,7 +299,7 @@
             objKey = movieObjKey;
         }
         else if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
-            obj = [NSDictionary dictionaryWithObjectsAndKeys: obj, objKey, nil];
+            obj = [NSDictionary dictionaryWithObjectsAndKeys:obj, objKey, nil];
             objKey = @"filter";
         }
         NSMutableDictionary *newSectionParameters = nil;
@@ -339,7 +339,7 @@
             if (![self isModal]) {
                 DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                 [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-                [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:nil];
             }
             else {
                 DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
@@ -403,17 +403,17 @@
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
         NSDictionary *itemParams = @{
-            @"item": [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"trailer"], @"file", nil],
+            @"item": [NSDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"trailer"], @"file", nil],
         };
         [self openFile:itemParams];
     }
 }
 
 - (void)animateRecordAction {
-    [UIView animateWithDuration: 0.2
-                          delay: 0.0
-                        options: UIViewAnimationOptionCurveEaseOut
-                     animations: ^{
+    [UIView animateWithDuration:0.2
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
                          CGRect frame;
                          frame = voteLabel.frame;
                          if (isRecording.alpha == 0.0) {
@@ -479,7 +479,7 @@
                                            storeBroadcastid, @"broadcastid",
                                            status, @"status",
                                            nil];
-                   [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
                }
                else {
                    NSString *message = [Utilities formatClipboardMessage:methodToCall
@@ -1415,7 +1415,7 @@
                             }
                             if (IS_IPAD) {
                                 if (![self isModal]) {
-                                    [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollFullScreenDisabled" object:self.view userInfo:nil];
                                 }
                             }
                          }
@@ -1475,7 +1475,7 @@
                                          @"hideToolbar": @YES,
                                          @"clipsToBounds": @YES,
                                      };
-                                     [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollFullScreenEnabled" object:self.view userInfo:params];
                                  }
                              }
                         }
@@ -1647,12 +1647,12 @@
                          NSString *action2 = @"Playlist.Insert";
                          NSDictionary *params2 = @{
                              @"playlistid": @(playlistid),
-                             @"item": [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil],
+                             @"item": [NSDictionary dictionaryWithObjectsAndKeys:value, param, nil],
                              @"position": @(newPos),
                          };
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                              if (error == nil && methodError == nil) {
-                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
                              }
                              
                          }];
@@ -1675,12 +1675,12 @@
         [activityIndicatorView startAnimating];
         NSDictionary *params = @{
             @"playlistid": @(playlistid),
-            @"item": [NSDictionary dictionaryWithObjectsAndKeys: value, param, nil],
+            @"item": [NSDictionary dictionaryWithObjectsAndKeys:value, param, nil],
         };
         [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             [activityIndicatorView stopAnimating];
             if (error == nil && methodError == nil) {
-                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
             }
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }];
@@ -1691,7 +1691,7 @@
     NSDictionary *item = self.detailItem;
     if ([item[@"family"] isEqualToString:@"broadcastid"]) {
         NSDictionary *itemParams = @{
-            @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"pvrExtraInfo"][@"channelid"], @"channelid", nil],
+            @"item": [NSDictionary dictionaryWithObjectsAndKeys:item[@"pvrExtraInfo"][@"channelid"], @"channelid", nil],
         };
         [self openFile:itemParams];
     }
@@ -1714,7 +1714,7 @@
         };
         [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
-                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
                 [activityIndicatorView stopAnimating];
                 [self showNowPlaying];
                 [Utilities checkForReviewRequest];
@@ -1732,7 +1732,7 @@
     [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [activityIndicatorView stopAnimating];
         if (error == nil && methodError == nil) {
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
             [self showNowPlaying];
         }
     }];
@@ -1846,7 +1846,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self setIOS7barTintColor:ICON_TINT_COLOR];
 }
 
@@ -1913,10 +1913,10 @@
     localEndDateFormatter.timeZone = [NSTimeZone systemTimeZone];
     localEndDateFormatter.dateFormat = @"HH:mm";
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(leaveFullscreen)
-                                                 name: @"LeaveFullscreen"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(leaveFullscreen)
+                                                 name:@"LeaveFullscreen"
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

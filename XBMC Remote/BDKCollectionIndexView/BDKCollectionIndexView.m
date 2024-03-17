@@ -215,12 +215,12 @@
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         [self setBackgroundVisibility:NO];
         self.alpha = DEFAULT_ALPHA;
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateEnded" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"BDKCollectionIndexViewGestureRecognizerStateEnded" object:nil];
     }
     else {
         [self setBackgroundVisibility:NO];
         self.alpha = 1.0;
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"BDKCollectionIndexViewGestureRecognizerStateBegin" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"BDKCollectionIndexViewGestureRecognizerStateBegin" object:nil];
     }
     [self setNewIndexForPoint:[recognizer locationInView:self]];
 }
