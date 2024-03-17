@@ -506,7 +506,7 @@
     // remote button next to volume control buttons
     UIImage *image = [UIImage imageNamed:@"icon_menu_remote"];
     image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
-    remoteButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - REMOTE_PADDING_LEFT, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
+    UIButton *remoteButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - REMOTE_PADDING_LEFT, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
     [remoteButton setImage:image forState:UIControlStateNormal];
     [remoteButton setImage:image forState:UIControlStateHighlighted];
     remoteButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;

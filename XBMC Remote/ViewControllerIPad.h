@@ -30,7 +30,6 @@
     StackScrollViewController *stackScrollViewController;
     NSIndexPath *storeServerSelection;
     int YPOS;
-    UIButton *remoteButton;
     UIButton *xbmcLogo;
     UIButton *xbmcInfo;
     UIButton *powerButton;
