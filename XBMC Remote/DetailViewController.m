@@ -5968,6 +5968,7 @@
                                              selector:@selector(handleTabHasChanged:)
                                                  name:@"tabHasChanged"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(revealMenu:)
                                                  name:@"RevealMenu"
@@ -5977,6 +5978,7 @@
                                              selector:@selector(hideKeyboard:)
                                                  name:@"ECSlidingViewUnderLeftWillAppear"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(showKeyboard:)
                                                  name:@"ECSlidingViewTopDidReset"

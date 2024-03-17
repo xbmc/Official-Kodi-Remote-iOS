@@ -537,46 +537,57 @@
                                              selector:@selector(handleXBMCServerHasChanged:)
                                                  name:@"XBMCServerHasChanged"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleStackScrollOnScreen:)
                                                  name:@"StackScrollOnScreen"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleStackScrollOffScreen:)
                                                  name:@"StackScrollOffScreen"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleDidEnterBackground:)
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleTcpJSONRPCShowSetup:)
                                                  name:@"TcpJSONRPCShowSetup"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleTcpJSONRPCChangeServerStatus:)
                                                  name:@"TcpJSONRPCChangeServerStatus"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionStatus:)
                                                  name:@"XBMCServerConnectionSuccess"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionStatus:)
                                                  name:@"XBMCServerConnectionFailed"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleChangeBackgroundImage:)
                                                  name:@"IpadChangeBackgroundImage"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleNowPlayingFullscreenToggle)
                                                  name:@"NowPlayingFullscreenToggle"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handlePlaylistHeaderUpdate:)
                                                  name:@"PlaylistHeaderUpdate"

@@ -2586,7 +2586,7 @@
                                              selector:@selector(handleXBMCPlaylistHasChanged:)
                                                  name:@"Playlist.OnRemove"
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(revealMenu:)
                                                  name:@"RevealMenu"
@@ -2596,6 +2596,7 @@
                                              selector:@selector(disablePopGestureRecognizer:)
                                                  name:@"ECSlidingViewUnderRightWillAppear"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(enablePopGestureRecognizer:)
                                                  name:@"ECSlidingViewTopDidReset"

@@ -75,14 +75,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     lastSelected = -1;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleDeselectSection)
                                                  name:@"MainMenuDeselectSection"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleEnablingDefaultController)
                                                  name:@"KodiStartDefaultController"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleRemoveStack)
                                                  name:@"StackScrollRemoveAll"

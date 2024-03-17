@@ -26,6 +26,7 @@ NSInputStream *inStream;
                                                  selector:@selector(handleSystemOnSleep:)
                                                      name:@"System.OnSleep"
                                                    object:nil];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleDidBecomeActive:)
                                                      name:UIApplicationDidBecomeActiveNotification

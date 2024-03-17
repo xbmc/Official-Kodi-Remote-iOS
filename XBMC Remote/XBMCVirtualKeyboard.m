@@ -71,14 +71,17 @@
                                                  selector:@selector(showKeyboard:)
                                                      name:@"Input.OnInputRequested"
                                                    object:nil];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(hideKeyboard)
                                                      name:@"Input.OnInputFinished"
                                                    object:nil];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(cancelKeyboard)
                                                      name:@"Input.OnInputCanceled"
                                                    object:nil];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(toggleVirtualKeyboard)
                                                      name:@"toggleVirtualKeyboard"

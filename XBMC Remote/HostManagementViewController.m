@@ -637,34 +637,42 @@
                                              selector:@selector(revealMenu:)
                                                  name:@"RevealMenu"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionSuccess:)
                                                  name:@"XBMCServerConnectionSuccess"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionFailed:)
                                                  name:@"XBMCServerConnectionFailed"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(resetDoReveal:)
                                                  name:@"ECSlidingViewUnderRightWillAppear"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(authFailed:)
                                                  name:@"XBMCServerAuthenticationFailed"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionError:)
                                                  name:@"XBMCServerConnectionError"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(tcpJSONRPCConnectionError:)
                                                  name:@"tcpJSONRPCConnectionError"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(disablePopGestureRecognizer:)
                                                  name:@"ECSlidingViewUnderRightWillAppear"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(enablePopGestureRecognizer:)
                                                  name:@"ECSlidingViewTopDidReset"

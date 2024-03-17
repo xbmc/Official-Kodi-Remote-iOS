@@ -1144,38 +1144,47 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
     [self volumeInfo];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(revealMenu:)
                                                  name:@"RevealMenu"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(toggleVirtualKeyboard:)
                                                  name:@"UIToggleVirtualKeyboard"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(toggleQuickHelp:)
                                                  name:@"UIToggleQuickHelp"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(toggleGestureZone:)
                                                  name:@"UIToggleGestureZone"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(hideKeyboard:)
                                                  name:@"ECSlidingViewTopWillReset"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(hideKeyboard:)
                                                  name:@"ECSlidingViewUnderRightWillAppear"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(hideKeyboard:)
                                                  name:@"ECSlidingViewUnderLeftWillAppear"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(disablePopGestureRecognizer:)
                                                  name:@"ECSlidingViewUnderRightWillAppear"
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(enablePopGestureRecognizer:)
                                                  name:@"ECSlidingViewTopDidReset"
