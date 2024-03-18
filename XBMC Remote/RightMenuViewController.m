@@ -80,7 +80,7 @@
                                                alpha:1];
     }
     else { // xcode xib bug with ipad?
-        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
+        cell.backgroundColor = UIColor.clearColor;
     }
 }
 
@@ -106,15 +106,6 @@
     UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
     backView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
     cell.selectedBackgroundView = backView;
-    
-    // Load Kodi background logo
-    UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
-    UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:PHONE_MENU_INFO_HEIGHT width:self.view.bounds.size.width]];
-    xbmc_logo.alpha = 0.25;
-    xbmc_logo.image = logo;
-    xbmc_logo.highlightedImage = [UIImage imageNamed:@"xbmc_logo_selected"];
-    xbmc_logo.hidden = YES;
-    [cell insertSubview:xbmc_logo atIndex:0];
     // WROKAROUND END
     
     // Reset to default for each cell to allow dequeuing
@@ -122,6 +113,7 @@
     UIImageView *status = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__STATUS];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__TITLE];
     UIImageView *line = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__SEPARATOR];
+    line.hidden = YES;
     status.hidden = YES;
     status.image = nil;
     icon.hidden = NO;
@@ -148,9 +140,6 @@
     
     // Tailor cell layout for content type
     if ([tableData[indexPath.row][@"label"] isEqualToString:@"ServerInfo"]) {
-        // Show kodi logo
-        xbmc_logo.hidden = NO;
-        
         // Enable connection status icon and place it
         status.frame = CGRectMake(STATUS_SPACING,
                                   (SERVER_INFO_HEIGHT - RIGHT_MENU_ICON_SIZE) / 2,
@@ -176,7 +165,6 @@
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:@"RemoteControl"]) {
         remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:YES bundle:nil];
-        remoteControllerView.panFallbackImageView.frame = cell.frame;
         [cell.contentView addSubview:remoteControllerView.view];
     }
     else {
@@ -309,9 +297,8 @@
         detailViewController.detailItem = AppDelegate.instance.xbmcSettings;
         if (IS_IPHONE) {
             CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:detailViewController];
-            UINavigationBar *newBar = navController.navigationBar;
-            newBar.barStyle = UIBarStyleBlack;
-            newBar.tintColor = ICON_TINT_COLOR;
+            navController.navigationBar.barStyle = UIBarStyleBlack;
+            navController.navigationBar.tintColor = ICON_TINT_COLOR;
             navController.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:navController animated:YES completion:NULL];
         }
@@ -631,8 +618,7 @@
         [volumeSliderView startTimer];
     }
     menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - footerHeight - 1) style:UITableViewStylePlain];
-    menuTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    menuTableView.separatorColor = [Utilities getGrayColor:29 alpha:1];
+    menuTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     menuTableView.delegate = self;
     menuTableView.dataSource = self;
     menuTableView.backgroundColor = UIColor.clearColor;

@@ -30,7 +30,6 @@
     StackScrollViewController *stackScrollViewController;
     NSIndexPath *storeServerSelection;
     int YPOS;
-    UIButton *remoteButton;
     UIButton *xbmcLogo;
     UIButton *xbmcInfo;
     UIButton *powerButton;
@@ -43,6 +42,7 @@
     BOOL serverPicker;
     BOOL appInfo;
     UIImageView *fanartBackgroundImage;
+    BOOL isFullscreen;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;

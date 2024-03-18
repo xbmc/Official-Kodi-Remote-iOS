@@ -414,8 +414,8 @@
 }
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
-    // iOS 15 requires to set the appearance for the navigationbar, otherwise it defaults to unwanted transparency
-    if (@available(iOS 15, *)) {
+    // iOS 13 and later use appearance for the navigationbar, from iOS 15 this is required as it else defaults to unwanted transparency
+    if (@available(iOS 13, *)) {
         UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
         [appearance configureWithOpaqueBackground];
         appearance.titleTextAttributes = @{NSForegroundColorAttributeName : UIColor.whiteColor};
