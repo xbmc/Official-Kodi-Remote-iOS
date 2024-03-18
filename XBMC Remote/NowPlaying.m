@@ -460,7 +460,6 @@
 }
 
 - (void)setIPadBackgroundColor:(UIColor*)color effectDuration:(NSTimeInterval)time {
-    color = UIColor.blackColor;
     if (IS_IPAD) {
         NSDictionary *params;
         if ([color isEqual:UIColor.clearColor]) {
@@ -471,6 +470,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:nil];
         }
         else {
+            color = UIColor.blackColor;
             CGFloat hue, saturation, brightness, alpha;
             BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
             if (ok) {
