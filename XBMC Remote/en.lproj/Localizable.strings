@@ -218,6 +218,7 @@
 "Execute program" = "Execute program";
 "Execute video add-on" = "Execute video add-on";
 "Execute audio add-on" = "Execute audio add-on";
+"Execute add-on" = "Execute add-on";
 "Add-on executed successfully" = "Add-on executed successfully";
 "Unable to execute the add-on" = "Unable to execute the add-on";
 
