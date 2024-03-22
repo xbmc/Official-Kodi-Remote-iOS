@@ -5940,16 +5940,9 @@
     nowPlayingItem1.family = FamilyNowPlaying;
     nowPlayingItem1.mainMethod = @[
         @{
-            @"offline": @[
-                @{
-                    @"label": @"ServerInfo",
-                },
-            ],
+            @"offline": @[],
                    
             @"online": @[
-                @{
-                    @"label": @"ServerInfo",
-                },
                 @{
                     @"label": @"VolumeControl",
                     @"icon": @"volume",
@@ -5978,18 +5971,12 @@
         @{
             @"offline": @[
                 @{
-                    @"label": @"ServerInfo",
-                },
-                @{
                     @"label": LOCALIZED_STR(@"LED Torch"),
                     @"icon": @"torch",
                 },
             ],
                                    
             @"online": @[
-                @{
-                    @"label": @"ServerInfo",
-                },
                 @{
                     @"label": @"VolumeControl",
                     @"icon": @"volume",

@@ -16,7 +16,6 @@
 #import "Utilities.h"
 
 #define TOOLBAR_HEIGHT 44.0
-#define SERVER_INFO_HEIGHT 44.0
 #define RIGHT_MENU_ITEM_HEIGHT 50.0
 #define RIGHT_MENU_ICON_SIZE 18.0
 #define RIGHT_MENU_ICON_SPACING 16.0
@@ -50,10 +49,7 @@
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     NSString *rowContent = tableData[indexPath.row][@"label"];
-    if ([rowContent isEqualToString:@"ServerInfo"]) {
-        return SERVER_INFO_HEIGHT;
-    }
-    else if ([rowContent isEqualToString:@"RemoteControl"]) {
+    if ([rowContent isEqualToString:@"RemoteControl"]) {
         return UIScreen.mainScreen.bounds.size.height - [self getRemoteViewOffsetY];
     }
     else if ([rowContent isEqualToString:@"VolumeControl"]) {
@@ -127,26 +123,7 @@
     NSString *iconName = @"blank";
     
     // Tailor cell layout for content type
-    if ([tableData[indexPath.row][@"label"] isEqualToString:@"ServerInfo"]) {
-        // Enable connection status icon and place it
-        status.frame = CGRectMake(STATUS_SPACING,
-                                  (SERVER_INFO_HEIGHT - RIGHT_MENU_ICON_SIZE) / 2,
-                                  RIGHT_MENU_ICON_SIZE,
-                                  RIGHT_MENU_ICON_SIZE);
-        status.image = [UIImage imageNamed:[Utilities getConnectionStatusIconName]];
-        status.alpha = 1.0;
-        status.hidden = NO;
-        
-        // Adapt text field to align with connection status
-        title.frame = CGRectMake(CGRectGetMaxX(status.frame) + STATUS_SPACING,
-                                 (SERVER_INFO_HEIGHT - RIGHT_MENU_ITEM_HEIGHT) / 2,
-                                 CGRectGetMaxX(cell.frame) - CGRectGetMaxX(status.frame) - 2 * STATUS_SPACING,
-                                 RIGHT_MENU_ITEM_HEIGHT);
-        title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
-        title.textAlignment = NSTextAlignmentLeft;
-        title.text = AppDelegate.instance.serverName;
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:@"VolumeControl"]) {
+    if ([tableData[indexPath.row][@"label"] isEqualToString:@"VolumeControl"]) {
         volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
         [volumeSliderView startTimer];
         [cell.contentView addSubview:volumeSliderView];
@@ -255,11 +232,11 @@
 #pragma mark - Helper
 
 - (CGFloat)getRemoteViewOffsetY {
-    // Layout is (top-down): status bar > server info > volume slider > (menu items) > remote view
+    // Layout is (top-down): status bar > volume slider > (menu items) > remote view
     CGFloat statusBarHeight = [Utilities getTopPadding];
     CGFloat sliderHeight = volumeSliderView.frame.size.height;
     CGFloat menuItemsHeight = [Utilities hasRemoteToolBar] ? 0 : 3 * RIGHT_MENU_ITEM_HEIGHT;
-    return statusBarHeight + SERVER_INFO_HEIGHT + sliderHeight + menuItemsHeight;
+    return statusBarHeight + sliderHeight + menuItemsHeight;
 }
 
 #pragma mark - Table actions
@@ -723,34 +700,13 @@
     return foundIndex;
 }
 
-- (void)updateConnectionStatusAndName:(NSDictionary*)theData {
-    if (theData != nil) {
-        NSString *serverTxt = theData[@"message"];
-        NSString *icon_connection = theData[@"icon_connection"];
-        NSIndexPath *serverRow = [self getIndexPathForKey:@"label" withValue:@"ServerInfo" inArray:tableData];
-        if (serverRow != nil) {
-            UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:serverRow];
-            if (serverTxt.length) {
-                UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__TITLE];
-                title.text = serverTxt;
-            }
-            if (icon_connection.length) {
-                UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__ICON];
-                icon.image = [UIImage imageNamed:icon_connection];
-            }
-        }
-    }
-}
-
 - (void)connectionSuccess:(NSNotification*)note {
-    [self updateConnectionStatusAndName:note.userInfo];
     [self loadRightMenuContentConnected:YES];
     [menuTableView reloadData];
     moreButton.enabled = YES;
 }
 
 - (void)connectionFailed:(NSNotification*)note {
-    [self updateConnectionStatusAndName:note.userInfo];
     if (AppDelegate.instance.obj.serverIP.length != 0) {
         [self loadRightMenuContentConnected:YES];
         [menuTableView reloadData];
