@@ -25,6 +25,8 @@
 #define CONNECTION_ICON_SIZE 18
 #define MENU_ICON_SIZE 30
 #define ICON_MARGIN 10
+#define CONNECTION_STATUS_PADDING 4
+#define CONNECTION_STATUS_SIZE 8
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -102,15 +104,13 @@
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
     if (indexPath.row == 0) {
         // Adapt layout for first cell (showing connection status)
-        [self setFrameSizes:cell height:PHONE_MENU_INFO_HEIGHT iconsize:CONNECTION_ICON_SIZE];
+        [self setFrameSizes:cell height:PHONE_MENU_INFO_HEIGHT iconsize:MENU_ICON_SIZE];
         
         // Set icon, background color and text content
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
         title.numberOfLines = 2;
         title.text = [Utilities getConnectionStatusServerName];
-        iconName = [Utilities getConnectionStatusIconName];
-        icon.highlightedImage = nil;
-        icon.image = [UIImage imageNamed:iconName];
+        [self setConnectionIcon:icon];
         cell.backgroundColor = [Utilities getGrayColor:53 alpha:1];
     }
     else {
@@ -188,6 +188,9 @@
         self.slidingViewController.topViewController.view.frame = frame;
         [self.slidingViewController resetTopView];
         itemIsActive = NO;
+        
+        // Add connection status icon to root view of new controller
+        [self addConnectionStatusToRootView];
     }];
 }
 
@@ -221,6 +224,27 @@
 }
 
 #pragma mark - Helper
+
+- (void)addConnectionStatusToRootView {
+    // Add connection status icon to root view of new controller
+    UIView *rootView = UIApplication.sharedApplication.keyWindow.rootViewController.view;
+    [rootView addSubview:globalConnectionStatus];
+}
+
+- (void)setConnectionIcon:(UIImageView*)icon {
+    // Load icon for top row in main menu
+    UIImage *image = [UIImage imageNamed:@"st_kodi_action"];
+    if (!AppDelegate.instance.serverOnLine) {
+        icon.image = [Utilities colorizeImage:image withColor:UIColor.grayColor];
+    }
+    else {
+        icon.image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+    }
+    
+    // Load icon for global connection status
+    NSString *statusIconName = [Utilities getConnectionStatusIconName];
+    globalConnectionStatus.image = [UIImage imageNamed:statusIconName];
+}
 
 - (void)setFrameSizes:(UITableViewCell*)cell height:(CGFloat)height iconsize:(CGFloat)iconsize {
     UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
@@ -300,6 +324,14 @@
     AppDelegate.instance.obj = [GlobalData getInstance];
     checkServerParams = @{@"properties": @[@"version", @"volume"]};
     menuList.scrollsToTop = NO;
+    
+    // Add connection status icon to root view
+    globalConnectionStatus = [[UIImageView alloc] initWithFrame:CGRectMake(CONNECTION_STATUS_PADDING,
+                                                                           [Utilities getTopPadding],
+                                                                           CONNECTION_STATUS_SIZE,
+                                                                           CONNECTION_STATUS_SIZE)];
+    [self addConnectionStatusToRootView];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleWillResignActive:)
                                                  name: @"UIApplicationWillResignActiveNotification"
@@ -339,11 +371,10 @@
 
 - (void)connectionStatus:(NSNotification*)note {
     NSDictionary *theData = note.userInfo;
-    NSString *icon_connection = theData[@"icon_connection"];
     NSString *infoText = theData[@"message"];
     UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
-    icon.image = [UIImage imageNamed:icon_connection];
+    [self setConnectionIcon:icon];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
     title.text = infoText;
     

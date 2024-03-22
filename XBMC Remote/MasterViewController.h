@@ -30,6 +30,7 @@
     HostManagementViewController *hostManagementViewController;
     BOOL itemIsActive;
     CustomNavigationController *navController;
+    UIImageView *globalConnectionStatus;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
