@@ -71,16 +71,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    NSDictionary *rgbColor = tableData[indexPath.row][@"bgColor"];
-    if (rgbColor.count) {
-        cell.backgroundColor = [UIColor colorWithRed:[rgbColor[@"red"] floatValue]
-                                               green:[rgbColor[@"green"] floatValue]
-                                                blue:[rgbColor[@"blue"] floatValue]
-                                               alpha:1];
-    }
-    else { // xcode xib bug with ipad?
-        cell.backgroundColor = UIColor.clearColor;
-    }
+    cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -207,19 +198,11 @@
         title.text = tableData[indexPath.row][@"label"];
         iconName = tableData[indexPath.row][@"icon"];
     }
-    if ([tableData[indexPath.row][@"fontColor"] count]) {
-        UIColor *fontColor = [UIColor colorWithRed:[tableData[indexPath.row][@"fontColor"][@"red"] floatValue]
-                                             green:[tableData[indexPath.row][@"fontColor"][@"green"] floatValue]
-                                              blue:[tableData[indexPath.row][@"fontColor"][@"blue"] floatValue]
-                                             alpha:1];
-        title.textColor = fontColor;
-        title.highlightedTextColor = fontColor;
-    }
-    else {
-        UIColor *fontColor = [Utilities getGrayColor:125 alpha:1];
-        title.textColor = fontColor;
-        title.highlightedTextColor = fontColor;
-    }
+    
+    UIColor *fontColor = [Utilities getGrayColor:125 alpha:1];
+    title.textColor = fontColor;
+    title.highlightedTextColor = fontColor;
+    
     if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
         icon.alpha = 0.8;
         if (torchIsOn) {
@@ -323,16 +306,12 @@
     tableData = [NSMutableArray new];
     for (NSDictionary *item in menuItem.mainMethod[0][menuKey]) {
         NSString *label = item[@"label"] ?: @"";
-        NSDictionary *bgColor = item[@"bgColor"] ?: @{};
-        NSDictionary *fontColor = item[@"fontColor"] ?: @{};
         NSString *icon = item[@"icon"] ?: @"blank";
         NSDictionary *action = item[@"action"] ?: @{};
         NSNumber *showTop = item[@"revealViewTop"] ?: @NO;
         
         NSDictionary *itemDict = @{
             @"label": label,
-            @"bgColor": bgColor,
-            @"fontColor": fontColor,
             @"icon": icon,
             @"action": action,
             @"revealViewTop": showTop,
@@ -376,8 +355,6 @@
         
         NSMutableDictionary *itemDict = [@{
             @"label": label,
-            @"bgColor": @{},
-            @"fontColor": @{},
             @"icon": icon,
             @"isSetting": isSetting,
             @"revealViewTop": @NO,
@@ -620,8 +597,6 @@
     
     infoCustomButton = @{
         @"label": LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."),
-        @"bgColor": @{},
-        @"fontColor": @{},
         @"icon": @"default-right-menu-icon",
         @"action": @{},
         @"revealViewTop": @NO,
