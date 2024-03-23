@@ -1094,7 +1094,12 @@
 }
 
 + (CGFloat)getTopPadding {
-    CGFloat topPadding = UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGFloat topPadding = UIApplication.sharedApplication.keyWindow.safeAreaInsets.top;
+    return topPadding;
+}
+
++ (CGFloat)getTopPaddingWithNavBar:(UINavigationController*)navCtrl {
+    CGFloat topPadding = UIApplication.sharedApplication.statusBarFrame.size.height + navCtrl.navigationBar.frame.size.height;
     return topPadding;
 }
 

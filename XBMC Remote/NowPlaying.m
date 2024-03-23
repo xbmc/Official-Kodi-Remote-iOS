@@ -2321,7 +2321,7 @@
     
     // Set correct size for background image
     CGRect frame = transitionView.frame;
-    CGFloat topBarHeight = self.navigationController.navigationBar.frame.size.height + [Utilities getTopPadding];
+    CGFloat topBarHeight = [Utilities getTopPaddingWithNavBar:self.navigationController];
     frame.size.height += topBarHeight;
     frame.origin.y = -topBarHeight;
     transitionView.frame = frame;
