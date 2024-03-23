@@ -51,6 +51,8 @@
                                    infoText, @"message",
                                    iconName, @"icon_connection",
                                    nil];
+    AppDelegate.instance.serverOnLine = status;
+    AppDelegate.instance.serverName = infoText;
     NSString *notificationName;
     if (status) {
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
@@ -61,8 +63,6 @@
         notificationName = @"XBMCServerConnectionFailed";
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:nil userInfo:params];
-    AppDelegate.instance.serverOnLine = status;
-    AppDelegate.instance.serverName = infoText;
     itemIsActive = NO;
     [Utilities setStyleOfMenuItems:menuList active:status];
     if (status) {
