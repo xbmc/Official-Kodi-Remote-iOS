@@ -486,7 +486,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGFloat deltaY = self.navigationController.navigationBar.frame.size.height + [Utilities getTopPadding];
+    CGFloat deltaY = self.navigationController.navigationBar.frame.size.height + UIApplication.sharedApplication.statusBarFrame.size.height;
     if (IS_IPAD) {
         deltaY = 0;
     }
@@ -575,20 +575,17 @@
         self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     }
     else {
-        int barHeight = self.navigationController.navigationBar.frame.size.height;
-        int statusBarHeight = [Utilities getTopPadding];
-        
         CGRect frame = supportedVersionView.frame;
-        frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
+        frame.origin.y = frame.origin.y + deltaY;
         supportedVersionView.frame = frame;
         
         frame = serverListTableView.frame;
-        frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
-        frame.size.height = frame.size.height - (barHeight + statusBarHeight) - bottomPadding;
+        frame.origin.y = frame.origin.y + deltaY;
+        frame.size.height = frame.size.height - deltaY - bottomPadding;
         serverListTableView.frame = frame;
         
         frame = connectingActivityIndicator.frame;
-        frame.origin.y = frame.origin.y + barHeight + statusBarHeight;
+        frame.origin.y = frame.origin.y + deltaY;
         connectingActivityIndicator.frame = frame;
         
         UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(688, 964, 107, 37)];

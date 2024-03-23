@@ -923,7 +923,7 @@
 }
 
 + (CGFloat)getTopPadding {
-    CGFloat topPadding = UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGFloat topPadding = UIApplication.sharedApplication.keyWindow.safeAreaInsets.top;
     return topPadding;
 }
 
