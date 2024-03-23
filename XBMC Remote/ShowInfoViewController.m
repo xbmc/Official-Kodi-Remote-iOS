@@ -26,6 +26,8 @@
 #define TITLE_HEIGHT 44
 #define LEFT_RIGHT_PADDING 10
 #define VERTICAL_PADDING 10
+#define LABEL_PADDING 10
+#define LABEL_HEIGHT 20
 #define REC_DOT_SIZE 10
 #define REC_DOT_PADDING 4
 #define ARROW_ALPHA 0.5
@@ -616,21 +618,38 @@ double round(double d) {
         tvshowHeight = (int)(PHONE_TV_SHOWS_BANNER_HEIGHT * transform);
     }
     
+    mainLabel0 = [self createMainLabel];
+    mainLabel1 = [self createMainLabel];
+    mainLabel2 = [self createMainLabel];
+    mainLabel3 = [self createMainLabel];
+    mainLabel4 = [self createMainLabel];
+    mainLabel5 = [self createMainLabel];
+    parentalRatingMainLabel = [self createMainLabel];
+    castMainLabel = [self createMainLabel];
+    
+    subLabel0 = [self createSubLabel];
+    subLabel1 = [self createSubLabel];
+    subLabel2 = [self createSubLabel];
+    subLabel3 = [self createSubLabel];
+    subLabel4 = [self createSubLabel];
+    subLabel5 = [self createSubLabel];
+    parentalRatingSubLabel = [self createSubLabel];
+    
     if ([item[@"family"] isEqualToString:@"tvshowid"]) {
         placeHolderImage = @"coverbox_back_tvshows";
         
-        label1.text = LOCALIZED_STR(@"EPISODES");
-        label2.text = LOCALIZED_STR(@"FIRST AIRED");
-        label3.text = LOCALIZED_STR(@"GENRE");
-        label4.text = LOCALIZED_STR(@"STUDIO");
-        label5.text = LOCALIZED_STR(@"SUMMARY");
-        label6.text = LOCALIZED_STR(@"CAST");
-        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [Utilities getStringFromItem:item[@"episode"]];
-        genreLabel.text = [Utilities getDateFromItem:item[@"premiered"] dateStyle:NSDateFormatterLongStyle];
-        runtimeLabel.text = [Utilities getStringFromItem:item[@"genre"]];
-        studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
-        summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
+        mainLabel1.text = LOCALIZED_STR(@"EPISODES");
+        mainLabel2.text = LOCALIZED_STR(@"FIRST AIRED");
+        mainLabel3.text = LOCALIZED_STR(@"GENRE");
+        mainLabel4.text = LOCALIZED_STR(@"STUDIO");
+        mainLabel5.text = LOCALIZED_STR(@"SUMMARY");
+        castMainLabel.text = LOCALIZED_STR(@"CAST");
+        parentalRatingMainLabel.text = LOCALIZED_STR(@"PARENTAL RATING");
+        subLabel1.text = [Utilities getStringFromItem:item[@"episode"]];
+        subLabel2.text = [Utilities getDateFromItem:item[@"premiered"] dateStyle:NSDateFormatterLongStyle];
+        subLabel3.text = [Utilities getStringFromItem:item[@"genre"]];
+        subLabel4.text = [Utilities getStringFromItem:item[@"studio"]];
+        subLabel5.text = [Utilities getStringFromItem:item[@"plot"]];
 
         jewelImg = @"jewel_dvd.9";
         jeweltype = jewelTypeDVD;
@@ -645,21 +664,21 @@ double round(double d) {
     else if ([item[@"family"] isEqualToString:@"episodeid"]) {
         placeHolderImage = @"coverbox_back_tvshows";
         
-        label1.text = LOCALIZED_STR(@"TV SHOW");
-        label2.text = LOCALIZED_STR(@"FIRST AIRED");
-        label3.text = LOCALIZED_STR(@"DIRECTOR");
-        label4.text = LOCALIZED_STR(@"WRITER");
-        label5.text = LOCALIZED_STR(@"SUMMARY");
-        label6.text = LOCALIZED_STR(@"CAST");
-        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];
-        genreLabel.text = [Utilities getDateFromItem:item[@"firstaired"] dateStyle:NSDateFormatterLongStyle];
-        runtimeLabel.text = [Utilities getStringFromItem:item[@"director"]];
-        studioLabel.text = [Utilities getStringFromItem:item[@"writer"]];
-        summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
+        mainLabel1.text = LOCALIZED_STR(@"TV SHOW");
+        mainLabel2.text = LOCALIZED_STR(@"FIRST AIRED");
+        mainLabel3.text = LOCALIZED_STR(@"DIRECTOR");
+        mainLabel4.text = LOCALIZED_STR(@"WRITER");
+        mainLabel5.text = LOCALIZED_STR(@"SUMMARY");
+        castMainLabel.text = LOCALIZED_STR(@"CAST");
+        parentalRatingMainLabel.text = LOCALIZED_STR(@"PARENTAL RATING");
+        subLabel1.text = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];
+        subLabel2.text = [Utilities getDateFromItem:item[@"firstaired"] dateStyle:NSDateFormatterLongStyle];
+        subLabel3.text = [Utilities getStringFromItem:item[@"director"]];
+        subLabel4.text = [Utilities getStringFromItem:item[@"writer"]];
+        subLabel5.text = [Utilities getStringFromItem:item[@"plot"]];
         
-        parentalRatingLabelUp.hidden = YES;
-        parentalRatingLabel.hidden = YES;
+        parentalRatingMainLabel.hidden = YES;
+        parentalRatingSubLabel.hidden = YES;
         jewelView.hidden = NO;
         
         jewelImg = @"jewel_tv.9";
@@ -675,24 +694,24 @@ double round(double d) {
     else if ([item[@"family"] isEqualToString:@"albumid"]) {
         placeHolderImage = @"coverbox_back";
         
-        label1.text = LOCALIZED_STR(@"ARTIST");
-        label2.text = LOCALIZED_STR(@"YEAR");
-        label3.text = LOCALIZED_STR(@"GENRE");
-        label4.text = LOCALIZED_STR(@"ALBUM LABEL");
-        label5.text = LOCALIZED_STR(@"DESCRIPTION");
-        label6.text = @"";
-        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [Utilities getStringFromItem:item[@"artist"]];
-        genreLabel.text = [Utilities getStringFromItem:item[@"year"]];
-        runtimeLabel.text = [Utilities getStringFromItem:item[@"genre"]];
-        studioLabel.text = [Utilities getStringFromItem:item[@"label"]];
-        summaryLabel.text = [Utilities getStringFromItem:item[@"description"]];
+        mainLabel1.text = LOCALIZED_STR(@"ARTIST");
+        mainLabel2.text = LOCALIZED_STR(@"YEAR");
+        mainLabel3.text = LOCALIZED_STR(@"GENRE");
+        mainLabel4.text = LOCALIZED_STR(@"ALBUM LABEL");
+        mainLabel5.text = LOCALIZED_STR(@"DESCRIPTION");
+        castMainLabel.text = @"";
+        parentalRatingMainLabel.text = LOCALIZED_STR(@"PARENTAL RATING");
+        subLabel1.text = [Utilities getStringFromItem:item[@"artist"]];
+        subLabel2.text = [Utilities getStringFromItem:item[@"year"]];
+        subLabel3.text = [Utilities getStringFromItem:item[@"genre"]];
+        subLabel4.text = [Utilities getStringFromItem:item[@"label"]];
+        subLabel5.text = [Utilities getStringFromItem:item[@"description"]];
         
         starsView.hidden = YES;
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
-        parentalRatingLabelUp.hidden = YES;
-        parentalRatingLabel.hidden = YES;
+        parentalRatingMainLabel.hidden = YES;
+        parentalRatingSubLabel.hidden = YES;
         jewelView.hidden = NO;
         
         jewelImg = @"jewel_cd.9";
@@ -708,18 +727,18 @@ double round(double d) {
         NSString *director = [Utilities getStringFromItem:item[@"director"]];
         NSString *year = [Utilities getYearFromItem:item[@"year"]];
         
-        label1.text = LOCALIZED_STR(@"ARTIST");
-        label2.text = LOCALIZED_STR(@"GENRE");
-        label3.text = [self formatDirectorYearHeading:director year:year];
-        label4.text = LOCALIZED_STR(@"STUDIO");
-        label5.text = LOCALIZED_STR(@"SUMMARY");
-        label6.text = @"";
-        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [Utilities getStringFromItem:item[@"artist"]];
-        genreLabel.text = [Utilities getStringFromItem:item[@"genre"]];
-        runtimeLabel.text = [self formatDirectorYear:director year:year];
-        studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
-        summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
+        mainLabel1.text = LOCALIZED_STR(@"ARTIST");
+        mainLabel2.text = LOCALIZED_STR(@"GENRE");
+        mainLabel3.text = [self formatDirectorYearHeading:director year:year];
+        mainLabel4.text = LOCALIZED_STR(@"STUDIO");
+        mainLabel5.text = LOCALIZED_STR(@"SUMMARY");
+        castMainLabel.text = @"";
+        parentalRatingMainLabel.text = LOCALIZED_STR(@"PARENTAL RATING");
+        subLabel1.text = [Utilities getStringFromItem:item[@"artist"]];
+        subLabel2.text = [Utilities getStringFromItem:item[@"genre"]];
+        subLabel3.text = [self formatDirectorYear:director year:year];
+        subLabel4.text = [Utilities getStringFromItem:item[@"studio"]];
+        subLabel5.text = [Utilities getStringFromItem:item[@"plot"]];
         
         jewelImg = @"jewel_cd.9";
         jeweltype = jewelTypeCD;
@@ -732,24 +751,24 @@ double round(double d) {
         placeHolderImage = @"coverbox_back_artists";
         contributorString = @"roles";
         
-        label1.text = LOCALIZED_STR(@"GENRE");
-        label2.text = LOCALIZED_STR(@"STYLE");
-        label3.text = @"";
-        label4.text = LOCALIZED_STR(@"BORN / FORMED");
-        label5.text = LOCALIZED_STR(@"DESCRIPTION");
-        label6.text = LOCALIZED_STR(@"MUSIC ROLES");
-        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [Utilities getStringFromItem:item[@"genre"]];
-        genreLabel.text = [Utilities getStringFromItem:item[@"style"]];
-        summaryLabel.text = [Utilities getStringFromItem:item[@"description"]];
+        mainLabel1.text = LOCALIZED_STR(@"GENRE");
+        mainLabel2.text = LOCALIZED_STR(@"STYLE");
+        mainLabel3.text = @"";
+        mainLabel4.text = LOCALIZED_STR(@"BORN / FORMED");
+        mainLabel5.text = LOCALIZED_STR(@"DESCRIPTION");
+        castMainLabel.text = LOCALIZED_STR(@"MUSIC ROLES");
+        parentalRatingMainLabel.text = LOCALIZED_STR(@"PARENTAL RATING");
+        subLabel1.text = [Utilities getStringFromItem:item[@"genre"]];
+        subLabel2.text = [Utilities getStringFromItem:item[@"style"]];
+        subLabel5.text = [Utilities getStringFromItem:item[@"description"]];
         NSString *born = [Utilities getStringFromItem:item[@"born"]];
         NSString *formed = [Utilities getStringFromItem:item[@"formed"]];
-        studioLabel.text = formed.length ? formed : born;
+        subLabel4.text = formed.length ? formed : born;
         
-        parentalRatingLabelUp.hidden = YES;
-        parentalRatingLabel.hidden = YES;
-        runtimeLabel.hidden = YES;
-        label3.hidden = YES;
+        parentalRatingMainLabel.hidden = YES;
+        parentalRatingSubLabel.hidden = YES;
+        subLabel3.hidden = YES;
+        mainLabel3.hidden = YES;
         starsView.hidden = YES;
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
@@ -766,24 +785,24 @@ double round(double d) {
         }
         item[@"genre"] = [item[@"plotoutline"] length] > 0 ? item[@"plotoutline"] : item[@"genre"];
         
-        label1.text = LOCALIZED_STR(@"TIME");
-        label2.text = LOCALIZED_STR(@"DESCRIPTION");
-        label3.text = @"";
-        label4.text = @"";
-        label5.text = LOCALIZED_STR(@"SUMMARY");
-        label6.text = @"";
-        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [self formatBroadcastTime:item];
-        genreLabel.text = [Utilities getStringFromItem:item[@"genre"]];
+        mainLabel1.text = LOCALIZED_STR(@"TIME");
+        mainLabel2.text = LOCALIZED_STR(@"DESCRIPTION");
+        mainLabel3.text = @"";
+        mainLabel4.text = @"";
+        mainLabel5.text = LOCALIZED_STR(@"SUMMARY");
+        castMainLabel.text = @"";
+        parentalRatingMainLabel.text = LOCALIZED_STR(@"PARENTAL RATING");
+        subLabel1.text = [self formatBroadcastTime:item];
+        subLabel2.text = [Utilities getStringFromItem:item[@"genre"]];
         numVotesLabel.text = item[@"channel"];
-        summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
+        subLabel5.text = [Utilities getStringFromItem:item[@"plot"]];
         
         starsView.hidden = YES;
-        label3.hidden = YES;
-        label4.hidden = YES;
-        label6.hidden = YES;
-        runtimeLabel.hidden = YES;
-        studioLabel.hidden = YES;
+        mainLabel3.hidden = YES;
+        mainLabel4.hidden = YES;
+        castMainLabel.hidden = YES;
+        subLabel3.hidden = YES;
+        subLabel4.hidden = YES;
         arrow_continue_down.alpha = 0;
         arrow_back_up.alpha = 0;
         enableJewel = NO;
@@ -799,24 +818,24 @@ double round(double d) {
             item[@"thumbnail"] = item[@"pvrExtraInfo"][@"channel_icon"];
         }
         
-        label1.text = LOCALIZED_STR(@"TIME");
-        label2.text = LOCALIZED_STR(@"DESCRIPTION");
-        label3.text = @"";
-        label4.text = @"";
-        label5.text = LOCALIZED_STR(@"SUMMARY");
-        label6.text = @"";
-        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [self formatBroadcastTime:item];
-        genreLabel.text = [Utilities getStringFromItem:item[@"plotoutline"]];
+        mainLabel1.text = LOCALIZED_STR(@"TIME");
+        mainLabel2.text = LOCALIZED_STR(@"DESCRIPTION");
+        mainLabel3.text = @"";
+        mainLabel4.text = @"";
+        mainLabel5.text = LOCALIZED_STR(@"SUMMARY");
+        castMainLabel.text = @"";
+        parentalRatingMainLabel.text = LOCALIZED_STR(@"PARENTAL RATING");
+        subLabel1.text = [self formatBroadcastTime:item];
+        subLabel2.text = [Utilities getStringFromItem:item[@"plotoutline"]];
         numVotesLabel.text = item[@"pvrExtraInfo"][@"channel_name"];
-        summaryLabel.text = [Utilities getStringFromItem:item[@"genre"]];
+        subLabel5.text = [Utilities getStringFromItem:item[@"genre"]];
         
         starsView.hidden = YES;
-        label3.hidden = YES;
-        label4.hidden = YES;
-        label6.hidden = YES;
-        runtimeLabel.hidden = YES;
-        studioLabel.hidden = YES;
+        mainLabel3.hidden = YES;
+        mainLabel4.hidden = YES;
+        castMainLabel.hidden = YES;
+        subLabel3.hidden = YES;
+        subLabel4.hidden = YES;
         arrow_continue_down.alpha = 0;
         arrow_back_up.alpha = 0;
         enableJewel = NO;
@@ -830,18 +849,20 @@ double round(double d) {
         NSString *director = [Utilities getStringFromItem:item[@"director"]];
         NSString *year = [Utilities getYearFromItem:item[@"year"]];
         
-        label1.text = [self formatDirectorYearHeading:director year:year];
-        label2.text = LOCALIZED_STR(@"GENRE");
-        label3.text = LOCALIZED_STR(@"RUNTIME");
-        label4.text = LOCALIZED_STR(@"STUDIO");
-        label5.text = LOCALIZED_STR(@"SUMMARY");
-        label6.text = LOCALIZED_STR(@"CAST");
-        parentalRatingLabelUp.text = LOCALIZED_STR(@"PARENTAL RATING");
-        directorLabel.text = [self formatDirectorYear:director year:year];
-        genreLabel.text = [Utilities getStringFromItem:item[@"genre"]];
-        runtimeLabel.text = [Utilities getStringFromItem:item[@"runtime"]];
-        studioLabel.text = [Utilities getStringFromItem:item[@"studio"]];
-        summaryLabel.text = [Utilities getStringFromItem:item[@"plot"]];
+        mainLabel0.text = LOCALIZED_STR(@"TAGLINE");
+        mainLabel1.text = [self formatDirectorYearHeading:director year:year];
+        mainLabel2.text = LOCALIZED_STR(@"GENRE");
+        mainLabel3.text = LOCALIZED_STR(@"RUNTIME");
+        mainLabel4.text = LOCALIZED_STR(@"STUDIO");
+        mainLabel5.text = LOCALIZED_STR(@"SUMMARY");
+        castMainLabel.text = LOCALIZED_STR(@"CAST");
+        parentalRatingMainLabel.text = LOCALIZED_STR(@"PARENTAL RATING");
+        subLabel0.text = [Utilities getStringFromItem:item[@"tagline"]];
+        subLabel1.text = [self formatDirectorYear:director year:year];
+        subLabel2.text = [Utilities getStringFromItem:item[@"genre"]];
+        subLabel3.text = [Utilities getStringFromItem:item[@"runtime"]];
+        subLabel4.text = [Utilities getStringFromItem:item[@"studio"]];
+        subLabel5.text = [Utilities getStringFromItem:item[@"plot"]];
         
         jewelImg = @"jewel_dvd.9";
         jeweltype = jewelTypeDVD;
@@ -874,9 +895,9 @@ double round(double d) {
         numVotesLabel.text = [NSString stringWithFormat:@"(%@ %@)", numVotes, numVotesPlus];
     }
 
-    parentalRatingLabel.text = [Utilities getStringFromItem:item[@"mpaa"]];
+    parentalRatingSubLabel.text = [Utilities getStringFromItem:item[@"mpaa"]];
     
-    summaryLabel.text = [Utilities stripBBandHTML:summaryLabel.text];
+    subLabel5.text = [Utilities stripBBandHTML:subLabel5.text];
     
     if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
         [self processTrailerFromString:item[@"trailer"]];
@@ -896,36 +917,40 @@ double round(double d) {
         voteLabel.hidden = YES;
         numVotesLabel.hidden = YES;
     }
-    if (directorLabel.text.length == 0) {
-        directorLabel.hidden = YES;
-        label1.hidden = YES;
+    if (subLabel0.text.length == 0) {
+        subLabel0.hidden = YES;
+        mainLabel0.hidden = YES;
     }
-    if (genreLabel.text.length == 0) {
-        genreLabel.hidden = YES;
-        label2.hidden = YES;
+    if (subLabel1.text.length == 0) {
+        subLabel1.hidden = YES;
+        mainLabel1.hidden = YES;
     }
-    if (runtimeLabel.text.length == 0) {
-        runtimeLabel.hidden = YES;
-        label3.hidden = YES;
+    if (subLabel2.text.length == 0) {
+        subLabel2.hidden = YES;
+        mainLabel2.hidden = YES;
     }
-    if (studioLabel.text.length == 0) {
-        studioLabel.hidden = YES;
-        label4.hidden = YES;
+    if (subLabel3.text.length == 0) {
+        subLabel3.hidden = YES;
+        mainLabel3.hidden = YES;
     }
-    if (summaryLabel.text.length == 0) {
-        summaryLabel.hidden = YES;
-        label5.hidden = YES;
+    if (subLabel4.text.length == 0) {
+        subLabel4.hidden = YES;
+        mainLabel4.hidden = YES;
     }
-    if (parentalRatingLabel.text.length == 0) {
-        parentalRatingLabel.hidden = YES;
-        parentalRatingLabelUp.hidden = YES;
+    if (subLabel5.text.length == 0) {
+        subLabel5.hidden = YES;
+        mainLabel5.hidden = YES;
+    }
+    if (parentalRatingSubLabel.text.length == 0) {
+        parentalRatingSubLabel.hidden = YES;
+        parentalRatingMainLabel.hidden = YES;
     }
     if (trailerLabel == nil) {
         trailerWebView.hidden = YES;
         trailerLabel.hidden = YES;
     }
     if (castList.count == 0) {
-        label6.hidden = YES;
+        castMainLabel.hidden = YES;
     }
     
     // Adapt font sizes
@@ -935,33 +960,36 @@ double round(double d) {
         numVotesLabel.font = [UIFont systemFontOfSize:16];
         
         // Headers
-        label1.font = [UIFont systemFontOfSize:13];
-        label2.font = [UIFont systemFontOfSize:13];
-        label3.font = [UIFont systemFontOfSize:13];
-        label4.font = [UIFont systemFontOfSize:13];
-        label5.font = [UIFont systemFontOfSize:13];
-        label6.font = [UIFont systemFontOfSize:14];
+        mainLabel0.font = [UIFont systemFontOfSize:13];
+        mainLabel1.font = [UIFont systemFontOfSize:13];
+        mainLabel2.font = [UIFont systemFontOfSize:13];
+        mainLabel3.font = [UIFont systemFontOfSize:13];
+        mainLabel4.font = [UIFont systemFontOfSize:13];
+        mainLabel5.font = [UIFont systemFontOfSize:13];
+        castMainLabel.font = [UIFont systemFontOfSize:14];
         trailerLabel.font = [UIFont systemFontOfSize:13];
-        parentalRatingLabelUp.font = [UIFont systemFontOfSize:13];
+        parentalRatingMainLabel.font = [UIFont systemFontOfSize:13];
         
         // Text fields
-        directorLabel.font = [UIFont systemFontOfSize:16];
-        genreLabel.font = [UIFont systemFontOfSize:16];
-        runtimeLabel.font = [UIFont systemFontOfSize:16];
-        studioLabel.font = [UIFont systemFontOfSize:16];
-        summaryLabel.font = [UIFont systemFontOfSize:16];
-        parentalRatingLabel.font = [UIFont systemFontOfSize:16];
+        subLabel0.font = [UIFont systemFontOfSize:16];
+        subLabel1.font = [UIFont systemFontOfSize:16];
+        subLabel2.font = [UIFont systemFontOfSize:16];
+        subLabel3.font = [UIFont systemFontOfSize:16];
+        subLabel4.font = [UIFont systemFontOfSize:16];
+        subLabel5.font = [UIFont systemFontOfSize:16];
+        parentalRatingSubLabel.font = [UIFont systemFontOfSize:16];
     }
     
     // Layout
     CGFloat offset = CGRectGetMaxY(jewelView.frame);
     offset = [self layoutStars:offset];
-    offset = [self layoutLabel:label1 sub:directorLabel offset:offset];
-    offset = [self layoutLabel:label2 sub:genreLabel offset:offset];
-    offset = [self layoutLabel:label3 sub:runtimeLabel offset:offset];
-    offset = [self layoutLabel:label4 sub:studioLabel offset:offset];
-    offset = [self layoutLabel:label5 sub:summaryLabel offset:offset];
-    offset = [self layoutLabel:parentalRatingLabelUp sub:parentalRatingLabel offset:offset];
+    offset = [self layoutLabel:mainLabel0 sub:subLabel0 offset:offset];
+    offset = [self layoutLabel:mainLabel1 sub:subLabel1 offset:offset];
+    offset = [self layoutLabel:mainLabel2 sub:subLabel2 offset:offset];
+    offset = [self layoutLabel:mainLabel3 sub:subLabel3 offset:offset];
+    offset = [self layoutLabel:mainLabel4 sub:subLabel4 offset:offset];
+    offset = [self layoutLabel:mainLabel5 sub:subLabel5 offset:offset];
+    offset = [self layoutLabel:parentalRatingMainLabel sub:parentalRatingSubLabel offset:offset];
     offset = [self layoutTrailer:offset];
     offset = [self layoutCastRoles:offset];
     offset = [self layoutClearLogo:offset];
@@ -982,7 +1010,7 @@ double round(double d) {
 }
 
 - (void)layoutPvrDetails {
-    jewelView.frame = CGRectMake(label1.frame.origin.x,
+    jewelView.frame = CGRectMake(mainLabel1.frame.origin.x,
                                  jewelView.frame.origin.y,
                                  jewelView.frame.size.width / 4,
                                  jewelView.frame.size.height / 8);
@@ -992,7 +1020,7 @@ double round(double d) {
                                  self.view.bounds.size.width - CGRectGetMaxX(jewelView.frame) - LEFT_RIGHT_PADDING * 2,
                                  jewelView.frame.size.height / 2);
     voteLabel.numberOfLines = 2;
-    voteLabel.textColor = directorLabel.textColor;
+    voteLabel.textColor = subLabel1.textColor;
     
     numVotesLabel.frame  = CGRectMake(voteLabel.frame.origin.x,
                                       CGRectGetMaxY(voteLabel.frame) + VERTICAL_PADDING,
@@ -1024,6 +1052,34 @@ double round(double d) {
         offset += VERTICAL_PADDING * 2;
     }
     return offset;
+}
+
+- (UILabel*)createMainLabel {
+    CGRect defaultFrame = CGRectMake(LABEL_PADDING, 0, scrollView.frame.size.width - 2 * LABEL_PADDING, LABEL_HEIGHT);
+    UILabel *label = [[UILabel alloc] initWithFrame:defaultFrame];
+    label.hidden = NO;
+    label.textColor = UIColor.lightGrayColor;
+    label.shadowColor = UIColor.blackColor;
+    label.font = [UIFont systemFontOfSize:12];
+    label.textAlignment = NSTextAlignmentLeft;
+    label.lineBreakMode = NSLineBreakByTruncatingTail;
+    label.numberOfLines = 1;
+    [scrollView addSubview:label];
+    return label;
+}
+
+- (UILabel*)createSubLabel {
+    CGRect defaultFrame = CGRectMake(LABEL_PADDING, 0, scrollView.frame.size.width - 2 * LABEL_PADDING, LABEL_HEIGHT);
+    UILabel *label = [[UILabel alloc] initWithFrame:defaultFrame];
+    label.hidden = NO;
+    label.textColor = UIColor.whiteColor;
+    label.shadowColor = UIColor.blackColor;
+    label.font = [UIFont systemFontOfSize:12];
+    label.textAlignment = NSTextAlignmentJustified;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.numberOfLines = 0;
+    [scrollView addSubview:label];
+    return label;
 }
 
 - (CGFloat)layoutLabel:(UILabel*)mainLabel sub:(UILabel*)subLabel offset:(CGFloat)offset {
@@ -1061,10 +1117,10 @@ double round(double d) {
 
 - (CGFloat)layoutCastRoles:(CGFloat)offset {
     if (castList.count) {
-        CGRect frame = label6.frame;
+        CGRect frame = castMainLabel.frame;
         frame.origin.y = offset;
-        frame.size.height = [Utilities getSizeOfLabel:label6].height + lineSpacing;
-        label6.frame = frame;
+        frame.size.height = [Utilities getSizeOfLabel:castMainLabel].height + lineSpacing;
+        castMainLabel.frame = frame;
         offset += frame.size.height;
         
         frame = actorsTable.frame;
@@ -1251,13 +1307,13 @@ double round(double d) {
             embedVideoURL = [NSURL URLWithString:trailerString];
         }
         if (embedVideoURL != nil) {
-            CGRect frame = CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, label1.frame.size.height);
+            CGRect frame = CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, mainLabel1.frame.size.height);
             trailerLabel = [[UILabel alloc] initWithFrame:frame];
             trailerLabel.text = LOCALIZED_STR(@"TRAILER");
-            trailerLabel.textColor = label1.textColor;
-            trailerLabel.font = label1.font;
-            trailerLabel.shadowColor = label1.shadowColor;
-            trailerLabel.shadowOffset = label1.shadowOffset;
+            trailerLabel.textColor = mainLabel1.textColor;
+            trailerLabel.font = mainLabel1.font;
+            trailerLabel.shadowColor = mainLabel1.shadowColor;
+            trailerLabel.shadowOffset = mainLabel1.shadowOffset;
             trailerLabel.backgroundColor = UIColor.clearColor;
             [scrollView addSubview:trailerLabel];
             
