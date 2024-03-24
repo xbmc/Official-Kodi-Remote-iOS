@@ -635,7 +635,6 @@
     torchIsOn = [Utilities isTorchOn];
     self.slidingViewController.anchorLeftPeekAmount = self.peekLeftAmount;
     self.slidingViewController.underRightWidthLayout = ECFullWidth;
-    CGFloat infoLabelHeight = 2 * RIGHT_MENU_ITEM_HEIGHT;
     
     infoCustomButton = @{
         @"label": LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."),
