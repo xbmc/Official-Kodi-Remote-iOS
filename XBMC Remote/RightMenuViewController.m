@@ -630,7 +630,7 @@
         volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
         [volumeSliderView startTimer];
     }
-    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - footerHeight - 1) style:UITableViewStylePlain];
+    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - footerHeight) style:UITableViewStylePlain];
     menuTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     menuTableView.separatorColor = [Utilities getGrayColor:29 alpha:1];
     menuTableView.delegate = self;

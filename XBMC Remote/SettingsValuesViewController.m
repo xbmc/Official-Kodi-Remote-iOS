@@ -152,7 +152,7 @@
             frame.size.width = STACKSCROLL_WIDTH;
         }
         else {
-            deltaY = 44 + [Utilities getTopPadding];
+            deltaY = 44 + UIApplication.sharedApplication.statusBarFrame.size.height;
         }
         
         scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
