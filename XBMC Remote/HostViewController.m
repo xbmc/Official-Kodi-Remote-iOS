@@ -9,12 +9,16 @@
 #import "HostViewController.h"
 #import "AppDelegate.h"
 #include <arpa/inet.h>
-#if (TARGET_IPHONE_SIMULATOR)
-#import <net/if_types.h>
-#import "route.h"
-#import "if_ether.h"
+
+#if TARGET_OS_IOS && !TARGET_OS_SIMULATOR
+// Remove code for resolving MAC address from iOS as anyway not supported
+#define RESOLVE_MAC_ADDRESS 0
 #else
-#import "if_types.h"
+// Support resolving MAC address on non-iOS OS
+#define RESOLVE_MAC_ADDRESS 1
+#endif
+
+#if (RESOLVE_MAC_ADDRESS)
 #import "route.h"
 #import "if_ether.h"
 #endif
@@ -271,6 +275,7 @@
 
 #pragma mark - resolveMacAddress Methods
 
+#if (RESOLVE_MAC_ADDRESS)
 - (NSString*)resolveMacFromIP:(NSString*)ipAddress {
     NSString *res = nil;
     
@@ -332,6 +337,7 @@
         }];
     }
 }
+#endif
 
 - (void)fillAddressPort:(NSMutableDictionary*)serverAddresses port:(int)httpPort addr:(NSString*)addr name:(NSString*)name ip:(NSString*)ipversion {
     if (httpPort > 0) {
@@ -440,6 +446,7 @@
             ipUI.textColor = [Utilities getSystemBlue];
             portUI.textColor = [Utilities getSystemBlue];
             
+#if (RESOLVE_MAC_ADDRESS)
             // Ping server
             NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
             NSURL *url = [[NSURL alloc] initWithString:serverJSON];
@@ -451,6 +458,7 @@
                 });
             }];
             [pingConnection resume];
+#endif
             [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
             
             // Trigger search for TCP service
