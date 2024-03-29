@@ -13,6 +13,7 @@
 @implementation MoreItemsViewController
 
 @synthesize tableView = _tableView;
+
 #define LABEL_PADDING 8
 #define INDICATOR_SIZE 16
 #define LABEL_OFFSET 50
@@ -83,7 +84,6 @@
     }
     return cell;
 }
-
 
 #pragma mark - Table view delegate
 

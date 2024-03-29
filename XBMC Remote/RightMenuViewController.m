@@ -36,6 +36,7 @@
 @end
 
 @implementation RightMenuViewController
+
 @synthesize peekLeftAmount;
 @synthesize rightMenuItems;
 

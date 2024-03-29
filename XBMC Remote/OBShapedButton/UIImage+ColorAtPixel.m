@@ -28,9 +28,7 @@
  */
 
 #import <CoreGraphics/CoreGraphics.h>
-
 #import "UIImage+ColorAtPixel.h"
-
 
 @implementation UIImage (ColorAtPixel)
 

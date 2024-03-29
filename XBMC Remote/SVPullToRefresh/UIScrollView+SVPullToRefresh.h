@@ -10,7 +10,6 @@
 #import <UIKit/UIKit.h>
 #import <AvailabilityMacros.h>
 
-
 @class SVPullToRefreshView;
 
 @interface UIScrollView (SVPullToRefresh)
@@ -22,7 +21,6 @@
 @property (nonatomic, assign) BOOL showsPullToRefresh;
 
 @end
-
 
 enum {
     SVPullToRefreshStateStopped = 0,
@@ -40,13 +38,11 @@ typedef NSUInteger SVPullToRefreshState;
 @property (nonatomic, strong, readonly) UILabel *titleLabel;
 @property (nonatomic, strong, readonly) UILabel *subtitleLabel;
 @property (nonatomic, readwrite) UIActivityIndicatorViewStyle activityIndicatorViewStyle;
-
 @property (nonatomic, readonly) SVPullToRefreshState state;
 
 - (void)setTitle:(NSString*)title forState:(SVPullToRefreshState)state;
 - (void)setSubtitle:(NSString*)subtitle forState:(SVPullToRefreshState)state;
 - (void)setCustomView:(UIView*)view forState:(SVPullToRefreshState)state;
-
 - (void)startAnimating;
 - (void)stopAnimating;
 

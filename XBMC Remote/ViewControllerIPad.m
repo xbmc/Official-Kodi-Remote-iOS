@@ -42,7 +42,6 @@
 @interface UIViewExt : UIView {}
 @end
 
-
 @implementation UIViewExt
 - (UIView*)hitTest:(CGPoint)pt withEvent:(UIEvent*)event {
 	UIView *viewToReturn = nil;
@@ -69,8 +68,6 @@
 	return [super hitTest:pt withEvent:event];
 }
 @end
-
-
 
 @implementation ViewControllerIPad
 

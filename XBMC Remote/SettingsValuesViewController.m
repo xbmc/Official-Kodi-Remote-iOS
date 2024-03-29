@@ -765,6 +765,7 @@
 - (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
     return footerHeight;
 }
+
 - (NSIndexPath*)getCurrentSelectedOption:(NSArray*)optionList {
     NSIndexPath *foundIndex = nil;
     NSUInteger index = [optionList indexOfObjectPassingTest:

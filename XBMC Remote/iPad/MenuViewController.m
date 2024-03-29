@@ -46,6 +46,7 @@
 #import "RemoteController.h"
 
 @implementation MenuViewController
+
 @synthesize tableView = _tableView;
 
 #pragma mark - View lifecycle

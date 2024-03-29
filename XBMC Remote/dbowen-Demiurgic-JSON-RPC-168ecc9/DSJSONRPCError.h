@@ -48,7 +48,6 @@ typedef NS_ENUM(NSInteger, JSONRPCErrorType) {
     JSONRPCInvalidObject = -32604,
 };
 
-
 @interface DSJSONRPCError : NSObject
 
 @property (nonatomic, assign) NSInteger code;

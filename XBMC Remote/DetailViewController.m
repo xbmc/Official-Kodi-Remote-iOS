@@ -1128,7 +1128,6 @@
     [activityIndicatorView stopAnimating];
 }
 
-
 - (void)handleTabHasChanged:(NSNotification*)notification {
     mainMenu *menuItem = self.detailItem;
     NSArray *buttons = menuItem.mainButtons;
@@ -4436,7 +4435,6 @@
         [self displayInfoView:item];
     }
 }
-
 
 - (void)showAlbumActions:(UITapGestureRecognizer*)tap {
     if (self.sectionArray.count == 0) {

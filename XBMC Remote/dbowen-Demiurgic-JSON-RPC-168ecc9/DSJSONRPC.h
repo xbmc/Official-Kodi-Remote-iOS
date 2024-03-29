@@ -36,7 +36,6 @@
  *
  */
 
-
 #import <Foundation/Foundation.h>
 #import "DSJSONRPCError.h"
 

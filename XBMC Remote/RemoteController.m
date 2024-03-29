@@ -364,7 +364,6 @@
     }
 }
 
-
 - (void)handleRotate:(id)sender {
     if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan) {
         [self volumeInfo];
