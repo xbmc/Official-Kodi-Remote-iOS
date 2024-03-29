@@ -114,7 +114,7 @@
     return [img resizedImageSize:thumbSize aspectMode:UIViewContentModeScaleAspectFit];
 }
 
-#pragma mark - utility
+#pragma mark - Utility
 
 - (int)getSecondsFromTimeDict:(NSDictionary*)timeDict {
     int hours = [timeDict[@"hours"] intValue];
@@ -1533,7 +1533,7 @@
     [self flipAnimButton:playlistButton demo:NO];
 }
 
-#pragma mark - bottom toolbar
+#pragma mark - Bottom toolbar
 
 - (IBAction)startVibrate:(id)sender {
     NSString *action;

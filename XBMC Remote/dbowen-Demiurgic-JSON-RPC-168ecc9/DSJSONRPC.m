@@ -157,7 +157,7 @@
     return aID;
 }
 
-#pragma mark NSURLSession (delegate)
+#pragma mark - NSURLSession (delegate)
 
 - (void)URLSession:(NSURLSession*)session task:(NSURLSessionTask*)task didCompleteWithError:(NSError*)error {
     // Restore variables from activeConnection

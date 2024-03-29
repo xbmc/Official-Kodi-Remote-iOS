@@ -48,8 +48,7 @@
 @implementation MenuViewController
 @synthesize tableView = _tableView;
 
-#pragma mark -
-#pragma mark View lifecycle
+#pragma mark - View lifecycle
 
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSArray*)menu menuHeight:(CGFloat)tableHeight {
     if (self = [super init]) {
@@ -123,7 +122,7 @@
     [super viewDidAppear:animated];
 }
 
-#pragma mark Table view data source
+#pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     return PAD_MENU_HEIGHT;
@@ -167,8 +166,7 @@
     return cell;
 }
 
-#pragma mark -
-#pragma mark Table view delegate
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     if (!AppDelegate.instance.serverOnLine) {
@@ -224,8 +222,7 @@
     lastSelected = selection;
 }
 
-#pragma mark -
-#pragma mark Memory management
+#pragma mark - Memory management
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

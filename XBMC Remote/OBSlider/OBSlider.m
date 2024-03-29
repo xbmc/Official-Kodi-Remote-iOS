@@ -75,8 +75,7 @@
 }
 
 
-#pragma mark -
-#pragma mark Touch tracking
+#pragma mark - Touch tracking
 
 - (BOOL)beginTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event {
     BOOL beginTracking = [super beginTrackingWithTouch:touch withEvent:event];

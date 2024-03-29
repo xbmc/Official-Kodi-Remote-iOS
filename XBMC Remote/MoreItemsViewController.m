@@ -32,8 +32,8 @@
 	}
     return self;
 }
-#pragma mark -
-#pragma mark Table view data source
+
+#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
     // Return the number of sections.
@@ -85,8 +85,7 @@
 }
 
 
-#pragma mark -
-#pragma mark Table view delegate
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"tabHasChanged" object:indexPath];

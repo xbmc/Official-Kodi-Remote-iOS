@@ -90,7 +90,7 @@
     return self;
 }
 
-#pragma mark - keyboard
+#pragma mark - Keyboard
 
 - (BOOL)canBecomeFirstResponder {
     return NO;
@@ -222,7 +222,7 @@
     }
 }
 
-#pragma mark - json commands
+#pragma mark - JSON commands
 
 - (void)GUIAction:(NSString*)action params:(NSDictionary*)params httpAPIcallback:(NSString*)callback {
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {

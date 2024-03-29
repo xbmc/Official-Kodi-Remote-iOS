@@ -460,7 +460,7 @@ static char UIScrollViewPullToRefreshView;
     self.dateLabel.text = LOCALIZED_STR_ARGS(@"Last Updated: %@", newLastUpdatedDate ? [self.dateFormatter stringFromDate:newLastUpdatedDate] : LOCALIZED_STR(@"Never"));
 }
 
-#pragma mark -
+#pragma mark - Animation
 
 - (void)triggerRefresh {
     [self.scrollView triggerPullToRefresh];

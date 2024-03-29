@@ -197,7 +197,7 @@
     [self presentViewController:self.appInfoView animated:YES completion:nil];
 }
 
-#pragma mark - power control action sheet
+#pragma mark - Power control action sheet
 
 - (void)powerControl {
     if (AppDelegate.instance.obj.serverIP.length == 0) {

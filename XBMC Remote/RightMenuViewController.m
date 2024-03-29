@@ -44,8 +44,7 @@
     return self;
 }
 
-#pragma mark -
-#pragma mark Table view data source
+#pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     NSString *rowContent = tableData[indexPath.row][@"label"];
@@ -350,7 +349,7 @@
     }
 }
 
-#pragma mark UISwitch
+#pragma mark - UISwitch
 
 - (void)toggleSwitch:(id)sender {
     UISwitch *onoff = (UISwitch*)sender;
@@ -365,8 +364,7 @@
     }
 }
 
-#pragma mark -
-#pragma mark Table view delegate
+#pragma mark - Table view delegate
 
 - (void)editTable:(id)sender {
     UIButton *editButton = (UIButton*)sender;

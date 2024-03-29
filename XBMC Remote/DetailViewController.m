@@ -113,7 +113,7 @@
     return self;
 }
 
-#pragma mark - live tv epg memory/disk cache management
+#pragma mark - Live TV epg memory/disk cache management
 
 - (NSMutableArray*)loadEPGFromMemory:(NSNumber*)channelid {
     __block NSMutableArray *epgarray = nil;
@@ -153,7 +153,7 @@
     }
 }
 
-#pragma mark - live tv epg management
+#pragma mark - Live TV epg management
 
 - (void)getChannelEpgInfo:(NSDictionary*)parameters {
     NSNumber *channelid = [Utilities getNumberFromItem:parameters[@"channelid"]];
@@ -327,7 +327,7 @@
            }];
 }
 
-#pragma mark - library disk cache management
+#pragma mark - Library disk cache management
 
 - (NSString*)getCacheKey:(NSString*)fieldA parameters:(NSMutableDictionary*)fieldB {
     // Which server are we connected to?
@@ -5647,7 +5647,7 @@
     showkeyboard = YES;
 }
 
-#pragma mark UISearchController Delegate Methods
+#pragma mark - UISearchController Delegate Methods
 
 - (void)initSearchController {
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];

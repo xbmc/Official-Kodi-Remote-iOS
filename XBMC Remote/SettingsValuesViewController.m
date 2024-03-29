@@ -289,7 +289,7 @@
     [self saveCustomButton:newButton];
 }
 
-#pragma mark - custom button
+#pragma mark - Custom button
 
 - (void)saveCustomButton:(NSDictionary*)button {
     customButton *arrayButtons = [customButton new];

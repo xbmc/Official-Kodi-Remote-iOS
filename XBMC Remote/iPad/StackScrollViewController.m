@@ -641,8 +641,7 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark -
-#pragma mark Rotation support
+#pragma mark - Rotation support
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
