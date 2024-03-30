@@ -1418,6 +1418,11 @@
             @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeMusicType,
+                @"file_properties": @[
+                    @"thumbnail",
+                    @"art",
+                    @"playcount",
+                ],
             }, @"parameters",
             LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
@@ -1627,6 +1632,7 @@
             @"row4": @"filetype",
             @"row5": @"filetype",
             @"row6": @"file",
+            @"row7": @"playcount",
             @"playlistid": @PLAYERID_MUSIC,
             @"row8": @"file",
             @"row9": @"file",
@@ -2697,6 +2703,11 @@
             @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeVideoType,
+                @"file_properties": @[
+                    @"thumbnail",
+                    @"art",
+                    @"playcount",
+                ],
             }, @"parameters",
             LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
@@ -2818,6 +2829,7 @@
             @"row4": @"filetype",
             @"row5": @"filetype",
             @"row6": @"file",
+            @"row7": @"playcount",
             @"playlistid": @PLAYERID_VIDEO,
             @"row8": @"file",
             @"row9": @"file",
@@ -3299,6 +3311,11 @@
             @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeVideoType,
+                @"file_properties": @[
+                    @"thumbnail",
+                    @"art",
+                    @"playcount",
+                ],
             }, @"parameters",
             LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
@@ -3369,6 +3386,7 @@
             @"row4": @"filetype",
             @"row5": @"filetype",
             @"row6": @"file",
+            @"row7": @"playcount",
             @"playlistid": @PLAYERID_VIDEO,
             @"row8": @"file",
             @"row9": @"file",
@@ -3866,6 +3884,11 @@
             @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeVideoType,
+                @"file_properties": @[
+                    @"thumbnail",
+                    @"art",
+                    @"playcount",
+                ],
             }, @"parameters",
             LOCALIZED_STR(@"Files"), @"label",
             @"nocover_filemode", @"defaultThumb",
@@ -3962,6 +3985,7 @@
             @"row4": @"filetype",
             @"row5": @"filetype",
             @"row6": @"file",
+            @"row7": @"playcount",
             @"playlistid": @PLAYERID_VIDEO,
             @"row8": @"file",
             @"row9": @"file",

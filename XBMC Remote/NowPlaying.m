@@ -1378,7 +1378,7 @@
                  NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                  NSString *fanartURL = [Utilities formatStringURL:itemExtraDict[@"fanart"] serverURL:serverURL];
                  if (!stringURL.length) {
-                     stringURL = [Utilities getItemIconFromDictionary:itemExtraDict mainFields:mainFields];
+                     stringURL = [Utilities getItemIconFromDictionary:itemExtraDict];
                  }
                  BOOL disableNowPlaying = YES;
                  NSObject *row11 = itemExtraDict[mainFields[@"row11"]];
