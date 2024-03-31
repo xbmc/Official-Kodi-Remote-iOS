@@ -11,7 +11,6 @@
 @interface MoreItemsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	UITableView *_tableView;
     NSArray *mainMenuItems;
-    int cellLabelOffset;
 }
 
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSArray*)menu;
