@@ -80,8 +80,9 @@
                                               ICON_WIDTH,
                                               ICON_HEIGHT);
         UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
-        UIImage *image = [UIImage imageNamed:item[@"icon"]];
-        image = [Utilities colorizeImage:image withColor:[Utilities get1stLabelColor]];
+        UIImage *image = [Utilities setLightDarkModeImageAsset:[UIImage imageNamed:item[@"icon"]]
+                                                    lightColor:UIColor.darkGrayColor
+                                                     darkColor:UIColor.lightGrayColor];
         iconImage.image = image;
         [cell.contentView addSubview:iconImage];
     }
