@@ -201,9 +201,9 @@
     return cell;
 }
 
-- (UIView*)createTableFooterView:(CGFloat)footerHeight {
+- (UIView*)createToolbarView:(CGFloat)toolbarHeight {
     CGRect frame = self.view.bounds;
-    UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - footerHeight, frame.size.width, footerHeight)];
+    UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - toolbarHeight, frame.size.width, toolbarHeight)];
     newView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
     newView.backgroundColor = UIColor.clearColor;
     
@@ -592,9 +592,16 @@
     
     mainMenu *menuItems = self.rightMenuItems[0];
     CGFloat bottomPadding = IS_IPAD ? 0 : [Utilities getBottomPadding];
-    CGFloat footerHeight = menuItems.family == FamilyRemote ? TOOLBAR_HEIGHT + bottomPadding : 0;
-    
-    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY) style:UITableViewStylePlain];
+    CGFloat toolbarHeight = 0;
+    if (menuItems.family == FamilyRemote) {
+        toolbarHeight = TOOLBAR_HEIGHT + bottomPadding;
+        [self.view addSubview:[self createToolbarView:toolbarHeight]];
+    }
+    if (menuItems.family == FamilyNowPlaying || menuItems.family == FamilyRemote) {
+        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
+        [volumeSliderView startTimer];
+    }
+    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - toolbarHeight) style:UITableViewStylePlain];
     menuTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     menuTableView.delegate = self;
     menuTableView.dataSource = self;
@@ -602,12 +609,12 @@
     menuTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [menuTableView setScrollEnabled:menuItems.enableSection];
     menuTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    menuTableView.contentInset = UIEdgeInsetsMake(0, 0, footerHeight, 0);
+    menuTableView.contentInset = UIEdgeInsetsMake(0, 0, toolbarHeight, 0);
     menuTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     [self.view addSubview:menuTableView];
     
     if (menuItems.family == FamilyRemote) {
-        [self.view addSubview:[self createTableFooterView:footerHeight]];
+        [self.view addSubview:[self createToolbarView:toolbarHeight]];
     }
     if (menuItems.family == FamilyNowPlaying || menuItems.family == FamilyRemote) {
         volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
