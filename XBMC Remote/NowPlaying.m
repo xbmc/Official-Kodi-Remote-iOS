@@ -2795,7 +2795,6 @@
     
     ProgressSlider.minimumTrackTintColor = SLIDER_DEFAULT_COLOR;
     ProgressSlider.maximumTrackTintColor = UIColor.darkGrayColor;
-    playlistTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];

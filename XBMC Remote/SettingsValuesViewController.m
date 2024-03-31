@@ -136,8 +136,6 @@
         if (@available(iOS 15.0, *)) {
             _tableView.sectionHeaderTopPadding = 0;
         }
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-		_tableView.tableFooterView = footerView;
         self.view.backgroundColor = UIColor.clearColor;
         [self.view addSubview:_tableView];
         

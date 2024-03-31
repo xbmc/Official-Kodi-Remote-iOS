@@ -61,8 +61,6 @@
         _tableView.backgroundColor = UIColor.clearColor;
         _tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         mainMenuItems = menu;
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-        _tableView.tableFooterView = footerView;
         [self.view addSubview:_tableView];
         
 		UIView *verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, 1, self.view.frame.size.height)];
