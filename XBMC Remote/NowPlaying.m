@@ -355,7 +355,7 @@
 }
 
 - (void)nothingIsPlaying {
-    UIImage *image = [UIImage imageNamed:@"st_kodi_window"];
+    UIImage *image = [UIImage imageNamed:@"st_nowplaying_small"];
     [self setButtonImageAndStartDemo:image];
     if (nothingIsPlaying) {
         return;
@@ -1475,7 +1475,7 @@
             buttonImage = [self resizeToolbarThumb:image];
         }
         if (!buttonImage.size.width) {
-            buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"st_kodi_window"]];
+            buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"st_nowplaying_small"]];
         }
     }
     else {
