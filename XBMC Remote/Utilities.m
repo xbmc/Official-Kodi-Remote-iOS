@@ -545,29 +545,30 @@
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:alertMessage message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction *okButton = [UIAlertAction actionWithTitle:okMessage style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        if (command != nil) {
-            [[Utilities getJsonRPC] callMethod:command withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                if (messageView) {
-                    if (methodError == nil && error == nil) {
-                        [messageView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
-                    }
-                    else {
-                        [messageView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
-                    }
+        if (!command) {
+            return;
+        }
+        [[Utilities getJsonRPC] callMethod:command withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (messageView) {
+                if (methodError == nil && error == nil) {
+                    [messageView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
                 }
                 else {
-                    NSString *alertTitle = nil;
-                    if (methodError == nil && error == nil) {
-                        alertTitle = LOCALIZED_STR(@"Command executed");
-                    }
-                    else {
-                        alertTitle = LOCALIZED_STR(@"Cannot do that");
-                    }
-                    UIAlertController *alertViewResult = [Utilities createAlertOK:alertTitle message:nil];
-                    [ctrl presentViewController:alertViewResult animated:YES completion:nil];
+                    [messageView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
                 }
-            }];
-        }
+            }
+            else {
+                NSString *alertTitle = nil;
+                if (methodError == nil && error == nil) {
+                    alertTitle = LOCALIZED_STR(@"Command executed");
+                }
+                else {
+                    alertTitle = LOCALIZED_STR(@"Cannot do that");
+                }
+                UIAlertController *alertViewResult = [Utilities createAlertOK:alertTitle message:nil];
+                [ctrl presentViewController:alertViewResult animated:YES completion:nil];
+            }
+        }];
     }];
     [alertView addAction:cancelButton];
     [alertView addAction:okButton];
