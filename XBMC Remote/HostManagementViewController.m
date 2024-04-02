@@ -714,7 +714,7 @@
         UIAlertAction *cancelAction = [UIAlertAction
                                        actionWithTitle:LOCALIZED_STR(@"Cancel")
                                        style:UIAlertActionStyleCancel
-                                       handler:^(UIAlertAction *action) {}];
+                                       handler:nil];
         
         UIAlertAction *dontShowAction = [UIAlertAction
                                          actionWithTitle:LOCALIZED_STR(@"Don't show this message again")

@@ -522,7 +522,7 @@
 
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg {
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}];
+    UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:nil];
     [alertView addAction:okButton];
     return alertView;
 }
@@ -533,7 +533,7 @@
             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
             pasteboard.string = msg;
     }];
-    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
     [alertView addAction:copyButton];
     [alertView addAction:cancelButton];
     return alertView;
@@ -543,7 +543,7 @@
     alertMessage = alertMessage ?: @"";
     okMessage = okMessage ?: LOCALIZED_STR(@"Yes");
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:alertMessage message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction *okButton = [UIAlertAction actionWithTitle:okMessage style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         if (command != nil) {
             [[Utilities getJsonRPC] callMethod:command withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -686,7 +686,7 @@
         [actionView addAction:action_clean_video_lib];
     }
     
-    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
     [actionView addAction:cancelButton];
     actionView.modalPresentationStyle = UIModalPresentationPopover;
     
