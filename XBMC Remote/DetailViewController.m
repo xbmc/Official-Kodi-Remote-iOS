@@ -454,7 +454,7 @@
         [dict removeObjectForKey:@"file_properties"];
         
         // Kodi 11 does not support art for file properties
-        if (AppDelegate.instance.serverVersion < 11) {
+        if (AppDelegate.instance.serverVersion <= 11) {
             [dict[@"properties"] removeObject:@"art"];
         }
     }
