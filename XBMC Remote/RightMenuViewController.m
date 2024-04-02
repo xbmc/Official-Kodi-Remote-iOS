@@ -625,7 +625,6 @@
     menuTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [menuTableView setScrollEnabled:[self.rightMenuItems[0] enableSection]];
     menuTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    menuTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:menuTableView];
 
     if (AppDelegate.instance.obj.serverIP.length != 0) {

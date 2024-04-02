@@ -5626,7 +5626,6 @@
     noItemsLabel.text = LOCALIZED_STR(@"No items found.");
     isViewDidLoad = YES;
     sectionHeight = LIST_SECTION_HEADER_HEIGHT;
-    dataList.tableFooterView = [UIView new];
     epglockqueue = dispatch_queue_create("com.epg.arrayupdate", DISPATCH_QUEUE_SERIAL);
     epgDict = [NSMutableDictionary new];
     epgDownloadQueue = [NSMutableArray new];
@@ -5637,7 +5636,6 @@
     localHourMinuteFormatter = [NSDateFormatter new];
     localHourMinuteFormatter.dateFormat = @"HH:mm";
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];
-    dataList.tableFooterView = [UIView new];
     
     [self initSearchController];
     self.navigationController.view.backgroundColor = UIColor.blackColor;
