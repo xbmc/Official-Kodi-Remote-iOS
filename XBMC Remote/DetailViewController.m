@@ -4776,6 +4776,14 @@
             useCommonPvrRecordingsTimers = YES;
         }
     }
+    
+    // Settings access requires Kodi 13 or higher
+    if ([methodToCall containsString:@"Settings."] && AppDelegate.instance.serverVersion < 13) {
+        UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
+        [self presentViewController:alertView animated:YES completion:nil];
+        [self animateNoResultsFound];
+        return;
+    }
 
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     elapsedTime = 0;
