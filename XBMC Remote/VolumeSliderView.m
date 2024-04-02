@@ -12,6 +12,8 @@
 #import "AppDelegate.h"
 #import "Utilities.h"
 
+#define VOLUMEICON_PADDING_NOSLIDER 15 /* space left of volume icons */
+#define VOLUMELABEL_PADDING_NOSLIDER 15 /* space left/right of volume label */
 #define VOLUMEICON_PADDING 10 /* space left/right from volume icons */
 #define VOLUMELABEL_PADDING 5 /* space left/right from volume label */
 #define VOLUMESLIDER_HEIGHT 44
@@ -34,7 +36,7 @@
         UIImage *img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
         img = [Utilities colorizeImage:img withColor:KODI_BLUE_COLOR];
         volumeSlider.minimumTrackTintColor = KODI_BLUE_COLOR;
-        volumeSlider.maximumTrackTintColor = APP_TINT_COLOR;
+        volumeSlider.maximumTrackTintColor = UIColor.darkGrayColor;
         [volumeSlider setThumbImage:img forState:UIControlStateNormal];
         [volumeSlider setThumbImage:img forState:UIControlStateHighlighted];
         [self volumeInfo];
@@ -49,31 +51,35 @@
             volumeView.hidden = YES;
             volumeSlider.hidden = YES;
             
+            // Width is full iPad menu width
+            frame_tmp = frame;
+            frame_tmp.size.width = PAD_MENU_TABLE_WIDTH;
+            self.frame = frame_tmp;
+            
+            // Left is mute button
             frame_tmp = muteButton.frame;
-            frame_tmp.origin.x = 0;
+            frame_tmp.origin.x = VOLUMEICON_PADDING_NOSLIDER;
             muteButton.frame = frame_tmp;
             
-            frame_tmp = minusButton.frame;
-            frame_tmp.origin.x = CGRectGetMaxX(muteButton.frame) + VOLUMEICON_PADDING;
-            minusButton.frame = frame_tmp;
-            
+            // Center is volume label
             frame_tmp = volumeLabel.frame;
-            frame_tmp.origin.x = CGRectGetMaxX(minusButton.frame) + VOLUMELABEL_PADDING;
+            frame_tmp.origin.x = (CGRectGetWidth(self.frame) - CGRectGetWidth(volumeLabel.frame)) / 2;
             volumeLabel.frame= frame_tmp;
             
+            // Left of center is minus button
+            frame_tmp = minusButton.frame;
+            frame_tmp.origin.x = CGRectGetMinX(volumeLabel.frame) - VOLUMELABEL_PADDING_NOSLIDER - CGRectGetWidth(minusButton.frame);
+            minusButton.frame = frame_tmp;
+            
+            // Right of center is plus button
             frame_tmp = plusButton.frame;
-            frame_tmp.origin.x = CGRectGetMaxX(volumeLabel.frame) + VOLUMELABEL_PADDING;
+            frame_tmp.origin.x = CGRectGetMaxX(volumeLabel.frame) + VOLUMELABEL_PADDING_NOSLIDER;
             plusButton.frame = frame_tmp;
             
             volumeLabel.textColor = UIColor.lightGrayColor;
             
             muteIconColor = UIColor.grayColor;
             volumeIconColor = UIColor.lightGrayColor;
-            
-            // set final used width for this view
-            frame_tmp = frame;
-            frame_tmp.size.width = CGRectGetMaxX(plusButton.frame);
-            self.frame = frame_tmp;
         }
         else {
             volumeView.hidden = YES;
@@ -93,7 +99,7 @@
             
             frame_tmp = volumeSlider.frame;
             frame_tmp.origin.x = CGRectGetMaxX(minusButton.frame) + VOLUMEICON_PADDING;
-            frame_tmp.size.width = self.frame.size.width - frame_tmp.origin.x - 3 * VOLUMEICON_PADDING - volumeLabel.frame.size.width;
+            frame_tmp.size.width = self.frame.size.width - frame_tmp.origin.x - 2 * VOLUMEICON_PADDING - plusButton.frame.size.width;
             volumeSlider.frame = frame_tmp;
             
             frame_tmp = plusButton.frame;

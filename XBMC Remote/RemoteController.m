@@ -57,7 +57,6 @@
 @implementation RemoteController
 
 @synthesize holdVolumeTimer;
-@synthesize panFallbackImageView;
 
 - (void)setupGestureView {
     NSArray *GestureDirections = @[@(UISwipeGestureRecognizerDirectionLeft),
@@ -183,6 +182,9 @@
     frame.origin.y = 0;
     frame.size.height -= shift;
     quickHelpView.frame = frame;
+    
+    // embedded remote needs a transparent background
+    panFallbackImageView.image = nil;
     
     [self setupGestureView];
     if ([Utilities hasRemoteToolBar]) {

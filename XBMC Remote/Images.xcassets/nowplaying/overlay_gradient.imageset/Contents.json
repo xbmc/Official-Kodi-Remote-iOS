@@ -1,12 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "shiny_black_back.png",
+      "filename" : "overlay_gradient.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "shiny_black_back@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

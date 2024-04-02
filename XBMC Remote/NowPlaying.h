@@ -27,6 +27,8 @@
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *thumbnailView;
     IBOutlet UIView *BottomView;
+    IBOutlet UIImageView *fullscreenCover;
+    IBOutlet UIVisualEffectView *visualEffectView;
     UIView *transitionFromView;
     UIView *transitionToView;
     IBOutlet UIView *nowPlayingView;
@@ -52,13 +54,11 @@
     IBOutlet UIButton *editTableButton;
     IBOutlet UIButton *PartyModeButton;
     IBOutlet UIImageView *backgroundImageView;
-
     IBOutlet UIView *noFoundView;
     NSIndexPath *storeSelection;
     int slideFrom;
     int numResults;
-    IBOutlet UIToolbar *playlistToolbar;
-    
+    IBOutlet UIView *playlistToolbarView;
     int iPadOrigX;
     int iPadOrigY;
     int iPadthumbWidth;
@@ -66,8 +66,6 @@
     IBOutlet UIView *playlistActionView;
     NSString *currentType;
     BOOL nothingIsPlaying;
-    IBOutlet UIImageView *xbmcOverlayImage;
-    IBOutlet UIImageView *xbmcOverlayImage_iphone;
     IBOutlet UIButton *playlistButton;
     int animationOptionTransition;
     BOOL startFlipDemo;
@@ -78,6 +76,7 @@
     IBOutlet UIButton *shuffleButton;
     IBOutlet UIButton *repeatButton;
     IBOutlet UIButton *closeButton;
+    UIButton *fullscreenToggleButton;
     BOOL shuffled;
     NSString *repeatStatus;
     BOOL updateProgressBar;
@@ -106,7 +105,7 @@
     long storedItemID;
 }
 
-- (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS;
+- (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS fullscreen:(BOOL)isFullscreen;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil;
 - (IBAction)startVibrate:(id)sender;
 - (void)toggleSongDetails;
@@ -124,6 +123,7 @@
 @property (strong, nonatomic) UIView *songDetailsView;
 @property (strong, nonatomic) OBSlider *ProgressSlider;
 @property (strong, nonatomic) UIView *BottomView;
+@property (strong, nonatomic) UIView *playlistToolbarView;
 @property (strong, nonatomic) IBOutlet UIView *scrabbingView;
 @property (strong, nonatomic) IBOutlet UITextView *itemDescription;
 

@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "remote_temp.png",
+      "filename" : "st_nowplaying_small.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "st_nowplaying_small@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

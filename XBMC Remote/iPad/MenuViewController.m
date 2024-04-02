@@ -91,12 +91,20 @@
                                              selector: @selector(handleEnablingDefaultController)
                                                  name: @"KodiStartDefaultController"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleRemoveStack)
+                                                 name: @"StackScrollRemoveAll"
+                                               object: nil];
 }
 
 - (void)setMenuHeight:(CGFloat)tableHeight {
     CGRect frame = _tableView.frame;
     frame.size.height = tableHeight;
     _tableView.frame = frame;
+}
+
+- (void)handleRemoveStack {
+    [AppDelegate.instance.windowController.stackScrollViewController offView];
 }
 
 - (void)handleDeselectSection {

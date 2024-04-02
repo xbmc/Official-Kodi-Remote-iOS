@@ -95,26 +95,13 @@
         UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
         backgroundView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
         cell.selectedBackgroundView = backgroundView;
-        
-        // Load Kodi background logo
-        UIImage *logo = [UIImage imageNamed:@"xbmc_logo"];
-        UIImageView *xbmc_logo = [[UIImageView alloc] initWithFrame:[Utilities createXBMCInfoframe:logo height:PHONE_MENU_INFO_HEIGHT width:self.view.bounds.size.width]];
-        xbmc_logo.alpha = 0.25;
-        xbmc_logo.image = logo;
-        xbmc_logo.highlightedImage = [UIImage imageNamed:@"xbmc_logo_selected"];
-        xbmc_logo.tag = XIB_MAIN_MENU_CELL_XBMC_LOGO;
-        [cell insertSubview:xbmc_logo atIndex:0];
     }
     mainMenu *item = self.mainMenu[indexPath.row];
     NSString *iconName = item.icon;
     UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
     UIImageView *line = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_SEPARATOR];
-    UIImageView *xbmc_logo = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_XBMC_LOGO];
     if (indexPath.row == 0) {
-        // Show kodi logo
-        xbmc_logo.hidden = NO;
-        
         // Adapt layout for first cell (showing connection status)
         [self setFrameSizes:cell height:PHONE_MENU_INFO_HEIGHT iconsize:CONNECTION_ICON_SIZE];
         
@@ -129,9 +116,6 @@
         cell.backgroundColor = [Utilities getGrayColor:53 alpha:1];
     }
     else {
-        // Hide kodi logo
-        xbmc_logo.hidden = YES;
-        
         // Adapt layout for main menu cells
         [self setFrameSizes:cell height:PHONE_MENU_HEIGHT iconsize:MENU_ICON_SIZE];
         
@@ -139,10 +123,10 @@
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
         title.numberOfLines = 1;
         title.text = item.mainLabel;
-        line.hidden = NO;
+        line.hidden = YES;
         icon.highlightedImage = [UIImage imageNamed:iconName];
         icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
-        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
+        cell.backgroundColor = UIColor.clearColor;
     }
     return cell;
 }
@@ -162,7 +146,6 @@
     
     itemIsActive = YES;
     UIViewController *object;
-    BOOL setBarTintColor = NO;
     BOOL hideBottonLine = NO;
     switch (item.family) {
         case FamilyNowPlaying:
@@ -179,7 +162,6 @@
         case FamilyServer:
             self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
             object = self.hostController;
-            setBarTintColor = YES;
             hideBottonLine = YES;
             break;
         case FamilyDetailView:
@@ -190,15 +172,14 @@
             break;
     }
     navController = [[CustomNavigationController alloc] initWithRootViewController:object];
+    navController.navigationBar.barStyle = UIBarStyleBlack;
+    navController.navigationBar.tintColor = ICON_TINT_COLOR;
     UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
-    object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
+    object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg 
+                                                                               style:UIBarButtonItemStylePlain
+                                                                              target:nil
+                                                                              action:@selector(revealMenu:)];
     
-    UINavigationBar *newBar = navController.navigationBar;
-    newBar.barStyle = UIBarStyleBlack;
-    newBar.tintColor = ICON_TINT_COLOR;
-    if (setBarTintColor) {
-        newBar.backgroundColor = [Utilities getGrayColor:204 alpha:0.35];
-    }
     if (hideBottonLine) {
         [navController hideNavBarBottomLine:YES];
     }

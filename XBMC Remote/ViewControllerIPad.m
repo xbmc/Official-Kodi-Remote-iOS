@@ -187,6 +187,10 @@
     }
 }
 
+- (void)showDesktop {
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollRemoveAll" object:nil];
+}
+
 - (void)showRemote {
     RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
     remoteController.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -416,7 +420,8 @@
     
     [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
                                                height:[self screenSizeOrientationIndependent].height
-                                                 YPOS:-YPOS];
+                                                 YPOS:-YPOS
+                                           fullscreen:isFullscreen];
 }
 
 - (void)createLeftMenu:(NSInteger)maxMenuItems {
@@ -447,7 +452,8 @@
     
     [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
                                                height:[self screenSizeOrientationIndependent].height
-                                                 YPOS:-YPOS];
+                                                 YPOS:-YPOS
+                                           fullscreen:isFullscreen];
     
     [leftMenuView addSubview:self.nowPlayingController.view];
 }
@@ -492,19 +498,30 @@
     
     [self.view addSubview:rootView];
     
-    // remote button next to play control buttons
+    // left most element
+    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT) leftAnchor:0.0 isSliderType:NO];
+    volumeSliderView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
+    [self.view addSubview:volumeSliderView];
+    
+    // remote button next to volume control buttons
     UIImage *image = [UIImage imageNamed:@"icon_menu_remote"];
-    remoteButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - REMOTE_PADDING_LEFT, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
+    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    UIButton *remoteButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - REMOTE_PADDING_LEFT, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
     [remoteButton setImage:image forState:UIControlStateNormal];
     [remoteButton setImage:image forState:UIControlStateHighlighted];
     remoteButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     [remoteButton addTarget:self action:@selector(showRemote) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:remoteButton];
     
-    // left most element
-    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width, self.view.frame.size.height - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT) leftAnchor:0.0 isSliderType:NO];
-    volumeSliderView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
-    [self.view addSubview:volumeSliderView];
+    // "show desktop" button next to remote button
+    image = [UIImage imageNamed:@"icon_menu_playing"];
+    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    UIButton *showDesktopButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width + 25, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
+    [showDesktopButton setImage:image forState:UIControlStateNormal];
+    [showDesktopButton setImage:image forState:UIControlStateHighlighted];
+    showDesktopButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
+    [showDesktopButton addTarget:self action:@selector(showDesktop) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:showDesktopButton];
     
     // right most element
     connectionStatus = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - CONNECTION_ICON_SIZE - VIEW_PADDING, self.view.frame.size.height - (TOOLBAR_HEIGHT + CONNECTION_ICON_SIZE) / 2 - [Utilities getBottomPadding], CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE)];
@@ -524,6 +541,7 @@
     
     // 3rd right most element
     image = [UIImage imageNamed:@"icon_power_up"];
+    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - POWERBUTTON_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
     [powerButton setImage:image forState:UIControlStateNormal];
     [powerButton setImage:image forState:UIControlStateHighlighted];
@@ -532,9 +550,10 @@
     [self.view addSubview:powerButton];
     
     // element between left most and 2nd right most uses up free space
-    CGFloat startInfo = volumeSliderView.frame.origin.x + volumeSliderView.frame.size.width + 2 * VIEW_PADDING;
-    CGFloat widthInfo = powerButton.frame.origin.x - startInfo - 2 * VIEW_PADDING;
-    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(startInfo, self.view.frame.size.height - TOOLBAR_HEIGHT, widthInfo, TOOLBAR_HEIGHT)];
+    CGFloat infoPadding = self.view.frame.size.width - CGRectGetMinX(powerButton.frame) + 2 * VIEW_PADDING;
+    CGFloat infoStart = PAD_MENU_TABLE_WIDTH + infoPadding;
+    CGFloat infoWidth = self.view.frame.size.width - PAD_MENU_TABLE_WIDTH - 2 * infoPadding;
+    xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(infoStart, self.view.frame.size.height - TOOLBAR_HEIGHT, infoWidth, TOOLBAR_HEIGHT)];
     [xbmcInfo setTitle:LOCALIZED_STR(@"No connection") forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
     xbmcInfo.titleLabel.minimumScaleFactor = 6.0 / 13.0;
@@ -552,6 +571,8 @@
     menuViewController.tableView.separatorInset = UIEdgeInsetsZero;
     
     [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
+    [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:self.nowPlayingController.songDetailsView];
+    [self.view insertSubview:self.nowPlayingController.playlistToolbarView belowSubview:self.nowPlayingController.BottomView];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL clearCache = [userDefaults boolForKey:@"clearcache_preference"];
@@ -630,9 +651,27 @@
                                              selector: @selector(handleChangeBackgroundImage:)
                                                  name: @"UIViewChangeBackgroundImage"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleNowPlayingFullscreenToggle)
+                                                 name: @"NowPlayingFullscreenToggle"
+                                               object: nil];
     
     [(gradientUIView*)self.view setColoursWithCGColors:[Utilities getGrayColor:36 alpha:1].CGColor
                                                endColor:[Utilities getGrayColor:22 alpha:1].CGColor];
+}
+
+- (void)handleNowPlayingFullscreenToggle {
+    isFullscreen = !isFullscreen;
+    [UIView animateWithDuration:0.3
+                     animations:^{
+        playlistHeader.alpha = menuViewController.view.alpha = isFullscreen ? 0 : 1;
+        [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width
+                                                   height:[self currentScreenBoundsDependOnOrientation].size.height
+                                                     YPOS:-YPOS
+                                               fullscreen:isFullscreen];
+                     }
+                     completion:^(BOOL finished) {
+                     }];
 }
 
 - (void)handleChangeBackgroundImage:(NSNotification*)sender {
@@ -679,11 +718,13 @@
 
 - (void)handleStackScrollOnScreen:(NSNotification*)sender {
     [self.view insertSubview:self.nowPlayingController.BottomView belowSubview:rootView];
+    [self.view insertSubview:self.nowPlayingController.playlistToolbarView belowSubview:rootView];
     [self hideSongInfoView];
 }
 
 - (void)handleStackScrollOffScreen:(NSNotification*)sender {
-    [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:rootView];
+    [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:self.nowPlayingController.songDetailsView];
+    [self.view insertSubview:self.nowPlayingController.playlistToolbarView belowSubview:self.nowPlayingController.BottomView];
 }
 
 - (void)handleXBMCServerHasChanged:(NSNotification*)sender {
@@ -756,7 +797,10 @@
 }
 
 - (void)viewWillLayoutSubviews {
-    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width height:[self currentScreenBoundsDependOnOrientation].size.height YPOS:-YPOS];
+    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width
+                                               height:[self currentScreenBoundsDependOnOrientation].size.height
+                                                 YPOS:-YPOS
+                                           fullscreen:isFullscreen];
 }
 
 - (BOOL)shouldAutorotate {
