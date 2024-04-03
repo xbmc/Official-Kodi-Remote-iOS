@@ -2784,7 +2784,7 @@
         playlistView.frame = frame;
         playlistTableView.frame = frame;
     }
-    playlistTableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
+    playlistTableView.contentInset = UIEdgeInsetsMake(0, 0, CGRectGetHeight(playlistActionView.frame), 0);
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     // Background of toolbar
