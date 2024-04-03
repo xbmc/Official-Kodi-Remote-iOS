@@ -648,7 +648,7 @@
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Audio stream") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+        UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
@@ -684,7 +684,7 @@
     if (numActions) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Subtitles") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+        UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
 
         UIAlertAction *action_disable = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Disable subtitles") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
@@ -1130,7 +1130,11 @@ NSInteger buttonAction;
         rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
         UIImage *settingsImg = [UIImage imageNamed:@"default-right-menu-icon"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(handleSettingsButton:)];
+        UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
+        self.navigationItem.rightBarButtonItems = @[
+            [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(handleSettingsButton:)],
+            [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)]
+        ];
         self.navigationController.navigationBar.barTintColor = REMOTE_CONTROL_BAR_TINT_COLOR;
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -1361,6 +1365,14 @@ NSInteger buttonAction;
     else {
         [self addButtonToListIPad];
     }
+}
+
+- (void)powerControl {
+    if (AppDelegate.instance.obj.serverIP.length == 0) {
+        return;
+    }
+    UIAlertController *actionView = [Utilities createPowerControl:self messageView:messagesView];
+    [self presentViewController:actionView animated:YES completion:nil];
 }
 
 - (void)addButtonToListIPad {

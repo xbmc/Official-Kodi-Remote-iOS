@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "RightMenuViewController.h"
 #import "OBSlider.h"
+#import "MessagesView.h"
 
 @class ShowInfoViewController;
 @class RemoteController;
@@ -103,6 +104,7 @@
     int currentPlayerID;
     int storePosSeconds;
     long storedItemID;
+    MessagesView *messagesView;
 }
 
 - (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS fullscreen:(BOOL)isFullscreen;

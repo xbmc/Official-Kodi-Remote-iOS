@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
+#import "MessagesView.h"
 #import "DSJSONRPC.h"
 
 typedef enum {
@@ -63,6 +64,7 @@ typedef enum {
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(eJewelType)type;
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
++ (UIAlertController*)createPowerControl:(UIViewController*)ctrl messageView:(MessagesView*)messageView;
 + (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate>*)fromctrl;
 + (DSJSONRPC*)getJsonRPC;
 + (void)setWebImageAuthorizationOnSuccessNotification:(NSNotification*)note;

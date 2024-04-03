@@ -216,94 +216,13 @@
         [self toggleSetup];
         return;
     }
-    NSString *title = [NSString stringWithFormat:@"%@\n%@", AppDelegate.instance.obj.serverDescription, AppDelegate.instance.obj.serverIP];
-    UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    if (!AppDelegate.instance.serverOnLine) {
-        UIAlertAction *action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Send Wake-On-LAN") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
-                [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
-                UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
-                [self presentViewController:alertView animated:YES completion:nil];
-            }
-            else {
-                UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Warning") message:LOCALIZED_STR(@"No server MAC address defined")];
-                [self presentViewController:alertView animated:YES completion:nil];
-            }
-        }];
-        [actionView addAction:action_wake];
-    }
-    else {
-        UIAlertAction *action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Shutdown" params:@{}];
-        }];
-        [actionView addAction:action_pwr_off_system];
-        
-        UIAlertAction *action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"Application.Quit" params:@{}];
-        }];
-        [actionView addAction:action_quit_kodi];
-        
-        UIAlertAction *action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Hibernate" params:@{}];
-        }];
-        [actionView addAction:action_hibernate];
-        
-        UIAlertAction *action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Suspend" params:@{}];
-        }];
-        [actionView addAction:action_suspend];
-        
-        UIAlertAction *action_reboot = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Reboot") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Reboot" params:@{}];
-        }];
-        [actionView addAction:action_reboot];
-        
-        UIAlertAction *action_scan_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"AudioLibrary.Scan" params:@{}];
-        }];
-        [actionView addAction:action_scan_audio_lib];
-        
-        UIAlertAction *action_clean_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"AudioLibrary.Clean" params:@{}];
-        }];
-        [actionView addAction:action_clean_audio_lib];
-        
-        UIAlertAction *action_scan_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"VideoLibrary.Scan" params:@{}];
-        }];
-        [actionView addAction:action_scan_video_lib];
-        
-        UIAlertAction *action_clean_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"VideoLibrary.Clean" params:@{}];
-        }];
-        [actionView addAction:action_clean_video_lib];
-    }
-    
-    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
-    [actionView addAction:cancelButton];
-    actionView.modalPresentationStyle = UIModalPresentationPopover;
-    
+    UIAlertController *actionView = [Utilities createPowerControl:self messageView:messagesView];
     UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
     if (popPresenter != nil) {
         popPresenter.sourceView = powerButton;
         popPresenter.sourceRect = powerButton.bounds;
     }
     [self presentViewController:actionView animated:YES completion:nil];
-}
-
-- (void)powerAction:(NSString*)action params:(NSDictionary*)params {
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        NSString *alertTitle = nil;
-        if (methodError == nil && error == nil) {
-            alertTitle = LOCALIZED_STR(@"Command executed");
-        }
-        else {
-            alertTitle = LOCALIZED_STR(@"Cannot do that");
-        }
-        UIAlertController *alertView = [Utilities createAlertOK:alertTitle message:nil];
-        [self presentViewController:alertView animated:YES completion:nil];
-    }];
 }
 
 #pragma mark - Touch Events
@@ -540,7 +459,7 @@
     [self.view addSubview:xbmcLogo];
     
     // 3rd right most element
-    image = [UIImage imageNamed:@"icon_power_up"];
+    image = [UIImage imageNamed:@"icon_power"];
     image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - POWERBUTTON_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
     [powerButton setImage:image forState:UIControlStateNormal];
@@ -602,6 +521,10 @@
         frame.origin.y -= bottomPadding;
         xbmcLogo.frame = frame;
     }
+    
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];
+    messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    [self.view addSubview:messagesView];
 
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleXBMCServerHasChanged:)

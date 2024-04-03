@@ -522,7 +522,7 @@
 
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg {
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}];
+    UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:nil];
     [alertView addAction:okButton];
     return alertView;
 }
@@ -533,10 +533,165 @@
             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
             pasteboard.string = msg;
     }];
-    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
     [alertView addAction:copyButton];
     [alertView addAction:cancelButton];
     return alertView;
+}
+
++ (void)powerAction:(NSString*)command ctrl:(UIViewController*)ctrl message:(NSString*)alertMessage ok:(NSString*)okMessage messageView:(MessagesView*)messageView {
+    alertMessage = alertMessage ?: @"";
+    okMessage = okMessage ?: LOCALIZED_STR(@"Yes");
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:alertMessage message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *okButton = [UIAlertAction actionWithTitle:okMessage style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        if (!command) {
+            return;
+        }
+        [[Utilities getJsonRPC] callMethod:command withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (messageView) {
+                if (methodError == nil && error == nil) {
+                    [messageView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+                }
+                else {
+                    [messageView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                }
+            }
+            else {
+                NSString *alertTitle = nil;
+                if (methodError == nil && error == nil) {
+                    alertTitle = LOCALIZED_STR(@"Command executed");
+                }
+                else {
+                    alertTitle = LOCALIZED_STR(@"Cannot do that");
+                }
+                UIAlertController *alertViewResult = [Utilities createAlertOK:alertTitle message:nil];
+                [ctrl presentViewController:alertViewResult animated:YES completion:nil];
+            }
+        }];
+    }];
+    [alertView addAction:cancelButton];
+    [alertView addAction:okButton];
+    [ctrl presentViewController:alertView animated:YES completion:nil];
+}
+
++ (UIAlertController*)createPowerControl:(UIViewController*)ctrl messageView:(MessagesView*)messageView {
+    NSString *title = [NSString stringWithFormat:@"%@\n%@", AppDelegate.instance.obj.serverDescription, AppDelegate.instance.obj.serverIP];
+    UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    if (!AppDelegate.instance.serverOnLine) {
+        UIAlertAction *action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Send Wake-On-LAN") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            if (messageView) {
+                if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
+                    [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
+                    [messageView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+                }
+                else {
+                    [messageView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                }
+            }
+            else {
+                if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
+                    [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
+                    UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
+                    [ctrl presentViewController:alertView animated:YES completion:nil];
+                }
+                else {
+                    UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Warning") message:LOCALIZED_STR(@"No server MAC address defined")];
+                    [ctrl presentViewController:alertView animated:YES completion:nil];
+                }
+            }
+        }];
+        [actionView addAction:action_wake];
+    }
+    else {
+        UIAlertAction *action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+            [self powerAction:@"System.Shutdown" 
+                         ctrl:ctrl
+                      message:LOCALIZED_STR(@"Are you sure you want to power off your XBMC system now?")
+                           ok:LOCALIZED_STR(@"Power off")
+                  messageView:messageView];
+        }];
+        [actionView addAction:action_pwr_off_system];
+        
+        UIAlertAction *action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self powerAction:@"Application.Quit" 
+                         ctrl:ctrl
+                      message:LOCALIZED_STR(@"Are you sure you want to quit XBMC application now?")
+                           ok:LOCALIZED_STR(@"Quit")
+                  messageView:messageView];
+        }];
+        [actionView addAction:action_quit_kodi];
+        
+        UIAlertAction *action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self powerAction:@"System.Hibernate" 
+                         ctrl:ctrl
+                      message:LOCALIZED_STR(@"Are you sure you want to hibernate your XBMC system now?")
+                           ok:LOCALIZED_STR(@"Hibernate")
+                  messageView:messageView];
+        }];
+        [actionView addAction:action_hibernate];
+        
+        UIAlertAction *action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self powerAction:@"System.Suspend"
+                         ctrl:ctrl
+                      message:LOCALIZED_STR(@"Are you sure you want to suspend your XBMC system now?")
+                           ok:LOCALIZED_STR(@"Suspend")
+                  messageView:messageView];
+        }];
+        [actionView addAction:action_suspend];
+        
+        UIAlertAction *action_reboot = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Reboot") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self powerAction:@"System.Reboot" 
+                         ctrl:ctrl
+                      message:LOCALIZED_STR(@"Are you sure you want to reboot your XBMC system now?")
+                           ok:LOCALIZED_STR(@"Reboot")
+                  messageView:messageView];
+        }];
+        [actionView addAction:action_reboot];
+        
+        UIAlertAction *action_scan_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self powerAction:@"AudioLibrary.Scan" 
+                         ctrl:ctrl
+                      message:LOCALIZED_STR(@"Are you sure you want to update your audio library now?")
+                           ok:LOCALIZED_STR(@"Update Audio")
+                  messageView:messageView];
+        }];
+        [actionView addAction:action_scan_audio_lib];
+        
+        UIAlertAction *action_clean_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self powerAction:@"AudioLibrary.Clean"
+                         ctrl:ctrl
+                      message:LOCALIZED_STR(@"Are you sure you want to clean your audio library now?")
+                           ok:LOCALIZED_STR(@"Clean Audio")
+                  messageView:messageView];
+        }];
+        [actionView addAction:action_clean_audio_lib];
+        
+        UIAlertAction *action_scan_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self powerAction:@"VideoLibrary.Scan" 
+                         ctrl:ctrl
+                      message:LOCALIZED_STR(@"Are you sure you want to update your video library now?")
+                           ok:LOCALIZED_STR(@"Update Video")
+                  messageView:messageView];
+        }];
+        [actionView addAction:action_scan_video_lib];
+        
+        UIAlertAction *action_clean_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self powerAction:@"VideoLibrary.Clean" 
+                         ctrl:ctrl 
+                      message:LOCALIZED_STR(@"Are you sure you want to clean your video library now?")
+                           ok:LOCALIZED_STR(@"Clean Video")
+                  messageView:messageView];
+        }];
+        [actionView addAction:action_clean_video_lib];
+    }
+    
+    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
+    [actionView addAction:cancelButton];
+    actionView.modalPresentationStyle = UIModalPresentationPopover;
+    
+    return actionView;
 }
 
 + (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate>*)fromctrl {

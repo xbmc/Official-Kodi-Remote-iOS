@@ -1789,7 +1789,7 @@
                 break;
         }
         UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+        UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
         UIAlertAction *clearButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clear Playlist") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self clearPlaylist:playerID];
             }];
@@ -1893,7 +1893,7 @@
     if (sheetActions.count) {
         UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+        UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
         
         for (NSString *actionName in sheetActions) {
             NSString *actiontitle = actionName;
@@ -2591,14 +2591,25 @@
             UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
         }
-        UIImage *settingsImg = [UIImage imageNamed:@"icon_menu_remote"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)];
+        UIImage *remoteImg = [UIImage imageNamed:@"icon_menu_remote"];
+        UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
+        self.navigationItem.rightBarButtonItems = @[
+            [[UIBarButtonItem alloc] initWithImage:remoteImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)],
+            [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)]
+        ];
         self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.panGesture.delegate = self;
         
         [self setNowPlayingDimensionIPhone:nowPlayingView.frame.size.width
                                     height:nowPlayingView.frame.size.height];
+        
+        UIView *rootView = IS_IPHONE ? UIApplication.sharedApplication.keyWindow.rootViewController.view : self.view;
+        CGFloat deltaY = IS_IPHONE ? UIApplication.sharedApplication.statusBarFrame.size.height : 0;
+        messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:0];
+        messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        [rootView addSubview:messagesView];
     }
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
@@ -2662,6 +2673,14 @@
 
 - (void)revealUnderRight:(id)sender {
     [self.slidingViewController anchorTopViewTo:ECLeft];
+}
+
+- (void)powerControl {
+    if (AppDelegate.instance.obj.serverIP.length == 0) {
+        return;
+    }
+    UIAlertController *actionView = [Utilities createPowerControl:self messageView:messagesView];
+    [self presentViewController:actionView animated:YES completion:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
