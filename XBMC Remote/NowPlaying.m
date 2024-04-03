@@ -52,7 +52,6 @@
 #define TOOLBAR_HEIGHT 44
 #define SHUFFLE_REPEAT_VERTICAL_PADDING 3
 #define SHUFFLE_REPEAT_HORIZONTAL_PADDING 5
-#define IPAD_NUM_PLAYCONTROLS 9
 #define TAG_ID_PREVIOUS 1
 #define TAG_ID_PLAYPAUSE 2
 #define TAG_ID_STOP 3
@@ -60,6 +59,8 @@
 #define TAG_ID_TOGGLE 5
 #define TAG_SEEK_BACKWARD 6
 #define TAG_SEEK_FORWARD 7
+#define TAG_SHUFFLE 8
+#define TAG_REPEAT 9
 #define TAG_ID_EDIT 88
 #define SELECTED_NONE -1
 #define ID_INVALID -2
@@ -2422,33 +2423,33 @@
     [playlistToolbarView addSubview:shuffleButton];
     [playlistToolbarView addSubview:repeatButton];
     
-    // Update layout of play control bar
+    // Align buttons around this center
+    CGFloat buttonCenterY = CGRectGetHeight(playlistToolbarView.frame) / 2;
+    
+    // Define the list of playcontrol buttons (top to down = left to right)
+    NSArray *toolbarButtonList = @[
+        @{@"buttonTag": @(TAG_SHUFFLE),         @"originY": @(buttonCenterY + SHUFFLE_REPEAT_VERTICAL_PADDING)},
+        @{@"buttonTag": @(TAG_ID_STOP),         @"originY": @(buttonCenterY)},
+        @{@"buttonTag": @(TAG_SEEK_BACKWARD),   @"originY": @(buttonCenterY)},
+        @{@"buttonTag": @(TAG_ID_PREVIOUS),     @"originY": @(buttonCenterY)},
+        @{@"buttonTag": @(TAG_ID_PLAYPAUSE),    @"originY": @(buttonCenterY)}, /* this is central button */
+        @{@"buttonTag": @(TAG_ID_NEXT),         @"originY": @(buttonCenterY)},
+        @{@"buttonTag": @(TAG_SEEK_FORWARD),    @"originY": @(buttonCenterY)},
+        @{@"buttonTag": @(TAG_ID_TOGGLE),       @"originY": @(buttonCenterY)},
+        @{@"buttonTag": @(TAG_REPEAT),          @"originY": @(buttonCenterY + SHUFFLE_REPEAT_VERTICAL_PADDING)},
+    ];
+    
+    // Calculate start position and distance between all buttons
     CGFloat borderPadding = MAX(CGRectGetWidth(shuffleButton.frame), CGRectGetWidth(repeatButton.frame)) / 2 + SHUFFLE_REPEAT_HORIZONTAL_PADDING;
-    CGFloat buttonPadding = floor((CGRectGetWidth(playlistToolbarView.frame) - 2 * borderPadding) / (IPAD_NUM_PLAYCONTROLS - 1));
+    CGFloat buttonPadding = (CGRectGetWidth(playlistToolbarView.frame) - 2 * borderPadding) / (toolbarButtonList.count - 1);
     
-    // Center button is playpause
-    CGFloat centerX = playlistToolbarView.center.x - CGRectGetMinX(playlistToolbarView.frame);
-    UIButton *button = [playlistToolbarView viewWithTag:TAG_ID_PLAYPAUSE];
-    button.center = CGPointMake(centerX, button.center.y);
-    
-    // All other buttons have relative position to the center
-    button = [playlistToolbarView viewWithTag:TAG_ID_STOP];
-    button.center = CGPointMake(centerX - 3 * buttonPadding, button.center.y);
-    button = [playlistToolbarView viewWithTag:TAG_SEEK_BACKWARD];
-    button.center = CGPointMake(centerX - 2 * buttonPadding, button.center.y);
-    button = [playlistToolbarView viewWithTag:TAG_ID_PREVIOUS];
-    button.center = CGPointMake(centerX - 1 * buttonPadding, button.center.y);
-    button = [playlistToolbarView viewWithTag:TAG_ID_NEXT];
-    button.center = CGPointMake(centerX + 1 * buttonPadding, button.center.y);
-    button = [playlistToolbarView viewWithTag:TAG_SEEK_FORWARD];
-    button.center = CGPointMake(centerX + 2 * buttonPadding, button.center.y);
-    button = [playlistToolbarView viewWithTag:TAG_ID_TOGGLE];
-    button.center = CGPointMake(centerX + 3 * buttonPadding, button.center.y);
-    
-    // Set position for shuffle and repeat
-    CGFloat centerY = playlistToolbarView.frame.size.height / 2 + SHUFFLE_REPEAT_VERTICAL_PADDING;
-    shuffleButton.center = CGPointMake(centerX - 4 * buttonPadding, centerY);
-    repeatButton.center  = CGPointMake(centerX + 4 * buttonPadding, centerY);
+    // Loop through button list and place them in the toolbar
+    CGFloat startX = borderPadding;
+    for (NSDictionary *item in toolbarButtonList) {
+        UIButton *button = [playlistToolbarView viewWithTag:[item[@"buttonTag"] intValue]];
+        button.center = CGPointMake(startX, [item[@"originY"] floatValue]);
+        startX += buttonPadding;
+    }
 }
 
 - (void)setAVCodecFont:(UILabel*)label size:(CGFloat)fontsize {
