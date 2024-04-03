@@ -246,6 +246,37 @@
     return img;
 }
 
++ (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightColor:(UIColor*)lightColor darkColor:(UIColor*)darkColor {
+    if (@available(iOS 13.0, *)) {
+        UITraitCollection *scale = [UITraitCollection currentTraitCollection];
+        UITraitCollection *lightUI = [UITraitCollection traitCollectionWithUserInterfaceStyle:UIUserInterfaceStyleLight];
+        UITraitCollection *darkUI = [UITraitCollection traitCollectionWithUserInterfaceStyle:UIUserInterfaceStyleDark];
+        UITraitCollection *lightScaledTC = [UITraitCollection traitCollectionWithTraitsFromCollections:@[scale, lightUI]];
+        UITraitCollection *darkScaledTC = [UITraitCollection traitCollectionWithTraitsFromCollections:@[scale, darkUI]];
+        UITraitCollection *lightTraitCollection = [UITraitCollection traitCollectionWithUserInterfaceStyle:UIUserInterfaceStyleLight];
+        UITraitCollection *darkTraitCollection = [UITraitCollection traitCollectionWithUserInterfaceStyle:UIUserInterfaceStyleDark];
+        
+        __block UIImage *lightImage = image;
+        [darkScaledTC performAsCurrentTraitCollection:^{
+            lightImage = [Utilities colorizeImage:lightImage withColor:lightColor];
+            lightImage = [lightImage imageWithConfiguration:[lightImage.configuration configurationWithTraitCollection:lightTraitCollection]];
+        }];
+        
+        __block UIImage *darkImage = image;
+        [lightScaledTC performAsCurrentTraitCollection:^{
+            darkImage = [Utilities colorizeImage:darkImage withColor:darkColor];
+            darkImage = [darkImage imageWithConfiguration:[darkImage.configuration configurationWithTraitCollection:darkTraitCollection]];
+        }];
+        
+        [lightImage.imageAsset registerImage:darkImage withTraitCollection:darkTraitCollection];
+        return lightImage;
+    }
+    else {
+        image = [Utilities colorizeImage:image withColor:lightColor];
+        return image;
+    }
+}
+
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode {
     UIColor *bgcolor = UIColor.clearColor;
     UIColor *imgcolor = nil;

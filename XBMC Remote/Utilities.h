@@ -36,6 +36,7 @@ typedef enum {
 + (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker;
 + (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker trigger:(CGFloat)trigger;
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color;
++ (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightColor:(UIColor*)lightColor darkColor:(UIColor*)darkColor;
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode;
 + (BOOL)getPreferTvPosterMode;
 + (LogoBackgroundType)getLogoBackgroundMode;

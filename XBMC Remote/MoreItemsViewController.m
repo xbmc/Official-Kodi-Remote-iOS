@@ -15,10 +15,12 @@
 @synthesize tableView = _tableView;
 #define LABEL_PADDING 8
 #define INDICATOR_SIZE 16
+#define LABEL_OFFSET 50
+#define ICON_WIDTH 34
+#define ICON_HEIGHT 30
 
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSArray*)menu {
     if (self = [super init]) {
-        cellLabelOffset = 50;
 		self.view.frame = frame;
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
 //        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -26,7 +28,7 @@
 		_tableView.dataSource = self;
         _tableView.backgroundColor = UIColor.clearColor;
         mainMenuItems = menu;
-        _tableView.separatorInset = UIEdgeInsetsMake(0, cellLabelOffset, 0, 0);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, LABEL_OFFSET, 0, 0);
         [self.view addSubview:_tableView];
 	}
     return self;
@@ -62,7 +64,10 @@
 	}
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 0, self.view.bounds.size.width - cellLabelOffset - INDICATOR_SIZE - 2 * LABEL_PADDING, cell.frame.size.height)];
+    UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(LABEL_OFFSET,
+                                                                   0,
+                                                                   self.view.bounds.size.width - LABEL_OFFSET - INDICATOR_SIZE - 2 * LABEL_PADDING,
+                                                                   cell.frame.size.height)];
     cellLabel.font = [UIFont systemFontOfSize:18];
     cellLabel.textColor = [Utilities get1stLabelColor];
     cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
@@ -70,10 +75,14 @@
     cellLabel.text = item[@"label"];
     [cell.contentView addSubview:cellLabel];
     if (![item[@"icon"] isEqualToString:@""]) {
-        CGRect iconImageViewRect = CGRectMake(8, 6, 34, 30);
+        CGRect iconImageViewRect = CGRectMake((LABEL_OFFSET - ICON_WIDTH) / 2, 
+                                              (cell.frame.size.height - ICON_HEIGHT) / 2,
+                                              ICON_WIDTH,
+                                              ICON_HEIGHT);
         UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
-        UIImage *image = [UIImage imageNamed:item[@"icon"]];
-        image = [Utilities colorizeImage:image withColor:[Utilities get1stLabelColor]];
+        UIImage *image = [Utilities setLightDarkModeImageAsset:[UIImage imageNamed:item[@"icon"]]
+                                                    lightColor:UIColor.darkGrayColor
+                                                     darkColor:UIColor.lightGrayColor];
         iconImage.image = image;
         [cell.contentView addSubview:iconImage];
     }
