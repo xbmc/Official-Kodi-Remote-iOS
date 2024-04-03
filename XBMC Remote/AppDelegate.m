@@ -2220,6 +2220,8 @@
                         @"fanart",
                         @"resume",
                         @"trailer",
+                        @"dateadded",
+                        @"tagline",
                 ],
             }, @"extra_info_parameters",
             @{
@@ -2335,6 +2337,8 @@
                         @"fanart",
                         @"resume",
                         @"trailer",
+                        @"dateadded",
+                        @"tagline",
                 ],
             }, @"extra_info_parameters",
             @YES, @"FrodoExtraArt",
@@ -2420,6 +2424,7 @@
             @"row17": @"plot",
             @"row18": @"resume",
             @"row19": @"dateadded",
+            @"row20": @"tagline",
             @"itemid_extra_info": @"moviedetails",
         },
                       
@@ -2472,6 +2477,8 @@
             @"row7": @"file",
             @"row17": @"director",
             @"row18": @"resume",
+            @"row19": @"dateadded",
+            @"row20": @"tagline",
             @"itemid_extra_info": @"moviedetails",
         },
                       
@@ -2609,6 +2616,8 @@
                         @"fanart",
                         @"resume",
                         @"trailer",
+                        @"dateadded",
+                        @"tagline",
                 ],
             }, @"extra_info_parameters",
             @{
@@ -2670,6 +2679,8 @@
                         @"fanart",
                         @"resume",
                         @"trailer",
+                        @"dateadded",
+                        @"tagline",
                 ],
             }, @"extra_info_parameters",
             @{
@@ -2753,6 +2764,7 @@
                         @"cast",
                         @"fanart",
                         @"resume",
+                        @"tagline",
                 ],
                 @"media": @"video",
             }, @"parameters",
@@ -2791,6 +2803,7 @@
             @"row17": @"director",
             @"row18": @"resume",
             @"row19": @"dateadded",
+            @"row20": @"tagline",
             @"itemid_extra_info": @"moviedetails",
         },
                               
@@ -2816,6 +2829,7 @@
             @"row17": @"director",
             @"row18": @"resume",
             @"row19": @"dateadded",
+            @"row20": @"tagline",
             @"itemid_extra_info": @"moviedetails",
         },
                               
@@ -2876,6 +2890,7 @@
             @"row18": @"resume",
             @"row19": @"dateadded",
             //@"itemid_extra_info": @"moviedetails",
+            @"row20": @"tagline",
         },
     ];
     

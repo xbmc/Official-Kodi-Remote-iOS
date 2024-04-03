@@ -633,6 +633,7 @@
                                  item[mainFields[@"row16"]], mainFields[@"row16"],
                                  item[mainFields[@"row17"]], mainFields[@"row17"],
                                  item[mainFields[@"row18"]], mainFields[@"row18"],
+                                 item[mainFields[@"row20"]], mainFields[@"row20"],
                                  nil];
     return newDict;
 }
