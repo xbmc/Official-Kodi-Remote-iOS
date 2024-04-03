@@ -17,6 +17,7 @@
 }
 
 - (id)initWithFrame:(CGRect)frame deltaY:(CGFloat)deltaY deltaX:(CGFloat)deltaX;
+- (void)updateWithFrame:(CGRect)frame deltaY:(CGFloat)deltaY deltaX:(CGFloat)deltaX;
 - (void)showMessage:(NSString*)message timeout:(NSTimeInterval)timeout color:(UIColor*)color;
 
 @property (nonatomic, strong) UILabel *viewMessage;
