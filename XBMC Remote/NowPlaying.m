@@ -121,6 +121,19 @@
 
 #pragma mark - utility
 
+- (void)updateBlurredCoverBackground:(UIImage*)image {
+    // Show blurred cover background (iPhone only, as iPad uses other layout)
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults boolForKey:@"blurred_cover_preference"] && IS_IPHONE) {
+        [Utilities imageView:fullscreenCover AnimDuration:1.0 Image:image];
+        visualEffectView.alpha = 1;
+    }
+    else {
+        fullscreenCover.image = nil;
+        visualEffectView.alpha = 0;
+    }
+}
+
 - (NSString*)getNowPlayingThumbnailPath:(NSDictionary*)item {
     // If a recording is played, we can use the iocn (typically the station logo)
     BOOL useIcon = [item[@"type"] isEqualToString:@"recording"] || [item[@"recordingid"] longValue] > 0;
@@ -645,6 +658,7 @@
                                      if (!thumbnailPath.length) {
                                          UIImage *image = [UIImage imageNamed:@"coverbox_back"];
                                          [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
+                                         [self updateBlurredCoverBackground:nil];
                                      }
                                      else {
                                          __weak UIImageView *thumb = thumbnailView;
@@ -654,17 +668,7 @@
                                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                               if (error == nil) {
                                                   [weakSelf processLoadedThumbImage:weakSelf thumb:thumb image:image enableJewel:enableJewel];
-                                                  
-                                                  // Show blurred cover background (iPhone only, as iPad uses other layout)
-                                                  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                                                  if ([userDefaults boolForKey:@"blurred_cover_preference"] && IS_IPHONE) {
-                                                      [Utilities imageView:fullscreenCover AnimDuration:1.0 Image:image];
-                                                      visualEffectView.alpha = 1;
-                                                  }
-                                                  else {
-                                                      fullscreenCover.image = nil;
-                                                      visualEffectView.alpha = 0;
-                                                  }
+                                                  [weakSelf updateBlurredCoverBackground:image];
                                               }
                                           }];
                                      }
