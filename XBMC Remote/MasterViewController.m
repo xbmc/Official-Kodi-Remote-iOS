@@ -100,7 +100,6 @@
     NSString *iconName = item.icon;
     UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
-    UIImageView *line = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_SEPARATOR];
     if (indexPath.row == 0) {
         // Adapt layout for first cell (showing connection status)
         [self setFrameSizes:cell height:PHONE_MENU_INFO_HEIGHT iconsize:CONNECTION_ICON_SIZE];
@@ -109,7 +108,6 @@
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:13];
         title.numberOfLines = 2;
         title.text = [Utilities getConnectionStatusServerName];
-        line.hidden = YES;
         iconName = [Utilities getConnectionStatusIconName];
         icon.highlightedImage = nil;
         icon.image = [UIImage imageNamed:iconName];
@@ -123,7 +121,6 @@
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
         title.numberOfLines = 1;
         title.text = item.mainLabel;
-        line.hidden = YES;
         icon.highlightedImage = [UIImage imageNamed:iconName];
         icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
         cell.backgroundColor = UIColor.clearColor;
