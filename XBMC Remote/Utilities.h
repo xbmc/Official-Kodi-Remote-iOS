@@ -94,6 +94,7 @@ typedef enum {
 + (BOOL)hasRemoteToolBar;
 + (CGFloat)getBottomPadding;
 + (CGFloat)getTopPadding;
++ (CGFloat)getTopPaddingWithNavBar:(UINavigationController*)navCtrl;
 + (void)sendXbmcHttp:(NSString*)command;
 + (NSString*)getAppVersionString;
 + (void)checkForReviewRequest;

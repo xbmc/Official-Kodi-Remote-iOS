@@ -17,19 +17,7 @@
 - (id)initWithFrame:(CGRect)frame deltaY:(CGFloat)deltaY deltaX:(CGFloat)deltaX {
     self = [super initWithFrame:frame];
     if (self) {
-        CALayer *bottomBorder = [CALayer layer];
-        CGFloat borderSize = 0.5;
-        bottomBorder.frame = CGRectMake(0.0, frame.size.height - borderSize, frame.size.width, borderSize);
-        bottomBorder.backgroundColor = [Utilities getGrayColor:0 alpha:0.35].CGColor;
-        [self.layer addSublayer:bottomBorder];
-        self.backgroundColor = [Utilities getGrayColor:0 alpha:0.9];
-        messageOrigin = frame.origin.y;
-        slideHeight = frame.size.height;
-        if (IS_IPAD) {
-            slideHeight += [Utilities getTopPadding];
-        }
-        self.frame = CGRectMake(frame.origin.x, messageOrigin - slideHeight, frame.size.width, frame.size.height);
-        viewMessage = [[UILabel alloc] initWithFrame:CGRectMake(deltaX, deltaY, frame.size.width - deltaX, frame.size.height - deltaY)];
+        viewMessage = [UILabel new];
         viewMessage.backgroundColor = UIColor.clearColor;
         viewMessage.font = [UIFont boldSystemFontOfSize:16];
         viewMessage.adjustsFontSizeToFitWidth = YES;
@@ -37,10 +25,21 @@
         viewMessage.textColor = UIColor.whiteColor;
         viewMessage.textAlignment = NSTextAlignmentCenter;
         viewMessage.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        [self updateWithFrame:frame deltaY:deltaY deltaX:deltaX];
         [self addSubview:viewMessage];
         self.alpha = 0.0;
     }
     return self;
+}
+
+- (void)updateWithFrame:(CGRect)frame deltaY:(CGFloat)deltaY deltaX:(CGFloat)deltaX {
+    messageOrigin = frame.origin.y;
+    slideHeight = frame.size.height;
+    if (IS_IPAD) {
+        slideHeight += [Utilities getTopPadding];
+    }
+    self.frame = CGRectMake(frame.origin.x, messageOrigin - slideHeight, frame.size.width, frame.size.height);
+    viewMessage.frame = CGRectMake(deltaX, deltaY, frame.size.width - deltaX, frame.size.height - deltaY);
 }
 
 # pragma mark - view Effects

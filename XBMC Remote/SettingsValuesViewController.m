@@ -144,15 +144,6 @@
         longPressGesture.delegate = self;
         [_tableView addGestureRecognizer:longPressGesture];
         
-        CGFloat deltaY = 0;
-        CGRect frame = UIScreen.mainScreen.bounds;
-        if (IS_IPAD) {
-            frame.size.width = STACKSCROLL_WIDTH;
-        }
-        else {
-            deltaY = 44 + [Utilities getTopPadding];
-        }
-        
         scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
         scrubbingView.center = CGPointMake((int)(frame.size.width / 2), (int)(frame.size.height / 2) + 50);
         scrubbingView.backgroundColor = [Utilities getGrayColor:0 alpha:0.9];
@@ -191,9 +182,6 @@
         [scrubbingView addSubview:scrubbingRate];
         
         [self.view insertSubview:scrubbingView aboveSubview:_tableView];
-
-        messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + DEFAULT_MSG_HEIGHT) deltaY:deltaY deltaX:0];
-        [self.view addSubview:messagesView];
 	}
     return self;
 }
@@ -856,6 +844,24 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tap];
+    
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectZero deltaY:0 deltaX:0];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    CGFloat deltaY = 0;
+    CGRect frame = UIScreen.mainScreen.bounds;
+    if (IS_IPAD) {
+        frame.size.width = STACKSCROLL_WIDTH;
+    }
+    else {
+        deltaY = [Utilities getTopPaddingWithNavBar:self.navigationController];
+    }
+    
+    [messagesView updateWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + DEFAULT_MSG_HEIGHT) deltaY:deltaY deltaX:0];
+    [self.view addSubview:messagesView];
 }
 
 - (void)didReceiveMemoryWarning {
