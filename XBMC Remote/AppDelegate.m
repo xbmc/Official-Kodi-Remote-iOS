@@ -5947,7 +5947,6 @@
                     @"label": @"ServerInfo",
                     @"bgColor": [self setColorRed:0.208 Green:0.208 Blue:0.208],
                     @"fontColor": [self setColorRed:0.702 Green:0.702 Blue:0.702],
-                    @"hideLineSeparator": @YES,
                 },
             ],
                    
@@ -5956,7 +5955,6 @@
                     @"label": @"ServerInfo",
                     @"bgColor": [self setColorRed:0.208 Green:0.208 Blue:0.208],
                     @"fontColor": [self setColorRed:0.702 Green:0.702 Blue:0.702],
-                    @"hideLineSeparator": @YES,
                 },
                 @{
                     @"label": @"VolumeControl",
@@ -5989,7 +5987,6 @@
                     @"label": @"ServerInfo",
                     @"bgColor": [self setColorRed:0.208 Green:0.208 Blue:0.208],
                     @"fontColor": [self setColorRed:0.702 Green:0.702 Blue:0.702],
-                    @"hideLineSeparator": @YES,
                 },
                 @{
                     @"label": LOCALIZED_STR(@"LED Torch"),
@@ -6002,7 +5999,6 @@
                     @"label": @"ServerInfo",
                     @"bgColor": [self setColorRed:0.208 Green:0.208 Blue:0.208],
                     @"fontColor": [self setColorRed:0.702 Green:0.702 Blue:0.702],
-                    @"hideLineSeparator": @YES,
                 },
                 @{
                     @"label": @"VolumeControl",

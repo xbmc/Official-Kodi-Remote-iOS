@@ -31,7 +31,6 @@
 #define XIB_RIGHT_MENU_CELL__ICON 1
 #define XIB_RIGHT_MENU_CELL__STATUS 2
 #define XIB_RIGHT_MENU_CELL__TITLE 3
-#define XIB_RIGHT_MENU_CELL__SEPARATOR 4
 
 @interface RightMenuViewController ()
 @property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
@@ -112,8 +111,6 @@
     UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__ICON];
     UIImageView *status = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__STATUS];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__TITLE];
-    UIImageView *line = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL__SEPARATOR];
-    line.hidden = YES;
     status.hidden = YES;
     status.image = nil;
     icon.hidden = NO;
@@ -209,9 +206,6 @@
         title.frame = frame;
         title.text = tableData[indexPath.row][@"label"];
         iconName = tableData[indexPath.row][@"icon"];
-    }
-    if ([tableData[indexPath.row][@"hideLineSeparator"] boolValue]) {
-        line.hidden = YES;
     }
     if ([tableData[indexPath.row][@"fontColor"] count]) {
         UIColor *fontColor = [UIColor colorWithRed:[tableData[indexPath.row][@"fontColor"][@"red"] floatValue]
@@ -330,7 +324,6 @@
     for (NSDictionary *item in menuItem.mainMethod[0][menuKey]) {
         NSString *label = item[@"label"] ?: @"";
         NSDictionary *bgColor = item[@"bgColor"] ?: @{};
-        NSNumber *hideLine = item[@"hideLineSeparator"] ?: @NO;
         NSDictionary *fontColor = item[@"fontColor"] ?: @{};
         NSString *icon = item[@"icon"] ?: @"blank";
         NSDictionary *action = item[@"action"] ?: @{};
@@ -339,7 +332,6 @@
         NSDictionary *itemDict = @{
             @"label": label,
             @"bgColor": bgColor,
-            @"hideLineSeparator": hideLine,
             @"fontColor": fontColor,
             @"icon": icon,
             @"action": action,
@@ -385,7 +377,6 @@
         NSMutableDictionary *itemDict = [@{
             @"label": label,
             @"bgColor": @{},
-            @"hideLineSeparator": @NO,
             @"fontColor": @{},
             @"icon": icon,
             @"isSetting": isSetting,
@@ -630,7 +621,6 @@
     infoCustomButton = @{
         @"label": LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."),
         @"bgColor": @{},
-        @"hideLineSeparator": @NO,
         @"fontColor": @{},
         @"icon": @"default-right-menu-icon",
         @"action": @{},
