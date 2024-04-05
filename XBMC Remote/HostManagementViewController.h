@@ -16,7 +16,7 @@
 @class HostViewController;
 @class AppInfoViewController;
 
-@interface HostManagementViewController : UIViewController {
+@interface HostManagementViewController : UIViewController <UIGestureRecognizerDelegate> {
     IBOutlet UITableView *serverListTableView;
     IBOutlet UIButton *editTableButton;
     UILongPressGestureRecognizer *longPressGesture;
