@@ -332,6 +332,19 @@
     }
 }
 
+- (void)updateShuffleButton:(BOOL)shuffle {
+    if (shuffle) {
+        UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
+        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+        [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
+    }
+    else {
+        UIImage *image = [UIImage imageNamed:@"button_shuffle"];
+        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+        [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
+    }
+}
+
 #pragma mark - JSON management
 
 - (void)setCoverSize:(NSString*)type {
@@ -757,19 +770,8 @@
                                  BOOL canshuffle = [methodResult[@"canshuffle"] boolValue] && !musicPartyMode;
                                  if (canshuffle) {
                                      shuffled = [methodResult[@"shuffled"] boolValue];
-                                     if (shuffleButton.hidden) {
-                                         shuffleButton.hidden = NO;
-                                     }
-                                     if (shuffled) {
-                                         UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
-                                         image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-                                         [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-                                     }
-                                     else {
-                                         UIImage *image = [UIImage imageNamed:@"button_shuffle"];
-                                         image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
-                                         [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-                                     }
+                                     [self updateShuffleButton:shuffled];
+                                     shuffleButton.hidden = NO;
                                  }
                                  else if (!shuffleButton.hidden) {
                                      shuffleButton.hidden = YES;
@@ -1651,33 +1653,21 @@
     [self performSelector:@selector(toggleHighlight:) withObject:shuffleButton afterDelay:.1];
     lastSelected = SELECTED_NONE;
     storeSelection = nil;
+    
+    // Next shuffle status
+    BOOL newShuffleStatus = !shuffled;
+    
+    // Send the command to Kodi
     if (AppDelegate.instance.serverVersion > 11) {
         [self SimpleAction:@"Player.SetShuffle" params:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"} reloadPlaylist:YES startProgressBar:NO];
-        if (shuffled) {
-            UIImage *image = [UIImage imageNamed:@"button_shuffle"];
-            image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
-            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
-        else {
-            UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
-            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
     }
     else {
-        if (shuffled) {
-            [self SimpleAction:@"Player.UnShuffle" params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
-            UIImage *image = [UIImage imageNamed:@"button_shuffle"];
-            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
-        else {
-            [self SimpleAction:@"Player.Shuffle" params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
-            UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
-            image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
-            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
+        NSString *shuffleCommand = newShuffleStatus ? @"Player.Shuffle" : @"Player.UnShuffle";
+        [self SimpleAction:shuffleCommand params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
     }
+    
+    // Update the button status
+    [self updateShuffleButton:newShuffleStatus];
 }
 
 - (IBAction)changeRepeat:(id)sender {
