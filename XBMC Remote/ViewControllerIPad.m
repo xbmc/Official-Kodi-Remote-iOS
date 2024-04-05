@@ -17,7 +17,6 @@
 #import "AppInfoViewController.h"
 #import "XBMCVirtualKeyboard.h"
 #import "ClearCacheView.h"
-#import "gradientUIView.h"
 #import "CustomNavigationController.h"
 #import "Utilities.h"
 
@@ -567,10 +566,6 @@
                                                  name: @"XBMCServerConnectionFailed"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleChangeBackgroundGradientColor:)
-                                                 name: @"UIViewChangeBackgroundGradientColor"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleChangeBackgroundImage:)
                                                  name: @"UIViewChangeBackgroundImage"
                                                object: nil];
@@ -582,9 +577,6 @@
                                              selector: @selector(handlePlaylistHeaderUpdate:)
                                                  name: @"PlaylistHeaderUpdate"
                                                object: nil];
-    
-    [(gradientUIView*)self.view setColoursWithCGColors:[Utilities getGrayColor:36 alpha:1].CGColor
-                                               endColor:[Utilities getGrayColor:22 alpha:1].CGColor];
 }
 
 - (void)handlePlaylistHeaderUpdate:(NSNotification*)sender {
@@ -621,13 +613,6 @@
     else {
         [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:[UIImage new]];
     }
-}
-
-- (void)handleChangeBackgroundGradientColor:(NSNotification*)sender {
-    UIColor *startColor = (UIColor*)[sender.userInfo objectForKey:@"startColor"];
-    UIColor *endColor = (UIColor*)[sender.userInfo objectForKey:@"endColor"];
-    [(gradientUIView*)self.view setColoursWithCGColors:startColor.CGColor endColor:endColor.CGColor];
-    [(gradientUIView*)self.view setNeedsDisplay];
 }
 
 - (void)handleTcpJSONRPCShowSetup:(NSNotification*)sender {

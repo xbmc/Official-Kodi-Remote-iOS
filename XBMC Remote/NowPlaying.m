@@ -419,7 +419,7 @@
     shuffleButton.hidden = YES;
     hiresImage.hidden = YES;
     musicPartyMode = 0;
-    [self setColorEffect:UIColor.clearColor];
+    [self notifyChangeForBackgroundImage:nil];
     [self hidePlaylistProgressbarWithDeselect:YES];
     [self showPlaylistTable];
     [self toggleSongDetails];
@@ -438,84 +438,6 @@
             [NSTimer scheduledTimerWithTimeInterval:FLIP_DEMO_DELAY target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
             startFlipDemo = NO;
         }
-    }
-}
-
-- (void)animateToColors:(UIColor*)color {
-    color = UIColor.clearColor;
-    [UIView transitionWithView:ProgressSlider
-                      duration:0.3
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-                        if ([color isEqual:UIColor.clearColor]) {
-                            self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
-                            ProgressSlider.minimumTrackTintColor = UIColor.lightGrayColor;
-                            ProgressSlider.maximumTrackTintColor = UIColor.grayColor;
-                            if (ProgressSlider.userInteractionEnabled) {
-                                UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
-                                [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
-                                [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
-                            }
-                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:UIColor.lightGrayColor];
-                            [Utilities colorLabel:songName AnimDuration:1.0 Color:UIColor.whiteColor];
-                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:UIColor.whiteColor];
-                            [Utilities colorLabel:currentTime AnimDuration:1.0 Color:UIColor.lightGrayColor];
-                            [Utilities colorLabel:duration AnimDuration:1.0 Color:UIColor.lightGrayColor];
-                        }
-                        else {
-                            UIColor *lighterColor = [Utilities lighterColorForColor:color];
-                            UIColor *slightLighterColor = [Utilities slightLighterColorForColor:color];
-                            UIColor *progressColor = slightLighterColor;
-                            UIColor *pgThumbColor = lighterColor;
-                            self.navigationController.navigationBar.tintColor = lighterColor;
-                            ProgressSlider.minimumTrackTintColor = progressColor;
-                            if (ProgressSlider.userInteractionEnabled) {
-                                UIImage *thumbImage = [Utilities colorizeImage:[UIImage imageNamed:@"pgbar_thumb_iOS7"] withColor:pgThumbColor];
-                                [ProgressSlider setThumbImage:thumbImage forState:UIControlStateNormal];
-                                [ProgressSlider setThumbImage:thumbImage forState:UIControlStateHighlighted];
-                            }
-                            [Utilities colorLabel:albumName AnimDuration:1.0 Color:slightLighterColor];
-                            [Utilities colorLabel:songName AnimDuration:1.0 Color:lighterColor];
-                            [Utilities colorLabel:artistName AnimDuration:1.0 Color:lighterColor];
-                            [Utilities colorLabel:currentTime AnimDuration:1.0 Color:slightLighterColor];
-                            [Utilities colorLabel:duration AnimDuration:1.0 Color:slightLighterColor];
-                        }
-                    }
-                    completion:NULL];
-}
-
-- (void)setIPadBackgroundColor:(UIColor*)color effectDuration:(NSTimeInterval)time {
-    if (IS_IPAD) {
-        NSDictionary *params;
-        if ([color isEqual:UIColor.clearColor]) {
-            params = @{
-                @"startColor": [Utilities getGrayColor:36 alpha:1.0],
-                @"endColor": [Utilities getGrayColor:22 alpha:1.0],
-            };
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:nil];
-        }
-        else {
-            color = UIColor.blackColor;
-            CGFloat hue, saturation, brightness, alpha;
-            BOOL ok = [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-            if (ok) {
-                UIColor *iPadStartColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2 alpha:alpha];
-                UIColor *iPadEndColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.1 alpha:alpha];
-                params = @{
-                    @"startColor": iPadStartColor,
-                    @"endColor": iPadEndColor,
-                };
-            }
-        }
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundGradientColor" object:nil userInfo:params];
-    }
-}
-
-- (void)setColorEffect:(UIColor*)color {
-    foundEffectColor = color;
-    if (!nowPlayingView.hidden) {
-        [self animateToColors:color];
-        [self setIPadBackgroundColor:color effectDuration:1.0];
     }
 }
 
@@ -881,8 +803,10 @@
 }
 
 - (void)notifyChangeForBackgroundImage:(NSString*)bgImagePath {
-    NSDictionary *params = @{@"image": bgImagePath};
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
+    if (IS_IPAD) {
+        NSDictionary *params = @{@"image": bgImagePath ?: @""};
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
+    }
 }
 
 - (void)processLoadedThumbImage:(NowPlaying*)sf thumb:(UIImageView*)thumb image:(UIImage*)image enableJewel:(BOOL)enableJewel {
@@ -895,8 +819,6 @@
         [sf changeImage:thumb image:processedImage];
     }
     [sf setButtonImageAndStartDemo:buttonImage];
-    UIColor *newColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-    [sf setColorEffect:newColor];
 }
 
 - (NSString*)formatArtistYear:(NSString*)artist year:(NSString*)year {
@@ -1521,7 +1443,6 @@
 }
 
 - (void)animViews {
-    UIColor *effectColor;
     __block CGFloat playtoolbarAlpha = 1.0;
     if (!nowPlayingView.hidden) {
         transitionFromView = nowPlayingView;
@@ -1529,8 +1450,6 @@
         self.navigationItem.title = [self getPlaylistHeaderLabel];
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionCrossDissolve;
-        effectColor = UIColor.clearColor;
-        [self setIPadBackgroundColor:effectColor effectDuration:0.2];
         playtoolbarAlpha = 1.0;
     }
     else {
@@ -1539,15 +1458,8 @@
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionCrossDissolve;
-        if (foundEffectColor == nil) {
-            effectColor = UIColor.clearColor;
-        }
-        else {
-            effectColor = foundEffectColor;
-        }
         playtoolbarAlpha = 0.0;
     }
-    [self animateToColors:effectColor];
     
     [UIView transitionWithView:transitionView
                       duration:TRANSITION_TIME
@@ -1561,7 +1473,6 @@
         self.navigationItem.titleView.hidden = NO;
                      }
                      completion:^(BOOL finished) {
-        [self setIPadBackgroundColor:effectColor effectDuration:1.0];
         self.slidingViewController.underRightViewController.view.hidden = NO;
         self.slidingViewController.underLeftViewController.view.hidden = NO;
     }];
@@ -2743,7 +2654,6 @@
     [timer invalidate];
     storedItemID = SELECTED_NONE;
     self.slidingViewController.panGesture.delegate = nil;
-    self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -2872,6 +2782,16 @@
     albumName.text = @"";
     duration.text = @"";
     currentTime.text = @"";
+    
+    // Colors
+    self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
+    ProgressSlider.minimumTrackTintColor = UIColor.lightGrayColor;
+    ProgressSlider.maximumTrackTintColor = UIColor.grayColor;
+    albumName.textColor = UIColor.lightGrayColor;
+    songName.textColor = UIColor.whiteColor;
+    artistName.textColor = UIColor.whiteColor;
+    currentTime.textColor = UIColor.lightGrayColor;
+    duration.textColor = UIColor.lightGrayColor;
     
     // Prepare and add blur effect
     UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];

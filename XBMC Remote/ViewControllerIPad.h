@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-#import "gradientUIView.h"
 #import "tcpJSONRPC.h"
 #import "MessagesView.h"
 
