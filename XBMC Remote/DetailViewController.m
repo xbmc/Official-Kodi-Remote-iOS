@@ -1685,6 +1685,7 @@
         flowLayout.minimumLineSpacing = cellMinimumLineSpacing;
         flowLayout.minimumInteritemSpacing = cellMinimumLineSpacing;
     }
+    flowLayout.collectionView.backgroundColor = UIColor.clearColor;
 }
 
 #pragma mark - UICollectionView methods
@@ -1699,7 +1700,7 @@
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
         collectionView.contentInset = dataList.contentInset;
         collectionView.scrollIndicatorInsets = dataList.scrollIndicatorInsets;
-        collectionView.backgroundColor = [Utilities getGrayColor:0 alpha:0.5];
+        collectionView.backgroundColor = UIColor.clearColor;
         collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         collectionView.delegate = self;
         collectionView.dataSource = self;
