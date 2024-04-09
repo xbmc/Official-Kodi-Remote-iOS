@@ -125,6 +125,7 @@
     BOOL showkeyboard;
     __weak UIAlertController *actionView;
     NSIndexPath *selectedIndexPath;
+    NSNumber *processAllItemsInSection;
 }
 
 - (id)initWithFrame:(CGRect)frame;

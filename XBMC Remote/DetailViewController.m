@@ -2956,6 +2956,10 @@
                           isWatched:[self wasSeasonPlayed:section]
                           isTopMost:isFirstListedSeason];
             
+            // Add long press gesture for action list
+            UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressSeason:)];
+            [albumDetailView addGestureRecognizer:longPressGesture];
+            
             // Add tap gesture to toggle open/close the section
             UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleOpen:)];
             [albumDetailView addGestureRecognizer:tapGesture];
@@ -3243,6 +3247,39 @@
     }
 }
 
+- (void)longPressSeason:(UILongPressGestureRecognizer*)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        NSInteger section = [sender.view tag];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
+        NSDictionary *item = [self getItemFromIndexPath:indexPath];
+        
+        processAllItemsInSection = @(section);
+        NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d", [item[@"season"] intValue]] inArray:self.extraSectionRichResults];
+        
+        if (seasonIdx != NSNotFound) {
+            NSArray *sheetActions = @[
+                /* Place the season longpress actions here */
+            ];
+            NSString *title = [Utilities getStringFromItem:item[@"genre"]];
+            NSString *season = self.extraSectionRichResults[seasonIdx][@"label"];
+            if (season.length) {
+                title = [NSString stringWithFormat:@"%@\n%@", title, season];
+            }
+            
+            UIViewController *showFromCtrl = [self topMostController];
+            UIView *showFromView = nil;
+            if (IS_IPHONE) {
+                showFromView = self.view;
+            }
+            else {
+                showFromView = [showFromCtrl.view superview];
+            }
+            CGPoint sheetOrigin = [sender locationInView:showFromView];
+            [self showActionSheetOptions:title options:sheetActions recording:NO origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
+        }
+    }
+}
+
 - (void)handleLongPress:(UILongPressGestureRecognizer*)activeRecognizer {
     if (activeRecognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint selectedPointInView = [activeRecognizer locationInView:activeLayoutView];
@@ -3477,6 +3514,9 @@
 
 - (void)actionSheetHandler:(NSString*)actiontitle origin:(CGPoint)origin {
     NSDictionary *item = nil;
+    if (processAllItemsInSection) {
+        selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:[processAllItemsInSection longValue]];
+    }
     if (selectedIndexPath != nil) {
         item = [self getItemFromIndexPath:selectedIndexPath];
         if (item == nil) {
