@@ -578,6 +578,10 @@ double round(double d) {
 }
 
 - (void)createInfo {
+    // Use mainLabel0 to check, if the info view already has been created
+    if (mainLabel0) {
+        return;
+    }
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
     NSMutableDictionary *item = self.detailItem;
     NSString *placeHolderImage = @"coverbox_back";
@@ -1878,10 +1882,7 @@ double round(double d) {
         viewTitle.textAlignment = NSTextAlignmentCenter;
         bottomShadow.hidden = YES;
     }
-    if (isViewDidLoad) {
-        [self createInfo];
-        isViewDidLoad = NO;
-    }
+    [self createInfo];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -1953,7 +1954,6 @@ double round(double d) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    isViewDidLoad = YES;
     fanartView.tag = FANART_FULLSCREEN_DISABLE;
     fanartView.userInteractionEnabled = YES;
     UITapGestureRecognizer *touchOnKenView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBackground:)];
