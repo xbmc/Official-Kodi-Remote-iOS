@@ -2184,7 +2184,7 @@
 - (UISearchBar*)createFakeSearchbarInDark:(BOOL)isDark {
     // Create non-used search controller. This is added as tableHeaderView and lets iOS gracefully handle insets
     UISearchController *searchCtrl = [[UISearchController alloc] initWithSearchResultsController:nil];
-    [searchCtrl.searchBar setShowsCancelButton:YES animated:NO];
+    searchCtrl.searchBar.showsCancelButton = YES;
     searchCtrl.searchBar.frame = self.searchController.searchBar.frame;
     searchCtrl.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     searchCtrl.searchBar.barStyle = UIBarStyleBlack;
@@ -5560,7 +5560,7 @@
     self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     self.searchController.searchBar.barStyle = UIBarStyleBlack;
     self.searchController.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [self.searchController.searchBar setShowsCancelButton:YES animated:NO];
+    self.searchController.searchBar.showsCancelButton = YES;
     [self.searchController.searchBar sizeToFit];
     [self.searchController setActive:NO];
 }
