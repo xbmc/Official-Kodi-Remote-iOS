@@ -50,7 +50,6 @@
     int thumbWidth;
     IBOutlet UIView *noFoundView;
     int viewWidth;
-    IBOutlet UIView *detailView;
     MoreItemsViewController *moreItemsViewController;
     UIImageView *longTimeout;
     NSTimeInterval startTime;

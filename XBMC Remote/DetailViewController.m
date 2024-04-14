@@ -1074,7 +1074,7 @@
         moreItemsViewController.tableView.contentInset = tableViewInsets;
         moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
         [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
-        [detailView insertSubview:moreItemsViewController.view aboveSubview:dataList];
+        [self.view insertSubview:moreItemsViewController.view aboveSubview:dataList];
     }
 
     [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
@@ -1722,7 +1722,7 @@
         }];
         [collectionView setShowsPullToRefresh:enableDiskCache];
         collectionView.alwaysBounceVertical = YES;
-        [detailView insertSubview:collectionView belowSubview:buttonsView];
+        [self.view insertSubview:collectionView belowSubview:buttonsView];
     }
 }
 
@@ -1941,7 +1941,7 @@
     }
     if (self.sectionArray.count > 1 && !episodesView && !channelGuideView) {
         self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
-        [detailView addSubview:self.indexView];
+        [self.view addSubview:self.indexView];
     }
     else if (channelGuideView) {
         if (self.sectionArray.count > 0) {
@@ -1959,7 +1959,7 @@
                 [channelGuideTableIndexTitles addObject:dateString];
             }
             self.indexView.indexTitles = channelGuideTableIndexTitles;
-            [detailView addSubview:self.indexView];
+            [self.view addSubview:self.indexView];
         }
     }
     else {
@@ -5747,7 +5747,7 @@
         }
     }
     
-    detailView.clipsToBounds = YES;
+    self.view.clipsToBounds = YES;
     NSDictionary *itemSizes = parameters[@"itemSizes"];
     if (IS_IPHONE) {
         [self setIphoneInterface:itemSizes[@"iphone"]];
