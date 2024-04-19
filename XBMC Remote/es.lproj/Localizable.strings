@@ -47,7 +47,7 @@
 "Update Video Library" = "Actualizar Biblioteca de Vídeo";
 "Update Video" = "Actualizar Vídeo";
 "Clean Video Library" = "Limpiar Biblioteca de Vídeo";
-"Clean Video" = "Limpiar Video";
+"Clean Video" = "Limpiar Vídeo";
 "Quit" = "Salir";
 "Keyboard" = "Teclado";
 "Gesture Zone" = "Zona de Gestos";
@@ -96,7 +96,7 @@
 "No saved hosts found" = "No se encontraron hosts guardados";
 "Are you sure you want to clear the playlist?" = "¿Estás seguro de que quieres limpiar la lista?";
 "Are you sure you want to clear the music playlist?" = "¿Estás seguro de que quieres limpiar la lista de música?";
-"Are you sure you want to clear the video playlist?" = "¿Estás seguro de que quieres limpiar la lista de video?";
+"Are you sure you want to clear the video playlist?" = "¿Estás seguro de que quieres limpiar la lista de vídeo?";
 "Are you sure you want to clear the picture playlist?" = "¿Estás seguro de que quieres limpiar la lista de imágenes?";
 "Are you sure you want to power off your XBMC system now?" = "¿Estás seguro de que quieres apagar el sistema Kodi ahora?";
 "Are you sure you want to hibernate your XBMC system now?" = "¿Estás seguro de que quieres hibernar el sistema Kodi ahora?";
