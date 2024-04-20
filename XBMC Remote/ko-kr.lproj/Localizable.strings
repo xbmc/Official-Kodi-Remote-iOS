@@ -315,3 +315,4 @@
 "Host name" = "호스트 이름";
 "Preference" = "선호";
 "Received unexpected JSON object." = "예상치 못한 JSON 개체를 받았습니다.";
+"TAGLINE" = "태그라인";
