@@ -121,6 +121,15 @@
 
 #pragma mark - utility
 
+- (NSString*)getPlaylistHeaderLabel {
+    NSString *headerLabel = LOCALIZED_STR(@"Playlist");
+    NSUInteger numItems = playlistData.count;
+    if (numItems > 0) {
+        headerLabel = [NSString stringWithFormat:@"%@ (%lu)", headerLabel, numItems];
+    }
+    return headerLabel;
+}
+
 - (void)updateBlurredCoverBackground:(UIImage*)image {
     // Show blurred cover background (iPhone only, as iPad uses other layout)
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -1285,6 +1294,18 @@
     else {
         [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
+    
+    // Define playlist header label, adding number of playlist items in brackets
+    NSString *playlistLabel = [self getPlaylistHeaderLabel];
+    if (!playlistView.hidden) {
+        self.navigationItem.title = playlistLabel;
+    }
+    // For iPad send a notification with the label
+    if (IS_IPAD) {
+        NSDictionary *params = @{@"playlistHeaderLabel": playlistLabel};
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PlaylistHeaderUpdate" object:nil userInfo:params];
+    }
+    
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [activityIndicatorView stopAnimating];
     lastSelected = SELECTED_NONE;
@@ -1505,7 +1526,7 @@
     if (!nowPlayingView.hidden) {
         transitionFromView = nowPlayingView;
         transitionToView = playlistView;
-        self.navigationItem.title = LOCALIZED_STR(@"Playlist");
+        self.navigationItem.title = [self getPlaylistHeaderLabel];
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionCrossDissolve;
         effectColor = UIColor.clearColor;
