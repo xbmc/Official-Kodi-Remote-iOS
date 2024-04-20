@@ -2194,7 +2194,6 @@
 }
 
 - (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
-    
     if (sourceIndexPath.row >= playlistData.count ||
         sourceIndexPath.row == destinationIndexPath.row) {
         return;
@@ -2249,7 +2248,6 @@
 }
 
 - (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
-
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString *actionRemove = @"Playlist.Remove";
         NSDictionary *paramsRemove = @{
