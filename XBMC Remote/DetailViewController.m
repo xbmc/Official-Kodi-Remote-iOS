@@ -855,11 +855,11 @@
     [self hideButtonListWhenEmpty];
 }
 
-- (void)setViewInset:(UIView*)view bottom:(CGFloat)bottomInset {
-    UIEdgeInsets viewInsets = dataList.contentInset;
+- (void)setViewInset:(UIScrollView*)scrollView bottom:(CGFloat)bottomInset {
+    UIEdgeInsets viewInsets = scrollView.contentInset;
     viewInsets.bottom = bottomInset;
-    dataList.contentInset = viewInsets;
-    dataList.scrollIndicatorInsets = viewInsets;
+    scrollView.contentInset = viewInsets;
+    scrollView.scrollIndicatorInsets = viewInsets;
 }
 
 - (void)hideButtonList:(BOOL)hide {
