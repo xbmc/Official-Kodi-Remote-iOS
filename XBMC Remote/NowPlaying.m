@@ -336,6 +336,37 @@
     return [Utilities applyRoundedEdgesImage:source drawBorder:YES];
 }
 
+- (void)updateRepeatButton:(NSString*)mode {
+    if ([mode isEqualToString:@"all"]) {
+        UIImage *image = [UIImage imageNamed:@"button_repeat_all"];
+        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+        [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
+    }
+    else if ([mode isEqualToString:@"one"]) {
+        UIImage *image = [UIImage imageNamed:@"button_repeat_one"];
+        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+        [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
+    }
+    else {
+        UIImage *image = [UIImage imageNamed:@"button_repeat"];
+        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+        [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
+    }
+}
+
+- (void)updateShuffleButton:(BOOL)shuffle {
+    if (shuffle) {
+        UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
+        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+        [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
+    }
+    else {
+        UIImage *image = [UIImage imageNamed:@"button_shuffle"];
+        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+        [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
+    }
+}
+
 #pragma mark - JSON management
 
 - (void)setCoverSize:(NSString*)type {
@@ -743,24 +774,8 @@
                                  BOOL canrepeat = [methodResult[@"canrepeat"] boolValue] && !musicPartyMode;
                                  if (canrepeat) {
                                      repeatStatus = methodResult[@"repeat"];
-                                     if (repeatButton.hidden) {
-                                         repeatButton.hidden = NO;
-                                     }
-                                     if ([repeatStatus isEqualToString:@"all"]) {
-                                         UIImage *image = [UIImage imageNamed:@"button_repeat_all"];
-                                         image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-                                         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
-                                     }
-                                     else if ([repeatStatus isEqualToString:@"one"]) {
-                                         UIImage *image = [UIImage imageNamed:@"button_repeat_one"];
-                                         image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-                                         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
-                                     }
-                                     else {
-                                         UIImage *image = [UIImage imageNamed:@"button_repeat"];
-                                         image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
-                                         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
-                                     }
+                                     [self updateRepeatButton:repeatStatus];
+                                     repeatButton.hidden = NO;
                                  }
                                  else if (!repeatButton.hidden) {
                                      repeatButton.hidden = YES;
@@ -768,19 +783,8 @@
                                  BOOL canshuffle = [methodResult[@"canshuffle"] boolValue] && !musicPartyMode;
                                  if (canshuffle) {
                                      shuffled = [methodResult[@"shuffled"] boolValue];
-                                     if (shuffleButton.hidden) {
-                                         shuffleButton.hidden = NO;
-                                     }
-                                     if (shuffled) {
-                                         UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
-                                         image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-                                         [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-                                     }
-                                     else {
-                                         UIImage *image = [UIImage imageNamed:@"button_shuffle"];
-                                         image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
-                                         [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-                                     }
+                                     [self updateShuffleButton:shuffled];
+                                     shuffleButton.hidden = NO;
                                  }
                                  else if (!shuffleButton.hidden) {
                                      shuffleButton.hidden = YES;
@@ -1674,76 +1678,49 @@
     [self performSelector:@selector(toggleHighlight:) withObject:shuffleButton afterDelay:.1];
     lastSelected = SELECTED_NONE;
     storeSelection = nil;
+    
+    // Next shuffle status
+    BOOL newShuffleStatus = !shuffled;
+    
+    // Send the command to Kodi
     if (AppDelegate.instance.serverVersion > 11) {
         [self SimpleAction:@"Player.SetShuffle" params:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"} reloadPlaylist:YES startProgressBar:NO];
-        if (shuffled) {
-            UIImage *image = [UIImage imageNamed:@"button_shuffle"];
-            image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
-            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
-        else {
-            UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
-            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
     }
     else {
-        if (shuffled) {
-            [self SimpleAction:@"Player.UnShuffle" params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
-            UIImage *image = [UIImage imageNamed:@"button_shuffle"];
-            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
-        else {
-            [self SimpleAction:@"Player.Shuffle" params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
-            UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
-            image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
-            [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
+        NSString *shuffleCommand = newShuffleStatus ? @"Player.Shuffle" : @"Player.UnShuffle";
+        [self SimpleAction:shuffleCommand params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
     }
+    
+    // Update the button status
+    [self updateShuffleButton:newShuffleStatus];
 }
 
 - (IBAction)changeRepeat:(id)sender {
     repeatButton.highlighted = YES;
     [self performSelector:@selector(toggleHighlight:) withObject:repeatButton afterDelay:.1];
+    
+    // Gather the next repeat status
+    NSString *newRepeatStatus = @"all";
+    if ([repeatStatus isEqualToString:@"off"]) {
+        newRepeatStatus = @"all";
+    }
+    else if ([repeatStatus isEqualToString:@"all"]) {
+        newRepeatStatus = @"one";
+    }
+    else if ([repeatStatus isEqualToString:@"one"]) {
+        newRepeatStatus = @"off";
+    }
+    
+    // Send the command to Kodi
     if (AppDelegate.instance.serverVersion > 11) {
         [self SimpleAction:@"Player.SetRepeat" params:@{@"playerid": @(currentPlayerID), @"repeat": @"cycle"} reloadPlaylist:NO startProgressBar:NO];
-        if ([repeatStatus isEqualToString:@"off"]) {
-            UIImage *image = [UIImage imageNamed:@"button_repeat_all"];
-            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
-        else if ([repeatStatus isEqualToString:@"all"]) {
-            UIImage *image = [UIImage imageNamed:@"button_repeat_one"];
-            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
-        else if ([repeatStatus isEqualToString:@"one"]) {
-            UIImage *image = [UIImage imageNamed:@"button_repeat"];
-            image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
-            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
     }
     else {
-        if ([repeatStatus isEqualToString:@"off"]) {
-            [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": @"all"} reloadPlaylist:NO startProgressBar:NO];
-            UIImage *image = [UIImage imageNamed:@"button_repeat_all"];
-            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
-        else if ([repeatStatus isEqualToString:@"all"]) {
-            [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": @"one"} reloadPlaylist:NO startProgressBar:NO];
-            UIImage *image = [UIImage imageNamed:@"button_repeat_one"];
-            image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
-        else if ([repeatStatus isEqualToString:@"one"]) {
-            [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": @"off"} reloadPlaylist:NO startProgressBar:NO];
-            UIImage *image = [UIImage imageNamed:@"button_repeat"];
-            image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
-            [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
-        }
+        [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": newRepeatStatus} reloadPlaylist:NO startProgressBar:NO];
     }
+    
+    // Update the button status
+    [self updateRepeatButton:newRepeatStatus];
 }
 
 #pragma mark - Touch Events & Gestures
