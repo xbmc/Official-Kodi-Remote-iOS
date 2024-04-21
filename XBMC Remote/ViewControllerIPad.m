@@ -578,9 +578,19 @@
                                              selector: @selector(handleNowPlayingFullscreenToggle)
                                                  name: @"NowPlayingFullscreenToggle"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handlePlaylistHeaderUpdate:)
+                                                 name: @"PlaylistHeaderUpdate"
+                                               object: nil];
     
     [(gradientUIView*)self.view setColoursWithCGColors:[Utilities getGrayColor:36 alpha:1].CGColor
                                                endColor:[Utilities getGrayColor:22 alpha:1].CGColor];
+}
+
+- (void)handlePlaylistHeaderUpdate:(NSNotification*)sender {
+    NSDictionary *userInfo = sender.userInfo;
+    NSString *headerText = userInfo[@"playlistHeaderLabel"];
+    playlistHeader.text = headerText;
 }
 
 - (void)handleNowPlayingFullscreenToggle {
