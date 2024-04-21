@@ -669,9 +669,8 @@
                 ],
             }, @"parameters",
             LOCALIZED_STR(@"Genres"), @"label",
-            @"nocover_genre", @"defaultThumb",
             @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
+            @0, @"thumbWidth",
             @YES, @"enableLibraryCache",
         ],
                           
@@ -2260,9 +2259,8 @@
                 ],
             }, @"parameters",
             LOCALIZED_STR(@"Movie Genres"), @"label",
-            @"nocover_movie_genre", @"defaultThumb",
             @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
+            @0, @"thumbWidth",
             @YES, @"enableLibraryCache",
         ],
               
@@ -5623,9 +5621,9 @@
                 @"level": @"expert",
             }, @"parameters",
             LOCALIZED_STR(@"XBMC Settings"), @"label",
-            @"nocover_settings", @"defaultThumb",
             animationStartX, @"animationStartX",
             animationStartBottomScreen, @"animationStartBottomScreen",
+            @0, @"thumbWidth",
         ],
                                    
         @[
@@ -5839,7 +5837,7 @@
             LOCALIZED_STR(@"Settings"), @"label",
             @"nocover_filemode", @"defaultThumb",
             @SETTINGS_ROW_HEIGHT, @"rowHeight",
-            @SETTINGS_THUMB_WIDTH_SMALL, @"thumbWidth",
+            @0, @"thumbWidth",
         ],
 
         @[

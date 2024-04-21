@@ -2466,13 +2466,6 @@
         cell.backgroundColor = [Utilities getSystemGray6];
     }
     mainMenu *menuItem = self.detailItem;
-//    NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-/* future - need to be tweaked: doesn't work on file mode. mainLabel need to be resized */
-//    NSDictionary *methods = [self indexKeyedDictionaryFromArray:[Menuitem.subItem mainMethod][choosedTab]];
-//    if (methods[@"method"] != nil) { // THERE IS A CHILD
-//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//    }
-/* end future */
     CGPoint thumbSize = globalSearchView ? [self getGlobalSearchThumbsize:item] : CGPointMake(thumbWidth, cellHeight);
     thumbWidth = thumbSize.x;
     cellHeight = thumbSize.y;
@@ -2504,6 +2497,20 @@
     }
     else {
         title.text = [Utilities stripBBandHTML:item[@"label"]];
+    }
+    
+    // In case no thumbs are shown and there is a child view or we are showing a setting, display disclosure indicator and adapt width.
+    NSDictionary *method = [Utilities indexKeyedDictionaryFromArray:[menuItem.subItem mainMethod][choosedTab]];
+    BOOL hasChild = method.count > 0;
+    BOOL isSettingID = [item[@"family"] isEqualToString:@"id"];
+    if (!thumbWidth && (hasChild || isSettingID)) {
+        frame = title.frame;
+        frame.size.width = frame.size.width - INDICATOR_SIZE - LABEL_PADDING;
+        title.frame = frame;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
 
     frame = genre.frame;
@@ -2658,12 +2665,6 @@
                  [item[@"family"] isEqualToString:@"id"] ||
                  [item[@"family"] isEqualToString:@"addonid"]) {
             CGRect frame;
-            if ([item[@"family"] isEqualToString:@"id"]) {
-                frame = title.frame;
-                frame.size.width = frame.size.width - INDICATOR_SIZE - LABEL_PADDING;
-                title.frame = frame;
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
             cell.urlImageView.contentMode = UIViewContentModeScaleAspectFit;
             runtimeyear.hidden = YES;
             runtime.hidden = YES;
@@ -2675,7 +2676,6 @@
             genre.numberOfLines = 2;
             genre.font = [genre.font fontWithSize:11];
             genre.minimumScaleFactor = 10.0 / 11.0;
-            [genre sizeToFit];
         }
         else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
             rating.hidden = YES;
