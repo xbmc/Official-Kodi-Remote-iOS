@@ -5551,6 +5551,7 @@
     else {
         self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     }
+    [self displayData];
     if (channelListView || channelGuideView) {
         [channelListUpdateTimer invalidate];
         // Set up a timer that will always trigger at the start of each local minute. This supports
