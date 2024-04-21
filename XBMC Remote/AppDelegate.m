@@ -5940,20 +5940,9 @@
     nowPlayingItem1.family = FamilyNowPlaying;
     nowPlayingItem1.mainMethod = @[
         @{
-            @"offline": @[
-                @{
-                    @"label": @"ServerInfo",
-                    @"bgColor": [self setColorRed:0.208 Green:0.208 Blue:0.208],
-                    @"fontColor": [self setColorRed:0.702 Green:0.702 Blue:0.702],
-                },
-            ],
+            @"offline": @[],
                    
             @"online": @[
-                @{
-                    @"label": @"ServerInfo",
-                    @"bgColor": [self setColorRed:0.208 Green:0.208 Blue:0.208],
-                    @"fontColor": [self setColorRed:0.702 Green:0.702 Blue:0.702],
-                },
                 @{
                     @"label": @"VolumeControl",
                     @"icon": @"volume",
@@ -5982,22 +5971,12 @@
         @{
             @"offline": @[
                 @{
-                    @"label": @"ServerInfo",
-                    @"bgColor": [self setColorRed:0.208 Green:0.208 Blue:0.208],
-                    @"fontColor": [self setColorRed:0.702 Green:0.702 Blue:0.702],
-                },
-                @{
                     @"label": LOCALIZED_STR(@"LED Torch"),
                     @"icon": @"torch",
                 },
             ],
                                    
             @"online": @[
-                @{
-                    @"label": @"ServerInfo",
-                    @"bgColor": [self setColorRed:0.208 Green:0.208 Blue:0.208],
-                    @"fontColor": [self setColorRed:0.702 Green:0.702 Blue:0.702],
-                },
                 @{
                     @"label": @"VolumeControl",
                     @"icon": @"volume",

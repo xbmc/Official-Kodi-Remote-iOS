@@ -117,27 +117,27 @@
                                    infoText, @"message",
                                    iconName, @"icon_connection",
                                    nil];
+    AppDelegate.instance.serverOnLine = status;
+    AppDelegate.instance.serverName = infoText;
+    NSString *notificationName;
     if (status) {
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionSuccess" object:nil userInfo:params];
-        AppDelegate.instance.serverOnLine = YES;
-        AppDelegate.instance.serverName = infoText;
+        notificationName = @"XBMCServerConnectionSuccess";
         [volumeSliderView startTimer];
-        [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        [Utilities setStyleOfMenuItems:menuViewController.tableView active:YES];
-        // Send trigger to start the defalt controller
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiStartDefaultController" object:nil userInfo:params];
     }
     else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerConnectionFailed" object:nil userInfo:params];
-        AppDelegate.instance.serverOnLine = NO;
-        AppDelegate.instance.serverName = infoText;
-        [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-        [Utilities setStyleOfMenuItems:menuViewController.tableView active:NO];
+        notificationName = @"XBMCServerConnectionFailed";
         if (!extraTimer.valid) {
             extraTimer = [NSTimer scheduledTimerWithTimeInterval:CONNECTION_TIMEOUT target:self selector:@selector(offStackView) userInfo:nil repeats:NO];
         }
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:nil userInfo:params];
+    [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
+    [Utilities setStyleOfMenuItems:menuViewController.tableView active:status];
+    if (status) {
+        // Send trigger to start the defalt controller
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiStartDefaultController" object:nil userInfo:params];
     }
 }
 
