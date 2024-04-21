@@ -47,8 +47,8 @@
 #define COVERVIEW_PADDING 10
 #define SEGMENTCONTROL_WIDTH 122
 #define SEGMENTCONTROL_HEIGHT 32
-#define BOTTOMVIEW_WIDTH 320
-#define BOTTOMVIEW_HEIGHT 158
+#define BOTTOMVIEW_WIDTH 320.0
+#define BOTTOMVIEW_HEIGHT 158.0
 #define TOOLBAR_HEIGHT 44
 #define SHUFFLE_REPEAT_VERTICAL_PADDING 3
 #define SHUFFLE_REPEAT_HORIZONTAL_PADDING 5
@@ -2317,32 +2317,35 @@
 
 #pragma mark - Interface customizations
 
-- (void)setNowPlayingDimensionIPhone:(int)width height:(int)height {
-    CGFloat scaleX = width / BottomView.frame.size.width;
-    CGFloat scaleY = height / BottomView.frame.size.height;
+- (void)setNowPlayingDimensionIPhone:(CGFloat)width height:(CGFloat)height {
+    CGFloat scaleX = width / BOTTOMVIEW_WIDTH;
+    CGFloat scaleY = height / BOTTOMVIEW_HEIGHT;
     CGFloat scale = MIN(scaleX, scaleY);
     
     [self setFontSizes:scale];
     
-    // Set correct size for background image
-    CGRect frame = transitionView.frame;
+    // Get padding and reserved height (= top padding, bottom padding and tool bar)
     CGFloat topBarHeight = [Utilities getTopPaddingWithNavBar:self.navigationController];
-    frame.size.height += topBarHeight;
+    CGFloat reservedHeight = [Utilities getBottomPadding] + topBarHeight + CGRectGetHeight(playlistToolbarView.frame);
+    
+    // Set correct size for background image and views
+    CGRect frame = transitionView.frame;
+    frame.size.height = GET_MAINSCREEN_HEIGHT;
     frame.origin.y = -topBarHeight;
     transitionView.frame = frame;
     
     frame = nowPlayingView.frame;
-    frame.size.height -= topBarHeight;
+    frame.size.height = GET_MAINSCREEN_HEIGHT - reservedHeight;
     frame.origin.y = topBarHeight;
     nowPlayingView.frame = frame;
     
     frame = playlistView.frame;
-    frame.size.height -= topBarHeight;
+    frame.size.height = GET_MAINSCREEN_HEIGHT - reservedHeight;
     frame.origin.y = topBarHeight;
     playlistView.frame = frame;
     
-    CGFloat newWidth = floor(BottomView.frame.size.width * scale);
-    CGFloat newHeight = floor(BottomView.frame.size.height * scale);
+    CGFloat newWidth = floor(BOTTOMVIEW_WIDTH * scale);
+    CGFloat newHeight = floor(BOTTOMVIEW_HEIGHT * scale);
     
     BottomView.frame = CGRectMake((nowPlayingView.frame.size.width - newWidth) / 2,
                                   nowPlayingView.frame.size.height - newHeight,
@@ -2364,7 +2367,7 @@
     fullscreenCover.frame = visualEffectView.frame = transitionView.frame;
 }
 
-- (void)setNowPlayingDimension:(int)width height:(int)height YPOS:(int)YPOS fullscreen:(BOOL)isFullscreen {
+- (void)setNowPlayingDimension:(CGFloat)width height:(CGFloat)height YPOS:(CGFloat)YPOS fullscreen:(BOOL)isFullscreen {
     CGRect frame;
     
     // Maximum allowed height excludes status bar, toolbar and safe area
