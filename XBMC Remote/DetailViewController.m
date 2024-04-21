@@ -5551,16 +5551,16 @@
     else {
         self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     }
-    if (isViewDidLoad) {
+    
+    // We load data only in viewDidAppear as loading/presenting is tightly coupled and we want
+    // the layout to be ready. We do not want to repeat loading/presenting, if we re-enter the
+    // same controller instance from another view, e.g. when coming back from detail view.
+    if (loadAndPresentDataOnViewDidAppear) {
         [self initIpadCornerInfo];
-        if (globalSearchView) {
-            [self retrieveGlobalData:NO];
-        }
-        else {
-            [self startRetrieveDataWithRefresh:NO];
-        }
-        isViewDidLoad = NO;
+        [self startRetrieveDataWithRefresh:NO];
+        loadAndPresentDataOnViewDidAppear = NO;
     }
+    
     if (channelListView || channelGuideView) {
         [channelListUpdateTimer invalidate];
         // Set up a timer that will always trigger at the start of each local minute. This supports
@@ -5949,7 +5949,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     hiddenLabel = [userDefaults boolForKey:@"hidden_label_preference"];
     noItemsLabel.text = LOCALIZED_STR(@"No items found.");
-    isViewDidLoad = YES;
+    loadAndPresentDataOnViewDidAppear = YES;
     sectionHeight = LIST_SECTION_HEADER_HEIGHT;
     epglockqueue = dispatch_queue_create("com.epg.arrayupdate", DISPATCH_QUEUE_SERIAL);
     epgDict = [NSMutableDictionary new];
