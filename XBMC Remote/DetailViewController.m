@@ -5551,16 +5551,6 @@
     else {
         self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     }
-    if (isViewDidLoad) {
-        [self initIpadCornerInfo];
-        if (globalSearchView) {
-            [self retrieveGlobalData:NO];
-        }
-        else {
-            [self startRetrieveDataWithRefresh:NO];
-        }
-        isViewDidLoad = NO;
-    }
     if (channelListView || channelGuideView) {
         [channelListUpdateTimer invalidate];
         // Set up a timer that will always trigger at the start of each local minute. This supports
@@ -5949,7 +5939,6 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     hiddenLabel = [userDefaults boolForKey:@"hidden_label_preference"];
     noItemsLabel.text = LOCALIZED_STR(@"No items found.");
-    isViewDidLoad = YES;
     sectionHeight = LIST_SECTION_HEADER_HEIGHT;
     epglockqueue = dispatch_queue_create("com.epg.arrayupdate", DISPATCH_QUEUE_SERIAL);
     epgDict = [NSMutableDictionary new];
@@ -6096,6 +6085,8 @@
     [longPressGestureList addTarget:self action:@selector(handleLongPress:)];
     [dataList addGestureRecognizer:longPressGestureList];
     
+    [self initIpadCornerInfo];
+    
     [activityIndicatorView startAnimating];
     
     // As an exception the settings on iPhone animate bottom-up. This requires to
@@ -6108,6 +6099,8 @@
         frame.origin.y = UIScreen.mainScreen.bounds.size.height;
         dataList.frame = frame;
     }
+    
+    [self startRetrieveDataWithRefresh:NO];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTabHasChanged:)
