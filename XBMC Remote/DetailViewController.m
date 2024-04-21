@@ -1034,7 +1034,7 @@
 
 #pragma mark - Tabbar management
 
-- (IBAction)showMore:(id)sender {
+- (void)showMore {
     if ([self doesShowSearchResults] || self.searchController.isActive) {
         return;
     }
@@ -1093,7 +1093,7 @@
     NSIndexPath *choice = notification.object;
     choosedTab = 0;
     NSInteger selectedIdx = MAX_NORMAL_BUTTONS + choice.row;
-    [self handleChangeTab:(int)selectedIdx];
+    [self handleChangeTab:(int)selectedIdx fromMoreItems:YES];
 }
 
 - (void)changeViewMode:(ViewModes)newViewMode forceRefresh:(BOOL)refresh {
@@ -1208,10 +1208,10 @@
 
 - (IBAction)changeTab:(id)sender {
     NSInteger newChoosedTab = [sender tag];
-    [self handleChangeTab:(int)newChoosedTab];
+    [self handleChangeTab:(int)newChoosedTab fromMoreItems:NO];
 }
 
-- (void)handleChangeTab:(int)newChoosedTab {
+- (void)handleChangeTab:(int)newChoosedTab fromMoreItems:(BOOL)fromMoreItems {
     if ([self doesShowSearchResults] || self.searchController.isActive) {
         return;
     }
@@ -1231,6 +1231,12 @@
     // Read new tab index
     numTabs = (int)menuItem.mainMethod.count;
     newChoosedTab = newChoosedTab % numTabs;
+    
+    // Bring up MoreItemsViewContoller
+    if (newChoosedTab == MAX_NORMAL_BUTTONS && numTabs > MAX_NORMAL_BUTTONS + 1 && !fromMoreItems) {
+        [self showMore];
+        return;
+    }
     
     // Handle modes (pressing same tab) or changed tabs
     if (newChoosedTab == choosedTab) {
@@ -5315,8 +5321,10 @@
     UIImage *img = nil;
     CGRect frame;
     NSInteger count = buttons.count;
-    count = MIN(count, MAX_NORMAL_BUTTONS);
-    activeTab = MIN(activeTab, MAX_NORMAL_BUTTONS);
+    // If >6 buttons are required, only use 4 normal buttons and keep 5th for "more items"
+    if (count > MAX_NORMAL_BUTTONS + 1) {
+        count = MAX_NORMAL_BUTTONS;
+    }
     for (int i = 0; i < count; i++) {
         img = [UIImage imageNamed:buttons[i]];
         imageOff = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
@@ -5326,6 +5334,7 @@
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
         [buttonsIB[i] setEnabled:YES];
     }
+    activeTab = MIN(activeTab, MAX_NORMAL_BUTTONS);
     [buttonsIB[activeTab] setSelected:YES];
     button1.hidden = button2.hidden = button3.hidden = button4.hidden = button5.hidden = NO;
     switch (buttons.count) {
@@ -5348,8 +5357,10 @@
         case 4:
             button5.hidden = YES;
             break;
+        case 5:
+            break;
         default:
-            // 5 or more buttons/actions require a "more" button
+            // 6 or more buttons/actions require a "more" button
             img = [UIImage imageNamed:@"st_more"];
             imageOff = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
             imageOn = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR_ACTIVE];
