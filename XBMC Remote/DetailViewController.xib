@@ -27,15 +27,15 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="156">
-            <rect key="frame" x="0.0" y="0.0" width="839" height="606"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="appViewBackground" translatesAutoresizingMaskIntoConstraints="NO" id="94">
-                    <rect key="frame" x="0.0" y="0.0" width="839" height="606"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
                 <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="135" userLabel="NoFound View">
-                    <rect key="frame" x="294" y="105" width="250" height="41"/>
+                    <rect key="frame" x="35" y="105" width="250" height="41"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="No items found." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="136">
@@ -53,7 +53,7 @@
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" indicatorStyle="black" style="plain" separatorStyle="default" rowHeight="76" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="37">
-                    <rect key="frame" x="0.0" y="0.0" width="839" height="606"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <gestureRecognizers/>
@@ -64,17 +64,17 @@
                     </connections>
                 </tableView>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="116" userLabel="Buttons View">
-                    <rect key="frame" x="0.0" y="562" width="839" height="44"/>
+                    <rect key="frame" x="0.0" y="372" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="sPd-OR-uGy">
-                            <rect key="frame" x="0.0" y="0.0" width="839" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <items>
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="OQd-aJ-obl"/>
                                 <barButtonItem style="plain" id="yuj-lW-yot">
                                     <button key="customView" hidden="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="117" userLabel="Button1">
-                                        <rect key="frame" x="60" y="7" width="34" height="30"/>
+                                        <rect key="frame" x="0.0" y="7" width="34" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" backgroundImage="st_album">
@@ -92,7 +92,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="IVe-28-sl6"/>
                                 <barButtonItem style="plain" id="cRW-wf-x2D">
                                     <button key="customView" hidden="YES" tag="1" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="119" userLabel="Button2">
-                                        <rect key="frame" x="154.5" y="7" width="34" height="30"/>
+                                        <rect key="frame" x="34" y="7" width="34" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" backgroundImage="st_artist">
@@ -110,7 +110,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="dSm-ED-j5s"/>
                                 <barButtonItem style="plain" id="4He-Lr-2WZ">
                                     <button key="customView" hidden="YES" tag="2" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="121" userLabel="Button3">
-                                        <rect key="frame" x="248.5" y="7" width="34" height="30"/>
+                                        <rect key="frame" x="68" y="7" width="34" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" backgroundImage="st_genre">
@@ -128,7 +128,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="Gi1-6Y-y4k"/>
                                 <barButtonItem style="plain" id="TE7-pJ-4WE">
                                     <button key="customView" hidden="YES" tag="3" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="122" userLabel="Button4">
-                                        <rect key="frame" x="342.5" y="7" width="34" height="30"/>
+                                        <rect key="frame" x="102" y="7" width="34" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" backgroundImage="st_filemode">
@@ -146,7 +146,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="ZdQ-hl-bWG"/>
                                 <barButtonItem style="plain" id="d4P-SH-Im4">
                                     <button key="customView" hidden="YES" tag="4" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="123" userLabel="Button5">
-                                        <rect key="frame" x="436.5" y="7" width="34" height="30"/>
+                                        <rect key="frame" x="136" y="7" width="34" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" backgroundImage="st_more">
@@ -164,7 +164,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="C79-Cc-JFa"/>
                                 <barButtonItem style="plain" id="rHQ-LZ-GMb">
                                     <button key="customView" hidden="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="kky-5P-ej6" userLabel="Button6">
-                                        <rect key="frame" x="531" y="5" width="34" height="34"/>
+                                        <rect key="frame" x="170" y="5" width="34" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" backgroundImage="st_view_list"/>
                                     </button>
@@ -172,7 +172,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="bQB-y4-wNs"/>
                                 <barButtonItem style="plain" id="WWo-3h-QTx">
                                     <button key="customView" hidden="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="17m-9l-ySa" userLabel="Button7">
-                                        <rect key="frame" x="625" y="5" width="34" height="34"/>
+                                        <rect key="frame" x="204" y="5" width="34" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" backgroundImage="st_sort_asc"/>
                                     </button>
@@ -185,7 +185,7 @@
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
                 <activityIndicatorView contentMode="scaleToFill" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="95">
-                    <rect key="frame" x="401" y="284" width="37" height="37"/>
+                    <rect key="frame" x="141" y="189" width="37" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
             </subviews>
