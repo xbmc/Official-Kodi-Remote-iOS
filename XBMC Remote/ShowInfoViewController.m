@@ -1074,7 +1074,7 @@ double round(double d) {
     label.hidden = NO;
     label.textColor = UIColor.whiteColor;
     label.shadowColor = UIColor.blackColor;
-    label.font = [UIFont systemFontOfSize:12];
+    label.font = [UIFont systemFontOfSize:15];
     label.textAlignment = NSTextAlignmentJustified;
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.numberOfLines = 0;
