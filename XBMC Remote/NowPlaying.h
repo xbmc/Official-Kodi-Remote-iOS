@@ -89,7 +89,6 @@
     __weak IBOutlet UILabel *scrabbingMessage;
     __weak IBOutlet UILabel *scrabbingRate;
     UIView *toolbarBackground;
-    UIColor *foundEffectColor;
     UISegmentedControl *playlistSegmentedControl;
     __weak IBOutlet UILabel *noItemsLabel;
     NSString *storeLiveTVTitle;
