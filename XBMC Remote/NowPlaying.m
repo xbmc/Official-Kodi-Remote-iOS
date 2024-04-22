@@ -707,14 +707,15 @@
                                      [self updateShuffleButton:shuffled];
                                  }
                                  
-                                 BOOL canseek = [methodResult[@"canseek"] boolValue];
-                                 if (canseek && !ProgressSlider.userInteractionEnabled) {
+                                 // Read seek capability and mode to set progress bar state
+                                 BOOL canSeek = [methodResult[@"canseek"] boolValue];
+                                 if (canSeek && !ProgressSlider.userInteractionEnabled) {
                                      ProgressSlider.userInteractionEnabled = YES;
                                      UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
                                      [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
                                      [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
                                  }
-                                 if (!canseek && ProgressSlider.userInteractionEnabled) {
+                                 if (!canSeek && ProgressSlider.userInteractionEnabled) {
                                      ProgressSlider.userInteractionEnabled = NO;
                                      [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
                                      [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];
