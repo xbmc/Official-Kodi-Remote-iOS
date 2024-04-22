@@ -691,14 +691,12 @@
                                  musicPartyMode = [methodResult[@"partymode"] boolValue];
                                  PartyModeButton.selected = musicPartyMode;
                                  
-                                 BOOL canrepeat = [methodResult[@"canrepeat"] boolValue] && !musicPartyMode;
-                                 if (canrepeat) {
+                                 // Read repeat capability and mode to set button state
+                                 BOOL canRepeat = [methodResult[@"canrepeat"] boolValue] && !musicPartyMode;
+                                 repeatButton.hidden = !canRepeat;
+                                 if (canRepeat) {
                                      repeatStatus = methodResult[@"repeat"];
                                      [self updateRepeatButton:repeatStatus];
-                                     repeatButton.hidden = NO;
-                                 }
-                                 else if (!repeatButton.hidden) {
-                                     repeatButton.hidden = YES;
                                  }
                                  BOOL canshuffle = [methodResult[@"canshuffle"] boolValue] && !musicPartyMode;
                                  if (canshuffle) {
