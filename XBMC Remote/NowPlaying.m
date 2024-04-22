@@ -450,7 +450,7 @@
     repeatButton.hidden = YES;
     shuffleButton.hidden = YES;
     hiresImage.hidden = YES;
-    musicPartyMode = 0;
+    musicPartyMode = NO;
     [self notifyChangeForBackgroundImage:nil coverImage:nil];
     [self hidePlaylistProgressbarWithDeselect:YES];
     [self showPlaylistTable];
@@ -686,13 +686,11 @@
                                  if (updateProgressBar) {
                                      ProgressSlider.value = [(NSNumber*)methodResult[@"percentage"] floatValue];
                                  }
-                                 musicPartyMode = [methodResult[@"partymode"] intValue];
-                                 if (musicPartyMode) {
-                                     PartyModeButton.selected = YES;
-                                 }
-                                 else {
-                                     PartyModeButton.selected = NO;
-                                 }
+                                 
+                                 // Read PartyMode state and set button
+                                 musicPartyMode = [methodResult[@"partymode"] boolValue];
+                                 PartyModeButton.selected = musicPartyMode;
+                                 
                                  BOOL canrepeat = [methodResult[@"canrepeat"] boolValue] && !musicPartyMode;
                                  if (canrepeat) {
                                      repeatStatus = methodResult[@"repeat"];
@@ -2492,7 +2490,7 @@
             break;
     }
     lastSelected = SELECTED_NONE;
-    musicPartyMode = 0;
+    musicPartyMode = NO;
     [self createPlaylist:NO animTableView:YES];
 }
 

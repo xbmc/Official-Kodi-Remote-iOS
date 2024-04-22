@@ -51,7 +51,7 @@
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     int playerPlaying;
     BOOL PlayerPaused;
-    int musicPartyMode;
+    BOOL musicPartyMode;
     IBOutlet UIButton *editTableButton;
     IBOutlet UIButton *PartyModeButton;
     IBOutlet UIImageView *backgroundImageView;
