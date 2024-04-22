@@ -683,8 +683,10 @@
                      if (error == nil && methodError == nil) {
                          if ([methodResult isKindOfClass:[NSDictionary class]]) {
                              if ([methodResult count]) {
+                                 // Read percentage of playback progress and set progress slider
+                                 float percentage = [Utilities getFloatValueFromItem:methodResult[@"percentage"]];
                                  if (updateProgressBar) {
-                                     ProgressSlider.value = [(NSNumber*)methodResult[@"percentage"] floatValue];
+                                     ProgressSlider.value = percentage;
                                  }
                                  
                                  // Read PartyMode state and set button
@@ -733,7 +735,6 @@
                                  int hours = [time[@"hours"] intValue];
                                  int minutes = [time[@"minutes"] intValue];
                                  int seconds = [time[@"seconds"] intValue];
-                                 float percentage = [(NSNumber*)methodResult[@"percentage"] floatValue];
                                  NSString *actualTime = [NSString stringWithFormat:@"%@%02i:%02i", (hoursGlobal == 0) ? @"" : [NSString stringWithFormat:@"%02i:", hours], minutes, seconds];
                                  if (updateProgressBar) {
                                      currentTime.text = actualTime;
