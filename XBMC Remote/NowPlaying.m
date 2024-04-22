@@ -698,14 +698,13 @@
                                      repeatStatus = methodResult[@"repeat"];
                                      [self updateRepeatButton:repeatStatus];
                                  }
-                                 BOOL canshuffle = [methodResult[@"canshuffle"] boolValue] && !musicPartyMode;
-                                 if (canshuffle) {
+                                 
+                                 // Read shuffle capability and mode to set button state
+                                 BOOL canShuffle = [methodResult[@"canshuffle"] boolValue] && !musicPartyMode;
+                                 shuffleButton.hidden = !canShuffle;
+                                 if (canShuffle) {
                                      shuffled = [methodResult[@"shuffled"] boolValue];
                                      [self updateShuffleButton:shuffled];
-                                     shuffleButton.hidden = NO;
-                                 }
-                                 else if (!shuffleButton.hidden) {
-                                     shuffleButton.hidden = YES;
                                  }
                                  
                                  BOOL canseek = [methodResult[@"canseek"] boolValue];
