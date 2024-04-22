@@ -762,10 +762,6 @@
                                      currentTime.hidden = YES;
                                      duration.hidden = YES;
                                  }
-                                 long playlistPosition = [methodResult[@"position"] longValue];
-                                 if (playlistPosition > -1) {
-                                     playlistPosition += 1;
-                                 }
                                  
                                  // Detect start of new song to update party mode playlist
                                  int posSeconds = [self getSecondsFromTimeDict:actualTimeDict];
@@ -773,10 +769,13 @@
                                      [self checkPartyMode];
                                  }
                                  storePosSeconds = posSeconds;
-                                 if (playlistPosition != lastSelected && playlistPosition > 0) {
-                                     if (playlistData.count >= playlistPosition && currentPlayerID == playerID) {
+                                 
+                                 // Update the playlist position and time when a new item plays, else update progress only
+                                 long playlistPosition = [methodResult[@"position"] longValue];
+                                 if (playlistPosition != lastSelected && playlistPosition != SELECTED_NONE) {
+                                     if (playlistData.count > playlistPosition && currentPlayerID == playerID) {
                                          [self hidePlaylistProgressbarWithDeselect:NO];
-                                         NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition - 1 inSection:0];
+                                         NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
                                          UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
                                          if (musicPartyMode) {
                                              position = UITableViewScrollPositionNone;
