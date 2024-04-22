@@ -792,16 +792,7 @@
                                      [self updatePlaylistProgressbar:percentage actual:actualTime];
                                  }
                              }
-                             else {
-                                 PartyModeButton.selected = NO;
-                             }
                          }
-                         else {
-                             PartyModeButton.selected = NO;
-                         }
-                     }
-                     else {
-                         PartyModeButton.selected = NO;
                      }
                  }];
             }
