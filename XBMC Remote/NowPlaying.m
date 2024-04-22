@@ -41,6 +41,8 @@
 @synthesize scrabbingView;
 @synthesize itemDescription;
 
+#define HMS_TO_STRING(h, m, s) [NSString stringWithFormat:@"%@%02i:%02i", (totalSeconds < 3600) ? @"" : [NSString stringWithFormat:@"%02i:", h], m, s];
+
 #define MAX_CELLBAR_WIDTH 45
 #define PARTYBUTTON_PADDING_LEFT 8
 #define PROGRESSBAR_PADDING_LEFT 20
@@ -121,6 +123,21 @@
 }
 
 #pragma mark - utility
+
+- (int)getSecondsFromTimeDict:(NSDictionary*)timeDict {
+    int hours = [timeDict[@"hours"] intValue];
+    int minutes = [timeDict[@"minutes"] intValue];
+    int seconds = [timeDict[@"seconds"] intValue];
+    return ((hours * 60) + minutes) * 60 + seconds;
+}
+
+- (NSString*)formatRuntimeFromTimeDict:(NSDictionary*)timeDict {
+    int hours = [timeDict[@"hours"] intValue];
+    int minutes = [timeDict[@"minutes"] intValue];
+    int seconds = [timeDict[@"seconds"] intValue];
+    NSString *timeString = HMS_TO_STRING(hours, minutes, seconds);
+    return timeString;
+}
 
 - (NSString*)getPlaylistHeaderLabel {
     NSString *headerLabel = LOCALIZED_STR(@"Playlist");
@@ -723,25 +740,23 @@
                                      [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];
                                  }
 
-                                 NSDictionary *timeGlobal = methodResult[@"totaltime"];
-                                 int hoursGlobal = [timeGlobal[@"hours"] intValue];
-                                 int minutesGlobal = [timeGlobal[@"minutes"] intValue];
-                                 int secondsGlobal = [timeGlobal[@"seconds"] intValue];
-                                 NSString *globalTime = [NSString stringWithFormat:@"%@%02i:%02i", (hoursGlobal == 0) ? @"" : [NSString stringWithFormat:@"%02i:", hoursGlobal], minutesGlobal, secondsGlobal];
-                                 globalSeconds = hoursGlobal * 3600 + minutesGlobal * 60 + secondsGlobal;
-                                 duration.text = globalTime;
+                                 // Read item's total playback time, totalSeconds is used for formatting and progress slider
+                                 NSDictionary *totalTimeDict = methodResult[@"totaltime"];
+                                 totalSeconds = [self getSecondsFromTimeDict:totalTimeDict];
+                                 NSString *totalTime = [self formatRuntimeFromTimeDict:totalTimeDict];
+                                 duration.text = totalTime;
                                  
-                                 NSDictionary *time = methodResult[@"time"];
-                                 int hours = [time[@"hours"] intValue];
-                                 int minutes = [time[@"minutes"] intValue];
-                                 int seconds = [time[@"seconds"] intValue];
-                                 NSString *actualTime = [NSString stringWithFormat:@"%@%02i:%02i", (hoursGlobal == 0) ? @"" : [NSString stringWithFormat:@"%02i:", hours], minutes, seconds];
+                                 // Read item's current playback time and update display time in playlist
+                                 NSDictionary *actualTimeDict = methodResult[@"time"];
+                                 NSString *actualTime = [self formatRuntimeFromTimeDict:actualTimeDict];
                                  if (updateProgressBar) {
                                      currentTime.text = actualTime;
                                      ProgressSlider.hidden = NO;
                                      currentTime.hidden = NO;
                                      duration.hidden = NO;
                                  }
+                                 
+                                 // Disable progress bar for pictures or slideshows
                                  if (currentPlayerID == PLAYERID_PICTURES) {
                                      ProgressSlider.hidden = YES;
                                      currentTime.hidden = YES;
@@ -751,8 +766,9 @@
                                  if (playlistPosition > -1) {
                                      playlistPosition += 1;
                                  }
+                                 
                                  // Detect start of new song to update party mode playlist
-                                 int posSeconds = ((hours * 60) + minutes) * 60 + seconds;
+                                 int posSeconds = [self getSecondsFromTimeDict:actualTimeDict];
                                  if (musicPartyMode && posSeconds < storePosSeconds) {
                                      [self checkPartyMode];
                                  }
@@ -1791,12 +1807,12 @@
 
 - (IBAction)updateCurrentTime:(id)sender {
     if (!updateProgressBar && !nothingIsPlaying) {
-        int selectedTime = (ProgressSlider.value/100) * globalSeconds;
-        NSUInteger h = selectedTime / 3600;
-        NSUInteger m = (selectedTime / 60) % 60;
-        NSUInteger s = selectedTime % 60;
-        NSString *displaySelectedTime = [NSString stringWithFormat:@"%@%02lu:%02lu", (globalSeconds < 3600) ? @"" : [NSString stringWithFormat:@"%02lu:", (unsigned long)h], (unsigned long)m, (unsigned long)s];
-        currentTime.text = displaySelectedTime;
+        int selectedTimeInSeconds = (int)((ProgressSlider.value / 100) * totalSeconds);
+        int hours = selectedTimeInSeconds / 3600;
+        int minutes = (selectedTimeInSeconds / 60) % 60;
+        int seconds = selectedTimeInSeconds % 60;
+        NSString *selectedTime = HMS_TO_STRING(hours, minutes, seconds);
+        currentTime.text = selectedTime;
         scrabbingRate.text = LOCALIZED_STR(([NSString stringWithFormat:@"Scrubbing %@", @(ProgressSlider.scrubbingSpeed)]));
     }
 }

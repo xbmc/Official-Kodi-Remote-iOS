@@ -81,7 +81,7 @@
     BOOL shuffled;
     NSString *repeatStatus;
     BOOL updateProgressBar;
-    int globalSeconds;
+    int totalSeconds;
     NSString *lastThumbnail;
     int choosedTab;
     NSString *notificationName;
