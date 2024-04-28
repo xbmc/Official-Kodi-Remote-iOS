@@ -85,7 +85,6 @@
     NSString *lastThumbnail;
     int choosedTab;
     NSString *notificationName;
-    __weak IBOutlet UIImageView *playlistLeftShadow;
     __weak IBOutlet UILabel *scrabbingMessage;
     __weak IBOutlet UILabel *scrabbingRate;
     UIView *toolbarBackground;

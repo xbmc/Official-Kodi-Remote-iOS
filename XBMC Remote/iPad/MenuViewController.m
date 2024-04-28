@@ -63,17 +63,11 @@
         mainMenuItems = menu;
         [self.view addSubview:_tableView];
         
-		UIView *verticalLineView1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, 1, self.view.frame.size.height)];
-		verticalLineView1.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-		verticalLineView1.backgroundColor = [Utilities getGrayColor:0 alpha:0.8];
-		[self.view addSubview:verticalLineView1];
-        [self.view bringSubviewToFront:verticalLineView1];
-        
-        UIView *verticalLineView2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width + 1, 0, 1, self.view.frame.size.height)];
-		verticalLineView2.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-		verticalLineView2.backgroundColor = [Utilities getGrayColor:77 alpha:0.6];
-		[self.view addSubview:verticalLineView2];
-        [self.view bringSubviewToFront:verticalLineView2];
+        UIView *verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, IPAD_MENU_SEPARATOR_WIDTH, self.view.frame.size.height)];
+        verticalLineView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        verticalLineView.backgroundColor = [Utilities getGrayColor:77 alpha:0.6];
+        [self.view addSubview:verticalLineView];
+        [self.view bringSubviewToFront:verticalLineView];
 	}
     return self;
 }

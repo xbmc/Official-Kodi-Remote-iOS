@@ -2282,9 +2282,9 @@
     CGFloat statusBar = [Utilities getTopPadding];
     CGFloat maxheight = height - bottomPadding - statusBar - TOOLBAR_HEIGHT;
     
-    CGFloat viewOriginX = isFullscreen ? 0 : PAD_MENU_TABLE_WIDTH + 2;
+    CGFloat viewOriginX = isFullscreen ? 0 : PAD_MENU_TABLE_WIDTH + IPAD_MENU_SEPARATOR_WIDTH;
     CGFloat viewOriginY = YPOS;
-    CGFloat viewWidth = isFullscreen ? width : width - (PAD_MENU_TABLE_WIDTH + 2);
+    CGFloat viewWidth = isFullscreen ? width : width - (PAD_MENU_TABLE_WIDTH + IPAD_MENU_SEPARATOR_WIDTH);
     CGFloat viewHeight = maxheight;
     nowPlayingView.frame = CGRectMake(viewOriginX, viewOriginY, viewWidth, viewHeight);
     
@@ -2406,7 +2406,6 @@
     
     nowPlayingView.hidden = NO;
     playlistView.hidden = NO;
-    playlistLeftShadow.hidden = NO;
     
     frame = playlistActionView.frame;
     frame.origin.y = CGRectGetHeight(playlistTableView.frame) - CGRectGetHeight(playlistActionView.frame);
