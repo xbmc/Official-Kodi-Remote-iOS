@@ -450,7 +450,7 @@
     shuffleButton.hidden = YES;
     hiresImage.hidden = YES;
     musicPartyMode = 0;
-    [self notifyChangeForBackgroundImage:nil];
+    [self notifyChangeForBackgroundImage:nil coverImage:nil];
     [self hidePlaylistProgressbarWithDeselect:YES];
     [self showPlaylistTable];
     [self toggleSongDetails];
@@ -612,15 +612,13 @@
                                  NSString *serverURL = [Utilities getImageServerURL];
                                  NSString *thumbnailPath = [self getNowPlayingThumbnailPath:nowPlayingInfo];
                                  NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
+                                 NSString *fanart = [Utilities getStringFromItem:nowPlayingInfo[@"fanart"]];
                                  if (![lastThumbnail isEqualToString:stringURL] || [lastThumbnail isEqualToString:@""]) {
-                                     if (IS_IPAD) {
-                                         NSString *fanart = [Utilities getStringFromItem:nowPlayingInfo[@"fanart"]];
-                                         [self notifyChangeForBackgroundImage:fanart];
-                                     }
                                      if (!thumbnailPath.length) {
                                          UIImage *image = [UIImage imageNamed:@"coverbox_back"];
                                          [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
                                          [self updateBlurredCoverBackground:nil];
+                                         [self notifyChangeForBackgroundImage:fanart coverImage:nil];
                                      }
                                      else {
                                          __weak UIImageView *thumb = thumbnailView;
@@ -631,6 +629,7 @@
                                               if (error == nil) {
                                                   [weakSelf processLoadedThumbImage:weakSelf thumb:thumb image:image enableJewel:enableJewel];
                                                   [weakSelf updateBlurredCoverBackground:image];
+                                                  [weakSelf notifyChangeForBackgroundImage:fanart coverImage:image];
                                               }
                                           }];
                                      }
@@ -806,10 +805,13 @@
     }];
 }
 
-- (void)notifyChangeForBackgroundImage:(NSString*)bgImagePath {
+- (void)notifyChangeForBackgroundImage:(NSString*)bgImagePath coverImage:(UIImage*)coverImage {
     if (IS_IPAD) {
-        NSDictionary *params = @{@"image": bgImagePath ?: @""};
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIViewChangeBackgroundImage" object:nil userInfo:params];
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                bgImagePath ?: @"", @"image",
+                                coverImage, @"cover",
+                                nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"IpadChangeBackgroundImage" object:nil userInfo:params];
     }
 }
 

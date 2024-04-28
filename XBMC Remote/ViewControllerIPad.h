@@ -42,6 +42,8 @@
     BOOL serverPicker;
     BOOL appInfo;
     UIImageView *fanartBackgroundImage;
+    UIImageView *coverBackgroundImage;
+    UIVisualEffectView *visualEffectView;
     BOOL isFullscreen;
     MessagesView *messagesView;
 }

@@ -402,6 +402,26 @@
     fanartBackgroundImage.layer.minificationFilter = kCAFilterTrilinear;
     fanartBackgroundImage.layer.magnificationFilter = kCAFilterTrilinear;
     [self.view addSubview:fanartBackgroundImage];
+    
+    coverBackgroundImage = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    coverBackgroundImage.autoresizingMask = rootView.autoresizingMask;
+    coverBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
+    coverBackgroundImage.layer.minificationFilter = kCAFilterTrilinear;
+    coverBackgroundImage.layer.magnificationFilter = kCAFilterTrilinear;
+    [self.view addSubview:coverBackgroundImage];
+    
+    visualEffectView = [[UIVisualEffectView alloc] initWithFrame:self.view.bounds];
+    visualEffectView.autoresizingMask = rootView.autoresizingMask;
+    visualEffectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    [self.view addSubview:visualEffectView];
+    
+    // Add gradient overlay to improve readability of control elements and labels
+    UIImageView *overlayGradient = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    overlayGradient.autoresizingMask = rootView.autoresizingMask;
+    overlayGradient.image = [UIImage imageNamed:@"overlay_gradient"];
+    overlayGradient.contentMode = UIViewContentModeScaleToFill;
+    overlayGradient.alpha = 0.5;
+    [visualEffectView.contentView addSubview:overlayGradient];
 
 	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(PAD_MENU_TABLE_WIDTH, 0, rootView.frame.size.width - PAD_MENU_TABLE_WIDTH, rootView.frame.size.height - TOOLBAR_HEIGHT)];
 	rightSlideView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -567,7 +587,7 @@
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleChangeBackgroundImage:)
-                                                 name: @"UIViewChangeBackgroundImage"
+                                                 name: @"IpadChangeBackgroundImage"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleNowPlayingFullscreenToggle)
@@ -600,18 +620,34 @@
 }
 
 - (void)handleChangeBackgroundImage:(NSNotification*)sender {
-    NSString *fanart = [sender.userInfo objectForKey:@"image"];
-    if (fanart.length) {
-        NSString *serverURL = [Utilities getImageServerURL];
-        NSString *fanartURL = [Utilities formatStringURL:fanart serverURL:serverURL];
-        [fanartBackgroundImage sd_setImageWithURL:[NSURL URLWithString:fanartURL]
-                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-            UIImage *fanartImage = (error == nil && image != nil) ? image : [UIImage new];
-            [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:fanartImage];
-       }];
+    NSDictionary *params = sender.userInfo;
+    UIImage *coverImage = params[@"cover"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    // Prefer blurred cover feature over fanart. Fall back to fanart, if no cover is present.
+    if ([userDefaults boolForKey:@"blurred_cover_preference"] && coverImage) {
+        // Enable blur effect and animate to cover image
+        visualEffectView.alpha = 1;
+        [Utilities imageView:coverBackgroundImage AnimDuration:1.0 Image:coverImage];
     }
     else {
-        [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:[UIImage new]];
+        // Disable blur effect and remove cover image
+        visualEffectView.alpha = 0;
+        coverBackgroundImage.image = nil;
+        
+        // Load and animate background to fanart, if present.
+        NSString *fanart = params[@"image"];
+        if (fanart.length) {
+            NSString *serverURL = [Utilities getImageServerURL];
+            NSString *fanartURL = [Utilities formatStringURL:fanart serverURL:serverURL];
+            [fanartBackgroundImage sd_setImageWithURL:[NSURL URLWithString:fanartURL]
+                                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
+                UIImage *fanartImage = (error == nil && image != nil) ? image : [UIImage new];
+                [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:fanartImage];
+            }];
+        }
+        else {
+            [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:[UIImage new]];
+        }
     }
 }
 
