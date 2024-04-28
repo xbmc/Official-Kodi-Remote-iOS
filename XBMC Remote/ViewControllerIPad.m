@@ -395,7 +395,7 @@
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	rootView.backgroundColor = UIColor.clearColor;
 	
-    fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    fanartBackgroundImage = [[UIImageView alloc] initWithFrame:self.view.bounds];
     fanartBackgroundImage.autoresizingMask = rootView.autoresizingMask;
     fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
     fanartBackgroundImage.alpha = 0.05;
