@@ -37,6 +37,7 @@
 @synthesize ProgressSlider;
 @synthesize BottomView;
 @synthesize playlistToolbarView;
+@synthesize toolbarBackground;
 @synthesize scrabbingView;
 @synthesize itemDescription;
 

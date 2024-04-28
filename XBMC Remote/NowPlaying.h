@@ -124,6 +124,7 @@
 @property (strong, nonatomic) OBSlider *ProgressSlider;
 @property (strong, nonatomic) UIView *BottomView;
 @property (strong, nonatomic) UIView *playlistToolbarView;
+@property (strong, nonatomic) UIView *toolbarBackground;
 @property (strong, nonatomic) IBOutlet UIView *scrabbingView;
 @property (strong, nonatomic) IBOutlet UITextView *itemDescription;
 

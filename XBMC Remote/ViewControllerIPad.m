@@ -610,6 +610,7 @@
     [UIView animateWithDuration:0.3
                      animations:^{
         playlistHeader.alpha = menuViewController.view.alpha = isFullscreen ? 0 : 1;
+        self.nowPlayingController.toolbarBackground.alpha = isFullscreen ? 0.4 : 1;
         [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width
                                                    height:[self currentScreenBoundsDependOnOrientation].size.height
                                                      YPOS:-YPOS
