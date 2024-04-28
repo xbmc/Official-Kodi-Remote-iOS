@@ -642,12 +642,12 @@
             NSString *fanartURL = [Utilities formatStringURL:fanart serverURL:serverURL];
             [fanartBackgroundImage sd_setImageWithURL:[NSURL URLWithString:fanartURL]
                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                UIImage *fanartImage = (error == nil && image != nil) ? image : [UIImage new];
+                UIImage *fanartImage = (error == nil && image != nil) ? image : nil;
                 [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:fanartImage];
             }];
         }
         else {
-            [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:[UIImage new]];
+            [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:nil];
         }
     }
 }
