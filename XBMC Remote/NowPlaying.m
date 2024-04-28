@@ -2726,8 +2726,6 @@
         self.view.backgroundColor = UIColor.clearColor;
     }
     
-    ProgressSlider.minimumTrackTintColor = SLIDER_DEFAULT_COLOR;
-    ProgressSlider.maximumTrackTintColor = UIColor.darkGrayColor;
     ProgressSlider.userInteractionEnabled = NO;
     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];
@@ -2763,7 +2761,7 @@
     // Colors
     self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     ProgressSlider.minimumTrackTintColor = UIColor.lightGrayColor;
-    ProgressSlider.maximumTrackTintColor = UIColor.grayColor;
+    ProgressSlider.maximumTrackTintColor = UIColor.darkGrayColor;
     albumName.textColor = UIColor.lightGrayColor;
     songName.textColor = UIColor.whiteColor;
     artistName.textColor = UIColor.whiteColor;
