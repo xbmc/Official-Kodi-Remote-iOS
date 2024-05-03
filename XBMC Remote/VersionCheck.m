@@ -24,6 +24,13 @@
            (AppDelegate.instance.APImajorVersion == 6 && AppDelegate.instance.APIminorVersion == 32 && AppDelegate.instance.APIpatchVersion >= 4);
 }
 
++ (BOOL)hasShowEmptyTvShowsSupport {
+    // ShowEmptyTvShows is enabled (supported from API 6.32.1 on)
+    return (AppDelegate.instance.APImajorVersion >= 7) ||
+           (AppDelegate.instance.APImajorVersion == 6 && AppDelegate.instance.APIminorVersion >= 33) ||
+           (AppDelegate.instance.APImajorVersion == 6 && AppDelegate.instance.APIminorVersion == 32 && AppDelegate.instance.APIpatchVersion >= 1);
+}
+
 + (BOOL)hasSortTokenReadSupport {
     // Sort token can be read from API 9.5.0 on
     return (AppDelegate.instance.APImajorVersion == 9 && AppDelegate.instance.APIminorVersion >= 5) ||

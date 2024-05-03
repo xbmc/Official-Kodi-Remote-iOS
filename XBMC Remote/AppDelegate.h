@@ -120,6 +120,7 @@
 @property (nonatomic, assign) int APIpatchVersion;
 @property (nonatomic, assign) BOOL isIgnoreArticlesEnabled;
 @property (nonatomic, assign) BOOL isGroupSingleItemSetsEnabled;
+@property (nonatomic, assign) BOOL isShowEmptyTvShowsEnabled;
 @property (nonatomic, copy) NSArray *KodiSorttokens;
 @property (nonatomic, strong) GlobalData *obj;
 
