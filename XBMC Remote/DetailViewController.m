@@ -4661,6 +4661,9 @@
          // are movie sets, enable the postprocessing to ignore movies sets with only 1 movie.
          BOOL ignoreSingleMovieSets = !AppDelegate.instance.isGroupSingleItemSetsEnabled && [methodToCall isEqualToString:@"VideoLibrary.GetMovieSets"];
         
+         // If the feature to list empty TV Shows is disabled and the current results are TV Shows, ignore TV Shows without any episode.
+         BOOL ignoreEmptyTvShows = !AppDelegate.instance.isShowEmptyTvShowsEnabled && [methodToCall isEqualToString:@"VideoLibrary.GetTVShows"];
+        
          // If we are reading PVR recordings or PVR timers, we need to filter them for the current mode in
          // postprocessing. Ignore Radio recordings/timers, if we are in TV mode. Or ignore TV recordings/timers,
          // if we are in Radio mode.
@@ -4737,6 +4740,9 @@
                              }
                              else if (ignorePvrItem) {
                                  NSLog(@"Ignore PVR item as not matching current TV/Radio mode.");
+                             }
+                             else if (ignoreEmptyTvShows && [item[@"episode"] intValue] == 0) {
+                                 // Do nothing
                              }
                              else {
                                  [resultStoreArray addObject:newDict];
