@@ -4712,12 +4712,12 @@
                              
                              // Check if we need to ignore the current item
                              BOOL isRadioItem = [item[@"radio"] boolValue] ||
-                             [item[@"isradio"] boolValue];
+                                                [item[@"isradio"] boolValue];
                              BOOL isTimerRule = [item[@"istimerrule"] boolValue];
                              BOOL ignorePvrItem = (ignoreRadioItems && isRadioItem) ||
-                             (ignoreTvItems && !isRadioItem) ||
-                             (ignoreTimerRulesItems && isTimerRule) ||
-                             (ignoreTimerItems && !isTimerRule);
+                                                  (ignoreTvItems && !isRadioItem) ||
+                                                  (ignoreTimerRulesItems && isTimerRule) ||
+                                                  (ignoreTimerItems && !isTimerRule);
                              
                              // Postprocessing of movie sets lists to ignore 1-movie-sets
                              if (ignoreSingleMovieSets) {
