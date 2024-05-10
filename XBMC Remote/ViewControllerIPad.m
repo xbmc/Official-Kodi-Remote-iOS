@@ -627,12 +627,12 @@
     // Prefer blurred cover feature over fanart. Fall back to fanart, if no cover is present.
     if ([userDefaults boolForKey:@"blurred_cover_preference"] && coverImage) {
         // Enable blur effect and animate to cover image
-        visualEffectView.alpha = 1;
+        visualEffectView.hidden = NO;
         [Utilities imageView:coverBackgroundImage AnimDuration:1.0 Image:coverImage];
     }
     else {
         // Disable blur effect and remove cover image
-        visualEffectView.alpha = 0;
+        visualEffectView.hidden = YES;
         coverBackgroundImage.image = nil;
         
         // Load and animate background to fanart, if present.

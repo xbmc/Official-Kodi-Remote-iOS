@@ -136,11 +136,11 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if ([userDefaults boolForKey:@"blurred_cover_preference"] && IS_IPHONE) {
         [Utilities imageView:fullscreenCover AnimDuration:1.0 Image:image];
-        visualEffectView.alpha = 1;
+        visualEffectView.hidden = NO;
     }
     else {
         fullscreenCover.image = nil;
-        visualEffectView.alpha = 0;
+        visualEffectView.hidden = YES;
     }
 }
 
@@ -458,7 +458,7 @@
     
     // Unload and hide blurred cover effect
     fullscreenCover.image = nil;
-    visualEffectView.alpha = 0;
+    visualEffectView.hidden = YES;
 }
 
 - (void)setButtonImageAndStartDemo:(UIImage*)buttonImage {
