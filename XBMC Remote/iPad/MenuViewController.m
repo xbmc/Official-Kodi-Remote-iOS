@@ -102,6 +102,7 @@
 }
 
 - (void)handleRemoveStack {
+    [self handleDeselectSection];
     [AppDelegate.instance.windowController.stackScrollViewController offView];
 }
 
