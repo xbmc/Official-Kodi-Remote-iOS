@@ -44,9 +44,10 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define VIEW_TAG 1000
-#define SLIDE_VIEWS_MINUS_X_POSITION -200 /* Lets two stacks slightly overlap in landscape. */
+#define SLIDE_VIEWS_MINUS_NON_OVERLAP (GET_MAINSCREEN_HEIGHT - PAD_MENU_TABLE_WIDTH - 2 * STACKSCROLL_WIDTH)
+#define SLIDE_VIEWS_MINUS_X_POSITION MAX(-PAD_MENU_TABLE_WIDTH * 0.67, SLIDE_VIEWS_MINUS_NON_OVERLAP) /* Lets two stacks slightly overlap in landscape. */
 #define SLIDE_VIEWS_START_X_POS 0
-#define STACK_OVERLAP 53
+#define STACK_OVERLAP DEFAULT_THUMB_WIDTH
 #define SLIDE_TRANSITION_TIME 0.2
 
 @implementation StackScrollViewController
