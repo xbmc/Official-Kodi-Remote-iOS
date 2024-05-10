@@ -234,12 +234,8 @@
 - (void)setConnectionIcon:(UIImageView*)icon {
     // Load icon for top row in main menu
     UIImage *image = [UIImage imageNamed:@"st_kodi_action"];
-    if (!AppDelegate.instance.serverOnLine) {
-        icon.image = [Utilities colorizeImage:image withColor:UIColor.grayColor];
-    }
-    else {
-        icon.image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-    }
+    UIColor *iconColor = AppDelegate.instance.serverOnLine ? KODI_BLUE_COLOR : UIColor.grayColor;
+    icon.highlightedImage = icon.image = [Utilities colorizeImage:image withColor:iconColor];
     
     // Load icon for global connection status
     NSString *statusIconName = [Utilities getConnectionStatusIconName];
