@@ -279,8 +279,8 @@ NSInputStream	*inStream;
                 AppDelegate.instance.APIpatchVersion = 0;
             }
         }
-        // Read the sorttokens
         [self readSorttokens];
+        
         // Read 1-movie-set setting
         [self readGroupSingleItemSets];
         
