@@ -3564,6 +3564,7 @@
                         @"thumbnail",
                         @"genre",
                         @"studio",
+                        @"episode",
                 ],
             }, @"parameters",
             @{

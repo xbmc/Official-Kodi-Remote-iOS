@@ -13,6 +13,7 @@
 
 + (BOOL)hasRecordingIdPlaylistSupport;
 + (BOOL)hasGroupSingleItemSetsSupport;
++ (BOOL)hasShowEmptyTvShowsSupport;
 + (BOOL)hasSortTokenReadSupport;
 + (BOOL)hasPvrSortSupport;
 + (BOOL)hasAlbumArtistOnlySupport;

@@ -279,10 +279,12 @@ NSInputStream	*inStream;
                 AppDelegate.instance.APIpatchVersion = 0;
             }
         }
-        // Read the sorttokens
         [self readSorttokens];
+        
         // Read 1-movie-set setting
         [self readGroupSingleItemSets];
+        
+        [self readShowEmptyTvShows];
     }];
 }
 
@@ -304,6 +306,27 @@ NSInputStream	*inStream;
     }
     else {
         AppDelegate.instance.isGroupSingleItemSetsEnabled = YES;
+    }
+}
+
+- (void)readShowEmptyTvShows {
+    // Check if ShowEmptyTvShows is enabled
+    if ([VersionCheck hasShowEmptyTvShowsSupport]) {
+        [[Utilities getJsonRPC]
+         callMethod:@"Settings.GetSettingValue"
+         withParameters:@{@"setting": @"videolibrary.showemptytvshows"}
+         withTimeout: SERVER_TIMEOUT
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
+                AppDelegate.instance.isShowEmptyTvShowsEnabled = [methodResult[@"value"] boolValue];
+            }
+            else {
+                AppDelegate.instance.isShowEmptyTvShowsEnabled = YES;
+            }
+        }];
+    }
+    else {
+        AppDelegate.instance.isShowEmptyTvShowsEnabled = YES;
     }
 }
 
