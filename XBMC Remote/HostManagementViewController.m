@@ -572,6 +572,8 @@
     [serverInfoButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
     serverInfoButton.titleLabel.shadowOffset = CGSizeZero;
     
+    serverListTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+    
     if (IS_IPAD) {
         self.edgesForExtendedLayout = 0;
         self.view.tintColor = APP_TINT_COLOR;
