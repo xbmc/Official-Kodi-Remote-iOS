@@ -5228,6 +5228,10 @@
     if (channelGuideView && autoScrollTable != nil && autoScrollTable.row < [dataList numberOfRowsInSection:autoScrollTable.section]) {
             [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition:UITableViewScrollPositionTop animated: NO];
     }
+    
+    // Workaround iOS 17: Force scroll indicator visible. Called here, after all layout configurations and data reloads are finished.
+    dataList.showsVerticalScrollIndicator = YES;
+    dataList.showsHorizontalScrollIndicator = NO;
 }
 
 - (void)startChannelListUpdateTimer {
