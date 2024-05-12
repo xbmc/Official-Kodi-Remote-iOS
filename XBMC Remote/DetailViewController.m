@@ -6195,12 +6195,13 @@
         // Add a reserved fixed space which is used for iPad corner info
         for (UILabel *view in buttonsView.subviews) {
             if ([view isKindOfClass:[UIToolbar class]]) {
-                UIToolbar *bar = (UIToolbar*)view;
-                NSMutableArray *items = [NSMutableArray arrayWithArray:bar.items];
+                UIToolbar *toolbar = (UIToolbar*)view;
+                NSMutableArray *items = [NSMutableArray arrayWithArray:toolbar.items];
                 UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
                 fixedSpace.width = FIXED_SPACE_WIDTH;
                 [items addObject:fixedSpace];
-                [bar setItems:items animated:NO];
+                toolbar.items = items;
+                break;
             }
         }
         
