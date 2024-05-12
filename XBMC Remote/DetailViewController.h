@@ -119,7 +119,7 @@
     NSString *libraryCachePath;
     CGFloat bottomPadding;
     NSString *epgCachePath;
-    BOOL showbar;
+    BOOL showSearchbar;
     dispatch_queue_t epglockqueue;
     LogoBackgroundType logoBackgroundMode;
     BOOL showkeyboard;

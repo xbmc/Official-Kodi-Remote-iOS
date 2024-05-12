@@ -5568,7 +5568,7 @@
 - (void)showSearchBar {
     UISearchBar *searchbar = self.searchController.searchBar;
     searchbar.frame = CGRectMake(0, 0, self.view.frame.size.width, searchbar.frame.size.height);
-    if (showbar) {
+    if (showSearchbar) {
         [self.view addSubview:searchbar];
     }
     else {
@@ -5577,7 +5577,7 @@
 }
 
 - (void)openSearchBar {
-    showbar = YES;
+    showSearchbar = YES;
     [self showSearchBar];
     [self.searchController.searchBar becomeFirstResponder];
 }
@@ -5589,12 +5589,12 @@
 }
 
 - (void)willPresentSearchController:(UISearchController*)controller {
-    showbar = YES;
+    showSearchbar = YES;
     [self showSearchBar];
 }
 
 - (void)willDismissSearchController:(UISearchController*)controller {
-    showbar = NO;
+    showSearchbar = NO;
     [self showSearchBar];
     [self setIndexViewVisibility];
 }
