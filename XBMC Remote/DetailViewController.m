@@ -745,8 +745,8 @@
     return results;
 }
 
-- (void)setSearchBarColor:(UIColor*)albumColor {
-    UITextField *searchTextField = [self getSearchTextField];
+- (void)setSearchBar:(UISearchBar*)searchBar toColor:(UIColor*)albumColor {
+    UITextField *searchTextField = [self getSearchTextField:searchBar];
     UIColor *lightAlbumColor = [Utilities updateColor:albumColor
                                            lightColor:[Utilities getGrayColor:255 alpha:0.7]
                                             darkColor:[Utilities getGrayColor:0 alpha:0.6]];
@@ -757,9 +757,9 @@
         searchTextField.textColor = lightAlbumColor;
         searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: lightAlbumColor}];
     }
-    self.searchController.searchBar.backgroundColor = albumColor;
-    self.searchController.searchBar.tintColor = lightAlbumColor;
-    self.searchController.searchBar.barTintColor = lightAlbumColor;
+    searchBar.backgroundColor = albumColor;
+    searchBar.tintColor = lightAlbumColor;
+    searchBar.barTintColor = lightAlbumColor;
 }
 
 - (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
@@ -792,7 +792,8 @@
     // Only the top most item shall define albumcolor, searchbar tint and navigationbar tint
     if (isTopMost) {
         albumColor = mainColor;
-        [self setSearchBarColor:albumColor];
+        [self setSearchBar:self.searchController.searchBar toColor:albumColor];
+        [self setSearchBar:(UISearchBar*)dataList.tableHeaderView toColor:albumColor];
         self.navigationController.navigationBar.tintColor = [Utilities lighterColorForColor:albumColor];
     }
 }
@@ -810,12 +811,16 @@
 }
 
 - (UITextField*)getSearchTextField {
+    return [self getSearchTextField:self.searchController.searchBar];
+}
+
+- (UITextField*)getSearchTextField:(UISearchBar*)searchBar {
     UITextField *textfield = nil;
     if (@available(iOS 13.0, *)) {
-        textfield = self.searchController.searchBar.searchTextField;
+        textfield = searchBar.searchTextField;
     }
     else {
-        textfield = [self.searchController.searchBar valueForKey:@"searchField"];
+        textfield = [searchBar valueForKey:@"searchField"];
     }
     return textfield;
 }
@@ -912,7 +917,6 @@
         [dataList endUpdates];
     }
     toggleButton.selected = expandSection;
-    dataList.tableHeaderView = self.searchController.searchBar;
     
     // Refresh layout (moves section header to top when expanding any season or when toggling the first season)
     int visibleRows = 0;
@@ -1166,9 +1170,7 @@
         collectionView.scrollsToTop = YES;
         activeLayoutView = collectionView;
         
-        [self initSearchController];
-        self.searchController.searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
-        self.searchController.searchBar.tintColor = ICON_TINT_COLOR;
+        [self setSearchBar:self.searchController.searchBar toDark:YES];
     }
     else {
         dataList.delegate = self;
@@ -1179,21 +1181,12 @@
         collectionView.scrollsToTop = NO;
         activeLayoutView = dataList;
         
-        // Ensure the searchController is properly attached to the dataList header view.
-        dataList.tableHeaderView = self.searchController.searchBar;
-        
-        [self initSearchController];
-        self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
-        self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
+        [self setSearchBar:self.searchController.searchBar toDark:NO];
     }
     [self initIndexView];
     [self buildIndexView];
     [self setIndexViewVisibility];
     [self setGridListButtonImage:enableCollectionView];
-    
-    if (!isViewDidLoad) {
-        [activeLayoutView addSubview:self.searchController.searchBar];
-    }
 }
 
 - (void)setUpSort:(NSDictionary*)methods parameters:(NSDictionary*)parameters {
@@ -1318,7 +1311,7 @@
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
     }
     else {
-        self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
+        [self setSearchBar:self.searchController.searchBar toDark:NO];
         dataList.separatorColor = [Utilities getGrayColor:191 alpha:1];
     }
     if (methods[@"method"] != nil) {
@@ -1722,6 +1715,7 @@
         }];
         [collectionView setShowsPullToRefresh:enableDiskCache];
         collectionView.alwaysBounceVertical = YES;
+        [collectionView addSubview:[self createFakeSearchbarInDark:YES]];
         [self.view insertSubview:collectionView belowSubview:buttonsView];
     }
 }
@@ -2175,6 +2169,39 @@
 }
 
 #pragma mark - Table Management
+
+- (void)setSearchBar:(UISearchBar*)searchBar toDark:(BOOL)isDark {
+    if (isDark) {
+        searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
+        searchBar.tintColor = ICON_TINT_COLOR;
+    }
+    else {
+        searchBar.backgroundColor = [Utilities getSystemGray6];
+        searchBar.tintColor = [Utilities get2ndLabelColor];
+    }
+}
+
+- (UISearchBar*)createFakeSearchbarInDark:(BOOL)isDark {
+    // Create non-used search controller. This is added as tableHeaderView and lets iOS gracefully handle insets
+    UISearchController *searchCtrl = [[UISearchController alloc] initWithSearchResultsController:nil];
+    searchCtrl.searchBar.showsCancelButton = YES;
+    searchCtrl.searchBar.frame = self.searchController.searchBar.frame;
+    searchCtrl.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    searchCtrl.searchBar.barStyle = UIBarStyleBlack;
+    searchCtrl.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self setSearchBar:searchCtrl.searchBar toDark:isDark];
+    
+    // Create a transparent view on top of the unused searchbar. This receives a tap gesture to start a search.
+    UIView *tapOverlay = [[UIView alloc] initWithFrame:searchCtrl.searchBar.frame];
+    tapOverlay.backgroundColor = UIColor.clearColor;
+    [searchCtrl.searchBar addSubview:tapOverlay];
+    
+    // Add tap gesture to create a detached search bar
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openSearchBar)];
+    [tapOverlay addGestureRecognizer:tapGesture];
+    
+    return searchCtrl.searchBar;
+}
 
 - (void)scrollViewDidScroll:(UIScrollView*)theScrollView {
     // Hide keyboard on drag
@@ -2875,8 +2902,7 @@
         if (seasonIdx != NSNotFound && self.extraSectionRichResults.count > seasonIdx) {
             BOOL isFirstListedSeason = [item[@"season"] intValue] == firstListedSeason;
             if (isFirstListedSeason) {
-                self.searchController.searchBar.backgroundColor = [Utilities getSystemGray6];
-                self.searchController.searchBar.tintColor = [Utilities get2ndLabelColor];
+                [self setSearchBar:self.searchController.searchBar toDark:NO];
             }
             
             // Get show name ("genre") and season ("label")
@@ -5283,7 +5309,6 @@
         self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     }
     if (isViewDidLoad) {
-        [activeLayoutView addSubview:self.searchController.searchBar];
         [self initIpadCornerInfo];
         if (globalSearchView) {
             [self retrieveGlobalData:NO];
@@ -5535,7 +5560,7 @@
     self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     self.searchController.searchBar.barStyle = UIBarStyleBlack;
     self.searchController.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [self.searchController.searchBar setShowsCancelButton:YES animated:NO];
+    self.searchController.searchBar.showsCancelButton = YES;
     [self.searchController.searchBar sizeToFit];
     [self.searchController setActive:NO];
 }
@@ -5543,13 +5568,18 @@
 - (void)showSearchBar {
     UISearchBar *searchbar = self.searchController.searchBar;
     searchbar.frame = CGRectMake(0, 0, self.view.frame.size.width, searchbar.frame.size.height);
-    if (showbar) {
+    if (showSearchbar) {
         [self.view addSubview:searchbar];
     }
     else {
         [searchbar removeFromSuperview];
-        [activeLayoutView addSubview:searchbar];
     }
+}
+
+- (void)openSearchBar {
+    showSearchbar = YES;
+    [self showSearchBar];
+    [self.searchController.searchBar becomeFirstResponder];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -5559,12 +5589,12 @@
 }
 
 - (void)willPresentSearchController:(UISearchController*)controller {
-    showbar = YES;
+    showSearchbar = YES;
     [self showSearchBar];
 }
 
 - (void)willDismissSearchController:(UISearchController*)controller {
-    showbar = NO;
+    showSearchbar = NO;
     [self showSearchBar];
     [self setIndexViewVisibility];
 }
@@ -5659,6 +5689,7 @@
     self.navigationController.view.backgroundColor = UIColor.blackColor;
     self.definesPresentationContext = NO;
     iOSYDelta = self.searchController.searchBar.frame.size.height;
+    dataList.tableHeaderView = [self createFakeSearchbarInDark:NO];
 
     if (@available(iOS 15.0, *)) {
         dataList.sectionHeaderTopPadding = 0;
