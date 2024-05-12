@@ -51,7 +51,7 @@
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     int playerPlaying;
     BOOL PlayerPaused;
-    int musicPartyMode;
+    BOOL musicPartyMode;
     IBOutlet UIButton *editTableButton;
     IBOutlet UIButton *PartyModeButton;
     IBOutlet UIImageView *backgroundImageView;
@@ -81,7 +81,7 @@
     BOOL shuffled;
     NSString *repeatStatus;
     BOOL updateProgressBar;
-    int globalSeconds;
+    int totalSeconds;
     NSString *lastThumbnail;
     int choosedTab;
     NSString *notificationName;

@@ -41,6 +41,8 @@
 @synthesize scrabbingView;
 @synthesize itemDescription;
 
+#define HMS_TO_STRING(h, m, s) [NSString stringWithFormat:@"%@%02i:%02i", (totalSeconds < 3600) ? @"" : [NSString stringWithFormat:@"%02i:", h], m, s];
+
 #define MAX_CELLBAR_WIDTH 45
 #define PARTYBUTTON_PADDING_LEFT 8
 #define PROGRESSBAR_PADDING_LEFT 20
@@ -121,6 +123,21 @@
 }
 
 #pragma mark - utility
+
+- (int)getSecondsFromTimeDict:(NSDictionary*)timeDict {
+    int hours = [timeDict[@"hours"] intValue];
+    int minutes = [timeDict[@"minutes"] intValue];
+    int seconds = [timeDict[@"seconds"] intValue];
+    return ((hours * 60) + minutes) * 60 + seconds;
+}
+
+- (NSString*)formatRuntimeFromTimeDict:(NSDictionary*)timeDict {
+    int hours = [timeDict[@"hours"] intValue];
+    int minutes = [timeDict[@"minutes"] intValue];
+    int seconds = [timeDict[@"seconds"] intValue];
+    NSString *timeString = HMS_TO_STRING(hours, minutes, seconds);
+    return timeString;
+}
 
 - (NSString*)getPlaylistHeaderLabel {
     NSString *headerLabel = LOCALIZED_STR(@"Playlist");
@@ -450,7 +467,7 @@
     repeatButton.hidden = YES;
     shuffleButton.hidden = YES;
     hiresImage.hidden = YES;
-    musicPartyMode = 0;
+    musicPartyMode = NO;
     [self notifyChangeForBackgroundImage:nil coverImage:nil];
     [self hidePlaylistProgressbarWithDeselect:YES];
     [self showPlaylistTable];
@@ -683,87 +700,82 @@
                      if (error == nil && methodError == nil) {
                          if ([methodResult isKindOfClass:[NSDictionary class]]) {
                              if ([methodResult count]) {
+                                 // Read percentage of playback progress and set progress slider
+                                 float percentage = [Utilities getFloatValueFromItem:methodResult[@"percentage"]];
                                  if (updateProgressBar) {
-                                     ProgressSlider.value = [(NSNumber*)methodResult[@"percentage"] floatValue];
-                                 }
-                                 musicPartyMode = [methodResult[@"partymode"] intValue];
-                                 if (musicPartyMode) {
-                                     PartyModeButton.selected = YES;
-                                 }
-                                 else {
-                                     PartyModeButton.selected = NO;
-                                 }
-                                 BOOL canrepeat = [methodResult[@"canrepeat"] boolValue] && !musicPartyMode;
-                                 if (canrepeat) {
-                                     repeatStatus = methodResult[@"repeat"];
-                                     [self updateRepeatButton:repeatStatus];
-                                     repeatButton.hidden = NO;
-                                 }
-                                 else if (!repeatButton.hidden) {
-                                     repeatButton.hidden = YES;
-                                 }
-                                 BOOL canshuffle = [methodResult[@"canshuffle"] boolValue] && !musicPartyMode;
-                                 if (canshuffle) {
-                                     shuffled = [methodResult[@"shuffled"] boolValue];
-                                     [self updateShuffleButton:shuffled];
-                                     shuffleButton.hidden = NO;
-                                 }
-                                 else if (!shuffleButton.hidden) {
-                                     shuffleButton.hidden = YES;
+                                     ProgressSlider.value = percentage;
                                  }
                                  
-                                 BOOL canseek = [methodResult[@"canseek"] boolValue];
-                                 if (canseek && !ProgressSlider.userInteractionEnabled) {
+                                 // Read PartyMode state and set button
+                                 musicPartyMode = [methodResult[@"partymode"] boolValue];
+                                 PartyModeButton.selected = musicPartyMode;
+                                 
+                                 // Read repeat capability and mode to set button state
+                                 BOOL canRepeat = [methodResult[@"canrepeat"] boolValue] && !musicPartyMode;
+                                 repeatButton.hidden = !canRepeat;
+                                 if (canRepeat) {
+                                     repeatStatus = methodResult[@"repeat"];
+                                     [self updateRepeatButton:repeatStatus];
+                                 }
+                                 
+                                 // Read shuffle capability and mode to set button state
+                                 BOOL canShuffle = [methodResult[@"canshuffle"] boolValue] && !musicPartyMode;
+                                 shuffleButton.hidden = !canShuffle;
+                                 if (canShuffle) {
+                                     shuffled = [methodResult[@"shuffled"] boolValue];
+                                     [self updateShuffleButton:shuffled];
+                                 }
+                                 
+                                 // Read seek capability and mode to set progress bar state
+                                 BOOL canSeek = [methodResult[@"canseek"] boolValue];
+                                 if (canSeek && !ProgressSlider.userInteractionEnabled) {
                                      ProgressSlider.userInteractionEnabled = YES;
                                      UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
                                      [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
                                      [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
                                  }
-                                 if (!canseek && ProgressSlider.userInteractionEnabled) {
+                                 if (!canSeek && ProgressSlider.userInteractionEnabled) {
                                      ProgressSlider.userInteractionEnabled = NO;
                                      [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
                                      [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];
                                  }
 
-                                 NSDictionary *timeGlobal = methodResult[@"totaltime"];
-                                 int hoursGlobal = [timeGlobal[@"hours"] intValue];
-                                 int minutesGlobal = [timeGlobal[@"minutes"] intValue];
-                                 int secondsGlobal = [timeGlobal[@"seconds"] intValue];
-                                 NSString *globalTime = [NSString stringWithFormat:@"%@%02i:%02i", (hoursGlobal == 0) ? @"" : [NSString stringWithFormat:@"%02i:", hoursGlobal], minutesGlobal, secondsGlobal];
-                                 globalSeconds = hoursGlobal * 3600 + minutesGlobal * 60 + secondsGlobal;
-                                 duration.text = globalTime;
+                                 // Read item's total playback time, totalSeconds is used for formatting and progress slider
+                                 NSDictionary *totalTimeDict = methodResult[@"totaltime"];
+                                 totalSeconds = [self getSecondsFromTimeDict:totalTimeDict];
+                                 NSString *totalTime = [self formatRuntimeFromTimeDict:totalTimeDict];
+                                 duration.text = totalTime;
                                  
-                                 NSDictionary *time = methodResult[@"time"];
-                                 int hours = [time[@"hours"] intValue];
-                                 int minutes = [time[@"minutes"] intValue];
-                                 int seconds = [time[@"seconds"] intValue];
-                                 float percentage = [(NSNumber*)methodResult[@"percentage"] floatValue];
-                                 NSString *actualTime = [NSString stringWithFormat:@"%@%02i:%02i", (hoursGlobal == 0) ? @"" : [NSString stringWithFormat:@"%02i:", hours], minutes, seconds];
+                                 // Read item's current playback time and update display time in playlist
+                                 NSDictionary *actualTimeDict = methodResult[@"time"];
+                                 NSString *actualTime = [self formatRuntimeFromTimeDict:actualTimeDict];
                                  if (updateProgressBar) {
                                      currentTime.text = actualTime;
                                      ProgressSlider.hidden = NO;
                                      currentTime.hidden = NO;
                                      duration.hidden = NO;
                                  }
+                                 
+                                 // Disable progress bar for pictures or slideshows
                                  if (currentPlayerID == PLAYERID_PICTURES) {
                                      ProgressSlider.hidden = YES;
                                      currentTime.hidden = YES;
                                      duration.hidden = YES;
                                  }
-                                 long playlistPosition = [methodResult[@"position"] longValue];
-                                 if (playlistPosition > -1) {
-                                     playlistPosition += 1;
-                                 }
+                                 
                                  // Detect start of new song to update party mode playlist
-                                 int posSeconds = ((hours * 60) + minutes) * 60 + seconds;
+                                 int posSeconds = [self getSecondsFromTimeDict:actualTimeDict];
                                  if (musicPartyMode && posSeconds < storePosSeconds) {
                                      [self checkPartyMode];
                                  }
                                  storePosSeconds = posSeconds;
-                                 if (playlistPosition != lastSelected && playlistPosition > 0) {
-                                     if (playlistData.count >= playlistPosition && currentPlayerID == playerID) {
+                                 
+                                 // Update the playlist position and time when a new item plays, else update progress only
+                                 long playlistPosition = [methodResult[@"position"] longValue];
+                                 if (playlistPosition != lastSelected && playlistPosition != SELECTED_NONE) {
+                                     if (playlistData.count > playlistPosition && currentPlayerID == playerID) {
                                          [self hidePlaylistProgressbarWithDeselect:NO];
-                                         NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition - 1 inSection:0];
+                                         NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
                                          UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
                                          if (musicPartyMode) {
                                              position = UITableViewScrollPositionNone;
@@ -780,16 +792,7 @@
                                      [self updatePlaylistProgressbar:percentage actual:actualTime];
                                  }
                              }
-                             else {
-                                 PartyModeButton.selected = NO;
-                             }
                          }
-                         else {
-                             PartyModeButton.selected = NO;
-                         }
-                     }
-                     else {
-                         PartyModeButton.selected = NO;
                      }
                  }];
             }
@@ -1794,12 +1797,12 @@
 
 - (IBAction)updateCurrentTime:(id)sender {
     if (!updateProgressBar && !nothingIsPlaying) {
-        int selectedTime = (ProgressSlider.value/100) * globalSeconds;
-        NSUInteger h = selectedTime / 3600;
-        NSUInteger m = (selectedTime / 60) % 60;
-        NSUInteger s = selectedTime % 60;
-        NSString *displaySelectedTime = [NSString stringWithFormat:@"%@%02lu:%02lu", (globalSeconds < 3600) ? @"" : [NSString stringWithFormat:@"%02lu:", (unsigned long)h], (unsigned long)m, (unsigned long)s];
-        currentTime.text = displaySelectedTime;
+        int selectedTimeInSeconds = (int)((ProgressSlider.value / 100) * totalSeconds);
+        int hours = selectedTimeInSeconds / 3600;
+        int minutes = (selectedTimeInSeconds / 60) % 60;
+        int seconds = selectedTimeInSeconds % 60;
+        NSString *selectedTime = HMS_TO_STRING(hours, minutes, seconds);
+        currentTime.text = selectedTime;
         scrabbingRate.text = LOCALIZED_STR(([NSString stringWithFormat:@"Scrubbing %@", @(ProgressSlider.scrubbingSpeed)]));
     }
 }
@@ -2492,7 +2495,7 @@
             break;
     }
     lastSelected = SELECTED_NONE;
-    musicPartyMode = 0;
+    musicPartyMode = NO;
     [self createPlaylist:NO animTableView:YES];
 }
 
