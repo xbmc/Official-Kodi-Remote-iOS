@@ -2580,7 +2580,7 @@
     frame = rating.frame;
     frame.origin.x = menuItem.originYearDuration;
     rating.frame = frame;
-    rating.text = [NSString stringWithFormat:@"%@", item[@"rating"]];
+    rating.text = [Utilities getRatingFromItem:item[@"rating"]];
     cell.urlImageView.contentMode = UIViewContentModeScaleAspectFill;
     genre.hidden = NO;
     runtimeyear.hidden = NO;
