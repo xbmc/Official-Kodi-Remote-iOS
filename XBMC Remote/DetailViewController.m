@@ -731,6 +731,19 @@
     return item;
 }
 
+- (BOOL)wasSeasonPlayed:(NSInteger)section {
+    BOOL seasonWasPlayed = YES;
+    if (section < self.sectionArray.count) {
+        for (NSDictionary *episode in self.sections[sectionArray[section]]) {
+            if ([episode[@"playcount"] intValue] == 0) {
+                seasonWasPlayed = NO;
+                break;
+            }
+        }
+    }
+    return seasonWasPlayed;
+}
+
 - (NSString*)getAmountOfSearchResultsString {
     NSString *results = @"";
     int numResult = (int)self.filteredListContent.count;
@@ -2864,6 +2877,7 @@
                       albumText:albumText
                    releasedText:releasedText
                  trackCountText:trackCounText
+                      isWatched:NO
                       isTopMost:YES];
         
         // Add tap gesture to show album details
@@ -2916,6 +2930,7 @@
                           albumText:albumText
                        releasedText:releasedText
                      trackCountText:trackCountText
+                          isWatched:[self wasSeasonPlayed:section]
                           isTopMost:isFirstListedSeason];
             
             // Add tap gesture to toggle open/close the section
@@ -2963,7 +2978,7 @@
     return sectionView;
 }
 
-- (void)layoutSectionView:(UIView*)albumDetailView thumbView:(UIImageView*)thumbImageView thumbURL:(NSString*)stringURL fanartURL:(NSString*)fanartURL artistText:(NSString*)artistText albumText:(NSString*)albumText releasedText:(NSString*)releasedText trackCountText:(NSString*)trackCountText isTopMost:(BOOL)isTopMost {
+- (void)layoutSectionView:(UIView*)albumDetailView thumbView:(UIImageView*)thumbImageView thumbURL:(NSString*)stringURL fanartURL:(NSString*)fanartURL artistText:(NSString*)artistText albumText:(NSString*)albumText releasedText:(NSString*)releasedText trackCountText:(NSString*)trackCountText isWatched:(BOOL)isWatched isTopMost:(BOOL)isTopMost {
     UILabel *artist = [UILabel new];
     UILabel *album = [UILabel new];
     UILabel *trackCount = [UILabel new];
@@ -3031,6 +3046,15 @@
                     label4:released];
     }
     [albumDetailView addSubview:thumbImageView];
+    
+    // Add watched overlay icon to lower right corner of thumb
+    UIImageView *watchedIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
+    watchedIcon.frame = CGRectMake(CGRectGetMaxX(thumbImageView.frame) - FLAG_SIZE / 2 - TINY_PADDING,
+                                   CGRectGetMaxY(thumbImageView.frame) - FLAG_SIZE - TINY_PADDING,
+                                   CGRectGetWidth(watchedIcon.frame),
+                                   CGRectGetHeight(watchedIcon.frame));
+    watchedIcon.hidden = !isWatched;
+    [albumDetailView addSubview:watchedIcon];
     
     // Add Info button to bottom-right corner
     UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
