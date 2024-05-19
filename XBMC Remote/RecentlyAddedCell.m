@@ -19,14 +19,14 @@
     if (self) {
         self.restorationIdentifier = @"recentlyAddedCell";
         self.backgroundColor = UIColor.grayColor;
-        int labelHeight = (int)(frame.size.height * 0.19);
-        int genreHeight = (int)(frame.size.height * 0.12);
-        int yearHeight = (int)(frame.size.height * 0.12);
-        int borderWidth = 2;
-        int posterWidth = (int)(frame.size.height * 0.66) + 1;
-        int fanartWidth = frame.size.width - posterWidth;
-        int posterStartX = borderWidth;
-        int startX = borderWidth * 2 + posterWidth;
+        CGFloat labelHeight = (floor)(frame.size.height * 0.18);
+        CGFloat genreHeight = (floor)(frame.size.height * 0.11);
+        CGFloat yearHeight = (floor)(frame.size.height * 0.11);
+        CGFloat borderWidth = 1.0 / UIScreen.mainScreen.scale;
+        CGFloat posterWidth = (ceil)(frame.size.height * 0.67);
+        CGFloat fanartWidth = frame.size.width - posterWidth;
+        CGFloat posterStartX = borderWidth;
+        CGFloat startX = borderWidth * 2 + posterWidth;
 
         _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(posterStartX, borderWidth, posterWidth, frame.size.height - borderWidth * 2)];
         _posterThumbnail.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
@@ -48,12 +48,9 @@
         labelImageView.image = [UIImage imageNamed:@"cell_bg"];
         labelImageView.highlightedImage = [UIImage imageNamed:@"cell_bg_selected"];
         
-        int posterYOffset = 4;
-        int labelPadding = 4;
-        if (IS_IPHONE) {
-            posterYOffset = 0;
-        }
-         _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, posterYOffset, fanartWidth - labelPadding -borderWidth * 4, labelHeight - borderWidth)];
+        CGFloat posterYOffset = IS_IPAD ? 4 : 0;
+        CGFloat labelPadding = 4;
+         _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, posterYOffset, fanartWidth - labelPadding - borderWidth * 4, labelHeight - borderWidth)];
         _posterLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterLabel.backgroundColor = UIColor.clearColor;
         _posterLabel.textColor = UIColor.whiteColor;
