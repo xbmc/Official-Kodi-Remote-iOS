@@ -18,7 +18,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.restorationIdentifier = @"recentlyAddedCell";
-        self.backgroundColor = UIColor.grayColor;
+        self.backgroundColor = UIColor.clearColor;
         CGFloat labelHeight = (floor)(frame.size.height * 0.18);
         CGFloat genreHeight = (floor)(frame.size.height * 0.11);
         CGFloat yearHeight = (floor)(frame.size.height * 0.11);
