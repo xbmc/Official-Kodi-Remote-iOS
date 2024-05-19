@@ -744,6 +744,17 @@
     return seasonWasPlayed;
 }
 
+- (void)updatePlaycount {
+    if (tvshowsView) {
+        // In tvshowsview we need to sync the TV Shows to retrieve playcount and to update the watched overlays.
+        [self startRetrieveDataWithRefresh:YES];
+    }
+    else if (episodesView) {
+        // In episodesView we do only want to reloadData to keep the section closed/opened in their current state.
+        [dataList reloadData];
+    }
+}
+
 - (NSString*)getAmountOfSearchResultsString {
     NSString *results = @"";
     int numResult = (int)self.filteredListContent.count;
@@ -3390,7 +3401,11 @@
      withParameters:params
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil) {
+             // Important: First call updateCellAndSaveRichData to set the updated playcount. Then send the trigger to update the views.
              [self updateCellAndSaveRichData:indexPath watched:watched item:item];
+             if (episodesView || tvshowsView) {
+                  [[NSNotificationCenter defaultCenter] postNotificationName: @"PlaycountChanged" object: nil];
+             }
          }
         [cellActivityIndicator stopAnimating];
      }];
@@ -5887,6 +5902,12 @@
                                              selector: @selector(leaveFullscreen)
                                                  name: @"LeaveFullscreen"
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(updatePlaycount)
+                                                 name: @"PlaycountChanged"
+                                               object: nil];
+    
     if (channelListView || channelGuideView) {
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleRecordTimerStatusChange:)
