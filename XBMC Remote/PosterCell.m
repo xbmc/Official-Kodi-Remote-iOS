@@ -48,6 +48,7 @@
         _posterLabel.numberOfLines = 2;
         _posterLabel.adjustsFontSizeToFitWidth = YES;
         _posterLabel.minimumScaleFactor = 1.0;
+        [Utilities applyRoundedEdgesView:_posterLabel drawBorder:NO];
 
         [_labelImageView addSubview:_posterLabel];
         [self.contentView addSubview:_labelImageView];
