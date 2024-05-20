@@ -245,9 +245,7 @@
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi version 13 or superior is required to access Kodi settings";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the Kodi GUI for changing this setting.\nThank you.";
 
-"Official XBMC Remote\nfor iOS" = "Official Kodi Remote\nfor iOS";
 "Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi";
-"enjoy!" = "enjoy!";
 
 "No items found." = "No items found.";
 "Video" = "Video";
