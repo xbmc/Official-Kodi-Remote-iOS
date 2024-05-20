@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 #import "Utilities.h"
 
+#define XIB_APPNAME_HEIGHT 24
+
 @interface AppInfoViewController ()
 
 @end
@@ -35,6 +37,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    // Scale the font size by the increased height
+    CGFloat scale = CGRectGetHeight(appName.frame) / XIB_APPNAME_HEIGHT;
+    appName.font    = [UIFont boldSystemFontOfSize:floor(18 * scale)];
+    appVersion.font = [UIFont boldSystemFontOfSize:floor(14 * scale)];
+    
+    // Take into account the increased font width which lets the text stretch over more lines
+    scale = sqrt(scale);
+    appDescription.font = [UIFont systemFontOfSize:floor(14 * scale)];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
