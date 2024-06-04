@@ -358,12 +358,13 @@
 - (void)fillTcpPort:(NSMutableDictionary*)serverAddresses port:(int)tcpPort ip:(NSString*)ipversion {
     if (tcpPort > 0) {
         NSString *port = [NSString stringWithFormat:@"%d", tcpPort];
-        serverAddresses[@"hostname"] = @{
-            @"tcpport": port,
-        };
-        serverAddresses[ipversion] = @{
-            @"tcpport": port,
-        };
+        NSMutableDictionary *server = [serverAddresses[@"hostname"] mutableCopy];
+        server[@"tcpport"] = port;
+        serverAddresses[@"hostname"] = server;
+        
+        server = [serverAddresses[ipversion] mutableCopy];
+        server[@"tcpport"] = port;
+        serverAddresses[ipversion] = server;
     }
 }
 
@@ -376,9 +377,10 @@
 }
 
 - (void)netServiceDidResolveAddress:(NSNetService*)service {
-    NSMutableDictionary *serverAddresses = [NSMutableDictionary new];
     NSString *type = service.type;
     if ([type containsString:serviceTypeHTTP]) {
+        serverAddresses = [NSMutableDictionary new];
+        serverAddresses[@"serverName"] = service.name;
         for (NSData *data in [service addresses]) {
             char addressBuffer[MAX(INET_ADDRSTRLEN, INET6_ADDRSTRLEN)];
             struct sockaddr_in *socketAddress = (struct sockaddr_in*)[data bytes];
@@ -439,7 +441,7 @@
         
         if ([type containsString:serviceTypeHTTP]) {
             // Set values for UI and persistency
-            descriptionUI.text = service.name;
+            descriptionUI.text = serverAddresses[@"serverName"];
             ipUI.text = server[@"addr"];
             portUI.text = server[@"port"];
             descriptionUI.textColor = [Utilities getSystemBlue];
@@ -494,6 +496,27 @@
     netServiceBrowser.delegate = self;
     [netServiceBrowser searchForServicesOfType:serviceTypeHTTP inDomain:domainName];
     timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
+}
+
+#pragma mark - Segment control
+
+- (void)segmentValueChanged:(UISegmentedControl*)segment {
+    NSArray *segmentModes = @[@"ipv4", @"ipv6", @"hostname"];
+    long index = segment.selectedSegmentIndex;
+    NSString *mode = index < segmentModes.count ? segmentModes[index] : segmentModes[0];
+    NSDictionary *server = serverAddresses[mode];
+    
+    // Set values for UI and persistency
+    descriptionUI.text = serverAddresses[@"serverName"];
+    ipUI.text = server[@"addr"];
+    portUI.text = server[@"port"];
+    descriptionUI.textColor = [Utilities getSystemBlue];
+    ipUI.textColor = [Utilities getSystemBlue];
+    portUI.textColor = [Utilities getSystemBlue];
+    
+    // Set values for UI and persistency
+    tcpPortUI.text = server[@"tcpport"];
+    tcpPortUI.textColor = [Utilities getSystemBlue];
 }
 
 #pragma mark - Help URLs
@@ -628,6 +651,8 @@
     
     // Set segment control text for "host name" mode
     [segmentServerType setTitle:LOCALIZED_STR(@"Host name") forSegmentAtIndex:2];
+    
+    [segmentServerType addTarget:self action:@selector(segmentValueChanged:) forControlEvents: UIControlEventValueChanged];
 }
 
 - (BOOL)shouldAutorotate {
