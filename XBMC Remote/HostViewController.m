@@ -316,8 +316,8 @@
     return res;
 }
 
-- (void)fillMacAddressInfo {
-    NSString *macAddress = [self resolveMacFromIP:ipUI.text];
+- (void)fillMacAddressInfo:(NSString*)ipAddress {
+    NSString *macAddress = [self resolveMacFromIP:ipAddress];
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
     // Both 02:... and 00:... are invalid addresses (first seen on target, second on simulator)
     if (macPart.count == 6 &&
@@ -417,46 +417,35 @@
                 [self fillTcpPort:serverAddresses port:ntohs(addr6->sin6_port) ip:@"ipv6"];
             }
         }
+        NSLog(@"TCP port for '%@': %@", service.name, serverAddresses[@"hostname"][@"tcpport"]);
     }
     if (serverAddresses.count) {
-        // Select preferred address type
-        NSArray *segmentModes = @[@"ipv4", @"ipv6", @"hostname"];
-        long index = segmentServerType.selectedSegmentIndex;
-        NSString *mode = index < segmentModes.count ? segmentModes[index] : segmentModes[0];
-        NSDictionary *server = serverAddresses[mode];
-        
-        // Fallback order: ipv4 > ipv6 > hostname
-        if (!server) {
-            server = serverAddresses[@"ipv4"];
-        }
-        if (!server) {
-            server = serverAddresses[@"ipv6"];
-        }
-        if (!server) {
-            server = serverAddresses[@"hostname"];
-        }
-        if (!server) {
-            return;
-        }
+        [self fillServerDetailsForSegment:segmentServerType.selectedSegmentIndex];
         
         if ([type containsString:serviceTypeHTTP]) {
-            // Set values for UI and persistency
-            descriptionUI.text = serverAddresses[@"serverName"];
-            ipUI.text = server[@"addr"];
-            portUI.text = server[@"port"];
-            descriptionUI.textColor = [Utilities getSystemBlue];
-            ipUI.textColor = [Utilities getSystemBlue];
-            portUI.textColor = [Utilities getSystemBlue];
-            
+            // Fallback order: ipv4 > ipv6 > hostname
+            NSDictionary *server = [self getServerAddressForSegment:segmentServerType.selectedSegmentIndex];
+            if (!server) {
+                server = serverAddresses[@"ipv4"];
+            }
+            if (!server) {
+                server = serverAddresses[@"ipv6"];
+            }
+            if (!server) {
+                server = serverAddresses[@"hostname"];
+            }
+            if (!server) {
+                return;
+            }
 #if (RESOLVE_MAC_ADDRESS)
             // Ping server
-            NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
+            NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", server[@"addr"], server[@"port"]];
             NSURL *url = [[NSURL alloc] initWithString:serverJSON];
             NSURLSession *pingSession = [NSURLSession sharedSession];
             NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url
                                                               completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self fillMacAddressInfo];
+                    [self fillMacAddressInfo:server[@"addr"]];
                 });
             }];
             [pingConnection resume];
@@ -466,12 +455,6 @@
             // Trigger search for TCP service
             [netServiceBrowser searchForServicesOfType:serviceTypeTCP inDomain:domainName];
             timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
-        }
-        else {
-            // Set values for UI and persistency
-            tcpPortUI.text = server[@"tcpport"];
-            tcpPortUI.textColor = [Utilities getSystemBlue];
-            NSLog(@"TCP port for '%@': %@", service.name, tcpPortUI.text);
         }
     }
 }
@@ -501,9 +484,13 @@
 #pragma mark - Segment control
 
 - (void)segmentValueChanged:(UISegmentedControl*)segment {
+    [self fillServerDetailsForSegment:segment.selectedSegmentIndex];
+}
+
+- (void)fillServerDetailsForSegment:(long)activeSegment {
     NSArray *segmentModes = @[@"ipv4", @"ipv6", @"hostname"];
-    long index = segment.selectedSegmentIndex;
-    NSString *mode = index < segmentModes.count ? segmentModes[index] : segmentModes[0];
+    long index = activeSegment < segmentModes.count ? activeSegment : 0;
+    NSString *mode = segmentModes[index];
     NSDictionary *server = serverAddresses[mode];
     
     // Set values for UI and persistency
