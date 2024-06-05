@@ -238,6 +238,9 @@
 }
 
 - (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
+    if (isFullscreen) {
+        return;
+    }
     UITouch *touch = [touches anyObject];
     // Moving the playlist header
     CGPoint locationPoint = [touch locationInView:leftMenuView];
