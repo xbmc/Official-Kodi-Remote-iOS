@@ -404,6 +404,31 @@
             }
         }
         NSLog(@"Resolved address/port for service '%@' by '%@': %@", type, service.name, serverAddresses);
+        
+#if (RESOLVE_MAC_ADDRESS)
+        if (serverAddresses[@"ipv4"]) {
+            // Ping server and resolve MAC address. Only works with IPv4 address.
+            NSDictionary *server = serverAddresses[@"ipv4"];
+            NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", server[@"addr"], server[@"port"]];
+            NSURL *url = [[NSURL alloc] initWithString:serverJSON];
+            NSURLSession *pingSession = [NSURLSession sharedSession];
+            NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url
+                                                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self fillMacAddressInfo:server[@"addr"]];
+                });
+            }];
+            [pingConnection resume];
+        }
+#endif
+        // Show discovered instances view (for multiple instances) and trigger the TCP port discovery
+        if (serverAddresses.count) {
+            [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
+            
+            // Trigger search for TCP service
+            [netServiceBrowser searchForServicesOfType:serviceTypeTCP inDomain:domainName];
+            timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
+        }
     }
     else {
         for (NSData *data in [service addresses]) {
@@ -419,33 +444,8 @@
         }
         NSLog(@"TCP port for '%@': %@", service.name, serverAddresses[@"hostname"][@"tcpport"]);
     }
-    if (serverAddresses.count) {
-        [self fillServerDetailsForSegment:segmentServerType.selectedSegmentIndex];
-        
-        if ([type containsString:serviceTypeHTTP]) {
-#if (RESOLVE_MAC_ADDRESS)
-            if (serverAddresses[@"ipv4"]) {
-                // Ping server and resolve MAC address. Only works with IPv4 address.
-                NSDictionary *server = serverAddresses[@"ipv4"];
-                NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", server[@"addr"], server[@"port"]];
-                NSURL *url = [[NSURL alloc] initWithString:serverJSON];
-                NSURLSession *pingSession = [NSURLSession sharedSession];
-                NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url
-                                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self fillMacAddressInfo:server[@"addr"]];
-                    });
-                }];
-                [pingConnection resume];
-            }
-#endif
-            [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
-            
-            // Trigger search for TCP service
-            [netServiceBrowser searchForServicesOfType:serviceTypeTCP inDomain:domainName];
-            timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
-        }
-    }
+    
+    [self fillServerDetailsForSegment:segmentServerType.selectedSegmentIndex];
 }
 
 - (void)stopDiscovery {
