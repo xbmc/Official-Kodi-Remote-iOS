@@ -423,32 +423,21 @@
         [self fillServerDetailsForSegment:segmentServerType.selectedSegmentIndex];
         
         if ([type containsString:serviceTypeHTTP]) {
-            // Fallback order: ipv4 > ipv6 > hostname
-            NSDictionary *server = [self getServerAddressForSegment:segmentServerType.selectedSegmentIndex];
-            if (!server) {
-                server = serverAddresses[@"ipv4"];
-            }
-            if (!server) {
-                server = serverAddresses[@"ipv6"];
-            }
-            if (!server) {
-                server = serverAddresses[@"hostname"];
-            }
-            if (!server) {
-                return;
-            }
 #if (RESOLVE_MAC_ADDRESS)
-            // Ping server
-            NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", server[@"addr"], server[@"port"]];
-            NSURL *url = [[NSURL alloc] initWithString:serverJSON];
-            NSURLSession *pingSession = [NSURLSession sharedSession];
-            NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url
-                                                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self fillMacAddressInfo:server[@"addr"]];
-                });
-            }];
-            [pingConnection resume];
+            if (serverAddresses[@"ipv4"]) {
+                // Ping server and resolve MAC address. Only works with IPv4 address.
+                NSDictionary *server = serverAddresses[@"ipv4"];
+                NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", server[@"addr"], server[@"port"]];
+                NSURL *url = [[NSURL alloc] initWithString:serverJSON];
+                NSURLSession *pingSession = [NSURLSession sharedSession];
+                NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url
+                                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self fillMacAddressInfo:server[@"addr"]];
+                    });
+                }];
+                [pingConnection resume];
+            }
 #endif
             [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
             
