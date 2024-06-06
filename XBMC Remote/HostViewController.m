@@ -600,6 +600,8 @@
     self.edgesForExtendedLayout = 0;
     
     for (UILabel *label in [self getAllEntryMaskLabels]) {
+        label.layer.borderColor = UIColor.lightGrayColor.CGColor;
+        label.layer.borderWidth = 1.0 / UIScreen.mainScreen.scale;
         label.backgroundColor = [Utilities getSystemGray6];
         label.tintColor = [Utilities get1stLabelColor];
     }
