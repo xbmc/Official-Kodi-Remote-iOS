@@ -88,8 +88,8 @@
     
     [self textFieldDoneEditing:nil];
     
-    for (UILabel *label in [self getAllEntryMaskLabels]) {
-        label.text = label.text ?: @"";
+    for (UITextField *textfield in [self getAllEntryMaskLabels]) {
+        textfield.text = textfield.text ?: @"";
     }
     
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
@@ -563,9 +563,9 @@
     netServiceBrowser = nil;
     services = nil;
     [Utilities AnimView:discoveredInstancesView AnimDuration:0.0 Alpha:1.0 XPos:self.view.frame.size.width];
-    for (UILabel *label in [self getAllEntryMaskLabels]) {
-        label.text = @"";
-        label.textColor = [Utilities get1stLabelColor];
+    for (UITextField *textfield in [self getAllEntryMaskLabels]) {
+        textfield.text = @"";
+        textfield.textColor = [Utilities get1stLabelColor];
     }
     [Utilities AnimView:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
 }
@@ -599,11 +599,11 @@
     passwordUI.placeholder = LOCALIZED_STR(@"Password");
     self.edgesForExtendedLayout = 0;
     
-    for (UILabel *label in [self getAllEntryMaskLabels]) {
-        label.layer.borderColor = UIColor.lightGrayColor.CGColor;
-        label.layer.borderWidth = 1.0 / UIScreen.mainScreen.scale;
-        label.backgroundColor = [Utilities getSystemGray6];
-        label.tintColor = [Utilities get1stLabelColor];
+    for (UITextField *textfield in [self getAllEntryMaskLabels]) {
+        textfield.layer.borderColor = UIColor.lightGrayColor.CGColor;
+        textfield.layer.borderWidth = 1.0 / UIScreen.mainScreen.scale;
+        textfield.backgroundColor = [Utilities getSystemGray6];
+        textfield.tintColor = [Utilities get1stLabelColor];
     }
     discoveredInstancesTableView.backgroundColor = [Utilities getSystemGray6];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
