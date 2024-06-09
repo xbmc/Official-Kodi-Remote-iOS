@@ -443,6 +443,8 @@
             }
         }
         NSLog(@"TCP port for '%@': %@", service.name, serverAddresses[@"hostname"][@"tcpport"]);
+        
+        [timer invalidate];
     }
     
     [self fillServerDetailsForSegment:segmentServerType.selectedSegmentIndex];
