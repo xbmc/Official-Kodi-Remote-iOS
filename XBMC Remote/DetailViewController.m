@@ -1078,7 +1078,7 @@
         moreItemsViewController.tableView.contentInset = tableViewInsets;
         moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
         [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
-        [self.view insertSubview:moreItemsViewController.view aboveSubview:dataList];
+        [maskView insertSubview:moreItemsViewController.view aboveSubview:dataList];
     }
 
     [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
@@ -1716,7 +1716,7 @@
         [collectionView setShowsPullToRefresh:enableDiskCache];
         collectionView.alwaysBounceVertical = YES;
         [collectionView addSubview:[self createFakeSearchbarInDark:YES]];
-        [self.view insertSubview:collectionView belowSubview:buttonsView];
+        [maskView insertSubview:collectionView belowSubview:buttonsView];
     }
 }
 
@@ -1935,7 +1935,7 @@
     }
     if (self.sectionArray.count > 1 && !episodesView && !channelGuideView) {
         self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
-        [self.view addSubview:self.indexView];
+        [maskView addSubview:self.indexView];
     }
     else if (channelGuideView) {
         if (self.sectionArray.count > 0) {
@@ -1953,7 +1953,7 @@
                 [channelGuideTableIndexTitles addObject:dateString];
             }
             self.indexView.indexTitles = channelGuideTableIndexTitles;
-            [self.view addSubview:self.indexView];
+            [maskView addSubview:self.indexView];
         }
     }
     else {
@@ -5788,7 +5788,7 @@
         }
     }
     
-    self.view.clipsToBounds = YES;
+    maskView.clipsToBounds = YES;
     NSDictionary *itemSizes = parameters[@"itemSizes"];
     if (IS_IPHONE) {
         [self setIphoneInterface:itemSizes[@"iphone"]];
