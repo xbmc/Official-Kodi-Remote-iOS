@@ -258,7 +258,6 @@
     [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
      withParameters:@{@"properties": @[@"muted"]}
-     withTimeout: SERVER_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
              isMuted = [methodResult[@"muted"] boolValue];

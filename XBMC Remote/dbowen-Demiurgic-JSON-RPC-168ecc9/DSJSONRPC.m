@@ -37,6 +37,7 @@
  */
 
 #import "DSJSONRPC.h"
+#import "AppDelegate.h"
 
 #define RPC_DOMAIN @"it.joethefox.json-rpc"
 
@@ -95,6 +96,20 @@
     
     // Generate a random Id for the call
     NSInteger aID = arc4random();
+    
+    // For actions without timeout we expect server to be connected already. Only the server heartbeat check uses timeout.
+    if (!timeout && !AppDelegate.instance.serverOnLine) {
+        if (completionHandler) {
+            NSError *aError = [NSError errorWithDomain:RPC_DOMAIN code:DSJSONRPCParseError userInfo:@{NSLocalizedDescriptionKey: LOCALIZED_STR(@"No connection")}];
+            NSDictionary *jsonErrorDict = @{
+                @"code": @(JSONRPCNoConnection),
+                @"message": LOCALIZED_STR(@"No connection"),
+            };
+            DSJSONRPCError *jsonRPCError = [DSJSONRPCError errorWithData:jsonErrorDict];
+            completionHandler(methodName, aID, nil, jsonRPCError, aError);
+        }
+        return aID;
+    }
     
     // Setup the JSON-RPC call payload
     NSArray *methodKeys = nil;
