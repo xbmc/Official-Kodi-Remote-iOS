@@ -2350,11 +2350,11 @@
     NSArray *toolbarButtonList = @[
         @{@"buttonTag": @(TAG_SHUFFLE),         @"originY": @(buttonCenterY + SHUFFLE_REPEAT_VERTICAL_PADDING)},
         @{@"buttonTag": @(TAG_ID_STOP),         @"originY": @(buttonCenterY)},
-        @{@"buttonTag": @(TAG_SEEK_BACKWARD),   @"originY": @(buttonCenterY)},
         @{@"buttonTag": @(TAG_ID_PREVIOUS),     @"originY": @(buttonCenterY)},
+        @{@"buttonTag": @(TAG_SEEK_BACKWARD),   @"originY": @(buttonCenterY)},
         @{@"buttonTag": @(TAG_ID_PLAYPAUSE),    @"originY": @(buttonCenterY)}, /* this is central button */
-        @{@"buttonTag": @(TAG_ID_NEXT),         @"originY": @(buttonCenterY)},
         @{@"buttonTag": @(TAG_SEEK_FORWARD),    @"originY": @(buttonCenterY)},
+        @{@"buttonTag": @(TAG_ID_NEXT),         @"originY": @(buttonCenterY)},
         @{@"buttonTag": @(TAG_ID_TOGGLE),       @"originY": @(buttonCenterY)},
         @{@"buttonTag": @(TAG_REPEAT),          @"originY": @(buttonCenterY + SHUFFLE_REPEAT_VERTICAL_PADDING)},
     ];
