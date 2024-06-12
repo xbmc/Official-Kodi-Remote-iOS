@@ -2580,7 +2580,7 @@
     frame = rating.frame;
     frame.origin.x = menuItem.originYearDuration;
     rating.frame = frame;
-    rating.text = [NSString stringWithFormat:@"%@", item[@"rating"]];
+    rating.text = [Utilities getRatingFromItem:item[@"rating"]];
     cell.urlImageView.contentMode = UIViewContentModeScaleAspectFill;
     genre.hidden = NO;
     runtimeyear.hidden = NO;
@@ -5226,8 +5226,12 @@
     [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0 YPos:0];
     if (channelGuideView && autoScrollTable != nil && autoScrollTable.row < [dataList numberOfRowsInSection:autoScrollTable.section]) {
-            [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition:UITableViewScrollPositionTop animated: NO];
+        [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition:UITableViewScrollPositionTop animated: NO];
     }
+    
+    // Workaround iOS 17: Force scroll indicator visible. Called here, after all layout configurations and data reloads are finished.
+    dataList.showsVerticalScrollIndicator = YES;
+    dataList.showsHorizontalScrollIndicator = NO;
 }
 
 - (void)startChannelListUpdateTimer {
