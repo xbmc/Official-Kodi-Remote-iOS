@@ -643,6 +643,7 @@
                                          __typeof__(self) __weak weakSelf = self;
                                          [thumbnailView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                                           placeholderImage:[UIImage imageNamed:@"coverbox_back"]
+                                                                   options:SDWebImageDelayPlaceholder
                                                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                               if (error == nil) {
                                                   [weakSelf processLoadedThumbImage:weakSelf thumb:thumb image:image enableJewel:enableJewel];
