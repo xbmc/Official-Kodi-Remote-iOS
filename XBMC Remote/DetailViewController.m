@@ -6198,7 +6198,19 @@
 - (void)initIpadCornerInfo {
     mainMenu *menuItem = self.detailItem;
     if (IS_IPAD && menuItem.enableSection) {
-        titleView = [[UIView alloc] initWithFrame:CGRectMake(STACKSCROLL_WIDTH - FIXED_SPACE_WIDTH, 0, FIXED_SPACE_WIDTH - 5, buttonsView.frame.size.height)];
+        // Add a reserved fixed space which is used for iPad corner info
+        for (UILabel *view in buttonsView.subviews) {
+            if ([view isKindOfClass:[UIToolbar class]]) {
+                UIToolbar *toolbar = (UIToolbar*)view;
+                UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+                fixedSpace.width = FIXED_SPACE_WIDTH;
+                toolbar.items = [toolbar.items arrayByAddingObject:fixedSpace];
+                break;
+            }
+        }
+        
+        // Add the corner info view
+        titleView = [[UIView alloc] initWithFrame:CGRectMake(buttonsView.frame.size.width - FIXED_SPACE_WIDTH, 0, FIXED_SPACE_WIDTH - 5, buttonsView.frame.size.height)];
         titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
         topNavigationLabel.textAlignment = NSTextAlignmentRight;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:14];
@@ -6206,17 +6218,6 @@
         [titleView addSubview:topNavigationLabel];
         [buttonsView addSubview:titleView];
         [self checkFullscreenButton:NO];
-    }
-    else {
-        // Remove the reserved fixed space which is only used for iPad corner info
-        for (UILabel *view in buttonsView.subviews) {
-            if ([view isKindOfClass:[UIToolbar class]]) {
-                UIToolbar *bar = (UIToolbar*)view;
-                NSMutableArray *items = [NSMutableArray arrayWithArray:bar.items];
-                [items removeObjectAtIndex:15];
-                [bar setItems:items animated:NO];
-            }
-        }
     }
 }
 
