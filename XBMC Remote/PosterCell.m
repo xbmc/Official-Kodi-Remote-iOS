@@ -30,6 +30,7 @@
         _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, borderWidth, frame.size.width - borderWidth * 2, frame.size.height - borderWidth * 2)];
         _posterThumbnail.clipsToBounds = YES;
         _posterThumbnail.contentMode = UIViewContentModeScaleAspectFill;
+        self.contentView.backgroundColor = UIColor.clearColor;
         [self.contentView addSubview:_posterThumbnail];
         
         _labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
@@ -47,6 +48,7 @@
         _posterLabel.numberOfLines = 2;
         _posterLabel.adjustsFontSizeToFitWidth = YES;
         _posterLabel.minimumScaleFactor = 1.0;
+        [Utilities applyRoundedEdgesView:_posterLabel drawBorder:NO];
 
         [_labelImageView addSubview:_posterLabel];
         [self.contentView addSubview:_labelImageView];

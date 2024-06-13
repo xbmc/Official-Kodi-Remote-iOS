@@ -1685,6 +1685,7 @@
         flowLayout.minimumLineSpacing = cellMinimumLineSpacing;
         flowLayout.minimumInteritemSpacing = cellMinimumLineSpacing;
     }
+    flowLayout.collectionView.backgroundColor = UIColor.clearColor;
 }
 
 #pragma mark - UICollectionView methods
@@ -1699,7 +1700,7 @@
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
         collectionView.contentInset = dataList.contentInset;
         collectionView.scrollIndicatorInsets = dataList.scrollIndicatorInsets;
-        collectionView.backgroundColor = [Utilities getGrayColor:0 alpha:0.5];
+        collectionView.backgroundColor = UIColor.clearColor;
         collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         collectionView.delegate = self;
         collectionView.dataSource = self;
@@ -1836,16 +1837,7 @@
         if (stringURL.length) {
             [cell.posterThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                     placeholderImage:[UIImage imageNamed:displayThumb]
-                                             options:SDWebImageScaleToNativeSize
-                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                UIColor *averageColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
-                CGFloat hue, saturation, brightness, alpha;
-                BOOL ok = [averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-                if (ok) {
-                    UIColor *bgColor = [UIColor colorWithHue:hue saturation:saturation brightness:0.2 alpha:alpha];
-                    cell.backgroundColor = bgColor;
-                }
-            }];
+                                             options:SDWebImageScaleToNativeSize];
         }
         else {
             cell.posterThumbnail.image = [UIImage imageNamed:displayThumb];
