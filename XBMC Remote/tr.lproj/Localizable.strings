@@ -194,8 +194,6 @@
 "Done" = "Bitti";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Ayarlara erişmek için Kodi versiyon 13 veya daha yenisi gerekiyor.";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- UYARI --\nBu ayarlara uzaktan erişilemiyor. Kodi arayüzünü kullanın.";
-"Official XBMC Remote\nfor iOS" = "Kodi Resmi Uzaktan Kumandası \niOS sürümü";
-"enjoy!" = "İyi eğlenceler!";
 "No items found." = "Hiçbir şey bulunamadı";
 "Video" = "Video";
 "Party" = "Parti";
@@ -275,7 +273,6 @@
 "Add window activation button" = "Pencere etkinleştirme tuşu ekle";
 "Runtime" = "Süre";
 "Date" = "Tarih";
-"enjoy!" = "İyi eğlenceler!";
 "Pictures Add-ons" = "Resim eklentileri";
 "Video Playlists" = "Video oynatma listeleri";
 "Favourites" = "Sık kullanılanlar";

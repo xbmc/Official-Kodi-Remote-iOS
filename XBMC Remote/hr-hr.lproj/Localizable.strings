@@ -207,8 +207,6 @@
 "Done" = "Završeno";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi inačice 13 ili veće je potreban za pristup Kodi postavkama";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- UPOZORENJE --\nOva vrsta postavki se ne može podesiti udaljeno. Koristite Kodi sučelje za promjenu tih postavki.\nHvala vam.";
-"Official XBMC Remote\nfor iOS" = "Službeni Kodi daljinski\nza iOS";
-"enjoy!" = "uživajte!";
 "No items found." = "Nema pronađenih stavki.";
 "Video" = "Video";
 "Party" = "Party";

@@ -194,8 +194,6 @@
 "Done" = "完成";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "访问Kodi设置需要Kodi 13或更高版本";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- 注意 --\n此类设置无法远程设置。请使用Kodi图形用户界面来改变此设置。\n谢谢。";
-"Official XBMC Remote\nfor iOS" = "官方Kodi遥控器\niOS版";
-"enjoy!" = "使用愉快！";
 "No items found." = "未找到项目。";
 "Video" = "视频";
 "Party" = "舞会";
