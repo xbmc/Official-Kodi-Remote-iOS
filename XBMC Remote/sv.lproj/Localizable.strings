@@ -194,8 +194,6 @@
 "Edit" = "Redigera";
 "Done" = "Klar";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- VARNING --\nDenna typ av inställning kan inte konfigureras här. Använd det grafiska gränssnittet i Kodi för att ändra denna inställning.";
-"Official XBMC Remote\nfor iOS" = "Officiell Kodi-fjärrkontroll\nför iOS";
-"enjoy!" = "Njut!";
 "No items found." = "Inga objekt hittades.";
 "Video" = "Video";
 "Party" = "Party";

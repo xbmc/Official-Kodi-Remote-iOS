@@ -195,8 +195,6 @@
 "Done" = "Fatto";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Per accedere alle impostazioni di Kodi è necessaria la versione 13 o successiva di Kodi";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- AVVERTIMENTO --\nQuesto tipo di impostazione non può essere configurato da remoto. Utilizza l'interfaccia di Kodi per modificare questa impostazione.\nGrazie.";
-"Official XBMC Remote\nfor iOS" = "Kodi Remote ufficiale\nper iOS";
-"enjoy!" = "buon divertimento!";
 "No items found." = "Nessun elemento trovato.";
 "Video" = "Video";
 "Party" = "Party";

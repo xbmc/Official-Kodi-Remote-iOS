@@ -207,8 +207,6 @@
 "Done" = "Valmis";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodin asetusten käyttö edellyttää vähintään Kodin versiota 13";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- VAROITUS --\nTämän tyyppisiä asetuksia ei ole mahdollista määrittää etänä, joten ne on määritettävä Kodin käyttöliittymän kautta.\nKiitos.";
-"Official XBMC Remote\nfor iOS" = "Virallinen Kodi Remote\niOS-järjestelmälle";
-"enjoy!" = "nauti!";
 "No items found." = "Kohteita ei löytynyt.";
 "Video" = "Video";
 "Party" = "Jukeboksi";
