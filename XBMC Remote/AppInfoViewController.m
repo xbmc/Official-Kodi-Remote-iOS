@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 #import "Utilities.h"
 
+#define XIB_APPNAME_HEIGHT 24
+
 @interface AppInfoViewController ()
 
 @end
@@ -29,70 +31,33 @@
     return self;
 }
 
-- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
-    UITouch *touch = [touches anyObject];
-    if ([touch tapCount] > 10 && touch.view == creditsSign && creditsMask.hidden) {
-        creditsMask.hidden = NO;
-        if (audioPlayer == nil) {
-            NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle]
-                                                 pathForResource:@"sign"
-                                                 ofType:@"mp3"]];
-            NSError *error;
-            audioPlayer = [[AVAudioPlayer alloc]
-                           initWithContentsOfURL:url
-                           error:&error];
-            if (!error) {
-                audioPlayer.delegate = self;
-                [audioPlayer prepareToPlay];
-            }
-        }
-        audioPlayer.currentTime = 0;
-        [audioPlayer play];
-    }
-}
-
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer*)player successfully:(BOOL)flag {
-    if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(setActive:withOptions:error:)]) {
-        NSError *err;
-        [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&err];
-    }
-    creditsMask.hidden = YES;
-}
-
 - (BOOL)canBecomeFirstResponder {
     return NO;
 }
 
-- (IBAction)CloseView {
-    [audioPlayer stop];
-    audioPlayer = nil;
-    if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(setActive:withOptions:error:)]) {
-        NSError *err;
-        [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&err];
-    }
-    [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    creditsMask.hidden = YES;
+    
+    // Scale the font size by the increased height
+    CGFloat scale = CGRectGetHeight(appName.frame) / XIB_APPNAME_HEIGHT;
+    appName.font    = [UIFont boldSystemFontOfSize:floor(18 * scale)];
+    appVersion.font = [UIFont boldSystemFontOfSize:floor(14 * scale)];
+    
+    // Take into account the increased font width which lets the text stretch over more lines
+    scale = sqrt(scale);
+    appDescription.font = [UIFont systemFontOfSize:floor(14 * scale)];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    creditsMask.hidden = YES;
-    [audioPlayer stop];
-    audioPlayer.currentTime = 0;
-    audioPlayer = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.edgesForExtendedLayout = 0;
-    appName.text = LOCALIZED_STR(@"Official XBMC Remote\nfor iOS");
+    appName.text = @"Official Kodi Remote";
     appVersion.text = [Utilities getAppVersionString];
     appDescription.text = LOCALIZED_STR(@"Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo, Zappy mascot and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi");
-    appGreeting.text = LOCALIZED_STR(@"enjoy!");
 }
 
 - (BOOL)shouldAutorotate {
