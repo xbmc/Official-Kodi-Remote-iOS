@@ -48,6 +48,7 @@
     IBOutlet UISegmentedControl *segmentServerType;
     IBOutlet UIButton *helpWikiButton;
     IBOutlet UIButton *helpForumButton;
+    NSMutableDictionary *serverAddresses;
 }
 
 @property (strong, nonatomic) id detailItem;

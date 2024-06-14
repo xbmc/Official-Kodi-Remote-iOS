@@ -88,8 +88,8 @@
     
     [self textFieldDoneEditing:nil];
     
-    for (UILabel *label in [self getAllEntryMaskLabels]) {
-        label.text = label.text ?: @"";
+    for (UITextField *textfield in [self getAllEntryMaskLabels]) {
+        textfield.text = textfield.text ?: @"";
     }
     
     NSString *macAddress = [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@", mac_0_UI.text, mac_1_UI.text, mac_2_UI.text, mac_3_UI.text, mac_4_UI.text, mac_5_UI.text];
@@ -316,8 +316,8 @@
     return res;
 }
 
-- (void)fillMacAddressInfo {
-    NSString *macAddress = [self resolveMacFromIP:ipUI.text];
+- (void)fillMacAddressInfo:(NSString*)ipAddress {
+    NSString *macAddress = [self resolveMacFromIP:ipAddress];
     NSArray *macPart = [macAddress componentsSeparatedByString:@":"];
     // Both 02:... and 00:... are invalid addresses (first seen on target, second on simulator)
     if (macPart.count == 6 &&
@@ -358,12 +358,13 @@
 - (void)fillTcpPort:(NSMutableDictionary*)serverAddresses port:(int)tcpPort ip:(NSString*)ipversion {
     if (tcpPort > 0) {
         NSString *port = [NSString stringWithFormat:@"%d", tcpPort];
-        serverAddresses[@"hostname"] = @{
-            @"tcpport": port,
-        };
-        serverAddresses[ipversion] = @{
-            @"tcpport": port,
-        };
+        NSMutableDictionary *server = [serverAddresses[@"hostname"] mutableCopy];
+        server[@"tcpport"] = port;
+        serverAddresses[@"hostname"] = server;
+        
+        server = [serverAddresses[ipversion] mutableCopy];
+        server[@"tcpport"] = port;
+        serverAddresses[ipversion] = server;
     }
 }
 
@@ -376,9 +377,10 @@
 }
 
 - (void)netServiceDidResolveAddress:(NSNetService*)service {
-    NSMutableDictionary *serverAddresses = [NSMutableDictionary new];
     NSString *type = service.type;
     if ([type containsString:serviceTypeHTTP]) {
+        serverAddresses = [NSMutableDictionary new];
+        serverAddresses[@"serverName"] = service.name;
         for (NSData *data in [service addresses]) {
             char addressBuffer[MAX(INET_ADDRSTRLEN, INET6_ADDRSTRLEN)];
             struct sockaddr_in *socketAddress = (struct sockaddr_in*)[data bytes];
@@ -402,6 +404,31 @@
             }
         }
         NSLog(@"Resolved address/port for service '%@' by '%@': %@", type, service.name, serverAddresses);
+        
+#if (RESOLVE_MAC_ADDRESS)
+        if (serverAddresses[@"ipv4"]) {
+            // Ping server and resolve MAC address. Only works with IPv4 address.
+            NSDictionary *server = serverAddresses[@"ipv4"];
+            NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", server[@"addr"], server[@"port"]];
+            NSURL *url = [[NSURL alloc] initWithString:serverJSON];
+            NSURLSession *pingSession = [NSURLSession sharedSession];
+            NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url
+                                                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self fillMacAddressInfo:server[@"addr"]];
+                });
+            }];
+            [pingConnection resume];
+        }
+#endif
+        // Show discovered instances view (for multiple instances) and trigger the TCP port discovery
+        if (serverAddresses.count) {
+            [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
+            
+            // Trigger search for TCP service
+            [netServiceBrowser searchForServicesOfType:serviceTypeTCP inDomain:domainName];
+            timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
+        }
     }
     else {
         for (NSData *data in [service addresses]) {
@@ -415,63 +442,12 @@
                 [self fillTcpPort:serverAddresses port:ntohs(addr6->sin6_port) ip:@"ipv6"];
             }
         }
-    }
-    if (serverAddresses.count) {
-        // Select preferred address type
-        NSArray *segmentModes = @[@"ipv4", @"ipv6", @"hostname"];
-        long index = segmentServerType.selectedSegmentIndex;
-        NSString *mode = index < segmentModes.count ? segmentModes[index] : segmentModes[0];
-        NSDictionary *server = serverAddresses[mode];
+        NSLog(@"TCP port for '%@': %@", service.name, serverAddresses[@"hostname"][@"tcpport"]);
         
-        // Fallback order: ipv4 > ipv6 > hostname
-        if (!server) {
-            server = serverAddresses[@"ipv4"];
-        }
-        if (!server) {
-            server = serverAddresses[@"ipv6"];
-        }
-        if (!server) {
-            server = serverAddresses[@"hostname"];
-        }
-        if (!server) {
-            return;
-        }
-        
-        if ([type containsString:serviceTypeHTTP]) {
-            // Set values for UI and persistency
-            descriptionUI.text = service.name;
-            ipUI.text = server[@"addr"];
-            portUI.text = server[@"port"];
-            descriptionUI.textColor = [Utilities getSystemBlue];
-            ipUI.textColor = [Utilities getSystemBlue];
-            portUI.textColor = [Utilities getSystemBlue];
-            
-#if (RESOLVE_MAC_ADDRESS)
-            // Ping server
-            NSString *serverJSON = [NSString stringWithFormat:@"http://%@:%@/jsonrpc", ipUI.text, portUI.text];
-            NSURL *url = [[NSURL alloc] initWithString:serverJSON];
-            NSURLSession *pingSession = [NSURLSession sharedSession];
-            NSURLSessionDataTask *pingConnection = [pingSession dataTaskWithURL:url
-                                                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self fillMacAddressInfo];
-                });
-            }];
-            [pingConnection resume];
-#endif
-            [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
-            
-            // Trigger search for TCP service
-            [netServiceBrowser searchForServicesOfType:serviceTypeTCP inDomain:domainName];
-            timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
-        }
-        else {
-            // Set values for UI and persistency
-            tcpPortUI.text = server[@"tcpport"];
-            tcpPortUI.textColor = [Utilities getSystemBlue];
-            NSLog(@"TCP port for '%@': %@", service.name, tcpPortUI.text);
-        }
+        [timer invalidate];
     }
+    
+    [self fillServerDetailsForSegment:segmentServerType.selectedSegmentIndex];
 }
 
 - (void)stopDiscovery {
@@ -494,6 +470,31 @@
     netServiceBrowser.delegate = self;
     [netServiceBrowser searchForServicesOfType:serviceTypeHTTP inDomain:domainName];
     timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
+}
+
+#pragma mark - Segment control
+
+- (void)segmentValueChanged:(UISegmentedControl*)segment {
+    [self fillServerDetailsForSegment:segment.selectedSegmentIndex];
+}
+
+- (void)fillServerDetailsForSegment:(long)activeSegment {
+    NSArray *segmentModes = @[@"ipv4", @"ipv6", @"hostname"];
+    long index = activeSegment < segmentModes.count ? activeSegment : 0;
+    NSString *mode = segmentModes[index];
+    NSDictionary *server = serverAddresses[mode];
+    
+    // Set values for UI and persistency
+    descriptionUI.text = serverAddresses[@"serverName"];
+    ipUI.text = server[@"addr"];
+    portUI.text = server[@"port"];
+    descriptionUI.textColor = [Utilities getSystemBlue];
+    ipUI.textColor = [Utilities getSystemBlue];
+    portUI.textColor = [Utilities getSystemBlue];
+    
+    // Set values for UI and persistency
+    tcpPortUI.text = server[@"tcpport"];
+    tcpPortUI.textColor = [Utilities getSystemBlue];
 }
 
 #pragma mark - Help URLs
@@ -564,9 +565,9 @@
     netServiceBrowser = nil;
     services = nil;
     [Utilities AnimView:discoveredInstancesView AnimDuration:0.0 Alpha:1.0 XPos:self.view.frame.size.width];
-    for (UILabel *label in [self getAllEntryMaskLabels]) {
-        label.text = @"";
-        label.textColor = [Utilities get1stLabelColor];
+    for (UITextField *textfield in [self getAllEntryMaskLabels]) {
+        textfield.text = @"";
+        textfield.textColor = [Utilities get1stLabelColor];
     }
     [Utilities AnimView:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
 }
@@ -600,9 +601,11 @@
     passwordUI.placeholder = LOCALIZED_STR(@"Password");
     self.edgesForExtendedLayout = 0;
     
-    for (UILabel *label in [self getAllEntryMaskLabels]) {
-        label.backgroundColor = [Utilities getSystemGray6];
-        label.tintColor = [Utilities get1stLabelColor];
+    for (UITextField *textfield in [self getAllEntryMaskLabels]) {
+        textfield.layer.borderColor = UIColor.lightGrayColor.CGColor;
+        textfield.layer.borderWidth = 1.0 / UIScreen.mainScreen.scale;
+        textfield.backgroundColor = [Utilities getSystemGray6];
+        textfield.tintColor = [Utilities get1stLabelColor];
     }
     discoveredInstancesTableView.backgroundColor = [Utilities getSystemGray6];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
@@ -628,6 +631,8 @@
     
     // Set segment control text for "host name" mode
     [segmentServerType setTitle:LOCALIZED_STR(@"Host name") forSegmentAtIndex:2];
+    
+    [segmentServerType addTarget:self action:@selector(segmentValueChanged:) forControlEvents: UIControlEventValueChanged];
 }
 
 - (BOOL)shouldAutorotate {
