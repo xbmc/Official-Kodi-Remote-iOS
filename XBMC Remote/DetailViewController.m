@@ -2209,6 +2209,7 @@
     
     // Create a transparent view on top of the unused searchbar. This receives a tap gesture to start a search.
     UIView *tapOverlay = [[UIView alloc] initWithFrame:searchCtrl.searchBar.frame];
+    tapOverlay.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     tapOverlay.backgroundColor = UIColor.clearColor;
     [searchCtrl.searchBar addSubview:tapOverlay];
     
