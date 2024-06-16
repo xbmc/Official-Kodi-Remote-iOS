@@ -35,7 +35,7 @@
     IBOutlet UIView *nowPlayingView;
     IBOutlet UIView *playlistView;
     IBOutlet UIView *songDetailsView;
-    NSTimer *timer;
+    NSTimer *updateInfoTimer;
     NSTimer *debounceTimer;
     NSMutableArray *playlistData;
     IBOutlet UILabel *songCodec;
