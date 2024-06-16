@@ -69,6 +69,8 @@
 #define ID_INVALID -2
 #define FLIP_DEMO_DELAY 1.0
 #define TRANSITION_TIME 0.2
+#define PLAYLIST_DEBOUNCE_TIMEOUT 0.2
+#define PLAYLIST_DEBOUNCE_TIMEOUT_MAX 1.0
 
 #define XIB_PLAYLIST_CELL_MAINTITLE 1
 #define XIB_PLAYLIST_CELL_SUBTITLE 2
@@ -2589,6 +2591,7 @@
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {
     [timer invalidate];
+    [debounceTimer invalidate];
 }
 
 - (void)enablePopGestureRecognizer:(id)sender {
@@ -2824,6 +2827,19 @@
     storedItemID = SELECTED_NONE;
     storeSelection = nil;
     lastThumbnail = @"";
+    
+    // Only clear and reload the playlist after debouncing timeout. This reduces load and flickering, if multiple update notifications
+    // arrive in a short time frame -- like for picture slideshows.
+    NSTimeInterval debounceInterval = selectedPlayerID != PLAYERID_PICTURES ? PLAYLIST_DEBOUNCE_TIMEOUT : PLAYLIST_DEBOUNCE_TIMEOUT_MAX;
+    [debounceTimer invalidate];
+    debounceTimer = [NSTimer scheduledTimerWithTimeInterval:debounceInterval
+                                                     target:self
+                                                   selector:@selector(clearAndReloadPlaylist)
+                                                   userInfo:nil
+                                                    repeats:NO];
+}
+
+- (void)clearAndReloadPlaylist {
     [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
     [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [self createPlaylist:NO animTableView:YES];
@@ -2832,6 +2848,7 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [timer invalidate];
+    [debounceTimer invalidate];
 }
 
 - (BOOL)shouldAutorotate {
