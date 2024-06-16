@@ -1,14 +1,23 @@
 Features:
-- In-app view for movie trailers
+- NowPlaying iPad fullscreen
+- NowPlaying blurred cover
+- Watched flag for seasons
+- Tagline in movie details
 
 Bugfixes:
-- Do not sort add-on menus alphabetically
-- Avoid potential error popup with virtual keyboard
+- Show scroll indicators on iOS17
+- Searchbar width on iOS17
 
 Improvements:
-- iPad grid view automatically tailors item sizes
-- iPad fullscreen follows "hide label" setting
-- Some minor layout improvements
+- Modernized NowPlaying
+- Repeat/Shuffle on NowPlaying
+- iPad playback controls on NowPlaying
+- Unified power menu for iPad and iPhone
+- Unified dark gradient app background
+- Show thumbnails in file mode
+- Global connection status on iPhone
+- Follow Kodi setting ShowEmptyTvShows
+- Many more small layout improvements
 - Translation updates for several languages
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
