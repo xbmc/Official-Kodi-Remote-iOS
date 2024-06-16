@@ -910,6 +910,8 @@
                  songSampleRate.text = bitrate;
                  songSampleRate.hidden = NO;
                  songSampleRateImage.image = nil;
+                 
+                 itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
              }
              else if (currentPlayerID == PLAYERID_VIDEO) {
                  [self setSongDetails:songCodec image:songCodecImage item:methodResult[@"VideoPlayer.VideoResolution"]];
@@ -921,6 +923,8 @@
                  songBitRate.text = aspect;
                  songBitRateImage.image = [self loadImageFromName:@"aspect"];
                  songBitRateImage.hidden = songBitRate.hidden = aspect.length == 0;
+                 
+                 itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
              }
              else if (currentPlayerID == PLAYERID_PICTURES) {
                  NSString *filename = [Utilities getStringFromItem:methodResult[@"Slideshow.Filename"]];
@@ -2380,7 +2384,6 @@
 }
 
 - (void)setFontSizes:(CGFloat)scale {
-    itemDescription.font  = [UIFont systemFontOfSize:floor(12 * scale)];
     albumName.font        = [UIFont systemFontOfSize:floor(16 * scale)];
     songName.font         = [UIFont boldSystemFontOfSize:floor(20 * scale)];
     artistName.font       = [UIFont systemFontOfSize:floor(16 * scale)];
