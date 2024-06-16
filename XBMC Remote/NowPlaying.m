@@ -1990,6 +1990,8 @@
         mainLabel.textColor = [Utilities get1stLabelColor];
         subLabel.textColor = [Utilities get2ndLabelColor];
         cornerLabel.textColor = [Utilities get2ndLabelColor];
+        
+        tableView.separatorInset = UIEdgeInsetsMake(0, CGRectGetMinX(mainLabel.frame), 0, 0);
     }
     NSDictionary *item = (playlistData.count > indexPath.row) ? playlistData[indexPath.row] : nil;
     UIImageView *thumb = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
