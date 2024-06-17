@@ -289,7 +289,7 @@
 - (void)setPlaylistCellProgressBar:(UITableViewCell*)cell hidden:(BOOL)value {
     // Do not unhide the playlist progress bar while in pictures playlist
     UIView *view = (UIView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSVIEW];
-    if (!value && currentPlayerID == PLAYERID_PICTURES) {
+    if (!value && selectedPlayerID == PLAYERID_PICTURES) {
         return;
     }
     if (value == view.hidden) {
