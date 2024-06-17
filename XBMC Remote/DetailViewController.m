@@ -2200,7 +2200,7 @@
 - (UISearchBar*)createFakeSearchbarInDark:(BOOL)isDark {
     // Create non-used search controller. This is added as tableHeaderView and lets iOS gracefully handle insets
     UISearchController *searchCtrl = [[UISearchController alloc] initWithSearchResultsController:nil];
-    searchCtrl.searchBar.showsCancelButton = YES;
+    searchCtrl.searchBar.showsCancelButton = NO;
     searchCtrl.searchBar.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.searchController.searchBar.frame));
     searchCtrl.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     searchCtrl.searchBar.barStyle = UIBarStyleBlack;
@@ -2209,6 +2209,7 @@
     
     // Create a transparent view on top of the unused searchbar. This receives a tap gesture to start a search.
     UIView *tapOverlay = [[UIView alloc] initWithFrame:searchCtrl.searchBar.frame];
+    tapOverlay.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     tapOverlay.backgroundColor = UIColor.clearColor;
     [searchCtrl.searchBar addSubview:tapOverlay];
     
