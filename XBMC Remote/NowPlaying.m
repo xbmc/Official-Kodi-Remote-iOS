@@ -1098,6 +1098,7 @@
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_PICTURES;
         [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
     }
+    editTableButton.hidden = playlistID == PLAYERID_PICTURES;
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
                         withParameters:@{@"properties": @[@"thumbnail",
