@@ -1240,7 +1240,7 @@
         [self action_queue_to_wiki],
         [self action_queue_to_fmcharts],
         [self action_queue_to_shuffle],
-        @[],
+        [self action_simple_queue_to_play],
         [self action_queue_to_wiki],
         [self action_queue_to_play],
         [self action_queue_to_wiki],
@@ -2530,7 +2530,7 @@
         @[],
         [self action_queue_to_moviesetdetails],
         [self action_queue_to_moviedetails],
-        @[],
+        [self action_simple_queue_to_play],
         @[],
         [self action_queue_to_showcontent],
     ];
@@ -3280,7 +3280,7 @@
     menu_Videos.sheetActions = @[
         [self action_queue_to_musicvideodetails],
         [self action_queue_to_musicvideodetails],
-        @[],
+        [self action_simple_queue_to_play],
         @[],
         [self action_queue_to_showcontent],
     ];
@@ -3800,7 +3800,7 @@
     menu_TVShows.sheetActions = @[
         @[LOCALIZED_STR(@"TV Show Details")],
         [self action_queue_to_episodedetails],
-        @[],
+        [self action_simple_queue_to_play],
         @[],
         [self action_queue_to_showcontent],
     ];
@@ -5360,6 +5360,11 @@
             @"Files.GetDirectory", @"method",
         ],
     ] mutableCopy];
+    
+    menu_Pictures.sheetActions = @[
+        [self action_simple_queue_to_play],
+        @[],
+    ];
     
     menu_Pictures.subItem.mainParameters = [@[
         @[
