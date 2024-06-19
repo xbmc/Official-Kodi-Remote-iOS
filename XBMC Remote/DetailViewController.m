@@ -4128,6 +4128,10 @@
         key = @"file";
         value = item[@"file"];
     }
+    if (!value || !key) {
+        [cellActivityIndicator stopAnimating];
+        return;
+    }
     if (afterCurrent) {
         NSDictionary *params = @{
             @"playerid": @(playlistid),
@@ -4145,7 +4149,7 @@
                          NSString *action2 = @"Playlist.Insert";
                          NSDictionary *params2 = @{
                              @"playlistid": @(playlistid),
-                             @"item": [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil],
+                             @"item": @{key: value},
                              @"position": @(newPos),
                          };
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -4155,27 +4159,27 @@
                          }];
                      }
                      else {
-                         [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:cellActivityIndicator];
+                         [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
                      }
                  }
                  else {
-                     [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:cellActivityIndicator];
+                     [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
                  }
              }
              else {
-                [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:cellActivityIndicator];
+                [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
              }
          }];
     }
     else {
-        [self addToPlaylist:playlistid currentItem:value currentKey:key indicator:cellActivityIndicator];
+        [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
     }
 }
 
-- (void)addToPlaylist:(NSInteger)playlistid currentItem:(id)value currentKey:(NSString*)key indicator:(UIActivityIndicatorView*)cellActivityIndicator {
+- (void)addToPlaylist:(NSInteger)playlistid item:(NSDictionary*)item indicator:(UIActivityIndicatorView*)cellActivityIndicator {
     NSDictionary *params = @{
         @"playlistid": @(playlistid),
-        @"item": [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil],
+        @"item": item,
     };
     [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [cellActivityIndicator stopAnimating];
@@ -4255,9 +4259,13 @@
                     key = @"file";
                     value = item[@"file"];
                 }
+                if (!value || !key) {
+                    [cellActivityIndicator stopAnimating];
+                    return;
+                }
                 NSDictionary *playlistParams = @{
                     @"playlistid": @(playlistid),
-                    @"item": [NSDictionary dictionaryWithObjectsAndKeys: value, key, nil],
+                    @"item": @{key: value},
                 };
                 NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
                                                 @{@"playlistid": @(playlistid), @"position": @(pos)}, @"item",
