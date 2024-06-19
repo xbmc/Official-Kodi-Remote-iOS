@@ -1512,7 +1512,7 @@
                     [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
                 }
                 else {
-                    [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
+                    [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
                 }
                 return;
             }
@@ -1652,7 +1652,7 @@
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
             }
             else {
-                [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
+                [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
             }
         }
     }
@@ -3235,7 +3235,7 @@
         [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
-        [self addPlayback:item indexPath:indexPath position:(int)indexPath.row shuffle:NO];
+        [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
         forceMusicAlbumMode = NO;
     }
 }
@@ -3486,7 +3486,7 @@
             [self startSlideshow:item indexPath:selectedIndexPath];
         }
         else {
-            int playFromPosition = albumView ? (int)selectedIndexPath.row : 0;
+            NSInteger playFromPosition = albumView ? selectedIndexPath.row : 0;
             [self addPlayback:item indexPath:selectedIndexPath position:playFromPosition shuffle:NO];
         }
     }
@@ -4206,7 +4206,7 @@
     }];
 }
 
-- (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath position:(int)pos shuffle:(BOOL)shuffled {
+- (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath position:(NSInteger)pos shuffle:(BOOL)shuffled {
     mainMenu *menuItem = [self getMainMenu:item];
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     if (forceMusicAlbumMode) {
