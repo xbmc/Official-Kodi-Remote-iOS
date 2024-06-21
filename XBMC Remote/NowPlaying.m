@@ -424,6 +424,15 @@
     [nowPlayingView bringSubviewToFront:BottomView];
 }
 
+- (void)serverIsDisconnected {
+    currentPlaylistID = PLAYERID_UNKNOWN;
+    storedItemID = 0;
+    [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [playlistData removeAllObjects];
+    [playlistTableView reloadData];
+    [self nothingIsPlaying];
+}
+
 - (void)nothingIsPlaying {
     UIImage *image = [UIImage imageNamed:@"st_nowplaying_small"];
     [self setButtonImageAndStartDemo:image];
@@ -1002,12 +1011,7 @@
 
 - (void)playbackInfo {
     if (!AppDelegate.instance.serverOnLine) {
-        currentPlaylistID = PLAYERID_UNKNOWN;
-        storedItemID = 0;
-        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
-        [playlistData removeAllObjects];
-        [playlistTableView reloadData];
-        [self nothingIsPlaying];
+        [self serverIsDisconnected];
         return;
     }
     if (AppDelegate.instance.serverVersion == 11) {
@@ -1058,12 +1062,7 @@
 
 - (void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)animTable {
     if (!AppDelegate.instance.serverOnLine) {
-        currentPlaylistID = PLAYERID_UNKNOWN;
-        storedItemID = 0;
-        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
-        [playlistData removeAllObjects];
-        [playlistTableView reloadData];
-        [self nothingIsPlaying];
+        [self serverIsDisconnected];
         return;
     }
     if (forcePlaylistID) {
