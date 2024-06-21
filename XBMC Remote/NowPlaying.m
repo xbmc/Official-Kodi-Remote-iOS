@@ -259,8 +259,7 @@
         storedItemID = SELECTED_NONE;
         PartyModeButton.selected = YES;
         [Utilities sendXbmcHttp:@"ExecBuiltIn&parameter=PlayerControl(Partymode('music'))"];
-        playerID = PLAYERID_UNKNOWN;
-        selectedPlayerID = PLAYERID_UNKNOWN;
+        currentPlaylistID = PLAYERID_UNKNOWN;
         [self createPlaylist:NO animTableView:YES];
     }
     else {
@@ -280,8 +279,7 @@
              withParameters:@{@"item": @{@"partymode": @"music"}}
              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                  PartyModeButton.selected = YES;
-                 playerID = PLAYERID_UNKNOWN;
-                 selectedPlayerID = PLAYERID_UNKNOWN;
+                 currentPlaylistID = PLAYERID_UNKNOWN;
                  storedItemID = SELECTED_NONE;
              }];
         }
@@ -292,7 +290,7 @@
 - (void)setPlaylistCellProgressBar:(UITableViewCell*)cell hidden:(BOOL)value {
     // Do not unhide the playlist progress bar while in pictures playlist
     UIView *view = (UIView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSVIEW];
-    if (!value && currentPlayerID == PLAYERID_PICTURES) {
+    if (!value && currentPlaylistID == PLAYERID_PICTURES) {
         return;
     }
     if (value == view.hidden) {
@@ -510,28 +508,25 @@
         if (error == nil && methodError == nil) {
             if ([methodResult isKindOfClass:[NSArray class]] && [methodResult count] > 0) {
                 nothingIsPlaying = NO;
-                NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
-                currentPlayerID = [response intValue];
-                if (playerID != currentPlayerID ||
-                    lastPlayerID != currentPlayerID ||
-                    (selectedPlayerID != PLAYERID_UNKNOWN && playerID != selectedPlayerID)) {
-                    if (selectedPlayerID != PLAYERID_UNKNOWN && playerID != selectedPlayerID) {
-                        lastPlayerID = playerID = selectedPlayerID;
-                    }
-                    else if (selectedPlayerID == PLAYERID_UNKNOWN) {
-                        lastPlayerID = playerID = currentPlayerID;
-                        [self createPlaylist:NO animTableView:YES];
-                    }
-                    else if (lastPlayerID != currentPlayerID) {
-                        lastPlayerID = selectedPlayerID = currentPlayerID;
-                        if (playerID != currentPlayerID) {
-                            [self createPlaylist:NO animTableView:YES];
-                        }
-                        // Pause the A/V codec updates until Kodi's info labels settled
-                        waitForInfoLabelsToSettle = YES;
-                        [self performSelector:@selector(setWaitForInfoLabelsToSettle) withObject:nil afterDelay:1.0];
-                    }
+                
+                // Active player is the first listed one
+                int activePlayerID = [methodResult[0][@"playerid"] intValue];
+                
+                // Set the current playerid. This is used to gather current played item's metadata.
+                currentPlayerID = activePlayerID;
+                if (currentPlayerID == PLAYERID_UNKNOWN || currentPlayerID != lastPlayerID) {
+                    lastPlayerID = currentPlayerID;
+                    // Pause the A/V codec updates until Kodi's info labels settled
+                    waitForInfoLabelsToSettle = YES;
+                    [self performSelector:@selector(setWaitForInfoLabelsToSettle) withObject:nil afterDelay:1.0];
                 }
+                
+                // If no playlist is selected yet in the UI, set it to the player's id and update the playlist.
+                if (currentPlaylistID == PLAYERID_UNKNOWN) {
+                    currentPlaylistID = activePlayerID;
+                    [self createPlaylist:NO animTableView:YES];
+                }
+                
                 // Codec view uses "XBMC.GetInfoLabels" which might change asynchronously. Therefore check each time.
                 if (songDetailsView.alpha && !waitForInfoLabelsToSettle) {
                     [self loadCodecView];
@@ -777,7 +772,7 @@
                                  // Update the playlist position and time when a new item plays, else update progress only
                                  long playlistPosition = [methodResult[@"position"] longValue];
                                  if (playlistPosition != lastSelected && playlistPosition != SELECTED_NONE) {
-                                     if (playlistData.count > playlistPosition && currentPlayerID == playerID) {
+                                     if (playlistData.count > playlistPosition && currentPlayerID == currentPlaylistID) {
                                          [self hidePlaylistProgressbarWithDeselect:NO];
                                          NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
                                          UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
@@ -802,7 +797,7 @@
             }
             else {
                 [self nothingIsPlaying];
-                if (playerID == PLAYERID_UNKNOWN && selectedPlayerID == PLAYERID_UNKNOWN) {
+                if (currentPlaylistID == PLAYERID_UNKNOWN) {
                     [self createPlaylist:YES animTableView:YES];
                 }
             }
@@ -1008,8 +1003,7 @@
 
 - (void)playbackInfo {
     if (!AppDelegate.instance.serverOnLine) {
-        playerID = PLAYERID_UNKNOWN;
-        selectedPlayerID = PLAYERID_UNKNOWN;
+        currentPlaylistID = PLAYERID_UNKNOWN;
         storedItemID = 0;
         [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
@@ -1064,8 +1058,7 @@
 
 - (void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)animTable {
     if (!AppDelegate.instance.serverOnLine) {
-        playerID = PLAYERID_UNKNOWN;
-        selectedPlayerID = PLAYERID_UNKNOWN;
+        currentPlaylistID = PLAYERID_UNKNOWN;
         storedItemID = 0;
         [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
         [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
@@ -1075,33 +1068,28 @@
     if (!musicPartyMode && animTable) {
         [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     }
-    [activityIndicatorView startAnimating];
-    int playlistID = playerID;
     if (forcePlaylistID) {
-        playlistID = PLAYERID_MUSIC;
+        currentPlaylistID = PLAYERID_MUSIC;
+    }
+    if (currentPlaylistID == PLAYERID_UNKNOWN) {
+        return;
     }
     
-    if (selectedPlayerID != PLAYERID_UNKNOWN) {
-        playlistID = selectedPlayerID;
-        playerID = selectedPlayerID;
-    }
+    [activityIndicatorView startAnimating];
     
-    if (playlistID == PLAYERID_MUSIC) {
-        playerID = PLAYERID_MUSIC;
+    if (currentPlaylistID == PLAYERID_MUSIC) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_MUSIC;
         [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:1.0 XPos:PARTYBUTTON_PADDING_LEFT];
     }
-    else if (playlistID == PLAYERID_VIDEO) {
-        playerID = PLAYERID_VIDEO;
+    else if (currentPlaylistID == PLAYERID_VIDEO) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_VIDEO;
         [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
     }
-    else if (playlistID == PLAYERID_PICTURES) {
-        playerID = PLAYERID_PICTURES;
+    else if (currentPlaylistID == PLAYERID_PICTURES) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_PICTURES;
         [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
     }
-    editTableButton.hidden = playlistID == PLAYERID_PICTURES;
+    editTableButton.hidden = currentPlaylistID == PLAYERID_PICTURES;
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
                         withParameters:@{@"properties": @[@"thumbnail",
@@ -1120,7 +1108,7 @@
                                                           @"file",
                                                           @"title",
                                                           @"art"],
-                                         @"playlistid": @(playlistID)}
+                                         @"playlistid": @(currentPlaylistID)}
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                if (error == nil && methodError == nil) {
                    [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
@@ -1188,7 +1176,7 @@
                                                     nil]];
                        }
                        [self showPlaylistTable];
-                       if (musicPartyMode && playlistID == PLAYERID_MUSIC) {
+                       if (musicPartyMode && currentPlaylistID == PLAYERID_MUSIC) {
                            [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
                        }
                    }
@@ -1228,8 +1216,7 @@
 }
 
 - (void)showPlaylistTable {
-    numResults = (int)playlistData.count;
-    if (numResults == 0) {
+    if (playlistData.count == 0) {
         [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     }
     else {
@@ -1703,7 +1690,7 @@
 - (void)showClearPlaylistAlert {
     if (!playlistView.hidden && self.view.superview != nil) {
         NSString *message;
-        switch (playerID) {
+        switch (currentPlaylistID) {
             case PLAYERID_MUSIC:
                 message = LOCALIZED_STR(@"Are you sure you want to clear the music playlist?");
                 break;
@@ -1720,7 +1707,7 @@
         UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
         UIAlertAction *clearButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clear Playlist") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self clearPlaylist:playerID];
+                [self clearPlaylist:currentPlaylistID];
             }];
         [alertView addAction:clearButton];
         [alertView addAction:cancelButton];
@@ -1735,7 +1722,7 @@
         if (indexPath != nil) {
             [sheetActions removeAllObjects];
             NSDictionary *item = (playlistData.count > indexPath.row) ? playlistData[indexPath.row] : nil;
-            selected = indexPath;
+            selectedIndexPath = indexPath;
             CGPoint selectedPoint = [gestureRecognizer locationInView:self.view];
             if ([item[@"albumid"] intValue] > 0) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Album Details"), LOCALIZED_STR(@"Album Tracks")]];
@@ -1846,8 +1833,8 @@
 - (void)actionSheetHandler:(NSString*)actiontitle {
     NSDictionary *item = nil;
     NSInteger numPlaylistEntries = playlistData.count;
-    if (selected.row < numPlaylistEntries) {
-        item = playlistData[selected.row];
+    if (selectedIndexPath.row < numPlaylistEntries) {
+        item = playlistData[selectedIndexPath.row];
     }
     else {
         return;
@@ -1964,7 +1951,7 @@
         }
     }
     else {
-        [self showInfo:item menuItem:menuItem indexPath:selected];
+        [self showInfo:item menuItem:menuItem indexPath:selectedIndexPath];
     }
 }
 
@@ -2026,7 +2013,7 @@
         subLabel.text = [NSString stringWithFormat:@"%@", item[@"channel"]];
     }
     UIImage *defaultThumb;
-    switch (playerID) {
+    switch (currentPlaylistID) {
         case PLAYERID_MUSIC:
             cornerLabel.text = item[@"duration"];
             defaultThumb = [UIImage imageNamed:@"icon_song"];
@@ -2077,7 +2064,7 @@
     [activityIndicator startAnimating];
     [[Utilities getJsonRPC]
      callMethod:@"Player.Open" 
-     withParameters:@{@"item": @{@"position": @(indexPath.row), @"playlistid": @(playerID)}}
+     withParameters:@{@"item": @{@"position": @(indexPath.row), @"playlistid": @(currentPlaylistID)}}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil) {
              storedItemID = SELECTED_NONE;
@@ -2118,12 +2105,12 @@
     
     NSString *actionRemove = @"Playlist.Remove";
     NSDictionary *paramsRemove = @{
-        @"playlistid": @(playerID),
+        @"playlistid": @(currentPlaylistID),
         @"position": @(sourceIndexPath.row),
     };
     NSString *actionInsert = @"Playlist.Insert";
     NSDictionary *paramsInsert = @{
-        @"playlistid": @(playerID),
+        @"playlistid": @(currentPlaylistID),
         @"item": itemToMove,
         @"position": @(destinationIndexPath.row),
     };
@@ -2156,7 +2143,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString *actionRemove = @"Playlist.Remove";
         NSDictionary *paramsRemove = @{
-            @"playlistid": @(playerID),
+            @"playlistid": @(currentPlaylistID),
             @"position": @(indexPath.row),
         };
         [[Utilities getJsonRPC] callMethod:actionRemove withParameters:paramsRemove onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -2206,7 +2193,7 @@
     if (playlistData.count == 0 && !playlistTableView.editing) {
         return;
     }
-    if (playerID == PLAYERID_PICTURES) {
+    if (currentPlaylistID == PLAYERID_PICTURES) {
         return;
     }
     if (playlistTableView.editing || forceClose) {
@@ -2489,15 +2476,15 @@
     }
     switch (segment.selectedSegmentIndex) {
         case PLAYERID_MUSIC:
-            selectedPlayerID = PLAYERID_MUSIC;
+            currentPlaylistID = PLAYERID_MUSIC;
             break;
             
         case PLAYERID_VIDEO:
-            selectedPlayerID = PLAYERID_VIDEO;
+            currentPlaylistID = PLAYERID_VIDEO;
             break;
             
         case PLAYERID_PICTURES:
-            selectedPlayerID = PLAYERID_PICTURES;
+            currentPlaylistID = PLAYERID_PICTURES;
             break;
             
         default:
@@ -2754,8 +2741,7 @@
     scrabbingMessage.text = LOCALIZED_STR(@"Slide your finger up to adjust the scrubbing rate.");
     scrabbingRate.text = LOCALIZED_STR(@"Scrubbing 1");
     sheetActions = [NSMutableArray new];
-    playerID = PLAYERID_UNKNOWN;
-    selectedPlayerID = PLAYERID_UNKNOWN;
+    currentPlaylistID = PLAYERID_UNKNOWN;
     lastSelected = SELECTED_NONE;
     storedItemID = SELECTED_NONE;
     storeSelection = nil;
@@ -2821,9 +2807,8 @@
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
     NSDictionary *theData = sender.userInfo;
     if ([theData isKindOfClass:[NSDictionary class]]) {
-        selectedPlayerID = [theData[@"params"][@"data"][@"playlistid"] intValue];
+        currentPlaylistID = [theData[@"params"][@"data"][@"playlistid"] intValue];
     }
-    playerID = PLAYERID_UNKNOWN;
     lastSelected = SELECTED_NONE;
     storedItemID = SELECTED_NONE;
     storeSelection = nil;
@@ -2831,7 +2816,7 @@
     
     // Only clear and reload the playlist after debouncing timeout. This reduces load and flickering, if multiple update notifications
     // arrive in a short time frame -- like for picture slideshows.
-    NSTimeInterval debounceInterval = selectedPlayerID != PLAYERID_PICTURES ? PLAYLIST_DEBOUNCE_TIMEOUT : PLAYLIST_DEBOUNCE_TIMEOUT_MAX;
+    NSTimeInterval debounceInterval = currentPlaylistID != PLAYERID_PICTURES ? PLAYLIST_DEBOUNCE_TIMEOUT : PLAYLIST_DEBOUNCE_TIMEOUT_MAX;
     [debounceTimer invalidate];
     debounceTimer = [NSTimer scheduledTimerWithTimeInterval:debounceInterval
                                                      target:self
