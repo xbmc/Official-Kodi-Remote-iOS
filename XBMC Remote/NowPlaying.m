@@ -774,7 +774,7 @@
                                          NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
                                          UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
                                          if (musicPartyMode) {
-                                             position = UITableViewScrollPositionNone;
+                                             position = UITableViewScrollPositionTop;
                                          }
                                          if ([playlistTableView numberOfRowsInSection:0]) {
                                              [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
@@ -1175,9 +1175,6 @@
                                                     nil]];
                        }
                        [self showPlaylistTableAnimated:animTable];
-                       if (musicPartyMode && currentPlaylistID == PLAYERID_MUSIC) {
-                           [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-                       }
                    }
                }
                else {
@@ -1231,6 +1228,9 @@
                              completion:^(BOOL finished) {
                 // 2. Then reload the playlist data
                 [playlistTableView reloadData];
+                if (musicPartyMode && currentPlaylistID == PLAYERID_MUSIC) {
+                    [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+                }
                 [UIView animateWithDuration:0.2
                                       delay:0.0
                                     options:UIViewAnimationOptionCurveEaseInOut
@@ -1243,6 +1243,9 @@
         }
         else {
             [playlistTableView reloadData];
+            if (musicPartyMode && currentPlaylistID == PLAYERID_MUSIC) {
+                [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+            }
         }
     }
     
