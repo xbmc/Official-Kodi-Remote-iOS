@@ -468,7 +468,7 @@
     musicPartyMode = NO;
     [self notifyChangeForBackgroundImage:nil coverImage:nil];
     [self hidePlaylistProgressbarWithDeselect:YES];
-    [self showPlaylistTable];
+    [self showPlaylistTableAnimated:NO];
     [self toggleSongDetails];
     
     // Unload and hide blurred cover effect
@@ -776,11 +776,13 @@
                                          if (musicPartyMode) {
                                              position = UITableViewScrollPositionNone;
                                          }
-                                         [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
-                                         UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
-                                         [self setPlaylistCellProgressBar:cell hidden:NO];
-                                         storeSelection = newSelection;
-                                         lastSelected = playlistPosition;
+                                         if ([playlistTableView numberOfRowsInSection:0]) {
+                                             [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
+                                             UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
+                                             [self setPlaylistCellProgressBar:cell hidden:NO];
+                                             storeSelection = newSelection;
+                                             lastSelected = playlistPosition;
+                                         }
                                      }
                                      [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
                                  }
@@ -1002,8 +1004,9 @@
     if (!AppDelegate.instance.serverOnLine) {
         currentPlaylistID = PLAYERID_UNKNOWN;
         storedItemID = 0;
-        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
-        [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
+        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [playlistData removeAllObjects];
+        [playlistTableView reloadData];
         [self nothingIsPlaying];
         return;
     }
@@ -1057,13 +1060,11 @@
     if (!AppDelegate.instance.serverOnLine) {
         currentPlaylistID = PLAYERID_UNKNOWN;
         storedItemID = 0;
-        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
-        [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
+        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [playlistData removeAllObjects];
+        [playlistTableView reloadData];
         [self nothingIsPlaying];
         return;
-    }
-    if (!musicPartyMode && animTable) {
-        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
     }
     if (forcePlaylistID) {
         currentPlaylistID = PLAYERID_MUSIC;
@@ -1071,8 +1072,9 @@
     if (currentPlaylistID == PLAYERID_UNKNOWN) {
         return;
     }
-    
-    [activityIndicatorView startAnimating];
+    if (animTable) {
+        [activityIndicatorView startAnimating];
+    }
     
     if (currentPlaylistID == PLAYERID_MUSIC) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_MUSIC;
@@ -1108,8 +1110,6 @@
                                          @"playlistid": @(currentPlaylistID)}
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                if (error == nil && methodError == nil) {
-                   [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
-                   [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
                    if ([methodResult isKindOfClass:[NSDictionary class]]) {
                        NSArray *playlistItems = methodResult[@"items"];
                        if (playlistItems.count == 0) {
@@ -1123,6 +1123,8 @@
                        }
                        NSString *serverURL = [Utilities getImageServerURL];
                        int runtimeInMinute = [Utilities getSec2Min:YES];
+                       
+                       [playlistData removeAllObjects];
                        for (NSDictionary *item in playlistItems) {
                            NSString *idItem = [NSString stringWithFormat:@"%@", item[@"id"]];
                            NSString *label = [NSString stringWithFormat:@"%@", item[@"label"]];
@@ -1172,14 +1174,14 @@
                                                     tvshowid, @"tvshowid",
                                                     nil]];
                        }
-                       [self showPlaylistTable];
+                       [self showPlaylistTableAnimated:animTable];
                        if (musicPartyMode && currentPlaylistID == PLAYERID_MUSIC) {
                            [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
                        }
                    }
                }
                else {
-                   [self showPlaylistTable];
+                   [self showPlaylistTableAnimated:animTable];
                }
            }];
 }
@@ -1212,12 +1214,36 @@
     coverView.alpha = 1.0;
 }
 
-- (void)showPlaylistTable {
+- (void)showPlaylistTableAnimated:(BOOL)animated {
     if (playlistData.count == 0) {
         [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+        [playlistTableView reloadData];
     }
     else {
-        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        if (animated) {
+            // 1. Fade out the playlist
+            [UIView animateWithDuration:0.1
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                playlistTableView.alpha = 0.0;
+            }
+                             completion:^(BOOL finished) {
+                // 2. Then reload the playlist data
+                [playlistTableView reloadData];
+                [UIView animateWithDuration:0.2
+                                      delay:0.0
+                                    options:UIViewAnimationOptionCurveEaseInOut
+                                 animations:^{
+                    // 3. Then fade in again
+                    playlistTableView.alpha = 1.0;
+                }
+                                 completion:nil];
+            }];
+        }
+        else {
+            [playlistTableView reloadData];
+        }
     }
     
     // Define playlist header label, adding number of playlist items in brackets
@@ -1230,8 +1256,6 @@
         NSDictionary *params = @{@"playlistHeaderLabel": playlistLabel};
         [[NSNotificationCenter defaultCenter] postNotificationName:@"PlaylistHeaderUpdate" object:nil userInfo:params];
     }
-    
-    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [activityIndicatorView stopAnimating];
     lastSelected = SELECTED_NONE;
 }
@@ -2389,8 +2413,6 @@
 }
 
 - (void)setIphoneInterface {
-    slideFrom = [self currentScreenBoundsDependOnOrientation].size.width;
-    
     CGRect frame = playlistActionView.frame;
     frame.origin.y = CGRectGetMinY(playlistToolbarView.frame) - CGRectGetHeight(playlistActionView.frame);
     playlistActionView.frame = frame;
@@ -2398,16 +2420,12 @@
 }
 
 - (void)setIpadInterface {
-    slideFrom = -PAD_MENU_TABLE_WIDTH;
-    CGRect frame = playlistTableView.frame;
-    frame.origin.x = slideFrom;
-    playlistTableView.frame = frame;
     playlistToolbarView.alpha = 1.0;
     
     nowPlayingView.hidden = NO;
     playlistView.hidden = NO;
     
-    frame = playlistActionView.frame;
+    CGRect frame = playlistActionView.frame;
     frame.origin.y = CGRectGetHeight(playlistTableView.frame) - CGRectGetHeight(playlistActionView.frame);
     playlistActionView.frame = frame;
     playlistActionView.alpha = 1.0;
@@ -2823,8 +2841,6 @@
 }
 
 - (void)clearAndReloadPlaylist {
-    [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
-    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [self createPlaylist:NO animTableView:YES];
 }
 

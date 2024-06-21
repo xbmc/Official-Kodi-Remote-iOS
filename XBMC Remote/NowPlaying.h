@@ -54,7 +54,6 @@
     IBOutlet UIImageView *backgroundImageView;
     IBOutlet UIView *noFoundView;
     NSIndexPath *storeSelection;
-    int slideFrom;
     IBOutlet UIView *playlistToolbarView;
     IBOutlet UIView *playlistActionView;
     NSString *currentType;
