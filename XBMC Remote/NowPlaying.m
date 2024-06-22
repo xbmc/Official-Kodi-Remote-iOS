@@ -259,8 +259,6 @@
         storedItemID = SELECTED_NONE;
         PartyModeButton.selected = YES;
         [Utilities sendXbmcHttp:@"ExecBuiltIn&parameter=PlayerControl(Partymode('music'))"];
-        currentPlaylistID = PLAYERID_UNKNOWN;
-        [self createPlaylist:NO animTableView:YES];
     }
     else {
         if (musicPartyMode) {
@@ -279,7 +277,6 @@
              withParameters:@{@"item": @{@"partymode": @"music"}}
              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                  PartyModeButton.selected = YES;
-                 currentPlaylistID = PLAYERID_UNKNOWN;
                  storedItemID = SELECTED_NONE;
              }];
         }
@@ -780,7 +777,11 @@
                                  // Detect start of new song to update party mode playlist
                                  int posSeconds = [self getSecondsFromTimeDict:actualTimeDict];
                                  if (musicPartyMode && posSeconds < storePosSeconds) {
-                                     [self checkPartyMode];
+                                     [self updatePartyModePlaylist];
+                                     
+                                     // Leave here to avoid flickering playlist progressbar (next code block)
+                                     storePosSeconds = posSeconds;
+                                     return;
                                  }
                                  storePosSeconds = posSeconds;
                                  
@@ -1070,16 +1071,20 @@
     }];
 }
 
-- (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters checkPartyMode:(BOOL)checkPartyMode {
+- (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters {
     NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
     commonParams[@"playerid"] = @(currentPlayerID);
     [[Utilities getJsonRPC] callMethod:action withParameters:commonParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (error == nil && methodError == nil) {
-            if (musicPartyMode && checkPartyMode) {
-                [self checkPartyMode];
-            }
-        }
     }];
+}
+
+- (void)updatePartyModePlaylist {
+    lastSelected = SELECTED_NONE;
+    storeSelection = 0;
+    // Do not update/switch to an updated Party playlist while the user watches another playlist.
+    if (currentPlaylistID == PLAYERID_MUSIC) {
+        [self createPlaylist:NO animTableView:NO];
+    }
 }
 
 - (void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)animTable {
@@ -1531,12 +1536,12 @@
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @{@"to": @"previous"};
-                [self playbackAction:action params:params checkPartyMode:YES];
+                [self playbackAction:action params:params];
             }
             else {
                 action = @"Player.GoPrevious";
                 params = nil;
-                [self playbackAction:action params:nil checkPartyMode:YES];
+                [self playbackAction:action params:nil];
             }
             ProgressSlider.value = 0;
             break;
@@ -1544,13 +1549,13 @@
         case TAG_ID_PLAYPAUSE:
             action = @"Player.PlayPause";
             params = nil;
-            [self playbackAction:action params:nil checkPartyMode:NO];
+            [self playbackAction:action params:nil];
             break;
             
         case TAG_ID_STOP:
             action = @"Player.Stop";
             params = nil;
-            [self playbackAction:action params:nil checkPartyMode:NO];
+            [self playbackAction:action params:nil];
             storeSelection = nil;
             break;
             
@@ -1558,12 +1563,12 @@
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @{@"to": @"next"};
-                [self playbackAction:action params:params checkPartyMode:YES];
+                [self playbackAction:action params:params];
             }
             else {
                 action = @"Player.GoNext";
                 params = nil;
-                [self playbackAction:action params:nil checkPartyMode:YES];
+                [self playbackAction:action params:nil];
             }
             break;
             
@@ -1579,13 +1584,13 @@
         case TAG_SEEK_BACKWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
-            [self playbackAction:action params:params checkPartyMode:NO];
+            [self playbackAction:action params:params];
             break;
             
         case TAG_SEEK_FORWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
-            [self playbackAction:action params:params checkPartyMode:NO];
+            [self playbackAction:action params:params];
             break;
                     
         default:
@@ -1800,11 +1805,11 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         switch (gestureRecognizer.view.tag) {
             case TAG_SEEK_BACKWARD:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"} checkPartyMode:NO];
+                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
                 break;
                 
             case TAG_SEEK_FORWARD:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"} checkPartyMode:NO];
+                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
                 break;
                 
             case TAG_ID_EDIT:// EDIT TABLE
@@ -2084,14 +2089,6 @@
     storeSelection = nil;
     [self setPlaylistCellProgressBar:cell hidden:YES];
 }
-
-- (void)checkPartyMode {
-    if (musicPartyMode) {
-        lastSelected = SELECTED_NONE;
-        storeSelection = 0;
-        [self createPlaylist:NO animTableView:YES];
-    }
- }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
@@ -2835,6 +2832,11 @@
 }
 
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
+    // Party mode will cause playlist updates for each new song, if TCP is enabled. Just ignore here and
+    // let this be handled by the updatePartyModePlaylist which is called for each new song in Party Mode.
+    if (musicPartyMode) {
+        return;
+    }
     NSDictionary *theData = sender.userInfo;
     if ([theData isKindOfClass:[NSDictionary class]]) {
         currentPlaylistID = [theData[@"params"][@"data"][@"playlistid"] intValue];
