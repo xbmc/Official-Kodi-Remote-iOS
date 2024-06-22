@@ -536,7 +536,7 @@
                 // If no playlist is selected yet in the UI, set it to the player's id and update the playlist.
                 if (currentPlaylistID == PLAYERID_UNKNOWN) {
                     currentPlaylistID = activePlayerID;
-                    [self createPlaylist:NO animTableView:YES];
+                    [self createPlaylistAnimated:YES];
                 }
                 
                 // Codec view uses "XBMC.GetInfoLabels" which might change asynchronously. Therefore check each time.
@@ -815,8 +815,10 @@
             }
             else {
                 [self nothingIsPlaying];
+                // If there is no running player or active playlist, select music as default playlist
                 if (currentPlaylistID == PLAYERID_UNKNOWN) {
-                    [self createPlaylist:YES animTableView:YES];
+                    currentPlaylistID = PLAYERID_MUSIC;
+                    [self createPlaylistAnimated:YES];
                 }
             }
         }
@@ -1066,7 +1068,7 @@
     [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": @(playlistID)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [playlistTableView setEditing:NO animated:NO];
-            [self createPlaylist:NO animTableView:NO];
+            [self createPlaylistAnimated:NO];
         }
     }];
 }
@@ -1083,17 +1085,14 @@
     storeSelection = 0;
     // Do not update/switch to an updated Party playlist while the user watches another playlist.
     if (currentPlaylistID == PLAYERID_MUSIC) {
-        [self createPlaylist:NO animTableView:NO];
+        [self createPlaylistAnimated:NO];
     }
 }
 
-- (void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)animTable {
+- (void)createPlaylistAnimated:(BOOL)animTable {
     if (!AppDelegate.instance.serverOnLine) {
         [self serverIsDisconnected];
         return;
-    }
-    if (forcePlaylistID) {
-        currentPlaylistID = PLAYERID_MUSIC;
     }
     if (currentPlaylistID == PLAYERID_UNKNOWN) {
         return;
@@ -1284,7 +1283,7 @@
     [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             if (reload) {
-                [self createPlaylist:NO animTableView:YES];
+                [self createPlaylistAnimated:YES];
             }
             if (progressBar) {
                 updateProgressBar = YES;
@@ -2205,7 +2204,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView didEndEditingRowAtIndexPath:(NSIndexPath*)indexPath {
-    [self createPlaylist:NO animTableView:YES];
+    [self createPlaylistAnimated:YES];
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gestureRecognizer {
@@ -2518,7 +2517,7 @@
     }
     lastSelected = SELECTED_NONE;
     musicPartyMode = NO;
-    [self createPlaylist:NO animTableView:YES];
+    [self createPlaylistAnimated:YES];
 }
 
 #pragma mark - Life Cycle
@@ -2856,7 +2855,7 @@
 }
 
 - (void)clearAndReloadPlaylist {
-    [self createPlaylist:NO animTableView:YES];
+    [self createPlaylistAnimated:YES];
 }
 
 - (void)dealloc {
