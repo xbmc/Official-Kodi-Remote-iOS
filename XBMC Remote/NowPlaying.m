@@ -2500,7 +2500,7 @@
 - (void)setAVCodecFont:(UILabel*)label size:(CGFloat)fontsize {
     label.font = [UIFont boldSystemFontOfSize:fontsize];
     label.numberOfLines = 2;
-    label.minimumScaleFactor = 11.0 / fontsize;
+    label.minimumScaleFactor = FONT_SCALING_DEFAULT;
 }
 
 - (void)setFontSizes:(CGFloat)scale {

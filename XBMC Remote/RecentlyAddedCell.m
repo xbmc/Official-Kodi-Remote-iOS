@@ -57,7 +57,7 @@
         _posterLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.6];
         _posterLabel.shadowOffset = CGSizeMake(0, 1);
         _posterLabel.numberOfLines = 1;
-        _posterLabel.minimumScaleFactor = 0.5;
+        _posterLabel.minimumScaleFactor = FONT_SCALING_MIN;
         _posterLabel.adjustsFontSizeToFitWidth = YES;
         [labelImageView addSubview:_posterLabel];
         
@@ -68,7 +68,7 @@
         _posterGenre.shadowColor = [Utilities getGrayColor:0 alpha:0.6];
         _posterGenre.shadowOffset = CGSizeMake(0, 1);
         _posterGenre.numberOfLines = 1;
-        _posterGenre.minimumScaleFactor = 0.5;
+        _posterGenre.minimumScaleFactor = FONT_SCALING_MIN;
         _posterGenre.adjustsFontSizeToFitWidth = YES;
         [labelImageView addSubview:_posterGenre];
         
@@ -79,7 +79,7 @@
         _posterYear.shadowColor = [Utilities getGrayColor:0 alpha:0.6];
         _posterYear.shadowOffset = CGSizeMake(0, 1);
         _posterYear.numberOfLines = 1;
-        _posterYear.minimumScaleFactor = 0.5;
+        _posterYear.minimumScaleFactor = FONT_SCALING_MIN;
         _posterYear.adjustsFontSizeToFitWidth = YES;
         [labelImageView addSubview:_posterYear];
         [self.contentView addSubview:labelImageView];

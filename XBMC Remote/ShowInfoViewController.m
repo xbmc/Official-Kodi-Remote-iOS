@@ -137,7 +137,7 @@ double round(double d) {
             viewTitle.text = item[@"label"];
             viewTitle.numberOfLines = 1;
             viewTitle.font = [UIFont boldSystemFontOfSize:22];
-            viewTitle.minimumScaleFactor = 12.0 / 22.0;
+            viewTitle.minimumScaleFactor = FONT_SCALING_DEFAULT;
             viewTitle.adjustsFontSizeToFitWidth = YES;
             viewTitle.shadowOffset = CGSizeMake(1, 1);
             viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0.7];

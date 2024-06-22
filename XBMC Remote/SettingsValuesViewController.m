@@ -174,7 +174,7 @@
         scrubbingMessage.backgroundColor = UIColor.clearColor;
         scrubbingMessage.font = [UIFont boldSystemFontOfSize:13];
         scrubbingMessage.adjustsFontSizeToFitWidth = YES;
-        scrubbingMessage.minimumScaleFactor = 0.8;
+        scrubbingMessage.minimumScaleFactor = FONT_SCALING_MIN;
         scrubbingMessage.textColor = UIColor.whiteColor;
         scrubbingMessage.text = LOCALIZED_STR(@"Slide your finger up or down to adjust the scrubbing rate.");
         scrubbingMessage.textAlignment = NSTextAlignmentCenter;
@@ -187,7 +187,7 @@
         scrubbingRate.backgroundColor = UIColor.clearColor;
         scrubbingRate.font = [UIFont boldSystemFontOfSize:13];
         scrubbingRate.adjustsFontSizeToFitWidth = YES;
-        scrubbingRate.minimumScaleFactor = 0.8;
+        scrubbingRate.minimumScaleFactor = FONT_SCALING_MIN;
         scrubbingRate.textColor = UIColor.lightGrayColor;
         scrubbingRate.textAlignment = NSTextAlignmentCenter;
         scrubbingRate.text = LOCALIZED_STR(@"Scrubbing 1");
@@ -610,7 +610,7 @@
         cellLabel.tag = SETTINGS_CELL_LABEL;
         cellLabel.font = [UIFont systemFontOfSize:16];
         cellLabel.adjustsFontSizeToFitWidth = YES;
-        cellLabel.minimumScaleFactor = 12.0 / 16.0;
+        cellLabel.minimumScaleFactor = FONT_SCALING_MIN;
         cellLabel.textColor = [Utilities get1stLabelColor];
         cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
         cellLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -629,7 +629,7 @@
         descriptionLabel.tag = SETTINGS_CELL_DESCRIPTION;
         descriptionLabel.font = [UIFont systemFontOfSize:14];
         descriptionLabel.adjustsFontSizeToFitWidth = YES;
-        descriptionLabel.minimumScaleFactor = 12.0 / 14.0;
+        descriptionLabel.minimumScaleFactor = FONT_SCALING_MIN;
         descriptionLabel.numberOfLines = 0;
         descriptionLabel.textColor = [Utilities get2ndLabelColor];
         descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
@@ -660,7 +660,7 @@
         sliderLabel.tag = SETTINGS_CELL_SLIDER_LABEL;
         sliderLabel.font = [UIFont systemFontOfSize:14];
         sliderLabel.adjustsFontSizeToFitWidth = YES;
-        sliderLabel.minimumScaleFactor = 12.0 / 14.0;
+        sliderLabel.minimumScaleFactor = FONT_SCALING_MIN;
         sliderLabel.textAlignment = NSTextAlignmentCenter;
         sliderLabel.textColor = [Utilities get2ndLabelColor];
         sliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];

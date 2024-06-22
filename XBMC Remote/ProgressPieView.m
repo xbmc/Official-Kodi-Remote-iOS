@@ -8,6 +8,7 @@
 
 #import "ProgressPieView.h"
 #import "Utilities.h"
+#import "AppDelegate.h"
 
 @implementation ProgressPieView
 
@@ -40,7 +41,7 @@
     pieLabel.backgroundColor = UIColor.clearColor;
     pieLabel.font = [UIFont systemFontOfSize:pieLabelFontSize];
     pieLabel.adjustsFontSizeToFitWidth = YES;
-    pieLabel.minimumScaleFactor = pieLabelFontSize * 0.9;
+    pieLabel.minimumScaleFactor = FONT_SCALING_DEFAULT;
     pieLabel.textAlignment = NSTextAlignmentCenter;
     pieLabel.textColor = color;
     pieLabel.highlightedTextColor = color;

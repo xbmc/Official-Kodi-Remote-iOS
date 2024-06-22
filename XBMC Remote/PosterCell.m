@@ -47,7 +47,7 @@
         _posterLabel.shadowOffset = CGSizeMake(0, 1);
         _posterLabel.numberOfLines = 2;
         _posterLabel.adjustsFontSizeToFitWidth = YES;
-        _posterLabel.minimumScaleFactor = 1.0;
+        _posterLabel.minimumScaleFactor = FONT_SCALING_NONE;
         [Utilities applyRoundedEdgesView:_posterLabel drawBorder:NO];
 
         [_labelImageView addSubview:_posterLabel];
@@ -61,7 +61,7 @@
             _posterLabelFullscreen.textAlignment = NSTextAlignmentCenter;
             _posterLabelFullscreen.numberOfLines = 1;
             _posterLabelFullscreen.adjustsFontSizeToFitWidth = NO;
-            _posterLabelFullscreen.minimumScaleFactor = 1.0;
+            _posterLabelFullscreen.minimumScaleFactor = FONT_SCALING_NONE;
             [self.contentView addSubview:_posterLabelFullscreen];
         }
 

@@ -46,4 +46,11 @@
 #define SD_NATIVESIZE_KEY @"nativeSize"
 #define FLOAT_EQUAL_ZERO(x) (fabs(x) < FLT_EPSILON)
 
+/*
+ * Font scaling
+ */
+#define FONT_SCALING_MIN 0.8
+#define FONT_SCALING_DEFAULT 0.9
+#define FONT_SCALING_NONE 1.0
+
 #endif /* ConvenienceMacros_h */

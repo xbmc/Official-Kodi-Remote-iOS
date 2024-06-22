@@ -497,7 +497,7 @@
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(infoStart, self.view.frame.size.height - TOOLBAR_HEIGHT, infoWidth, TOOLBAR_HEIGHT)];
     [xbmcInfo setTitle:LOCALIZED_STR(@"No connection") forState:UIControlStateNormal];
     xbmcInfo.titleLabel.font = [UIFont systemFontOfSize:13];
-    xbmcInfo.titleLabel.minimumScaleFactor = 6.0 / 13.0;
+    xbmcInfo.titleLabel.minimumScaleFactor = FONT_SCALING_DEFAULT;
     xbmcInfo.titleLabel.numberOfLines = 2;
     xbmcInfo.titleLabel.textAlignment = NSTextAlignmentCenter;
     xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;

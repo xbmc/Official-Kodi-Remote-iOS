@@ -2460,7 +2460,7 @@
             trackNumberLabel.backgroundColor = UIColor.clearColor;
             trackNumberLabel.font = [UIFont systemFontOfSize:artistFontSize];
             trackNumberLabel.adjustsFontSizeToFitWidth = YES;
-            trackNumberLabel.minimumScaleFactor = (artistFontSize - 4) / artistFontSize;
+            trackNumberLabel.minimumScaleFactor = FONT_SCALING_DEFAULT;
             trackNumberLabel.textAlignment = NSTextAlignmentCenter;
             trackNumberLabel.tag = ALBUM_VIEW_CELL_TRACKNUMBER;
             trackNumberLabel.highlightedTextColor = [Utilities get1stLabelColor];
@@ -2474,7 +2474,7 @@
             programTimeLabel.center = CGPointMake(programTimeLabel.center.x, title.center.y);
             programTimeLabel.font = [UIFont systemFontOfSize:12];
             programTimeLabel.adjustsFontSizeToFitWidth = YES;
-            programTimeLabel.minimumScaleFactor = 8.0 / 12.0;
+            programTimeLabel.minimumScaleFactor = FONT_SCALING_DEFAULT;
             programTimeLabel.textAlignment = NSTextAlignmentCenter;
             programTimeLabel.tag = EPG_VIEW_CELL_STARTTIME;
             programTimeLabel.highlightedTextColor = [Utilities get2ndLabelColor];
@@ -2711,7 +2711,7 @@
             frame.origin.y = 0;
             title.frame = frame;
             genre.font = [genre.font fontWithSize:11];
-            genre.minimumScaleFactor = 10.0 / 11.0;
+            genre.minimumScaleFactor = FONT_SCALING_DEFAULT;
             [genre sizeToFit];
         }
         else if ([item[@"family"] isEqualToString:@"sectionid"] ||
@@ -2729,7 +2729,7 @@
             genre.frame = frame;
             genre.numberOfLines = 2;
             genre.font = [genre.font fontWithSize:11];
-            genre.minimumScaleFactor = 10.0 / 11.0;
+            genre.minimumScaleFactor = FONT_SCALING_DEFAULT;
         }
         else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
             rating.hidden = YES;
@@ -2760,7 +2760,7 @@
         genre.frame = frame;
         genre.numberOfLines = 3;
         genre.font = [genre.font fontWithSize:11];
-        genre.minimumScaleFactor = 10.0 / 11.0;
+        genre.minimumScaleFactor = FONT_SCALING_DEFAULT;
         UILabel *programStartTime = (UILabel*)[cell viewWithTag:EPG_VIEW_CELL_STARTTIME];
         ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
         NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
@@ -3101,7 +3101,7 @@
     artist.numberOfLines = 1;
     artist.lineBreakMode = NSLineBreakByTruncatingTail;
     artist.adjustsFontSizeToFitWidth = YES;
-    artist.minimumScaleFactor = 9.0 / artistFontSize;
+    artist.minimumScaleFactor = FONT_SCALING_DEFAULT;
     [albumDetailView addSubview:artist];
     
     // Layout for album
@@ -3112,6 +3112,8 @@
     album.font = [UIFont boldSystemFontOfSize:albumFontSize];
     album.numberOfLines = 2;
     album.lineBreakMode = NSLineBreakByTruncatingTail;
+    album.adjustsFontSizeToFitWidth = YES;
+    album.minimumScaleFactor = FONT_SCALING_DEFAULT;
     [album sizeToFit];
     [albumDetailView addSubview:album];
     
@@ -3126,7 +3128,7 @@
     trackCount.font = [UIFont systemFontOfSize:trackCountFontSize];
     trackCount.numberOfLines = 1;
     trackCount.lineBreakMode = NSLineBreakByTruncatingTail;
-    trackCount.minimumScaleFactor = (trackCountFontSize - 2) / trackCountFontSize;
+    trackCount.minimumScaleFactor = FONT_SCALING_MIN;
     trackCount.adjustsFontSizeToFitWidth = YES;
     [albumDetailView addSubview:trackCount];
     
@@ -3138,7 +3140,7 @@
     released.font = [UIFont systemFontOfSize:trackCountFontSize];
     released.numberOfLines = 1;
     released.lineBreakMode = NSLineBreakByTruncatingTail;
-    released.minimumScaleFactor = (trackCountFontSize - 2) / trackCountFontSize;
+    released.minimumScaleFactor = FONT_SCALING_MIN;
     released.adjustsFontSizeToFitWidth = YES;
     [albumDetailView addSubview:released];
 }
@@ -3833,7 +3835,7 @@
         topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 240, 44)];
         topNavigationLabel.backgroundColor = UIColor.clearColor;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
-        topNavigationLabel.minimumScaleFactor = 8.0/11.0;
+        topNavigationLabel.minimumScaleFactor = FONT_SCALING_DEFAULT;
         topNavigationLabel.numberOfLines = 2;
         topNavigationLabel.adjustsFontSizeToFitWidth = YES;
         topNavigationLabel.textAlignment = NSTextAlignmentLeft;
