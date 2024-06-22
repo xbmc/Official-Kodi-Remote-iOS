@@ -2101,8 +2101,6 @@
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil) {
              storedItemID = SELECTED_NONE;
-             [self setPlaylistCellProgressBar:cell hidden:NO];
-             [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
          }
          [activityIndicator stopAnimating];
      }
