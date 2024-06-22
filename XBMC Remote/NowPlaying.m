@@ -1188,20 +1188,20 @@
                        
                        [playlistData removeAllObjects];
                        for (NSDictionary *item in playlistItems) {
-                           NSString *idItem = [NSString stringWithFormat:@"%@", item[@"id"]];
-                           NSString *label = [NSString stringWithFormat:@"%@", item[@"label"]];
-                           NSString *title = [NSString stringWithFormat:@"%@", item[@"title"]];
+                           NSString *idItem = [Utilities getStringFromItem:item[@"id"]];
+                           NSString *label = [Utilities getStringFromItem:item[@"label"]];
+                           NSString *title = [Utilities getStringFromItem:item[@"title"]];
                            NSString *artist = [Utilities getStringFromItem:item[@"artist"]];
                            NSString *album = [Utilities getStringFromItem:item[@"album"]];
                            NSString *runtime = [Utilities getTimeFromItem:item[@"runtime"] sec2min:runtimeInMinute];
-                           NSString *showtitle = item[@"showtitle"];
-                           NSString *season = item[@"season"];
-                           NSString *episode = item[@"episode"];
-                           NSString *type = item[@"type"];
-                           NSString *artistid = [NSString stringWithFormat:@"%@", item[@"artistid"]];
-                           NSString *albumid = [NSString stringWithFormat:@"%@", item[@"albumid"]];
-                           NSString *movieid = [NSString stringWithFormat:@"%@", item[@"id"]];
-                           NSString *channel = [NSString stringWithFormat:@"%@", item[@"channel"]];
+                           NSString *showtitle = [Utilities getStringFromItem:item[@"showtitle"]];
+                           NSString *season = [Utilities getStringFromItem:item[@"season"]];
+                           NSString *episode = [Utilities getStringFromItem:item[@"episode"]];
+                           NSString *type = [Utilities getStringFromItem:item[@"type"]];
+                           NSString *artistid = [Utilities getStringFromItem:item[@"artistid"]];
+                           NSString *albumid = [Utilities getStringFromItem:item[@"albumid"]];
+                           NSString *movieid = [Utilities getStringFromItem:item[@"id"]];
+                           NSString *channel = [Utilities getStringFromItem:item[@"channel"]];
                            NSString *genre = [Utilities getStringFromItem:item[@"genre"]];
                            NSString *durationTime = @"";
                            if ([item[@"duration"] isKindOfClass:[NSNumber class]]) {
@@ -1209,8 +1209,8 @@
                            }
                            NSString *thumbnailPath = [self getNowPlayingThumbnailPath:item];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                           NSNumber *tvshowid = @([[NSString stringWithFormat:@"%@", item[@"tvshowid"]] intValue]);
-                           NSString *file = [NSString stringWithFormat:@"%@", item[@"file"]];
+                           NSNumber *tvshowid = @([item[@"tvshowid"] longValue]);
+                           NSString *file = [Utilities getStringFromItem:item[@"file"]];
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
                                                     file, @"file",
@@ -1430,7 +1430,7 @@
                  NSString *serverURL = [Utilities getImageServerURL];
                  int runtimeInMinute = [Utilities getSec2Min:YES];
 
-                 NSString *label = [NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row1"]]];
+                 NSString *label = [Utilities getStringFromItem:itemExtraDict[mainFields[@"row1"]]];
                  NSString *genre = [Utilities getStringFromItem:itemExtraDict[mainFields[@"row2"]]];
                  NSString *year = [Utilities getYearFromItem:itemExtraDict[mainFields[@"row3"]]];
                  NSString *runtime = [Utilities getTimeFromItem:itemExtraDict[mainFields[@"row4"]] sec2min:runtimeInMinute];
@@ -1465,7 +1465,7 @@
                   rating, @"rating",
                   mainFields[@"playlistid"], @"playlistid",
                   mainFields[@"row8"], @"family",
-                  @([[NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row9"]]] intValue]), mainFields[@"row9"],
+                  @([itemExtraDict[mainFields[@"row9"]] longValue]), mainFields[@"row9"],
                   itemExtraDict[mainFields[@"row10"]], mainFields[@"row10"],
                   row11, mainFields[@"row11"],
                   itemExtraDict[mainFields[@"row12"]], mainFields[@"row12"],
