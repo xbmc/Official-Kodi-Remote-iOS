@@ -2121,23 +2121,27 @@
     UILabel *mainLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_MAINTITLE];
     UILabel *subLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_SUBTITLE];
     UILabel *cornerLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_CORNERTITLE];
-
-    mainLabel.text = ![item[@"title"] isEqualToString:@""] ? item[@"title"] : item[@"label"];
+    
+    NSString *title = item[@"title"];
+    NSString *label = item[@"label"];
+    mainLabel.text = title.length ? title : label;
     subLabel.text = @"";
     if ([item[@"type"] isEqualToString:@"episode"]) {
-        mainLabel.text = [NSString stringWithFormat:@"%@", item[@"label"]];
+        mainLabel.text = label;
         subLabel.text = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];
     }
     else if ([item[@"type"] isEqualToString:@"song"] ||
              [item[@"type"] isEqualToString:@"musicvideo"]) {
-        NSString *artist = [item[@"artist"] length] == 0 ? @"" : [NSString stringWithFormat:@" - %@", item[@"artist"]];
-        subLabel.text = [NSString stringWithFormat:@"%@%@", item[@"album"], artist];
+        NSString *album = item[@"album"];
+        NSString *artist = item[@"artist"];
+        NSString *dash = album.length && artist.length ? @" - " : @"";
+        subLabel.text = [NSString stringWithFormat:@"%@%@%@", album, dash, artist];
     }
     else if ([item[@"type"] isEqualToString:@"movie"]) {
-        subLabel.text = [NSString stringWithFormat:@"%@", item[@"genre"]];
+        subLabel.text = item[@"genre"];
     }
     else if ([item[@"type"] isEqualToString:@"recording"]) {
-        subLabel.text = [NSString stringWithFormat:@"%@", item[@"channel"]];
+        subLabel.text = item[@"channel"];
     }
     UIImage *defaultThumb;
     switch (currentPlaylistID) {
