@@ -21,7 +21,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" fixedFrame="YES" text="La grande bouffe" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.90000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="4">
-                        <rect key="frame" x="61" y="0.0" width="222" height="30"/>
+                        <rect key="frame" x="61" y="0.0" width="222" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
