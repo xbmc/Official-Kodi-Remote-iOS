@@ -692,21 +692,7 @@
     // Update the playlist position and time when a new item plays, else update progress only
     long playlistPosition = [item[@"position"] longValue];
     if (playlistPosition != lastSelected && playlistPosition != SELECTED_NONE) {
-        if (playlistData.count > playlistPosition && currentPlayerID == currentPlaylistID) {
-            [self hidePlaylistProgressbarWithDeselect:NO];
-            NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
-            UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
-            if (musicPartyMode) {
-                position = UITableViewScrollPositionTop;
-            }
-            if ([playlistTableView numberOfRowsInSection:0]) {
-                [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
-                UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
-                [self setPlaylistCellProgressBar:cell hidden:NO];
-                storeSelection = newSelection;
-                lastSelected = playlistPosition;
-            }
-        }
+        [self setPlaylistPosition:playlistPosition forPlayer:currentPlayerID];
         [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
     }
     else {
@@ -742,6 +728,28 @@
     // Codec view uses "XBMC.GetInfoLabels" which might change asynchronously. Therefore check each time.
     if (songDetailsView.alpha && !waitForInfoLabelsToSettle) {
         [self loadCodecView];
+    }
+}
+
+- (void)setPlaylistPosition:(long)playlistPosition forPlayer:(int)playerID {
+    if (playlistData.count <= playlistPosition ||
+        currentPlaylistID != playerID ||
+        ![playlistTableView numberOfSections]) {
+        return;
+    }
+    // Make current cell's progress bar invisible
+    NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
+    UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
+    [self setPlaylistCellProgressBar:cell hidden:YES];
+    
+    // Make new cell's progress bar visible and select playlist cell
+    NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
+    if (newSelection.row < [playlistTableView numberOfRowsInSection:0]) {
+        [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+        UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
+        [self setPlaylistCellProgressBar:cell hidden:NO];
+        storeSelection = newSelection;
+        lastSelected = playlistPosition;
     }
 }
 
@@ -847,6 +855,27 @@
      }];
 }
 
+- (void)getPlayerPropertiesSlideshow {
+    [[Utilities getJsonRPC]
+     callMethod:@"Player.GetProperties"
+     withParameters:@{@"playerid": @(PLAYERID_PICTURES),
+                      @"properties": @[@"position"]}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+         // Do not process further, if the view is already off the view hierarchy.
+         if (!self.viewIfLoaded.window) {
+             return;
+         }
+         if (error == nil && methodError == nil) {
+             if ([methodResult isKindOfClass:[NSDictionary class]]) {
+                 if ([methodResult count]) {
+                     // Update the playlist position
+                     [self setPlaylistPosition:[methodResult[@"position"] longValue] forPlayer:PLAYERID_PICTURES];
+                 }
+             }
+         }
+     }];
+}
+
 - (void)getActivePlayers {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:@{} withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         // Do not process further, if the view is already off the view hierarchy.
@@ -865,6 +894,11 @@
                 
                 // Reads the properties of the current active player and updates NowPlaying controls and playlist.
                 [self getPlayerProperties];
+                
+                // Reads the properties for a running slideshow to be able to select the correct playlist position.
+                if (isSlideshowActive) {
+                    [self getPlayerPropertiesSlideshow];
+                }
             }
             else {
                 [self nothingIsPlaying];
