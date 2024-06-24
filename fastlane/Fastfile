@@ -133,9 +133,6 @@ lane :asc do |options|
     submit_for_review: true,
     reject_if_possible: true,
     automatic_release: options[:manual_release] != '1',
-    submission_information: {
-      add_id_info_uses_idfa: false,
-    },
     precheck_include_in_app_purchases: false,
   )
 
