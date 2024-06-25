@@ -505,9 +505,9 @@
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
-                NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
+                int playerID = [Utilities getActivePlayerID:methodResult];
                 NSDictionary *params = @{
-                    @"playerid": @([response intValue]),
+                    @"playerid": @(playerID),
                     @"properties": @[@"subtitleenabled", @"currentsubtitle", @"subtitles"],
                 };
                 [[Utilities getJsonRPC]
@@ -550,9 +550,9 @@
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
-                NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
+                int playerID = [Utilities getActivePlayerID:methodResult];
                 NSDictionary *params = @{
-                    @"playerid": @([response intValue]),
+                    @"playerid": @(playerID),
                     @"properties": @[@"currentaudiostream", @"audiostreams"],
                 };
                 [[Utilities getJsonRPC]
@@ -594,10 +594,8 @@
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
             if ([methodResult count] > 0) {
                 NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
-                NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
-                if (response != nil) {
-                    commonParams[@"playerid"] = @([response intValue]);
-                }
+                int playerID = [Utilities getActivePlayerID:methodResult];
+                commonParams[@"playerid"] = @(playerID);
                 [[Utilities getJsonRPC] callMethod:action withParameters:commonParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                 }];
             }

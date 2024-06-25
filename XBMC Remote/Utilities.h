@@ -121,5 +121,6 @@ typedef enum {
 + (BOOL)isValidMacAddress:(NSString*)macAddress;
 + (void)wakeUp:(NSString*)macAddress;
 + (NSString*)getUrlStyleAddress:(NSString*)address;
++ (int)getActivePlayerID:(NSArray*)activePlayerList;
 
 @end

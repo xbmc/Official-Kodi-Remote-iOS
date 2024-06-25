@@ -715,8 +715,8 @@
 }
 
 - (void)setPlayerStates:(NSArray*)activePlayerList {
-    // Active player is the first listed one
-    int activePlayerID = [activePlayerList[0][@"playerid"] intValue];
+    // Get active player from list
+    int activePlayerID = [Utilities getActivePlayerID:activePlayerList];
     
     // Set the current playerid. This is used to gather current played item's metadata.
     currentPlayerID = activePlayerID;

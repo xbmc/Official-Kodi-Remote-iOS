@@ -1448,4 +1448,16 @@
     return URLaddress;
 }
 
++ (int)getActivePlayerID:(NSArray*)activePlayerList {
+    if (!activePlayerList.count) {
+        return PLAYERID_UNKNOWN;
+    }
+    if (![activePlayerList[0] isKindOfClass:[NSDictionary class]]) {
+        return PLAYERID_UNKNOWN;
+    }
+    // Active player is the first listed one
+    int activePlayerID = [activePlayerList[0][@"playerid"] intValue];
+    return activePlayerID;
+}
+
 @end
