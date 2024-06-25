@@ -427,9 +427,18 @@
 - (void)serverIsDisconnected {
     currentPlaylistID = PLAYERID_UNKNOWN;
     storedItemID = 0;
-    [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
-    [playlistData removeAllObjects];
-    [playlistTableView reloadData];
+    [UIView animateWithDuration:0.1
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        // Fade out
+        playlistTableView.alpha = 0.0;
+    }
+                     completion:^(BOOL finished) {
+        [playlistData removeAllObjects];
+        [playlistTableView reloadData];
+        [self notifyChangeForPlaylistHeader];
+    }];
     [self nothingIsPlaying];
 }
 
@@ -814,6 +823,19 @@
             [self nothingIsPlaying];
         }
     }];
+}
+
+- (void)notifyChangeForPlaylistHeader {
+    // Define playlist header label, adding number of playlist items in brackets
+    NSString *playlistLabel = [self getPlaylistHeaderLabel];
+    if (!playlistView.hidden) {
+        self.navigationItem.title = playlistLabel;
+    }
+    // For iPad send a notification with the label
+    if (IS_IPAD) {
+        NSDictionary *params = @{@"playlistHeaderLabel": playlistLabel};
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PlaylistHeaderUpdate" object:nil userInfo:params];
+    }
 }
 
 - (void)notifyChangeForBackgroundImage:(NSString*)bgImagePath coverImage:(UIImage*)coverImage {
@@ -1248,16 +1270,7 @@
         }
     }
     
-    // Define playlist header label, adding number of playlist items in brackets
-    NSString *playlistLabel = [self getPlaylistHeaderLabel];
-    if (!playlistView.hidden) {
-        self.navigationItem.title = playlistLabel;
-    }
-    // For iPad send a notification with the label
-    if (IS_IPAD) {
-        NSDictionary *params = @{@"playlistHeaderLabel": playlistLabel};
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"PlaylistHeaderUpdate" object:nil userInfo:params];
-    }
+    [self notifyChangeForPlaylistHeader];
     [activityIndicatorView stopAnimating];
     lastSelected = SELECTED_NONE;
 }
