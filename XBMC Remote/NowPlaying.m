@@ -1053,6 +1053,7 @@
                  resolution = [resolution stringByReplacingOccurrencesOfString:@" x " withString:@"\n"];
                  songCodec.text = resolution;
                  songCodecImage.image = [self loadImageFromName:@"aspect"];
+                 songCodecImage.hidden = resolution.length == 0;
                  
                  NSString *camera = [Utilities getStringFromItem:methodResult[@"Slideshow.CameraModel"]];
                  songSampleRate.text = camera;
