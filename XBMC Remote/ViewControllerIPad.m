@@ -21,7 +21,6 @@
 #import "Utilities.h"
 
 #define CONNECTION_TIMEOUT 240.0
-#define SERVER_TIMEOUT 2.0
 #define VIEW_PADDING 10 /* separation between toolbar views */
 #define TOOLBAR_HEIGHT 44
 #define XBMCLOGO_WIDTH 30
