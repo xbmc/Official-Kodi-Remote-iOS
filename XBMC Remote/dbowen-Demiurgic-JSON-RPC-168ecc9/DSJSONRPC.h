@@ -78,5 +78,6 @@ typedef void (^DSJSONRPCCompletionHandler)(NSString *methodName, NSInteger callI
 - (NSInteger)callMethod:(NSString*)methodName onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
 - (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
 - (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams withTimeout:(NSTimeInterval)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
+- (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams withTimeout:(NSTimeInterval)timeout withConnectionCheck:(BOOL)connectioCheck onCompletion:(DSJSONRPCCompletionHandler)completionHandler;
 
 @end

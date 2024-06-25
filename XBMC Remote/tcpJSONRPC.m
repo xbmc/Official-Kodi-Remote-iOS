@@ -191,7 +191,8 @@ NSInputStream	*inStream;
     [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
      withParameters:checkServerParams
-     withTimeout: SERVER_TIMEOUT
+     withTimeout:SERVER_TIMEOUT
+     withConnectionCheck:NO
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         inCheck = NO;
         if (error == nil && methodError == nil) {
@@ -248,7 +249,8 @@ NSInputStream	*inStream;
     [[Utilities getJsonRPC]
      callMethod:@"Settings.GetSettingValue"
      withParameters:@{@"setting": @"filelists.ignorethewhensorting"}
-     withTimeout: SERVER_TIMEOUT
+     withTimeout:SERVER_TIMEOUT
+     withConnectionCheck:NO
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
             AppDelegate.instance.isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
@@ -264,7 +266,8 @@ NSInputStream	*inStream;
     [[Utilities getJsonRPC]
      callMethod:@"JSONRPC.Version"
      withParameters:nil
-     withTimeout: SERVER_TIMEOUT
+     withTimeout:SERVER_TIMEOUT
+     withConnectionCheck:NO
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
             // Kodi 11 and earlier do not support "major"/"minor"/"patch" and reply with "version" only
@@ -294,7 +297,8 @@ NSInputStream	*inStream;
         [[Utilities getJsonRPC]
          callMethod:@"Settings.GetSettingValue"
          withParameters:@{@"setting": @"videolibrary.groupsingleitemsets"}
-         withTimeout: SERVER_TIMEOUT
+         withTimeout:SERVER_TIMEOUT
+         withConnectionCheck:NO
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
                 AppDelegate.instance.isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
@@ -315,7 +319,8 @@ NSInputStream	*inStream;
         [[Utilities getJsonRPC]
          callMethod:@"Settings.GetSettingValue"
          withParameters:@{@"setting": @"videolibrary.showemptytvshows"}
-         withTimeout: SERVER_TIMEOUT
+         withTimeout:SERVER_TIMEOUT
+         withConnectionCheck:NO
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
                 AppDelegate.instance.isShowEmptyTvShowsEnabled = [methodResult[@"value"] boolValue];
@@ -337,7 +342,8 @@ NSInputStream	*inStream;
         [[Utilities getJsonRPC]
          callMethod:@"Application.GetProperties"
          withParameters:@{@"properties":@[@"sorttokens"]}
-         withTimeout: SERVER_TIMEOUT
+         withTimeout:SERVER_TIMEOUT
+         withConnectionCheck:NO
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
                 AppDelegate.instance.KodiSorttokens = methodResult[@"sorttokens"];

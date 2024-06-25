@@ -94,12 +94,16 @@
 }
 
 - (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams withTimeout:(NSTimeInterval)timeout onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
+    return [self callMethod:methodName withParameters:methodParams withTimeout:0 withConnectionCheck:YES onCompletion:completionHandler];
+}
+
+- (NSInteger)callMethod:(NSString*)methodName withParameters:(id)methodParams withTimeout:(NSTimeInterval)timeout withConnectionCheck:(BOOL)connectioCheck onCompletion:(DSJSONRPCCompletionHandler)completionHandler {
     
     // Generate a random Id for the call
     NSInteger aID = arc4random();
     
-    // For actions without timeout we expect server to be connected already. Only the server heartbeat check uses timeout.
-    if (!timeout && !AppDelegate.instance.serverOnLine) {
+    // Check if the server is connected. If not, drop the request.
+    if (connectioCheck && !AppDelegate.instance.serverOnLine) {
         if (completionHandler) {
             NSError *aError = [NSError errorWithDomain:RPC_DOMAIN code:DSJSONRPCParseError userInfo:@{NSLocalizedDescriptionKey: LOCALIZED_STR(@"No connection")}];
             NSDictionary *jsonErrorDict = @{
