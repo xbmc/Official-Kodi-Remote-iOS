@@ -21,6 +21,13 @@
 #define SETTINGS_CELL_SLIDER_LABEL 102
 #define SETTINGS_CELL_ONOFF_SWITCH 201
 #define SETTINGS_CELL_TEXTFIELD 301
+#define PADDING_HORIZONTAL 8
+#define PADDING_VERTICAL 10
+#define LABEL_HEIGHT_DEFAULT 20
+#define CELL_HEIGHT_DEFAULT 44
+#define TEXTFIELD_HEIGHT 30
+#define SLIDER_HEIGHT 20
+#define SLIDER_PADDING 14
 
 @interface SettingsValuesViewController ()
 
@@ -46,7 +53,7 @@
 
         self.detailItem = item;
 
-        cellHeight = 44.0;
+        cellHeight = CELL_HEIGHT_DEFAULT;
         
         settingOptions = self.detailItem[@"options"];
         
@@ -65,7 +72,6 @@
         
         if ([itemControls[@"format"] isEqualToString:@"boolean"]) {
             xbmcSetting = cSwitch;
-            cellHeight = 210.0;
         }
         else if ([itemControls[@"multiselect"] boolValue] && ![settingOptions isKindOfClass:[NSArray class]]) {
             xbmcSetting = cMultiselect;
@@ -73,7 +79,6 @@
         }
         else if ([itemControls[@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
-            cellHeight = 44;
             _tableView.frame = CGRectMake(self.view.frame.size.width, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height);
             self.navigationItem.title = self.detailItem[@"label"];
             settingOptions = [NSMutableArray new];
@@ -88,21 +93,17 @@
         else if ([itemControls[@"format"] isEqualToString:@"action"] || [itemControls[@"format"] isEqualToString:@"path"]) {
             self.navigationItem.title = self.detailItem[@"label"];
             xbmcSetting = cUnsupported;
-            cellHeight = 142.0;
         }
         else if ([itemControls[@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
             xbmcSetting = cSlider;
             storeSliderValue = [self.detailItem[@"value"] intValue];
-            cellHeight = 242.0;
         }
         else if ([itemControls[@"type"] isEqualToString:@"edit"]) {
             xbmcSetting = cInput;
-            cellHeight = 172.0;
         }
         else if ([itemControls[@"type"] isEqualToString:@"list"] && settingOptions == nil) {
             xbmcSetting = cSlider;
             storeSliderValue = [self.detailItem[@"value"] intValue];
-            cellHeight = 242.0;
         }
         else {
             self.navigationItem.title = self.detailItem[@"label"];
@@ -123,7 +124,6 @@
         }
         
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
-        cellLabelOffset = 8;
         
         // Let the list end before the safe area. This avoids list items being shown under the footer.
         UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, [Utilities getBottomPadding], 0);
@@ -367,25 +367,10 @@
 	cell.backgroundColor = [Utilities getSystemGray6];
 }
 
-- (void)adjustFontSize:(UILabel*)label {
-    CGRect descriptionRect;
-    BOOL done = NO;
-    CGFloat startSize = label.font.pointSize - 1;
-    CGFloat endSize = startSize - 2;
-    while (!done && startSize >= endSize) {
-        descriptionRect = [label.text  boundingRectWithSize:CGSizeMake(label.bounds.size.width, NSIntegerMax)
-                                                                    options:NSStringDrawingUsesLineFragmentOrigin
-                                                                 attributes:@{NSFontAttributeName:label.font}
-                                                                    context:nil];
-        CGSize descriptionSize = descriptionRect.size;
-        if (descriptionSize.height > label.bounds.size.height) {
-            label.font = [UIFont systemFontOfSize:startSize];
-        }
-        else {
-            done = YES;
-        }
-        startSize --;
-    }
+- (void)setAutomaticLabelHeight:(UILabel*)label {
+    CGRect frame = label.frame;
+    frame.size.height = [Utilities getSizeOfLabel:label].height;
+    label.frame = frame;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -393,37 +378,49 @@
     UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
-        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellHeight / 2 - 11, self.view.bounds.size.width - cellLabelOffset - 38, 22)];
+        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
+                                                                       (CELL_HEIGHT_DEFAULT - LABEL_HEIGHT_DEFAULT) / 2,
+                                                                       cell.frame.size.width - 2 * PADDING_HORIZONTAL,
+                                                                       LABEL_HEIGHT_DEFAULT)];
         cellLabel.tag = SETTINGS_CELL_LABEL;
-        cellLabel.font = [UIFont systemFontOfSize:18];
+        cellLabel.font = [UIFont systemFontOfSize:16];
         cellLabel.adjustsFontSizeToFitWidth = YES;
-        cellLabel.minimumScaleFactor = 12.0 / 18.0;
+        cellLabel.minimumScaleFactor = 12.0 / 16.0;
         cellLabel.textColor = [Utilities get1stLabelColor];
         cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
+        cellLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:cellLabel];
         
         UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
         onoff.tag = SETTINGS_CELL_ONOFF_SWITCH;
+        onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-        onoff.frame = CGRectMake(self.view.bounds.size.width - onoff.frame.size.width - 12, cellHeight / 2 - onoff.frame.size.height / 2 + 20, onoff.frame.size.width, onoff.frame.size.height);
-        [cell.contentView addSubview: onoff];
+        [cell.contentView addSubview:onoff];
 
-        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, 54, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, cellHeight - 54 - 10)];
+        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
+                                                                              0,
+                                                                              cell.frame.size.width - 2 * PADDING_HORIZONTAL,
+                                                                              LABEL_HEIGHT_DEFAULT)];
         descriptionLabel.tag = SETTINGS_CELL_DESCRIPTION;
-        descriptionLabel.font = [UIFont systemFontOfSize:12];
+        descriptionLabel.font = [UIFont systemFontOfSize:14];
         descriptionLabel.adjustsFontSizeToFitWidth = YES;
         descriptionLabel.numberOfLines = 0;
-        descriptionLabel.minimumScaleFactor = 11.0 / 12.0;
+        descriptionLabel.minimumScaleFactor = 12.0 / 14.0;
         descriptionLabel.textColor = [Utilities get2ndLabelColor];
         descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        descriptionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:descriptionLabel];
         
-        OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 20)];
-        slider.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
+                                                                      0,
+                                                                      cell.frame.size.width - 2 * SLIDER_PADDING,
+                                                                      SLIDER_HEIGHT)];
         [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
         slider.backgroundColor = UIColor.clearColor;
+        slider.minimumTrackTintColor = KODI_BLUE_COLOR;
         slider.continuous = YES;
         slider.tag = SETTINGS_CELL_SLIDER;
+        slider.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventEditingDidEnd];
         [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchCancel];
         [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchUpInside];
@@ -431,8 +428,10 @@
         [slider addTarget:self action:@selector(startUpdateSlider:) forControlEvents:UIControlEventTouchDown];
         [cell.contentView addSubview:slider];
         
-        int uiSliderLabelWidth = cell.frame.size.width - 14 * 2;
-        UILabel *uiSliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - uiSliderLabelWidth / 2, slider.frame.origin.y - 28, uiSliderLabelWidth, 20)];
+        UILabel *uiSliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
+                                                                           0,
+                                                                           cell.frame.size.width - 2 * SLIDER_PADDING,
+                                                                           LABEL_HEIGHT_DEFAULT)];
         uiSliderLabel.tag = SETTINGS_CELL_SLIDER_LABEL;
         uiSliderLabel.textAlignment = NSTextAlignmentCenter;
         uiSliderLabel.font = [UIFont systemFontOfSize:14];
@@ -440,10 +439,13 @@
         uiSliderLabel.minimumScaleFactor = 12.0 / 14.0;
         uiSliderLabel.textColor = [Utilities get2ndLabelColor];
         uiSliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        uiSliderLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:uiSliderLabel];
         
-        UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(14, cellHeight - 20 - 20, cell.frame.size.width - 14 * 2, 30)];
-        textInputField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
+                                                                                    0,
+                                                                                    cell.frame.size.width - 2 * SLIDER_PADDING,
+                                                                                    TEXTFIELD_HEIGHT)];
         textInputField.borderStyle = UITextBorderStyleRoundedRect;
         textInputField.textAlignment = NSTextAlignmentCenter;
         textInputField.font = [UIFont systemFontOfSize:15];
@@ -455,6 +457,7 @@
         textInputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textInputField.delegate = self;
         textInputField.tag = SETTINGS_CELL_TEXTFIELD;
+        textInputField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:textInputField];
 	}
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -472,28 +475,41 @@
     onoff.hidden = YES;
     textInputField.hidden = YES;
     
-    NSString *cellText = @"";
     NSString *stringFormat = @"%i";
     NSString *descriptionString = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
     descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
     switch (xbmcSetting) {
-            
         case cSwitch:
-    
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             descriptionLabel.hidden = NO;
-            cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
-            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - onoff.frame.size.width - cellLabelOffset * 3, 44);
-            cellLabel.numberOfLines = 2;
-            descriptionLabel.text = descriptionString;
-            [self adjustFontSize:descriptionLabel];
             onoff.hidden = NO;
+            
+            cellLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
+            cellLabel.numberOfLines = 0;
+            cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                         PADDING_VERTICAL,
+                                         cell.bounds.size.width - onoff.frame.size.width - 3 * PADDING_HORIZONTAL,
+                                         LABEL_HEIGHT_DEFAULT);
+            [self setAutomaticLabelHeight:cellLabel];
+            
             onoff.on = [self.detailItem[@"value"] boolValue];
+            onoff.frame = CGRectMake(cell.bounds.size.width - onoff.frame.size.width - PADDING_HORIZONTAL,
+                                     (CGRectGetHeight(cellLabel.frame) - CGRectGetHeight(onoff.frame)) / 2 + CGRectGetMinY(cellLabel.frame),
+                                     CGRectGetWidth(onoff.frame),
+                                     CGRectGetHeight(onoff.frame));
+            
+            descriptionLabel.text = descriptionString;
+            descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                                CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL,
+                                                cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                LABEL_HEIGHT_DEFAULT);
+            [self setAutomaticLabelHeight:descriptionLabel];
+            
+            cellHeight = CGRectGetMaxY(descriptionLabel.frame) + PADDING_VERTICAL;
             break;
             
         case cList:
-            
-            cellText = [NSString stringWithFormat:@"%@", settingOptions[indexPath.row][@"label"]];
+            cellLabel.text = [NSString stringWithFormat:@"%@", settingOptions[indexPath.row][@"label"]];
             if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
                 if ([self.detailItem[@"value"] containsObject:settingOptions[indexPath.row][@"value"]]) {
                     cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -505,49 +521,83 @@
             break;
             
         case cSlider:
-            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             slider.hidden = NO;
             sliderLabel.hidden = NO;
             descriptionLabel.hidden = NO;
-            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset * 2, 46);
-            cellLabel.numberOfLines = 2;
-            cellLabel.textAlignment = NSTextAlignmentCenter;
-            cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
-            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - cellLabelOffset * 2, 116);
+            cellLabel.textAlignment = NSTextAlignmentCenter;
+            cellLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
+            cellLabel.numberOfLines = 0;
+            cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                         PADDING_VERTICAL,
+                                         cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                         LABEL_HEIGHT_DEFAULT);
+            [self setAutomaticLabelHeight:cellLabel];
+            
             descriptionLabel.textAlignment = NSTextAlignmentCenter;
-            descriptionLabel.numberOfLines = 8;
-            descriptionLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
-            [self adjustFontSize:descriptionLabel];
+            descriptionLabel.text = descriptionString;
+            descriptionLabel.numberOfLines = 0;
+            descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                                CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL,
+                                                cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                LABEL_HEIGHT_DEFAULT);
+            [self setAutomaticLabelHeight:descriptionLabel];
+            
+            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
+            sliderLabel.text = [NSString stringWithFormat:stringFormat, [self.detailItem[@"value"] intValue]];
+            sliderLabel.frame = CGRectMake(CGRectGetMinX(sliderLabel.frame),
+                                           CGRectGetMaxY(descriptionLabel.frame) + 2 * PADDING_VERTICAL,
+                                           CGRectGetWidth(sliderLabel.frame),
+                                           LABEL_HEIGHT_DEFAULT);
+            [self setAutomaticLabelHeight:sliderLabel];
+            
             slider.minimumValue = [self.detailItem[@"minimum"] intValue];
             slider.maximumValue = [self.detailItem[@"maximum"] intValue];
             slider.value = [self.detailItem[@"value"] intValue];
-            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
-            sliderLabel.text = [NSString stringWithFormat:stringFormat, [self.detailItem[@"value"] intValue]];
+            slider.frame = CGRectMake(CGRectGetMinX(slider.frame),
+                                      CGRectGetMaxY(sliderLabel.frame) + PADDING_VERTICAL,
+                                      CGRectGetWidth(slider.frame),
+                                      CGRectGetHeight(slider.frame));
+            
+            cellHeight = CGRectGetMaxY(slider.frame) + 2 * PADDING_VERTICAL;
             break;
             
         case cInput:
-            
             descriptionLabel.hidden = NO;
             textInputField.hidden = NO;
-            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset * 2, 46);
-            cellLabel.numberOfLines = 2;
-            cellLabel.textAlignment = NSTextAlignmentCenter;
-            cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
             
-            descriptionLabel.frame = CGRectMake(descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y + 2, self.view.bounds.size.width - cellLabelOffset * 2, 74);
+            cellLabel.textAlignment = NSTextAlignmentCenter;
+            cellLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
+            cellLabel.numberOfLines = 0;
+            cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                         PADDING_VERTICAL,
+                                         cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                         LABEL_HEIGHT_DEFAULT);
+            [self setAutomaticLabelHeight:cellLabel];
+            
             descriptionLabel.textAlignment = NSTextAlignmentCenter;
-            descriptionLabel.numberOfLines = 5;
             descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[B]" withString:@""];
             descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[/B]" withString:@""];
             descriptionLabel.text = descriptionString;
-            [self adjustFontSize:descriptionLabel];
+            descriptionLabel.numberOfLines = 0;
+            descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                                CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL,
+                                                cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                LABEL_HEIGHT_DEFAULT);
+            [self setAutomaticLabelHeight:descriptionLabel];
+            
             textInputField.text = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
+            textInputField.frame = CGRectMake(CGRectGetMinX(textInputField.frame),
+                                              CGRectGetMaxY(descriptionLabel.frame) + PADDING_VERTICAL,
+                                              CGRectGetWidth(textInputField.frame),
+                                              CGRectGetHeight(textInputField.frame));
+            
+            cellHeight = CGRectGetMaxY(textInputField.frame) + PADDING_VERTICAL;
             break;
             
-        case cDefault | cMultiselect:
-            
+        case cDefault:
+        case cMultiselect:
             if (self.detailItem[@"value"] != nil) {
                 if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
                     NSString *delimiter = self.detailItem[@"delimiter"];
@@ -560,37 +610,56 @@
                     NSArray *settingsArray = self.detailItem[@"value"];
                     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:YES];
                     settingsArray = [settingsArray sortedArrayUsingDescriptors:@[descriptor]];
-                    cellText = [settingsArray componentsJoinedByString:delimiter];
+                    cellLabel.text = [settingsArray componentsJoinedByString:delimiter];
                 }
                 else {
-                    cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
+                    cellLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
                 }
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                
+                cellLabel.text = cellLabel.text.length ? cellLabel.text : descriptionString;
+                cellLabel.numberOfLines = 0;
+                cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                             PADDING_VERTICAL,
+                                             cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                             LABEL_HEIGHT_DEFAULT);
+                [self setAutomaticLabelHeight:cellLabel];
+                
+                cellHeight = CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL;
             }
             break;
             
         case cUnsupported:
-            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cellLabel.frame = CGRectMake(cellLabelOffset, 8, self.view.bounds.size.width - cellLabelOffset * 2, cellHeight - 8);
-            cellLabel.numberOfLines = 10;
-            cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
+            
+            cellLabel.text = descriptionString;
+            cellLabel.numberOfLines = 0;
+            cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                         PADDING_VERTICAL,
+                                         cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                         LABEL_HEIGHT_DEFAULT);
+            [self setAutomaticLabelHeight:cellLabel];
+            
+            cellHeight = CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL;
             break;
             
         default:
             if (self.detailItem[@"value"] != nil) {
-                cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                
+                cellLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
+                cellLabel.text = cellLabel.text.length ? cellLabel.text : descriptionString;
+                cellLabel.numberOfLines = 0;
+                cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                             PADDING_VERTICAL,
+                                             cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                             LABEL_HEIGHT_DEFAULT);
+                [self setAutomaticLabelHeight:cellLabel];
+                
+                cellHeight = CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL;
             }
             break;
     }
-
-    if (!cellText.length) {
-        cellText = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
-    }
-
-    cellLabel.text = cellText;
-
     return cell;
 }
 
@@ -673,10 +742,13 @@
 - (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
 //    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
     UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
-    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
+    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
+                                                                          PADDING_VERTICAL,
+                                                                          self.view.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                                          LABEL_HEIGHT_DEFAULT)];
     descriptionLabel.font = [UIFont systemFontOfSize:12];
     descriptionLabel.backgroundColor = UIColor.clearColor;
-    descriptionLabel.numberOfLines = 20;
+    descriptionLabel.numberOfLines = 0;
     descriptionLabel.textColor = UIColor.whiteColor;
     descriptionLabel.textAlignment = NSTextAlignmentCenter;
     descriptionLabel.highlightedTextColor = UIColor.whiteColor;
@@ -687,14 +759,12 @@
     else {
         helpView.backgroundColor = [Utilities getGrayColor:45 alpha:0.95];
     }
-    CGRect descriptionRect = [descriptionLabel.text  boundingRectWithSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax)
-                                                                  options:NSStringDrawingUsesLineFragmentOrigin
-                                                               attributes:@{NSFontAttributeName:descriptionLabel.font}
-                                                                  context:nil];
-    CGSize descriptionSize = descriptionRect.size;
     
-    descriptionLabel.frame = CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, descriptionSize.height);
-    footerHeight = descriptionSize.height + cellLabelOffset * 2;
+    descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                        PADDING_VERTICAL,
+                                        self.view.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                        [self getLabelHeight:descriptionLabel]);
+    footerHeight = CGRectGetHeight(descriptionLabel.frame) + 2 * PADDING_VERTICAL;
     [helpView addSubview:descriptionLabel];
     return helpView;
 //    }
@@ -706,17 +776,19 @@
 - (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
 //    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
         if (footerHeight < 0) {
-            UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(cellLabelOffset, cellLabelOffset, self.view.bounds.size.width - cellLabelOffset * 2, 50)];
+            UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
+                                                                                  PADDING_VERTICAL,
+                                                                                  self.view.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                                                  LABEL_HEIGHT_DEFAULT)];
             descriptionLabel.font = [UIFont systemFontOfSize:12];
-            descriptionLabel.numberOfLines = 20;
+            descriptionLabel.numberOfLines = 0;
             descriptionLabel.textAlignment = NSTextAlignmentCenter;
             descriptionLabel.text = [footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
-            CGRect descriptionRect = [descriptionLabel.text  boundingRectWithSize:CGSizeMake(descriptionLabel.bounds.size.width, NSIntegerMax)
-                                                                          options:NSStringDrawingUsesLineFragmentOrigin
-                                                                       attributes:@{NSFontAttributeName:descriptionLabel.font}
-                                                                          context:nil];
-            CGSize descriptionSize = descriptionRect.size;
-            footerHeight = descriptionSize.height + cellLabelOffset * 2;
+            descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                                PADDING_VERTICAL,
+                                                self.view.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                [self getLabelHeight:descriptionLabel]);
+            footerHeight = CGRectGetHeight(descriptionLabel.frame) + 2 * PADDING_HORIZONTAL;
         }
         return footerHeight;
 //    }
