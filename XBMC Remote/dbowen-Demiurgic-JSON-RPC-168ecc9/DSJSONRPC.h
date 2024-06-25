@@ -40,6 +40,9 @@
 #import <Foundation/Foundation.h>
 #import "DSJSONRPCError.h"
 
+#define JSONRPC_TIMEOUT_MAX 3600
+#define JSONRPC_TIMEOUT_DEFAULT 2
+
 @class DSJSONRPC;
 
 /**

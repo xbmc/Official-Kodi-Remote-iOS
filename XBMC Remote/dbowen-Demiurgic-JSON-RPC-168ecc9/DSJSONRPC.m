@@ -40,7 +40,6 @@
 #import "AppDelegate.h"
 
 #define RPC_DOMAIN @"it.joethefox.json-rpc"
-#define MAX_SECONDS_JSONRPC_TIMEOUT 3600
 
 @interface DSJSONRPC () // Private
 @property (nonatomic, copy) NSURL *serviceEndpoint;
@@ -162,7 +161,7 @@
     [serviceRequest setValue:[NSString stringWithFormat:@"%i", (int)postData.length] forHTTPHeaderField:@"Content-Length"];
     serviceRequest.HTTPMethod = @"POST";
     serviceRequest.HTTPBody = postData;
-    serviceRequest.timeoutInterval = (timeout > 0) ? timeout : MAX_SECONDS_JSONRPC_TIMEOUT;
+    serviceRequest.timeoutInterval = (timeout > 0) ? timeout : JSONRPC_TIMEOUT_MAX;
     
     // Perform the JSON-RPC method call
     NSURLSessionDataTask *rpcDataTask = [self.rpcSession dataTaskWithRequest:serviceRequest];
