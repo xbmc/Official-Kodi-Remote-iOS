@@ -1340,7 +1340,7 @@
                 // 2. Then reload the playlist data
                 [playlistTableView reloadData];
                 if (musicPartyMode && currentPlaylistID == PLAYERID_MUSIC) {
-                    [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+                    [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
                 }
                 [UIView animateWithDuration:0.2
                                       delay:0.0
@@ -1355,7 +1355,7 @@
         else {
             [playlistTableView reloadData];
             if (musicPartyMode && currentPlaylistID == PLAYERID_MUSIC) {
-                [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+                [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
             }
         }
     }
@@ -2584,7 +2584,7 @@
     [self editTable:nil forceClose:YES];
     if (playlistData.count && (playlistTableView.dragging || playlistTableView.decelerating)) {
         NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
-        [playlistTableView scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [playlistTableView scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     }
     switch (segment.selectedSegmentIndex) {
         case PLAYERID_MUSIC:
