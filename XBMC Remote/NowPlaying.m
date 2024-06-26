@@ -1322,8 +1322,6 @@
     }
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
     [self setPlaylistCellProgressBar:cell hidden:YES];
-    UIImageView *coverView = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
-    coverView.alpha = 1.0;
 }
 
 - (void)showPlaylistTableAnimated:(BOOL)animated {
@@ -2177,8 +2175,6 @@
 
 - (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
-    UIImageView *coverView = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
-    coverView.alpha = 1.0;
     storeSelection = nil;
     [self setPlaylistCellProgressBar:cell hidden:YES];
 }
