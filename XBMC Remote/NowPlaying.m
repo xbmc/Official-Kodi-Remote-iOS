@@ -731,8 +731,11 @@
     }
     
     // If no playlist is selected yet in the UI, set it to the player's id and update the playlist.
+    // Active slideshows can use video and picture players. If we start with an active slideshow
+    // and do not have the music player active, we force the playlist to picture playlist to deal
+    // with potentially running slideshow videos.
     if (currentPlaylistID == PLAYERID_UNKNOWN) {
-        currentPlaylistID = activePlayerID;
+        currentPlaylistID = (isSlideshowActive && currentPlayerID != PLAYERID_MUSIC) ? PLAYERID_PICTURES : activePlayerID;
         [self createPlaylistAnimated:YES];
     }
     
