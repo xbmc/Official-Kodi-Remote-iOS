@@ -287,16 +287,13 @@
     return;
 }
 
-- (void)setPlaylistCellProgressBar:(UITableViewCell*)cell hidden:(BOOL)value {
+- (void)setPlaylistCellProgressBar:(UITableViewCell*)cell hidden:(BOOL)hidden {
     // Do not unhide the playlist progress bar while in pictures playlist
     UIView *view = (UIView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSVIEW];
-    if (!value && currentPlaylistID == PLAYERID_PICTURES) {
-        return;
+    if (currentPlaylistID == PLAYERID_PICTURES || currentPlaylistID != currentPlayerID) {
+        hidden = YES;
     }
-    if (value == view.hidden) {
-        return;
-    }
-    view.hidden = value;
+    view.hidden = hidden;
 }
 
 - (UIImage*)resizeImage:(UIImage*)image width:(int)destWidth height:(int)destHeight padding:(int)destPadding {
