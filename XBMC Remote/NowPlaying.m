@@ -718,6 +718,9 @@
     // Get active player from list
     int activePlayerID = [Utilities getActivePlayerID:activePlayerList];
     
+    // Get status of slideshow
+    isSlideshowActive = [self getSlideshowState:activePlayerList];
+    
     // Set the current playerid. This is used to gather current played item's metadata.
     currentPlayerID = activePlayerID;
     if (currentPlayerID == PLAYERID_UNKNOWN || currentPlayerID != lastPlayerID) {
@@ -737,6 +740,16 @@
     if (songDetailsView.alpha && !waitForInfoLabelsToSettle) {
         [self loadCodecView];
     }
+}
+
+- (BOOL)getSlideshowState:(NSArray*)activePlayerList {
+    // Detect, if there is an active slideshow running in Kodi.
+    for (id activePlayer in activePlayerList) {
+        if ([activePlayer[@"playerid"] intValue] == PLAYERID_PICTURES) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (void)getPlayerItems {
