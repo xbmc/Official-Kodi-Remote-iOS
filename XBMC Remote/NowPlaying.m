@@ -482,7 +482,7 @@
     hiresImage.hidden = YES;
     musicPartyMode = NO;
     [self notifyChangeForBackgroundImage:nil coverImage:nil];
-    [self hidePlaylistProgressbarWithDeselect:YES];
+    [self deselectPlaylistItem];
     [self showPlaylistTableAnimated:NO];
     [self toggleSongDetails];
     
@@ -1312,14 +1312,12 @@
     [self setPlaylistCellProgressBar:cell hidden:NO];
 }
 
-- (void)hidePlaylistProgressbarWithDeselect:(BOOL)deselect {
+- (void)deselectPlaylistItem {
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     if (!selection) {
         return;
     }
-    if (deselect) {
-        [playlistTableView deselectRowAtIndexPath:selection animated:YES];
-    }
+    [playlistTableView deselectRowAtIndexPath:selection animated:YES];
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
     [self setPlaylistCellProgressBar:cell hidden:YES];
 }
