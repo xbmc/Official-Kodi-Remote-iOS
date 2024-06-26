@@ -177,7 +177,7 @@
     label.hidden = imageView.image != nil;
 }
 
-- (NSString*)processSongCodecName:(NSString*)codec {
+- (NSString*)processAudioCodecName:(NSString*)codec {
     if ([codec rangeOfString:@"musepack"].location != NSNotFound) {
         codec = [codec stringByReplacingOccurrencesOfString:@"musepack" withString:@"mpc"];
     }
@@ -993,7 +993,7 @@
              itemDescription.textAlignment = NSTextAlignmentJustified;
              if (currentPlayerID == PLAYERID_MUSIC) {
                  NSString *codec = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
-                 codec = [self processSongCodecName:codec];
+                 codec = [self processAudioCodecName:codec];
                  [self setSongDetails:songCodec image:songCodecImage item:codec];
                  
                  NSString *channels = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Channels"]];
@@ -1032,9 +1032,11 @@
                  itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
              }
              else if (currentPlayerID == PLAYERID_VIDEO) {
+                 NSString *codec = [Utilities getStringFromItem:methodResult[@"VideoPlayer.AudioCodec"]];
+                 codec = [self processAudioCodecName:codec];
+                 [self setSongDetails:songNumChannels image:songNumChanImage item:codec];
                  [self setSongDetails:songCodec image:songCodecImage item:methodResult[@"VideoPlayer.VideoResolution"]];
                  [self setSongDetails:songSampleRate image:songSampleRateImage item:methodResult[@"VideoPlayer.VideoCodec"]];
-                 [self setSongDetails:songNumChannels image:songNumChanImage item:methodResult[@"VideoPlayer.AudioCodec"]];
                  
                  NSString *aspect = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoAspect"]];
                  aspect = [self processAspectString:aspect];
