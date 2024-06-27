@@ -119,7 +119,10 @@
             footerMessage = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"] ?: self.detailItem[@"label"]];
         }
         if (xbmcSetting != cUnsupported) {
-            footerMessage = [NSString stringWithFormat:@"%@\xE2\x84\xB9 %@", footerMessage == nil ? @"" : [NSString stringWithFormat:@"%@\n\n", footerMessage], LOCALIZED_STR(@"Tap and hold a setting to add a new button.")];
+            footerMessage = [NSString stringWithFormat:@"%@%@ⓘ %@",
+                             footerMessage.length ? footerMessage : @"",
+                             footerMessage.length ? @"\n\n" : @"",
+                             LOCALIZED_STR(@"Tap and hold a setting to add a new button.")];
         }
         
         footerDescription = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
