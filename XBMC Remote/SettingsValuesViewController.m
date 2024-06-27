@@ -151,7 +151,7 @@
                                                                  0,
                                                                  frame.size.width,
                                                                  SCRUBBINGVIEW_HEIGHT)];
-        scrubbingView.backgroundColor = [Utilities getGrayColor:0 alpha:0.9];
+        scrubbingView.backgroundColor = [Utilities getGrayColor:0 alpha:0.8];
         scrubbingView.alpha = 0.0;
         
         scrubbingMessage = [[UILabel alloc] initWithFrame:CGRectMake(SCRUBBINGTEXT_PADDING,
@@ -161,7 +161,7 @@
         scrubbingMessage.backgroundColor = UIColor.clearColor;
         scrubbingMessage.font = [UIFont boldSystemFontOfSize:13];
         scrubbingMessage.adjustsFontSizeToFitWidth = YES;
-        scrubbingMessage.minimumScaleFactor = 10.0 / 13.0;
+        scrubbingMessage.minimumScaleFactor = 0.8;
         scrubbingMessage.textColor = UIColor.whiteColor;
         scrubbingMessage.text = LOCALIZED_STR(@"Slide your finger up or down to adjust the scrubbing rate.");
         scrubbingMessage.textAlignment = NSTextAlignmentCenter;
@@ -173,7 +173,9 @@
                                                                   SCRUBBINGTEXT_HEIGHT)];
         scrubbingRate.backgroundColor = UIColor.clearColor;
         scrubbingRate.font = [UIFont boldSystemFontOfSize:13];
-        scrubbingRate.textColor = UIColor.grayColor;
+        scrubbingRate.adjustsFontSizeToFitWidth = YES;
+        scrubbingRate.minimumScaleFactor = 0.8;
+        scrubbingRate.textColor = UIColor.lightGrayColor;
         scrubbingRate.textAlignment = NSTextAlignmentCenter;
         scrubbingRate.text = LOCALIZED_STR(@"Scrubbing 1");
         [scrubbingView addSubview:scrubbingRate];
