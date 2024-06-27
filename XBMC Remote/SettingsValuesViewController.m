@@ -494,6 +494,7 @@
     NSString *stringFormat = @"%i";
     NSString *descriptionString = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
     descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
+    descriptionString = [Utilities stripBBandHTML:descriptionString];
     switch (xbmcSetting) {
         case cSwitch:
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -593,8 +594,6 @@
             [self setAutomaticLabelHeight:cellLabel];
             
             descriptionLabel.textAlignment = NSTextAlignmentCenter;
-            descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[B]" withString:@""];
-            descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[/B]" withString:@""];
             descriptionLabel.text = descriptionString;
             descriptionLabel.numberOfLines = 0;
             descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
