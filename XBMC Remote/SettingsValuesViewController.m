@@ -749,10 +749,10 @@
 - (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
     UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
     if (xbmcSetting == cUnsupported) {
-        helpView.backgroundColor = [Utilities getSystemRed:1.0];
+        helpView.backgroundColor = [Utilities getSystemRed:0.95];
     }
     else {
-        helpView.backgroundColor = [Utilities getGrayColor:45 alpha:0.95];
+        helpView.backgroundColor = TOOLBAR_TINT_COLOR;
     }
     [helpView addSubview:footerDescription];
     return helpView;
