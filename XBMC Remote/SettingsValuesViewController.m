@@ -76,7 +76,6 @@
         }
         else if ([itemControls[@"format"] isEqualToString:@"addon"]) {
             xbmcSetting = cList;
-            _tableView.frame = CGRectMake(self.view.frame.size.width, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height);
             self.navigationItem.title = self.detailItem[@"label"];
             settingOptions = [NSMutableArray new];
             [self retrieveXBMCData:@"Addons.GetAddons"
