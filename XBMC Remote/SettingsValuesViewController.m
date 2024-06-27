@@ -643,19 +643,19 @@
         [slider addTarget:self action:@selector(startUpdateSlider:) forControlEvents:UIControlEventTouchDown];
         [cell.contentView addSubview:slider];
         
-        UILabel *uiSliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
+        UILabel *sliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
                                                                            0,
                                                                            cell.frame.size.width - 2 * SLIDER_PADDING,
                                                                            LABEL_HEIGHT_DEFAULT)];
-        uiSliderLabel.tag = SETTINGS_CELL_SLIDER_LABEL;
-        uiSliderLabel.textAlignment = NSTextAlignmentCenter;
-        uiSliderLabel.font = [UIFont systemFontOfSize:14];
-        uiSliderLabel.adjustsFontSizeToFitWidth = YES;
-        uiSliderLabel.minimumScaleFactor = 12.0 / 14.0;
-        uiSliderLabel.textColor = [Utilities get2ndLabelColor];
-        uiSliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-        uiSliderLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        [cell.contentView addSubview:uiSliderLabel];
+        sliderLabel.tag = SETTINGS_CELL_SLIDER_LABEL;
+        sliderLabel.textAlignment = NSTextAlignmentCenter;
+        sliderLabel.font = [UIFont systemFontOfSize:14];
+        sliderLabel.adjustsFontSizeToFitWidth = YES;
+        sliderLabel.minimumScaleFactor = 12.0 / 14.0;
+        sliderLabel.textColor = [Utilities get2ndLabelColor];
+        sliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        sliderLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        [cell.contentView addSubview:sliderLabel];
         
         UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
                                                                                     0,
