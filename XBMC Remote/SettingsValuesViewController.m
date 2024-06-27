@@ -381,101 +381,6 @@
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
 	cell.backgroundColor = [Utilities getSystemGray6];
-}
-
-- (void)setAutomaticLabelHeight:(UILabel*)label {
-    CGRect frame = label.frame;
-    frame.size.height = [Utilities getSizeOfLabel:label].height;
-    label.frame = frame;
-}
-
-- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    static NSString *tableCellIdentifier = @"UITableViewCell";
-    UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
-        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
-                                                                       (CELL_HEIGHT_DEFAULT - LABEL_HEIGHT_DEFAULT) / 2,
-                                                                       cell.frame.size.width - 2 * PADDING_HORIZONTAL,
-                                                                       LABEL_HEIGHT_DEFAULT)];
-        cellLabel.tag = SETTINGS_CELL_LABEL;
-        cellLabel.font = [UIFont systemFontOfSize:16];
-        cellLabel.adjustsFontSizeToFitWidth = YES;
-        cellLabel.minimumScaleFactor = 12.0 / 16.0;
-        cellLabel.textColor = [Utilities get1stLabelColor];
-        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
-        cellLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        [cell.contentView addSubview:cellLabel];
-        
-        UISwitch *onoff = [[UISwitch alloc] initWithFrame:CGRectZero];
-        onoff.tag = SETTINGS_CELL_ONOFF_SWITCH;
-        onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-        [cell.contentView addSubview:onoff];
-
-        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
-                                                                              0,
-                                                                              cell.frame.size.width - 2 * PADDING_HORIZONTAL,
-                                                                              LABEL_HEIGHT_DEFAULT)];
-        descriptionLabel.tag = SETTINGS_CELL_DESCRIPTION;
-        descriptionLabel.font = [UIFont systemFontOfSize:14];
-        descriptionLabel.adjustsFontSizeToFitWidth = YES;
-        descriptionLabel.numberOfLines = 0;
-        descriptionLabel.minimumScaleFactor = 12.0 / 14.0;
-        descriptionLabel.textColor = [Utilities get2ndLabelColor];
-        descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-        descriptionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        [cell.contentView addSubview:descriptionLabel];
-        
-        OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
-                                                                      0,
-                                                                      cell.frame.size.width - 2 * SLIDER_PADDING,
-                                                                      SLIDER_HEIGHT)];
-        [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
-        slider.backgroundColor = UIColor.clearColor;
-        slider.minimumTrackTintColor = KODI_BLUE_COLOR;
-        slider.continuous = YES;
-        slider.tag = SETTINGS_CELL_SLIDER;
-        slider.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventEditingDidEnd];
-        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchCancel];
-        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchUpInside];
-        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchUpOutside];
-        [slider addTarget:self action:@selector(startUpdateSlider:) forControlEvents:UIControlEventTouchDown];
-        [cell.contentView addSubview:slider];
-        
-        UILabel *uiSliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
-                                                                           0,
-                                                                           cell.frame.size.width - 2 * SLIDER_PADDING,
-                                                                           LABEL_HEIGHT_DEFAULT)];
-        uiSliderLabel.tag = SETTINGS_CELL_SLIDER_LABEL;
-        uiSliderLabel.textAlignment = NSTextAlignmentCenter;
-        uiSliderLabel.font = [UIFont systemFontOfSize:14];
-        uiSliderLabel.adjustsFontSizeToFitWidth = YES;
-        uiSliderLabel.minimumScaleFactor = 12.0 / 14.0;
-        uiSliderLabel.textColor = [Utilities get2ndLabelColor];
-        uiSliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-        uiSliderLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        [cell.contentView addSubview:uiSliderLabel];
-        
-        UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
-                                                                                    0,
-                                                                                    cell.frame.size.width - 2 * SLIDER_PADDING,
-                                                                                    TEXTFIELD_HEIGHT)];
-        textInputField.borderStyle = UITextBorderStyleRoundedRect;
-        textInputField.textAlignment = NSTextAlignmentCenter;
-        textInputField.font = [UIFont systemFontOfSize:15];
-        textInputField.placeholder = LOCALIZED_STR(@"enter value");
-        textInputField.autocorrectionType = UITextAutocorrectionTypeNo;
-        textInputField.keyboardType = UIKeyboardTypeDefault;
-        textInputField.returnKeyType = UIReturnKeyDefault;
-        textInputField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        textInputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        textInputField.delegate = self;
-        textInputField.tag = SETTINGS_CELL_TEXTFIELD;
-        textInputField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        [cell.contentView addSubview:textInputField];
-	}
     cell.accessoryType = UITableViewCellAccessoryNone;
 
     UILabel *cellLabel = (UILabel*)[cell viewWithTag:SETTINGS_CELL_LABEL];
@@ -675,6 +580,101 @@
             }
             break;
     }
+}
+
+- (void)setAutomaticLabelHeight:(UILabel*)label {
+    CGRect frame = label.frame;
+    frame.size.height = [Utilities getSizeOfLabel:label].height;
+    label.frame = frame;
+}
+
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
+    static NSString *tableCellIdentifier = @"UITableViewCell";
+    UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
+        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
+                                                                       (CELL_HEIGHT_DEFAULT - LABEL_HEIGHT_DEFAULT) / 2,
+                                                                       cell.frame.size.width - 2 * PADDING_HORIZONTAL,
+                                                                       LABEL_HEIGHT_DEFAULT)];
+        cellLabel.tag = SETTINGS_CELL_LABEL;
+        cellLabel.font = [UIFont systemFontOfSize:16];
+        cellLabel.adjustsFontSizeToFitWidth = YES;
+        cellLabel.minimumScaleFactor = 12.0 / 16.0;
+        cellLabel.textColor = [Utilities get1stLabelColor];
+        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
+        cellLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        [cell.contentView addSubview:cellLabel];
+        
+        UISwitch *onoff = [[UISwitch alloc] initWithFrame:CGRectZero];
+        onoff.tag = SETTINGS_CELL_ONOFF_SWITCH;
+        onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
+        [cell.contentView addSubview:onoff];
+
+        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
+                                                                              0,
+                                                                              cell.frame.size.width - 2 * PADDING_HORIZONTAL,
+                                                                              LABEL_HEIGHT_DEFAULT)];
+        descriptionLabel.tag = SETTINGS_CELL_DESCRIPTION;
+        descriptionLabel.font = [UIFont systemFontOfSize:14];
+        descriptionLabel.adjustsFontSizeToFitWidth = YES;
+        descriptionLabel.numberOfLines = 0;
+        descriptionLabel.minimumScaleFactor = 12.0 / 14.0;
+        descriptionLabel.textColor = [Utilities get2ndLabelColor];
+        descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        descriptionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        [cell.contentView addSubview:descriptionLabel];
+        
+        OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
+                                                                      0,
+                                                                      cell.frame.size.width - 2 * SLIDER_PADDING,
+                                                                      SLIDER_HEIGHT)];
+        [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
+        slider.backgroundColor = UIColor.clearColor;
+        slider.minimumTrackTintColor = KODI_BLUE_COLOR;
+        slider.continuous = YES;
+        slider.tag = SETTINGS_CELL_SLIDER;
+        slider.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventEditingDidEnd];
+        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchCancel];
+        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchUpInside];
+        [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchUpOutside];
+        [slider addTarget:self action:@selector(startUpdateSlider:) forControlEvents:UIControlEventTouchDown];
+        [cell.contentView addSubview:slider];
+        
+        UILabel *uiSliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
+                                                                           0,
+                                                                           cell.frame.size.width - 2 * SLIDER_PADDING,
+                                                                           LABEL_HEIGHT_DEFAULT)];
+        uiSliderLabel.tag = SETTINGS_CELL_SLIDER_LABEL;
+        uiSliderLabel.textAlignment = NSTextAlignmentCenter;
+        uiSliderLabel.font = [UIFont systemFontOfSize:14];
+        uiSliderLabel.adjustsFontSizeToFitWidth = YES;
+        uiSliderLabel.minimumScaleFactor = 12.0 / 14.0;
+        uiSliderLabel.textColor = [Utilities get2ndLabelColor];
+        uiSliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        uiSliderLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        [cell.contentView addSubview:uiSliderLabel];
+        
+        UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
+                                                                                    0,
+                                                                                    cell.frame.size.width - 2 * SLIDER_PADDING,
+                                                                                    TEXTFIELD_HEIGHT)];
+        textInputField.borderStyle = UITextBorderStyleRoundedRect;
+        textInputField.textAlignment = NSTextAlignmentCenter;
+        textInputField.font = [UIFont systemFontOfSize:15];
+        textInputField.placeholder = LOCALIZED_STR(@"enter value");
+        textInputField.autocorrectionType = UITextAutocorrectionTypeNo;
+        textInputField.keyboardType = UIKeyboardTypeDefault;
+        textInputField.returnKeyType = UIReturnKeyDefault;
+        textInputField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textInputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        textInputField.delegate = self;
+        textInputField.tag = SETTINGS_CELL_TEXTFIELD;
+        textInputField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        [cell.contentView addSubview:textInputField];
+	}
     return cell;
 }
 
