@@ -60,12 +60,6 @@
         
         settingOptions = self.detailItem[@"options"];
         
-//        if (![settingOptions isKindOfClass:[NSArray class]]) {
-//            if ([self.detailItem[@"definition"] isKindOfClass:[NSDictionary class]]) {
-//                settingOptions = self.detailItem[@"definition"][@"options"];
-//            }
-//        }
-        
         if (![settingOptions isKindOfClass:[NSArray class]]) {
             settingOptions = nil;
         }
@@ -85,13 +79,13 @@
             _tableView.frame = CGRectMake(self.view.frame.size.width, _tableView.frame.origin.y, _tableView.frame.size.width, _tableView.frame.size.height);
             self.navigationItem.title = self.detailItem[@"label"];
             settingOptions = [NSMutableArray new];
-            [self retrieveXBMCData: @"Addons.GetAddons"
-                        parameters: [NSDictionary dictionaryWithObjectsAndKeys:
-                                     self.detailItem[@"addontype"], @"type",
-                                     @YES, @"enabled",
-                                     @[@"name"], @"properties",
-                                     nil]
-                           itemKey: @"addons"];
+            [self retrieveXBMCData:@"Addons.GetAddons"
+                        parameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                    self.detailItem[@"addontype"], @"type",
+                                    @YES, @"enabled",
+                                    @[@"name"], @"properties",
+                                    nil]
+                           itemKey:@"addons"];
         }
         else if ([itemControls[@"format"] isEqualToString:@"action"] || [itemControls[@"format"] isEqualToString:@"path"]) {
             self.navigationItem.title = self.detailItem[@"label"];
@@ -224,12 +218,15 @@
         case cList:
             subTitle = [NSString stringWithFormat:@": %@", settingOptions[longPressRow.row][@"label"]];
             break;
+            
         case cSlider:
             stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
             subTitle = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
             break;
+            
         case cUnsupported:
             return nil;
+            
         default:
             break;
     }
@@ -249,14 +246,16 @@
                 value = [NSString stringWithFormat:@"%@", settingOptions[longPressRow.row][@"value"]];
             }
             break;
+            
         case cSlider:
             value = @(storeSliderValue);
             break;
+            
         default:
             value = @"";
             break;
     }
-    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", value, @"value", nil];
+    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"id"], @"setting", value, @"value", nil];
     NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                alertView.textFields[0].text, @"label",
                                type, @"type",
@@ -279,7 +278,7 @@
     [arrayButtons saveData];
     [messagesView showMessage:LOCALIZED_STR(@"Button added") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
     if (IS_IPAD) {
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIInterfaceCustomButtonAdded" object:nil];
     }
 }
 
@@ -305,11 +304,10 @@
 }
 
 - (void)retrieveXBMCData:(NSString*)method parameters:(NSDictionary*)params itemKey:(NSString*)itemkey {
-    
     [activityIndicator startAnimating];
-    [[Utilities getJsonRPC] callMethod: method
-         withParameters: params
-           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+    [[Utilities getJsonRPC] callMethod:method
+                        withParameters:params
+                          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                [activityIndicator stopAnimating];
                if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc]
@@ -332,7 +330,7 @@
     return;
 }
 
-#pragma mark Helper
+#pragma mark - Helper
 
 - (NSString*)getStringFormatFromItem:(id)item defaultFormat:(NSString*)defaultFormat {
     // Workaround!! Before Kodi 18.x an older format ("%i ms") was used. The new format ("{0:d} ms") needs
@@ -344,7 +342,7 @@
     return defaultFormat;
 }
 
-#pragma mark Table view data source
+#pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     return cellHeight;
@@ -390,10 +388,10 @@
         cellLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:cellLabel];
         
-        UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectZero];
+        UISwitch *onoff = [[UISwitch alloc] initWithFrame:CGRectZero];
         onoff.tag = SETTINGS_CELL_ONOFF_SWITCH;
         onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        [onoff addTarget: self action: @selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
+        [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
         [cell.contentView addSubview:onoff];
 
         UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
@@ -662,7 +660,7 @@
     return cell;
 }
 
-#pragma mark Table view delegate
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -696,10 +694,10 @@
                 self.detailItem[@"value"] = settingOptions[selectedSetting.row][@"value"];
             }
             command = @"Settings.SetSettingValue";
-            params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
+            params = [NSDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
             [self xbmcAction:command params:params uiControl:_tableView];
-
             break;
+            
         case cMultiselect:
             if ([self.detailItem[@"definition"] isKindOfClass:[NSDictionary class]]) {
                 self.detailItem[@"definition"][@"value"] = self.detailItem[@"value"];
@@ -713,6 +711,7 @@
                 }
             }
             break;
+            
         default:
             selectedSetting = indexPath;
             break;
@@ -731,7 +730,6 @@
 }
 
 - (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
-//    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
     UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
                                                                           PADDING_VERTICAL,
@@ -758,14 +756,9 @@
     footerHeight = CGRectGetHeight(descriptionLabel.frame) + 2 * PADDING_VERTICAL;
     [helpView addSubview:descriptionLabel];
     return helpView;
-//    }
-//    else {
-//        return nil;
-//    }
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
-//    if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cUnsupported || xbmcSetting == cMultiselect) {
         if (footerHeight < 0) {
             UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
                                                                                   PADDING_VERTICAL,
@@ -782,10 +775,6 @@
             footerHeight = CGRectGetHeight(descriptionLabel.frame) + 2 * PADDING_HORIZONTAL;
         }
         return footerHeight;
-//    }
-//    else {
-//        return 0;
-//    }
 }
 - (NSIndexPath*)getCurrentSelectedOption:(NSArray*)optionList {
     NSIndexPath *foundIndex = nil;
@@ -818,7 +807,7 @@
     [Utilities alphaView:scrubbingView AnimDuration:0.3 Alpha:0.0];
     NSString *command = @"Settings.SetSettingValue";
     self.detailItem[@"value"] = @(storeSliderValue);
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:sender];
 }
 
@@ -837,13 +826,13 @@
     scrubbingRate.text = LOCALIZED_STR(([NSString stringWithFormat:@"Scrubbing %@", @(slider.scrubbingSpeed)]));
 }
 
-#pragma mark UISwitch
+#pragma mark - UISwitch
 
 - (void)toggleSwitch:(id)sender {
     UISwitch *onoff = (UISwitch*)sender;
     NSString *command = @"Settings.SetSettingValue";
     self.detailItem[@"value"] = @(onoff.on);
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:sender];
 }
 
@@ -861,7 +850,7 @@
     [textField resignFirstResponder];
     NSString *command = @"Settings.SetSettingValue";
     self.detailItem[@"value"] = [NSString stringWithFormat:@"%@", textField.text];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
     [self xbmcAction:command params:params uiControl:textField];
     return YES;
 }
@@ -873,8 +862,7 @@
 #pragma mark - LifeCycle
 
 - (void)dismissAddAction:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-    }];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -885,7 +873,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if ([self presentingViewController] != nil) {
-        UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
     if (xbmcSetting == cMultiselect) {
