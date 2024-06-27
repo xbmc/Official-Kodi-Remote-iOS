@@ -28,6 +28,9 @@
 #define TEXTFIELD_HEIGHT 30
 #define SLIDER_HEIGHT 20
 #define SLIDER_PADDING 14
+#define SCRUBBINGVIEW_HEIGHT 44
+#define SCRUBBINGTEXT_HEIGHT 18
+#define SCRUBBINGTEXT_PADDING 5
 
 @interface SettingsValuesViewController ()
 
@@ -144,26 +147,17 @@
         longPressGesture.delegate = self;
         [_tableView addGestureRecognizer:longPressGesture];
         
-        scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 44)];
-        scrubbingView.center = CGPointMake((int)(frame.size.width / 2), (int)(frame.size.height / 2) + 50);
+        scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 
+                                                                 0,
+                                                                 frame.size.width,
+                                                                 SCRUBBINGVIEW_HEIGHT)];
         scrubbingView.backgroundColor = [Utilities getGrayColor:0 alpha:0.9];
         scrubbingView.alpha = 0.0;
-        CGRect toolbarShadowFrame = CGRectMake(0, 44, self.view.frame.size.width, 4);
-        UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        toolbarShadow.image = [UIImage imageNamed:@"tableUp"];
-        toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        toolbarShadow.contentMode = UIViewContentModeScaleToFill;
-        toolbarShadow.opaque = YES;
-        [scrubbingView addSubview:toolbarShadow];
-        toolbarShadowFrame.origin.y = -4;
-        UIImageView *toolbarUpShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-        toolbarUpShadow.image = [UIImage imageNamed:@"tableDown"];
-        toolbarUpShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        toolbarUpShadow.contentMode = UIViewContentModeScaleToFill;
-        toolbarUpShadow.opaque = YES;
-        [scrubbingView addSubview:toolbarUpShadow];
         
-        scrubbingMessage = [[UILabel alloc] initWithFrame:CGRectMake(5, 3, frame.size.width - 10, 18)];
+        scrubbingMessage = [[UILabel alloc] initWithFrame:CGRectMake(SCRUBBINGTEXT_PADDING,
+                                                                     (SCRUBBINGVIEW_HEIGHT - 2 * SCRUBBINGTEXT_HEIGHT) / 2,
+                                                                     frame.size.width - 2 * SCRUBBINGTEXT_PADDING,
+                                                                     SCRUBBINGTEXT_HEIGHT)];
         scrubbingMessage.backgroundColor = UIColor.clearColor;
         scrubbingMessage.font = [UIFont boldSystemFontOfSize:13];
         scrubbingMessage.adjustsFontSizeToFitWidth = YES;
@@ -173,7 +167,10 @@
         scrubbingMessage.textAlignment = NSTextAlignmentCenter;
         [scrubbingView addSubview:scrubbingMessage];
         
-        scrubbingRate = [[UILabel alloc] initWithFrame:CGRectMake(5, 21, frame.size.width - 10, 18)];
+        scrubbingRate = [[UILabel alloc] initWithFrame:CGRectMake(SCRUBBINGTEXT_PADDING,
+                                                                  CGRectGetMaxY(scrubbingMessage.frame),
+                                                                  frame.size.width - 2 * SCRUBBINGTEXT_PADDING,
+                                                                  SCRUBBINGTEXT_HEIGHT)];
         scrubbingRate.backgroundColor = UIColor.clearColor;
         scrubbingRate.font = [UIFont boldSystemFontOfSize:13];
         scrubbingRate.textColor = UIColor.grayColor;
@@ -724,14 +721,6 @@
     NSInteger viewWidth = self.view.frame.size.width;
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
     sectionView.backgroundColor = [Utilities getGrayColor:102 alpha:1];
-    CGRect toolbarShadowFrame = CGRectMake(0, 1, viewWidth, 4);
-    UIImageView *toolbarShadow = [[UIImageView alloc] initWithFrame:toolbarShadowFrame];
-    toolbarShadow.image = [UIImage imageNamed:@"tableUp"];
-    toolbarShadow.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    toolbarShadow.contentMode = UIViewContentModeScaleToFill;
-    toolbarShadow.opaque = YES;
-    toolbarShadow.alpha = 0.3;
-    [sectionView addSubview:toolbarShadow];
     return sectionView;
 }
 
@@ -819,6 +808,7 @@
 #pragma mark - UISlider
 
 - (void)startUpdateSlider:(id)sender {
+    scrubbingView.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
     [Utilities alphaView:scrubbingView AnimDuration:0.3 Alpha:1.0];
 }
 
