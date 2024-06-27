@@ -110,6 +110,8 @@
                 }
             }
         }
+        
+        NSString *footerMessage;
         if (xbmcSetting == cUnsupported) {
             footerMessage = LOCALIZED_STR(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.");
         }
@@ -119,6 +121,21 @@
         if (xbmcSetting != cUnsupported) {
             footerMessage = [NSString stringWithFormat:@"%@\xE2\x84\xB9 %@", footerMessage == nil ? @"" : [NSString stringWithFormat:@"%@\n\n", footerMessage], LOCALIZED_STR(@"Tap and hold a setting to add a new button.")];
         }
+        
+        footerDescription = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
+                                                                      PADDING_VERTICAL,
+                                                                      frame.size.width - 2 * PADDING_HORIZONTAL,
+                                                                      LABEL_HEIGHT_DEFAULT)];
+        footerDescription.backgroundColor = UIColor.clearColor;
+        footerDescription.font = [UIFont systemFontOfSize:12];
+        footerDescription.numberOfLines = 0;
+        footerDescription.textAlignment = NSTextAlignmentCenter;
+        footerDescription.textColor = UIColor.whiteColor;
+        footerDescription.highlightedTextColor = UIColor.whiteColor;
+        footerDescription.text = [footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
+        [self setAutomaticLabelHeight:footerDescription];
+        
+        footerHeight = CGRectGetHeight(footerDescription.frame) + 2 * PADDING_VERTICAL;
         
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
         
@@ -731,50 +748,18 @@
 
 - (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
     UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
-    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
-                                                                          PADDING_VERTICAL,
-                                                                          self.view.bounds.size.width - 2 * PADDING_HORIZONTAL,
-                                                                          LABEL_HEIGHT_DEFAULT)];
-    descriptionLabel.font = [UIFont systemFontOfSize:12];
-    descriptionLabel.backgroundColor = UIColor.clearColor;
-    descriptionLabel.numberOfLines = 0;
-    descriptionLabel.textColor = UIColor.whiteColor;
-    descriptionLabel.textAlignment = NSTextAlignmentCenter;
-    descriptionLabel.highlightedTextColor = UIColor.whiteColor;
-    descriptionLabel.text = [footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
     if (xbmcSetting == cUnsupported) {
         helpView.backgroundColor = [Utilities getSystemRed:1.0];
     }
     else {
         helpView.backgroundColor = [Utilities getGrayColor:45 alpha:0.95];
     }
-    
-    descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
-                                        PADDING_VERTICAL,
-                                        self.view.bounds.size.width - 2 * PADDING_HORIZONTAL,
-                                        [self getLabelHeight:descriptionLabel]);
-    footerHeight = CGRectGetHeight(descriptionLabel.frame) + 2 * PADDING_VERTICAL;
-    [helpView addSubview:descriptionLabel];
+    [helpView addSubview:footerDescription];
     return helpView;
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
-        if (footerHeight < 0) {
-            UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
-                                                                                  PADDING_VERTICAL,
-                                                                                  self.view.bounds.size.width - 2 * PADDING_HORIZONTAL,
-                                                                                  LABEL_HEIGHT_DEFAULT)];
-            descriptionLabel.font = [UIFont systemFontOfSize:12];
-            descriptionLabel.numberOfLines = 0;
-            descriptionLabel.textAlignment = NSTextAlignmentCenter;
-            descriptionLabel.text = [footerMessage stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
-            descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
-                                                PADDING_VERTICAL,
-                                                self.view.bounds.size.width - 2 * PADDING_HORIZONTAL,
-                                                [self getLabelHeight:descriptionLabel]);
-            footerHeight = CGRectGetHeight(descriptionLabel.frame) + 2 * PADDING_HORIZONTAL;
-        }
-        return footerHeight;
+    return footerHeight;
 }
 - (NSIndexPath*)getCurrentSelectedOption:(NSArray*)optionList {
     NSIndexPath *foundIndex = nil;

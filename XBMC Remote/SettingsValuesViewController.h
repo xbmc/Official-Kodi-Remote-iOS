@@ -32,8 +32,8 @@ typedef enum {
     UIView *scrubbingView;
     UILabel *scrubbingMessage;
     UILabel *scrubbingRate;
+    UILabel *footerDescription;
     MessagesView *messagesView;
-    NSString *footerMessage;
     BOOL fromItself;
 }
 
