@@ -2472,7 +2472,7 @@
             UILabel *programTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(SMALL_PADDING, VERTICAL_PADDING, EPGCHANNELTIME_WIDTH, EPGCHANNELTIME_HEIGHT)];
             programTimeLabel.backgroundColor = UIColor.clearColor;
             programTimeLabel.center = CGPointMake(programTimeLabel.center.x, title.center.y);
-            programTimeLabel.font = [UIFont systemFontOfSize:12];
+            programTimeLabel.font = [UIFont systemFontOfSize:13];
             programTimeLabel.adjustsFontSizeToFitWidth = YES;
             programTimeLabel.minimumScaleFactor = FONT_SCALING_DEFAULT;
             programTimeLabel.textAlignment = NSTextAlignmentCenter;
@@ -2710,7 +2710,7 @@
             frame = title.frame;
             frame.origin.y = 0;
             title.frame = frame;
-            genre.font = [genre.font fontWithSize:11];
+            genre.font = [genre.font fontWithSize:12];
             genre.minimumScaleFactor = FONT_SCALING_DEFAULT;
             [genre sizeToFit];
         }
@@ -2759,8 +2759,9 @@
         frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
         genre.frame = frame;
         genre.numberOfLines = 3;
-        genre.font = [genre.font fontWithSize:11];
+        genre.font = [genre.font fontWithSize:12];
         genre.minimumScaleFactor = FONT_SCALING_DEFAULT;
+        [genre sizeToFit];
         UILabel *programStartTime = (UILabel*)[cell viewWithTag:EPG_VIEW_CELL_STARTTIME];
         ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
         NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
