@@ -115,7 +115,7 @@
         title.numberOfLines = 2;
         title.text = [Utilities getConnectionStatusServerName];
         [self setConnectionIcon:icon];
-        cell.backgroundColor = [Utilities getGrayColor:53 alpha:1];
+        cell.backgroundColor = MAINMENU_SERVER_COLOR;
     }
     else {
         // Adapt layout for main menu cells
