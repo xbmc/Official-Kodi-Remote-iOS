@@ -81,7 +81,7 @@
 #define FLOWLAYOUT_FULLSCREEN_MIN_SPACE 4
 #define FLOWLAYOUT_FULLSCREEN_LABEL (FULLSCREEN_LABEL_HEIGHT * [Utilities getTransformX] + 8)
 #define TOGGLE_BUTTON_SIZE 11
-#define LABEL_HEIGHT(fontsize) (fontsize + 6)
+#define LABEL_HEIGHT(font) ceil(font.lineHeight)
 
 #define XIB_JSON_DATA_CELL_TITLE 1
 #define XIB_JSON_DATA_CELL_GENRE 2
@@ -3108,10 +3108,10 @@
     // Top down
     // Layout for artist
     artist.text = artistText;
-    artist.frame = CGRectMake(originX, albumViewPadding, labelwidth, LABEL_HEIGHT(artistFontSize));
+    artist.font = [UIFont systemFontOfSize:artistFontSize];
+    artist.frame = CGRectMake(originX, albumViewPadding, labelwidth, LABEL_HEIGHT(artist.font));
     artist.backgroundColor = UIColor.clearColor;
     artist.shadowOffset = CGSizeMake(0, 1);
-    artist.font = [UIFont systemFontOfSize:artistFontSize];
     artist.numberOfLines = 1;
     artist.lineBreakMode = NSLineBreakByTruncatingTail;
     artist.adjustsFontSizeToFitWidth = YES;
@@ -3120,10 +3120,10 @@
     
     // Layout for album
     album.text = albumText;
-    album.frame = CGRectMake(originX, CGRectGetMaxY(artist.frame), labelwidth, LABEL_HEIGHT(albumFontSize * 2));
+    album.font = [UIFont boldSystemFontOfSize:albumFontSize];
+    album.frame = CGRectMake(originX, CGRectGetMaxY(artist.frame) + TINY_PADDING, labelwidth, 2 * LABEL_HEIGHT(album.font));
     album.backgroundColor = UIColor.clearColor;
     album.shadowOffset = CGSizeMake(0, 1);
-    album.font = [UIFont boldSystemFontOfSize:albumFontSize];
     album.numberOfLines = 2;
     album.lineBreakMode = NSLineBreakByTruncatingTail;
     album.adjustsFontSizeToFitWidth = YES;
@@ -3136,10 +3136,10 @@
     
     // Layout for track count
     trackCount.text = trackCountText;
-    trackCount.frame = CGRectMake(originX, albumViewHeight - albumViewPadding - LABEL_HEIGHT(trackCountFontSize), labelwidthBottom, LABEL_HEIGHT(trackCountFontSize));
+    trackCount.font = [UIFont systemFontOfSize:trackCountFontSize];
+    trackCount.frame = CGRectMake(originX, albumViewHeight - albumViewPadding - LABEL_HEIGHT(trackCount.font), labelwidthBottom, LABEL_HEIGHT(trackCount.font));
     trackCount.backgroundColor = UIColor.clearColor;
     trackCount.shadowOffset = CGSizeMake(0, 1);
-    trackCount.font = [UIFont systemFontOfSize:trackCountFontSize];
     trackCount.numberOfLines = 1;
     trackCount.lineBreakMode = NSLineBreakByTruncatingTail;
     trackCount.minimumScaleFactor = FONT_SCALING_MIN;
@@ -3148,10 +3148,10 @@
     
     // Layout for released date
     released.text = releasedText;
-    released.frame = CGRectMake(originX, CGRectGetMinY(trackCount.frame) - LABEL_HEIGHT(trackCountFontSize), labelwidthBottom, LABEL_HEIGHT(trackCountFontSize));
+    released.font = [UIFont systemFontOfSize:trackCountFontSize];
+    released.frame = CGRectMake(originX, CGRectGetMinY(trackCount.frame) - LABEL_HEIGHT(released.font) - TINY_PADDING, labelwidthBottom, LABEL_HEIGHT(released.font));
     released.backgroundColor = UIColor.clearColor;
     released.shadowOffset = CGSizeMake(0, 1);
-    released.font = [UIFont systemFontOfSize:trackCountFontSize];
     released.numberOfLines = 1;
     released.lineBreakMode = NSLineBreakByTruncatingTail;
     released.minimumScaleFactor = FONT_SCALING_MIN;
