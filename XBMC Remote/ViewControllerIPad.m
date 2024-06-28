@@ -110,7 +110,7 @@
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
         notificationName = @"XBMCServerConnectionSuccess";
         NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"Connected to %@"), AppDelegate.instance.obj.serverDescription];
-        [Utilities showMessage:message color:[Utilities getSystemGreen:0.95]];
+        [Utilities showMessage:message color:SUCCESS_MESSAGE_COLOR];
         [volumeSliderView startTimer];
     }
     else {
@@ -626,7 +626,7 @@
 }
 
 - (void)handleLibraryNotification:(NSNotification*)note {
-    [Utilities showMessage:note.name color:[Utilities getSystemGreen:0.95]];
+    [Utilities showMessage:note.name color:SUCCESS_MESSAGE_COLOR];
 }
 
 - (void)showNotificationMessage:(NSNotification*)note {

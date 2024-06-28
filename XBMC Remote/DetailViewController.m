@@ -1590,7 +1590,7 @@
         // Selected favourite item is an unknown type -> throw an error
         else {
             NSString *message = [NSString stringWithFormat:@"%@ (type = '%@')", LOCALIZED_STR(@"Cannot do that"), item[@"type"]];
-            [Utilities showMessage:message color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:message color:ERROR_MESSAGE_COLOR];
         }
         [self deselectAtIndexPath:indexPath];
     }
@@ -3737,7 +3737,7 @@
     customButton *arrayButtons = [customButton new];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [Utilities showMessage:LOCALIZED_STR(@"Button added") color:[Utilities getSystemGreen:0.95]];
+    [Utilities showMessage:LOCALIZED_STR(@"Button added") color:SUCCESS_MESSAGE_COLOR];
     if (IS_IPAD) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"UIInterfaceCustomButtonAdded" object:nil];
     }
@@ -4404,10 +4404,10 @@
 - (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters success:(NSString*)successMessage failure:(NSString*)failureMessage {
     [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
-            [Utilities showMessage:successMessage color:[Utilities getSystemGreen:0.95]];
+            [Utilities showMessage:successMessage color:SUCCESS_MESSAGE_COLOR];
         }
         else {
-            [Utilities showMessage:failureMessage color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:failureMessage color:ERROR_MESSAGE_COLOR];
         }
     }];
 }
