@@ -1908,19 +1908,28 @@
 #pragma mark - BDKCollectionIndexView init
 
 - (void)initSectionNameOverlayView {
-    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width * 0.75, self.view.frame.size.width / 6)];
-    sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
-    sectionNameOverlayView.backgroundColor = [Utilities getGrayColor:0 alpha:1.0];
-    sectionNameOverlayView.center = UIApplication.sharedApplication.delegate.window.rootViewController.view.center;
-    CGFloat cornerRadius = 12;
-    sectionNameOverlayView.layer.cornerRadius = cornerRadius;
-    
-    int fontSize = 32;
-    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height / 2 - (fontSize + VERTICAL_PADDING) / 2, sectionNameOverlayView.frame.size.width, fontSize + VERTICAL_PADDING)];
-    sectionNameLabel.font = [UIFont boldSystemFontOfSize:fontSize];
+    // First create the label and calculate its height for 2 rows
+    sectionNameLabel = [[UILabel alloc] init];
+    sectionNameLabel.font = [UIFont boldSystemFontOfSize:32];
+    sectionNameLabel.numberOfLines = 2;
     sectionNameLabel.textColor = UIColor.whiteColor;
     sectionNameLabel.backgroundColor = UIColor.clearColor;
     sectionNameLabel.textAlignment = NSTextAlignmentCenter;
+    sectionNameLabel.frame = CGRectMake(LABEL_PADDING,
+                                        VERTICAL_PADDING,
+                                        self.view.frame.size.width * 0.75,
+                                        2 * ceil(sectionNameLabel.font.lineHeight));
+    
+    // Then fit the overlayview around it with horizontal and vertical padding
+    CGFloat overlayWidth = CGRectGetWidth(sectionNameLabel.frame) + 2 * LABEL_PADDING;
+    CGFloat overlayHeight = CGRectGetHeight(sectionNameLabel.frame) + 2 * VERTICAL_PADDING;
+    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.view.frame) - overlayWidth) / 2,
+                                                                      (CGRectGetHeight(self.view.frame) - overlayHeight) / 2,
+                                                                      overlayWidth,
+                                                                      overlayHeight)];
+    sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
+    sectionNameOverlayView.backgroundColor = [Utilities getGrayColor:0 alpha:0.8];
+    sectionNameOverlayView.layer.cornerRadius = 12;
     [sectionNameOverlayView addSubview:sectionNameLabel];
     [self.view addSubview:sectionNameOverlayView];
 }
