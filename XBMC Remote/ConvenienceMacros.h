@@ -23,7 +23,6 @@
 #define APP_TINT_COLOR [Utilities getGrayColor:0 alpha:0.3]
 #define ICON_TINT_COLOR UIColor.lightGrayColor
 #define ICON_TINT_COLOR_ACTIVE UIColor.systemBlueColor
-#define BAR_TINT_COLOR [Utilities getGrayColor:26 alpha:1]
 #define REMOTE_CONTROL_BAR_TINT_COLOR [Utilities getGrayColor:12 alpha:1]
 #define SLIDER_DEFAULT_COLOR UIColor.lightGrayColor
 #define TOOLBAR_TINT_COLOR [Utilities getGrayColor:38 alpha:0.95]
