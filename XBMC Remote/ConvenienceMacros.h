@@ -35,6 +35,7 @@
 #define MAINMENU_SELECTED_COLOR [Utilities getGrayColor:8 alpha:1]
 #define MAINMENU_SERVER_COLOR [Utilities getGrayColor:53 alpha:1]
 #define ACTOR_SELECTED_COLOR [Utilities getGrayColor:128 alpha:0.5]
+#define INFO_POPOVER_COLOR [Utilities getGrayColor:0 alpha:0.8]
 
 /*
  * Dimension and layout macros

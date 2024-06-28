@@ -1893,7 +1893,7 @@
                                                                       overlayWidth,
                                                                       overlayHeight)];
     sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
-    sectionNameOverlayView.backgroundColor = [Utilities getGrayColor:0 alpha:0.8];
+    sectionNameOverlayView.backgroundColor = INFO_POPOVER_COLOR;
     sectionNameOverlayView.layer.cornerRadius = 12;
     [sectionNameOverlayView addSubview:sectionNameLabel];
     [self.view addSubview:sectionNameOverlayView];

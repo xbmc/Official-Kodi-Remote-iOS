@@ -160,11 +160,11 @@
         longPressGesture.delegate = self;
         [_tableView addGestureRecognizer:longPressGesture];
         
-        scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 
+        scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                  0,
                                                                  frame.size.width,
                                                                  SCRUBBINGVIEW_HEIGHT)];
-        scrubbingView.backgroundColor = [Utilities getGrayColor:0 alpha:0.8];
+        scrubbingView.backgroundColor = INFO_POPOVER_COLOR;
         scrubbingView.alpha = 0.0;
         
         scrubbingMessage = [[UILabel alloc] initWithFrame:CGRectMake(SCRUBBINGTEXT_PADDING,

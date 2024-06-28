@@ -2729,6 +2729,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    scrabbingView.backgroundColor = INFO_POPOVER_COLOR;
+    songDetailsView.backgroundColor = INFO_POPOVER_COLOR;
     itemDescription.selectable = NO;
     itemLogoImage.layer.minificationFilter = kCAFilterTrilinear;
     songCodecImage.layer.minificationFilter = kCAFilterTrilinear;
