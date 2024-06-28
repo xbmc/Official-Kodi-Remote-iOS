@@ -73,7 +73,7 @@
         cell.backgroundColor = UIColor.clearColor;
     }
     else {
-        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
+        cell.backgroundColor = CUSTOM_BUTTON_BACKGROUND;
     }
 }
 
