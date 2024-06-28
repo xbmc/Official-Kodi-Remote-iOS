@@ -1343,7 +1343,6 @@
     [super viewDidLoad];
 
     self.edgesForExtendedLayout = 0;
-    self.view.tintColor = APP_TINT_COLOR;
     
     quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
     [self loadRemoteMode];
