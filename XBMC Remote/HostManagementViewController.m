@@ -572,7 +572,6 @@
     
     if (IS_IPAD) {
         self.edgesForExtendedLayout = 0;
-        self.view.tintColor = APP_TINT_COLOR;
         CGRect frame = backgroundImageView.frame;
         frame.size.height = frame.size.height + 8;
         backgroundImageView.frame = frame;
