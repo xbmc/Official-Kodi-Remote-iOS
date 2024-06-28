@@ -26,6 +26,7 @@
 #define REMOTE_CONTROL_BAR_TINT_COLOR [Utilities getGrayColor:12 alpha:1]
 #define SLIDER_DEFAULT_COLOR UIColor.lightGrayColor
 #define TOOLBAR_TINT_COLOR [Utilities getGrayColor:38 alpha:0.95]
+#define NAVBAR_TINT_COLOR [Utilities getGrayColor:38 alpha:1.0]
 #define KODI_BLUE_COLOR [Utilities getKodiBlue]
 
 /*
