@@ -349,6 +349,16 @@
     return;
 }
 
+- (void)setSettingValue:(id)value sender:(id)sender {
+    if (!value || !self.detailItem[@"id"]) {
+        return;
+    }
+    self.detailItem[@"value"] = value;
+    NSDictionary *params = @{@"setting": self.detailItem[@"id"],
+                             @"value": self.detailItem[@"value"]};
+    [self xbmcAction:@"Settings.SetSettingValue" params:params uiControl:sender];
+}
+
 #pragma mark - Helper
 
 - (NSString*)getStringFormatFromItem:(id)item defaultFormat:(NSString*)defaultFormat {
@@ -683,8 +693,6 @@
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell *cell = nil;
-    NSString *command = nil;
-    NSDictionary *params = nil;
     switch (xbmcSetting) {
         case cList:
             if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
@@ -711,9 +719,7 @@
                 selectedSetting = indexPath;
                 self.detailItem[@"value"] = settingOptions[selectedSetting.row][@"value"];
             }
-            command = @"Settings.SetSettingValue";
-            params = [NSDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
-            [self xbmcAction:command params:params uiControl:_tableView];
+            [self setSettingValue:self.detailItem[@"value"] sender:_tableView];
             break;
             
         case cMultiselect:
@@ -791,10 +797,7 @@
 
 - (void)stopUpdateSlider:(id)sender {
     [Utilities alphaView:scrubbingView AnimDuration:0.3 Alpha:0.0];
-    NSString *command = @"Settings.SetSettingValue";
-    self.detailItem[@"value"] = @(storeSliderValue);
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
-    [self xbmcAction:command params:params uiControl:sender];
+    [self setSettingValue:@(storeSliderValue) sender:sender];
 }
 
 - (void)sliderAction:(OBSlider*)slider {
@@ -816,10 +819,7 @@
 
 - (void)toggleSwitch:(id)sender {
     UISwitch *onoff = (UISwitch*)sender;
-    NSString *command = @"Settings.SetSettingValue";
-    self.detailItem[@"value"] = @(onoff.on);
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
-    [self xbmcAction:command params:params uiControl:sender];
+    [self setSettingValue:@(onoff.on) sender:sender];
 }
 
 #pragma mark - UITextFieldDelegate Methods
@@ -834,10 +834,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField*)textField {
     [textField resignFirstResponder];
-    NSString *command = @"Settings.SetSettingValue";
-    self.detailItem[@"value"] = [NSString stringWithFormat:@"%@", textField.text];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"id"], @"setting", self.detailItem[@"value"], @"value", nil];
-    [self xbmcAction:command params:params uiControl:textField];
+    [self setSettingValue:[NSString stringWithFormat:@"%@", textField.text] sender:textField];
     return YES;
 }
 
