@@ -83,22 +83,12 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
         cell = nib[0];
-        
-        // Set background view
-        UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
-        backView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
-        cell.selectedBackgroundView = backView;
     }
     */
     // WORKAROUND BEGIN
     // Load nib each time as otherwise the layout of the cells is not properly handled after sleep / resume.
     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
     UITableViewCell *cell = nib[0];
-    
-    // Set background view
-    UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
-    backView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
-    cell.selectedBackgroundView = backView;
     // WROKAROUND END
     
     // Reset to default for each cell to allow dequeuing
