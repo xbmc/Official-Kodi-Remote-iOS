@@ -99,7 +99,7 @@
         
         // Set background view
         UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
-        backgroundView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
+        backgroundView.backgroundColor = MAINMENU_SELECTED_COLOR;
         cell.selectedBackgroundView = backgroundView;
     }
     mainMenu *item = self.mainMenu[indexPath.row];
