@@ -248,7 +248,7 @@
     UIColor *bgcolor = UIColor.clearColor;
     UIColor *imgcolor = nil;
     UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
-    UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
+    UIColor *bgdark = SYSTEMGRAY6_DARKMODE;
     switch (mode) {
         case LogoBackgroundAuto:
             // get background color and colorize the image background

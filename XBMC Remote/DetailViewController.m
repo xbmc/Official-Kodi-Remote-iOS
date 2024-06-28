@@ -998,8 +998,7 @@
             if (!enableCollectionView && !stackscrollFullscreen) {
                 // If loaded, we use a dark background
                 if (!useFallback) {
-                    // Gray:28 is similar to systemGray6 in Dark Mode
-                    cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+                    cell.backgroundColor = SYSTEMGRAY6_DARKMODE;
                 }
                 // If not loaded, use default background color and poster dimensions for default thumb
                 else {
@@ -1008,15 +1007,13 @@
             }
             // When in grid or fullscreen view
             else {
-                // Gray:28 is similar to systemGray6 in Dark Mode
-                cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+                cell.backgroundColor = SYSTEMGRAY6_DARKMODE;
             }
         }
         // Other tabs (e.g. list of episodes) use default layout
         else {
             if (enableCollectionView) {
-                // Gray:28 is similar to systemGray6 in Dark Mode
-                cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+                cell.backgroundColor = SYSTEMGRAY6_DARKMODE;
             }
             else {
                 cell.backgroundColor = [Utilities getSystemGray6];
@@ -1797,7 +1794,7 @@
         [cell setPosterCellLayoutManually:cell.bounds];
         [self setCellImageView:cell.posterThumbnail cell:cell dictItem:item url:stringURL size:CGSizeMake(cellthumbWidth, cellthumbHeight) defaultImg:displayThumb];
         if (!stringURL.length) {
-            cell.posterThumbnail.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+            cell.posterThumbnail.backgroundColor = SYSTEMGRAY6_DARKMODE;
         }
         // Set label visibility based on setting and current view
         if (hiddenLabel || stackscrollFullscreen) {
@@ -2171,7 +2168,7 @@
 
 - (void)setSearchBar:(UISearchBar*)searchBar toDark:(BOOL)isDark {
     if (isDark) {
-        searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
+        searchBar.backgroundColor = SYSTEMGRAY6_DARKMODE;
         searchBar.tintColor = ICON_TINT_COLOR;
     }
     else {

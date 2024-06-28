@@ -29,6 +29,7 @@
 #define NAVBAR_TINT_COLOR [Utilities getGrayColor:38 alpha:1.0]
 #define KODI_BLUE_COLOR [Utilities getKodiBlue]
 #define CUSTOM_BUTTON_BACKGROUND [Utilities getGrayColor:36 alpha:1]
+#define SYSTEMGRAY6_DARKMODE [Utilities getGrayColor:28 alpha:1] // Gray:28 is similar to systemGray6 in Dark Mode
 
 /*
  * Dimension and layout macros
