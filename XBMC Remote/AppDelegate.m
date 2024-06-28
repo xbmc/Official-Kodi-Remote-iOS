@@ -3715,7 +3715,6 @@
                 ],
             },
             @"label": LOCALIZED_STR(@"TV Shows"),
-            @"blackTableSeparator": @YES,
             @"FrodoExtraArt": @YES,
             @"enableLibraryCache": @YES,
             @"enableCollectionView": @YES,

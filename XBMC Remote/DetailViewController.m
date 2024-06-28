@@ -1345,12 +1345,8 @@
     activeLayoutView.contentOffset = activeLayoutView.contentOffset;
     [self checkFullscreenButton:NO];
     [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
-    if ([parameters[@"blackTableSeparator"] boolValue] && ![Utilities getPreferTvPosterMode]) {
-        dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
-    }
-    else {
+    if (!tvshowsView || [Utilities getPreferTvPosterMode]) {
         [self setSearchBar:self.searchController.searchBar toDark:NO];
-        dataList.separatorColor = [Utilities getGrayColor:191 alpha:1];
     }
     if (methods[@"method"] != nil) {
         [self retrieveData:methods[@"method"] parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:refresh];
@@ -1427,7 +1423,6 @@
                                               @([parameters[@"forcePlayback"] boolValue]), @"forcePlayback",
                                               @([parameters[@"forceActionSheet"] boolValue]), @"forceActionSheet",
                                               @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
-                                              @([parameters[@"blackTableSeparator"] boolValue]), @"blackTableSeparator",
                                               pvrExtraInfo, @"pvrExtraInfo",
                                               kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
                                               parameters[@"extra_info_parameters"], @"extra_info_parameters",
@@ -5902,9 +5897,8 @@
         globalSearchView = YES;
     }
     
-    if ([parameters[@"blackTableSeparator"] boolValue] && ![Utilities getPreferTvPosterMode]) {
+    if (tvshowsView && ![Utilities getPreferTvPosterMode]) {
         dataList.separatorInset = UIEdgeInsetsZero;
-        dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
     }
     bottomPadding = [Utilities getBottomPadding];
     if (IS_IPHONE) {
