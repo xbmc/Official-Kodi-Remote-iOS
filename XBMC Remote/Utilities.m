@@ -247,7 +247,7 @@
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode {
     UIColor *bgcolor = UIColor.clearColor;
     UIColor *imgcolor = nil;
-    UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
+    UIColor *bglight = SYSTEMGRAY6_LIGHTMODE;
     UIColor *bgdark = SYSTEMGRAY6_DARKMODE;
     switch (mode) {
         case LogoBackgroundAuto:

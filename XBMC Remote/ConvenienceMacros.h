@@ -30,6 +30,7 @@
 #define KODI_BLUE_COLOR [Utilities getKodiBlue]
 #define CUSTOM_BUTTON_BACKGROUND [Utilities getGrayColor:36 alpha:1]
 #define SYSTEMGRAY6_DARKMODE [Utilities getGrayColor:28 alpha:1] // Gray:28 is similar to systemGray6 in Dark Mode
+#define SYSTEMGRAY6_LIGHTMODE [Utilities getGrayColor:242 alpha:1] // Gray:242 is similar to systemGray6 in Light Mode
 
 /*
  * Dimension and layout macros
