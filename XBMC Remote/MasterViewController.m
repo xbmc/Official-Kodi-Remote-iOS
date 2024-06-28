@@ -425,7 +425,6 @@
                                                  name:@"UIShowMessage"
                                                object:nil];
     
-    self.view.backgroundColor = [Utilities getGrayColor:36 alpha:1];
     [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
