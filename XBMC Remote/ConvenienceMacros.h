@@ -34,6 +34,7 @@
 #define SYSTEMGRAY6_LIGHTMODE [Utilities getGrayColor:242 alpha:1] // Gray:242 is similar to systemGray6 in Light Mode
 #define MAINMENU_SELECTED_COLOR [Utilities getGrayColor:8 alpha:1]
 #define MAINMENU_SERVER_COLOR [Utilities getGrayColor:53 alpha:1]
+#define ACTOR_SELECTED_COLOR [Utilities getGrayColor:128 alpha:0.5]
 
 /*
  * Dimension and layout macros
