@@ -173,7 +173,7 @@
         iconName = tableData[indexPath.row][@"icon"];
     }
     
-    UIColor *fontColor = [Utilities getGrayColor:125 alpha:1];
+    UIColor *fontColor = UIColor.grayColor;
     title.textColor = fontColor;
     title.highlightedTextColor = fontColor;
     
