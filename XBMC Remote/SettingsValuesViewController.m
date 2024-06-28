@@ -743,10 +743,7 @@
 }
 
 - (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
-    NSInteger viewWidth = self.view.frame.size.width;
-    UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
-    sectionView.backgroundColor = [Utilities getGrayColor:102 alpha:1];
-    return sectionView;
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
