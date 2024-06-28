@@ -64,6 +64,7 @@
 #define IPAD_ALBUM_SECTION_HEIGHT 166
 #define INDEX_WIDTH 34
 #define RUNTIMEYEAR_WIDTH 63
+#define GENRE_HEIGHT 18
 #define EPGCHANNELTIME_WIDTH 40
 #define EPGCHANNELTIME_HEIGHT 12
 #define EPG_RECORDING_DOT_SIZE 12
@@ -2615,11 +2616,13 @@
             cell.urlImageView.autoresizingMask = UIViewAutoresizingNone;
         }
         if (channelListView) {
+            runtime.hidden = NO;
             CGRect frame = genre.frame;
             frame.size.width = title.frame.size.width;
+            frame.size.height = GENRE_HEIGHT;
             genre.frame = frame;
             genre.textColor = [Utilities get1stLabelColor];
-            genre.font = [UIFont boldSystemFontOfSize:genre.font.pointSize];
+            genre.font = [UIFont boldSystemFontOfSize:14];
             ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
             progressView.hidden = YES;
             UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
