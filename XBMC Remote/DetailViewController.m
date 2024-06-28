@@ -2602,6 +2602,9 @@
     genre.hidden = NO;
     runtimeyear.hidden = NO;
     if (!albumView && !episodesView && !channelGuideView) {
+        // Since recordings must be synced it is required to set recordingListView here.
+        recordingListView = [item[@"family"] isEqualToString:@"recordingid"];
+        
         if (channelListView || recordingListView) {
             CGRect frame;
             frame.origin.x = SMALL_PADDING;
@@ -2628,6 +2631,10 @@
                                     item, @"item",
                                     nil];
             [NSThread detachNewThreadSelector:@selector(getChannelEpgInfo:) toTarget:self withObject:params];
+        }
+        if (recordingListView) {
+            genre.textColor = [Utilities get2ndLabelColor];
+            genre.font = [UIFont systemFontOfSize:12];
         }
         NSString *stringURL = tvshowsView ? item[@"banner"] : item[@"thumbnail"];
         NSString *displayThumb = globalSearchView ? [self getGlobalSearchThumb:item] : defaultThumb;
