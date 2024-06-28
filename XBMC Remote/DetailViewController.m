@@ -81,6 +81,7 @@
 #define FLOWLAYOUT_FULLSCREEN_MIN_SPACE 4
 #define FLOWLAYOUT_FULLSCREEN_LABEL (FULLSCREEN_LABEL_HEIGHT * [Utilities getTransformX] + 8)
 #define TOGGLE_BUTTON_SIZE 11
+#define INFO_BUTTON_SIZE 30
 #define LABEL_HEIGHT(font) ceil(font.lineHeight)
 
 #define XIB_JSON_DATA_CELL_TITLE 1
@@ -787,7 +788,7 @@
     searchBar.barTintColor = lightAlbumColor;
 }
 
-- (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
+- (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 infoButton:(UIButton*)infoButton {
     // Gather average cover color and limit saturation
     UIColor *mainColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
     mainColor = [Utilities limitSaturation:mainColor satmax:0.33];
@@ -813,6 +814,10 @@
     label1.textColor = label2.textColor = label12Color;
     label3.textColor = label4.textColor = label34Color;
     label1.shadowColor = label2.shadowColor = label3.shadowColor = label4.shadowColor = shadowColor;
+    
+    // Set color of info button
+    UIImage *buttonImage = [Utilities colorizeImage:[UIImage imageNamed:@"table_arrow_right"] withColor:label34Color];
+    [infoButton setImage:buttonImage forState:UIControlStateNormal];
     
     // Only the top most item shall define albumcolor, searchbar tint and navigationbar tint
     if (isTopMost) {
@@ -3019,6 +3024,7 @@
     UILabel *album = [UILabel new];
     UILabel *trackCount = [UILabel new];
     UILabel *released = [UILabel new];
+    UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     // Set dimensions for thumb view
     int thumbHeight = albumViewHeight - albumViewPadding * 2;
@@ -3067,7 +3073,8 @@
                             label1:artist
                             label2:album
                             label3:trackCount
-                            label4:released];
+                            label4:released
+                        infoButton:albumInfoButton];
             }
         }];
     }
@@ -3079,7 +3086,8 @@
                     label1:artist
                     label2:album
                     label3:trackCount
-                    label4:released];
+                    label4:released
+                infoButton:albumInfoButton];
     }
     [albumDetailView addSubview:thumbImageView];
     
@@ -3093,13 +3101,12 @@
     [albumDetailView addSubview:watchedIcon];
     
     // Add Info button to bottom-right corner
-    UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     albumInfoButton.alpha = 0.8;
     albumInfoButton.showsTouchWhenHighlighted = YES;
-    albumInfoButton.frame = CGRectMake(albumDetailView.bounds.size.width - albumInfoButton.frame.size.width - albumViewPadding,
-                                       albumDetailView.bounds.size.height - albumInfoButton.frame.size.height - albumViewPadding,
-                                       albumInfoButton.frame.size.width,
-                                       albumInfoButton.frame.size.height);
+    albumInfoButton.frame = CGRectMake(albumDetailView.bounds.size.width - INFO_BUTTON_SIZE,
+                                       albumDetailView.bounds.size.height - INFO_BUTTON_SIZE - TINY_PADDING,
+                                       INFO_BUTTON_SIZE,
+                                       INFO_BUTTON_SIZE);
     albumInfoButton.tag = episodesView ? DETAIL_VIEW_INFO_TVSHOW : DETAIL_VIEW_INFO_ALBUM;
     albumInfoButton.hidden = [self isModal];
     [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
@@ -3132,7 +3139,7 @@
     [albumDetailView addSubview:album];
     
     // Bottom up
-    CGFloat labelwidthBottom = CGRectGetMinX(albumInfoButton.frame) - originX - LABEL_PADDING;
+    CGFloat labelwidthBottom = CGRectGetMinX(albumInfoButton.frame) - originX;
     
     // Layout for track count
     trackCount.text = trackCountText;
