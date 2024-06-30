@@ -762,7 +762,7 @@ NSInteger buttonAction;
     }
 }
 
-- (void)playerStep:(NSString*)step musicPlayerGo:(NSString*)musicAction musicPlayerAction:(NSString*)musicMethod {
+- (void)playerActionVideo:(NSInteger)videoButton actionMusic:(NSInteger)musicButton {
     if (AppDelegate.instance.serverVersion > 11) {
         [[Utilities getJsonRPC]
          callMethod:@"GUI.GetProperties"
@@ -794,13 +794,10 @@ NSInteger buttonAction;
                                   PvrIsPlayingTv = [methodResult[@"Pvr.IsPlayingTv"] boolValue];
                               }
                               if (winID == WINDOW_FULLSCREEN_VIDEO && !PvrIsPlayingTv && !VideoPlayerHasMenu) {
-                                  [self playbackAction:@"Player.Seek" params:[Utilities buildPlayerSeekStepParams:step]];
+                                  [self processButtonPress:videoButton];
                               }
-                              else if (winID == WINDOW_VISUALISATION && musicAction != nil) {
-                                  [self playbackAction:@"Player.GoTo" params:@{@"to": musicAction}];
-                              }
-                              else if (winID == WINDOW_VISUALISATION && musicMethod != nil) {
-                                  [self GUIAction:@"Input.ExecuteAction" params:@{@"action": musicMethod} httpAPIcallback:nil];
+                              else if (winID == WINDOW_VISUALISATION) {
+                                  [self processButtonPress:musicButton];
                               }
                           }
                       }];
@@ -840,7 +837,7 @@ NSInteger buttonAction;
             }
             else {
                 [self GUIAction:@"Input.Up" params:@{} httpAPIcallback:nil];
-                [self playerStep:@"bigforward" musicPlayerGo:nil musicPlayerAction:@"increaserating"];
+                [self playerActionVideo:TAG_BUTTON_SEEK_FORWARD_BIG actionMusic:TAG_BUTTON_NEXT];
             }
             break;
             
@@ -850,7 +847,7 @@ NSInteger buttonAction;
             }
             else {
                 [self GUIAction:@"Input.Left" params:@{} httpAPIcallback:nil];
-                [self playerStep:@"smallbackward" musicPlayerGo:@"previous" musicPlayerAction:nil];
+                [self playerActionVideo:TAG_BUTTON_SEEK_BACKWARD actionMusic:TAG_BUTTON_SEEK_BACKWARD];
             }
             break;
             
@@ -860,7 +857,7 @@ NSInteger buttonAction;
             }
             else {
                 [self GUIAction:@"Input.Right" params:@{} httpAPIcallback:nil];
-                [self playerStep:@"smallforward" musicPlayerGo:@"next" musicPlayerAction:nil];
+                [self playerActionVideo:TAG_BUTTON_SEEK_FORWARD actionMusic:TAG_BUTTON_SEEK_FORWARD];
             }
             break;
             
@@ -870,7 +867,7 @@ NSInteger buttonAction;
             }
             else {
                 [self GUIAction:@"Input.Down" params:@{} httpAPIcallback:nil];
-                [self playerStep:@"bigbackward" musicPlayerGo:nil musicPlayerAction:@"decreaserating"];
+                [self playerActionVideo:TAG_BUTTON_SEEK_BACKWARD_BIG actionMusic:TAG_BUTTON_PREVIOUS];
             }
             break;
             
