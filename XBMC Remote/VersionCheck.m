@@ -47,4 +47,9 @@
     return AppDelegate.instance.APImajorVersion >= 4;
 }
 
++ (BOOL)hasInputButtonEventSupport {
+    // Input.ButtonEvent is supported from API 12 on
+    return AppDelegate.instance.APImajorVersion >= 12;
+}
+
 @end

@@ -18,6 +18,7 @@
 #import "RightMenuViewController.h"
 #import "DetailViewController.h"
 #import "Utilities.h"
+#import "VersionCheck.h"
 
 #define ROTATION_TRIGGER 0.015
 #define REMOTE_PADDING (44 + 44 + 44) // Space unused above and below the popover and by remote toolbar
@@ -823,41 +824,54 @@ NSInteger buttonAction;
             self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
         }
     }
-    NSString *action;
     switch (buttonAction) {
         case TAG_BUTTON_ARROW_UP:
-            action = @"Input.Up";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
-            [self playerStep:@"bigforward" musicPlayerGo:nil musicPlayerAction:@"increaserating"];
+            if ([VersionCheck hasInputButtonEventSupport]) {
+                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"up", @"keymap": @"KB"} httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Input.Up" params:@{} httpAPIcallback:nil];
+                [self playerStep:@"bigforward" musicPlayerGo:nil musicPlayerAction:@"increaserating"];
+            }
             break;
             
         case TAG_BUTTON_ARROW_LEFT:
-            action = @"Input.Left";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
-            [self playerStep:@"smallbackward" musicPlayerGo:@"previous" musicPlayerAction:nil];
+            if ([VersionCheck hasInputButtonEventSupport]) {
+                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"left", @"keymap": @"KB"} httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Input.Left" params:@{} httpAPIcallback:nil];
+                [self playerStep:@"smallbackward" musicPlayerGo:@"previous" musicPlayerAction:nil];
+            }
             break;
 
         case TAG_BUTTON_SELECT:
-            action = @"Input.Select";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
+            [self GUIAction:@"Input.Select" params:@{} httpAPIcallback:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
             break;
 
         case TAG_BUTTON_ARROW_RIGHT:
-            action = @"Input.Right";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
-            [self playerStep:@"smallforward" musicPlayerGo:@"next" musicPlayerAction:nil];
+            if ([VersionCheck hasInputButtonEventSupport]) {
+                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"right", @"keymap": @"KB"} httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Input.Right" params:@{} httpAPIcallback:nil];
+                [self playerStep:@"smallforward" musicPlayerGo:@"next" musicPlayerAction:nil];
+            }
             break;
             
         case TAG_BUTTON_ARROW_DOWN:
-            action = @"Input.Down";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
-            [self playerStep:@"bigbackward" musicPlayerGo:nil musicPlayerAction:@"decreaserating"];
+            if ([VersionCheck hasInputButtonEventSupport]) {
+                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"down", @"keymap": @"KB"} httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Input.Down" params:@{} httpAPIcallback:nil];
+                [self playerStep:@"bigbackward" musicPlayerGo:nil musicPlayerAction:@"decreaserating"];
+            }
             break;
             
         case TAG_BUTTON_BACK:
-            action = @"Input.Back";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
+            [self GUIAction:@"Input.Back" params:@{} httpAPIcallback:nil];
             break;
             
         default:
