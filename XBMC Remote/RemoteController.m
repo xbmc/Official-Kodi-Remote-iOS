@@ -281,36 +281,41 @@
 #pragma mark - Touch
 
 - (void)handleSwipeFrom:(UISwipeGestureRecognizer*)recognizer {
-    if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
-        buttonAction = TAG_BUTTON_ARROW_RIGHT;
-        [self sendAction];
+    NSInteger buttonID;
+    switch (recognizer.direction) {
+        case UISwipeGestureRecognizerDirectionLeft:
+            buttonID = TAG_BUTTON_ARROW_LEFT;
+            break;
+            
+        case UISwipeGestureRecognizerDirectionRight:
+            buttonID = TAG_BUTTON_ARROW_RIGHT;
+            break;
+            
+        case UISwipeGestureRecognizerDirectionUp:
+            buttonID = TAG_BUTTON_ARROW_UP;
+            break;
+            
+        case UISwipeGestureRecognizerDirectionDown:
+            buttonID = TAG_BUTTON_ARROW_DOWN;
+            break;
+            
+        default:
+            return;
+            break;
     }
-    else if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
-        buttonAction = TAG_BUTTON_ARROW_LEFT;
-        [self sendAction];
-    }
-    else if (recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
-        buttonAction = TAG_BUTTON_ARROW_UP;
-        [self sendAction];
-    }
-    else if (recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
-        buttonAction = TAG_BUTTON_ARROW_DOWN;
-        [self sendAction];
-    }
+    [self processButtonPress:buttonID];
 }
 
 - (void)handleTouchpadDoubleTap {
-    buttonAction = TAG_BUTTON_BACK;
-    [self sendAction];
+    [self processButtonPress:TAG_BUTTON_BACK];
 }
 
 - (void)handleTouchpadSingleTap {
-    buttonAction = TAG_BUTTON_SELECT;
-    [self sendAction];
+    [self processButtonPress:TAG_BUTTON_SELECT];
 }
 
 - (void)twoFingersTap {
-    [self GUIAction:@"Input.Home" params:@{} httpAPIcallback:nil];
+    [self processButtonPress:TAG_BUTTON_HOME];
 }
 
 - (void)handleTouchpadLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
@@ -337,8 +342,7 @@
                      slideshowActive = methodResult[@"Window.IsActive(slideshow)"];
                  }
                  if ([fullscreenActive intValue] == 1 || [visualisationActive intValue] == 1 || [slideshowActive intValue] == 1) {
-                     buttonAction = TAG_BUTTON_MENU;
-                     [self sendActionNoRepeat];
+                     [self processButtonPress:TAG_BUTTON_MENU];
                  }
                  else {
                      [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
@@ -749,17 +753,6 @@ NSInteger buttonAction;
 - (IBAction)stopHoldKey:(id)sender {
     [self.holdVolumeTimer invalidate];
     buttonAction = 0;
-}
-
-- (void)sendActionNoRepeat {
-//    NSString *action;
-    switch (buttonAction) {
-        case TAG_BUTTON_MENU: // MENU OSD
-            [self GUIAction:@"Input.ShowOSD" params:@{} httpAPIcallback:@"SendKey(0xF04D)"];
-            break;
-        default:
-            break;
-    }
 }
 
 - (void)playerActionVideo:(NSInteger)videoButton actionMusic:(NSInteger)musicButton {
