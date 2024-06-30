@@ -52,6 +52,8 @@
 #define TAG_BUTTON_SEEK_FORWARD_BIG 26
 #define WINDOW_FULLSCREEN_VIDEO 12005
 #define WINDOW_VISUALISATION 12006
+#define KEY_HOLD_TIMEOUT 0.5
+#define KEY_REPEAT_TIMEOUT 0.1
 
 @interface RemoteController ()
 
@@ -59,7 +61,7 @@
 
 @implementation RemoteController
 
-@synthesize holdVolumeTimer;
+@synthesize holdKeyTimer;
 
 - (void)setupGestureView {
     NSArray *GestureDirections = @[@(UISwipeGestureRecognizerDirectionLeft),
@@ -304,6 +306,13 @@
             break;
     }
     [self processButtonPress:buttonID];
+    
+    NSDictionary *params = @{@"buttontag": @(buttonID)};
+    self.holdKeyTimer = [NSTimer scheduledTimerWithTimeInterval:KEY_HOLD_TIMEOUT
+                                                         target:self
+                                                       selector:@selector(longpressKey:)
+                                                       userInfo:params
+                                                        repeats:NO];
 }
 
 - (void)handleTouchpadDoubleTap {
@@ -377,11 +386,11 @@
 }
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
-    [self stopHoldKey:nil];
+    [self.holdKeyTimer invalidate];
 }
 
 - (void)touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)event {
-    [self stopHoldKey:nil];
+    [self.holdKeyTimer invalidate];
 }
         
 # pragma mark - view Effects
@@ -639,13 +648,6 @@
         // Disable gestures to move the modal remote as this would conflict with the gesture zone
         [self.presentationController.presentedView.gestureRecognizers.firstObject setEnabled:NO];
     }
-    if (touches.count == 1) {
-        NSTimeInterval timeInterval = 1.5;
-        if (buttonAction > 0) {
-            timeInterval = 0.5;
-        }
-        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
-    }
 }
 
 #pragma mark - Action Sheet Method
@@ -734,15 +736,19 @@
 
 #pragma mark - Buttons
 
-NSInteger buttonAction;
-
 - (IBAction)holdKey:(id)sender {
-    buttonAction = [sender tag];
-    [self sendAction];
-    [self.holdVolumeTimer invalidate];
-    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSInteger buttonID = [sender tag];
+    [self processButtonPress:buttonID];
     
+    NSDictionary *params = @{@"buttontag": @(buttonID)};
+    [self.holdKeyTimer invalidate];
+    self.holdKeyTimer = [NSTimer scheduledTimerWithTimeInterval:KEY_HOLD_TIMEOUT
+                                                         target:self
+                                                       selector:@selector(longpressKey:)
+                                                       userInfo:params
+                                                        repeats:NO];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL startVibrate = [userDefaults boolForKey:@"vibrate_preference"];
     if (startVibrate) {
         [[UIDevice currentDevice] playInputClick];
@@ -751,8 +757,25 @@ NSInteger buttonAction;
 }
 
 - (IBAction)stopHoldKey:(id)sender {
-    [self.holdVolumeTimer invalidate];
-    buttonAction = 0;
+    [self.holdKeyTimer invalidate];
+}
+
+- (void)longpressKey:(id)timer {
+    // Repeatable key was lomgpressed
+    id sender = [timer userInfo];
+    [self.holdKeyTimer invalidate];
+    self.holdKeyTimer = [NSTimer scheduledTimerWithTimeInterval:KEY_REPEAT_TIMEOUT
+                                                         target:self
+                                                       selector:@selector(autoPressKey:)
+                                                       userInfo:sender
+                                                        repeats:YES];
+}
+
+- (void)autoPressKey:(id)timer {
+    // Auto repeated button press
+    NSDictionary *params = [timer userInfo];
+    NSInteger buttonTag = [params[@"buttontag"] intValue];
+    [self processButtonPress:buttonTag];
 }
 
 - (void)playerActionVideo:(NSInteger)videoButton actionMusic:(NSInteger)musicButton {
@@ -798,26 +821,6 @@ NSInteger buttonAction;
              }
          }];
     }
-    return;
-}
-
-- (void)sendAction {
-    if (!buttonAction) {
-        return;
-    }
-    if (self.holdVolumeTimer.timeInterval == 0.5 || self.holdVolumeTimer.timeInterval == 1.5) {
-        
-        if (self.holdVolumeTimer.timeInterval == 1.5) {
-            [self.holdVolumeTimer invalidate];
-            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
-        }
-        else {
-            [self.holdVolumeTimer invalidate];
-            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
-        }
-    }
-    
-    [self processButtonPress:buttonAction];
 }
 
 - (void)processButtonPress:(NSInteger)buttonTag {
@@ -1213,7 +1216,7 @@ NSInteger buttonAction;
 }
 
 - (void)resetRemote {
-    [self stopHoldKey:nil];
+    [self.holdKeyTimer invalidate];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
