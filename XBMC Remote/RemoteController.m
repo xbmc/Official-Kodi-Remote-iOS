@@ -345,11 +345,11 @@
                      [self processButtonPress:TAG_BUTTON_MENU];
                  }
                  else {
-                     [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
+                     [self processButtonLongPress:TAG_BUTTON_MENU];
                  }
              }
              else {
-                 [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
+                 [self processButtonLongPress:TAG_BUTTON_MENU];
              }
          }];
     }
