@@ -48,6 +48,8 @@
 #define TAG_BUTTON_MOVIES 22
 #define TAG_BUTTON_TVSHOWS 23
 #define TAG_BUTTON_PICTURES 24
+#define TAG_BUTTON_SEEK_BACKWARD_BIG 25
+#define TAG_BUTTON_SEEK_FORWARD_BIG 26
 #define WINDOW_FULLSCREEN_VIDEO 12005
 #define WINDOW_VISUALISATION 12006
 
@@ -824,7 +826,14 @@ NSInteger buttonAction;
             self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
         }
     }
-    switch (buttonAction) {
+    
+    [self processButtonPress:buttonAction];
+}
+
+- (void)processButtonPress:(NSInteger)buttonTag {
+    NSString *action;
+    NSDictionary *params;
+    switch (buttonTag) {
         case TAG_BUTTON_ARROW_UP:
             if ([VersionCheck hasInputButtonEventSupport]) {
                 [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"up", @"keymap": @"KB"} httpAPIcallback:nil];
@@ -844,12 +853,7 @@ NSInteger buttonAction;
                 [self playerStep:@"smallbackward" musicPlayerGo:@"previous" musicPlayerAction:nil];
             }
             break;
-
-        case TAG_BUTTON_SELECT:
-            [self GUIAction:@"Input.Select" params:@{} httpAPIcallback:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
-            break;
-
+            
         case TAG_BUTTON_ARROW_RIGHT:
             if ([VersionCheck hasInputButtonEventSupport]) {
                 [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"right", @"keymap": @"KB"} httpAPIcallback:nil];
@@ -874,16 +878,6 @@ NSInteger buttonAction;
             [self GUIAction:@"Input.Back" params:@{} httpAPIcallback:nil];
             break;
             
-        default:
-            break;
-    }
-}
-
-- (IBAction)startVibrate:(id)sender {
-    NSString *action;
-    NSDictionary *params;
-    NSDictionary *dicParams;
-    switch ([sender tag]) {
         case TAG_BUTTON_FULLSCREEN:
             action = @"GUI.SetFullscreen";
             [self GUIAction:action params:@{@"fullscreen": @"toggle"} httpAPIcallback:@"SendKey(0xf009)"];
@@ -892,6 +886,12 @@ NSInteger buttonAction;
         case TAG_BUTTON_SEEK_BACKWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
+            [self playbackAction:action params:params];
+            break;
+            
+        case TAG_BUTTON_SEEK_BACKWARD_BIG:
+            action = @"Player.Seek";
+            params = [Utilities buildPlayerSeekStepParams:@"bigbackward"];
             [self playbackAction:action params:params];
             break;
             
@@ -904,6 +904,12 @@ NSInteger buttonAction;
         case TAG_BUTTON_SEEK_FORWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
+            [self playbackAction:action params:params];
+            break;
+        
+        case TAG_BUTTON_SEEK_FORWARD_BIG:
+            action = @"Player.Seek";
+            params = [Utilities buildPlayerSeekStepParams:@"bigforward"];
             [self playbackAction:action params:params];
             break;
             
@@ -970,35 +976,39 @@ NSInteger buttonAction;
             
         case TAG_BUTTON_MUSIC:
             action = @"GUI.ActivateWindow";
-            dicParams = @{@"window": @"music"};
-            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
+            params = @{@"window": @"music"};
+            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
             break;
             
         case TAG_BUTTON_MOVIES:
             action = @"GUI.ActivateWindow";
-            dicParams = @{@"window": @"videos",
-                          @"parameters": @[@"MovieTitles"]};
-            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
+            params = @{@"window": @"videos",
+                       @"parameters": @[@"MovieTitles"]};
+            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
             break;
         
         case TAG_BUTTON_TVSHOWS:
             action = @"GUI.ActivateWindow";
-            dicParams = @{@"window": @"videos",
-                          @"parameters": @[@"tvshowtitles"]};
-            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
+            params = @{@"window": @"videos",
+                       @"parameters": @[@"tvshowtitles"]};
+            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
             break;
         
         case TAG_BUTTON_PICTURES:
             action = @"GUI.ActivateWindow";
-            dicParams = @{@"window": @"pictures"};
-            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Pictures)"];
+            params = @{@"window": @"pictures"};
+            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Pictures)"];
             break;
             
         default:
             break;
     }
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+}
+
+- (IBAction)startVibrate:(id)sender {
+    [self processButtonPress:[sender tag]];
     
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL startVibrate = [userDefaults boolForKey:@"vibrate_preference"];
     if (startVibrate) {
         [[UIDevice currentDevice] playInputClick];
