@@ -1019,70 +1019,74 @@ NSInteger buttonAction;
 
 # pragma mark - Gestures
 
+- (void)processButtonLongPress:(NSInteger)buttonTag {
+    switch (buttonTag) {
+        case TAG_BUTTON_FULLSCREEN:
+            [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"togglefullscreen"} httpAPIcallback:@"Action(199)"];
+            break;
+            
+        case TAG_BUTTON_SEEK_BACKWARD: // DECREASE PLAYBACK SPEED
+            [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
+            break;
+            
+        case TAG_BUTTON_SEEK_FORWARD: // INCREASE PLAYBACK SPEED
+            [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
+            break;
+            
+        case TAG_BUTTON_INFO: // CODEC INFO
+            if (AppDelegate.instance.serverVersion > 16) {
+                [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"playerdebug"} httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Input.ShowCodec" params:@{} httpAPIcallback:@"SendKey(0xF04F)"];
+            }
+            break;
+
+        case TAG_BUTTON_SELECT: // CONTEXT MENU
+        case TAG_BUTTON_MENU:
+            [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
+            break;
+
+        case TAG_BUTTON_SUBTITLES: // SUBTITLES BUTTON
+            if (AppDelegate.instance.serverVersion > 12) {
+                [self GUIAction:@"GUI.ActivateWindow"
+                         params:@{@"window": @"subtitlesearch"}
+                httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Addons.ExecuteAddon"
+                         params:@{@"addonid": @"script.xbmc.subtitles"}
+                httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
+            }
+            break;
+            
+        case TAG_BUTTON_MOVIES:
+            [self GUIAction:@"GUI.ActivateWindow"
+                     params:@{@"window": @"pvr",
+                              @"parameters": @[@"31", @"0", @"10", @"0"]}
+            httpAPIcallback:nil];
+            break;
+            
+        case TAG_BUTTON_TVSHOWS:
+            [self GUIAction:@"GUI.ActivateWindow"
+                     params:@{@"window": @"pvrosdguide"}
+            httpAPIcallback:nil];
+            break;
+            
+        case TAG_BUTTON_PICTURES:
+            [self GUIAction:@"GUI.ActivateWindow"
+                     params:@{@"window": @"pvrosdchannels"}
+            httpAPIcallback:nil];
+            break;
+
+        default:
+            break;
+    }
+}
+
 - (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        switch (gestureRecognizer.view.tag) {
-            case TAG_BUTTON_FULLSCREEN:
-                [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"togglefullscreen"} httpAPIcallback:@"Action(199)"];
-                break;
-                
-            case TAG_BUTTON_SEEK_BACKWARD: // DECREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
-                break;
-                
-            case TAG_BUTTON_SEEK_FORWARD: // INCREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
-                break;
-                
-            case TAG_BUTTON_INFO: // CODEC INFO
-                if (AppDelegate.instance.serverVersion > 16) {
-                    [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"playerdebug"} httpAPIcallback:nil];
-                }
-                else {
-                    [self GUIAction:@"Input.ShowCodec" params:@{} httpAPIcallback:@"SendKey(0xF04F)"];
-                }
-                break;
-
-            case TAG_BUTTON_SELECT: // CONTEXT MENU
-            case TAG_BUTTON_MENU:
-                [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
-                break;
-
-            case TAG_BUTTON_SUBTITLES: // SUBTITLES BUTTON
-                if (AppDelegate.instance.serverVersion > 12) {
-                    [self GUIAction:@"GUI.ActivateWindow"
-                             params:@{@"window": @"subtitlesearch"}
-                    httpAPIcallback:nil];
-                }
-                else {
-                    [self GUIAction:@"Addons.ExecuteAddon"
-                             params:@{@"addonid": @"script.xbmc.subtitles"}
-                    httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
-                }
-                break;
-                
-            case TAG_BUTTON_MOVIES:
-                [self GUIAction:@"GUI.ActivateWindow"
-                         params:@{@"window": @"pvr",
-                                  @"parameters": @[@"31", @"0", @"10", @"0"]}
-                httpAPIcallback:nil];
-                break;
-                
-            case TAG_BUTTON_TVSHOWS:
-                [self GUIAction:@"GUI.ActivateWindow"
-                         params:@{@"window": @"pvrosdguide"}
-                httpAPIcallback:nil];
-                break;
-                
-            case TAG_BUTTON_PICTURES:
-                [self GUIAction:@"GUI.ActivateWindow"
-                         params:@{@"window": @"pvrosdchannels"}
-                httpAPIcallback:nil];
-                break;
-
-            default:
-                break;
-        }
+        [self processButtonLongPress:gestureRecognizer.view.tag];
     }
 }
 
