@@ -395,8 +395,8 @@
         
 # pragma mark - view Effects
 
-- (void)showSubInfo:(NSString*)message timeout:(NSTimeInterval)timeout color:(UIColor*)color {
-    [messagesView showMessage:message timeout:timeout color:color];
+- (void)showSubInfo:(NSString*)message color:(UIColor*)color {
+    [Utilities showMessage:message color:color];
 }
 
 # pragma mark - ToolBar
@@ -532,7 +532,7 @@
                                      [self showActionSubtitles:actionSheetTitles];
                                  }
                                  else {
-                                     [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") color:[Utilities getSystemRed:0.95]];
                                  }
                              }
                          }
@@ -540,7 +540,7 @@
                  }];
             }
             else {
-                [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") color:[Utilities getSystemRed:0.95]];
             }
         }
     }];
@@ -575,7 +575,7 @@
                                      [self showActionAudiostreams:actionSheetTitles];
                                  }
                                  else {
-                                     [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") color:[Utilities getSystemRed:0.95]];
                                  }
                              }
                         }
@@ -583,7 +583,7 @@
                  }];
             }
             else {
-                [self showSubInfo:LOCALIZED_STR(@"Audiostream not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                [self showSubInfo:LOCALIZED_STR(@"Audiostream not available") color:[Utilities getSystemRed:0.95]];
             }
         }
     }];
@@ -666,7 +666,7 @@
                             id audiostreamIndex = audiostreamsDictionary[@"audiostreams"][i][@"index"];
                             if (audiostreamIndex) {
                                 [self playbackAction:@"Player.SetAudioStream" params:@{@"stream": audiostreamIndex}];
-                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+                                [self showSubInfo:actiontitle color:[Utilities getSystemGreen:0.95]];
                             }
                         }
                     }
@@ -694,7 +694,7 @@
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
 
         UIAlertAction *action_disable = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Disable subtitles") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+            [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") color:[Utilities getSystemGreen:0.95]];
             [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"off"}];
         }];
         if ([subsDictionary[@"subtitleenabled"] boolValue]) {
@@ -712,7 +712,7 @@
                             if (subsIndex) {
                                 [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": subsIndex}];
                                 [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"on"}];
-                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+                                [self showSubInfo:actiontitle color:[Utilities getSystemGreen:0.95]];
                             }
                         }
                     }

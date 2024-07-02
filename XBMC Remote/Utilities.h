@@ -66,6 +66,7 @@ typedef enum {
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createPowerControl:(UIViewController*)ctrl messageView:(MessagesView*)messageView;
 + (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate>*)fromctrl;
++ (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor;
 + (DSJSONRPC*)getJsonRPC;
 + (void)setWebImageAuthorizationOnSuccessNotification:(NSNotification*)note;
 + (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array;

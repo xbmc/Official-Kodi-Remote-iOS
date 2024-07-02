@@ -402,12 +402,26 @@
                                                  name: @"VideoLibrary.OnCleanFinished"
                                                object: nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(showNotificationMessage:)
+                                                 name: @"UIShowMessage"
+                                               object: nil];
+    
     self.view.backgroundColor = [Utilities getGrayColor:36 alpha:1];
     [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
 - (void)handleLibraryNotification:(NSNotification*)note {
-    [messagesView showMessage:note.name timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+    [Utilities showMessage:note.name color:[Utilities getSystemGreen:0.95]];
+}
+
+- (void)showNotificationMessage:(NSNotification*)note {
+    NSDictionary *params = note.userInfo;
+    if (!params) {
+        return;
+    }
+    [self addMessagesToRootView];
+    [messagesView showMessage:params[@"message"] timeout:2.0 color:params[@"color"]];
 }
 
 - (void)connectionStatus:(NSNotification*)note {

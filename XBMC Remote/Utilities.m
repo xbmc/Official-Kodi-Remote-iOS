@@ -551,10 +551,10 @@
         [[Utilities getJsonRPC] callMethod:command withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (messageView) {
                 if (methodError == nil && error == nil) {
-                    [messageView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+                    [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
                 }
                 else {
-                    [messageView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                    [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
                 }
             }
             else {
@@ -584,10 +584,10 @@
             if (messageView) {
                 if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
                     [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
-                    [messageView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+                    [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
                 }
                 else {
-                    [messageView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                    [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
                 }
             }
             else {
@@ -723,6 +723,17 @@
         }
         [ctrl presentViewController:svc animated:YES completion:nil];
     }
+}
+
++ (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor {
+    if (!messageText || ![messageColor isKindOfClass:[UIColor class]]) {
+        return;
+    }
+    NSDictionary *params = @{
+        @"message": messageText,
+        @"color": messageColor,
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UIShowMessage" object:nil userInfo:params];
 }
 
 + (DSJSONRPC*)getJsonRPC {

@@ -1635,7 +1635,7 @@
         // Selected favourite item is an unknown type -> throw an error
         else {
             NSString *message = [NSString stringWithFormat:@"%@ (type = '%@')", LOCALIZED_STR(@"Cannot do that"), item[@"type"]];
-            [messagesView showMessage:message timeout:2.0 color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:message color:[Utilities getSystemRed:0.95]];
         }
     }
     else if (methods[@"method"] != nil && ![parameters[@"forceActionSheet"] boolValue] && !stackscrollFullscreen) {
@@ -3786,7 +3786,7 @@
     customButton *arrayButtons = [customButton new];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [messagesView showMessage:LOCALIZED_STR(@"Button added") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+    [Utilities showMessage:LOCALIZED_STR(@"Button added") color:[Utilities getSystemGreen:0.95]];
     if (IS_IPAD) {
         [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
     }
@@ -4525,10 +4525,10 @@
 - (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters success:(NSString*)successMessage failure:(NSString*)failureMessage {
     [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
-            [messagesView showMessage:successMessage timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+            [Utilities showMessage:successMessage color:[Utilities getSystemGreen:0.95]];
         }
         else {
-            [messagesView showMessage:failureMessage timeout:2.0 color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:failureMessage color:[Utilities getSystemRed:0.95]];
         }
     }];
 }

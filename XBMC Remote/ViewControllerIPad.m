@@ -620,10 +620,23 @@
                                              selector: @selector(handleLibraryNotification:)
                                                  name: @"VideoLibrary.OnCleanFinished"
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(showNotificationMessage:)
+                                                 name: @"UIShowMessage"
+                                               object: nil];
 }
 
 - (void)handleLibraryNotification:(NSNotification*)note {
-    [messagesView showMessage:note.name timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+    [Utilities showMessage:note.name color:[Utilities getSystemGreen:0.95]];
+}
+
+- (void)showNotificationMessage:(NSNotification*)note {
+    NSDictionary *params = note.userInfo;
+    if (!params) {
+        return;
+    }
+    [messagesView showMessage:params[@"message"] timeout:2.0 color:params[@"color"]];
 }
 
 - (void)handlePlaylistHeaderUpdate:(NSNotification*)sender {

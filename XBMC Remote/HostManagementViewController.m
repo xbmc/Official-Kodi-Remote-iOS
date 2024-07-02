@@ -767,7 +767,7 @@
 
 - (void)connectionError:(NSNotification*)note {
     NSDictionary *theData = note.userInfo;
-    [messagesView showMessage:theData[@"error_message"] timeout:2.0 color:[Utilities getSystemRed:0.95]];
+    [Utilities showMessage:theData[@"error_message"] color:[Utilities getSystemRed:0.95]];
 }
 
 - (void)authFailed:(NSNotification*)note {
