@@ -1715,7 +1715,7 @@
 #pragma mark - UICollectionView methods
 
 - (void)initCollectionView {
-    if ([self collectionViewCanBeEnabled] && !collectionView) {
+    if (!collectionView) {
         flowLayout = [FloatingHeaderFlowLayout new];
         [flowLayout setSearchBarHeight:self.searchController.searchBar.frame.size.height];
         
@@ -5832,17 +5832,11 @@
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];
     [self.view addSubview:messagesView];
     
+    // As default both list and grid views animate from right to left.
     frame = dataList.frame;
-    if (parameters[@"animationStartX"] != nil) {
-        frame.origin.x = [parameters[@"animationStartX"] intValue];
-    }
-    else {
-        frame.origin.x = viewWidth;
-    }
-    if ([parameters[@"animationStartBottomScreen"] boolValue]) {
-        frame.origin.y = UIScreen.mainScreen.bounds.size.height;
-    }
+    frame.origin.x = viewWidth;
     dataList.frame = frame;
+    
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     enableCollectionView = [self collectionViewIsEnabled];
     activeLayoutView = dataList;
@@ -5865,6 +5859,19 @@
     [dataList addGestureRecognizer:longPressGestureList];
     
     [activityIndicatorView startAnimating];
+    
+    // As an exception the settings on iPhone animate bottom-up. This requires to
+    // change the initial frame for the first table shown (list view). It is important
+    // to apply this only change after the library view has been initialized as this
+    // uses the list view frame to set its own frame.
+    frame = dataList.frame;
+    if (parameters[@"animationStartX"] != nil) {
+        frame.origin.x = [parameters[@"animationStartX"] intValue];
+    }
+    if ([parameters[@"animationStartBottomScreen"] boolValue]) {
+        frame.origin.y = UIScreen.mainScreen.bounds.size.height;
+    }
+    dataList.frame = frame;
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTabHasChanged:)
