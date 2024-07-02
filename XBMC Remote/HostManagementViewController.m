@@ -524,10 +524,6 @@
     frame.origin.y -= bottomPadding;
     serverInfoButton.frame = frame;
     
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HOSTMANAGERVC_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:0];
-    messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    [self.view addSubview:messagesView];
-    
     CGFloat toolbarHeight = bottomToolbar.frame.size.height;
     serverInfoView = [[UITextView alloc] initWithFrame:CGRectMake(MARGIN, deltaY + MARGIN, self.view.frame.size.width - 2 * MARGIN, self.view.frame.size.height - deltaY - toolbarHeight - 2 * MARGIN)];
     serverInfoView.autoresizingMask = UIViewAutoresizingFlexibleWidth |

@@ -6063,9 +6063,6 @@
         [self setIpadInterface:itemSizes[@"ipad"]];
     }
     
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];
-    [self.view addSubview:messagesView];
-    
     // As default both list and grid views animate from right to left.
     frame = dataList.frame;
     frame.origin.x = viewWidth;

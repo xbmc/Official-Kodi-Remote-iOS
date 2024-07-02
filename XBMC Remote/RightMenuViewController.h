@@ -11,7 +11,6 @@
 #import "DSJSONRPC.h"
 #import "RemoteController.h"
 #import "VolumeSliderView.h"
-#import "MessagesView.h"
 
 @interface RightMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     UITableView *menuTableView;
@@ -19,7 +18,6 @@
     VolumeSliderView *volumeSliderView;
     RemoteController *remoteControllerView;
     BOOL torchIsOn;
-    MessagesView *messagesView;
     NSUInteger editableRowStartAt;
     UIButton *editTableButton;
     UIButton *moreButton;

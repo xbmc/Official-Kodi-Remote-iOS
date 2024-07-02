@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-#import "MessagesView.h"
 
 typedef enum {
     remoteTop,
@@ -49,7 +48,6 @@ typedef enum {
     BOOL isGestureViewActive;
     NSDictionary *subsDictionary;
     NSDictionary *audiostreamsDictionary;
-    MessagesView *messagesView;
 }
 
 - (IBAction)startVibrate:(id)sender;

@@ -876,24 +876,6 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tap];
-    
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectZero deltaY:0 deltaX:0];
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    CGFloat deltaY = 0;
-    CGRect frame = UIScreen.mainScreen.bounds;
-    if (IS_IPAD) {
-        frame.size.width = STACKSCROLL_WIDTH;
-    }
-    else {
-        deltaY = [Utilities getTopPaddingWithNavBar:self.navigationController];
-    }
-    
-    [messagesView updateWithFrame:CGRectMake(0, 0, frame.size.width, deltaY + DEFAULT_MSG_HEIGHT) deltaY:deltaY deltaX:0];
-    [self.view addSubview:messagesView];
 }
 
 - (void)didReceiveMemoryWarning {
