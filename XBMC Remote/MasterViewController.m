@@ -230,7 +230,7 @@
 
 - (void)addMessagesToRootView {
     // Add MessagesView to root view to be able to show messages on top
-    UIView *rootView = UIApplication.sharedApplication.keyWindow.rootViewController.view;
+    UIView *rootView = [Utilities topMostController].view;
     [rootView addSubview:messagesView];
 }
 

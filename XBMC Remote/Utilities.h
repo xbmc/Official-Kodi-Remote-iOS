@@ -123,5 +123,6 @@ typedef enum {
 + (void)wakeUp:(NSString*)macAddress;
 + (NSString*)getUrlStyleAddress:(NSString*)address;
 + (int)getActivePlayerID:(NSArray*)activePlayerList;
++ (UIViewController*)topMostController;
 
 @end

@@ -481,16 +481,6 @@
     }
 }
 
-- (UIViewController*)topMostController {
-    UIViewController *topController = UIApplication.sharedApplication.keyWindow.rootViewController;
-
-    while (topController.presentedViewController) {
-        topController = topController.presentedViewController;
-    }
-
-    return topController;
-}
-
 - (void)setFilternameLabel:(NSString*)labelText runFullscreenButtonCheck:(BOOL)check forceHide:(BOOL)forceHide {
     self.navigationItem.title = [Utilities stripBBandHTML:labelText];
     if (IS_IPHONE) {
@@ -3254,7 +3244,7 @@
         UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
         BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
-        UIViewController *showFromCtrl = [self topMostController];
+        UIViewController *showFromCtrl = [Utilities topMostController];
         [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
@@ -3284,7 +3274,7 @@
                 title = [NSString stringWithFormat:@"%@\n%@", title, season];
             }
             
-            UIViewController *showFromCtrl = [self topMostController];
+            UIViewController *showFromCtrl = [Utilities topMostController];
             UIView *showFromView = nil;
             if (IS_IPHONE) {
                 showFromView = self.view;
@@ -3366,7 +3356,7 @@
                 }
                 UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
-                UIViewController *showFromCtrl = [self topMostController];
+                UIViewController *showFromCtrl = [Utilities topMostController];
                 UIView *showFromView = nil;
                 if (IS_IPHONE) {
                     showFromView = self.view;
