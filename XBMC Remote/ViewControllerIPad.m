@@ -600,6 +600,30 @@
                                              selector: @selector(handlePlaylistHeaderUpdate:)
                                                  name: @"PlaylistHeaderUpdate"
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleLibraryNotification:)
+                                                 name: @"AudioLibrary.OnScanFinished"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleLibraryNotification:)
+                                                 name: @"AudioLibrary.OnCleanFinished"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleLibraryNotification:)
+                                                 name: @"VideoLibrary.OnScanFinished"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleLibraryNotification:)
+                                                 name: @"VideoLibrary.OnCleanFinished"
+                                               object: nil];
+}
+
+- (void)handleLibraryNotification:(NSNotification*)note {
+    [messagesView showMessage:note.name timeout:2.0 color:[Utilities getSystemGreen:0.95]];
 }
 
 - (void)handlePlaylistHeaderUpdate:(NSNotification*)sender {

@@ -643,30 +643,6 @@
                                              selector: @selector(reloadCustomButtonTable:)
                                                  name: @"UIInterfaceCustomButtonAdded"
                                                object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showNotificationMessage:)
-                                                 name: @"AudioLibrary.OnScanFinished"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showNotificationMessage:)
-                                                 name: @"AudioLibrary.OnCleanFinished"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showNotificationMessage:)
-                                                 name: @"VideoLibrary.OnScanFinished"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showNotificationMessage:)
-                                                 name: @"VideoLibrary.OnCleanFinished"
-                                               object: nil];
-}
-
-- (void)showNotificationMessage:(NSNotification*)note {
-    [messagesView showMessage:note.name timeout:2.0 color:[Utilities getSystemGreen:0.95]];
 }
 
 - (void)reloadCustomButtonTable:(NSNotification*)note {
