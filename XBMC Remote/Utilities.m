@@ -539,7 +539,7 @@
     return alertView;
 }
 
-+ (void)powerAction:(NSString*)command ctrl:(UIViewController*)ctrl message:(NSString*)alertMessage ok:(NSString*)okMessage messageView:(MessagesView*)messageView {
++ (void)powerAction:(NSString*)command ctrl:(UIViewController*)ctrl message:(NSString*)alertMessage ok:(NSString*)okMessage {
     alertMessage = alertMessage ?: @"";
     okMessage = okMessage ?: LOCALIZED_STR(@"Yes");
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:alertMessage message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -549,24 +549,12 @@
             return;
         }
         [[Utilities getJsonRPC] callMethod:command withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            if (messageView) {
-                if (methodError == nil && error == nil) {
-                    [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
-                }
-                else {
-                    [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
-                }
+            // User already confirmed, so we only show a short-lived message.
+            if (methodError == nil && error == nil) {
+                [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
             }
             else {
-                NSString *alertTitle = nil;
-                if (methodError == nil && error == nil) {
-                    alertTitle = LOCALIZED_STR(@"Command executed");
-                }
-                else {
-                    alertTitle = LOCALIZED_STR(@"Cannot do that");
-                }
-                UIAlertController *alertViewResult = [Utilities createAlertOK:alertTitle message:nil];
-                [ctrl presentViewController:alertViewResult animated:YES completion:nil];
+                [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
             }
         }];
     }];
@@ -575,31 +563,21 @@
     [ctrl presentViewController:alertView animated:YES completion:nil];
 }
 
-+ (UIAlertController*)createPowerControl:(UIViewController*)ctrl messageView:(MessagesView*)messageView {
++ (UIAlertController*)createPowerControl:(UIViewController*)ctrl {
     NSString *title = [NSString stringWithFormat:@"%@\n%@", AppDelegate.instance.obj.serverDescription, AppDelegate.instance.obj.serverIP];
     UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     if (!AppDelegate.instance.serverOnLine) {
         UIAlertAction *action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Send Wake-On-LAN") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            if (messageView) {
-                if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
-                    [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
-                    [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
-                }
-                else {
-                    [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
-                }
+            // In this case we want to have a user interaction popup instead of a short-lived message.
+            if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
+                [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
+                UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
+                [ctrl presentViewController:alertView animated:YES completion:nil];
             }
             else {
-                if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
-                    [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
-                    UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
-                    [ctrl presentViewController:alertView animated:YES completion:nil];
-                }
-                else {
-                    UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Warning") message:LOCALIZED_STR(@"No server MAC address defined")];
-                    [ctrl presentViewController:alertView animated:YES completion:nil];
-                }
+                UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Warning") message:LOCALIZED_STR(@"No server MAC address defined")];
+                [ctrl presentViewController:alertView animated:YES completion:nil];
             }
         }];
         [actionView addAction:action_wake];
@@ -609,8 +587,7 @@
             [self powerAction:@"System.Shutdown" 
                          ctrl:ctrl
                       message:LOCALIZED_STR(@"Are you sure you want to power off your XBMC system now?")
-                           ok:LOCALIZED_STR(@"Power off")
-                  messageView:messageView];
+                           ok:LOCALIZED_STR(@"Power off")];
         }];
         [actionView addAction:action_pwr_off_system];
         
@@ -618,8 +595,7 @@
             [self powerAction:@"Application.Quit" 
                          ctrl:ctrl
                       message:LOCALIZED_STR(@"Are you sure you want to quit XBMC application now?")
-                           ok:LOCALIZED_STR(@"Quit")
-                  messageView:messageView];
+                           ok:LOCALIZED_STR(@"Quit")];
         }];
         [actionView addAction:action_quit_kodi];
         
@@ -627,8 +603,7 @@
             [self powerAction:@"System.Hibernate" 
                          ctrl:ctrl
                       message:LOCALIZED_STR(@"Are you sure you want to hibernate your XBMC system now?")
-                           ok:LOCALIZED_STR(@"Hibernate")
-                  messageView:messageView];
+                           ok:LOCALIZED_STR(@"Hibernate")];
         }];
         [actionView addAction:action_hibernate];
         
@@ -636,8 +611,7 @@
             [self powerAction:@"System.Suspend"
                          ctrl:ctrl
                       message:LOCALIZED_STR(@"Are you sure you want to suspend your XBMC system now?")
-                           ok:LOCALIZED_STR(@"Suspend")
-                  messageView:messageView];
+                           ok:LOCALIZED_STR(@"Suspend")];
         }];
         [actionView addAction:action_suspend];
         
@@ -645,8 +619,7 @@
             [self powerAction:@"System.Reboot" 
                          ctrl:ctrl
                       message:LOCALIZED_STR(@"Are you sure you want to reboot your XBMC system now?")
-                           ok:LOCALIZED_STR(@"Reboot")
-                  messageView:messageView];
+                           ok:LOCALIZED_STR(@"Reboot")];
         }];
         [actionView addAction:action_reboot];
         
@@ -654,8 +627,7 @@
             [self powerAction:@"AudioLibrary.Scan" 
                          ctrl:ctrl
                       message:LOCALIZED_STR(@"Are you sure you want to update your audio library now?")
-                           ok:LOCALIZED_STR(@"Update Audio")
-                  messageView:messageView];
+                           ok:LOCALIZED_STR(@"Update Audio")];
         }];
         [actionView addAction:action_scan_audio_lib];
         
@@ -663,8 +635,7 @@
             [self powerAction:@"AudioLibrary.Clean"
                          ctrl:ctrl
                       message:LOCALIZED_STR(@"Are you sure you want to clean your audio library now?")
-                           ok:LOCALIZED_STR(@"Clean Audio")
-                  messageView:messageView];
+                           ok:LOCALIZED_STR(@"Clean Audio")];
         }];
         [actionView addAction:action_clean_audio_lib];
         
@@ -672,8 +643,7 @@
             [self powerAction:@"VideoLibrary.Scan" 
                          ctrl:ctrl
                       message:LOCALIZED_STR(@"Are you sure you want to update your video library now?")
-                           ok:LOCALIZED_STR(@"Update Video")
-                  messageView:messageView];
+                           ok:LOCALIZED_STR(@"Update Video")];
         }];
         [actionView addAction:action_scan_video_lib];
         
@@ -681,8 +651,7 @@
             [self powerAction:@"VideoLibrary.Clean" 
                          ctrl:ctrl 
                       message:LOCALIZED_STR(@"Are you sure you want to clean your video library now?")
-                           ok:LOCALIZED_STR(@"Clean Video")
-                  messageView:messageView];
+                           ok:LOCALIZED_STR(@"Clean Video")];
         }];
         [actionView addAction:action_clean_video_lib];
     }

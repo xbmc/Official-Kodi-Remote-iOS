@@ -215,7 +215,7 @@
         [self toggleSetup];
         return;
     }
-    UIAlertController *actionView = [Utilities createPowerControl:self messageView:messagesView];
+    UIAlertController *actionView = [Utilities createPowerControl:self];
     UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
     if (popPresenter != nil) {
         popPresenter.sourceView = powerButton;
