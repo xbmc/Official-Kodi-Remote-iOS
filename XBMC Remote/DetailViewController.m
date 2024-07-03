@@ -1320,11 +1320,9 @@
     BOOL newEnableCollectionView = [self collectionViewIsEnabled];
     [self setButtonViewContent:choosedTab];
     [self checkDiskCache];
-    NSTimeInterval animDuration = 0.3;
-    if (newEnableCollectionView != enableCollectionView) {
-        animDuration = 0.0;
-    }
-    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:animDuration Alpha:1.0 XPos:viewWidth];
+    
+    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:1.0 XPos:viewWidth];
+    
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
