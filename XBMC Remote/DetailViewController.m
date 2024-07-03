@@ -5864,14 +5864,12 @@
     // change the initial frame for the first table shown (list view). It is important
     // to apply this only change after the library view has been initialized as this
     // uses the list view frame to set its own frame.
-    frame = dataList.frame;
-    if (parameters[@"animationStartX"] != nil) {
-        frame.origin.x = [parameters[@"animationStartX"] intValue];
-    }
     if ([parameters[@"animationStartBottomScreen"] boolValue]) {
+        frame = dataList.frame;
+        frame.origin.x = 0;
         frame.origin.y = UIScreen.mainScreen.bounds.size.height;
+        dataList.frame = frame;
     }
-    dataList.frame = frame;
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTabHasChanged:)

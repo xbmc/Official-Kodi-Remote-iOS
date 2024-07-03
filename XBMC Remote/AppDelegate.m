@@ -440,8 +440,6 @@
         filemodeVideoType = @"files";
         filemodeMusicType = @"files";
     }
-    NSNumber *animationStartBottomScreen = @YES;
-    NSNumber *animationStartX = @0;
     
     obj = [GlobalData getInstance];
     
@@ -456,8 +454,6 @@
         UINavigationBar.appearance.titleTextAttributes = navbarTitleTextAttributes;
     }
     else {
-        animationStartBottomScreen = @NO;
-        animationStartX = @STACKSCROLL_WIDTH;
         thumbWidth = (int)(PAD_TV_SHOWS_BANNER_WIDTH * transform);
         tvshowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT * transform);
     }
@@ -5622,8 +5618,7 @@
                 @"level": @"expert",
             }, @"parameters",
             LOCALIZED_STR(@"XBMC Settings"), @"label",
-            animationStartX, @"animationStartX",
-            animationStartBottomScreen, @"animationStartBottomScreen",
+            @(IS_IPHONE), @"animationStartBottomScreen",
             @0, @"thumbWidth",
         ],
                                    
