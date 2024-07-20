@@ -537,7 +537,7 @@
     if (artist.length == 0 && studio.length) {
         artist = studio;
     }
-    if (artist.length == 0 && channel.length) {
+    if (artist.length == 0 && channel.length && ![channel isEqualToString:title]) {
         artist = channel;
     }
     
