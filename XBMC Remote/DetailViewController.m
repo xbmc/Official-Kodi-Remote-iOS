@@ -3341,7 +3341,7 @@
                 actiontitle = LOCALIZED_STR(@"Stop Recording");
             }
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self actionSheetHandler:actiontitle];
+                [self actionSheetHandler:actiontitle origin:origin];
             }];
             [actionView addAction:action];
         }
@@ -3469,7 +3469,7 @@
     [userDefaults setObject:sortAscDescSave forKey:sortKey];
 }
 
-- (void)actionSheetHandler:(NSString*)actiontitle {
+- (void)actionSheetHandler:(NSString*)actiontitle origin:(CGPoint)origin {
     NSDictionary *item = nil;
     if (selectedIndexPath != nil) {
         item = [self getItemFromIndexPath:selectedIndexPath];
@@ -3489,6 +3489,36 @@
             NSInteger playFromPosition = albumView ? selectedIndexPath.row : 0;
             [self addPlayback:item indexPath:selectedIndexPath position:playFromPosition shuffle:NO];
         }
+    }
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play using...")]) {
+        [[Utilities getJsonRPC] callMethod:@"Player.GetPlayers" withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (error == nil && methodError == nil) {
+                NSArray *sheetActions = methodResult;
+                if (!sheetActions.count) {
+                    return;
+                }
+                UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Play using...") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                
+                UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
+                
+                for (id actionName in sheetActions) {
+                    NSString *actiontitle = actionName[@"name"];
+                    UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                        [self addPlayback:item indexPath:selectedIndexPath using:actiontitle shuffle:NO];
+                    }];
+                    [actionView addAction:action];
+                }
+                [actionView addAction:action_cancel];
+                actionView.modalPresentationStyle = UIModalPresentationPopover;
+                
+                UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+                if (popPresenter != nil) {
+                    popPresenter.sourceView = self.view;
+                    popPresenter.sourceRect = CGRectMake(origin.x, origin.y, 1, 1);
+                }
+                [self presentViewController:actionView animated:YES completion:nil];
+            }
+        }];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
@@ -4210,7 +4240,15 @@
     }];
 }
 
+- (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath using:(NSString*)playername shuffle:(BOOL)shuffled {
+    [self addPlayback:item indexPath:indexPath using:playername position:0 shuffle:shuffled];
+}
+
 - (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath position:(NSInteger)pos shuffle:(BOOL)shuffled {
+    [self addPlayback:item indexPath:indexPath using:nil position:pos shuffle:shuffled];
+}
+
+- (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath using:(NSString*)playername position:(NSInteger)pos shuffle:(BOOL)shuffled {
     mainMenu *menuItem = [self getMainMenu:item];
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     if (forceMusicAlbumMode) {
@@ -4237,6 +4275,21 @@
     else if ([mainFields[@"row7"] isEqualToString:@"plugin"]) {
         NSDictionary *itemParams = @{
             @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil],
+        };
+        [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
+    }
+    else if (playername.length) {
+        NSString *key = mainFields[@"row8"];
+        id value = item[key];
+        if ([item[@"filetype"] isEqualToString:@"directory"]) {
+            key = @"directory";
+        }
+        NSDictionary *itemParams = @{
+            @"item": @{key: value},
+            @"options": @{
+                @"playername": playername,
+                @"shuffled": @(shuffled),
+            },
         };
         [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
     }

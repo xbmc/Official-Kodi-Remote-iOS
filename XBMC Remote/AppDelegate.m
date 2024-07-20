@@ -178,6 +178,7 @@
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
         LOCALIZED_STR(@"Play"),
+        LOCALIZED_STR(@"Play using..."),
         LOCALIZED_STR(@"Play in shuffle mode"),
         LOCALIZED_STR(@"Album Details"),
         LOCALIZED_STR(@"Search Wikipedia"),
@@ -189,6 +190,7 @@
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
         LOCALIZED_STR(@"Play"),
+        LOCALIZED_STR(@"Play using..."),
         LOCALIZED_STR(@"Play in shuffle mode"),
         LOCALIZED_STR(@"Artist Details"),
         LOCALIZED_STR(@"Search Wikipedia"),
@@ -201,6 +203,7 @@
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
         LOCALIZED_STR(@"Play"),
+        LOCALIZED_STR(@"Play using..."),
         LOCALIZED_STR(@"Play in shuffle mode"),
     ];
 }
@@ -210,6 +213,7 @@
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
         LOCALIZED_STR(@"Play"),
+        LOCALIZED_STR(@"Play using..."),
     ];
 }
 
@@ -225,6 +229,7 @@
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
         LOCALIZED_STR(@"Play"),
+        LOCALIZED_STR(@"Play using..."),
         LOCALIZED_STR(@"Movie Details"),
     ];
 }
@@ -245,6 +250,7 @@
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
         LOCALIZED_STR(@"Play"),
+        LOCALIZED_STR(@"Play using..."),
         LOCALIZED_STR(@"Music Video Details"),
     ];
 }
@@ -254,6 +260,7 @@
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
         LOCALIZED_STR(@"Play"),
+        LOCALIZED_STR(@"Play using..."),
         LOCALIZED_STR(@"Episode Details"),
     ];
 }
