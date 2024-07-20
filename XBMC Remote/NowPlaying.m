@@ -671,8 +671,8 @@
         duration.hidden = NO;
     }
     
-    // Disable progress bar for pictures or slideshows
-    if (currentPlayerID == PLAYERID_PICTURES) {
+    // Disable progress bar for pictures, slideshows or items with no total time (e.g. audio streams)
+    if (currentPlayerID == PLAYERID_PICTURES || totalSeconds == 0) {
         ProgressSlider.hidden = YES;
         currentTime.hidden = YES;
         duration.hidden = YES;
