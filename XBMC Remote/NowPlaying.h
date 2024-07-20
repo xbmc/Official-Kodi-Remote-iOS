@@ -96,6 +96,7 @@
     int storePosSeconds;
     long storedItemID;
     MessagesView *messagesView;
+    BOOL isRemotePlayer;
 }
 
 - (void)setNowPlayingDimension:(CGFloat)width height:(CGFloat)height YPOS:(CGFloat)YPOS fullscreen:(BOOL)isFullscreen;
