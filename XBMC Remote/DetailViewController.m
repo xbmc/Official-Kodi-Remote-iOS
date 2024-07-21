@@ -3493,7 +3493,7 @@
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play using...")]) {
         [[Utilities getJsonRPC] callMethod:@"Player.GetPlayers" withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
-                NSArray *sheetActions = methodResult;
+                NSArray *sheetActions = [self getSupportedPlayers:methodResult forItem:item];
                 if (!sheetActions.count) {
                     return;
                 }
@@ -3501,8 +3501,7 @@
                 
                 UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
                 
-                for (id actionName in sheetActions) {
-                    NSString *actiontitle = actionName[@"name"];
+                for (NSString *actiontitle in sheetActions) {
                     UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                         [self addPlayback:item indexPath:selectedIndexPath using:actiontitle shuffle:NO];
                     }];
@@ -3748,6 +3747,38 @@
     NSString *query = [searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *url = [NSString stringWithFormat:serviceURL, query];
     [Utilities SFloadURL:url fromctrl:self];
+}
+
+#pragma mark - UPNP
+
+- (NSArray*)getSupportedPlayers:(NSArray*)listedPlayers forItem:(id)item {
+    mainMenu *menuItem = [self getMainMenu:item];
+    NSDictionary *mainFields = menuItem.mainFields[choosedTab];
+    int playlistid = [mainFields[@"playlistid"] intValue];
+    NSMutableArray *supportedPlayers = [NSMutableArray new];
+    for (NSDictionary *player in listedPlayers) {
+        BOOL supportsAudio = [player[@"playsaudio"] boolValue];
+        BOOL supportsVideo = [player[@"playsvideo"] boolValue];
+        switch (playlistid) {
+            case PLAYERID_MUSIC:
+                if (supportsAudio) {
+                    [supportedPlayers addObject:player[@"name"]];
+                }
+                break;
+            case PLAYERID_PICTURES:
+                if (supportsVideo) {
+                    [supportedPlayers addObject:player[@"name"]];
+                }
+                break;
+            case PLAYERID_VIDEO:
+            default:
+                if (supportsAudio && supportsVideo) {
+                    [supportedPlayers addObject:player[@"name"]];
+                }
+                break;
+        }
+    }
+    return [supportedPlayers copy];
 }
 
 #pragma mark - Safari
