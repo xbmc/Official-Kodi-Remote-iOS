@@ -1240,23 +1240,6 @@
         @[],
     ];
     
-    menu_Music.showInfo = @[
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-    ];
-    
     menu_Music.subItem.mainMethod = @[
         @[
             @"AudioLibrary.GetSongs", @"method",
@@ -3447,14 +3430,6 @@
         [self action_queue_to_play],
     ];
     
-    menu_Videos.subItem.showInfo = @[
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-    ];
-    
     menu_Videos.subItem.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
@@ -4116,13 +4091,6 @@
     ];
         
     menu_TVShows.subItem.subItem.noConvertTime = YES;
-    menu_TVShows.subItem.subItem.showInfo = @[
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-    ];
 
 #pragma mark - Live TV
     menu_LiveTV.mainLabel = LOCALIZED_STR(@"Live TV");
@@ -4587,14 +4555,6 @@
         @[],
     ];
     
-    menu_LiveTV.subItem.showInfo = @[
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-    ];
-    
     menu_LiveTV.subItem.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
@@ -4682,14 +4642,6 @@
         @[],
         @[],
         @[],
-    ];
-    
-    menu_LiveTV.subItem.subItem.showInfo = @[
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
     ];
 
 #pragma mark - Radio
@@ -5153,14 +5105,6 @@
         @[],
     ];
     
-    menu_Radio.subItem.showInfo = @[
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-    ];
-    
     menu_Radio.subItem.filterModes = @[
         [self modes_icons_empty],
         [self modes_icons_empty],
@@ -5248,14 +5192,6 @@
         @[],
         @[],
         @[],
-    ];
-    
-    menu_Radio.subItem.subItem.showInfo = @[
-        @NO,
-        @NO,
-        @NO,
-        @NO,
-        @NO,
     ];
 
 #pragma mark - Pictures
