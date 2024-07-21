@@ -229,15 +229,6 @@
     ];
 }
 
-- (NSArray*)action_queue_to_moviesetdetails {
-    return @[
-        LOCALIZED_STR(@"Queue after current"),
-        LOCALIZED_STR(@"Queue"),
-        LOCALIZED_STR(@"Play"),
-        LOCALIZED_STR(@"Movie Set Details"),
-    ];
-}
-
 - (NSArray*)action_queue_to_showcontent {
     return @[
         LOCALIZED_STR(@"Queue after current"),
@@ -2524,7 +2515,7 @@
     menu_Movies.sheetActions = @[
         [self action_queue_to_moviedetails],
         @[],
-        [self action_queue_to_moviesetdetails],
+        @[LOCALIZED_STR(@"Movie Set Details")],
         [self action_queue_to_moviedetails],
         [self action_simple_queue_to_play],
         @[],
