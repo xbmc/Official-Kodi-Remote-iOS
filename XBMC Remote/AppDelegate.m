@@ -173,7 +173,7 @@
     };
 }
 
-- (NSArray*)action_queue_to_wiki {
+- (NSArray*)action_album {
     return @[
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
@@ -184,7 +184,7 @@
     ];
 }
 
-- (NSArray*)action_queue_to_fmcharts {
+- (NSArray*)action_artist {
     return @[
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
@@ -196,7 +196,7 @@
     ];
 }
 
-- (NSArray*)action_queue_to_shuffle {
+- (NSArray*)action_filemode_music {
     return @[
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
@@ -213,14 +213,14 @@
     ];
 }
 
-- (NSArray*)action_simple_queue_to_play {
+- (NSArray*)action_pictures {
     return @[
         LOCALIZED_STR(@"Queue"),
         LOCALIZED_STR(@"Play"),
     ];
 }
 
-- (NSArray*)action_queue_to_moviedetails {
+- (NSArray*)action_movie {
     return @[
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
@@ -229,7 +229,7 @@
     ];
 }
 
-- (NSArray*)action_queue_to_showcontent {
+- (NSArray*)action_playlist {
     return @[
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
@@ -240,7 +240,7 @@
     ];
 }
 
-- (NSArray*)action_queue_to_musicvideodetails {
+- (NSArray*)action_musicvideo {
     return @[
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
@@ -249,7 +249,7 @@
     ];
 }
 
-- (NSArray*)action_queue_to_episodedetails {
+- (NSArray*)action_episode {
     return @[
         LOCALIZED_STR(@"Queue after current"),
         LOCALIZED_STR(@"Queue"),
@@ -258,7 +258,7 @@
     ];
 }
 
-- (NSArray*)action_play_to_broadcastdetails {
+- (NSArray*)action_broadcast {
     return @[
         LOCALIZED_STR(@"Play"),
         LOCALIZED_STR(@"Record"),
@@ -266,7 +266,7 @@
     ];
 }
 
-- (NSArray*)action_play_to_channelguide {
+- (NSArray*)action_channel {
     return @[
         LOCALIZED_STR(@"Play"),
         LOCALIZED_STR(@"Record"),
@@ -1224,19 +1224,19 @@
     ];
 
     menu_Music.sheetActions = @[
-        [self action_queue_to_wiki],
-        [self action_queue_to_fmcharts],
-        [self action_queue_to_shuffle],
-        [self action_simple_queue_to_play],
-        [self action_queue_to_wiki],
+        [self action_album],
+        [self action_artist],
+        [self action_filemode_music],
         [self action_queue_to_play],
-        [self action_queue_to_wiki],
+        [self action_album],
         [self action_queue_to_play],
-        [self action_queue_to_wiki],
+        [self action_album],
+        [self action_queue_to_play],
+        [self action_album],
         [self action_queue_to_play],
         [self action_queue_to_play],
         @[],
-        [self action_queue_to_showcontent],
+        [self action_playlist],
         @[],
     ];
     
@@ -1741,9 +1741,9 @@
     menu_Music.subItem.defaultThumb = @"nocover_music";
     menu_Music.subItem.sheetActions = @[
         [self action_queue_to_play],
-        [self action_queue_to_wiki],
-        [self action_queue_to_wiki],
-        [self action_queue_to_shuffle],
+        [self action_album],
+        [self action_album],
+        [self action_filemode_music],
         [self action_queue_to_play],
         [self action_queue_to_play],
         [self action_queue_to_play],
@@ -1753,7 +1753,7 @@
         [self action_queue_to_play],
         @[],
         [self action_queue_to_play],
-        [self action_queue_to_fmcharts],
+        [self action_artist],
     ];
     
     menu_Music.subItem.showRuntime = @[
@@ -1983,7 +1983,7 @@
         @[],
         @[],
         [self action_queue_to_play],
-        [self action_queue_to_wiki],
+        [self action_album],
     ];
     
     menu_Music.subItem.subItem.showRuntime = @[
@@ -2513,13 +2513,13 @@
     menu_Movies.thumbWidth = DEFAULT_THUMB_WIDTH;
     menu_Movies.defaultThumb = @"nocover_movies";
     menu_Movies.sheetActions = @[
-        [self action_queue_to_moviedetails],
+        [self action_movie],
         @[],
         @[LOCALIZED_STR(@"Movie Set Details")],
-        [self action_queue_to_moviedetails],
-        [self action_simple_queue_to_play],
+        [self action_movie],
+        [self action_queue_to_play],
         @[],
-        [self action_queue_to_showcontent],
+        [self action_playlist],
     ];
     
     menu_Movies.showInfo = @[
@@ -2884,8 +2884,8 @@
     menu_Movies.subItem.defaultThumb = @"nocover_movies";
     menu_Movies.subItem.sheetActions = @[
         @[],
-        [self action_queue_to_moviedetails],
-        [self action_queue_to_moviedetails],
+        [self action_movie],
+        [self action_movie],
         @[],
         [self action_queue_to_play],
         @[],
@@ -3265,11 +3265,11 @@
     menu_Videos.thumbWidth = DEFAULT_THUMB_WIDTH;
     menu_Videos.defaultThumb = @"nocover_musicvideos";
     menu_Videos.sheetActions = @[
-        [self action_queue_to_musicvideodetails],
-        [self action_queue_to_musicvideodetails],
-        [self action_simple_queue_to_play],
+        [self action_musicvideo],
+        [self action_musicvideo],
+        [self action_queue_to_play],
         @[],
-        [self action_queue_to_showcontent],
+        [self action_playlist],
     ];
     
     menu_Videos.showInfo = @[
@@ -3786,10 +3786,10 @@
     menu_TVShows.defaultThumb = @"nocover_tvshows";
     menu_TVShows.sheetActions = @[
         @[LOCALIZED_STR(@"TV Show Details")],
-        [self action_queue_to_episodedetails],
-        [self action_simple_queue_to_play],
+        [self action_episode],
+        [self action_queue_to_play],
         @[],
-        [self action_queue_to_showcontent],
+        [self action_playlist],
     ];
     
     menu_TVShows.showInfo = @[
@@ -4040,7 +4040,7 @@
     menu_TVShows.subItem.thumbWidth = EPISODE_THUMB_WIDTH;
     menu_TVShows.subItem.defaultThumb = @"nocover_tvshows_episode";
     menu_TVShows.subItem.sheetActions = @[
-        [self action_queue_to_episodedetails],
+        [self action_episode],
         @[],
         [self action_queue_to_play],
         @[],
@@ -4446,7 +4446,7 @@
     menu_LiveTV.thumbWidth = DEFAULT_THUMB_WIDTH;
     menu_LiveTV.defaultThumb = @"nocover_channels";
     menu_LiveTV.sheetActions = @[
-        [self action_play_to_channelguide],
+        [self action_channel],
         @[],
         [self action_queue_to_play],
         @[LOCALIZED_STR(@"Delete timer")],
@@ -4580,8 +4580,8 @@
     menu_LiveTV.subItem.thumbWidth = LIVETV_THUMB_WIDTH;
     menu_LiveTV.subItem.defaultThumb = @"nocover_channels";
     menu_LiveTV.subItem.sheetActions = @[
-        [self action_play_to_broadcastdetails],
-        [self action_play_to_channelguide],
+        [self action_broadcast],
+        [self action_channel],
         @[],
         @[],
         @[],
@@ -4678,7 +4678,7 @@
     menu_LiveTV.subItem.subItem.defaultThumb = @"nocover_filemode";
     menu_LiveTV.subItem.subItem.sheetActions = @[
         @[],
-        [self action_play_to_broadcastdetails],
+        [self action_broadcast],
         @[],
         @[],
         @[],
@@ -5012,7 +5012,7 @@
     menu_Radio.thumbWidth = DEFAULT_THUMB_WIDTH;
     menu_Radio.defaultThumb = @"nocover_channels";
     menu_Radio.sheetActions = @[
-        [self action_play_to_channelguide],
+        [self action_channel],
         @[],
         [self action_queue_to_play],
         @[LOCALIZED_STR(@"Delete timer")],
@@ -5146,8 +5146,8 @@
     menu_Radio.subItem.thumbWidth = LIVETV_THUMB_WIDTH;
     menu_Radio.subItem.defaultThumb = @"nocover_channels";
     menu_Radio.subItem.sheetActions = @[
-        [self action_play_to_broadcastdetails],
-        [self action_play_to_channelguide],
+        [self action_broadcast],
+        [self action_channel],
         @[],
         @[],
         @[],
@@ -5244,7 +5244,7 @@
     menu_Radio.subItem.subItem.defaultThumb = @"nocover_filemode";
     menu_Radio.subItem.subItem.sheetActions = @[
         @[],
-        [self action_play_to_broadcastdetails],
+        [self action_broadcast],
         @[],
         @[],
         @[],
@@ -5349,7 +5349,7 @@
     ] mutableCopy];
     
     menu_Pictures.sheetActions = @[
-        [self action_simple_queue_to_play],
+        [self action_pictures],
         @[],
     ];
     
@@ -5420,7 +5420,7 @@
     menu_Pictures.subItem.thumbWidth = DEFAULT_THUMB_WIDTH;
     menu_Pictures.subItem.defaultThumb = @"nocover_filemode";
     menu_Pictures.subItem.sheetActions = @[
-        [self action_simple_queue_to_play],
+        [self action_pictures],
         @[],
     ];
     
