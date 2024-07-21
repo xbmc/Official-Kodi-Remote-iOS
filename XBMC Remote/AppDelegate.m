@@ -1745,12 +1745,12 @@
         [self action_album],
         [self action_filemode_music],
         [self action_queue_to_play],
+        @[],
         [self action_queue_to_play],
+        @[],
         [self action_queue_to_play],
-        [self action_queue_to_play],
-        [self action_queue_to_play],
-        [self action_queue_to_play],
-        [self action_queue_to_play],
+        @[],
+        @[],
         @[],
         [self action_queue_to_play],
         [self action_artist],
@@ -1970,11 +1970,7 @@
     menu_Music.subItem.subItem.thumbWidth = DEFAULT_THUMB_WIDTH;
     menu_Music.subItem.subItem.defaultThumb = @"nocover_music";
     menu_Music.subItem.subItem.sheetActions = @[
-        [self action_queue_to_play],
-        [self action_queue_to_play],
-        [self action_queue_to_play],
         @[],
-        [self action_queue_to_play],
         [self action_queue_to_play],
         [self action_queue_to_play],
         @[],
@@ -1982,7 +1978,11 @@
         @[],
         @[],
         @[],
-        [self action_queue_to_play],
+        @[],
+        @[],
+        @[],
+        @[],
+        @[],
         [self action_album],
     ];
     
@@ -2959,9 +2959,9 @@
         @[],
         @[],
         @[],
-        [self action_queue_to_play],
         @[],
-        [self action_queue_to_play],
+        @[],
+        @[],
     ];
     
 #pragma mark - Videos
@@ -3504,7 +3504,7 @@
         @[],
         @[],
         @[],
-        [self action_queue_to_play],
+        @[],
     ];
     
 #pragma mark - TV Shows
@@ -4102,9 +4102,9 @@
     menu_TVShows.subItem.subItem.sheetActions = @[
         @[],
         @[],
-        [self action_queue_to_play],
         @[],
-        [self action_queue_to_play],
+        @[],
+        @[],
     ];
         
     menu_TVShows.subItem.subItem.showRuntime = @[
