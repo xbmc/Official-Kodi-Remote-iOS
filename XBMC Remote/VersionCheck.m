@@ -52,4 +52,12 @@
     return AppDelegate.instance.APImajorVersion >= 12;
 }
 
++ (BOOL)hasPlayUsingSupport {
+    // The implementation of "Play using..." needs both "GetPlayers" and "GetActivePlayers" with certain functionality.
+    // "Player.GetPlayers" is supported from API 8 on
+    // "Player.GetActivePlayers" supports "playertype" from API 9.6.0 on
+    // But only with Kodi 21 "Player.GetActivePlayers" returns active external players.
+    return AppDelegate.instance.serverVersion >= 21;
+}
+
 @end

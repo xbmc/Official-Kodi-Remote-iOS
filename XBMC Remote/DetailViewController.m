@@ -3303,6 +3303,9 @@
                         [sheetActions addObject:actionString];
                     }
                 }
+                if (![VersionCheck hasPlayUsingSupport]) {
+                    [sheetActions removeObject:LOCALIZED_STR(@"Play using...")];
+                }
                 UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
                 UIViewController *showFromCtrl = [self topMostController];
@@ -4523,7 +4526,10 @@
     if (!sectionItem) {
         return;
     };
-    NSArray *sheetActions = [AppDelegate.instance action_album];
+    NSMutableArray *sheetActions = [[AppDelegate.instance action_album] mutableCopy];
+    if (![VersionCheck hasPlayUsingSupport]) {
+        [sheetActions removeObject:LOCALIZED_STR(@"Play using...")];
+    }
     selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     NSMutableDictionary *item = [sectionItem mutableCopy];
     item[@"label"] = self.navigationItem.title;
