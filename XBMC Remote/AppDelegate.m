@@ -2889,7 +2889,7 @@
         @[],
         [self action_queue_to_play],
         @[],
-        [self action_queue_to_moviedetails],
+        [self action_queue_to_play],
     ];
     
     menu_Movies.subItem.showInfo = @[
@@ -3444,7 +3444,7 @@
         @[],
         [self action_queue_to_play],
         @[],
-        [self action_queue_to_moviedetails],
+        [self action_queue_to_play],
     ];
     
     menu_Videos.subItem.showInfo = @[
@@ -4044,7 +4044,7 @@
         @[],
         [self action_queue_to_play],
         @[],
-        [self action_queue_to_moviedetails],
+        [self action_queue_to_play],
     ];
     
     menu_TVShows.subItem.showRuntime = @[
