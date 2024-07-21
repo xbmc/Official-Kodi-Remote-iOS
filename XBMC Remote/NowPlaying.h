@@ -25,6 +25,7 @@
     IBOutlet UILabel *artistName;
     IBOutlet UILabel *currentTime;
     IBOutlet UILabel *duration;
+    IBOutlet UILabel *upnp;
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *thumbnailView;
     IBOutlet UIView *BottomView;
