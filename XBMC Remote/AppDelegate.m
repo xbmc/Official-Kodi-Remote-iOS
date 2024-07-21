@@ -1241,8 +1241,8 @@
     ];
     
     menu_Music.showInfo = @[
-        @YES,
-        @YES,
+        @NO,
+        @NO,
         @NO,
         @NO,
         @NO,
@@ -2524,11 +2524,11 @@
     
     menu_Movies.showInfo = @[
         @YES,
+        @NO,
+        @NO,
         @YES,
-        @YES,
-        @YES,
-        @YES,
-        @YES,
+        @NO,
+        @NO,
         @NO,
     ];
     
@@ -3275,8 +3275,8 @@
     menu_Videos.showInfo = @[
         @YES,
         @YES,
-        @YES,
-        @YES,
+        @NO,
+        @NO,
         @NO,
     ];
     
@@ -3793,7 +3793,7 @@
     ];
     
     menu_TVShows.showInfo = @[
-        @YES,
+        @NO,
         @YES,
         @NO,
         @NO,
@@ -4058,9 +4058,9 @@
     menu_TVShows.subItem.noConvertTime = YES;
     menu_TVShows.subItem.showInfo = @[
         @YES,
-        @YES,
-        @YES,
-        @YES,
+        @NO,
+        @NO,
+        @NO,
         @NO,
     ];
     
@@ -4117,11 +4117,11 @@
         
     menu_TVShows.subItem.subItem.noConvertTime = YES;
     menu_TVShows.subItem.subItem.showInfo = @[
-        @YES,
-        @YES,
-        @YES,
-        @YES,
-        @YES,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
     ];
 
 #pragma mark - Live TV
@@ -4455,7 +4455,7 @@
     
     menu_LiveTV.showInfo = @[
         @NO,
-        @YES,
+        @NO,
         @YES,
         @NO,
         @NO,
@@ -4685,11 +4685,11 @@
     ];
     
     menu_LiveTV.subItem.subItem.showInfo = @[
-        @YES,
-        @YES,
-        @YES,
-        @YES,
-        @YES,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
     ];
 
 #pragma mark - Radio
@@ -5021,7 +5021,7 @@
     
     menu_Radio.showInfo = @[
         @NO,
-        @YES,
+        @NO,
         @YES,
         @NO,
         @NO,
@@ -5251,11 +5251,11 @@
     ];
     
     menu_Radio.subItem.subItem.showInfo = @[
-        @YES,
-        @YES,
-        @YES,
-        @YES,
-        @YES,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
     ];
 
 #pragma mark - Pictures
