@@ -2899,7 +2899,7 @@
         @NO,
         @NO,
         @NO,
-        @YES,
+        @NO,
     ];
     
     menu_Movies.subItem.filterModes = @[
@@ -3452,7 +3452,7 @@
         @NO,
         @NO,
         @NO,
-        @YES,
+        @NO,
     ];
     
     menu_Videos.subItem.filterModes = @[
@@ -4061,7 +4061,7 @@
         @YES,
         @YES,
         @YES,
-        @YES,
+        @NO,
     ];
     
     menu_TVShows.subItem.subItem.mainMethod = [@[
