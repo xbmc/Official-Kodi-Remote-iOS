@@ -4439,14 +4439,7 @@
     if (!sectionItem) {
         return;
     };
-    NSArray *sheetActions = @[
-        LOCALIZED_STR(@"Queue after current"),
-        LOCALIZED_STR(@"Queue"),
-        LOCALIZED_STR(@"Play"),
-        LOCALIZED_STR(@"Play in shuffle mode"),
-        LOCALIZED_STR(@"Album Details"),
-        LOCALIZED_STR(@"Search Wikipedia"),
-    ];
+    NSArray *sheetActions = [AppDelegate.instance action_album];
     selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     NSMutableDictionary *item = [sectionItem mutableCopy];
     item[@"label"] = self.navigationItem.title;
