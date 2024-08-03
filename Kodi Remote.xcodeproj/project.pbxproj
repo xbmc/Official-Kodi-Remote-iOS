@@ -11,10 +11,8 @@
 		0F05FB69170D79D400BBA833 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F05FB68170D79D400BBA833 /* NSString+MD5.m */; };
 		0F089AA518EC4E3300F32430 /* SettingsValuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F089AA418EC4E3300F32430 /* SettingsValuesViewController.m */; };
 		0F175F24154D5C3600C1C61F /* ViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */; };
-		0F175F25154D5C3600C1C61F /* ViewControllerIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */; };
 		0F175F28154D696B00C1C61F /* StackScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F27154D696B00C1C61F /* StackScrollViewController.m */; };
 		0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2D154D6AFA00C1C61F /* MenuViewController.m */; };
-		0F1F67F61563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */; };
 		0F284A5216F63C9A00AFC1EF /* PosterLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F284A5116F63C9A00AFC1EF /* PosterLabel.m */; };
 		0F284A5516F6419700AFC1EF /* PosterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F284A5416F6419700AFC1EF /* PosterCell.m */; };
 		0F370054151F6A9E00A3D42C /* jsonDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F370053151F6A9E00A3D42C /* jsonDataCell.m */; };
@@ -22,23 +20,18 @@
 		0F4019B318F415A50064E4DC /* MessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4019B218F415A50064E4DC /* MessagesView.m */; };
 		0F4063351578C6CD00596B61 /* MoreItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4063341578C6CD00596B61 /* MoreItemsViewController.m */; };
 		0F40F5A7164D5FA000AF9DE9 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F40F5A5164D5FA000AF9DE9 /* RightMenuViewController.m */; };
-		0F40F5A8164D5FA000AF9DE9 /* RightMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F40F5A6164D5FA000AF9DE9 /* RightMenuViewController.xib */; };
 		0F4156451646D810009E6DD4 /* JBKenBurnsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4156441646D810009E6DD4 /* JBKenBurnsView.m */; };
 		0F4205D217099AE500EA533C /* RecentlyAddedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4205D117099AE500EA533C /* RecentlyAddedCell.m */; };
-		0F44E2D51527A9DF00D5958F /* playlistCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D41527A9DF00D5958F /* playlistCellView.xib */; };
 		0F44EC5118A6672100BE44BD /* ProgressPieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F44EC5018A6672100BE44BD /* ProgressPieView.m */; };
 		0F487B4C15396D4C004530C1 /* HostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F487B4A15396D4C004530C1 /* HostViewController.m */; };
-		0F487B5A15399716004530C1 /* serverListCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F487B5915399716004530C1 /* serverListCellView.xib */; };
 		0F4883C41521B3D400883243 /* GlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883C31521B3D400883243 /* GlobalData.m */; };
 		0F4883D21521CC7300883243 /* VolumeSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883D11521CC7300883243 /* VolumeSliderView.m */; };
-		0F4883D41521CD1C00883243 /* VolumeSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F4883D31521CD1C00883243 /* VolumeSliderView.xib */; };
 		0F4883E51522418E00883243 /* ShowInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883E31522418C00883243 /* ShowInfoViewController.m */; };
 		0F4AB81A1903DDCE005DEC5C /* RemoteControllerGestureZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4AB8191903DDCE005DEC5C /* RemoteControllerGestureZoneView.m */; };
 		0F540662160C82E900853B02 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F540661160C82E900853B02 /* CustomNavigationController.m */; };
 		0F545D0B1575563100B6320D /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D071575563100B6320D /* OBShapedButton.m */; };
 		0F545D0C1575563100B6320D /* UIImage+ColorAtPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F545D091575563100B6320D /* UIImage+ColorAtPixel.m */; };
 		0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5548FA151D1187007E633F /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		0F554905151D1187007E633F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F554903151D1187007E633F /* InfoPlist.strings */; };
 		0F554907151D1187007E633F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554906151D1187007E633F /* main.m */; };
 		0F55490B151D1187007E633F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55490A151D1187007E633F /* AppDelegate.m */; };
 		0F55490E151D1187007E633F /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55490D151D1187007E633F /* MasterViewController.m */; };
@@ -46,44 +39,24 @@
 		0F554C20151D14DA007E633F /* mainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554C1F151D14DA007E633F /* mainMenu.m */; };
 		0F5A504C155FA8640062FD6E /* HostManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5A504A155FA8630062FD6E /* HostManagementViewController.m */; };
 		0F61E19A153C828300A89BB1 /* AppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F61E198153C828300A89BB1 /* AppInfoViewController.m */; };
-		0F6234E8192808120024FEFA /* cellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* cellView.xib */; };
-		0F6234EA192809B70024FEFA /* cellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E9192809B70024FEFA /* cellViewIPad.xib */; };
-		0F6234EC19280B120024FEFA /* rightCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234EB19280B120024FEFA /* rightCellView.xib */; };
-		0F6234EE19280D9B0024FEFA /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234ED19280D9B0024FEFA /* DetailViewController.xib */; };
-		0F6234F0192811150024FEFA /* NowPlaying.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234EF192811150024FEFA /* NowPlaying.xib */; };
 		0F680CB917103DB60092298A /* ClearCacheView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F680CB817103DB60092298A /* ClearCacheView.m */; };
 		0F74772E151DD77400EF78AD /* NowPlaying.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74772C151DD77400EF78AD /* NowPlaying.m */; };
 		0F747734151DD91D00EF78AD /* RemoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F747732151DD91D00EF78AD /* RemoteController.m */; };
-		0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F747733151DD91D00EF78AD /* RemoteController.xib */; };
 		0F74776F151E5E8600EF78AD /* DSJSONRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776A151E5E8600EF78AD /* DSJSONRPC.m */; };
 		0F747770151E5E8600EF78AD /* DSJSONRPCError.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776C151E5E8600EF78AD /* DSJSONRPCError.m */; };
-		0F7A8A921926776900313C17 /* AppInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F7A8A911926776900313C17 /* AppInfoViewController.xib */; };
 		0F7B951A1708975500880F33 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B95141708975500880F33 /* UIImage+Resize.m */; };
 		0F7F0DCC1703490A0098FF75 /* BDKCollectionIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F0DC91703490A0098FF75 /* BDKCollectionIndexView.m */; };
 		0F7F3DA5164A6D730080A14A /* ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA2164A6D730080A14A /* ECSlidingViewController.m */; };
 		0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA4164A6D730080A14A /* UIImage+ImageWithUIView.m */; };
 		0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */; };
-		0F7F3DAC164AAD0F0080A14A /* InitialSlidingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */; };
 		0F8E308816FA536C009DEE72 /* PosterHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8E308716FA536C009DEE72 /* PosterHeaderView.m */; };
 		0F90904516E53C590021EFA9 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90904416E53C580021EFA9 /* Utilities.m */; };
 		0FA39CBD165419F400A61E4A /* gradientUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA39CBC165419F400A61E4A /* gradientUIView.m */; };
 		0FB133AA165EC1E5003756C1 /* tcpJSONRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB133A9165EC1E5003756C1 /* tcpJSONRPC.m */; };
-		0FB16164151F156A001BA2D4 /* jsonDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB16163151F156A001BA2D4 /* jsonDataCell.xib */; };
-		0FB4044D1928C33200346300 /* HostManagementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB4044C1928C33200346300 /* HostManagementViewController.xib */; };
-		0FB4044F1928D0D300346300 /* HostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB4044E1928D0D300346300 /* HostViewController.xib */; };
-		0FB40451192922E100346300 /* ShowInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB40450192922E100346300 /* ShowInfoViewController.xib */; };
-		0FB8598315FF9DCF0070F324 /* sign.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0FB8598215FF9DCF0070F324 /* sign.mp3 */; };
-		0FCCA21817B25F07000FF09C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FCCA21717B25F07000FF09C /* Images.xcassets */; };
 		0FDC891A170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDC8919170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m */; };
-		0FDFC67D15377CE9000BE837 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FDFC67C15377CE9000BE837 /* Settings.bundle */; };
-		0FE6087F164B3094009CA3A9 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6087E164B3094009CA3A9 /* Roboto-Regular.ttf */; };
 		0FEA79FC165FBBED00BB281F /* XBMCVirtualKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA79FB165FBBEC00BB281F /* XBMCVirtualKeyboard.m */; };
 		0FEAE76816EA632800387DED /* ActorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEAE76716EA632800387DED /* ActorCell.m */; };
 		0FEE08161704819A00EC9BC7 /* FloatingHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEE08151704819A00EC9BC7 /* FloatingHeaderFlowLayout.m */; };
-		1A6742E9168479FD00E8D5AF /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A6742E8168479FC00E8D5AF /* MasterViewController.xib */; };
-		1A9786C01683D87800B4F3F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9786C21683D87800B4F3F8 /* Localizable.strings */; };
-		C70F41D12BA4D98E00847C75 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C70F41D02BA4D98E00847C75 /* PrivacyInfo.xcprivacy */; };
-		C7478BF9257258E700161C1E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7478BF8257258E700161C1E /* Launch Screen.storyboard */; };
 		C76451CE29C51221000AE949 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */; };
 		C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B129C51220000AE949 /* UIImage+WebP.m */; };
 		C76451D029C51221000AE949 /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B429C51220000AE949 /* SDWebImagePrefetcher.m */; };
@@ -99,6 +72,31 @@
 		C76451DB29C51221000AE949 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451C929C51221000AE949 /* UIImageView+WebCache.m */; };
 		C76451DC29C51221000AE949 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451CB29C51221000AE949 /* UIButton+WebCache.m */; };
 		C76451DD29C51221000AE949 /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451CD29C51221000AE949 /* UIImage+MultiFormat.m */; };
+		C765949F2C5E86F400B93A2A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7478BF8257258E700161C1E /* Launch Screen.storyboard */; };
+		C76594A02C5E871100B93A2A /* cellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E9192809B70024FEFA /* cellViewIPad.xib */; };
+		C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */; };
+		C76594A22C5E871600B93A2A /* cellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* cellView.xib */; };
+		C76594A32C5E871900B93A2A /* rightCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234EB19280B120024FEFA /* rightCellView.xib */; };
+		C76594A42C5E871C00B93A2A /* jsonDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB16163151F156A001BA2D4 /* jsonDataCell.xib */; };
+		C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D41527A9DF00D5958F /* playlistCellView.xib */; };
+		C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F487B5915399716004530C1 /* serverListCellView.xib */; };
+		C76594A72C5E872400B93A2A /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A6742E8168479FC00E8D5AF /* MasterViewController.xib */; };
+		C76594A82C5E872900B93A2A /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234ED19280D9B0024FEFA /* DetailViewController.xib */; };
+		C76594A92C5E872B00B93A2A /* NowPlaying.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234EF192811150024FEFA /* NowPlaying.xib */; };
+		C76594AA2C5E872D00B93A2A /* RemoteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F747733151DD91D00EF78AD /* RemoteController.xib */; };
+		C76594AB2C5E872F00B93A2A /* VolumeSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F4883D31521CD1C00883243 /* VolumeSliderView.xib */; };
+		C76594AC2C5E873300B93A2A /* HostManagementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB4044C1928C33200346300 /* HostManagementViewController.xib */; };
+		C76594AD2C5E873500B93A2A /* HostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB4044E1928D0D300346300 /* HostViewController.xib */; };
+		C76594AE2C5E873800B93A2A /* ShowInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB40450192922E100346300 /* ShowInfoViewController.xib */; };
+		C76594AF2C5E873C00B93A2A /* AppInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F7A8A911926776900313C17 /* AppInfoViewController.xib */; };
+		C76594B02C5E873E00B93A2A /* InitialSlidingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */; };
+		C76594B12C5E874100B93A2A /* RightMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F40F5A6164D5FA000AF9DE9 /* RightMenuViewController.xib */; };
+		C76594B22C5E880900B93A2A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FDFC67C15377CE9000BE837 /* Settings.bundle */; };
+		C76594B32C5E882C00B93A2A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FCCA21717B25F07000FF09C /* Images.xcassets */; };
+		C76594B42C5E883300B93A2A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F554903151D1187007E633F /* InfoPlist.strings */; };
+		C76594B52C5E883A00B93A2A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9786C21683D87800B4F3F8 /* Localizable.strings */; };
+		C76594B62C5E885B00B93A2A /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6087E164B3094009CA3A9 /* Roboto-Regular.ttf */; };
+		C76594B72C5E8A5B00B93A2A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C70F41D02BA4D98E00847C75 /* PrivacyInfo.xcprivacy */; };
 		C78C30F528F877870055CD95 /* VersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = C78C30F428F877870055CD95 /* VersionCheck.m */; };
 /* End PBXBuildFile section */
 
@@ -118,7 +116,6 @@
 		0F175F27154D696B00C1C61F /* StackScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StackScrollViewController.m; path = iPad/StackScrollViewController.m; sourceTree = "<group>"; };
 		0F175F2C154D6AFA00C1C61F /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuViewController.h; path = iPad/MenuViewController.h; sourceTree = "<group>"; };
 		0F175F2D154D6AFA00C1C61F /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = iPad/MenuViewController.m; sourceTree = "<group>"; };
-		0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DejaVuSans-Bold-Caps.ttf"; sourceTree = "<group>"; };
 		0F284A5016F63C9A00AFC1EF /* PosterLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosterLabel.h; sourceTree = "<group>"; };
 		0F284A5116F63C9A00AFC1EF /* PosterLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PosterLabel.m; sourceTree = "<group>"; };
 		0F284A5316F6419700AFC1EF /* PosterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosterCell.h; sourceTree = "<group>"; };
@@ -238,7 +235,6 @@
 		0FB4044C1928C33200346300 /* HostManagementViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HostManagementViewController.xib; sourceTree = "<group>"; };
 		0FB4044E1928D0D300346300 /* HostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HostViewController.xib; sourceTree = "<group>"; };
 		0FB40450192922E100346300 /* ShowInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowInfoViewController.xib; sourceTree = "<group>"; };
-		0FB8598215FF9DCF0070F324 /* sign.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sign.mp3; sourceTree = "<group>"; };
 		0FB8598515FF9ED10070F324 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		0FCCA21717B25F07000FF09C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0FCCFF6116D0F1EF008EBABE /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -452,7 +448,6 @@
 			isa = PBXGroup;
 			children = (
 				0FE6087E164B3094009CA3A9 /* Roboto-Regular.ttf */,
-				0F1F67F51563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf */,
 			);
 			path = fonts;
 			sourceTree = "<group>";
@@ -519,7 +514,6 @@
 		0F554900151D1187007E633F /* XBMC Remote */ = {
 			isa = PBXGroup;
 			children = (
-				0FB8598415FF9DD50070F324 /* audio */,
 				0F1F67F41563A7C0005FA170 /* fonts */,
 				0FDFC67C15377CE9000BE837 /* Settings.bundle */,
 				0F554909151D1187007E633F /* AppDelegate.h */,
@@ -683,14 +677,6 @@
 			name = SDWebImage;
 			sourceTree = "<group>";
 		};
-		0FB8598415FF9DD50070F324 /* audio */ = {
-			isa = PBXGroup;
-			children = (
-				0FB8598215FF9DCF0070F324 /* sign.mp3 */,
-			);
-			name = audio;
-			sourceTree = "<group>";
-		};
 		0FDC8917170DCAEA00419F58 /* SVPullToRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -770,33 +756,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F554905151D1187007E633F /* InfoPlist.strings in Resources */,
-				0FB4044F1928D0D300346300 /* HostViewController.xib in Resources */,
-				0FB4044D1928C33200346300 /* HostManagementViewController.xib in Resources */,
-				0FB40451192922E100346300 /* ShowInfoViewController.xib in Resources */,
-				C7478BF9257258E700161C1E /* Launch Screen.storyboard in Resources */,
-				0F6234EA192809B70024FEFA /* cellViewIPad.xib in Resources */,
-				0F6234EC19280B120024FEFA /* rightCellView.xib in Resources */,
-				0F747735151DD91D00EF78AD /* RemoteController.xib in Resources */,
-				0FB16164151F156A001BA2D4 /* jsonDataCell.xib in Resources */,
-				0F4883D41521CD1C00883243 /* VolumeSliderView.xib in Resources */,
-				0F44E2D51527A9DF00D5958F /* playlistCellView.xib in Resources */,
-				0FDFC67D15377CE9000BE837 /* Settings.bundle in Resources */,
-				0F487B5A15399716004530C1 /* serverListCellView.xib in Resources */,
-				0F175F25154D5C3600C1C61F /* ViewControllerIPad.xib in Resources */,
-				0F1F67F61563A7C0005FA170 /* DejaVuSans-Bold-Caps.ttf in Resources */,
-				0F6234E8192808120024FEFA /* cellView.xib in Resources */,
-				0F6234EE19280D9B0024FEFA /* DetailViewController.xib in Resources */,
-				0F6234F0192811150024FEFA /* NowPlaying.xib in Resources */,
-				0FCCA21817B25F07000FF09C /* Images.xcassets in Resources */,
-				0FB8598315FF9DCF0070F324 /* sign.mp3 in Resources */,
-				0F7F3DAC164AAD0F0080A14A /* InitialSlidingViewController.xib in Resources */,
-				C70F41D12BA4D98E00847C75 /* PrivacyInfo.xcprivacy in Resources */,
-				0FE6087F164B3094009CA3A9 /* Roboto-Regular.ttf in Resources */,
-				0F40F5A8164D5FA000AF9DE9 /* RightMenuViewController.xib in Resources */,
-				0F7A8A921926776900313C17 /* AppInfoViewController.xib in Resources */,
-				1A9786C01683D87800B4F3F8 /* Localizable.strings in Resources */,
-				1A6742E9168479FD00E8D5AF /* MasterViewController.xib in Resources */,
+				C765949F2C5E86F400B93A2A /* Launch Screen.storyboard in Resources */,
+				C76594A02C5E871100B93A2A /* cellViewIPad.xib in Resources */,
+				C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */,
+				C76594A22C5E871600B93A2A /* cellView.xib in Resources */,
+				C76594A32C5E871900B93A2A /* rightCellView.xib in Resources */,
+				C76594A42C5E871C00B93A2A /* jsonDataCell.xib in Resources */,
+				C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */,
+				C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */,
+				C76594A72C5E872400B93A2A /* MasterViewController.xib in Resources */,
+				C76594A82C5E872900B93A2A /* DetailViewController.xib in Resources */,
+				C76594A92C5E872B00B93A2A /* NowPlaying.xib in Resources */,
+				C76594AA2C5E872D00B93A2A /* RemoteController.xib in Resources */,
+				C76594AB2C5E872F00B93A2A /* VolumeSliderView.xib in Resources */,
+				C76594AC2C5E873300B93A2A /* HostManagementViewController.xib in Resources */,
+				C76594AD2C5E873500B93A2A /* HostViewController.xib in Resources */,
+				C76594AE2C5E873800B93A2A /* ShowInfoViewController.xib in Resources */,
+				C76594AF2C5E873C00B93A2A /* AppInfoViewController.xib in Resources */,
+				C76594B02C5E873E00B93A2A /* InitialSlidingViewController.xib in Resources */,
+				C76594B12C5E874100B93A2A /* RightMenuViewController.xib in Resources */,
+				C76594B22C5E880900B93A2A /* Settings.bundle in Resources */,
+				C76594B72C5E8A5B00B93A2A /* PrivacyInfo.xcprivacy in Resources */,
+				C76594B32C5E882C00B93A2A /* Images.xcassets in Resources */,
+				C76594B42C5E883300B93A2A /* InfoPlist.strings in Resources */,
+				C76594B52C5E883A00B93A2A /* Localizable.strings in Resources */,
+				C76594B62C5E885B00B93A2A /* Roboto-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

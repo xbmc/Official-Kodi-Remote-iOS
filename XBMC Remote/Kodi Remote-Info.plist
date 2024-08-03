@@ -53,7 +53,6 @@
 	<string>Kodi Remote App uses local network to find and communicate to Kodi instances in the network.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>DejaVuSans-Bold-Caps.ttf</string>
 		<string>Roboto-Regular.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
