@@ -558,7 +558,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGFloat deltaY = [Utilities getTopPadding];
+    CGFloat deltaY = UIApplication.sharedApplication.statusBarFrame.size.height;
     self.peekLeftAmount = ANCHOR_RIGHT_PEEK;
     CGRect frame = UIScreen.mainScreen.bounds;
     CGFloat deltaX = ANCHOR_RIGHT_PEEK;
