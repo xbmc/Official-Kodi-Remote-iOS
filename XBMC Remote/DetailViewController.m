@@ -64,6 +64,7 @@
 #define IPAD_ALBUM_SECTION_HEIGHT 166
 #define INDEX_WIDTH 34
 #define RUNTIMEYEAR_WIDTH 63
+#define GENRE_HEIGHT 18
 #define EPGCHANNELTIME_WIDTH 40
 #define EPGCHANNELTIME_HEIGHT 12
 #define EPG_RECORDING_DOT_SIZE 12
@@ -2602,6 +2603,9 @@
     genre.hidden = NO;
     runtimeyear.hidden = NO;
     if (!albumView && !episodesView && !channelGuideView) {
+        // Since recordings must be synced it is required to set recordingListView here.
+        recordingListView = [item[@"family"] isEqualToString:@"recordingid"];
+        
         if (channelListView || recordingListView) {
             CGRect frame;
             frame.origin.x = SMALL_PADDING;
@@ -2612,11 +2616,13 @@
             cell.urlImageView.autoresizingMask = UIViewAutoresizingNone;
         }
         if (channelListView) {
+            runtime.hidden = NO;
             CGRect frame = genre.frame;
             frame.size.width = title.frame.size.width;
+            frame.size.height = GENRE_HEIGHT;
             genre.frame = frame;
             genre.textColor = [Utilities get1stLabelColor];
-            genre.font = [UIFont boldSystemFontOfSize:genre.font.pointSize];
+            genre.font = [UIFont boldSystemFontOfSize:14];
             ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
             progressView.hidden = YES;
             UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
@@ -2628,6 +2634,10 @@
                                     item, @"item",
                                     nil];
             [NSThread detachNewThreadSelector:@selector(getChannelEpgInfo:) toTarget:self withObject:params];
+        }
+        if (recordingListView) {
+            genre.textColor = [Utilities get2ndLabelColor];
+            genre.font = [UIFont systemFontOfSize:12];
         }
         NSString *stringURL = tvshowsView ? item[@"banner"] : item[@"thumbnail"];
         NSString *displayThumb = globalSearchView ? [self getGlobalSearchThumb:item] : defaultThumb;
