@@ -12,24 +12,17 @@
 
 #define VIRTUAL_KEYBOARD_TEXTFIELD 10
 #define WINDOW_VIRTUAL_KEYBOARD 10103
-#define INPUT_PADDING_LEFT_RIGHT 18
-#define INPUT_PADDING_BOTTOM 10
-#define TEXT_FONT_SIZE 14
-#define TEXT_HEIGHT 24
+#define FONT_SIZE (IS_IPAD ? 20 : 14)
+#define HEIGHT_DEFAULT (IS_IPAD ? 34 : 24)
+#define INPUT_PADDING 18
 #define TITLE_PADDING 6
+#define VERTICAL_PADDING 8
 
 @implementation XBMCVirtualKeyboard
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        CGFloat scale = IS_IPAD ? 1.4 : 1.0;
-        paddingLeftRight = floor(INPUT_PADDING_LEFT_RIGHT * scale);
-        paddingTopBottom = floor(INPUT_PADDING_BOTTOM * scale);
-        keyboardTitleHeight = floor(TEXT_HEIGHT * scale);
-        textFieldHeight = floor(TEXT_HEIGHT * scale);
-        textFontSize = floor(TEXT_FONT_SIZE * scale);
-        
         xbmcVirtualKeyboard = [[UITextField alloc] initWithFrame:frame];
         xbmcVirtualKeyboard.hidden = YES;
         xbmcVirtualKeyboard.delegate = self;
@@ -37,35 +30,43 @@
         xbmcVirtualKeyboard.autocapitalizationType = UITextAutocapitalizationTypeNone;
         [self addSubview:xbmcVirtualKeyboard];
         
-        screenWidth = UIScreen.mainScreen.bounds.size.width;
-        
-        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_PADDING, 0, screenWidth - TITLE_PADDING * 2, keyboardTitleHeight)];
+        // The accessory view inputAccView holds both the title (on top) and the input field (at bottom).
+        keyboardTitle = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_PADDING,
+                                                                  VERTICAL_PADDING,
+                                                                  UIScreen.mainScreen.bounds.size.width - TITLE_PADDING * 2,
+                                                                  HEIGHT_DEFAULT)];
         keyboardTitle.contentMode = UIViewContentModeScaleToFill;
         keyboardTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
         keyboardTitle.textAlignment = NSTextAlignmentCenter;
         keyboardTitle.backgroundColor = UIColor.clearColor;
-        keyboardTitle.font = [UIFont boldSystemFontOfSize:textFontSize];
-        keyboardTitle.adjustsFontSizeToFitWidth = YES;
-        keyboardTitle.minimumScaleFactor = 0.6;
+        keyboardTitle.numberOfLines = 4;
+        keyboardTitle.font = [UIFont boldSystemFontOfSize:FONT_SIZE];
         keyboardTitle.textColor = [Utilities get1stLabelColor];
 
-        backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(paddingLeftRight, keyboardTitleHeight, screenWidth - paddingLeftRight * 2, textFieldHeight)];
+        backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(INPUT_PADDING,
+                                                                            CGRectGetMaxY(keyboardTitle.frame) + VERTICAL_PADDING,
+                                                                            UIScreen.mainScreen.bounds.size.width - 2 * INPUT_PADDING,
+                                                                            HEIGHT_DEFAULT)];
         backgroundTextField.userInteractionEnabled = YES;
         backgroundTextField.borderStyle = UITextBorderStyleRoundedRect;
         backgroundTextField.backgroundColor = [Utilities getSystemGray6];
-        backgroundTextField.font = [UIFont systemFontOfSize:textFontSize];
+        backgroundTextField.font = [UIFont systemFontOfSize:FONT_SIZE];
         backgroundTextField.textColor = [Utilities get1stLabelColor];
-        backgroundTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
+        backgroundTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         backgroundTextField.autocorrectionType = UITextAutocorrectionTypeNo;
         backgroundTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         backgroundTextField.textAlignment = NSTextAlignmentCenter;
         backgroundTextField.delegate = self;
         backgroundTextField.tag = VIRTUAL_KEYBOARD_TEXTFIELD;
         
-        inputAccView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, keyboardTitleHeight + textFieldHeight + paddingTopBottom)];
+        inputAccView = [[UIView alloc] initWithFrame:CGRectMake(0,
+                                                                0,
+                                                                UIScreen.mainScreen.bounds.size.width,
+                                                                CGRectGetMaxY(backgroundTextField.frame) + VERTICAL_PADDING)];
         inputAccView.backgroundColor = [Utilities getSystemGray4];
         [inputAccView addSubview:keyboardTitle];
         [inputAccView addSubview:backgroundTextField];
+        
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(showKeyboard:)
                                                      name: @"Input.OnInputRequested"
@@ -160,10 +161,18 @@
 #pragma mark - UITextFieldDelegate Methods
 
 - (void)textFieldDidBeginEditing:(UITextField*)textField {
-    int titleHeight = keyboardTitle.text.length ? keyboardTitleHeight : paddingTopBottom;
-    screenWidth = UIScreen.mainScreen.bounds.size.width;
-    inputAccView.frame = CGRectMake(0, 0, screenWidth, titleHeight + textFieldHeight + paddingTopBottom);
-    backgroundTextField.frame = CGRectMake(paddingLeftRight, titleHeight, screenWidth - paddingLeftRight * 2, textFieldHeight);
+    // Adapt title height to render full text
+    CGRect frame = keyboardTitle.frame;
+    frame.size.height = [Utilities getSizeOfLabel:keyboardTitle].height;
+    keyboardTitle.frame = frame;
+    
+    // Calculate accessory view height. In case no title is given, only show the input text field with padding.
+    CGFloat accessoryHeight = CGRectGetHeight(keyboardTitle.frame) + CGRectGetHeight(backgroundTextField.frame) + 3 * VERTICAL_PADDING;
+    if (!keyboardTitle.text.length) {
+        accessoryHeight = CGRectGetHeight(backgroundTextField.frame) + 2 * VERTICAL_PADDING;
+    }
+    
+    inputAccView.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, accessoryHeight);
     textField.inputAccessoryView = inputAccView;
 }
 
