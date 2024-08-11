@@ -57,6 +57,6 @@ typedef enum {
 - (void)resetRemote;
 - (id)initWithNibName:(NSString*)nibNameOrNil withEmbedded:(BOOL)withEmbedded bundle:(NSBundle*)nibBundleOrNil;
 @property (strong, nonatomic) id detailItem;
-@property (nonatomic, strong) NSTimer *holdVolumeTimer;
+@property (nonatomic, strong) NSTimer *holdKeyTimer;
 
 @end

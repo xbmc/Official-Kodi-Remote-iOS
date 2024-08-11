@@ -18,6 +18,7 @@
 #import "RightMenuViewController.h"
 #import "DetailViewController.h"
 #import "Utilities.h"
+#import "VersionCheck.h"
 
 #define ROTATION_TRIGGER 0.015
 #define REMOTE_PADDING (44 + 44 + 44) // Space unused above and below the popover and by remote toolbar
@@ -47,8 +48,12 @@
 #define TAG_BUTTON_MOVIES 22
 #define TAG_BUTTON_TVSHOWS 23
 #define TAG_BUTTON_PICTURES 24
+#define TAG_BUTTON_SEEK_BACKWARD_BIG 25
+#define TAG_BUTTON_SEEK_FORWARD_BIG 26
 #define WINDOW_FULLSCREEN_VIDEO 12005
 #define WINDOW_VISUALISATION 12006
+#define KEY_HOLD_TIMEOUT 0.5
+#define KEY_REPEAT_TIMEOUT 0.1
 
 @interface RemoteController ()
 
@@ -56,7 +61,7 @@
 
 @implementation RemoteController
 
-@synthesize holdVolumeTimer;
+@synthesize holdKeyTimer;
 
 - (void)setupGestureView {
     NSArray *GestureDirections = @[@(UISwipeGestureRecognizerDirectionLeft),
@@ -278,36 +283,48 @@
 #pragma mark - Touch
 
 - (void)handleSwipeFrom:(UISwipeGestureRecognizer*)recognizer {
-    if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
-        buttonAction = TAG_BUTTON_ARROW_RIGHT;
-        [self sendAction];
+    NSInteger buttonID;
+    switch (recognizer.direction) {
+        case UISwipeGestureRecognizerDirectionLeft:
+            buttonID = TAG_BUTTON_ARROW_LEFT;
+            break;
+            
+        case UISwipeGestureRecognizerDirectionRight:
+            buttonID = TAG_BUTTON_ARROW_RIGHT;
+            break;
+            
+        case UISwipeGestureRecognizerDirectionUp:
+            buttonID = TAG_BUTTON_ARROW_UP;
+            break;
+            
+        case UISwipeGestureRecognizerDirectionDown:
+            buttonID = TAG_BUTTON_ARROW_DOWN;
+            break;
+            
+        default:
+            return;
+            break;
     }
-    else if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
-        buttonAction = TAG_BUTTON_ARROW_LEFT;
-        [self sendAction];
-    }
-    else if (recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
-        buttonAction = TAG_BUTTON_ARROW_UP;
-        [self sendAction];
-    }
-    else if (recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
-        buttonAction = TAG_BUTTON_ARROW_DOWN;
-        [self sendAction];
-    }
+    [self processButtonPress:buttonID];
+    
+    NSDictionary *params = @{@"buttontag": @(buttonID)};
+    self.holdKeyTimer = [NSTimer scheduledTimerWithTimeInterval:KEY_HOLD_TIMEOUT
+                                                         target:self
+                                                       selector:@selector(longpressKey:)
+                                                       userInfo:params
+                                                        repeats:NO];
 }
 
 - (void)handleTouchpadDoubleTap {
-    buttonAction = TAG_BUTTON_BACK;
-    [self sendAction];
+    [self processButtonPress:TAG_BUTTON_BACK];
 }
 
 - (void)handleTouchpadSingleTap {
-    buttonAction = TAG_BUTTON_SELECT;
-    [self sendAction];
+    [self processButtonPress:TAG_BUTTON_SELECT];
 }
 
 - (void)twoFingersTap {
-    [self GUIAction:@"Input.Home" params:@{} httpAPIcallback:nil];
+    [self processButtonPress:TAG_BUTTON_HOME];
 }
 
 - (void)handleTouchpadLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
@@ -334,15 +351,14 @@
                      slideshowActive = methodResult[@"Window.IsActive(slideshow)"];
                  }
                  if ([fullscreenActive intValue] == 1 || [visualisationActive intValue] == 1 || [slideshowActive intValue] == 1) {
-                     buttonAction = TAG_BUTTON_MENU;
-                     [self sendActionNoRepeat];
+                     [self processButtonPress:TAG_BUTTON_MENU];
                  }
                  else {
-                     [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
+                     [self processButtonLongPress:TAG_BUTTON_MENU];
                  }
              }
              else {
-                 [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
+                 [self processButtonLongPress:TAG_BUTTON_MENU];
              }
          }];
     }
@@ -370,11 +386,11 @@
 }
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
-    [self stopHoldKey:nil];
+    [self.holdKeyTimer invalidate];
 }
 
 - (void)touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)event {
-    [self stopHoldKey:nil];
+    [self.holdKeyTimer invalidate];
 }
         
 # pragma mark - view Effects
@@ -632,13 +648,6 @@
         // Disable gestures to move the modal remote as this would conflict with the gesture zone
         [self.presentationController.presentedView.gestureRecognizers.firstObject setEnabled:NO];
     }
-    if (touches.count == 1) {
-        NSTimeInterval timeInterval = 1.5;
-        if (buttonAction > 0) {
-            timeInterval = 0.5;
-        }
-        self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
-    }
 }
 
 #pragma mark - Action Sheet Method
@@ -727,15 +736,19 @@
 
 #pragma mark - Buttons
 
-NSInteger buttonAction;
-
 - (IBAction)holdKey:(id)sender {
-    buttonAction = [sender tag];
-    [self sendAction];
-    [self.holdVolumeTimer invalidate];
-    self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSInteger buttonID = [sender tag];
+    [self processButtonPress:buttonID];
     
+    NSDictionary *params = @{@"buttontag": @(buttonID)};
+    [self.holdKeyTimer invalidate];
+    self.holdKeyTimer = [NSTimer scheduledTimerWithTimeInterval:KEY_HOLD_TIMEOUT
+                                                         target:self
+                                                       selector:@selector(longpressKey:)
+                                                       userInfo:params
+                                                        repeats:NO];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL startVibrate = [userDefaults boolForKey:@"vibrate_preference"];
     if (startVibrate) {
         [[UIDevice currentDevice] playInputClick];
@@ -744,22 +757,28 @@ NSInteger buttonAction;
 }
 
 - (IBAction)stopHoldKey:(id)sender {
-    [self.holdVolumeTimer invalidate];
-    buttonAction = 0;
+    [self.holdKeyTimer invalidate];
 }
 
-- (void)sendActionNoRepeat {
-//    NSString *action;
-    switch (buttonAction) {
-        case TAG_BUTTON_MENU: // MENU OSD
-            [self GUIAction:@"Input.ShowOSD" params:@{} httpAPIcallback:@"SendKey(0xF04D)"];
-            break;
-        default:
-            break;
-    }
+- (void)longpressKey:(id)timer {
+    // Repeatable key was lomgpressed
+    id sender = [timer userInfo];
+    [self.holdKeyTimer invalidate];
+    self.holdKeyTimer = [NSTimer scheduledTimerWithTimeInterval:KEY_REPEAT_TIMEOUT
+                                                         target:self
+                                                       selector:@selector(autoPressKey:)
+                                                       userInfo:sender
+                                                        repeats:YES];
 }
 
-- (void)playerStep:(NSString*)step musicPlayerGo:(NSString*)musicAction musicPlayerAction:(NSString*)musicMethod {
+- (void)autoPressKey:(id)timer {
+    // Auto repeated button press
+    NSDictionary *params = [timer userInfo];
+    NSInteger buttonTag = [params[@"buttontag"] intValue];
+    [self processButtonPress:buttonTag];
+}
+
+- (void)playerActionVideo:(NSInteger)videoButton actionMusic:(NSInteger)musicButton {
     if (AppDelegate.instance.serverVersion > 11) {
         [[Utilities getJsonRPC]
          callMethod:@"GUI.GetProperties"
@@ -791,13 +810,10 @@ NSInteger buttonAction;
                                   PvrIsPlayingTv = [methodResult[@"Pvr.IsPlayingTv"] boolValue];
                               }
                               if (winID == WINDOW_FULLSCREEN_VIDEO && !PvrIsPlayingTv && !VideoPlayerHasMenu) {
-                                  [self playbackAction:@"Player.Seek" params:[Utilities buildPlayerSeekStepParams:step]];
+                                  [self processButtonPress:videoButton];
                               }
-                              else if (winID == WINDOW_VISUALISATION && musicAction != nil) {
-                                  [self playbackAction:@"Player.GoTo" params:@{@"to": musicAction}];
-                              }
-                              else if (winID == WINDOW_VISUALISATION && musicMethod != nil) {
-                                  [self GUIAction:@"Input.ExecuteAction" params:@{@"action": musicMethod} httpAPIcallback:nil];
+                              else if (winID == WINDOW_VISUALISATION) {
+                                  [self processButtonPress:musicButton];
                               }
                           }
                       }];
@@ -805,71 +821,56 @@ NSInteger buttonAction;
              }
          }];
     }
-    return;
 }
 
-- (void)sendAction {
-    if (!buttonAction) {
-        return;
-    }
-    if (self.holdVolumeTimer.timeInterval == 0.5 || self.holdVolumeTimer.timeInterval == 1.5) {
-        
-        if (self.holdVolumeTimer.timeInterval == 1.5) {
-            [self.holdVolumeTimer invalidate];
-            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
-        }
-        else {
-            [self.holdVolumeTimer invalidate];
-            self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendAction) userInfo:nil repeats:YES];
-        }
-    }
+- (void)processButtonPress:(NSInteger)buttonTag {
     NSString *action;
-    switch (buttonAction) {
+    NSDictionary *params;
+    switch (buttonTag) {
         case TAG_BUTTON_ARROW_UP:
-            action = @"Input.Up";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
-            [self playerStep:@"bigforward" musicPlayerGo:nil musicPlayerAction:@"increaserating"];
+            if ([VersionCheck hasInputButtonEventSupport]) {
+                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"up", @"keymap": @"KB"} httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Input.Up" params:@{} httpAPIcallback:nil];
+                [self playerActionVideo:TAG_BUTTON_SEEK_FORWARD_BIG actionMusic:TAG_BUTTON_NEXT];
+            }
             break;
             
         case TAG_BUTTON_ARROW_LEFT:
-            action = @"Input.Left";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
-            [self playerStep:@"smallbackward" musicPlayerGo:@"previous" musicPlayerAction:nil];
+            if ([VersionCheck hasInputButtonEventSupport]) {
+                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"left", @"keymap": @"KB"} httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Input.Left" params:@{} httpAPIcallback:nil];
+                [self playerActionVideo:TAG_BUTTON_SEEK_BACKWARD actionMusic:TAG_BUTTON_SEEK_BACKWARD];
+            }
             break;
-
-        case TAG_BUTTON_SELECT:
-            action = @"Input.Select";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
-            break;
-
+            
         case TAG_BUTTON_ARROW_RIGHT:
-            action = @"Input.Right";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
-            [self playerStep:@"smallforward" musicPlayerGo:@"next" musicPlayerAction:nil];
+            if ([VersionCheck hasInputButtonEventSupport]) {
+                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"right", @"keymap": @"KB"} httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Input.Right" params:@{} httpAPIcallback:nil];
+                [self playerActionVideo:TAG_BUTTON_SEEK_FORWARD actionMusic:TAG_BUTTON_SEEK_FORWARD];
+            }
             break;
             
         case TAG_BUTTON_ARROW_DOWN:
-            action = @"Input.Down";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
-            [self playerStep:@"bigbackward" musicPlayerGo:nil musicPlayerAction:@"decreaserating"];
+            if ([VersionCheck hasInputButtonEventSupport]) {
+                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"down", @"keymap": @"KB"} httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Input.Down" params:@{} httpAPIcallback:nil];
+                [self playerActionVideo:TAG_BUTTON_SEEK_BACKWARD_BIG actionMusic:TAG_BUTTON_PREVIOUS];
+            }
             break;
             
         case TAG_BUTTON_BACK:
-            action = @"Input.Back";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
+            [self GUIAction:@"Input.Back" params:@{} httpAPIcallback:nil];
             break;
             
-        default:
-            break;
-    }
-}
-
-- (IBAction)startVibrate:(id)sender {
-    NSString *action;
-    NSDictionary *params;
-    NSDictionary *dicParams;
-    switch ([sender tag]) {
         case TAG_BUTTON_FULLSCREEN:
             action = @"GUI.SetFullscreen";
             [self GUIAction:action params:@{@"fullscreen": @"toggle"} httpAPIcallback:@"SendKey(0xf009)"];
@@ -878,6 +879,12 @@ NSInteger buttonAction;
         case TAG_BUTTON_SEEK_BACKWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
+            [self playbackAction:action params:params];
+            break;
+            
+        case TAG_BUTTON_SEEK_BACKWARD_BIG:
+            action = @"Player.Seek";
+            params = [Utilities buildPlayerSeekStepParams:@"bigbackward"];
             [self playbackAction:action params:params];
             break;
             
@@ -890,6 +897,12 @@ NSInteger buttonAction;
         case TAG_BUTTON_SEEK_FORWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
+            [self playbackAction:action params:params];
+            break;
+        
+        case TAG_BUTTON_SEEK_FORWARD_BIG:
+            action = @"Player.Seek";
+            params = [Utilities buildPlayerSeekStepParams:@"bigforward"];
             [self playbackAction:action params:params];
             break;
             
@@ -956,35 +969,39 @@ NSInteger buttonAction;
             
         case TAG_BUTTON_MUSIC:
             action = @"GUI.ActivateWindow";
-            dicParams = @{@"window": @"music"};
-            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
+            params = @{@"window": @"music"};
+            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
             break;
             
         case TAG_BUTTON_MOVIES:
             action = @"GUI.ActivateWindow";
-            dicParams = @{@"window": @"videos",
-                          @"parameters": @[@"MovieTitles"]};
-            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
+            params = @{@"window": @"videos",
+                       @"parameters": @[@"MovieTitles"]};
+            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
             break;
         
         case TAG_BUTTON_TVSHOWS:
             action = @"GUI.ActivateWindow";
-            dicParams = @{@"window": @"videos",
-                          @"parameters": @[@"tvshowtitles"]};
-            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
+            params = @{@"window": @"videos",
+                       @"parameters": @[@"tvshowtitles"]};
+            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
             break;
         
         case TAG_BUTTON_PICTURES:
             action = @"GUI.ActivateWindow";
-            dicParams = @{@"window": @"pictures"};
-            [self GUIAction:action params:dicParams httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Pictures)"];
+            params = @{@"window": @"pictures"};
+            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Pictures)"];
             break;
             
         default:
             break;
     }
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+}
+
+- (IBAction)startVibrate:(id)sender {
+    [self processButtonPress:[sender tag]];
     
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL startVibrate = [userDefaults boolForKey:@"vibrate_preference"];
     if (startVibrate) {
         [[UIDevice currentDevice] playInputClick];
@@ -1005,70 +1022,74 @@ NSInteger buttonAction;
 
 # pragma mark - Gestures
 
+- (void)processButtonLongPress:(NSInteger)buttonTag {
+    switch (buttonTag) {
+        case TAG_BUTTON_FULLSCREEN:
+            [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"togglefullscreen"} httpAPIcallback:@"Action(199)"];
+            break;
+            
+        case TAG_BUTTON_SEEK_BACKWARD: // DECREASE PLAYBACK SPEED
+            [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
+            break;
+            
+        case TAG_BUTTON_SEEK_FORWARD: // INCREASE PLAYBACK SPEED
+            [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
+            break;
+            
+        case TAG_BUTTON_INFO: // CODEC INFO
+            if (AppDelegate.instance.serverVersion > 16) {
+                [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"playerdebug"} httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Input.ShowCodec" params:@{} httpAPIcallback:@"SendKey(0xF04F)"];
+            }
+            break;
+
+        case TAG_BUTTON_SELECT: // CONTEXT MENU
+        case TAG_BUTTON_MENU:
+            [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
+            break;
+
+        case TAG_BUTTON_SUBTITLES: // SUBTITLES BUTTON
+            if (AppDelegate.instance.serverVersion > 12) {
+                [self GUIAction:@"GUI.ActivateWindow"
+                         params:@{@"window": @"subtitlesearch"}
+                httpAPIcallback:nil];
+            }
+            else {
+                [self GUIAction:@"Addons.ExecuteAddon"
+                         params:@{@"addonid": @"script.xbmc.subtitles"}
+                httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
+            }
+            break;
+            
+        case TAG_BUTTON_MOVIES:
+            [self GUIAction:@"GUI.ActivateWindow"
+                     params:@{@"window": @"pvr",
+                              @"parameters": @[@"31", @"0", @"10", @"0"]}
+            httpAPIcallback:nil];
+            break;
+            
+        case TAG_BUTTON_TVSHOWS:
+            [self GUIAction:@"GUI.ActivateWindow"
+                     params:@{@"window": @"pvrosdguide"}
+            httpAPIcallback:nil];
+            break;
+            
+        case TAG_BUTTON_PICTURES:
+            [self GUIAction:@"GUI.ActivateWindow"
+                     params:@{@"window": @"pvrosdchannels"}
+            httpAPIcallback:nil];
+            break;
+
+        default:
+            break;
+    }
+}
+
 - (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        switch (gestureRecognizer.view.tag) {
-            case TAG_BUTTON_FULLSCREEN:
-                [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"togglefullscreen"} httpAPIcallback:@"Action(199)"];
-                break;
-                
-            case TAG_BUTTON_SEEK_BACKWARD: // DECREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
-                break;
-                
-            case TAG_BUTTON_SEEK_FORWARD: // INCREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
-                break;
-                
-            case TAG_BUTTON_INFO: // CODEC INFO
-                if (AppDelegate.instance.serverVersion > 16) {
-                    [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"playerdebug"} httpAPIcallback:nil];
-                }
-                else {
-                    [self GUIAction:@"Input.ShowCodec" params:@{} httpAPIcallback:@"SendKey(0xF04F)"];
-                }
-                break;
-
-            case TAG_BUTTON_SELECT: // CONTEXT MENU
-            case TAG_BUTTON_MENU:
-                [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
-                break;
-
-            case TAG_BUTTON_SUBTITLES: // SUBTITLES BUTTON
-                if (AppDelegate.instance.serverVersion > 12) {
-                    [self GUIAction:@"GUI.ActivateWindow"
-                             params:@{@"window": @"subtitlesearch"}
-                    httpAPIcallback:nil];
-                }
-                else {
-                    [self GUIAction:@"Addons.ExecuteAddon"
-                             params:@{@"addonid": @"script.xbmc.subtitles"}
-                    httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
-                }
-                break;
-                
-            case TAG_BUTTON_MOVIES:
-                [self GUIAction:@"GUI.ActivateWindow"
-                         params:@{@"window": @"pvr",
-                                  @"parameters": @[@"31", @"0", @"10", @"0"]}
-                httpAPIcallback:nil];
-                break;
-                
-            case TAG_BUTTON_TVSHOWS:
-                [self GUIAction:@"GUI.ActivateWindow"
-                         params:@{@"window": @"pvrosdguide"}
-                httpAPIcallback:nil];
-                break;
-                
-            case TAG_BUTTON_PICTURES:
-                [self GUIAction:@"GUI.ActivateWindow"
-                         params:@{@"window": @"pvrosdchannels"}
-                httpAPIcallback:nil];
-                break;
-
-            default:
-                break;
-        }
+        [self processButtonLongPress:gestureRecognizer.view.tag];
     }
 }
 
@@ -1195,7 +1216,7 @@ NSInteger buttonAction;
 }
 
 - (void)resetRemote {
-    [self stopHoldKey:nil];
+    [self.holdKeyTimer invalidate];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
