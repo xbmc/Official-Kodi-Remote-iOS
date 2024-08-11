@@ -67,7 +67,14 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
+    NSString *rowContent = tableData[indexPath.row][@"label"];
+    if ([rowContent isEqualToString:@"RemoteControl"] ||
+        [rowContent isEqualToString:@"VolumeControl"]) {
+        cell.backgroundColor = UIColor.clearColor;
+    }
+    else {
+        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
+    }
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
