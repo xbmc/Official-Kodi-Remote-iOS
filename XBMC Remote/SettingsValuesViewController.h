@@ -20,7 +20,6 @@ typedef enum {
 } SettingType;
 
 @interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate> {
-    int cellLabelOffset;
     CGFloat cellHeight;
     NSMutableArray *settingOptions;
     NSDictionary *itemControls;
@@ -33,8 +32,8 @@ typedef enum {
     UIView *scrubbingView;
     UILabel *scrubbingMessage;
     UILabel *scrubbingRate;
+    UILabel *footerDescription;
     MessagesView *messagesView;
-    NSString *footerMessage;
     BOOL fromItself;
 }
 
