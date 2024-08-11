@@ -44,7 +44,7 @@
 #define HMS_TO_STRING(h, m, s) [NSString stringWithFormat:@"%@%02i:%02i", (totalSeconds < 3600) ? @"" : [NSString stringWithFormat:@"%02i:", h], m, s];
 
 #define MAX_CELLBAR_WIDTH 45
-#define PARTYBUTTON_PADDING_LEFT 8
+#define PARTYBUTTON_PADDING_LEFT 0
 #define PROGRESSBAR_PADDING_LEFT 20
 #define PROGRESSBAR_PADDING_BOTTOM 80
 #define COVERVIEW_PADDING 10

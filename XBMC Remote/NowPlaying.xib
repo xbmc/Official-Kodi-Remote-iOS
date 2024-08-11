@@ -365,11 +365,6 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <items/>
                         </toolbar>
-                        <imageView userInteractionEnabled="NO" alpha="0.30000001192092896" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="153">
-                            <rect key="frame" x="320" y="2" width="1" height="42"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </imageView>
                         <button hidden="YES" opaque="NO" tag="88" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="117">
                             <rect key="frame" x="235" y="8" width="74" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -393,21 +388,21 @@
                                 <outletCollection property="gestureRecognizers" destination="168" appends="YES" id="169"/>
                             </connections>
                         </button>
-                        <button opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="141">
-                            <rect key="frame" x="-72" y="8" width="72" height="28"/>
+                        <button opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="141">
+                            <rect key="frame" x="-95" y="8" width="95" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
-                            <state key="normal" title="Party" backgroundImage="button_party_off">
+                            <state key="normal" title="Party" image="button_party_off">
                                 <color key="titleColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="selected" title="Party" backgroundImage="button_party_on">
+                            <state key="selected" title="Party" image="button_party_on">
                                 <color key="titleColor" red="0.94702327251434326" green="0.94702327251434326" blue="0.94702327251434326" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
-                            <state key="highlighted" title="Party" backgroundImage="button_party_on">
+                            <state key="highlighted" title="Party" image="button_party_on">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
@@ -562,8 +557,8 @@
     <resources>
         <image name="appViewBackground" width="320" height="480"/>
         <image name="button_close" width="30" height="30"/>
-        <image name="button_party_off" width="72" height="28"/>
-        <image name="button_party_on" width="72" height="28"/>
+        <image name="button_party_off" width="16" height="28"/>
+        <image name="button_party_on" width="16" height="28"/>
         <image name="button_repeat" width="40" height="45"/>
         <image name="button_shuffle" width="40" height="45"/>
         <image name="hires" width="41" height="41"/>
