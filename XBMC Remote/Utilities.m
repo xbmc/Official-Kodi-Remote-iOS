@@ -826,9 +826,9 @@
     else if ([item isKindOfClass:[NSArray class]]) {
         runtime = [item componentsJoinedByString:@" / "];
     }
-    else {
+    else if ([item intValue] > 0) {
         int minutes = [item intValue] / secondsToMinute;
-        runtime = minutes ? [NSString stringWithFormat:@"%d min", minutes] : runtime;
+        runtime = minutes ? [NSString stringWithFormat:@"%d min", minutes] : [NSString stringWithFormat:@"<1 min"];
     }
     return runtime;
 }
@@ -1446,6 +1446,18 @@
         URLaddress = [NSString stringWithFormat:@"[%@]", address];
     }
     return URLaddress;
+}
+
++ (int)getActivePlayerID:(NSArray*)activePlayerList {
+    if (!activePlayerList.count) {
+        return PLAYERID_UNKNOWN;
+    }
+    if (![activePlayerList[0] isKindOfClass:[NSDictionary class]]) {
+        return PLAYERID_UNKNOWN;
+    }
+    // Active player is the first listed one
+    int activePlayerID = [activePlayerList[0][@"playerid"] intValue];
+    return activePlayerID;
 }
 
 @end

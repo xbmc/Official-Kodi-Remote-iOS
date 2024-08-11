@@ -69,6 +69,9 @@
 #define ID_INVALID -2
 #define FLIP_DEMO_DELAY 1.0
 #define TRANSITION_TIME 0.2
+#define PLAYLIST_DEBOUNCE_TIMEOUT 0.2
+#define PLAYLIST_DEBOUNCE_TIMEOUT_MAX 1.0
+#define UPDATE_INFO_TIMEOUT 1.0
 
 #define XIB_PLAYLIST_CELL_MAINTITLE 1
 #define XIB_PLAYLIST_CELL_SUBTITLE 2
@@ -174,7 +177,7 @@
     label.hidden = imageView.image != nil;
 }
 
-- (NSString*)processSongCodecName:(NSString*)codec {
+- (NSString*)processAudioCodecName:(NSString*)codec {
     if ([codec rangeOfString:@"musepack"].location != NSNotFound) {
         codec = [codec stringByReplacingOccurrencesOfString:@"musepack" withString:@"mpc"];
     }
@@ -256,9 +259,6 @@
         storedItemID = SELECTED_NONE;
         PartyModeButton.selected = YES;
         [Utilities sendXbmcHttp:@"ExecBuiltIn&parameter=PlayerControl(Partymode('music'))"];
-        playerID = PLAYERID_UNKNOWN;
-        selectedPlayerID = PLAYERID_UNKNOWN;
-        [self createPlaylist:NO animTableView:YES];
     }
     else {
         if (musicPartyMode) {
@@ -277,8 +277,6 @@
              withParameters:@{@"item": @{@"partymode": @"music"}}
              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                  PartyModeButton.selected = YES;
-                 playerID = PLAYERID_UNKNOWN;
-                 selectedPlayerID = PLAYERID_UNKNOWN;
                  storedItemID = SELECTED_NONE;
              }];
         }
@@ -286,16 +284,13 @@
     return;
 }
 
-- (void)setPlaylistCellProgressBar:(UITableViewCell*)cell hidden:(BOOL)value {
+- (void)setPlaylistCellProgressBar:(UITableViewCell*)cell hidden:(BOOL)hidden {
     // Do not unhide the playlist progress bar while in pictures playlist
     UIView *view = (UIView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSVIEW];
-    if (!value && currentPlayerID == PLAYERID_PICTURES) {
-        return;
+    if (currentPlaylistID == PLAYERID_PICTURES || currentPlaylistID != currentPlayerID) {
+        hidden = YES;
     }
-    if (value == view.hidden) {
-        return;
-    }
-    view.hidden = value;
+    view.hidden = hidden;
 }
 
 - (UIImage*)resizeImage:(UIImage*)image width:(int)destWidth height:(int)destHeight padding:(int)destPadding {
@@ -426,6 +421,24 @@
     [nowPlayingView bringSubviewToFront:BottomView];
 }
 
+- (void)serverIsDisconnected {
+    currentPlaylistID = PLAYERID_UNKNOWN;
+    storedItemID = 0;
+    [UIView animateWithDuration:0.1
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        // Fade out
+        playlistTableView.alpha = 0.0;
+    }
+                     completion:^(BOOL finished) {
+        [playlistData removeAllObjects];
+        [playlistTableView reloadData];
+        [self notifyChangeForPlaylistHeader];
+    }];
+    [self nothingIsPlaying];
+}
+
 - (void)nothingIsPlaying {
     UIImage *image = [UIImage imageNamed:@"st_nowplaying_small"];
     [self setButtonImageAndStartDemo:image];
@@ -469,8 +482,8 @@
     hiresImage.hidden = YES;
     musicPartyMode = NO;
     [self notifyChangeForBackgroundImage:nil coverImage:nil];
-    [self hidePlaylistProgressbarWithDeselect:YES];
-    [self showPlaylistTable];
+    [self deselectPlaylistItem];
+    [self showPlaylistTableAnimated:NO];
     [self toggleSongDetails];
     
     // Unload and hide blurred cover effect
@@ -498,6 +511,371 @@
     waitForInfoLabelsToSettle = NO;
 }
 
+- (void)updateNowPlayingLabels:(NSDictionary*)item {
+    // Set song details description text
+    if (currentPlayerID != PLAYERID_PICTURES) {
+        NSString *description = [Utilities getStringFromItem:item[@"description"]];
+        NSString *plot = [Utilities getStringFromItem:item[@"plot"]];
+        itemDescription.text = description.length ? description : (plot.length ? plot : @"");
+        itemDescription.text = [Utilities stripBBandHTML:itemDescription.text];
+        [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
+    }
+    
+    // Set NowPlaying text fields
+    // 1st: title
+    NSString *label = [Utilities getStringFromItem:item[@"label"]];
+    NSString *title = [Utilities getStringFromItem:item[@"title"]];
+    storeLiveTVTitle = title;
+    if (title.length == 0) {
+        title = label;
+    }
+    
+    // 2nd: artists
+    NSString *artist = [Utilities getStringFromItem:item[@"artist"]];
+    NSString *studio = [Utilities getStringFromItem:item[@"studio"]];
+    NSString *channel = [Utilities getStringFromItem:item[@"channel"]];
+    if (artist.length == 0 && studio.length) {
+        artist = studio;
+    }
+    if (artist.length == 0 && channel.length && ![channel isEqualToString:title]) {
+        artist = channel;
+    }
+    
+    // 3rd: album
+    NSString *album = [Utilities getStringFromItem:item[@"album"]];
+    NSString *showtitle = [Utilities getStringFromItem:item[@"showtitle"]];
+    NSString *season = [Utilities getStringFromItem:item[@"season"]];
+    NSString *episode = [Utilities getStringFromItem:item[@"episode"]];
+    if (album.length == 0 && showtitle.length) {
+        album = [Utilities formatTVShowStringForSeasonTrailing:season episode:episode title:showtitle];
+    }
+    NSString *director = [Utilities getStringFromItem:item[@"director"]];
+    if (album.length == 0 && director.length) {
+        album = director;
+    }
+    
+    // Add year to artist string, if available
+    NSString *year = [Utilities getYearFromItem:item[@"year"]];
+    artist = [self formatArtistYear:artist year:year];
+    
+    // top to bottom: songName, artistName, albumName
+    songName.text = title;
+    artistName.text = artist;
+    albumName.text = album;
+}
+
+- (void)updateNowPlayingArtwork:(NSDictionary*)item withJewel:(BOOL)enableJewel {
+    // Set cover size and load covers
+    NSString *type = [Utilities getStringFromItem:item[@"type"]];
+    currentType = type;
+    [self setCoverSize:currentType];
+    NSString *serverURL = [Utilities getImageServerURL];
+    NSString *thumbnailPath = [self getNowPlayingThumbnailPath:item];
+    NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
+    NSString *fanart = [Utilities getStringFromItem:item[@"fanart"]];
+    if (![lastThumbnail isEqualToString:stringURL] || [lastThumbnail isEqualToString:@""]) {
+        if (!thumbnailPath.length) {
+            UIImage *image = [UIImage imageNamed:@"coverbox_back"];
+            [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
+            [self updateBlurredCoverBackground:nil];
+            [self notifyChangeForBackgroundImage:fanart coverImage:nil];
+        }
+        else {
+            __weak UIImageView *thumb = thumbnailView;
+            __typeof__(self) __weak weakSelf = self;
+            [thumbnailView sd_setImageWithURL:[NSURL URLWithString:stringURL]
+                             placeholderImage:[UIImage imageNamed:@"coverbox_back"]
+                                      options:SDWebImageDelayPlaceholder
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
+                 if (error == nil) {
+                     [weakSelf processLoadedThumbImage:weakSelf thumb:thumb image:image enableJewel:enableJewel];
+                     [weakSelf updateBlurredCoverBackground:image];
+                     [weakSelf notifyChangeForBackgroundImage:fanart coverImage:image];
+                 }
+             }];
+        }
+    }
+    lastThumbnail = stringURL;
+}
+
+- (void)updateOverlayArtWork:(NSDictionary*)item {
+    itemLogoImage.image = nil;
+    NSString *serverURL = [Utilities getImageServerURL];
+    NSDictionary *art = item[@"art"];
+    storeClearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
+    storeClearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
+    if (!storeClearlogo.length) {
+        storeClearlogo = storeClearart;
+    }
+    if (storeClearlogo.length) {
+        NSString *stringURL = [Utilities formatStringURL:storeClearlogo serverURL:serverURL];
+        [itemLogoImage sd_setImageWithURL:[NSURL URLWithString:stringURL]];
+        storeCurrentLogo = storeClearlogo;
+    }
+}
+
+- (void)updateControlsAndPlaylist:(NSDictionary*)item {
+    // Read percentage of playback progress and set progress slider
+    float percentage = [Utilities getFloatValueFromItem:item[@"percentage"]];
+    if (updateProgressBar) {
+        ProgressSlider.value = percentage;
+    }
+    
+    // Read PartyMode state and set button
+    musicPartyMode = [item[@"partymode"] boolValue];
+    PartyModeButton.selected = musicPartyMode;
+    
+    // Read repeat capability and mode to set button state
+    BOOL canRepeat = [item[@"canrepeat"] boolValue] && !musicPartyMode;
+    repeatButton.hidden = !canRepeat;
+    if (canRepeat) {
+        repeatStatus = item[@"repeat"];
+        [self updateRepeatButton:repeatStatus];
+    }
+    
+    // Read shuffle capability and mode to set button state
+    BOOL canShuffle = [item[@"canshuffle"] boolValue] && !musicPartyMode;
+    shuffleButton.hidden = !canShuffle;
+    if (canShuffle) {
+        shuffled = [item[@"shuffled"] boolValue];
+        [self updateShuffleButton:shuffled];
+    }
+    
+    // Read seek capability and mode to set progress bar state
+    BOOL canSeek = [item[@"canseek"] boolValue];
+    if (canSeek && !ProgressSlider.userInteractionEnabled) {
+        ProgressSlider.userInteractionEnabled = YES;
+        UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
+        [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
+        [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
+    }
+    if (!canSeek && ProgressSlider.userInteractionEnabled) {
+        ProgressSlider.userInteractionEnabled = NO;
+        [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
+        [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];
+    }
+
+    // Read item's total playback time, totalSeconds is used for formatting and progress slider
+    NSDictionary *totalTimeDict = item[@"totaltime"];
+    totalSeconds = [self getSecondsFromTimeDict:totalTimeDict];
+    NSString *totalTime = [self formatRuntimeFromTimeDict:totalTimeDict];
+    duration.text = totalTime;
+    
+    // Read item's current playback time and update display time in playlist
+    NSDictionary *actualTimeDict = item[@"time"];
+    NSString *actualTime = [self formatRuntimeFromTimeDict:actualTimeDict];
+    if (updateProgressBar) {
+        currentTime.text = actualTime;
+        ProgressSlider.hidden = NO;
+        currentTime.hidden = NO;
+        duration.hidden = NO;
+    }
+    
+    // Disable progress bar for pictures, slideshows or items with no total time (e.g. audio streams)
+    if (currentPlayerID == PLAYERID_PICTURES || totalSeconds == 0) {
+        ProgressSlider.hidden = YES;
+        currentTime.hidden = YES;
+        duration.hidden = YES;
+    }
+    
+    // Detect start of new song to update party mode playlist
+    int posSeconds = [self getSecondsFromTimeDict:actualTimeDict];
+    if (musicPartyMode && posSeconds < storePosSeconds) {
+        [self updatePartyModePlaylist];
+        
+        // Leave here to avoid flickering playlist progressbar (next code block)
+        storePosSeconds = posSeconds;
+        return;
+    }
+    storePosSeconds = posSeconds;
+    
+    // Update the playlist position and time when a new item plays, else update progress only
+    long playlistPosition = [item[@"position"] longValue];
+    if (playlistPosition != lastSelected && playlistPosition != SELECTED_NONE) {
+        [self setPlaylistPosition:playlistPosition forPlayer:currentPlayerID];
+        [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
+    }
+    else {
+        [self updatePlaylistProgressbar:percentage actual:actualTime];
+    }
+}
+
+- (void)setPlayerStates:(NSArray*)activePlayerList {
+    // Get active player from list
+    int activePlayerID = [Utilities getActivePlayerID:activePlayerList];
+    
+    // Get status of slideshow
+    isSlideshowActive = [self getSlideshowState:activePlayerList];
+    
+    // Set the current playerid. This is used to gather current played item's metadata.
+    currentPlayerID = activePlayerID;
+    if (currentPlayerID == PLAYERID_UNKNOWN || currentPlayerID != lastPlayerID) {
+        lastPlayerID = currentPlayerID;
+        // Pause the A/V codec updates until Kodi's info labels settled
+        waitForInfoLabelsToSettle = YES;
+        [self performSelector:@selector(setWaitForInfoLabelsToSettle) withObject:nil afterDelay:1.0];
+    }
+    
+    // If no playlist is selected yet in the UI, set it to the player's id and update the playlist.
+    // Active slideshows can use video and picture players. If we start with an active slideshow
+    // and do not have the music player active, we force the playlist to picture playlist to deal
+    // with potentially running slideshow videos.
+    if (currentPlaylistID == PLAYERID_UNKNOWN) {
+        currentPlaylistID = (isSlideshowActive && currentPlayerID != PLAYERID_MUSIC) ? PLAYERID_PICTURES : activePlayerID;
+        [self createPlaylistAnimated:YES];
+    }
+    
+    // Codec view uses "XBMC.GetInfoLabels" which might change asynchronously. Therefore check each time.
+    if (songDetailsView.alpha && !waitForInfoLabelsToSettle) {
+        [self loadCodecView];
+    }
+}
+
+- (void)setPlaylistPosition:(long)playlistPosition forPlayer:(int)playerID {
+    if (playlistData.count <= playlistPosition ||
+        currentPlaylistID != playerID ||
+        ![playlistTableView numberOfSections]) {
+        return;
+    }
+    // Make current cell's progress bar invisible
+    NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
+    UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
+    [self setPlaylistCellProgressBar:cell hidden:YES];
+    
+    // Make new cell's progress bar visible and select playlist cell
+    NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
+    if (newSelection.row < [playlistTableView numberOfRowsInSection:0]) {
+        [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+        UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
+        [self setPlaylistCellProgressBar:cell hidden:NO];
+        storeSelection = newSelection;
+        lastSelected = playlistPosition;
+    }
+}
+
+- (BOOL)getSlideshowState:(NSArray*)activePlayerList {
+    // Detect, if there is an active slideshow running in Kodi.
+    for (id activePlayer in activePlayerList) {
+        if ([activePlayer[@"playerid"] intValue] == PLAYERID_PICTURES) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)getPlayerItems {
+    NSMutableArray *properties = [@[@"album",
+                                    @"artist",
+                                    @"title",
+                                    @"thumbnail",
+                                    @"track",
+                                    @"studio",
+                                    @"showtitle",
+                                    @"episode",
+                                    @"season",
+                                    @"fanart",
+                                    @"channel",
+                                    @"description",
+                                    @"year",
+                                    @"director",
+                                    @"plot"] mutableCopy];
+    if (AppDelegate.instance.serverVersion > 11) {
+        [properties addObject:@"art"];
+    }
+    [[Utilities getJsonRPC]
+     callMethod:@"Player.GetItem"
+     withParameters:@{@"playerid": @(currentPlayerID),
+                      @"properties": properties}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+         // Do not process further, if the view is already off the view hierarchy.
+         if (!self.viewIfLoaded.window) {
+             return;
+         }
+         if (error == nil && methodError == nil) {
+             bool enableJewel = [self enableJewelCases];
+             if ([methodResult isKindOfClass:[NSDictionary class]]) {
+                 NSDictionary *nowPlayingInfo = methodResult[@"item"];
+                 if (![nowPlayingInfo isKindOfClass:[NSDictionary class]]) {
+                     return;
+                 }
+                 long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
+                 if ((nowPlayingInfo.count && currentItemID != storedItemID) || 
+                     nowPlayingInfo[@"id"] == nil ||
+                     ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
+                     storedItemID = currentItemID;
+
+                     [self updateNowPlayingLabels:nowPlayingInfo];
+                     [self updateNowPlayingArtwork:nowPlayingInfo withJewel:enableJewel];
+                     [self updateOverlayArtWork:nowPlayingInfo];
+                 }
+             }
+             else {
+                 storedItemID = SELECTED_NONE;
+                 lastThumbnail = @"";
+                 [self setCoverSize:@"song"];
+                 UIImage *image = [UIImage imageNamed:@"coverbox_back"];
+                 [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
+             }
+         }
+         else {
+             storedItemID = SELECTED_NONE;
+         }
+     }];
+}
+
+- (void)getPlayerProperties {
+    [[Utilities getJsonRPC]
+     callMethod:@"Player.GetProperties"
+     withParameters:@{@"playerid": @(currentPlayerID),
+                      @"properties": @[@"percentage",
+                                       @"time",
+                                       @"totaltime",
+                                       @"partymode",
+                                       @"position",
+                                       @"canrepeat",
+                                       @"canshuffle",
+                                       @"repeat",
+                                       @"shuffled",
+                                       @"canseek"]}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+         // Do not process further, if the view is already off the view hierarchy.
+         if (!self.viewIfLoaded.window) {
+             return;
+         }
+         if (error == nil && methodError == nil) {
+             if ([methodResult isKindOfClass:[NSDictionary class]]) {
+                 if ([methodResult count]) {
+                     // Updates repeat, shuffle and seek capabilities and status.
+                     // Updates progress bar visibilty, progress and time.
+                     // Updates playlist position and tiggers playlist reload in Partymode.
+                     [self updateControlsAndPlaylist:methodResult];
+                 }
+             }
+         }
+     }];
+}
+
+- (void)getPlayerPropertiesSlideshow {
+    [[Utilities getJsonRPC]
+     callMethod:@"Player.GetProperties"
+     withParameters:@{@"playerid": @(PLAYERID_PICTURES),
+                      @"properties": @[@"position"]}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+         // Do not process further, if the view is already off the view hierarchy.
+         if (!self.viewIfLoaded.window) {
+             return;
+         }
+         if (error == nil && methodError == nil) {
+             if ([methodResult isKindOfClass:[NSDictionary class]]) {
+                 if ([methodResult count]) {
+                     // Update the playlist position
+                     [self setPlaylistPosition:[methodResult[@"position"] longValue] forPlayer:PLAYERID_PICTURES];
+                 }
+             }
+         }
+     }];
+}
+
 - (void)getActivePlayers {
     [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:@{} withTimeout:2.0 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         // Do not process further, if the view is already off the view hierarchy.
@@ -507,300 +885,27 @@
         if (error == nil && methodError == nil) {
             if ([methodResult isKindOfClass:[NSArray class]] && [methodResult count] > 0) {
                 nothingIsPlaying = NO;
-                NSNumber *response = methodResult[0][@"playerid"] != [NSNull null] ? methodResult[0][@"playerid"] : nil;
-                currentPlayerID = [response intValue];
-                if (playerID != currentPlayerID ||
-                    lastPlayerID != currentPlayerID ||
-                    (selectedPlayerID != PLAYERID_UNKNOWN && playerID != selectedPlayerID)) {
-                    if (selectedPlayerID != PLAYERID_UNKNOWN && playerID != selectedPlayerID) {
-                        lastPlayerID = playerID = selectedPlayerID;
-                    }
-                    else if (selectedPlayerID == PLAYERID_UNKNOWN) {
-                        lastPlayerID = playerID = currentPlayerID;
-                        [self createPlaylist:NO animTableView:YES];
-                    }
-                    else if (lastPlayerID != currentPlayerID) {
-                        lastPlayerID = selectedPlayerID = currentPlayerID;
-                        if (playerID != currentPlayerID) {
-                            [self createPlaylist:NO animTableView:YES];
-                        }
-                        // Pause the A/V codec updates until Kodi's info labels settled
-                        waitForInfoLabelsToSettle = YES;
-                        [self performSelector:@selector(setWaitForInfoLabelsToSettle) withObject:nil afterDelay:1.0];
-                    }
-                }
-                // Codec view uses "XBMC.GetInfoLabels" which might change asynchronously. Therefore check each time.
-                if (songDetailsView.alpha && !waitForInfoLabelsToSettle) {
-                    [self loadCodecView];
-                }
                 
-                NSMutableArray *properties = [@[@"album",
-                                                @"artist",
-                                                @"title",
-                                                @"thumbnail",
-                                                @"track",
-                                                @"studio",
-                                                @"showtitle",
-                                                @"episode",
-                                                @"season",
-                                                @"fanart",
-                                                @"channel",
-                                                @"description",
-                                                @"year",
-                                                @"director",
-                                                @"plot"] mutableCopy];
-                if (AppDelegate.instance.serverVersion > 11) {
-                    [properties addObject:@"art"];
+                // Set state machine variables for player / playlist
+                [self setPlayerStates:methodResult];
+                
+                // Reads the details of the currently playing item and updates NowPlaying labels and artwork.
+                [self getPlayerItems];
+                
+                // Reads the properties of the current active player and updates NowPlaying controls and playlist.
+                [self getPlayerProperties];
+                
+                // Reads the properties for a running slideshow to be able to select the correct playlist position.
+                if (isSlideshowActive) {
+                    [self getPlayerPropertiesSlideshow];
                 }
-                [[Utilities getJsonRPC]
-                 callMethod:@"Player.GetItem" 
-                 withParameters:@{@"playerid": @(currentPlayerID),
-                                  @"properties": properties}
-                 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                     // Do not process further, if the view is already off the view hierarchy.
-                     if (!self.viewIfLoaded.window) {
-                         return;
-                     }
-                     if (error == nil && methodError == nil) {
-                         bool enableJewel = [self enableJewelCases];
-                         if ([methodResult isKindOfClass:[NSDictionary class]]) {
-                             NSDictionary *nowPlayingInfo = methodResult[@"item"];
-                             if (![nowPlayingInfo isKindOfClass:[NSDictionary class]]) {
-                                 return;
-                             }
-                             long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
-                             if ((nowPlayingInfo.count && currentItemID != storedItemID) || nowPlayingInfo[@"id"] == nil || ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
-                                 storedItemID = currentItemID;
-
-                                 // Set song details description text
-                                 if (currentPlayerID != PLAYERID_PICTURES) {
-                                     NSString *description = [Utilities getStringFromItem:nowPlayingInfo[@"description"]];
-                                     NSString *plot = [Utilities getStringFromItem:nowPlayingInfo[@"plot"]];
-                                     itemDescription.text = description.length ? description : (plot.length ? plot : @"");
-                                     itemDescription.text = [Utilities stripBBandHTML:itemDescription.text];
-                                     [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
-                                 }
-                                 
-                                 // Set NowPlaying text fields
-                                 // 1st: title
-                                 NSString *label = [Utilities getStringFromItem:nowPlayingInfo[@"label"]];
-                                 NSString *title = [Utilities getStringFromItem:nowPlayingInfo[@"title"]];
-                                 storeLiveTVTitle = title;
-                                 if (title.length == 0) {
-                                     title = label;
-                                 }
-                                 
-                                 // 2nd: artists
-                                 NSString *artist = [Utilities getStringFromItem:nowPlayingInfo[@"artist"]];
-                                 NSString *studio = [Utilities getStringFromItem:nowPlayingInfo[@"studio"]];
-                                 NSString *channel = [Utilities getStringFromItem:nowPlayingInfo[@"channel"]];
-                                 if (artist.length == 0 && studio.length) {
-                                     artist = studio;
-                                 }
-                                 if (artist.length == 0 && channel.length) {
-                                     artist = channel;
-                                 }
-                                 
-                                 // 3rd: album
-                                 NSString *album = [Utilities getStringFromItem:nowPlayingInfo[@"album"]];
-                                 NSString *showtitle = [Utilities getStringFromItem:nowPlayingInfo[@"showtitle"]];
-                                 NSString *season = [Utilities getStringFromItem:nowPlayingInfo[@"season"]];
-                                 NSString *episode = [Utilities getStringFromItem:nowPlayingInfo[@"episode"]];
-                                 if (album.length == 0 && showtitle.length) {
-                                     album = [Utilities formatTVShowStringForSeasonTrailing:season episode:episode title:showtitle];
-                                 }
-                                 NSString *director = [Utilities getStringFromItem:nowPlayingInfo[@"director"]];
-                                 if (album.length == 0 && director.length) {
-                                     album = director;
-                                 }
-                                 
-                                 // Add year to artist string, if available
-                                 NSString *year = [Utilities getYearFromItem:nowPlayingInfo[@"year"]];
-                                 artist = [self formatArtistYear:artist year:year];
-                                 
-                                 // top to bottom: songName, artistName, albumName
-                                 songName.text = title;
-                                 artistName.text = artist;
-                                 albumName.text = album;
-                                 
-                                 // Set cover size and load covers
-                                 NSString *type = [Utilities getStringFromItem:nowPlayingInfo[@"type"]];
-                                 currentType = type;
-                                 [self setCoverSize:currentType];
-                                 NSString *serverURL = [Utilities getImageServerURL];
-                                 NSString *thumbnailPath = [self getNowPlayingThumbnailPath:nowPlayingInfo];
-                                 NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                                 NSString *fanart = [Utilities getStringFromItem:nowPlayingInfo[@"fanart"]];
-                                 if (![lastThumbnail isEqualToString:stringURL] || [lastThumbnail isEqualToString:@""]) {
-                                     if (!thumbnailPath.length) {
-                                         UIImage *image = [UIImage imageNamed:@"coverbox_back"];
-                                         [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
-                                         [self updateBlurredCoverBackground:nil];
-                                         [self notifyChangeForBackgroundImage:fanart coverImage:nil];
-                                     }
-                                     else {
-                                         __weak UIImageView *thumb = thumbnailView;
-                                         __typeof__(self) __weak weakSelf = self;
-                                         [thumbnailView sd_setImageWithURL:[NSURL URLWithString:stringURL]
-                                                          placeholderImage:[UIImage imageNamed:@"coverbox_back"]
-                                                                   options:SDWebImageDelayPlaceholder
-                                                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                                              if (error == nil) {
-                                                  [weakSelf processLoadedThumbImage:weakSelf thumb:thumb image:image enableJewel:enableJewel];
-                                                  [weakSelf updateBlurredCoverBackground:image];
-                                                  [weakSelf notifyChangeForBackgroundImage:fanart coverImage:image];
-                                              }
-                                          }];
-                                     }
-                                 }
-                                 lastThumbnail = stringURL;
-                                 itemLogoImage.image = nil;
-                                 NSDictionary *art = nowPlayingInfo[@"art"];
-                                 storeClearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
-                                 storeClearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
-                                 if (!storeClearlogo.length) {
-                                     storeClearlogo = storeClearart;
-                                 }
-                                 if (storeClearlogo.length) {
-                                     NSString *stringURL = [Utilities formatStringURL:storeClearlogo serverURL:serverURL];
-                                     [itemLogoImage sd_setImageWithURL:[NSURL URLWithString:stringURL]];
-                                     storeCurrentLogo = storeClearlogo;
-                                 }
-                             }
-                         }
-                         else {
-                             storedItemID = SELECTED_NONE;
-                             lastThumbnail = @"";
-                             [self setCoverSize:@"song"];
-                             UIImage *image = [UIImage imageNamed:@"coverbox_back"];
-                             [self processLoadedThumbImage:self thumb:thumbnailView image:image enableJewel:enableJewel];
-                         }
-                     }
-                     else {
-                         storedItemID = SELECTED_NONE;
-                     }
-                 }];
-                [[Utilities getJsonRPC]
-                 callMethod:@"Player.GetProperties" 
-                 withParameters:@{@"playerid": @(currentPlayerID),
-                                  @"properties": @[@"percentage",
-                                                   @"time",
-                                                   @"totaltime",
-                                                   @"partymode",
-                                                   @"position",
-                                                   @"canrepeat",
-                                                   @"canshuffle",
-                                                   @"repeat",
-                                                   @"shuffled",
-                                                   @"canseek"]}
-                 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                     // Do not process further, if the view is already off the view hierarchy.
-                     if (!self.viewIfLoaded.window) {
-                         return;
-                     }
-                     if (error == nil && methodError == nil) {
-                         if ([methodResult isKindOfClass:[NSDictionary class]]) {
-                             if ([methodResult count]) {
-                                 // Read percentage of playback progress and set progress slider
-                                 float percentage = [Utilities getFloatValueFromItem:methodResult[@"percentage"]];
-                                 if (updateProgressBar) {
-                                     ProgressSlider.value = percentage;
-                                 }
-                                 
-                                 // Read PartyMode state and set button
-                                 musicPartyMode = [methodResult[@"partymode"] boolValue];
-                                 PartyModeButton.selected = musicPartyMode;
-                                 
-                                 // Read repeat capability and mode to set button state
-                                 BOOL canRepeat = [methodResult[@"canrepeat"] boolValue] && !musicPartyMode;
-                                 repeatButton.hidden = !canRepeat;
-                                 if (canRepeat) {
-                                     repeatStatus = methodResult[@"repeat"];
-                                     [self updateRepeatButton:repeatStatus];
-                                 }
-                                 
-                                 // Read shuffle capability and mode to set button state
-                                 BOOL canShuffle = [methodResult[@"canshuffle"] boolValue] && !musicPartyMode;
-                                 shuffleButton.hidden = !canShuffle;
-                                 if (canShuffle) {
-                                     shuffled = [methodResult[@"shuffled"] boolValue];
-                                     [self updateShuffleButton:shuffled];
-                                 }
-                                 
-                                 // Read seek capability and mode to set progress bar state
-                                 BOOL canSeek = [methodResult[@"canseek"] boolValue];
-                                 if (canSeek && !ProgressSlider.userInteractionEnabled) {
-                                     ProgressSlider.userInteractionEnabled = YES;
-                                     UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
-                                     [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
-                                     [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
-                                 }
-                                 if (!canSeek && ProgressSlider.userInteractionEnabled) {
-                                     ProgressSlider.userInteractionEnabled = NO;
-                                     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateNormal];
-                                     [ProgressSlider setThumbImage:[UIImage new] forState:UIControlStateHighlighted];
-                                 }
-
-                                 // Read item's total playback time, totalSeconds is used for formatting and progress slider
-                                 NSDictionary *totalTimeDict = methodResult[@"totaltime"];
-                                 totalSeconds = [self getSecondsFromTimeDict:totalTimeDict];
-                                 NSString *totalTime = [self formatRuntimeFromTimeDict:totalTimeDict];
-                                 duration.text = totalTime;
-                                 
-                                 // Read item's current playback time and update display time in playlist
-                                 NSDictionary *actualTimeDict = methodResult[@"time"];
-                                 NSString *actualTime = [self formatRuntimeFromTimeDict:actualTimeDict];
-                                 if (updateProgressBar) {
-                                     currentTime.text = actualTime;
-                                     ProgressSlider.hidden = NO;
-                                     currentTime.hidden = NO;
-                                     duration.hidden = NO;
-                                 }
-                                 
-                                 // Disable progress bar for pictures or slideshows
-                                 if (currentPlayerID == PLAYERID_PICTURES) {
-                                     ProgressSlider.hidden = YES;
-                                     currentTime.hidden = YES;
-                                     duration.hidden = YES;
-                                 }
-                                 
-                                 // Detect start of new song to update party mode playlist
-                                 int posSeconds = [self getSecondsFromTimeDict:actualTimeDict];
-                                 if (musicPartyMode && posSeconds < storePosSeconds) {
-                                     [self checkPartyMode];
-                                 }
-                                 storePosSeconds = posSeconds;
-                                 
-                                 // Update the playlist position and time when a new item plays, else update progress only
-                                 long playlistPosition = [methodResult[@"position"] longValue];
-                                 if (playlistPosition != lastSelected && playlistPosition != SELECTED_NONE) {
-                                     if (playlistData.count > playlistPosition && currentPlayerID == playerID) {
-                                         [self hidePlaylistProgressbarWithDeselect:NO];
-                                         NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
-                                         UITableViewScrollPosition position = UITableViewScrollPositionMiddle;
-                                         if (musicPartyMode) {
-                                             position = UITableViewScrollPositionNone;
-                                         }
-                                         [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:position];
-                                         UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
-                                         [self setPlaylistCellProgressBar:cell hidden:NO];
-                                         storeSelection = newSelection;
-                                         lastSelected = playlistPosition;
-                                     }
-                                     [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
-                                 }
-                                 else {
-                                     [self updatePlaylistProgressbar:percentage actual:actualTime];
-                                 }
-                             }
-                         }
-                     }
-                 }];
             }
             else {
                 [self nothingIsPlaying];
-                if (playerID == PLAYERID_UNKNOWN && selectedPlayerID == PLAYERID_UNKNOWN) {
-                    [self createPlaylist:YES animTableView:YES];
+                // If there is no running player or active playlist, select music as default playlist
+                if (currentPlaylistID == PLAYERID_UNKNOWN) {
+                    currentPlaylistID = PLAYERID_MUSIC;
+                    [self createPlaylistAnimated:YES];
                 }
             }
         }
@@ -808,6 +913,19 @@
             [self nothingIsPlaying];
         }
     }];
+}
+
+- (void)notifyChangeForPlaylistHeader {
+    // Define playlist header label, adding number of playlist items in brackets
+    NSString *playlistLabel = [self getPlaylistHeaderLabel];
+    if (!playlistView.hidden) {
+        self.navigationItem.title = playlistLabel;
+    }
+    // For iPad send a notification with the label
+    if (IS_IPAD) {
+        NSDictionary *params = @{@"playlistHeaderLabel": playlistLabel};
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PlaylistHeaderUpdate" object:nil userInfo:params];
+    }
 }
 
 - (void)notifyChangeForBackgroundImage:(NSString*)bgImagePath coverImage:(UIImage*)coverImage {
@@ -875,7 +993,7 @@
              itemDescription.textAlignment = NSTextAlignmentJustified;
              if (currentPlayerID == PLAYERID_MUSIC) {
                  NSString *codec = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
-                 codec = [self processSongCodecName:codec];
+                 codec = [self processAudioCodecName:codec];
                  [self setSongDetails:songCodec image:songCodecImage item:codec];
                  
                  NSString *channels = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Channels"]];
@@ -914,9 +1032,11 @@
                  itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
              }
              else if (currentPlayerID == PLAYERID_VIDEO) {
+                 NSString *codec = [Utilities getStringFromItem:methodResult[@"VideoPlayer.AudioCodec"]];
+                 codec = [self processAudioCodecName:codec];
+                 [self setSongDetails:songNumChannels image:songNumChanImage item:codec];
                  [self setSongDetails:songCodec image:songCodecImage item:methodResult[@"VideoPlayer.VideoResolution"]];
                  [self setSongDetails:songSampleRate image:songSampleRateImage item:methodResult[@"VideoPlayer.VideoCodec"]];
-                 [self setSongDetails:songNumChannels image:songNumChanImage item:methodResult[@"VideoPlayer.AudioCodec"]];
                  
                  NSString *aspect = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoAspect"]];
                  aspect = [self processAspectString:aspect];
@@ -935,6 +1055,7 @@
                  resolution = [resolution stringByReplacingOccurrencesOfString:@" x " withString:@"\n"];
                  songCodec.text = resolution;
                  songCodecImage.image = [self loadImageFromName:@"aspect"];
+                 songCodecImage.hidden = resolution.length == 0;
                  
                  NSString *camera = [Utilities getStringFromItem:methodResult[@"Slideshow.CameraModel"]];
                  songSampleRate.text = camera;
@@ -1005,12 +1126,7 @@
 
 - (void)playbackInfo {
     if (!AppDelegate.instance.serverOnLine) {
-        playerID = PLAYERID_UNKNOWN;
-        selectedPlayerID = PLAYERID_UNKNOWN;
-        storedItemID = 0;
-        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
-        [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
-        [self nothingIsPlaying];
+        [self serverIsDisconnected];
         return;
     }
     if (AppDelegate.instance.serverVersion == 11) {
@@ -1042,63 +1158,52 @@
     [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": @(playlistID)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [playlistTableView setEditing:NO animated:NO];
-            [self createPlaylist:NO animTableView:NO];
+            [self createPlaylistAnimated:NO];
         }
     }];
 }
 
-- (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters checkPartyMode:(BOOL)checkPartyMode {
+- (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters {
     NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
     commonParams[@"playerid"] = @(currentPlayerID);
     [[Utilities getJsonRPC] callMethod:action withParameters:commonParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (error == nil && methodError == nil) {
-            if (musicPartyMode && checkPartyMode) {
-                [self checkPartyMode];
-            }
-        }
     }];
 }
 
-- (void)createPlaylist:(BOOL)forcePlaylistID animTableView:(BOOL)animTable {
+- (void)updatePartyModePlaylist {
+    lastSelected = SELECTED_NONE;
+    storeSelection = 0;
+    // Do not update/switch to an updated Party playlist while the user watches another playlist.
+    if (currentPlaylistID == PLAYERID_MUSIC) {
+        [self createPlaylistAnimated:NO];
+    }
+}
+
+- (void)createPlaylistAnimated:(BOOL)animTable {
     if (!AppDelegate.instance.serverOnLine) {
-        playerID = PLAYERID_UNKNOWN;
-        selectedPlayerID = PLAYERID_UNKNOWN;
-        storedItemID = 0;
-        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
-        [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
-        [self nothingIsPlaying];
+        [self serverIsDisconnected];
         return;
     }
-    if (!musicPartyMode && animTable) {
-        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:slideFrom];
+    if (currentPlaylistID == PLAYERID_UNKNOWN) {
+        return;
     }
-    [activityIndicatorView startAnimating];
-    int playlistID = playerID;
-    if (forcePlaylistID) {
-        playlistID = PLAYERID_MUSIC;
+    if (animTable) {
+        [activityIndicatorView startAnimating];
     }
     
-    if (selectedPlayerID != PLAYERID_UNKNOWN) {
-        playlistID = selectedPlayerID;
-        playerID = selectedPlayerID;
-    }
-    
-    if (playlistID == PLAYERID_MUSIC) {
-        playerID = PLAYERID_MUSIC;
+    if (currentPlaylistID == PLAYERID_MUSIC) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_MUSIC;
         [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:1.0 XPos:PARTYBUTTON_PADDING_LEFT];
     }
-    else if (playlistID == PLAYERID_VIDEO) {
-        playerID = PLAYERID_VIDEO;
+    else if (currentPlaylistID == PLAYERID_VIDEO) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_VIDEO;
         [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
     }
-    else if (playlistID == PLAYERID_PICTURES) {
-        playerID = PLAYERID_PICTURES;
+    else if (currentPlaylistID == PLAYERID_PICTURES) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_PICTURES;
         [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
     }
-    editTableButton.hidden = playlistID == PLAYERID_PICTURES;
+    editTableButton.hidden = currentPlaylistID == PLAYERID_PICTURES;
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
                         withParameters:@{@"properties": @[@"thumbnail",
@@ -1117,11 +1222,9 @@
                                                           @"file",
                                                           @"title",
                                                           @"art"],
-                                         @"playlistid": @(playlistID)}
+                                         @"playlistid": @(currentPlaylistID)}
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                if (error == nil && methodError == nil) {
-                   [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
-                   [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
                    if ([methodResult isKindOfClass:[NSDictionary class]]) {
                        NSArray *playlistItems = methodResult[@"items"];
                        if (playlistItems.count == 0) {
@@ -1135,21 +1238,23 @@
                        }
                        NSString *serverURL = [Utilities getImageServerURL];
                        int runtimeInMinute = [Utilities getSec2Min:YES];
+                       
+                       [playlistData removeAllObjects];
                        for (NSDictionary *item in playlistItems) {
-                           NSString *idItem = [NSString stringWithFormat:@"%@", item[@"id"]];
-                           NSString *label = [NSString stringWithFormat:@"%@", item[@"label"]];
-                           NSString *title = [NSString stringWithFormat:@"%@", item[@"title"]];
+                           NSString *idItem = [Utilities getStringFromItem:item[@"id"]];
+                           NSString *label = [Utilities getStringFromItem:item[@"label"]];
+                           NSString *title = [Utilities getStringFromItem:item[@"title"]];
                            NSString *artist = [Utilities getStringFromItem:item[@"artist"]];
                            NSString *album = [Utilities getStringFromItem:item[@"album"]];
                            NSString *runtime = [Utilities getTimeFromItem:item[@"runtime"] sec2min:runtimeInMinute];
-                           NSString *showtitle = item[@"showtitle"];
-                           NSString *season = item[@"season"];
-                           NSString *episode = item[@"episode"];
-                           NSString *type = item[@"type"];
-                           NSString *artistid = [NSString stringWithFormat:@"%@", item[@"artistid"]];
-                           NSString *albumid = [NSString stringWithFormat:@"%@", item[@"albumid"]];
-                           NSString *movieid = [NSString stringWithFormat:@"%@", item[@"id"]];
-                           NSString *channel = [NSString stringWithFormat:@"%@", item[@"channel"]];
+                           NSString *showtitle = [Utilities getStringFromItem:item[@"showtitle"]];
+                           NSString *season = [Utilities getStringFromItem:item[@"season"]];
+                           NSString *episode = [Utilities getStringFromItem:item[@"episode"]];
+                           NSString *type = [Utilities getStringFromItem:item[@"type"]];
+                           NSString *artistid = [Utilities getStringFromItem:item[@"artistid"]];
+                           NSString *albumid = [Utilities getStringFromItem:item[@"albumid"]];
+                           NSString *movieid = [Utilities getStringFromItem:item[@"id"]];
+                           NSString *channel = [Utilities getStringFromItem:item[@"channel"]];
                            NSString *genre = [Utilities getStringFromItem:item[@"genre"]];
                            NSString *durationTime = @"";
                            if ([item[@"duration"] isKindOfClass:[NSNumber class]]) {
@@ -1157,8 +1262,8 @@
                            }
                            NSString *thumbnailPath = [self getNowPlayingThumbnailPath:item];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                           NSNumber *tvshowid = @([[NSString stringWithFormat:@"%@", item[@"tvshowid"]] intValue]);
-                           NSString *file = [NSString stringWithFormat:@"%@", item[@"file"]];
+                           NSNumber *tvshowid = @([item[@"tvshowid"] longValue]);
+                           NSString *file = [Utilities getStringFromItem:item[@"file"]];
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
                                                     file, @"file",
@@ -1184,14 +1289,11 @@
                                                     tvshowid, @"tvshowid",
                                                     nil]];
                        }
-                       [self showPlaylistTable];
-                       if (musicPartyMode && playlistID == PLAYERID_MUSIC) {
-                           [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-                       }
+                       [self showPlaylistTableAnimated:animTable];
                    }
                }
                else {
-                   [self showPlaylistTable];
+                   [self showPlaylistTableAnimated:animTable];
                }
            }];
 }
@@ -1210,41 +1312,55 @@
     [self setPlaylistCellProgressBar:cell hidden:NO];
 }
 
-- (void)hidePlaylistProgressbarWithDeselect:(BOOL)deselect {
+- (void)deselectPlaylistItem {
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     if (!selection) {
         return;
     }
-    if (deselect) {
-        [playlistTableView deselectRowAtIndexPath:selection animated:YES];
-    }
+    [playlistTableView deselectRowAtIndexPath:selection animated:YES];
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
     [self setPlaylistCellProgressBar:cell hidden:YES];
-    UIImageView *coverView = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
-    coverView.alpha = 1.0;
 }
 
-- (void)showPlaylistTable {
-    numResults = (int)playlistData.count;
-    if (numResults == 0) {
+- (void)showPlaylistTableAnimated:(BOOL)animated {
+    if (playlistData.count == 0) {
         [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+        [playlistTableView reloadData];
     }
     else {
-        [Utilities AnimView:playlistTableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        if (animated) {
+            // 1. Fade out the playlist
+            [UIView animateWithDuration:0.1
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                playlistTableView.alpha = 0.0;
+            }
+                             completion:^(BOOL finished) {
+                // 2. Then reload the playlist data
+                [playlistTableView reloadData];
+                if (musicPartyMode && currentPlaylistID == PLAYERID_MUSIC) {
+                    [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+                }
+                [UIView animateWithDuration:0.2
+                                      delay:0.0
+                                    options:UIViewAnimationOptionCurveEaseInOut
+                                 animations:^{
+                    // 3. Then fade in again
+                    playlistTableView.alpha = 1.0;
+                }
+                                 completion:nil];
+            }];
+        }
+        else {
+            [playlistTableView reloadData];
+            if (musicPartyMode && currentPlaylistID == PLAYERID_MUSIC) {
+                [playlistTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+            }
+        }
     }
     
-    // Define playlist header label, adding number of playlist items in brackets
-    NSString *playlistLabel = [self getPlaylistHeaderLabel];
-    if (!playlistView.hidden) {
-        self.navigationItem.title = playlistLabel;
-    }
-    // For iPad send a notification with the label
-    if (IS_IPAD) {
-        NSDictionary *params = @{@"playlistHeaderLabel": playlistLabel};
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"PlaylistHeaderUpdate" object:nil userInfo:params];
-    }
-    
-    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    [self notifyChangeForPlaylistHeader];
     [activityIndicatorView stopAnimating];
     lastSelected = SELECTED_NONE;
 }
@@ -1253,7 +1369,7 @@
     [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             if (reload) {
-                [self createPlaylist:NO animTableView:YES];
+                [self createPlaylistAnimated:YES];
             }
             if (progressBar) {
                 updateProgressBar = YES;
@@ -1363,7 +1479,7 @@
                  NSString *serverURL = [Utilities getImageServerURL];
                  int runtimeInMinute = [Utilities getSec2Min:YES];
 
-                 NSString *label = [NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row1"]]];
+                 NSString *label = [Utilities getStringFromItem:itemExtraDict[mainFields[@"row1"]]];
                  NSString *genre = [Utilities getStringFromItem:itemExtraDict[mainFields[@"row2"]]];
                  NSString *year = [Utilities getYearFromItem:itemExtraDict[mainFields[@"row3"]]];
                  NSString *runtime = [Utilities getTimeFromItem:itemExtraDict[mainFields[@"row4"]] sec2min:runtimeInMinute];
@@ -1398,7 +1514,7 @@
                   rating, @"rating",
                   mainFields[@"playlistid"], @"playlistid",
                   mainFields[@"row8"], @"family",
-                  @([[NSString stringWithFormat:@"%@", itemExtraDict[mainFields[@"row9"]]] intValue]), mainFields[@"row9"],
+                  @([itemExtraDict[mainFields[@"row9"]] longValue]), mainFields[@"row9"],
                   itemExtraDict[mainFields[@"row10"]], mainFields[@"row10"],
                   row11, mainFields[@"row11"],
                   itemExtraDict[mainFields[@"row12"]], mainFields[@"row12"],
@@ -1505,12 +1621,12 @@
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @{@"to": @"previous"};
-                [self playbackAction:action params:params checkPartyMode:YES];
+                [self playbackAction:action params:params];
             }
             else {
                 action = @"Player.GoPrevious";
                 params = nil;
-                [self playbackAction:action params:nil checkPartyMode:YES];
+                [self playbackAction:action params:nil];
             }
             ProgressSlider.value = 0;
             break;
@@ -1518,13 +1634,13 @@
         case TAG_ID_PLAYPAUSE:
             action = @"Player.PlayPause";
             params = nil;
-            [self playbackAction:action params:nil checkPartyMode:NO];
+            [self playbackAction:action params:nil];
             break;
             
         case TAG_ID_STOP:
             action = @"Player.Stop";
             params = nil;
-            [self playbackAction:action params:nil checkPartyMode:NO];
+            [self playbackAction:action params:nil];
             storeSelection = nil;
             break;
             
@@ -1532,12 +1648,12 @@
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @{@"to": @"next"};
-                [self playbackAction:action params:params checkPartyMode:YES];
+                [self playbackAction:action params:params];
             }
             else {
                 action = @"Player.GoNext";
                 params = nil;
-                [self playbackAction:action params:nil checkPartyMode:YES];
+                [self playbackAction:action params:nil];
             }
             break;
             
@@ -1553,13 +1669,13 @@
         case TAG_SEEK_BACKWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
-            [self playbackAction:action params:params checkPartyMode:NO];
+            [self playbackAction:action params:params];
             break;
             
         case TAG_SEEK_FORWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
-            [self playbackAction:action params:params checkPartyMode:NO];
+            [self playbackAction:action params:params];
             break;
                     
         default:
@@ -1700,7 +1816,7 @@
 - (void)showClearPlaylistAlert {
     if (!playlistView.hidden && self.view.superview != nil) {
         NSString *message;
-        switch (playerID) {
+        switch (currentPlaylistID) {
             case PLAYERID_MUSIC:
                 message = LOCALIZED_STR(@"Are you sure you want to clear the music playlist?");
                 break;
@@ -1717,7 +1833,7 @@
         UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
         UIAlertAction *clearButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clear Playlist") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self clearPlaylist:playerID];
+                [self clearPlaylist:currentPlaylistID];
             }];
         [alertView addAction:clearButton];
         [alertView addAction:cancelButton];
@@ -1732,7 +1848,7 @@
         if (indexPath != nil) {
             [sheetActions removeAllObjects];
             NSDictionary *item = (playlistData.count > indexPath.row) ? playlistData[indexPath.row] : nil;
-            selected = indexPath;
+            selectedIndexPath = indexPath;
             CGPoint selectedPoint = [gestureRecognizer locationInView:self.view];
             if ([item[@"albumid"] intValue] > 0) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Album Details"), LOCALIZED_STR(@"Album Tracks")]];
@@ -1774,11 +1890,11 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         switch (gestureRecognizer.view.tag) {
             case TAG_SEEK_BACKWARD:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"} checkPartyMode:NO];
+                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
                 break;
                 
             case TAG_SEEK_FORWARD:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"} checkPartyMode:NO];
+                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
                 break;
                 
             case TAG_ID_EDIT:// EDIT TABLE
@@ -1843,8 +1959,8 @@
 - (void)actionSheetHandler:(NSString*)actiontitle {
     NSDictionary *item = nil;
     NSInteger numPlaylistEntries = playlistData.count;
-    if (selected.row < numPlaylistEntries) {
-        item = playlistData[selected.row];
+    if (selectedIndexPath.row < numPlaylistEntries) {
+        item = playlistData[selectedIndexPath.row];
     }
     else {
         return;
@@ -1961,7 +2077,7 @@
         }
     }
     else {
-        [self showInfo:item menuItem:menuItem indexPath:selected];
+        [self showInfo:item menuItem:menuItem indexPath:selectedIndexPath];
     }
 }
 
@@ -2004,26 +2120,30 @@
     UILabel *mainLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_MAINTITLE];
     UILabel *subLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_SUBTITLE];
     UILabel *cornerLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_CORNERTITLE];
-
-    mainLabel.text = ![item[@"title"] isEqualToString:@""] ? item[@"title"] : item[@"label"];
+    
+    NSString *title = item[@"title"];
+    NSString *label = item[@"label"];
+    mainLabel.text = title.length ? title : label;
     subLabel.text = @"";
     if ([item[@"type"] isEqualToString:@"episode"]) {
-        mainLabel.text = [NSString stringWithFormat:@"%@", item[@"label"]];
+        mainLabel.text = label;
         subLabel.text = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];
     }
     else if ([item[@"type"] isEqualToString:@"song"] ||
              [item[@"type"] isEqualToString:@"musicvideo"]) {
-        NSString *artist = [item[@"artist"] length] == 0 ? @"" : [NSString stringWithFormat:@" - %@", item[@"artist"]];
-        subLabel.text = [NSString stringWithFormat:@"%@%@", item[@"album"], artist];
+        NSString *album = item[@"album"];
+        NSString *artist = item[@"artist"];
+        NSString *dash = album.length && artist.length ? @" - " : @"";
+        subLabel.text = [NSString stringWithFormat:@"%@%@%@", album, dash, artist];
     }
     else if ([item[@"type"] isEqualToString:@"movie"]) {
-        subLabel.text = [NSString stringWithFormat:@"%@", item[@"genre"]];
+        subLabel.text = item[@"genre"];
     }
     else if ([item[@"type"] isEqualToString:@"recording"]) {
-        subLabel.text = [NSString stringWithFormat:@"%@", item[@"channel"]];
+        subLabel.text = item[@"channel"];
     }
     UIImage *defaultThumb;
-    switch (playerID) {
+    switch (currentPlaylistID) {
         case PLAYERID_MUSIC:
             cornerLabel.text = item[@"duration"];
             defaultThumb = [UIImage imageNamed:@"icon_song"];
@@ -2053,19 +2173,9 @@
 
 - (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
-    UIImageView *coverView = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
-    coverView.alpha = 1.0;
     storeSelection = nil;
     [self setPlaylistCellProgressBar:cell hidden:YES];
 }
-
-- (void)checkPartyMode {
-    if (musicPartyMode) {
-        lastSelected = SELECTED_NONE;
-        storeSelection = 0;
-        [self createPlaylist:NO animTableView:YES];
-    }
- }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
@@ -2074,12 +2184,10 @@
     [activityIndicator startAnimating];
     [[Utilities getJsonRPC]
      callMethod:@"Player.Open" 
-     withParameters:@{@"item": @{@"position": @(indexPath.row), @"playlistid": @(playerID)}}
+     withParameters:@{@"item": @{@"position": @(indexPath.row), @"playlistid": @(currentPlaylistID)}}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil) {
              storedItemID = SELECTED_NONE;
-             [self setPlaylistCellProgressBar:cell hidden:NO];
-             [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
          }
          [activityIndicator stopAnimating];
      }
@@ -2115,12 +2223,12 @@
     
     NSString *actionRemove = @"Playlist.Remove";
     NSDictionary *paramsRemove = @{
-        @"playlistid": @(playerID),
+        @"playlistid": @(currentPlaylistID),
         @"position": @(sourceIndexPath.row),
     };
     NSString *actionInsert = @"Playlist.Insert";
     NSDictionary *paramsInsert = @{
-        @"playlistid": @(playerID),
+        @"playlistid": @(currentPlaylistID),
         @"item": itemToMove,
         @"position": @(destinationIndexPath.row),
     };
@@ -2140,10 +2248,10 @@
             else if (sourceIndexPath.row < storeSelection.row && destinationIndexPath.row >= storeSelection.row) {
                 storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];
             }
-            [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+            [playlistTableView reloadData];
         }
         else {
-            [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+            [playlistTableView reloadData];
             [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
         }
     }];
@@ -2153,7 +2261,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString *actionRemove = @"Playlist.Remove";
         NSDictionary *paramsRemove = @{
-            @"playlistid": @(playerID),
+            @"playlistid": @(currentPlaylistID),
             @"position": @(indexPath.row),
         };
         [[Utilities getJsonRPC] callMethod:actionRemove withParameters:paramsRemove onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -2172,7 +2280,7 @@
                 }
             }
             else {
-                [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+                [playlistTableView reloadData];
                 [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
             }
         }];
@@ -2184,7 +2292,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView didEndEditingRowAtIndexPath:(NSIndexPath*)indexPath {
-    [self createPlaylist:NO animTableView:YES];
+    [self createPlaylistAnimated:YES];
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gestureRecognizer {
@@ -2203,7 +2311,7 @@
     if (playlistData.count == 0 && !playlistTableView.editing) {
         return;
     }
-    if (playerID == PLAYERID_PICTURES) {
+    if (currentPlaylistID == PLAYERID_PICTURES) {
         return;
     }
     if (playlistTableView.editing || forceClose) {
@@ -2402,8 +2510,6 @@
 }
 
 - (void)setIphoneInterface {
-    slideFrom = [self currentScreenBoundsDependOnOrientation].size.width;
-    
     CGRect frame = playlistActionView.frame;
     frame.origin.y = CGRectGetMinY(playlistToolbarView.frame) - CGRectGetHeight(playlistActionView.frame);
     playlistActionView.frame = frame;
@@ -2411,16 +2517,12 @@
 }
 
 - (void)setIpadInterface {
-    slideFrom = -PAD_MENU_TABLE_WIDTH;
-    CGRect frame = playlistTableView.frame;
-    frame.origin.x = slideFrom;
-    playlistTableView.frame = frame;
     playlistToolbarView.alpha = 1.0;
     
     nowPlayingView.hidden = NO;
     playlistView.hidden = NO;
     
-    frame = playlistActionView.frame;
+    CGRect frame = playlistActionView.frame;
     frame.origin.y = CGRectGetHeight(playlistTableView.frame) - CGRectGetHeight(playlistActionView.frame);
     playlistActionView.frame = frame;
     playlistActionView.alpha = 1.0;
@@ -2482,19 +2584,19 @@
     [self editTable:nil forceClose:YES];
     if (playlistData.count && (playlistTableView.dragging || playlistTableView.decelerating)) {
         NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
-        [playlistTableView scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [playlistTableView scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     }
     switch (segment.selectedSegmentIndex) {
         case PLAYERID_MUSIC:
-            selectedPlayerID = PLAYERID_MUSIC;
+            currentPlaylistID = PLAYERID_MUSIC;
             break;
             
         case PLAYERID_VIDEO:
-            selectedPlayerID = PLAYERID_VIDEO;
+            currentPlaylistID = PLAYERID_VIDEO;
             break;
             
         case PLAYERID_PICTURES:
-            selectedPlayerID = PLAYERID_PICTURES;
+            currentPlaylistID = PLAYERID_PICTURES;
             break;
             
         default:
@@ -2503,7 +2605,7 @@
     }
     lastSelected = SELECTED_NONE;
     musicPartyMode = NO;
-    [self createPlaylist:NO animTableView:YES];
+    [self createPlaylistAnimated:YES];
 }
 
 #pragma mark - Life Cycle
@@ -2588,7 +2690,8 @@
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {
-    [timer invalidate];
+    [updateInfoTimer invalidate];
+    [debounceTimer invalidate];
 }
 
 - (void)enablePopGestureRecognizer:(id)sender {
@@ -2639,13 +2742,13 @@
     storedItemID = SELECTED_NONE;
     [self playbackInfo];
     updateProgressBar = YES;
-    [timer invalidate];
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+    [updateInfoTimer invalidate];
+    updateInfoTimer = [NSTimer scheduledTimerWithTimeInterval:UPDATE_INFO_TIMEOUT target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [timer invalidate];
+    [updateInfoTimer invalidate];
     storedItemID = SELECTED_NONE;
     self.slidingViewController.panGesture.delegate = nil;
 }
@@ -2750,8 +2853,7 @@
     scrabbingMessage.text = LOCALIZED_STR(@"Slide your finger up to adjust the scrubbing rate.");
     scrabbingRate.text = LOCALIZED_STR(@"Scrubbing 1");
     sheetActions = [NSMutableArray new];
-    playerID = PLAYERID_UNKNOWN;
-    selectedPlayerID = PLAYERID_UNKNOWN;
+    currentPlaylistID = PLAYERID_UNKNOWN;
     lastSelected = SELECTED_NONE;
     storedItemID = SELECTED_NONE;
     storeSelection = nil;
@@ -2815,23 +2917,39 @@
 }
 
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
+    // Party mode will cause playlist updates for each new song, if TCP is enabled. Just ignore here and
+    // let this be handled by the updatePartyModePlaylist which is called for each new song in Party Mode.
+    if (musicPartyMode) {
+        return;
+    }
     NSDictionary *theData = sender.userInfo;
     if ([theData isKindOfClass:[NSDictionary class]]) {
-        selectedPlayerID = [theData[@"params"][@"data"][@"playlistid"] intValue];
+        currentPlaylistID = [theData[@"params"][@"data"][@"playlistid"] intValue];
     }
-    playerID = PLAYERID_UNKNOWN;
     lastSelected = SELECTED_NONE;
     storedItemID = SELECTED_NONE;
     storeSelection = nil;
     lastThumbnail = @"";
-    [playlistData performSelectorOnMainThread:@selector(removeAllObjects) withObject:nil waitUntilDone:YES];
-    [playlistTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-    [self createPlaylist:NO animTableView:YES];
+    
+    // Only clear and reload the playlist after debouncing timeout. This reduces load and flickering, if multiple update notifications
+    // arrive in a short time frame -- like for picture slideshows.
+    NSTimeInterval debounceInterval = currentPlaylistID != PLAYERID_PICTURES ? PLAYLIST_DEBOUNCE_TIMEOUT : PLAYLIST_DEBOUNCE_TIMEOUT_MAX;
+    [debounceTimer invalidate];
+    debounceTimer = [NSTimer scheduledTimerWithTimeInterval:debounceInterval
+                                                     target:self
+                                                   selector:@selector(clearAndReloadPlaylist)
+                                                   userInfo:nil
+                                                    repeats:NO];
+}
+
+- (void)clearAndReloadPlaylist {
+    [self createPlaylistAnimated:YES];
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [timer invalidate];
+    [updateInfoTimer invalidate];
+    [debounceTimer invalidate];
 }
 
 - (BOOL)shouldAutorotate {

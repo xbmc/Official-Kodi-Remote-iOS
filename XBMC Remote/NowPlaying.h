@@ -35,7 +35,8 @@
     IBOutlet UIView *nowPlayingView;
     IBOutlet UIView *playlistView;
     IBOutlet UIView *songDetailsView;
-    NSTimer *timer;
+    NSTimer *updateInfoTimer;
+    NSTimer *debounceTimer;
     NSMutableArray *playlistData;
     IBOutlet UILabel *songCodec;
     __weak IBOutlet UIImageView *songCodecImage;
@@ -46,24 +47,14 @@
     __weak IBOutlet UILabel *songNumChannels;
     __weak IBOutlet UIImageView *songNumChanImage;
     __weak IBOutlet UIImageView *hiresImage;
-    int playerID;
-    int selectedPlayerID;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
-    int playerPlaying;
-    BOOL PlayerPaused;
     BOOL musicPartyMode;
     IBOutlet UIButton *editTableButton;
     IBOutlet UIButton *PartyModeButton;
     IBOutlet UIImageView *backgroundImageView;
     IBOutlet UIView *noFoundView;
     NSIndexPath *storeSelection;
-    int slideFrom;
-    int numResults;
     IBOutlet UIView *playlistToolbarView;
-    int iPadOrigX;
-    int iPadOrigY;
-    int iPadthumbWidth;
-    int iPadthumbHeight;
     IBOutlet UIView *playlistActionView;
     NSString *currentType;
     BOOL nothingIsPlaying;
@@ -71,7 +62,7 @@
     int animationOptionTransition;
     BOOL startFlipDemo;
     IBOutlet OBSlider *ProgressSlider;
-    NSIndexPath *selected;
+    NSIndexPath *selectedIndexPath;
     NSMutableArray *sheetActions;
     BOOL fromItself;
     IBOutlet UIButton *shuffleButton;
@@ -97,9 +88,11 @@
     CGFloat bottomPadding;
     BOOL waitForInfoLabelsToSettle;
     CGFloat descriptionFontSize;
-    int lastPlayerID;
     long lastSelected;
+    int lastPlayerID;
     int currentPlayerID;
+    int currentPlaylistID;
+    BOOL isSlideshowActive;
     int storePosSeconds;
     long storedItemID;
     MessagesView *messagesView;
@@ -108,8 +101,6 @@
 - (void)setNowPlayingDimension:(CGFloat)width height:(CGFloat)height YPOS:(CGFloat)YPOS fullscreen:(BOOL)isFullscreen;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil;
 - (IBAction)startVibrate:(id)sender;
-- (void)toggleSongDetails;
-- (void)updateCurrentLogo;
 - (IBAction)changeShuffle:(id)sender;
 - (IBAction)changeRepeat:(id)sender;
 
