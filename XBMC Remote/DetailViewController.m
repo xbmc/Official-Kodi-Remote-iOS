@@ -4608,8 +4608,8 @@
                     }
                 }
             }
-            [self loadDetailedData:itemsAndTabs index:index + 1 results:richData];
         }
+        [self loadDetailedData:itemsAndTabs index:index + 1 results:richData];
     }];
 }
 
