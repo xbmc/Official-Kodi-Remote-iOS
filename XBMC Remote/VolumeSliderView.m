@@ -107,7 +107,7 @@
             plusButton.frame = frame_tmp;
             
             muteIconColor = UIColor.blackColor;
-            muteBackgroundImage = [UIImage imageNamed:@"icon_dark"];
+            img = [UIImage imageNamed:@"icon_dark"];
             muteBackgroundImage = [Utilities colorizeImage:img withColor:UIColor.darkGrayColor];
             volumeIconColor = UIColor.grayColor;
         }
