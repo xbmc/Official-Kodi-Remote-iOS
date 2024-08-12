@@ -1303,8 +1303,8 @@ double round(double d) {
         else if ([self isYoutubeLink:trailerComponents]) {
             embedVideoURL = [self getEmbeddedYoutubeLink:trailerComponents queryItemName:@"v"];
         }
-        else {
-            embedVideoURL = [NSURL URLWithString:trailerString];
+        else if ([self isEmbeddedYoutubeLink:trailerComponents]) {
+            embedVideoURL = trailerURL;
         }
         if (embedVideoURL != nil) {
             CGRect frame = CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, mainLabel1.frame.size.height);
