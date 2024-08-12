@@ -72,6 +72,7 @@
 #define PLAYLIST_DEBOUNCE_TIMEOUT 0.2
 #define PLAYLIST_DEBOUNCE_TIMEOUT_MAX 1.0
 #define UPDATE_INFO_TIMEOUT 1.0
+#define IGNORE_AUTOSCROLL_TIMEOUT 10.0
 
 #define XIB_PLAYLIST_CELL_MAINTITLE 1
 #define XIB_PLAYLIST_CELL_SUBTITLE 2
@@ -740,6 +741,9 @@
         playlistTableView.numberOfSections == 0) {
         return;
     }
+    // Do not autoscroll after user dragged list
+    UITableViewScrollPosition scrollPosition = ignoreAutoscrollPlaylist ? UITableViewScrollPositionNone : UITableViewScrollPositionMiddle;
+    
     // Make current cell's progress bar invisible
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
@@ -748,7 +752,7 @@
     // Make new cell's progress bar visible and select playlist cell
     NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
     if (newSelection.row < [playlistTableView numberOfRowsInSection:0]) {
-        [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+        [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:scrollPosition];
         UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
         [self setPlaylistCellProgressBar:cell hidden:NO];
         storeSelection = newSelection;
@@ -2610,6 +2614,7 @@
             NSAssert(NO, @"Unexpected segment selected.");
             break;
     }
+    ignoreAutoscrollPlaylist = NO;
     lastSelected = SELECTED_NONE;
     musicPartyMode = NO;
     [self createPlaylistAnimated:YES];
@@ -2699,6 +2704,7 @@
 - (void)handleDidEnterBackground:(NSNotification*)sender {
     [updateInfoTimer invalidate];
     [debounceTimer invalidate];
+    [ignoreAutoscrollTimer invalidate];
 }
 
 - (void)enablePopGestureRecognizer:(id)sender {
@@ -2728,6 +2734,25 @@
     }
     UIAlertController *actionView = [Utilities createPowerControl:self messageView:messagesView];
     [self presentViewController:actionView animated:YES completion:nil];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView*)scrollView willDecelerate:(BOOL)decelerate {
+    // When user dragged the playlist to view a different section of the playlist, the playlist should
+    // not automatically scroll the current playing item into middle of the view. Instead, the autoscroll
+    // is ignored until a timeout kicks in to fall back to autoscroll which again places the current
+    // playing item into the middle of the view.
+    ignoreAutoscrollPlaylist = YES;
+    [ignoreAutoscrollTimer invalidate];
+    ignoreAutoscrollTimer = [NSTimer scheduledTimerWithTimeInterval:IGNORE_AUTOSCROLL_TIMEOUT
+                                                             target:self
+                                                           selector:@selector(enableAutoscrollPlaylist)
+                                                           userInfo:nil
+                                                            repeats:NO];
+}
+
+- (void)enableAutoscrollPlaylist {
+    ignoreAutoscrollPlaylist = NO;
+    [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -2761,6 +2786,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [updateInfoTimer invalidate];
+    [ignoreAutoscrollTimer invalidate];
     storedItemID = SELECTED_NONE;
     self.slidingViewController.panGesture.delegate = nil;
 }
@@ -2968,6 +2994,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [updateInfoTimer invalidate];
     [debounceTimer invalidate];
+    [ignoreAutoscrollTimer invalidate];
 }
 
 - (BOOL)shouldAutorotate {
