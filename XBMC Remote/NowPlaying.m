@@ -736,6 +736,7 @@
 - (void)setPlaylistPosition:(long)playlistPosition forPlayer:(int)playerID {
     if (playlistData.count <= playlistPosition ||
         currentPlaylistID != playerID ||
+        playlistTableView.editing ||
         playlistTableView.numberOfSections == 0) {
         return;
     }
@@ -2205,7 +2206,7 @@
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
-    return !(storeSelection && storeSelection.row == indexPath.row);
+    return YES;
 }
 
 - (BOOL)tableView:(UITableView*)tableview canMoveRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -2331,6 +2332,7 @@
     }
     else {
         storeSelection = [playlistTableView indexPathForSelectedRow];
+        [self deselectPlaylistItem];
         [playlistTableView setEditing:YES animated:YES];
         editTableButton.selected = YES;
     }
