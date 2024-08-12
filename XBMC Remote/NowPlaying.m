@@ -736,7 +736,7 @@
 - (void)setPlaylistPosition:(long)playlistPosition forPlayer:(int)playerID {
     if (playlistData.count <= playlistPosition ||
         currentPlaylistID != playerID ||
-        ![playlistTableView numberOfSections]) {
+        playlistTableView.numberOfSections == 0) {
         return;
     }
     // Make current cell's progress bar invisible
