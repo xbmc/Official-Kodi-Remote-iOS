@@ -2591,10 +2591,6 @@
 
 - (void)segmentValueChanged:(UISegmentedControl*)segment {
     [self editTable:nil forceClose:YES];
-    if (playlistData.count && (playlistTableView.dragging || playlistTableView.decelerating)) {
-        NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
-        [playlistTableView scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-    }
     switch (segment.selectedSegmentIndex) {
         case PLAYERID_MUSIC:
             currentPlaylistID = PLAYERID_MUSIC;
