@@ -2284,7 +2284,7 @@
                     [playlistTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
                     [playlistTableView endUpdates];
                 }
-                if (storeSelection && indexPath.row<storeSelection.row) {
+                if (storeSelection && indexPath.row < storeSelection.row) {
                     storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];
                 }
             }
