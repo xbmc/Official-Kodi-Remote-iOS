@@ -2585,11 +2585,11 @@
                                                 SEGMENTCONTROL_WIDTH,
                                                 SEGMENTCONTROL_HEIGHT);
     playlistSegmentedControl.tintColor = UIColor.whiteColor;
-    [playlistSegmentedControl addTarget:self action:@selector(segmentValueChanged:) forControlEvents: UIControlEventValueChanged];
+    [playlistSegmentedControl addTarget:self action:@selector(segmentValueChanged:) forControlEvents:UIControlEventValueChanged];
     [playlistActionView addSubview:playlistSegmentedControl];
 }
 
-- (void)segmentValueChanged:(UISegmentedControl *)segment {
+- (void)segmentValueChanged:(UISegmentedControl*)segment {
     [self editTable:nil forceClose:YES];
     if (playlistData.count && (playlistTableView.dragging || playlistTableView.decelerating)) {
         NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
