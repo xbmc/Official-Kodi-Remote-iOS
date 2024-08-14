@@ -4664,15 +4664,6 @@
                             if (newDict[@"director"]) {
                                 newDict[@"director"] = [Utilities getStringFromItem:newDict[@"director"]];
                             }
-                            if (newDict[@"plot"]) {
-                                newDict[@"plot"] = [Utilities getStringFromItem:newDict[@"plot"]];
-                            }
-                            if (newDict[@"tagline"]) {
-                                newDict[@"tagline"] = [Utilities getStringFromItem:newDict[@"tagline"]];
-                            }
-                            if (newDict[@"cast"]) {
-                                newDict[@"actors"] = [Utilities getStringFromItem:newDict[@"cast"]];
-                            }
                             [self addItemGroup:newDict];
                             [richData addObject:newDict];
                         }
@@ -5758,9 +5749,10 @@
     [self.filteredListContent removeAllObjects];
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@", searchText];
     if (globalSearchView) {
-        pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@ || artist CONTAINS[cd] %@ || director CONTAINS[cd] %@ || actors CONTAINS[cd] %@ || plot CONTAINS[cd] %@ || tagline CONTAINS[cd] %@", searchText, searchText, searchText, searchText, searchText, searchText];
+        pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@ || artist CONTAINS[cd] %@ || director CONTAINS[cd] %@", searchText, searchText, searchText];
     }
     self.filteredListContent = [NSMutableArray arrayWithArray:[self.richResults filteredArrayUsingPredicate:pred]];
+    numFilteredResults = (int)self.filteredListContent.count;
 }
 
 - (NSString*)getCurrentSortAscDesc:(NSDictionary*)methods withParameters:(NSDictionary*)parameters {
