@@ -4227,45 +4227,10 @@
         forceMusicAlbumMode = NO;
     }
     int playlistid = [mainFields[@"playlistid"] intValue];
-    NSString *key = mainFields[@"row9"];
-    id value = item[key];
-    if ([item[@"filetype"] isEqualToString:@"directory"]) {
-        key = @"directory";
-    }
-    else if (processAllItemsInSection) {
-        // Build the array of items to add to playlist
-        NSMutableArray *listedItems = [NSMutableArray new];
-        int section = [processAllItemsInSection intValue];
-        NSInteger countRows = [self.sections[self.sectionArray[section]] count];
-        for (int i = 0; i < countRows; ++i) {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:section];
-            id singleItem = (NSMutableDictionary*)[self getItemFromIndexPath:indexPath];
-            if ([singleItem isKindOfClass:[NSDictionary class]]) {
-                [listedItems addObject:singleItem[key]];
-            }
-        }
-        value = listedItems;
-        processAllItemsInSection = nil;
-    }
-    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
-    else if (![VersionCheck hasRecordingIdPlaylistSupport] && [mainFields[@"row9"] isEqualToString:@"recordingid"]) {
-        key = @"file";
-        value = item[@"file"];
-    }
-    if (!value || !key) {
+    id playlistItems = [self buildPlaylistItems:playlistid item:item key:mainFields[@"row9"]];
+    if (!playlistItems) {
         [cellActivityIndicator stopAnimating];
         return;
-    }
-    // Build parameters to fill playlist
-    id playlistItems;
-    if ([value isKindOfClass:[NSMutableArray class]]) {
-        playlistItems = [NSMutableArray new];
-        for (id arrayItem in value) {
-            [playlistItems addObject:@{key: arrayItem}];
-        }
-    }
-    else {
-        playlistItems = @{key: value};
     }
     NSDictionary *playlistParams = [NSDictionary dictionaryWithObjectsAndKeys:
                                                     @(playlistid), @"playlistid",
@@ -4407,45 +4372,10 @@
         }
         [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": @(playlistid)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
-                NSString *key = mainFields[@"row8"];
-                id value = item[key];
-                if ([item[@"filetype"] isEqualToString:@"directory"]) {
-                    key = @"directory";
-                }
-                else if (processAllItemsInSection) {
-                    // Build the array of items to add to playlist
-                    NSMutableArray *listedItems = [NSMutableArray new];
-                    int section = [processAllItemsInSection intValue];
-                    NSInteger countRows = [self.sections[self.sectionArray[section]] count];
-                    for (int i = 0; i < countRows; ++i) {
-                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:section];
-                        id singleItem = (NSMutableDictionary*)[self getItemFromIndexPath:indexPath];
-                        if ([singleItem isKindOfClass:[NSDictionary class]]) {
-                            [listedItems addObject:singleItem[key]];
-                        }
-                    }
-                    value = listedItems;
-                    processAllItemsInSection = nil;
-                }
-                // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
-                else if (![VersionCheck hasRecordingIdPlaylistSupport] && [mainFields[@"row8"] isEqualToString:@"recordingid"]) {
-                    key = @"file";
-                    value = item[@"file"];
-                }
-                if (!value || !key) {
+                id playlistItems = [self buildPlaylistItems:playlistid item:item key:mainFields[@"row8"]];
+                if (!playlistItems) {
                     [cellActivityIndicator stopAnimating];
                     return;
-                }
-                // Build parameters to fill playlist
-                id playlistItems;
-                if ([value isKindOfClass:[NSMutableArray class]]) {
-                    playlistItems = [NSMutableArray new];
-                    for (id arrayItem in value) {
-                        [playlistItems addObject:@{key: arrayItem}];
-                    }
-                }
-                else {
-                    playlistItems = @{key: value};
                 }
                 NSDictionary *playlistParams = [NSDictionary dictionaryWithObjectsAndKeys:
                                                                 @(playlistid), @"playlistid",
@@ -4519,6 +4449,49 @@
         };
     }
     [self playerOpen:playbackParams index:nil indicator:cellActivityIndicator];
+}
+
+- (id)buildPlaylistItems:(int)playlistid item:(NSDictionary*)item key:(id)key {
+    id value = item[key];
+    if ([item[@"filetype"] isEqualToString:@"directory"]) {
+        key = @"directory";
+    }
+    else if (processAllItemsInSection) {
+        // Build the array of items to add to playlist
+        int section = [processAllItemsInSection intValue];
+        NSInteger countRows = [self.sections[self.sectionArray[section]] count];
+        NSMutableArray *listedItems = [NSMutableArray arrayWithCapacity:countRows];
+        for (int i = 0; i < countRows; ++i) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:section];
+            NSDictionary *singleItem = [self getItemFromIndexPath:indexPath];
+            if ([singleItem isKindOfClass:[NSDictionary class]] && singleItem[key]) {
+                [listedItems addObject:singleItem[key]];
+            }
+        }
+        value = listedItems;
+        processAllItemsInSection = nil;
+    }
+    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
+    else if (![VersionCheck hasRecordingIdPlaylistSupport] && [key isEqualToString:@"recordingid"]) {
+        key = @"file";
+        value = item[@"file"];
+    }
+    if (!value || !key) {
+        return nil;
+    }
+    // Build parameters to fill playlist
+    id playlistItems;
+    if ([value isKindOfClass:[NSMutableArray class]]) {
+        playlistItems = [NSMutableArray arrayWithCapacity:[value count]];
+        for (id arrayItem in value) {
+            [playlistItems addObject:@{key: arrayItem}];
+        }
+    }
+    else {
+        playlistItems = @{key: value};
+    }
+    
+    return playlistItems;
 }
 
 - (void)playlistAndPlay:(NSDictionary*)playlistParams playbackParams:(NSDictionary*)playbackParams indexPath:(NSIndexPath*)indexPath indicator:(UIActivityIndicatorView*)cellActivityIndicator {
