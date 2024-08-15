@@ -3258,6 +3258,8 @@
         
         if (seasonIdx != NSNotFound) {
             NSArray *sheetActions = @[
+                LOCALIZED_STR(@"Queue after current"),
+                LOCALIZED_STR(@"Queue"),
                 LOCALIZED_STR(@"Play"),
             ];
             NSString *title = [Utilities getStringFromItem:item[@"genre"]];
@@ -4230,6 +4232,21 @@
     if ([item[@"filetype"] isEqualToString:@"directory"]) {
         key = @"directory";
     }
+    else if (processAllItemsInSection) {
+        // Build the array of items to add to playlist
+        NSMutableArray *listedItems = [NSMutableArray new];
+        int section = [processAllItemsInSection intValue];
+        NSInteger countRows = [self.sections[self.sectionArray[section]] count];
+        for (int i = 0; i < countRows; ++i) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:section];
+            id singleItem = (NSMutableDictionary*)[self getItemFromIndexPath:indexPath];
+            if ([singleItem isKindOfClass:[NSDictionary class]]) {
+                [listedItems addObject:singleItem[key]];
+            }
+        }
+        value = listedItems;
+        processAllItemsInSection = nil;
+    }
     // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
     else if (![VersionCheck hasRecordingIdPlaylistSupport] && [mainFields[@"row9"] isEqualToString:@"recordingid"]) {
         key = @"file";
@@ -4239,6 +4256,21 @@
         [cellActivityIndicator stopAnimating];
         return;
     }
+    // Build parameters to fill playlist
+    id playlistItems;
+    if ([value isKindOfClass:[NSMutableArray class]]) {
+        playlistItems = [NSMutableArray new];
+        for (id arrayItem in value) {
+            [playlistItems addObject:@{key: arrayItem}];
+        }
+    }
+    else {
+        playlistItems = @{key: value};
+    }
+    NSDictionary *playlistParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    @(playlistid), @"playlistid",
+                                                    playlistItems, @"item",
+                                                    nil];
     if (afterCurrent) {
         NSDictionary *params = @{
             @"playerid": @(playlistid),
@@ -4256,7 +4288,7 @@
                          NSString *action2 = @"Playlist.Insert";
                          NSDictionary *params2 = @{
                              @"playlistid": @(playlistid),
-                             @"item": @{key: value},
+                             @"item": playlistItems,
                              @"position": @(newPos),
                          };
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -4266,29 +4298,25 @@
                          }];
                      }
                      else {
-                         [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
+                         [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
                      }
                  }
                  else {
-                     [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
+                     [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
                  }
              }
              else {
-                [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
+                [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
              }
          }];
     }
     else {
-        [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
+        [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
     }
 }
 
-- (void)addToPlaylist:(NSInteger)playlistid item:(NSDictionary*)item indicator:(UIActivityIndicatorView*)cellActivityIndicator {
-    NSDictionary *params = @{
-        @"playlistid": @(playlistid),
-        @"item": item,
-    };
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+- (void)addToPlaylist:(NSDictionary*)playlistParams indicator:(UIActivityIndicatorView*)cellActivityIndicator {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [cellActivityIndicator stopAnimating];
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
