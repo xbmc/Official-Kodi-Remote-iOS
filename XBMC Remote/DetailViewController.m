@@ -1067,7 +1067,7 @@
 
 - (void)showMore {
     if ([self doesShowSearchResults] || self.searchController.isActive) {
-        return;
+        [self.searchController setActive:NO];
     }
     mainMenu *menuItem = self.detailItem;
     self.indexView.hidden = YES;
@@ -1233,7 +1233,7 @@
 
 - (void)handleChangeTab:(int)newChoosedTab fromMoreItems:(BOOL)fromMoreItems {
     if ([self doesShowSearchResults] || self.searchController.isActive) {
-        return;
+        [self.searchController setActive:NO];
     }
     if (!activityIndicatorView.hidden) {
         return;
@@ -3820,7 +3820,7 @@
 
 - (void)toggleFullscreen:(id)sender {
     if ([self doesShowSearchResults] || self.searchController.isActive) {
-        return;
+        [self.searchController setActive:NO];
     }
     [activityIndicatorView startAnimating];
     NSTimeInterval animDuration = 0.5;
@@ -6108,7 +6108,7 @@
 
 - (void)handleChangeLibraryView {
     if ([self doesShowSearchResults] || self.searchController.isActive) {
-        return;
+        [self.searchController setActive:NO];
     }
     mainMenu *menuItem = self.detailItem;
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
@@ -6153,7 +6153,7 @@
 
 - (void)handleChangeSortLibrary {
     if ([self doesShowSearchResults] || self.searchController.isActive) {
-        return;
+        [self.searchController setActive:NO];
     }
     selectedIndexPath = nil;
     mainMenu *menuItem = self.detailItem;
