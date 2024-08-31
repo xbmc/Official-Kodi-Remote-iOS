@@ -5283,7 +5283,7 @@
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     
-    BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel];
+    BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel] && ![menuItem.mainLabel isEqualToString:LOCALIZED_STR(@"XBMC Settings")];
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
     self.navigationItem.backButtonTitle = labelText;
     if (!albumView) {
