@@ -461,6 +461,7 @@
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="fRq-xr-c2f"/>
+                                <outletCollection property="gestureRecognizers" destination="162" appends="YES" id="AxH-Sx-ZVi"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="4Kp-hV-AcM" userLabel="Button Playpause">
@@ -492,6 +493,7 @@
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="zju-uy-9B2"/>
+                                <outletCollection property="gestureRecognizers" destination="164" appends="YES" id="RsE-qQ-xwL"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="cnS-6H-tni" userLabel="Button Next">
