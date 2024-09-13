@@ -590,7 +590,6 @@
     
     NSString *seasonNumber = [NSString stringWithFormat:@"%@", item[mainFields[@"row10"]]];
     NSString *family = [NSString stringWithFormat:@"%@", mainFields[@"row8"]];
-    NSNumber *isFilemode = @([item[@"filetype"] length] != 0);
     
     NSString *row19key = mainFields[@"row19"] ?: @"episode";
     id row19obj = @"";
@@ -619,7 +618,6 @@
                                  seasonNumber, @"season",
                                  row19obj, row19key,
                                  family, @"family",
-                                 isFilemode, @"isFilemode",
                                  item[mainFields[@"row6"]], mainFields[@"row6"],
                                  item[mainFields[@"row8"]], mainFields[@"row8"],
                                  year, @"year",
@@ -1463,7 +1461,7 @@
     else { // CHILD IS FILEMODE
         NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
         NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @44;
-        if ([item[@"isFilemode"] boolValue]) { // WE ARE ALREADY IN BROWSING FILES MODE
+        if ([item[@"filetype"] length] != 0 && ![item[@"isSources"] boolValue]) { // WE ARE ALREADY IN BROWSING FILES MODE
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
                 [parameters removeAllObjects];
                 parameters = [Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[choosedTab]];
@@ -2644,7 +2642,7 @@
         if (tvshowsView && choosedTab == 0) {
             displayThumb = defaultThumb = @"nocover_tvshows_banner";
         }
-        if ([item[@"isFilemode"] boolValue] ||
+        if ([item[@"filetype"] length] != 0 ||
             [item[@"family"] isEqualToString:@"file"] ||
             [item[@"family"] isEqualToString:@"type"] ||
             [item[@"family"] isEqualToString:@"genreid"] ||
@@ -4831,9 +4829,11 @@
                                                                                    useIcon:recordingListView];
                              
                              // JSON API does not return the expected "filetype" when retrieving list of "sources".
-                             // The correct "filetype" is "directory".
+                             // The correct "filetype" is "directory". But we also need to be aware this is a source
+                             // and not a directory yet.
                              if ([itemid isEqualToString:@"sources"]) {
                                  newDict[@"filetype"] = @"directory";
+                                 newDict[@"isSources"] = @YES;
                              }
                              
                              // Check if we need to ignore the current item
