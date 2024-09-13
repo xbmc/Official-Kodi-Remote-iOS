@@ -1327,8 +1327,7 @@
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
-    NSString *labelText = parameters[@"label"];
-    [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:NO];
+    [self checkFullscreenButton:NO];
     [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
     if ([parameters[@"blackTableSeparator"] boolValue] && ![Utilities getPreferTvPosterMode]) {
         dataList.separatorColor = [Utilities getGrayColor:38 alpha:1];
@@ -5283,7 +5282,7 @@
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     
-    BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel];
+    BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel] && ![menuItem.mainLabel isEqualToString:LOCALIZED_STR(@"XBMC Settings")];
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
     self.navigationItem.backButtonTitle = labelText;
     if (!albumView) {
