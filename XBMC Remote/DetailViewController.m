@@ -2227,6 +2227,9 @@
     if (searchString.length == 0 && self.searchController.isActive) {
         [self.searchController setActive:NO];
     }
+    // Workaround iOS 17: Force scroll indicator visible.
+    dataList.showsVerticalScrollIndicator = YES;
+    dataList.showsHorizontalScrollIndicator = NO;
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -5327,10 +5330,6 @@
     if (channelGuideView && autoScrollTable != nil && autoScrollTable.row < [dataList numberOfRowsInSection:autoScrollTable.section]) {
         [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition:UITableViewScrollPositionTop animated: NO];
     }
-    
-    // Workaround iOS 17: Force scroll indicator visible. Called here, after all layout configurations and data reloads are finished.
-    dataList.showsVerticalScrollIndicator = YES;
-    dataList.showsHorizontalScrollIndicator = NO;
 }
 
 - (void)startChannelListUpdateTimer {
