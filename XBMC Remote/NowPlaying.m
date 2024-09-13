@@ -2166,7 +2166,8 @@
              placeholderImage:defaultThumb
                       options:SDWebImageScaleToNativeSize];
     [Utilities applyRoundedEdgesView:thumb drawBorder:YES];
-    [self setPlaylistCellProgressBar:cell hidden:YES];
+    BOOL active = indexPath.row == lastSelected;
+    [self setPlaylistCellProgressBar:cell hidden:!active];
     
     return cell;
 }
