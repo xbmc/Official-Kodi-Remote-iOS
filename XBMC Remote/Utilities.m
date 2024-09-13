@@ -956,12 +956,7 @@
 }
 
 + (CGSize)getSizeOfLabel:(UILabel*)label {
-    CGRect expectedLabelRect = [label.text boundingRectWithSize:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)
-                                                        options:NSStringDrawingUsesLineFragmentOrigin
-                                                     attributes:@{NSFontAttributeName: label.font}
-                                                        context:nil];
-    CGSize labelSize = CGSizeMake(ceil(expectedLabelRect.size.width), ceil(expectedLabelRect.size.height));
-    return labelSize;
+    return [label sizeThatFits:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)];
 }
 
 + (UIImage*)roundedCornerImage:(UIImage*)image drawBorder:(BOOL)drawBorder {

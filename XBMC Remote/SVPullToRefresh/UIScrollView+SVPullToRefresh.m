@@ -225,17 +225,9 @@ static char UIScrollViewPullToRefreshView;
         NSString *subtitle = self.subtitles[self.state];
         self.subtitleLabel.text = subtitle.length > 0 ? subtitle : nil;
         
-        CGRect titleRect = [self.titleLabel.text boundingRectWithSize:CGSizeMake(labelMaxWidth, self.titleLabel.font.lineHeight)
-                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:@{NSFontAttributeName:self.titleLabel.font}
-                                             context:nil];
-        CGSize titleSize = titleRect.size;
+        CGSize titleSize = [self.titleLabel sizeThatFits:CGSizeMake(labelMaxWidth, self.titleLabel.font.lineHeight)];
         
-        CGRect subtitleRect = [self.subtitleLabel.text boundingRectWithSize:CGSizeMake(labelMaxWidth, self.subtitleLabel.font.lineHeight)
-                                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                                           attributes:@{NSFontAttributeName:self.subtitleLabel.font}
-                                                              context:nil];
-        CGSize subtitleSize = subtitleRect.size;
+        CGSize subtitleSize = [self.subtitleLabel sizeThatFits:CGSizeMake(labelMaxWidth, self.subtitleLabel.font.lineHeight)];
         
         CGFloat maxLabelWidth = MAX(titleSize.width, subtitleSize.width);
         CGFloat totalMaxWidth = leftViewWidth + margin + maxLabelWidth;
