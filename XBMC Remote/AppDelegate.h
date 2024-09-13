@@ -87,6 +87,7 @@
 - (void)sendWOL:(NSString*)MAC withPort:(NSInteger)WOLport;
 - (NSURL*)getServerJSONEndPoint;
 - (NSDictionary*)getServerHTTPHeaders;
+- (NSArray*)action_album;
 
 @property (strong, nonatomic) UIWindow *window;
 
