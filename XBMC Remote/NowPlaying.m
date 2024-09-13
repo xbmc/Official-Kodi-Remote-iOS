@@ -2624,7 +2624,7 @@
         UIImage *remoteImg = [UIImage imageNamed:@"icon_menu_remote"];
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
         self.navigationItem.rightBarButtonItems = @[
-            [[UIBarButtonItem alloc] initWithImage:remoteImg style:UIBarButtonItemStylePlain target:self action:@selector(revealUnderRight:)],
+            [[UIBarButtonItem alloc] initWithImage:remoteImg style:UIBarButtonItemStylePlain target:self action:@selector(showRemote)],
             [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)]
         ];
         self.slidingViewController.underRightViewController = nil;
@@ -2709,6 +2709,11 @@
 
 - (void)revealUnderRight:(id)sender {
     [self.slidingViewController anchorTopViewTo:ECLeft];
+}
+
+- (void)showRemote {
+    RemoteController *remote = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
+    [self.navigationController pushViewController:remote animated:YES];
 }
 
 - (void)powerControl {
