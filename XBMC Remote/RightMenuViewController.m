@@ -565,7 +565,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGFloat deltaY = UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGFloat deltaY = [Utilities getTopPadding];
     self.peekLeftAmount = ANCHOR_RIGHT_PEEK;
     CGRect frame = UIScreen.mainScreen.bounds;
     CGFloat deltaX = ANCHOR_RIGHT_PEEK;
@@ -620,6 +620,7 @@
             moreButton.enabled = YES;
         }
     }
+    deltaY = UIApplication.sharedApplication.statusBarFrame.size.height;
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, DEFAULT_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:deltaX];
     [self.view addSubview:messagesView];
     
