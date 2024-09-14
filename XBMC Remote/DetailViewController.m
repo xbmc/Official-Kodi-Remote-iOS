@@ -4232,10 +4232,10 @@
         [cellActivityIndicator stopAnimating];
         return;
     }
-    NSDictionary *playlistParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                    @(playlistid), @"playlistid",
-                                                    playlistItems, @"item",
-                                                    nil];
+    NSDictionary *playlistParams = @{
+        @"playlistid": @(playlistid),
+        @"item": playlistItems,
+    };
     if (afterCurrent) {
         NSDictionary *params = @{
             @"playerid": @(playlistid),
@@ -4377,10 +4377,10 @@
                     [cellActivityIndicator stopAnimating];
                     return;
                 }
-                NSDictionary *playlistParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                @(playlistid), @"playlistid",
-                                                                playlistItems, @"item",
-                                                                nil];
+                NSDictionary *playlistParams = @{
+                    @"playlistid": @(playlistid),
+                    @"item": playlistItems,
+                };
                 NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
                                                 @{@"playlistid": @(playlistid), @"position": @(pos)}, @"item",
                                                 optionsValue, optionsParam,
