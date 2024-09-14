@@ -21,7 +21,7 @@
         viewMessage.backgroundColor = UIColor.clearColor;
         viewMessage.font = [UIFont boldSystemFontOfSize:16];
         viewMessage.adjustsFontSizeToFitWidth = YES;
-        viewMessage.minimumScaleFactor = 10.0 / 16.0;
+        viewMessage.minimumScaleFactor = FONT_SCALING_MIN;
         viewMessage.textColor = UIColor.whiteColor;
         viewMessage.textAlignment = NSTextAlignmentCenter;
         viewMessage.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;

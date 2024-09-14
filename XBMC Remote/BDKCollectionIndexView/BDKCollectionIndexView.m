@@ -169,7 +169,7 @@
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.text = indexTitle;
         label.font = [UIFont boldSystemFontOfSize:11];
-        label.minimumScaleFactor = 11.0/11.0;
+        label.minimumScaleFactor = FONT_SCALING_NONE;
         label.adjustsFontSizeToFitWidth = YES;
         if ([indexTitle isEqualToString:@"🔍"]) {
             // Use the same icon as iOS's index (magnifying glass with transparent circle)
