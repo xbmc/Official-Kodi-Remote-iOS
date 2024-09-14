@@ -25,6 +25,7 @@
     IBOutlet UILabel *artistName;
     IBOutlet UILabel *currentTime;
     IBOutlet UILabel *duration;
+    IBOutlet UILabel *upnp;
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *thumbnailView;
     IBOutlet UIView *BottomView;
@@ -96,6 +97,7 @@
     int storePosSeconds;
     long storedItemID;
     MessagesView *messagesView;
+    BOOL isRemotePlayer;
 }
 
 - (void)setNowPlayingDimension:(CGFloat)width height:(CGFloat)height YPOS:(CGFloat)YPOS fullscreen:(BOOL)isFullscreen;

@@ -18,5 +18,6 @@
 + (BOOL)hasPvrSortSupport;
 + (BOOL)hasAlbumArtistOnlySupport;
 + (BOOL)hasInputButtonEventSupport;
++ (BOOL)hasPlayUsingSupport;
 
 @end

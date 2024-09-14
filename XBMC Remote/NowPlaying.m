@@ -480,7 +480,9 @@
     repeatButton.hidden = YES;
     shuffleButton.hidden = YES;
     hiresImage.hidden = YES;
+    upnp.hidden = YES;
     musicPartyMode = NO;
+    isRemotePlayer = NO;
     [self notifyChangeForBackgroundImage:nil coverImage:nil];
     [self deselectPlaylistItem];
     [self showPlaylistTableAnimated:NO];
@@ -884,6 +886,8 @@
         }
         if (error == nil && methodError == nil) {
             if ([methodResult isKindOfClass:[NSArray class]] && [methodResult count] > 0) {
+                isRemotePlayer = [methodResult[0][@"playertype"] isEqualToString:@"remote"];
+                upnp.hidden = !isRemotePlayer;
                 nothingIsPlaying = NO;
                 
                 // Set state machine variables for player / playlist
@@ -1688,7 +1692,7 @@
 }
 
 - (void)toggleSongDetails {
-    if ((nothingIsPlaying && songDetailsView.alpha == 0.0)) {
+    if ((nothingIsPlaying && songDetailsView.alpha == 0.0) || isRemotePlayer) {
         return;
     }
     [UIView animateWithDuration:0.2
@@ -2176,6 +2180,10 @@
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
     storeSelection = nil;
     [self setPlaylistCellProgressBar:cell hidden:YES];
+}
+
+- (NSIndexPath*)tableView:(UITableView*)tableView willSelectRowAtIndexPath:(NSIndexPath*)indexPath {
+    return isRemotePlayer ? nil : indexPath;
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -2892,6 +2900,12 @@
     artistName.textColor = UIColor.whiteColor;
     currentTime.textColor = UIColor.lightGrayColor;
     duration.textColor = UIColor.lightGrayColor;
+    
+    // UPnP indicator layout
+    upnp.textColor = KODI_BLUE_COLOR;
+    upnp.layer.cornerRadius = 4;
+    upnp.layer.borderColor = KODI_BLUE_COLOR.CGColor;
+    upnp.layer.borderWidth = 1;
     
     // Prepare and add blur effect
     UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
