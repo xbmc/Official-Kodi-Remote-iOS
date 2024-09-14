@@ -2994,9 +2994,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [updateInfoTimer invalidate];
-    [debounceTimer invalidate];
-    [ignoreAutoscrollTimer invalidate];
 }
 
 - (BOOL)shouldAutorotate {
