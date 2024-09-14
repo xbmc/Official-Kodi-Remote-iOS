@@ -17,7 +17,6 @@
 #import "Utilities.h"
 #import "BDKCollectionIndexView.h"
 #import "FloatingHeaderFlowLayout.h"
-#import "MessagesView.h"
 #import <SafariServices/SafariServices.h>
 
 @class NowPlaying;
@@ -98,7 +97,6 @@
     NSDateFormatter *xbmcDateFormatter;
     NSDateFormatter *localHourMinuteFormatter;
     NSIndexPath *autoScrollTable;
-    MessagesView *messagesView;
     __weak IBOutlet UILabel *noItemsLabel;
     BOOL stackscrollFullscreen;
     BOOL forceCollection;

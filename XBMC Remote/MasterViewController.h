@@ -11,6 +11,7 @@
 #import "ECSlidingViewController.h"
 #import "tcpJSONRPC.h"
 #import "CustomNavigationController.h"
+#import "MessagesView.h"
 
 @class DetailViewController;
 @class NowPlaying;
@@ -31,6 +32,7 @@
     BOOL itemIsActive;
     CustomNavigationController *navController;
     UIImageView *globalConnectionStatus;
+    MessagesView *messagesView;
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;

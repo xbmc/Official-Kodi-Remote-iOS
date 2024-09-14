@@ -2267,7 +2267,7 @@
         else {
             [playlistTableView reloadData];
             [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-            [messagesView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
         }
     }];
 }
@@ -2297,7 +2297,7 @@
             else {
                 [playlistTableView reloadData];
                 [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-                [messagesView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
             }
         }];
     }
@@ -2647,12 +2647,6 @@
                                     height:nowPlayingView.frame.size.height];
     }
     
-    UIView *rootView = IS_IPHONE ? UIApplication.sharedApplication.keyWindow.rootViewController.view : self.view;
-    CGFloat deltaY = IS_IPHONE ? UIApplication.sharedApplication.statusBarFrame.size.height : 0;
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:0];
-    messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    [rootView addSubview:messagesView];
-    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
                                                  name: @"UIApplicationWillEnterForegroundNotification"
@@ -2734,7 +2728,7 @@
     if (AppDelegate.instance.obj.serverIP.length == 0) {
         return;
     }
-    UIAlertController *actionView = [Utilities createPowerControl:self messageView:messagesView];
+    UIAlertController *actionView = [Utilities createPowerControl:self];
     [self presentViewController:actionView animated:YES completion:nil];
 }
 

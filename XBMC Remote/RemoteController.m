@@ -395,8 +395,8 @@
         
 # pragma mark - view Effects
 
-- (void)showSubInfo:(NSString*)message timeout:(NSTimeInterval)timeout color:(UIColor*)color {
-    [messagesView showMessage:message timeout:timeout color:color];
+- (void)showSubInfo:(NSString*)message color:(UIColor*)color {
+    [Utilities showMessage:message color:color];
 }
 
 # pragma mark - ToolBar
@@ -532,7 +532,7 @@
                                      [self showActionSubtitles:actionSheetTitles];
                                  }
                                  else {
-                                     [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") color:[Utilities getSystemRed:0.95]];
                                  }
                              }
                          }
@@ -540,7 +540,7 @@
                  }];
             }
             else {
-                [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") color:[Utilities getSystemRed:0.95]];
             }
         }
     }];
@@ -575,7 +575,7 @@
                                      [self showActionAudiostreams:actionSheetTitles];
                                  }
                                  else {
-                                     [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                                     [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") color:[Utilities getSystemRed:0.95]];
                                  }
                              }
                         }
@@ -583,7 +583,7 @@
                  }];
             }
             else {
-                [self showSubInfo:LOCALIZED_STR(@"Audiostream not available") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+                [self showSubInfo:LOCALIZED_STR(@"Audiostream not available") color:[Utilities getSystemRed:0.95]];
             }
         }
     }];
@@ -666,7 +666,7 @@
                             id audiostreamIndex = audiostreamsDictionary[@"audiostreams"][i][@"index"];
                             if (audiostreamIndex) {
                                 [self playbackAction:@"Player.SetAudioStream" params:@{@"stream": audiostreamIndex}];
-                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+                                [self showSubInfo:actiontitle color:[Utilities getSystemGreen:0.95]];
                             }
                         }
                     }
@@ -694,7 +694,7 @@
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
 
         UIAlertAction *action_disable = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Disable subtitles") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+            [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") color:[Utilities getSystemGreen:0.95]];
             [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"off"}];
         }];
         if ([subsDictionary[@"subtitleenabled"] boolValue]) {
@@ -712,7 +712,7 @@
                             if (subsIndex) {
                                 [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": subsIndex}];
                                 [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"on"}];
-                                [self showSubInfo:actiontitle timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+                                [self showSubInfo:actiontitle color:[Utilities getSystemGreen:0.95]];
                             }
                         }
                     }
@@ -1363,18 +1363,6 @@
     
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundImage_repeat"]];
-    
-    UIView *rootView = IS_IPHONE ? UIApplication.sharedApplication.keyWindow.rootViewController.view : self.view;
-    CGFloat deltaY = IS_IPHONE ? UIApplication.sharedApplication.statusBarFrame.size.height : 0;
-    CGFloat messageWidth = IS_IPHONE ? UIApplication.sharedApplication.statusBarFrame.size.width : TransitionalView.frame.size.width;
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0,
-                                                                  0,
-                                                                  messageWidth,
-                                                                  DEFAULT_MSG_HEIGHT + deltaY)
-                                                deltaY:deltaY
-                                                deltaX:0];
-    messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    [rootView addSubview:messagesView];
 }
 
 - (void)handleSettingsButton:(id)sender {
@@ -1390,7 +1378,7 @@
     if (AppDelegate.instance.obj.serverIP.length == 0) {
         return;
     }
-    UIAlertController *actionView = [Utilities createPowerControl:self messageView:messagesView];
+    UIAlertController *actionView = [Utilities createPowerControl:self];
     [self presentViewController:actionView animated:YES completion:nil];
 }
 

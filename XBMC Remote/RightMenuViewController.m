@@ -522,10 +522,10 @@
     }
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (methodError == nil && error == nil) {
-            [messagesView showMessage:LOCALIZED_STR(@"Command executed") timeout:2.0 color:[Utilities getSystemGreen:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
         }
         else {
-            [messagesView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
             [sender setUserInteractionEnabled:YES];
@@ -568,10 +568,8 @@
     CGFloat deltaY = [Utilities getTopPadding];
     self.peekLeftAmount = ANCHOR_RIGHT_PEEK;
     CGRect frame = UIScreen.mainScreen.bounds;
-    CGFloat deltaX = ANCHOR_RIGHT_PEEK;
     if (IS_IPAD) {
         frame.size.width = STACKSCROLL_WIDTH;
-        deltaX = 0;
         deltaY = 0;
         self.peekLeftAmount = 0;
     }
@@ -620,9 +618,6 @@
             moreButton.enabled = YES;
         }
     }
-    deltaY = UIApplication.sharedApplication.statusBarFrame.size.height;
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, DEFAULT_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:deltaX];
-    [self.view addSubview:messagesView];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionSuccess:)
@@ -643,30 +638,6 @@
                                              selector: @selector(reloadCustomButtonTable:)
                                                  name: @"UIInterfaceCustomButtonAdded"
                                                object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showNotificationMessage:)
-                                                 name: @"AudioLibrary.OnScanFinished"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showNotificationMessage:)
-                                                 name: @"AudioLibrary.OnCleanFinished"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showNotificationMessage:)
-                                                 name: @"VideoLibrary.OnScanFinished"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showNotificationMessage:)
-                                                 name: @"VideoLibrary.OnCleanFinished"
-                                               object: nil];
-}
-
-- (void)showNotificationMessage:(NSNotification*)note {
-    [messagesView showMessage:note.name timeout:2.0 color:[Utilities getSystemGreen:0.95]];
 }
 
 - (void)reloadCustomButtonTable:(NSNotification*)note {

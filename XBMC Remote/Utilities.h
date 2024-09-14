@@ -64,8 +64,9 @@ typedef enum {
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(eJewelType)type;
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
-+ (UIAlertController*)createPowerControl:(UIViewController*)ctrl messageView:(MessagesView*)messageView;
++ (UIAlertController*)createPowerControl:(UIViewController*)ctrl;
 + (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate>*)fromctrl;
++ (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor;
 + (DSJSONRPC*)getJsonRPC;
 + (void)setWebImageAuthorizationOnSuccessNotification:(NSNotification*)note;
 + (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array;
@@ -122,5 +123,6 @@ typedef enum {
 + (void)wakeUp:(NSString*)macAddress;
 + (NSString*)getUrlStyleAddress:(NSString*)address;
 + (int)getActivePlayerID:(NSArray*)activePlayerList;
++ (UIViewController*)topMostController;
 
 @end

@@ -11,7 +11,6 @@
 #import "UIImageView+WebCache.h"
 #import "RightMenuViewController.h"
 #import "OBSlider.h"
-#import "MessagesView.h"
 
 @class ShowInfoViewController;
 @class RemoteController;
@@ -98,7 +97,6 @@
     BOOL ignoreAutoscrollPlaylist;
     int storePosSeconds;
     long storedItemID;
-    MessagesView *messagesView;
     BOOL isRemotePlayer;
 }
 

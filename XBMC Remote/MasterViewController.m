@@ -191,6 +191,9 @@
         
         // Add connection status icon to root view of new controller
         [self addConnectionStatusToRootView];
+        
+        // Add MessagesView to root view to be able to show messages on top
+        [self addMessagesToRootView];
     }];
 }
 
@@ -224,6 +227,12 @@
 }
 
 #pragma mark - Helper
+
+- (void)addMessagesToRootView {
+    // Add MessagesView to root view to be able to show messages on top
+    UIView *rootView = [Utilities topMostController].view;
+    [rootView addSubview:messagesView];
+}
 
 - (void)addConnectionStatusToRootView {
     // Add connection status icon to root view of new controller
@@ -289,6 +298,16 @@
     [super viewWillAppear:animated];
     self.slidingViewController.anchorRightPeekAmount = ANCHOR_RIGHT_PEEK;
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
+    
+    // Update dimension of message view
+    CGFloat deltaY = [Utilities getTopPaddingWithNavBar:self.navigationController];
+    [messagesView updateWithFrame:CGRectMake(0,
+                                             0,
+                                             UIScreen.mainScreen.bounds.size.width,
+                                             DEFAULT_MSG_HEIGHT + deltaY)
+                           deltaY:deltaY
+                           deltaX:0];
+    [self addMessagesToRootView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -328,6 +347,8 @@
                                                                            CONNECTION_STATUS_SIZE)];
     [self addConnectionStatusToRootView];
     
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectZero deltaY:0 deltaX:0];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleWillResignActive:)
                                                  name: @"UIApplicationWillResignActiveNotification"
@@ -361,8 +382,46 @@
                                                  name: @"KodiStartDefaultController"
                                                object: nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleLibraryNotification:)
+                                                 name: @"AudioLibrary.OnScanFinished"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleLibraryNotification:)
+                                                 name: @"AudioLibrary.OnCleanFinished"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleLibraryNotification:)
+                                                 name: @"VideoLibrary.OnScanFinished"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleLibraryNotification:)
+                                                 name: @"VideoLibrary.OnCleanFinished"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(showNotificationMessage:)
+                                                 name: @"UIShowMessage"
+                                               object: nil];
+    
     self.view.backgroundColor = [Utilities getGrayColor:36 alpha:1];
     [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+}
+
+- (void)handleLibraryNotification:(NSNotification*)note {
+    [Utilities showMessage:note.name color:[Utilities getSystemGreen:0.95]];
+}
+
+- (void)showNotificationMessage:(NSNotification*)note {
+    NSDictionary *params = note.userInfo;
+    if (!params) {
+        return;
+    }
+    [self addMessagesToRootView];
+    [messagesView showMessage:params[@"message"] timeout:2.0 color:params[@"color"]];
 }
 
 - (void)connectionStatus:(NSNotification*)note {

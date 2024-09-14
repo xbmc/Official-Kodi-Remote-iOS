@@ -524,10 +524,6 @@
     frame.origin.y -= bottomPadding;
     serverInfoButton.frame = frame;
     
-    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HOSTMANAGERVC_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:0];
-    messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    [self.view addSubview:messagesView];
-    
     CGFloat toolbarHeight = bottomToolbar.frame.size.height;
     serverInfoView = [[UITextView alloc] initWithFrame:CGRectMake(MARGIN, deltaY + MARGIN, self.view.frame.size.width - 2 * MARGIN, self.view.frame.size.height - deltaY - toolbarHeight - 2 * MARGIN)];
     serverInfoView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
@@ -685,7 +681,7 @@
         actionView = [Utilities createAlertOK:LOCALIZED_STR(@"Select an XBMC Server from the list") message:nil];
     }
     else {
-        actionView = [Utilities createPowerControl:self messageView:messagesView];
+        actionView = [Utilities createPowerControl:self];
     }
     [self presentViewController:actionView animated:YES completion:nil];
 }
@@ -767,7 +763,7 @@
 
 - (void)connectionError:(NSNotification*)note {
     NSDictionary *theData = note.userInfo;
-    [messagesView showMessage:theData[@"error_message"] timeout:2.0 color:[Utilities getSystemRed:0.95]];
+    [Utilities showMessage:theData[@"error_message"] color:[Utilities getSystemRed:0.95]];
 }
 
 - (void)authFailed:(NSNotification*)note {

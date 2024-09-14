@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MessagesView.h"
 
 typedef enum {
     cDefault,
@@ -33,7 +32,6 @@ typedef enum {
     UILabel *scrubbingMessage;
     UILabel *scrubbingRate;
     UILabel *footerDescription;
-    MessagesView *messagesView;
     BOOL fromItself;
 }
 
