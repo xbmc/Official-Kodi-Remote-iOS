@@ -94,6 +94,8 @@
     int currentPlayerID;
     int currentPlaylistID;
     BOOL isSlideshowActive;
+    NSTimer *ignoreAutoscrollTimer;
+    BOOL ignoreAutoscrollPlaylist;
     int storePosSeconds;
     long storedItemID;
     MessagesView *messagesView;

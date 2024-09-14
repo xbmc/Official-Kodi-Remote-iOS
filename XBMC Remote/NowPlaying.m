@@ -72,6 +72,7 @@
 #define PLAYLIST_DEBOUNCE_TIMEOUT 0.2
 #define PLAYLIST_DEBOUNCE_TIMEOUT_MAX 1.0
 #define UPDATE_INFO_TIMEOUT 1.0
+#define IGNORE_AUTOSCROLL_TIMEOUT 10.0
 
 #define XIB_PLAYLIST_CELL_MAINTITLE 1
 #define XIB_PLAYLIST_CELL_SUBTITLE 2
@@ -736,9 +737,13 @@
 - (void)setPlaylistPosition:(long)playlistPosition forPlayer:(int)playerID {
     if (playlistData.count <= playlistPosition ||
         currentPlaylistID != playerID ||
-        ![playlistTableView numberOfSections]) {
+        playlistTableView.editing ||
+        playlistTableView.numberOfSections == 0) {
         return;
     }
+    // Do not autoscroll after user dragged list
+    UITableViewScrollPosition scrollPosition = ignoreAutoscrollPlaylist ? UITableViewScrollPositionNone : UITableViewScrollPositionMiddle;
+    
     // Make current cell's progress bar invisible
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
@@ -747,7 +752,7 @@
     // Make new cell's progress bar visible and select playlist cell
     NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
     if (newSelection.row < [playlistTableView numberOfRowsInSection:0]) {
-        [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+        [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:scrollPosition];
         UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
         [self setPlaylistCellProgressBar:cell hidden:NO];
         storeSelection = newSelection;
@@ -2205,7 +2210,7 @@
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
-    return !(storeSelection && storeSelection.row == indexPath.row);
+    return YES;
 }
 
 - (BOOL)tableView:(UITableView*)tableview canMoveRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -2262,6 +2267,7 @@
         else {
             [playlistTableView reloadData];
             [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+            [messagesView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
         }
     }];
 }
@@ -2284,13 +2290,14 @@
                     [playlistTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
                     [playlistTableView endUpdates];
                 }
-                if (storeSelection && indexPath.row<storeSelection.row) {
+                if (storeSelection && indexPath.row < storeSelection.row) {
                     storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];
                 }
             }
             else {
                 [playlistTableView reloadData];
                 [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+                [messagesView showMessage:LOCALIZED_STR(@"Cannot do that") timeout:2.0 color:[Utilities getSystemRed:0.95]];
             }
         }];
     }
@@ -2331,6 +2338,7 @@
     }
     else {
         storeSelection = [playlistTableView indexPathForSelectedRow];
+        [self deselectPlaylistItem];
         [playlistTableView setEditing:YES animated:YES];
         editTableButton.selected = YES;
     }
@@ -2585,16 +2593,12 @@
                                                 SEGMENTCONTROL_WIDTH,
                                                 SEGMENTCONTROL_HEIGHT);
     playlistSegmentedControl.tintColor = UIColor.whiteColor;
-    [playlistSegmentedControl addTarget:self action:@selector(segmentValueChanged:) forControlEvents: UIControlEventValueChanged];
+    [playlistSegmentedControl addTarget:self action:@selector(segmentValueChanged:) forControlEvents:UIControlEventValueChanged];
     [playlistActionView addSubview:playlistSegmentedControl];
 }
 
-- (void)segmentValueChanged:(UISegmentedControl *)segment {
+- (void)segmentValueChanged:(UISegmentedControl*)segment {
     [self editTable:nil forceClose:YES];
-    if (playlistData.count && (playlistTableView.dragging || playlistTableView.decelerating)) {
-        NSArray *visiblePaths = [playlistTableView indexPathsForVisibleRows];
-        [playlistTableView scrollToRowAtIndexPath:visiblePaths[0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-    }
     switch (segment.selectedSegmentIndex) {
         case PLAYERID_MUSIC:
             currentPlaylistID = PLAYERID_MUSIC;
@@ -2612,6 +2616,7 @@
             NSAssert(NO, @"Unexpected segment selected.");
             break;
     }
+    ignoreAutoscrollPlaylist = NO;
     lastSelected = SELECTED_NONE;
     musicPartyMode = NO;
     [self createPlaylistAnimated:YES];
@@ -2640,13 +2645,13 @@
         
         [self setNowPlayingDimensionIPhone:nowPlayingView.frame.size.width
                                     height:nowPlayingView.frame.size.height];
-        
-        UIView *rootView = IS_IPHONE ? UIApplication.sharedApplication.keyWindow.rootViewController.view : self.view;
-        CGFloat deltaY = IS_IPHONE ? UIApplication.sharedApplication.statusBarFrame.size.height : 0;
-        messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:0];
-        messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        [rootView addSubview:messagesView];
     }
+    
+    UIView *rootView = IS_IPHONE ? UIApplication.sharedApplication.keyWindow.rootViewController.view : self.view;
+    CGFloat deltaY = IS_IPHONE ? UIApplication.sharedApplication.statusBarFrame.size.height : 0;
+    messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_MSG_HEIGHT + deltaY) deltaY:deltaY deltaX:0];
+    messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    [rootView addSubview:messagesView];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
@@ -2701,6 +2706,7 @@
 - (void)handleDidEnterBackground:(NSNotification*)sender {
     [updateInfoTimer invalidate];
     [debounceTimer invalidate];
+    [ignoreAutoscrollTimer invalidate];
 }
 
 - (void)enablePopGestureRecognizer:(id)sender {
@@ -2730,6 +2736,25 @@
     }
     UIAlertController *actionView = [Utilities createPowerControl:self messageView:messagesView];
     [self presentViewController:actionView animated:YES completion:nil];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView*)scrollView willDecelerate:(BOOL)decelerate {
+    // When user dragged the playlist to view a different section of the playlist, the playlist should
+    // not automatically scroll the current playing item into middle of the view. Instead, the autoscroll
+    // is ignored until a timeout kicks in to fall back to autoscroll which again places the current
+    // playing item into the middle of the view.
+    ignoreAutoscrollPlaylist = YES;
+    [ignoreAutoscrollTimer invalidate];
+    ignoreAutoscrollTimer = [NSTimer scheduledTimerWithTimeInterval:IGNORE_AUTOSCROLL_TIMEOUT
+                                                             target:self
+                                                           selector:@selector(enableAutoscrollPlaylist)
+                                                           userInfo:nil
+                                                            repeats:NO];
+}
+
+- (void)enableAutoscrollPlaylist {
+    ignoreAutoscrollPlaylist = NO;
+    [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -2763,6 +2788,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [updateInfoTimer invalidate];
+    [ignoreAutoscrollTimer invalidate];
     storedItemID = SELECTED_NONE;
     self.slidingViewController.panGesture.delegate = nil;
 }
@@ -2970,6 +2996,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [updateInfoTimer invalidate];
     [debounceTimer invalidate];
+    [ignoreAutoscrollTimer invalidate];
 }
 
 - (BOOL)shouldAutorotate {
