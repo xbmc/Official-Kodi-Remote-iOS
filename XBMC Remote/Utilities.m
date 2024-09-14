@@ -548,7 +548,7 @@
     }];
 }
 
-+ (UIAlertController*)createPowerControl:(UIViewController*)ctrl {
++ (UIAlertController*)createPowerControl {
     NSString *title = [NSString stringWithFormat:@"%@\n%@", AppDelegate.instance.obj.serverDescription, AppDelegate.instance.obj.serverIP];
     UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
@@ -557,12 +557,10 @@
             // In this case we want to have a user interaction popup instead of a short-lived message.
             if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
                 [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
-                UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Command executed") message:nil];
-                [ctrl presentViewController:alertView animated:YES completion:nil];
+                [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
             }
             else {
-                UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Warning") message:LOCALIZED_STR(@"No server MAC address defined")];
-                [ctrl presentViewController:alertView animated:YES completion:nil];
+                [Utilities showMessage:LOCALIZED_STR(@"No server MAC address defined") color:[Utilities getSystemRed:0.95]];
             }
         }];
         [actionView addAction:action_wake];
