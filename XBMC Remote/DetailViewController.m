@@ -3139,12 +3139,12 @@
     [albumDetailView addSubview:album];
     
     // Bottom up
-    CGFloat labelwidthBottom = CGRectGetMinX(albumInfoButton.frame) - originX;
+    CGFloat labelWidthBottom = CGRectGetMinX(albumInfoButton.frame) - originX;
     
     // Layout for track count
     trackCount.text = trackCountText;
     trackCount.font = [UIFont systemFontOfSize:trackCountFontSize];
-    trackCount.frame = CGRectMake(originX, albumViewHeight - albumViewPadding - LABEL_HEIGHT(trackCount.font), labelwidthBottom, LABEL_HEIGHT(trackCount.font));
+    trackCount.frame = CGRectMake(originX, albumViewHeight - albumViewPadding - LABEL_HEIGHT(trackCount.font), labelWidthBottom, LABEL_HEIGHT(trackCount.font));
     trackCount.backgroundColor = UIColor.clearColor;
     trackCount.shadowOffset = CGSizeMake(0, 1);
     trackCount.numberOfLines = 1;
@@ -3156,7 +3156,7 @@
     // Layout for released date
     released.text = releasedText;
     released.font = [UIFont systemFontOfSize:trackCountFontSize];
-    released.frame = CGRectMake(originX, CGRectGetMinY(trackCount.frame) - LABEL_HEIGHT(released.font) - TINY_PADDING, labelwidthBottom, LABEL_HEIGHT(released.font));
+    released.frame = CGRectMake(originX, CGRectGetMinY(trackCount.frame) - LABEL_HEIGHT(released.font) - TINY_PADDING, labelWidthBottom, LABEL_HEIGHT(released.font));
     released.backgroundColor = UIColor.clearColor;
     released.shadowOffset = CGSizeMake(0, 1);
     released.numberOfLines = 1;
