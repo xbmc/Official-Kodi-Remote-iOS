@@ -329,7 +329,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [self stopTimer];
 }
 
 @end
