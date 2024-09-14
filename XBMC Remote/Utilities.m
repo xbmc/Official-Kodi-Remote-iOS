@@ -536,28 +536,16 @@
     return alertView;
 }
 
-+ (void)powerAction:(NSString*)command ctrl:(UIViewController*)ctrl message:(NSString*)alertMessage ok:(NSString*)okMessage {
-    alertMessage = alertMessage ?: @"";
-    okMessage = okMessage ?: LOCALIZED_STR(@"Yes");
-    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:alertMessage message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *okButton = [UIAlertAction actionWithTitle:okMessage style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        if (!command) {
-            return;
++ (void)powerAction:(NSString*)command {
+    [[Utilities getJsonRPC] callMethod:command withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        // User already confirmed, so we only show a short-lived message.
+        if (methodError == nil && error == nil) {
+            [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
         }
-        [[Utilities getJsonRPC] callMethod:command withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            // User already confirmed, so we only show a short-lived message.
-            if (methodError == nil && error == nil) {
-                [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
-            }
-            else {
-                [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
-            }
-        }];
+        else {
+            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
+        }
     }];
-    [alertView addAction:cancelButton];
-    [alertView addAction:okButton];
-    [ctrl presentViewController:alertView animated:YES completion:nil];
 }
 
 + (UIAlertController*)createPowerControl:(UIViewController*)ctrl {
@@ -581,74 +569,47 @@
     }
     else {
         UIAlertAction *action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Shutdown" 
-                         ctrl:ctrl
-                      message:LOCALIZED_STR(@"Are you sure you want to power off your XBMC system now?")
-                           ok:LOCALIZED_STR(@"Power off")];
+            [self powerAction:@"System.Shutdown"];
         }];
         [actionView addAction:action_pwr_off_system];
         
         UIAlertAction *action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"Application.Quit" 
-                         ctrl:ctrl
-                      message:LOCALIZED_STR(@"Are you sure you want to quit XBMC application now?")
-                           ok:LOCALIZED_STR(@"Quit")];
+            [self powerAction:@"Application.Quit"];
         }];
         [actionView addAction:action_quit_kodi];
         
         UIAlertAction *action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Hibernate" 
-                         ctrl:ctrl
-                      message:LOCALIZED_STR(@"Are you sure you want to hibernate your XBMC system now?")
-                           ok:LOCALIZED_STR(@"Hibernate")];
+            [self powerAction:@"System.Hibernate"];
         }];
         [actionView addAction:action_hibernate];
         
         UIAlertAction *action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Suspend"
-                         ctrl:ctrl
-                      message:LOCALIZED_STR(@"Are you sure you want to suspend your XBMC system now?")
-                           ok:LOCALIZED_STR(@"Suspend")];
+            [self powerAction:@"System.Suspend"];
         }];
         [actionView addAction:action_suspend];
         
         UIAlertAction *action_reboot = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Reboot") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Reboot" 
-                         ctrl:ctrl
-                      message:LOCALIZED_STR(@"Are you sure you want to reboot your XBMC system now?")
-                           ok:LOCALIZED_STR(@"Reboot")];
+            [self powerAction:@"System.Reboot" ];
         }];
         [actionView addAction:action_reboot];
         
         UIAlertAction *action_scan_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"AudioLibrary.Scan" 
-                         ctrl:ctrl
-                      message:LOCALIZED_STR(@"Are you sure you want to update your audio library now?")
-                           ok:LOCALIZED_STR(@"Update Audio")];
+            [self powerAction:@"AudioLibrary.Scan"];
         }];
         [actionView addAction:action_scan_audio_lib];
         
         UIAlertAction *action_clean_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"AudioLibrary.Clean"
-                         ctrl:ctrl
-                      message:LOCALIZED_STR(@"Are you sure you want to clean your audio library now?")
-                           ok:LOCALIZED_STR(@"Clean Audio")];
+            [self powerAction:@"AudioLibrary.Clean"];
         }];
         [actionView addAction:action_clean_audio_lib];
         
         UIAlertAction *action_scan_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"VideoLibrary.Scan" 
-                         ctrl:ctrl
-                      message:LOCALIZED_STR(@"Are you sure you want to update your video library now?")
-                           ok:LOCALIZED_STR(@"Update Video")];
+            [self powerAction:@"VideoLibrary.Scan"];
         }];
         [actionView addAction:action_scan_video_lib];
         
         UIAlertAction *action_clean_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"VideoLibrary.Clean" 
-                         ctrl:ctrl 
-                      message:LOCALIZED_STR(@"Are you sure you want to clean your video library now?")
-                           ok:LOCALIZED_STR(@"Clean Video")];
+            [self powerAction:@"VideoLibrary.Clean"];
         }];
         [actionView addAction:action_clean_video_lib];
     }
