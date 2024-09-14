@@ -3351,15 +3351,15 @@
                 UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
                 UIViewController *showFromCtrl = [self topMostController];
-                UIView *showfromview = nil;
+                UIView *showFromView = nil;
                 if (IS_IPHONE) {
-                    showfromview = self.view;
+                    showFromView = self.view;
                 }
                 else {
-                    showfromview = enableCollectionView ? collectionView : [showFromCtrl.view superview];
+                    showFromView = enableCollectionView ? collectionView : [showFromCtrl.view superview];
                 }
-                CGPoint sheetOrigin = [activeRecognizer locationInView:showfromview];
-                [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:showfromview];
+                CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
+                [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
             }
             // In case of Global Search restore choosedTab after processing
             if (globalSearchView) {
