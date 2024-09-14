@@ -1436,8 +1436,16 @@
 }
 
 + (UIViewController*)topMostController {
+    return [self topMostControllerIgnoringClass:nil];
+}
+
++ (UIViewController*)topMostControllerIgnoringClass:(Class)ignoredClass {
     UIViewController *topController = UIApplication.sharedApplication.keyWindow.rootViewController;
     while (topController.presentedViewController) {
+        if ([topController.presentedViewController isKindOfClass:ignoredClass]) {
+            // We want to ignore any ignoredClass being the top most controller.
+            break;
+        }
         topController = topController.presentedViewController;
     }
     return topController;

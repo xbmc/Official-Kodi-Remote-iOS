@@ -124,5 +124,6 @@ typedef enum {
 + (NSString*)getUrlStyleAddress:(NSString*)address;
 + (int)getActivePlayerID:(NSArray*)activePlayerList;
 + (UIViewController*)topMostController;
++ (UIViewController*)topMostControllerIgnoringClass:(Class)ignoredClass;
 
 @end
