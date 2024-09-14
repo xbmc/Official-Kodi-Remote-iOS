@@ -64,7 +64,7 @@ typedef enum {
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(eJewelType)type;
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
-+ (UIAlertController*)createPowerControl:(UIViewController*)ctrl;
++ (UIAlertController*)createPowerControl;
 + (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate>*)fromctrl;
 + (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor;
 + (DSJSONRPC*)getJsonRPC;
