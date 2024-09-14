@@ -81,7 +81,8 @@
 #define FLOWLAYOUT_FULLSCREEN_MIN_SPACE 4
 #define FLOWLAYOUT_FULLSCREEN_LABEL (FULLSCREEN_LABEL_HEIGHT * [Utilities getTransformX] + 8)
 #define TOGGLE_BUTTON_SIZE 11
-#define LABEL_HEIGHT(fontsize) (fontsize + 6)
+#define INFO_BUTTON_SIZE 30
+#define LABEL_HEIGHT(font) ceil(font.lineHeight)
 
 #define XIB_JSON_DATA_CELL_TITLE 1
 #define XIB_JSON_DATA_CELL_GENRE 2
@@ -787,7 +788,7 @@
     searchBar.barTintColor = lightAlbumColor;
 }
 
-- (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 {
+- (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 infoButton:(UIButton*)infoButton {
     // Gather average cover color and limit saturation
     UIColor *mainColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
     mainColor = [Utilities limitSaturation:mainColor satmax:0.33];
@@ -813,6 +814,10 @@
     label1.textColor = label2.textColor = label12Color;
     label3.textColor = label4.textColor = label34Color;
     label1.shadowColor = label2.shadowColor = label3.shadowColor = label4.shadowColor = shadowColor;
+    
+    // Set color of info button
+    UIImage *buttonImage = [Utilities colorizeImage:[UIImage imageNamed:@"table_arrow_right"] withColor:label34Color];
+    [infoButton setImage:buttonImage forState:UIControlStateNormal];
     
     // Only the top most item shall define albumcolor, searchbar tint and navigationbar tint
     if (isTopMost) {
@@ -1908,19 +1913,28 @@
 #pragma mark - BDKCollectionIndexView init
 
 - (void)initSectionNameOverlayView {
-    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width * 0.75, self.view.frame.size.width / 6)];
-    sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
-    sectionNameOverlayView.backgroundColor = [Utilities getGrayColor:0 alpha:1.0];
-    sectionNameOverlayView.center = UIApplication.sharedApplication.delegate.window.rootViewController.view.center;
-    CGFloat cornerRadius = 12;
-    sectionNameOverlayView.layer.cornerRadius = cornerRadius;
-    
-    int fontSize = 32;
-    sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, sectionNameOverlayView.frame.size.height / 2 - (fontSize + VERTICAL_PADDING) / 2, sectionNameOverlayView.frame.size.width, fontSize + VERTICAL_PADDING)];
-    sectionNameLabel.font = [UIFont boldSystemFontOfSize:fontSize];
+    // First create the label and calculate its height for 2 rows
+    sectionNameLabel = [[UILabel alloc] init];
+    sectionNameLabel.font = [UIFont boldSystemFontOfSize:32];
+    sectionNameLabel.numberOfLines = 2;
     sectionNameLabel.textColor = UIColor.whiteColor;
     sectionNameLabel.backgroundColor = UIColor.clearColor;
     sectionNameLabel.textAlignment = NSTextAlignmentCenter;
+    sectionNameLabel.frame = CGRectMake(LABEL_PADDING,
+                                        VERTICAL_PADDING,
+                                        self.view.frame.size.width * 0.75,
+                                        2 * ceil(sectionNameLabel.font.lineHeight));
+    
+    // Then fit the overlayview around it with horizontal and vertical padding
+    CGFloat overlayWidth = CGRectGetWidth(sectionNameLabel.frame) + 2 * LABEL_PADDING;
+    CGFloat overlayHeight = CGRectGetHeight(sectionNameLabel.frame) + 2 * VERTICAL_PADDING;
+    sectionNameOverlayView = [[UIView alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.view.frame) - overlayWidth) / 2,
+                                                                      (CGRectGetHeight(self.view.frame) - overlayHeight) / 2,
+                                                                      overlayWidth,
+                                                                      overlayHeight)];
+    sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
+    sectionNameOverlayView.backgroundColor = [Utilities getGrayColor:0 alpha:0.8];
+    sectionNameOverlayView.layer.cornerRadius = 12;
     [sectionNameOverlayView addSubview:sectionNameLabel];
     [self.view addSubview:sectionNameOverlayView];
 }
@@ -3010,6 +3024,7 @@
     UILabel *album = [UILabel new];
     UILabel *trackCount = [UILabel new];
     UILabel *released = [UILabel new];
+    UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     // Set dimensions for thumb view
     int thumbHeight = albumViewHeight - albumViewPadding * 2;
@@ -3058,7 +3073,8 @@
                             label1:artist
                             label2:album
                             label3:trackCount
-                            label4:released];
+                            label4:released
+                        infoButton:albumInfoButton];
             }
         }];
     }
@@ -3070,7 +3086,8 @@
                     label1:artist
                     label2:album
                     label3:trackCount
-                    label4:released];
+                    label4:released
+                infoButton:albumInfoButton];
     }
     [albumDetailView addSubview:thumbImageView];
     
@@ -3084,13 +3101,12 @@
     [albumDetailView addSubview:watchedIcon];
     
     // Add Info button to bottom-right corner
-    UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     albumInfoButton.alpha = 0.8;
     albumInfoButton.showsTouchWhenHighlighted = YES;
-    albumInfoButton.frame = CGRectMake(albumDetailView.bounds.size.width - albumInfoButton.frame.size.width - albumViewPadding,
-                                       albumDetailView.bounds.size.height - albumInfoButton.frame.size.height - albumViewPadding,
-                                       albumInfoButton.frame.size.width,
-                                       albumInfoButton.frame.size.height);
+    albumInfoButton.frame = CGRectMake(albumDetailView.bounds.size.width - INFO_BUTTON_SIZE,
+                                       albumDetailView.bounds.size.height - INFO_BUTTON_SIZE - TINY_PADDING,
+                                       INFO_BUTTON_SIZE,
+                                       INFO_BUTTON_SIZE);
     albumInfoButton.tag = episodesView ? DETAIL_VIEW_INFO_TVSHOW : DETAIL_VIEW_INFO_ALBUM;
     albumInfoButton.hidden = [self isModal];
     [albumInfoButton addTarget:self action:@selector(prepareShowAlbumInfo:) forControlEvents:UIControlEventTouchUpInside];
@@ -3099,10 +3115,10 @@
     // Top down
     // Layout for artist
     artist.text = artistText;
-    artist.frame = CGRectMake(originX, albumViewPadding, labelwidth, LABEL_HEIGHT(artistFontSize));
+    artist.font = [UIFont systemFontOfSize:artistFontSize];
+    artist.frame = CGRectMake(originX, albumViewPadding, labelwidth, LABEL_HEIGHT(artist.font));
     artist.backgroundColor = UIColor.clearColor;
     artist.shadowOffset = CGSizeMake(0, 1);
-    artist.font = [UIFont systemFontOfSize:artistFontSize];
     artist.numberOfLines = 1;
     artist.lineBreakMode = NSLineBreakByTruncatingTail;
     artist.adjustsFontSizeToFitWidth = YES;
@@ -3111,10 +3127,10 @@
     
     // Layout for album
     album.text = albumText;
-    album.frame = CGRectMake(originX, CGRectGetMaxY(artist.frame), labelwidth, LABEL_HEIGHT(albumFontSize * 2));
+    album.font = [UIFont boldSystemFontOfSize:albumFontSize];
+    album.frame = CGRectMake(originX, CGRectGetMaxY(artist.frame) + TINY_PADDING, labelwidth, 2 * LABEL_HEIGHT(album.font));
     album.backgroundColor = UIColor.clearColor;
     album.shadowOffset = CGSizeMake(0, 1);
-    album.font = [UIFont boldSystemFontOfSize:albumFontSize];
     album.numberOfLines = 2;
     album.lineBreakMode = NSLineBreakByTruncatingTail;
     album.adjustsFontSizeToFitWidth = YES;
@@ -3123,14 +3139,14 @@
     [albumDetailView addSubview:album];
     
     // Bottom up
-    CGFloat labelwidthBottom = CGRectGetMinX(albumInfoButton.frame) - originX - LABEL_PADDING;
+    CGFloat labelWidthBottom = CGRectGetMinX(albumInfoButton.frame) - originX;
     
     // Layout for track count
     trackCount.text = trackCountText;
-    trackCount.frame = CGRectMake(originX, albumViewHeight - albumViewPadding - LABEL_HEIGHT(trackCountFontSize), labelwidthBottom, LABEL_HEIGHT(trackCountFontSize));
+    trackCount.font = [UIFont systemFontOfSize:trackCountFontSize];
+    trackCount.frame = CGRectMake(originX, albumViewHeight - albumViewPadding - LABEL_HEIGHT(trackCount.font), labelWidthBottom, LABEL_HEIGHT(trackCount.font));
     trackCount.backgroundColor = UIColor.clearColor;
     trackCount.shadowOffset = CGSizeMake(0, 1);
-    trackCount.font = [UIFont systemFontOfSize:trackCountFontSize];
     trackCount.numberOfLines = 1;
     trackCount.lineBreakMode = NSLineBreakByTruncatingTail;
     trackCount.minimumScaleFactor = FONT_SCALING_MIN;
@@ -3139,10 +3155,10 @@
     
     // Layout for released date
     released.text = releasedText;
-    released.frame = CGRectMake(originX, CGRectGetMinY(trackCount.frame) - LABEL_HEIGHT(trackCountFontSize), labelwidthBottom, LABEL_HEIGHT(trackCountFontSize));
+    released.font = [UIFont systemFontOfSize:trackCountFontSize];
+    released.frame = CGRectMake(originX, CGRectGetMinY(trackCount.frame) - LABEL_HEIGHT(released.font) - TINY_PADDING, labelWidthBottom, LABEL_HEIGHT(released.font));
     released.backgroundColor = UIColor.clearColor;
     released.shadowOffset = CGSizeMake(0, 1);
-    released.font = [UIFont systemFontOfSize:trackCountFontSize];
     released.numberOfLines = 1;
     released.lineBreakMode = NSLineBreakByTruncatingTail;
     released.minimumScaleFactor = FONT_SCALING_MIN;
