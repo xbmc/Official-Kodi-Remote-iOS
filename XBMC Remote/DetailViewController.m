@@ -2956,6 +2956,10 @@
                           isWatched:[self wasSeasonPlayed:section]
                           isTopMost:isFirstListedSeason];
             
+            // Add long press gesture for action list
+            UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressSeason:)];
+            [albumDetailView addGestureRecognizer:longPressGesture];
+            
             // Add tap gesture to toggle open/close the section
             UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleOpen:)];
             [albumDetailView addGestureRecognizer:tapGesture];
@@ -3243,6 +3247,41 @@
     }
 }
 
+- (void)longPressSeason:(UILongPressGestureRecognizer*)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        NSInteger section = [sender.view tag];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
+        NSDictionary *item = [self getItemFromIndexPath:indexPath];
+        
+        processAllItemsInSection = @(section);
+        NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d", [item[@"season"] intValue]] inArray:self.extraSectionRichResults];
+        
+        if (seasonIdx != NSNotFound) {
+            NSArray *sheetActions = @[
+                LOCALIZED_STR(@"Queue after current"),
+                LOCALIZED_STR(@"Queue"),
+                LOCALIZED_STR(@"Play"),
+            ];
+            NSString *title = [Utilities getStringFromItem:item[@"genre"]];
+            NSString *season = self.extraSectionRichResults[seasonIdx][@"label"];
+            if (season.length) {
+                title = [NSString stringWithFormat:@"%@\n%@", title, season];
+            }
+            
+            UIViewController *showFromCtrl = [self topMostController];
+            UIView *showFromView = nil;
+            if (IS_IPHONE) {
+                showFromView = self.view;
+            }
+            else {
+                showFromView = [showFromCtrl.view superview];
+            }
+            CGPoint sheetOrigin = [sender locationInView:showFromView];
+            [self showActionSheetOptions:title options:sheetActions recording:NO origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
+        }
+    }
+}
+
 - (void)handleLongPress:(UILongPressGestureRecognizer*)activeRecognizer {
     if (activeRecognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint selectedPointInView = [activeRecognizer locationInView:activeLayoutView];
@@ -3312,15 +3351,15 @@
                 UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
                 UIViewController *showFromCtrl = [self topMostController];
-                UIView *showfromview = nil;
+                UIView *showFromView = nil;
                 if (IS_IPHONE) {
-                    showfromview = self.view;
+                    showFromView = self.view;
                 }
                 else {
-                    showfromview = enableCollectionView ? collectionView : [showFromCtrl.view superview];
+                    showFromView = enableCollectionView ? collectionView : [showFromCtrl.view superview];
                 }
-                CGPoint sheetOrigin = [activeRecognizer locationInView:showfromview];
-                [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:showfromview];
+                CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
+                [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
             }
             // In case of Global Search restore choosedTab after processing
             if (globalSearchView) {
@@ -3477,6 +3516,9 @@
 
 - (void)actionSheetHandler:(NSString*)actiontitle origin:(CGPoint)origin {
     NSDictionary *item = nil;
+    if (processAllItemsInSection) {
+        selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:[processAllItemsInSection longValue]];
+    }
     if (selectedIndexPath != nil) {
         item = [self getItemFromIndexPath:selectedIndexPath];
         if (item == nil) {
@@ -4185,20 +4227,15 @@
         forceMusicAlbumMode = NO;
     }
     int playlistid = [mainFields[@"playlistid"] intValue];
-    NSString *key = mainFields[@"row9"];
-    id value = item[key];
-    if ([item[@"filetype"] isEqualToString:@"directory"]) {
-        key = @"directory";
-    }
-    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
-    else if (![VersionCheck hasRecordingIdPlaylistSupport] && [mainFields[@"row9"] isEqualToString:@"recordingid"]) {
-        key = @"file";
-        value = item[@"file"];
-    }
-    if (!value || !key) {
+    id playlistItems = [self buildPlaylistItems:playlistid item:item key:mainFields[@"row9"]];
+    if (!playlistItems) {
         [cellActivityIndicator stopAnimating];
         return;
     }
+    NSDictionary *playlistParams = @{
+        @"playlistid": @(playlistid),
+        @"item": playlistItems,
+    };
     if (afterCurrent) {
         NSDictionary *params = @{
             @"playerid": @(playlistid),
@@ -4216,7 +4253,7 @@
                          NSString *action2 = @"Playlist.Insert";
                          NSDictionary *params2 = @{
                              @"playlistid": @(playlistid),
-                             @"item": @{key: value},
+                             @"item": playlistItems,
                              @"position": @(newPos),
                          };
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -4226,29 +4263,25 @@
                          }];
                      }
                      else {
-                         [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
+                         [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
                      }
                  }
                  else {
-                     [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
+                     [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
                  }
              }
              else {
-                [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
+                [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
              }
          }];
     }
     else {
-        [self addToPlaylist:playlistid item:@{key: value} indicator:cellActivityIndicator];
+        [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
     }
 }
 
-- (void)addToPlaylist:(NSInteger)playlistid item:(NSDictionary*)item indicator:(UIActivityIndicatorView*)cellActivityIndicator {
-    NSDictionary *params = @{
-        @"playlistid": @(playlistid),
-        @"item": item,
-    };
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+- (void)addToPlaylist:(NSDictionary*)playlistParams indicator:(UIActivityIndicatorView*)cellActivityIndicator {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [cellActivityIndicator stopAnimating];
         if (error == nil && methodError == nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
@@ -4339,23 +4372,14 @@
         }
         [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": @(playlistid)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
-                NSString *key = mainFields[@"row8"];
-                id value = item[key];
-                if ([item[@"filetype"] isEqualToString:@"directory"]) {
-                    key = @"directory";
-                }
-                // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
-                else if (![VersionCheck hasRecordingIdPlaylistSupport] && [mainFields[@"row8"] isEqualToString:@"recordingid"]) {
-                    key = @"file";
-                    value = item[@"file"];
-                }
-                if (!value || !key) {
+                id playlistItems = [self buildPlaylistItems:playlistid item:item key:mainFields[@"row8"]];
+                if (!playlistItems) {
                     [cellActivityIndicator stopAnimating];
                     return;
                 }
                 NSDictionary *playlistParams = @{
                     @"playlistid": @(playlistid),
-                    @"item": @{key: value},
+                    @"item": playlistItems,
                 };
                 NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
                                                 @{@"playlistid": @(playlistid), @"position": @(pos)}, @"item",
@@ -4425,6 +4449,49 @@
         };
     }
     [self playerOpen:playbackParams index:nil indicator:cellActivityIndicator];
+}
+
+- (id)buildPlaylistItems:(int)playlistid item:(NSDictionary*)item key:(id)key {
+    id value = item[key];
+    if ([item[@"filetype"] isEqualToString:@"directory"]) {
+        key = @"directory";
+    }
+    else if (processAllItemsInSection) {
+        // Build the array of items to add to playlist
+        int section = [processAllItemsInSection intValue];
+        NSInteger countRows = [self.sections[self.sectionArray[section]] count];
+        NSMutableArray *listedItems = [NSMutableArray arrayWithCapacity:countRows];
+        for (int i = 0; i < countRows; ++i) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:section];
+            NSDictionary *singleItem = [self getItemFromIndexPath:indexPath];
+            if ([singleItem isKindOfClass:[NSDictionary class]] && singleItem[key]) {
+                [listedItems addObject:singleItem[key]];
+            }
+        }
+        value = listedItems;
+        processAllItemsInSection = nil;
+    }
+    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
+    else if (![VersionCheck hasRecordingIdPlaylistSupport] && [key isEqualToString:@"recordingid"]) {
+        key = @"file";
+        value = item[@"file"];
+    }
+    if (!value || !key) {
+        return nil;
+    }
+    // Build parameters to fill playlist
+    id playlistItems;
+    if ([value isKindOfClass:[NSMutableArray class]]) {
+        playlistItems = [NSMutableArray arrayWithCapacity:[value count]];
+        for (id arrayItem in value) {
+            [playlistItems addObject:@{key: arrayItem}];
+        }
+    }
+    else {
+        playlistItems = @{key: value};
+    }
+    
+    return playlistItems;
 }
 
 - (void)playlistAndPlay:(NSDictionary*)playlistParams playbackParams:(NSDictionary*)playbackParams indexPath:(NSIndexPath*)indexPath indicator:(UIActivityIndicatorView*)cellActivityIndicator {
