@@ -1367,7 +1367,7 @@
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
             NSDictionary *currentParams = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
             obj = [NSDictionary dictionaryWithObjectsAndKeys:
-                   item[mainFields[@"row6"]], mainFields[@"row6"],
+                   obj, objKey,
                    currentParams[@"parameters"][@"filter"][parameters[@"combinedFilter"]], parameters[@"combinedFilter"],
                    nil];
             objKey = @"filter";
