@@ -2555,7 +2555,7 @@
     NSDictionary *method = [Utilities indexKeyedDictionaryFromArray:[menuItem.subItem mainMethod][choosedTab]];
     BOOL hasChild = method.count > 0;
     BOOL isSettingID = [item[@"family"] isEqualToString:@"id"];
-    if (!thumbWidth && (hasChild || isSettingID)) {
+    if (!thumbWidth && self.indexView.hidden && (hasChild || isSettingID)) {
         frame = title.frame;
         frame.size.width = frame.size.width - INDICATOR_SIZE - LABEL_PADDING;
         title.frame = frame;
