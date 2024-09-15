@@ -2150,6 +2150,9 @@
             @"VideoLibrary.GetMovieDetails", @"extra_info_method",
         ],
         @[
+            @"VideoLibrary.GetTags", @"method",
+        ],
+        @[
             @"Files.GetSources", @"method",
         ],
         @[
@@ -2321,6 +2324,19 @@
             @YES, @"enableLibraryFullScreen",
             [self itemSizes_MovieRecentlyfullscreen], @"itemSizes",
         ],
+        
+        @[
+            @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"type": @"movie",
+                @"properties": @[],
+            }, @"parameters",
+            LOCALIZED_STR(@"Movie Tags"), @"label",
+            LOCALIZED_STR(@"Movie Tags"), @"morelabel",
+            @FILEMODE_ROW_HEIGHT, @"rowHeight",
+            @0, @"thumbWidth",
+            @YES, @"enableLibraryCache",
+        ],
 
         @[
             @{
@@ -2455,6 +2471,19 @@
             @"row20": @"tagline",
             @"itemid_extra_info": @"moviedetails",
         },
+        
+        @{
+            @"itemid": @"tags",
+            @"row1": @"label",
+            @"row2": @"label",
+            @"row3": @"disable",
+            @"row4": @"disable",
+            @"row5": @"disable",
+            @"row6": @"tag",
+            @"playlistid": @PLAYERID_VIDEO,
+            @"row8": @"tagid",
+            @"row19": @"tag",
+        },
                       
         @{
             @"itemid": @"sources",
@@ -2507,6 +2536,7 @@
         @[],
         @[LOCALIZED_STR(@"Movie Set Details")],
         [self action_movie],
+        @[],
         [self action_queue_to_play],
         @[],
         [self action_playlist],
@@ -2520,6 +2550,7 @@
         @NO,
         @NO,
         @NO,
+        @NO,
     ];
     
     menu_Movies.filterModes = @[
@@ -2527,6 +2558,7 @@
         [self modes_icons_empty],
         [self modes_icons_watched],
         [self modes_icons_watched],
+        [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
@@ -2543,6 +2575,10 @@
             @"VideoLibrary.GetMovieDetails", @"extra_info_method",
         ],
         @[],
+        @[
+            @"VideoLibrary.GetMovies", @"method",
+            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
+        ],
         @[
             @"Files.GetDirectory", @"method",
         ],
@@ -2683,6 +2719,69 @@
         ],
                                   
         @[],
+        
+        @[
+            @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"properties": @[
+                        @"year",
+                        @"playcount",
+                        @"rating",
+                        @"thumbnail",
+                        @"genre",
+                        @"runtime",
+                        @"trailer",
+                        @"file",
+                        @"dateadded",
+                ],
+            }, @"parameters",
+            @{
+                @"properties": @[
+                        @"year",
+                        @"playcount",
+                        @"rating",
+                        @"thumbnail",
+                        @"genre",
+                        @"runtime",
+                        @"studio",
+                        @"director",
+                        @"plot",
+                        @"mpaa",
+                        @"votes",
+                        @"cast",
+                        @"file",
+                        @"fanart",
+                        @"resume",
+                        @"trailer",
+                        @"dateadded",
+                        @"tagline",
+                ],
+            }, @"extra_info_parameters",
+            @{
+                @"label": @[
+                        LOCALIZED_STR(@"Title"),
+                        LOCALIZED_STR(@"Year"),
+                        LOCALIZED_STR(@"Rating"),
+                        LOCALIZED_STR(@"Duration"),
+                        LOCALIZED_STR(@"Date added"),
+                        LOCALIZED_STR(@"Play count"),
+                ],
+                @"method": @[
+                        @"label",
+                        @"year",
+                        @"rating",
+                        @"runtime",
+                        @"dateadded",
+                        @"playcount",
+                ],
+            }, @"available_sort_methods",
+            LOCALIZED_STR(@"Movies"), @"label",
+            @"nocover_movies", @"defaultThumb",
+            @YES, @"FrodoExtraArt",
+            @YES, @"enableCollectionView",
+            @YES, @"enableLibraryCache",
+            [self itemSizes_Movie], @"itemSizes",
+        ],
                                   
         @[
             @{
@@ -2808,6 +2907,32 @@
         },
                               
         @{},
+        
+        @{
+            @"itemid": @"movies",
+            @"row1": @"label",
+            @"row2": @"genre",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"movieid",
+            @"playlistid": @PLAYERID_VIDEO,
+            @"row8": @"movieid",
+            @"row9": @"movieid",
+            @"row10": @"playcount",
+            @"row11": @"trailer",
+            @"row12": @"plot",
+            @"row13": @"mpaa",
+            @"row14": @"votes",
+            @"row15": @"studio",
+            @"row16": @"cast",
+            @"row7": @"file",
+            @"row17": @"director",
+            @"row18": @"resume",
+            @"row19": @"dateadded",
+            @"row20": @"tagline",
+            @"itemid_extra_info": @"moviedetails",
+        },
                               
         @{
             @"itemid": @"files",
@@ -2877,6 +3002,7 @@
         [self action_movie],
         [self action_movie],
         @[],
+        [self action_movie],
         [self action_queue_to_play],
         @[],
         [self action_queue_to_play],
@@ -2887,6 +3013,7 @@
         @YES,
         @YES,
         @NO,
+        @YES,
         @NO,
         @NO,
         @NO,
@@ -2897,6 +3024,7 @@
         [self modes_icons_watched],
         [self modes_icons_watched],
         [self modes_icons_empty],
+        [self modes_icons_watched],
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
@@ -2904,6 +3032,7 @@
 
     menu_Movies.subItem.subItem.noConvertTime = YES;
     menu_Movies.subItem.subItem.mainMethod = [@[
+        @[],
         @[],
         @[],
         @[],
@@ -2918,6 +3047,7 @@
     ] mutableCopy];
     
     menu_Movies.subItem.subItem.mainParameters = [@[
+        @[],
         @[],
         @[],
         @[],
@@ -2938,6 +3068,7 @@
         @{},
         @{},
         @{},
+        @[],
     ];
     
     menu_Movies.subItem.subItem.enableSection = NO;
@@ -2945,6 +3076,7 @@
     menu_Movies.subItem.subItem.thumbWidth = DEFAULT_THUMB_WIDTH;
     menu_Movies.subItem.subItem.defaultThumb = @"nocover_filemode";
     menu_Movies.subItem.subItem.sheetActions = @[
+        @[],
         @[],
         @[],
         @[],

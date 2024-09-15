@@ -587,6 +587,9 @@
     if ([item[mainFields[@"row19"]] isKindOfClass:[NSDictionary class]]) {
         row19obj = [item[mainFields[@"row19"]] mutableCopy];
     }
+    else if ([row19key isEqualToString:@"tag"]) {
+        row19obj = [Utilities getStringFromItem:item[@"label"]];
+    }
     else {
         row19obj = [NSString stringWithFormat:@"%@", item[mainFields[@"row19"]]];
     }
