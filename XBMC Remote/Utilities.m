@@ -14,6 +14,8 @@
 #import "NSString+MD5.h"
 #import "SDWebImageManager.h"
 
+typedef void (^AnimationBlockType)(void);
+
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:(a)]
@@ -1261,59 +1263,70 @@
 }
 
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-    [UIView animateWithDuration:seconds
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
+    AnimationBlockType animation = ^{
         view.alpha = alphavalue;
         CGRect frame = view.frame;
         frame.origin.x = X;
         view.frame = frame;
-                     }
-                     completion:^(BOOL finished) {}];
+    };
+    [Utilities animateWithDuration:seconds animation:animation];
 }
 
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X YPos:(int)Y {
-    [UIView animateWithDuration:seconds
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
+    AnimationBlockType animation = ^{
         CGRect frame = view.frame;
         frame.origin.x = X;
         frame.origin.y = Y;
         view.frame = frame;
-                     }
-                     completion:^(BOOL finished) {}];
+    };
+    [Utilities animateWithDuration:seconds animation:animation];
 }
 
 + (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView animateWithDuration:seconds
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
+    AnimationBlockType animation = ^{
         view.alpha = alphavalue;
-                     }
-                     completion:^(BOOL finished) {}];
+    };
+    [Utilities animateWithDuration:seconds animation:animation];
+}
+
++ (void)animateWithDuration:(NSTimeInterval)seconds animation:(AnimationBlockType)animation {
+    if (seconds > 0.0) {
+        [UIView animateWithDuration:seconds
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:animation
+                         completion:nil];
+    }
+    else {
+        animation();
+    }
 }
 
 + (void)imageView:(UIImageView*)view AnimDuration:(NSTimeInterval)seconds Image:(UIImage*)image {
-    [UIView transitionWithView:view
-                      duration:seconds
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
+    AnimationBlockType animation = ^{
         view.image = image;
-                    }
-                    completion:^(BOOL finished) {}];
+    };
+    [Utilities transitionWithView:view duration:seconds animation:animation];
 }
 
 + (void)colorLabel:(UILabel*)view AnimDuration:(NSTimeInterval)seconds Color:(UIColor*)color {
-    [UIView transitionWithView:view
-                      duration:seconds
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
+    AnimationBlockType animation = ^{
         view.textColor = color;
-                    }
-                    completion:^(BOOL finished) {}];
+    };
+    [Utilities transitionWithView:view duration:seconds animation:animation];
+}
+
++ (void)transitionWithView:(UIView*)view duration:(NSTimeInterval)seconds animation:(AnimationBlockType)animation {
+    if (seconds > 0.0) {
+        [UIView transitionWithView:view
+                          duration:seconds
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:animation
+                        completion:nil];
+    }
+    else {
+        animation();
+    }
 }
 
 + (float)getPercentElapsed:(NSDate*)startDate EndDate:(NSDate*)endDate {
