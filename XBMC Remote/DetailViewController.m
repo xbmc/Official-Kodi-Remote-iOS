@@ -1320,7 +1320,7 @@
     [self setButtonViewContent:choosedTab];
     [self checkDiskCache];
     
-    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:1.0 XPos:viewWidth];
+    [Utilities SetView:(UITableView*)activeLayoutView Alpha:1.0 XPos:viewWidth];
     
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
@@ -3962,10 +3962,10 @@
                              [self choseParams];
                              if (forceCollection) {
                                  forceCollection = NO;
-                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
+                                 [Utilities SetView:(UITableView*)activeLayoutView Alpha:0.0 XPos:viewWidth];
                                  enableCollectionView = NO;
                                  [self configureLibraryView];
-                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
+                                 [Utilities SetView:(UITableView*)activeLayoutView Alpha:0.0 XPos:0];
                              }
                              [self setFlowLayoutParams];
                              [collectionView.collectionViewLayout invalidateLayout];
@@ -4007,10 +4007,10 @@
                              moreItemsViewController.view.hidden = YES;
                              if (!enableCollectionView) {
                                  forceCollection = YES;
-                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:viewWidth];
+                                 [Utilities SetView:(UITableView*)activeLayoutView Alpha:0.0 XPos:viewWidth];
                                  enableCollectionView = YES;
                                  [self configureLibraryView];
-                                 [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.0 Alpha:0.0 XPos:0];
+                                 [Utilities SetView:(UITableView*)activeLayoutView Alpha:0.0 XPos:0];
                              }
                              else {
                                  forceCollection = NO;
