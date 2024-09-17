@@ -587,6 +587,9 @@
     if ([item[mainFields[@"row19"]] isKindOfClass:[NSDictionary class]]) {
         row19obj = [item[mainFields[@"row19"]] mutableCopy];
     }
+    else if ([row19key isEqualToString:@"tag"]) {
+        row19obj = [Utilities getStringFromItem:item[@"label"]];
+    }
     else {
         row19obj = [NSString stringWithFormat:@"%@", item[mainFields[@"row19"]]];
     }
@@ -1364,7 +1367,7 @@
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
             NSDictionary *currentParams = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
             obj = [NSDictionary dictionaryWithObjectsAndKeys:
-                   item[mainFields[@"row6"]], mainFields[@"row6"],
+                   obj, objKey,
                    currentParams[@"parameters"][@"filter"][parameters[@"combinedFilter"]], parameters[@"combinedFilter"],
                    nil];
             objKey = @"filter";
@@ -2552,7 +2555,7 @@
     NSDictionary *method = [Utilities indexKeyedDictionaryFromArray:[menuItem.subItem mainMethod][choosedTab]];
     BOOL hasChild = method.count > 0;
     BOOL isSettingID = [item[@"family"] isEqualToString:@"id"];
-    if (!thumbWidth && (hasChild || isSettingID)) {
+    if (!thumbWidth && self.indexView.hidden && (hasChild || isSettingID)) {
         frame = title.frame;
         frame.size.width = frame.size.width - INDICATOR_SIZE - LABEL_PADDING;
         title.frame = frame;
