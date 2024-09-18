@@ -1080,7 +1080,7 @@
     }
     choosedTab = MAX_NORMAL_BUTTONS;
     [buttonsIB[choosedTab] setSelected:YES];
-    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     int i;
     NSInteger count = menuItem.mainParameters.count;
     NSMutableArray *moreMenu = [NSMutableArray new];
@@ -1134,12 +1134,11 @@
                               duration: 0.2
                                options: UIViewAnimationOptionBeginFromCurrentState
                             animations: ^{
-                                ((UITableView*)activeLayoutView).alpha = 1.0;
-                                CGRect frame;
-                                frame = [activeLayoutView frame];
+                                activeLayoutView.alpha = 1.0;
+                                CGRect frame = activeLayoutView.frame;
                                 frame.origin.x = viewWidth;
                                 frame.origin.y = 0;
-                                ((UITableView*)activeLayoutView).frame = frame;
+                                activeLayoutView.frame = frame;
                             }
                             completion:^(BOOL finished) {
                                 [self changeViewMode:newViewMode];
@@ -1195,7 +1194,7 @@
         collectionView.dataSource = self;
         dataList.scrollsToTop = NO;
         collectionView.scrollsToTop = YES;
-        activeLayoutView = collectionView;
+        activeLayoutView = (UITableView*)collectionView;
         
         [self setSearchBar:self.searchController.searchBar toDark:YES];
     }
@@ -1239,7 +1238,7 @@
         return;
     }
     [activeLayoutView setUserInteractionEnabled:YES];
-    [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+    [activeLayoutView.pullToRefreshView stopAnimating];
     
     mainMenu *menuItem = self.detailItem;
     NSDictionary *methods = nil;
@@ -1324,11 +1323,11 @@
     [self setButtonViewContent:choosedTab];
     [self checkDiskCache];
     
-    [Utilities SetView:(UITableView*)activeLayoutView Alpha:1.0 XPos:viewWidth];
+    [Utilities SetView:activeLayoutView Alpha:1.0 XPos:viewWidth];
     
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
-    [activeLayoutView setContentOffset:[(UITableView*)activeLayoutView contentOffset] animated:NO];
+    [activeLayoutView setContentOffset:activeLayoutView.contentOffset animated:NO];
     [self checkFullscreenButton:NO];
     [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
     if ([parameters[@"blackTableSeparator"] boolValue] && ![Utilities getPreferTvPosterMode]) {
@@ -1343,7 +1342,7 @@
     }
     else {
         [activityIndicatorView stopAnimating];
-        [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
 }
 
@@ -3731,12 +3730,11 @@
                                       duration: 0.2
                                        options: UIViewAnimationOptionBeginFromCurrentState
                                     animations: ^{
-                                        ((UITableView*)activeLayoutView).alpha = 1.0;
-                                        CGRect frame;
-                                        frame = [activeLayoutView frame];
+                                        activeLayoutView.alpha = 1.0;
+                                        CGRect frame = activeLayoutView.frame;
                                         frame.origin.x = viewWidth;
                                         frame.origin.y = 0;
-                                        ((UITableView*)activeLayoutView).frame = frame;
+                                        activeLayoutView.frame = frame;
                                     }
                                     completion:^(BOOL finished) {
                                         NSString *sortMethod = sortDictionary[@"method"][sort_method_index];
@@ -3757,12 +3755,11 @@
                                   duration: 0.2
                                    options: UIViewAnimationOptionBeginFromCurrentState
                                 animations: ^{
-                                    ((UITableView*)activeLayoutView).alpha = 1.0;
-                                    CGRect frame;
-                                    frame = [activeLayoutView frame];
+                                    activeLayoutView.alpha = 1.0;
+                                    CGRect frame = activeLayoutView.frame;
                                     frame.origin.x = viewWidth;
                                     frame.origin.y = 0;
-                                    ((UITableView*)activeLayoutView).frame = frame;
+                                    activeLayoutView.frame = frame;
                                 }
                                 completion:^(BOOL finished) {
                                     sortAscDesc = !([sortAscDesc isEqualToString:@"ascending"] || sortAscDesc == nil) ? @"ascending" : @"descending";
@@ -3965,10 +3962,10 @@
                              [self choseParams];
                              if (forceCollection) {
                                  forceCollection = NO;
-                                 [Utilities SetView:(UITableView*)activeLayoutView Alpha:0.0 XPos:viewWidth];
+                                 [Utilities SetView:activeLayoutView Alpha:0.0 XPos:viewWidth];
                                  enableCollectionView = NO;
                                  [self configureLibraryView];
-                                 [Utilities SetView:(UITableView*)activeLayoutView Alpha:0.0 XPos:0];
+                                 [Utilities SetView:activeLayoutView Alpha:0.0 XPos:0];
                              }
                              [self setFlowLayoutParams];
                              [collectionView.collectionViewLayout invalidateLayout];
@@ -4010,10 +4007,10 @@
                              moreItemsViewController.view.hidden = YES;
                              if (!enableCollectionView) {
                                  forceCollection = YES;
-                                 [Utilities SetView:(UITableView*)activeLayoutView Alpha:0.0 XPos:viewWidth];
+                                 [Utilities SetView:activeLayoutView Alpha:0.0 XPos:viewWidth];
                                  enableCollectionView = YES;
                                  [self configureLibraryView];
-                                 [Utilities SetView:(UITableView*)activeLayoutView Alpha:0.0 XPos:0];
+                                 [Utilities SetView:activeLayoutView Alpha:0.0 XPos:0];
                              }
                              else {
                                  forceCollection = NO;
@@ -4154,7 +4151,7 @@
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
-                   [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+                   [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
                    [self startRetrieveDataWithRefresh:YES];
                }
                else {
@@ -4728,7 +4725,7 @@
     }
     else {
         [activityIndicatorView stopAnimating];
-        [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
     }
 }
 
@@ -4782,7 +4779,7 @@
         self.richResults = richData;
         
         // Stop refresh animation
-        [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+        [activeLayoutView.pullToRefreshView stopAnimating];
         [activeLayoutView setUserInteractionEnabled:YES];
         
         // Save and display
@@ -5120,7 +5117,7 @@
         filterModeType == ViewModeListened ||
         filterModeType == ViewModeNotListened) {
         if (forceRefresh) {
-            [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+            [activeLayoutView.pullToRefreshView stopAnimating];
             [activeLayoutView setUserInteractionEnabled:YES];
             [self saveData:mutableParameters];
         }
@@ -5128,7 +5125,7 @@
     }
     else {
         if (forceRefresh) {
-            [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+            [activeLayoutView.pullToRefreshView stopAnimating];
             [activeLayoutView setUserInteractionEnabled:YES];
         }
         [self saveData:mutableParameters];
@@ -5139,14 +5136,14 @@
 - (void)animateNoResultsFound {
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
     [activityIndicatorView stopAnimating];
-    [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+    [activeLayoutView.pullToRefreshView stopAnimating];
     [self setGridListButtonImage:enableCollectionView];
     [self setSortButtonImage:sortAscDesc];
 }
 
 - (void)showNoResultsFound:(NSMutableArray*)resultStoreArray refresh:(BOOL)forceRefresh {
     if (forceRefresh) {
-        [((UITableView*)activeLayoutView).pullToRefreshView stopAnimating];
+        [activeLayoutView.pullToRefreshView stopAnimating];
         [activeLayoutView setUserInteractionEnabled:YES];
     }
     [resultStoreArray removeAllObjects];
@@ -5491,7 +5488,7 @@
     [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     [collectionView layoutSubviews];
     [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-    [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0 YPos:0];
+    [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0 YPos:0];
     if (channelGuideView && autoScrollTable != nil && autoScrollTable.row < [dataList numberOfRowsInSection:autoScrollTable.section]) {
         [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition:UITableViewScrollPositionTop animated: NO];
     }
@@ -6298,16 +6295,15 @@
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
-                             CGRect frame;
-                             frame = [activeLayoutView frame];
+                             CGRect frame = activeLayoutView.frame;
                              frame.origin.x = viewWidth;
-                             ((UITableView*)activeLayoutView).frame = frame;
+                             activeLayoutView.frame = frame;
                          }
                          completion:^(BOOL finished) {
                              recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
                              enableCollectionView = [self collectionViewIsEnabled];
                              [self configureLibraryView];
-                             [Utilities AnimView:(UITableView*)activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                             [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
                              [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                          }];
     }
