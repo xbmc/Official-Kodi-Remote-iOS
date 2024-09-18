@@ -564,12 +564,12 @@
     [timer invalidate];
     netServiceBrowser = nil;
     services = nil;
-    [Utilities AnimView:discoveredInstancesView AnimDuration:0.0 Alpha:1.0 XPos:self.view.frame.size.width];
+    [Utilities SetView:discoveredInstancesView Alpha:1.0 XPos:self.view.frame.size.width];
     for (UITextField *textfield in [self getAllEntryMaskLabels]) {
         textfield.text = @"";
         textfield.textColor = [Utilities get1stLabelColor];
     }
-    [Utilities AnimView:noInstances AnimDuration:0.0 Alpha:0.0 XPos:self.view.frame.size.width];
+    [Utilities SetView:noInstances Alpha:0.0 XPos:self.view.frame.size.width];
 }
 
 - (void)viewDidLoad {

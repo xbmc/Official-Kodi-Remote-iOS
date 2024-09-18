@@ -1260,6 +1260,13 @@
     }
 }
 
++ (void)SetView:(UIView*)view Alpha:(CGFloat)alphavalue XPos:(int)X {
+    view.alpha = alphavalue;
+    CGRect frame = view.frame;
+    frame.origin.x = X;
+    view.frame = frame;
+}
+
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
     [UIView animateWithDuration:seconds
                           delay:0.0
