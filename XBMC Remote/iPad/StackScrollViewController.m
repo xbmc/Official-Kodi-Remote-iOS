@@ -161,8 +161,6 @@
         for (int j = i + 1; j < numViews; j++) {
             [slideViews.subviews[i + 1] removeFromSuperview];
         }
-        viewAtRight = nil;
-        viewAtRight2 = nil;
     }
                      completion:^(BOOL finished) {}
     ];
