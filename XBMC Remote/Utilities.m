@@ -752,7 +752,7 @@
 
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds {
     NSString *result = @"";
-    if (seconds == nil) {
+    if (![seconds respondsToSelector:@selector(intValue)]) {
         return result;
     }
     int secs = [seconds intValue];

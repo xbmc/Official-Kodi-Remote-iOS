@@ -1265,10 +1265,7 @@
                            NSString *movieid = [Utilities getStringFromItem:item[@"id"]];
                            NSString *channel = [Utilities getStringFromItem:item[@"channel"]];
                            NSString *genre = [Utilities getStringFromItem:item[@"genre"]];
-                           NSString *durationTime = @"";
-                           if ([item[@"duration"] isKindOfClass:[NSNumber class]]) {
-                               durationTime = [Utilities convertTimeFromSeconds:item[@"duration"]];
-                           }
+                           NSString *durationTime = [Utilities convertTimeFromSeconds:item[@"duration"]];
                            NSString *thumbnailPath = [self getNowPlayingThumbnailPath:item];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                            NSNumber *tvshowid = @([item[@"tvshowid"] longValue]);
