@@ -6229,11 +6229,13 @@
                 [self.view addGestureRecognizer:twoFingerPinch];
             }
             topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - buttonPadding * 2, 44);
+            topNavigationLabel.alpha = 0;
             fullscreenButton.hidden = NO;
             twoFingerPinch.enabled = YES;
         }
         else {
             topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - 4, 44);
+            topNavigationLabel.alpha = 0;
             fullscreenButton.hidden = YES;
             twoFingerPinch.enabled = NO;
         }
