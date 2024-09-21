@@ -486,15 +486,20 @@
     if (IS_IPHONE) {
         return;
     }
-    // fade out
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.1
+                     animations:^{
+        // fade out
         topNavigationLabel.alpha = 0;
-    }];
-    // update label
-    topNavigationLabel.text = labelText;
-    // fade in
-    [UIView animateWithDuration:0.1 animations:^{
-        topNavigationLabel.alpha = 1;
+                     }
+                     completion:^(BOOL finished) {
+        // update label
+        topNavigationLabel.text = labelText;
+        // fade in
+        [UIView animateWithDuration:0.1
+                         animations:^{
+            topNavigationLabel.alpha = 1;
+                         }
+                         completion:nil];
     }];
 }
 
