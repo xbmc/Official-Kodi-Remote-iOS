@@ -2128,6 +2128,7 @@
         @"st_movie_genre",
         @"st_movie_set",
         @"st_movie_recently",
+        @"st_movie_tags",
         @"st_filemode",
         @"st_addons",
         @"st_playlists",
