@@ -482,7 +482,8 @@
 }
 
 - (void)setFilternameLabel:(NSString*)labelText {
-    self.navigationItem.title = [Utilities stripBBandHTML:labelText];
+    labelText = [Utilities stripBBandHTML:labelText];
+    self.navigationItem.title = labelText;
     if (IS_IPHONE) {
         return;
     }
