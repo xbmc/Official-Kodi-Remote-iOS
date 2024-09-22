@@ -5896,7 +5896,7 @@
         
         // Hide toolbar when search string is non-empty or no toolbar buttons exist
         BOOL hasEmptyToolbar = button1.hidden && button2.hidden && button3.hidden && button4.hidden && button5.hidden && button6.hidden && button7.hidden;
-        BOOL hideToolbar = hasNonEmptySearchString || hasEmptyToolbar;
+        BOOL hideToolbar = (hasNonEmptySearchString || hasEmptyToolbar) && !stackscrollFullscreen;
         [self hideButtonList:hideToolbar];
         
         // Hide index when search string is non-empty
