@@ -69,8 +69,6 @@ typedef enum {
 + (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor;
 + (DSJSONRPC*)getJsonRPC;
 + (void)setWebImageAuthorizationOnSuccessNotification:(NSNotification*)note;
-+ (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array;
-+ (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array;
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds;
 + (NSString*)getItemIconFromDictionary:(NSDictionary*)dict;
 + (NSString*)getStringFromItem:(id)item;
