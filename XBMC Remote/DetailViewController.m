@@ -1392,7 +1392,7 @@
         if (parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
             kodiExtrasPropertiesMinimumVersion = parameters[@"kodiExtrasPropertiesMinimumVersion"];
         }
-        NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
+        NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         obj, objKey,
                                         parameters[@"parameters"][@"properties"], @"properties",
@@ -1418,17 +1418,17 @@
                                        parameters[@"watchedListenedStrings"], @"watchedListenedStrings",
                                        nil];
         if (parameters[@"available_sort_methods"] != nil) {
-            [newParameters addObjectsFromArray:@[parameters[@"available_sort_methods"], @"available_sort_methods"]];
+            newParameters[@"available_sort_methods"] = parameters[@"available_sort_methods"];
         }
         if (parameters[@"combinedFilter"]) {
-            [newParameters addObjectsFromArray:@[parameters[@"combinedFilter"], @"combinedFilter"]];
+            newParameters[@"combinedFilter"] = parameters[@"combinedFilter"];
         }
         if (parameters[@"parameters"][@"albumartistsonly"]) {
-            newParameters[0][@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
+            newParameters[@"parameters"][@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
         }
         menuItem.subItem.mainLabel = item[@"label"];
         mainMenu *newMenuItem = [menuItem.subItem copy];
-        [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+        newMenuItem.mainParameters[choosedTab] = newParameters;
         newMenuItem.chooseTab = choosedTab;
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
@@ -1459,9 +1459,8 @@
         NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @44;
         if ([item[@"filetype"] length] != 0 && ![item[@"isSources"] boolValue]) { // WE ARE ALREADY IN BROWSING FILES MODE
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
-                [parameters removeAllObjects];
                 parameters = menuItem.mainParameters[choosedTab];
-                NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
+                NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                 item[mainFields[@"row6"]], @"directory",
                                                 parameters[@"parameters"][@"media"], @"media",
@@ -1478,7 +1477,7 @@
                                                nil];
                 menuItem.mainLabel = item[@"label"];
                 mainMenu *newMenuItem = [menuItem copy];
-                [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+                newMenuItem.mainParameters[choosedTab] = newParameters;
                 newMenuItem.chooseTab = choosedTab;
                 if (IS_IPHONE) {
                     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
@@ -1524,10 +1523,10 @@
                 fileModeKey = @"filter";
                 objValue = [NSDictionary dictionaryWithObjectsAndKeys:
                             item[mainFields[@"row6"]], @"category",
-                            menuItem.mainParameters[choosedTab][0][@"section"], @"section",
+                            menuItem.mainParameters[choosedTab][@"parameters"][@"section"], @"section",
                             nil];
             }
-            NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
+            NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                             objValue, fileModeKey,
                                             parameters[@"parameters"][@"media"], @"media",
@@ -1543,11 +1542,11 @@
                                            @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
                                            nil];
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
-                newParameters[0][@"level"] = @"expert";
+                newParameters[@"parameters"][@"level"] = @"expert";
             }
             menuItem.subItem.mainLabel = item[@"label"];
             mainMenu *newMenuItem = [menuItem.subItem copy];
-            [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+            newMenuItem.mainParameters[choosedTab] = newParameters;
             newMenuItem.chooseTab = choosedTab;
             if (IS_IPHONE) {
                 DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
@@ -4091,7 +4090,7 @@
     if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
         [mutableProperties addObject:@"art"];
     }
-    NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
+    NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     item[mainFields[@"row6"]], @"directory",
                                     parameters[@"parameters"][@"media"], @"media",
@@ -4111,7 +4110,7 @@
                                    nil];
     menuItem.subItem.mainLabel = item[@"label"];
     mainMenu *newMenuItem = [menuItem.subItem copy];
-    [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+    newMenuItem.mainParameters[choosedTab] = newParameters;
     newMenuItem.chooseTab = choosedTab;
     if (IS_IPHONE) {
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
@@ -5343,7 +5342,7 @@
             [self.richResults removeAllObjects];
         }
         NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   menuItem.mainParameters[choosedTab][0][@"channelid"], @"channelid",
+                                   menuItem.mainParameters[choosedTab][@"parameters"][@"channelid"], @"channelid",
                                    retrievedEPG, @"epgArray",
                                    nil];
         [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];

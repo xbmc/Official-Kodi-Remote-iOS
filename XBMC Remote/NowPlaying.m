@@ -2058,7 +2058,7 @@
             }
             objKey = @"filter";
         }
-        NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
+        NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         obj, objKey,
                                         parameters[@"parameters"][@"properties"], @"properties",
@@ -2069,7 +2069,7 @@
                                        [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                        @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                        nil];
-        [[menuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+        menuItem.subItem.mainParameters[choosedTab] = newParameters;
         menuItem.subItem.chooseTab = choosedTab;
         fromItself = YES;
         if (IS_IPHONE) {

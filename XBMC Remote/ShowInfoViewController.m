@@ -328,7 +328,7 @@ double round(double d) {
                                     item[mainFields[@"row6"]], mainFields[@"row6"],
                                     nil];
         }
-        NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
+        NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         obj, objKey,
                                         parameters[@"parameters"][@"properties"], @"properties",
@@ -345,7 +345,7 @@ double round(double d) {
                                        @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
                                        newSectionParameters, @"extra_section_parameters",
                                        nil];
-        [[choosedMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+        choosedMenuItem.mainParameters[choosedTab] = newParameters;
         choosedMenuItem.chooseTab = choosedTab;
         if (![item[@"disableNowPlaying"] boolValue]) {
             choosedMenuItem.disableNowPlaying = NO;
