@@ -1394,7 +1394,7 @@
 
 - (void)showInfo:(NSDictionary*)item menuItem:(mainMenu*)menuItem indexPath:(NSIndexPath*)indexPath {
     NSDictionary *methods = menuItem.mainMethod[choosedTab];
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     
     NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
@@ -2040,7 +2040,7 @@
     NSDictionary *methods = menuItem.subItem.mainMethod[choosedTab];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
         NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-        NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[menuItem.subItem mainParameters][choosedTab]];
+        NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
         NSString *key = @"null";
         if (item[mainFields[@"row15"]] != nil) {
             key = mainFields[@"row15"];

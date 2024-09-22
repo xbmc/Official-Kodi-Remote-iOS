@@ -308,7 +308,7 @@ double round(double d) {
     NSDictionary *methods = choosedMenuItem.mainMethod[choosedTab];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
         NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-        NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[choosedMenuItem mainParameters][choosedTab]];
+        NSMutableDictionary *parameters = choosedMenuItem.mainParameters[choosedTab];
         id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];
         if (movieObj != nil && movieObjKey != nil) {
