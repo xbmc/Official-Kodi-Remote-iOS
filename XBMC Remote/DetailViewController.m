@@ -481,7 +481,7 @@
     }
 }
 
-- (void)setFilternameLabel:(NSString*)labelText runFullscreenButtonCheck:(BOOL)check forceHide:(BOOL)forceHide {
+- (void)setFilternameLabel:(NSString*)labelText {
     self.navigationItem.title = [Utilities stripBBandHTML:labelText];
     if (IS_IPHONE) {
         return;
@@ -495,9 +495,6 @@
     // fade in
     [UIView animateWithDuration:0.1 animations:^{
         topNavigationLabel.alpha = 1;
-        if (check) {
-            [self checkFullscreenButton:forceHide];
-        }
     }];
 }
 
@@ -1106,7 +1103,8 @@
 
     [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
     NSString *labelText = LOCALIZED_STR_ARGS(@"More (%d)", (int)(count - MAX_NORMAL_BUTTONS));
-    [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:YES];
+    [self checkFullscreenButton:YES];
+    [self setFilternameLabel:labelText];
     [activityIndicatorView stopAnimating];
 }
 
@@ -5452,7 +5450,7 @@
     if (!albumView) {
         labelText = [labelText stringByAppendingFormat:@" (%d)", numResults];
     }
-    [self setFilternameLabel:labelText runFullscreenButtonCheck:NO forceHide:NO];
+    [self setFilternameLabel:labelText];
     
     if (!self.richResults.count) {
         [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
