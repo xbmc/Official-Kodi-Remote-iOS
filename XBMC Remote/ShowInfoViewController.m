@@ -305,7 +305,7 @@ double round(double d) {
     else {
         return;
     }
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[choosedMenuItem mainMethod][choosedTab]];
+    NSDictionary *methods = choosedMenuItem.mainMethod[choosedTab];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
         NSDictionary *mainFields = menuItem.mainFields[choosedTab];
         NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[choosedMenuItem mainParameters][choosedTab]];

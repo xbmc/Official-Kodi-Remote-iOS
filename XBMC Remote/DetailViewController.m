@@ -371,7 +371,7 @@
     }
     if (mutableParameters != nil) {
         mainMenu *menuItem = self.detailItem;
-        NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+        NSDictionary *methods = menuItem.mainMethod[choosedTab];
         NSString *viewKey = [self getCacheKey:methods[@"method"] parameters:mutableParameters];
         
         NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
@@ -862,7 +862,7 @@
 
 - (void)setButtonViewContent:(int)activeTab {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     
     // Build basic button list
@@ -1257,7 +1257,7 @@
     // Handle modes (pressing same tab) or changed tabs
     if (newChoosedTab == choosedTab) {
         // Read relevant data from configuration
-        methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+        methods = menuItem.mainMethod[choosedTab];
         parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
         mutableParameters = [parameters[@"parameters"] mutableCopy];
         mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
@@ -1295,7 +1295,7 @@
             [buttonsIB[choosedTab] setSelected:YES];
         }
         // Read relevant data from configuration (important: new value for chooseTab)
-        methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+        methods = menuItem.mainMethod[choosedTab];
         parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
         mutableParameters = [parameters[@"parameters"] mutableCopy];
         mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
@@ -1573,7 +1573,7 @@
 
 - (void)didSelectItemAtIndexPath:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint)point {
     mainMenu *menuItem = [self getMainMenu:item];
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[menuItem.subItem mainMethod][choosedTab]];
+    NSDictionary *methods = menuItem.subItem.mainMethod[choosedTab];
     NSMutableArray *sheetActions = [menuItem.sheetActions[choosedTab] mutableCopy];
     NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[menuItem.subItem mainParameters][choosedTab]];
     int rectOriginX = point.x;
@@ -2551,7 +2551,7 @@
     }
     
     // In case no thumbs are shown and there is a child view or we are showing a setting, display disclosure indicator and adapt width.
-    NSDictionary *method = [Utilities indexKeyedDictionaryFromArray:[menuItem.subItem mainMethod][choosedTab]];
+    NSDictionary *method = menuItem.subItem.mainMethod[choosedTab];
     BOOL hasChild = method.count > 0;
     BOOL isSettingID = [item[@"family"] isEqualToString:@"id"];
     if (!thumbWidth && self.indexView.hidden && (hasChild || isSettingID)) {
@@ -3508,7 +3508,7 @@
 
 - (void)saveSortMethod:(NSString*)sortMethod parameters:(NSDictionary*)parameters {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSString *sortKey = [NSString stringWithFormat:@"%@_sort_method", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:sortMethod forKey:sortKey];
@@ -3516,7 +3516,7 @@
 
 - (void)saveSortAscDesc:(NSString*)sortAscDescSave parameters:(NSDictionary*)parameters {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:sortAscDescSave forKey:sortKey];
@@ -4576,7 +4576,7 @@
 }
 
 - (void)showInfo:(NSIndexPath*)indexPath menuItem:(mainMenu*)menuItem item:(NSDictionary*)item tabToShow:(int)tabToShow {
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[tabToShow]];
+    NSDictionary *methods = menuItem.mainMethod[tabToShow];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[tabToShow]];
     
     NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
@@ -4707,7 +4707,7 @@
     if (choosedTab >= menuItem.mainParameters.count) {
         return;
     }
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
@@ -4791,7 +4791,7 @@
     }
     mainMenu *menuItem = itemsAndTabs[index][0];
     int activeTab = [itemsAndTabs[index][1] intValue];
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[activeTab]];
+    NSDictionary *methods = menuItem.mainMethod[activeTab];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[activeTab]];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
     NSString *methodToCall = methods[@"method"];
@@ -5222,7 +5222,7 @@
 - (void)indexAndDisplayData {
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSArray *copyRichResults = [self.richResults copy];
     BOOL addUITableViewIndexSearch = NO;
     BOOL isFileBrowsing = [methods[@"method"] isEqualToString:@"Files.GetDirectory"];
@@ -5749,7 +5749,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
     if (AppDelegate.instance.serverVersion > 11) {
         if (tempDict[@"filter"] != nil) {
@@ -5992,7 +5992,7 @@
         choosedTab = 0;
     }
     filterModeType = ViewModeDefault;
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     watchedListenedStrings = parameters[@"watchedListenedStrings"];
     [self checkDiskCache];
@@ -6267,7 +6267,7 @@
         [self.searchController setActive:NO];
     }
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     if ([self collectionViewCanBeEnabled] && self.view.superview != nil && ![methods[@"method"] isEqualToString:@""]) {
         NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];

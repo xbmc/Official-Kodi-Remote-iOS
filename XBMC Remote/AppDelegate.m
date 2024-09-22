@@ -518,52 +518,52 @@
     ];
     
     menu_Music.mainMethod = @[
-        @[
-            @"AudioLibrary.GetAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
-        @[
-            @"AudioLibrary.GetArtists", @"method",
-            @"AudioLibrary.GetArtistDetails", @"extra_info_method",
-        ],
-        @[
-            @"AudioLibrary.GetGenres", @"method",
-        ],
-        @[
-            @"Files.GetSources", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetRecentlyAddedAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
-        @[
-            @"AudioLibrary.GetRecentlyAddedSongs", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetRecentlyPlayedAlbums", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetRecentlyPlayedSongs", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetRoles", @"method",
-        ],
+        @{
+            @"method": @"AudioLibrary.GetAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
+        @{
+            @"method": @"AudioLibrary.GetArtists",
+            @"extra_info_method": @"AudioLibrary.GetArtistDetails",
+        },
+        @{
+            @"method": @"AudioLibrary.GetGenres",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"AudioLibrary.GetRecentlyAddedAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
+        @{
+            @"method": @"AudioLibrary.GetRecentlyAddedSongs",
+        },
+        @{
+            @"method": @"AudioLibrary.GetAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+        },
+        @{
+            @"method": @"AudioLibrary.GetRecentlyPlayedAlbums",
+        },
+        @{
+            @"method": @"AudioLibrary.GetRecentlyPlayedSongs",
+        },
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"AudioLibrary.GetRoles",
+        },
     ];
     
     menu_Music.mainParameters = [@[
@@ -1248,45 +1248,45 @@
     ];
     
     menu_Music.subItem.mainMethod = @[
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[
-            @"AudioLibrary.GetAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
-        @[
-            @"AudioLibrary.GetAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
-        @[
-            @"AudioLibrary.GetArtists", @"method",
-            @"AudioLibrary.GetArtistDetails", @"extra_info_method",
-        ],
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{
+            @"method": @"AudioLibrary.GetAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
+        @{
+            @"method": @"AudioLibrary.GetAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{},
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{},
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
+        @{
+            @"method": @"AudioLibrary.GetArtists",
+            @"extra_info_method": @"AudioLibrary.GetArtistDetails",
+        },
     ];
     
     menu_Music.subItem.mainParameters = [@[
@@ -1764,35 +1764,35 @@
     ];
     
     menu_Music.subItem.subItem.mainMethod = @[
-        @[],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
+        @{},
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"AudioLibrary.GetAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
     ];
     
     menu_Music.subItem.subItem.mainParameters = [@[
@@ -1994,23 +1994,23 @@
     ];
     
     menu_Music.subItem.subItem.subItem.mainMethod = @[
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
     ];
     
     menu_Music.subItem.subItem.subItem.mainParameters = [@[
@@ -2135,33 +2135,33 @@
     ];
     
     menu_Movies.mainMethod = @[
-        @[
-            @"VideoLibrary.GetMovies", @"method",
-            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-        ],
-        @[
-            @"VideoLibrary.GetGenres", @"method",
-        ],
-        @[
-            @"VideoLibrary.GetMovieSets", @"method",
-            @"VideoLibrary.GetMovieSetDetails", @"extra_info_method",
-        ],
-        @[
-            @"VideoLibrary.GetRecentlyAddedMovies", @"method",
-            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-        ],
-        @[
-            @"VideoLibrary.GetTags", @"method",
-        ],
-        @[
-            @"Files.GetSources", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{
+            @"method": @"VideoLibrary.GetMovies",
+            @"extra_info_method": @"VideoLibrary.GetMovieDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetGenres",
+        },
+        @{
+            @"method": @"VideoLibrary.GetMovieSets",
+            @"extra_info_method": @"VideoLibrary.GetMovieSetDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetRecentlyAddedMovies",
+            @"extra_info_method": @"VideoLibrary.GetMovieDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetTags",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ];
     
     menu_Movies.mainParameters = [@[
@@ -2566,27 +2566,27 @@
     ];
     
     menu_Movies.subItem.mainMethod = [@[
-        @[],
-        @[
-            @"VideoLibrary.GetMovies", @"method",
-            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-        ],
-        @[
-            @"VideoLibrary.GetMovies", @"method",
-            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-        ],
-        @[],
-        @[
-            @"VideoLibrary.GetMovies", @"method",
-            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{},
+        @{
+            @"method": @"VideoLibrary.GetMovies",
+            @"extra_info_method": @"VideoLibrary.GetMovieDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetMovies",
+            @"extra_info_method": @"VideoLibrary.GetMovieDetails",
+        },
+        @{},
+        @{
+            @"method": @"VideoLibrary.GetMovies",
+            @"extra_info_method": @"VideoLibrary.GetMovieDetails",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
     
     menu_Movies.subItem.noConvertTime = YES;
@@ -3033,18 +3033,18 @@
 
     menu_Movies.subItem.subItem.noConvertTime = YES;
     menu_Movies.subItem.subItem.mainMethod = [@[
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
     
     menu_Movies.subItem.subItem.mainParameters = [@[
@@ -3102,23 +3102,23 @@
     ];
     
     menu_Videos.mainMethod = @[
-        @[
-            @"VideoLibrary.GetMusicVideos", @"method",
-            @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method",
-        ],
-        @[
-            @"VideoLibrary.GetRecentlyAddedMusicVideos", @"method",
-            @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method",
-        ],
-        @[
-            @"Files.GetSources", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{
+            @"method": @"VideoLibrary.GetMusicVideos",
+            @"extra_info_method": @"VideoLibrary.GetMusicVideoDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetRecentlyAddedMusicVideos",
+            @"extra_info_method": @"VideoLibrary.GetMusicVideoDetails",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ];
     
     menu_Videos.mainParameters = [@[
@@ -3412,15 +3412,15 @@
     ];
     
     menu_Videos.subItem.mainMethod = [@[
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
     
     menu_Videos.subItem.noConvertTime = YES;
@@ -3580,15 +3580,15 @@
 
     menu_Videos.subItem.subItem.noConvertTime = YES;
     menu_Videos.subItem.subItem.mainMethod = [@[
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
     
     menu_Videos.subItem.subItem.mainParameters = [@[
@@ -3636,23 +3636,24 @@
     ];
     
     menu_TVShows.mainMethod = [@[
-        @[  @"VideoLibrary.GetTVShows", @"method",
-            @"VideoLibrary.GetTVShowDetails", @"extra_info_method",
-            @YES, @"tvshowsView",
-        ],
-        @[
-            @"VideoLibrary.GetRecentlyAddedEpisodes", @"method",
-            @"VideoLibrary.GetEpisodeDetails", @"extra_info_method",
-        ],
-        @[
-            @"Files.GetSources", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{  
+            @"method": @"VideoLibrary.GetTVShows",
+            @"extra_info_method": @"VideoLibrary.GetTVShowDetails",
+            @"tvshowsView": @YES,
+        },
+        @{
+            @"method": @"VideoLibrary.GetRecentlyAddedEpisodes",
+            @"extra_info_method": @"VideoLibrary.GetEpisodeDetails",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ] mutableCopy];
     
     menu_TVShows.mainParameters = [@[
@@ -3924,20 +3925,20 @@
     ];
     
     menu_TVShows.subItem.mainMethod = [@[
-        @[
-            @"VideoLibrary.GetEpisodes", @"method",
-            @"VideoLibrary.GetEpisodeDetails", @"extra_info_method",
-            @YES, @"episodesView",
-            @"VideoLibrary.GetSeasons", @"extra_section_method",
-        ],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{
+            @"method": @"VideoLibrary.GetEpisodes",
+            @"extra_info_method": @"VideoLibrary.GetEpisodeDetails",
+            @"episodesView": @YES,
+            @"extra_section_method": @"VideoLibrary.GetSeasons",
+        },
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
     
     menu_TVShows.subItem.mainParameters = [@[
@@ -4180,15 +4181,15 @@
     ];
     
     menu_TVShows.subItem.subItem.mainMethod = [@[
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
                                         
     menu_TVShows.subItem.subItem.mainParameters = [@[
@@ -4247,23 +4248,23 @@
     ];
     
     menu_LiveTV.mainMethod = [@[
-        @[
-            @"PVR.GetChannels", @"method",
-            @YES, @"channelListView",
-        ],
-        @[
-            @"PVR.GetChannelGroups", @"method",
-        ],
-        @[
-            @"PVR.GetRecordings", @"method",
-            @"PVR.GetRecordingDetails", @"extra_info_method",
-        ],
-        @[
-            @"PVR.GetTimers", @"method",
-        ],
-        @[
-            @"PVR.GetTimers", @"method",
-        ],
+        @{
+            @"method": @"PVR.GetChannels",
+            @"channelListView": @YES,
+        },
+        @{
+            @"method": @"PVR.GetChannelGroups",
+        },
+        @{
+            @"method": @"PVR.GetRecordings",
+            @"extra_info_method": @"PVR.GetRecordingDetails",
+        },
+        @{
+            @"method": @"PVR.GetTimers",
+        },
+        @{
+            @"method": @"PVR.GetTimers",
+        },
     ] mutableCopy];
     
     menu_LiveTV.mainParameters = [@[
@@ -4578,17 +4579,17 @@
     ];
     
     menu_LiveTV.subItem.mainMethod = [@[
-        @[
-            @"PVR.GetBroadcasts", @"method",
-            @YES, @"channelGuideView",
-        ],
-        @[
-            @"PVR.GetChannels", @"method",
-            @YES, @"channelListView",
-        ],
-        @[],
-        @[],
-        @[],
+        @{
+            @"method": @"PVR.GetBroadcasts",
+            @"channelGuideView": @YES,
+        },
+        @{
+            @"method": @"PVR.GetChannels",
+            @"channelListView": @YES,
+        },
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_LiveTV.subItem.noConvertTime = YES;
@@ -4705,14 +4706,14 @@
     
     menu_LiveTV.subItem.subItem.noConvertTime = YES;
     menu_LiveTV.subItem.subItem.mainMethod = [@[
-        @[],
-        @[
-            @"PVR.GetBroadcasts", @"method",
-            @YES, @"channelGuideView",
-        ],
-        @[],
-        @[],
-        @[],
+        @{},
+        @{
+            @"method": @"PVR.GetBroadcasts",
+            @"channelGuideView": @YES,
+        },
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_LiveTV.subItem.subItem.mainParameters = [@[
@@ -4799,23 +4800,23 @@
     ];
     
     menu_Radio.mainMethod = [@[
-        @[
-            @"PVR.GetChannels", @"method",
-            @YES, @"channelListView",
-        ],
-        @[
-            @"PVR.GetChannelGroups", @"method",
-        ],
-        @[
-            @"PVR.GetRecordings", @"method",
-            @"PVR.GetRecordingDetails", @"extra_info_method",
-        ],
-        @[
-            @"PVR.GetTimers", @"method",
-        ],
-        @[
-            @"PVR.GetTimers", @"method",
-        ],
+        @{
+            @"method": @"PVR.GetChannels",
+            @"channelListView": @YES,
+        },
+        @{
+            @"method": @"PVR.GetChannelGroups",
+        },
+        @{
+            @"method": @"PVR.GetRecordings",
+            @"extra_info_method": @"PVR.GetRecordingDetails",
+        },
+        @{
+            @"method": @"PVR.GetTimers",
+        },
+        @{
+            @"method": @"PVR.GetTimers",
+        },
     ] mutableCopy];
     
     menu_Radio.mainParameters = [@[
@@ -5128,17 +5129,17 @@
     ];
     
     menu_Radio.subItem.mainMethod = [@[
-        @[
-            @"PVR.GetBroadcasts", @"method",
-            @YES, @"channelGuideView",
-        ],
-        @[
-            @"PVR.GetChannels", @"method",
-            @YES, @"channelListView",
-        ],
-        @[],
-        @[],
-        @[],
+        @{
+            @"method": @"PVR.GetBroadcasts",
+            @"channelGuideView": @YES,
+        },
+        @{
+            @"method": @"PVR.GetChannels",
+            @"channelListView": @YES,
+        },
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_Radio.subItem.noConvertTime = YES;
@@ -5255,14 +5256,14 @@
     
     menu_Radio.subItem.subItem.noConvertTime = YES;
     menu_Radio.subItem.subItem.mainMethod = [@[
-        @[],
-        @[
-            @"PVR.GetBroadcasts", @"method",
-            @YES, @"channelGuideView",
-        ],
-        @[],
-        @[],
-        @[],
+        @{},
+        @{
+            @"method": @"PVR.GetBroadcasts",
+            @"channelGuideView": @YES,
+        },
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_Radio.subItem.subItem.mainParameters = [@[
@@ -5345,12 +5346,12 @@
     ];
     
     menu_Pictures.mainMethod = [@[
-        @[
-            @"Files.GetSources", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ] mutableCopy];
     
     menu_Pictures.mainParameters = [@[
@@ -5416,12 +5417,12 @@
     menu_Pictures.defaultThumb = @"nocover_filemode";
     
     menu_Pictures.subItem.mainMethod = [@[
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ] mutableCopy];
     
     menu_Pictures.sheetActions = @[
@@ -5501,12 +5502,12 @@
     ];
     
     menu_Pictures.subItem.subItem.mainMethod = [@[
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ] mutableCopy];
     
     menu_Pictures.subItem.subItem.mainParameters = [@[
@@ -5529,9 +5530,9 @@
     ];
     
     menu_Favourites.mainMethod = [@[
-        @[
-            @"Favourites.GetFavourites", @"method",
-        ],
+        @{
+            @"method": @"Favourites.GetFavourites",
+        },
     ] mutableCopy];
     
     menu_Favourites.mainParameters = [@[
@@ -5664,24 +5665,24 @@
     ];
     
     xbmcSettings.mainMethod = [@[
-        @[
-            @"Settings.GetSections", @"method",
-        ],
-        @[
-            @"Addons.GetAddons", @"method",
-        ],
-        @[
-            @"Addons.GetAddons", @"method",
-        ],
-        @[
-            @"Addons.GetAddons", @"method",
-        ],
-        @[
-            @"JSONRPC.Introspect", @"method",
-        ],
-        @[
-            @"JSONRPC.Introspect", @"method",
-        ],
+        @{
+            @"method": @"Settings.GetSections",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"JSONRPC.Introspect",
+        },
+        @{
+            @"method": @"JSONRPC.Introspect",
+        },
     ] mutableCopy];
     
     xbmcSettings.mainParameters = [@[
@@ -5890,14 +5891,14 @@
     
     xbmcSettings.subItem.disableNowPlaying = YES;
     xbmcSettings.subItem.mainMethod = [@[
-        @[
-            @"Settings.GetCategories", @"method",
-        ],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
+        @{
+            @"method": @"Settings.GetCategories",
+        },
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     xbmcSettings.subItem.mainParameters = [@[
@@ -5954,9 +5955,9 @@
     
     xbmcSettings.subItem.subItem.disableNowPlaying = YES;
     xbmcSettings.subItem.subItem.mainMethod = [@[
-        @[
-            @"Settings.GetSettings", @"method",
-        ],
+        @{
+            @"method": @"Settings.GetSettings",
+        },
     ] mutableCopy];
     
     xbmcSettings.subItem.subItem.mainParameters = [@[
