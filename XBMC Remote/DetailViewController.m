@@ -1950,7 +1950,7 @@
     // Get the index titles
     NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
     if (tmpArr.count > 1) {
-        [tmpArr replaceObjectAtIndex:0 withObject:@"🔍"];
+        tmpArr[0] = @"🔍";
     }
     if (self.sectionArray.count > 1 && !episodesView && !channelGuideView) {
         self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
@@ -6323,7 +6323,7 @@
     };
     NSMutableArray *sortOptions = [sortDictionary[@"label"] mutableCopy];
     if (sortMethodIndex != -1) {
-        [sortOptions replaceObjectAtIndex:sortMethodIndex withObject:[NSString stringWithFormat:@"\u2713 %@", sortOptions[sortMethodIndex]]];
+        sortOptions[sortMethodIndex] = [NSString stringWithFormat:@"\u2713 %@", sortOptions[sortMethodIndex]];
     }
     [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - button7.frame.size.height / 2];
 }
