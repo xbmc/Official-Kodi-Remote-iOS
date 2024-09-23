@@ -329,22 +329,22 @@ double round(double d) {
                                     nil];
         }
         NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        obj, objKey,
-                                        parameters[@"parameters"][@"properties"], @"properties",
-                                        parameters[@"parameters"][@"sort"], @"sort",
-                                        nil], @"parameters",
-                                       @(blackTableSeparator), @"blackTableSeparator",
-                                       parameters[@"label"], @"label",
-                                       @YES, @"fromShowInfo",
-                                       @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                       [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                       parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                       @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
-                                       @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
-                                       @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
-                                       newSectionParameters, @"extra_section_parameters",
-                                       nil];
+                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                               obj, objKey,
+                                               parameters[@"parameters"][@"properties"], @"properties",
+                                               parameters[@"parameters"][@"sort"], @"sort",
+                                               nil], @"parameters",
+                                              @(blackTableSeparator), @"blackTableSeparator",
+                                              parameters[@"label"], @"label",
+                                              @YES, @"fromShowInfo",
+                                              @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                              [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                              parameters[@"extra_info_parameters"], @"extra_info_parameters",
+                                              @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
+                                              @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
+                                              @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
+                                              newSectionParameters, @"extra_section_parameters",
+                                              nil];
         choosedMenuItem.mainParameters[choosedTab] = newParameters;
         choosedMenuItem.chooseTab = choosedTab;
         if (![item[@"disableNowPlaying"] boolValue]) {

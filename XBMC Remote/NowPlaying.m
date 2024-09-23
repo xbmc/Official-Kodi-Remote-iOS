@@ -1459,9 +1459,9 @@
         }
     }
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     newProperties, @"properties",
-                                     object, itemid,
-                                     nil];
+                                          newProperties, @"properties",
+                                          object, itemid,
+                                          nil];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
@@ -2059,16 +2059,16 @@
             objKey = @"filter";
         }
         NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        obj, objKey,
-                                        parameters[@"parameters"][@"properties"], @"properties",
-                                        parameters[@"parameters"][@"sort"], @"sort",
-                                        item[mainFields[@"row15"]], key,
-                                        nil], @"parameters", parameters[@"label"], @"label",
-                                       parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                       [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                       @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                       nil];
+                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                               obj, objKey,
+                                               parameters[@"parameters"][@"properties"], @"properties",
+                                               parameters[@"parameters"][@"sort"], @"sort",
+                                               item[mainFields[@"row15"]], key,
+                                               nil], @"parameters", parameters[@"label"], @"label",
+                                              parameters[@"extra_info_parameters"], @"extra_info_parameters",
+                                              [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                              @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                              nil];
         menuItem.subItem.mainParameters[choosedTab] = newParameters;
         menuItem.subItem.chooseTab = choosedTab;
         fromItself = YES;

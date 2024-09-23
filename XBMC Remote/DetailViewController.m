@@ -1393,30 +1393,30 @@
             kodiExtrasPropertiesMinimumVersion = parameters[@"kodiExtrasPropertiesMinimumVersion"];
         }
         NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        obj, objKey,
-                                        parameters[@"parameters"][@"properties"], @"properties",
-                                        parameters[@"parameters"][@"sort"], @"sort",
-                                        item[mainFields[@"row15"]], key,
-                                        nil], @"parameters",
-                                       @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                       libraryRowHeight, @"rowHeight",
-                                       libraryThumbWidth, @"thumbWidth",
-                                       parameters[@"label"], @"label",
-                                       [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                       @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
-                                       @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
-                                       @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                       @([parameters[@"forceActionSheet"] boolValue]), @"forceActionSheet",
-                                       @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
-                                       @([parameters[@"blackTableSeparator"] boolValue]), @"blackTableSeparator",
-                                       pvrExtraInfo, @"pvrExtraInfo",
-                                       kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
-                                       parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                       newSectionParameters, @"extra_section_parameters",
-                                       [NSString stringWithFormat:@"%@", parameters[@"defaultThumb"]], @"defaultThumb",
-                                       parameters[@"watchedListenedStrings"], @"watchedListenedStrings",
-                                       nil];
+                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                               obj, objKey,
+                                               parameters[@"parameters"][@"properties"], @"properties",
+                                               parameters[@"parameters"][@"sort"], @"sort",
+                                               item[mainFields[@"row15"]], key,
+                                               nil], @"parameters",
+                                              @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
+                                              libraryRowHeight, @"rowHeight",
+                                              libraryThumbWidth, @"thumbWidth",
+                                              parameters[@"label"], @"label",
+                                              [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                              @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
+                                              @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
+                                              @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                              @([parameters[@"forceActionSheet"] boolValue]), @"forceActionSheet",
+                                              @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
+                                              @([parameters[@"blackTableSeparator"] boolValue]), @"blackTableSeparator",
+                                              pvrExtraInfo, @"pvrExtraInfo",
+                                              kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
+                                              parameters[@"extra_info_parameters"], @"extra_info_parameters",
+                                              newSectionParameters, @"extra_section_parameters",
+                                              [NSString stringWithFormat:@"%@", parameters[@"defaultThumb"]], @"defaultThumb",
+                                              parameters[@"watchedListenedStrings"], @"watchedListenedStrings",
+                                              nil];
         if (parameters[@"available_sort_methods"] != nil) {
             newParameters[@"available_sort_methods"] = parameters[@"available_sort_methods"];
         }
@@ -1461,20 +1461,20 @@
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
                 parameters = menuItem.mainParameters[choosedTab];
                 NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                               [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                item[mainFields[@"row6"]], @"directory",
-                                                parameters[@"parameters"][@"media"], @"media",
-                                                parameters[@"parameters"][@"sort"], @"sort",
-                                                parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                                nil], @"parameters",
-                                               parameters[@"label"], @"label",
-                                               @"nocover_filemode", @"defaultThumb",
-                                               filemodeRowHeight, @"rowHeight",
-                                               filemodeThumbWidth, @"thumbWidth",
-                                               [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                               @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                               nil];
+                                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                       item[mainFields[@"row6"]], @"directory",
+                                                       parameters[@"parameters"][@"media"], @"media",
+                                                       parameters[@"parameters"][@"sort"], @"sort",
+                                                       parameters[@"parameters"][@"file_properties"], @"file_properties",
+                                                       nil], @"parameters",
+                                                      parameters[@"label"], @"label",
+                                                      @"nocover_filemode", @"defaultThumb",
+                                                      filemodeRowHeight, @"rowHeight",
+                                                      filemodeThumbWidth, @"thumbWidth",
+                                                      [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                                      @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                                      @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
+                                                      nil];
                 menuItem.mainLabel = item[@"label"];
                 mainMenu *newMenuItem = [menuItem copy];
                 newMenuItem.mainParameters[choosedTab] = newParameters;
@@ -1527,20 +1527,20 @@
                             nil];
             }
             NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            objValue, fileModeKey,
-                                            parameters[@"parameters"][@"media"], @"media",
-                                            parameters[@"parameters"][@"sort"], @"sort",
-                                            parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                            nil], @"parameters",
-                                           parameters[@"label"], @"label",
-                                           @"nocover_filemode", @"defaultThumb",
-                                           filemodeRowHeight, @"rowHeight",
-                                           filemodeThumbWidth, @"thumbWidth",
-                                           [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                           @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                           @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                           nil];
+                                                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                   objValue, fileModeKey,
+                                                   parameters[@"parameters"][@"media"], @"media",
+                                                   parameters[@"parameters"][@"sort"], @"sort",
+                                                   parameters[@"parameters"][@"file_properties"], @"file_properties",
+                                                   nil], @"parameters",
+                                                  parameters[@"label"], @"label",
+                                                  @"nocover_filemode", @"defaultThumb",
+                                                  filemodeRowHeight, @"rowHeight",
+                                                  filemodeThumbWidth, @"thumbWidth",
+                                                  [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                                  @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                                  @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
+                                                  nil];
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
                 newParameters[@"parameters"][@"level"] = @"expert";
             }
@@ -4091,23 +4091,23 @@
         [mutableProperties addObject:@"art"];
     }
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    item[mainFields[@"row6"]], @"directory",
-                                    parameters[@"parameters"][@"media"], @"media",
-                                    parameters[@"parameters"][@"sort"], @"sort",
-                                    mutableProperties, @"file_properties",
-                                    nil], @"parameters",
-                                   libraryRowHeight, @"rowHeight",
-                                   libraryThumbWidth, @"thumbWidth",
-                                   parameters[@"label"], @"label",
-                                   @"nocover_filemode", @"defaultThumb",
-                                   filemodeRowHeight, @"rowHeight",
-                                   filemodeThumbWidth, @"thumbWidth",
-                                   [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                   @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                   @"Files.GetDirectory", @"exploreCommand",
-                                   @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                   nil];
+                                          [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                           item[mainFields[@"row6"]], @"directory",
+                                           parameters[@"parameters"][@"media"], @"media",
+                                           parameters[@"parameters"][@"sort"], @"sort",
+                                           mutableProperties, @"file_properties",
+                                           nil], @"parameters",
+                                          libraryRowHeight, @"rowHeight",
+                                          libraryThumbWidth, @"thumbWidth",
+                                          parameters[@"label"], @"label",
+                                          @"nocover_filemode", @"defaultThumb",
+                                          filemodeRowHeight, @"rowHeight",
+                                          filemodeThumbWidth, @"thumbWidth",
+                                          [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                          @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                          @"Files.GetDirectory", @"exploreCommand",
+                                          @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
+                                          nil];
     menuItem.subItem.mainLabel = item[@"label"];
     mainMenu *newMenuItem = [menuItem.subItem copy];
     newMenuItem.mainParameters[choosedTab] = newParameters;
@@ -4666,9 +4666,9 @@
         }
     }
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     newProperties, @"properties",
-                                     object, itemid,
-                                     nil];
+                                          newProperties, @"properties",
+                                          object, itemid,
+                                          nil];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
