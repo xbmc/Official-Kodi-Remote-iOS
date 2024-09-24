@@ -450,6 +450,31 @@
 
 #pragma mark - Utility
 
+- (void)enterSubmenuOfMenu:(mainMenu*)menuItem label:(NSString*)label params:(NSDictionary*)parameters {
+    menuItem.subItem.mainLabel = label;
+    mainMenu *newMenuItem = [menuItem.subItem copy];
+    newMenuItem.mainParameters[choosedTab] = parameters;
+    newMenuItem.chooseTab = choosedTab;
+    if (IS_IPHONE) {
+        DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+        detailViewController.detailItem = newMenuItem;
+        [self.navigationController pushViewController:detailViewController animated:YES];
+    }
+    else {
+        if (stackscrollFullscreen) {
+            [self toggleFullscreen:nil];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
+            });
+        }
+        else {
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+            [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
+        }
+    }
+}
+
 - (void)addFileProperties:(NSMutableDictionary*)dict {
     if (dict[@"file_properties"] != nil) {
         dict[@"properties"] = [dict[@"file_properties"] mutableCopy];
@@ -1426,33 +1451,7 @@
         if (parameters[@"parameters"][@"albumartistsonly"]) {
             newParameters[@"parameters"][@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
         }
-        menuItem.subItem.mainLabel = item[@"label"];
-        mainMenu *newMenuItem = [menuItem.subItem copy];
-        newMenuItem.mainParameters[choosedTab] = newParameters;
-        newMenuItem.chooseTab = choosedTab;
-        if (IS_IPHONE) {
-            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            detailViewController.detailItem = newMenuItem;
-            [self.navigationController pushViewController:detailViewController animated:YES];
-        }
-        else {
-            if (stackscrollFullscreen) {
-                [self toggleFullscreen:nil];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                    [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-                });
-            }
-            else if ([self isModal]) {
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                iPadDetailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-                [self presentViewController:iPadDetailViewController animated:YES completion:nil];
-            }
-            else {
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-            }
-        }
+        [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
     }
     else { // CHILD IS FILEMODE
         NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
@@ -1544,28 +1543,7 @@
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
                 newParameters[@"parameters"][@"level"] = @"expert";
             }
-            menuItem.subItem.mainLabel = item[@"label"];
-            mainMenu *newMenuItem = [menuItem.subItem copy];
-            newMenuItem.mainParameters[choosedTab] = newParameters;
-            newMenuItem.chooseTab = choosedTab;
-            if (IS_IPHONE) {
-                DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                detailViewController.detailItem = newMenuItem;
-                [self.navigationController pushViewController:detailViewController animated:YES];
-            }
-            else {
-                if (stackscrollFullscreen) {
-                    [self toggleFullscreen:nil];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                        [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-                    });
-                }
-                else {
-                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                    [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-                }
-            }
+            [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
         }
     }
 }
@@ -4108,28 +4086,7 @@
                                           @"Files.GetDirectory", @"exploreCommand",
                                           @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
                                           nil];
-    menuItem.subItem.mainLabel = item[@"label"];
-    mainMenu *newMenuItem = [menuItem.subItem copy];
-    newMenuItem.mainParameters[choosedTab] = newParameters;
-    newMenuItem.chooseTab = choosedTab;
-    if (IS_IPHONE) {
-        DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-        detailViewController.detailItem = newMenuItem;
-        [self.navigationController pushViewController:detailViewController animated:YES];
-    }
-    else {
-        if (stackscrollFullscreen) {
-            [self toggleFullscreen:nil];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-            });
-        }
-        else {
-            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-            [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-        }
-    }
+    [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
 }
 
 - (void)deleteTimer:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
