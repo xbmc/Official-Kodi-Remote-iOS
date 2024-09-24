@@ -50,7 +50,6 @@ typedef enum {
 @property (nonatomic, copy) NSArray *showRuntime;
 @property BOOL noConvertTime;
 @property (nonatomic, copy) NSArray *filterModes;
-@property ViewModes currentFilterMode;
 
 - (id)copyWithZone:(NSZone*)zone;
 
