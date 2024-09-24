@@ -1430,7 +1430,6 @@
         mainMenu *newMenuItem = [menuItem.subItem copy];
         [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
         newMenuItem.chooseTab = choosedTab;
-        newMenuItem.currentFilterMode = filterModeType;
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             detailViewController.detailItem = newMenuItem;
@@ -5992,7 +5991,7 @@
     if (choosedTab >= numTabs) {
         choosedTab = 0;
     }
-    filterModeType = menuItem.currentFilterMode;
+    filterModeType = ViewModeDefault;
     NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
     NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
     watchedListenedStrings = parameters[@"watchedListenedStrings"];
