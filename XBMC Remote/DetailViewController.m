@@ -3395,7 +3395,7 @@
                 actiontitle = LOCALIZED_STR(@"Stop Recording");
             }
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self actionSheetHandler:actiontitle origin:origin];
+                [self actionSheetHandler:actiontitle origin:origin fromcontroller:fromctrl fromview:fromview];
             }];
             [actionView addAction:action];
         }
@@ -3523,7 +3523,7 @@
     [userDefaults setObject:sortAscDescSave forKey:sortKey];
 }
 
-- (void)actionSheetHandler:(NSString*)actiontitle origin:(CGPoint)origin {
+- (void)actionSheetHandler:(NSString*)actiontitle origin:(CGPoint)origin fromcontroller:(UIViewController*)fromctrl fromview:(UIView*)fromview {
     NSDictionary *item = nil;
     if (processAllItemsInSection) {
         selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:[processAllItemsInSection longValue]];
@@ -3569,10 +3569,10 @@
                 
                 UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
                 if (popPresenter != nil) {
-                    popPresenter.sourceView = self.view;
+                    popPresenter.sourceView = fromview;
                     popPresenter.sourceRect = CGRectMake(origin.x, origin.y, 1, 1);
                 }
-                [self presentViewController:actionView animated:YES completion:nil];
+                [fromctrl presentViewController:actionView animated:YES completion:nil];
             }
         }];
     }
