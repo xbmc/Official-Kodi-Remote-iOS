@@ -1390,8 +1390,8 @@
 }
 
 - (void)showInfo:(NSDictionary*)item menuItem:(mainMenu*)menuItem indexPath:(NSIndexPath*)indexPath {
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     
     NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
@@ -1456,9 +1456,9 @@
         }
     }
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     newProperties, @"properties",
-                                     object, itemid,
-                                     nil];
+                                          newProperties, @"properties",
+                                          object, itemid,
+                                          nil];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
@@ -2034,10 +2034,10 @@
     else {
         return;
     }
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[menuItem.subItem mainMethod][choosedTab]];
+    NSDictionary *methods = menuItem.subItem.mainMethod[choosedTab];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
         NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-        NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[menuItem.subItem mainParameters][choosedTab]];
+        NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
         NSString *key = @"null";
         if (item[mainFields[@"row15"]] != nil) {
             key = mainFields[@"row15"];
@@ -2055,18 +2055,18 @@
             }
             objKey = @"filter";
         }
-        NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
-                                       [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        obj, objKey,
-                                        parameters[@"parameters"][@"properties"], @"properties",
-                                        parameters[@"parameters"][@"sort"], @"sort",
-                                        item[mainFields[@"row15"]], key,
-                                        nil], @"parameters", parameters[@"label"], @"label",
-                                       parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                       [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                       @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                       nil];
-        [[menuItem.subItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+        NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                               obj, objKey,
+                                               parameters[@"parameters"][@"properties"], @"properties",
+                                               parameters[@"parameters"][@"sort"], @"sort",
+                                               item[mainFields[@"row15"]], key,
+                                               nil], @"parameters", parameters[@"label"], @"label",
+                                              parameters[@"extra_info_parameters"], @"extra_info_parameters",
+                                              [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                              @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                              nil];
+        menuItem.subItem.mainParameters[choosedTab] = newParameters;
         menuItem.subItem.chooseTab = choosedTab;
         fromItself = YES;
         if (IS_IPHONE) {

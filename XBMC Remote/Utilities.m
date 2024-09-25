@@ -732,24 +732,6 @@
     }
 }
 
-+ (NSDictionary*)indexKeyedDictionaryFromArray:(NSArray*)array {
-    NSMutableDictionary *mutableDictionary = [NSMutableDictionary new];
-    NSInteger numelement = array.count;
-    for (int i = 0; i < numelement - 1; i += 2) {
-        mutableDictionary[array[i + 1]] = array[i];
-    }
-    return (NSDictionary*)mutableDictionary;
-}
-
-+ (NSMutableDictionary*)indexKeyedMutableDictionaryFromArray:(NSArray*)array {
-    NSMutableDictionary *mutableDictionary = [NSMutableDictionary new];
-    NSInteger numelement = array.count;
-    for (int i = 0; i < numelement - 1; i += 2) {
-        mutableDictionary[array[i + 1]] = array[i];
-    }
-    return (NSMutableDictionary*)mutableDictionary;
-}
-
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds {
     NSString *result = @"";
     if (![seconds respondsToSelector:@selector(intValue)]) {

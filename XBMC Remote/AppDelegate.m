@@ -518,57 +518,57 @@
     ];
     
     menu_Music.mainMethod = @[
-        @[
-            @"AudioLibrary.GetAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
-        @[
-            @"AudioLibrary.GetArtists", @"method",
-            @"AudioLibrary.GetArtistDetails", @"extra_info_method",
-        ],
-        @[
-            @"AudioLibrary.GetGenres", @"method",
-        ],
-        @[
-            @"Files.GetSources", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetRecentlyAddedAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
-        @[
-            @"AudioLibrary.GetRecentlyAddedSongs", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetRecentlyPlayedAlbums", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetRecentlyPlayedSongs", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetRoles", @"method",
-        ],
+        @{
+            @"method": @"AudioLibrary.GetAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
+        @{
+            @"method": @"AudioLibrary.GetArtists",
+            @"extra_info_method": @"AudioLibrary.GetArtistDetails",
+        },
+        @{
+            @"method": @"AudioLibrary.GetGenres",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"AudioLibrary.GetRecentlyAddedAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
+        @{
+            @"method": @"AudioLibrary.GetRecentlyAddedSongs",
+        },
+        @{
+            @"method": @"AudioLibrary.GetAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+        },
+        @{
+            @"method": @"AudioLibrary.GetRecentlyPlayedAlbums",
+        },
+        @{
+            @"method": @"AudioLibrary.GetRecentlyPlayedSongs",
+        },
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"AudioLibrary.GetRoles",
+        },
     ];
     
     menu_Music.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -576,8 +576,8 @@
                         @"artist",
                         @"playcount",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"thumbnail",
@@ -592,8 +592,8 @@
                             @"art",
                         ],
                 },
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Album"),
                         LOCALIZED_STR(@"Artist"),
@@ -608,24 +608,24 @@
                         @"playcount",
                         @"random",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Albums"), @"label",
-            @YES, @"enableCollectionView",
-            @YES, @"enableLibraryCache",
-            @YES, @"enableLibraryFullScreen",
-            [self watchedListenedString], @"watchedListenedStrings",
-            [self itemSizes_Musicfullscreen], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Albums"),
+            @"enableCollectionView": @YES,
+            @"enableLibraryCache": @YES,
+            @"enableLibraryFullScreen": @YES,
+            @"watchedListenedStrings": [self watchedListenedString],
+            @"itemSizes": [self itemSizes_Musicfullscreen],
+        },
             
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"artist" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"thumbnail",
                         @"genre",
                 ]
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"thumbnail",
                         @"genre",
@@ -646,41 +646,41 @@
                             @"art",
                         ],
                 },
-            }, @"extra_info_parameters",
-            LOCALIZED_STR(@"Artists"), @"label",
-            @"nocover_artist", @"defaultThumb",
-            @YES, @"enableCollectionView",
-            @YES, @"enableLibraryCache",
-            @YES, @"enableLibraryFullScreen",
-            [self itemSizes_Musicfullscreen], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Artists"),
+            @"defaultThumb": @"nocover_artist",
+            @"enableCollectionView": @YES,
+            @"enableLibraryCache": @YES,
+            @"enableLibraryFullScreen": @YES,
+            @"itemSizes": [self itemSizes_Musicfullscreen],
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                     @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Genres"), @"label",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @0, @"thumbWidth",
-            @YES, @"enableLibraryCache",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Genres"),
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @0,
+            @"enableLibraryCache": @YES,
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"music",
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -688,8 +688,8 @@
                         @"artist",
                         @"playcount",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"thumbnail",
@@ -704,15 +704,15 @@
                             @"art",
                         ],
                 },
-            }, @"extra_info_parameters",
-           LOCALIZED_STR(@"Added Albums"), @"label",
-           LOCALIZED_STR(@"Recently added albums"), @"morelabel",
-           @YES, @"enableCollectionView",
-           [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Added Albums"),
+            @"morelabel": LOCALIZED_STR(@"Recently added albums"),
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"genre",
@@ -726,13 +726,13 @@
                         @"album",
                         @"file",
                 ],
-            }, @"parameters",
-           LOCALIZED_STR(@"Added Songs"), @"label",
-           LOCALIZED_STR(@"Recently added songs"), @"morelabel",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Added Songs"),
+            @"morelabel": LOCALIZED_STR(@"Recently added songs"),
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"playcount" order:@"descending" ignorearticle:NO],
                 @"limits": @{
                         @"start": @0,
@@ -744,8 +744,8 @@
                         @"artist",
                         @"playcount",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"thumbnail",
@@ -755,8 +755,8 @@
                         @"albumlabel",
                         @"fanart",
                 ],
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Top 100 Albums"),
                         LOCALIZED_STR(@"Album"),
@@ -774,15 +774,15 @@
                             @"art",
                         ],
                 },
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Top 100 Albums"), @"label",
-            LOCALIZED_STR(@"Top 100 Albums"), @"morelabel",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Top 100 Albums"),
+            @"morelabel": LOCALIZED_STR(@"Top 100 Albums"),
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
             
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"playcount" order:@"descending" ignorearticle:NO],
                 @"limits": @{
                         @"start": @0,
@@ -801,8 +801,8 @@
                         @"file",
                         @"album",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Top 100 Songs"),
                         LOCALIZED_STR(@"Track"),
@@ -821,14 +821,14 @@
                         @"rating",
                         @"year",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Top 100 Songs"), @"label",
-            LOCALIZED_STR(@"Top 100 Songs"), @"morelabel",
-            @5, @"numberOfStars",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Top 100 Songs"),
+            @"morelabel": LOCALIZED_STR(@"Top 100 Songs"),
+            @"numberOfStars": @5,
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -836,15 +836,15 @@
                         @"artist",
                         @"playcount",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Played albums"), @"label",
-            LOCALIZED_STR(@"Recently played albums"), @"morelabel",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Played albums"),
+            @"morelabel": LOCALIZED_STR(@"Recently played albums"),
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"genre",
@@ -858,13 +858,13 @@
                         @"album",
                         @"file",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Played songs"), @"label",
-            LOCALIZED_STR(@"Recently played songs"), @"morelabel",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Played songs"),
+            @"morelabel": LOCALIZED_STR(@"Recently played songs"),
+        },
                             
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"genre",
@@ -878,8 +878,8 @@
                         @"album",
                         @"file",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Name"),
                         LOCALIZED_STR(@"Rating"),
@@ -900,16 +900,16 @@
                         @"genre",
                         @"random",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"All songs"), @"label",
-            LOCALIZED_STR(@"All songs"), @"morelabel",
-            @YES, @"enableLibraryCache",
-            @5, @"numberOfStars",
-            [self watchedListenedString], @"watchedListenedStrings",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"All songs"),
+            @"morelabel": LOCALIZED_STR(@"All songs"),
+            @"enableLibraryCache": @YES,
+            @"numberOfStars": @5,
+            @"watchedListenedStrings": [self watchedListenedString],
+        },
                             
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"music",
                 @"directory": @"addons://sources/audio",
@@ -917,18 +917,18 @@
                         @"thumbnail",
                         @"file",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Music Add-ons"), @"label",
-            LOCALIZED_STR(@"Music Add-ons"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Music Add-ons"),
+            @"morelabel": LOCALIZED_STR(@"Music Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"music",
                 @"directory": @"special://musicplaylists",
@@ -946,29 +946,29 @@
                         @"album",
                         @"duration",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Music Playlists"), @"label",
-            LOCALIZED_STR(@"Music Playlists"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"isMusicPlaylist",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Music Playlists"),
+            @"morelabel": LOCALIZED_STR(@"Music Playlists"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"isMusicPlaylist": @YES,
+        },
                             
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                     @"title",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Music Roles"), @"label",
-            LOCALIZED_STR(@"Music Roles"), @"morelabel",
-            @"nocover_artist", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Music Roles"),
+            @"morelabel": LOCALIZED_STR(@"Music Roles"),
+            @"defaultThumb": @"nocover_artist",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"itemSizes": [self itemSizes_Music],
+        },
     ] mutableCopy];
     
     menu_Music.mainFields = @[
@@ -1248,50 +1248,50 @@
     ];
     
     menu_Music.subItem.mainMethod = @[
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[
-            @"AudioLibrary.GetAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
-        @[
-            @"AudioLibrary.GetAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
-        @[
-            @"AudioLibrary.GetArtists", @"method",
-            @"AudioLibrary.GetArtistDetails", @"extra_info_method",
-        ],
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{
+            @"method": @"AudioLibrary.GetAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
+        @{
+            @"method": @"AudioLibrary.GetAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{},
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{},
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
+        @{
+            @"method": @"AudioLibrary.GetArtists",
+            @"extra_info_method": @"AudioLibrary.GetArtistDetails",
+        },
     ];
     
     menu_Music.subItem.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"track" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"genre",
@@ -1307,12 +1307,12 @@
                         @"file",
                         @"fanart",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Songs"), @"label",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Songs"),
+        },
         
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"year" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -1320,8 +1320,8 @@
                         @"artist",
                         @"playcount",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"thumbnail",
@@ -1336,14 +1336,14 @@
                             @"art",
                         ],
                 },
-            }, @"extra_info_parameters",
-            LOCALIZED_STR(@"Albums"), @"label",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Albums"),
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -1351,8 +1351,8 @@
                         @"artist",
                         @"playcount",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"thumbnail",
@@ -1367,8 +1367,8 @@
                             @"art",
                         ],
                 },
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Album"),
                         LOCALIZED_STR(@"Artist"),
@@ -1381,16 +1381,16 @@
                         @"year",
                         @"playcount",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Albums"), @"label",
-            @YES, @"enableCollectionView",
-            @YES, @"enableLibraryCache",
-            [self watchedListenedString], @"watchedListenedStrings",
-            [self itemSizes_Music], @"itemSizes",
-         ],
+            },
+            @"label": LOCALIZED_STR(@"Albums"),
+            @"enableCollectionView": @YES,
+            @"enableLibraryCache": @YES,
+            @"watchedListenedStrings": [self watchedListenedString],
+            @"itemSizes": [self itemSizes_Music],
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeMusicType,
                 @"file_properties": @[
@@ -1398,15 +1398,15 @@
                     @"art",
                     @"playcount",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"track" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"genre",
@@ -1422,14 +1422,14 @@
                         @"file",
                         @"fanart",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Songs"), @"label",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Songs"),
+        },
                                   
-        @[],
+        @{},
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"track" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"genre",
@@ -1445,14 +1445,14 @@
                         @"file",
                         @"fanart",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Songs"), @"label",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Songs"),
+        },
                                   
-        @[],
+        @{},
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"track" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"genre",
@@ -1468,31 +1468,31 @@
                         @"file",
                         @"fanart",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Songs"), @"label",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Songs"),
+        },
                                   
-        @[],
-        @[],
+        @{},
+        @{},
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"file_properties": @[
                     @"thumbnail",
                 ],
                 @"media": @"music",
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @DEFAULT_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Movie], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @DEFAULT_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Movie],
+        },
         
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"file_properties": @[
                         @"thumbnail",
@@ -1500,23 +1500,23 @@
                         @"duration",
                 ],
                 @"media": @"music",
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"albumartistsonly": @NO,
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"thumbnail",
                         @"genre",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"thumbnail",
                         @"genre",
@@ -1537,12 +1537,12 @@
                             @"art",
                         ],
                 },
-            }, @"extra_info_parameters",
-            LOCALIZED_STR(@"Artists"), @"label",
-            @"nocover_artist", @"defaultThumb",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Musicfullscreen], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Artists"),
+            @"defaultThumb": @"nocover_artist",
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Musicfullscreen],
+        },
     ] mutableCopy];
     
     menu_Music.subItem.mainFields = @[
@@ -1764,42 +1764,42 @@
     ];
     
     menu_Music.subItem.subItem.mainMethod = @[
-        @[],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"AudioLibrary.GetAlbums", @"method",
-            @"AudioLibrary.GetAlbumDetails", @"extra_info_method",
-        ],
+        @{},
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"AudioLibrary.GetAlbums",
+            @"extra_info_method": @"AudioLibrary.GetAlbumDetails",
+        },
     ];
     
     menu_Music.subItem.subItem.mainParameters = [@[
-        @[],
+        @{},
 
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"track" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"genre",
@@ -1815,12 +1815,12 @@
                         @"file",
                         @"fanart",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Songs"), @"label",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Songs"),
+        },
           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"track" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"genre",
@@ -1836,29 +1836,29 @@
                         @"file",
                         @"fanart",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Songs"), @"label",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Songs"),
+        },
           
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @DEFAULT_THUMB_WIDTH, @"thumbWidth",
-        ],
-        @[
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @DEFAULT_THUMB_WIDTH, @"thumbWidth",
-        ],
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @DEFAULT_THUMB_WIDTH,
+        },
+        @{
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @DEFAULT_THUMB_WIDTH,
+        },
           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"year" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -1866,8 +1866,8 @@
                         @"artist",
                         @"playcount",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"thumbnail",
@@ -1882,12 +1882,12 @@
                             @"art",
                         ],
                 },
-            }, @"extra_info_parameters",
-            LOCALIZED_STR(@"Albums"), @"label",
-            @YES, @"enableCollectionView",
-            @"roleid", @"combinedFilter",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Albums"),
+            @"enableCollectionView": @YES,
+            @"combinedFilter": @"roleid",
+            @"itemSizes": [self itemSizes_Music],
+        },
     ] mutableCopy];
     
     menu_Music.subItem.subItem.mainFields = @[
@@ -1994,41 +1994,41 @@
     ];
     
     menu_Music.subItem.subItem.subItem.mainMethod = @[
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[
-            @"AudioLibrary.GetSongs", @"method",
-            @YES, @"albumView",
-        ],
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{
+            @"method": @"AudioLibrary.GetSongs",
+            @"albumView": @YES,
+        },
     ];
     
     menu_Music.subItem.subItem.subItem.mainParameters = [@[
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[
-            @{
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"track" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"genre",
@@ -2044,9 +2044,9 @@
                         @"file",
                         @"fanart",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Songs"), @"label",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Songs"),
+        },
     ] mutableCopy];
     
     menu_Music.subItem.subItem.subItem.mainFields = @[
@@ -2135,38 +2135,38 @@
     ];
     
     menu_Movies.mainMethod = @[
-        @[
-            @"VideoLibrary.GetMovies", @"method",
-            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-        ],
-        @[
-            @"VideoLibrary.GetGenres", @"method",
-        ],
-        @[
-            @"VideoLibrary.GetMovieSets", @"method",
-            @"VideoLibrary.GetMovieSetDetails", @"extra_info_method",
-        ],
-        @[
-            @"VideoLibrary.GetRecentlyAddedMovies", @"method",
-            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-        ],
-        @[
-            @"VideoLibrary.GetTags", @"method",
-        ],
-        @[
-            @"Files.GetSources", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{
+            @"method": @"VideoLibrary.GetMovies",
+            @"extra_info_method": @"VideoLibrary.GetMovieDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetGenres",
+        },
+        @{
+            @"method": @"VideoLibrary.GetMovieSets",
+            @"extra_info_method": @"VideoLibrary.GetMovieSetDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetRecentlyAddedMovies",
+            @"extra_info_method": @"VideoLibrary.GetMovieDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetTags",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ];
     
     menu_Movies.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -2180,8 +2180,8 @@
                         @"file",
                         @"dateadded",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"playcount",
@@ -2202,8 +2202,8 @@
                         @"dateadded",
                         @"tagline",
                 ],
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Year"),
@@ -2222,31 +2222,31 @@
                         @"playcount",
                         @"random",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Movies"), @"label",
-            @YES, @"FrodoExtraArt",
-            @YES, @"enableCollectionView",
-            @YES, @"enableLibraryCache",
-            @YES, @"enableLibraryFullScreen",
-            [self itemSizes_Moviefullscreen], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Movies"),
+            @"FrodoExtraArt": @YES,
+            @"enableCollectionView": @YES,
+            @"enableLibraryCache": @YES,
+            @"enableLibraryFullScreen": @YES,
+            @"itemSizes": [self itemSizes_Moviefullscreen],
+        },
               
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"type": @"movie",
                 @"properties": @[
                     @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Movie Genres"), @"label",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @0, @"thumbWidth",
-            @YES, @"enableLibraryCache",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Movie Genres"),
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @0,
+            @"enableLibraryCache": @YES,
+        },
               
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"thumbnail",
@@ -2254,16 +2254,16 @@
                         @"fanart",
                         @"playcount",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                     @"thumbnail",
                     @"plot",
                     @"fanart",
                     @"playcount",
                 ],
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Name"),
                         LOCALIZED_STR(@"Play count"),
@@ -2272,17 +2272,17 @@
                         @"label",
                         @"playcount",
                 ],
-            }, @"available_sort_methods",
-            @YES, @"FrodoExtraArt",
-            @YES, @"enableCollectionView",
-            @YES, @"enableLibraryCache",
-            @"nocover_movie_sets", @"defaultThumb",
-            [self itemSizes_Movie], @"itemSizes",
-            LOCALIZED_STR(@"Movie Sets"), @"label",
-        ],
+            },
+            @"FrodoExtraArt": @YES,
+            @"enableCollectionView": @YES,
+            @"enableLibraryCache": @YES,
+            @"defaultThumb": @"nocover_movie_sets",
+            @"itemSizes": [self itemSizes_Movie],
+            @"label": LOCALIZED_STR(@"Movie Sets"),
+        },
               
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -2295,9 +2295,9 @@
                         @"fanart",
                         @"file",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Added Movies"), @"label",
-            @{
+            },
+            @"label": LOCALIZED_STR(@"Added Movies"),
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"playcount",
@@ -2318,59 +2318,59 @@
                         @"dateadded",
                         @"tagline",
                 ],
-            }, @"extra_info_parameters",
-            @YES, @"FrodoExtraArt",
-            @YES, @"enableCollectionView",
-            @YES, @"collectionViewRecentlyAdded",
-            @YES, @"enableLibraryFullScreen",
-            [self itemSizes_MovieRecentlyfullscreen], @"itemSizes",
-        ],
+            },
+            @"FrodoExtraArt": @YES,
+            @"enableCollectionView": @YES,
+            @"collectionViewRecentlyAdded": @YES,
+            @"enableLibraryFullScreen": @YES,
+            @"itemSizes": [self itemSizes_MovieRecentlyfullscreen],
+        },
         
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"type": @"movie",
                 @"properties": @[],
-            }, @"parameters",
-            LOCALIZED_STR(@"Movie Tags"), @"label",
-            LOCALIZED_STR(@"Movie Tags"), @"morelabel",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @0, @"thumbWidth",
-            @YES, @"enableLibraryCache",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Movie Tags"),
+            @"morelabel": LOCALIZED_STR(@"Movie Tags"),
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @0,
+            @"enableLibraryCache": @YES,
+        },
 
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            LOCALIZED_STR(@"Files"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"morelabel": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
               
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"directory": @"addons://sources/video",
                 @"properties": @[
                     @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Video Add-ons"), @"label",
-            LOCALIZED_STR(@"Video Add-ons"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"morelabel": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
 
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"directory": @"special://videoplaylists",
@@ -2382,14 +2382,14 @@
                         @"thumbnail",
                         @"file",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Video Playlists"), @"label",
-            LOCALIZED_STR(@"Video Playlists"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"isVideoPlaylist",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Video Playlists"),
+            @"morelabel": LOCALIZED_STR(@"Video Playlists"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"isVideoPlaylist": @YES,
+        },
     ] mutableCopy];
     
     menu_Movies.mainFields = @[
@@ -2566,36 +2566,36 @@
     ];
     
     menu_Movies.subItem.mainMethod = [@[
-        @[],
-        @[
-            @"VideoLibrary.GetMovies", @"method",
-            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-        ],
-        @[
-            @"VideoLibrary.GetMovies", @"method",
-            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-        ],
-        @[],
-        @[
-            @"VideoLibrary.GetMovies", @"method",
-            @"VideoLibrary.GetMovieDetails", @"extra_info_method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{},
+        @{
+            @"method": @"VideoLibrary.GetMovies",
+            @"extra_info_method": @"VideoLibrary.GetMovieDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetMovies",
+            @"extra_info_method": @"VideoLibrary.GetMovieDetails",
+        },
+        @{},
+        @{
+            @"method": @"VideoLibrary.GetMovies",
+            @"extra_info_method": @"VideoLibrary.GetMovieDetails",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
     
     menu_Movies.subItem.noConvertTime = YES;
 
     menu_Movies.subItem.mainParameters = [@[
-        @[],
+        @{},
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -2608,8 +2608,8 @@
                         @"file",
                         @"dateadded",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"playcount",
@@ -2630,8 +2630,8 @@
                         @"dateadded",
                         @"tagline",
                 ],
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Year"),
@@ -2648,17 +2648,17 @@
                         @"dateadded",
                         @"playcount",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Movies"), @"label",
-            @"nocover_movies", @"defaultThumb",
-            @YES, @"FrodoExtraArt",
-            @YES, @"enableCollectionView",
-            @YES, @"enableLibraryCache",
-            [self itemSizes_Movie], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Movies"),
+            @"defaultThumb": @"nocover_movies",
+            @"FrodoExtraArt": @YES,
+            @"enableCollectionView": @YES,
+            @"enableLibraryCache": @YES,
+            @"itemSizes": [self itemSizes_Movie],
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"year" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -2671,8 +2671,8 @@
                         @"file",
                         @"dateadded",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"playcount",
@@ -2693,8 +2693,8 @@
                         @"dateadded",
                         @"tagline",
                 ],
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Year"),
@@ -2711,18 +2711,18 @@
                         @"dateadded",
                         @"playcount",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Movies"), @"label",
-            @"nocover_movies", @"defaultThumb",
-            @YES, @"FrodoExtraArt",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Movie], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Movies"),
+            @"defaultThumb": @"nocover_movies",
+            @"FrodoExtraArt": @YES,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Movie],
+        },
                                   
-        @[],
+        @{},
         
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -2735,8 +2735,8 @@
                         @"file",
                         @"dateadded",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"playcount",
@@ -2757,8 +2757,8 @@
                         @"dateadded",
                         @"tagline",
                 ],
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Year"),
@@ -2775,17 +2775,17 @@
                         @"dateadded",
                         @"playcount",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Movies"), @"label",
-            @"nocover_movies", @"defaultThumb",
-            @YES, @"FrodoExtraArt",
-            @YES, @"enableCollectionView",
-            @YES, @"enableLibraryCache",
-            [self itemSizes_Movie], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Movies"),
+            @"defaultThumb": @"nocover_movies",
+            @"FrodoExtraArt": @YES,
+            @"enableCollectionView": @YES,
+            @"enableLibraryCache": @YES,
+            @"itemSizes": [self itemSizes_Movie],
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeVideoType,
                 @"file_properties": @[
@@ -2793,31 +2793,31 @@
                     @"art",
                     @"playcount",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"file_properties": @[
                     @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Video Add-ons"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"file_properties": @[
                         @"year",
@@ -2841,15 +2841,15 @@
                         @"tagline",
                 ],
                 @"media": @"video",
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @PORTRAIT_ROW_HEIGHT, @"rowHeight",
-            @DEFAULT_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            @YES, @"FrodoExtraArt",
-            [self itemSizes_Movie], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @PORTRAIT_ROW_HEIGHT,
+            @"thumbWidth": @DEFAULT_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"FrodoExtraArt": @YES,
+            @"itemSizes": [self itemSizes_Movie],
+        },
     ] mutableCopy];
     
     menu_Movies.subItem.mainFields = @[
@@ -3033,32 +3033,32 @@
 
     menu_Movies.subItem.subItem.noConvertTime = YES;
     menu_Movies.subItem.subItem.mainMethod = [@[
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
     
     menu_Movies.subItem.subItem.mainParameters = [@[
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
-        @[],
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+        @{
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        @{},
     ] mutableCopy];
     
     menu_Movies.subItem.subItem.mainFields = @[
@@ -3102,28 +3102,28 @@
     ];
     
     menu_Videos.mainMethod = @[
-        @[
-            @"VideoLibrary.GetMusicVideos", @"method",
-            @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method",
-        ],
-        @[
-            @"VideoLibrary.GetRecentlyAddedMusicVideos", @"method",
-            @"VideoLibrary.GetMusicVideoDetails", @"extra_info_method",
-        ],
-        @[
-            @"Files.GetSources", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{
+            @"method": @"VideoLibrary.GetMusicVideos",
+            @"extra_info_method": @"VideoLibrary.GetMusicVideoDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetRecentlyAddedMusicVideos",
+            @"extra_info_method": @"VideoLibrary.GetMusicVideoDetails",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ];
     
     menu_Videos.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"artist",
@@ -3139,8 +3139,8 @@
                         @"fanart",
                         @"resume",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"artist",
                         @"year",
@@ -3160,8 +3160,8 @@
                         @"art",
                     ],
                 },
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Artist"),
@@ -3178,22 +3178,22 @@
                             @"playcount",
                             @"random",
                 ],
-            }, @"available_sort_methods",
-            @{
+            },
+            @"kodiExtrasPropertiesMinimumVersion": @{
                 @"18": @[
                     @"art",
                 ],
-            }, @"kodiExtrasPropertiesMinimumVersion",
-            LOCALIZED_STR(@"Music Videos"), @"label",
-            LOCALIZED_STR(@"Music Videos"), @"morelabel",
-            @YES, @"enableCollectionView",
-            @YES, @"enableLibraryCache",
-            @YES, @"enableLibraryFullScreen",
-            [self itemSizes_Moviefullscreen], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Music Videos"),
+            @"morelabel": LOCALIZED_STR(@"Music Videos"),
+            @"enableCollectionView": @YES,
+            @"enableLibraryCache": @YES,
+            @"enableLibraryFullScreen": @YES,
+            @"itemSizes": [self itemSizes_Moviefullscreen],
+        },
               
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                                 @"artist",
@@ -3209,8 +3209,8 @@
                                 @"fanart",
                                 @"resume",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"artist",
                         @"year",
@@ -3230,51 +3230,51 @@
                         @"art",
                     ],
                 },
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"kodiExtrasPropertiesMinimumVersion": @{
                 @"18": @[
                     @"art",
                 ],
-            }, @"kodiExtrasPropertiesMinimumVersion",
-            LOCALIZED_STR(@"Added Music Videos"), @"label",
-            @YES, @"enableCollectionView",
-            @YES, @"collectionViewRecentlyAdded",
-            @YES, @"enableLibraryFullScreen",
-            [self itemSizes_MovieRecentlyfullscreen], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Added Music Videos"),
+            @"enableCollectionView": @YES,
+            @"collectionViewRecentlyAdded": @YES,
+            @"enableLibraryFullScreen": @YES,
+            @"itemSizes": [self itemSizes_MovieRecentlyfullscreen],
+        },
         
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            LOCALIZED_STR(@"Files"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"morelabel": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
               
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"directory": @"addons://sources/video",
                 @"properties": @[
                     @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Video Add-ons"), @"label",
-            LOCALIZED_STR(@"Video Add-ons"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"morelabel": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
 
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"directory": @"special://videoplaylists",
@@ -3286,14 +3286,14 @@
                         @"thumbnail",
                         @"file",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Video Playlists"), @"label",
-            LOCALIZED_STR(@"Video Playlists"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"isVideoPlaylist",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Video Playlists"),
+            @"morelabel": LOCALIZED_STR(@"Video Playlists"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"isVideoPlaylist": @YES,
+        },
     ] mutableCopy];
     
     menu_Videos.mainFields = @[
@@ -3412,25 +3412,25 @@
     ];
     
     menu_Videos.subItem.mainMethod = [@[
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
     
     menu_Videos.subItem.noConvertTime = YES;
 
     menu_Videos.subItem.mainParameters = [@[
-        @[],
-        @[],
+        @{},
+        @{},
         
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeVideoType,
                 @"file_properties": @[
@@ -3438,31 +3438,31 @@
                     @"art",
                     @"playcount",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"file_properties": @[
                     @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Video Add-ons"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"file_properties": @[
                         @"year",
@@ -3485,15 +3485,15 @@
                         @"resume",
                 ],
                 @"media": @"video",
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @PORTRAIT_ROW_HEIGHT, @"rowHeight",
-            @DEFAULT_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            @YES, @"FrodoExtraArt",
-            [self itemSizes_Movie], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @PORTRAIT_ROW_HEIGHT,
+            @"thumbWidth": @DEFAULT_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"FrodoExtraArt": @YES,
+            @"itemSizes": [self itemSizes_Movie],
+        },
     ] mutableCopy];
     
     menu_Videos.subItem.mainFields = @[
@@ -3580,26 +3580,26 @@
 
     menu_Videos.subItem.subItem.noConvertTime = YES;
     menu_Videos.subItem.subItem.mainMethod = [@[
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
     
     menu_Videos.subItem.subItem.mainParameters = [@[
-        @[],
-        @[],
-        @[],
-        @[
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
-        @[],
+        @{},
+        @{},
+        @{},
+        @{
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        @{},
     ] mutableCopy];
     
     menu_Videos.subItem.subItem.mainFields = @[
@@ -3636,28 +3636,29 @@
     ];
     
     menu_TVShows.mainMethod = [@[
-        @[  @"VideoLibrary.GetTVShows", @"method",
-            @"VideoLibrary.GetTVShowDetails", @"extra_info_method",
-            @YES, @"tvshowsView",
-        ],
-        @[
-            @"VideoLibrary.GetRecentlyAddedEpisodes", @"method",
-            @"VideoLibrary.GetEpisodeDetails", @"extra_info_method",
-        ],
-        @[
-            @"Files.GetSources", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{  
+            @"method": @"VideoLibrary.GetTVShows",
+            @"extra_info_method": @"VideoLibrary.GetTVShowDetails",
+            @"tvshowsView": @YES,
+        },
+        @{
+            @"method": @"VideoLibrary.GetRecentlyAddedEpisodes",
+            @"extra_info_method": @"VideoLibrary.GetEpisodeDetails",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ] mutableCopy];
     
     menu_TVShows.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"year",
@@ -3668,8 +3669,8 @@
                         @"studio",
                         @"episode",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"year",
                         @"playcount",
@@ -3685,8 +3686,8 @@
                         @"episode",
                         @"fanart",
                 ],
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Year"),
@@ -3699,18 +3700,18 @@
                         @"rating",
                         @"random",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"TV Shows"), @"label",
-            @YES, @"blackTableSeparator",
-            @YES, @"FrodoExtraArt",
-            @YES, @"enableLibraryCache",
-            @YES, @"enableCollectionView",
-            @YES, @"enableLibraryFullScreen",
-            [self itemSizes_Moviefullscreen], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"TV Shows"),
+            @"blackTableSeparator": @YES,
+            @"FrodoExtraArt": @YES,
+            @"enableLibraryCache": @YES,
+            @"enableCollectionView": @YES,
+            @"enableLibraryFullScreen": @YES,
+            @"itemSizes": [self itemSizes_Moviefullscreen],
+        },
                             
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"episode",
@@ -3722,8 +3723,8 @@
                         @"title",
                         @"season",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"episode",
                         @"thumbnail",
@@ -3742,47 +3743,47 @@
                         @"playcount",
                         @"resume",
                 ],
-            }, @"extra_info_parameters",
-            LOCALIZED_STR(@"Added Episodes"), @"label",
-            @DEFAULT_ROW_HEIGHT, @"rowHeight",
-            @EPISODE_THUMB_WIDTH, @"thumbWidth",
-            @"nocover_tvshows_episode", @"defaultThumb",
-            @YES, @"FrodoExtraArt",
-            //@YES, @"enableCollectionView",
-            [self itemSizes_TVShowsfullscreen], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Added Episodes"),
+            @"rowHeight": @DEFAULT_ROW_HEIGHT,
+            @"thumbWidth": @EPISODE_THUMB_WIDTH,
+            @"defaultThumb": @"nocover_tvshows_episode",
+            @"FrodoExtraArt": @YES,
+            //@"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_TVShowsfullscreen],
+        },
                             
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
                             
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"directory": @"addons://sources/video",
                 @"properties": @[
                     @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Video Add-ons"), @"label",
-            LOCALIZED_STR(@"Video Add-ons"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"morelabel": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
         
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"directory": @"special://videoplaylists",
@@ -3794,14 +3795,14 @@
                         @"thumbnail",
                         @"file",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Video Playlists"), @"label",
-            LOCALIZED_STR(@"Video Playlists"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"isVideoPlaylist",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Video Playlists"),
+            @"morelabel": LOCALIZED_STR(@"Video Playlists"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"isVideoPlaylist": @YES,
+        },
     ] mutableCopy];
 
     menu_TVShows.mainFields = @[
@@ -3924,25 +3925,25 @@
     ];
     
     menu_TVShows.subItem.mainMethod = [@[
-        @[
-            @"VideoLibrary.GetEpisodes", @"method",
-            @"VideoLibrary.GetEpisodeDetails", @"extra_info_method",
-            @YES, @"episodesView",
-            @"VideoLibrary.GetSeasons", @"extra_section_method",
-        ],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{
+            @"method": @"VideoLibrary.GetEpisodes",
+            @"extra_info_method": @"VideoLibrary.GetEpisodeDetails",
+            @"episodesView": @YES,
+            @"extra_section_method": @"VideoLibrary.GetSeasons",
+        },
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
     
     menu_TVShows.subItem.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"episode" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"episode",
@@ -3956,8 +3957,8 @@
                         @"file",
                         @"title",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"episode",
                         @"thumbnail",
@@ -3976,8 +3977,8 @@
                         @"playcount",
                         @"file",
                 ],
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"extra_section_parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"season",
@@ -3987,16 +3988,16 @@
                         @"episode",
                         @"art",
                 ],
-            }, @"extra_section_parameters",
-            LOCALIZED_STR(@"Episodes"), @"label",
-            @YES, @"disableFilterParameter",
-            @YES, @"FrodoExtraArt",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Episodes"),
+            @"disableFilterParameter": @YES,
+            @"FrodoExtraArt": @YES,
+        },
 
-        @[],
+        @{},
                                     
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": filemodeVideoType,
                 @"file_properties": @[
@@ -4004,31 +4005,31 @@
                     @"art",
                     @"playcount",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
                                     
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
                 @"file_properties": @[
                     @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Video Add-ons"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
         
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"file_properties": @[
                         @"year",
@@ -4051,15 +4052,15 @@
                         @"resume",
                 ],
                 @"media": @"video",
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @PORTRAIT_ROW_HEIGHT, @"rowHeight",
-            @DEFAULT_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            @YES, @"FrodoExtraArt",
-            [self itemSizes_Movie], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @PORTRAIT_ROW_HEIGHT,
+            @"thumbWidth": @DEFAULT_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"FrodoExtraArt": @YES,
+            @"itemSizes": [self itemSizes_Movie],
+        },
     ] mutableCopy];
     
     menu_TVShows.subItem.mainFields = @[
@@ -4180,26 +4181,26 @@
     ];
     
     menu_TVShows.subItem.subItem.mainMethod = [@[
-        @[],
-        @[],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[],
+        @{},
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{},
     ] mutableCopy];
                                         
     menu_TVShows.subItem.subItem.mainParameters = [@[
-        @[],
-        @[],
-        @[],
-        @[
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
-        @[],
+        @{},
+        @{},
+        @{},
+        @{
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        @{},
     ] mutableCopy];
     
     menu_TVShows.subItem.subItem.mainFields = @[
@@ -4247,64 +4248,64 @@
     ];
     
     menu_LiveTV.mainMethod = [@[
-        @[
-            @"PVR.GetChannels", @"method",
-            @YES, @"channelListView",
-        ],
-        @[
-            @"PVR.GetChannelGroups", @"method",
-        ],
-        @[
-            @"PVR.GetRecordings", @"method",
-            @"PVR.GetRecordingDetails", @"extra_info_method",
-        ],
-        @[
-            @"PVR.GetTimers", @"method",
-        ],
-        @[
-            @"PVR.GetTimers", @"method",
-        ],
+        @{
+            @"method": @"PVR.GetChannels",
+            @"channelListView": @YES,
+        },
+        @{
+            @"method": @"PVR.GetChannelGroups",
+        },
+        @{
+            @"method": @"PVR.GetRecordings",
+            @"extra_info_method": @"PVR.GetRecordingDetails",
+        },
+        @{
+            @"method": @"PVR.GetTimers",
+        },
+        @{
+            @"method": @"PVR.GetTimers",
+        },
     ] mutableCopy];
     
     menu_LiveTV.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"channelgroupid": @"alltv",
                 @"properties": @[
                         @"thumbnail",
                         @"channelnumber",
                         @"channel",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"kodiExtrasPropertiesMinimumVersion": @{
                 @"17": @[
                     @"isrecording",
                 ],
-            }, @"kodiExtrasPropertiesMinimumVersion",
-            LOCALIZED_STR(@"All channels"), @"label",
-            @"nocover_channels", @"defaultThumb",
-            @YES, @"disableFilterParameter",
-            @LIVETV_ROW_HEIGHT, @"rowHeight",
-            @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"All channels"),
+            @"defaultThumb": @"nocover_channels",
+            @"disableFilterParameter": @YES,
+            @"rowHeight": @LIVETV_ROW_HEIGHT,
+            @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"channeltype": @"tv",
-            }, @"parameters",
-            LOCALIZED_STR(@"Channel Groups"), @"label",
-            LOCALIZED_STR(@"Channel Groups"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Channel Groups"),
+            @"morelabel": LOCALIZED_STR(@"Channel Groups"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
 
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"title",
@@ -4325,8 +4326,8 @@
                         @"radio",
                         @"directory",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"title",
                         @"starttime",
@@ -4345,8 +4346,8 @@
                         @"file",
                         @"directory",
                 ],
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Channel"),
@@ -4363,19 +4364,19 @@
                         @"runtime",
                         @"random",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Recordings"), @"label",
-            LOCALIZED_STR(@"Recordings"), @"morelabel",
-            @"nocover_recording", @"defaultThumb",
-            @CHANNEL_EPG_ROW_HEIGHT, @"rowHeight",
-            @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            @YES, @"enableLibraryCache",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Recordings"),
+            @"morelabel": LOCALIZED_STR(@"Recordings"),
+            @"defaultThumb": @"nocover_recording",
+            @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
+            @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
+            @"enableCollectionView": @YES,
+            @"enableLibraryCache": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"title",
@@ -4397,8 +4398,8 @@
                         @"isreminder",
                         @"directory",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Date"),
@@ -4409,18 +4410,18 @@
                         @"starttime",
                         @"runtime",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Timers"), @"label",
-            LOCALIZED_STR(@"Timers"), @"morelabel",
-            @"nocover_timers", @"defaultThumb",
-            @DEFAULT_ROW_HEIGHT, @"rowHeight",
-            @DEFAULT_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Timers"),
+            @"morelabel": LOCALIZED_STR(@"Timers"),
+            @"defaultThumb": @"nocover_timers",
+            @"rowHeight": @DEFAULT_ROW_HEIGHT,
+            @"thumbWidth": @DEFAULT_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
         
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"title",
@@ -4442,8 +4443,8 @@
                         @"isreminder",
                         @"directory",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Date"),
@@ -4454,15 +4455,15 @@
                         @"starttime",
                         @"runtime",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Timer rules"), @"label",
-            LOCALIZED_STR(@"Timer rules"), @"morelabel",
-            @"nocover_timerrules", @"defaultThumb",
-            @DEFAULT_ROW_HEIGHT, @"rowHeight",
-            @DEFAULT_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Timer rules"),
+            @"morelabel": LOCALIZED_STR(@"Timer rules"),
+            @"defaultThumb": @"nocover_timerrules",
+            @"rowHeight": @DEFAULT_ROW_HEIGHT,
+            @"thumbWidth": @DEFAULT_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
     ] mutableCopy];
     
     menu_LiveTV.mainFields = @[
@@ -4578,24 +4579,24 @@
     ];
     
     menu_LiveTV.subItem.mainMethod = [@[
-        @[
-            @"PVR.GetBroadcasts", @"method",
-            @YES, @"channelGuideView",
-        ],
-        @[
-            @"PVR.GetChannels", @"method",
-            @YES, @"channelListView",
-        ],
-        @[],
-        @[],
-        @[],
+        @{
+            @"method": @"PVR.GetBroadcasts",
+            @"channelGuideView": @YES,
+        },
+        @{
+            @"method": @"PVR.GetChannels",
+            @"channelListView": @YES,
+        },
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_LiveTV.subItem.noConvertTime = YES;
     
     menu_LiveTV.subItem.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"properties": @[
                         @"title",
                         @"starttime",
@@ -4606,41 +4607,41 @@
                         @"isactive",
                         @"hastimer",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Live TV"), @"label",
-            @"icon_video", @"defaultThumb",
-            @YES, @"disableFilterParameter",
-            @CHANNEL_EPG_ROW_HEIGHT, @"rowHeight",
-            @LIVETV_THUMB_WIDTH, @"thumbWidth",
-            [self itemSizes_Music], @"itemSizes",
-            @YES, @"forceActionSheet",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Live TV"),
+            @"defaultThumb": @"icon_video",
+            @"disableFilterParameter": @YES,
+            @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
+            @"thumbWidth": @LIVETV_THUMB_WIDTH,
+            @"itemSizes": [self itemSizes_Music],
+            @"forceActionSheet": @YES,
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"properties": @[
                         @"thumbnail",
                         @"channelnumber",
                         @"channel",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"kodiExtrasPropertiesMinimumVersion": @{
                 @"17": @[
                     @"isrecording",
                 ],
-            }, @"kodiExtrasPropertiesMinimumVersion",
-            LOCALIZED_STR(@"Live TV"), @"label",
-            @"nocover_channels", @"defaultThumb",
-            @YES, @"disableFilterParameter",
-            @LIVETV_ROW_HEIGHT, @"rowHeight",
-            @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Live TV"),
+            @"defaultThumb": @"nocover_channels",
+            @"disableFilterParameter": @YES,
+            @"rowHeight": @LIVETV_ROW_HEIGHT,
+            @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                                   
-        @[],
-        @[],
-        @[],
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_LiveTV.subItem.mainFields = @[
@@ -4705,21 +4706,21 @@
     
     menu_LiveTV.subItem.subItem.noConvertTime = YES;
     menu_LiveTV.subItem.subItem.mainMethod = [@[
-        @[],
-        @[
-            @"PVR.GetBroadcasts", @"method",
-            @YES, @"channelGuideView",
-        ],
-        @[],
-        @[],
-        @[],
+        @{},
+        @{
+            @"method": @"PVR.GetBroadcasts",
+            @"channelGuideView": @YES,
+        },
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_LiveTV.subItem.subItem.mainParameters = [@[
-        @[],
+        @{},
                                             
-         @[
-            @{
+        @{
+            @"parameters": @{
                 @"properties": @[
                         @"title",
                         @"starttime",
@@ -4730,19 +4731,19 @@
                         @"isactive",
                         @"hastimer",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Live TV"), @"label",
-            @"icon_video", @"defaultThumb",
-            @YES, @"disableFilterParameter",
-            @CHANNEL_EPG_ROW_HEIGHT, @"rowHeight",
-            @LIVETV_THUMB_WIDTH, @"thumbWidth",
-            [self itemSizes_Music], @"itemSizes",
-            @YES, @"forceActionSheet",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Live TV"),
+            @"defaultThumb": @"icon_video",
+            @"disableFilterParameter": @YES,
+            @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
+            @"thumbWidth": @LIVETV_THUMB_WIDTH,
+            @"itemSizes": [self itemSizes_Music],
+            @"forceActionSheet": @YES,
+        },
                                             
-        @[],
-        @[],
-        @[],
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_LiveTV.subItem.subItem.mainFields = @[
@@ -4799,64 +4800,64 @@
     ];
     
     menu_Radio.mainMethod = [@[
-        @[
-            @"PVR.GetChannels", @"method",
-            @YES, @"channelListView",
-        ],
-        @[
-            @"PVR.GetChannelGroups", @"method",
-        ],
-        @[
-            @"PVR.GetRecordings", @"method",
-            @"PVR.GetRecordingDetails", @"extra_info_method",
-        ],
-        @[
-            @"PVR.GetTimers", @"method",
-        ],
-        @[
-            @"PVR.GetTimers", @"method",
-        ],
+        @{
+            @"method": @"PVR.GetChannels",
+            @"channelListView": @YES,
+        },
+        @{
+            @"method": @"PVR.GetChannelGroups",
+        },
+        @{
+            @"method": @"PVR.GetRecordings",
+            @"extra_info_method": @"PVR.GetRecordingDetails",
+        },
+        @{
+            @"method": @"PVR.GetTimers",
+        },
+        @{
+            @"method": @"PVR.GetTimers",
+        },
     ] mutableCopy];
     
     menu_Radio.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"channelgroupid": @"allradio",
                 @"properties": @[
                         @"thumbnail",
                         @"channelnumber",
                         @"channel",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"kodiExtrasPropertiesMinimumVersion": @{
                 @"17": @[
                     @"isrecording",
                 ],
-            }, @"kodiExtrasPropertiesMinimumVersion",
-            LOCALIZED_STR(@"All channels"), @"label",
-            @"nocover_channels", @"defaultThumb",
-            @YES, @"disableFilterParameter",
-            @LIVETV_ROW_HEIGHT, @"rowHeight",
-            @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"All channels"),
+            @"defaultThumb": @"nocover_channels",
+            @"disableFilterParameter": @YES,
+            @"rowHeight": @LIVETV_ROW_HEIGHT,
+            @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"channeltype": @"radio",
-            }, @"parameters",
-            LOCALIZED_STR(@"Channel Groups"), @"label",
-            LOCALIZED_STR(@"Channel Groups"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Channel Groups"),
+            @"morelabel": LOCALIZED_STR(@"Channel Groups"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
 
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"title",
@@ -4877,8 +4878,8 @@
                         @"radio",
                         @"directory",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"extra_info_parameters": @{
                 @"properties": @[
                         @"title",
                         @"starttime",
@@ -4897,8 +4898,8 @@
                         @"file",
                         @"directory",
                 ],
-            }, @"extra_info_parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Channel"),
@@ -4913,19 +4914,19 @@
                         @"runtime",
                         @"random",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Recordings"), @"label",
-            LOCALIZED_STR(@"Recordings"), @"morelabel",
-            @"nocover_recording", @"defaultThumb",
-            @CHANNEL_EPG_ROW_HEIGHT, @"rowHeight",
-            @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            @YES, @"enableLibraryCache",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Recordings"),
+            @"morelabel": LOCALIZED_STR(@"Recordings"),
+            @"defaultThumb": @"nocover_recording",
+            @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
+            @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
+            @"enableCollectionView": @YES,
+            @"enableLibraryCache": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"title",
@@ -4947,8 +4948,8 @@
                         @"isreminder",
                         @"directory",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Date"),
@@ -4959,18 +4960,18 @@
                         @"starttime",
                         @"runtime",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Timers"), @"label",
-            LOCALIZED_STR(@"Timers"), @"morelabel",
-            @"nocover_timers", @"defaultThumb",
-            @DEFAULT_ROW_HEIGHT, @"rowHeight",
-            @DEFAULT_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Timers"),
+            @"morelabel": LOCALIZED_STR(@"Timers"),
+            @"defaultThumb": @"nocover_timers",
+            @"rowHeight": @DEFAULT_ROW_HEIGHT,
+            @"thumbWidth": @DEFAULT_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
         
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"properties": @[
                         @"title",
@@ -4992,8 +4993,8 @@
                         @"isreminder",
                         @"directory",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Title"),
                         LOCALIZED_STR(@"Date"),
@@ -5004,15 +5005,15 @@
                         @"starttime",
                         @"runtime",
                 ],
-            }, @"available_sort_methods",
-            LOCALIZED_STR(@"Timer rules"), @"label",
-            LOCALIZED_STR(@"Timer rules"), @"morelabel",
-            @"nocover_timerrules", @"defaultThumb",
-            @DEFAULT_ROW_HEIGHT, @"rowHeight",
-            @DEFAULT_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Timer rules"),
+            @"morelabel": LOCALIZED_STR(@"Timer rules"),
+            @"defaultThumb": @"nocover_timerrules",
+            @"rowHeight": @DEFAULT_ROW_HEIGHT,
+            @"thumbWidth": @DEFAULT_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
     ] mutableCopy];
     
     menu_Radio.mainFields = @[
@@ -5128,24 +5129,24 @@
     ];
     
     menu_Radio.subItem.mainMethod = [@[
-        @[
-            @"PVR.GetBroadcasts", @"method",
-            @YES, @"channelGuideView",
-        ],
-        @[
-            @"PVR.GetChannels", @"method",
-            @YES, @"channelListView",
-        ],
-        @[],
-        @[],
-        @[],
+        @{
+            @"method": @"PVR.GetBroadcasts",
+            @"channelGuideView": @YES,
+        },
+        @{
+            @"method": @"PVR.GetChannels",
+            @"channelListView": @YES,
+        },
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_Radio.subItem.noConvertTime = YES;
     
     menu_Radio.subItem.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"properties": @[
                         @"title",
                         @"starttime",
@@ -5156,41 +5157,41 @@
                         @"isactive",
                         @"hastimer",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Radio"), @"label",
-            @"icon_video", @"defaultThumb",
-            @YES, @"disableFilterParameter",
-            @CHANNEL_EPG_ROW_HEIGHT, @"rowHeight",
-            @LIVETV_THUMB_WIDTH, @"thumbWidth",
-            [self itemSizes_Music], @"itemSizes",
-            @YES, @"forceActionSheet",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Radio"),
+            @"defaultThumb": @"icon_video",
+            @"disableFilterParameter": @YES,
+            @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
+            @"thumbWidth": @LIVETV_THUMB_WIDTH,
+            @"itemSizes": [self itemSizes_Music],
+            @"forceActionSheet": @YES,
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"properties": @[
                         @"thumbnail",
                         @"channelnumber",
                         @"channel",
                 ],
-            }, @"parameters",
-            @{
+            },
+            @"kodiExtrasPropertiesMinimumVersion": @{
                 @"17": @[
                     @"isrecording",
                 ],
-            }, @"kodiExtrasPropertiesMinimumVersion",
-            LOCALIZED_STR(@"Radio"), @"label",
-            @"nocover_channels", @"defaultThumb",
-            @YES, @"disableFilterParameter",
-            @LIVETV_ROW_HEIGHT, @"rowHeight",
-            @LIVETV_THUMB_WIDTH_SMALL, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Radio"),
+            @"defaultThumb": @"nocover_channels",
+            @"disableFilterParameter": @YES,
+            @"rowHeight": @LIVETV_ROW_HEIGHT,
+            @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
                                   
-        @[],
-        @[],
-        @[],
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_Radio.subItem.mainFields = @[
@@ -5255,21 +5256,21 @@
     
     menu_Radio.subItem.subItem.noConvertTime = YES;
     menu_Radio.subItem.subItem.mainMethod = [@[
-        @[],
-        @[
-            @"PVR.GetBroadcasts", @"method",
-            @YES, @"channelGuideView",
-        ],
-        @[],
-        @[],
-        @[],
+        @{},
+        @{
+            @"method": @"PVR.GetBroadcasts",
+            @"channelGuideView": @YES,
+        },
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_Radio.subItem.subItem.mainParameters = [@[
-        @[],
+        @{},
                                             
-         @[
-            @{
+        @{
+            @"parameters": @{
                 @"properties": @[
                         @"title",
                         @"starttime",
@@ -5280,19 +5281,19 @@
                         @"isactive",
                         @"hastimer",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Radio"), @"label",
-            @"icon_video", @"defaultThumb",
-            @YES, @"disableFilterParameter",
-            @CHANNEL_EPG_ROW_HEIGHT, @"rowHeight",
-            @LIVETV_THUMB_WIDTH, @"thumbWidth",
-            [self itemSizes_Music], @"itemSizes",
-            @YES, @"forceActionSheet",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Radio"),
+            @"defaultThumb": @"icon_video",
+            @"disableFilterParameter": @YES,
+            @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
+            @"thumbWidth": @LIVETV_THUMB_WIDTH,
+            @"itemSizes": [self itemSizes_Music],
+            @"forceActionSheet": @YES,
+        },
                                             
-        @[],
-        @[],
-        @[],
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_Radio.subItem.subItem.mainFields = @[
@@ -5345,43 +5346,43 @@
     ];
     
     menu_Pictures.mainMethod = [@[
-        @[
-            @"Files.GetSources", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ] mutableCopy];
     
     menu_Pictures.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"pictures",
-            }, @"parameters",
-            LOCALIZED_STR(@"Pictures"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Pictures"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
                           
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"pictures",
                 @"directory": @"addons://sources/image",
                 @"properties": @[
                     @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Pictures Add-ons"), @"label",
-            LOCALIZED_STR(@"Pictures Add-ons"), @"morelabel",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Pictures Add-ons"),
+            @"morelabel": LOCALIZED_STR(@"Pictures Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
     ] mutableCopy];
     
     menu_Pictures.mainFields = @[
@@ -5416,12 +5417,12 @@
     menu_Pictures.defaultThumb = @"nocover_filemode";
     
     menu_Pictures.subItem.mainMethod = [@[
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ] mutableCopy];
     
     menu_Pictures.sheetActions = @[
@@ -5430,33 +5431,33 @@
     ];
     
     menu_Pictures.subItem.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"pictures",
                 @"file_properties": @[
                     @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Files"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
                                   
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
                 @"media": @"pictures",
                 @"file_properties": @[
                     @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Video Add-ons"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
     ] mutableCopy];
     
     menu_Pictures.subItem.mainFields = @[
@@ -5501,17 +5502,17 @@
     ];
     
     menu_Pictures.subItem.subItem.mainMethod = [@[
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
-        @[
-            @"Files.GetDirectory", @"method",
-        ],
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
     ] mutableCopy];
     
     menu_Pictures.subItem.subItem.mainParameters = [@[
-        @[],
-        @[],
+        @{},
+        @{},
     ] mutableCopy];
     
     menu_Pictures.subItem.subItem.mainFields = @[
@@ -5529,28 +5530,28 @@
     ];
     
     menu_Favourites.mainMethod = [@[
-        @[
-            @"Favourites.GetFavourites", @"method",
-        ],
+        @{
+            @"method": @"Favourites.GetFavourites",
+        },
     ] mutableCopy];
     
     menu_Favourites.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"properties": @[
                         @"thumbnail",
                         @"path",
                         @"window",
                         @"windowparameter",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Favourites"), @"label",
-            @"nocover_favourites", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @FILEMODE_THUMB_WIDTH, @"thumbWidth",
-            @YES, @"enableCollectionView",
-            [self itemSizes_Music], @"itemSizes",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Favourites"),
+            @"defaultThumb": @"nocover_favourites",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
     ] mutableCopy];
     
     menu_Favourites.mainFields = @[
@@ -5593,12 +5594,12 @@
     menu_Search.thumbWidth = DEFAULT_THUMB_WIDTH;
     menu_Search.defaultThumb = @"nocover_filemode";
     menu_Search.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"sort": [self sortmethod:@"itemgroup" order:@"ascending" ignorearticle:NO],
-            }, @"parameters",
-            LOCALIZED_STR(@"Global Search"), @"label",
-            @{
+            },
+            @"label": LOCALIZED_STR(@"Global Search"),
+            @"available_sort_methods": @{
                 @"label": @[
                         LOCALIZED_STR(@"Type"),
                         LOCALIZED_STR(@"Name"),
@@ -5607,9 +5608,9 @@
                         @"itemgroup",
                         @"label",
                 ],
-            }, @"available_sort_methods",
-            @YES, @"enableLibraryCache",
-        ],
+            },
+            @"enableLibraryCache": @YES,
+        },
     ] mutableCopy];
     
 #pragma mark - XBMC Server Management
@@ -5664,38 +5665,38 @@
     ];
     
     xbmcSettings.mainMethod = [@[
-        @[
-            @"Settings.GetSections", @"method",
-        ],
-        @[
-            @"Addons.GetAddons", @"method",
-        ],
-        @[
-            @"Addons.GetAddons", @"method",
-        ],
-        @[
-            @"Addons.GetAddons", @"method",
-        ],
-        @[
-            @"JSONRPC.Introspect", @"method",
-        ],
-        @[
-            @"JSONRPC.Introspect", @"method",
-        ],
+        @{
+            @"method": @"Settings.GetSections",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"JSONRPC.Introspect",
+        },
+        @{
+            @"method": @"JSONRPC.Introspect",
+        },
     ] mutableCopy];
     
     xbmcSettings.mainParameters = [@[
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"level": @"expert",
-            }, @"parameters",
-            LOCALIZED_STR(@"XBMC Settings"), @"label",
-            @(IS_IPHONE), @"animationStartBottomScreen",
-            @0, @"thumbWidth",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"XBMC Settings"),
+            @"animationStartBottomScreen": @(IS_IPHONE),
+            @"thumbWidth": @0,
+        },
                                    
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"type": @"xbmc.addon.executable",
                 @"enabled": @YES,
                 @"properties": @[
@@ -5704,17 +5705,17 @@
                         @"summary",
                         @"thumbnail",
                 ],
-            }, @"parameters",
-             LOCALIZED_STR(@"Programs"), @"label",
-             @"nocover_filemode", @"defaultThumb",
-             @SETTINGS_ROW_HEIGHT, @"rowHeight",
-             @SETTINGS_THUMB_WIDTH_BIG, @"thumbWidth",
-            [self itemSizes_Music], @"itemSizes",
-            @YES, @"enableCollectionView",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Programs"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+        },
                                    
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"type": @"xbmc.addon.video",
                 @"enabled": @YES,
                 @"properties": @[
@@ -5723,17 +5724,17 @@
                         @"summary",
                         @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Video Add-ons"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @SETTINGS_ROW_HEIGHT, @"rowHeight",
-            @SETTINGS_THUMB_WIDTH_BIG, @"thumbWidth",
-            [self itemSizes_Music], @"itemSizes",
-            @YES, @"enableCollectionView",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+        },
                                    
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"type": @"xbmc.addon.audio",
                 @"enabled": @YES,
                 @"properties": @[
@@ -5742,42 +5743,42 @@
                         @"summary",
                         @"thumbnail",
                 ],
-            }, @"parameters",
-            LOCALIZED_STR(@"Music Add-ons"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @SETTINGS_ROW_HEIGHT, @"rowHeight",
-            @SETTINGS_THUMB_WIDTH_BIG, @"thumbWidth",
-            [self itemSizes_Music], @"itemSizes",
-            @YES, @"enableCollectionView",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Music Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+        },
                                    
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"filter": @{
                         @"id": @"Input.ExecuteAction",
                         @"type": @"method",
                 },
-            }, @"parameters",
-            LOCALIZED_STR(@"Kodi actions"), @"label",
-            @"default-right-action-icon", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @0, @"thumbWidth",
-            LOCALIZED_STR(@"Execute a specific action"), @"morelabel",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Kodi actions"),
+            @"defaultThumb": @"default-right-action-icon",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @0,
+            @"morelabel": LOCALIZED_STR(@"Execute a specific action"),
+        },
                                    
-        @[
-            @{
+        @{
+            @"parameters": @{
                 @"filter": @{
                         @"id": @"GUI.ActivateWindow",
                         @"type": @"method",
                 },
-            }, @"parameters",
-            LOCALIZED_STR(@"Kodi windows"), @"label",
-            @"default-right-window-icon", @"defaultThumb",
-            @FILEMODE_ROW_HEIGHT, @"rowHeight",
-            @0, @"thumbWidth",
-            LOCALIZED_STR(@"Activate a specific window"), @"morelabel",
-        ],
+            },
+            @"label": LOCALIZED_STR(@"Kodi windows"),
+            @"defaultThumb": @"default-right-window-icon",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @0,
+            @"morelabel": LOCALIZED_STR(@"Activate a specific window"),
+        },
     ] mutableCopy];
     
     xbmcSettings.mainFields = @[
@@ -5890,43 +5891,43 @@
     
     xbmcSettings.subItem.disableNowPlaying = YES;
     xbmcSettings.subItem.mainMethod = [@[
-        @[
-            @"Settings.GetCategories", @"method",
-        ],
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
+        @{
+            @"method": @"Settings.GetCategories",
+        },
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     xbmcSettings.subItem.mainParameters = [@[
-        @[
-            LOCALIZED_STR(@"Settings"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @SETTINGS_ROW_HEIGHT, @"rowHeight",
-            @0, @"thumbWidth",
-        ],
+        @{
+            @"label": LOCALIZED_STR(@"Settings"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @0,
+        },
 
-        @[
-            @YES, @"forceActionSheet",
-        ],
+        @{
+            @"forceActionSheet": @YES,
+        },
 
-        @[
-            @YES, @"forceActionSheet",
-        ],
+        @{
+            @"forceActionSheet": @YES,
+        },
 
-        @[
-            @YES, @"forceActionSheet",
-        ],
+        @{
+            @"forceActionSheet": @YES,
+        },
 
-        @[
-            @YES, @"forceActionSheet",
-        ],
+        @{
+            @"forceActionSheet": @YES,
+        },
 
-        @[
-            @YES, @"forceActionSheet",
-        ],
+        @{
+            @"forceActionSheet": @YES,
+        },
     ] mutableCopy];
     
     xbmcSettings.subItem.mainFields = @[
@@ -5954,18 +5955,18 @@
     
     xbmcSettings.subItem.subItem.disableNowPlaying = YES;
     xbmcSettings.subItem.subItem.mainMethod = [@[
-        @[
-            @"Settings.GetSettings", @"method",
-        ],
+        @{
+            @"method": @"Settings.GetSettings",
+        },
     ] mutableCopy];
     
     xbmcSettings.subItem.subItem.mainParameters = [@[
-        @[
-            LOCALIZED_STR(@"Settings"), @"label",
-            @"nocover_filemode", @"defaultThumb",
-            @SETTINGS_ROW_HEIGHT, @"rowHeight",
-            @0, @"thumbWidth",
-        ],
+        @{
+            @"label": LOCALIZED_STR(@"Settings"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @0,
+        },
     ] mutableCopy];
     
     xbmcSettings.subItem.subItem.mainFields = @[
@@ -6195,8 +6196,7 @@
     // Search for the method index with the desired sub label (e.g. "All Songs")
     int k;
     for (k = 0; k < menuItem.mainMethod.count; ++k) {
-        id paramArray = menuItem.mainParameters[k];
-        id parameters = [Utilities indexKeyedDictionaryFromArray:paramArray];
+        id parameters = menuItem.mainParameters[k];
         if ([parameters[@"label"] isEqualToString:subLabel]) {
             break;
         }

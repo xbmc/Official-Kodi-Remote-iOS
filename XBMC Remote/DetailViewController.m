@@ -371,7 +371,7 @@
     }
     if (mutableParameters != nil) {
         mainMenu *menuItem = self.detailItem;
-        NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+        NSDictionary *methods = menuItem.mainMethod[choosedTab];
         NSString *viewKey = [self getCacheKey:methods[@"method"] parameters:mutableParameters];
         
         NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
@@ -449,6 +449,31 @@
 }
 
 #pragma mark - Utility
+
+- (void)enterSubmenuOfMenu:(mainMenu*)menuItem label:(NSString*)label params:(NSDictionary*)parameters {
+    menuItem.subItem.mainLabel = label;
+    mainMenu *newMenuItem = [menuItem.subItem copy];
+    newMenuItem.mainParameters[choosedTab] = parameters;
+    newMenuItem.chooseTab = choosedTab;
+    if (IS_IPHONE) {
+        DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+        detailViewController.detailItem = newMenuItem;
+        [self.navigationController pushViewController:detailViewController animated:YES];
+    }
+    else {
+        if (stackscrollFullscreen) {
+            [self toggleFullscreen:nil];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
+            });
+        }
+        else {
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+            [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
+        }
+    }
+}
 
 - (void)addFileProperties:(NSMutableDictionary*)dict {
     if (dict[@"file_properties"] != nil) {
@@ -865,8 +890,8 @@
 
 - (void)setButtonViewContent:(int)activeTab {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     
     // Build basic button list
     [self buildButtons:activeTab];
@@ -1092,7 +1117,7 @@
         }
         [moreMenu addObject:
          [NSDictionary dictionaryWithObjectsAndKeys:
-          [NSString stringWithFormat:@"%@", [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[i]][@"morelabel"]], @"label",
+          [NSString stringWithFormat:@"%@", menuItem.mainParameters[i][@"morelabel"]], @"label",
           icon, @"icon",
           nil]];
     }
@@ -1260,8 +1285,8 @@
     // Handle modes (pressing same tab) or changed tabs
     if (newChoosedTab == choosedTab) {
         // Read relevant data from configuration
-        methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
-        parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+        methods = menuItem.mainMethod[choosedTab];
+        parameters = menuItem.mainParameters[choosedTab];
         mutableParameters = [parameters[@"parameters"] mutableCopy];
         mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
         
@@ -1298,8 +1323,8 @@
             [buttonsIB[choosedTab] setSelected:YES];
         }
         // Read relevant data from configuration (important: new value for chooseTab)
-        methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
-        parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+        methods = menuItem.mainMethod[choosedTab];
+        parameters = menuItem.mainParameters[choosedTab];
         mutableParameters = [parameters[@"parameters"] mutableCopy];
         mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
     }
@@ -1352,7 +1377,7 @@
     selectedIndexPath = indexPath;
     mainMenu *menuItem = [self getMainMenu:item];
     NSMutableArray *sheetActions = menuItem.sheetActions[choosedTab];
-    NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[menuItem.subItem mainParameters][choosedTab]];
+    NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
     int rectOriginX = point.x;
     int rectOriginY = point.y;
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
@@ -1368,7 +1393,7 @@
         id obj = item[mainFields[@"row6"]];
         id objKey = mainFields[@"row6"];
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
-            NSDictionary *currentParams = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+            NSDictionary *currentParams = menuItem.mainParameters[choosedTab];
             obj = [NSDictionary dictionaryWithObjectsAndKeys:
                    obj, objKey,
                    currentParams[@"parameters"][@"filter"][parameters[@"combinedFilter"]], parameters[@"combinedFilter"],
@@ -1395,93 +1420,66 @@
         if (parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
             kodiExtrasPropertiesMinimumVersion = parameters[@"kodiExtrasPropertiesMinimumVersion"];
         }
-        NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
-                                       [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        obj, objKey,
-                                        parameters[@"parameters"][@"properties"], @"properties",
-                                        parameters[@"parameters"][@"sort"], @"sort",
-                                        item[mainFields[@"row15"]], key,
-                                        nil], @"parameters",
-                                       @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                       libraryRowHeight, @"rowHeight",
-                                       libraryThumbWidth, @"thumbWidth",
-                                       parameters[@"label"], @"label",
-                                       [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                       @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
-                                       @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
-                                       @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                       @([parameters[@"forceActionSheet"] boolValue]), @"forceActionSheet",
-                                       @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
-                                       @([parameters[@"blackTableSeparator"] boolValue]), @"blackTableSeparator",
-                                       pvrExtraInfo, @"pvrExtraInfo",
-                                       kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
-                                       parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                       newSectionParameters, @"extra_section_parameters",
-                                       [NSString stringWithFormat:@"%@", parameters[@"defaultThumb"]], @"defaultThumb",
-                                       parameters[@"watchedListenedStrings"], @"watchedListenedStrings",
-                                       nil];
+        NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                               obj, objKey,
+                                               parameters[@"parameters"][@"properties"], @"properties",
+                                               parameters[@"parameters"][@"sort"], @"sort",
+                                               item[mainFields[@"row15"]], key,
+                                               nil], @"parameters",
+                                              @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
+                                              libraryRowHeight, @"rowHeight",
+                                              libraryThumbWidth, @"thumbWidth",
+                                              parameters[@"label"], @"label",
+                                              [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                              @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
+                                              @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
+                                              @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                              @([parameters[@"forceActionSheet"] boolValue]), @"forceActionSheet",
+                                              @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
+                                              @([parameters[@"blackTableSeparator"] boolValue]), @"blackTableSeparator",
+                                              pvrExtraInfo, @"pvrExtraInfo",
+                                              kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
+                                              parameters[@"extra_info_parameters"], @"extra_info_parameters",
+                                              newSectionParameters, @"extra_section_parameters",
+                                              [NSString stringWithFormat:@"%@", parameters[@"defaultThumb"]], @"defaultThumb",
+                                              parameters[@"watchedListenedStrings"], @"watchedListenedStrings",
+                                              nil];
         if (parameters[@"available_sort_methods"] != nil) {
-            [newParameters addObjectsFromArray:@[parameters[@"available_sort_methods"], @"available_sort_methods"]];
+            newParameters[@"available_sort_methods"] = parameters[@"available_sort_methods"];
         }
         if (parameters[@"combinedFilter"]) {
-            [newParameters addObjectsFromArray:@[parameters[@"combinedFilter"], @"combinedFilter"]];
+            newParameters[@"combinedFilter"] = parameters[@"combinedFilter"];
         }
         if (parameters[@"parameters"][@"albumartistsonly"]) {
-            newParameters[0][@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
+            newParameters[@"parameters"][@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
         }
-        menuItem.subItem.mainLabel = item[@"label"];
-        mainMenu *newMenuItem = [menuItem.subItem copy];
-        [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
-        newMenuItem.chooseTab = choosedTab;
-        if (IS_IPHONE) {
-            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            detailViewController.detailItem = newMenuItem;
-            [self.navigationController pushViewController:detailViewController animated:YES];
-        }
-        else {
-            if (stackscrollFullscreen) {
-                [self toggleFullscreen:nil];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                    [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-                });
-            }
-            else if ([self isModal]) {
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                iPadDetailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-                [self presentViewController:iPadDetailViewController animated:YES completion:nil];
-            }
-            else {
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-            }
-        }
+        [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
     }
     else { // CHILD IS FILEMODE
         NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
         NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @44;
         if ([item[@"filetype"] length] != 0 && ![item[@"isSources"] boolValue]) { // WE ARE ALREADY IN BROWSING FILES MODE
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
-                [parameters removeAllObjects];
-                parameters = [Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[choosedTab]];
-                NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
-                                               [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                item[mainFields[@"row6"]], @"directory",
-                                                parameters[@"parameters"][@"media"], @"media",
-                                                parameters[@"parameters"][@"sort"], @"sort",
-                                                parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                                nil], @"parameters",
-                                               parameters[@"label"], @"label",
-                                               @"nocover_filemode", @"defaultThumb",
-                                               filemodeRowHeight, @"rowHeight",
-                                               filemodeThumbWidth, @"thumbWidth",
-                                               [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                               @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                               nil];
+                parameters = menuItem.mainParameters[choosedTab];
+                NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                       item[mainFields[@"row6"]], @"directory",
+                                                       parameters[@"parameters"][@"media"], @"media",
+                                                       parameters[@"parameters"][@"sort"], @"sort",
+                                                       parameters[@"parameters"][@"file_properties"], @"file_properties",
+                                                       nil], @"parameters",
+                                                      parameters[@"label"], @"label",
+                                                      @"nocover_filemode", @"defaultThumb",
+                                                      filemodeRowHeight, @"rowHeight",
+                                                      filemodeThumbWidth, @"thumbWidth",
+                                                      [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                                      @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                                      @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
+                                                      nil];
                 menuItem.mainLabel = item[@"label"];
                 mainMenu *newMenuItem = [menuItem copy];
-                [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+                newMenuItem.mainParameters[choosedTab] = newParameters;
                 newMenuItem.chooseTab = choosedTab;
                 if (IS_IPHONE) {
                     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
@@ -1527,58 +1525,37 @@
                 fileModeKey = @"filter";
                 objValue = [NSDictionary dictionaryWithObjectsAndKeys:
                             item[mainFields[@"row6"]], @"category",
-                            menuItem.mainParameters[choosedTab][0][@"section"], @"section",
+                            menuItem.mainParameters[choosedTab][@"parameters"][@"section"], @"section",
                             nil];
             }
-            NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
-                                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            objValue, fileModeKey,
-                                            parameters[@"parameters"][@"media"], @"media",
-                                            parameters[@"parameters"][@"sort"], @"sort",
-                                            parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                            nil], @"parameters",
-                                           parameters[@"label"], @"label",
-                                           @"nocover_filemode", @"defaultThumb",
-                                           filemodeRowHeight, @"rowHeight",
-                                           filemodeThumbWidth, @"thumbWidth",
-                                           [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                           @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                           @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                           nil];
+            NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                   objValue, fileModeKey,
+                                                   parameters[@"parameters"][@"media"], @"media",
+                                                   parameters[@"parameters"][@"sort"], @"sort",
+                                                   parameters[@"parameters"][@"file_properties"], @"file_properties",
+                                                   nil], @"parameters",
+                                                  parameters[@"label"], @"label",
+                                                  @"nocover_filemode", @"defaultThumb",
+                                                  filemodeRowHeight, @"rowHeight",
+                                                  filemodeThumbWidth, @"thumbWidth",
+                                                  [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                                  @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                                  @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
+                                                  nil];
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
-                newParameters[0][@"level"] = @"expert";
+                newParameters[@"parameters"][@"level"] = @"expert";
             }
-            menuItem.subItem.mainLabel = item[@"label"];
-            mainMenu *newMenuItem = [menuItem.subItem copy];
-            [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
-            newMenuItem.chooseTab = choosedTab;
-            if (IS_IPHONE) {
-                DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                detailViewController.detailItem = newMenuItem;
-                [self.navigationController pushViewController:detailViewController animated:YES];
-            }
-            else {
-                if (stackscrollFullscreen) {
-                    [self toggleFullscreen:nil];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                        [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-                    });
-                }
-                else {
-                    DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                    [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-                }
-            }
+            [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
         }
     }
 }
 
 - (void)didSelectItemAtIndexPath:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint)point {
     mainMenu *menuItem = [self getMainMenu:item];
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[menuItem.subItem mainMethod][choosedTab]];
+    NSDictionary *methods = menuItem.subItem.mainMethod[choosedTab];
     NSMutableArray *sheetActions = [menuItem.sheetActions[choosedTab] mutableCopy];
-    NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[menuItem.subItem mainParameters][choosedTab]];
+    NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
     int rectOriginX = point.x;
     int rectOriginY = point.y;
     if ([item[@"family"] isEqualToString:@"id"]) {
@@ -1644,7 +1621,7 @@
         else {
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             if (![userDefaults boolForKey:@"song_preference"] || [parameters[@"forceActionSheet"] boolValue]) {
-                sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[choosedTab]]];
+                sheetActions = [self getPlaylistActions:sheetActions item:item params:menuItem.mainParameters[choosedTab]];
                 selectedIndexPath = indexPath;
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
             }
@@ -1954,7 +1931,7 @@
     // Get the index titles
     NSMutableArray *tmpArr = [[NSMutableArray alloc] initWithArray:self.sectionArray];
     if (tmpArr.count > 1) {
-        [tmpArr replaceObjectAtIndex:0 withObject:@"🔍"];
+        tmpArr[0] = @"🔍";
     }
     if (self.sectionArray.count > 1 && !episodesView && !channelGuideView) {
         self.indexView.indexTitles = [NSArray arrayWithArray:tmpArr];
@@ -2125,7 +2102,7 @@
 
 - (void)choseParams { // DA OTTIMIZZARE TROPPI IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     if ([parameters[@"defaultThumb"] length] != 0 && ![parameters[@"defaultThumb"] isEqualToString:@"(null)"]) {
         defaultThumb = parameters[@"defaultThumb"];
     }
@@ -2554,7 +2531,7 @@
     }
     
     // In case no thumbs are shown and there is a child view or we are showing a setting, display disclosure indicator and adapt width.
-    NSDictionary *method = [Utilities indexKeyedDictionaryFromArray:[menuItem.subItem mainMethod][choosedTab]];
+    NSDictionary *method = menuItem.subItem.mainMethod[choosedTab];
     BOOL hasChild = method.count > 0;
     BOOL isSettingID = [item[@"family"] isEqualToString:@"id"];
     if (!thumbWidth && self.indexView.hidden && (hasChild || isSettingID)) {
@@ -3329,7 +3306,7 @@
             }
             NSInteger numActions = sheetActions.count;
             if (numActions) {
-                sheetActions = [self getPlaylistActions:sheetActions item:item params:[Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[choosedTab]]];
+                sheetActions = [self getPlaylistActions:sheetActions item:item params:menuItem.mainParameters[choosedTab]];
                 NSString *title = [NSString stringWithFormat:@"%@", item[@"label"]];
                 if (item[@"genre"] != nil && ![item[@"genre"] isEqualToString:@""]) {
                     title = [NSString stringWithFormat:@"%@\n%@", title, item[@"genre"]];
@@ -3498,7 +3475,7 @@
     
     // Store the rich data
     mainMenu *menuItem = [self getMainMenu:item];
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
     if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
@@ -3511,7 +3488,7 @@
 
 - (void)saveSortMethod:(NSString*)sortMethod parameters:(NSDictionary*)parameters {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSString *sortKey = [NSString stringWithFormat:@"%@_sort_method", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:sortMethod forKey:sortKey];
@@ -3519,7 +3496,7 @@
 
 - (void)saveSortAscDesc:(NSString*)sortAscDescSave parameters:(NSDictionary*)parameters {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:sortAscDescSave forKey:sortKey];
@@ -3717,7 +3694,7 @@
         [self saveCustomButton:newButton];
     }
     else {
-        NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+        NSDictionary *parameters = menuItem.mainParameters[choosedTab];
         NSMutableDictionary *sortDictionary = parameters[@"available_sort_methods"];
         if (sortDictionary[@"label"] != nil) {
             // In case of random still find index despite leading @"\u2713". This avoids inversion of sort order.
@@ -3788,7 +3765,7 @@
 - (void)searchWeb:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath serviceURL:(NSString*)serviceURL {
     mainMenu *menuItem = self.detailItem;
     if (menuItem.mainParameters.count > 0) {
-        NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[0]];
+        NSMutableDictionary *parameters = menuItem.mainParameters[0];
         if (parameters[@"fromWikipedia"] != [NSNull null]) {
             if ([parameters[@"fromWikipedia"] boolValue]) {
                 [self goBack:nil];
@@ -4083,7 +4060,7 @@
 - (void)exploreItem:(NSDictionary*)item {
     mainMenu *menuItem = [self getMainMenu:item];
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-    NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[menuItem.subItem mainParameters][choosedTab]];
+    NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
     NSNumber *libraryRowHeight = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
     NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
     NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
@@ -4092,46 +4069,25 @@
     if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
         [mutableProperties addObject:@"art"];
     }
-    NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
-                                   [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    item[mainFields[@"row6"]], @"directory",
-                                    parameters[@"parameters"][@"media"], @"media",
-                                    parameters[@"parameters"][@"sort"], @"sort",
-                                    mutableProperties, @"file_properties",
-                                    nil], @"parameters",
-                                   libraryRowHeight, @"rowHeight",
-                                   libraryThumbWidth, @"thumbWidth",
-                                   parameters[@"label"], @"label",
-                                   @"nocover_filemode", @"defaultThumb",
-                                   filemodeRowHeight, @"rowHeight",
-                                   filemodeThumbWidth, @"thumbWidth",
-                                   [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                   @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                   @"Files.GetDirectory", @"exploreCommand",
-                                   @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                   nil];
-    menuItem.subItem.mainLabel = item[@"label"];
-    mainMenu *newMenuItem = [menuItem.subItem copy];
-    [[newMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
-    newMenuItem.chooseTab = choosedTab;
-    if (IS_IPHONE) {
-        DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-        detailViewController.detailItem = newMenuItem;
-        [self.navigationController pushViewController:detailViewController animated:YES];
-    }
-    else {
-        if (stackscrollFullscreen) {
-            [self toggleFullscreen:nil];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-            });
-        }
-        else {
-            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-            [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-        }
-    }
+    NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                          [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                           item[mainFields[@"row6"]], @"directory",
+                                           parameters[@"parameters"][@"media"], @"media",
+                                           parameters[@"parameters"][@"sort"], @"sort",
+                                           mutableProperties, @"file_properties",
+                                           nil], @"parameters",
+                                          libraryRowHeight, @"rowHeight",
+                                          libraryThumbWidth, @"thumbWidth",
+                                          parameters[@"label"], @"label",
+                                          @"nocover_filemode", @"defaultThumb",
+                                          filemodeRowHeight, @"rowHeight",
+                                          filemodeThumbWidth, @"thumbWidth",
+                                          [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                          @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                          @"Files.GetDirectory", @"exploreCommand",
+                                          @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
+                                          nil];
+    [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
 }
 
 - (void)deleteTimer:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
@@ -4553,7 +4509,7 @@
 - (void)prepareShowAlbumInfo:(id)sender {
     mainMenu *menuItem = self.detailItem;
     if (menuItem.mainParameters.count > 0) {
-        NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:menuItem.mainParameters[0]];
+        NSMutableDictionary *parameters = menuItem.mainParameters[0];
         if (parameters[@"fromShowInfo"] != [NSNull null]) {
             if ([parameters[@"fromShowInfo"] boolValue]) {
                 [self goBack:nil];
@@ -4577,8 +4533,8 @@
 }
 
 - (void)showInfo:(NSIndexPath*)indexPath menuItem:(mainMenu*)menuItem item:(NSDictionary*)item tabToShow:(int)tabToShow {
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[tabToShow]];
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[tabToShow]];
+    NSDictionary *methods = menuItem.mainMethod[tabToShow];
+    NSDictionary *parameters = menuItem.mainParameters[tabToShow];
     
     NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
@@ -4668,9 +4624,9 @@
         }
     }
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     newProperties, @"properties",
-                                     object, itemid,
-                                     nil];
+                                          newProperties, @"properties",
+                                          object, itemid,
+                                          nil];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
@@ -4708,8 +4664,8 @@
     if (choosedTab >= menuItem.mainParameters.count) {
         return;
     }
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
     [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
@@ -4733,7 +4689,7 @@
     NSArray *itemsAndTabs = AppDelegate.instance.globalSearchMenuLookup;
     
     mainMenu *menuItem = self.detailItem;
-    NSMutableDictionary *parameters = [[Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]] mutableCopy];
+    NSMutableDictionary *parameters = [menuItem.mainParameters[choosedTab] mutableCopy];
     if ([self loadedDataFromDisk:nil parameters:parameters refresh:forceRefresh]) {
         return;
     }
@@ -4785,15 +4741,15 @@
         // Save and display
         choosedTab = 0;
         mainMenu *menuItem = self.detailItem;
-        NSMutableDictionary *parameters = [[Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]] mutableCopy];
+        NSMutableDictionary *parameters = [menuItem.mainParameters[choosedTab] mutableCopy];
         [self saveData:parameters];
         [self indexAndDisplayData];
         return;
     }
     mainMenu *menuItem = itemsAndTabs[index][0];
     int activeTab = [itemsAndTabs[index][1] intValue];
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[activeTab]];
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[activeTab]];
+    NSDictionary *methods = menuItem.mainMethod[activeTab];
+    NSDictionary *parameters = menuItem.mainParameters[activeTab];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
     NSString *methodToCall = methods[@"method"];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
@@ -4955,7 +4911,7 @@
          // If we are reading PVR timer, we need to filter them for the current mode in postprocessing. Ignore
          // scheduled recordings, if we are in timer rules mode. Or ignore timer rules, if scheduled recordings
          // are listed.
-         NSDictionary *menuParam = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+         NSDictionary *menuParam = menuItem.mainParameters[choosedTab];
          BOOL isTimerMethod = [methodToCall isEqualToString:@"PVR.GetTimers"];
          BOOL ignoreTimerRulesItems = isTimerMethod && [menuParam[@"label"] isEqualToString:LOCALIZED_STR(@"Timers")];
          BOOL ignoreTimerItems = isTimerMethod && [menuParam[@"label"] isEqualToString:LOCALIZED_STR(@"Timer rules")];
@@ -5059,7 +5015,7 @@
                      if ([itemType isKindOfClass:[NSDictionary class]]) {
                          itemDict = itemType[itemField];
                          if ([itemDict isKindOfClass:[NSArray class]]) {
-                             NSString *sublabel = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]][@"morelabel"] ?: @"";
+                             NSString *sublabel = menuItem.mainParameters[choosedTab][@"morelabel"] ?: @"";
                              for (id item in itemDict) {
                                  if ([item isKindOfClass:[NSString class]]) {
                                      NSDictionary *listEntry = @{
@@ -5203,7 +5159,7 @@
 - (BOOL)isSortDifferentToDefault {
     BOOL isDifferent = NO;
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     NSString *defaultSortMethod = parameters[@"parameters"][@"sort"][@"method"];
     NSString *defaultSortOrder = parameters[@"parameters"][@"sort"][@"order"];
     if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
@@ -5222,8 +5178,8 @@
 
 - (void)indexAndDisplayData {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSArray *copyRichResults = [self.richResults copy];
     BOOL addUITableViewIndexSearch = NO;
     BOOL isFileBrowsing = [methods[@"method"] isEqualToString:@"Files.GetDirectory"];
@@ -5344,7 +5300,7 @@
             [self.richResults removeAllObjects];
         }
         NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   menuItem.mainParameters[choosedTab][0][@"channelid"], @"channelid",
+                                   menuItem.mainParameters[choosedTab][@"parameters"][@"channelid"], @"channelid",
                                    retrievedEPG, @"epgArray",
                                    nil];
         [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];
@@ -5445,7 +5401,7 @@
     [self choseParams];
     numResults = (int)self.richResults.count;
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     
     BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel] && ![menuItem.mainLabel isEqualToString:LOCALIZED_STR(@"XBMC Settings")];
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
@@ -5739,7 +5695,7 @@
 
 - (BOOL)collectionViewCanBeEnabled {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     return ([parameters[@"enableCollectionView"] boolValue]);
 }
 
@@ -5749,8 +5705,8 @@
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
     NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
     if (AppDelegate.instance.serverVersion > 11) {
         if (tempDict[@"filter"] != nil) {
@@ -5993,8 +5949,8 @@
         choosedTab = 0;
     }
     filterModeType = ViewModeDefault;
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     watchedListenedStrings = parameters[@"watchedListenedStrings"];
     [self checkDiskCache];
     numberOfStars = 10;
@@ -6209,7 +6165,7 @@
 - (void)checkFullscreenButton:(BOOL)forceHide {
     mainMenu *menuItem = self.detailItem;
     if (IS_IPAD && menuItem.enableSection) {
-        NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+        NSDictionary *parameters = menuItem.mainParameters[choosedTab];
         if ([self collectionViewCanBeEnabled] && ([parameters[@"enableLibraryFullScreen"] boolValue] && !forceHide)) {
             int buttonPadding = 1;
             if (fullscreenButton == nil) {
@@ -6254,7 +6210,7 @@
 
 - (void)checkDiskCache {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL diskcache_preference = [userDefaults boolForKey:@"diskcache_preference"];
     enableDiskCache = diskcache_preference && [parameters[@"enableLibraryCache"] boolValue];
@@ -6270,8 +6226,8 @@
         [self.searchController setActive:NO];
     }
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:menuItem.mainMethod[choosedTab]];
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *methods = menuItem.mainMethod[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     if ([self collectionViewCanBeEnabled] && self.view.superview != nil && ![methods[@"method"] isEqualToString:@""]) {
         NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
         if (AppDelegate.instance.serverVersion > 11) {
@@ -6318,7 +6274,7 @@
     if (choosedTab >= menuItem.mainParameters.count) {
         return;
     }
-    NSDictionary *parameters = [Utilities indexKeyedDictionaryFromArray:menuItem.mainParameters[choosedTab]];
+    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     NSDictionary *sortDictionary = parameters[@"available_sort_methods"];
     NSDictionary *item = @{
         @"label": LOCALIZED_STR(@"Sort by"),
@@ -6326,7 +6282,7 @@
     };
     NSMutableArray *sortOptions = [sortDictionary[@"label"] mutableCopy];
     if (sortMethodIndex != -1) {
-        [sortOptions replaceObjectAtIndex:sortMethodIndex withObject:[NSString stringWithFormat:@"\u2713 %@", sortOptions[sortMethodIndex]]];
+        sortOptions[sortMethodIndex] = [NSString stringWithFormat:@"\u2713 %@", sortOptions[sortMethodIndex]];
     }
     [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - button7.frame.size.height / 2];
 }

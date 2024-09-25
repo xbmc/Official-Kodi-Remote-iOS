@@ -305,10 +305,10 @@ double round(double d) {
     else {
         return;
     }
-    NSDictionary *methods = [Utilities indexKeyedDictionaryFromArray:[choosedMenuItem mainMethod][choosedTab]];
+    NSDictionary *methods = choosedMenuItem.mainMethod[choosedTab];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
         NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-        NSMutableDictionary *parameters = [Utilities indexKeyedMutableDictionaryFromArray:[choosedMenuItem mainParameters][choosedTab]];
+        NSMutableDictionary *parameters = choosedMenuItem.mainParameters[choosedTab];
         id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];
         if (movieObj != nil && movieObjKey != nil) {
@@ -328,24 +328,24 @@ double round(double d) {
                                     item[mainFields[@"row6"]], mainFields[@"row6"],
                                     nil];
         }
-        NSMutableArray *newParameters = [NSMutableArray arrayWithObjects:
-                                       [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        obj, objKey,
-                                        parameters[@"parameters"][@"properties"], @"properties",
-                                        parameters[@"parameters"][@"sort"], @"sort",
-                                        nil], @"parameters",
-                                       @(blackTableSeparator), @"blackTableSeparator",
-                                       parameters[@"label"], @"label",
-                                       @YES, @"fromShowInfo",
-                                       @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                       [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
-                                       parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                       @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
-                                       @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
-                                       @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
-                                       newSectionParameters, @"extra_section_parameters",
-                                       nil];
-        [[choosedMenuItem mainParameters] replaceObjectAtIndex:choosedTab withObject:newParameters];
+        NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                               obj, objKey,
+                                               parameters[@"parameters"][@"properties"], @"properties",
+                                               parameters[@"parameters"][@"sort"], @"sort",
+                                               nil], @"parameters",
+                                              @(blackTableSeparator), @"blackTableSeparator",
+                                              parameters[@"label"], @"label",
+                                              @YES, @"fromShowInfo",
+                                              @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                              [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                              parameters[@"extra_info_parameters"], @"extra_info_parameters",
+                                              @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
+                                              @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
+                                              @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
+                                              newSectionParameters, @"extra_section_parameters",
+                                              nil];
+        choosedMenuItem.mainParameters[choosedTab] = newParameters;
         choosedMenuItem.chooseTab = choosedTab;
         if (![item[@"disableNowPlaying"] boolValue]) {
             choosedMenuItem.disableNowPlaying = NO;
