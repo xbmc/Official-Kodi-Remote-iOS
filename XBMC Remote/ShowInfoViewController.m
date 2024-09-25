@@ -201,16 +201,16 @@ double round(double d) {
             rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
             [self.view addGestureRecognizer:rightSwipe];
         }
-        // Place the up and down arrows
+        // Place the up and down arrows. Keep them invisible for now.
         CGFloat bottomPadding = [Utilities getBottomPadding];
         CGRect frame = arrow_continue_down.frame;
         frame.origin.y -= bottomPadding;
         arrow_continue_down.frame = frame;
-        arrow_continue_down.alpha = ARROW_ALPHA;
+        arrow_continue_down.alpha = 0;
         frame = arrow_back_up.frame;
         frame.origin.y += scrollView.contentInset.top;
         arrow_back_up.frame = frame;
-        arrow_back_up.alpha = ARROW_ALPHA;
+        arrow_back_up.alpha = 0;
     }
     if (![self.detailItem[@"disableNowPlaying"] boolValue]) {
         UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
