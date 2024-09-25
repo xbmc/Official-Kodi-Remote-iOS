@@ -78,7 +78,7 @@
     int fullscreenCellGridWidth;
     int fullscreenCellGridHeight;
     int cellMinimumLineSpacing;
-    id activeLayoutView;
+    UITableView *activeLayoutView;
     UILongPressGestureRecognizer *longPressGestureCollection;
     UILongPressGestureRecognizer *longPressGestureList;
     int posterFontSize;
