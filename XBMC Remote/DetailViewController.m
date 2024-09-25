@@ -481,23 +481,26 @@
     }
 }
 
-- (void)setFilternameLabel:(NSString*)labelText runFullscreenButtonCheck:(BOOL)check forceHide:(BOOL)forceHide {
-    self.navigationItem.title = [Utilities stripBBandHTML:labelText];
+- (void)setFilternameLabel:(NSString*)labelText {
+    labelText = [Utilities stripBBandHTML:labelText];
+    self.navigationItem.title = labelText;
     if (IS_IPHONE) {
         return;
     }
-    // fade out
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.1
+                     animations:^{
+        // fade out
         topNavigationLabel.alpha = 0;
-    }];
-    // update label
-    topNavigationLabel.text = labelText;
-    // fade in
-    [UIView animateWithDuration:0.1 animations:^{
-        topNavigationLabel.alpha = 1;
-        if (check) {
-            [self checkFullscreenButton:forceHide];
-        }
+                     }
+                     completion:^(BOOL finished) {
+        // update label
+        topNavigationLabel.text = labelText;
+        // fade in
+        [UIView animateWithDuration:0.1
+                         animations:^{
+            topNavigationLabel.alpha = 1;
+                         }
+                         completion:nil];
     }];
 }
 
@@ -1106,7 +1109,8 @@
 
     [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
     NSString *labelText = LOCALIZED_STR_ARGS(@"More (%d)", (int)(count - MAX_NORMAL_BUTTONS));
-    [self setFilternameLabel:labelText runFullscreenButtonCheck:YES forceHide:YES];
+    [self checkFullscreenButton:YES];
+    [self setFilternameLabel:labelText];
     [activityIndicatorView stopAnimating];
 }
 
@@ -5452,7 +5456,7 @@
     if (!albumView) {
         labelText = [labelText stringByAppendingFormat:@" (%d)", numResults];
     }
-    [self setFilternameLabel:labelText runFullscreenButtonCheck:NO forceHide:NO];
+    [self setFilternameLabel:labelText];
     
     if (!self.richResults.count) {
         [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
@@ -6229,11 +6233,13 @@
                 [self.view addGestureRecognizer:twoFingerPinch];
             }
             topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - buttonPadding * 2, 44);
+            topNavigationLabel.alpha = 0;
             fullscreenButton.hidden = NO;
             twoFingerPinch.enabled = YES;
         }
         else {
             topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - 4, 44);
+            topNavigationLabel.alpha = 0;
             fullscreenButton.hidden = YES;
             twoFingerPinch.enabled = NO;
         }
