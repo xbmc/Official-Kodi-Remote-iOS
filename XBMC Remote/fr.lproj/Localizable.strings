@@ -196,7 +196,7 @@
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- ATTENTION --\nCe type de paramètre ne peut pas être configuré à distance. Utiliser l'interface graphique Kodi pour modifier ce paramètre.\nMerci.";
 "No items found." = "Aucun élément.";
 "Video" = "Vidéo";
-"Party" = "Faire la fête";
+"Party" = "Fête";
 "Search" = "Recherche";
 "Supported XBMC version is Eden (11) or higher" = "Supporte Kodi Eden (11) ou supérieur";
 "Add Host" = "Ajouter";
