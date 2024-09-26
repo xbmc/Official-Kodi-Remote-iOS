@@ -4622,7 +4622,7 @@
             @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
             @"thumbWidth": @LIVETV_THUMB_WIDTH,
             @"itemSizes": [self itemSizes_Music],
-            @"forceActionSheet": @YES,
+            @"forcePlayback": @YES,
         },
                                   
         @{
@@ -4747,7 +4747,7 @@
             @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
             @"thumbWidth": @LIVETV_THUMB_WIDTH,
             @"itemSizes": [self itemSizes_Music],
-            @"forceActionSheet": @YES,
+            @"forcePlayback": @YES,
         },
                                             
         @{},
@@ -5175,7 +5175,7 @@
             @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
             @"thumbWidth": @LIVETV_THUMB_WIDTH,
             @"itemSizes": [self itemSizes_Music],
-            @"forceActionSheet": @YES,
+            @"forcePlayback": @YES,
         },
                                   
         @{
@@ -5300,7 +5300,7 @@
             @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
             @"thumbWidth": @LIVETV_THUMB_WIDTH,
             @"itemSizes": [self itemSizes_Music],
-            @"forceActionSheet": @YES,
+            @"forcePlayback": @YES,
         },
                                             
         @{},
