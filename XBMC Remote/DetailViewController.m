@@ -2870,7 +2870,7 @@
             totalTimeSeconds += [item[@"runtime"] intValue];
         }
         int totalTimeMinutes = (int)round(totalTimeSeconds / 60.0);
-        NSString *trackCounText = [NSString stringWithFormat:@"%lu %@, %d %@",
+        NSString *trackCountText = [NSString stringWithFormat:@"%lu %@, %d %@",
                                 self.richResults.count, self.richResults.count > 1 ? LOCALIZED_STR(@"Songs") : LOCALIZED_STR(@"Song"),
                                 totalTimeMinutes, totalTimeMinutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
         
@@ -2885,7 +2885,7 @@
                      artistText:artistText
                       albumText:albumText
                    releasedText:releasedText
-                 trackCountText:trackCounText
+                 trackCountText:trackCountText
                       isWatched:NO
                       isTopMost:YES];
         
