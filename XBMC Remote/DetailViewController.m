@@ -780,10 +780,10 @@
 
 - (NSString*)getAmountOfSearchResultsString {
     NSString *results = @"";
-    int numResult = (int)self.filteredListContent.count;
-    if (numResult) {
-        if (numResult != 1) {
-            results = LOCALIZED_STR_ARGS(@"%d results", numResult);
+    NSUInteger numResult = self.filteredListContent.count;
+    if (numResult > 0) {
+        if (numResult > 1) {
+            results = LOCALIZED_STR_ARGS(@"%lu results", numResult);
         }
         else {
             results = LOCALIZED_STR(@"1 result");
@@ -2871,7 +2871,7 @@
         }
         int totalTimeMinutes = (int)round(totalTimeSeconds / 60.0);
         NSString *trackCounText = [NSString stringWithFormat:@"%lu %@, %d %@",
-                                (unsigned long)self.richResults.count, self.richResults.count > 1 ? LOCALIZED_STR(@"Songs") : LOCALIZED_STR(@"Song"),
+                                self.richResults.count, self.richResults.count > 1 ? LOCALIZED_STR(@"Songs") : LOCALIZED_STR(@"Song"),
                                 totalTimeMinutes, totalTimeMinutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
         
         // Get year of release
@@ -5399,7 +5399,7 @@
 - (void)displayData {
     [self configureLibraryView];
     [self choseParams];
-    numResults = (int)self.richResults.count;
+    NSUInteger numResults = self.richResults.count;
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     
@@ -5407,7 +5407,7 @@
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
     self.navigationItem.backButtonTitle = labelText;
     if (!albumView) {
-        labelText = [labelText stringByAppendingFormat:@" (%d)", numResults];
+        labelText = [labelText stringByAppendingFormat:@" (%lu)", numResults];
     }
     [self setFilternameLabel:labelText];
     

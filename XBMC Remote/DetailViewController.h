@@ -42,7 +42,6 @@
     IBOutlet UIButton *button6;
     IBOutlet UIButton *button7;
     IBOutlet UIView *buttonsView;
-    int numResults;
     NSString *defaultThumb;
     int cellHeight;
     int thumbWidth;
