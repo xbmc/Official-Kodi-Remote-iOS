@@ -45,9 +45,6 @@
 - (void)revealMenu:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName: @"RevealMenu" object: nil];
 }
-- (void)revealUnderRight:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"revealUnderRight" object: nil];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

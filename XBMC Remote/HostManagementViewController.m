@@ -489,10 +489,6 @@
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
-- (void)revealUnderRight:(NSNotification*)note {
-    [self.slidingViewController anchorTopViewTo:ECLeft];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     CGFloat deltaY = [Utilities getTopPaddingWithNavBar:self.navigationController];
@@ -636,10 +632,6 @@
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(revealMenu:)
                                                  name: @"RevealMenu"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(revealUnderRight:)
-                                                 name: @"revealUnderRight"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(connectionSuccess:)
