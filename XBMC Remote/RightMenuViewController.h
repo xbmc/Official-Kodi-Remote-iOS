@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ECSlidingViewController.h"
 #import "DSJSONRPC.h"
 #import "RemoteController.h"
 #import "VolumeSliderView.h"
