@@ -42,7 +42,7 @@
     self.topViewController = navController;
 }
 
-- (void)revealMenu:(id)sender {
+- (void)handleMenuButton {
     [[NSNotificationCenter defaultCenter] postNotificationName: @"RevealMenu" object: nil];
 }
 

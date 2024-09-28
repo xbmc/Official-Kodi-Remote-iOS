@@ -13,6 +13,8 @@
     CustomNavigationController *navController;
 }
 
+- (void)handleMenuButton;
+
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 
 @end
