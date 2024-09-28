@@ -1069,13 +1069,13 @@
             if (image && (channelListView || channelGuideView || recordingListView || isOnPVR)) {
                 [Utilities setLogoBackgroundColor:weakImageView mode:logoBackgroundMode];
             }
-            // Special handling for TV SHow cells
+            // Special handling for TV Show cells
             [self layoutTVShowCell:cell useDefaultThumb:(!image || error) imgView:weakImageView];
         }];
     }
     else {
         imgView.image = [UIImage imageNamed:displayThumb];
-        // Special handling for TV SHow cells, this is already in default thumb state
+        // Special handling for TV Show cells, this is already in default thumb state
         [self layoutTVShowCell:cell useDefaultThumb:YES imgView:imgView];
     }
 }
