@@ -5315,6 +5315,11 @@
             }
         }
     }
+    [self buildSectionsArraySortedAscending:sortAscending withIndexSearch:addUITableViewIndexSearch];
+    [self setSortButtonImage:sortAscDesc];
+    [self displayData];
+}
+
 - (SEL)buildSelectorForSortMethod:(NSString*)sortByMethod inArray:(NSArray*)itemList {
     // Use localizedStandardCompare for all NSString items to be sorted (provides correct order for multi-digit
     // numbers). But do not use for any other types as this crashes.
@@ -5343,6 +5348,7 @@
     }
 }
 
+- (void)buildSectionsArraySortedAscending:(BOOL)sortAscending withIndexSearch:(BOOL)addUITableViewIndexSearch {
     // first sort the index table ...
     NSMutableArray<NSString*> *sectionKeys = [[self applySortByMethod:[self.sections.allKeys copy] sortmethod:nil ascending:sortAscending selector:@selector(localizedStandardCompare:)] mutableCopy];
     // ... then add the search item on top of the sorted list when needed
@@ -5356,8 +5362,6 @@
     for (int i = 0; i < self.sectionArray.count; i++) {
         [self.sectionArrayOpen addObject:@(defaultValue)];
     }
-    [self setSortButtonImage:sortAscDesc];
-    [self displayData];
 }
 
 - (NSString*)getIndexTableKey:(NSString*)value sortMethod:(NSString*)sortMethod {
