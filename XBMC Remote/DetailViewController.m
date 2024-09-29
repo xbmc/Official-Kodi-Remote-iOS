@@ -5229,12 +5229,7 @@
         }
         // Only sort if the sort method is different to what Kodi server provides or if sort token must be applied
         if ([self isSortDifferentToDefault] || [self isEligibleForSorttokenSort]) {
-            // Use localizedStandardCompare for all NSString items to be sorted (provides correct order for multi-digit
-            // numbers). But do not use for any other types as this crashes.
-            SEL selector = nil;
-            if (copyRichResults.count > 0 && [copyRichResults[0][sortbymethod] isKindOfClass:[NSString class]]) {
-                selector = @selector(localizedStandardCompare:);
-            }
+            SEL selector = [self buildSelectorForSortMethod:sortbymethod inArray:copyRichResults];
             copyRichResults = [self applySortByMethod:copyRichResults sortmethod:sortbymethod ascending:sortAscending selector:selector];
         }
     }
@@ -5334,6 +5329,16 @@
             }
         }
     }
+- (SEL)buildSelectorForSortMethod:(NSString*)sortByMethod inArray:(NSArray*)itemList {
+    // Use localizedStandardCompare for all NSString items to be sorted (provides correct order for multi-digit
+    // numbers). But do not use for any other types as this crashes.
+    SEL selector = nil;
+    if (itemList.count > 0 && [itemList[0][sortByMethod] isKindOfClass:[NSString class]]) {
+        selector = @selector(localizedStandardCompare:);
+    }
+    return selector;
+}
+
     // first sort the index table ...
     NSMutableArray<NSString*> *sectionKeys = [[self applySortByMethod:[self.sections.allKeys copy] sortmethod:nil ascending:sortAscending selector:@selector(localizedStandardCompare:)] mutableCopy];
     // ... then add the search item on top of the sorted list when needed
