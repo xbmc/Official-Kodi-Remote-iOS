@@ -5303,21 +5303,7 @@
     else {
         if (!albumView && sortbymethod && ![sortbymethod isEqualToString:@"random"] && ([self isSortDifferentToDefault] || [self isEligibleForSections:copyRichResults] || [sortbymethod isEqualToString:@"itemgroup"])) {
             addUITableViewIndexSearch = YES;
-            for (NSDictionary *item in copyRichResults) {
-                NSString *searchKey = @"";
-                if ([item[sortbymethod] isKindOfClass:[NSMutableArray class]] || [item[sortbymethod] isKindOfClass:[NSArray class]]) {
-                    searchKey = [item[sortbymethod] componentsJoinedByString:@""];
-                }
-                else {
-                    searchKey = item[sortbymethod];
-                }
-                NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
-                BOOL found = [[self.sections allKeys] containsObject:key];
-                if (!found) {
-                    [self.sections setValue:[NSMutableArray new] forKey:key];
-                }
-                [self.sections[key] addObject:item];
-            }
+            [self buildSectionsForList:copyRichResults sortMethod:sortbymethod];
         }
         else {
             [self.sections setValue:[NSMutableArray new] forKey:@""];
@@ -5334,6 +5320,25 @@
         selector = @selector(localizedStandardCompare:);
     }
     return selector;
+}
+
+- (void)buildSectionsForList:(NSArray*)itemList sortMethod:(NSString*)sortByMethod {
+    self.sections = [NSMutableDictionary new];
+    for (NSDictionary *item in itemList) {
+        NSString *searchKey = @"";
+        if ([item[sortByMethod] isKindOfClass:[NSMutableArray class]] || [item[sortByMethod] isKindOfClass:[NSArray class]]) {
+            searchKey = [item[sortByMethod] componentsJoinedByString:@""];
+        }
+        else {
+            searchKey = item[sortByMethod];
+        }
+        NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
+        BOOL found = [[self.sections allKeys] containsObject:key];
+        if (!found) {
+            [self.sections setValue:[NSMutableArray new] forKey:key];
+        }
+        [self.sections[key] addObject:item];
+    }
 }
 
     // first sort the index table ...
