@@ -5890,11 +5890,11 @@
     // Set main parameters for the search and the result visualization
     NSPredicate *pred;
     if (globalSearchView) {
-        pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@ || artist CONTAINS[cd] %@ || director CONTAINS[cd] %@", searchText, searchText, searchText];
+        pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@ || year CONTAINS %@ || artist CONTAINS[cd] %@ || director CONTAINS[cd] %@", searchText, searchText, searchText, searchText];
         useSectionInSearchResults = [sortMethodName isEqualToString:@"itemgroup"];
     }
     else {
-        pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@", searchText];
+        pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@ || year CONTAINS %@", searchText, searchText];
         useSectionInSearchResults = NO;
     }
     
