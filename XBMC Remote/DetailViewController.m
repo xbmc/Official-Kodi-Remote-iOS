@@ -5901,7 +5901,7 @@
     if (useSectionInSearchResults) {
         // When showing filtered results with sections the filtered list must be identical to richResults in case of empty search string
         if (searchText.length) {
-            self.filteredListContent = [NSMutableArray arrayWithArray:[self.richResults filteredArrayUsingPredicate:pred]];
+            self.filteredListContent = [self sortfilteredList:[self.richResults filteredArrayUsingPredicate:pred]];
         }
         else {
             self.filteredListContent = [self.richResults mutableCopy];
@@ -5913,8 +5913,16 @@
         [self buildSectionsArraySortedAscending:YES withIndexSearch:self.filteredListContent.count > 0];
     }
     else {
-        self.filteredListContent = [NSMutableArray arrayWithArray:[self.richResults filteredArrayUsingPredicate:pred]];
+        self.filteredListContent = [self sortfilteredList:[self.richResults filteredArrayUsingPredicate:pred]];
     }
+}
+
+- (NSMutableArray*)sortfilteredList:(NSArray*)resultsList {
+    // Always sort search list by ascending label
+    NSString *sortByMethod = @"label";
+    SEL selector = [self buildSelectorForSortMethod:sortByMethod inArray:resultsList];
+    resultsList = [self applySortByMethod:resultsList sortmethod:sortByMethod ascending:YES selector:selector];
+    return [resultsList mutableCopy];
 }
 
 - (NSString*)getCurrentSortAscDesc:(NSDictionary*)methods withParameters:(NSDictionary*)parameters {
