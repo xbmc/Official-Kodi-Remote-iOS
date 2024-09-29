@@ -739,7 +739,7 @@
 
 - (NSDictionary*)getItemFromIndexPath:(NSIndexPath*)indexPath {
     NSDictionary *item;
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] && !useSectionInSearchResults) {
         if (indexPath.row < self.filteredListContent.count) {
             item = self.filteredListContent[indexPath.row];
         }
@@ -1723,7 +1723,7 @@
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView*)collectionView {
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] && !useSectionInSearchResults) {
         return (self.filteredListContent.count > 0) ? 1 : 0;
     }
     else {
@@ -1758,7 +1758,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView*)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] && !useSectionInSearchResults) {
         return self.filteredListContent.count;
     }
     if (episodesView) {
@@ -2226,7 +2226,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] && !useSectionInSearchResults) {
         return (self.filteredListContent.count > 0) ? 1 : 0;
     }
 	else {
@@ -2236,7 +2236,14 @@
 
 - (NSString*)tableView:(UITableView*)tableView titleForHeaderInSection:(NSInteger)section {
     if ([self doesShowSearchResults]) {
-        return [self getAmountOfSearchResultsString];
+        if (!useSectionInSearchResults) {
+            return [self getAmountOfSearchResultsString];
+        }
+        if (section == 0) {
+            return [self getAmountOfSearchResultsString];
+        }
+        NSString *sectionName = self.sectionArray[section];
+        return [self buildSortInfo:sectionName];
     }
     else {
         if (section == 0) {
@@ -2411,7 +2418,7 @@
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] && !useSectionInSearchResults) {
         return self.filteredListContent.count;
     }
 	else {
@@ -5879,11 +5886,35 @@
 - (void)searchForText:(NSString*)searchText {
     // filter here
     [self.filteredListContent removeAllObjects];
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@", searchText];
+    
+    // Set main parameters for the search and the result visualization
+    NSPredicate *pred;
     if (globalSearchView) {
         pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@ || artist CONTAINS[cd] %@ || director CONTAINS[cd] %@", searchText, searchText, searchText];
+        useSectionInSearchResults = [sortMethodName isEqualToString:@"itemgroup"];
     }
-    self.filteredListContent = [NSMutableArray arrayWithArray:[self.richResults filteredArrayUsingPredicate:pred]];
+    else {
+        pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@", searchText];
+        useSectionInSearchResults = NO;
+    }
+    
+    if (useSectionInSearchResults) {
+        // When showing filtered results with sections the filtered list must be identical to richResults in case of empty search string
+        if (searchText.length) {
+            self.filteredListContent = [NSMutableArray arrayWithArray:[self.richResults filteredArrayUsingPredicate:pred]];
+        }
+        else {
+            self.filteredListContent = [self.richResults mutableCopy];
+        }
+        
+        // Build sections and sectionsArray for the filtered list
+        self.sections = [NSMutableDictionary new];
+        [self buildSectionsForList:self.filteredListContent sortMethod:sortMethodName];
+        [self buildSectionsArraySortedAscending:YES withIndexSearch:self.filteredListContent.count > 0];
+    }
+    else {
+        self.filteredListContent = [NSMutableArray arrayWithArray:[self.richResults filteredArrayUsingPredicate:pred]];
+    }
 }
 
 - (NSString*)getCurrentSortAscDesc:(NSDictionary*)methods withParameters:(NSDictionary*)parameters {
