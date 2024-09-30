@@ -1597,6 +1597,9 @@
     else if ([parameters[@"forcePlayback"] boolValue]) {
         [self startPlayback:item indexPath:indexPath shuffle:NO];
     }
+    else if ([item[@"family"] isEqualToString:@"profile"]) {
+        [self loadProfile:item];
+    }
     else if (methods[@"method"] != nil && ![parameters[@"forceActionSheet"] boolValue] && !stackscrollFullscreen) {
         // There is a child and we want to show it (only when not in fullscreen)
         [self viewChild:indexPath item:item displayPoint:point];
@@ -4420,6 +4423,26 @@
         }
         else {
             [Utilities showMessage:failureMessage color:ERROR_MESSAGE_COLOR];
+        }
+    }];
+}
+
+- (void)loadProfile:(NSDictionary*)item {
+    NSString *profileName = item[@"label"];
+    if ([profileName isEqualToString:AppDelegate.instance.currentProfile]) {
+        return;
+    }
+    // Load user profile
+    [[Utilities getJsonRPC]
+     callMethod:@"Profiles.LoadProfile"
+     withParameters:@{
+        @"profile": profileName,
+        @"prompt": @YES,
+    }
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (!error && !methodError) {
+            AppDelegate.instance.currentProfile = profileName;
+            [dataList reloadData];
         }
     }];
 }
