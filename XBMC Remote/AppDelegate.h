@@ -113,6 +113,7 @@
 @property (nonatomic, assign) BOOL isGroupSingleItemSetsEnabled;
 @property (nonatomic, assign) BOOL isShowEmptyTvShowsEnabled;
 @property (nonatomic, copy) NSArray *KodiSorttokens;
+@property (nonatomic, copy) NSString *currentProfile;
 @property (nonatomic, strong) GlobalData *obj;
 
 @end
