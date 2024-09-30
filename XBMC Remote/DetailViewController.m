@@ -354,6 +354,9 @@
     // Which version does the serer have?
     NSString *serverVersion = [NSString stringWithFormat:@"%d.%d", serverMajorVersion, serverMinorVersion];
     
+    // Which user profile is active?
+    NSString *currentProfile = [NSString stringWithFormat:@"%@", AppDelegate.instance.currentProfile];
+    
     // Which App version are we running?
     NSString *appVersion = [Utilities getAppVersionString];
     
@@ -361,7 +364,7 @@
     NSString *jsonRequest = [NSString stringWithFormat:@"%@ %@", fieldA, fieldB];
     
     // Get SHA256 hash for the combination given above
-    NSString *text = [NSString stringWithFormat:@"%@%@%@%@", serverInfo, serverVersion, appVersion, jsonRequest];
+    NSString *text = [NSString stringWithFormat:@"%@%@%@%@%@", serverInfo, serverVersion, currentProfile, appVersion, jsonRequest];
     return [text SHA256String];
 }
 
