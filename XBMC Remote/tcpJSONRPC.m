@@ -289,6 +289,8 @@ NSInputStream *inStream;
         [self readGroupSingleItemSets];
         
         [self readShowEmptyTvShows];
+        
+        [self readCurrentProfile];
     }];
 }
 
@@ -353,6 +355,24 @@ NSInputStream *inStream;
     }
     else {
         AppDelegate.instance.KodiSorttokens = defaultTokens;
+    }
+}
+
+- (void)readCurrentProfile {
+    // Read current active user profile
+    if ([VersionCheck hasProfilesSupport]) {
+        [[Utilities getJsonRPC]
+         callMethod:@"Profiles.GetCurrentProfile"
+         withParameters:@{}
+         withTimeout:SERVER_CHECK_TIMER
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
+                AppDelegate.instance.currentProfile = methodResult[@"label"];
+            }
+        }];
+    }
+    else {
+        AppDelegate.instance.currentProfile = @"";
     }
 }
 
