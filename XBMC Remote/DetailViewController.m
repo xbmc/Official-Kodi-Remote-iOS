@@ -2657,6 +2657,17 @@
             runtimeyear.hidden = YES;
             title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
         }
+        else if ([item[@"family"] isEqualToString:@"profile"]) {
+            if ([item[@"label"] isEqualToString:AppDelegate.instance.currentProfile]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
+            else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+            genre.hidden = YES;
+            runtimeyear.hidden = YES;
+            title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
+        }
         else if ([item[@"family"] isEqualToString:@"channelid"]) {
             runtimeyear.hidden = YES;
             rating.hidden = YES;
@@ -4789,6 +4800,13 @@
         return;
     }
 
+    // Profiles functions not supported with older Kodi versions
+    if ([methodToCall containsString:@"Profiles."] && ![VersionCheck hasProfilesSupport]) {
+        [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
+        [self animateNoResultsFound];
+        return;
+    }
+    
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
