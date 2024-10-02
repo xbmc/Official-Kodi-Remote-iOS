@@ -38,32 +38,31 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, StackDragDirection) {
+    StackDraggedLeft,
+    StackDraggedRight,
+    StackDraggedNone,
+};
 
 @interface StackScrollViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate> {
     
     UIView *slideViews;
-    UIView *borderViews;
-    UIView *verticalLineView1;
-    UIView *verticalLineView2;
     
     UIView *viewAtLeft;
     UIView *viewAtRight;
     UIView *viewAtLeft2;
     UIView *viewAtRight2;
-    UIView *viewAtRightAtTouchBegan;
-    UIView *viewAtLeftAtTouchBegan;
     
     NSMutableArray *viewControllersStack;
     
-    NSString *dragDirection;
+    StackDragDirection dragDirection;
     
     CGFloat viewXPosition;
-    CGFloat displacementPosition;
     CGFloat lastTouchPoint;
     CGFloat slideStartPosition;
     
-    CGPoint positionOfViewAtRightAtTouchBegan;
-    CGPoint positionOfViewAtLeftAtTouchBegan;
+    CGFloat referenceXviewAtRight;
+    CGFloat referenceXviewAtLeft;
     
     CGRect originalFrame;
     BOOL stackScrollIsFullscreen;
@@ -75,13 +74,9 @@
 }
 
 - (void)offView;
-- (void)enablePanGestureRecognizer;
-- (void)disablePanGestureRecognizer:(UIView*)fallbackView;
 - (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView;
-- (void)bounceBack:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context;
 
 @property (nonatomic, strong) UIView *slideViews;
-@property (nonatomic, strong) UIView *borderViews;
 @property (nonatomic, assign) CGFloat slideStartPosition;
 @property (nonatomic, strong) NSMutableArray *viewControllersStack;
 
