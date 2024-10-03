@@ -575,7 +575,9 @@
                             animations:^{
                 controller.view.frame = CGRectMake(viewXPosition, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
             }
-                            completion:^(BOOL finished) {}
+                            completion:^(BOOL finished) {
+                [self bounceView:viewAtLeft amount:-BOUNCE_X];
+            }
             ];
             viewAtLeft2 = nil;
             viewAtRight = nil;
@@ -596,7 +598,10 @@
                 [self changeFrame:viewAtRight
                           originX:self.view.frame.size.width - viewAtRight.frame.size.width];
             }
-                            completion:^(BOOL finished) {}
+                            completion:^(BOOL finished) {
+                [self bounceView:viewAtLeft amount:-BOUNCE_X / 2];
+                [self bounceView:viewAtRight amount:-BOUNCE_X];
+            }
             ];
             slideStartPosition = SLIDE_VIEWS_MINUS_X_POSITION;
         }
@@ -618,7 +623,10 @@
                 [self changeFrame:viewAtRight
                           originX:self.view.frame.size.width - viewAtRight.frame.size.width];
             }
-                            completion:^(BOOL finished) {}
+                            completion:^(BOOL finished) {
+                [self bounceView:viewAtLeft amount:-BOUNCE_X / 2];
+                [self bounceView:viewAtRight amount:-BOUNCE_X];
+            }
             ];
             slideStartPosition = SLIDE_VIEWS_MINUS_X_POSITION;
             if (slideViews.subviews.count > 3) {
