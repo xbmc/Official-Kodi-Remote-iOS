@@ -5840,6 +5840,9 @@
     showSearchbar = NO;
     [self showSearchBar];
     [self setIndexViewVisibility];
+    
+    // Scroll back to top with inactive searchbar visible on top.
+    activeLayoutView.contentOffset = CGPointMake(0, -activeLayoutView.contentInset.top);
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
