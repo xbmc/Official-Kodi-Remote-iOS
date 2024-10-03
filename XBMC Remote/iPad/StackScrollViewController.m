@@ -48,7 +48,7 @@
 #define SLIDE_VIEWS_MINUS_X_POSITION MAX(-PAD_MENU_TABLE_WIDTH * 0.67, SLIDE_VIEWS_MINUS_NON_OVERLAP) /* Lets two stacks slightly overlap in landscape. */
 #define SLIDE_VIEWS_START_X_POS 0
 #define SLIDE_TRANSITION_TIME 0.2
-#define BOUNCE_X 20
+#define BOUNCE_X 10
 
 @implementation StackScrollViewController
 
