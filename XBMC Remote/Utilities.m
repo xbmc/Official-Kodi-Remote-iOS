@@ -40,16 +40,16 @@
     return context;
 }
 
-+ (CGImageRef)create32bppImage:(CGImageRef)imageRef format:(uint32_t)format {
-    CGContextRef ctx = [Utilities createBitmapContextFromImage:imageRef format:format];
++ (CGImageRef)create32bppImage:(CGImageRef)imageRefIn format:(uint32_t)format {
+    CGContextRef ctx = [Utilities createBitmapContextFromImage:imageRefIn format:format];
     if (ctx == NULL) {
         return NULL;
     }
-    CGRect rect = CGRectMake(0, 0, CGImageGetWidth(imageRef), CGImageGetHeight(imageRef));
-    CGContextDrawImage(ctx, rect, imageRef);
-    imageRef = CGBitmapContextCreateImage(ctx);
+    CGRect rect = CGRectMake(0, 0, CGImageGetWidth(imageRefIn), CGImageGetHeight(imageRefIn));
+    CGContextDrawImage(ctx, rect, imageRefIn);
+    CGImageRef imageRefOut = CGBitmapContextCreateImage(ctx);
     CGContextRelease(ctx);
-    return imageRef;
+    return imageRefOut;
 }
 
 + (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse autoColorCheck:(BOOL)autoColorCheck {
