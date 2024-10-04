@@ -53,8 +53,8 @@
 }
 
 + (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse autoColorCheck:(BOOL)autoColorCheck {
-    CGImageRef rawImageRef = [image CGImage];
-    if (rawImageRef == nil) {
+    CGImageRef inputImageRef = [image CGImage];
+    if (inputImageRef == nil) {
         return UIColor.clearColor;
     }
     
@@ -64,7 +64,7 @@
         return [Utilities getSystemGray2];
     }
     
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(inputImageRef);
     int infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
     BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
                         infoMask == kCGImageAlphaNoneSkipFirst ||
@@ -74,12 +74,8 @@
 //    }
     
     // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
-    if (anyNonAlpha && (bitmapInfo != kCGImageAlphaNoneSkipLast || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
-        rawImageRef = [Utilities create32bppImage:rawImageRef format:kCGImageAlphaNoneSkipLast];
-    }
-    else if (!anyNonAlpha && (bitmapInfo != kCGImageAlphaPremultipliedFirst || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
-        rawImageRef = [Utilities create32bppImage:rawImageRef format:kCGImageAlphaPremultipliedFirst];
-    }
+    uint32_t alphaFormat = anyNonAlpha ? kCGImageAlphaNoneSkipLast : kCGImageAlphaPremultipliedFirst;
+    CGImageRef rawImageRef = [Utilities create32bppImage:inputImageRef format:alphaFormat];
     if (rawImageRef == NULL) {
         return UIColor.clearColor;
     }
@@ -145,6 +141,7 @@
         blue = tmp;
     }
 	CFRelease(data);
+    CGImageRelease(rawImageRef);
     
 	return [UIColor colorWithRed:f * red green:f * green blue:f * blue alpha:1];
 }
