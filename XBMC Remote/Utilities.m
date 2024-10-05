@@ -54,7 +54,7 @@
 
 + (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse autoColorCheck:(BOOL)autoColorCheck {
     CGImageRef inputImageRef = [image CGImage];
-    if (inputImageRef == nil) {
+    if (inputImageRef == NULL) {
         return UIColor.clearColor;
     }
     
