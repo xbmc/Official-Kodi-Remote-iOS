@@ -3038,16 +3038,14 @@
         [thumbImageView sd_setImageWithURL:[NSURL URLWithString:stringURL]
                           placeholderImage:[UIImage imageNamed:displayThumb]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-            if (image) {
-                [self setViewColor:albumDetailView
-                             image:image
-                         isTopMost:isTopMost
-                            label1:artist
-                            label2:album
-                            label3:trackCount
-                            label4:released
-                        infoButton:albumInfoButton];
-            }
+            [self setViewColor:albumDetailView
+                         image:thumbImageView.image
+                     isTopMost:isTopMost
+                        label1:artist
+                        label2:album
+                        label3:trackCount
+                        label4:released
+                    infoButton:albumInfoButton];
         }];
     }
     else {
