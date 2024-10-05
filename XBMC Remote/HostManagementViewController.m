@@ -13,6 +13,7 @@
 #import "AppInfoViewController.h"
 #import "Utilities.h"
 #import "InitialSlidingViewController.h"
+#import "UIImageView+WebCache.h"
 
 // + 2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
@@ -407,6 +408,10 @@
                                 methodResult[@"System.UsedSpacePercent"],
                                 methodResult[@"System.TotalSpace"]];
             [infoString appendAttributedString:[self formatInfo:@"Storage" text:storage]];
+            
+            [infoString appendAttributedString:newLine];
+            NSString *appMemoryUsage = [NSString stringWithFormat:@"%llu MB", [Utilities memoryFootprint] / 1024 / 1024];
+            [infoString appendAttributedString:[self formatInfo:@"App Memory Usage" text:appMemoryUsage]];
             
             serverInfoView.attributedText = infoString;
         }
