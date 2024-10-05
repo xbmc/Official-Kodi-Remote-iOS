@@ -126,5 +126,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (int)getActivePlayerID:(NSArray*)activePlayerList;
 + (UIViewController*)topMostController;
 + (UIViewController*)topMostControllerIgnoringClass:(Class)ignoredClass;
++ (uint64_t)memoryFootprint;
 
 @end
