@@ -1218,6 +1218,7 @@
         collectionView.delegate = self;
         collectionView.dataSource = self;
         dataList.scrollsToTop = NO;
+        dataList.tableHeaderView.hidden = YES;
         collectionView.scrollsToTop = YES;
         activeLayoutView = (UITableView*)collectionView;
         
@@ -1229,6 +1230,7 @@
         collectionView.delegate = nil;
         collectionView.dataSource = nil;
         dataList.scrollsToTop = YES;
+        dataList.tableHeaderView.hidden = NO;
         collectionView.scrollsToTop = NO;
         activeLayoutView = dataList;
         
