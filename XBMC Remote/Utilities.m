@@ -40,21 +40,21 @@
     return context;
 }
 
-+ (CGImageRef)create32bppImage:(CGImageRef)imageRef format:(uint32_t)format {
-    CGContextRef ctx = [Utilities createBitmapContextFromImage:imageRef format:format];
++ (CGImageRef)create32bppImage:(CGImageRef)imageRefIn format:(uint32_t)format {
+    CGContextRef ctx = [Utilities createBitmapContextFromImage:imageRefIn format:format];
     if (ctx == NULL) {
         return NULL;
     }
-    CGRect rect = CGRectMake(0, 0, CGImageGetWidth(imageRef), CGImageGetHeight(imageRef));
-    CGContextDrawImage(ctx, rect, imageRef);
-    imageRef = CGBitmapContextCreateImage(ctx);
+    CGRect rect = CGRectMake(0, 0, CGImageGetWidth(imageRefIn), CGImageGetHeight(imageRefIn));
+    CGContextDrawImage(ctx, rect, imageRefIn);
+    CGImageRef imageRefOut = CGBitmapContextCreateImage(ctx);
     CGContextRelease(ctx);
-    return imageRef;
+    return imageRefOut;
 }
 
 + (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse autoColorCheck:(BOOL)autoColorCheck {
-    CGImageRef rawImageRef = [image CGImage];
-    if (rawImageRef == nil) {
+    CGImageRef inputImageRef = [image CGImage];
+    if (inputImageRef == NULL) {
         return UIColor.clearColor;
     }
     
@@ -64,46 +64,42 @@
         return [Utilities getSystemGray2];
     }
     
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(inputImageRef);
     int infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
     BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
                         infoMask == kCGImageAlphaNoneSkipFirst ||
                         infoMask == kCGImageAlphaNoneSkipLast);
-//    if (!anyNonAlpha) {
-//        return UIColor.clearColor;
-//    }
+    //    if (!anyNonAlpha) {
+    //        return UIColor.clearColor;
+    //    }
     
     // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
-    if (anyNonAlpha && (bitmapInfo != kCGImageAlphaNoneSkipLast || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
-        rawImageRef = [Utilities create32bppImage:rawImageRef format:kCGImageAlphaNoneSkipLast];
-    }
-    else if (!anyNonAlpha && (bitmapInfo != kCGImageAlphaPremultipliedFirst || CGImageGetBitsPerPixel(rawImageRef) != 32)) {
-        rawImageRef = [Utilities create32bppImage:rawImageRef format:kCGImageAlphaPremultipliedFirst];
-    }
+    uint32_t alphaFormat = anyNonAlpha ? kCGImageAlphaNoneSkipLast : kCGImageAlphaPremultipliedFirst;
+    CGImageRef rawImageRef = [Utilities create32bppImage:inputImageRef format:alphaFormat];
     if (rawImageRef == NULL) {
         return UIColor.clearColor;
     }
     
-	CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
+    CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
     const UInt8 *rawPixelData = CFDataGetBytePtr(data);
     
     NSUInteger imageHeight = CGImageGetHeight(rawImageRef);
     NSUInteger imageWidth  = CGImageGetWidth(rawImageRef);
     NSUInteger bytesPerRow = CGImageGetBytesPerRow(rawImageRef);
-	NSUInteger stride = CGImageGetBitsPerPixel(rawImageRef) / 8;
+    NSUInteger stride = CGImageGetBitsPerPixel(rawImageRef) / 8;
     
     // DEBUG
     /*
-    bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
-    infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
-    BOOL isARGB = infoMask == kCGImageAlphaPremultipliedFirst;
-    BOOL isRGBA = infoMask == kCGImageAlphaPremultipliedLast;
-    BOOL isRGBa = infoMask == kCGImageAlphaLast;
-    BOOL isaRGB = infoMask == kCGImageAlphaFirst;
-    BOOL isxRGB = infoMask == kCGImageAlphaNoneSkipFirst;
-    BOOL isRGBx = infoMask == kCGImageAlphaNoneSkipLast;
-    BOOL isRGB = infoMask == kCGImageAlphaNone;
-    */
+     bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
+     infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
+     BOOL isARGB = infoMask == kCGImageAlphaPremultipliedFirst;
+     BOOL isRGBA = infoMask == kCGImageAlphaPremultipliedLast;
+     BOOL isRGBa = infoMask == kCGImageAlphaLast;
+     BOOL isaRGB = infoMask == kCGImageAlphaFirst;
+     BOOL isxRGB = infoMask == kCGImageAlphaNoneSkipFirst;
+     BOOL isRGBx = infoMask == kCGImageAlphaNoneSkipLast;
+     BOOL isRGB = infoMask == kCGImageAlphaNone;
+     */
     
     UInt64 red   = 0;
     UInt64 green = 0;
@@ -144,9 +140,10 @@
         red = blue;
         blue = tmp;
     }
-	CFRelease(data);
+    CFRelease(data);
+    CGImageRelease(rawImageRef);
     
-	return [UIColor colorWithRed:f * red green:f * green blue:f * blue alpha:1];
+    return [UIColor colorWithRed:f * red green:f * green blue:f * blue alpha:1];
 }
 
 + (UIColor*)limitSaturation:(UIColor*)color_in satmax:(CGFloat)satmax {
