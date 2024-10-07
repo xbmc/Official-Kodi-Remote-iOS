@@ -739,7 +739,7 @@
 
 - (NSDictionary*)getItemFromIndexPath:(NSIndexPath*)indexPath {
     NSDictionary *item;
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] && !useSectionInSearchResults) {
         if (indexPath.row < self.filteredListContent.count) {
             item = self.filteredListContent[indexPath.row];
         }
@@ -1721,7 +1721,7 @@
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView*)collectionView {
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] && !useSectionInSearchResults) {
         return (self.filteredListContent.count > 0) ? 1 : 0;
     }
     else {
@@ -1756,7 +1756,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView*)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] && !useSectionInSearchResults) {
         return self.filteredListContent.count;
     }
     if (episodesView) {
@@ -2223,7 +2223,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] && !useSectionInSearchResults) {
         return (self.filteredListContent.count > 0) ? 1 : 0;
     }
 	else {
@@ -2232,8 +2232,15 @@
 }
 
 - (NSString*)tableView:(UITableView*)tableView titleForHeaderInSection:(NSInteger)section {
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] && !useSectionInSearchResults) {
         return [self getAmountOfSearchResultsString];
+    }
+    else if ([self doesShowSearchResults] && useSectionInSearchResults) {
+        if (section == 0) {
+            return [self getAmountOfSearchResultsString];;
+        }
+        NSString *sectionName = self.sectionArray[section];
+        return [self buildSortInfo:sectionName];
     }
     else {
         if (section == 0) {
@@ -2408,7 +2415,7 @@
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([self doesShowSearchResults]) {
+    if ([self doesShowSearchResults] && !useSectionInSearchResults) {
         return self.filteredListContent.count;
     }
 	else {
@@ -5226,12 +5233,7 @@
         }
         // Only sort if the sort method is different to what Kodi server provides or if sort token must be applied
         if ([self isSortDifferentToDefault] || [self isEligibleForSorttokenSort]) {
-            // Use localizedStandardCompare for all NSString items to be sorted (provides correct order for multi-digit
-            // numbers). But do not use for any other types as this crashes.
-            SEL selector = nil;
-            if (copyRichResults.count > 0 && [copyRichResults[0][sortbymethod] isKindOfClass:[NSString class]]) {
-                selector = @selector(localizedStandardCompare:);
-            }
+            SEL selector = [self buildSelectorForSortMethod:sortbymethod inArray:copyRichResults];
             copyRichResults = [self applySortByMethod:copyRichResults sortmethod:sortbymethod ascending:sortAscending selector:selector];
         }
     }
@@ -5308,21 +5310,7 @@
     else {
         if (!albumView && sortbymethod && ![sortbymethod isEqualToString:@"random"] && ([self isSortDifferentToDefault] || [self isEligibleForSections:copyRichResults] || [sortbymethod isEqualToString:@"itemgroup"])) {
             addUITableViewIndexSearch = YES;
-            for (NSDictionary *item in copyRichResults) {
-                NSString *searchKey = @"";
-                if ([item[sortbymethod] isKindOfClass:[NSMutableArray class]] || [item[sortbymethod] isKindOfClass:[NSArray class]]) {
-                    searchKey = [item[sortbymethod] componentsJoinedByString:@""];
-                }
-                else {
-                    searchKey = item[sortbymethod];
-                }
-                NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
-                BOOL found = [[self.sections allKeys] containsObject:key];
-                if (!found) {
-                    [self.sections setValue:[NSMutableArray new] forKey:key];
-                }
-                [self.sections[key] addObject:item];
-            }
+            [self buildSectionsForList:copyRichResults sortMethod:sortbymethod];
         }
         else {
             [self.sections setValue:[NSMutableArray new] forKey:@""];
@@ -5331,6 +5319,41 @@
             }
         }
     }
+    [self buildSectionsArraySortedAscending:sortAscending withIndexSearch:addUITableViewIndexSearch];
+    [self setSortButtonImage:sortAscDesc];
+    [self displayData];
+}
+
+- (SEL)buildSelectorForSortMethod:(NSString*)sortByMethod inArray:(NSArray*)itemList {
+    // Use localizedStandardCompare for all NSString items to be sorted (provides correct order for multi-digit
+    // numbers). But do not use for any other types as this crashes.
+    SEL selector = nil;
+    if (itemList.count > 0 && [itemList[0][sortByMethod] isKindOfClass:[NSString class]]) {
+        selector = @selector(localizedStandardCompare:);
+    }
+    return selector;
+}
+
+- (void)buildSectionsForList:(NSArray*)itemList sortMethod:(NSString*)sortByMethod {
+    self.sections = [NSMutableDictionary new];
+    for (NSDictionary *item in itemList) {
+        NSString *searchKey = @"";
+        if ([item[sortByMethod] isKindOfClass:[NSMutableArray class]] || [item[sortByMethod] isKindOfClass:[NSArray class]]) {
+            searchKey = [item[sortByMethod] componentsJoinedByString:@""];
+        }
+        else {
+            searchKey = item[sortByMethod];
+        }
+        NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
+        BOOL found = [[self.sections allKeys] containsObject:key];
+        if (!found) {
+            [self.sections setValue:[NSMutableArray new] forKey:key];
+        }
+        [self.sections[key] addObject:item];
+    }
+}
+
+- (void)buildSectionsArraySortedAscending:(BOOL)sortAscending withIndexSearch:(BOOL)addUITableViewIndexSearch {
     // first sort the index table ...
     NSMutableArray<NSString*> *sectionKeys = [[self applySortByMethod:[self.sections.allKeys copy] sortmethod:nil ascending:sortAscending selector:@selector(localizedStandardCompare:)] mutableCopy];
     // ... then add the search item on top of the sorted list when needed
@@ -5344,8 +5367,6 @@
     for (int i = 0; i < self.sectionArray.count; i++) {
         [self.sectionArrayOpen addObject:@(defaultValue)];
     }
-    [self setSortButtonImage:sortAscDesc];
-    [self displayData];
 }
 
 - (NSString*)getIndexTableKey:(NSString*)value sortMethod:(NSString*)sortMethod {
@@ -5817,6 +5838,9 @@
     showSearchbar = NO;
     [self showSearchBar];
     [self setIndexViewVisibility];
+    
+    // Scroll back to top with inactive searchbar visible on top.
+    [activeLayoutView setContentOffset:CGPointMake(0, -activeLayoutView.contentInset.top) animated:NO];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -5863,11 +5887,44 @@
 - (void)searchForText:(NSString*)searchText {
     // filter here
     [self.filteredListContent removeAllObjects];
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@", searchText];
+    
+    // Set main parameters for the search and the result visualization
+    NSPredicate *pred;
     if (globalSearchView) {
-        pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@ || artist CONTAINS[cd] %@ || director CONTAINS[cd] %@", searchText, searchText, searchText];
+        pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@ || year CONTAINS[cd] %@ || artist CONTAINS[cd] %@ || director CONTAINS[cd] %@", searchText, searchText, searchText, searchText];
+        useSectionInSearchResults = [sortMethodName isEqualToString:@"itemgroup"];
     }
-    self.filteredListContent = [NSMutableArray arrayWithArray:[self.richResults filteredArrayUsingPredicate:pred]];
+    else {
+        pred = [NSPredicate predicateWithFormat:@"label CONTAINS[cd] %@ || year CONTAINS[cd] %@", searchText, searchText];
+        useSectionInSearchResults = NO;
+    }
+    
+    if (useSectionInSearchResults) {
+        // When showing filtered results with sections the filtered list must be identical to richResults in case of empty search string
+        if (searchText.length) {
+            self.filteredListContent = [NSMutableArray arrayWithArray:[self.richResults filteredArrayUsingPredicate:pred]];
+            self.filteredListContent = [self sortfilteredList:self.filteredListContent];
+        }
+        else {
+            self.filteredListContent = [self.richResults mutableCopy];
+        }
+        
+        // Build sections and sectionsArray for the filtered list
+        [self buildSectionsForList:self.filteredListContent sortMethod:sortMethodName];
+        [self buildSectionsArraySortedAscending:YES withIndexSearch:self.filteredListContent.count > 0];
+    }
+    else {
+        self.filteredListContent = [NSMutableArray arrayWithArray:[self.richResults filteredArrayUsingPredicate:pred]];
+        self.filteredListContent = [self sortfilteredList:self.filteredListContent];
+    }
+}
+
+- (NSMutableArray*)sortfilteredList:(NSArray*)filteredList {
+    // Always sort search list by ascending label
+    NSString *sortByMethod = @"label";
+    SEL selector = [self buildSelectorForSortMethod:sortByMethod inArray:filteredList];
+    filteredList = [self applySortByMethod:filteredList sortmethod:sortByMethod ascending:YES selector:selector];
+    return [filteredList mutableCopy];
 }
 
 - (NSString*)getCurrentSortAscDesc:(NSDictionary*)methods withParameters:(NSDictionary*)parameters {
