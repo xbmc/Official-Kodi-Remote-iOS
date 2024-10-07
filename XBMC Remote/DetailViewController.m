@@ -2219,7 +2219,8 @@
 }
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-    return cellHeight;
+    NSDictionary *item = [self getItemFromIndexPath:indexPath];
+    return globalSearchView ? [self getGlobalSearchThumbsize:item].y : cellHeight;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
