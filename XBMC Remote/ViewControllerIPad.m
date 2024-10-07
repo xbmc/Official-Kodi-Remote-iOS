@@ -161,7 +161,6 @@
 }
 
 - (void)showSetup:(BOOL)show {
-    firstRun = NO;
     if ([self.hostPickerViewController isViewLoaded]) {
         if (!show) {
             [self.hostPickerViewController dismissViewControllerAnimated:NO completion:nil];
@@ -372,10 +371,8 @@
     int deltaY = [Utilities getTopPadding];
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
-    self.tcpJSONRPCconnection = [tcpJSONRPC new];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
-    firstRun = YES;
     AppDelegate.instance.obj = [GlobalData getInstance];
     
     // Create the left menu
@@ -615,6 +612,13 @@
                                                object: nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // Only start tcpJSONRPC after view did appear. This ensures the HostManagement popover can be shown in case needed.
+    // This required, if the server csnnot connect or no server has been selected.
+    self.tcpJSONRPCconnection = [tcpJSONRPC new];
+}
+
 - (void)handleLibraryNotification:(NSNotification*)note {
     [Utilities showMessage:note.name color:[Utilities getSystemGreen:0.95]];
 }
@@ -682,9 +686,7 @@
 
 - (void)handleTcpJSONRPCShowSetup:(NSNotification*)sender {
     BOOL showValue = [[sender.userInfo objectForKey:@"showSetup"] boolValue];
-    if ((showValue && firstRun) || !showValue) {
-        [self showSetup:showValue];
-    }
+    [self showSetup:showValue];
 }
 
 - (void)handleTcpJSONRPCChangeServerStatus:(NSNotification*)sender {
