@@ -3927,49 +3927,49 @@
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             collectionView.alpha = 0;
-                             dataList.alpha = 0;
-                         }
+            collectionView.alpha = 0;
+            dataList.alpha = 0;
+        }
                          completion:^(BOOL finished) {
-                             viewWidth = STACKSCROLL_WIDTH;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = 1.0;
-                             if ([self collectionViewCanBeEnabled]) {
-                                 button6.hidden = NO;
-                             }
-                             sectionArray = [storeSectionArray copy];
-                             sections = [storeSections mutableCopy];
-                             [self choseParams];
-                             if (forceCollection) {
-                                 forceCollection = NO;
-                                 [Utilities SetView:activeLayoutView Alpha:0.0 XPos:viewWidth];
-                                 enableCollectionView = NO;
-                                 [self configureLibraryView];
-                                 [Utilities SetView:activeLayoutView Alpha:0.0 XPos:0];
-                             }
-                             [self setFlowLayoutParams];
-                             [collectionView.collectionViewLayout invalidateLayout];
-                             [collectionView reloadData];
-                             [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-                             NSDictionary *params = @{@"duration": @(animDuration)};
-                             [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:params];
-                             [UIView animateWithDuration:0.2
-                                                   delay:0.0
-                                                 options:UIViewAnimationOptionCurveEaseInOut
-                                              animations:^{
-                                                  collectionView.alpha = 1;
-                                                  dataList.alpha = 1;
-                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
-                                                  fullscreenButton.backgroundColor = UIColor.clearColor;
-                                              }
-                                              completion:^(BOOL finished) {
-                                                  [activityIndicatorView stopAnimating];
-                                              }
-                              ];
-                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, animDuration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                                 moreItemsViewController.view.hidden = NO;
-                             });
-                         }
-         ];
+            viewWidth = STACKSCROLL_WIDTH;
+            button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = 1.0;
+            if ([self collectionViewCanBeEnabled]) {
+                button6.hidden = NO;
+            }
+            sectionArray = [storeSectionArray copy];
+            sections = [storeSections mutableCopy];
+            [self choseParams];
+            if (forceCollection) {
+                forceCollection = NO;
+                [Utilities SetView:activeLayoutView Alpha:0.0 XPos:viewWidth];
+                enableCollectionView = NO;
+                [self configureLibraryView];
+                [Utilities SetView:activeLayoutView Alpha:0.0 XPos:0];
+            }
+            [self setFlowLayoutParams];
+            [collectionView.collectionViewLayout invalidateLayout];
+            [collectionView reloadData];
+            [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
+            NSDictionary *params = @{@"duration": @(animDuration)};
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:params];
+            [UIView animateWithDuration:0.2
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                collectionView.alpha = 1;
+                dataList.alpha = 1;
+                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
+                fullscreenButton.backgroundColor = UIColor.clearColor;
+            }
+                             completion:^(BOOL finished) {
+                [activityIndicatorView stopAnimating];
+            }
+            ];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, animDuration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                moreItemsViewController.view.hidden = NO;
+            });
+        }
+        ];
     }
     else {
         stackscrollFullscreen = YES;
@@ -3977,60 +3977,60 @@
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             collectionView.alpha = 0;
-                             dataList.alpha = 0;
-                             button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = 0.0;
-                         }
+            collectionView.alpha = 0;
+            dataList.alpha = 0;
+            button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = 0.0;
+        }
                          completion:^(BOOL finished) {
-                             button6.hidden = YES;
-                             moreItemsViewController.view.hidden = YES;
-                             if (!enableCollectionView) {
-                                 forceCollection = YES;
-                                 [Utilities SetView:activeLayoutView Alpha:0.0 XPos:viewWidth];
-                                 enableCollectionView = YES;
-                                 [self configureLibraryView];
-                                 [Utilities SetView:activeLayoutView Alpha:0.0 XPos:0];
-                             }
-                             else {
-                                 forceCollection = NO;
-                             }
-                             storeSectionArray = [sectionArray copy];
-                             storeSections = [sections mutableCopy];
-                             [self choseParams];
-                             NSMutableDictionary *sectionsTemp = [NSMutableDictionary new];
-                             [sectionsTemp setValue:[NSMutableArray new] forKey:@""];
-                             for (id key in self.sectionArray) {
-                                 NSDictionary *tmp = self.sections[key];
-                                 for (NSDictionary *item in tmp) {
-                                     [sectionsTemp[@""] addObject:item];
-                                 }
-                             }
-                             self.sectionArray = @[@""];
-                             self.sections = [sectionsTemp mutableCopy];
-                             [self setFlowLayoutParams];
-                             [collectionView.collectionViewLayout invalidateLayout];
-                             [collectionView reloadData];
-                             [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-                             [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-                             NSDictionary *params = @{
-                                 @"hideToolbar": @NO,
-                                 @"duration": @(animDuration),
-                             };
-                             [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
-                             [UIView animateWithDuration:0.2
-                                                   delay:0.0
-                                                 options:UIViewAnimationOptionCurveEaseInOut
-                                              animations:^{
-                                                  collectionView.alpha = 1;
-                                                  [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen"] forState:UIControlStateNormal];
-                                                  fullscreenButton.backgroundColor = [Utilities getGrayColor:0 alpha:0.5];
-                                              }
-                                              completion:^(BOOL finished) {
-                                                  [activityIndicatorView stopAnimating];
-                                              }
-                              ];
-                         }
-         ];
+            button6.hidden = YES;
+            moreItemsViewController.view.hidden = YES;
+            if (!enableCollectionView) {
+                forceCollection = YES;
+                [Utilities SetView:activeLayoutView Alpha:0.0 XPos:viewWidth];
+                enableCollectionView = YES;
+                [self configureLibraryView];
+                [Utilities SetView:activeLayoutView Alpha:0.0 XPos:0];
+            }
+            else {
+                forceCollection = NO;
+            }
+            storeSectionArray = [sectionArray copy];
+            storeSections = [sections mutableCopy];
+            [self choseParams];
+            NSMutableDictionary *sectionsTemp = [NSMutableDictionary new];
+            [sectionsTemp setValue:[NSMutableArray new] forKey:@""];
+            for (id key in self.sectionArray) {
+                NSDictionary *tmp = self.sections[key];
+                for (NSDictionary *item in tmp) {
+                    [sectionsTemp[@""] addObject:item];
+                }
+            }
+            self.sectionArray = @[@""];
+            self.sections = [sectionsTemp mutableCopy];
+            [self setFlowLayoutParams];
+            [collectionView.collectionViewLayout invalidateLayout];
+            [collectionView reloadData];
+            [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
+            [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
+            NSDictionary *params = @{
+                @"hideToolbar": @NO,
+                @"duration": @(animDuration),
+            };
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
+            [UIView animateWithDuration:0.2
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                collectionView.alpha = 1;
+                [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen"] forState:UIControlStateNormal];
+                fullscreenButton.backgroundColor = [Utilities getGrayColor:0 alpha:0.5];
+            }
+                             completion:^(BOOL finished) {
+                [activityIndicatorView stopAnimating];
+            }
+            ];
+        }
+        ];
     }
 }
 
