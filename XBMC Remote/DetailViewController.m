@@ -2725,6 +2725,7 @@
         else {
             genre.hidden = NO;
             runtimeyear.hidden = NO;
+            rating.hidden = NO;
         }
         [self setCellImageView:cell.urlImageView cell:cell dictItem:item url:stringURL size:CGSizeMake(thumbWidth, cellHeight) defaultImg:displayThumb];
     }
