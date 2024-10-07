@@ -417,7 +417,7 @@
 
 - (void)showNotificationMessage:(NSNotification*)note {
     NSDictionary *params = note.userInfo;
-    if (!params) {
+    if (!params || self.slidingViewController.underLeftShowing) {
         return;
     }
     [self addMessagesToRootView];
