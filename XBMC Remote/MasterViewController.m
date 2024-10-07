@@ -16,6 +16,7 @@
 #import "HostViewController.h"
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
+#import "InitialSlidingViewController.h"
 #import "tcpJSONRPC.h"
 #import "XBMCVirtualKeyboard.h"
 #import "ClearCacheView.h"
@@ -175,7 +176,7 @@
     object.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg 
                                                                                style:UIBarButtonItemStylePlain
                                                                               target:nil
-                                                                              action:@selector(revealMenu:)];
+                                                                              action:@selector(handleMenuButton)];
     
     if (hideBottonLine) {
         [navController hideNavBarBottomLine:YES];
@@ -195,9 +196,6 @@
         // Add MessagesView to root view to be able to show messages on top
         [self addMessagesToRootView];
     }];
-}
-
-- (void)revealMenu:(id)sender {
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {

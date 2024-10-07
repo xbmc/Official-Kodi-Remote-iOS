@@ -42,11 +42,8 @@
     self.topViewController = navController;
 }
 
-- (void)revealMenu:(id)sender {
+- (void)handleMenuButton {
     [[NSNotificationCenter defaultCenter] postNotificationName: @"RevealMenu" object: nil];
-}
-- (void)revealUnderRight:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"revealUnderRight" object: nil];
 }
 
 - (void)didReceiveMemoryWarning {
