@@ -561,6 +561,9 @@
     NSString *year = [Utilities getYearFromItem:item[@"year"]];
     artist = [self formatArtistYear:artist year:year];
     
+    // Keep year always visible at the tail
+    artistName.lineBreakMode = year.length ? NSLineBreakByTruncatingMiddle : NSLineBreakByTruncatingTail;
+    
     // top to bottom: songName, artistName, albumName
     songName.text = title;
     artistName.text = artist;
