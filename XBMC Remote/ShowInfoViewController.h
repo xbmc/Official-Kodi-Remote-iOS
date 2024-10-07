@@ -82,7 +82,6 @@
     UIColor *foundTintColor;
     UILabel *viewTitle;
     __weak IBOutlet UIImageView *bottomShadow;
-    BOOL isViewDidLoad;
     UIImageView *isRecording;
     LogoBackgroundType logoBackgroundMode;
     UIBarButtonItem *doneButton;
