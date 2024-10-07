@@ -11,7 +11,8 @@
 #import "Utilities.h"
 #import "VersionCheck.h"
 
-#define SERVER_TIMEOUT 3.0
+#define SERVER_CHECK_TIMER 5.0
+#define SERVER_JSON_TIMEOUT (SERVER_CHECK_TIMER - 1.0) // ensure result comes before next heartbeat check
 #define MRMC_TIMEWARP 14.0
 
 NSInputStream	*inStream;
@@ -23,7 +24,7 @@ NSInputStream	*inStream;
 - (id)init {
     if (self = [super init]) {
         infoTitle = @"";
-        heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
+        heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_CHECK_TIMER target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleSystemOnSleep:)
                                                      name: @"System.OnSleep"
@@ -50,7 +51,7 @@ NSInputStream	*inStream;
 }
 
 - (void)handleEnterForeground:(NSNotification*)sender {
-    heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_TIMEOUT target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
+    heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_CHECK_TIMER target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
 }
 
 - (void)startNetworkCommunicationWithServer:(NSString*)server serverPort:(int)port {
@@ -191,7 +192,7 @@ NSInputStream	*inStream;
     [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
      withParameters:checkServerParams
-     withTimeout: SERVER_TIMEOUT
+     withTimeout:SERVER_JSON_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         inCheck = NO;
         if (error == nil && methodError == nil) {
@@ -248,7 +249,7 @@ NSInputStream	*inStream;
     [[Utilities getJsonRPC]
      callMethod:@"Settings.GetSettingValue"
      withParameters:@{@"setting": @"filelists.ignorethewhensorting"}
-     withTimeout: SERVER_TIMEOUT
+     withTimeout:SERVER_JSON_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
             AppDelegate.instance.isIgnoreArticlesEnabled = [methodResult[@"value"] boolValue];
@@ -264,7 +265,7 @@ NSInputStream	*inStream;
     [[Utilities getJsonRPC]
      callMethod:@"JSONRPC.Version"
      withParameters:nil
-     withTimeout: SERVER_TIMEOUT
+     withTimeout:SERVER_JSON_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
             // Kodi 11 and earlier do not support "major"/"minor"/"patch" and reply with "version" only
@@ -294,7 +295,7 @@ NSInputStream	*inStream;
         [[Utilities getJsonRPC]
          callMethod:@"Settings.GetSettingValue"
          withParameters:@{@"setting": @"videolibrary.groupsingleitemsets"}
-         withTimeout: SERVER_TIMEOUT
+         withTimeout:SERVER_JSON_TIMEOUT
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
                 AppDelegate.instance.isGroupSingleItemSetsEnabled = [methodResult[@"value"] boolValue];
@@ -315,7 +316,7 @@ NSInputStream	*inStream;
         [[Utilities getJsonRPC]
          callMethod:@"Settings.GetSettingValue"
          withParameters:@{@"setting": @"videolibrary.showemptytvshows"}
-         withTimeout: SERVER_TIMEOUT
+         withTimeout:SERVER_JSON_TIMEOUT
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
                 AppDelegate.instance.isShowEmptyTvShowsEnabled = [methodResult[@"value"] boolValue];
@@ -337,7 +338,7 @@ NSInputStream	*inStream;
         [[Utilities getJsonRPC]
          callMethod:@"Application.GetProperties"
          withParameters:@{@"properties":@[@"sorttokens"]}
-         withTimeout: SERVER_TIMEOUT
+         withTimeout:SERVER_JSON_TIMEOUT
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (!error && !methodError && [methodResult isKindOfClass:[NSDictionary class]]) {
                 AppDelegate.instance.KodiSorttokens = methodResult[@"sorttokens"];
