@@ -462,7 +462,7 @@
     }
     else {
         if (stackscrollFullscreen) {
-            [self toggleFullscreen:nil];
+            [self toggleFullscreen];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                 DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                 [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
@@ -1490,7 +1490,7 @@
                 }
                 else {
                     if (stackscrollFullscreen) {
-                        [self toggleFullscreen:nil];
+                        [self toggleFullscreen];
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                             DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
@@ -1567,7 +1567,7 @@
         }
         else {
             if (stackscrollFullscreen) {
-                [self toggleFullscreen:nil];
+                [self toggleFullscreen];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.bounds.size.height) withItem:item];
                     [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:NO];
@@ -3911,11 +3911,11 @@
 
 - (void)leaveFullscreen {
     if (stackscrollFullscreen) {
-        [self toggleFullscreen:nil];
+        [self toggleFullscreen];
     }
 }
 
-- (void)toggleFullscreen:(id)sender {
+- (void)toggleFullscreen {
     if ([self doesShowSearchResults] || self.searchController.isActive) {
         [self.searchController setActive:NO];
     }
@@ -6180,7 +6180,7 @@
                 [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
                 fullscreenButton.layer.cornerRadius = 2;
                 fullscreenButton.tintColor = UIColor.whiteColor;
-                [fullscreenButton addTarget:self action:@selector(toggleFullscreen:) forControlEvents:UIControlEventTouchUpInside];
+                [fullscreenButton addTarget:self action:@selector(toggleFullscreen) forControlEvents:UIControlEventTouchUpInside];
                 fullscreenButton.frame = CGRectMake(titleView.frame.size.width - fullscreenButton.frame.size.width - buttonPadding, titleView.frame.size.height / 2 - fullscreenButton.frame.size.height / 2, fullscreenButton.frame.size.width, fullscreenButton.frame.size.height);
                 [titleView addSubview:fullscreenButton];
             }
@@ -6205,7 +6205,7 @@
 - (void)twoFingerPinch:(UIPinchGestureRecognizer*)recognizer {
     if ([recognizer state] == UIGestureRecognizerStateEnded) {
         if ((recognizer.scale > 1 && !stackscrollFullscreen) || (recognizer.scale <= 1 && stackscrollFullscreen)) {
-            [self toggleFullscreen:nil];
+            [self toggleFullscreen];
         }
     }
     return;
