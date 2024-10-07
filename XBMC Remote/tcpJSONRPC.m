@@ -24,7 +24,7 @@ NSInputStream	*inStream;
 - (id)init {
     if (self = [super init]) {
         infoTitle = @"";
-        heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_CHECK_TIMER target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
+        [self startServerHeartbeat];
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleSystemOnSleep:)
                                                      name: @"System.OnSleep"
@@ -37,6 +37,11 @@ NSInputStream	*inStream;
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleDidEnterBackground:)
                                                      name: @"UIApplicationDidEnterBackgroundNotification"
+                                                   object: nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(startServerHeartbeat)
+                                                     name: @"XBMCServerHasChanged"
                                                    object: nil];
     }
     return self;
@@ -51,6 +56,12 @@ NSInputStream	*inStream;
 }
 
 - (void)handleEnterForeground:(NSNotification*)sender {
+    [self startServerHeartbeat];
+}
+
+- (void)startServerHeartbeat {
+    [heartbeatTimer invalidate];
+    [self checkServer];
     heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_CHECK_TIMER target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
 }
 
