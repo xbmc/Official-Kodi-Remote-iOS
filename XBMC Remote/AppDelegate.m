@@ -1247,6 +1247,23 @@
         @[],
     ];
     
+    menu_Music.showInfo = @[
+        @YES,
+        @YES,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+        @NO,
+    ];
+    
     menu_Music.subItem.mainMethod = @[
         @{
             @"method": @"AudioLibrary.GetSongs",
