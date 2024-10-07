@@ -91,18 +91,6 @@
 
 #pragma mark - ServerManagement
 
-- (void)selectServerAtIndexPath:(NSIndexPath*)indexPath {
-    storeServerSelection = indexPath;
-    NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
-    AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
-    AppDelegate.instance.obj.serverUser = item[@"serverUser"];
-    AppDelegate.instance.obj.serverPass = item[@"serverPass"];
-    AppDelegate.instance.obj.serverRawIP = item[@"serverIP"];
-    AppDelegate.instance.obj.serverIP = [Utilities getUrlStyleAddress:item[@"serverIP"]];
-    AppDelegate.instance.obj.serverPort = item[@"serverPort"];
-    AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue];
-}
-
 - (void)connectionStatus:(NSNotification*)note {
     NSDictionary *theData = note.userInfo;
     NSString *icon_connection = theData[@"icon_connection"];
