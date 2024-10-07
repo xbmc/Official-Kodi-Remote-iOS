@@ -4011,6 +4011,7 @@
                              [collectionView.collectionViewLayout invalidateLayout];
                              [collectionView reloadData];
                              [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
+                             [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                              NSDictionary *params = @{
                                  @"hideToolbar": @NO,
                                  @"duration": @(animDuration),
@@ -6258,6 +6259,7 @@
                              activeLayoutView.frame = frame;
                          }
                          completion:^(BOOL finished) {
+                             [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
                              recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
                              enableCollectionView = [self collectionViewIsEnabled];
                              [self configureLibraryView];
