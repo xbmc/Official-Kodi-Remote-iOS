@@ -68,7 +68,7 @@
     itemIsActive = NO;
     [Utilities setStyleOfMenuItems:menuList active:status];
     if (status) {
-        // Send trigger to start the defalt controller
+        // Send trigger to start the default controller
         [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiStartDefaultController" object:nil userInfo:params];
     }
 }

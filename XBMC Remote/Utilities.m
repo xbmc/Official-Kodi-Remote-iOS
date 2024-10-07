@@ -1394,7 +1394,7 @@
     [AppDelegate.instance sendWOL:macAddress withPort:WOL_PORT];
 }
 
-+ (BOOL)isValidIP6Address:(NSString *)ip {
++ (BOOL)isValidIP6Address:(NSString*)ip {
     const char *utf8 = [ip UTF8String];
 
     // Check valid IPv6.

@@ -11,7 +11,7 @@
 #import "UIScrollView+SVPullToRefresh.h"
 #import "AppDelegate.h"
 
-//fequalzro() from http://stackoverflow.com/a/1614761/184130
+// fequalzro() from http://stackoverflow.com/a/1614761/184130
 #define fequalzero(a) (fabs(a) < FLT_EPSILON)
 
 static CGFloat const SVPullToRefreshViewHeight = 60;

@@ -526,8 +526,7 @@
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
 	}
 	
-	NSUInteger count = services.count;
-	if (count == 0) {
+	if (services.count == 0) {
 		return cell;
 	}
     NSNetService *service = services[indexPath.row];

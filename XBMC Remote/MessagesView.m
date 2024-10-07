@@ -66,7 +66,7 @@
         self.alpha = 1.0;
                      }
                      completion:^(BOOL finished) {}];
-    //then slide out again after timeout seconds
+    // then slide out again after timeout seconds
     [fadeoutTimer invalidate];
     fadeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutMessage:) userInfo:nil repeats:NO];
 }
