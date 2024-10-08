@@ -102,6 +102,7 @@ typedef enum {
 + (void)addShadowsToView:(UIView*)view viewFrame:(CGRect)frame;
 + (void)setStyleOfMenuItemCell:(UITableViewCell*)cell active:(BOOL)active;
 + (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active;
++ (NSIndexPath*)getIndexPathForDefaultController:(NSArray*)menuItems;
 + (void)enableDefaultController:(id<UITableViewDelegate>)viewController tableView:(UITableView*)tableView menuItems:(NSArray*)menuItems;
 + (id)unarchivePath:(NSString*)path file:(NSString*)filename;
 + (void)archivePath:(NSString*)path file:(NSString*)filename data:(id)data;
