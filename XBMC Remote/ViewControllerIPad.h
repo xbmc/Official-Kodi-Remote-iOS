@@ -35,7 +35,6 @@
     UIButton *powerButton;
     UIImageView *connectionStatus;
     VolumeSliderView *volumeSliderView;
-    BOOL firstRun;
     BOOL didTouchLeftMenu;
     NSTimer *extraTimer;
     HostManagementViewController *_hostPickerViewController;

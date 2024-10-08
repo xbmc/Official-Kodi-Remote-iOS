@@ -59,6 +59,8 @@
     if (status) {
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
         notificationName = @"XBMCServerConnectionSuccess";
+        NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"Connected to %@"), AppDelegate.instance.obj.serverDescription];
+        [Utilities showMessage:message color:[Utilities getSystemGreen:0.95]];
     }
     else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];
