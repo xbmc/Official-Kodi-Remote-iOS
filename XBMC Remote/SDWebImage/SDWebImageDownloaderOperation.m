@@ -427,7 +427,7 @@ didReceiveResponse:(NSURLResponse *)response
                 
                 if (self.userInfo[SD_NATIVESIZE_KEY]) {
                     CGSize size = CGSizeFromString(self.userInfo[SD_NATIVESIZE_KEY]);
-                    image = [image resizedImage:image.CGImage size:size interpolationQuality:kCGInterpolationHigh];
+                    image = [image resizedImageSize:size aspectMode:UIViewContentModeScaleAspectFill];
                     self.imageData = [UIImagePNGRepresentation(image) mutableCopy];
                 }
                 
