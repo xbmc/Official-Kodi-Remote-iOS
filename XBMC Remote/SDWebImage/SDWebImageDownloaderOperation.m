@@ -426,8 +426,9 @@ didReceiveResponse:(NSURLResponse *)response
                 image = [self scaledImageForKey:key image:image];
                 
                 if (self.userInfo[SD_NATIVESIZE_KEY]) {
+                    UIViewContentMode aspectMode = [self.userInfo[SD_ASPECTMODE_KEY] intValue];
                     CGSize size = CGSizeFromString(self.userInfo[SD_NATIVESIZE_KEY]);
-                    image = [image resizedImageSize:size aspectMode:UIViewContentModeScaleAspectFill];
+                    image = [image resizedImageSize:size aspectMode:aspectMode];
                     self.imageData = [UIImagePNGRepresentation(image) mutableCopy];
                 }
                 
