@@ -297,23 +297,13 @@
 }
 
 - (UIImage*)resizeImage:(UIImage*)image width:(int)destWidth height:(int)destHeight {
-	int w = image.size.width;
-    int h = image.size.height;
-    if (!w || !h) {
-        return image;
-    }
-    CGImageRef imageRef = [image CGImage];
-	
-	int width, height;
+    CGImageRef imageRef = image.CGImage;
+    CGFloat horizontalRatio = destWidth / image.size.width;
+    CGFloat verticalRatio = destHeight / image.size.height;
+    CGFloat ratio = MIN(horizontalRatio, verticalRatio); // UIViewContentModeScaleAspectFit
+    CGFloat width = floor(image.size.width * ratio);
+    CGFloat height = floor(image.size.height * ratio);
     
-	if (w > h) {
-		width = destWidth;
-		height = h * destWidth / w;
-	}
-    else {
-		height = destHeight;
-		width = w * destHeight / h;
-	}
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
 	CGContextRef bitmap;
