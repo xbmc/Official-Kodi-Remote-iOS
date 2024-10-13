@@ -314,7 +314,7 @@
                                                 colorSpace,
                                                 kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     
-    CGContextDrawImage(bitmap, CGRectMake(destWidth / 2 - width / 2, destHeight / 2 - height / 2, width, height), imageRef);
+    CGContextDrawImage(bitmap, CGRectMake(floor((destWidth - width) / 2), floor((destHeight - height) / 2), width, height), imageRef);
     CGImageRef ref = CGBitmapContextCreateImage(bitmap);
     UIImage *result = [UIImage imageWithCGImage:ref scale:image.scale orientation:image.imageOrientation];
     
