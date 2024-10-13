@@ -1354,7 +1354,7 @@
     
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
-    [activeLayoutView setContentOffset:activeLayoutView.contentOffset animated:NO];
+    activeLayoutView.contentOffset = activeLayoutView.contentOffset;
     [self checkFullscreenButton:NO];
     [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
     if ([parameters[@"blackTableSeparator"] boolValue] && ![Utilities getPreferTvPosterMode]) {
@@ -5839,7 +5839,7 @@
             [collectionView.collectionViewLayout invalidateLayout];
             [collectionView reloadData];
         }
-        [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
+        activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
     }
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {}];
 }
@@ -6259,12 +6259,12 @@
                              activeLayoutView.frame = frame;
                          }
                          completion:^(BOOL finished) {
-                             [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
+                             activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
                              recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
                              enableCollectionView = [self collectionViewIsEnabled];
                              [self configureLibraryView];
                              [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
-                             [activeLayoutView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
+                             activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
                          }];
     }
 }
