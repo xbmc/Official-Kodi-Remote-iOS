@@ -305,6 +305,8 @@
 		C7868BB727491FB7001B35B6 /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-US"; path = "en-US.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C78C30F428F877870055CD95 /* VersionCheck.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VersionCheck.m; sourceTree = "<group>"; };
 		C78C30F628F8779A0055CD95 /* VersionCheck.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VersionCheck.h; sourceTree = "<group>"; };
+		C79F6B322CBBF981009A785C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		C79F6B332CBBF981009A785C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7A030F128B60DB200B27764 /* ca-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ca-ES"; path = "ca-ES.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C7A030F228B60DB200B27764 /* ca-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ca-ES"; path = "ca-ES.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7A030F328B60EB900B27764 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -740,6 +742,7 @@
 				"ca-ES",
 				"es-MX",
 				"hr-HR",
+				"pt-BR",
 			);
 			mainGroup = 0F5548EB151D1187007E633F;
 			productRefGroup = 0F5548F7151D1187007E633F /* Products */;
@@ -883,6 +886,7 @@
 				C7A030F128B60DB200B27764 /* ca-ES */,
 				C7A030F328B60EB900B27764 /* es-MX */,
 				C7A1381F296AF0B500D84A72 /* hr-HR */,
+				C79F6B322CBBF981009A785C /* pt-BR */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -908,6 +912,7 @@
 				C7A030F228B60DB200B27764 /* ca-ES */,
 				C7A030F428B60EB900B27764 /* es-MX */,
 				C7A13820296AF0B500D84A72 /* hr-HR */,
+				C79F6B332CBBF981009A785C /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
