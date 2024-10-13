@@ -364,24 +364,24 @@
 
 - (void)setCoverSize:(NSString*)type {
     NSString *jewelImg = @"";
-    eJewelType jeweltype;
+    JewelType jeweltype;
     if ([type isEqualToString:@"song"]) {
         jewelImg = @"jewel_cd.9";
-        jeweltype = jewelTypeCD;
+        jeweltype = JewelTypeCD;
     }
     else if ([type isEqualToString:@"movie"]) {
         jewelImg = @"jewel_dvd.9";
-        jeweltype = jewelTypeDVD;
+        jeweltype = JewelTypeDVD;
     }
     else if ([type isEqualToString:@"episode"] ||
              [type isEqualToString:@"channel"] ||
              [type isEqualToString:@"recording"]) {
         jewelImg = @"jewel_tv.9";
-        jeweltype = jewelTypeTV;
+        jeweltype = JewelTypeTV;
     }
     else {
         jewelImg = @"jewel_cd.9";
-        jeweltype = jewelTypeCD;
+        jeweltype = JewelTypeCD;
     }
     BOOL forceAspectFit = [type isEqual:@"channel"] || [type isEqual:@"recording"];
     if ([self enableJewelCases]) {

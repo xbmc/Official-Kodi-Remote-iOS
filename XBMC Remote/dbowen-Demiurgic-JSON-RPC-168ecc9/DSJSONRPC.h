@@ -46,10 +46,10 @@
  *  Used for identifying the type of error that occured in jsonRPC:didFailMethod:forId:withError:
  *
 **/
-typedef enum {
+typedef NS_ENUM(NSInteger, DSJSONRPCErrorType) {
     DSJSONRPCNetworkError = 1,
     DSJSONRPCParseError = 2
-} DSJSONRPCErrorType;
+};
 
 /**
  *  Invoked when and error occurs or upon method completion.
