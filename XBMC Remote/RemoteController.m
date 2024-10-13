@@ -132,7 +132,7 @@
 - (CGFloat)getOriginYForRemote:(CGFloat)offsetBottomMode {
     CGFloat yOrigin = 0;
     topRemoteOffset = 0;
-    if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
+    if (positionMode == RemoteAtBottom && [Utilities hasRemoteToolBar]) {
         yOrigin = offsetBottomMode;
         remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }
@@ -1236,9 +1236,9 @@
 }
 
 - (void)toggleRemotePosition {
-    positionMode = positionMode == remoteBottom ? remoteTop : remoteBottom;
+    positionMode = positionMode == RemoteAtBottom ? RemoteAtTop : RemoteAtBottom;
     CGRect frame = remoteControlView.frame;
-    if (positionMode == remoteBottom && [Utilities hasRemoteToolBar]) {
+    if (positionMode == RemoteAtBottom && [Utilities hasRemoteToolBar]) {
         frame.origin.y = CGRectGetMinY(remoteToolbar.frame) - CGRectGetHeight(remoteControlView.frame) + embeddedShift;
     }
     else {

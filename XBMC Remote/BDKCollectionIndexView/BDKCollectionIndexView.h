@@ -2,10 +2,10 @@
 
 /** The direction in which the control is oriented. Assists in determining layout values.
  */
-typedef enum {
+typedef NS_ENUM(NSInteger, BDKCollectionIndexViewDirection) {
     BDKCollectionIndexViewDirectionVertical = 0,
     BDKCollectionIndexViewDirectionHorizontal
-} BDKCollectionIndexViewDirection;
+};
 
 /** An index-title-scrubber-bar, for use with a UICollectionView (or even a PSTCollectionView). Gives a collection
  *  view the index title bar that a UITableView gets for (almost) free. A huge thank you to

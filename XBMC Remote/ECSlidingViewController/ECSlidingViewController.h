@@ -34,32 +34,32 @@ extern NSString *const ECSlidingViewTopWillReset;
 extern NSString *const ECSlidingViewTopDidReset;
 
 /** @constant ECViewWidthLayout width of under views */
-typedef enum {
+typedef NS_ENUM(NSInteger, ECViewWidthLayout) {
     /** Under view will take up the full width of the screen */
     ECFullWidth,
     /** Under view will have a fixed width equal to anchorRightRevealAmount or anchorLeftRevealAmount. */
     ECFixedRevealWidth,
     /** Under view will have a variable width depending on rotation equal to the screen's width - anchorRightPeekAmount or anchorLeftPeekAmount. */
     ECVariableRevealWidth
-} ECViewWidthLayout;
+};
 
 /** @constant ECSide side of screen */
-typedef enum {
+typedef NS_ENUM(NSInteger, ECSide) {
     /** Left side of screen */
     ECLeft,
     /** Right side of screen */
     ECRight
-} ECSide;
+};
 
 /** @constant ECResetStrategy top view behavior while anchored. */
-typedef enum {
+typedef NS_ENUM(NSInteger, ECResetStrategy) {
     /** No reset strategy will be used */
     ECNone = 0,
     /** Tapping the top view will reset it */
     ECTapping = 1 << 0,
     /** Panning will be enabled on the top view. If it is panned and released towards the reset position it will reset, otherwise it will slide towards the anchored position. */
     ECPanning = 1 << 1
-} ECResetStrategy;
+};
 
 /** ECSlidingViewController is a view controller container that presents its child view controllers in two layers. The top layer can be panned to reveal the layers below it. */
 @interface ECSlidingViewController : UIViewController {

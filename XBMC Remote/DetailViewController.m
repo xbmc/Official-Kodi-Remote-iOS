@@ -1202,7 +1202,7 @@
                 break;
                 
             default:
-                NSAssert(NO, @"changeViewMode: unknown mode %d", newViewMode);
+                NSAssert(NO, @"changeViewMode: unknown mode %ld", newViewMode);
                 break;
         }
     }
@@ -4829,7 +4829,7 @@
                     break;
                     
                 default:
-                    NSAssert(NO, @"retrieveData: unexpected mode %d", filterModeType);
+                    NSAssert(NO, @"retrieveData: unexpected mode %ld", filterModeType);
                     break;
             }
         }

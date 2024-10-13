@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-typedef enum {
-    cDefault,
-    cSlider,
-    cSwitch,
-    cInput,
-    cList,
-    cMultiselect,
-    cUnsupported,
-} SettingType;
+typedef NS_ENUM(NSInteger, SettingType) {
+    SettingTypeDefault,
+    SettingTypeSlider,
+    SettingTypeSwitch,
+    SettingTypeInput,
+    SettingTypeList,
+    SettingTypeMultiselect,
+    SettingTypeUnsupported,
+};
 
 @interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate> {
     CGFloat cellHeight;
