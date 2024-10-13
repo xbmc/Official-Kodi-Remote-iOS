@@ -780,10 +780,10 @@
 
 - (NSString*)getAmountOfSearchResultsString {
     NSString *results = @"";
-    int numResult = (int)self.filteredListContent.count;
-    if (numResult) {
-        if (numResult != 1) {
-            results = LOCALIZED_STR_ARGS(@"%d results", numResult);
+    NSUInteger numResult = self.filteredListContent.count;
+    if (numResult > 0) {
+        if (numResult > 1) {
+            results = LOCALIZED_STR_ARGS(@"%lu results", numResult);
         }
         else {
             results = LOCALIZED_STR(@"1 result");
@@ -1069,13 +1069,13 @@
             if (image && (channelListView || channelGuideView || recordingListView || isOnPVR)) {
                 [Utilities setLogoBackgroundColor:weakImageView mode:logoBackgroundMode];
             }
-            // Special handling for TV SHow cells
+            // Special handling for TV Show cells
             [self layoutTVShowCell:cell useDefaultThumb:(!image || error) imgView:weakImageView];
         }];
     }
     else {
         imgView.image = [UIImage imageNamed:displayThumb];
-        // Special handling for TV SHow cells, this is already in default thumb state
+        // Special handling for TV Show cells, this is already in default thumb state
         [self layoutTVShowCell:cell useDefaultThumb:YES imgView:imgView];
     }
 }
@@ -2872,8 +2872,8 @@
             totalTimeSeconds += [item[@"runtime"] intValue];
         }
         int totalTimeMinutes = (int)round(totalTimeSeconds / 60.0);
-        NSString *trackCounText = [NSString stringWithFormat:@"%lu %@, %d %@",
-                                (unsigned long)self.richResults.count, self.richResults.count > 1 ? LOCALIZED_STR(@"Songs") : LOCALIZED_STR(@"Song"),
+        NSString *trackCountText = [NSString stringWithFormat:@"%lu %@, %d %@",
+                                self.richResults.count, self.richResults.count > 1 ? LOCALIZED_STR(@"Songs") : LOCALIZED_STR(@"Song"),
                                 totalTimeMinutes, totalTimeMinutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")];
         
         // Get year of release
@@ -2887,7 +2887,7 @@
                      artistText:artistText
                       albumText:albumText
                    releasedText:releasedText
-                 trackCountText:trackCounText
+                 trackCountText:trackCountText
                       isWatched:NO
                       isTopMost:YES];
         
@@ -5399,7 +5399,7 @@
 - (void)displayData {
     [self configureLibraryView];
     [self choseParams];
-    numResults = (int)self.richResults.count;
+    NSUInteger numResults = self.richResults.count;
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     
@@ -5407,7 +5407,7 @@
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
     self.navigationItem.backButtonTitle = labelText;
     if (!albumView) {
-        labelText = [labelText stringByAppendingFormat:@" (%d)", numResults];
+        labelText = [labelText stringByAppendingFormat:@" (%lu)", numResults];
     }
     [self setFilternameLabel:labelText];
     
@@ -5503,7 +5503,7 @@
     [self choseParams];
 
     if ([self isModal]) {
-        UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
     [self hideButtonListWhenEmpty];
