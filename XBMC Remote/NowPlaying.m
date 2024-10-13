@@ -125,8 +125,7 @@
 - (UIImage*)resizeToolbarThumb:(UIImage*)img {
     return [self resizeImage:img 
                        width:CGRectGetWidth(playlistButton.frame) * UIScreen.mainScreen.scale
-                      height:CGRectGetHeight(playlistButton.frame) * UIScreen.mainScreen.scale
-                     padding:0];
+                      height:CGRectGetHeight(playlistButton.frame) * UIScreen.mainScreen.scale];
 }
 
 #pragma mark - utility
@@ -297,24 +296,23 @@
     view.hidden = hidden;
 }
 
-- (UIImage*)resizeImage:(UIImage*)image width:(int)destWidth height:(int)destHeight padding:(int)destPadding {
+- (UIImage*)resizeImage:(UIImage*)image width:(int)destWidth height:(int)destHeight {
 	int w = image.size.width;
     int h = image.size.height;
     if (!w || !h) {
         return image;
     }
-    destPadding = 0;
     CGImageRef imageRef = [image CGImage];
 	
 	int width, height;
     
 	if (w > h) {
-		width = destWidth - destPadding;
-		height = h * (destWidth - destPadding) / w;
+		width = destWidth;
+		height = h * destWidth / w;
 	}
     else {
-		height = destHeight - destPadding;
-		width = w * (destHeight - destPadding) / h;
+		height = destHeight;
+		width = w * destHeight / h;
 	}
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
