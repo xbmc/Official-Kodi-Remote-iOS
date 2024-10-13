@@ -123,7 +123,9 @@
 # pragma mark - toolbar management
 
 - (UIImage*)resizeToolbarThumb:(UIImage*)img {
-    return [self resizeImage:img width:34 height:34 padding:0];
+    return [self resizeImage:img 
+                       width:CGRectGetWidth(playlistButton.frame) * UIScreen.mainScreen.scale
+                      height:CGRectGetHeight(playlistButton.frame) * UIScreen.mainScreen.scale];
 }
 
 #pragma mark - utility
@@ -294,56 +296,33 @@
     view.hidden = hidden;
 }
 
-- (UIImage*)resizeImage:(UIImage*)image width:(int)destWidth height:(int)destHeight padding:(int)destPadding {
-	int w = image.size.width;
-    int h = image.size.height;
-    if (!w || !h) {
-        return image;
-    }
-    destPadding = 0;
-    CGImageRef imageRef = [image CGImage];
-	
-	int width, height;
+- (UIImage*)resizeImage:(UIImage*)image width:(int)destWidth height:(int)destHeight {
+    CGImageRef imageRef = image.CGImage;
+    CGFloat horizontalRatio = destWidth / image.size.width;
+    CGFloat verticalRatio = destHeight / image.size.height;
+    CGFloat ratio = MIN(horizontalRatio, verticalRatio); // UIViewContentModeScaleAspectFit
+    CGFloat width = floor(image.size.width * ratio);
+    CGFloat height = floor(image.size.height * ratio);
     
-	if (w > h) {
-		width = destWidth - destPadding;
-		height = h * (destWidth - destPadding) / w;
-	}
-    else {
-		height = destHeight - destPadding;
-		width = w * (destHeight - destPadding) / h;
-	}
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
-	CGContextRef bitmap;
-	bitmap = CGBitmapContextCreate(NULL, destWidth, destHeight, 8, 4 * destWidth, colorSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
-	
-	if (image.imageOrientation == UIImageOrientationLeft) {
-		CGContextRotateCTM (bitmap, M_PI / 2);
-		CGContextTranslateCTM (bitmap, 0, -height);
-	}
-    else if (image.imageOrientation == UIImageOrientationRight) {
-		CGContextRotateCTM (bitmap, -M_PI / 2);
-		CGContextTranslateCTM (bitmap, -width, 0);
-	}
-    else if (image.imageOrientation == UIImageOrientationUp) {
-		
-	}
-    else if (image.imageOrientation == UIImageOrientationDown) {
-		CGContextTranslateCTM (bitmap, width, height);
-		CGContextRotateCTM (bitmap, -M_PI);
-		
-	}
-	
-	CGContextDrawImage(bitmap, CGRectMake(destWidth / 2 - width / 2, destHeight / 2 - height / 2, width, height), imageRef);
-	CGImageRef ref = CGBitmapContextCreateImage(bitmap);
-	UIImage *result = [UIImage imageWithCGImage:ref];
-	
-	CGContextRelease(bitmap);
+    CGContextRef bitmap = CGBitmapContextCreate(NULL,
+                                                destWidth,
+                                                destHeight,
+                                                8,
+                                                4 * destWidth,
+                                                colorSpace,
+                                                kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
+    
+    CGContextDrawImage(bitmap, CGRectMake(floor((destWidth - width) / 2), floor((destHeight - height) / 2), width, height), imageRef);
+    CGImageRef ref = CGBitmapContextCreateImage(bitmap);
+    UIImage *result = [UIImage imageWithCGImage:ref scale:image.scale orientation:image.imageOrientation];
+    
+    CGContextRelease(bitmap);
     CGColorSpaceRelease(colorSpace);
-	CGImageRelease(ref);
-	
-	return result;
+    CGImageRelease(ref);
+    
+    return result;
 }
 
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source {
