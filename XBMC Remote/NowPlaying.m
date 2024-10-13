@@ -309,26 +309,9 @@
 	CGContextRef bitmap;
 	bitmap = CGBitmapContextCreate(NULL, destWidth, destHeight, 8, 4 * destWidth, colorSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
 	
-	if (image.imageOrientation == UIImageOrientationLeft) {
-		CGContextRotateCTM (bitmap, M_PI / 2);
-		CGContextTranslateCTM (bitmap, 0, -height);
-	}
-    else if (image.imageOrientation == UIImageOrientationRight) {
-		CGContextRotateCTM (bitmap, -M_PI / 2);
-		CGContextTranslateCTM (bitmap, -width, 0);
-	}
-    else if (image.imageOrientation == UIImageOrientationUp) {
-		
-	}
-    else if (image.imageOrientation == UIImageOrientationDown) {
-		CGContextTranslateCTM (bitmap, width, height);
-		CGContextRotateCTM (bitmap, -M_PI);
-		
-	}
-	
 	CGContextDrawImage(bitmap, CGRectMake(destWidth / 2 - width / 2, destHeight / 2 - height / 2, width, height), imageRef);
 	CGImageRef ref = CGBitmapContextCreateImage(bitmap);
-	UIImage *result = [UIImage imageWithCGImage:ref];
+    UIImage *result = [UIImage imageWithCGImage:ref scale:image.scale orientation:image.imageOrientation];
 	
 	CGContextRelease(bitmap);
     CGColorSpaceRelease(colorSpace);
