@@ -306,8 +306,13 @@
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
-    CGContextRef bitmap;
-    bitmap = CGBitmapContextCreate(NULL, destWidth, destHeight, 8, 4 * destWidth, colorSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
+    CGContextRef bitmap = CGBitmapContextCreate(NULL,
+                                                destWidth,
+                                                destHeight,
+                                                8,
+                                                4 * destWidth,
+                                                colorSpace,
+                                                kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
     
     CGContextDrawImage(bitmap, CGRectMake(destWidth / 2 - width / 2, destHeight / 2 - height / 2, width, height), imageRef);
     CGImageRef ref = CGBitmapContextCreateImage(bitmap);
