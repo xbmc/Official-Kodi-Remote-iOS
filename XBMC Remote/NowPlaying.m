@@ -2607,10 +2607,6 @@
         if (self.slidingViewController.panGesture != nil) {
             [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
         }
-        if ([self.navigationController.viewControllers indexOfObject:self] == 0) {
-            UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(revealMenu:)];
-        }
         UIImage *remoteImg = [UIImage imageNamed:@"icon_menu_remote"];
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
         self.navigationItem.rightBarButtonItems = @[
