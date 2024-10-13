@@ -123,7 +123,10 @@
 # pragma mark - toolbar management
 
 - (UIImage*)resizeToolbarThumb:(UIImage*)img {
-    return [self resizeImage:img width:34 height:34 padding:0];
+    return [self resizeImage:img 
+                       width:CGRectGetWidth(playlistButton.frame) * UIScreen.mainScreen.scale
+                      height:CGRectGetHeight(playlistButton.frame) * UIScreen.mainScreen.scale
+                     padding:0];
 }
 
 #pragma mark - utility
