@@ -30,6 +30,7 @@
     UITextView *serverInfoView;
     __weak IBOutlet UIButton *serverInfoButton;
     NSTimer *serverInfoTimer;
+    NSString *appImageCacheSize;
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil;

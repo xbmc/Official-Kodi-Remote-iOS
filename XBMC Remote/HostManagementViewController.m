@@ -412,6 +412,7 @@
             [infoString appendAttributedString:newLine];
             NSString *appMemoryUsage = [NSString stringWithFormat:@"%llu MB", [Utilities memoryFootprint] / 1024 / 1024];
             [infoString appendAttributedString:[self formatInfo:@"App Memory Usage" text:appMemoryUsage]];
+            [infoString appendAttributedString:[self formatInfo:@"App Image Cache" text:appImageCacheSize]];
             
             serverInfoView.attributedText = infoString;
         }
@@ -436,6 +437,9 @@
     serverInfoView.hidden = !serverInfoView.hidden;
     [serverInfoTimer invalidate];
     if (!serverInfoView.hidden) {
+        // Read the size of image cache only once. Calling this function can become heavy and the cache size is anyway not changing
+        // while showing the info screen.
+        appImageCacheSize = [NSString stringWithFormat:@"%lu MB", ([[SDImageCache sharedImageCache] getSize] / 1024 / 1024)];
         [self updateServerInfo];
         // Start timer to update the server info view
         // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging
