@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef NS_ENUM(NSInteger, MenuItemFamilyType) {
     FamilyDetailView,
     FamilyNowPlaying,
     FamilyRemote,
     FamilyServer
-} MenuItemFamilyType;
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, ViewModes) {
     ViewModeDefault,
     ViewModeUnwatched,
     ViewModeWatched,
@@ -24,7 +24,7 @@ typedef enum {
     ViewModeDefaultArtists,
     ViewModeAlbumArtists,
     ViewModeSongArtists
-} ViewModes;
+};
 
 @interface mainMenu : NSObject
 
