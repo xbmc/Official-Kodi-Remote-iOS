@@ -1402,7 +1402,6 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
         [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:YES];
-        [AppDelegate.instance.windowController.stackScrollViewController enablePanGestureRecognizer];
         [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
     }
 }
@@ -2060,7 +2059,6 @@
             [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
             DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:menuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:YES];
-            [AppDelegate.instance.windowController.stackScrollViewController enablePanGestureRecognizer];
             [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
         }
     }
