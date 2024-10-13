@@ -304,20 +304,20 @@
     CGFloat width = floor(image.size.width * ratio);
     CGFloat height = floor(image.size.height * ratio);
     
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
-	CGContextRef bitmap;
-	bitmap = CGBitmapContextCreate(NULL, destWidth, destHeight, 8, 4 * destWidth, colorSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
-	
-	CGContextDrawImage(bitmap, CGRectMake(destWidth / 2 - width / 2, destHeight / 2 - height / 2, width, height), imageRef);
-	CGImageRef ref = CGBitmapContextCreateImage(bitmap);
+    CGContextRef bitmap;
+    bitmap = CGBitmapContextCreate(NULL, destWidth, destHeight, 8, 4 * destWidth, colorSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
+    
+    CGContextDrawImage(bitmap, CGRectMake(destWidth / 2 - width / 2, destHeight / 2 - height / 2, width, height), imageRef);
+    CGImageRef ref = CGBitmapContextCreateImage(bitmap);
     UIImage *result = [UIImage imageWithCGImage:ref scale:image.scale orientation:image.imageOrientation];
-	
-	CGContextRelease(bitmap);
+    
+    CGContextRelease(bitmap);
     CGColorSpaceRelease(colorSpace);
-	CGImageRelease(ref);
-	
-	return result;
+    CGImageRelease(ref);
+    
+    return result;
 }
 
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source {
