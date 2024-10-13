@@ -354,6 +354,9 @@
     // Which version does the serer have?
     NSString *serverVersion = [NSString stringWithFormat:@"%d.%d", serverMajorVersion, serverMinorVersion];
     
+    // Which user profile is active?
+    NSString *currentProfile = [NSString stringWithFormat:@"%@", AppDelegate.instance.currentProfile];
+    
     // Which App version are we running?
     NSString *appVersion = [Utilities getAppVersionString];
     
@@ -361,7 +364,7 @@
     NSString *jsonRequest = [NSString stringWithFormat:@"%@ %@", fieldA, fieldB];
     
     // Get SHA256 hash for the combination given above
-    NSString *text = [NSString stringWithFormat:@"%@%@%@%@", serverInfo, serverVersion, appVersion, jsonRequest];
+    NSString *text = [NSString stringWithFormat:@"%@%@%@%@%@", serverInfo, serverVersion, currentProfile, appVersion, jsonRequest];
     return [text SHA256String];
 }
 
@@ -1612,6 +1615,9 @@
             [Utilities showMessage:message color:[Utilities getSystemRed:0.95]];
         }
     }
+    else if ([item[@"family"] isEqualToString:@"profile"]) {
+        [self loadProfile:item];
+    }
     else if (methods[@"method"] != nil && ![parameters[@"forceActionSheet"] boolValue] && !stackscrollFullscreen) {
         // There is a child and we want to show it (only when not in fullscreen)
         [self viewChild:indexPath item:item displayPoint:point];
@@ -2646,6 +2652,17 @@
             [item[@"family"] isEqualToString:@"genreid"] ||
             [item[@"family"] isEqualToString:@"channelgroupid"] ||
             [item[@"family"] isEqualToString:@"roleid"]) {
+            genre.hidden = YES;
+            runtimeyear.hidden = YES;
+            title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
+        }
+        else if ([item[@"family"] isEqualToString:@"profile"]) {
+            if ([item[@"label"] isEqualToString:AppDelegate.instance.currentProfile]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
+            else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
             genre.hidden = YES;
             runtimeyear.hidden = YES;
             title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
@@ -4492,6 +4509,26 @@
     }];
 }
 
+- (void)loadProfile:(NSDictionary*)item {
+    NSString *profileName = item[@"label"];
+    if ([profileName isEqualToString:AppDelegate.instance.currentProfile]) {
+        return;
+    }
+    // Load user profile
+    [[Utilities getJsonRPC]
+     callMethod:@"Profiles.LoadProfile"
+     withParameters:@{
+        @"profile": profileName,
+        @"prompt": @YES,
+    }
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (!error && !methodError) {
+            AppDelegate.instance.currentProfile = profileName;
+            [dataList reloadData];
+        }
+    }];
+}
+
 - (void)displayInfoView:(NSDictionary*)item {
     if (IS_IPHONE) {
         ShowInfoViewController *showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
@@ -4872,6 +4909,13 @@
         }
     }
 
+    // Profiles functions not supported with older Kodi versions
+    if ([methodToCall containsString:@"Profiles."] && ![VersionCheck hasProfilesSupport]) {
+        [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
+        [self animateNoResultsFound];
+        return;
+    }
+    
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
 //    NSLog(@"START");
     elapsedTime = 0;
