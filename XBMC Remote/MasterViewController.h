@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-#import "ECSlidingViewController.h"
 #import "tcpJSONRPC.h"
 #import "CustomNavigationController.h"
 #import "MessagesView.h"
