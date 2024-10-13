@@ -91,18 +91,6 @@
 
 #pragma mark - ServerManagement
 
-- (void)selectServerAtIndexPath:(NSIndexPath*)indexPath {
-    storeServerSelection = indexPath;
-    NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
-    AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
-    AppDelegate.instance.obj.serverUser = item[@"serverUser"];
-    AppDelegate.instance.obj.serverPass = item[@"serverPass"];
-    AppDelegate.instance.obj.serverRawIP = item[@"serverIP"];
-    AppDelegate.instance.obj.serverIP = [Utilities getUrlStyleAddress:item[@"serverIP"]];
-    AppDelegate.instance.obj.serverPort = item[@"serverPort"];
-    AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue];
-}
-
 - (void)connectionStatus:(NSNotification*)note {
     NSDictionary *theData = note.userInfo;
     NSString *icon_connection = theData[@"icon_connection"];
@@ -123,6 +111,8 @@
     if (status) {
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
         notificationName = @"XBMCServerConnectionSuccess";
+        NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"Connected to %@"), AppDelegate.instance.obj.serverDescription];
+        [Utilities showMessage:message color:[Utilities getSystemGreen:0.95]];
         [volumeSliderView startTimer];
     }
     else {
@@ -173,7 +163,6 @@
 }
 
 - (void)showSetup:(BOOL)show {
-    firstRun = NO;
     if ([self.hostPickerViewController isViewLoaded]) {
         if (!show) {
             [self.hostPickerViewController dismissViewControllerAnimated:NO completion:nil];
@@ -384,10 +373,8 @@
     int deltaY = [Utilities getTopPadding];
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
-    self.tcpJSONRPCconnection = [tcpJSONRPC new];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
-    firstRun = YES;
     AppDelegate.instance.obj = [GlobalData getInstance];
     
     // Create the left menu
@@ -627,6 +614,13 @@
                                                object: nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // Only start tcpJSONRPC after view did appear. This ensures the HostManagement popover can be shown in case needed.
+    // This required, if the server csnnot connect or no server has been selected.
+    self.tcpJSONRPCconnection = [tcpJSONRPC new];
+}
+
 - (void)handleLibraryNotification:(NSNotification*)note {
     [Utilities showMessage:note.name color:[Utilities getSystemGreen:0.95]];
 }
@@ -694,9 +688,7 @@
 
 - (void)handleTcpJSONRPCShowSetup:(NSNotification*)sender {
     BOOL showValue = [[sender.userInfo objectForKey:@"showSetup"] boolValue];
-    if ((showValue && firstRun) || !showValue) {
-        [self showSetup:showValue];
-    }
+    [self showSetup:showValue];
 }
 
 - (void)handleTcpJSONRPCChangeServerStatus:(NSNotification*)sender {

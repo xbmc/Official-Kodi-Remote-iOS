@@ -40,6 +40,22 @@
     [navController hideNavBarBottomLine:YES];
     hostManagementViewController.mainMenu = self.mainMenu;
     self.topViewController = navController;
+    
+    // Hide the inital HostManagementVC in case the "start view" is not main menu to avoid disturbing
+    // sliding out (this view) and in (the targeted view).
+    self.topViewController.view.hidden = [Utilities getIndexPathForDefaultController:self.mainMenu];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleTcpJSONRPCShowSetup:)
+                                                 name:@"TcpJSONRPCShowSetup"
+                                               object:nil];
+}
+
+- (void)handleTcpJSONRPCShowSetup:(NSNotification*)sender {
+    // If showSetup is requested, unhide this view in any case. This ensures this view is brought up
+    // in case of problems connecting to a server in combination with entering a different "start view".
+    BOOL showValue = [[sender.userInfo objectForKey:@"showSetup"] boolValue];
+    self.topViewController.view.hidden = !showValue;
 }
 
 - (void)handleMenuButton {
