@@ -55,7 +55,9 @@
     // If showSetup is requested, unhide this view in any case. This ensures this view is brought up
     // in case of problems connecting to a server in combination with entering a different "start view".
     BOOL showValue = [[sender.userInfo objectForKey:@"showSetup"] boolValue];
-    self.topViewController.view.hidden = !showValue;
+    if (showValue) {
+        self.topViewController.view.hidden = NO;
+    }
 }
 
 - (void)handleMenuButton {
