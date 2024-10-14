@@ -56,7 +56,9 @@ NSInputStream	*inStream;
 }
 
 - (void)handleEnterForeground:(NSNotification*)sender {
-    [self startServerHeartbeat];
+    // Start the JSON heartbeat only with a little delay to ensure iOS provides all services.
+    // See https://stackoverflow.com/questions/63621039/
+    [self performSelector:@selector(startServerHeartbeat) withObject:nil afterDelay:0.1];
 }
 
 - (void)startServerHeartbeat {
