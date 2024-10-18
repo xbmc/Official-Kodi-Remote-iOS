@@ -671,7 +671,7 @@
         actionView = [Utilities createAlertOK:LOCALIZED_STR(@"Select an XBMC Server from the list") message:nil];
     }
     else {
-        actionView = [Utilities createPowerControl:self];
+        actionView = [Utilities createPowerControl];
     }
     [self presentViewController:actionView animated:YES completion:nil];
 }
