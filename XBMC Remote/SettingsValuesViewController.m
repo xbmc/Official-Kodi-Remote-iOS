@@ -65,17 +65,17 @@
         }
         itemControls = self.detailItem[@"control"];
         
-        xbmcSetting = cDefault;
+        xbmcSetting = SettingTypeDefault;
         
         if ([itemControls[@"format"] isEqualToString:@"boolean"]) {
-            xbmcSetting = cSwitch;
+            xbmcSetting = SettingTypeSwitch;
         }
         else if ([itemControls[@"multiselect"] boolValue] && ![settingOptions isKindOfClass:[NSArray class]]) {
-            xbmcSetting = cMultiselect;
+            xbmcSetting = SettingTypeMultiselect;
             self.detailItem[@"value"] = [self.detailItem[@"value"] mutableCopy];
         }
         else if ([itemControls[@"format"] isEqualToString:@"addon"]) {
-            xbmcSetting = cList;
+            xbmcSetting = SettingTypeList;
             self.navigationItem.title = self.detailItem[@"label"];
             settingOptions = [NSMutableArray new];
             [self retrieveXBMCData:@"Addons.GetAddons"
@@ -88,36 +88,36 @@
         }
         else if ([itemControls[@"format"] isEqualToString:@"action"] || [itemControls[@"format"] isEqualToString:@"path"]) {
             self.navigationItem.title = self.detailItem[@"label"];
-            xbmcSetting = cUnsupported;
+            xbmcSetting = SettingTypeUnsupported;
         }
         else if ([itemControls[@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
-            xbmcSetting = cSlider;
+            xbmcSetting = SettingTypeSlider;
             storeSliderValue = [self.detailItem[@"value"] intValue];
         }
         else if ([itemControls[@"type"] isEqualToString:@"edit"]) {
-            xbmcSetting = cInput;
+            xbmcSetting = SettingTypeInput;
         }
         else if ([itemControls[@"type"] isEqualToString:@"list"] && settingOptions == nil) {
-            xbmcSetting = cSlider;
+            xbmcSetting = SettingTypeSlider;
             storeSliderValue = [self.detailItem[@"value"] intValue];
         }
         else {
             self.navigationItem.title = self.detailItem[@"label"];
             if ([settingOptions isKindOfClass:[NSArray class]]) {
                 if (settingOptions.count > 0) {
-                    xbmcSetting = cList;
+                    xbmcSetting = SettingTypeList;
                 }
             }
         }
         
         NSString *footerMessage;
-        if (xbmcSetting == cUnsupported) {
+        if (xbmcSetting == SettingTypeUnsupported) {
             footerMessage = LOCALIZED_STR(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.");
         }
-        else if (xbmcSetting == cList || xbmcSetting == cDefault || xbmcSetting == cMultiselect) {
+        else if (xbmcSetting == SettingTypeList || xbmcSetting == SettingTypeDefault || xbmcSetting == SettingTypeMultiselect) {
             footerMessage = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"] ?: self.detailItem[@"label"]];
         }
-        if (xbmcSetting != cUnsupported) {
+        if (xbmcSetting != SettingTypeUnsupported) {
             footerMessage = [NSString stringWithFormat:@"%@%@ⓘ %@",
                              footerMessage.length ? footerMessage : @"",
                              footerMessage.length ? @"\n\n" : @"",
@@ -234,16 +234,16 @@
     NSString *subTitle = @"";
     NSString *stringFormat = @": %i";
     switch (xbmcSetting) {
-        case cList:
+        case SettingTypeList:
             subTitle = [NSString stringWithFormat:@": %@", settingOptions[longPressRow.row][@"label"]];
             break;
             
-        case cSlider:
+        case SettingTypeSlider:
             stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
             subTitle = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
             break;
             
-        case cUnsupported:
+        case SettingTypeUnsupported:
             return nil;
             
         default:
@@ -257,7 +257,7 @@
     id value = @"";
     NSString *type = self.detailItem[@"year"] ?: @"string";
     switch (xbmcSetting) {
-        case cList:
+        case SettingTypeList:
             if ([type isEqualToString:@"integer"]) {
                 value = @([settingOptions[longPressRow.row][@"value"] intValue]);
             }
@@ -266,7 +266,7 @@
             }
             break;
             
-        case cSlider:
+        case SettingTypeSlider:
             value = @(storeSliderValue);
             break;
             
@@ -411,7 +411,7 @@
     descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
     descriptionString = [Utilities stripBBandHTML:descriptionString];
     switch (xbmcSetting) {
-        case cSwitch:
+        case SettingTypeSwitch:
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             descriptionLabel.hidden = NO;
             onoff.hidden = NO;
@@ -440,7 +440,7 @@
             cellHeight = CGRectGetMaxY(descriptionLabel.frame) + PADDING_VERTICAL;
             break;
             
-        case cList:
+        case SettingTypeList:
             cellLabel.text = [NSString stringWithFormat:@"%@", settingOptions[indexPath.row][@"label"]];
             if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
                 if ([self.detailItem[@"value"] containsObject:settingOptions[indexPath.row][@"value"]]) {
@@ -452,7 +452,7 @@
             }
             break;
             
-        case cSlider:
+        case SettingTypeSlider:
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             slider.hidden = NO;
             sliderLabel.hidden = NO;
@@ -495,7 +495,7 @@
             cellHeight = CGRectGetMaxY(slider.frame) + 2 * PADDING_VERTICAL;
             break;
             
-        case cInput:
+        case SettingTypeInput:
             descriptionLabel.hidden = NO;
             textInputField.hidden = NO;
             
@@ -526,8 +526,8 @@
             cellHeight = CGRectGetMaxY(textInputField.frame) + PADDING_VERTICAL;
             break;
             
-        case cDefault:
-        case cMultiselect:
+        case SettingTypeDefault:
+        case SettingTypeMultiselect:
             if (self.detailItem[@"value"] != nil) {
                 if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
                     NSString *delimiter = self.detailItem[@"delimiter"];
@@ -559,7 +559,7 @@
             }
             break;
             
-        case cUnsupported:
+        case SettingTypeUnsupported:
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             cellLabel.text = descriptionString;
@@ -694,7 +694,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell *cell = nil;
     switch (xbmcSetting) {
-        case cList:
+        case SettingTypeList:
             if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
                 cell = [tableView cellForRowAtIndexPath:indexPath];
                 if (cell.accessoryType == UITableViewCellAccessoryNone) {
@@ -722,7 +722,7 @@
             [self setSettingValue:self.detailItem[@"value"] sender:_tableView];
             break;
             
-        case cMultiselect:
+        case SettingTypeMultiselect:
             if ([self.detailItem[@"definition"] isKindOfClass:[NSDictionary class]]) {
                 self.detailItem[@"definition"][@"value"] = self.detailItem[@"value"];
                 self.detailItem[@"definition"][@"id"] = self.detailItem[@"id"];
@@ -752,7 +752,7 @@
 
 - (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
     UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
-    if (xbmcSetting == cUnsupported) {
+    if (xbmcSetting == SettingTypeUnsupported) {
         helpView.backgroundColor = [Utilities getSystemRed:0.95];
     }
     else {
@@ -856,14 +856,14 @@
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
-    if (xbmcSetting == cMultiselect) {
+    if (xbmcSetting == SettingTypeMultiselect) {
         [_tableView reloadData];
     }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (xbmcSetting == cList) {
+    if (xbmcSetting == SettingTypeList) {
         [self scrollTableRow:settingOptions];
     }
 }

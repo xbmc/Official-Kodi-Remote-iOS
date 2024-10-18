@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 
-typedef enum {
-    remoteTop,
-    remoteBottom
-} RemotePositionType;
+typedef NS_ENUM(NSInteger, RemotePositionType) {
+    RemoteAtTop,
+    RemoteAtBottom,
+};
 
 @interface RemoteController : UIViewController <UIGestureRecognizerDelegate> {
     IBOutlet UIView *remoteControlView;
