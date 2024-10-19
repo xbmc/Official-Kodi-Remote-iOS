@@ -71,6 +71,8 @@
     cellLabel.font = [UIFont systemFontOfSize:18];
     cellLabel.textColor = [Utilities get1stLabelColor];
     cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
+    cellLabel.adjustsFontSizeToFitWidth = YES;
+    cellLabel.minimumScaleFactor = FONT_SCALING_MIN;
     NSDictionary *item = mainMenuItems[indexPath.row];
     cellLabel.text = item[@"label"];
     [cell.contentView addSubview:cellLabel];
