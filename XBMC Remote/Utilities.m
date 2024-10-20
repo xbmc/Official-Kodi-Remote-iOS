@@ -736,6 +736,22 @@
     return text;
 }
 
++ (NSNumber*)getNumberFromItem:(id)item {
+    NSNumber *value = @(0);
+    if (!item) {
+        return value;
+    }
+    // Check for longLongValue as this is supported by both NSNumber and NSString.
+    // If longLongValue value is not supported, convert via NSString.
+    if ([item respondsToSelector:@selector(longLongValue)]) {
+        value = @([item longLongValue]);
+    }
+    else {
+        value = @([[Utilities getStringFromItem:item] longLongValue]);
+    }
+    return value;
+}
+
 + (NSString*)getTimeFromItem:(id)item sec2min:(int)secondsToMinute {
     NSString *runtime = @"";
     if (item == nil || [item isKindOfClass:[NSNull class]]) {
