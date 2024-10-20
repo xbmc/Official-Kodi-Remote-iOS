@@ -1406,18 +1406,15 @@
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem {
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     NSString *itemid = mainFields[@"row6"] ?: @"";
-    UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
-    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:XIB_PLAYLIST_CELL_ACTIVTYINDICATOR];
-    id object;
+    id object = @([item[itemid] longValue]);
     if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {
         // WORKAROUND due to the lack of the artistid with Playlist.GetItems
         methodToCall = @"AudioLibrary.GetArtists";
         object = @{@"songid": @([item[@"idItem"] longValue])};
         itemid = @"filter";
     }
-    else {
-        object = @([item[itemid] longValue]);
-    }
+    UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
+    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:XIB_PLAYLIST_CELL_ACTIVTYINDICATOR];
     if (!object) {
         return; // something goes wrong
     }
@@ -2018,16 +2015,16 @@
         if (item[mainFields[@"row15"]] != nil) {
             key = mainFields[@"row15"];
         }
-        id obj = @([item[mainFields[@"row6"]] longValue]);
         id objKey = mainFields[@"row6"];
+        id obj = @([item[objKey] longValue]);
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
-            if ([mainFields[@"row6"] isEqualToString:@"artistid"]) {
+            if ([objKey isEqualToString:@"artistid"]) {
                 // WORKAROUND due to the lack of the artistid with Playlist.GetItems
                 NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item[@"artist"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
                 obj = @{@"artist": artistFrodoWorkaround};
             }
             else {
-                obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] longValue]), mainFields[@"row6"], nil];
+                obj = [NSDictionary dictionaryWithObjectsAndKeys: obj, objKey, nil];
             }
             objKey = @"filter";
         }
