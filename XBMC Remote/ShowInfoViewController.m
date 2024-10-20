@@ -309,14 +309,14 @@ double round(double d) {
     if (methods[@"method"] != nil) { // THERE IS A CHILD
         NSDictionary *mainFields = menuItem.mainFields[choosedTab];
         NSMutableDictionary *parameters = choosedMenuItem.mainParameters[choosedTab];
-        id obj = @([item[mainFields[@"row6"]] intValue]);
+        id obj = @([item[mainFields[@"row6"]] longValue]);
         id objKey = mainFields[@"row6"];
         if (movieObj != nil && movieObjKey != nil) {
             obj = movieObj;
             objKey = movieObjKey;
         }
         else if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
-            obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] intValue]), mainFields[@"row6"], nil];
+            obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] longValue]), mainFields[@"row6"], nil];
             objKey = @"filter";
         }
         NSMutableDictionary *newSectionParameters = nil;
