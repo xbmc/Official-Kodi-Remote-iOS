@@ -2624,7 +2624,7 @@
             UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
             isRecordingImageView.hidden = ![item[@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @([item[@"channelid"] integerValue]), @"channelid",
+                                    @([item[@"channelid"] longValue]), @"channelid",
                                     tableView, @"tableView",
                                     indexPath, @"indexPath",
                                     item, @"item",
