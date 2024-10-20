@@ -1859,7 +1859,7 @@
             }
             NSInteger numActions = sheetActions.count;
             if (numActions) {
-                 NSString *title = item[@"label"];
+                NSString *title = item[@"label"];
                 if ([item[@"type"] isEqualToString:@"song"]) {
                     title = [NSString stringWithFormat:@"%@\n%@\n%@", item[@"label"], item[@"album"], item[@"artist"]];
                 }
