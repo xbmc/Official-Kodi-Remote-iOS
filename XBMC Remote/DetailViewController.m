@@ -1392,8 +1392,8 @@
         if (item[mainFields[@"row15"]] != nil) {
             key = mainFields[@"row15"];
         }
-        id obj = item[mainFields[@"row6"]];
         id objKey = mainFields[@"row6"];
+        id obj = item[objKey];
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
             NSDictionary *currentParams = menuItem.mainParameters[choosedTab];
             obj = [NSDictionary dictionaryWithObjectsAndKeys:
