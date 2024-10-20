@@ -1242,10 +1242,10 @@
                            NSString *episode = [Utilities getStringFromItem:item[@"episode"]];
                            NSString *type = [Utilities getStringFromItem:item[@"type"]];
                            NSString *idType = [NSString stringWithFormat:@"%@id", type];
-                           NSNumber *idItem = @([item[@"id"] longValue]);
-                           NSNumber *artistid = @([[Utilities getStringFromItem:item[@"artistid"]] longLongValue]);
-                           NSNumber *albumid = @([item[@"albumid"] longValue]);
-                           NSNumber *tvshowid = @([item[@"tvshowid"] longValue]);
+                           NSNumber *idItem = [Utilities getNumberFromItem:item[@"id"]];
+                           NSNumber *artistid = [Utilities getNumberFromItem:item[@"artistid"]];
+                           NSNumber *albumid = [Utilities getNumberFromItem:item[@"albumid"]];
+                           NSNumber *tvshowid = [Utilities getNumberFromItem:item[@"tvshowid"]];
                            NSString *channel = [Utilities getStringFromItem:item[@"channel"]];
                            NSString *genre = [Utilities getStringFromItem:item[@"genre"]];
                            NSString *durationTime = [Utilities convertTimeFromSeconds:item[@"duration"]];
@@ -1406,11 +1406,11 @@
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem {
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     NSString *itemid = mainFields[@"row6"] ?: @"";
-    id object = @([item[itemid] longValue]);
+    id object = [Utilities getNumberFromItem:item[itemid]];
     if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {
         // WORKAROUND due to the lack of the artistid with Playlist.GetItems
         methodToCall = @"AudioLibrary.GetArtists";
-        object = @{@"songid": @([item[@"idItem"] longValue])};
+        object = @{@"songid": [Utilities getNumberFromItem:item[@"idItem"]]};
         itemid = @"filter";
     }
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
@@ -1495,7 +1495,7 @@
                   rating, @"rating",
                   mainFields[@"playlistid"], @"playlistid",
                   mainFields[@"row8"], @"family",
-                  @([itemExtraDict[mainFields[@"row9"]] longValue]), mainFields[@"row9"],
+                  [Utilities getNumberFromItem:itemExtraDict[mainFields[@"row9"]]], mainFields[@"row9"],
                   itemExtraDict[mainFields[@"row10"]], mainFields[@"row10"],
                   row11, mainFields[@"row11"],
                   itemExtraDict[mainFields[@"row12"]], mainFields[@"row12"],
@@ -2016,7 +2016,7 @@
             key = mainFields[@"row15"];
         }
         id objKey = mainFields[@"row6"];
-        id obj = @([item[objKey] longValue]);
+        id obj = [Utilities getNumberFromItem:item[objKey]];
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
             if ([objKey isEqualToString:@"artistid"]) {
                 // WORKAROUND due to the lack of the artistid with Playlist.GetItems
@@ -2194,9 +2194,9 @@
     NSDictionary *objSource = playlistData[sourceIndexPath.row];
     NSDictionary *itemToMove;
     
-    long idItem = [objSource[@"idItem"] longValue];
-    if (idItem) {
-        itemToMove = @{[NSString stringWithFormat:@"%@id", objSource[@"type"]]: @(idItem)};
+    NSNumber *idItem = [Utilities getNumberFromItem:objSource[@"idItem"]];
+    if ([idItem longValue] > 0) {
+        itemToMove = @{[NSString stringWithFormat:@"%@id", objSource[@"type"]]: idItem};
     }
     else {
         itemToMove = [NSDictionary dictionaryWithObjectsAndKeys:

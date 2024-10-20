@@ -157,11 +157,11 @@
 #pragma mark - live tv epg management
 
 - (void)getChannelEpgInfo:(NSDictionary*)parameters {
-    NSNumber *channelid = parameters[@"channelid"];
+    NSNumber *channelid = [Utilities getNumberFromItem:parameters[@"channelid"]];
     NSIndexPath *indexPath = parameters[@"indexPath"];
     UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
-    if ([channelid isKindOfClass:[NSNumber class]] && [channelid longValue] > 0) {
+    if ([channelid longValue] > 0) {
         NSMutableArray *retrievedEPG = [self loadEPGFromMemory:channelid];
         NSMutableDictionary *channelEPG = [self parseEpgData:retrievedEPG];
         NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -574,7 +574,7 @@
                              rating, @"rating",
                              mainFields[@"playlistid"], @"playlistid",
                              mainFields[@"row8"], @"family",
-                             @([[NSString stringWithFormat:@"%@", item[mainFields[@"row9"]]] intValue]), mainFields[@"row9"],
+                             [Utilities getNumberFromItem:item[mainFields[@"row9"]]], mainFields[@"row9"],
                              item[mainFields[@"row10"]], mainFields[@"row10"],
                              row11, row11key,
                              item[mainFields[@"row12"]], mainFields[@"row12"],
@@ -2624,7 +2624,7 @@
             UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
             isRecordingImageView.hidden = ![item[@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @([item[@"channelid"] longValue]), @"channelid",
+                                    [Utilities getNumberFromItem:item[@"channelid"]], @"channelid",
                                     tableView, @"tableView",
                                     indexPath, @"indexPath",
                                     item, @"item",
@@ -4101,7 +4101,7 @@
 }
 
 - (void)deleteTimer:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
-    NSNumber *itemid = @([item[@"timerid"] longValue]);
+    NSNumber *itemid = [Utilities getNumberFromItem:item[@"timerid"]];
     if ([itemid longValue] == 0) {
         return;
     }
@@ -4134,11 +4134,11 @@
 - (void)recordChannel:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
-    NSNumber *itemid = @([item[@"channelid"] longValue]);
+    NSNumber *itemid = [Utilities getNumberFromItem:item[@"channelid"]];
     NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = @([item[@"broadcastid"] longValue]);
+    NSNumber *storeBroadcastid = [Utilities getNumberFromItem:item[@"broadcastid"]];
     if ([itemid longValue] == 0) {
-        itemid = @([item[@"pvrExtraInfo"][@"channelid"] longValue]);
+        itemid = [Utilities getNumberFromItem:item[@"pvrExtraInfo"][@"channelid"]];
         if ([itemid longValue] == 0) {
             return;
         }
@@ -4147,7 +4147,7 @@
         NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
         float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
         if (percent_elapsed < 0) {
-            itemid = @([item[@"broadcastid"] longValue]);
+            itemid = [Utilities getNumberFromItem:item[@"broadcastid"]];
             storeBroadcastid = itemid;
             storeChannelid = @(0);
             methodToCall = @"PVR.ToggleTimer";
@@ -4978,7 +4978,7 @@
                              // Postprocessing of movie sets lists to ignore 1-movie-sets
                              if (ignoreSingleMovieSets) {
                                  NSString *newMethodToCall = @"VideoLibrary.GetMovieSetDetails";
-                                 NSDictionary *newParameter = @{@"setid": @([item[@"setid"] longValue])};
+                                 NSDictionary *newParameter = @{@"setid": [Utilities getNumberFromItem:item[@"setid"]]};
                                  dispatch_group_enter(group);
                                  [[Utilities getJsonRPC]
                                   callMethod:newMethodToCall

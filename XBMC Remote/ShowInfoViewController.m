@@ -310,7 +310,7 @@ double round(double d) {
         NSDictionary *mainFields = menuItem.mainFields[choosedTab];
         NSMutableDictionary *parameters = choosedMenuItem.mainParameters[choosedTab];
         id objKey = mainFields[@"row6"];
-        id obj = @([item[objKey] longValue]);
+        id obj = [Utilities getNumberFromItem:item[objKey]];
         if (movieObj != nil && movieObjKey != nil) {
             obj = movieObj;
             objKey = movieObjKey;
@@ -455,17 +455,17 @@ double round(double d) {
 
 - (void)recordChannel {
     NSDictionary *item = self.detailItem;
-    NSNumber *channelid = @([item[@"pvrExtraInfo"][@"channelid"] longValue]);
+    NSNumber *channelid = [Utilities getNumberFromItem:item[@"pvrExtraInfo"][@"channelid"]];
     if ([channelid longValue] == 0) {
         return;
     }
     NSString *methodToCall = @"PVR.Record";
     NSString *parameterName = @"channel";
-    NSNumber *itemid = @([item[@"channelid"] longValue]);
+    NSNumber *itemid = [Utilities getNumberFromItem:item[@"channelid"]];
     NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = @([item[@"broadcastid"] longValue]);
+    NSNumber *storeBroadcastid = [Utilities getNumberFromItem:item[@"broadcastid"]];
     if ([itemid longValue] == 0) {
-        itemid = @([item[@"pvrExtraInfo"][@"channelid"] longValue]);
+        itemid = [Utilities getNumberFromItem:item[@"pvrExtraInfo"][@"channelid"]];
         if ([itemid longValue] == 0) {
             return;
         }
@@ -474,7 +474,7 @@ double round(double d) {
         NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
         float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
         if (percent_elapsed < 0) {
-            itemid = @([item[@"broadcastid"] longValue]);
+            itemid = [Utilities getNumberFromItem:item[@"broadcastid"]];
             storeBroadcastid = itemid;
             storeChannelid = @(0);
             methodToCall = @"PVR.ToggleTimer";
