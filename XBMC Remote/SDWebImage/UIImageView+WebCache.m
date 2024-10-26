@@ -57,7 +57,7 @@ static char TAG_ACTIVITY_SHOW;
     
     if (url) {
         // We want to fill the cache with images the size of the native views to reduce scaling load
-        CGSize nativeViewSize = [self doubleSizeRetina:self.frame.size];
+        CGSize nativeViewSize = [self doubleSizeRetina:self.bounds.size];
         NSDictionary *userInfo = nil;
         if ((options & SDWebImageScaleToNativeSize) && nativeViewSize.width && nativeViewSize.height) {
             userInfo = @{
