@@ -56,14 +56,20 @@
 "Pictures Add-ons" = "Pictures Add-ons";
 
 "Power off System" = "Power off System";
+"Power off" = "Power off";
 "Hibernate" = "Hibernate";
 "Suspend" = "Suspend";
 "Reboot" = "Reboot";
 "Quit XBMC application" = "Quit Kodi application";
 "Update Audio Library" = "Update Audio Library";
+"Update Audio" = "Update Audio";
 "Clean Audio Library" = "Clean Audio Library";
+"Clean Audio" = "Clean Audio";
 "Update Video Library" = "Update Video Library";
+"Update Video" = "Update Video";
 "Clean Video Library" = "Clean Video Library";
+"Clean Video" = "Clean Video";
+"Quit" = "Quit";
 
 "Keyboard" = "Keyboard";
 "Gesture Zone" = "Gesture Zone";
@@ -123,6 +129,15 @@
 "Are you sure you want to clear the music playlist?" = "Are you sure you want to clear the music playlist?";
 "Are you sure you want to clear the video playlist?" = "Are you sure you want to clear the video playlist?";
 "Are you sure you want to clear the picture playlist?" = "Are you sure you want to clear the picture playlist?";
+"Are you sure you want to power off your XBMC system now?" = "Are you sure you want to power off your Kodi system now?";
+"Are you sure you want to hibernate your XBMC system now?" = "Are you sure you want to hibernate your Kodi system now?";
+"Are you sure you want to suspend your XBMC system now?" = "Are you sure you want to suspend your Kodi system now?";
+"Are you sure you want to reboot your XBMC system now?" = "Are you sure you want to reboot your Kodi system now?";
+"Are you sure you want to quit XBMC application now?" = "Are you sure you want to quit Kodi application now?";
+"Are you sure you want to update your audio library now?" = "Are you sure you want to update your audio library now?";
+"Are you sure you want to clean your audio library now?" = "Are you sure you want to clean your audio library now?";
+"Are you sure you want to update your video library now?" = "Are you sure you want to update your video library now?";
+"Are you sure you want to clean your video library now?" = "Are you sure you want to clean your video library now?";
 
 "DIRECTED BY" = "DIRECTED BY";
 "RUNTIME" = "RUNTIME";
