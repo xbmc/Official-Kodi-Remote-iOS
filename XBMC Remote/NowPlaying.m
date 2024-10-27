@@ -169,7 +169,7 @@
 
 - (NSString*)getNowPlayingThumbnailPath:(NSDictionary*)item {
     // If a recording is played, we can use the iocn (typically the station logo)
-    BOOL useIcon = [item[@"type"] isEqualToString:@"recording"] || [item[@"recordingid"] longValue] > 0;
+    BOOL useIcon = [item[@"type"] isEqualToString:@"recording"] || [item[@"recordingid"] longLongValue] > 0;
     return [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:useIcon];
 }
 
@@ -675,7 +675,7 @@
     storePosSeconds = posSeconds;
     
     // Update the playlist position and time when a new item plays, else update progress only
-    long playlistPosition = [item[@"position"] longValue];
+    long playlistPosition = [item[@"position"] longLongValue];
     if (playlistPosition != lastSelected && playlistPosition != SELECTED_NONE) {
         [self setPlaylistPosition:playlistPosition forPlayer:currentPlayerID];
         [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
@@ -787,8 +787,8 @@
                  if (![nowPlayingInfo isKindOfClass:[NSDictionary class]]) {
                      return;
                  }
-                 long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
-                 if ((nowPlayingInfo.count && currentItemID != storedItemID) || 
+                 long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longLongValue] : ID_INVALID;
+                 if ((nowPlayingInfo.count && currentItemID != storedItemID) ||
                      nowPlayingInfo[@"id"] == nil ||
                      ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
                      storedItemID = currentItemID;
@@ -858,7 +858,7 @@
              if ([methodResult isKindOfClass:[NSDictionary class]]) {
                  if ([methodResult count]) {
                      // Update the playlist position
-                     [self setPlaylistPosition:[methodResult[@"position"] longValue] forPlayer:PLAYERID_PICTURES];
+                     [self setPlaylistPosition:[methodResult[@"position"] longLongValue] forPlayer:PLAYERID_PICTURES];
                  }
              }
          }
@@ -1232,7 +1232,6 @@
                        
                        [playlistData removeAllObjects];
                        for (NSDictionary *item in playlistItems) {
-                           NSString *idItem = [Utilities getStringFromItem:item[@"id"]];
                            NSString *label = [Utilities getStringFromItem:item[@"label"]];
                            NSString *title = [Utilities getStringFromItem:item[@"title"]];
                            NSString *artist = [Utilities getStringFromItem:item[@"artist"]];
@@ -1242,15 +1241,16 @@
                            NSString *season = [Utilities getStringFromItem:item[@"season"]];
                            NSString *episode = [Utilities getStringFromItem:item[@"episode"]];
                            NSString *type = [Utilities getStringFromItem:item[@"type"]];
-                           NSString *artistid = [Utilities getStringFromItem:item[@"artistid"]];
-                           NSString *albumid = [Utilities getStringFromItem:item[@"albumid"]];
-                           NSString *movieid = [Utilities getStringFromItem:item[@"id"]];
+                           NSString *idType = [NSString stringWithFormat:@"%@id", type];
+                           NSNumber *idItem = [Utilities getNumberFromItem:item[@"id"]];
+                           NSNumber *artistid = [Utilities getNumberFromItem:item[@"artistid"]];
+                           NSNumber *albumid = [Utilities getNumberFromItem:item[@"albumid"]];
+                           NSNumber *tvshowid = [Utilities getNumberFromItem:item[@"tvshowid"]];
                            NSString *channel = [Utilities getStringFromItem:item[@"channel"]];
                            NSString *genre = [Utilities getStringFromItem:item[@"genre"]];
                            NSString *durationTime = [Utilities convertTimeFromSeconds:item[@"duration"]];
                            NSString *thumbnailPath = [self getNowPlayingThumbnailPath:item];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                           NSNumber *tvshowid = @([item[@"tvshowid"] longValue]);
                            NSString *file = [Utilities getStringFromItem:item[@"file"]];
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
@@ -1264,10 +1264,7 @@
                                                     artistid, @"artistid",
                                                     albumid, @"albumid",
                                                     genre, @"genre",
-                                                    movieid, @"movieid",
-                                                    movieid, @"episodeid",
-                                                    movieid, @"musicvideoid",
-                                                    movieid, @"recordingid",
+                                                    idItem, idType,
                                                     channel, @"channel",
                                                     stringURL, @"thumbnail",
                                                     runtime, @"runtime",
@@ -1409,18 +1406,15 @@
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem {
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     NSString *itemid = mainFields[@"row6"] ?: @"";
-    UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
-    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:XIB_PLAYLIST_CELL_ACTIVTYINDICATOR];
-    id object;
+    id object = [Utilities getNumberFromItem:item[itemid]];
     if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {
         // WORKAROUND due to the lack of the artistid with Playlist.GetItems
         methodToCall = @"AudioLibrary.GetArtists";
-        object = @{@"songid": @([item[@"idItem"] intValue])};
+        object = @{@"songid": [Utilities getNumberFromItem:item[@"idItem"]]};
         itemid = @"filter";
     }
-    else {
-        object = @([item[itemid] intValue]);
-    }
+    UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
+    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:XIB_PLAYLIST_CELL_ACTIVTYINDICATOR];
     if (!object) {
         return; // something goes wrong
     }
@@ -1501,7 +1495,7 @@
                   rating, @"rating",
                   mainFields[@"playlistid"], @"playlistid",
                   mainFields[@"row8"], @"family",
-                  @([itemExtraDict[mainFields[@"row9"]] longValue]), mainFields[@"row9"],
+                  [Utilities getNumberFromItem:itemExtraDict[mainFields[@"row9"]]], mainFields[@"row9"],
                   itemExtraDict[mainFields[@"row10"]], mainFields[@"row10"],
                   row11, mainFields[@"row11"],
                   itemExtraDict[mainFields[@"row12"]], mainFields[@"row12"],
@@ -1837,29 +1831,27 @@
             NSDictionary *item = (playlistData.count > indexPath.row) ? playlistData[indexPath.row] : nil;
             selectedIndexPath = indexPath;
             CGPoint selectedPoint = [gestureRecognizer locationInView:self.view];
-            if ([item[@"albumid"] intValue] > 0) {
+            if ([item[@"albumid"] longLongValue] > 0) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Album Details"), LOCALIZED_STR(@"Album Tracks")]];
             }
-            if ([item[@"artistid"] intValue] > 0 || ([item[@"type"] isEqualToString:@"song"] && AppDelegate.instance.serverVersion > 11)) {
+            if ([item[@"artistid"] longLongValue] > 0 || ([item[@"type"] isEqualToString:@"song"] && AppDelegate.instance.serverVersion > 11)) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Artist Details"), LOCALIZED_STR(@"Artist Albums")]];
             }
-            if ([item[@"movieid"] intValue] > 0) {
-                if ([item[@"type"] isEqualToString:@"movie"]) {
-                    [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Movie Details")]];
-                }
-                else if ([item[@"type"] isEqualToString:@"episode"]) {
-                    [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"TV Show Details"), LOCALIZED_STR(@"Episode Details")]];
-                }
-                else if ([item[@"type"] isEqualToString:@"musicvideo"]) {
-                    [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Music Video Details")]];
-                }
-                else if ([item[@"type"] isEqualToString:@"recording"]) {
-                    [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Recording Details")]];
-                }
+            if ([item[@"movieid"] longLongValue] > 0) {
+                [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Movie Details")]];
+            }
+            else if ([item[@"episodeid"] longLongValue] > 0) {
+                [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"TV Show Details"), LOCALIZED_STR(@"Episode Details")]];
+            }
+            else if ([item[@"musicvideoid"] longLongValue] > 0) {
+                [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Music Video Details")]];
+            }
+            else if ([item[@"recordingid"] longLongValue] > 0) {
+                [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Recording Details")]];
             }
             NSInteger numActions = sheetActions.count;
             if (numActions) {
-                 NSString *title = item[@"label"];
+                NSString *title = item[@"label"];
                 if ([item[@"type"] isEqualToString:@"song"]) {
                     title = [NSString stringWithFormat:@"%@\n%@\n%@", item[@"label"], item[@"album"], item[@"artist"]];
                 }
@@ -2023,16 +2015,16 @@
         if (item[mainFields[@"row15"]] != nil) {
             key = mainFields[@"row15"];
         }
-        id obj = @([item[mainFields[@"row6"]] intValue]);
         id objKey = mainFields[@"row6"];
+        id obj = [Utilities getNumberFromItem:item[objKey]];
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
-            if ([mainFields[@"row6"] isEqualToString:@"artistid"]) {
+            if ([objKey isEqualToString:@"artistid"]) {
                 // WORKAROUND due to the lack of the artistid with Playlist.GetItems
                 NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item[@"artist"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
                 obj = @{@"artist": artistFrodoWorkaround};
             }
             else {
-                obj = [NSDictionary dictionaryWithObjectsAndKeys: @([item[mainFields[@"row6"]] intValue]), mainFields[@"row6"], nil];
+                obj = [NSDictionary dictionaryWithObjectsAndKeys: obj, objKey, nil];
             }
             objKey = @"filter";
         }
@@ -2202,9 +2194,9 @@
     NSDictionary *objSource = playlistData[sourceIndexPath.row];
     NSDictionary *itemToMove;
     
-    int idItem = [objSource[@"idItem"] intValue];
-    if (idItem) {
-        itemToMove = @{[NSString stringWithFormat:@"%@id", objSource[@"type"]]: @(idItem)};
+    NSNumber *idItem = [Utilities getNumberFromItem:objSource[@"idItem"]];
+    if ([idItem longValue] > 0) {
+        itemToMove = @{[NSString stringWithFormat:@"%@id", objSource[@"type"]]: idItem};
     }
     else {
         itemToMove = [NSDictionary dictionaryWithObjectsAndKeys:

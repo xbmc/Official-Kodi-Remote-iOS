@@ -790,7 +790,7 @@
                      isFullscreen = [methodResult[@"fullscreen"] boolValue];
                  }
                  if (methodResult[@"currentwindow"] != [NSNull null]) {
-                     winID = [methodResult[@"currentwindow"][@"id"] longValue];
+                     winID = [methodResult[@"currentwindow"][@"id"] longLongValue];
                  }
                  if (isFullscreen && (winID == WINDOW_FULLSCREEN_VIDEO || winID == WINDOW_VISUALISATION)) {
                      [[Utilities getJsonRPC]

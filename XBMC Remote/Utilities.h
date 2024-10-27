@@ -72,6 +72,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds;
 + (NSString*)getItemIconFromDictionary:(NSDictionary*)dict;
 + (NSString*)getStringFromItem:(id)item;
++ (NSNumber*)getNumberFromItem:(id)item;
 + (NSString*)getTimeFromItem:(id)item sec2min:(int)secondsToMinute;
 + (NSString*)getYearFromItem:(id)item;
 + (float)getFloatValueFromItem:(id)item;
