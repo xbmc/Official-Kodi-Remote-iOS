@@ -280,22 +280,22 @@
     UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
     UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
     switch (mode) {
-        case bgAuto:
+        case LogoBackgroundAuto:
             // get background color and colorize the image background
             imgcolor = [Utilities averageColor:imageview.image inverse:NO autoColorCheck:NO];
             bgcolor = [Utilities updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
             break;
-        case bgLight:
+        case LogoBackgroundLight:
             bgcolor = bglight;
             break;
-        case bgDark:
+        case LogoBackgroundDark:
             bgcolor = bgdark;
             break;
-        case bgTrans:
+        case LogoBackgroundTransparent:
             // bgcolor already defined to clearColor as default
             break;
         default:
-            NSLog(@"setLogoBackgroundColor: unknown mode %d", mode);
+            NSLog(@"setLogoBackgroundColor: unknown mode %ld", mode);
             break;
     }
     imageview.backgroundColor = bgcolor;
@@ -309,17 +309,17 @@
 
 + (LogoBackgroundType)getLogoBackgroundMode {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    LogoBackgroundType setting = bgAuto;
+    LogoBackgroundType setting = LogoBackgroundAuto;
     NSString *mode = [userDefaults stringForKey:@"logo_background"];
     if (mode.length) {
         if ([mode isEqualToString:@"dark"]) {
-            setting = bgDark;
+            setting = LogoBackgroundDark;
         }
         else if ([mode isEqualToString:@"light"]) {
-            setting = bgLight;
+            setting = LogoBackgroundLight;
         }
         else if ([mode isEqualToString:@"trans"]) {
-            setting = bgTrans;
+            setting = LogoBackgroundTransparent;
         }
     }
     return setting;
@@ -482,23 +482,23 @@
     }
 }
 
-+ (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(eJewelType)type {
++ (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(JewelType)type {
     CGFloat border_right, border_bottom, border_top, border_left;
     // Setup the border width on all 4 sides for each jewel case type
     switch (type) {
-        case jewelTypeCD:
+        case JewelTypeCD:
             border_right  = 14;
             border_bottom = 15;
             border_top    = 11;
             border_left   = 32;
             break;
-        case jewelTypeDVD:
+        case JewelTypeDVD:
             border_right  = 10;
             border_bottom = 14;
             border_top    = 11;
             border_left   = 35;
             break;
-        case jewelTypeTV:
+        case JewelTypeTV:
             border_right  = 10;
             border_bottom = 26;
             border_top    = 10;

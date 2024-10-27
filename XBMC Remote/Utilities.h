@@ -11,19 +11,19 @@
 #import "MessagesView.h"
 #import "DSJSONRPC.h"
 
-typedef enum {
-    jewelTypeCD,
-    jewelTypeDVD,
-    jewelTypeTV,
-    jewelTypeUnknown,
-} eJewelType;
+typedef NS_ENUM(NSInteger, JewelType) {
+    JewelTypeCD,
+    JewelTypeDVD,
+    JewelTypeTV,
+    JewelTypeUnknown,
+};
 
-typedef enum {
-    bgAuto,
-    bgDark,
-    bgLight,
-    bgTrans
-} LogoBackgroundType;
+typedef NS_ENUM(NSInteger, LogoBackgroundType) {
+    LogoBackgroundAuto,
+    LogoBackgroundDark,
+    LogoBackgroundLight,
+    LogoBackgroundTransparent,
+};
 
 #define PANEL_SHADOW_SIZE 16
 
@@ -61,7 +61,7 @@ typedef enum {
 + (UIColor*)get4thLabelColor;
 + (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha;
 + (CGRect)createXBMCInfoframe:(UIImage*)logo height:(CGFloat)height width:(CGFloat)width;
-+ (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(eJewelType)type;
++ (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(JewelType)type;
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createPowerControl;

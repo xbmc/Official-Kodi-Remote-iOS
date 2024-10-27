@@ -582,7 +582,7 @@ double round(double d) {
     NSString *placeHolderImage = @"coverbox_back";
     isPvrDetail = item[@"recordingid"] != nil || item[@"broadcastid"] != nil;
 //    NSLog(@"ITEM %@", item);
-    eJewelType jeweltype = jewelTypeUnknown;
+    JewelType jeweltype = JewelTypeUnknown;
     NSString *jewelImg = @"";
     lineSpacing = IS_IPAD ? 2 : 0;
     castFontSize = IS_IPAD ? 16 : 14;
@@ -651,7 +651,7 @@ double round(double d) {
         subLabel5.text = [Utilities getStringFromItem:item[@"plot"]];
 
         jewelImg = @"jewel_dvd.9";
-        jeweltype = jewelTypeDVD;
+        jeweltype = JewelTypeDVD;
         int coverHeight = IS_IPAD ? DVD_HEIGHT_IPAD : DVD_HEIGHT_IPHONE;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
@@ -681,7 +681,7 @@ double round(double d) {
         jewelView.hidden = NO;
         
         jewelImg = @"jewel_tv.9";
-        jeweltype = jewelTypeTV;
+        jeweltype = JewelTypeTV;
         int coverHeight = IS_IPAD ? TV_HEIGHT_IPAD : TV_HEIGHT_IPHONE;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
@@ -714,7 +714,7 @@ double round(double d) {
         jewelView.hidden = NO;
         
         jewelImg = @"jewel_cd.9";
-        jeweltype = jewelTypeCD;
+        jeweltype = JewelTypeCD;
         int coverHeight = IS_IPAD ? CD_HEIGHT_IPAD : CD_HEIGHT_IPHONE;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
@@ -740,7 +740,7 @@ double round(double d) {
         subLabel5.text = [Utilities getStringFromItem:item[@"plot"]];
         
         jewelImg = @"jewel_cd.9";
-        jeweltype = jewelTypeCD;
+        jeweltype = JewelTypeCD;
         int coverHeight = IS_IPAD ? CD_HEIGHT_IPAD : CD_HEIGHT_IPHONE;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
@@ -864,7 +864,7 @@ double round(double d) {
         subLabel5.text = [Utilities getStringFromItem:item[@"plot"]];
         
         jewelImg = @"jewel_dvd.9";
-        jeweltype = jewelTypeDVD;
+        jeweltype = JewelTypeDVD;
         int coverHeight = IS_IPAD ? DVD_HEIGHT_IPAD : DVD_HEIGHT_IPHONE;
         CGRect frame = jewelView.frame;
         frame.size.height = coverHeight;
@@ -1374,7 +1374,7 @@ double round(double d) {
     [scrollView addSubview:clearlogoButton];
 }
 
-- (void)loadThumbnail:(NSString*)thumbnailPath placeHolder:(NSString*)placeHolderImage jewelType:(eJewelType)jewelType jewelEnabled:(BOOL)enableJewel {
+- (void)loadThumbnail:(NSString*)thumbnailPath placeHolder:(NSString*)placeHolderImage jewelType:(JewelType)jewelType jewelEnabled:(BOOL)enableJewel {
     [activityIndicatorView startAnimating];
     if (thumbnailPath.length) {
         coverView.alpha = 0.0;

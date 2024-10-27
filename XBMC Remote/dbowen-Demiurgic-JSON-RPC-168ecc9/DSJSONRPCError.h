@@ -38,7 +38,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef NS_ENUM(NSInteger, JSONRPCErrorType) {
     JSONRPCMethodExecutionFailure = -32100,
     JSONRPCParseError = -32700,
     JSONRPCInvalidRequest = -32600,
@@ -46,7 +46,7 @@ typedef enum {
     JSONRPCInvalidParams = -32602,
     JSONRPCInternalError = -32603,
     JSONRPCInvalidObject = -32604,
-} JSONRPCErrorType;
+};
 
 
 @interface DSJSONRPCError : NSObject
