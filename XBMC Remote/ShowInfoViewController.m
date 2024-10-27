@@ -492,7 +492,7 @@ double round(double d) {
                if (error == nil && methodError == nil) {
                    [self animateRecordAction];
                    NSNumber *status = @(![item[@"isrecording"] boolValue]);
-                   if ([item[@"broadcastid"] longValue] > 0) {
+                   if ([item[@"broadcastid"] longLongValue] > 0) {
                        status = @(![item[@"hastimer"] boolValue]);
                    }
                    NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:

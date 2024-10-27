@@ -169,7 +169,7 @@
 
 - (NSString*)getNowPlayingThumbnailPath:(NSDictionary*)item {
     // If a recording is played, we can use the iocn (typically the station logo)
-    BOOL useIcon = [item[@"type"] isEqualToString:@"recording"] || [item[@"recordingid"] longValue] > 0;
+    BOOL useIcon = [item[@"type"] isEqualToString:@"recording"] || [item[@"recordingid"] longLongValue] > 0;
     return [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:useIcon];
 }
 
@@ -675,7 +675,7 @@
     storePosSeconds = posSeconds;
     
     // Update the playlist position and time when a new item plays, else update progress only
-    long playlistPosition = [item[@"position"] longValue];
+    long playlistPosition = [item[@"position"] longLongValue];
     if (playlistPosition != lastSelected && playlistPosition != SELECTED_NONE) {
         [self setPlaylistPosition:playlistPosition forPlayer:currentPlayerID];
         [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
@@ -787,8 +787,8 @@
                  if (![nowPlayingInfo isKindOfClass:[NSDictionary class]]) {
                      return;
                  }
-                 long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longValue] : ID_INVALID;
-                 if ((nowPlayingInfo.count && currentItemID != storedItemID) || 
+                 long currentItemID = nowPlayingInfo[@"id"] ? [nowPlayingInfo[@"id"] longLongValue] : ID_INVALID;
+                 if ((nowPlayingInfo.count && currentItemID != storedItemID) ||
                      nowPlayingInfo[@"id"] == nil ||
                      ([nowPlayingInfo[@"type"] isEqualToString:@"channel"] && ![nowPlayingInfo[@"title"] isEqualToString:storeLiveTVTitle])) {
                      storedItemID = currentItemID;
@@ -858,7 +858,7 @@
              if ([methodResult isKindOfClass:[NSDictionary class]]) {
                  if ([methodResult count]) {
                      // Update the playlist position
-                     [self setPlaylistPosition:[methodResult[@"position"] longValue] forPlayer:PLAYERID_PICTURES];
+                     [self setPlaylistPosition:[methodResult[@"position"] longLongValue] forPlayer:PLAYERID_PICTURES];
                  }
              }
          }
@@ -1831,22 +1831,22 @@
             NSDictionary *item = (playlistData.count > indexPath.row) ? playlistData[indexPath.row] : nil;
             selectedIndexPath = indexPath;
             CGPoint selectedPoint = [gestureRecognizer locationInView:self.view];
-            if ([item[@"albumid"] longValue] > 0) {
+            if ([item[@"albumid"] longLongValue] > 0) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Album Details"), LOCALIZED_STR(@"Album Tracks")]];
             }
-            if ([item[@"artistid"] longValue] > 0 || ([item[@"type"] isEqualToString:@"song"] && AppDelegate.instance.serverVersion > 11)) {
+            if ([item[@"artistid"] longLongValue] > 0 || ([item[@"type"] isEqualToString:@"song"] && AppDelegate.instance.serverVersion > 11)) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Artist Details"), LOCALIZED_STR(@"Artist Albums")]];
             }
-            if ([item[@"movieid"] longValue] > 0) {
+            if ([item[@"movieid"] longLongValue] > 0) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Movie Details")]];
             }
-            else if ([item[@"episodeid"] longValue] > 0) {
+            else if ([item[@"episodeid"] longLongValue] > 0) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"TV Show Details"), LOCALIZED_STR(@"Episode Details")]];
             }
-            else if ([item[@"musicvideoid"] longValue] > 0) {
+            else if ([item[@"musicvideoid"] longLongValue] > 0) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Music Video Details")]];
             }
-            else if ([item[@"recordingid"] longValue] > 0) {
+            else if ([item[@"recordingid"] longLongValue] > 0) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Recording Details")]];
             }
             NSInteger numActions = sheetActions.count;

@@ -101,7 +101,7 @@
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
                  if (methodResult[@"currentwindow"] != [NSNull null]) {
-                     if ([methodResult[@"currentwindow"][@"id"] longValue] == WINDOW_VIRTUAL_KEYBOARD) {
+                     if ([methodResult[@"currentwindow"][@"id"] longLongValue] == WINDOW_VIRTUAL_KEYBOARD) {
                          [self GUIAction:@"Input.Back" params:@{} httpAPIcallback:nil];
                      }
                  }
