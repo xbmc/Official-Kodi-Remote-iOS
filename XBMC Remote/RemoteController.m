@@ -1378,7 +1378,7 @@
     if (AppDelegate.instance.obj.serverIP.length == 0) {
         return;
     }
-    UIAlertController *actionView = [Utilities createPowerControl:self];
+    UIAlertController *actionView = [Utilities createPowerControl];
     [self presentViewController:actionView animated:YES completion:nil];
 }
 
