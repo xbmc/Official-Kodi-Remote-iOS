@@ -559,7 +559,7 @@
         [actionView addAction:action_suspend];
         
         UIAlertAction *action_reboot = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Reboot") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Reboot" ];
+            [self powerAction:@"System.Reboot"];
         }];
         [actionView addAction:action_reboot];
         
