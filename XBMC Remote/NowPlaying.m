@@ -2740,8 +2740,10 @@
     storedItemID = SELECTED_NONE;
     [self playbackInfo];
     updateProgressBar = YES;
+    // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging
     [updateInfoTimer invalidate];
-    updateInfoTimer = [NSTimer scheduledTimerWithTimeInterval:UPDATE_INFO_TIMEOUT target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+    updateInfoTimer = [NSTimer timerWithTimeInterval:UPDATE_INFO_TIMEOUT target:self selector:@selector(updateInfo) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:updateInfoTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

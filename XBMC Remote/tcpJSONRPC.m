@@ -64,7 +64,9 @@ NSInputStream	*inStream;
 - (void)startServerHeartbeat {
     [heartbeatTimer invalidate];
     [self checkServer];
-    heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:SERVER_CHECK_TIMER target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
+    // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging
+    heartbeatTimer = [NSTimer timerWithTimeInterval:SERVER_CHECK_TIMER target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:heartbeatTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)startNetworkCommunicationWithServer:(NSString*)server serverPort:(int)port {
