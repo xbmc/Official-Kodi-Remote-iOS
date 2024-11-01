@@ -84,7 +84,7 @@
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.tcpJSONRPCconnection = [tcpJSONRPC new];
     }
     return self;
 }
@@ -614,13 +614,6 @@
                                                object: nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    // Only start tcpJSONRPC after view did appear. This ensures the HostManagement popover can be shown in case needed.
-    self.tcpJSONRPCconnection = [tcpJSONRPC new];
-    // This required, if the server cannot connect or no server has been selected.
-}
-
 - (void)handleLibraryNotification:(NSNotification*)note {
     [Utilities showMessage:note.name color:[Utilities getSystemGreen:0.95]];
 }
@@ -734,9 +727,6 @@
 
 - (void)handleEnterForeground:(NSNotification*)sender {
     if (AppDelegate.instance.serverOnLine) {
-        if (self.tcpJSONRPCconnection == nil) {
-            self.tcpJSONRPCconnection = [tcpJSONRPC new];
-        }
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
     }
 }
