@@ -614,6 +614,12 @@
                                                object: nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    BOOL showSetup = AppDelegate.instance.obj.serverIP.length == 0;
+    [self showSetup:showSetup];
+}
+
 - (void)handleLibraryNotification:(NSNotification*)note {
     [Utilities showMessage:note.name color:[Utilities getSystemGreen:0.95]];
 }
