@@ -617,8 +617,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     // Only start tcpJSONRPC after view did appear. This ensures the HostManagement popover can be shown in case needed.
-    // This required, if the server csnnot connect or no server has been selected.
     self.tcpJSONRPCconnection = [tcpJSONRPC new];
+    // This required, if the server cannot connect or no server has been selected.
 }
 
 - (void)handleLibraryNotification:(NSNotification*)note {
