@@ -5764,12 +5764,10 @@
 
 - (NSString*)getCurrentSortMethod:(NSDictionary*)methods withParameters:(NSDictionary*)parameters {
     NSString *sortMethod = parameters[@"parameters"][@"sort"][@"method"];
-    if (methods != nil) {
-        NSString *sortKey = [NSString stringWithFormat:@"%@_sort_method", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        if ([userDefaults objectForKey:sortKey] != nil) {
-            sortMethod = [userDefaults objectForKey:sortKey];
-        }
+    NSString *sortKey = [NSString stringWithFormat:@"%@_sort_method", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults objectForKey:sortKey] != nil) {
+        sortMethod = [userDefaults objectForKey:sortKey];
     }
     return sortMethod;
 }
@@ -5930,12 +5928,10 @@
 
 - (NSString*)getCurrentSortAscDesc:(NSDictionary*)methods withParameters:(NSDictionary*)parameters {
     NSString *sortAscDescSaved = parameters[@"parameters"][@"sort"][@"order"];
-    if (methods != nil) {
-        NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        if ([userDefaults objectForKey:sortKey] != nil) {
-            sortAscDescSaved = [userDefaults objectForKey:sortKey];
-        }
+    NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults objectForKey:sortKey] != nil) {
+        sortAscDescSaved = [userDefaults objectForKey:sortKey];
     }
     return sortAscDescSaved;
 }
