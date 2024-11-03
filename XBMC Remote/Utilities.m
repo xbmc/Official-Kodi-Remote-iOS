@@ -205,22 +205,17 @@
     if (color == nil) {
         return image;
     }
-    UIGraphicsBeginImageContextWithOptions(image.size, YES, 0);
     
     CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = image.size};
-    
-    CGSize itemImageSize = image.size;
-    CGPoint itemImagePosition;
-    itemImagePosition.x = ceilf((contextRect.size.width - itemImageSize.width) / 2);
-    itemImagePosition.y = ceilf(contextRect.size.height - itemImageSize.height);
     
     UIGraphicsBeginImageContextWithOptions(contextRect.size, NO, 0);
     
     CGContextRef c = UIGraphicsGetCurrentContext();
     
     CGContextBeginTransparencyLayer(c, NULL);
+    CGContextTranslateCTM(c, 0, contextRect.size.height);
     CGContextScaleCTM(c, 1.0, -1.0);
-    CGContextClipToMask(c, CGRectMake(itemImagePosition.x, -itemImagePosition.y, itemImageSize.width, -itemImageSize.height), [image CGImage]);
+    CGContextClipToMask(c, contextRect, [image CGImage]);
 
     CGColorSpaceRef colorSpace = CGColorGetColorSpace(color.CGColor);
     CGColorSpaceModel model = CGColorSpaceGetModel(colorSpace);
@@ -233,8 +228,6 @@
         CGContextSetRGBFillColor(c, colors[0], colors[1], colors[2], colors[3]);
     }
     
-    contextRect.size.height = -contextRect.size.height;
-    contextRect.size.height -= 15;
     CGContextFillRect(c, contextRect);
     CGContextEndTransparencyLayer(c);
     
