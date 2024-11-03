@@ -598,8 +598,8 @@
     ipUI.placeholder = LOCALIZED_STR(@"e.g. 192.168.0.8");
     usernameUI.placeholder = LOCALIZED_STR(@"Username");
     passwordUI.placeholder = LOCALIZED_STR(@"Password");
-    tcpPortUI.placeholder = [NSString stringWithFormat:@"%d", 9090];
-    portUI.placeholder = @"8080";
+    tcpPortUI.placeholder = [NSString stringWithFormat:@"%d", DEFAULT_TCP_PORT];
+    portUI.placeholder = [NSString stringWithFormat:@"%d", DEFAULT_SERVER_PORT];
     self.edgesForExtendedLayout = 0;
     
     for (UITextField *textfield in [self getAllEntryMaskLabels]) {

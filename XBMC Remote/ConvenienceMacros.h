@@ -54,4 +54,10 @@
 #define FONT_SCALING_DEFAULT 0.9
 #define FONT_SCALING_NONE 1.0
 
+/*
+ * Port defaults
+ */
+#define DEFAULT_SERVER_PORT 8080
+#define DEFAULT_TCP_PORT 9090
+
 #endif /* ConvenienceMacros_h */

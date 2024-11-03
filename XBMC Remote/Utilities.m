@@ -1378,11 +1378,11 @@
 }
 
 + (NSString*)getServerPort:(NSString*)serverPort {
-    return serverPort.length ? serverPort : @"8080";
+    return serverPort.length ? serverPort : [NSString stringWithFormat:@"%d", DEFAULT_SERVER_PORT];;
 }
 
 + (int)getTcpPort:(NSNumber*)tcpPort {
-    return [tcpPort intValue] ?: 9090;
+    return [tcpPort intValue] ?: DEFAULT_TCP_PORT;
 }
 
 + (int)getActivePlayerID:(NSArray*)activePlayerList {
