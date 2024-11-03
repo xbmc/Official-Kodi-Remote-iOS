@@ -158,9 +158,9 @@
     AppDelegate.instance.obj.serverPass = item[@"serverPass"];
     AppDelegate.instance.obj.serverRawIP = item[@"serverIP"];
     AppDelegate.instance.obj.serverIP = [Utilities getUrlStyleAddress:item[@"serverIP"]];
-    AppDelegate.instance.obj.serverPort = [item[@"serverPort"] intValue] ? item[@"serverPort"] : @"8080";
+    AppDelegate.instance.obj.serverPort = [Utilities getServerPort:item[@"serverPort"]];
     AppDelegate.instance.obj.serverHWAddr = item[@"serverMacAddress"];
-    AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue] ?: 9090;
+    AppDelegate.instance.obj.tcpPort = [Utilities getTcpPort:item[@"tcpPort"]];
 }
 
 - (void)deselectServerAtIndexPath:(NSIndexPath*)indexPath {

@@ -1377,6 +1377,14 @@
     return URLaddress;
 }
 
++ (NSString*)getServerPort:(NSString*)serverPort {
+    return serverPort.length ? serverPort : @"8080";
+}
+
++ (int)getTcpPort:(NSNumber*)tcpPort {
+    return [tcpPort intValue] ?: 9090;
+}
+
 + (int)getActivePlayerID:(NSArray*)activePlayerList {
     if (!activePlayerList.count) {
         return PLAYERID_UNKNOWN;
