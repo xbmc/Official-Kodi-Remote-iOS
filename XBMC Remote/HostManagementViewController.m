@@ -64,6 +64,7 @@
         AppDelegate.instance.obj.serverIP = @"";
         AppDelegate.instance.obj.serverPort = @"";
         AppDelegate.instance.obj.serverHWAddr = @"";
+        AppDelegate.instance.obj.tcpPort = 0;
         [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject: @(-1) forKey:@"lastServer"];
@@ -157,9 +158,9 @@
     AppDelegate.instance.obj.serverPass = item[@"serverPass"];
     AppDelegate.instance.obj.serverRawIP = item[@"serverIP"];
     AppDelegate.instance.obj.serverIP = [Utilities getUrlStyleAddress:item[@"serverIP"]];
-    AppDelegate.instance.obj.serverPort = item[@"serverPort"];
+    AppDelegate.instance.obj.serverPort = [item[@"serverPort"] intValue] ? item[@"serverPort"] : @"8080";
     AppDelegate.instance.obj.serverHWAddr = item[@"serverMacAddress"];
-    AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue];
+    AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue] ?: 9090;
 }
 
 - (void)deselectServerAtIndexPath:(NSIndexPath*)indexPath {

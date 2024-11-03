@@ -6161,9 +6161,9 @@
             AppDelegate.instance.obj.serverPass = item[@"serverPass"];
             AppDelegate.instance.obj.serverRawIP = item[@"serverIP"];
             AppDelegate.instance.obj.serverIP = [Utilities getUrlStyleAddress:item[@"serverIP"]];
-            AppDelegate.instance.obj.serverPort = item[@"serverPort"];
+            AppDelegate.instance.obj.serverPort = [item[@"serverPort"] intValue] ? item[@"serverPort"] : @"8080";
             AppDelegate.instance.obj.serverHWAddr = item[@"serverMacAddress"];
-            AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue];
+            AppDelegate.instance.obj.tcpPort = [item[@"tcpPort"] intValue] ?: 9090;
         }
     }
     

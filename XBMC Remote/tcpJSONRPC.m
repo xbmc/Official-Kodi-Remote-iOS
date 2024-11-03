@@ -70,9 +70,6 @@ NSInputStream	*inStream;
 }
 
 - (void)startNetworkCommunicationWithServer:(NSString*)server serverPort:(int)port {
-    if (port == 0) {
-        port = 9090;
-    }
     if (!server.length) {
         return;
     }
