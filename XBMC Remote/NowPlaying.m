@@ -1851,15 +1851,32 @@
             }
             NSInteger numActions = sheetActions.count;
             if (numActions) {
-                NSString *title = item[@"label"];
+                NSString *title = item[@"title"];
+                NSString *label = item[@"label"];
+                NSString *sheetTitle = title.length ? title : label;
                 if ([item[@"type"] isEqualToString:@"song"]) {
-                    title = [NSString stringWithFormat:@"%@\n%@\n%@", item[@"label"], item[@"album"], item[@"artist"]];
+                    NSString *album = item[@"album"];
+                    NSString *artist = item[@"artist"];
+                    NSString *newLine1 = album.length ? @"\n" : @"";
+                    NSString *newLine2 = artist.length ? @"\n" : @"";
+                    sheetTitle = [NSString stringWithFormat:@"%@%@%@%@%@", sheetTitle, newLine1, album, newLine2, artist];
+                }
+                else if ([item[@"type"] isEqualToString:@"musicvideo"]) {
+                    NSString *artist = item[@"artist"];
+                    NSString *newLine = artist.length ? @"\n" : @"";
+                    sheetTitle = [NSString stringWithFormat:@"%@%@%@", sheetTitle, newLine, artist];
+                }
+                else if ([item[@"type"] isEqualToString:@"recording"]) {
+                    NSString *channel = item[@"channel"];
+                    NSString *newLine = channel.length ? @"\n" : @"";
+                    sheetTitle = [NSString stringWithFormat:@"%@%@%@", sheetTitle, newLine, channel];
                 }
                 else if ([item[@"type"] isEqualToString:@"episode"]) {
                     NSString *tvshowText = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];
-                    title = [NSString stringWithFormat:@"%@%@%@", item[@"label"], tvshowText.length ? @"\n" : @"", tvshowText];
+                    NSString *newLine = tvshowText.length ? @"\n" : @"";
+                    sheetTitle = [NSString stringWithFormat:@"%@%@%@", sheetTitle, newLine, tvshowText];
                 }
-                [self showActionNowPlaying:sheetActions title:title point:selectedPoint];
+                [self showActionNowPlaying:sheetActions title:sheetTitle point:selectedPoint];
             }
         }
     }
