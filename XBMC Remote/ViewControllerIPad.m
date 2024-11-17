@@ -549,15 +549,15 @@
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleWillResignActive:)
-                                                 name: @"UIApplicationWillResignActiveNotification"
+                                                 name: UIApplicationWillResignActiveNotification
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleDidEnterBackground:)
-                                                 name: @"UIApplicationDidEnterBackgroundNotification"
+                                                 name: UIApplicationDidEnterBackgroundNotification
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
-                                                 name: @"UIApplicationWillEnterForegroundNotification"
+                                                 name: UIApplicationWillEnterForegroundNotification
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTcpJSONRPCShowSetup:)

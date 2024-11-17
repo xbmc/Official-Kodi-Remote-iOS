@@ -6135,7 +6135,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
-                                                 name: @"UIApplicationWillEnterForegroundNotification"
+                                                 name: UIApplicationWillEnterForegroundNotification
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self

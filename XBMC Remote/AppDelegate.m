@@ -6241,11 +6241,11 @@
 - (void)handleProximityChangeNotification:(id)sender {
     if ([[UIDevice currentDevice] proximityState]) {
         UIApplication.sharedApplication.idleTimerDisabled = YES;
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationDidEnterBackgroundNotification" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     else {
         [self setIdleTimerFromUserDefaults];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
         [UIDevice currentDevice].proximityMonitoringEnabled = NO;
         [UIDevice currentDevice].proximityMonitoringEnabled = YES;
     }
@@ -6415,7 +6415,7 @@
 - (void)applicationWillEnterForeground:(UIApplication*)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     [self setIdleTimerFromUserDefaults];
-//    [[NSNotificationCenter defaultCenter] postNotificationName: @"UIApplicationWillEnterForegroundNotification" object: nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication*)application {

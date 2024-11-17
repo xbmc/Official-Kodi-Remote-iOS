@@ -30,12 +30,12 @@ NSInputStream	*inStream;
                                                    object: nil];
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleDidBecomeActive:)
-                                                     name: @"UIApplicationDidBecomeActiveNotification"
+                                                     name: UIApplicationDidBecomeActiveNotification
                                                    object: nil];
         
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleDidEnterBackground:)
-                                                     name: @"UIApplicationDidEnterBackgroundNotification"
+                                                     name: UIApplicationDidEnterBackgroundNotification
                                                    object: nil];
         
         [[NSNotificationCenter defaultCenter] addObserver: self
