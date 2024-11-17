@@ -9,6 +9,7 @@
 #import "UIImageView+WebCache.h"
 #import "objc/runtime.h"
 #import "UIView+WebCacheOperation.h"
+#import "UIImage+Resize.h"
 
 static char imageURLKey;
 static char TAG_ACTIVITY_INDICATOR;
@@ -56,12 +57,13 @@ static char TAG_ACTIVITY_SHOW;
     }
     
     if (url) {
-        // We want to fill the cache with images the size of the native views to reduce scaling load
-        CGSize nativeViewSize = [self doubleSizeRetina:self.frame.size];
+        // We want to fill the cache with images the size of the native views and follow the content mode to reduce scaling load
+        CGSize nativeViewSize = [self doubleSizeRetina:self.bounds.size];
         NSDictionary *userInfo = nil;
         if ((options & SDWebImageScaleToNativeSize) && nativeViewSize.width && nativeViewSize.height) {
             userInfo = @{
                 SD_NATIVESIZE_KEY: NSStringFromCGSize(nativeViewSize),
+                SD_ASPECTMODE_KEY: @(self.contentMode),
             };
         }
 

@@ -10,19 +10,51 @@
 
 @implementation UIImage (Resize)
 
-- (UIImage*)resizedImage:(CGImageRef)imageRef size:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality {
-    CGRect newRect;
+- (UIImage*)resizedImageSize:(CGSize)newSize aspectMode:(UIViewContentMode)contentMode {
+    CGImageRef imageRef = self.CGImage;
+    
+    // Calculate new dimension for the three scale modes, default is ScaleAspectFill.
     CGFloat horizontalRatio = newSize.width / self.size.width;
     CGFloat verticalRatio = newSize.height / self.size.height;
-    CGFloat ratio;
-    ratio = MAX(horizontalRatio, verticalRatio); //UIViewContentModeScaleAspectFill
-    newSize = CGSizeMake(self.size.width * ratio, self.size.height * ratio);
-    newRect = CGRectIntegral(CGRectMake(0, 0, newSize.width, newSize.height));
+    CGFloat ratio, width, height;
+    switch (contentMode) {
+        case UIViewContentModeScaleToFill:
+            width = newSize.width;
+            height = newSize.height;
+            break;
+            
+        case UIViewContentModeScaleAspectFit:
+            ratio = MIN(horizontalRatio, verticalRatio);
+            width = floor(self.size.width * ratio);
+            height = floor(self.size.height * ratio);
+            break;
+            
+        case UIViewContentModeScaleAspectFill:
+        default:
+            ratio = MAX(horizontalRatio, verticalRatio);
+            width = floor(self.size.width * ratio);
+            height = floor(self.size.height * ratio);
+            break;
+    }
     
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    // The new image will have the target dimension given by newSize. We need to render
+    // the scaled image into this and will place it centralized.
+    CGRect newImageRect = CGRectMake(floor((newSize.width - width) / 2),
+                                     floor((newSize.height - height) / 2),
+                                     width,
+                                     height);
+    
+    // Read color space. Only create new color space (memory intense), if it is not already RGB.
+    CGColorSpaceModel imageColorSpaceModel = CGColorSpaceGetModel(CGImageGetColorSpace(imageRef));
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(imageRef);
+    BOOL isRGB = imageColorSpaceModel == kCGColorSpaceModelRGB;
+    if (!isRGB) {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
+    }
+    
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
     
-    int infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
+    CGImageAlphaInfo infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
     BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
                         infoMask == kCGImageAlphaNoneSkipFirst ||
                         infoMask == kCGImageAlphaNoneSkipLast);
@@ -44,19 +76,27 @@
     }
     
     CGContextRef bitmap = CGBitmapContextCreate(NULL,
-                                                newRect.size.width,
-                                                newRect.size.height,
+                                                newSize.width,
+                                                newSize.height,
                                                 CGImageGetBitsPerComponent(imageRef),
                                                 0,
                                                 colorSpace,
                                                 bitmapInfo);
-    CGColorSpaceRelease(colorSpace);
-    CGContextSetInterpolationQuality(bitmap, quality);
-    CGContextDrawImage(bitmap, newRect, imageRef);
+    
+    CGContextSetShouldAntialias(bitmap, YES);
+    CGContextSetAllowsAntialiasing(bitmap, YES);
+    CGContextSetInterpolationQuality(bitmap, kCGInterpolationHigh);
+    CGContextDrawImage(bitmap, newImageRect, imageRef);
     CGImageRef newImageRef = CGBitmapContextCreateImage(bitmap);
     UIImage *newImage = [UIImage imageWithCGImage:newImageRef];
+    
+    // Release memory
+    if (!isRGB) {
+        CGColorSpaceRelease(colorSpace);
+    }
     CGContextRelease(bitmap);
     CGImageRelease(newImageRef);
+    
     return newImage;
 }
 

@@ -79,7 +79,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
             cancelled:(SDWebImageNoParamsBlock)cancelBlock {
     if ((self = [super init])) {
         _request = [request copy];
-        _shouldDecompressImages = YES;
+        _shouldDecompressImages = NO;
         _options = options;
         _progressBlock = [progressBlock copy];
         _completedBlock = [completedBlock copy];
@@ -426,8 +426,9 @@ didReceiveResponse:(NSURLResponse *)response
                 image = [self scaledImageForKey:key image:image];
                 
                 if (self.userInfo[SD_NATIVESIZE_KEY]) {
+                    UIViewContentMode aspectMode = [self.userInfo[SD_ASPECTMODE_KEY] intValue];
                     CGSize size = CGSizeFromString(self.userInfo[SD_NATIVESIZE_KEY]);
-                    image = [image resizedImage:image.CGImage size:size interpolationQuality:kCGInterpolationHigh];
+                    image = [image resizedImageSize:size aspectMode:aspectMode];
                     self.imageData = [UIImagePNGRepresentation(image) mutableCopy];
                 }
                 

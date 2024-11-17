@@ -9,6 +9,7 @@
 #import "NowPlaying.h"
 #import "mainMenu.h"
 #import "UIImageView+WebCache.h"
+#import "UIImage+Resize.h"
 #import <QuartzCore/QuartzCore.h>
 #import "GlobalData.h"
 #import "SDImageCache.h"
@@ -123,9 +124,9 @@
 # pragma mark - toolbar management
 
 - (UIImage*)resizeToolbarThumb:(UIImage*)img {
-    return [self resizeImage:img 
-                       width:CGRectGetWidth(playlistButton.frame) * UIScreen.mainScreen.scale
-                      height:CGRectGetHeight(playlistButton.frame) * UIScreen.mainScreen.scale];
+    CGSize thumbSize = CGSizeMake(CGRectGetWidth(playlistButton.frame) * UIScreen.mainScreen.scale,
+                                  CGRectGetHeight(playlistButton.frame) * UIScreen.mainScreen.scale);
+    return [img resizedImageSize:thumbSize aspectMode:UIViewContentModeScaleAspectFit];
 }
 
 #pragma mark - utility
@@ -294,35 +295,6 @@
         hidden = YES;
     }
     view.hidden = hidden;
-}
-
-- (UIImage*)resizeImage:(UIImage*)image width:(int)destWidth height:(int)destHeight {
-    CGImageRef imageRef = image.CGImage;
-    CGFloat horizontalRatio = destWidth / image.size.width;
-    CGFloat verticalRatio = destHeight / image.size.height;
-    CGFloat ratio = MIN(horizontalRatio, verticalRatio); // UIViewContentModeScaleAspectFit
-    CGFloat width = floor(image.size.width * ratio);
-    CGFloat height = floor(image.size.height * ratio);
-    
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    
-    CGContextRef bitmap = CGBitmapContextCreate(NULL,
-                                                destWidth,
-                                                destHeight,
-                                                8,
-                                                4 * destWidth,
-                                                colorSpace,
-                                                kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
-    
-    CGContextDrawImage(bitmap, CGRectMake(floor((destWidth - width) / 2), floor((destHeight - height) / 2), width, height), imageRef);
-    CGImageRef ref = CGBitmapContextCreateImage(bitmap);
-    UIImage *result = [UIImage imageWithCGImage:ref scale:image.scale orientation:image.imageOrientation];
-    
-    CGContextRelease(bitmap);
-    CGColorSpaceRelease(colorSpace);
-    CGImageRelease(ref);
-    
-    return result;
 }
 
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source {

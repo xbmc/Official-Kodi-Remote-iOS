@@ -55,8 +55,6 @@
         
         size_t width = CGImageGetWidth(imageRef);
         size_t height = CGImageGetHeight(imageRef);
-        NSUInteger bytesPerPixel = 4;
-        NSUInteger bytesPerRow = bytesPerPixel * width;
         NSUInteger bitsPerComponent = 8;
 
 
@@ -67,7 +65,7 @@
                                                      width,
                                                      height,
                                                      bitsPerComponent,
-                                                     bytesPerRow,
+                                                     0,
                                                      colorspaceRef,
                                                      kCGBitmapByteOrderDefault|kCGImageAlphaNoneSkipLast);
         

@@ -115,7 +115,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
         }
 
         // Set decompression to YES
-        _shouldDecompressImages = YES;
+        _shouldDecompressImages = NO;
 
         // memory cache enabled
         _shouldCacheImagesInMemory = YES;
