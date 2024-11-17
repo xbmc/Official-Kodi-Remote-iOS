@@ -432,7 +432,9 @@
     if (!serverInfoView.hidden) {
         [self updateServerInfo];
         // Start timer to update the server info view
-        serverInfoTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateServerInfo) userInfo:nil repeats:YES];
+        // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging
+        serverInfoTimer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(updateServerInfo) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:serverInfoTimer forMode:NSRunLoopCommonModes];
     }
 }
 

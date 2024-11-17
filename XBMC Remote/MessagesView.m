@@ -67,8 +67,10 @@
                      }
                      completion:^(BOOL finished) {}];
     // then slide out again after timeout seconds
+    // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging
     [fadeoutTimer invalidate];
-    fadeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(fadeoutMessage:) userInfo:nil repeats:NO];
+    fadeoutTimer = [NSTimer timerWithTimeInterval:timeout target:self selector:@selector(fadeoutMessage:) userInfo:nil repeats:NO];
+    [[NSRunLoop currentRunLoop] addTimer:fadeoutTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)fadeoutMessage:(NSTimer*)timer {
