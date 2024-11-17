@@ -123,6 +123,8 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (BOOL)isValidMacAddress:(NSString*)macAddress;
 + (void)wakeUp:(NSString*)macAddress;
 + (NSString*)getUrlStyleAddress:(NSString*)address;
++ (NSString*)getServerPort:(NSString*)serverPort;
++ (int)getTcpPort:(NSNumber*)tcpPort;
 + (int)getActivePlayerID:(NSArray*)activePlayerList;
 + (UIViewController*)topMostController;
 + (UIViewController*)topMostControllerIgnoringClass:(Class)ignoredClass;

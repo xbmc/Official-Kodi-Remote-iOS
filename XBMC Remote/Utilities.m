@@ -1377,6 +1377,14 @@
     return URLaddress;
 }
 
++ (NSString*)getServerPort:(NSString*)serverPort {
+    return serverPort.length ? serverPort : [NSString stringWithFormat:@"%d", DEFAULT_SERVER_PORT];;
+}
+
++ (int)getTcpPort:(NSNumber*)tcpPort {
+    return [tcpPort intValue] ?: DEFAULT_TCP_PORT;
+}
+
 + (int)getActivePlayerID:(NSArray*)activePlayerList {
     if (!activePlayerList.count) {
         return PLAYERID_UNKNOWN;
