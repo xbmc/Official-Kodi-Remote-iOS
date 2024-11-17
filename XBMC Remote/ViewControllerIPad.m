@@ -84,7 +84,7 @@
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.tcpJSONRPCconnection = [tcpJSONRPC new];
     }
     return self;
 }
@@ -549,15 +549,15 @@
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleWillResignActive:)
-                                                 name: @"UIApplicationWillResignActiveNotification"
+                                                 name: UIApplicationWillResignActiveNotification
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleDidEnterBackground:)
-                                                 name: @"UIApplicationDidEnterBackgroundNotification"
+                                                 name: UIApplicationDidEnterBackgroundNotification
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
-                                                 name: @"UIApplicationWillEnterForegroundNotification"
+                                                 name: UIApplicationWillEnterForegroundNotification
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleTcpJSONRPCShowSetup:)
@@ -616,9 +616,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    // Only start tcpJSONRPC after view did appear. This ensures the HostManagement popover can be shown in case needed.
-    // This required, if the server csnnot connect or no server has been selected.
-    self.tcpJSONRPCconnection = [tcpJSONRPC new];
+    BOOL showSetup = AppDelegate.instance.obj.serverIP.length == 0;
+    [self showSetup:showSetup];
 }
 
 - (void)handleLibraryNotification:(NSNotification*)note {
@@ -734,9 +733,6 @@
 
 - (void)handleEnterForeground:(NSNotification*)sender {
     if (AppDelegate.instance.serverOnLine) {
-        if (self.tcpJSONRPCconnection == nil) {
-            self.tcpJSONRPCconnection = [tcpJSONRPC new];
-        }
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
     }
 }

@@ -24,19 +24,18 @@ NSInputStream	*inStream;
 - (id)init {
     if (self = [super init]) {
         infoTitle = @"";
-        [self startServerHeartbeat];
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleSystemOnSleep:)
                                                      name: @"System.OnSleep"
                                                    object: nil];
         [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(handleEnterForeground:)
-                                                     name: @"UIApplicationWillEnterForegroundNotification"
+                                                 selector: @selector(handleDidBecomeActive:)
+                                                     name: UIApplicationDidBecomeActiveNotification
                                                    object: nil];
         
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleDidEnterBackground:)
-                                                     name: @"UIApplicationDidEnterBackgroundNotification"
+                                                     name: UIApplicationDidEnterBackgroundNotification
                                                    object: nil];
         
         [[NSNotificationCenter defaultCenter] addObserver: self
@@ -55,10 +54,8 @@ NSInputStream	*inStream;
     [heartbeatTimer invalidate];
 }
 
-- (void)handleEnterForeground:(NSNotification*)sender {
-    // Start the JSON heartbeat only with a little delay to ensure iOS provides all services.
-    // See https://stackoverflow.com/questions/63621039/
-    [self performSelector:@selector(startServerHeartbeat) withObject:nil afterDelay:0.1];
+- (void)handleDidBecomeActive:(NSNotification*)sender {
+    [self startServerHeartbeat];
 }
 
 - (void)startServerHeartbeat {

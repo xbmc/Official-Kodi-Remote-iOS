@@ -46,6 +46,9 @@
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.tcpJSONRPCconnection = [tcpJSONRPC new];
+    }
     return self;
 }
 	
@@ -333,7 +336,6 @@
         [self.view addSubview:clearView];
         [NSThread detachNewThreadSelector:@selector(startClearAppDiskCache:) toTarget:self withObject:clearView];
     }
-    self.tcpJSONRPCconnection = [tcpJSONRPC new];
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     AppDelegate.instance.obj = [GlobalData getInstance];
@@ -351,15 +353,15 @@
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleWillResignActive:)
-                                                 name: @"UIApplicationWillResignActiveNotification"
+                                                 name: UIApplicationWillResignActiveNotification
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleDidEnterBackground:)
-                                                 name: @"UIApplicationDidEnterBackgroundNotification"
+                                                 name: UIApplicationDidEnterBackgroundNotification
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleEnterForeground:)
-                                                 name: @"UIApplicationWillEnterForegroundNotification"
+                                                 name: UIApplicationWillEnterForegroundNotification
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleXBMCServerHasChanged:)
@@ -453,9 +455,6 @@
 
 - (void)handleEnterForeground:(NSNotification*)sender {
     if (AppDelegate.instance.serverOnLine) {
-        if (self.tcpJSONRPCconnection == nil) {
-            self.tcpJSONRPCconnection = [tcpJSONRPC new];
-        }
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
     }
 }
