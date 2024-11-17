@@ -35,6 +35,10 @@
     return NO;
 }
 
+- (IBAction)closeAppInfo:(id)sender {
+    [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
