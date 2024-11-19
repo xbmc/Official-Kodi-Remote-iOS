@@ -6349,9 +6349,6 @@
     [self.sections removeAllObjects];
     [channelListUpdateTimer invalidate];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-    self.searchController.searchResultsUpdater = nil;
-    self.searchController.searchBar.delegate = nil;
-    self.searchController.delegate = nil;
 }
 
 - (BOOL)shouldAutorotate {
