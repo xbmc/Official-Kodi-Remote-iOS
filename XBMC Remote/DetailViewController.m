@@ -6343,12 +6343,6 @@
     [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - button7.frame.size.height / 2];
 }
 
-- (void)dealloc {
-    [self.richResults removeAllObjects];
-    [self.filteredListContent removeAllObjects];
-    [self.sections removeAllObjects];
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }
