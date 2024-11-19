@@ -6347,7 +6347,6 @@
     [self.richResults removeAllObjects];
     [self.filteredListContent removeAllObjects];
     [self.sections removeAllObjects];
-    [channelListUpdateTimer invalidate];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
