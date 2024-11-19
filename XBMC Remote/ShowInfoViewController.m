@@ -2001,7 +2001,6 @@ double round(double d) {
 - (void)dealloc {
     [kenView removeFromSuperview];
     [self.kenView removeFromSuperview];
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 - (BOOL)shouldAutorotate {

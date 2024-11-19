@@ -737,10 +737,6 @@
     }
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     

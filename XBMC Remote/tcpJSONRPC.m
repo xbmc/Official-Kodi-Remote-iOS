@@ -363,7 +363,6 @@ NSInputStream	*inStream;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
     // NSStream delegate uses "assign" in XCode 15.4 SDK. So we nil it.
     inStream.delegate = nil;
 }

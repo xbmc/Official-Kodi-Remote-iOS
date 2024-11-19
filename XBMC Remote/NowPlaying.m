@@ -2942,10 +2942,6 @@
     [self createPlaylistAnimated:YES];
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }
