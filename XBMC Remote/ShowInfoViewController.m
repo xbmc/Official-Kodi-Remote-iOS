@@ -1998,11 +1998,6 @@ double round(double d) {
     [super didReceiveMemoryWarning];
 }
 
-- (void)dealloc {
-    [kenView removeFromSuperview];
-    [self.kenView removeFromSuperview];
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }
