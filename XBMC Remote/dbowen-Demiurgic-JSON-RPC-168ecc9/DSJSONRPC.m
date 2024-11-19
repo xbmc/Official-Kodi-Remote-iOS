@@ -68,9 +68,6 @@
     return self;
 }
 
-- (void)dealloc {
-}
-
 #pragma mark - Web Service Invocation Methods
 
 - (NSInteger)callMethod:(NSString*)methodName {
