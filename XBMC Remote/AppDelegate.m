@@ -5642,12 +5642,12 @@
     playlistArtistAlbums.subItem.disableNowPlaying = YES;
     playlistArtistAlbums.subItem.subItem.disableNowPlaying = YES;
     
-#pragma mark - Plalist Movies
+#pragma mark - Playlist Movies
     playlistMovies = [menu_Movies copy];
     playlistMovies.subItem.disableNowPlaying = YES;
     playlistMovies.subItem.subItem.disableNowPlaying = YES;
     
-#pragma mark - Plalist Movies
+#pragma mark - Playlist Movies
     playlistMusicVideos = [menu_Videos copy];
     playlistMusicVideos.subItem.disableNowPlaying = YES;
     playlistMusicVideos.subItem.subItem.disableNowPlaying = YES;
