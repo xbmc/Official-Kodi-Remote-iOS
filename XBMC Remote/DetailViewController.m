@@ -2062,7 +2062,15 @@
     // Get the indicator view and place it in the middle of the thumb (if no thumb keep it at least fully visible)
     id cell = [self getCell:indexPath];
     UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:XIB_JSON_DATA_CELL_ACTIVTYINDICATOR];
-    cellActivityIndicator.center = CGPointMake(MAX(thumbWidth / 2, cellActivityIndicator.frame.size.width / 2), cellHeight / 2);
+    if (!enableCollectionView) {
+        cellActivityIndicator.center = CGPointMake(MAX(thumbWidth / 2, cellActivityIndicator.frame.size.width / 2), cellHeight / 2);
+    }
+    else if (recentlyAddedView) {
+        cellActivityIndicator.center = ((RecentlyAddedCell*)cell).posterThumbnail.center;
+    }
+    else {
+        cellActivityIndicator.center = ((PosterCell*)cell).posterThumbnail.center;
+    }
     return cellActivityIndicator;
 }
 

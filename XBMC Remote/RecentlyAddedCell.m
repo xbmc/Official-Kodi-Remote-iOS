@@ -86,7 +86,7 @@
 
         _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _busyView.hidesWhenStopped = YES;
-        _busyView.center = CGPointMake(frame.size.width / 2 + _posterThumbnail.frame.size.width / 2 + borderWidth / 2, frame.size.height / 2 - borderWidth);
+        _busyView.center = _posterThumbnail.center;
         _busyView.tag = RECENTLY_ADDED_CELL_ACTIVTYINDICATOR;
         [self.contentView addSubview:_busyView];
         
