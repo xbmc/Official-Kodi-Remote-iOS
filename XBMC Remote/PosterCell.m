@@ -27,7 +27,10 @@
         CGFloat labelHeight = ceil(frame.size.height * 0.19);
         CGFloat borderWidth = 1.0 / UIScreen.mainScreen.scale;
         self.restorationIdentifier = @"posterCell";
-        _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, borderWidth, frame.size.width - borderWidth * 2, frame.size.height - borderWidth * 2)];
+        _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth,
+                                                                         borderWidth,
+                                                                         frame.size.width - borderWidth * 2,
+                                                                         frame.size.height - borderWidth * 2)];
         _posterThumbnail.clipsToBounds = YES;
         _posterThumbnail.contentMode = UIViewContentModeScaleAspectFill;
         self.contentView.backgroundColor = UIColor.clearColor;
