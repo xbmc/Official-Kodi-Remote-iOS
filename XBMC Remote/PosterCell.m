@@ -62,7 +62,10 @@
         [_posterThumbnail addSubview:_labelImageView];
         
         if (IS_IPAD) {
-            _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width - borderWidth * 2, FULLSCREEN_LABEL_HEIGHT)];
+            _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectMake(0,
+                                                                                   frame.size.height,
+                                                                                   frame.size.width,
+                                                                                   FULLSCREEN_LABEL_HEIGHT)];
             _posterLabelFullscreen.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
             _posterLabelFullscreen.backgroundColor = UIColor.clearColor;
             _posterLabelFullscreen.textColor = UIColor.lightGrayColor;
