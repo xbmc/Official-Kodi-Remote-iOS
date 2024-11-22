@@ -1627,7 +1627,7 @@
     return sheetActions;
 }
 
-#pragma mark - UICollectionView FlowLayout deleagate
+#pragma mark - UICollectionView FlowLayout delegate
 
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if ((enableCollectionView && self.sectionArray.count > 1 && section > 0) || [self doesShowSearchResults]) {

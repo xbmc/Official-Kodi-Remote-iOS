@@ -5640,10 +5640,10 @@
 #pragma mark - Playlist Artist Albums
     playlistArtistAlbums = [menu_Music copy];
     
-#pragma mark - Plalist Movies
+#pragma mark - Playlist Movies
     playlistMovies = [menu_Movies copy];
     
-#pragma mark - Plalist Movies
+#pragma mark - Playlist Movies
     playlistMusicVideos = [menu_Videos copy];
     
 #pragma mark - Playlist TV Shows
