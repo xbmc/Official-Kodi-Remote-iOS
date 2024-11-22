@@ -33,13 +33,18 @@
         self.contentView.backgroundColor = UIColor.clearColor;
         [self.contentView addSubview:_posterThumbnail];
         
-        _labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
+        _labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,
+                                                                        _posterThumbnail.frame.size.height - labelHeight,
+                                                                        _posterThumbnail.frame.size.width,
+                                                                        labelHeight)];
         _labelImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _labelImageView.image = [UIImage imageNamed:@"cell_bg"];
         _labelImageView.highlightedImage = [UIImage imageNamed:@"cell_bg_selected"];
-        [Utilities applyRoundedEdgesView:_labelImageView drawBorder:NO];
 
-        _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
+        _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(0,
+                                                                     0,
+                                                                     _labelImageView.frame.size.width,
+                                                                     _labelImageView.frame.size.height)];
         _posterLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterLabel.backgroundColor = UIColor.clearColor;
         _posterLabel.textAlignment = NSTextAlignmentCenter;
@@ -49,10 +54,9 @@
         _posterLabel.numberOfLines = 2;
         _posterLabel.adjustsFontSizeToFitWidth = YES;
         _posterLabel.minimumScaleFactor = FONT_SCALING_NONE;
-        [Utilities applyRoundedEdgesView:_posterLabel drawBorder:NO];
 
         [_labelImageView addSubview:_posterLabel];
-        [self.contentView addSubview:_labelImageView];
+        [_posterThumbnail addSubview:_labelImageView];
         
         if (IS_IPAD) {
             _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width - borderWidth * 2, FULLSCREEN_LABEL_HEIGHT)];
