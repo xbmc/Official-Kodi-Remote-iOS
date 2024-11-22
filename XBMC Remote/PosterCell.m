@@ -25,7 +25,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         CGFloat labelHeight = ceil(frame.size.height * 0.19);
-        CGFloat borderWidth = [self halfSizeIfRetina:1.0];
+        CGFloat borderWidth = 1.0 / UIScreen.mainScreen.scale;
         self.restorationIdentifier = @"posterCell";
         _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, borderWidth, frame.size.width - borderWidth * 2, frame.size.height - borderWidth * 2)];
         _posterThumbnail.clipsToBounds = YES;
@@ -78,10 +78,6 @@
         self.selectedBackgroundView = bgView;
     }
     return self;
-}
-
-- (CGFloat)halfSizeIfRetina:(CGFloat)size {
-    return size / UIScreen.mainScreen.scale;
 }
 
 - (void)setIsRecording:(BOOL)enable {
