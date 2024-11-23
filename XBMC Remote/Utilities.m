@@ -920,7 +920,7 @@
     CGFloat radius = GET_ROUNDED_EDGES_RADIUS(imageLayer.frame.size);
     // Create a mask layer
     CAShapeLayer *maskLayer = [CAShapeLayer new];
-    CGFloat freeAreaWidth = 1.0 / UIScreen.mainScreen.scale;
+    CGFloat freeAreaWidth = drawBorder ? 1.0 / UIScreen.mainScreen.scale : 0;
     CGRect maskFrame = CGRectInset(imageLayer.bounds, freeAreaWidth, freeAreaWidth);
     maskFrame.origin.x /= 2;
     maskFrame.origin.y /= 2;
