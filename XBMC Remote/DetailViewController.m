@@ -79,7 +79,7 @@
 #define INDICATOR_SIZE 16
 #define FLOWLAYOUT_FULLSCREEN_INSET 8
 #define FLOWLAYOUT_FULLSCREEN_MIN_SPACE 4
-#define FLOWLAYOUT_FULLSCREEN_LABEL (FULLSCREEN_LABEL_HEIGHT * [Utilities getTransformX] + 8)
+#define FLOWLAYOUT_FULLSCREEN_LABEL (FULLSCREEN_LABEL_HEIGHT + 8)
 #define TOGGLE_BUTTON_SIZE 11
 #define INFO_BUTTON_SIZE 30
 #define LABEL_HEIGHT(font) ceil(font.lineHeight)
@@ -1670,9 +1670,11 @@
         CGFloat screenwidth = IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT;
         CGFloat numItemsPerRow = screenwidth / fullscreenCellGridWidth;
         int num = round(numItemsPerRow);
-        CGFloat newWidth = (screenwidth - num * FLOWLAYOUT_FULLSCREEN_MIN_SPACE - 2 * FLOWLAYOUT_FULLSCREEN_INSET) / num;
+        CGFloat newWidth = (screenwidth - (num - 1) * FLOWLAYOUT_FULLSCREEN_MIN_SPACE - 2 * FLOWLAYOUT_FULLSCREEN_INSET) / num;
         
-        flowLayout.itemSize = CGSizeMake(newWidth, fullscreenCellGridHeight * newWidth / fullscreenCellGridWidth);
+        CGFloat pixelExactWidth = GET_PIXEL_EXACT_SIZE(newWidth);
+        CGFloat pixelExactHeight = GET_PIXEL_EXACT_SIZE(fullscreenCellGridHeight * newWidth / fullscreenCellGridWidth);
+        flowLayout.itemSize = CGSizeMake(pixelExactWidth, pixelExactHeight);
         if (!recentlyAddedView && !hiddenLabel) {
             flowLayout.minimumLineSpacing = FLOWLAYOUT_FULLSCREEN_LABEL;
         }

@@ -66,7 +66,7 @@
                                                                                    frame.size.height,
                                                                                    frame.size.width,
                                                                                    FULLSCREEN_LABEL_HEIGHT)];
-            _posterLabelFullscreen.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+            _posterLabelFullscreen.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
             _posterLabelFullscreen.backgroundColor = UIColor.clearColor;
             _posterLabelFullscreen.textColor = UIColor.lightGrayColor;
             _posterLabelFullscreen.textAlignment = NSTextAlignmentCenter;
