@@ -1046,7 +1046,7 @@
                         [item[@"family"] isEqualToString:@"sectionid"] ||
                         [item[@"family"] isEqualToString:@"categoryid"] ||
                         [item[@"family"] isEqualToString:@"type"] ||
-                        [item[@"family"] isEqualToString:@"file"]);
+                        [item[@"family"] isEqualToString:@"file"]) && !enableCollectionView;
     BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
     [Utilities applyRoundedEdgesView:imgView drawBorder:showBorder];
     // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
