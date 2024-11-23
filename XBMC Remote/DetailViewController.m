@@ -1769,6 +1769,7 @@
 
 - (UICollectionViewCell*)collectionView:(UICollectionView*)cView cellForItemAtIndexPath:(NSIndexPath*)indexPath {
     NSDictionary *item = [self getItemFromIndexPath:indexPath];
+    defaultThumb = [self getTimerDefaultThumb:item];
     NSString *stringURL = item[@"thumbnail"];
     NSString *fanartURL = item[@"fanart"];
     NSString *displayThumb = [NSString stringWithFormat:@"%@_wall", defaultThumb];
@@ -1798,7 +1799,6 @@
             cell.posterLabelFullscreen.hidden = YES;
         }
         
-        defaultThumb = displayThumb = [self getTimerDefaultThumb:item];
         if (tvshowsView && choosedTab == 0) {
             defaultThumb = displayThumb = @"nocover_tvshows";
         }
