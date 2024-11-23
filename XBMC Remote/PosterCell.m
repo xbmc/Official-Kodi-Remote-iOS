@@ -126,4 +126,19 @@
     }
 }
 
+- (void)setPosterCellLayoutManually:(CGRect)frame {
+    CGFloat borderWidth = 1.0 / UIScreen.mainScreen.scale;
+    _posterThumbnail.autoresizingMask = 0;
+    _posterThumbnail.frame = CGRectMake(borderWidth,
+                                        borderWidth,
+                                        frame.size.width - borderWidth * 2,
+                                        frame.size.height - borderWidth * 2);
+    
+    _posterLabelFullscreen.autoresizingMask = 0;
+    _posterLabelFullscreen.frame = CGRectMake(0,
+                                              frame.size.height,
+                                              frame.size.width,
+                                              FULLSCREEN_LABEL_HEIGHT);
+}
+
 @end

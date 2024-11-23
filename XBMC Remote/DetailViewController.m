@@ -1808,7 +1808,7 @@
         if (channelListView) {
             [cell setIsRecording:[item[@"isrecording"] boolValue]];
         }
-        cell.posterThumbnail.frame = cell.bounds;
+        [cell setPosterCellLayoutManually:cell.bounds];
         [self setCellImageView:cell.posterThumbnail cell:cell dictItem:item url:stringURL size:CGSizeMake(cellthumbWidth, cellthumbHeight) defaultImg:displayThumb];
         if (!stringURL.length) {
             cell.posterThumbnail.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
