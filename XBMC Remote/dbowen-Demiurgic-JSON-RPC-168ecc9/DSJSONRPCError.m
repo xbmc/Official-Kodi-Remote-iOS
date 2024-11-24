@@ -58,9 +58,6 @@
     return error;
 }
 
-- (void)dealloc {
-}
-
 - (NSString*)description {
     return [NSString stringWithFormat:@"XBMC JSON-RPC Error: %@\n(Code: %li)\nData: %@", self.message, (long)self.code, self.data];
 }

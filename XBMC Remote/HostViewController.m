@@ -636,6 +636,13 @@
     [segmentServerType addTarget:self action:@selector(segmentValueChanged:) forControlEvents: UIControlEventValueChanged];
 }
 
+- (void)dealloc {
+    // NSNetService delegate uses "assign" in XCode 15.4 SDK. So we nil it.
+    remoteService.delegate = nil;
+    // NSNetServiceBrowser delegate uses "assign" in XCode 15.4 SDK. So we nil it.
+    netServiceBrowser.delegate = nil;
+}
+
 - (BOOL)shouldAutorotate {
     return YES;
 }

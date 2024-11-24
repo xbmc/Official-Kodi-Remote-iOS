@@ -467,10 +467,6 @@
     [Utilities enableDefaultController:self tableView:menuList menuItems:self.mainMenu];
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }

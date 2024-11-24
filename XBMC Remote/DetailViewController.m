@@ -6343,17 +6343,6 @@
     [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - button7.frame.size.height / 2];
 }
 
-- (void)dealloc {
-    [self.richResults removeAllObjects];
-    [self.filteredListContent removeAllObjects];
-    [self.sections removeAllObjects];
-    [channelListUpdateTimer invalidate];
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-    self.searchController.searchResultsUpdater = nil;
-    self.searchController.searchBar.delegate = nil;
-    self.searchController.delegate = nil;
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }
