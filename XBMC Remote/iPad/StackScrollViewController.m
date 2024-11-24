@@ -196,6 +196,8 @@
 }
 
 - (void)offView {
+    stackScrollIsFullscreen = NO;
+    
     CGFloat posX = (IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
     
     [UIView transitionWithView:self.view
