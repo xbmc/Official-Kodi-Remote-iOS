@@ -84,10 +84,10 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (NSString*)getImageServerURL;
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
 + (CGSize)getSizeOfLabel:(UILabel*)label;
-+ (UIImage*)roundedCornerImage:(UIImage*)image drawBorder:(BOOL)drawBorder;
-+ (void)roundedCornerView:(UIView*)view drawBorder:(BOOL)drawBorder;
-+ (UIImage*)applyRoundedEdgesImage:(UIImage*)image drawBorder:(BOOL)drawBorder;
-+ (void)applyRoundedEdgesView:(UIView*)view drawBorder:(BOOL)drawBorder;
++ (UIImage*)roundedCornerImage:(UIImage*)image;
++ (void)roundedCornerView:(UIView*)view;
++ (UIImage*)applyRoundedEdgesImage:(UIImage*)image;
++ (void)applyRoundedEdgesView:(UIView*)view;
 + (void)turnTorchOn:(id)sender on:(BOOL)torchOn;
 + (BOOL)hasTorch;
 + (BOOL)isTorchOn;

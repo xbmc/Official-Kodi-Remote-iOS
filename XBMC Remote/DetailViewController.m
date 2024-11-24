@@ -1038,17 +1038,8 @@
         [item[@"family"] isEqualToString:@"type"]) {
         imgView.contentMode = UIViewContentModeScaleAspectFit;
     }
-    BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
-                        [item[@"family"] isEqualToString:@"recordingid"] ||
-                        [item[@"family"] isEqualToString:@"channelgroupid"] ||
-                        [item[@"family"] isEqualToString:@"timerid"] ||
-                        [item[@"family"] isEqualToString:@"genreid"] ||
-                        [item[@"family"] isEqualToString:@"sectionid"] ||
-                        [item[@"family"] isEqualToString:@"categoryid"] ||
-                        [item[@"family"] isEqualToString:@"type"] ||
-                        [item[@"family"] isEqualToString:@"file"]) && !enableCollectionView;
     BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
-    [Utilities applyRoundedEdgesView:imgView drawBorder:showBorder];
+    [Utilities applyRoundedEdgesView:imgView];
     // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
     // ensure sd_setImageWithURL falls back to this icon.
     if (stringURL.length) {
@@ -3051,7 +3042,7 @@
     
     // Load the thumb image and set the colors for the labels
     NSString *displayThumb = episodesView ? @"coverbox_back_section" : @"coverbox_back";
-    [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
+    [Utilities applyRoundedEdgesView:thumbImageView];
     if (stringURL.length) {
         // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
         // ensure setImageWithURL falls back to this icon.

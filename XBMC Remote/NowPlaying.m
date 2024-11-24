@@ -298,7 +298,7 @@
 }
 
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source {
-    return [Utilities applyRoundedEdgesImage:source drawBorder:YES];
+    return [Utilities applyRoundedEdgesImage:source];
 }
 
 - (void)updateRepeatButton:(NSString*)mode {
@@ -2132,7 +2132,7 @@
     [thumb sd_setImageWithURL:[NSURL URLWithString:stringURL]
              placeholderImage:defaultThumb
                       options:SDWebImageScaleToNativeSize];
-    [Utilities applyRoundedEdgesView:thumb drawBorder:YES];
+    [Utilities applyRoundedEdgesView:thumb];
     BOOL active = indexPath.row == lastSelected;
     [self setPlaylistCellProgressBar:cell hidden:!active];
     
