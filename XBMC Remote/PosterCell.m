@@ -25,12 +25,11 @@
     self = [super initWithFrame:frame];
     if (self) {
         CGFloat labelHeight = ceil(frame.size.height * 0.19);
-        CGFloat borderWidth = 1.0 / UIScreen.mainScreen.scale;
         self.restorationIdentifier = @"posterCell";
-        _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth,
-                                                                         borderWidth,
-                                                                         frame.size.width - borderWidth * 2,
-                                                                         frame.size.height - borderWidth * 2)];
+        _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(0,
+                                                                         0,
+                                                                         frame.size.width,
+                                                                         frame.size.height)];
         _posterThumbnail.clipsToBounds = YES;
         _posterThumbnail.contentMode = UIViewContentModeScaleAspectFill;
         self.contentView.backgroundColor = UIColor.clearColor;
@@ -81,13 +80,15 @@
         _busyView.center = _posterThumbnail.center;
         _busyView.tag = POSTER_CELL_ACTIVTYINDICATOR;
         [self.contentView addSubview:_busyView];
-
-        UIView *bgView = [[UIView alloc] initWithFrame:frame];
-        bgView.layer.borderWidth = borderWidth;
-        bgView.layer.borderColor = [Utilities getSystemBlue].CGColor;
-        self.selectedBackgroundView = bgView;
     }
     return self;
+}
+
+- (void)setSelected:(BOOL)selected {
+    [super setSelected:selected];
+    CALayer *layer = self.contentView.layer;
+    layer.borderColor = [Utilities getSystemBlue].CGColor;
+    layer.borderWidth = selected ? 1.0 / UIScreen.mainScreen.scale : 0;
 }
 
 - (void)setIsRecording:(BOOL)enable {
@@ -127,12 +128,11 @@
 }
 
 - (void)setPosterCellLayoutManually:(CGRect)frame {
-    CGFloat borderWidth = 1.0 / UIScreen.mainScreen.scale;
     _posterThumbnail.autoresizingMask = 0;
-    _posterThumbnail.frame = CGRectMake(borderWidth,
-                                        borderWidth,
-                                        frame.size.width - borderWidth * 2,
-                                        frame.size.height - borderWidth * 2);
+    _posterThumbnail.frame = CGRectMake(0,
+                                        0,
+                                        frame.size.width,
+                                        frame.size.height);
     
     _posterLabelFullscreen.autoresizingMask = 0;
     _posterLabelFullscreen.frame = CGRectMake(0,
