@@ -203,6 +203,7 @@
                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                     animations:^{
         for (UIView *subview in slideViews.subviews) {
+            [subview.layer removeAllAnimations];
             subview.frame = CGRectMake(posX,
                                        viewAtLeft.frame.origin.y,
                                        viewAtLeft.frame.size.width,
