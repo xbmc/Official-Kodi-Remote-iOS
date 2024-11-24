@@ -557,7 +557,7 @@ double round(double d) {
         
         // Ensure we draw the rounded edges around TV station logo view
         coverView.image = imageToShow;
-        [Utilities applyRoundedEdgesView:coverView drawBorder:YES];
+        [Utilities applyRoundedEdgesView:coverView];
         
         // Choose correct background color for station logos
         if (image != nil) {
@@ -566,7 +566,7 @@ double round(double d) {
     }
     else {
         // Ensure we draw the rounded edges around thumbnail images
-        coverView.image = [Utilities applyRoundedEdgesImage:imageToShow drawBorder:YES];
+        coverView.image = [Utilities applyRoundedEdgesImage:imageToShow];
     }
     [Utilities alphaView:coverView AnimDuration:0.1 Alpha:1.0];
 }
@@ -1328,7 +1328,7 @@ double round(double d) {
             trailerWebView.opaque = NO;
             trailerWebView.backgroundColor = UIColor.blackColor;
             trailerWebView.UIDelegate = self;
-            [Utilities applyRoundedEdgesView:trailerWebView drawBorder:YES];
+            [Utilities applyRoundedEdgesView:trailerWebView];
             [scrollView addSubview:trailerWebView];
             
             trailerComponents = [NSURLComponents componentsWithURL:embedVideoURL resolvingAgainstBaseURL:YES];
@@ -1601,7 +1601,7 @@ double round(double d) {
         [cell.actorThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                placeholderImage:[UIImage imageNamed:@"person"]
                                         options:SDWebImageScaleToNativeSize];
-        [Utilities applyRoundedEdgesView:cell.actorThumbnail drawBorder:YES];
+        [Utilities applyRoundedEdgesView:cell.actorThumbnail];
         cell.actorName.text = castMember[@"name"] ?: self.detailItem[@"label"];
         cell.actorRole.text = castMember[@"role"];
         [cell.actorRole sizeToFit];

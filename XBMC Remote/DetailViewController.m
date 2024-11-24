@@ -79,7 +79,7 @@
 #define INDICATOR_SIZE 16
 #define FLOWLAYOUT_FULLSCREEN_INSET 8
 #define FLOWLAYOUT_FULLSCREEN_MIN_SPACE 4
-#define FLOWLAYOUT_FULLSCREEN_LABEL (FULLSCREEN_LABEL_HEIGHT * [Utilities getTransformX] + 8)
+#define FLOWLAYOUT_FULLSCREEN_LABEL (FULLSCREEN_LABEL_HEIGHT + 8)
 #define TOGGLE_BUTTON_SIZE 11
 #define INFO_BUTTON_SIZE 30
 #define LABEL_HEIGHT(font) ceil(font.lineHeight)
@@ -1038,17 +1038,8 @@
         [item[@"family"] isEqualToString:@"type"]) {
         imgView.contentMode = UIViewContentModeScaleAspectFit;
     }
-    BOOL showBorder = !([item[@"family"] isEqualToString:@"channelid"] ||
-                        [item[@"family"] isEqualToString:@"recordingid"] ||
-                        [item[@"family"] isEqualToString:@"channelgroupid"] ||
-                        [item[@"family"] isEqualToString:@"timerid"] ||
-                        [item[@"family"] isEqualToString:@"genreid"] ||
-                        [item[@"family"] isEqualToString:@"sectionid"] ||
-                        [item[@"family"] isEqualToString:@"categoryid"] ||
-                        [item[@"family"] isEqualToString:@"type"] ||
-                        [item[@"family"] isEqualToString:@"file"]);
     BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
-    [Utilities applyRoundedEdgesView:imgView drawBorder:showBorder];
+    [Utilities applyRoundedEdgesView:imgView];
     // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
     // ensure sd_setImageWithURL falls back to this icon.
     if (stringURL.length) {
@@ -1670,9 +1661,11 @@
         CGFloat screenwidth = IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT;
         CGFloat numItemsPerRow = screenwidth / fullscreenCellGridWidth;
         int num = round(numItemsPerRow);
-        CGFloat newWidth = (screenwidth - num * FLOWLAYOUT_FULLSCREEN_MIN_SPACE - 2 * FLOWLAYOUT_FULLSCREEN_INSET) / num;
+        CGFloat newWidth = (screenwidth - (num - 1) * FLOWLAYOUT_FULLSCREEN_MIN_SPACE - 2 * FLOWLAYOUT_FULLSCREEN_INSET) / num;
         
-        flowLayout.itemSize = CGSizeMake(newWidth, fullscreenCellGridHeight * newWidth / fullscreenCellGridWidth);
+        CGFloat pixelExactWidth = GET_PIXEL_EXACT_SIZE(newWidth);
+        CGFloat pixelExactHeight = GET_PIXEL_EXACT_SIZE(fullscreenCellGridHeight * newWidth / fullscreenCellGridWidth);
+        flowLayout.itemSize = CGSizeMake(pixelExactWidth, pixelExactHeight);
         if (!recentlyAddedView && !hiddenLabel) {
             flowLayout.minimumLineSpacing = FLOWLAYOUT_FULLSCREEN_LABEL;
         }
@@ -1784,6 +1777,7 @@
     if (!recentlyAddedView) {
         static NSString *identifier = @"posterCell";
         PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+        [Utilities applyRoundedEdgesView:cell.contentView];
         cell.posterLabel.text = @"";
         cell.posterLabelFullscreen.text = @"";
         cell.posterLabel.font = [UIFont boldSystemFontOfSize:posterFontSize];
@@ -1806,7 +1800,7 @@
         if (channelListView) {
             [cell setIsRecording:[item[@"isrecording"] boolValue]];
         }
-        cell.posterThumbnail.frame = cell.bounds;
+        [cell setPosterCellLayoutManually:cell.bounds];
         [self setCellImageView:cell.posterThumbnail cell:cell dictItem:item url:stringURL size:CGSizeMake(cellthumbWidth, cellthumbHeight) defaultImg:displayThumb];
         if (!stringURL.length) {
             cell.posterThumbnail.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
@@ -1834,6 +1828,7 @@
     else {
         static NSString *identifier = @"recentlyAddedCell";
         RecentlyAddedCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+        [Utilities roundedCornerView:cell.contentView];
 
         if (stringURL.length) {
             [cell.posterThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
@@ -2062,7 +2057,15 @@
     // Get the indicator view and place it in the middle of the thumb (if no thumb keep it at least fully visible)
     id cell = [self getCell:indexPath];
     UIActivityIndicatorView *cellActivityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:XIB_JSON_DATA_CELL_ACTIVTYINDICATOR];
-    cellActivityIndicator.center = CGPointMake(MAX(thumbWidth / 2, cellActivityIndicator.frame.size.width / 2), cellHeight / 2);
+    if (!enableCollectionView) {
+        cellActivityIndicator.center = CGPointMake(MAX(thumbWidth / 2, cellActivityIndicator.frame.size.width / 2), cellHeight / 2);
+    }
+    else if (recentlyAddedView) {
+        cellActivityIndicator.center = ((RecentlyAddedCell*)cell).posterThumbnail.center;
+    }
+    else {
+        cellActivityIndicator.center = ((PosterCell*)cell).posterThumbnail.center;
+    }
     return cellActivityIndicator;
 }
 
@@ -3039,7 +3042,7 @@
     
     // Load the thumb image and set the colors for the labels
     NSString *displayThumb = episodesView ? @"coverbox_back_section" : @"coverbox_back";
-    [Utilities applyRoundedEdgesView:thumbImageView drawBorder:YES];
+    [Utilities applyRoundedEdgesView:thumbImageView];
     if (stringURL.length) {
         // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
         // ensure setImageWithURL falls back to this icon.

@@ -16,6 +16,7 @@
 
 - (void)setIsRecording:(BOOL)enable;
 - (void)setOverlayWatched:(BOOL)enable;
+- (void)setPosterCellLayoutManually:(CGRect)frame;
 
 @property (nonatomic, readonly) UIImageView *posterThumbnail;
 @property (nonatomic, readonly) UIImageView *labelImageView;

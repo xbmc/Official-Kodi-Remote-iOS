@@ -886,7 +886,7 @@
     return [label sizeThatFits:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)];
 }
 
-+ (UIImage*)roundedCornerImage:(UIImage*)image drawBorder:(BOOL)drawBorder {
++ (UIImage*)roundedCornerImage:(UIImage*)image {
     CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
     UIGraphicsBeginImageContextWithOptions(image.size, NO, 0);
 
@@ -899,13 +899,6 @@
 
     // Draw the image into the implicit context
     [image drawInRect:imageRect];
-    
-    if (drawBorder) {
-        // Draw border with shape of path
-        path.lineWidth = 1.0 / UIScreen.mainScreen.scale;
-        [UIColor.blackColor setStroke];
-        [path stroke];
-    }
      
     // Get image and cleanup
     UIImage *roundedCornerImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -913,48 +906,24 @@
     return roundedCornerImage;
 }
 
-+ (void)roundedCornerView:(UIView*)view drawBorder:(BOOL)drawBorder {
-    CALayer *imageLayer = view.layer;
-    
-    // Set radius for corners
-    CGFloat radius = GET_ROUNDED_EDGES_RADIUS(imageLayer.frame.size);
-    // Create a mask layer
-    CAShapeLayer *maskLayer = [CAShapeLayer new];
-    CGFloat freeAreaWidth = 1.0 / UIScreen.mainScreen.scale;
-    CGRect maskFrame = CGRectInset(imageLayer.bounds, freeAreaWidth, freeAreaWidth);
-    maskFrame.origin.x /= 2;
-    maskFrame.origin.y /= 2;
-    maskLayer.frame = maskFrame;
-    // Define our path, capitalizing on UIKit's corner rounding magic
-    UIBezierPath *newPath = GET_ROUNDED_EDGES_PATH(maskLayer.frame, radius);
-    maskLayer.path = newPath.CGPath;
-    // Apply the mask
-    imageLayer.mask = maskLayer;
-    
-    // Apply border
-    if (drawBorder) {
-        imageLayer.borderWidth = 1.0 / UIScreen.mainScreen.scale;
-        imageLayer.borderColor = UIColor.blackColor.CGColor;
-    }
-    else {
-        imageLayer.borderWidth = 0;
-    }
++ (void)roundedCornerView:(UIView*)view {
+    view.layer.cornerRadius = GET_ROUNDED_EDGES_RADIUS(view.layer.frame.size);
 }
 
-+ (UIImage*)applyRoundedEdgesImage:(UIImage*)image drawBorder:(BOOL)drawBorder {
++ (UIImage*)applyRoundedEdgesImage:(UIImage*)image {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
     if (corner_preference) {
-        image = [Utilities roundedCornerImage:image drawBorder:drawBorder];
+        image = [Utilities roundedCornerImage:image];
     }
     return image;
 }
 
-+ (void)applyRoundedEdgesView:(UIView*)view drawBorder:(BOOL)drawBorder {
++ (void)applyRoundedEdgesView:(UIView*)view {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
     if (corner_preference) {
-        [Utilities roundedCornerView:view drawBorder:drawBorder];
+        [Utilities roundedCornerView:view];
     }
 }
 

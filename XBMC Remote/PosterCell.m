@@ -25,21 +25,28 @@
     self = [super initWithFrame:frame];
     if (self) {
         CGFloat labelHeight = ceil(frame.size.height * 0.19);
-        CGFloat borderWidth = [self halfSizeIfRetina:1.0];
         self.restorationIdentifier = @"posterCell";
-        _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, borderWidth, frame.size.width - borderWidth * 2, frame.size.height - borderWidth * 2)];
+        _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(0,
+                                                                         0,
+                                                                         frame.size.width,
+                                                                         frame.size.height)];
         _posterThumbnail.clipsToBounds = YES;
         _posterThumbnail.contentMode = UIViewContentModeScaleAspectFill;
         self.contentView.backgroundColor = UIColor.clearColor;
         [self.contentView addSubview:_posterThumbnail];
         
-        _labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(borderWidth, frame.size.height - labelHeight, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
+        _labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,
+                                                                        _posterThumbnail.frame.size.height - labelHeight,
+                                                                        _posterThumbnail.frame.size.width,
+                                                                        labelHeight)];
         _labelImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _labelImageView.image = [UIImage imageNamed:@"cell_bg"];
         _labelImageView.highlightedImage = [UIImage imageNamed:@"cell_bg_selected"];
-        [Utilities applyRoundedEdgesView:_labelImageView drawBorder:NO];
 
-        _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width - borderWidth * 2, labelHeight - borderWidth)];
+        _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(0,
+                                                                     0,
+                                                                     _labelImageView.frame.size.width,
+                                                                     _labelImageView.frame.size.height)];
         _posterLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterLabel.backgroundColor = UIColor.clearColor;
         _posterLabel.textAlignment = NSTextAlignmentCenter;
@@ -49,14 +56,16 @@
         _posterLabel.numberOfLines = 2;
         _posterLabel.adjustsFontSizeToFitWidth = YES;
         _posterLabel.minimumScaleFactor = FONT_SCALING_NONE;
-        [Utilities applyRoundedEdgesView:_posterLabel drawBorder:NO];
 
         [_labelImageView addSubview:_posterLabel];
-        [self.contentView addSubview:_labelImageView];
+        [_posterThumbnail addSubview:_labelImageView];
         
         if (IS_IPAD) {
-            _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width - borderWidth * 2, FULLSCREEN_LABEL_HEIGHT)];
-            _posterLabelFullscreen.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+            _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectMake(0,
+                                                                                   frame.size.height,
+                                                                                   frame.size.width,
+                                                                                   FULLSCREEN_LABEL_HEIGHT)];
+            _posterLabelFullscreen.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
             _posterLabelFullscreen.backgroundColor = UIColor.clearColor;
             _posterLabelFullscreen.textColor = UIColor.lightGrayColor;
             _posterLabelFullscreen.textAlignment = NSTextAlignmentCenter;
@@ -68,20 +77,18 @@
 
         _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _busyView.hidesWhenStopped = YES;
-        _busyView.center = CGPointMake(frame.size.width / 2, (frame.size.height / 2) - borderWidth);
+        _busyView.center = _posterThumbnail.center;
         _busyView.tag = POSTER_CELL_ACTIVTYINDICATOR;
         [self.contentView addSubview:_busyView];
-
-        UIView *bgView = [[UIView alloc] initWithFrame:frame];
-        bgView.layer.borderWidth = borderWidth;
-        bgView.layer.borderColor = [Utilities getSystemBlue].CGColor;
-        self.selectedBackgroundView = bgView;
     }
     return self;
 }
 
-- (CGFloat)halfSizeIfRetina:(CGFloat)size {
-    return size / UIScreen.mainScreen.scale;
+- (void)setSelected:(BOOL)selected {
+    [super setSelected:selected];
+    CALayer *layer = self.contentView.layer;
+    layer.borderColor = [Utilities getSystemBlue].CGColor;
+    layer.borderWidth = selected ? 1.0 / UIScreen.mainScreen.scale : 0;
 }
 
 - (void)setIsRecording:(BOOL)enable {
@@ -118,6 +125,20 @@
     else {
         overlayWatched.hidden = YES;
     }
+}
+
+- (void)setPosterCellLayoutManually:(CGRect)frame {
+    _posterThumbnail.autoresizingMask = 0;
+    _posterThumbnail.frame = CGRectMake(0,
+                                        0,
+                                        frame.size.width,
+                                        frame.size.height);
+    
+    _posterLabelFullscreen.autoresizingMask = 0;
+    _posterLabelFullscreen.frame = CGRectMake(0,
+                                              frame.size.height,
+                                              frame.size.width,
+                                              FULLSCREEN_LABEL_HEIGHT);
 }
 
 @end

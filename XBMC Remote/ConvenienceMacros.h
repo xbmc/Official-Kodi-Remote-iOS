@@ -32,6 +32,7 @@
 /*
  * Dimension and layout macros
  */
+#define GET_PIXEL_EXACT_SIZE(x) (floor(x * UIScreen.mainScreen.scale) / UIScreen.mainScreen.scale);
 #define GET_MAINSCREEN_HEIGHT CGRectGetHeight(UIScreen.mainScreen.fixedCoordinateSpace.bounds)
 #define GET_MAINSCREEN_WIDTH CGRectGetWidth(UIScreen.mainScreen.fixedCoordinateSpace.bounds)
 #define STACKSCROLL_WIDTH (GET_MAINSCREEN_WIDTH - PAD_MENU_TABLE_WIDTH)
