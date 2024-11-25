@@ -1492,7 +1492,7 @@
         [button setImage:buttonImage forState:UIControlStateHighlighted];
         [button setImage:buttonImage forState:UIControlStateSelected];
                      } 
-                     completion:^(BOOL finished) {}
+                     completion:nil
     ];
 }
 
@@ -1627,7 +1627,7 @@
             itemDescription.scrollsToTop = NO;
         }
                      }
-                     completion:^(BOOL finished) {}];
+                     completion:nil];
 }
 
 - (void)toggleHighlight:(UIButton*)button {

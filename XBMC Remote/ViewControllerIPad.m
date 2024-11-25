@@ -649,8 +649,7 @@
                                                      YPOS:-YPOS
                                                fullscreen:isFullscreen];
                      }
-                     completion:^(BOOL finished) {
-                     }];
+                     completion:nil];
 }
 
 - (void)handleChangeBackgroundImage:(NSNotification*)sender {
