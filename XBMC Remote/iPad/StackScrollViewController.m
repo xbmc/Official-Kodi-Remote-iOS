@@ -149,7 +149,7 @@
             [subview removeFromSuperview];
         }
     }
-                     completion:^(BOOL finished) {}
+                     completion:nil
     ];
 }
 
@@ -184,7 +184,7 @@
             i++;
         }
     }
-                     completion:^(BOOL finished) {}
+                     completion:nil
     ];
 }
 
@@ -732,7 +732,7 @@
         }
     }
     
-    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
+    [coordinator animateAlongsideTransition:nil
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         for (UIViewController *subController in viewControllersStack) {
             [subController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];

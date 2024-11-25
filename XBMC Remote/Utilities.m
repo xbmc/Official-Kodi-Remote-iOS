@@ -1193,7 +1193,7 @@
         frame.origin.x = X;
         view.frame = frame;
                      }
-                     completion:^(BOOL finished) {}];
+                     completion:nil];
 }
 
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X YPos:(int)Y {
@@ -1206,7 +1206,7 @@
         frame.origin.y = Y;
         view.frame = frame;
                      }
-                     completion:^(BOOL finished) {}];
+                     completion:nil];
 }
 
 + (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
@@ -1216,7 +1216,7 @@
                      animations:^{
         view.alpha = alphavalue;
                      }
-                     completion:^(BOOL finished) {}];
+                     completion:nil];
 }
 
 + (void)imageView:(UIImageView*)view AnimDuration:(NSTimeInterval)seconds Image:(UIImage*)image {
@@ -1226,7 +1226,7 @@
                     animations:^{
         view.image = image;
                     }
-                    completion:^(BOOL finished) {}];
+                    completion:nil];
 }
 
 + (void)colorLabel:(UILabel*)view AnimDuration:(NSTimeInterval)seconds Color:(UIColor*)color {
@@ -1236,7 +1236,7 @@
                     animations:^{
         view.textColor = color;
                     }
-                    completion:^(BOOL finished) {}];
+                    completion:nil];
 }
 
 + (float)getPercentElapsed:(NSDate*)startDate EndDate:(NSDate*)endDate {
