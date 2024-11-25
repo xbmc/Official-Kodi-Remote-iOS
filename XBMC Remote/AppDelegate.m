@@ -6428,7 +6428,7 @@
 }
 
 - (void)clearDiskCacheAtPath:(NSString*)cachePath {
-    [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:cachePath error:NULL];
     [[NSFileManager defaultManager] createDirectoryAtPath:cachePath
                               withIntermediateDirectories:YES
                                                attributes:nil
