@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 
 #define RECENTLY_ADDED_CELL_ACTIVTYINDICATOR SHARED_CELL_ACTIVTYINDICATOR
+#define LABEL_PADDING 4
 
 @implementation RecentlyAddedCell
 
@@ -20,35 +21,26 @@
         self.restorationIdentifier = @"recentlyAddedCell";
         self.backgroundColor = UIColor.clearColor;
         self.contentView.clipsToBounds = YES;
-        CGFloat labelHeight = (floor)(frame.size.height * 0.18);
-        CGFloat genreHeight = (floor)(frame.size.height * 0.11);
-        CGFloat yearHeight = (floor)(frame.size.height * 0.11);
-        CGFloat posterWidth = (ceil)(frame.size.height * 0.67);
-        CGFloat fanartWidth = frame.size.width - posterWidth;
 
-        _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, posterWidth, frame.size.height)];
+        _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectZero];
         _posterThumbnail.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterThumbnail.clipsToBounds = YES;
         _posterThumbnail.contentMode = UIViewContentModeScaleAspectFill;
         [self.contentView addSubview:_posterThumbnail];
         
-        _posterFanart = [[UIImageView alloc] initWithFrame:CGRectMake(posterWidth, 0, fanartWidth, frame.size.height)];
+        _posterFanart = [[UIImageView alloc] initWithFrame:CGRectZero];
         _posterFanart.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterFanart.clipsToBounds = YES;
         _posterFanart.contentMode = UIViewContentModeScaleAspectFill;
         _posterFanart.alpha = 0.9;
         [self.contentView addSubview:_posterFanart];
 
-        int frameHeight = labelHeight + genreHeight + yearHeight;
-        UIImageView *labelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(posterWidth, frame.size.height - genreHeight - yearHeight - labelHeight, fanartWidth, labelHeight + genreHeight + yearHeight)];
-        labelImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-
-        labelImageView.image = [UIImage imageNamed:@"cell_bg"];
-        labelImageView.highlightedImage = [UIImage imageNamed:@"cell_bg_selected"];
+        _labelImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _labelImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+        _labelImageView.image = [UIImage imageNamed:@"cell_bg"];
+        _labelImageView.highlightedImage = [UIImage imageNamed:@"cell_bg_selected"];
         
-        CGFloat posterYOffset = IS_IPAD ? 4 : 0;
-        CGFloat labelPadding = 4;
-         _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, posterYOffset, fanartWidth - labelPadding, labelHeight)];
+        _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectZero];
         _posterLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterLabel.backgroundColor = UIColor.clearColor;
         _posterLabel.textColor = UIColor.whiteColor;
@@ -57,9 +49,9 @@
         _posterLabel.numberOfLines = 1;
         _posterLabel.minimumScaleFactor = FONT_SCALING_MIN;
         _posterLabel.adjustsFontSizeToFitWidth = YES;
-        [labelImageView addSubview:_posterLabel];
+        [_labelImageView addSubview:_posterLabel];
         
-        _posterGenre = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, frameHeight - genreHeight - yearHeight, fanartWidth - labelPadding, genreHeight)];
+        _posterGenre = [[PosterLabel alloc] initWithFrame:CGRectZero];
         _posterGenre.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterGenre.backgroundColor = UIColor.clearColor;
         _posterGenre.textColor = UIColor.whiteColor;
@@ -68,9 +60,9 @@
         _posterGenre.numberOfLines = 1;
         _posterGenre.minimumScaleFactor = FONT_SCALING_MIN;
         _posterGenre.adjustsFontSizeToFitWidth = YES;
-        [labelImageView addSubview:_posterGenre];
+        [_labelImageView addSubview:_posterGenre];
         
-        _posterYear = [[PosterLabel alloc] initWithFrame:CGRectMake(labelPadding, frameHeight - yearHeight, fanartWidth - labelPadding, yearHeight)];
+        _posterYear = [[PosterLabel alloc] initWithFrame:CGRectZero];
         _posterYear.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterYear.backgroundColor = UIColor.clearColor;
         _posterYear.textColor = UIColor.whiteColor;
@@ -79,8 +71,10 @@
         _posterYear.numberOfLines = 1;
         _posterYear.minimumScaleFactor = FONT_SCALING_MIN;
         _posterYear.adjustsFontSizeToFitWidth = YES;
-        [labelImageView addSubview:_posterYear];
-        [self.contentView addSubview:labelImageView];
+        [_labelImageView addSubview:_posterYear];
+        [self.contentView addSubview:_labelImageView];
+        
+        [self setRecentlyAddedCellLayout:frame];
 
         _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         _busyView.hidesWhenStopped = YES;
@@ -114,6 +108,49 @@
     CALayer *layer = self.contentView.layer;
     layer.borderColor = [Utilities getSystemBlue].CGColor;
     layer.borderWidth = selected ? 1.0 / UIScreen.mainScreen.scale : 0;
+}
+
+- (void)setRecentlyAddedCellLayout:(CGRect)frame {
+    CGFloat labelHeight = (floor)(frame.size.height * 0.18);
+    CGFloat genreHeight = (floor)(frame.size.height * 0.12);
+    CGFloat yearHeight = (floor)(frame.size.height * 0.10);
+    CGFloat posterWidth = (ceil)(frame.size.height * 0.67);
+    CGFloat fanartWidth = frame.size.width - posterWidth;
+    CGFloat labelImageHeight = labelHeight + genreHeight + yearHeight;
+    
+    _posterThumbnail.frame = CGRectMake(0, 0, posterWidth, frame.size.height);
+    
+    _posterFanart.frame = CGRectMake(posterWidth, 0, fanartWidth, frame.size.height);
+    
+    _labelImageView.frame = CGRectMake(posterWidth,
+                                       frame.size.height - labelImageHeight,
+                                       fanartWidth,
+                                       labelImageHeight);
+    
+    _posterLabel.frame = CGRectMake(LABEL_PADDING,
+                                    0,
+                                    fanartWidth - 2 * LABEL_PADDING,
+                                    labelHeight);
+    
+    _posterGenre.frame = CGRectMake(LABEL_PADDING,
+                                    CGRectGetMaxY(_posterLabel.frame),
+                                    CGRectGetWidth(_posterLabel.frame),
+                                    genreHeight);
+    
+    _posterYear.frame = CGRectMake(LABEL_PADDING,
+                                   CGRectGetMaxY(_posterGenre.frame),
+                                   CGRectGetWidth(_posterGenre.frame),
+                                   yearHeight);
+}
+
+- (void)setRecentlyAddedCellLayoutManually:(CGRect)frame {
+    _posterThumbnail.autoresizingMask = UIViewAutoresizingNone;
+    _posterFanart.autoresizingMask = UIViewAutoresizingNone;
+    _labelImageView.autoresizingMask = UIViewAutoresizingNone;
+    _posterLabel.autoresizingMask = UIViewAutoresizingNone;
+    _posterGenre.autoresizingMask = UIViewAutoresizingNone;
+    _posterYear.autoresizingMask = UIViewAutoresizingNone;
+    [self setRecentlyAddedCellLayout:frame];
 }
 
 @end

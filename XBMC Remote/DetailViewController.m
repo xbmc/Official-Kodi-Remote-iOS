@@ -1829,6 +1829,7 @@
         static NSString *identifier = @"recentlyAddedCell";
         RecentlyAddedCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
         [Utilities applyRoundedEdgesView:cell.contentView];
+        [cell setRecentlyAddedCellLayoutManually:cell.bounds];
 
         if (stringURL.length) {
             [cell.posterThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]

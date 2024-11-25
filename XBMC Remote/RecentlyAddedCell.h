@@ -14,9 +14,11 @@
 }
 
 - (void)setOverlayWatched:(BOOL)enable;
+- (void)setRecentlyAddedCellLayoutManually:(CGRect)frame;
 
 @property (nonatomic, readonly) UIImageView *posterThumbnail;
 @property (nonatomic, readonly) UIImageView *posterFanart;
+@property (nonatomic, readonly) UIImageView *labelImageView;
 @property (nonatomic, readonly) PosterLabel *posterLabel;
 @property (nonatomic, readonly) PosterLabel *posterGenre;
 @property (nonatomic, readonly) PosterLabel *posterYear;
