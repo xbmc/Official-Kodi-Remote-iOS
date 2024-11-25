@@ -12,6 +12,7 @@
 
 #define RECENTLY_ADDED_CELL_ACTIVTYINDICATOR SHARED_CELL_ACTIVTYINDICATOR
 #define LABEL_PADDING 4
+#define VERTICAL_PADDING 10
 
 @implementation RecentlyAddedCell
 
@@ -116,7 +117,7 @@
     CGFloat yearHeight = (floor)(frame.size.height * 0.10);
     CGFloat posterWidth = (ceil)(frame.size.height * 0.67);
     CGFloat fanartWidth = frame.size.width - posterWidth;
-    CGFloat labelImageHeight = labelHeight + genreHeight + yearHeight;
+    CGFloat labelImageHeight = labelHeight + genreHeight + yearHeight + VERTICAL_PADDING;
     
     _posterThumbnail.frame = CGRectMake(0, 0, posterWidth, frame.size.height);
     
@@ -128,7 +129,7 @@
                                        labelImageHeight);
     
     _posterLabel.frame = CGRectMake(LABEL_PADDING,
-                                    0,
+                                    VERTICAL_PADDING,
                                     fanartWidth - 2 * LABEL_PADDING,
                                     labelHeight);
     
