@@ -5857,7 +5857,7 @@
         }
         activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
     }
-                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {}];
+                                 completion:nil];
 }
 
 - (void)updateSearchResultsForSearchController:(UISearchController*)searchController {
