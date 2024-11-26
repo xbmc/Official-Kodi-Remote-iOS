@@ -5912,9 +5912,10 @@
         }
         
         // Build sections and sectionsArray for the filtered list
+        BOOL sortAscending = [sortAscDesc isEqualToString:@"descending"] ? NO : YES;
         self.sections = [NSMutableDictionary new];
         [self buildSectionsForList:self.filteredListContent sortMethod:sortMethodName];
-        [self buildSectionsArraySortedAscending:YES withIndexSearch:self.filteredListContent.count > 0];
+        [self buildSectionsArraySortedAscending:sortAscending withIndexSearch:self.filteredListContent.count > 0];
     }
     else {
         self.filteredListContent = [self sortfilteredList:[self.richResults filteredArrayUsingPredicate:pred]];
