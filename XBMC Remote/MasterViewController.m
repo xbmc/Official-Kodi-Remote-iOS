@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
 #import "InitialSlidingViewController.h"
+#import "AppInfoViewController.h"
 #import "tcpJSONRPC.h"
 #import "XBMCVirtualKeyboard.h"
 #import "ClearCacheView.h"
@@ -419,7 +420,8 @@
 
 - (void)showNotificationMessage:(NSNotification*)note {
     NSDictionary *params = note.userInfo;
-    if (!params || self.slidingViewController.underLeftShowing) {
+    UIViewController *activeVC = [Utilities topMostControllerIgnoringClass:[UIAlertController class]];
+    if (!params || self.slidingViewController.underLeftShowing || [activeVC isKindOfClass:[AppInfoViewController class]]) {
         return;
     }
     [self addMessagesToRootView];
