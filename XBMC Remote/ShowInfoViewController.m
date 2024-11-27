@@ -1510,14 +1510,14 @@ double round(double d) {
             int cbWidth = clearLogoWidth / 2;
             int cbHeight = clearLogoHeight / 2;
             closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - cbWidth / 2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
-            closeButton.titleLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.8];
-            closeButton.titleLabel.shadowOffset = CGSizeMake(0, 1);
             closeButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin |
                                            UIViewAutoresizingFlexibleRightMargin |
                                            UIViewAutoresizingFlexibleLeftMargin |
                                            UIViewAutoresizingFlexibleWidth;
             if (clearLogoImageView.frame.size.width == 0) {
                 [closeButton setTitle:clearlogoButton.titleLabel.text forState:UIControlStateNormal];
+                [closeButton setTitleShadowColor:[Utilities getGrayColor:0 alpha:0.8] forState:UIControlStateNormal];
+                closeButton.titleLabel.shadowOffset = CGSizeMake(1, 1);
                 closeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
             }
             else {
