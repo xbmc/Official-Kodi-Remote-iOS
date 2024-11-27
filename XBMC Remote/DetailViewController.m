@@ -5924,7 +5924,6 @@
 
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     dataList.indicatorStyle = UIScrollViewIndicatorStyleDefault;
     
     CGRect frame = dataList.frame;
