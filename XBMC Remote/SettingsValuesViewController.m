@@ -616,7 +616,7 @@
         cellLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:cellLabel];
         
-        UISwitch *onoff = [[UISwitch alloc] initWithFrame:CGRectZero];
+        UISwitch *onoff = [UISwitch new];
         onoff.tag = SETTINGS_CELL_ONOFF_SWITCH;
         onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];

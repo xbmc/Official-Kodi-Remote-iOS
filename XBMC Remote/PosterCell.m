@@ -25,18 +25,18 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.restorationIdentifier = @"posterCell";
-        _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _posterThumbnail = [UIImageView new];
         _posterThumbnail.clipsToBounds = YES;
         _posterThumbnail.contentMode = UIViewContentModeScaleAspectFill;
         self.contentView.backgroundColor = UIColor.clearColor;
         [self.contentView addSubview:_posterThumbnail];
         
-        _labelImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _labelImageView = [UIImageView new];
         _labelImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _labelImageView.image = [UIImage imageNamed:@"cell_bg"];
         _labelImageView.highlightedImage = [UIImage imageNamed:@"cell_bg_selected"];
 
-        _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectZero];
+        _posterLabel = [PosterLabel new];
         _posterLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterLabel.backgroundColor = UIColor.clearColor;
         _posterLabel.textAlignment = NSTextAlignmentCenter;
@@ -51,7 +51,7 @@
         [_posterThumbnail addSubview:_labelImageView];
         
         if (IS_IPAD) {
-            _posterLabelFullscreen = [[PosterLabel alloc] initWithFrame:CGRectZero];
+            _posterLabelFullscreen = [PosterLabel new];
             _posterLabelFullscreen.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
             _posterLabelFullscreen.backgroundColor = UIColor.clearColor;
             _posterLabelFullscreen.textColor = UIColor.lightGrayColor;

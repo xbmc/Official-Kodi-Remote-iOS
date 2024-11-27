@@ -2856,7 +2856,7 @@
 
 - (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
     if (albumView && self.richResults.count > 0) {
-        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        UIImageView *thumbImageView = [UIImageView new];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight)];
         
         NSDictionary *item = self.richResults[0];
@@ -2897,7 +2897,7 @@
         return albumDetailView;
     }
     else if (episodesView && self.sectionArray.count > section && ![self doesShowSearchResults]) {
-        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        UIImageView *thumbImageView = [UIImageView new];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight)];
         albumDetailView.tag = section;
         
