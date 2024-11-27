@@ -166,7 +166,7 @@
 
     NSMutableArray *workingLabels = [NSMutableArray arrayWithCapacity:self.indexTitles.count];
     for (NSString *indexTitle in self.indexTitles) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+        UILabel *label = [UILabel new];
         label.text = indexTitle;
         label.font = [UIFont boldSystemFontOfSize:11];
         label.minimumScaleFactor = FONT_SCALING_NONE;
