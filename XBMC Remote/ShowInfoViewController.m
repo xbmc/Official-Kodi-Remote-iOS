@@ -396,14 +396,14 @@ double round(double d) {
         [self addQueueAfterCurrent:NO];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play")]) {
-        [self addPlayback:0.0];
+        [self startPlayback:NO];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
         [self recordChannel];
     }
     else if ([actiontitle rangeOfString:resumeKey].location != NSNotFound) {
-        [self resumePlayback];
+        [self startPlayback:YES];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
         NSDictionary *itemParams = @{
@@ -1696,44 +1696,7 @@ double round(double d) {
     }
 }
 
-- (void)resumePlayback {
-   NSDictionary *item = self.detailItem;
-   if ([item[@"family"] isEqualToString:@"broadcastid"]) {
-       NSDictionary *itemParams = @{
-           @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"pvrExtraInfo"][@"channelid"], @"channelid", nil],
-       };
-       [self openFile:itemParams];
-   }
-   else {
-       self.navigationItem.rightBarButtonItem.enabled = NO;
-       [activityIndicatorView startAnimating];
-       NSString *key = item[@"family"];
-       id value = item[key];
-       if (!value || !key) {
-           [activityIndicatorView stopAnimating];
-           return;
-       }
-       NSDictionary *params = @{
-           @"item": @{
-               key: value,
-           },
-           @"options": @{
-               @"resume": @YES,
-           },
-       };
-       [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-           if (error == nil && methodError == nil) {
-               [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-               [self showNowPlaying];
-               [Utilities checkForReviewRequest];
-           }
-           [activityIndicatorView stopAnimating];
-           self.navigationItem.rightBarButtonItem.enabled = YES;
-       }];
-   }
-}
-
-- (void)addPlayback:(float)resumePointLocal {
+- (void)startPlayback:(BOOL)resume {
     NSDictionary *item = self.detailItem;
     if ([item[@"family"] isEqualToString:@"broadcastid"]) {
         NSDictionary *itemParams = @{
@@ -1744,60 +1707,31 @@ double round(double d) {
     else {
         self.navigationItem.rightBarButtonItem.enabled = NO;
         [activityIndicatorView startAnimating];
-        int playlistid = [item[@"playlistid"] intValue];
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": @(playlistid)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        NSString *key = item[@"family"];
+        id value = item[key];
+        if (!value || !key) {
+            [activityIndicatorView stopAnimating];
+            return;
+        }
+        NSDictionary *params = @{
+            @"item": @{
+                key: value,
+            },
+            @"options": @{
+                @"resume": @(resume),
+            },
+        };
+        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
-                NSString *key = item[@"family"];
-                id value = item[key];
-                // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
-                if (![VersionCheck hasRecordingIdPlaylistSupport] && [item[@"family"] isEqualToString:@"recordingid"]) {
-                    key = @"file";
-                    value = item[@"file"];
-                }
-                if (!value || !key) {
-                    [activityIndicatorView stopAnimating];
-                    return;
-                }
-                NSDictionary *params = @{
-                    @"playlistid": @(playlistid),
-                    @"item": @{key: value},
-                };
-                [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                    if (error == nil && methodError == nil) {
-                        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                        NSDictionary *params = @{
-                            @"item": @{
-                                @"playlistid": @(playlistid),
-                                @"position": @(0),
-                            },
-                        };
-                        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                            if (error == nil && methodError == nil) {
-                                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-                                [activityIndicatorView stopAnimating];
-                                [self showNowPlaying];
-                                [Utilities checkForReviewRequest];
-                                if (resumePointLocal) {
-                                    [NSThread sleepForTimeInterval:1.0];
-                                    [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:playlistid percentage:resumePointLocal]];
-                                }
-                            }
-                            else {
-                                [activityIndicatorView stopAnimating];
-                                self.navigationItem.rightBarButtonItem.enabled = YES;
-                            }
-                        }];
-                    }
-                    else {
-                        [activityIndicatorView stopAnimating];
-                        self.navigationItem.rightBarButtonItem.enabled = YES;
-                    }
-                }];
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+                [activityIndicatorView stopAnimating];
+                [self showNowPlaying];
+                [Utilities checkForReviewRequest];
             }
             else {
                 [activityIndicatorView stopAnimating];
-                self.navigationItem.rightBarButtonItem.enabled = YES;
             }
+            self.navigationItem.rightBarButtonItem.enabled = YES;
         }];
     }
 }
