@@ -76,7 +76,6 @@ double round(double d) {
             float position = [Utilities getFloatValueFromItem:resumePointDict[@"position"]];
             float total = [Utilities getFloatValueFromItem:resumePointDict[@"total"]];
             if (position > 0 && total > 0) {
-                resumePointPercentage = (position * 100) / total;
                 [sheetActions addObject:LOCALIZED_STR_ARGS(@"Resume from %@", [Utilities convertTimeFromSeconds: @(position)])];
             }
         }
