@@ -2913,11 +2913,6 @@
 }
 
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
-    // Party mode will cause playlist updates for each new song, if TCP is enabled. Just ignore here and
-    // let this be handled by the updatePartyModePlaylist which is called for each new song in Party Mode.
-    if (musicPartyMode) {
-        return;
-    }
     NSDictionary *theData = sender.userInfo;
     if ([theData isKindOfClass:[NSDictionary class]]) {
         currentPlaylistID = [theData[@"params"][@"data"][@"playlistid"] intValue];
@@ -2939,7 +2934,14 @@
 }
 
 - (void)clearAndReloadPlaylist {
-    [self createPlaylistAnimated:YES];
+    // While in Party Mode only reload playlist via updatePartyModePlaylist. This does not animate the playlist
+    // to avoid flickering and it blocks moving the focus to music playlist.
+    if (musicPartyMode) {
+        [self updatePartyModePlaylist];
+    }
+    else {
+        [self createPlaylistAnimated:YES];
+    }
 }
 
 - (BOOL)shouldAutorotate {
