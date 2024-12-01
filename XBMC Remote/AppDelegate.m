@@ -4530,6 +4530,7 @@
             @"row13": @"endtime",
             @"row14": @"playcount",
             @"row15": @"plot",
+            @"row16": @"resume",
             @"itemid_extra_info": @"recordingdetails",
         },
                       
@@ -5080,6 +5081,7 @@
             @"row13": @"endtime",
             @"row14": @"playcount",
             @"row15": @"plot",
+            @"row16": @"resume",
             @"itemid_extra_info": @"recordingdetails",
         },
                       
