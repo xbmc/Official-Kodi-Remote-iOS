@@ -1,23 +1,27 @@
 Features:
-- NowPlaying iPad fullscreen
-- NowPlaying blurred cover
-- Watched flag for seasons
-- Tagline in movie details
+- Playback to UPnP device via "Play using..."
+- Queue or play seasons and source folders
+- Support Movie Tags in Movies menu
+- Support resume for PVR recordings
 
 Bugfixes:
-- Show scroll indicators on iOS17
-- Searchbar width on iOS17
+- Fix non-movable stack view on iPad
+- Fix never-ending Global Search animation
+- Fix layout of Global Search items when scrolling
+- Fix erratic layout changes in iPad fullscreen view
+- Set speed via long press NowPlaying seek buttons
 
 Improvements:
-- Modernized NowPlaying
-- Repeat/Shuffle on NowPlaying
-- iPad playback controls on NowPlaying
-- Unified power menu for iPad and iPhone
-- Unified dark gradient app background
-- Show thumbnails in file mode
-- Global connection status on iPhone
-- Follow Kodi setting ShowEmptyTvShows
-- Many more small layout improvements
+- Faster (re-)connect to Kodi server
+- Faster start of slideshows and huge playlists
+- Smoother scrolling with "rounded corners"
+- Reduce flash and memory consumption of image cache
+- Up/down/left/right buttons support Kodi skip steps
+- Show sections for search results in Global Search
+- Only show embedded trailer for youtube links
+- Make resume more reliable
+- Support Portuguese (Brazil)
 - Translation updates for several languages
+- Many more small improvements...
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
