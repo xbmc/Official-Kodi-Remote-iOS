@@ -22,11 +22,7 @@
     if (self) {
         self.clipsToBounds = NO;
         self.restorationIdentifier = @"posterHeaderView";
-        
-        // Draw gray bar as section header background
-        UIView *sectionView = [[UIView alloc] initWithFrame:self.bounds];
-        sectionView.backgroundColor = [Utilities getGrayColor:44 alpha:1.0];
-        [self insertSubview: sectionView atIndex:0];
+        self.backgroundColor = [Utilities getGrayColor:44 alpha:1.0];
 
         // Draw text into section header
         if (self.frame.size.height > 20) {
