@@ -3234,8 +3234,7 @@
         id cell = [self getCell:indexPath];
         UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
         BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
-        UIViewController *showFromCtrl = [Utilities topMostController];
-        [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
+        [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
         [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
@@ -3264,10 +3263,9 @@
                 title = [NSString stringWithFormat:@"%@\n%@", title, season];
             }
             
-            UIViewController *showFromCtrl = [Utilities topMostController];
             UIView *showFromView = self.view;
             CGPoint sheetOrigin = [sender locationInView:showFromView];
-            [self showActionSheetOptions:title options:sheetActions recording:NO origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
+            [self showActionSheetOptions:title options:sheetActions recording:NO origin:sheetOrigin fromview:showFromView];
         }
     }
 }
@@ -3340,10 +3338,9 @@
                 }
                 UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
-                UIViewController *showFromCtrl = [Utilities topMostController];
                 UIView *showFromView = self.view;
                 CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
-                [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
+                [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromview:showFromView];
             }
             // In case of Global Search restore choosedTab after processing
             if (globalSearchView) {
@@ -3353,7 +3350,7 @@
     }
 }
 
-- (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording origin:(CGPoint)origin fromcontroller:(UIViewController*)fromctrl fromview:(UIView*)fromview {
+- (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording origin:(CGPoint)origin fromview:(UIView*)fromview {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
         UIAlertController *actionTemp = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -3370,13 +3367,14 @@
                 actiontitle = LOCALIZED_STR(@"Stop Recording");
             }
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self actionSheetHandler:actiontitle origin:origin fromcontroller:fromctrl fromview:fromview];
+                [self actionSheetHandler:actiontitle origin:origin fromview:fromview];
             }];
             [actionView addAction:action];
         }
         [actionView addAction:action_cancel];
         actionView.modalPresentationStyle = UIModalPresentationPopover;
         
+        UIViewController *fromctrl = [Utilities topMostController];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = fromview;
@@ -3498,7 +3496,7 @@
     [userDefaults setObject:sortAscDescSave forKey:sortKey];
 }
 
-- (void)actionSheetHandler:(NSString*)actiontitle origin:(CGPoint)origin fromcontroller:(UIViewController*)fromctrl fromview:(UIView*)fromview {
+- (void)actionSheetHandler:(NSString*)actiontitle origin:(CGPoint)origin fromview:(UIView*)fromview {
     NSDictionary *item = nil;
     if (processAllItemsInSection) {
         selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:[processAllItemsInSection longValue]];
@@ -3545,6 +3543,7 @@
                 [actionView addAction:action_cancel];
                 actionView.modalPresentationStyle = UIModalPresentationPopover;
                 
+                UIViewController *fromctrl = [Utilities topMostController];
                 UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
                 if (popPresenter != nil) {
                     popPresenter.sourceView = fromview;
@@ -6335,13 +6334,12 @@
         sortOptions[sortMethodIndex] = [NSString stringWithFormat:@"\u2713 %@", sortOptions[sortMethodIndex]];
     }
     
-    UIViewController *showFromCtrl = [Utilities topMostController];
     CGPoint sheetOrigin = [button7 convertPoint:button7.center toView:buttonsView];
     sheetOrigin.y -= CGRectGetHeight(button7.frame) / 2;
     NSString *title = [NSString stringWithFormat:@"%@\n\n(%@)",
                        LOCALIZED_STR(@"Sort by"),
                        LOCALIZED_STR(@"tap the selection\nto reverse the sort order")];
-    [self showActionSheetOptions:title options:sortOptions recording:NO origin:sheetOrigin fromcontroller:showFromCtrl fromview:buttonsView];
+    [self showActionSheetOptions:title options:sortOptions recording:NO origin:sheetOrigin fromview:buttonsView];
 }
 
 - (BOOL)shouldAutorotate {
