@@ -3270,13 +3270,7 @@
             }
             
             UIViewController *showFromCtrl = [Utilities topMostController];
-            UIView *showFromView = nil;
-            if (IS_IPHONE) {
-                showFromView = self.view;
-            }
-            else {
-                showFromView = [showFromCtrl.view superview];
-            }
+            UIView *showFromView = self.view;
             CGPoint sheetOrigin = [sender locationInView:showFromView];
             [self showActionSheetOptions:title options:sheetActions recording:NO origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
         }
@@ -3352,13 +3346,7 @@
                 UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
                 UIViewController *showFromCtrl = [Utilities topMostController];
-                UIView *showFromView = nil;
-                if (IS_IPHONE) {
-                    showFromView = self.view;
-                }
-                else {
-                    showFromView = enableCollectionView ? collectionView : [showFromCtrl.view superview];
-                }
+                UIView *showFromView = self.view;
                 CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
                 [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
             }
