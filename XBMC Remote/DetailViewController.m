@@ -1361,8 +1361,6 @@
     mainMenu *menuItem = [self getMainMenu:item];
     NSMutableArray *sheetActions = menuItem.sheetActions[choosedTab];
     NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
-    int rectOriginX = point.x;
-    int rectOriginY = point.y;
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     
     NSNumber *libraryRowHeight = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
@@ -1487,7 +1485,7 @@
                      [item[@"filetype"] isEqualToString:@"file"]) {
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
                 if (![userDefaults boolForKey:@"song_preference"]) {
-                    [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
+                    [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
                 }
                 else {
                     [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
@@ -1539,8 +1537,6 @@
     NSDictionary *methods = menuItem.subItem.mainMethod[choosedTab];
     NSMutableArray *sheetActions = [menuItem.sheetActions[choosedTab] mutableCopy];
     NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
-    int rectOriginX = point.x;
-    int rectOriginY = point.y;
     if ([item[@"family"] isEqualToString:@"id"]) {
         if (IS_IPHONE) {
             SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:item];
@@ -1606,7 +1602,7 @@
             if (![userDefaults boolForKey:@"song_preference"] || [parameters[@"forceActionSheet"] boolValue]) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:menuItem.mainParameters[choosedTab]];
                 selectedIndexPath = indexPath;
-                [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
+                [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
             }
             else {
                 [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
@@ -3214,7 +3210,7 @@
 
 #pragma mark - Long Press & Action sheet
 
-- (void)showActionSheet:(NSIndexPath*)indexPath sheetActions:(NSArray*)sheetActions item:(NSDictionary*)item rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
+- (void)showActionSheet:(NSIndexPath*)indexPath sheetActions:(NSArray*)sheetActions item:(NSDictionary*)item origin:(CGPoint)sheetOrigin {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
         NSString *title = [NSString stringWithFormat:@"%@%@%@", item[@"label"], [item[@"genre"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"\n%@", item[@"genre"]], [item[@"family"] isEqualToString:@"songid"] ? [NSString stringWithFormat:@"\n%@", item[@"album"]] : @""];
@@ -3223,7 +3219,6 @@
             sheetActions = @[LOCALIZED_STR(@"Ok")];
         }
         BOOL isRecording = [self isTimerActiveForItem:item];
-        CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
         UIViewController *showFromCtrl = [Utilities topMostController];
         [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
     }
@@ -4532,8 +4527,9 @@
     NSMutableDictionary *item = [sectionItem mutableCopy];
     item[@"label"] = self.navigationItem.title;
     forceMusicAlbumMode = YES;
-    int rectOrigin = (int)((albumViewHeight - albumViewPadding * 2) / 2);
-    [self showActionSheet:nil sheetActions:sheetActions item:item rectOriginX:rectOrigin + albumViewPadding rectOriginY:rectOrigin];
+    CGFloat rectOrigin = floor((albumViewHeight - albumViewPadding * 2) / 2);
+    CGPoint sheetOrigin = CGPointMake(rectOrigin + albumViewPadding, rectOrigin);
+    [self showActionSheet:nil sheetActions:sheetActions item:item origin:sheetOrigin];
 }
 
 # pragma mark - JSON DATA Management
