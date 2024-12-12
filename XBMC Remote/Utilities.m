@@ -202,7 +202,7 @@
 }
 
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {
-    if (color == nil) {
+    if (color == nil || image.size.width == 0 || image.size.height == 0) {
         return image;
     }
     
