@@ -446,11 +446,13 @@
     return [item[@"hastimer"] boolValue] || [item[@"isrecording"] boolValue];
 }
 
-- (void)enterSubmenuOfMenu:(mainMenu*)menuItem label:(NSString*)label params:(NSDictionary*)parameters {
-    menuItem.subItem.mainLabel = label;
+- (void)enterSubmenuForItem:(id)item params:(NSDictionary*)parameters {
+    mainMenu *menuItem = [self getMainMenu:item];
+    int activeTab = [self getActiveTab:item];
+    menuItem.subItem.mainLabel = item[@"label"];
     mainMenu *newMenuItem = [menuItem.subItem copy];
-    newMenuItem.mainParameters[choosedTab] = parameters;
-    newMenuItem.chooseTab = choosedTab;
+    newMenuItem.mainParameters[activeTab] = parameters;
+    newMenuItem.chooseTab = activeTab;
     if (IS_IPHONE) {
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
         detailViewController.detailItem = newMenuItem;
@@ -1450,7 +1452,7 @@
         if (parameters[@"parameters"][@"albumartistsonly"]) {
             newParameters[@"parameters"][@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
         }
-        [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
+        [self enterSubmenuForItem:item params:newParameters];
     }
     else { // CHILD IS FILEMODE
         NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
@@ -1542,7 +1544,7 @@
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
                 newParameters[@"parameters"][@"level"] = @"expert";
             }
-            [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
+            [self enterSubmenuForItem:item params:newParameters];
         }
     }
 }
@@ -4052,7 +4054,7 @@
                                           @"Files.GetDirectory", @"exploreCommand",
                                           @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
                                           nil];
-    [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
+    [self enterSubmenuForItem:item params:newParameters];
 }
 
 - (void)deleteTimer:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
