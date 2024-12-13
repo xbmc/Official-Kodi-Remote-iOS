@@ -58,7 +58,6 @@
     NSMutableArray *sheetActions;
     UIBarButtonItem *actionSheetButtonItem;
     UIBarButtonItem *extraButton;
-    int choosedTab;
     NSString *notificationName;
     KenBurnsView *kenView;
     BOOL enableKenBurns;

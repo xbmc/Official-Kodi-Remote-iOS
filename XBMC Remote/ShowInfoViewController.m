@@ -235,7 +235,7 @@ double round(double d) {
     NSDictionary *item = self.detailItem;
     mainMenu *menuItem = nil;
     mainMenu *choosedMenuItem = nil;
-    choosedTab = 0;
+    int activeTab = 0;
     id movieObj = nil;
     id movieObjKey = nil;
     BOOL blackTableSeparator = NO;
@@ -253,7 +253,7 @@ double round(double d) {
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
         notificationName = @"MainMenuDeselectSection";
-        choosedTab = 1;
+        activeTab = 1;
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
         choosedMenuItem = menuItem.subItem;
         choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
@@ -261,7 +261,7 @@ double round(double d) {
     else if ([item[@"family"] isEqualToString:@"movieid"] && AppDelegate.instance.serverVersion > 11) {
         if ([sender isKindOfClass:[NSString class]]) {
             NSString *actorName = (NSString*)sender;
-            choosedTab = 2;
+            activeTab = 2;
             menuItem = [AppDelegate.instance.playlistMovies copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
@@ -272,7 +272,7 @@ double round(double d) {
     else if (([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"tvshowid"]) && AppDelegate.instance.serverVersion > 11) {
         if ([sender isKindOfClass:[NSString class]]) {
             NSString *actorName = (NSString*)sender;
-            choosedTab = 0;
+            activeTab = 0;
             menuItem = [AppDelegate.instance.playlistTvShows copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
@@ -292,10 +292,10 @@ double round(double d) {
     else {
         return;
     }
-    NSDictionary *methods = choosedMenuItem.mainMethod[choosedTab];
+    NSDictionary *methods = choosedMenuItem.mainMethod[activeTab];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
-        NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-        NSMutableDictionary *parameters = choosedMenuItem.mainParameters[choosedTab];
+        NSDictionary *mainFields = menuItem.mainFields[activeTab];
+        NSMutableDictionary *parameters = choosedMenuItem.mainParameters[activeTab];
         id objKey = mainFields[@"row6"];
         id obj = [Utilities getNumberFromItem:item[objKey]];
         if (movieObj != nil && movieObjKey != nil) {
@@ -332,8 +332,8 @@ double round(double d) {
                                               @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
                                               newSectionParameters, @"extra_section_parameters",
                                               nil];
-        choosedMenuItem.mainParameters[choosedTab] = newParameters;
-        choosedMenuItem.chooseTab = choosedTab;
+        choosedMenuItem.mainParameters[activeTab] = newParameters;
+        choosedMenuItem.chooseTab = activeTab;
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             detailViewController.detailItem = choosedMenuItem;
