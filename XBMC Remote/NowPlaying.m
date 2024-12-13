@@ -1311,9 +1311,10 @@
     }];
 }
 
-- (void)showInfo:(NSDictionary*)item menuItem:(mainMenu*)menuItem indexPath:(NSIndexPath*)indexPath {
-    NSDictionary *methods = menuItem.mainMethod[choosedTab];
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+- (void)showInfo:(NSDictionary*)item menuItem:(mainMenu*)menuItem activeTab:(int)activeTab indexPath:(NSIndexPath*)indexPath {
+    NSDictionary *methods = menuItem.mainMethod[activeTab];
+    NSDictionary *parameters = menuItem.mainParameters[activeTab];
+    NSDictionary *mainFields = menuItem.mainFields[activeTab];
     
     NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
@@ -1324,7 +1325,7 @@
     }
 
     if (parameters[@"extra_info_parameters"] != nil && methods[@"extra_info_method"] != nil) {
-        [self retrieveExtraInfoData:methods[@"extra_info_method"] parameters:mutableParameters index:indexPath item:item menuItem:menuItem];
+        [self retrieveExtraInfoData:methods[@"extra_info_method"] parameters:mutableParameters mainFields:mainFields index:indexPath item:item];
     }
     else {
         [self displayInfoView:item];
@@ -1346,8 +1347,7 @@
     }
 }
 
-- (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters index:(NSIndexPath*)indexPath item:(NSDictionary*)item menuItem:(mainMenu*)menuItem {
-    NSDictionary *mainFields = menuItem.mainFields[choosedTab];
+- (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters mainFields:(NSDictionary*)mainFields index:(NSIndexPath*)indexPath item:(NSDictionary*)item {
     NSString *itemid = mainFields[@"row6"] ?: @"";
     id object = [Utilities getNumberFromItem:item[itemid]];
     if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {
@@ -1902,28 +1902,28 @@
     else {
         return;
     }
-    choosedTab = -1;
+    int activeTab = -1;
     mainMenu *menuItem = nil;
     notificationName = @"";
     if ([item[@"type"] isEqualToString:@"song"]) {
         notificationName = @"MainMenuDeselectSection";
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
         if ([actiontitle isEqualToString:LOCALIZED_STR(@"Album Details")]) {
-            choosedTab = 0;
+            activeTab = 0;
             menuItem.subItem.mainLabel = item[@"album"];
             menuItem.subItem.mainMethod = nil;
         }
         else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Album Tracks")]) {
-            choosedTab = 0;
+            activeTab = 0;
             menuItem.subItem.mainLabel = item[@"album"];
         }
         else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Artist Details")]) {
-            choosedTab = 1;
+            activeTab = 1;
             menuItem.subItem.mainLabel = item[@"artist"];
             menuItem.subItem.mainMethod = nil;
         }
         else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Artist Albums")]) {
-            choosedTab = 1;
+            activeTab = 1;
             menuItem.subItem.mainLabel = item[@"artist"];
         }
         else {
@@ -1932,7 +1932,7 @@
     }
     else if ([item[@"type"] isEqualToString:@"movie"]) {
         menuItem = [AppDelegate.instance.playlistMovies copy];
-        choosedTab = 0;
+        activeTab = 0;
         menuItem.subItem.mainLabel = item[@"label"];
         notificationName = @"MainMenuDeselectSection";
     }
@@ -1940,35 +1940,35 @@
         notificationName = @"MainMenuDeselectSection";
         if ([actiontitle isEqualToString:LOCALIZED_STR(@"Episode Details")]) {
             menuItem = [AppDelegate.instance.playlistTvShows.subItem copy];
-            choosedTab = 0;
+            activeTab = 0;
             menuItem.subItem.mainLabel = item[@"label"];
         }
         else if ([actiontitle isEqualToString:LOCALIZED_STR(@"TV Show Details")]) {
             menuItem = [AppDelegate.instance.playlistTvShows copy];
             menuItem.subItem.mainMethod = nil;
-            choosedTab = 0;
+            activeTab = 0;
             menuItem.subItem.mainLabel = item[@"label"];
         }
     }
     else if ([item[@"type"] isEqualToString:@"musicvideo"]) {
         menuItem = [AppDelegate.instance.playlistMusicVideos copy];
-        choosedTab = 0;
+        activeTab = 0;
         menuItem.subItem.mainLabel = item[@"label"];
         notificationName = @"MainMenuDeselectSection";
     }
     else if ([item[@"type"] isEqualToString:@"recording"]) {
         menuItem = [AppDelegate.instance.playlistPVR copy];
-        choosedTab = 2;
+        activeTab = 2;
         menuItem.subItem.mainLabel = item[@"label"];
         notificationName = @"MainMenuDeselectSection";
     }
     else {
         return;
     }
-    NSDictionary *methods = menuItem.subItem.mainMethod[choosedTab];
+    NSDictionary *methods = menuItem.subItem.mainMethod[activeTab];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
-        NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-        NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
+        NSDictionary *mainFields = menuItem.mainFields[activeTab];
+        NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
         NSString *key = @"null";
         if (item[mainFields[@"row15"]] != nil) {
             key = mainFields[@"row15"];
@@ -1997,8 +1997,8 @@
                                               [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                               nil];
-        menuItem.subItem.mainParameters[choosedTab] = newParameters;
-        menuItem.subItem.chooseTab = choosedTab;
+        menuItem.subItem.mainParameters[activeTab] = newParameters;
+        menuItem.subItem.chooseTab = activeTab;
         fromItself = YES;
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
@@ -2013,7 +2013,7 @@
         }
     }
     else {
-        [self showInfo:item menuItem:menuItem indexPath:selectedIndexPath];
+        [self showInfo:item menuItem:menuItem activeTab:activeTab indexPath:selectedIndexPath];
     }
 }
 

@@ -74,7 +74,6 @@
     BOOL updateProgressBar;
     int totalSeconds;
     NSString *lastThumbnail;
-    int choosedTab;
     NSString *notificationName;
     __weak IBOutlet UILabel *scrabbingMessage;
     __weak IBOutlet UILabel *scrabbingRate;
