@@ -1282,7 +1282,7 @@
     BOOL refresh = NO;
     
     // Read new tab index
-    numTabs = (int)menuItem.mainMethod.count;
+    int numTabs = (int)menuItem.mainMethod.count;
     newChoosedTab = newChoosedTab % numTabs;
     
     // Bring up MoreItemsViewContoller
@@ -6002,7 +6002,7 @@
     }
     self.view.userInteractionEnabled = YES;
     mainMenu *menuItem = self.detailItem;
-    numTabs = (int)menuItem.mainMethod.count;
+    int numTabs = (int)menuItem.mainMethod.count;
     choosedTab = menuItem.chooseTab ?: 0;
     if (choosedTab >= numTabs) {
         choosedTab = 0;
