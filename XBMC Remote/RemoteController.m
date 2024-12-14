@@ -433,7 +433,7 @@
             gestureZoneView.alpha = 1;
             buttonZoneView.alpha = 0;
                          }
-                         completion:^(BOOL finished) {}];
+                         completion:nil];
         imageName = @"circle";
     }
     else {
@@ -454,7 +454,7 @@
             gestureZoneView.alpha = 0;
             buttonZoneView.alpha = 1;
                          }
-                         completion:^(BOOL finished) {}];
+                         completion:nil];
         imageName = @"finger";
     }
     if ([sender isKindOfClass: [UIButton class]]) {

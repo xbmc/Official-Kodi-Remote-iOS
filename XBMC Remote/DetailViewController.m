@@ -1641,7 +1641,7 @@
     return sheetActions;
 }
 
-#pragma mark - UICollectionView FlowLayout deleagate
+#pragma mark - UICollectionView FlowLayout delegate
 
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if ((enableCollectionView && self.sectionArray.count > 1 && section > 0) || [self doesShowSearchResults]) {
@@ -2870,7 +2870,7 @@
 
 - (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
     if (albumView && self.richResults.count > 0) {
-        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        UIImageView *thumbImageView = [UIImageView new];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight)];
         
         NSDictionary *item = self.richResults[0];
@@ -2911,7 +2911,7 @@
         return albumDetailView;
     }
     else if (episodesView && self.sectionArray.count > section && ![self doesShowSearchResults]) {
-        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        UIImageView *thumbImageView = [UIImageView new];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight)];
         albumDetailView.tag = section;
         
@@ -5866,7 +5866,7 @@
         }
         activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
     }
-                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {}];
+                                 completion:nil];
 }
 
 - (void)updateSearchResultsForSearchController:(UISearchController*)searchController {
@@ -5977,7 +5977,6 @@
 
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     dataList.indicatorStyle = UIScrollViewIndicatorStyleDefault;
     
     CGRect frame = dataList.frame;

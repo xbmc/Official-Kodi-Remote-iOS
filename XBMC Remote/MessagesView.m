@@ -54,7 +54,7 @@
         self.frame = CGRectMake(frame.origin.x, messageOrigin - slideHeight, frame.size.width, frame.size.height);
         self.alpha = 0.0;
                      }
-                     completion:^(BOOL finished) {}];
+                     completion:nil];
     viewMessage.text = message;
     self.backgroundColor = color;
     // then slide in
@@ -65,7 +65,7 @@
         self.frame = CGRectMake(frame.origin.x, messageOrigin, frame.size.width, frame.size.height);
         self.alpha = 1.0;
                      }
-                     completion:^(BOOL finished) {}];
+                     completion:nil];
     // then slide out again after timeout seconds
     // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging
     [fadeoutTimer invalidate];
@@ -82,7 +82,7 @@
         self.frame = CGRectMake(frame.origin.x, messageOrigin - slideHeight, frame.size.width, frame.size.height);
         self.alpha = 0.0;
                      }
-                     completion:^(BOOL finished) {}];
+                     completion:nil];
     [fadeoutTimer invalidate];
 }
 

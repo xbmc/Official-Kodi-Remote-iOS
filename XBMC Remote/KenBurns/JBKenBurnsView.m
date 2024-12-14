@@ -258,7 +258,7 @@
         CGAffineTransform transform = CGAffineTransformConcat(zoomIn, combo1);
         imageView.transform = transform;
                      }
-                     completion:^(BOOL finished) {}];
+                     completion:nil];
     [self performSelector:@selector(_notifyDelegate:) withObject:num afterDelay:self.timeTransition];
 }
 
