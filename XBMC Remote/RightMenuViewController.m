@@ -444,6 +444,9 @@
         textField.text = tableData[indexPath.row][@"label"];
     }];
     UIAlertAction *updateButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update label") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        if (indexPath.row >= tableData.count) {
+            return;
+        }
         tableData[indexPath.row][@"label"] = alertView.textFields[0].text;
         
         UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
