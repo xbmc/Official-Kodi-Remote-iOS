@@ -445,17 +445,17 @@
     }];
     UIAlertAction *updateButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update label") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         tableData[indexPath.row][@"label"] = alertView.textFields[0].text;
-            
-            UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
-            UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_TITLE];
-            title.text = alertView.textFields[0].text;
-            
-            customButton *arrayButtons = [customButton new];
-            if ([arrayButtons.buttons[indexPath.row - editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]) {
-                arrayButtons.buttons[indexPath.row - editableRowStartAt][@"label"] = alertView.textFields[0].text;
-                [arrayButtons saveData];
-            }
-        }];
+        
+        UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+        UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_TITLE];
+        title.text = alertView.textFields[0].text;
+        
+        customButton *arrayButtons = [customButton new];
+        if ([arrayButtons.buttons[indexPath.row - editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]) {
+            arrayButtons.buttons[indexPath.row - editableRowStartAt][@"label"] = alertView.textFields[0].text;
+            [arrayButtons saveData];
+        }
+    }];
     UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
     [alertView addAction:updateButton];
     [alertView addAction:cancelButton];
