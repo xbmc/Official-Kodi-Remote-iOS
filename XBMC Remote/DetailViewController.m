@@ -1143,7 +1143,6 @@
         return;
     }
     NSIndexPath *choice = notification.object;
-    choosedTab = 0;
     NSInteger selectedIdx = MAX_NORMAL_BUTTONS + choice.row;
     [self handleChangeTab:(int)selectedIdx fromMoreItems:YES];
 }
@@ -1281,7 +1280,7 @@
     }
     
     // Handle modes (pressing same tab) or changed tabs
-    if (newChoosedTab == choosedTab) {
+    if (newChoosedTab == choosedTab && !fromMoreItems) {
         // Read relevant data from configuration
         methods = menuItem.mainMethod[choosedTab];
         parameters = menuItem.mainParameters[choosedTab];
