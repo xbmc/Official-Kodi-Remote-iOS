@@ -30,7 +30,6 @@
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;
     int choosedTab;
-    int numTabs;
     int filterModeIndex;
     ViewModes filterModeType;
     UILabel *topNavigationLabel;
