@@ -5050,6 +5050,9 @@
 //                 NSLog(@"RICH RESULTS %@", resultStoreArray);
                  // Single Movie Sets are handled seperately
                  if (ignoreSingleMovieSets) {
+                     if (!itemDict){
+                         [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
+                     }
                      return;
                  }
                  if (!extraSectionCallBool) {
