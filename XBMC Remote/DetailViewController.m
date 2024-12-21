@@ -3270,13 +3270,7 @@
             }
             
             UIViewController *showFromCtrl = [Utilities topMostController];
-            UIView *showFromView = nil;
-            if (IS_IPHONE) {
-                showFromView = self.view;
-            }
-            else {
-                showFromView = [showFromCtrl.view superview];
-            }
+            UIView *showFromView = self.view;
             CGPoint sheetOrigin = [sender locationInView:showFromView];
             [self showActionSheetOptions:title options:sheetActions recording:NO origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
         }
@@ -3352,13 +3346,7 @@
                 UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
                 UIViewController *showFromCtrl = [Utilities topMostController];
-                UIView *showFromView = nil;
-                if (IS_IPHONE) {
-                    showFromView = self.view;
-                }
-                else {
-                    showFromView = enableCollectionView ? collectionView : [showFromCtrl.view superview];
-                }
+                UIView *showFromView = self.view;
                 CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
                 [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
             }
@@ -6337,15 +6325,18 @@
     }
     NSDictionary *parameters = menuItem.mainParameters[choosedTab];
     NSDictionary *sortDictionary = parameters[@"available_sort_methods"];
-    NSDictionary *item = @{
-        @"label": LOCALIZED_STR(@"Sort by"),
-        @"genre": [NSString stringWithFormat:@"\n(%@)", LOCALIZED_STR(@"tap the selection\nto reverse the sort order")],
-    };
     NSMutableArray *sortOptions = [sortDictionary[@"label"] mutableCopy];
     if (sortMethodIndex != -1) {
         sortOptions[sortMethodIndex] = [NSString stringWithFormat:@"\u2713 %@", sortOptions[sortMethodIndex]];
     }
-    [self showActionSheet:nil sheetActions:sortOptions item:item rectOriginX:[button7 convertPoint:button7.center toView:buttonsView.superview].x rectOriginY:buttonsView.center.y - button7.frame.size.height / 2];
+    
+    UIViewController *showFromCtrl = [Utilities topMostController];
+    CGPoint sheetOrigin = [button7 convertPoint:button7.center toView:buttonsView];
+    sheetOrigin.y -= CGRectGetHeight(button7.frame) / 2;
+    NSString *title = [NSString stringWithFormat:@"%@\n\n(%@)",
+                       LOCALIZED_STR(@"Sort by"),
+                       LOCALIZED_STR(@"tap the selection\nto reverse the sort order")];
+    [self showActionSheetOptions:title options:sortOptions recording:NO origin:sheetOrigin fromcontroller:showFromCtrl fromview:buttonsView];
 }
 
 - (BOOL)shouldAutorotate {
