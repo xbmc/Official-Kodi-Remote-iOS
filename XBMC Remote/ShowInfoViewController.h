@@ -60,7 +60,6 @@
     UIBarButtonItem *extraButton;
     int choosedTab;
     NSString *notificationName;
-    float resumePointPercentage;
     KenBurnsView *kenView;
     BOOL enableKenBurns;
     BOOL isFullscreenFanArt;

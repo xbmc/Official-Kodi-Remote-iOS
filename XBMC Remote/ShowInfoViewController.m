@@ -76,7 +76,6 @@ double round(double d) {
             float position = [Utilities getFloatValueFromItem:resumePointDict[@"position"]];
             float total = [Utilities getFloatValueFromItem:resumePointDict[@"total"]];
             if (position > 0 && total > 0) {
-                resumePointPercentage = (position * 100) / total;
                 [sheetActions addObject:LOCALIZED_STR_ARGS(@"Resume from %@", [Utilities convertTimeFromSeconds: @(position)])];
             }
         }
@@ -418,8 +417,7 @@ double round(double d) {
         [self recordChannel];
     }
     else if ([actiontitle rangeOfString:LOCALIZED_STR(@"Resume from")].location != NSNotFound) {
-        [self addPlayback:resumePointPercentage];
-        return;
+        [self resumePlayback];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
         NSDictionary *itemParams = @{
@@ -1719,6 +1717,43 @@ double round(double d) {
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }];
     }
+}
+
+- (void)resumePlayback {
+   NSDictionary *item = self.detailItem;
+   if ([item[@"family"] isEqualToString:@"broadcastid"]) {
+       NSDictionary *itemParams = @{
+           @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"pvrExtraInfo"][@"channelid"], @"channelid", nil],
+       };
+       [self openFile:itemParams];
+   }
+   else {
+       self.navigationItem.rightBarButtonItem.enabled = NO;
+       [activityIndicatorView startAnimating];
+       NSString *key = item[@"family"];
+       id value = item[key];
+       if (!value || !key) {
+           [activityIndicatorView stopAnimating];
+           return;
+       }
+       NSDictionary *params = @{
+           @"item": @{
+               key: value,
+           },
+           @"options": @{
+               @"resume": @YES,
+           },
+       };
+       [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+           if (error == nil && methodError == nil) {
+               [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+               [self showNowPlaying];
+               [Utilities checkForReviewRequest];
+           }
+           [activityIndicatorView stopAnimating];
+           self.navigationItem.rightBarButtonItem.enabled = YES;
+       }];
+   }
 }
 
 - (void)addPlayback:(float)resumePointLocal {
