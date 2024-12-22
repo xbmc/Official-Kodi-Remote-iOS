@@ -4160,7 +4160,7 @@
         forceMusicAlbumMode = NO;
     }
     int playlistid = [mainFields[@"playlistid"] intValue];
-    id playlistItems = [self buildPlaylistItems:playlistid item:item key:mainFields[@"row9"]];
+    id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
     if (!playlistItems) {
         [cellActivityIndicator stopAnimating];
         return;
@@ -4309,7 +4309,7 @@
         }
         [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": @(playlistid)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
-                id playlistItems = [self buildPlaylistItems:playlistid item:item key:mainFields[@"row8"]];
+                id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row8"]];
                 if (!playlistItems) {
                     [cellActivityIndicator stopAnimating];
                     return;
@@ -4384,7 +4384,7 @@
     [self playerOpen:playbackParams index:nil indicator:cellActivityIndicator];
 }
 
-- (id)buildPlaylistItems:(int)playlistid item:(NSDictionary*)item key:(id)key {
+- (id)buildPlaylistItems:(NSDictionary*)item key:(id)key {
     id value = item[key];
     if ([item[@"filetype"] isEqualToString:@"directory"]) {
         key = @"directory";
