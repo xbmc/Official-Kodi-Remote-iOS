@@ -1505,7 +1505,7 @@
                     [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
                 }
                 else {
-                    [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
+                    [self addPlayback:item indexPath:indexPath position:0 shuffle:NO];
                 }
                 return;
             }
@@ -1623,7 +1623,7 @@
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
             }
             else {
-                [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
+                [self addPlayback:item indexPath:indexPath position:0 shuffle:NO];
             }
         }
     }
@@ -3236,7 +3236,7 @@
         [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
-        [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
+        [self addPlayback:item indexPath:indexPath position:0 shuffle:NO];
         forceMusicAlbumMode = NO;
     }
 }
