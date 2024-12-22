@@ -4362,11 +4362,6 @@
     if ([item[@"filetype"] isEqualToString:@"directory"]) {
         key = @"directory";
     }
-    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
-    else if (![VersionCheck hasRecordingIdPlaylistSupport] && [mainFields[@"row8"] isEqualToString:@"recordingid"]) {
-        key = @"file";
-        value = item[@"file"];
-    }
     if (!value || !key) {
         [cellActivityIndicator stopAnimating];
         return;
