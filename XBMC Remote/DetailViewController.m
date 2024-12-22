@@ -1505,7 +1505,7 @@
                     [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
                 }
                 else {
-                    [self addPlayback:item indexPath:indexPath position:0 shuffle:NO];
+                    [self startPlayback:item indexPath:indexPath shuffle:NO];
                 }
                 return;
             }
@@ -1623,7 +1623,7 @@
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
             }
             else {
-                [self addPlayback:item indexPath:indexPath position:0 shuffle:NO];
+                [self startPlayback:item indexPath:indexPath shuffle:NO];
             }
         }
     }
@@ -3236,7 +3236,7 @@
         [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
-        [self addPlayback:item indexPath:indexPath position:0 shuffle:NO];
+        [self startPlayback:item indexPath:indexPath shuffle:NO];
         forceMusicAlbumMode = NO;
     }
 }
@@ -3510,8 +3510,7 @@
             [self startSlideshow:item indexPath:selectedIndexPath];
         }
         else {
-            NSInteger playFromPosition = albumView ? selectedIndexPath.row : 0;
-            [self addPlayback:item indexPath:selectedIndexPath position:playFromPosition shuffle:NO];
+            [self startPlayback:item indexPath:selectedIndexPath shuffle:NO];
         }
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play using...")]) {
@@ -3530,7 +3529,7 @@
                 
                 for (NSString *actiontitle in sheetActions) {
                     UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                        [self addPlayback:item indexPath:selectedIndexPath using:actiontitle shuffle:NO];
+                        [self startPlayback:item indexPath:selectedIndexPath using:actiontitle shuffle:NO];
                     }];
                     [alertCtrl addAction:action];
                 }
@@ -3555,7 +3554,7 @@
         [self deleteTimer:item indexPath:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play in shuffle mode")]) {
-        [self addPlayback:item indexPath:selectedIndexPath position:0 shuffle:YES];
+        [self startPlayback:item indexPath:selectedIndexPath shuffle:YES];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue")]) {
         [self addQueue:item indexPath:selectedIndexPath];
@@ -4243,15 +4242,11 @@
     }];
 }
 
-- (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath using:(NSString*)playername shuffle:(BOOL)shuffled {
-    [self addPlayback:item indexPath:indexPath using:playername position:0 shuffle:shuffled];
+- (void)startPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath shuffle:(BOOL)shuffled {
+    [self startPlayback:item indexPath:indexPath using:nil shuffle:shuffled];
 }
 
-- (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath position:(NSInteger)pos shuffle:(BOOL)shuffled {
-    [self addPlayback:item indexPath:indexPath using:nil position:pos shuffle:shuffled];
-}
-
-- (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath using:(NSString*)playername position:(NSInteger)pos shuffle:(BOOL)shuffled {
+- (void)startPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath using:(NSString*)playername shuffle:(BOOL)shuffled {
     mainMenu *menuItem = [self getMainMenu:item];
     int activeTab = [self getActiveTab:item];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
