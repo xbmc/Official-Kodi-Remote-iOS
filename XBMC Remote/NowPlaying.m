@@ -96,17 +96,6 @@
     // Update the user interface for the detail item.
     if (self.detailItem) {
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing"); // DA SISTEMARE COME PARAMETRO
-        UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
-        rightSwipe.numberOfTouchesRequired = 1;
-        rightSwipe.cancelsTouchesInView = NO;
-        rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-        [self.view addGestureRecognizer:rightSwipe];
-        
-        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
-        leftSwipe.numberOfTouchesRequired = 1;
-        leftSwipe.cancelsTouchesInView = NO;
-        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self.view addGestureRecognizer:leftSwipe];
     }
 }
 
@@ -1446,14 +1435,12 @@
                  if (!stringURL.length) {
                      stringURL = [Utilities getItemIconFromDictionary:itemExtraDict];
                  }
-                 BOOL disableNowPlaying = YES;
                  NSObject *row11 = itemExtraDict[mainFields[@"row11"]];
                  if (row11 == nil) {
                      row11 = @(0);
                  }
                  NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                  @(disableNowPlaying), @"disableNowPlaying",
                   clearlogo, @"clearlogo",
                   clearart, @"clearart",
                   label, @"label",
@@ -2299,23 +2286,6 @@
         [self deselectPlaylistItem];
         [playlistTableView setEditing:YES animated:YES];
         editTableButton.selected = YES;
-    }
-}
-
-# pragma mark - Swipe Gestures
-
-- (void)handleSwipeFromRight:(id)sender {
-    if (updateProgressBar) {
-        if ([self.navigationController.viewControllers indexOfObject:self] == 0) {
-            [self revealMenu:nil];
-        }
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-}
-
-- (void)handleSwipeFromLeft:(id)sender {
-    if (updateProgressBar) {
-        [self revealUnderRight:nil];
     }
 }
 

@@ -194,11 +194,6 @@ double round(double d) {
             else if (extraButton) {
                 self.navigationItem.rightBarButtonItems = @[extraButton];
             }
-            UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
-            rightSwipe.numberOfTouchesRequired = 1;
-            rightSwipe.cancelsTouchesInView = NO;
-            rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-            [self.view addGestureRecognizer:rightSwipe];
         }
         // Place the up and down arrows. Keep them invisible for now.
         CGFloat bottomPadding = [Utilities getBottomPadding];
@@ -210,13 +205,6 @@ double round(double d) {
         frame.origin.y += scrollView.contentInset.top;
         arrow_back_up.frame = frame;
         arrow_back_up.alpha = 0;
-    }
-    if (![self.detailItem[@"disableNowPlaying"] boolValue]) {
-        UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
-        leftSwipe.numberOfTouchesRequired = 1;
-        leftSwipe.cancelsTouchesInView = NO;
-        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self.view addGestureRecognizer:leftSwipe];
     }
 }
 
@@ -346,9 +334,6 @@ double round(double d) {
                                               nil];
         choosedMenuItem.mainParameters[choosedTab] = newParameters;
         choosedMenuItem.chooseTab = choosedTab;
-        if (![item[@"disableNowPlaying"] boolValue]) {
-            choosedMenuItem.disableNowPlaying = NO;
-        }
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
             detailViewController.detailItem = choosedMenuItem;
@@ -1640,15 +1625,6 @@ double round(double d) {
     [trailerWebView loadRequest:urlrequest];
 }
 
-#pragma mark - Gestures
-
-- (void)handleSwipeFromLeft:(id)sender {
-    if (![self.detailItem[@"disableNowPlaying"] boolValue]) {
-        [self showNowPlaying];
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
-    }
-}
-
 # pragma mark - JSON Data
 
 - (void)addQueueAfterCurrent:(BOOL)afterCurrent {
@@ -1841,12 +1817,6 @@ double round(double d) {
     [[Utilities getJsonRPC] callMethod:action withParameters:parameters];
 }
 
-# pragma mark - Gestures
-
-- (void)handleSwipeFromRight:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 # pragma mark - Utility
 
 - (void)elabKenBurns:(UIImage*)image {
@@ -1888,12 +1858,6 @@ double round(double d) {
     self.slidingViewController.underRightViewController = nil;
     self.slidingViewController.anchorLeftPeekAmount   = 0;
     self.slidingViewController.anchorLeftRevealAmount = 0;
-    // TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
-//    if (![self.detailItem[@"disableNowPlaying"] boolValue]) {
-//        UIViewController *c = [[UIViewController alloc]init];
-//        [self presentViewController:c animated:NO completion:nil];
-//        [self dismissViewControllerAnimated:NO completion:nil];
-//    }
     [actorsTable deselectRowAtIndexPath:[actorsTable indexPathForSelectedRow] animated:YES];
     if ([self isModal]) {
         if (doneButton == nil) {

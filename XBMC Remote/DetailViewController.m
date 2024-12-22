@@ -544,11 +544,6 @@
     if (!stringURL.length) {
         stringURL = [Utilities getItemIconFromDictionary:item];
     }
-    mainMenu *menuItem = self.detailItem;
-    BOOL disableNowPlaying = NO;
-    if (menuItem.disableNowPlaying) {
-        disableNowPlaying = YES;
-    }
     
     id row11 = item[mainFields[@"row11"]] ?: @0;
     NSString *row11key = mainFields[@"row11"] ?: @"";
@@ -557,7 +552,6 @@
     NSString *row7key = mainFields[@"row7"] ?: @"";
 
     NSDictionary *newItem = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                             @(disableNowPlaying), @"disableNowPlaying",
                              @(albumView), @"fromAlbumView",
                              @(episodesView), @"fromEpisodesView",
                              clearlogo, @"clearlogo",
@@ -3825,21 +3819,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - Gestures
-
-- (void)handleSwipeFromLeft:(id)sender {
-    mainMenu *menuItem = self.detailItem;
-    if (!menuItem.disableNowPlaying) {
-        [self showNowPlaying];
-    }
-}
-
-- (void)handleSwipeFromRight:(id)sender {
-    if ([self.navigationController.viewControllers indexOfObject:self] == 0) {
-        [self revealMenu:nil];
-    }
-    [self.navigationController popViewControllerAnimated:YES];
-}
+#pragma mark - Keyboard
 
 - (void)hideKeyboard:(id)sender {
     [self.searchController.searchBar resignFirstResponder];
@@ -3877,20 +3857,6 @@
         topNavigationLabel.shadowOffset = CGSizeMake (0, -1);
         topNavigationLabel.highlightedTextColor = UIColor.blackColor;
         topNavigationLabel.opaque = YES;
-        
-        // Set up gestures
-        if (!menuItem.disableNowPlaying) {
-            UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
-            leftSwipe.numberOfTouchesRequired = 1;
-            leftSwipe.cancelsTouchesInView = NO;
-            leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-            [self.view addGestureRecognizer:leftSwipe];
-        }
-        UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
-        rightSwipe.numberOfTouchesRequired = 1;
-        rightSwipe.cancelsTouchesInView = NO;
-        rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-        [self.view addGestureRecognizer:rightSwipe];
         
         // Set up navigation bar items on upper right
         UIImage *remoteButtonImage = [UIImage imageNamed:@"icon_menu_remote"];
