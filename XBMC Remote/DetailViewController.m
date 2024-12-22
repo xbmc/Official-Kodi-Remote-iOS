@@ -4264,7 +4264,6 @@
     }
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
-    int playlistid = [mainFields[@"playlistid"] intValue];
     if ([mainFields[@"row8"] isEqualToString:@"channelid"] ||
         [mainFields[@"row8"] isEqualToString:@"broadcastid"]) {
         NSNumber *channelid = item[mainFields[@"row8"]];
@@ -4283,7 +4282,7 @@
         [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
     }
     else if (playername.length) {
-        NSString *key = mainFields[@"row8"];
+        NSString *key = mainFields[@"row9"];
         id value = item[key];
         if ([item[@"filetype"] isEqualToString:@"directory"]) {
             key = @"directory";
@@ -4301,49 +4300,32 @@
         [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
     }
     else {
-        id optionsParam = nil;
-        id optionsValue = nil;
+        id optionsKey;
+        id optionsValue;
         if (AppDelegate.instance.serverVersion > 11) {
-            optionsParam = @"options";
+            optionsKey = @"options";
             optionsValue = @{@"shuffled": @(shuffled)};
         }
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": @(playlistid)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            if (error == nil && methodError == nil) {
-                id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row8"]];
-                if (!playlistItems) {
-                    [cellActivityIndicator stopAnimating];
-                    return;
-                }
-                NSDictionary *playlistParams = @{
-                    @"playlistid": @(playlistid),
-                    @"item": playlistItems,
-                };
-                NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                @{@"playlistid": @(playlistid), @"position": @(pos)}, @"item",
-                                                optionsValue, optionsParam,
-                                                nil];
-                if (shuffled && AppDelegate.instance.serverVersion > 11) {
-                    [[Utilities getJsonRPC]
-                     callMethod:@"Player.SetPartymode"
-                     withParameters:@{@"playerid": @(0), @"partymode": @NO}
-                     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
-                         [self playlistAndPlay:playlistParams
-                                playbackParams:playbackParams
-                                     indexPath:indexPath
-                                     indicator:cellActivityIndicator];
-                     }];
-                }
-                else {
-                    [self playlistAndPlay:playlistParams
-                           playbackParams:playbackParams
-                                indexPath:indexPath
-                                indicator:cellActivityIndicator];
-                }
-            }
-            else {
-                [cellActivityIndicator stopAnimating];
-            }
-        }];
+        id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
+        if (!playlistItems) {
+            [cellActivityIndicator stopAnimating];
+            return;
+        }
+        NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        playlistItems, @"item",
+                                        optionsValue, optionsKey,
+                                        nil];
+        if (shuffled && AppDelegate.instance.serverVersion > 11) {
+            [[Utilities getJsonRPC]
+             callMethod:@"Player.SetPartymode"
+             withParameters:@{@"playerid": @(0), @"partymode": @NO}
+             onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
+                [self playerOpen:playbackParams index:indexPath indicator:cellActivityIndicator];
+             }];
+        }
+        else {
+            [self playerOpen:playbackParams index:indexPath indicator:cellActivityIndicator];
+        }
     }
 }
 
@@ -4425,18 +4407,6 @@
     }
     
     return playlistItems;
-}
-
-- (void)playlistAndPlay:(NSDictionary*)playlistParams playbackParams:(NSDictionary*)playbackParams indexPath:(NSIndexPath*)indexPath indicator:(UIActivityIndicatorView*)cellActivityIndicator {
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (error == nil && methodError == nil) {
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-            [self playerOpen:playbackParams index:indexPath indicator:cellActivityIndicator];
-        }
-        else {
-            [cellActivityIndicator stopAnimating];
-        }
-    }];
 }
 
 - (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters success:(NSString*)successMessage failure:(NSString*)failureMessage {
