@@ -4259,47 +4259,34 @@
     }
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
-    if ([mainFields[@"row9"] isEqualToString:@"channelid"] ||
-        [mainFields[@"row9"] isEqualToString:@"broadcastid"]) {
-        NSNumber *channelid = item[key];
-        if ([mainFields[@"row9"] isEqualToString:@"broadcastid"]) {
-            channelid = item[@"pvrExtraInfo"][@"channelid"];
-        }
-        NSDictionary *itemParams = @{
-            @"item": [NSDictionary dictionaryWithObjectsAndKeys: channelid, @"channelid", nil],
-        };
-        [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
+    id optionsKey;
+    id optionsValue;
+    if (AppDelegate.instance.serverVersion > 11) {
+        optionsKey = @"options";
+        optionsValue = [NSDictionary dictionaryWithObjectsAndKeys:
+                        @(shuffled), @"shuffled",
+                        playername, @"playername",
+                        nil];
+    }
+    id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
+    if (!playlistItems) {
+        [cellActivityIndicator stopAnimating];
+        return;
+    }
+    NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    playlistItems, @"item",
+                                    optionsValue, optionsKey,
+                                    nil];
+    if (shuffled && AppDelegate.instance.serverVersion > 11) {
+        [[Utilities getJsonRPC]
+         callMethod:@"Player.SetPartymode"
+         withParameters:@{@"playerid": @(0), @"partymode": @NO}
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
+            [self playerOpen:playbackParams index:indexPath indicator:cellActivityIndicator];
+         }];
     }
     else {
-        id optionsKey;
-        id optionsValue;
-        if (AppDelegate.instance.serverVersion > 11) {
-            optionsKey = @"options";
-            optionsValue = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @(shuffled), @"shuffled",
-                            playername, @"playername",
-                            nil];
-        }
-        id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
-        if (!playlistItems) {
-            [cellActivityIndicator stopAnimating];
-            return;
-        }
-        NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        playlistItems, @"item",
-                                        optionsValue, optionsKey,
-                                        nil];
-        if (shuffled && AppDelegate.instance.serverVersion > 11) {
-            [[Utilities getJsonRPC]
-             callMethod:@"Player.SetPartymode"
-             withParameters:@{@"playerid": @(0), @"partymode": @NO}
-             onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
-                [self playerOpen:playbackParams index:indexPath indicator:cellActivityIndicator];
-             }];
-        }
-        else {
-            [self playerOpen:playbackParams index:indexPath indicator:cellActivityIndicator];
-        }
+        [self playerOpen:playbackParams index:indexPath indicator:cellActivityIndicator];
     }
 }
 
@@ -4364,6 +4351,11 @@
     else if (![VersionCheck hasRecordingIdPlaylistSupport] && [key isEqualToString:@"recordingid"]) {
         key = @"file";
         value = item[@"file"];
+    }
+    else if ([key isEqualToString:@"channelid"] ||
+             [key isEqualToString:@"broadcastid"]) {
+        key = @"channelid";
+        value = item[@"pvrExtraInfo"][@"channelid"] ?: item[@"channelid"];
     }
     if (!value || !key) {
         return nil;
