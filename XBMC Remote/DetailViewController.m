@@ -4270,30 +4270,15 @@
         };
         [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
     }
-    else if (playername.length) {
-        NSString *key = mainFields[@"row9"];
-        id value = item[key];
-        if ([item[@"filetype"] isEqualToString:@"directory"]) {
-            key = @"directory";
-        }
-        if (!value || !key) {
-            return;
-        }
-        NSDictionary *itemParams = @{
-            @"item": @{key: value},
-            @"options": @{
-                @"playername": playername,
-                @"shuffled": @(shuffled),
-            },
-        };
-        [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
-    }
     else {
         id optionsKey;
         id optionsValue;
         if (AppDelegate.instance.serverVersion > 11) {
             optionsKey = @"options";
-            optionsValue = @{@"shuffled": @(shuffled)};
+            optionsValue = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @(shuffled), @"shuffled",
+                            playername, @"playername",
+                            nil];
         }
         id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
         if (!playlistItems) {
