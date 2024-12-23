@@ -4259,10 +4259,10 @@
     }
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
-    if ([mainFields[@"row8"] isEqualToString:@"channelid"] ||
-        [mainFields[@"row8"] isEqualToString:@"broadcastid"]) {
-        NSNumber *channelid = item[mainFields[@"row8"]];
-        if ([mainFields[@"row8"] isEqualToString:@"broadcastid"]) {
+    if ([mainFields[@"row9"] isEqualToString:@"channelid"] ||
+        [mainFields[@"row9"] isEqualToString:@"broadcastid"]) {
+        NSNumber *channelid = item[key];
+        if ([mainFields[@"row9"] isEqualToString:@"broadcastid"]) {
             channelid = item[@"pvrExtraInfo"][@"channelid"];
         }
         NSDictionary *itemParams = @{
