@@ -4270,12 +4270,6 @@
         };
         [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
     }
-    else if ([mainFields[@"row7"] isEqualToString:@"plugin"]) {
-        NSDictionary *itemParams = @{
-            @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil],
-        };
-        [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
-    }
     else if (playername.length) {
         NSString *key = mainFields[@"row9"];
         id value = item[key];
