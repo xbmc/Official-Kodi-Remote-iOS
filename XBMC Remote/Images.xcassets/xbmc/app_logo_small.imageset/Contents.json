@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "xbmc_logo_selected.png",
+      "filename" : "app_logo_small.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "xbmc_logo_selected@2x.png",
+      "filename" : "app_logo_small@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

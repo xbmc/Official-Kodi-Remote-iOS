@@ -1,16 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "xbmc_overlay_small.png",
+      "filename" : "app_logo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "xbmc_overlay_small@2x.png",
+      "filename" : "app_logo@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "app_logo@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
