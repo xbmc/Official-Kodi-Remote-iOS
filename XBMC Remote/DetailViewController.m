@@ -450,11 +450,13 @@
 
 #pragma mark - Utility
 
-- (void)enterSubmenuOfMenu:(mainMenu*)menuItem label:(NSString*)label params:(NSDictionary*)parameters {
-    menuItem.subItem.mainLabel = label;
+- (void)enterSubmenuForItem:(id)item params:(NSDictionary*)parameters {
+    mainMenu *menuItem = [self getMainMenu:item];
+    int activeTab = [self getActiveTab:item];
+    menuItem.subItem.mainLabel = item[@"label"];
     mainMenu *newMenuItem = [menuItem.subItem copy];
-    newMenuItem.mainParameters[choosedTab] = parameters;
-    newMenuItem.chooseTab = choosedTab;
+    newMenuItem.mainParameters[activeTab] = parameters;
+    newMenuItem.chooseTab = activeTab;
     if (IS_IPHONE) {
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
         detailViewController.detailItem = newMenuItem;
@@ -699,37 +701,52 @@
     return thumb;
 }
 
+- (NSArray*)getGlobalSearchLookup:(id)item {
+    NSArray *lookup;
+    if ([item[@"family"] isEqualToString:@"albumid"]) {
+        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_ALBUMS];
+    }
+    else if ([item[@"family"] isEqualToString:@"artistid"]) {
+        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_ARTISTS];
+    }
+    else if ([item[@"family"] isEqualToString:@"songid"]) {
+        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_SONGS];
+    }
+    else if ([item[@"family"] isEqualToString:@"movieid"]) {
+        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MOVIES];
+    }
+    else if ([item[@"family"] isEqualToString:@"setid"]) {
+        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MOVIESETS];
+    }
+    else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
+        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MUSICVIDEOS];
+    }
+    else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
+        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_TVSHOWS];
+    }
+    return lookup;
+}
+
 - (mainMenu*)getMainMenu:(id)item {
     mainMenu *menuItem = self.detailItem;
     if (globalSearchView) {
-        NSArray *lookup;
-        if ([item[@"family"] isEqualToString:@"albumid"]) {
-            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_ALBUMS];
-        }
-        else if ([item[@"family"] isEqualToString:@"artistid"]) {
-            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_ARTISTS];
-        }
-        else if ([item[@"family"] isEqualToString:@"songid"]) {
-            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_SONGS];
-        }
-        else if ([item[@"family"] isEqualToString:@"movieid"]) {
-            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MOVIES];
-        }
-        else if ([item[@"family"] isEqualToString:@"setid"]) {
-            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MOVIESETS];
-        }
-        else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
-            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MUSICVIDEOS];
-        }
-        else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
-            lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_TVSHOWS];
-        }
+        NSArray *lookup = [self getGlobalSearchLookup:item];
         if (lookup) {
             menuItem = lookup[0];
-            choosedTab = [lookup[1] intValue];
         }
     }
     return menuItem;
+}
+
+- (int)getActiveTab:(id)item {
+    int activeTab = choosedTab;
+    if (globalSearchView) {
+        NSArray *lookup = [self getGlobalSearchLookup:item];
+        if (lookup) {
+            activeTab = [lookup[1] intValue];
+        }
+    }
+    return activeTab;
 }
 
 - (void)setIndexViewVisibility {
@@ -1138,7 +1155,6 @@
         return;
     }
     NSIndexPath *choice = notification.object;
-    choosedTab = 0;
     NSInteger selectedIdx = MAX_NORMAL_BUTTONS + choice.row;
     [self handleChangeTab:(int)selectedIdx fromMoreItems:YES];
 }
@@ -1266,7 +1282,7 @@
     BOOL refresh = NO;
     
     // Read new tab index
-    numTabs = (int)menuItem.mainMethod.count;
+    int numTabs = (int)menuItem.mainMethod.count;
     newChoosedTab = newChoosedTab % numTabs;
     
     // Bring up MoreItemsViewContoller
@@ -1276,7 +1292,7 @@
     }
     
     // Handle modes (pressing same tab) or changed tabs
-    if (newChoosedTab == choosedTab) {
+    if (newChoosedTab == choosedTab && !fromMoreItems) {
         // Read relevant data from configuration
         methods = menuItem.mainMethod[choosedTab];
         parameters = menuItem.mainParameters[choosedTab];
@@ -1315,7 +1331,7 @@
         if (choosedTab < buttonsIB.count) {
             [buttonsIB[choosedTab] setSelected:YES];
         }
-        // Read relevant data from configuration (important: new value for chooseTab)
+        // Read relevant data from configuration (important: new value for choosedTab)
         methods = menuItem.mainMethod[choosedTab];
         parameters = menuItem.mainParameters[choosedTab];
         mutableParameters = [parameters[@"parameters"] mutableCopy];
@@ -1369,11 +1385,12 @@
 - (void)viewChild:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint)point {
     selectedIndexPath = indexPath;
     mainMenu *menuItem = [self getMainMenu:item];
-    NSMutableArray *sheetActions = menuItem.sheetActions[choosedTab];
-    NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
+    int activeTab = [self getActiveTab:item];
+    NSMutableArray *sheetActions = menuItem.sheetActions[activeTab];
+    NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
     int rectOriginX = point.x;
     int rectOriginY = point.y;
-    NSDictionary *mainFields = menuItem.mainFields[choosedTab];
+    NSDictionary *mainFields = menuItem.mainFields[activeTab];
     
     NSNumber *libraryRowHeight = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
     NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
@@ -1386,7 +1403,7 @@
         id objKey = mainFields[@"row6"];
         id obj = item[objKey];
         if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
-            NSDictionary *currentParams = menuItem.mainParameters[choosedTab];
+            NSDictionary *currentParams = menuItem.mainParameters[activeTab];
             obj = [NSDictionary dictionaryWithObjectsAndKeys:
                    obj, objKey,
                    currentParams[@"parameters"][@"filter"][parameters[@"combinedFilter"]], parameters[@"combinedFilter"],
@@ -1447,14 +1464,14 @@
         if (parameters[@"parameters"][@"albumartistsonly"]) {
             newParameters[@"parameters"][@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
         }
-        [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
+        [self enterSubmenuForItem:item params:newParameters];
     }
     else { // CHILD IS FILEMODE
         NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
         NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @44;
         if ([item[@"filetype"] length] != 0 && ![item[@"isSources"] boolValue]) { // WE ARE ALREADY IN BROWSING FILES MODE
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
-                parameters = menuItem.mainParameters[choosedTab];
+                parameters = menuItem.mainParameters[activeTab];
                 NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                       [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                        item[mainFields[@"row6"]], @"directory",
@@ -1472,8 +1489,8 @@
                                                       nil];
                 menuItem.mainLabel = item[@"label"];
                 mainMenu *newMenuItem = [menuItem copy];
-                newMenuItem.mainParameters[choosedTab] = newParameters;
-                newMenuItem.chooseTab = choosedTab;
+                newMenuItem.mainParameters[activeTab] = newParameters;
+                newMenuItem.chooseTab = activeTab;
                 if (IS_IPHONE) {
                     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
                     detailViewController.detailItem = newMenuItem;
@@ -1518,7 +1535,7 @@
                 fileModeKey = @"filter";
                 objValue = [NSDictionary dictionaryWithObjectsAndKeys:
                             item[mainFields[@"row6"]], @"category",
-                            menuItem.mainParameters[choosedTab][@"parameters"][@"section"], @"section",
+                            menuItem.mainParameters[activeTab][@"parameters"][@"section"], @"section",
                             nil];
             }
             NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -1539,16 +1556,17 @@
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
                 newParameters[@"parameters"][@"level"] = @"expert";
             }
-            [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
+            [self enterSubmenuForItem:item params:newParameters];
         }
     }
 }
 
 - (void)didSelectItemAtIndexPath:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint)point {
     mainMenu *menuItem = [self getMainMenu:item];
-    NSDictionary *methods = menuItem.subItem.mainMethod[choosedTab];
-    NSMutableArray *sheetActions = [menuItem.sheetActions[choosedTab] mutableCopy];
-    NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
+    int activeTab = [self getActiveTab:item];
+    NSDictionary *methods = menuItem.subItem.mainMethod[activeTab];
+    NSMutableArray *sheetActions = [menuItem.sheetActions[activeTab] mutableCopy];
+    NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
     int rectOriginX = point.x;
     int rectOriginY = point.y;
     if ([item[@"family"] isEqualToString:@"id"]) {
@@ -1608,13 +1626,13 @@
         [self viewChild:indexPath item:item displayPoint:point];
     }
     else {
-        if ([menuItem.showInfo[choosedTab] boolValue]) {
-            [self showInfo:indexPath menuItem:menuItem item:item tabToShow:choosedTab];
+        if ([menuItem.showInfo[activeTab] boolValue]) {
+            [self showInfo:indexPath menuItem:menuItem item:item tabToShow:activeTab];
         }
         else {
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             if (![userDefaults boolForKey:@"song_preference"] || [parameters[@"forceActionSheet"] boolValue]) {
-                sheetActions = [self getPlaylistActions:sheetActions item:item params:menuItem.mainParameters[choosedTab]];
+                sheetActions = [self getPlaylistActions:sheetActions item:item params:menuItem.mainParameters[activeTab]];
                 selectedIndexPath = indexPath;
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
             }
@@ -1622,10 +1640,6 @@
                 [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
             }
         }
-    }
-    // In case of Global Search restore choosedTab after processing
-    if (globalSearchView) {
-        choosedTab = 0;
     }
 }
 
@@ -3305,7 +3319,8 @@
                 }
             }
             mainMenu *menuItem = [self getMainMenu:item];
-            NSMutableArray *sheetActions = [menuItem.sheetActions[choosedTab] mutableCopy];
+            int activeTab = [self getActiveTab:item];
+            NSMutableArray *sheetActions = [menuItem.sheetActions[activeTab] mutableCopy];
             if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
                 [sheetActions removeObject:LOCALIZED_STR(@"Play Trailer")];
                 [sheetActions removeObject:LOCALIZED_STR(@"Mark as watched")];
@@ -3313,7 +3328,7 @@
             }
             NSInteger numActions = sheetActions.count;
             if (numActions) {
-                sheetActions = [self getPlaylistActions:sheetActions item:item params:menuItem.mainParameters[choosedTab]];
+                sheetActions = [self getPlaylistActions:sheetActions item:item params:menuItem.mainParameters[activeTab]];
                 NSString *title = [NSString stringWithFormat:@"%@", item[@"label"]];
                 if (item[@"genre"] != nil && ![item[@"genre"] isEqualToString:@""]) {
                     title = [NSString stringWithFormat:@"%@\n%@", title, item[@"genre"]];
@@ -3349,10 +3364,6 @@
                 UIView *showFromView = self.view;
                 CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
                 [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
-            }
-            // In case of Global Search restore choosedTab after processing
-            if (globalSearchView) {
-                choosedTab = 0;
             }
         }
     }
@@ -3476,7 +3487,8 @@
     
     // Store the rich data
     mainMenu *menuItem = [self getMainMenu:item];
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    int activeTab = [self getActiveTab:item];
+    NSDictionary *parameters = menuItem.mainParameters[activeTab];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
     if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
@@ -3515,9 +3527,9 @@
         }
     }
     mainMenu *menuItem = [self getMainMenu:item];
+    int activeTab = [self getActiveTab:item];
     if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play")]) {
-        mainMenu *menuItem = [self getMainMenu:item];
-        NSDictionary *mainFields = menuItem.mainFields[choosedTab];
+        NSDictionary *mainFields = menuItem.mainFields[activeTab];
         int playlistid = [mainFields[@"playlistid"] intValue];
         if (playlistid == PLAYERID_PICTURES) {
             [self startSlideshow:item indexPath:selectedIndexPath];
@@ -3599,7 +3611,7 @@
             [self prepareShowAlbumInfo:nil];
         }
         else {
-            [self showInfo:selectedIndexPath menuItem:menuItem item:item tabToShow:choosedTab];
+            [self showInfo:selectedIndexPath menuItem:menuItem item:item tabToShow:activeTab];
         }
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
@@ -3695,7 +3707,7 @@
         [self saveCustomButton:newButton];
     }
     else {
-        NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+        NSDictionary *parameters = menuItem.mainParameters[activeTab];
         NSMutableDictionary *sortDictionary = parameters[@"available_sort_methods"];
         if (sortDictionary[@"label"] != nil) {
             // In case of random still find index despite leading @"\u2713". This avoids inversion of sort order.
@@ -3788,7 +3800,8 @@
 
 - (NSArray*)getSupportedPlayers:(NSArray*)listedPlayers forItem:(id)item {
     mainMenu *menuItem = [self getMainMenu:item];
-    NSDictionary *mainFields = menuItem.mainFields[choosedTab];
+    int activeTab = [self getActiveTab:item];
+    NSDictionary *mainFields = menuItem.mainFields[activeTab];
     int playlistid = [mainFields[@"playlistid"] intValue];
     NSMutableArray *supportedPlayers = [NSMutableArray new];
     for (NSDictionary *player in listedPlayers) {
@@ -4061,8 +4074,9 @@
 
 - (void)exploreItem:(NSDictionary*)item {
     mainMenu *menuItem = [self getMainMenu:item];
-    NSDictionary *mainFields = menuItem.mainFields[choosedTab];
-    NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
+    int activeTab = [self getActiveTab:item];
+    NSDictionary *mainFields = menuItem.mainFields[activeTab];
+    NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
     NSNumber *libraryRowHeight = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
     NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
     NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
@@ -4089,7 +4103,7 @@
                                           @"Files.GetDirectory", @"exploreCommand",
                                           @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
                                           nil];
-    [self enterSubmenuOfMenu:menuItem label:item[@"label"] params:newParameters];
+    [self enterSubmenuForItem:item params:newParameters];
 }
 
 - (void)deleteTimer:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
@@ -4188,7 +4202,8 @@
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
     mainMenu *menuItem = [self getMainMenu:item];
-    NSDictionary *mainFields = menuItem.mainFields[choosedTab];
+    int activeTab = [self getActiveTab:item];
+    NSDictionary *mainFields = menuItem.mainFields[activeTab];
     if (forceMusicAlbumMode) {
         mainFields = [AppDelegate.instance.playlistArtistAlbums mainFields][0];
         forceMusicAlbumMode = NO;
@@ -4287,7 +4302,8 @@
 
 - (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath using:(NSString*)playername position:(NSInteger)pos shuffle:(BOOL)shuffled {
     mainMenu *menuItem = [self getMainMenu:item];
-    NSDictionary *mainFields = menuItem.mainFields[choosedTab];
+    int activeTab = [self getActiveTab:item];
+    NSDictionary *mainFields = menuItem.mainFields[activeTab];
     if (forceMusicAlbumMode) {
         mainFields = [AppDelegate.instance.playlistArtistAlbums mainFields][0];
         forceMusicAlbumMode = NO;
@@ -4379,7 +4395,8 @@
 
 - (void)startSlideshow:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
     mainMenu *menuItem = [self getMainMenu:item];
-    NSDictionary *mainFields = menuItem.mainFields[choosedTab];
+    int activeTab = [self getActiveTab:item];
+    NSDictionary *mainFields = menuItem.mainFields[activeTab];
     if (mainFields.count == 0) {
         return;
     }
@@ -4741,7 +4758,6 @@
         [activeLayoutView setUserInteractionEnabled:YES];
         
         // Save and display
-        choosedTab = 0;
         mainMenu *menuItem = self.detailItem;
         NSMutableDictionary *parameters = [menuItem.mainParameters[choosedTab] mutableCopy];
         [self saveData:parameters];
@@ -5514,10 +5530,6 @@
         [collectionView deselectItemAtIndexPath:selection animated:YES];
     }
 
-    // When going back to a Global Search view ensure we are in first index
-    if (globalSearchView) {
-        choosedTab = 0;
-    }
     [self choseParams];
 
     if ([self isModal]) {
@@ -5989,12 +6001,9 @@
         }
     }
     self.view.userInteractionEnabled = YES;
-    choosedTab = 0;
     mainMenu *menuItem = self.detailItem;
-    numTabs = (int)menuItem.mainMethod.count;
-    if (menuItem.chooseTab) {
-        choosedTab = menuItem.chooseTab;
-    }
+    int numTabs = (int)menuItem.mainMethod.count;
+    choosedTab = menuItem.chooseTab ?: 0;
     if (choosedTab >= numTabs) {
         choosedTab = 0;
     }
