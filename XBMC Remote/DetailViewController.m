@@ -93,8 +93,8 @@
 #define XIB_JSON_DATA_CELL_ACTIVTYINDICATOR SHARED_CELL_ACTIVTYINDICATOR
 #define ALBUM_VIEW_CELL_TRACKNUMBER 101
 #define SEASON_VIEW_CELL_TOGGLE 99
-#define DETAIL_VIEW_INFO_ALBUM 0
-#define DETAIL_VIEW_INFO_TVSHOW 1
+#define DETAIL_VIEW_INFO_ALBUM 104
+#define DETAIL_VIEW_INFO_TVSHOW 105
 #define EPG_VIEW_CELL_STARTTIME 102
 #define EPG_VIEW_CELL_PROGRESSVIEW 103
 #define EPG_VIEW_CELL_RECORDING_ICON SHARED_CELL_RECORDING_ICON
@@ -1371,8 +1371,6 @@
     mainMenu *menuItem = [self getMainMenu:item];
     NSMutableArray *sheetActions = menuItem.sheetActions[choosedTab];
     NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
-    int rectOriginX = point.x;
-    int rectOriginY = point.y;
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     
     NSNumber *libraryRowHeight = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
@@ -1497,7 +1495,7 @@
                      [item[@"filetype"] isEqualToString:@"file"]) {
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
                 if (![userDefaults boolForKey:@"song_preference"]) {
-                    [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
+                    [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
                 }
                 else {
                     [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
@@ -1549,8 +1547,6 @@
     NSDictionary *methods = menuItem.subItem.mainMethod[choosedTab];
     NSMutableArray *sheetActions = [menuItem.sheetActions[choosedTab] mutableCopy];
     NSMutableDictionary *parameters = menuItem.subItem.mainParameters[choosedTab];
-    int rectOriginX = point.x;
-    int rectOriginY = point.y;
     if ([item[@"family"] isEqualToString:@"id"]) {
         if (IS_IPHONE) {
             SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:item];
@@ -1616,7 +1612,7 @@
             if (![userDefaults boolForKey:@"song_preference"] || [parameters[@"forceActionSheet"] boolValue]) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:menuItem.mainParameters[choosedTab]];
                 selectedIndexPath = indexPath;
-                [self showActionSheet:indexPath sheetActions:sheetActions item:item rectOriginX:rectOriginX rectOriginY:rectOriginY];
+                [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
             }
             else {
                 [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
@@ -3227,7 +3223,7 @@
 
 #pragma mark - Long Press & Action sheet
 
-- (void)showActionSheet:(NSIndexPath*)indexPath sheetActions:(NSArray*)sheetActions item:(NSDictionary*)item rectOriginX:(int) rectOriginX rectOriginY:(int) rectOriginY {
+- (void)showActionSheet:(NSIndexPath*)indexPath sheetActions:(NSArray*)sheetActions item:(NSDictionary*)item origin:(CGPoint)sheetOrigin {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
         NSString *title = [NSString stringWithFormat:@"%@%@%@", item[@"label"], [item[@"genre"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"\n%@", item[@"genre"]], [item[@"family"] isEqualToString:@"songid"] ? [NSString stringWithFormat:@"\n%@", item[@"album"]] : @""];
@@ -3238,9 +3234,7 @@
         id cell = [self getCell:indexPath];
         UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
         BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
-        CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
-        UIViewController *showFromCtrl = [Utilities topMostController];
-        [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
+        [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
         [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
@@ -3269,10 +3263,9 @@
                 title = [NSString stringWithFormat:@"%@\n%@", title, season];
             }
             
-            UIViewController *showFromCtrl = [Utilities topMostController];
             UIView *showFromView = self.view;
             CGPoint sheetOrigin = [sender locationInView:showFromView];
-            [self showActionSheetOptions:title options:sheetActions recording:NO origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
+            [self showActionSheetOptions:title options:sheetActions recording:NO origin:sheetOrigin fromview:showFromView];
         }
     }
 }
@@ -3345,10 +3338,9 @@
                 }
                 UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
                 BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
-                UIViewController *showFromCtrl = [Utilities topMostController];
                 UIView *showFromView = self.view;
                 CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
-                [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:showFromView];
+                [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromview:showFromView];
             }
             // In case of Global Search restore choosedTab after processing
             if (globalSearchView) {
@@ -3358,7 +3350,7 @@
     }
 }
 
-- (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording origin:(CGPoint)origin fromcontroller:(UIViewController*)fromctrl fromview:(UIView*)fromview {
+- (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording origin:(CGPoint)origin fromview:(UIView*)fromview {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
         UIAlertController *actionTemp = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -3375,13 +3367,15 @@
                 actiontitle = LOCALIZED_STR(@"Stop Recording");
             }
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self actionSheetHandler:actiontitle origin:origin fromcontroller:fromctrl fromview:fromview];
+                [self actionSheetHandler:actiontitle origin:origin fromview:fromview];
+                forceMusicAlbumMode = NO;
             }];
             [actionView addAction:action];
         }
         [actionView addAction:action_cancel];
         actionView.modalPresentationStyle = UIModalPresentationPopover;
         
+        UIViewController *fromctrl = [Utilities topMostController];
         UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = fromview;
@@ -3503,7 +3497,7 @@
     [userDefaults setObject:sortAscDescSave forKey:sortKey];
 }
 
-- (void)actionSheetHandler:(NSString*)actiontitle origin:(CGPoint)origin fromcontroller:(UIViewController*)fromctrl fromview:(UIView*)fromview {
+- (void)actionSheetHandler:(NSString*)actiontitle origin:(CGPoint)origin fromview:(UIView*)fromview {
     NSDictionary *item = nil;
     if (processAllItemsInSection) {
         selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:[processAllItemsInSection longValue]];
@@ -3547,6 +3541,7 @@
                 [actionView addAction:action_cancel];
                 actionView.modalPresentationStyle = UIModalPresentationPopover;
                 
+                UIViewController *fromctrl = [Utilities topMostController];
                 UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
                 if (popPresenter != nil) {
                     popPresenter.sourceView = fromview;
@@ -3777,7 +3772,6 @@
     NSString *searchString = item[@"label"];
     if (forceMusicAlbumMode) {
         searchString = self.navigationItem.title;
-        forceMusicAlbumMode = NO;
     }
     NSString *query = [searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *url = [NSString stringWithFormat:serviceURL, query];
@@ -4190,8 +4184,7 @@
     mainMenu *menuItem = [self getMainMenu:item];
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     if (forceMusicAlbumMode) {
-        mainFields = [AppDelegate.instance.playlistArtistAlbums mainFields][0];
-        forceMusicAlbumMode = NO;
+        mainFields = AppDelegate.instance.playlistArtistAlbums.mainFields[0];
     }
     int playlistid = [mainFields[@"playlistid"] intValue];
     id playlistItems = [self buildPlaylistItems:playlistid item:item key:mainFields[@"row9"]];
@@ -4289,8 +4282,7 @@
     mainMenu *menuItem = [self getMainMenu:item];
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     if (forceMusicAlbumMode) {
-        mainFields = [AppDelegate.instance.playlistArtistAlbums mainFields][0];
-        forceMusicAlbumMode = NO;
+        mainFields = AppDelegate.instance.playlistArtistAlbums.mainFields[0];
     }
     if (mainFields.count == 0) {
         return;
@@ -4520,7 +4512,7 @@
         }
     }
     menuItem = nil;
-    if ([sender tag] == DETAIL_VIEW_INFO_ALBUM) {
+    if (!sender || [sender tag] == DETAIL_VIEW_INFO_ALBUM) {
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
     }
     else if ([sender tag] == DETAIL_VIEW_INFO_TVSHOW) {
@@ -4571,8 +4563,9 @@
     NSMutableDictionary *item = [sectionItem mutableCopy];
     item[@"label"] = self.navigationItem.title;
     forceMusicAlbumMode = YES;
-    int rectOrigin = (int)((albumViewHeight - albumViewPadding * 2) / 2);
-    [self showActionSheet:nil sheetActions:sheetActions item:item rectOriginX:rectOrigin + albumViewPadding rectOriginY:rectOrigin];
+    CGFloat rectOrigin = floor((albumViewHeight - albumViewPadding * 2) / 2);
+    CGPoint sheetOrigin = CGPointMake(rectOrigin + albumViewPadding, rectOrigin);
+    [self showActionSheet:nil sheetActions:sheetActions item:item origin:sheetOrigin];
 }
 
 # pragma mark - JSON DATA Management
@@ -6333,13 +6326,12 @@
         sortOptions[sortMethodIndex] = [NSString stringWithFormat:@"\u2713 %@", sortOptions[sortMethodIndex]];
     }
     
-    UIViewController *showFromCtrl = [Utilities topMostController];
     CGPoint sheetOrigin = [button7 convertPoint:button7.center toView:buttonsView];
     sheetOrigin.y -= CGRectGetHeight(button7.frame) / 2;
     NSString *title = [NSString stringWithFormat:@"%@\n\n(%@)",
                        LOCALIZED_STR(@"Sort by"),
                        LOCALIZED_STR(@"tap the selection\nto reverse the sort order")];
-    [self showActionSheetOptions:title options:sortOptions recording:NO origin:sheetOrigin fromcontroller:showFromCtrl fromview:buttonsView];
+    [self showActionSheetOptions:title options:sortOptions recording:NO origin:sheetOrigin fromview:buttonsView];
 }
 
 - (BOOL)shouldAutorotate {
