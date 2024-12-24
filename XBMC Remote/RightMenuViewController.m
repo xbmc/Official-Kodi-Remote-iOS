@@ -261,7 +261,7 @@
             navController.navigationBar.barStyle = UIBarStyleBlack;
             navController.navigationBar.tintColor = ICON_TINT_COLOR;
             navController.modalPresentationStyle = UIModalPresentationFullScreen;
-            [self presentViewController:navController animated:YES completion:NULL];
+            [self presentViewController:navController animated:YES completion:nil];
         }
         else {
             detailViewController.view.frame = CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height);

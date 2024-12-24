@@ -447,8 +447,7 @@ double round(double d) {
                              voteLabel.frame = frame;
                          }
                      }
-                     completion: ^(BOOL finished) {
-                     }];
+                     completion:nil];
 }
 
 - (void)recordChannel {
@@ -1451,7 +1450,7 @@ double round(double d) {
                                                 toolbar.alpha = 1.0;
                                                 arrow_back_up.alpha = ARROW_ALPHA;
                                              }
-                                             completion:^(BOOL finished) {}
+                                             completion:nil
                              ];
                         }
          ];
@@ -1490,7 +1489,7 @@ double round(double d) {
                                                     self.kenView.alpha = 1.0;
                                                 }
                                              }
-                                             completion:^(BOOL finished) {}
+                                             completion:nil
                              ];
                              if (IS_IPAD) {
                                  if (![self isModal]) {
@@ -2040,7 +2039,7 @@ double round(double d) {
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
-    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
+    [coordinator animateAlongsideTransition:nil
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         if (self.kenView != nil && ![self isModal]) {
             CGFloat alphaValue = 0.2;
