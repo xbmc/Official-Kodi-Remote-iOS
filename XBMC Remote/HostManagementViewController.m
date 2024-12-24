@@ -479,7 +479,7 @@
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
     else {
-        UIImageView *xbmcLogoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottom_logo_up"]];
+        UIImageView *xbmcLogoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"kodi_logo_wide"]];
         self.navigationItem.titleView = xbmcLogoView;
     }
 }
@@ -594,7 +594,7 @@
         frame.origin.y = frame.origin.y + deltaY;
         connectingActivityIndicator.frame = frame;
         
-        UIImage *image = [UIImage imageNamed:@"bottom_logo_up_iphone"];
+        UIImage *image = [UIImage imageNamed:@"kodi_logo_wide"];
         UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
         [xbmcLogo setImage:image forState:UIControlStateNormal];
         [xbmcLogo setImage:image forState:UIControlStateHighlighted];
