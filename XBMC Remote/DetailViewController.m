@@ -4187,7 +4187,7 @@
     mainMenu *menuItem = [self getMainMenu:item];
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     if (forceMusicAlbumMode) {
-        mainFields = [AppDelegate.instance.playlistArtistAlbums mainFields][0];
+        mainFields = AppDelegate.instance.playlistArtistAlbums.mainFields[0];
         forceMusicAlbumMode = NO;
     }
     int playlistid = [mainFields[@"playlistid"] intValue];
@@ -4286,7 +4286,7 @@
     mainMenu *menuItem = [self getMainMenu:item];
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     if (forceMusicAlbumMode) {
-        mainFields = [AppDelegate.instance.playlistArtistAlbums mainFields][0];
+        mainFields = AppDelegate.instance.playlistArtistAlbums.mainFields[0];
         forceMusicAlbumMode = NO;
     }
     if (mainFields.count == 0) {
