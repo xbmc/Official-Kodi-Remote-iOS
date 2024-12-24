@@ -3368,6 +3368,7 @@
             }
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self actionSheetHandler:actiontitle origin:origin fromview:fromview];
+                forceMusicAlbumMode = NO;
             }];
             [actionView addAction:action];
         }
@@ -3771,7 +3772,6 @@
     NSString *searchString = item[@"label"];
     if (forceMusicAlbumMode) {
         searchString = self.navigationItem.title;
-        forceMusicAlbumMode = NO;
     }
     NSString *query = [searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *url = [NSString stringWithFormat:serviceURL, query];
@@ -4185,7 +4185,6 @@
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     if (forceMusicAlbumMode) {
         mainFields = [AppDelegate.instance.playlistArtistAlbums mainFields][0];
-        forceMusicAlbumMode = NO;
     }
     int playlistid = [mainFields[@"playlistid"] intValue];
     id playlistItems = [self buildPlaylistItems:playlistid item:item key:mainFields[@"row9"]];
@@ -4284,7 +4283,6 @@
     NSDictionary *mainFields = menuItem.mainFields[choosedTab];
     if (forceMusicAlbumMode) {
         mainFields = [AppDelegate.instance.playlistArtistAlbums mainFields][0];
-        forceMusicAlbumMode = NO;
     }
     if (mainFields.count == 0) {
         return;
