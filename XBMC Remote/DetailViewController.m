@@ -92,8 +92,8 @@
 #define XIB_JSON_DATA_CELL_ACTIVTYINDICATOR SHARED_CELL_ACTIVTYINDICATOR
 #define ALBUM_VIEW_CELL_TRACKNUMBER 101
 #define SEASON_VIEW_CELL_TOGGLE 99
-#define DETAIL_VIEW_INFO_ALBUM 0
-#define DETAIL_VIEW_INFO_TVSHOW 1
+#define DETAIL_VIEW_INFO_ALBUM 104
+#define DETAIL_VIEW_INFO_TVSHOW 105
 #define EPG_VIEW_CELL_STARTTIME 102
 #define EPG_VIEW_CELL_PROGRESSVIEW 103
 #define EPG_VIEW_CELL_RECORDING_ICON SHARED_CELL_RECORDING_ICON
@@ -4475,7 +4475,7 @@
         }
     }
     menuItem = nil;
-    if ([sender tag] == DETAIL_VIEW_INFO_ALBUM) {
+    if (!sender || [sender tag] == DETAIL_VIEW_INFO_ALBUM) {
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
     }
     else if ([sender tag] == DETAIL_VIEW_INFO_TVSHOW) {
