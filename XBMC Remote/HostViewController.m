@@ -195,13 +195,6 @@
     return !(newLength > 2 && textField.tag >= XIB_FIRST_MAC_ADDRESS_FIELD && textField.tag <= XIB_LAST_MAC_ADDRESS_FIELD);
 }
 
-# pragma mark - Gestures
-
-- (void)handleSwipeFromRight:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-
 # pragma mark - NSNetServiceBrowserDelegate Methods
 
 - (void)netServiceBrowserWillSearch:(NSNetServiceBrowser*)browser {
@@ -609,11 +602,6 @@
         textfield.tintColor = [Utilities get1stLabelColor];
     }
     discoveredInstancesTableView.backgroundColor = [Utilities getSystemGray6];
-    UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
-    rightSwipe.numberOfTouchesRequired = 1;
-    rightSwipe.cancelsTouchesInView = NO;
-    rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.view addGestureRecognizer:rightSwipe];
     
     CGFloat bottomPadding = [Utilities getBottomPadding];
     if (IS_IPAD) {
