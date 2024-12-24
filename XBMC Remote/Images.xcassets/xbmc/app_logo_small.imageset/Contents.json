@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "bottom_logo_only.png",
+      "filename" : "app_logo_small.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "bottom_logo_only@2x.png",
+      "filename" : "app_logo_small@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

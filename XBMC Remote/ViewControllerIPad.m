@@ -457,7 +457,7 @@
     [self.view addSubview:connectionStatus];
     
     // 2nd right most element
-    image = [UIImage imageNamed:@"bottom_logo_only"];
+    image = [UIImage imageNamed:@"app_logo_small"];
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(connectionStatus.frame) - XBMCLOGO_WIDTH - CONNECTION_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, XBMCLOGO_WIDTH, TOOLBAR_HEIGHT)];
     [xbmcLogo setImage:image forState:UIControlStateNormal];
     [xbmcLogo setImage:image forState:UIControlStateHighlighted];
