@@ -1648,24 +1648,27 @@
     self.navigationItem.rightBarButtonItem.enabled = NO;
     NSDictionary *item = self.detailItem;
     int playlistid = [item[@"playlistid"] intValue];
-    NSString *param = item[@"family"];
-    id value = item[item[@"family"]];
+    NSString *key = item[@"family"];
+    id value = item[key];
     // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
     if (![VersionCheck hasRecordingIdPlaylistSupport] && [item[@"family"] isEqualToString:@"recordingid"]) {
-        param = @"file";
+        key = @"file";
         value = item[@"file"];
     }
-    if (!value || !param) {
-        [activityIndicatorView stopAnimating];
+    if (!value || !key) {
         [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
+    [activityIndicatorView startAnimating];
+    NSDictionary *playlistParams = @{
+        @"playlistid": @(playlistid),
+        @"item": @{key: value},
+    };
     if (afterCurrent) {
         NSDictionary *params = @{
             @"playerid": @(playlistid),
             @"properties": @[@"percentage", @"time", @"totaltime", @"partymode", @"position"],
         };
-        [activityIndicatorView startAnimating];
         [[Utilities getJsonRPC]
          callMethod:@"Player.GetProperties"
          withParameters:params
@@ -1676,7 +1679,7 @@
                          int newPos = [methodResult[@"position"] intValue] + 1;
                          NSDictionary *params2 = @{
                              @"playlistid": @(playlistid),
-                             @"item": @{param: value},
+                             @"item": @{key: value},
                              @"position": @(newPos),
                          };
                          [[Utilities getJsonRPC] callMethod:@"Playlist.Insert" withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -1684,37 +1687,35 @@
                              if (error == nil && methodError == nil) {
                                  [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
                              }
-                             
                          }];
                          self.navigationItem.rightBarButtonItem.enabled = YES;
                      }
                      else {
-                         [self addQueueAfterCurrent:NO];
+                         [self addToPlaylist:playlistParams];
                      }
                  }
                  else {
-                     [self addQueueAfterCurrent:NO];
+                     [self addToPlaylist:playlistParams];
                  }
              }
              else {
-                 [self addQueueAfterCurrent:NO];
+                 [self addToPlaylist:playlistParams];
              }
          }];
     }
     else {
-        [activityIndicatorView startAnimating];
-        NSDictionary *params = @{
-            @"playlistid": @(playlistid),
-            @"item": @{param: value},
-        };
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            [activityIndicatorView stopAnimating];
-            if (error == nil && methodError == nil) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-            }
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }];
+        [self addToPlaylist:playlistParams];
     }
+}
+
+- (void)addToPlaylist:(NSDictionary*)playlistParams {
+    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        [activityIndicatorView stopAnimating];
+        if (error == nil && methodError == nil) {
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+        }
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }];
 }
 
 - (void)startPlayback:(BOOL)resume {
