@@ -1650,7 +1650,6 @@
 # pragma mark - JSON Data
 
 - (void)addQueueAfterCurrent:(BOOL)afterCurrent {
-    self.navigationItem.rightBarButtonItem.enabled = NO;
     NSDictionary *item = self.detailItem;
     int playlistid = [item[@"playlistid"] intValue];
     NSString *key = item[@"family"];
@@ -1664,6 +1663,7 @@
         [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     [activityIndicatorView startAnimating];
     NSDictionary *playlistParams = @{
         @"playlistid": @(playlistid),
