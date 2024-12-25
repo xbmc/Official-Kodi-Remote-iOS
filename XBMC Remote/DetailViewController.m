@@ -4085,15 +4085,14 @@
              if (error == nil && methodError == nil) {
                  if ([methodResult isKindOfClass:[NSDictionary class]]) {
                      if ([methodResult count]) {
-                         [cellActivityIndicator stopAnimating];
                          int newPos = [methodResult[@"position"] intValue] + 1;
-                         NSString *action2 = @"Playlist.Insert";
                          NSDictionary *params2 = @{
                              @"playlistid": @(playlistid),
                              @"item": playlistItems,
                              @"position": @(newPos),
                          };
-                         [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                         [[Utilities getJsonRPC] callMethod:@"Playlist.Insert" withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                             [cellActivityIndicator stopAnimating];
                              if (error == nil && methodError == nil) {
                                  [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
                              }
