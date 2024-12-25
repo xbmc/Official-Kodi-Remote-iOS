@@ -1594,7 +1594,7 @@
         // Selected favourite item is a media type -> play it
         else if ([item[@"type"] isEqualToString:@"media"]) {
             if (item[@"path"]) {
-                [self playerOpen:@{@"item": @{@"file": item[@"path"]}} index:nil];
+                [self playerOpen:@{@"item": @{@"file": item[@"path"]}} index:indexPath];
             }
         }
         // Selected favourite item is an unknown type -> throw an error
