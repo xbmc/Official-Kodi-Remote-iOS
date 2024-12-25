@@ -4261,10 +4261,10 @@
 
 - (void)playerOpen:(NSDictionary*)params index:(NSIndexPath*)indexPath {
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
-    [self playerOpen:params index:indexPath indicator:cellActivityIndicator];
+    [self playerOpen:params indicator:cellActivityIndicator];
 }
 
-- (void)playerOpen:(NSDictionary*)params index:(NSIndexPath*)indexPath indicator:(UIActivityIndicatorView*)cellActivityIndicator {
+- (void)playerOpen:(NSDictionary*)params indicator:(UIActivityIndicatorView*)cellActivityIndicator {
     [cellActivityIndicator startAnimating];
     [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [cellActivityIndicator stopAnimating];
@@ -4318,11 +4318,11 @@
          callMethod:@"Player.SetPartymode"
          withParameters:@{@"playerid": @(0), @"partymode": @NO}
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
-            [self playerOpen:playbackParams index:indexPath indicator:cellActivityIndicator];
+            [self playerOpen:playbackParams indicator:cellActivityIndicator];
          }];
     }
     else {
-        [self playerOpen:playbackParams index:indexPath indicator:cellActivityIndicator];
+        [self playerOpen:playbackParams indicator:cellActivityIndicator];
     }
 }
 
@@ -4359,7 +4359,7 @@
             }
         };
     }
-    [self playerOpen:playbackParams index:nil indicator:cellActivityIndicator];
+    [self playerOpen:playbackParams indicator:cellActivityIndicator];
 }
 
 - (id)buildPlaylistItems:(NSDictionary*)item key:(id)key {
