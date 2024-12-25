@@ -1343,6 +1343,7 @@
                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                         __auto_type strongSelf = weakSelf;
                         if (!strongSelf) {
+                            [activityIndicatorView stopAnimating];
                             return;
                         }
                         if (image != nil) {
