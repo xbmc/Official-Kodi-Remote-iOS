@@ -1727,14 +1727,13 @@
     }
     else {
         self.navigationItem.rightBarButtonItem.enabled = NO;
-        [activityIndicatorView startAnimating];
         NSString *key = item[@"family"];
         id value = item[key];
         if (!value || !key) {
-            [activityIndicatorView stopAnimating];
             [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
             return;
         }
+        [activityIndicatorView startAnimating];
         NSDictionary *params = @{
             @"item": @{
                 key: value,
