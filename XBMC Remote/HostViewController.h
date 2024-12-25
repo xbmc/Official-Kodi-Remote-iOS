@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <SafariServices/SafariServices.h>
+#import "BaseActionViewController.h"
 
 #define SERVERPOPUP_BOTTOMPADDING 10
 
-@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate, SFSafariViewControllerDelegate> {
+@interface HostViewController : BaseActionViewController <UITextFieldDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate> {
     IBOutlet UITextField *descriptionUI;
     IBOutlet UITextField *ipUI;
     IBOutlet UITextField *portUI;
@@ -50,7 +50,5 @@
     IBOutlet UIButton *helpForumButton;
     NSMutableDictionary *serverAddresses;
 }
-
-@property (strong, nonatomic) id detailItem;
 
 @end

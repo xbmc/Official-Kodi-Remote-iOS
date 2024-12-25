@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "VolumeSliderView.h"
+#import "BaseActionViewController.h"
 
 typedef NS_ENUM(NSInteger, RemotePositionType) {
     RemoteAtTop,
     RemoteAtBottom,
 };
 
-@interface RemoteController : UIViewController <UIGestureRecognizerDelegate> {
+@interface RemoteController : BaseActionViewController <UIGestureRecognizerDelegate> {
     IBOutlet UIView *remoteControlView;
     IBOutlet UIView *quickHelpView;
     IBOutlet UIImageView *quickHelpImageView;
@@ -55,7 +56,6 @@ typedef NS_ENUM(NSInteger, RemotePositionType) {
 - (IBAction)startVibrate:(id)sender;
 - (id)initWithNibName:(NSString*)nibNameOrNil withEmbedded:(BOOL)withEmbedded bundle:(NSBundle*)nibBundleOrNil;
 
-@property (strong, nonatomic) id detailItem;
 @property (nonatomic, strong) NSTimer *holdKeyTimer;
 
 @end
