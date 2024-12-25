@@ -15,13 +15,14 @@
 #import "Utilities.h"
 #import "BDKCollectionIndexView.h"
 #import "FloatingHeaderFlowLayout.h"
+#import "BaseActionViewController.h"
 
 @import UIKit;
 @import SafariServices;
 
 @class NowPlaying;
 
-@interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, SFSafariViewControllerDelegate> {
+@interface DetailViewController : BaseActionViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating> {
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
     NSMutableArray *filteredListContent;
@@ -128,7 +129,6 @@
 - (id)initWithNibName:(NSString*)nibNameOrNil withItem:(mainMenu*)item withFrame:(CGRect)frame bundle:(NSBundle*)nibBundleOrNil;
 
 @property (nonatomic, strong) NSMutableArray *filteredListContent;
-@property (strong, nonatomic) id detailItem;
 @property (strong, nonatomic) BDKCollectionIndexView *indexView;
 @property (nonatomic, strong) NSMutableDictionary *sections;
 @property (nonatomic, strong) NSMutableArray *richResults;

@@ -1509,21 +1509,21 @@
         // Selected favourite item is a window type -> activate it
         if ([item[@"type"] isEqualToString:@"window"]) {
             if (item[@"window"] && item[@"windowparameter"]) {
-                [self SimpleAction:@"GUI.ActivateWindow"
+                [self simpleAction:@"GUI.ActivateWindow"
                             params:@{@"window": item[@"window"], @"parameters": @[item[@"windowparameter"]]}
                            success:LOCALIZED_STR(@"Window activated successfully")
                            failure:LOCALIZED_STR(@"Unable to activate the window")
-                 ];
+                ];
             }
         }
         // Selected favourite item is a script type -> run it
         else if ([item[@"type"] isEqualToString:@"script"]) {
             if (item[@"path"]) {
-                [self SimpleAction:@"Addons.ExecuteAddon"
+                [self simpleAction:@"Addons.ExecuteAddon"
                             params:@{@"addonid": item[@"path"]}
                            success:LOCALIZED_STR(@"Action executed successfully")
                            failure:LOCALIZED_STR(@"Unable to execute the action")
-                 ];
+                ];
             }
         }
         // Selected favourite item is a media type -> play it
@@ -3518,31 +3518,31 @@
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute add-on")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute video add-on")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute audio add-on")]) {
-        [self SimpleAction:@"Addons.ExecuteAddon"
+        [self simpleAction:@"Addons.ExecuteAddon"
                     params:[NSDictionary dictionaryWithObjectsAndKeys:
                             item[@"addonid"], @"addonid",
                             nil]
                    success:LOCALIZED_STR(@"Add-on executed successfully")
                    failure:LOCALIZED_STR(@"Unable to execute the add-on")
-         ];
+        ];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Execute action")]) {
-        [self SimpleAction:@"Input.ExecuteAction"
+        [self simpleAction:@"Input.ExecuteAction"
                     params:[NSDictionary dictionaryWithObjectsAndKeys:
                             item[@"label"], @"action",
                             nil]
                    success:LOCALIZED_STR(@"Action executed successfully")
                    failure:LOCALIZED_STR(@"Unable to execute the action")
-         ];
+        ];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Activate window")]) {
-        [self SimpleAction:@"GUI.ActivateWindow"
+        [self simpleAction:@"GUI.ActivateWindow"
                     params:[NSDictionary dictionaryWithObjectsAndKeys:
                             item[@"label"], @"window",
                             nil]
                    success:LOCALIZED_STR(@"Window activated successfully")
                    failure:LOCALIZED_STR(@"Unable to activate the window")
-         ];
+        ];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Add button")]) {
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3687,7 +3687,7 @@
                               phrase2];
     NSString *query = [searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *url = [NSString stringWithFormat:serviceURL, query];
-    [Utilities SFloadURL:url fromctrl:self];
+    [self SFloadURL:url];
 }
 
 #pragma mark - UPNP
@@ -3907,17 +3907,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)showNowPlaying {
-    NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-    nowPlaying.detailItem = self.detailItem;
-    [self.navigationController pushViewController:nowPlaying animated:YES];
-}
-
-- (void)showRemote {
-    RemoteController *remote = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
-    [self.navigationController pushViewController:remote animated:YES];
-}
-
 # pragma mark - Playback Management
 
 - (void)partyModeItem:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
@@ -4067,79 +4056,12 @@
         return;
     }
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
-    [cellActivityIndicator startAnimating];
-    NSDictionary *playlistParams = @{
-        @"playlistid": @(playlistid),
-        @"item": playlistItems,
-    };
-    if (afterCurrent) {
-        NSDictionary *params = @{
-            @"playerid": @(playlistid),
-            @"properties": @[@"percentage", @"time", @"totaltime", @"partymode", @"position"],
-        };
-        [[Utilities getJsonRPC]
-         callMethod:@"Player.GetProperties"
-         withParameters:params
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-             if (error == nil && methodError == nil) {
-                 if ([methodResult isKindOfClass:[NSDictionary class]]) {
-                     if ([methodResult count]) {
-                         int newPos = [methodResult[@"position"] intValue] + 1;
-                         NSDictionary *params2 = @{
-                             @"playlistid": @(playlistid),
-                             @"item": playlistItems,
-                             @"position": @(newPos),
-                         };
-                         [[Utilities getJsonRPC] callMethod:@"Playlist.Insert" withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                             [cellActivityIndicator stopAnimating];
-                             if (error == nil && methodError == nil) {
-                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-                             }
-                         }];
-                     }
-                     else {
-                         [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
-                     }
-                 }
-                 else {
-                     [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
-                 }
-             }
-             else {
-                [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
-             }
-         }];
-    }
-    else {
-        [self addToPlaylist:playlistParams indicator:cellActivityIndicator];
-    }
-}
-
-- (void)addToPlaylist:(NSDictionary*)playlistParams indicator:(UIActivityIndicatorView*)cellActivityIndicator {
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        [cellActivityIndicator stopAnimating];
-        if (error == nil && methodError == nil) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-        }
-    }];
-    
+    [self playlistQueue:playlistid items:playlistItems afterCurrent:afterCurrent indicator:cellActivityIndicator];
 }
 
 - (void)playerOpen:(NSDictionary*)params index:(NSIndexPath*)indexPath {
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [self playerOpen:params indicator:cellActivityIndicator];
-}
-
-- (void)playerOpen:(NSDictionary*)params indicator:(UIActivityIndicatorView*)cellActivityIndicator {
-    [cellActivityIndicator startAnimating];
-    [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        [cellActivityIndicator stopAnimating];
-        if (error == nil && methodError == nil) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-            [self showNowPlaying];
-            [Utilities checkForReviewRequest];
-        }
-    }];
 }
 
 - (void)shareItem:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
@@ -4204,37 +4126,13 @@
     if (mainFields.count == 0) {
         return;
     }
-    id optionsKey;
-    id optionsValue;
-    if (AppDelegate.instance.serverVersion > 11) {
-        optionsKey = @"options";
-        optionsValue = [NSDictionary dictionaryWithObjectsAndKeys:
-                        @(shuffled), @"shuffled",
-                        playername, @"playername",
-                        nil];
-    }
     id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
     if (!playlistItems) {
         [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
-    [cellActivityIndicator startAnimating];
-    NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    playlistItems, @"item",
-                                    optionsValue, optionsKey,
-                                    nil];
-    if (shuffled && AppDelegate.instance.serverVersion > 11) {
-        [[Utilities getJsonRPC]
-         callMethod:@"Player.SetPartymode"
-         withParameters:@{@"playerid": @(0), @"partymode": @NO}
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
-            [self playerOpen:playbackParams indicator:cellActivityIndicator];
-         }];
-    }
-    else {
-        [self playerOpen:playbackParams indicator:cellActivityIndicator];
-    }
+    [self startPlaybackItems:playlistItems using:playername shuffle:shuffled resume:NO indicator:cellActivityIndicator];
 }
 
 - (void)startSlideshow:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
@@ -4320,17 +4218,6 @@
     }
     
     return playlistItems;
-}
-
-- (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters success:(NSString*)successMessage failure:(NSString*)failureMessage {
-    [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (error == nil && methodError == nil) {
-            [Utilities showMessage:successMessage color:SUCCESS_MESSAGE_COLOR];
-        }
-        else {
-            [Utilities showMessage:failureMessage color:ERROR_MESSAGE_COLOR];
-        }
-    }];
 }
 
 - (void)loadProfile:(NSDictionary*)item {

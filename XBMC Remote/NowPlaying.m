@@ -1112,10 +1112,7 @@
 }
 
 - (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters {
-    NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
-    commonParams[@"playerid"] = @(currentPlayerID);
-    [[Utilities getJsonRPC] callMethod:action withParameters:commonParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-    }];
+    [self playerAction:action params:parameters playerid:currentPlayerID];
 }
 
 - (void)updatePartyModePlaylist {
@@ -1303,24 +1300,6 @@
     [self notifyChangeForPlaylistHeader];
     [activityIndicatorView stopAnimating];
     lastSelected = SELECTED_NONE;
-}
-
-- (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters reloadPlaylist:(BOOL)reload startProgressBar:(BOOL)progressBar {
-    [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (error == nil && methodError == nil) {
-            if (reload) {
-                [self createPlaylistAnimated:YES];
-            }
-            if (progressBar) {
-                updateProgressBar = YES;
-            }
-        }
-        else {
-            if (progressBar) {
-                updateProgressBar = YES;
-            }
-        }
-    }];
 }
 
 - (void)showInfo:(NSDictionary*)item menuItem:(mainMenu*)menuItem activeTab:(int)activeTab indexPath:(NSIndexPath*)indexPath {
@@ -1657,11 +1636,19 @@
     
     // Send the command to Kodi
     if (AppDelegate.instance.serverVersion > 11) {
-        [self SimpleAction:@"Player.SetShuffle" params:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"} reloadPlaylist:YES startProgressBar:NO];
+        [self simpleAction:@"Player.SetShuffle" params:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"} completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (error == nil && methodError == nil) {
+                [self createPlaylistAnimated:YES];
+            }
+        }];
     }
     else {
         NSString *shuffleCommand = newShuffleStatus ? @"Player.Shuffle" : @"Player.UnShuffle";
-        [self SimpleAction:shuffleCommand params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
+        [self simpleAction:shuffleCommand params:@{@"playerid": @(currentPlayerID)} completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (error == nil && methodError == nil) {
+                [self createPlaylistAnimated:YES];
+            }
+        }];
     }
     
     // Update the button status
@@ -1686,10 +1673,10 @@
     
     // Send the command to Kodi
     if (AppDelegate.instance.serverVersion > 11) {
-        [self SimpleAction:@"Player.SetRepeat" params:@{@"playerid": @(currentPlayerID), @"repeat": @"cycle"} reloadPlaylist:NO startProgressBar:NO];
+        [self playbackAction:@"Player.SetRepeat" params:@{@"playerid": @(currentPlayerID), @"repeat": @"cycle"}];
     }
     else {
-        [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": newRepeatStatus} reloadPlaylist:NO startProgressBar:NO];
+        [self playbackAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": newRepeatStatus}];
     }
     
     // Update the button status
@@ -1862,7 +1849,9 @@
 }
 
 - (IBAction)startUpdateProgressBar:(id)sender {
-    [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:currentPlayerID percentage:ProgressSlider.value] reloadPlaylist:NO startProgressBar:YES];
+    [self simpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:currentPlayerID percentage:ProgressSlider.value] completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        updateProgressBar = YES;
+    }];
     [Utilities alphaView:scrabbingView AnimDuration:0.3 Alpha:0.0];
 }
 
@@ -2637,8 +2626,7 @@
 
 - (void)showRemote {
     fromItself = YES;
-    RemoteController *remote = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
-    [self.navigationController pushViewController:remote animated:YES];
+    [super showRemote];
 }
 
 - (void)powerControl {

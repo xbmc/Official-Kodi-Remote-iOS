@@ -461,17 +461,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 }
 
 - (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters {
-    [[Utilities getJsonRPC] callMethod:@"Player.GetActivePlayers" withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSArray class]]) {
-            if ([methodResult count] > 0) {
-                NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
-                int playerID = [Utilities getActivePlayerID:methodResult];
-                commonParams[@"playerid"] = @(playerID);
-                [[Utilities getJsonRPC] callMethod:action withParameters:commonParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                }];
-            }
-        }
-    }];
+    [self playerAction:action params:parameters];
 }
 
 - (void)GUIAction:(NSString*)action params:(NSDictionary*)params httpAPIcallback:(NSString*)callback {

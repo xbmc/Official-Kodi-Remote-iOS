@@ -510,12 +510,6 @@
     [scrollView setContentOffset:bottomOffset animated:YES];
 }
 
-- (void)showNowPlaying {
-    NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-    nowPlaying.detailItem = self.detailItem;
-    [self.navigationController pushViewController:nowPlaying animated:YES];
-}
-
 - (BOOL)enableJewelCases {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return [userDefaults boolForKey:@"jewel_preference"];
@@ -1655,61 +1649,7 @@
         [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
-    [activityIndicatorView startAnimating];
-    NSDictionary *playlistParams = @{
-        @"playlistid": @(playlistid),
-        @"item": @{key: value},
-    };
-    if (afterCurrent) {
-        NSDictionary *params = @{
-            @"playerid": @(playlistid),
-            @"properties": @[@"percentage", @"time", @"totaltime", @"partymode", @"position"],
-        };
-        [[Utilities getJsonRPC]
-         callMethod:@"Player.GetProperties"
-         withParameters:params
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-             if (error == nil && methodError == nil) {
-                 if ([methodResult isKindOfClass:[NSDictionary class]]) {
-                     if ([methodResult count]) {
-                         int newPos = [methodResult[@"position"] intValue] + 1;
-                         NSDictionary *params2 = @{
-                             @"playlistid": @(playlistid),
-                             @"item": @{key: value},
-                             @"position": @(newPos),
-                         };
-                         [[Utilities getJsonRPC] callMethod:@"Playlist.Insert" withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                             [activityIndicatorView stopAnimating];
-                             if (error == nil && methodError == nil) {
-                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-                             }
-                         }];
-                     }
-                     else {
-                         [self addToPlaylist:playlistParams];
-                     }
-                 }
-                 else {
-                     [self addToPlaylist:playlistParams];
-                 }
-             }
-             else {
-                 [self addToPlaylist:playlistParams];
-             }
-         }];
-    }
-    else {
-        [self addToPlaylist:playlistParams];
-    }
-}
-
-- (void)addToPlaylist:(NSDictionary*)playlistParams {
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        [activityIndicatorView stopAnimating];
-        if (error == nil && methodError == nil) {
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-        }
-    }];
+    [self playlistQueue:playlistid items:@{key: value} afterCurrent:afterCurrent indicator:activityIndicatorView];
 }
 
 - (void)startPlayback:(BOOL)resume {
@@ -1724,32 +1664,11 @@
         [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
-    [activityIndicatorView startAnimating];
-    NSDictionary *params = @{
-        @"item": @{
-            key: value,
-        },
-        @"options": @{
-            @"resume": @(resume),
-        },
-    };
-    [self playerOpen:params];
+    [self startPlaybackItems:@{key: value} using:nil shuffle:NO resume:resume indicator:activityIndicatorView];
 }
 
 - (void)playerOpen:(NSDictionary*)params {
-    [activityIndicatorView startAnimating];
-    [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        [activityIndicatorView stopAnimating];
-        if (error == nil && methodError == nil) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-            [self showNowPlaying];
-            [Utilities checkForReviewRequest];
-        }
-    }];
-}
-
-- (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters {
-    [[Utilities getJsonRPC] callMethod:action withParameters:parameters];
+    [self playerOpen:params indicator:activityIndicatorView];
 }
 
 # pragma mark - Utility
