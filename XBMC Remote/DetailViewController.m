@@ -4056,8 +4056,6 @@
 }
 
 - (void)addQueue:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath afterCurrentItem:(BOOL)afterCurrent {
-    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
-    [cellActivityIndicator startAnimating];
     mainMenu *menuItem = [self getMainMenu:item];
     int activeTab = [self getActiveTab:item];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
@@ -4068,10 +4066,11 @@
     int playlistid = [mainFields[@"playlistid"] intValue];
     id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
     if (!playlistItems) {
-        [cellActivityIndicator stopAnimating];
         [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
+    [cellActivityIndicator startAnimating];
     NSDictionary *playlistParams = @{
         @"playlistid": @(playlistid),
         @"item": playlistItems,
@@ -4208,8 +4207,6 @@
     if (mainFields.count == 0) {
         return;
     }
-    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
-    [cellActivityIndicator startAnimating];
     id optionsKey;
     id optionsValue;
     if (AppDelegate.instance.serverVersion > 11) {
@@ -4221,10 +4218,11 @@
     }
     id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
     if (!playlistItems) {
-        [cellActivityIndicator stopAnimating];
         [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
+    [cellActivityIndicator startAnimating];
     NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
                                     playlistItems, @"item",
                                     optionsValue, optionsKey,
@@ -4249,8 +4247,6 @@
     if (mainFields.count == 0) {
         return;
     }
-    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
-    [cellActivityIndicator startAnimating];
     
     NSString *key = mainFields[@"row8"];
     id value = item[key];
@@ -4258,10 +4254,11 @@
         key = @"directory";
     }
     if (!value || !key) {
-        [cellActivityIndicator stopAnimating];
         [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
+    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
+    [cellActivityIndicator startAnimating];
     NSDictionary *playbackParams = @{@"item": @{key: value}};
     
     // Usually we just send key:value as this fits the common use cases. But for picture folders we must
