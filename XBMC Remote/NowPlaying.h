@@ -8,6 +8,7 @@
 
 #import "DSJSONRPC.h"
 #import "OBSlider.h"
+#import "BaseActionViewController.h"
 
 @import UIKit;
 
@@ -15,7 +16,7 @@
 @class RemoteController;
 @class DetailViewController;
 
-@interface NowPlaying : UIViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIGestureRecognizerDelegate> {
+@interface NowPlaying : BaseActionViewController <UITableViewDataSource, UITableViewDelegate, SDWebImageManagerDelegate, UIGestureRecognizerDelegate> {
     IBOutlet UIView *transitionView;
     IBOutlet UITableView *playlistTableView;
     IBOutlet UILabel *albumName;
@@ -103,7 +104,6 @@
 - (IBAction)changeShuffle:(id)sender;
 - (IBAction)changeRepeat:(id)sender;
 
-@property (strong, nonatomic) id detailItem;
 @property (strong, nonatomic) RemoteController *remoteController;
 @property (strong, nonatomic) UIImageView *jewelView;
 @property (strong, nonatomic) IBOutlet UIImageView *itemLogoImage;
