@@ -6,12 +6,14 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
+#import "BaseActionViewController.h"
+
 @import UIKit;
 @import SafariServices;
 
 #define SERVERPOPUP_BOTTOMPADDING 10
 
-@interface HostViewController : UIViewController <UITextFieldDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate, SFSafariViewControllerDelegate> {
+@interface HostViewController : BaseActionViewController <UITextFieldDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate, UITableViewDataSource, UITableViewDelegate> {
     IBOutlet UITextField *descriptionUI;
     IBOutlet UITextField *ipUI;
     IBOutlet UITextField *portUI;
@@ -51,7 +53,5 @@
     IBOutlet UIButton *helpForumButton;
     NSMutableDictionary *serverAddresses;
 }
-
-@property (strong, nonatomic) id detailItem;
 
 @end
