@@ -1743,14 +1743,11 @@
             },
         };
         [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            [activityIndicatorView stopAnimating];
             if (error == nil && methodError == nil) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-                [activityIndicatorView stopAnimating];
                 [self showNowPlaying];
                 [Utilities checkForReviewRequest];
-            }
-            else {
-                [activityIndicatorView stopAnimating];
             }
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }];
