@@ -1758,7 +1758,7 @@
         [self action_queue_to_play],
         @[],
         @[],
-        @[],
+        [self action_queue_to_play],
         [self action_queue_to_play],
         [self action_artist],
     ];
@@ -3022,7 +3022,7 @@
         @[],
         [self action_movie],
         [self action_queue_to_play],
-        @[],
+        [self action_queue_to_play],
         [self action_queue_to_play],
     ];
     
@@ -3583,7 +3583,7 @@
         @[],
         @[],
         [self action_queue_to_play],
-        @[],
+        [self action_queue_to_play],
         [self action_queue_to_play],
     ];
     
@@ -4176,7 +4176,7 @@
         [self action_episode],
         @[],
         [self action_queue_to_play],
-        @[],
+        [self action_queue_to_play],
         [self action_queue_to_play],
     ];
     
