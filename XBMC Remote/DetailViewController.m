@@ -3336,8 +3336,7 @@
 - (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording origin:(CGPoint)origin fromview:(UIView*)fromview {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
-        UIAlertController *actionTemp = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        actionView = actionTemp;
+        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             forceMusicAlbumMode = NO;
@@ -5798,8 +5797,11 @@
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     // Dismiss any visible action sheet as the origin is not corrected in fullscreen
-    if (IS_IPAD && stackscrollFullscreen && [actionView isViewLoaded]) {
-        [actionView dismissViewControllerAnimated:YES completion:nil];
+    if (IS_IPAD && stackscrollFullscreen) {
+        UIViewController *topMostCtrl = [Utilities topMostController];
+        if ([topMostCtrl isKindOfClass:[UIAlertController class]]) {
+            [topMostCtrl dismissViewControllerAnimated:YES completion:nil];
+        }
     }
     
     // Force reloading of index overlay after rotation

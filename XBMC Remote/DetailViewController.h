@@ -121,7 +121,6 @@
     dispatch_queue_t epglockqueue;
     LogoBackgroundType logoBackgroundMode;
     BOOL showkeyboard;
-    __weak UIAlertController *actionView;
     NSIndexPath *selectedIndexPath;
     NSNumber *processAllItemsInSection;
 }
