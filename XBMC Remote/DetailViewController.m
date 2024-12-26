@@ -3336,7 +3336,7 @@
 - (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording origin:(CGPoint)origin fromview:(UIView*)fromview {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
-        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             forceMusicAlbumMode = NO;
@@ -3351,18 +3351,18 @@
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self actionSheetHandler:actiontitle origin:origin fromview:fromview];
             }];
-            [actionView addAction:action];
+            [alertCtrl addAction:action];
         }
-        [actionView addAction:action_cancel];
-        actionView.modalPresentationStyle = UIModalPresentationPopover;
+        [alertCtrl addAction:action_cancel];
+        alertCtrl.modalPresentationStyle = UIModalPresentationPopover;
         
         UIViewController *fromctrl = [Utilities topMostController];
-        UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+        UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = fromview;
             popPresenter.sourceRect = CGRectMake(origin.x, origin.y, 1, 1);
         }
-        [fromctrl presentViewController:actionView animated:YES completion:nil];
+        [fromctrl presentViewController:alertCtrl animated:YES completion:nil];
     }
 }
 
@@ -3509,7 +3509,7 @@
                 if (!sheetActions.count) {
                     return;
                 }
-                UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Play using...") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Play using...") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
                 
                 UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                     forceMusicAlbumMode = NO;
@@ -3520,18 +3520,18 @@
                     UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                         [self addPlayback:item indexPath:selectedIndexPath using:actiontitle shuffle:NO];
                     }];
-                    [actionView addAction:action];
+                    [alertCtrl addAction:action];
                 }
-                [actionView addAction:action_cancel];
-                actionView.modalPresentationStyle = UIModalPresentationPopover;
+                [alertCtrl addAction:action_cancel];
+                alertCtrl.modalPresentationStyle = UIModalPresentationPopover;
                 
                 UIViewController *fromctrl = [Utilities topMostController];
-                UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+                UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
                 if (popPresenter != nil) {
                     popPresenter.sourceView = fromview;
                     popPresenter.sourceRect = CGRectMake(origin.x, origin.y, 1, 1);
                 }
-                [fromctrl presentViewController:actionView animated:YES completion:nil];
+                [fromctrl presentViewController:alertCtrl animated:YES completion:nil];
             }
         }];
     }

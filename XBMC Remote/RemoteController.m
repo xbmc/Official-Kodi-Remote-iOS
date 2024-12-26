@@ -653,7 +653,7 @@
 - (void)showActionAudiostreams:(NSArray*)sheetActions {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
-        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Audio stream") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Audio stream") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
         
@@ -672,24 +672,24 @@
                     }
                 }
             }];
-            [actionView addAction:action];
+            [alertCtrl addAction:action];
         }
-        [actionView addAction:action_cancel];
-        actionView.modalPresentationStyle = UIModalPresentationPopover;
+        [alertCtrl addAction:action_cancel];
+        alertCtrl.modalPresentationStyle = UIModalPresentationPopover;
         
-        UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+        UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = remoteControlView;
             popPresenter.sourceRect = buttonAudiostreams.frame;
         }
-        [self presentViewController:actionView animated:YES completion:nil];
+        [self presentViewController:alertCtrl animated:YES completion:nil];
     }
 }
 
 - (void)showActionSubtitles:(NSArray*)sheetActions {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
-        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Subtitles") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Subtitles") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
 
@@ -698,7 +698,7 @@
             [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"off"}];
         }];
         if ([subsDictionary[@"subtitleenabled"] boolValue]) {
-            [actionView addAction:action_disable];
+            [alertCtrl addAction:action_disable];
         }
         
         for (int i = 0; i < numActions; i++) {
@@ -718,17 +718,17 @@
                     }
                 }
             }];
-            [actionView addAction:action];
+            [alertCtrl addAction:action];
         }
-        [actionView addAction:action_cancel];
-        actionView.modalPresentationStyle = UIModalPresentationPopover;
+        [alertCtrl addAction:action_cancel];
+        alertCtrl.modalPresentationStyle = UIModalPresentationPopover;
         
-        UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+        UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = remoteControlView;
             popPresenter.sourceRect = buttonSubtitles.frame;
         }
-        [self presentViewController:actionView animated:YES completion:nil];
+        [self presentViewController:alertCtrl animated:YES completion:nil];
     }
 }
 
@@ -1378,14 +1378,14 @@
     if (AppDelegate.instance.obj.serverIP.length == 0) {
         return;
     }
-    UIAlertController *actionView = [Utilities createPowerControl];
-    [self presentViewController:actionView animated:YES completion:nil];
+    UIAlertController *alertCtrl = [Utilities createPowerControl];
+    [self presentViewController:alertCtrl animated:YES completion:nil];
 }
 
 - (void)addButtonToListIPad {
     if (AppDelegate.instance.serverVersion < 13) {
-        UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
-        [self presentViewController:alertView animated:YES completion:nil];
+        UIAlertController *alertCtrl = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
+        [self presentViewController:alertCtrl animated:YES completion:nil];
     }
     else {
         [self dismissViewControllerAnimated:YES completion:nil];

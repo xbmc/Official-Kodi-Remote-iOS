@@ -672,14 +672,14 @@
 }
 
 - (void)powerControl {
-    UIAlertController *actionView;
+    UIAlertController *alertCtrl;
     if (AppDelegate.instance.obj.serverIP.length == 0) {
-        actionView = [Utilities createAlertOK:LOCALIZED_STR(@"Select an XBMC Server from the list") message:nil];
+        alertCtrl = [Utilities createAlertOK:LOCALIZED_STR(@"Select an XBMC Server from the list") message:nil];
     }
     else {
-        actionView = [Utilities createPowerControl];
+        alertCtrl = [Utilities createPowerControl];
     }
-    [self presentViewController:actionView animated:YES completion:nil];
+    [self presentViewController:alertCtrl animated:YES completion:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -749,9 +749,9 @@
                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification object:nil userInfo:nil];
                }
                else {
-                   UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Cannot do that") message:nil];
+                   UIAlertController *alertCtrl = [Utilities createAlertOK:LOCALIZED_STR(@"Cannot do that") message:nil];
                    id presentingView = self.presentingViewController == nil ? self : self.presentingViewController;
-                   [presentingView presentViewController:alertView animated:YES completion:nil];
+                   [presentingView presentViewController:alertCtrl animated:YES completion:nil];
                }
            }
      ];
@@ -763,8 +763,8 @@
 }
 
 - (void)authFailed:(NSNotification*)note {
-    UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Authentication Failed") message:LOCALIZED_STR(@"Incorrect Username or Password.\nCheck your settings.")];
-    [self presentViewController:alertView animated:YES completion:nil];
+    UIAlertController *alertCtrl = [Utilities createAlertOK:LOCALIZED_STR(@"Authentication Failed") message:LOCALIZED_STR(@"Incorrect Username or Password.\nCheck your settings.")];
+    [self presentViewController:alertCtrl animated:YES completion:nil];
     
     // Deselect the server which causes the authentication error to allow to correct the credentials
     NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];

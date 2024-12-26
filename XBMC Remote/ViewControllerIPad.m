@@ -204,13 +204,13 @@
         [self toggleSetup];
         return;
     }
-    UIAlertController *actionView = [Utilities createPowerControl];
-    UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+    UIAlertController *alertCtrl = [Utilities createPowerControl];
+    UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
     if (popPresenter != nil) {
         popPresenter.sourceView = powerButton;
         popPresenter.sourceRect = powerButton.bounds;
     }
-    [self presentViewController:actionView animated:YES completion:nil];
+    [self presentViewController:alertCtrl animated:YES completion:nil];
 }
 
 #pragma mark - Touch Events

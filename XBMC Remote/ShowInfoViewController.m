@@ -364,7 +364,7 @@ double round(double d) {
             sheetTitle = item[@"pvrExtraInfo"][@"channel_name"];
         }
         
-        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:sheetTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:sheetTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
         
@@ -373,17 +373,17 @@ double round(double d) {
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self actionSheetHandler:actiontitle];
             }];
-            [actionView addAction:action];
+            [alertCtrl addAction:action];
         }
-        [actionView addAction:action_cancel];
-        actionView.modalPresentationStyle = UIModalPresentationPopover;
+        [alertCtrl addAction:action_cancel];
+        alertCtrl.modalPresentationStyle = UIModalPresentationPopover;
         
-        UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+        UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
             popPresenter.barButtonItem = actionSheetButtonItem;
         }
-        [self presentViewController:actionView animated:YES completion:nil];
+        [self presentViewController:alertCtrl animated:YES completion:nil];
     }
 }
 
@@ -489,8 +489,8 @@ double round(double d) {
                                                               parameters:parameters
                                                                    error:error
                                                              methodError:methodError];
-                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
-                   [self presentViewController:alertView animated:YES completion:nil];
+                   UIAlertController *alertCtrl = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
+                   [self presentViewController:alertCtrl animated:YES completion:nil];
                }
            }];
 }

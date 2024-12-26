@@ -490,22 +490,22 @@
 }
 
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg {
-    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:nil];
-    [alertView addAction:okButton];
-    return alertView;
+    [alertCtrl addAction:okButton];
+    return alertCtrl;
 }
 
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg {
-    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *copyButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Copy to clipboard") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
             pasteboard.string = msg;
     }];
     UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
-    [alertView addAction:copyButton];
-    [alertView addAction:cancelButton];
-    return alertView;
+    [alertCtrl addAction:copyButton];
+    [alertCtrl addAction:cancelButton];
+    return alertCtrl;
 }
 
 + (void)powerAction:(NSString*)command {
@@ -522,7 +522,7 @@
 
 + (UIAlertController*)createPowerControl {
     NSString *title = [NSString stringWithFormat:@"%@\n%@", AppDelegate.instance.obj.serverDescription, AppDelegate.instance.obj.serverIP];
-    UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     if (!AppDelegate.instance.serverOnLine) {
         UIAlertAction *action_wake = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Send Wake-On-LAN") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -535,60 +535,60 @@
                 [Utilities showMessage:LOCALIZED_STR(@"No server MAC address defined") color:[Utilities getSystemRed:0.95]];
             }
         }];
-        [actionView addAction:action_wake];
+        [alertCtrl addAction:action_wake];
     }
     else {
         UIAlertAction *action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Shutdown"];
         }];
-        [actionView addAction:action_pwr_off_system];
+        [alertCtrl addAction:action_pwr_off_system];
         
         UIAlertAction *action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"Application.Quit"];
         }];
-        [actionView addAction:action_quit_kodi];
+        [alertCtrl addAction:action_quit_kodi];
         
         UIAlertAction *action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Hibernate"];
         }];
-        [actionView addAction:action_hibernate];
+        [alertCtrl addAction:action_hibernate];
         
         UIAlertAction *action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Suspend"];
         }];
-        [actionView addAction:action_suspend];
+        [alertCtrl addAction:action_suspend];
         
         UIAlertAction *action_reboot = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Reboot") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Reboot"];
         }];
-        [actionView addAction:action_reboot];
+        [alertCtrl addAction:action_reboot];
         
         UIAlertAction *action_scan_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"AudioLibrary.Scan"];
         }];
-        [actionView addAction:action_scan_audio_lib];
+        [alertCtrl addAction:action_scan_audio_lib];
         
         UIAlertAction *action_clean_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"AudioLibrary.Clean"];
         }];
-        [actionView addAction:action_clean_audio_lib];
+        [alertCtrl addAction:action_clean_audio_lib];
         
         UIAlertAction *action_scan_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"VideoLibrary.Scan"];
         }];
-        [actionView addAction:action_scan_video_lib];
+        [alertCtrl addAction:action_scan_video_lib];
         
         UIAlertAction *action_clean_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"VideoLibrary.Clean"];
         }];
-        [actionView addAction:action_clean_video_lib];
+        [alertCtrl addAction:action_clean_video_lib];
     }
     
     UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
-    [actionView addAction:cancelButton];
-    actionView.modalPresentationStyle = UIModalPresentationPopover;
+    [alertCtrl addAction:cancelButton];
+    alertCtrl.modalPresentationStyle = UIModalPresentationPopover;
     
-    return actionView;
+    return alertCtrl;
 }
 
 + (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate>*)fromctrl {
@@ -603,8 +603,8 @@
             [UIApplication.sharedApplication openURL:nsurl options:@{} completionHandler:nil];
         }
         else {
-            UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Error loading page") message:exception.reason];
-            [fromctrl presentViewController:alertView animated:YES completion:nil];
+            UIAlertController *alertCtrl = [Utilities createAlertOK:LOCALIZED_STR(@"Error loading page") message:exception.reason];
+            [fromctrl presentViewController:alertCtrl animated:YES completion:nil];
         }
         return;
     }
