@@ -1197,6 +1197,7 @@ double round(double d) {
     [scrollView addSubview:isRecording];
     if ([item[@"hastimer"] boolValue]) {
         isRecording.alpha = 1.0;
+        frame = voteLabel.frame;
         frame.origin.x += REC_DOT_SIZE + REC_DOT_PADDING;
         frame.size.width -= REC_DOT_SIZE + REC_DOT_PADDING;
         voteLabel.frame = frame;
