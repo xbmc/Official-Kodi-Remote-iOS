@@ -22,7 +22,6 @@
 		0F40F5A7164D5FA000AF9DE9 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F40F5A5164D5FA000AF9DE9 /* RightMenuViewController.m */; };
 		0F4156451646D810009E6DD4 /* JBKenBurnsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4156441646D810009E6DD4 /* JBKenBurnsView.m */; };
 		0F4205D217099AE500EA533C /* RecentlyAddedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4205D117099AE500EA533C /* RecentlyAddedCell.m */; };
-		0F44EC5118A6672100BE44BD /* ProgressPieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F44EC5018A6672100BE44BD /* ProgressPieView.m */; };
 		0F487B4C15396D4C004530C1 /* HostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F487B4A15396D4C004530C1 /* HostViewController.m */; };
 		0F4883C41521B3D400883243 /* GlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883C31521B3D400883243 /* GlobalData.m */; };
 		0F4883D21521CC7300883243 /* VolumeSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883D11521CC7300883243 /* VolumeSliderView.m */; };
@@ -141,8 +140,6 @@
 		0F4205D017099AE500EA533C /* RecentlyAddedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentlyAddedCell.h; sourceTree = "<group>"; };
 		0F4205D117099AE500EA533C /* RecentlyAddedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentlyAddedCell.m; sourceTree = "<group>"; };
 		0F44E2D41527A9DF00D5958F /* playlistCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = playlistCellView.xib; sourceTree = "<group>"; };
-		0F44EC4F18A6672100BE44BD /* ProgressPieView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressPieView.h; sourceTree = "<group>"; };
-		0F44EC5018A6672100BE44BD /* ProgressPieView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressPieView.m; sourceTree = "<group>"; };
 		0F487B4915396D4C004530C1 /* HostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostViewController.h; sourceTree = "<group>"; };
 		0F487B4A15396D4C004530C1 /* HostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostViewController.m; sourceTree = "<group>"; };
 		0F487B5915399716004530C1 /* serverListCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = serverListCellView.xib; sourceTree = "<group>"; };
@@ -357,8 +354,6 @@
 				0F554910151D1187007E633F /* DetailViewController.m */,
 				0F089AA318EC4E3300F32430 /* SettingsValuesViewController.h */,
 				0F089AA418EC4E3300F32430 /* SettingsValuesViewController.m */,
-				0F44EC4F18A6672100BE44BD /* ProgressPieView.h */,
-				0F44EC5018A6672100BE44BD /* ProgressPieView.m */,
 				0FEE08141704819A00EC9BC7 /* FloatingHeaderFlowLayout.h */,
 				0FEE08151704819A00EC9BC7 /* FloatingHeaderFlowLayout.m */,
 				0F370052151F6A9E00A3D42C /* jsonDataCell.h */,
@@ -843,7 +838,6 @@
 				0FEAE76816EA632800387DED /* ActorCell.m in Sources */,
 				0F00207816EE247A003822B5 /* OBSlider.m in Sources */,
 				0F284A5216F63C9A00AFC1EF /* PosterLabel.m in Sources */,
-				0F44EC5118A6672100BE44BD /* ProgressPieView.m in Sources */,
 				0F284A5516F6419700AFC1EF /* PosterCell.m in Sources */,
 				0F8E308816FA536C009DEE72 /* PosterHeaderView.m in Sources */,
 				C78C30F528F877870055CD95 /* VersionCheck.m in Sources */,
