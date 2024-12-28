@@ -2702,7 +2702,9 @@
 
 - (void)enableAutoscrollPlaylist {
     ignoreAutoscrollPlaylist = NO;
-    [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    if (storeSelection && storeSelection.row < [playlistTableView numberOfRowsInSection:storeSelection.section]) {
+        [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
