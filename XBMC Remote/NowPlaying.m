@@ -1135,7 +1135,7 @@
 
 - (void)updatePartyModePlaylist {
     lastSelected = SELECTED_NONE;
-    storeSelection = 0;
+    storeSelection = nil;
     // Do not update/switch to an updated Party playlist while the user watches another playlist.
     if (currentPlaylistID == PLAYERID_MUSIC) {
         [self createPlaylistAnimated:NO];
