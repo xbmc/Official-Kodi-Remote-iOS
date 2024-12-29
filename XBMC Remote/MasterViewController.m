@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
+#import "BaseActionViewController.h"
 #import "MasterViewController.h"
 #import "mainMenu.h"
 #import "DetailViewController.h"
@@ -119,38 +120,26 @@
     [menuList selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
     
     itemIsActive = YES;
-    UIViewController *object;
+    BaseActionViewController *object;
     BOOL hideBottonLine = NO;
     switch (item.family) {
         case FamilyNowPlaying:
-        {
-            NowPlaying *nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-            nowPlayingController.detailItem = item;
-            object = nowPlayingController;
+            object = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+            object.detailItem = item;
             break;
-        }
         case FamilyRemote:
-        {
-            RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:NO bundle:nil];
-            remoteController.detailItem = item;
-            object = remoteController;
+            object = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:NO bundle:nil];
+            object.detailItem = item;
             break;
-        }
         case FamilyServer:
-        {
-            HostManagementViewController *hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-            object = hostController;
+            object = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
             hideBottonLine = YES;
             break;
-        }
         case FamilyDetailView:
-        {
-            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            detailViewController.detailItem = item;
-            object = detailViewController;
+            object = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+            object.detailItem = item;
             hideBottonLine = YES;
             break;
-        }
         default:
             break;
     }
