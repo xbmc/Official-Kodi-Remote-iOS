@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Korec s.r.l. All rights reserved.
 //
 
+#import "BaseActionViewController.h"
 #import "MasterViewController.h"
 #import "DSJSONRPC.h"
 
@@ -14,7 +15,7 @@
 @class HostViewController;
 @class AppInfoViewController;
 
-@interface HostManagementViewController : UIViewController <UIGestureRecognizerDelegate> {
+@interface HostManagementViewController : BaseActionViewController <UIGestureRecognizerDelegate> {
     IBOutlet UITableView *serverListTableView;
     IBOutlet UIButton *editTableButton;
     UILongPressGestureRecognizer *longPressGesture;
