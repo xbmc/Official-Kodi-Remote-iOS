@@ -4321,6 +4321,9 @@
         if ([item[@"filetype"] isEqualToString:@"directory"]) {
             key = @"directory";
         }
+        if (!value || !key) {
+            return;
+        }
         NSDictionary *itemParams = @{
             @"item": @{key: value},
             @"options": @{
