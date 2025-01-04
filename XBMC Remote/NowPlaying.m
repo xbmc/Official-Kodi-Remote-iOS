@@ -44,7 +44,6 @@
 
 #define HMS_TO_STRING(h, m, s) [NSString stringWithFormat:@"%@%02i:%02i", (totalSeconds < 3600) ? @"" : [NSString stringWithFormat:@"%02i:", h], m, s];
 
-#define MAX_CELLBAR_WIDTH 45
 #define PARTYBUTTON_PADDING_LEFT 0
 #define PROGRESSBAR_PADDING_LEFT 20
 #define PROGRESSBAR_PADDING_BOTTOM 80
@@ -83,6 +82,7 @@
 #define XIB_PLAYLIST_CELL_ACTUALTIME 6
 #define XIB_PLAYLIST_CELL_PROGRESSBAR 7
 #define XIB_PLAYLIST_CELL_ACTIVTYINDICATOR 8
+#define XIB_PLAYLIST_CELL_PROGRESSBAR_MASK 9
 
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
@@ -244,18 +244,6 @@
         image = [UIImage imageNamed:imageName];
     }
     return image;
-}
-
-- (void)resizeCellBar:(CGFloat)width image:(UIImageView*)cellBarImage {
-    NSTimeInterval time = (width == 0) ? 0.1 : 1.0;
-    width = MIN(width, MAX_CELLBAR_WIDTH);
-    [UIView animateWithDuration:time
-                     animations:^{
-        CGRect frame;
-        frame = cellBarImage.frame;
-        frame.size.width = width;
-        cellBarImage.frame = frame;
-                     }];
 }
 
 - (IBAction)togglePartyMode:(id)sender {
@@ -1255,6 +1243,15 @@
            }];
 }
 
+- (void)initPlaylistProgressbar:(UITableViewCell*)cell {
+    UIImageView *playlistProgressbarMask = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSBAR_MASK];
+    playlistProgressbarMask.layer.cornerRadius = 2;
+    playlistProgressbarMask.clipsToBounds = YES;
+    
+    UIImageView *playlistProgressbar = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSBAR];
+    playlistProgressbar.backgroundColor = KODI_BLUE_COLOR;
+}
+
 - (void)updatePlaylistProgressbar:(float)percentage actual:(NSString*)actualTime {
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     if (!selection) {
@@ -1263,9 +1260,14 @@
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
     UILabel *playlistActualTime = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_ACTUALTIME];
     playlistActualTime.text = actualTime;
-    UIImageView *playlistActualBar = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSBAR];
-    CGFloat newx = MAX(MAX_CELLBAR_WIDTH * percentage / 100.0, 1.0);
-    [self resizeCellBar:newx image:playlistActualBar];
+    
+    UIImageView *playlistProgressbarMask = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSBAR_MASK];
+    UIImageView *playlistProgressbar = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSBAR];
+    CGFloat newWidth = CGRectGetWidth(playlistProgressbarMask.frame) * percentage / 100.0;
+    CGRect frame = playlistProgressbar.frame;
+    frame.size.width = newWidth;
+    playlistProgressbar.frame = frame;
+    
     [self setPlaylistCellProgressBar:cell hidden:NO];
 }
 
@@ -2133,6 +2135,8 @@
              placeholderImage:defaultThumb
                       options:SDWebImageScaleToNativeSize];
     [Utilities applyRoundedEdgesView:thumb];
+    
+    [self initPlaylistProgressbar:cell];
     BOOL active = indexPath.row == lastSelected;
     [self setPlaylistCellProgressBar:cell hidden:!active];
     
