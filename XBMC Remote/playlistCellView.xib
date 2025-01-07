@@ -65,7 +65,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <subviews>
                                     <view tag="7" contentMode="scaleToFill" id="K1z-gq-qCO" userLabel="progressbar">
-                                        <rect key="frame" x="0.0" y="0.0" width="45" height="6"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="11" height="6"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>

@@ -1250,6 +1250,9 @@
     
     UIImageView *playlistProgressbar = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSBAR];
     playlistProgressbar.backgroundColor = KODI_BLUE_COLOR;
+    CGRect frame = playlistProgressbar.frame;
+    frame.size.width = 0;
+    playlistProgressbar.frame = frame;
 }
 
 - (void)updatePlaylistProgressbar:(float)percentage actual:(NSString*)actualTime {
@@ -1264,9 +1267,13 @@
     UIImageView *playlistProgressbarMask = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSBAR_MASK];
     UIImageView *playlistProgressbar = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSBAR];
     CGFloat newWidth = CGRectGetWidth(playlistProgressbarMask.frame) * percentage / 100.0;
-    CGRect frame = playlistProgressbar.frame;
-    frame.size.width = newWidth;
-    playlistProgressbar.frame = frame;
+    NSTimeInterval barAnimationTime = (CGRectGetWidth(playlistProgressbar.frame) == 0 && newWidth > 0) ? 0.5 : 0.0;
+    [UIView animateWithDuration:barAnimationTime
+                     animations:^{
+        CGRect frame = playlistProgressbar.frame;
+        frame.size.width = newWidth;
+        playlistProgressbar.frame = frame;
+    }];
     
     [self setPlaylistCellProgressBar:cell hidden:NO];
 }
