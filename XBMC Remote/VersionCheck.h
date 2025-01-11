@@ -19,5 +19,6 @@
 + (BOOL)hasAlbumArtistOnlySupport;
 + (BOOL)hasInputButtonEventSupport;
 + (BOOL)hasPlayUsingSupport;
++ (BOOL)hasPlayerOpenOptions;
 
 @end

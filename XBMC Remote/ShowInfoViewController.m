@@ -75,7 +75,7 @@ double round(double d) {
         if (resumePointDict && [resumePointDict isKindOfClass:[NSDictionary class]]) {
             float position = [Utilities getFloatValueFromItem:resumePointDict[@"position"]];
             float total = [Utilities getFloatValueFromItem:resumePointDict[@"total"]];
-            if (position > 0 && total > 0) {
+            if (position > 0 && total > 0 && [VersionCheck hasPlayerOpenOptions]) {
                 [sheetActions addObject:LOCALIZED_STR_ARGS(@"Resume from %@", [Utilities convertTimeFromSeconds: @(position)])];
             }
         }
