@@ -1135,7 +1135,7 @@
 
 - (void)updatePartyModePlaylist {
     lastSelected = SELECTED_NONE;
-    storeSelection = 0;
+    storeSelection = nil;
     // Do not update/switch to an updated Party playlist while the user watches another playlist.
     if (currentPlaylistID == PLAYERID_MUSIC) {
         [self createPlaylistAnimated:NO];
@@ -2702,7 +2702,9 @@
 
 - (void)enableAutoscrollPlaylist {
     ignoreAutoscrollPlaylist = NO;
-    [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    if (storeSelection && storeSelection.row < [playlistTableView numberOfRowsInSection:storeSelection.section]) {
+        [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
