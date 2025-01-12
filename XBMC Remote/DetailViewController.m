@@ -2523,6 +2523,8 @@
     UILabel *runtimeyear = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIMEYEAR];
     UILabel *runtime = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIME];
     UILabel *rating = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RATING];
+    BroadcastProgressView *progressView = (BroadcastProgressView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
+    UIImageView *timerView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
 
     frame = title.frame;
     frame.origin.x = labelPosition;
@@ -2613,10 +2615,7 @@
             CGFloat originY = CGRectGetMaxY(frame) + VERTICAL_PADDING;
             CGFloat height = cellHeight - originY - TINY_PADDING;
             CGRect barFrame = CGRectMake(SMALL_PADDING, originY, CGRectGetWidth(frame), height);
-            BroadcastProgressView *progressView = (BroadcastProgressView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
             progressView.frame = barFrame;
-            
-            UIImageView *timerView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
             timerView.center = [progressView convertPoint:[progressView getReservedCenter] toView:cell.contentView];
         }
         if (channelListView) {
@@ -2627,10 +2626,8 @@
             genre.frame = frame;
             genre.textColor = [Utilities get1stLabelColor];
             genre.font = [UIFont boldSystemFontOfSize:14];
-            BroadcastProgressView *progressView = (BroadcastProgressView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
             progressView.hidden = YES;
-            UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
-            isRecordingImageView.hidden = ![item[@"isrecording"] boolValue];
+            timerView.hidden = ![item[@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [Utilities getNumberFromItem:item[@"channelid"]], @"channelid",
                                     tableView, @"tableView",
@@ -2768,7 +2765,6 @@
         genre.minimumScaleFactor = FONT_SCALING_DEFAULT;
         [genre sizeToFit];
         UILabel *programStartTime = (UILabel*)[cell viewWithTag:EPG_VIEW_CELL_STARTTIME];
-        BroadcastProgressView *progressView = (BroadcastProgressView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
         NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
         NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
         programStartTime.text = [localHourMinuteFormatter stringFromDate:starttime];
@@ -2779,8 +2775,6 @@
                                           CGRectGetWidth(programStartTime.frame),
                                           EPGCHANNELBAR_HEIGHT);
         progressView.frame = progressFrame;
-        
-        UIImageView *timerView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
         timerView.center = [progressView convertPoint:[progressView getReservedCenter] toView:cell.contentView];
         
         title.textColor = [Utilities get1stLabelColor];
@@ -2814,13 +2808,7 @@
             
             progressView.hidden = YES;
         }
-        UIImageView *hasTimer = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
-        if ([item[@"hastimer"] boolValue]) {
-            hasTimer.hidden = NO;
-        }
-        else {
-            hasTimer.hidden = YES;
-        }
+        timerView.hidden = ![item[@"hastimer"] boolValue];
     }
     if (!runtimeyear.hidden) {
         frame = genre.frame;
@@ -4168,8 +4156,8 @@
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    id cell = [self getCell:indexPath];
-                   UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
-                   isRecordingImageView.hidden = !isRecordingImageView.hidden;
+                   UIImageView *timerView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
+                   timerView.hidden = !timerView.hidden;
                    NSNumber *status = @(![item[@"isrecording"] boolValue]);
                    if ([item[@"broadcastid"] longLongValue] > 0) {
                        status = @(![item[@"hastimer"] boolValue]);
