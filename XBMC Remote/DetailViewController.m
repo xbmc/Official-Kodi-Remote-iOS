@@ -449,6 +449,10 @@
 
 #pragma mark - Utility
 
+- (BOOL)isTimerActiveForItem:(id)item {
+    return [item[@"hastimer"] boolValue] || [item[@"isrecording"] boolValue];
+}
+
 - (void)enterSubmenuOfMenu:(mainMenu*)menuItem label:(NSString*)label params:(NSDictionary*)parameters {
     menuItem.subItem.mainLabel = label;
     mainMenu *newMenuItem = [menuItem.subItem copy];
@@ -3232,9 +3236,7 @@
             title = [NSString stringWithFormat:@"%@\n\n%@", title, LOCALIZED_STR(@"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.")];
             sheetActions = @[LOCALIZED_STR(@"Ok")];
         }
-        id cell = [self getCell:indexPath];
-        UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
-        BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
+        BOOL isRecording = [self isTimerActiveForItem:item];
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
         UIViewController *showFromCtrl = [Utilities topMostController];
         [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
@@ -3315,7 +3317,6 @@
                 if (item[@"genre"] != nil && ![item[@"genre"] isEqualToString:@""]) {
                     title = [NSString stringWithFormat:@"%@\n%@", title, item[@"genre"]];
                 }
-                id cell = [self getCell:selectedIndexPath];
                 
                 if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
                     if ([item[@"trailer"] length] != 0 && [sheetActions isKindOfClass:[NSMutableArray class]]) {
@@ -3340,8 +3341,7 @@
                 if (![VersionCheck hasPlayUsingSupport]) {
                     [sheetActions removeObject:LOCALIZED_STR(@"Play using...")];
                 }
-                UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
-                BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
+                BOOL isRecording = [self isTimerActiveForItem:item];
                 UIViewController *showFromCtrl = [Utilities topMostController];
                 UIView *showFromView = self.view;
                 CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
