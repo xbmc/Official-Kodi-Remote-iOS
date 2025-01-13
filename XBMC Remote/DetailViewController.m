@@ -158,7 +158,6 @@
 - (void)getChannelEpgInfo:(NSDictionary*)parameters {
     NSNumber *channelid = [Utilities getNumberFromItem:parameters[@"channelid"]];
     NSIndexPath *indexPath = parameters[@"indexPath"];
-    UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
     if ([channelid longValue] > 0) {
         NSMutableArray *retrievedEPG = [self loadEPGFromMemory:channelid];
@@ -166,7 +165,6 @@
         NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
                                    channelEPG, @"channelEPG",
                                    indexPath, @"indexPath",
-                                   tableView, @"tableView",
                                    item, @"item",
                                    nil];
         [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
@@ -176,7 +174,6 @@
             NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
                                        channelEPG, @"channelEPG",
                                        indexPath, @"indexPath",
-                                       tableView, @"tableView",
                                        item, @"item",
                                        nil];
             [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
@@ -286,7 +283,6 @@
     NSArray *broadcasts = parameters[@"broadcasts"];
     NSNumber *channelid = parameters[@"channelid"];
     NSIndexPath *indexPath = parameters[@"indexPath"];
-    UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
     NSMutableArray *retrievedEPG = [NSMutableArray new];
     for (id EPGobject in broadcasts) {
@@ -307,7 +303,6 @@
     NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
                                [self parseEpgData:retrievedEPG], @"channelEPG",
                                indexPath, @"indexPath",
-                               tableView, @"tableView",
                                item, @"item",
                                nil];
     [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
@@ -316,7 +311,6 @@
 - (void)getJsonEPG:(NSDictionary*)parameters {
     NSNumber *channelid = parameters[@"channelid"];
     NSIndexPath *indexPath = parameters[@"indexPath"];
-    UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
     [[Utilities getJsonRPC] callMethod:@"PVR.GetBroadcasts"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -330,7 +324,6 @@
                        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                                channelid, @"channelid",
                                                indexPath, @"indexPath",
-                                               tableView, @"tableView",
                                                item, @"item",
                                                broadcasts, @"broadcasts",
                                                nil];
@@ -2634,7 +2627,6 @@
             timerView.hidden = ![item[@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [Utilities getNumberFromItem:item[@"channelid"]], @"channelid",
-                                    tableView, @"tableView",
                                     indexPath, @"indexPath",
                                     item, @"item",
                                     nil];
