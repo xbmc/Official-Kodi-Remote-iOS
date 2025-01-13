@@ -250,8 +250,8 @@
 
 - (void)addButtonToList:(id)sender {
     if (AppDelegate.instance.serverVersion < 13) {
-        UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
-        [self presentViewController:alertView animated:YES completion:nil];
+        UIAlertController *alertCtrl = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
+        [self presentViewController:alertCtrl animated:YES completion:nil];
     }
     else {
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
@@ -261,7 +261,7 @@
             navController.navigationBar.barStyle = UIBarStyleBlack;
             navController.navigationBar.tintColor = ICON_TINT_COLOR;
             navController.modalPresentationStyle = UIModalPresentationFullScreen;
-            [self presentViewController:navController animated:YES completion:NULL];
+            [self presentViewController:navController animated:YES completion:nil];
         }
         else {
             detailViewController.view.frame = CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height);
@@ -438,8 +438,8 @@
 }
 
 - (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
-    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Custom button") message:LOCALIZED_STR(@"Modify label:") preferredStyle:UIAlertControllerStyleAlert];
-    [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Custom button") message:LOCALIZED_STR(@"Modify label:") preferredStyle:UIAlertControllerStyleAlert];
+    [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"";
         textField.text = tableData[indexPath.row][@"label"];
     }];
@@ -447,22 +447,22 @@
         if (indexPath.row >= tableData.count) {
             return;
         }
-        tableData[indexPath.row][@"label"] = alertView.textFields[0].text;
+        tableData[indexPath.row][@"label"] = alertCtrl.textFields[0].text;
         
         UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
         UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_TITLE];
-        title.text = alertView.textFields[0].text;
+        title.text = alertCtrl.textFields[0].text;
         
         customButton *arrayButtons = [customButton new];
         if ([arrayButtons.buttons[indexPath.row - editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]) {
-            arrayButtons.buttons[indexPath.row - editableRowStartAt][@"label"] = alertView.textFields[0].text;
+            arrayButtons.buttons[indexPath.row - editableRowStartAt][@"label"] = alertCtrl.textFields[0].text;
             [arrayButtons saveData];
         }
     }];
     UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
-    [alertView addAction:updateButton];
-    [alertView addAction:cancelButton];
-    [self presentViewController:alertView animated:YES completion:nil];
+    [alertCtrl addAction:updateButton];
+    [alertCtrl addAction:cancelButton];
+    [self presentViewController:alertCtrl animated:YES completion:nil];
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {

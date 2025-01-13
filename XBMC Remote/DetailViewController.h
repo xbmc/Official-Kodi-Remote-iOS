@@ -25,7 +25,7 @@
 @interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, SFSafariViewControllerDelegate> {
     IBOutlet UITableView *dataList;
     IBOutlet jsonDataCell *jsonCell;
-    NSMutableArray	*filteredListContent;
+    NSMutableArray *filteredListContent;
     NSMutableArray *storeRichResults;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;
@@ -121,7 +121,6 @@
     dispatch_queue_t epglockqueue;
     LogoBackgroundType logoBackgroundMode;
     BOOL showkeyboard;
-    __weak UIAlertController *actionView;
     NSIndexPath *selectedIndexPath;
     NSNumber *processAllItemsInSection;
 }
