@@ -38,10 +38,6 @@
 
 @implementation MasterViewController
 
-@synthesize detailViewController = _detailViewController;
-@synthesize nowPlaying = _nowPlaying;
-@synthesize remoteController = _remoteController;
-@synthesize hostController = _hostController;
 @synthesize mainMenu;
 @synthesize tcpJSONRPCconnection;
 
@@ -153,26 +149,35 @@
     BOOL hideBottonLine = NO;
     switch (item.family) {
         case FamilyNowPlaying:
-            self.nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-            self.nowPlaying.detailItem = item;
-            object = self.nowPlaying;
+        {
+            NowPlaying *nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
+            nowPlayingController.detailItem = item;
+            object = nowPlayingController;
             break;
+        }
         case FamilyRemote:
-            [self.remoteController resetRemote];
-            self.remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:NO bundle:nil];
-            self.remoteController.detailItem = item;
-            object = self.remoteController;
+        {
+            RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:NO bundle:nil];
+            remoteController.detailItem = item;
+            object = remoteController;
             break;
+        }
         case FamilyServer:
-            self.hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-            object = self.hostController;
+        {
+            HostManagementViewController *hostController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
+            object = hostController;
             hideBottonLine = YES;
             break;
+        }
         case FamilyDetailView:
-            self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            self.detailViewController.detailItem = item;
-            object = self.detailViewController;
+        {
+            DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+            detailViewController.detailItem = item;
+            object = detailViewController;
             hideBottonLine = YES;
+            break;
+        }
+        default:
             break;
     }
     navController = [[CustomNavigationController alloc] initWithRootViewController:object];
@@ -341,7 +346,6 @@
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     AppDelegate.instance.obj = [GlobalData getInstance];
-    checkServerParams = @{@"properties": @[@"version", @"volume"]};
     menuList.scrollsToTop = NO;
     
     // Add connection status icon to root view
