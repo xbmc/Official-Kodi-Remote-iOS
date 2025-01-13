@@ -205,35 +205,14 @@
     if (color == nil || image.size.width == 0 || image.size.height == 0) {
         return image;
     }
-    
     CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = image.size};
-    
-    UIGraphicsBeginImageContextWithOptions(contextRect.size, NO, 0);
-    
-    CGContextRef c = UIGraphicsGetCurrentContext();
-    
-    CGContextBeginTransparencyLayer(c, NULL);
-    CGContextTranslateCTM(c, 0, contextRect.size.height);
-    CGContextScaleCTM(c, 1.0, -1.0);
-    CGContextClipToMask(c, contextRect, [image CGImage]);
-
-    CGColorSpaceRef colorSpace = CGColorGetColorSpace(color.CGColor);
-    CGColorSpaceModel model = CGColorSpaceGetModel(colorSpace);
-    const CGFloat *colors = CGColorGetComponents(color.CGColor);
-    
-    if (model == kCGColorSpaceModelMonochrome) {
-        CGContextSetRGBFillColor(c, colors[0], colors[0], colors[0], colors[1]);
-    }
-    else {
-        CGContextSetRGBFillColor(c, colors[0], colors[1], colors[2], colors[3]);
-    }
-    
-    CGContextFillRect(c, contextRect);
-    CGContextEndTransparencyLayer(c);
-    
-    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *newImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIGraphicsBeginImageContextWithOptions(newImage.size, NO, newImage.scale);
+    [color set];
+    [newImage drawInRect:contextRect];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return img;
+    return newImage;
 }
 
 + (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightColor:(UIColor*)lightColor darkColor:(UIColor*)darkColor {
