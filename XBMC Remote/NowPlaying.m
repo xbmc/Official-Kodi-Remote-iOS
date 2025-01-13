@@ -261,7 +261,7 @@
     return;
 }
 
-- (void)setPlaylistCellProgressBar:(UITableViewCell*)cell hidden:(BOOL)hidden {
+- (void)setPlaylistProgressView:(UITableViewCell*)cell hidden:(BOOL)hidden {
     // Do not unhide the playlist progress bar while in pictures playlist
     PlaylistProgressView *view = (PlaylistProgressView*)[cell viewWithTag:TAG_PLAYLIST_CELL_PROGRESSVIEW];
     if (currentPlaylistID == PLAYERID_PICTURES || currentPlaylistID != currentPlayerID) {
@@ -623,10 +623,10 @@
     long playlistPosition = [item[@"position"] longLongValue];
     if (playlistPosition != lastSelected && playlistPosition != SELECTED_NONE) {
         [self setPlaylistPosition:playlistPosition forPlayer:currentPlayerID];
-        [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
+        [self updatePlaylistProgressView:0.0f actual:@"00:00"];
     }
     else {
-        [self updatePlaylistProgressbar:percentage actual:actualTime];
+        [self updatePlaylistProgressView:percentage actual:actualTime];
     }
 }
 
@@ -674,14 +674,14 @@
     // Make current cell's progress bar invisible
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-    [self setPlaylistCellProgressBar:cell hidden:YES];
+    [self setPlaylistProgressView:cell hidden:YES];
     
     // Make new cell's progress bar visible and select playlist cell
     NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
     if (newSelection.row < [playlistTableView numberOfRowsInSection:0]) {
         [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:scrollPosition];
         UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
-        [self setPlaylistCellProgressBar:cell hidden:NO];
+        [self setPlaylistProgressView:cell hidden:NO];
         storeSelection = newSelection;
         lastSelected = playlistPosition;
     }
@@ -1228,7 +1228,7 @@
            }];
 }
 
-- (void)updatePlaylistProgressbar:(float)percentage actual:(NSString*)actualTime {
+- (void)updatePlaylistProgressView:(float)percentage actual:(NSString*)actualTime {
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     if (!selection) {
         return;
@@ -1237,7 +1237,7 @@
     PlaylistProgressView *playlistProgressView = (PlaylistProgressView*)[cell viewWithTag:TAG_PLAYLIST_CELL_PROGRESSVIEW];
     [playlistProgressView setTime:actualTime];
     [playlistProgressView setProgress:percentage / 100.0];
-    [self setPlaylistCellProgressBar:cell hidden:NO];
+    [self setPlaylistProgressView:cell hidden:NO];
 }
 
 - (void)deselectPlaylistItem {
@@ -1247,7 +1247,7 @@
     }
     [playlistTableView deselectRowAtIndexPath:selection animated:YES];
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-    [self setPlaylistCellProgressBar:cell hidden:YES];
+    [self setPlaylistProgressView:cell hidden:YES];
 }
 
 - (void)showPlaylistTableAnimated:(BOOL)animated {
@@ -2115,7 +2115,7 @@
     PlaylistProgressView *playlistProgressView = (PlaylistProgressView*)[cell viewWithTag:TAG_PLAYLIST_CELL_PROGRESSVIEW];
     [playlistProgressView setProgress:0];
     BOOL active = indexPath.row == lastSelected;
-    [self setPlaylistCellProgressBar:cell hidden:!active];
+    [self setPlaylistProgressView:cell hidden:!active];
     
     return cell;
 }
@@ -2123,7 +2123,7 @@
 - (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
     storeSelection = nil;
-    [self setPlaylistCellProgressBar:cell hidden:YES];
+    [self setPlaylistProgressView:cell hidden:YES];
 }
 
 - (NSIndexPath*)tableView:(UITableView*)tableView willSelectRowAtIndexPath:(NSIndexPath*)indexPath {
