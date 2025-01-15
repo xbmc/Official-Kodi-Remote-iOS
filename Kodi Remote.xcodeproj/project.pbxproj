@@ -22,7 +22,6 @@
 		0F40F5A7164D5FA000AF9DE9 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F40F5A5164D5FA000AF9DE9 /* RightMenuViewController.m */; };
 		0F4156451646D810009E6DD4 /* JBKenBurnsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4156441646D810009E6DD4 /* JBKenBurnsView.m */; };
 		0F4205D217099AE500EA533C /* RecentlyAddedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4205D117099AE500EA533C /* RecentlyAddedCell.m */; };
-		0F44EC5118A6672100BE44BD /* ProgressPieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F44EC5018A6672100BE44BD /* ProgressPieView.m */; };
 		0F487B4C15396D4C004530C1 /* HostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F487B4A15396D4C004530C1 /* HostViewController.m */; };
 		0F4883C41521B3D400883243 /* GlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883C31521B3D400883243 /* GlobalData.m */; };
 		0F4883D21521CC7300883243 /* VolumeSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4883D11521CC7300883243 /* VolumeSliderView.m */; };
@@ -57,6 +56,8 @@
 		0FEA79FC165FBBED00BB281F /* XBMCVirtualKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA79FB165FBBEC00BB281F /* XBMCVirtualKeyboard.m */; };
 		0FEAE76816EA632800387DED /* ActorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEAE76716EA632800387DED /* ActorCell.m */; };
 		0FEE08161704819A00EC9BC7 /* FloatingHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEE08151704819A00EC9BC7 /* FloatingHeaderFlowLayout.m */; };
+		C7106D792D33C25400A96C93 /* BroadcastProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D782D33C25400A96C93 /* BroadcastProgressView.m */; };
+		C7106D7B2D33EEE000A96C93 /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D7A2D33EEE000A96C93 /* ProgressBarView.m */; };
 		C76451CE29C51221000AE949 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */; };
 		C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B129C51220000AE949 /* UIImage+WebP.m */; };
 		C76451D029C51221000AE949 /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B429C51220000AE949 /* SDWebImagePrefetcher.m */; };
@@ -141,8 +142,6 @@
 		0F4205D017099AE500EA533C /* RecentlyAddedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentlyAddedCell.h; sourceTree = "<group>"; };
 		0F4205D117099AE500EA533C /* RecentlyAddedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentlyAddedCell.m; sourceTree = "<group>"; };
 		0F44E2D41527A9DF00D5958F /* playlistCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = playlistCellView.xib; sourceTree = "<group>"; };
-		0F44EC4F18A6672100BE44BD /* ProgressPieView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressPieView.h; sourceTree = "<group>"; };
-		0F44EC5018A6672100BE44BD /* ProgressPieView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressPieView.m; sourceTree = "<group>"; };
 		0F487B4915396D4C004530C1 /* HostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostViewController.h; sourceTree = "<group>"; };
 		0F487B4A15396D4C004530C1 /* HostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostViewController.m; sourceTree = "<group>"; };
 		0F487B5915399716004530C1 /* serverListCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = serverListCellView.xib; sourceTree = "<group>"; };
@@ -263,6 +262,10 @@
 		B1FF37DF1709D1ED005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C703692827148CEF0049F9BF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C70F41D02BA4D98E00847C75 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		C7106D772D33C25400A96C93 /* BroadcastProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BroadcastProgressView.h; sourceTree = "<group>"; };
+		C7106D782D33C25400A96C93 /* BroadcastProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BroadcastProgressView.m; sourceTree = "<group>"; };
+		C7106D7A2D33EEE000A96C93 /* ProgressBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProgressBarView.m; sourceTree = "<group>"; };
+		C7106D7C2D33EEF500A96C93 /* ProgressBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressBarView.h; sourceTree = "<group>"; };
 		C718444525FFD06300F5A060 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		C7432A6D2B12195600100E83 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		C746406727E6200200F6AD47 /* fi-FI */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fi-FI"; path = "fi-FI.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -351,14 +354,16 @@
 			children = (
 				0F55490C151D1187007E633F /* MasterViewController.h */,
 				0F55490D151D1187007E633F /* MasterViewController.m */,
+				C7106D772D33C25400A96C93 /* BroadcastProgressView.h */,
+				C7106D782D33C25400A96C93 /* BroadcastProgressView.m */,
+				C7106D7C2D33EEF500A96C93 /* ProgressBarView.h */,
+				C7106D7A2D33EEE000A96C93 /* ProgressBarView.m */,
 				0F680CB717103DB60092298A /* ClearCacheView.h */,
 				0F680CB817103DB60092298A /* ClearCacheView.m */,
 				0F55490F151D1187007E633F /* DetailViewController.h */,
 				0F554910151D1187007E633F /* DetailViewController.m */,
 				0F089AA318EC4E3300F32430 /* SettingsValuesViewController.h */,
 				0F089AA418EC4E3300F32430 /* SettingsValuesViewController.m */,
-				0F44EC4F18A6672100BE44BD /* ProgressPieView.h */,
-				0F44EC5018A6672100BE44BD /* ProgressPieView.m */,
 				0FEE08141704819A00EC9BC7 /* FloatingHeaderFlowLayout.h */,
 				0FEE08151704819A00EC9BC7 /* FloatingHeaderFlowLayout.m */,
 				0F370052151F6A9E00A3D42C /* jsonDataCell.h */,
@@ -809,6 +814,7 @@
 				C76451D429C51221000AE949 /* SDWebImageCompat.m in Sources */,
 				0F74776F151E5E8600EF78AD /* DSJSONRPC.m in Sources */,
 				0F747770151E5E8600EF78AD /* DSJSONRPCError.m in Sources */,
+				C7106D792D33C25400A96C93 /* BroadcastProgressView.m in Sources */,
 				0F370054151F6A9E00A3D42C /* jsonDataCell.m in Sources */,
 				0F4883C41521B3D400883243 /* GlobalData.m in Sources */,
 				C76451D229C51221000AE949 /* SDWebImageDownloader.m in Sources */,
@@ -843,12 +849,12 @@
 				0FEAE76816EA632800387DED /* ActorCell.m in Sources */,
 				0F00207816EE247A003822B5 /* OBSlider.m in Sources */,
 				0F284A5216F63C9A00AFC1EF /* PosterLabel.m in Sources */,
-				0F44EC5118A6672100BE44BD /* ProgressPieView.m in Sources */,
 				0F284A5516F6419700AFC1EF /* PosterCell.m in Sources */,
 				0F8E308816FA536C009DEE72 /* PosterHeaderView.m in Sources */,
 				C78C30F528F877870055CD95 /* VersionCheck.m in Sources */,
 				C76451D629C51221000AE949 /* UIView+WebCacheOperation.m in Sources */,
 				0F4019B318F415A50064E4DC /* MessagesView.m in Sources */,
+				C7106D7B2D33EEE000A96C93 /* ProgressBarView.m in Sources */,
 				0F7F0DCC1703490A0098FF75 /* BDKCollectionIndexView.m in Sources */,
 				0FEE08161704819A00EC9BC7 /* FloatingHeaderFlowLayout.m in Sources */,
 				0F7B951A1708975500880F33 /* UIImage+Resize.m in Sources */,

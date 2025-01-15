@@ -25,7 +25,7 @@
 #import "RecentlyAddedCell.h"
 #import "NSString+MD5.h"
 #import "UIScrollView+SVPullToRefresh.h"
-#import "ProgressPieView.h"
+#import "BroadcastProgressView.h"
 #import "SettingsValuesViewController.h"
 #import "customButton.h"
 #import "VersionCheck.h"
@@ -67,9 +67,8 @@
 #define GENRE_HEIGHT 18
 #define EPGCHANNELTIME_WIDTH 40
 #define EPGCHANNELTIME_HEIGHT 12
-#define EPG_RECORDING_DOT_SIZE 12
-#define CHANNELLIST_DOT_SIZE 6
-#define CHANNELLIST_PIE_SIZE 28
+#define EPGCHANNELBAR_HEIGHT 30
+#define RECORDING_DOT_SIZE 12
 #define TRACKCOUNT_WIDTH 26
 #define LABEL_PADDING 8
 #define VERTICAL_PADDING 8
@@ -159,7 +158,6 @@
 - (void)getChannelEpgInfo:(NSDictionary*)parameters {
     NSNumber *channelid = [Utilities getNumberFromItem:parameters[@"channelid"]];
     NSIndexPath *indexPath = parameters[@"indexPath"];
-    UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
     if ([channelid longValue] > 0) {
         NSMutableArray *retrievedEPG = [self loadEPGFromMemory:channelid];
@@ -167,7 +165,6 @@
         NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
                                    channelEPG, @"channelEPG",
                                    indexPath, @"indexPath",
-                                   tableView, @"tableView",
                                    item, @"item",
                                    nil];
         [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
@@ -177,7 +174,6 @@
             NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
                                        channelEPG, @"channelEPG",
                                        indexPath, @"indexPath",
-                                       tableView, @"tableView",
                                        item, @"item",
                                        nil];
             [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
@@ -265,10 +261,10 @@
     if (channelEPG[@"current_details"] != nil) {
         item[@"genre"] = channelEPG[@"current_details"];
     }
-    ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
+    BroadcastProgressView *progressView = (BroadcastProgressView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
     if (![current.text isEqualToString:LOCALIZED_STR(@"Not Available")] && [channelEPG[@"starttime"] isKindOfClass:[NSDate class]] && [channelEPG[@"endtime"] isKindOfClass:[NSDate class]]) {
         float percent_elapsed = [Utilities getPercentElapsed:channelEPG[@"starttime"] EndDate:channelEPG[@"endtime"]];
-        [progressView updateProgressPercentage:percent_elapsed];
+        [progressView setProgress:percent_elapsed / 100.0];
         progressView.hidden = NO;
         NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
         NSUInteger unitFlags = NSCalendarUnitMinute;
@@ -276,7 +272,7 @@
                                                     fromDate:channelEPG[@"starttime"]
                                                       toDate:channelEPG[@"endtime"] options:0];
         NSInteger minutes = [components minute];
-        progressView.pieLabel.text = [NSString stringWithFormat:@" %ld'", (long)minutes];
+        progressView.barLabel.text = [NSString stringWithFormat:@"%ld'", (long)minutes];
     }
     else {
         progressView.hidden = YES;
@@ -287,7 +283,6 @@
     NSArray *broadcasts = parameters[@"broadcasts"];
     NSNumber *channelid = parameters[@"channelid"];
     NSIndexPath *indexPath = parameters[@"indexPath"];
-    UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
     NSMutableArray *retrievedEPG = [NSMutableArray new];
     for (id EPGobject in broadcasts) {
@@ -308,7 +303,6 @@
     NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
                                [self parseEpgData:retrievedEPG], @"channelEPG",
                                indexPath, @"indexPath",
-                               tableView, @"tableView",
                                item, @"item",
                                nil];
     [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
@@ -317,7 +311,6 @@
 - (void)getJsonEPG:(NSDictionary*)parameters {
     NSNumber *channelid = parameters[@"channelid"];
     NSIndexPath *indexPath = parameters[@"indexPath"];
-    UITableView *tableView = parameters[@"tableView"];
     NSMutableDictionary *item = parameters[@"item"];
     [[Utilities getJsonRPC] callMethod:@"PVR.GetBroadcasts"
          withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -331,7 +324,6 @@
                        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                                channelid, @"channelid",
                                                indexPath, @"indexPath",
-                                               tableView, @"tableView",
                                                item, @"item",
                                                broadcasts, @"broadcasts",
                                                nil];
@@ -449,6 +441,10 @@
 }
 
 #pragma mark - Utility
+
+- (BOOL)isTimerActiveForItem:(id)item {
+    return [item[@"hastimer"] boolValue] || [item[@"isrecording"] boolValue];
+}
 
 - (void)enterSubmenuOfMenu:(mainMenu*)menuItem label:(NSString*)label params:(NSDictionary*)parameters {
     menuItem.subItem.mainLabel = label;
@@ -2481,14 +2477,10 @@
             programTimeLabel.textColor = [Utilities get2ndLabelColor];
             [cell.contentView addSubview:programTimeLabel];
             
-            CGFloat pieSize = EPGCHANNELTIME_WIDTH;
-            CGRect pieFrame = CGRectMake(SMALL_PADDING, (cellHeight + CGRectGetMaxY(programTimeLabel.frame) - pieSize) / 2, pieSize, pieSize);
-            [self layoutProgressPie:pieFrame pieSize:pieSize dotSize:EPG_RECORDING_DOT_SIZE color:[Utilities getSystemBlue] cell:cell];
+            [self addProgressBar:cell recDotSize:RECORDING_DOT_SIZE];
         }
         else if (channelListView) {
-            CGFloat pieSize = CHANNELLIST_PIE_SIZE;
-            CGRect pieFrame = CGRectMake(viewWidth - pieSize - SMALL_PADDING, LABEL_PADDING, pieSize, pieSize);
-            [self layoutProgressPie:pieFrame pieSize:pieSize dotSize:CHANNELLIST_DOT_SIZE color:[Utilities get1stLabelColor] cell:cell];
+            [self addProgressBar:cell recDotSize:RECORDING_DOT_SIZE];
         }
         UILabel *title = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_TITLE];
         UILabel *genre = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_GENRE];
@@ -2528,6 +2520,8 @@
     UILabel *runtimeyear = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIMEYEAR];
     UILabel *runtime = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIME];
     UILabel *rating = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RATING];
+    BroadcastProgressView *progressView = (BroadcastProgressView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
+    UIImageView *timerView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
 
     frame = title.frame;
     frame.origin.x = labelPosition;
@@ -2614,6 +2608,12 @@
             frame.size.height = ceil(thumbWidth * 0.7);
             cell.urlImageView.frame = frame;
             cell.urlImageView.autoresizingMask = UIViewAutoresizingNone;
+            
+            CGFloat originY = CGRectGetMaxY(frame) + VERTICAL_PADDING;
+            CGFloat height = cellHeight - originY - TINY_PADDING;
+            CGRect barFrame = CGRectMake(SMALL_PADDING, originY, CGRectGetWidth(frame), height);
+            progressView.frame = barFrame;
+            timerView.center = [progressView convertPoint:[progressView getReservedCenter] toView:cell.contentView];
         }
         if (channelListView) {
             runtime.hidden = NO;
@@ -2623,13 +2623,10 @@
             genre.frame = frame;
             genre.textColor = [Utilities get1stLabelColor];
             genre.font = [UIFont boldSystemFontOfSize:14];
-            ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
             progressView.hidden = YES;
-            UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
-            isRecordingImageView.hidden = ![item[@"isrecording"] boolValue];
+            timerView.hidden = ![item[@"isrecording"] boolValue];
             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [Utilities getNumberFromItem:item[@"channelid"]], @"channelid",
-                                    tableView, @"tableView",
                                     indexPath, @"indexPath",
                                     item, @"item",
                                     nil];
@@ -2764,23 +2761,30 @@
         genre.minimumScaleFactor = FONT_SCALING_DEFAULT;
         [genre sizeToFit];
         UILabel *programStartTime = (UILabel*)[cell viewWithTag:EPG_VIEW_CELL_STARTTIME];
-        ProgressPieView *progressView = (ProgressPieView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
         NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
         NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
         programStartTime.text = [localHourMinuteFormatter stringFromDate:starttime];
         float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
+        
+        CGRect progressFrame = CGRectMake(SMALL_PADDING,
+                                          CGRectGetMinY(genre.frame) + VERTICAL_PADDING,
+                                          CGRectGetWidth(programStartTime.frame),
+                                          EPGCHANNELBAR_HEIGHT);
+        progressView.frame = progressFrame;
+        timerView.center = [progressView convertPoint:[progressView getReservedCenter] toView:cell.contentView];
+        
+        title.textColor = [Utilities get1stLabelColor];
+        genre.textColor = [Utilities get2ndLabelColor];
+        title.highlightedTextColor = [Utilities get1stLabelColor];
+        genre.highlightedTextColor = [Utilities get2ndLabelColor];
 
         if (percent_elapsed > 0 && percent_elapsed < 100) {
-            title.textColor = [Utilities getSystemBlue];
-            genre.textColor = [Utilities getSystemBlue];
-            programStartTime.textColor = [Utilities getSystemBlue];
-
-            title.highlightedTextColor = [Utilities getSystemBlue];
-            genre.highlightedTextColor = [Utilities getSystemBlue];
-            programStartTime.highlightedTextColor = [Utilities getSystemBlue];
-
-            [progressView updateProgressPercentage:percent_elapsed];
-            progressView.pieLabel.hidden = NO;
+            programStartTime.textColor = [Utilities get1stLabelColor];
+            programStartTime.highlightedTextColor = [Utilities get1stLabelColor];
+            programStartTime.font = [UIFont systemFontOfSize:14];
+            cell.backgroundColor = [Utilities getSystemGray4];
+            
+            [progressView setProgress:percent_elapsed / 100.0];
             NSCalendar *gregorian = [[NSCalendar alloc]
                                      initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
             NSUInteger unitFlags = NSCalendarUnitMinute;
@@ -2789,26 +2793,18 @@
                                                           toDate:endtime
                                                          options:0];
             NSInteger minutes = [components minute];
-            progressView.pieLabel.text = [NSString stringWithFormat:@" %ld'", (long)minutes];
+            progressView.barLabel.text = [NSString stringWithFormat:@"%ld'", (long)minutes];
             progressView.hidden = NO;
         }
         else {
-            progressView.hidden = YES;
-            progressView.pieLabel.hidden = YES;
-            title.textColor = [Utilities get1stLabelColor];
-            genre.textColor = [Utilities get2ndLabelColor];
             programStartTime.textColor = [Utilities get2ndLabelColor];
-            title.highlightedTextColor = [Utilities get1stLabelColor];
-            genre.highlightedTextColor = [Utilities get2ndLabelColor];
             programStartTime.highlightedTextColor = [Utilities get2ndLabelColor];
+            programStartTime.font = [UIFont systemFontOfSize:13];
+            cell.backgroundColor = [Utilities getSystemGray6];
+            
+            progressView.hidden = YES;
         }
-        UIImageView *hasTimer = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
-        if ([item[@"hastimer"] boolValue]) {
-            hasTimer.hidden = NO;
-        }
-        else {
-            hasTimer.hidden = YES;
-        }
+        timerView.hidden = ![item[@"hastimer"] boolValue];
     }
     if (!runtimeyear.hidden) {
         frame = genre.frame;
@@ -3151,16 +3147,13 @@
     [albumDetailView addSubview:released];
 }
 
-- (void)layoutProgressPie:(CGRect)pieFrame pieSize:(CGFloat)pieSize dotSize:(CGFloat)dotSize color:(UIColor*)color cell:(UITableViewCell*)cell {
-    ProgressPieView *progressView = [[ProgressPieView alloc] initWithFrame:pieFrame color:color];
+- (void)addProgressBar:(UITableViewCell*)cell recDotSize:(CGFloat)dotSize {
+    BroadcastProgressView *progressView = [BroadcastProgressView new];
     progressView.tag = EPG_VIEW_CELL_PROGRESSVIEW;
     progressView.hidden = YES;
     [cell.contentView addSubview:progressView];
     
-    CGPoint timerOrigin = progressView.frame.origin;
-    timerOrigin.x += pieSize / 2 - dotSize / 2;
-    timerOrigin.y += [progressView getPieRadius] + 2 * [progressView getLineWidth] - dotSize / 2;
-    UIImageView *timerView = [[UIImageView alloc] initWithFrame:(CGRect){timerOrigin, CGSizeMake(dotSize, dotSize)}];
+    UIImageView *timerView = [[UIImageView alloc] initWithFrame:(CGRect){CGPointZero, CGSizeMake(dotSize, dotSize)}];
     timerView.image = [UIImage imageNamed:@"button_timer"];
     timerView.contentMode = UIViewContentModeScaleToFill;
     timerView.tag = EPG_VIEW_CELL_RECORDING_ICON;
@@ -3235,9 +3228,7 @@
             title = [NSString stringWithFormat:@"%@\n\n%@", title, LOCALIZED_STR(@"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.")];
             sheetActions = @[LOCALIZED_STR(@"Ok")];
         }
-        id cell = [self getCell:indexPath];
-        UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
-        BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
+        BOOL isRecording = [self isTimerActiveForItem:item];
         CGPoint sheetOrigin = CGPointMake(rectOriginX, rectOriginY);
         UIViewController *showFromCtrl = [Utilities topMostController];
         [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromcontroller:showFromCtrl fromview:self.view];
@@ -3318,7 +3309,6 @@
                 if (item[@"genre"] != nil && ![item[@"genre"] isEqualToString:@""]) {
                     title = [NSString stringWithFormat:@"%@\n%@", title, item[@"genre"]];
                 }
-                id cell = [self getCell:selectedIndexPath];
                 
                 if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
                     if ([item[@"trailer"] length] != 0 && [sheetActions isKindOfClass:[NSMutableArray class]]) {
@@ -3343,8 +3333,7 @@
                 if (![VersionCheck hasPlayUsingSupport]) {
                     [sheetActions removeObject:LOCALIZED_STR(@"Play using...")];
                 }
-                UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
-                BOOL isRecording = isRecordingImageView == nil ? NO : !isRecordingImageView.hidden;
+                BOOL isRecording = [self isTimerActiveForItem:item];
                 UIViewController *showFromCtrl = [Utilities topMostController];
                 UIView *showFromView = self.view;
                 CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
@@ -4159,8 +4148,7 @@
                [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    id cell = [self getCell:indexPath];
-                   UIImageView *isRecordingImageView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
-                   isRecordingImageView.hidden = !isRecordingImageView.hidden;
+                   UIImageView *timerView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
                    NSNumber *status = @(![item[@"isrecording"] boolValue]);
                    if ([item[@"broadcastid"] longLongValue] > 0) {
                        status = @(![item[@"hastimer"] boolValue]);
@@ -4170,6 +4158,7 @@
                        @"broadcastid": storeBroadcastid,
                        @"status": status,
                    };
+                   timerView.hidden = ![status boolValue];
                    [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
                }
                else {
