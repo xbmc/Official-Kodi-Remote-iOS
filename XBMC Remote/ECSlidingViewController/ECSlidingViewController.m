@@ -203,7 +203,7 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
     }
     [self adjustLayout];
 
-    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
+    [coordinator animateAlongsideTransition:nil
     completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         self.topView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
         self.topView.layer.shouldRasterize = NO;

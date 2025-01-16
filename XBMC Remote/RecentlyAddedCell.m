@@ -23,25 +23,25 @@
         self.backgroundColor = UIColor.clearColor;
         self.contentView.clipsToBounds = YES;
 
-        _posterThumbnail = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _posterThumbnail = [UIImageView new];
         _posterThumbnail.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterThumbnail.clipsToBounds = YES;
         _posterThumbnail.contentMode = UIViewContentModeScaleAspectFill;
         [self.contentView addSubview:_posterThumbnail];
         
-        _posterFanart = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _posterFanart = [UIImageView new];
         _posterFanart.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterFanart.clipsToBounds = YES;
         _posterFanart.contentMode = UIViewContentModeScaleAspectFill;
         _posterFanart.alpha = 0.9;
         [self.contentView addSubview:_posterFanart];
 
-        _labelImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _labelImageView = [UIImageView new];
         _labelImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _labelImageView.image = [UIImage imageNamed:@"cell_bg"];
         _labelImageView.highlightedImage = [UIImage imageNamed:@"cell_bg_selected"];
         
-        _posterLabel = [[PosterLabel alloc] initWithFrame:CGRectZero];
+        _posterLabel = [PosterLabel new];
         _posterLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterLabel.backgroundColor = UIColor.clearColor;
         _posterLabel.textColor = UIColor.whiteColor;
@@ -52,7 +52,7 @@
         _posterLabel.adjustsFontSizeToFitWidth = YES;
         [_labelImageView addSubview:_posterLabel];
         
-        _posterGenre = [[PosterLabel alloc] initWithFrame:CGRectZero];
+        _posterGenre = [PosterLabel new];
         _posterGenre.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterGenre.backgroundColor = UIColor.clearColor;
         _posterGenre.textColor = UIColor.whiteColor;
@@ -63,7 +63,7 @@
         _posterGenre.adjustsFontSizeToFitWidth = YES;
         [_labelImageView addSubview:_posterGenre];
         
-        _posterYear = [[PosterLabel alloc] initWithFrame:CGRectZero];
+        _posterYear = [PosterLabel new];
         _posterYear.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterYear.backgroundColor = UIColor.clearColor;
         _posterYear.textColor = UIColor.whiteColor;

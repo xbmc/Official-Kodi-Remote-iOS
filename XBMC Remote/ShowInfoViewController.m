@@ -364,7 +364,7 @@ double round(double d) {
             sheetTitle = item[@"pvrExtraInfo"][@"channel_name"];
         }
         
-        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:sheetTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:sheetTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
         
@@ -373,17 +373,17 @@ double round(double d) {
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self actionSheetHandler:actiontitle];
             }];
-            [actionView addAction:action];
+            [alertCtrl addAction:action];
         }
-        [actionView addAction:action_cancel];
-        actionView.modalPresentationStyle = UIModalPresentationPopover;
+        [alertCtrl addAction:action_cancel];
+        alertCtrl.modalPresentationStyle = UIModalPresentationPopover;
         
-        UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+        UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
             popPresenter.barButtonItem = actionSheetButtonItem;
         }
-        [self presentViewController:actionView animated:YES completion:nil];
+        [self presentViewController:alertCtrl animated:YES completion:nil];
     }
 }
 
@@ -432,8 +432,7 @@ double round(double d) {
                              voteLabel.frame = frame;
                          }
                      }
-                     completion: ^(BOOL finished) {
-                     }];
+                     completion:nil];
 }
 
 - (void)recordChannel {
@@ -490,8 +489,8 @@ double round(double d) {
                                                               parameters:parameters
                                                                    error:error
                                                              methodError:methodError];
-                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
-                   [self presentViewController:alertView animated:YES completion:nil];
+                   UIAlertController *alertCtrl = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
+                   [self presentViewController:alertCtrl animated:YES completion:nil];
                }
            }];
 }
@@ -1437,7 +1436,7 @@ double round(double d) {
                                                 toolbar.alpha = 1.0;
                                                 arrow_back_up.alpha = ARROW_ALPHA;
                                              }
-                                             completion:^(BOOL finished) {}
+                                             completion:nil
                              ];
                         }
          ];
@@ -1476,7 +1475,7 @@ double round(double d) {
                                                     self.kenView.alpha = 1.0;
                                                 }
                                              }
-                                             completion:^(BOOL finished) {}
+                                             completion:nil
                              ];
                              if (IS_IPAD) {
                                  if (![self isModal]) {
@@ -2005,7 +2004,7 @@ double round(double d) {
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
-    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {}
+    [coordinator animateAlongsideTransition:nil
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         if (self.kenView != nil && ![self isModal]) {
             CGFloat alphaValue = 0.2;

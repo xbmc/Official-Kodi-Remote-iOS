@@ -1459,8 +1459,8 @@
 }
 
 - (void)somethingGoesWrong:(NSString*)message {
-    UIAlertController *alertView = [Utilities createAlertOK:message message:nil];
-    [self presentViewController:alertView animated:YES completion:nil];
+    UIAlertController *alertCtrl = [Utilities createAlertOK:message message:nil];
+    [self presentViewController:alertCtrl animated:YES completion:nil];
 }
 
 # pragma mark - animations
@@ -1492,7 +1492,7 @@
         [button setImage:buttonImage forState:UIControlStateHighlighted];
         [button setImage:buttonImage forState:UIControlStateSelected];
                      } 
-                     completion:^(BOOL finished) {}
+                     completion:nil
     ];
 }
 
@@ -1627,7 +1627,7 @@
             itemDescription.scrollsToTop = NO;
         }
                      }
-                     completion:^(BOOL finished) {}];
+                     completion:nil];
 }
 
 - (void)toggleHighlight:(UIButton*)button {
@@ -1752,14 +1752,14 @@
                 message = LOCALIZED_STR(@"Are you sure you want to clear the playlist?");
                 break;
         }
-        UIAlertController *alertView = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:message message:nil preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
         UIAlertAction *clearButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clear Playlist") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self clearPlaylist:currentPlaylistID];
             }];
-        [alertView addAction:clearButton];
-        [alertView addAction:cancelButton];
-        [self presentViewController:alertView animated:YES completion:nil];
+        [alertCtrl addAction:clearButton];
+        [alertCtrl addAction:cancelButton];
+        [self presentViewController:alertCtrl animated:YES completion:nil];
     }
 }
 
@@ -1870,7 +1870,7 @@
 
 - (void)showActionNowPlaying:(NSMutableArray*)sheetActions title:(NSString*)title point:(CGPoint)origin {
     if (sheetActions.count) {
-        UIAlertController *actionView = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
         
@@ -1879,17 +1879,17 @@
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self actionSheetHandler:actiontitle];
             }];
-            [actionView addAction:action];
+            [alertCtrl addAction:action];
         }
-        [actionView addAction:action_cancel];
-        actionView.modalPresentationStyle = UIModalPresentationPopover;
+        [alertCtrl addAction:action_cancel];
+        alertCtrl.modalPresentationStyle = UIModalPresentationPopover;
         
-        UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+        UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = self.view;
             popPresenter.sourceRect = CGRectMake(origin.x, origin.y, 1, 1);
         }
-        [self presentViewController:actionView animated:YES completion:nil];
+        [self presentViewController:alertCtrl animated:YES completion:nil];
     }
 }
 
@@ -2646,8 +2646,8 @@
     if (AppDelegate.instance.obj.serverIP.length == 0) {
         return;
     }
-    UIAlertController *actionView = [Utilities createPowerControl];
-    [self presentViewController:actionView animated:YES completion:nil];
+    UIAlertController *alertCtrl = [Utilities createPowerControl];
+    [self presentViewController:alertCtrl animated:YES completion:nil];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView*)scrollView willDecelerate:(BOOL)decelerate {

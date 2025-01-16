@@ -214,18 +214,18 @@
         if (indexPath != nil) {
             longPressRow = indexPath;
 
-            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Add a new button") message:LOCALIZED_STR(@"Enter the label:") preferredStyle:UIAlertControllerStyleAlert];
-            [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Add a new button") message:LOCALIZED_STR(@"Enter the label:") preferredStyle:UIAlertControllerStyleAlert];
+            [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
                 textField.placeholder = @"";
                 textField.text = [self getActionButtonTitle];
             }];
             UIAlertAction *addButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Add button") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    [self addActionButton:alertView];
+                    [self addActionButton:alertCtrl];
                 }];
             UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
-            [alertView addAction:addButton];
-            [alertView addAction:cancelButton];
-            [self presentViewController:alertView animated:YES completion:nil];
+            [alertCtrl addAction:addButton];
+            [alertCtrl addAction:cancelButton];
+            [self presentViewController:alertCtrl animated:YES completion:nil];
         }
     }
 }
@@ -252,7 +252,7 @@
     return [NSString stringWithFormat:@"%@%@", self.detailItem[@"label"], subTitle];
 }
 
-- (void)addActionButton:(UIAlertController*)alertView {
+- (void)addActionButton:(UIAlertController*)alertCtrl {
     NSString *command = @"Settings.SetSettingValue";
     id value = @"";
     NSString *type = self.detailItem[@"year"] ?: @"string";
@@ -276,7 +276,7 @@
     }
     NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"id"], @"setting", value, @"value", nil];
     NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                               alertView.textFields[0].text, @"label",
+                               alertCtrl.textFields[0].text, @"label",
                                type, @"type",
                                @"default-right-menu-icon", @"icon",
                                @(xbmcSetting), @"xbmcSetting",
@@ -616,7 +616,7 @@
         cellLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:cellLabel];
         
-        UISwitch *onoff = [[UISwitch alloc] initWithFrame:CGRectZero];
+        UISwitch *onoff = [UISwitch new];
         onoff.tag = SETTINGS_CELL_ONOFF_SWITCH;
         onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];

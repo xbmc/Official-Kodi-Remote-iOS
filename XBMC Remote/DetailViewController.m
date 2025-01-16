@@ -1627,7 +1627,7 @@
     return sheetActions;
 }
 
-#pragma mark - UICollectionView FlowLayout deleagate
+#pragma mark - UICollectionView FlowLayout delegate
 
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if ((enableCollectionView && self.sectionArray.count > 1 && section > 0) || [self doesShowSearchResults]) {
@@ -2856,7 +2856,7 @@
 
 - (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
     if (albumView && self.richResults.count > 0) {
-        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        UIImageView *thumbImageView = [UIImageView new];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight)];
         
         NSDictionary *item = self.richResults[0];
@@ -2897,7 +2897,7 @@
         return albumDetailView;
     }
     else if (episodesView && self.sectionArray.count > section && ![self doesShowSearchResults]) {
-        UIImageView *thumbImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        UIImageView *thumbImageView = [UIImageView new];
         UIView *albumDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, albumViewHeight)];
         albumDetailView.tag = section;
         
@@ -3336,8 +3336,7 @@
 - (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording origin:(CGPoint)origin fromview:(UIView*)fromview {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
-        UIAlertController *actionTemp = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        actionView = actionTemp;
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             forceMusicAlbumMode = NO;
@@ -3352,18 +3351,18 @@
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self actionSheetHandler:actiontitle origin:origin fromview:fromview];
             }];
-            [actionView addAction:action];
+            [alertCtrl addAction:action];
         }
-        [actionView addAction:action_cancel];
-        actionView.modalPresentationStyle = UIModalPresentationPopover;
+        [alertCtrl addAction:action_cancel];
+        alertCtrl.modalPresentationStyle = UIModalPresentationPopover;
         
         UIViewController *fromctrl = [Utilities topMostController];
-        UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+        UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
         if (popPresenter != nil) {
             popPresenter.sourceView = fromview;
             popPresenter.sourceRect = CGRectMake(origin.x, origin.y, 1, 1);
         }
-        [fromctrl presentViewController:actionView animated:YES completion:nil];
+        [fromctrl presentViewController:alertCtrl animated:YES completion:nil];
     }
 }
 
@@ -3510,7 +3509,7 @@
                 if (!sheetActions.count) {
                     return;
                 }
-                UIAlertController *actionView = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Play using...") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Play using...") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
                 
                 UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                     forceMusicAlbumMode = NO;
@@ -3521,18 +3520,18 @@
                     UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                         [self addPlayback:item indexPath:selectedIndexPath using:actiontitle shuffle:NO];
                     }];
-                    [actionView addAction:action];
+                    [alertCtrl addAction:action];
                 }
-                [actionView addAction:action_cancel];
-                actionView.modalPresentationStyle = UIModalPresentationPopover;
+                [alertCtrl addAction:action_cancel];
+                alertCtrl.modalPresentationStyle = UIModalPresentationPopover;
                 
                 UIViewController *fromctrl = [Utilities topMostController];
-                UIPopoverPresentationController *popPresenter = [actionView popoverPresentationController];
+                UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
                 if (popPresenter != nil) {
                     popPresenter.sourceView = fromview;
                     popPresenter.sourceRect = CGRectMake(origin.x, origin.y, 1, 1);
                 }
-                [fromctrl presentViewController:actionView animated:YES completion:nil];
+                [fromctrl presentViewController:alertCtrl animated:YES completion:nil];
             }
         }];
     }
@@ -5798,8 +5797,11 @@
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     // Dismiss any visible action sheet as the origin is not corrected in fullscreen
-    if (IS_IPAD && stackscrollFullscreen && [actionView isViewLoaded]) {
-        [actionView dismissViewControllerAnimated:YES completion:nil];
+    if (IS_IPAD && stackscrollFullscreen) {
+        UIViewController *topMostCtrl = [Utilities topMostController];
+        if ([topMostCtrl isKindOfClass:[UIAlertController class]]) {
+            [topMostCtrl dismissViewControllerAnimated:YES completion:nil];
+        }
     }
     
     // Force reloading of index overlay after rotation
@@ -5813,7 +5815,7 @@
         }
         activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
     }
-                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {}];
+                                 completion:nil];
 }
 
 - (void)updateSearchResultsForSearchController:(UISearchController*)searchController {
@@ -5924,7 +5926,6 @@
 
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    dataList.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     dataList.indicatorStyle = UIScrollViewIndicatorStyleDefault;
     
     CGRect frame = dataList.frame;

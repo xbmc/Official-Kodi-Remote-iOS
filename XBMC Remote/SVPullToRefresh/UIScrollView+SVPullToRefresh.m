@@ -281,7 +281,7 @@ static char UIScrollViewPullToRefreshView;
                      animations:^{
                          self.scrollView.contentInset = contentInset;
                      }
-                     completion:NULL];
+                     completion:nil];
 }
 
 #pragma mark - Observing
@@ -521,7 +521,7 @@ static char UIScrollViewPullToRefreshView;
         self.arrow.layer.transform = CATransform3DMakeRotation(degrees, 0, 0, 1);
         self.arrow.layer.opacity = !hide;
         //[self.arrow setNeedsDisplay];//ios 4
-    } completion:NULL];
+    } completion:nil];
 }
 
 @end
