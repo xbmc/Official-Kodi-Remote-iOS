@@ -58,6 +58,7 @@
 		0FEE08161704819A00EC9BC7 /* FloatingHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEE08151704819A00EC9BC7 /* FloatingHeaderFlowLayout.m */; };
 		C7106D792D33C25400A96C93 /* BroadcastProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D782D33C25400A96C93 /* BroadcastProgressView.m */; };
 		C7106D7B2D33EEE000A96C93 /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D7A2D33EEE000A96C93 /* ProgressBarView.m */; };
+		C7106D842D33FBCE00A96C93 /* PlaylistProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D832D33FBCE00A96C93 /* PlaylistProgressView.m */; };
 		C76451CE29C51221000AE949 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */; };
 		C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B129C51220000AE949 /* UIImage+WebP.m */; };
 		C76451D029C51221000AE949 /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B429C51220000AE949 /* SDWebImagePrefetcher.m */; };
@@ -266,6 +267,8 @@
 		C7106D782D33C25400A96C93 /* BroadcastProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BroadcastProgressView.m; sourceTree = "<group>"; };
 		C7106D7A2D33EEE000A96C93 /* ProgressBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProgressBarView.m; sourceTree = "<group>"; };
 		C7106D7C2D33EEF500A96C93 /* ProgressBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressBarView.h; sourceTree = "<group>"; };
+		C7106D832D33FBCE00A96C93 /* PlaylistProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaylistProgressView.m; sourceTree = "<group>"; };
+		C7106D852D33FBFC00A96C93 /* PlaylistProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaylistProgressView.h; sourceTree = "<group>"; };
 		C718444525FFD06300F5A060 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		C7432A6D2B12195600100E83 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		C746406727E6200200F6AD47 /* fi-FI */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fi-FI"; path = "fi-FI.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -354,6 +357,8 @@
 			children = (
 				0F55490C151D1187007E633F /* MasterViewController.h */,
 				0F55490D151D1187007E633F /* MasterViewController.m */,
+				C7106D852D33FBFC00A96C93 /* PlaylistProgressView.h */,
+				C7106D832D33FBCE00A96C93 /* PlaylistProgressView.m */,
 				C7106D772D33C25400A96C93 /* BroadcastProgressView.h */,
 				C7106D782D33C25400A96C93 /* BroadcastProgressView.m */,
 				C7106D7C2D33EEF500A96C93 /* ProgressBarView.h */,
@@ -805,6 +810,7 @@
 				0F55490E151D1187007E633F /* MasterViewController.m in Sources */,
 				C76451D129C51221000AE949 /* NSData+ImageContentType.m in Sources */,
 				0F554911151D1187007E633F /* DetailViewController.m in Sources */,
+				C7106D842D33FBCE00A96C93 /* PlaylistProgressView.m in Sources */,
 				0F554C20151D14DA007E633F /* mainMenu.m in Sources */,
 				0F74772E151DD77400EF78AD /* NowPlaying.m in Sources */,
 				0F4AB81A1903DDCE005DEC5C /* RemoteControllerGestureZoneView.m in Sources */,

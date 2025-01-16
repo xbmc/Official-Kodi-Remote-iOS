@@ -21,6 +21,7 @@
 #import "ShowInfoViewController.h"
 #import "OBSlider.h"
 #import "Utilities.h"
+#import "PlaylistProgressView.h"
 
 @interface NowPlaying ()
 
@@ -44,10 +45,7 @@
 
 #define HMS_TO_STRING(h, m, s) [NSString stringWithFormat:@"%@%02i:%02i", (totalSeconds < 3600) ? @"" : [NSString stringWithFormat:@"%02i:", h], m, s];
 
-#define MAX_CELLBAR_WIDTH 45
 #define PARTYBUTTON_PADDING_LEFT 0
-#define PROGRESSBAR_PADDING_LEFT 20
-#define PROGRESSBAR_PADDING_BOTTOM 80
 #define COVERVIEW_PADDING 10
 #define SEGMENTCONTROL_WIDTH 122
 #define SEGMENTCONTROL_HEIGHT 32
@@ -65,6 +63,7 @@
 #define TAG_SEEK_FORWARD 7
 #define TAG_SHUFFLE 8
 #define TAG_REPEAT 9
+#define TAG_PLAYLIST_CELL_PROGRESSVIEW 20
 #define TAG_ID_EDIT 88
 #define SELECTED_NONE -1
 #define ID_INVALID -2
@@ -79,9 +78,6 @@
 #define XIB_PLAYLIST_CELL_SUBTITLE 2
 #define XIB_PLAYLIST_CELL_CORNERTITLE 3
 #define XIB_PLAYLIST_CELL_COVER 4
-#define XIB_PLAYLIST_CELL_PROGRESSVIEW 5
-#define XIB_PLAYLIST_CELL_ACTUALTIME 6
-#define XIB_PLAYLIST_CELL_PROGRESSBAR 7
 #define XIB_PLAYLIST_CELL_ACTIVTYINDICATOR 8
 
 - (void)setDetailItem:(id)newDetailItem {
@@ -235,18 +231,6 @@
     return image;
 }
 
-- (void)resizeCellBar:(CGFloat)width image:(UIImageView*)cellBarImage {
-    NSTimeInterval time = (width == 0) ? 0.1 : 1.0;
-    width = MIN(width, MAX_CELLBAR_WIDTH);
-    [UIView animateWithDuration:time
-                     animations:^{
-        CGRect frame;
-        frame = cellBarImage.frame;
-        frame.size.width = width;
-        cellBarImage.frame = frame;
-                     }];
-}
-
 - (IBAction)togglePartyMode:(id)sender {
     if (AppDelegate.instance.serverVersion == 11) {
         storedItemID = SELECTED_NONE;
@@ -277,9 +261,9 @@
     return;
 }
 
-- (void)setPlaylistCellProgressBar:(UITableViewCell*)cell hidden:(BOOL)hidden {
+- (void)setPlaylistProgressView:(UITableViewCell*)cell hidden:(BOOL)hidden {
     // Do not unhide the playlist progress bar while in pictures playlist
-    UIView *view = (UIView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSVIEW];
+    PlaylistProgressView *view = (PlaylistProgressView*)[cell viewWithTag:TAG_PLAYLIST_CELL_PROGRESSVIEW];
     if (currentPlaylistID == PLAYERID_PICTURES || currentPlaylistID != currentPlayerID) {
         hidden = YES;
     }
@@ -639,10 +623,10 @@
     long playlistPosition = [item[@"position"] longLongValue];
     if (playlistPosition != lastSelected && playlistPosition != SELECTED_NONE) {
         [self setPlaylistPosition:playlistPosition forPlayer:currentPlayerID];
-        [self updatePlaylistProgressbar:0.0f actual:@"00:00"];
+        [self updatePlaylistProgressView:0.0f actual:@"00:00"];
     }
     else {
-        [self updatePlaylistProgressbar:percentage actual:actualTime];
+        [self updatePlaylistProgressView:percentage actual:actualTime];
     }
 }
 
@@ -690,14 +674,14 @@
     // Make current cell's progress bar invisible
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-    [self setPlaylistCellProgressBar:cell hidden:YES];
+    [self setPlaylistProgressView:cell hidden:YES];
     
     // Make new cell's progress bar visible and select playlist cell
     NSIndexPath *newSelection = [NSIndexPath indexPathForRow:playlistPosition inSection:0];
     if (newSelection.row < [playlistTableView numberOfRowsInSection:0]) {
         [playlistTableView selectRowAtIndexPath:newSelection animated:YES scrollPosition:scrollPosition];
         UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:newSelection];
-        [self setPlaylistCellProgressBar:cell hidden:NO];
+        [self setPlaylistProgressView:cell hidden:NO];
         storeSelection = newSelection;
         lastSelected = playlistPosition;
     }
@@ -1244,18 +1228,16 @@
            }];
 }
 
-- (void)updatePlaylistProgressbar:(float)percentage actual:(NSString*)actualTime {
+- (void)updatePlaylistProgressView:(float)percentage actual:(NSString*)actualTime {
     NSIndexPath *selection = [playlistTableView indexPathForSelectedRow];
     if (!selection) {
         return;
     }
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-    UILabel *playlistActualTime = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_ACTUALTIME];
-    playlistActualTime.text = actualTime;
-    UIImageView *playlistActualBar = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_PROGRESSBAR];
-    CGFloat newx = MAX(MAX_CELLBAR_WIDTH * percentage / 100.0, 1.0);
-    [self resizeCellBar:newx image:playlistActualBar];
-    [self setPlaylistCellProgressBar:cell hidden:NO];
+    PlaylistProgressView *playlistProgressView = (PlaylistProgressView*)[cell viewWithTag:TAG_PLAYLIST_CELL_PROGRESSVIEW];
+    [playlistProgressView setTime:actualTime];
+    [playlistProgressView setProgress:percentage / 100.0];
+    [self setPlaylistProgressView:cell hidden:NO];
 }
 
 - (void)deselectPlaylistItem {
@@ -1265,7 +1247,7 @@
     }
     [playlistTableView deselectRowAtIndexPath:selection animated:YES];
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:selection];
-    [self setPlaylistCellProgressBar:cell hidden:YES];
+    [self setPlaylistProgressView:cell hidden:YES];
 }
 
 - (void)showPlaylistTableAnimated:(BOOL)animated {
@@ -2057,6 +2039,7 @@
         UILabel *mainLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_MAINTITLE];
         UILabel *subLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_SUBTITLE];
         UILabel *cornerLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_CORNERTITLE];
+        UIImageView *thumb = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
         
         mainLabel.highlightedTextColor = [Utilities get1stLabelColor];
         subLabel.highlightedTextColor = [Utilities get2ndLabelColor];
@@ -2067,6 +2050,14 @@
         cornerLabel.textColor = [Utilities get2ndLabelColor];
         
         tableView.separatorInset = UIEdgeInsetsMake(0, CGRectGetMinX(mainLabel.frame), 0, 0);
+        
+        PlaylistProgressView *progressView = [PlaylistProgressView new];
+        progressView.tag = TAG_PLAYLIST_CELL_PROGRESSVIEW;
+        progressView.frame = CGRectMake(0,
+                                        CGRectGetHeight(thumb.frame) - PLAYLIST_PROGRESS_HEIGHT,
+                                        CGRectGetWidth(thumb.frame),
+                                        PLAYLIST_PROGRESS_HEIGHT);
+        [cell.contentView addSubview:progressView];
     }
     NSDictionary *item = (playlistData.count > indexPath.row) ? playlistData[indexPath.row] : nil;
     UIImageView *thumb = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
@@ -2120,8 +2111,11 @@
              placeholderImage:defaultThumb
                       options:SDWebImageScaleToNativeSize];
     [Utilities applyRoundedEdgesView:thumb];
+    
+    PlaylistProgressView *playlistProgressView = (PlaylistProgressView*)[cell viewWithTag:TAG_PLAYLIST_CELL_PROGRESSVIEW];
+    [playlistProgressView setProgress:0];
     BOOL active = indexPath.row == lastSelected;
-    [self setPlaylistCellProgressBar:cell hidden:!active];
+    [self setPlaylistProgressView:cell hidden:!active];
     
     return cell;
 }
@@ -2129,7 +2123,7 @@
 - (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [playlistTableView cellForRowAtIndexPath:indexPath];
     storeSelection = nil;
-    [self setPlaylistCellProgressBar:cell hidden:YES];
+    [self setPlaylistProgressView:cell hidden:YES];
 }
 
 - (NSIndexPath*)tableView:(UITableView*)tableView willSelectRowAtIndexPath:(NSIndexPath*)indexPath {
