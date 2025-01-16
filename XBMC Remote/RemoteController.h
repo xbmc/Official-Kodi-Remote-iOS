@@ -52,7 +52,6 @@ typedef NS_ENUM(NSInteger, RemotePositionType) {
 
 - (IBAction)startVibrate:(id)sender;
 - (void)setEmbeddedView;
-- (void)resetRemote;
 - (id)initWithNibName:(NSString*)nibNameOrNil withEmbedded:(BOOL)withEmbedded bundle:(NSBundle*)nibBundleOrNil;
 @property (strong, nonatomic) id detailItem;
 @property (nonatomic, strong) NSTimer *holdKeyTimer;
