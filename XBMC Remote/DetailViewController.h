@@ -29,7 +29,7 @@
     NSMutableArray *storeRichResults;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *sections;
-    int choosedTab;
+    int chosenTab;
     int filterModeIndex;
     ViewModes filterModeType;
     UILabel *topNavigationLabel;

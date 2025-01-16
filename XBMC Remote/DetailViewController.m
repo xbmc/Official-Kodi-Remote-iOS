@@ -363,7 +363,7 @@
     }
     if (mutableParameters != nil) {
         mainMenu *menuItem = self.detailItem;
-        NSDictionary *methods = menuItem.mainMethod[choosedTab];
+        NSDictionary *methods = menuItem.mainMethod[chosenTab];
         NSString *viewKey = [self getCacheKey:methods[@"method"] parameters:mutableParameters];
         
         NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
@@ -729,7 +729,7 @@
 }
 
 - (int)getActiveTab:(id)item {
-    int activeTab = choosedTab;
+    int activeTab = chosenTab;
     if (globalSearchView) {
         NSArray *lookup = [self getGlobalSearchLookup:item];
         if (lookup.count > 1) {
@@ -897,8 +897,8 @@
 
 - (void)setButtonViewContent:(int)activeTab {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = menuItem.mainMethod[choosedTab];
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     
     // Build basic button list
     [self buildButtons:activeTab];
@@ -1001,7 +1001,7 @@
     // Exception handling for TVShow banner view
     if (tvshowsView) {
         // First tab shows the banner
-        if (choosedTab == 0) {
+        if (chosenTab == 0) {
             // When not in grid and not in fullscreen view
             if (!enableCollectionView && !stackscrollFullscreen) {
                 // If loaded, we use a dark background
@@ -1098,11 +1098,11 @@
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     [activityIndicatorView startAnimating];
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
-    if (choosedTab < buttonsIB.count) {
-        [buttonsIB[choosedTab] setSelected:NO];
+    if (chosenTab < buttonsIB.count) {
+        [buttonsIB[chosenTab] setSelected:NO];
     }
-    choosedTab = MAX_NORMAL_BUTTONS;
-    [buttonsIB[choosedTab] setSelected:YES];
+    chosenTab = MAX_NORMAL_BUTTONS;
+    [buttonsIB[chosenTab] setSelected:YES];
     [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
     int i;
     NSInteger count = menuItem.mainParameters.count;
@@ -1282,23 +1282,23 @@
     }
     
     // Handle modes (pressing same tab) or changed tabs
-    if (newChoosedTab == choosedTab && !fromMoreItems) {
+    if (newChoosedTab == chosenTab && !fromMoreItems) {
         // Read relevant data from configuration
-        methods = menuItem.mainMethod[choosedTab];
-        parameters = menuItem.mainParameters[choosedTab];
+        methods = menuItem.mainMethod[chosenTab];
+        parameters = menuItem.mainParameters[chosenTab];
         mutableParameters = [parameters[@"parameters"] mutableCopy];
         mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
         
-        NSInteger num_modes = [menuItem.filterModes[choosedTab][@"modes"] count];
+        NSInteger num_modes = [menuItem.filterModes[chosenTab][@"modes"] count];
         if (!num_modes) {
             return;
         }
         filterModeIndex = (filterModeIndex + 1) % num_modes;
         NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
-        [buttonsIB[choosedTab] setImage:[UIImage imageNamed:menuItem.filterModes[choosedTab][@"icons"][filterModeIndex]] forState:UIControlStateSelected];
+        [buttonsIB[chosenTab] setImage:[UIImage imageNamed:menuItem.filterModes[chosenTab][@"icons"][filterModeIndex]] forState:UIControlStateSelected];
         
         // Artist filter is inactive. We simply filter results via helper function changeViewMode and return.
-        filterModeType = [menuItem.filterModes[choosedTab][@"modes"][filterModeIndex] intValue];
+        filterModeType = [menuItem.filterModes[chosenTab][@"modes"][filterModeIndex] intValue];
         if (!(filterModeType == ViewModeAlbumArtists ||
               filterModeType == ViewModeSongArtists ||
               filterModeType == ViewModeDefaultArtists)) {
@@ -1310,20 +1310,20 @@
         filterModeIndex = 0;
         filterModeType = ViewModeDefault;
         NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
-        if (choosedTab < buttonsIB.count) {
-            [buttonsIB[choosedTab] setImage:[UIImage imageNamed:@"blank"] forState:UIControlStateSelected];
-            [buttonsIB[choosedTab] setSelected:NO];
+        if (chosenTab < buttonsIB.count) {
+            [buttonsIB[chosenTab] setImage:[UIImage imageNamed:@"blank"] forState:UIControlStateSelected];
+            [buttonsIB[chosenTab] setSelected:NO];
         }
         else {
             [buttonsIB.lastObject setSelected:NO];
         }
-        choosedTab = newChoosedTab;
-        if (choosedTab < buttonsIB.count) {
-            [buttonsIB[choosedTab] setSelected:YES];
+        chosenTab = newChoosedTab;
+        if (chosenTab < buttonsIB.count) {
+            [buttonsIB[chosenTab] setSelected:YES];
         }
-        // Read relevant data from configuration (important: new value for choosedTab)
-        methods = menuItem.mainMethod[choosedTab];
-        parameters = menuItem.mainParameters[choosedTab];
+        // Read relevant data from configuration (important: new value for chosenTab)
+        methods = menuItem.mainMethod[chosenTab];
+        parameters = menuItem.mainParameters[chosenTab];
         mutableParameters = [parameters[@"parameters"] mutableCopy];
         mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
     }
@@ -1344,7 +1344,7 @@
     }
 
     BOOL newEnableCollectionView = [self collectionViewIsEnabled];
-    [self setButtonViewContent:choosedTab];
+    [self setButtonViewContent:chosenTab];
     [self checkDiskCache];
     
     [Utilities SetView:activeLayoutView Alpha:1.0 XPos:viewWidth];
@@ -1793,7 +1793,7 @@
             cell.posterLabelFullscreen.hidden = YES;
         }
         
-        if (tvshowsView && choosedTab == 0) {
+        if (tvshowsView && chosenTab == 0) {
             defaultThumb = displayThumb = @"nocover_tvshows";
         }
         
@@ -2108,7 +2108,7 @@
 
 - (void)choseParams { // DA OTTIMIZZARE TROPPI IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     if ([parameters[@"defaultThumb"] length] != 0 && ![parameters[@"defaultThumb"] isEqualToString:@"(null)"]) {
         defaultThumb = parameters[@"defaultThumb"];
     }
@@ -2148,7 +2148,7 @@
     dataList.separatorInset = UIEdgeInsetsMake(0, thumbWidth + LABEL_PADDING, 0, 0);
     
     // label position for TVShow banner view needs to be tailored to match the default thumb size
-    if (tvshowsView && choosedTab == 0) {
+    if (tvshowsView && chosenTab == 0) {
         CGFloat targetHeight = IS_IPAD ? PAD_TV_SHOWS_BANNER_HEIGHT : PHONE_TV_SHOWS_BANNER_HEIGHT;
         CGFloat factor = targetHeight / PHONE_TV_SHOWS_POSTER_HEIGHT * [Utilities getTransformX];
         labelPosition = PAD_TV_SHOWS_POSTER_WIDTH * factor + LABEL_PADDING;
@@ -2543,7 +2543,7 @@
     }
     
     // In case no thumbs are shown and there is a child view or we are showing a setting, display disclosure indicator and adapt width.
-    NSDictionary *method = menuItem.subItem.mainMethod[choosedTab];
+    NSDictionary *method = menuItem.subItem.mainMethod[chosenTab];
     BOOL hasChild = method.count > 0;
     BOOL isSettingID = [item[@"family"] isEqualToString:@"id"];
     if (!thumbWidth && self.indexView.hidden && (hasChild || isSettingID)) {
@@ -2571,7 +2571,7 @@
     frame.origin.x = menuItem.originYearDuration;
     runtimeyear.frame = frame;
 
-    if ([menuItem.showRuntime[choosedTab] boolValue]) {
+    if ([menuItem.showRuntime[chosenTab] boolValue]) {
         NSString *duration = @"";
         if (!menuItem.noConvertTime) {
             duration = [Utilities convertTimeFromSeconds:item[@"runtime"]];
@@ -2642,7 +2642,7 @@
         }
         NSString *stringURL = tvshowsView ? item[@"banner"] : item[@"thumbnail"];
         NSString *displayThumb = globalSearchView ? [self getGlobalSearchThumb:item] : defaultThumb;
-        if (tvshowsView && choosedTab == 0) {
+        if (tvshowsView && chosenTab == 0) {
             displayThumb = defaultThumb = @"nocover_tvshows_banner";
         }
         if ([item[@"filetype"] length] != 0 ||
@@ -3476,7 +3476,7 @@
 
 - (void)saveSortMethod:(NSString*)sortMethod parameters:(NSDictionary*)parameters {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = menuItem.mainMethod[choosedTab];
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSString *sortKey = [NSString stringWithFormat:@"%@_sort_method", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:sortMethod forKey:sortKey];
@@ -3484,7 +3484,7 @@
 
 - (void)saveSortAscDesc:(NSString*)sortAscDescSave parameters:(NSDictionary*)parameters {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = menuItem.mainMethod[choosedTab];
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:sortAscDescSave forKey:sortKey];
@@ -4635,11 +4635,11 @@
         [activeLayoutView setUserInteractionEnabled:NO];
     }
     mainMenu *menuItem = self.detailItem;
-    if (choosedTab >= menuItem.mainParameters.count) {
+    if (chosenTab >= menuItem.mainParameters.count) {
         return;
     }
-    NSDictionary *methods = menuItem.mainMethod[choosedTab];
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
     [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
@@ -4663,7 +4663,7 @@
     NSArray *itemsAndTabs = AppDelegate.instance.globalSearchMenuLookup;
     
     mainMenu *menuItem = self.detailItem;
-    NSMutableDictionary *parameters = [menuItem.mainParameters[choosedTab] mutableCopy];
+    NSMutableDictionary *parameters = [menuItem.mainParameters[chosenTab] mutableCopy];
     if ([self loadedDataFromDisk:nil parameters:parameters refresh:forceRefresh]) {
         return;
     }
@@ -4714,7 +4714,7 @@
         
         // Save and display
         mainMenu *menuItem = self.detailItem;
-        NSMutableDictionary *parameters = [menuItem.mainParameters[choosedTab] mutableCopy];
+        NSMutableDictionary *parameters = [menuItem.mainParameters[chosenTab] mutableCopy];
         [self saveData:parameters];
         [self indexAndDisplayData];
         return;
@@ -4884,7 +4884,7 @@
          // If we are reading PVR timer, we need to filter them for the current mode in postprocessing. Ignore
          // scheduled recordings, if we are in timer rules mode. Or ignore timer rules, if scheduled recordings
          // are listed.
-         NSDictionary *menuParam = menuItem.mainParameters[choosedTab];
+         NSDictionary *menuParam = menuItem.mainParameters[chosenTab];
          BOOL isTimerMethod = [methodToCall isEqualToString:@"PVR.GetTimers"];
          BOOL ignoreTimerRulesItems = isTimerMethod && [menuParam[@"label"] isEqualToString:LOCALIZED_STR(@"Timers")];
          BOOL ignoreTimerItems = isTimerMethod && [menuParam[@"label"] isEqualToString:LOCALIZED_STR(@"Timer rules")];
@@ -4900,7 +4900,7 @@
              [self.sections removeAllObjects];
              [activeLayoutView reloadData];
              if ([methodResult isKindOfClass:[NSDictionary class]]) {
-                 NSMutableDictionary *mainFields = [[self.detailItem mainFields][choosedTab] mutableCopy];
+                 NSMutableDictionary *mainFields = [[self.detailItem mainFields][chosenTab] mutableCopy];
                  NSString *itemid = extraSectionCallBool ? mainFields[@"itemid_extra_section"] : mainFields[@"itemid"];
                  id itemDict = methodResult[itemid];
                  if ([itemDict isKindOfClass:[NSArray class]]) {
@@ -4988,7 +4988,7 @@
                      if ([itemType isKindOfClass:[NSDictionary class]]) {
                          itemDict = itemType[itemField];
                          if ([itemDict isKindOfClass:[NSArray class]]) {
-                             NSString *sublabel = menuItem.mainParameters[choosedTab][@"morelabel"] ?: @"";
+                             NSString *sublabel = menuItem.mainParameters[chosenTab][@"morelabel"] ?: @"";
                              for (id item in itemDict) {
                                  if ([item isKindOfClass:[NSString class]]) {
                                      NSDictionary *listEntry = @{
@@ -5135,7 +5135,7 @@
 - (BOOL)isSortDifferentToDefault {
     BOOL isDifferent = NO;
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     NSString *defaultSortMethod = parameters[@"parameters"][@"sort"][@"method"];
     NSString *defaultSortOrder = parameters[@"parameters"][@"sort"][@"order"];
     if (sortMethodName != nil && ![sortMethodName isEqualToString:defaultSortMethod]) {
@@ -5154,8 +5154,8 @@
 
 - (void)indexAndDisplayData {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
-    NSDictionary *methods = menuItem.mainMethod[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSArray *copyRichResults = [self.richResults copy];
     BOOL addUITableViewIndexSearch = NO;
     BOOL isFileBrowsing = [methods[@"method"] isEqualToString:@"Files.GetDirectory"];
@@ -5271,7 +5271,7 @@
             [self.richResults removeAllObjects];
         }
         NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   menuItem.mainParameters[choosedTab][@"parameters"][@"channelid"], @"channelid",
+                                   menuItem.mainParameters[chosenTab][@"parameters"][@"channelid"], @"channelid",
                                    retrievedEPG, @"epgArray",
                                    nil];
         [NSThread detachNewThreadSelector:@selector(backgroundSaveEPGToDisk:) toTarget:self withObject:epgparams];
@@ -5390,7 +5390,7 @@
     [self choseParams];
     NSUInteger numResults = self.richResults.count;
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     
     BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel] && ![menuItem.mainLabel isEqualToString:LOCALIZED_STR(@"XBMC Settings")];
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
@@ -5537,7 +5537,7 @@
     if (showkeyboard) {
         [[self getSearchTextField] performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.1];
     }
-    [self setButtonViewContent:choosedTab];
+    [self setButtonViewContent:chosenTab];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -5680,7 +5680,7 @@
 
 - (BOOL)collectionViewCanBeEnabled {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     return ([parameters[@"enableCollectionView"] boolValue]);
 }
 
@@ -5690,8 +5690,8 @@
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
-    NSDictionary *methods = menuItem.mainMethod[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
     if (AppDelegate.instance.serverVersion > 11) {
         if (tempDict[@"filter"] != nil) {
@@ -5960,13 +5960,13 @@
     self.view.userInteractionEnabled = YES;
     mainMenu *menuItem = self.detailItem;
     int numTabs = (int)menuItem.mainMethod.count;
-    choosedTab = menuItem.chooseTab;
-    if (choosedTab >= numTabs) {
-        choosedTab = 0;
+    chosenTab = menuItem.chooseTab;
+    if (chosenTab >= numTabs) {
+        chosenTab = 0;
     }
     filterModeType = ViewModeDefault;
-    NSDictionary *methods = menuItem.mainMethod[choosedTab];
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     watchedListenedStrings = parameters[@"watchedListenedStrings"];
     [self checkDiskCache];
     numberOfStars = 10;
@@ -6182,7 +6182,7 @@
 - (void)checkFullscreenButton:(BOOL)forceHide {
     mainMenu *menuItem = self.detailItem;
     if (IS_IPAD && menuItem.enableSection) {
-        NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+        NSDictionary *parameters = menuItem.mainParameters[chosenTab];
         if ([self collectionViewCanBeEnabled] && ([parameters[@"enableLibraryFullScreen"] boolValue] && !forceHide)) {
             int buttonPadding = 1;
             if (fullscreenButton == nil) {
@@ -6227,7 +6227,7 @@
 
 - (void)checkDiskCache {
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL diskcache_preference = [userDefaults boolForKey:@"diskcache_preference"];
     enableDiskCache = diskcache_preference && [parameters[@"enableLibraryCache"] boolValue];
@@ -6243,8 +6243,8 @@
         [self.searchController setActive:NO];
     }
     mainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = menuItem.mainMethod[choosedTab];
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     if ([self collectionViewCanBeEnabled] && self.view.superview != nil && ![methods[@"method"] isEqualToString:@""]) {
         NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
         if (AppDelegate.instance.serverVersion > 11) {
@@ -6289,10 +6289,10 @@
     }
     selectedIndexPath = nil;
     mainMenu *menuItem = self.detailItem;
-    if (choosedTab >= menuItem.mainParameters.count) {
+    if (chosenTab >= menuItem.mainParameters.count) {
         return;
     }
-    NSDictionary *parameters = menuItem.mainParameters[choosedTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     NSDictionary *sortDictionary = parameters[@"available_sort_methods"];
     NSMutableArray *sortOptions = [sortDictionary[@"label"] mutableCopy];
     if (sortMethodIndex != -1) {
