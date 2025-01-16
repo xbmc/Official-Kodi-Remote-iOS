@@ -1931,7 +1931,7 @@
         }
     }
     else if ([item[@"type"] isEqualToString:@"movie"]) {
-        menuItem = AppDelegate.instance.playlistMovies;
+        menuItem = [AppDelegate.instance.playlistMovies copy];
         choosedTab = 0;
         menuItem.subItem.mainLabel = item[@"label"];
         notificationName = @"MainMenuDeselectSection";
@@ -1939,7 +1939,7 @@
     else if ([item[@"type"] isEqualToString:@"episode"]) {
         notificationName = @"MainMenuDeselectSection";
         if ([actiontitle isEqualToString:LOCALIZED_STR(@"Episode Details")]) {
-            menuItem = AppDelegate.instance.playlistTvShows.subItem;
+            menuItem = [AppDelegate.instance.playlistTvShows.subItem copy];
             choosedTab = 0;
             menuItem.subItem.mainLabel = item[@"label"];
         }
@@ -1951,13 +1951,13 @@
         }
     }
     else if ([item[@"type"] isEqualToString:@"musicvideo"]) {
-        menuItem = AppDelegate.instance.playlistMusicVideos;
+        menuItem = [AppDelegate.instance.playlistMusicVideos copy];
         choosedTab = 0;
         menuItem.subItem.mainLabel = item[@"label"];
         notificationName = @"MainMenuDeselectSection";
     }
     else if ([item[@"type"] isEqualToString:@"recording"]) {
-        menuItem = AppDelegate.instance.playlistPVR;
+        menuItem = [AppDelegate.instance.playlistPVR copy];
         choosedTab = 2;
         menuItem.subItem.mainLabel = item[@"label"];
         notificationName = @"MainMenuDeselectSection";
