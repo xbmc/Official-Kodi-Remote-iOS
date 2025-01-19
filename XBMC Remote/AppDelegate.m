@@ -4388,7 +4388,6 @@
             @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
             @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
             @"enableCollectionView": @YES,
-            @"enableLibraryCache": @YES,
             @"itemSizes": [self itemSizes_Music],
         },
                           
@@ -4939,7 +4938,6 @@
             @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
             @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
             @"enableCollectionView": @YES,
-            @"enableLibraryCache": @YES,
             @"itemSizes": [self itemSizes_Music],
         },
                           
