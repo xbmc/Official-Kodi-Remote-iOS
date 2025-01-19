@@ -2851,7 +2851,6 @@
     int rectOriginX = cell.frame.origin.x + cell.frame.size.width / 2;
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height / 2 - offsetPoint.y;
     [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
-    return;
 }
 
 - (NSUInteger)indexOfObjectWithSeason:(NSString*)seasonNumber inArray:(NSArray*)array {
