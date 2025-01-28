@@ -4,7 +4,7 @@
 "Pictures" = "Prente";
 "Now Playing" = "Speel nou";
 "Favourites" = "Gunstelinge";
-"Global Search" = "Global Search";
+"Global Search" = "Globale Soektog";
 "Remote Control" = "Afstandbeheer";
 "XBMC Server" = "Kodi Bediener";
 "New XBMC Server" = "Nuwe Kodi Bediener";
@@ -147,7 +147,7 @@
 "Yes" = "Ja";
 "No" = "Nee";
 "Authentication Failed" = "Waarmerking het gefaal";
-"Incorrect Username or Password.\nCheck your settings." = "Inkorrekte Gebruikersnaam of Wagwoord.\nGaan jou verstellings na.";
+"Incorrect Username or Password.\nCheck your settings." = "Inkorrekte Gebruikersnaam of Wagwoord.\nGaan jou instellings na.";
 "WIKI_LANG" = "af";
 "vote" = "stem";
 "votes" = "stemme";
@@ -185,7 +185,7 @@
 "Button Pad/Gesture Zone" = "Knoppie Pad/Gebaar Sone";
 "Slide your finger up or down to adjust the scrubbing rate." = "Skuif jou vinger op of af om die skrop tempo aan te pas.";
 "Programs" = "Programme";
-"XBMC Settings" = "Kodi Verstellings";
+"XBMC Settings" = "Kodi Instellings";
 "Custom button" = "Pasgemaakte knoppie";
 "Modify label:" = "Wysig etiket:";
 "Update label" = "Opdateer etiket";
@@ -194,7 +194,7 @@
 "Add button" = "Voeg knoppie by";
 "Button added" = "Knoppie bygevoeg";
 "enter value" = "tik waarde in";
-"Tap and hold a setting to add a new button." = "Tik en hou 'n verstelling om 'n nuwe knoppie by te voeg.";
+"Tap and hold a setting to add a new button." = "Tik en hou 'n instelling om 'n nuwe knoppie by te voeg.";
 "No custom button defined.\r\nPress \"...more\" below to add new ones." = "Geen pasgemaakte knoppie gedefinieer nie.\nDruk \"...meer\" onder om nuwes by te voeg.";
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- WAARSKUWING --\nKodi API voor Krypton (v17) laat nie tydhouer redigering toe nie. Gebruik die Kodi GUI om tydhouers by te voeg, redigeer en verwyder. Dankie.";
 "Execute program" = "Voer program uit";
@@ -205,8 +205,8 @@
 "...more" = "...meer";
 "Edit" = "Redigeer";
 "Done" = "Gedoen";
-"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi weergawe 13 of hoër word vereis vir toegang tot Kodi verstellings";
-"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WAARSKUWING --\nHierdie tipe verstelling kan nie oor 'n afstand opgestel word nie. Gebruik die Kodi GUI om hierdie verstelling te verander.\nDankie.";
+"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi weergawe 13 of hoër word vereis vir toegang tot Kodi instellings";
+"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WAARSKUWING --\nHierdie tipe instelling kan nie oor 'n afstand opgestel word nie. Gebruik die Kodi GUI om hierdie instelling te verander.\nDankie.";
 "No items found." = "Geen items gevind nie.";
 "Video" = "Video";
 "Party" = "Partytjie";
@@ -227,7 +227,7 @@
 "No XBMC instances were found :(" = "Geen Kodi gevalle gevind nie :(";
 "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Vind Kodi\" vereis dat Kodi bediener opsie\n\"Kondig hierdie dienste aan ander stelsels aan via Zeroconf\" in staat gestel is";
 "How-to activate the remote app in Kodi" = "Hoe om die afstandbeheer toepassing in Kodi te aktiveer";
-"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Verstellings > Dienste > Beheer:\n1. Web Bediener > Laat afstand beheer toe via HTTP\n2. Toepassing Beheer > Laat afstand beheer toe vanaf toepassings op ander stelsels";
+"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Instellings > Dienste > Beheer:\n1. Web Bediener > Laat afstand beheer toe via HTTP\n2. Toepassing Beheer > Laat afstand beheer toe vanaf toepassings op ander stelsels";
 "e.g. My XBMC" = "bv. My Kodi";
 "e.g. 192.168.0.8" = "bv. 192.168.0.8";
 "Username" = "Gebruikersnaam";
@@ -317,3 +317,4 @@
 "Play using..." = "Speel deur gebruik van...";
 "Send Wake-On-LAN" = "Stuur Wake-On-LAN";
 "Movie Tags" = "Fliek Etikette";
+"Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "Die offisiële Kodi Remote toepassing gebruik kuns afgelaai vanaf jou Kodi bediener of vanaf die internet wanneer jou Kodi bediener daarna verwys. Om die prag van kuns te ontsluit, gebruik Kodi se \"Universal Scraper\" of ander skraper byvoegsels.\n\nKodi logo en Official Kodi Remote ikone is eiendom van Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Span Kodi";

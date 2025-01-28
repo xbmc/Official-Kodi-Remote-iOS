@@ -19,7 +19,7 @@
 "Override Lockscreen" = "Oorskryf Sluitskerm";
 "Show all files in filemode" = "Wys alle lêers in lêermodus";
 "Main Menu" = "Hoof Kieslys";
-"Start in view" = "Start in view";
+"Start in view" = "Begin in aansig";
 "Music" = "Musiek";
 "Movies" = "Flieks";
 "Videos" = "Video's";
@@ -31,3 +31,13 @@
 "Now Playing" = "Speel nou";
 "Global Search" = "Globale Soektog";
 "Main Menu changes needs app restart" = "Hoof Kieslys veranderinge benodig toepassing om oor te begin";
+"Blurred cover effect" = "Vervaagde omslag effek";
+"Send Wake-On-LAN automatically" = "Stuur Wake-On-LAN outomaties";
+"Use thumbnail when fanart is missing" = "Gebruik duimnaelskets wanneer ondersteunerkuns ontbreek";
+"Colorize UI automatically" = "Kleur UI outomaties in";
+"Interface" = "Gebruikerskoppelvlak";
+"Cache Settings" = "Kas Instellings";
+"Theme (iOS 13+)" = "Tema (iOS 13+)";
+"Filemode and Theme changes need app restart" = "Lêermodus en Tema veranderinge moet die toepassing oor begin";
+"Main Menu Items" = "Hoofkieslys Items";
+"Episode identifier" = "Episode identifiseerder";
