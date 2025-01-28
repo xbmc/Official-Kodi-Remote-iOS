@@ -77,8 +77,6 @@
         UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
         panRecognizer.delegate = self;
         panRecognizer.maximumNumberOfTouches = 1;
-        panRecognizer.delaysTouchesBegan = YES;
-        panRecognizer.delaysTouchesEnded = YES;
         panRecognizer.cancelsTouchesInView = YES;
         [self.view addGestureRecognizer:panRecognizer];
         [self.view addSubview:slideViews];
