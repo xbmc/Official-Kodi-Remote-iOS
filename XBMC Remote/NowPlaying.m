@@ -2638,6 +2638,7 @@
 }
 
 - (void)showRemote {
+    fromItself = YES;
     RemoteController *remote = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
     [self.navigationController pushViewController:remote animated:YES];
 }
