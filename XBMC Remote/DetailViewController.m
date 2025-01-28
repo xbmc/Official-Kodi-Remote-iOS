@@ -5470,14 +5470,9 @@
         self.slidingViewController.anchorLeftRevealAmount = 0;
     }
     NSIndexPath *selection = [dataList indexPathForSelectedRow];
-	if (selection) {
-		[dataList deselectRowAtIndexPath:selection animated:NO];
-    }
-    selection = [dataList indexPathForSelectedRow];
     if (selection) {
-		[dataList deselectRowAtIndexPath:selection animated:YES];
+        [dataList deselectRowAtIndexPath:selection animated:NO];
     }
-    
     for (selection in [collectionView indexPathsForSelectedItems]) {
         [collectionView deselectItemAtIndexPath:selection animated:YES];
     }
