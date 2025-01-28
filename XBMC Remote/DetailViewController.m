@@ -1507,6 +1507,7 @@
                 else {
                     [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
                 }
+                [self deselectAtIndexPath:indexPath];
                 return;
             }
             else {
@@ -1550,6 +1551,7 @@
 }
 
 - (void)didSelectItemAtIndexPath:(NSIndexPath*)indexPath item:(NSDictionary*)item displayPoint:(CGPoint)point {
+    [self selectAtIndexPath:indexPath];
     mainMenu *menuItem = [self getMainMenu:item];
     int activeTab = [self getActiveTab:item];
     NSDictionary *methods = menuItem.subItem.mainMethod[activeTab];
@@ -1606,6 +1608,7 @@
             NSString *message = [NSString stringWithFormat:@"%@ (type = '%@')", LOCALIZED_STR(@"Cannot do that"), item[@"type"]];
             [Utilities showMessage:message color:[Utilities getSystemRed:0.95]];
         }
+        [self deselectAtIndexPath:indexPath];
     }
     else if (methods[@"method"] != nil && ![parameters[@"forceActionSheet"] boolValue] && !stackscrollFullscreen) {
         // There is a child and we want to show it (only when not in fullscreen)
@@ -1625,6 +1628,7 @@
             else {
                 [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
             }
+            [self deselectAtIndexPath:indexPath];
         }
     }
 }
@@ -3213,6 +3217,15 @@
     return cell;
 }
 
+- (void)selectAtIndexPath:(NSIndexPath*)indexPath {
+    if (enableCollectionView) {
+        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    }
+    else {
+        [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
+}
+
 - (void)deselectAtIndexPath:(NSIndexPath*)indexPath {
     if (enableCollectionView) {
         [collectionView deselectItemAtIndexPath:indexPath animated:NO];
@@ -3284,18 +3297,6 @@
             selectedIndexPath = indexPath;
             
             NSDictionary *item = [self getItemFromIndexPath:indexPath];
-            
-            if ([self doesShowSearchResults]) {
-                [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-            }
-            else {
-                if (enableCollectionView) {
-                    [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-                }
-                else {
-                    [dataList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-                }
-            }
             mainMenu *menuItem = [self getMainMenu:item];
             int activeTab = [self getActiveTab:item];
             NSMutableArray *sheetActions = [menuItem.sheetActions[activeTab] mutableCopy];
@@ -3351,7 +3352,6 @@
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             forceMusicAlbumMode = NO;
-            [self deselectAtIndexPath:selectedIndexPath];
         }];
         
         for (NSString *actionName in sheetActions) {
@@ -3525,7 +3525,6 @@
                 
                 UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                     forceMusicAlbumMode = NO;
-                    [self deselectAtIndexPath:selectedIndexPath];
                 }];
                 
                 for (NSString *actiontitle in sheetActions) {
@@ -4071,7 +4070,6 @@
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                [cellActivityIndicator stopAnimating];
-               [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
                    [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
@@ -4118,7 +4116,6 @@
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                [cellActivityIndicator stopAnimating];
-               [self deselectAtIndexPath:indexPath];
                if (error == nil && methodError == nil) {
                    id cell = [self getCell:indexPath];
                    UIImageView *timerView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
