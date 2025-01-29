@@ -388,6 +388,7 @@ double round(double d) {
 }
 
 - (void)actionSheetHandler:(NSString*)actiontitle {
+    NSString *resumeKey = [LOCALIZED_STR(@"Resume from %@") stringByReplacingOccurrencesOfString:@"%@" withString:@""];
     if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue after current")]) {
         [self addQueueAfterCurrent:YES];
     }
@@ -401,7 +402,7 @@ double round(double d) {
              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
         [self recordChannel];
     }
-    else if ([actiontitle rangeOfString:LOCALIZED_STR(@"Resume from")].location != NSNotFound) {
+    else if ([actiontitle rangeOfString:resumeKey].location != NSNotFound) {
         [self resumePlayback];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
