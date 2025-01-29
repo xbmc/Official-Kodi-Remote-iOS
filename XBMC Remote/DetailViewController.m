@@ -1505,7 +1505,7 @@
                     [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
                 }
                 else {
-                    [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
+                    [self startPlayback:item indexPath:indexPath shuffle:NO];
                 }
                 return;
             }
@@ -1598,7 +1598,7 @@
         // Selected favourite item is a media type -> play it
         else if ([item[@"type"] isEqualToString:@"media"]) {
             if (item[@"path"]) {
-                [self playerOpen:@{@"item": @{@"file": item[@"path"]}} index:nil];
+                [self playerOpen:@{@"item": @{@"file": item[@"path"]}} index:indexPath];
             }
         }
         // Selected favourite item is an unknown type -> throw an error
@@ -1623,7 +1623,7 @@
                 [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
             }
             else {
-                [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
+                [self startPlayback:item indexPath:indexPath shuffle:NO];
             }
         }
     }
@@ -3236,7 +3236,7 @@
         [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
-        [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
+        [self startPlayback:item indexPath:indexPath shuffle:NO];
         forceMusicAlbumMode = NO;
     }
 }
@@ -3510,8 +3510,7 @@
             [self startSlideshow:item indexPath:selectedIndexPath];
         }
         else {
-            NSInteger playFromPosition = albumView ? selectedIndexPath.row : 0;
-            [self addPlayback:item indexPath:selectedIndexPath position:playFromPosition shuffle:NO];
+            [self startPlayback:item indexPath:selectedIndexPath shuffle:NO];
         }
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play using...")]) {
@@ -3530,7 +3529,7 @@
                 
                 for (NSString *actiontitle in sheetActions) {
                     UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                        [self addPlayback:item indexPath:selectedIndexPath using:actiontitle shuffle:NO];
+                        [self startPlayback:item indexPath:selectedIndexPath using:actiontitle shuffle:NO];
                     }];
                     [alertCtrl addAction:action];
                 }
@@ -3555,7 +3554,7 @@
         [self deleteTimer:item indexPath:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play in shuffle mode")]) {
-        [self addPlayback:item indexPath:selectedIndexPath position:0 shuffle:YES];
+        [self startPlayback:item indexPath:selectedIndexPath shuffle:YES];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Queue")]) {
         [self addQueue:item indexPath:selectedIndexPath];
@@ -4160,7 +4159,7 @@
         forceMusicAlbumMode = NO;
     }
     int playlistid = [mainFields[@"playlistid"] intValue];
-    id playlistItems = [self buildPlaylistItems:playlistid item:item key:mainFields[@"row9"]];
+    id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
     if (!playlistItems) {
         [cellActivityIndicator stopAnimating];
         return;
@@ -4225,10 +4224,10 @@
 
 - (void)playerOpen:(NSDictionary*)params index:(NSIndexPath*)indexPath {
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
-    [self playerOpen:params index:indexPath indicator:cellActivityIndicator];
+    [self playerOpen:params indicator:cellActivityIndicator];
 }
 
-- (void)playerOpen:(NSDictionary*)params index:(NSIndexPath*)indexPath indicator:(UIActivityIndicatorView*)cellActivityIndicator {
+- (void)playerOpen:(NSDictionary*)params indicator:(UIActivityIndicatorView*)cellActivityIndicator {
     [cellActivityIndicator startAnimating];
     [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [cellActivityIndicator stopAnimating];
@@ -4243,15 +4242,11 @@
     }];
 }
 
-- (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath using:(NSString*)playername shuffle:(BOOL)shuffled {
-    [self addPlayback:item indexPath:indexPath using:playername position:0 shuffle:shuffled];
+- (void)startPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath shuffle:(BOOL)shuffled {
+    [self startPlayback:item indexPath:indexPath using:nil shuffle:shuffled];
 }
 
-- (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath position:(NSInteger)pos shuffle:(BOOL)shuffled {
-    [self addPlayback:item indexPath:indexPath using:nil position:pos shuffle:shuffled];
-}
-
-- (void)addPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath using:(NSString*)playername position:(NSInteger)pos shuffle:(BOOL)shuffled {
+- (void)startPlayback:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath using:(NSString*)playername shuffle:(BOOL)shuffled {
     mainMenu *menuItem = [self getMainMenu:item];
     int activeTab = [self getActiveTab:item];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
@@ -4264,86 +4259,34 @@
     }
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
-    int playlistid = [mainFields[@"playlistid"] intValue];
-    if ([mainFields[@"row8"] isEqualToString:@"channelid"] ||
-        [mainFields[@"row8"] isEqualToString:@"broadcastid"]) {
-        NSNumber *channelid = item[mainFields[@"row8"]];
-        if ([mainFields[@"row8"] isEqualToString:@"broadcastid"]) {
-            channelid = item[@"pvrExtraInfo"][@"channelid"];
-        }
-        NSDictionary *itemParams = @{
-            @"item": [NSDictionary dictionaryWithObjectsAndKeys: channelid, @"channelid", nil],
-        };
-        [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
+    id optionsKey;
+    id optionsValue;
+    if (AppDelegate.instance.serverVersion > 11) {
+        optionsKey = @"options";
+        optionsValue = [NSDictionary dictionaryWithObjectsAndKeys:
+                        @(shuffled), @"shuffled",
+                        playername, @"playername",
+                        nil];
     }
-    else if ([mainFields[@"row7"] isEqualToString:@"plugin"]) {
-        NSDictionary *itemParams = @{
-            @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"file"], @"file", nil],
-        };
-        [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
+    id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
+    if (!playlistItems) {
+        [cellActivityIndicator stopAnimating];
+        return;
     }
-    else if (playername.length) {
-        NSString *key = mainFields[@"row8"];
-        id value = item[key];
-        if ([item[@"filetype"] isEqualToString:@"directory"]) {
-            key = @"directory";
-        }
-        if (!value || !key) {
-            return;
-        }
-        NSDictionary *itemParams = @{
-            @"item": @{key: value},
-            @"options": @{
-                @"playername": playername,
-                @"shuffled": @(shuffled),
-            },
-        };
-        [self playerOpen:itemParams index:indexPath indicator:cellActivityIndicator];
+    NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    playlistItems, @"item",
+                                    optionsValue, optionsKey,
+                                    nil];
+    if (shuffled && AppDelegate.instance.serverVersion > 11) {
+        [[Utilities getJsonRPC]
+         callMethod:@"Player.SetPartymode"
+         withParameters:@{@"playerid": @(0), @"partymode": @NO}
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
+            [self playerOpen:playbackParams indicator:cellActivityIndicator];
+         }];
     }
     else {
-        id optionsParam = nil;
-        id optionsValue = nil;
-        if (AppDelegate.instance.serverVersion > 11) {
-            optionsParam = @"options";
-            optionsValue = @{@"shuffled": @(shuffled)};
-        }
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Clear" withParameters:@{@"playlistid": @(playlistid)} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            if (error == nil && methodError == nil) {
-                id playlistItems = [self buildPlaylistItems:playlistid item:item key:mainFields[@"row8"]];
-                if (!playlistItems) {
-                    [cellActivityIndicator stopAnimating];
-                    return;
-                }
-                NSDictionary *playlistParams = @{
-                    @"playlistid": @(playlistid),
-                    @"item": playlistItems,
-                };
-                NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                @{@"playlistid": @(playlistid), @"position": @(pos)}, @"item",
-                                                optionsValue, optionsParam,
-                                                nil];
-                if (shuffled && AppDelegate.instance.serverVersion > 11) {
-                    [[Utilities getJsonRPC]
-                     callMethod:@"Player.SetPartymode"
-                     withParameters:@{@"playerid": @(0), @"partymode": @NO}
-                     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *internalError) {
-                         [self playlistAndPlay:playlistParams
-                                playbackParams:playbackParams
-                                     indexPath:indexPath
-                                     indicator:cellActivityIndicator];
-                     }];
-                }
-                else {
-                    [self playlistAndPlay:playlistParams
-                           playbackParams:playbackParams
-                                indexPath:indexPath
-                                indicator:cellActivityIndicator];
-                }
-            }
-            else {
-                [cellActivityIndicator stopAnimating];
-            }
-        }];
+        [self playerOpen:playbackParams indicator:cellActivityIndicator];
     }
 }
 
@@ -4361,11 +4304,6 @@
     id value = item[key];
     if ([item[@"filetype"] isEqualToString:@"directory"]) {
         key = @"directory";
-    }
-    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
-    else if (![VersionCheck hasRecordingIdPlaylistSupport] && [mainFields[@"row8"] isEqualToString:@"recordingid"]) {
-        key = @"file";
-        value = item[@"file"];
     }
     if (!value || !key) {
         [cellActivityIndicator stopAnimating];
@@ -4386,10 +4324,10 @@
             }
         };
     }
-    [self playerOpen:playbackParams index:nil indicator:cellActivityIndicator];
+    [self playerOpen:playbackParams indicator:cellActivityIndicator];
 }
 
-- (id)buildPlaylistItems:(int)playlistid item:(NSDictionary*)item key:(id)key {
+- (id)buildPlaylistItems:(NSDictionary*)item key:(id)key {
     id value = item[key];
     if ([item[@"filetype"] isEqualToString:@"directory"]) {
         key = @"directory";
@@ -4414,6 +4352,11 @@
         key = @"file";
         value = item[@"file"];
     }
+    else if ([key isEqualToString:@"channelid"] ||
+             [key isEqualToString:@"broadcastid"]) {
+        key = @"channelid";
+        value = item[@"pvrExtraInfo"][@"channelid"] ?: item[@"channelid"];
+    }
     if (!value || !key) {
         return nil;
     }
@@ -4430,18 +4373,6 @@
     }
     
     return playlistItems;
-}
-
-- (void)playlistAndPlay:(NSDictionary*)playlistParams playbackParams:(NSDictionary*)playbackParams indexPath:(NSIndexPath*)indexPath indicator:(UIActivityIndicatorView*)cellActivityIndicator {
-    [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (error == nil && methodError == nil) {
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-            [self playerOpen:playbackParams index:indexPath indicator:cellActivityIndicator];
-        }
-        else {
-            [cellActivityIndicator stopAnimating];
-        }
-    }];
 }
 
 - (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters success:(NSString*)successMessage failure:(NSString*)failureMessage {
