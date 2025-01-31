@@ -866,6 +866,10 @@
 }
 
 + (UIImage*)roundedCornerImage:(UIImage*)image {
+    if (image.size.width == 0 || image.size.height == 0) {
+        return image;
+    }
+    
     CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
     UIGraphicsBeginImageContextWithOptions(image.size, NO, 0);
 
