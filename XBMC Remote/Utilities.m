@@ -1330,7 +1330,7 @@
 }
 
 + (NSString*)getServerPort:(NSString*)serverPort {
-    return serverPort.length ? serverPort : [NSString stringWithFormat:@"%d", DEFAULT_SERVER_PORT];;
+    return serverPort.length ? serverPort : [NSString stringWithFormat:@"%d", DEFAULT_SERVER_PORT];
 }
 
 + (int)getTcpPort:(NSNumber*)tcpPort {
