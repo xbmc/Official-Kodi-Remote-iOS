@@ -99,8 +99,8 @@
 
 - (void)handleStackScrollFullScreenEnabled:(NSNotification*)sender {
     UIView *senderView = nil;
-    if ([[sender object] isKindOfClass:[UIView class]]) {
-        senderView = [sender object];
+    if ([sender.object isKindOfClass:[UIView class]]) {
+        senderView = sender.object;
     }
     hideToolbar = [[sender.userInfo objectForKey:@"hideToolbar"] boolValue];
     BOOL clipsToBounds = [[sender.userInfo objectForKey:@"clipsToBounds"] boolValue];
@@ -119,7 +119,7 @@
         int i = 0;
         // Find the view requesting fullscreen and expand the frame
         for (UIView *subview in slideViews.subviews) {
-            if ([subview isEqual:[sender object]]) {
+            if ([subview isEqual:sender.object]) {
                 fullscreenView = subview;
                 originalFrame = subview.frame;
                 CGRect frame = subview.frame;
@@ -155,8 +155,8 @@
 
 - (void)handleStackScrollFullScreenDisabled:(NSNotification*)sender {
     UIView *senderView = nil;
-    if ([[sender object] isKindOfClass:[UIView class]]) {
-        senderView = [sender object];
+    if ([sender.object isKindOfClass:[UIView class]]) {
+        senderView = sender.object;
     }
     NSTimeInterval duration = [[sender.userInfo objectForKey:@"duration"] doubleValue];
     if (!duration) {
@@ -171,7 +171,7 @@
         int i = 0;
         // Find the view leaving fullscreen and restore the frame
         for (UIView *subview in slideViews.subviews) {
-            if ([subview isEqual:[sender object]]) {
+            if ([subview isEqual:sender.object]) {
                 fullscreenView = nil;
                 CGRect frame = subview.frame;
                 frame.origin.x = 0;
