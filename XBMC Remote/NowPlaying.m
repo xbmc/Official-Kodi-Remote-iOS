@@ -2497,10 +2497,6 @@
 
 #pragma mark - UISegmentControl
 
-- (CGRect)currentScreenBoundsDependOnOrientation {
-    return UIScreen.mainScreen.bounds;
-}
-
 - (void)addSegmentControl {
     NSArray *segmentItems = @[[UIImage imageNamed:@"icon_song"],
                               [UIImage imageNamed:@"icon_video"],
@@ -2508,7 +2504,7 @@
     playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:segmentItems];
     CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH) / 2;
     if (IS_IPHONE) {
-        left_margin = floor(([self currentScreenBoundsDependOnOrientation].size.width - SEGMENTCONTROL_WIDTH) / 2);
+        left_margin = floor((UIScreen.mainScreen.bounds.size.width - SEGMENTCONTROL_WIDTH) / 2);
     }
     playlistSegmentedControl.frame = CGRectMake(left_margin,
                                                 (playlistActionView.frame.size.height - SEGMENTCONTROL_HEIGHT) / 2,

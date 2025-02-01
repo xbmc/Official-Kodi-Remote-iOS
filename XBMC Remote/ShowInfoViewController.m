@@ -1393,10 +1393,6 @@
     fanartView.clipsToBounds = YES;
 }
 
-- (CGRect)currentScreenBoundsDependOnOrientation {
-    return UIScreen.mainScreen.bounds;
-}
-
 - (void)showBackgroundForTag:(NSInteger)tag {
     // Close then fullscreen fanart view
     if (tag == FANART_FULLSCREEN_DISABLE) {

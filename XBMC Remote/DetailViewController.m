@@ -3858,10 +3858,6 @@
    }
 }
 
-- (CGRect)currentScreenBoundsDependOnOrientation {
-    return UIScreen.mainScreen.bounds;
-}
-
 - (void)leaveFullscreen {
     if (stackscrollFullscreen) {
         [self toggleFullscreen];
@@ -5615,7 +5611,7 @@
 }
 
 - (void)setIphoneInterface:(NSDictionary*)itemSizes {
-    viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
+    viewWidth = UIScreen.mainScreen.bounds.size.width;
     albumViewPadding = 8;
     albumViewHeight = episodesView ? IPHONE_SEASON_SECTION_HEIGHT : IPHONE_ALBUM_SECTION_HEIGHT;
     artistFontSize = 12;
@@ -5640,7 +5636,7 @@
     fanartFontSize = 13;
     [self checkParamSize:itemSizes viewWidth:viewWidth];
     if (stackscrollFullscreen) {
-        viewWidth = [self currentScreenBoundsDependOnOrientation].size.width;
+        viewWidth = UIScreen.mainScreen.bounds.size.width;
     }
 }
 
