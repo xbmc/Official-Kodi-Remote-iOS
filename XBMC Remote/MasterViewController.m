@@ -358,10 +358,6 @@
     messagesView = [[MessagesView alloc] initWithFrame:CGRectZero deltaY:0 deltaX:0];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleWillResignActive:)
-                                                 name: UIApplicationWillResignActiveNotification
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleDidEnterBackground:)
                                                  name: UIApplicationDidEnterBackgroundNotification
                                                object: nil];
@@ -451,9 +447,6 @@
     NSString *message = [sender.userInfo objectForKey:@"message"];
     NSString *icon_connection = [sender.userInfo objectForKey:@"icon_connection"];
     [self changeServerStatus:statusValue infoText:message icon:icon_connection];
-}
-
-- (void)handleWillResignActive:(NSNotification*)sender {
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {

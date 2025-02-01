@@ -548,10 +548,6 @@
                                                  name: @"StackScrollOffScreen"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleWillResignActive:)
-                                                 name: UIApplicationWillResignActiveNotification
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleDidEnterBackground:)
                                                  name: UIApplicationDidEnterBackgroundNotification
                                                object: nil];
@@ -721,9 +717,6 @@
     }
     [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
-}
-
-- (void)handleWillResignActive:(NSNotification*)sender {
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {
