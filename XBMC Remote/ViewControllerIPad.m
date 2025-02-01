@@ -640,8 +640,8 @@
                      animations:^{
         playlistHeader.alpha = menuViewController.view.alpha = isFullscreen ? 0 : 1;
         self.nowPlayingController.toolbarBackground.alpha = isFullscreen ? 0.4 : 1;
-        [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width
-                                                   height:[self currentScreenBoundsDependOnOrientation].size.height
+        [self.nowPlayingController setNowPlayingDimension:UIScreen.mainScreen.bounds.size.width
+                                                   height:UIScreen.mainScreen.bounds.size.height
                                                      YPOS:-YPOS
                                                fullscreen:isFullscreen];
                      }
@@ -763,13 +763,9 @@
     return UIScreen.mainScreen.fixedCoordinateSpace.bounds.size;
 }
 
-- (CGRect)currentScreenBoundsDependOnOrientation {
-    return UIScreen.mainScreen.bounds;
-}
-
 - (void)viewWillLayoutSubviews {
-    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width
-                                               height:[self currentScreenBoundsDependOnOrientation].size.height
+    [self.nowPlayingController setNowPlayingDimension:UIScreen.mainScreen.bounds.size.width
+                                               height:UIScreen.mainScreen.bounds.size.height
                                                  YPOS:-YPOS
                                            fullscreen:isFullscreen];
 }
