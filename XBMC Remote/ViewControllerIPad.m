@@ -351,7 +351,7 @@
     playlistHeader.textColor = UIColor.lightGrayColor;
     playlistHeader.text = LOCALIZED_STR(@"Playlist");
     playlistHeader.textAlignment = NSTextAlignmentCenter;
-    playlistHeader.layer.borderColor = [Utilities getGrayColor:77 alpha:0.6].CGColor;
+    playlistHeader.layer.borderColor = IPAD_MENU_SEPARATOR.CGColor;
     playlistHeader.layer.borderWidth = 1.0;
     [leftMenuView addSubview:playlistHeader];
     
