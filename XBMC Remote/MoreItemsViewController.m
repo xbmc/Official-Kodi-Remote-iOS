@@ -23,7 +23,6 @@
     if (self = [super init]) {
 		self.view.frame = frame;
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
-//        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		_tableView.delegate = self;
 		_tableView.dataSource = self;
         _tableView.backgroundColor = UIColor.clearColor;
@@ -36,19 +35,13 @@
 #pragma mark -
 #pragma mark Table view data source
 
-//- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-//    return 64;
-//}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
     // Return the number of sections.
     return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    //    return 10;
     return mainMenuItems.count;
 }
 

@@ -69,9 +69,6 @@
     BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
                         infoMask == kCGImageAlphaNoneSkipFirst ||
                         infoMask == kCGImageAlphaNoneSkipLast);
-    //    if (!anyNonAlpha) {
-    //        return UIColor.clearColor;
-    //    }
     
     // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
     uint32_t alphaFormat = anyNonAlpha ? kCGImageAlphaNoneSkipLast : kCGImageAlphaPremultipliedFirst;
