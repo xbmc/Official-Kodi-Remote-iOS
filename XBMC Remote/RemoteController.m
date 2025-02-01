@@ -605,10 +605,6 @@
 
 - (void)GUIAction:(NSString*)action params:(NSDictionary*)params httpAPIcallback:(NSString*)callback {
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-//        NSLog(@"Action %@ ok with %@ ", action, methodResult);
-//        if (methodError != nil || error != nil) {
-//            NSLog(@"method error %@ %@", methodError, error);
-//        }
         if ((methodError != nil || error != nil) && callback != nil) { // Backward compatibility
             [Utilities sendXbmcHttp:callback];
         }
@@ -622,17 +618,6 @@
     else {
         audioVolume = 0;
     }
-
-//    [[Utilities getJsonRPC]
-//     callMethod:@"Application.GetProperties" 
-//     withParameters:@{"properties": @[@"volume"]}
-//     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-//         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-//             if ([methodResult count]) {
-//                 audioVolume = [methodResult[@"volume"] intValue];
-//             }
-//         }
-//     }];
 }
 
 - (void)changeServerVolume {

@@ -20,7 +20,6 @@
 #import <SafariServices/SafariServices.h>
 
 @class NowPlaying;
-//@class DetailViewController;
 
 @interface DetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating, SFSafariViewControllerDelegate> {
     IBOutlet UITableView *dataList;

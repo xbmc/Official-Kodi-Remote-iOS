@@ -42,7 +42,7 @@
 @synthesize richResults;
 @synthesize sectionArray;
 @synthesize sectionArrayOpen;
-//@synthesize detailDescriptionLabel = _detailDescriptionLabel;
+
 #define SECTIONS_START_AT 100
 #define MAX_NORMAL_BUTTONS 4
 #define WARNING_TIMEOUT 30.0
@@ -232,12 +232,6 @@
             predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", objectToSearch[@"endtime"]];
             NSArray *nextFilteredArray = [epgData filteredArrayUsingPredicate:predicate];
             if (nextFilteredArray.count > 0) {
-//                NSSortDescriptor *sortDescriptor;
-//                sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"starttime"
-//                                                             ascending:YES];
-//                NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-//                NSArray *sortedArray;
-//                sortedArray = [nextFilteredArray sortedArrayUsingDescriptors:sortDescriptors];
                 channelEPG[@"next"] = [NSString stringWithFormat:@"%@ %@",
                                        [localHourMinuteFormatter stringFromDate:nextFilteredArray[0][@"starttime"]],
                                        nextFilteredArray[0][@"title"]
@@ -330,9 +324,6 @@
                        [NSThread detachNewThreadSelector:@selector(parseBroadcasts:) toTarget:self withObject:params];
                    }
                }
-//               else {
-//                   NSLog(@"method error %@ %@", methodError, error);
-//               }
            }];
 }
 
@@ -1856,7 +1847,6 @@
         cell.posterGenre.text = item[@"genre"];
         
         cell.posterYear.font = [UIFont systemFontOfSize:fanartFontSize];
-//        cell.posterYear.text = [NSString stringWithFormat:@"%@%@", item[@"year"], item[@"runtime"] == nil ? @"" : [NSString stringWithFormat:@" - %@", item[@"runtime"]]];
         cell.posterYear.text = item[@"year"];
         
         // Set label visibility based on setting
@@ -2106,7 +2096,7 @@
     }
 }
 
-- (void)choseParams { // DA OTTIMIZZARE TROPPI IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+- (void)choseParams {
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     if ([parameters[@"defaultThumb"] length] != 0 && ![parameters[@"defaultThumb"] isEqualToString:@"(null)"]) {
@@ -4236,9 +4226,6 @@
             [self showNowPlaying];
             [Utilities checkForReviewRequest];
         }
-//        else {
-//            NSLog(@"terzo errore %@", methodError);
-//        }
     }];
 }
 
@@ -4835,11 +4822,9 @@
     }
 
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
-//    NSLog(@"START");
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
-//    NSLog(@" METHOD %@ PARAMETERS %@", methodToCall, mutableParameters);
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:mutableParameters
@@ -4893,8 +4878,6 @@
          }
         
          if (error == nil && methodError == nil) {
-//             NSLog(@"END JSON");
-//             NSLog(@"DATO RICEVUTO %@", methodResult);
              [resultStoreArray removeAllObjects];
              [self.sections removeAllObjects];
              [activeLayoutView reloadData];
@@ -5004,8 +4987,6 @@
                          }
                      }
                  }
-//                 NSLog(@"END STORE");
-//                 NSLog(@"RICH RESULTS %@", resultStoreArray);
                  // Single Movie Sets are handled seperately
                  if (ignoreSingleMovieSets) {
                      if (!itemDict){
@@ -5029,7 +5010,6 @@
              }
          }
          else {
-//             NSLog(@"ERROR:%@ METHOD:%@", error, methodError);
              NSString *message = [Utilities formatClipboardMessage:methodToCall
                                                         parameters:mutableParameters
                                                              error:error
@@ -5491,10 +5471,6 @@
         self.navigationItem.rightBarButtonItem = doneButton;
     }
     [self hideButtonListWhenEmpty];
-// TRICK WHEN CHILDREN WAS FORCED TO PORTRAIT
-//    UIViewController *c = [[UIViewController alloc]init];
-//    [self presentViewController:c animated:NO completion:nil];
-//    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

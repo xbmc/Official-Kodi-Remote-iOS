@@ -16,8 +16,6 @@
 #define MRMC_TIMEWARP 14.0
 
 NSInputStream	*inStream;
-//  NSOutputStream	*outStream;
-//	CFWriteStreamRef writeStream;
 
 @implementation tcpJSONRPC
 
@@ -73,13 +71,9 @@ NSInputStream	*inStream;
     CFReadStreamRef readStream;
     CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)CFBridgingRetain(server), port, &readStream, NULL);
     inStream = (__bridge NSInputStream*)readStream;
-    //	outStream = (__bridge NSOutputStream*)writeStream;
     inStream.delegate = self;
-    //	outStream.delegate = self;
     [inStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    //	[outStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inStream open];
-    //	[outStream open];
     CFRelease((__bridge CFTypeRef)server);
 }
 
@@ -228,7 +222,7 @@ NSInputStream	*inStream;
                                  AppDelegate.instance.obj.serverDescription,
                                  serverInfo[@"major"],
                                  serverInfo[@"minor"],
-                                 serverInfo[@"tag"]];//, serverInfo[@"revision"]
+                                 serverInfo[@"tag"]];
                     [self jsonConnectionNotifications:YES];
                     [self showSetupNotifications:NO];
                 }
