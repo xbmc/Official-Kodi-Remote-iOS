@@ -548,10 +548,6 @@
                                                  name: @"StackScrollOffScreen"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleWillResignActive:)
-                                                 name: UIApplicationWillResignActiveNotification
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleDidEnterBackground:)
                                                  name: UIApplicationDidEnterBackgroundNotification
                                                object: nil];
@@ -644,8 +640,8 @@
                      animations:^{
         playlistHeader.alpha = menuViewController.view.alpha = isFullscreen ? 0 : 1;
         self.nowPlayingController.toolbarBackground.alpha = isFullscreen ? 0.4 : 1;
-        [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width
-                                                   height:[self currentScreenBoundsDependOnOrientation].size.height
+        [self.nowPlayingController setNowPlayingDimension:UIScreen.mainScreen.bounds.size.width
+                                                   height:UIScreen.mainScreen.bounds.size.height
                                                      YPOS:-YPOS
                                                fullscreen:isFullscreen];
                      }
@@ -723,9 +719,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
 }
 
-- (void)handleWillResignActive:(NSNotification*)sender {
-}
-
 - (void)handleDidEnterBackground:(NSNotification*)sender {
     [self.tcpJSONRPCconnection stopNetworkCommunication];
 }
@@ -770,13 +763,9 @@
     return UIScreen.mainScreen.fixedCoordinateSpace.bounds.size;
 }
 
-- (CGRect)currentScreenBoundsDependOnOrientation {
-    return UIScreen.mainScreen.bounds;
-}
-
 - (void)viewWillLayoutSubviews {
-    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width
-                                               height:[self currentScreenBoundsDependOnOrientation].size.height
+    [self.nowPlayingController setNowPlayingDimension:UIScreen.mainScreen.bounds.size.width
+                                               height:UIScreen.mainScreen.bounds.size.height
                                                  YPOS:-YPOS
                                            fullscreen:isFullscreen];
 }

@@ -17,10 +17,6 @@
  */
 @property (strong, nonatomic) NSArray *indexLabels;
 
-/** A gesture recognizer that handles panning.
- */
-//@property (strong, nonatomic) UIPanGestureRecognizer *panner;
-
 /** A gesture recognizer that handles tapping.
  */
 @property (strong, nonatomic) UILongPressGestureRecognizer *tapper;

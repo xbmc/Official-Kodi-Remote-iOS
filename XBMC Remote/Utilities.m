@@ -69,9 +69,6 @@
     BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
                         infoMask == kCGImageAlphaNoneSkipFirst ||
                         infoMask == kCGImageAlphaNoneSkipLast);
-    //    if (!anyNonAlpha) {
-    //        return UIColor.clearColor;
-    //    }
     
     // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
     uint32_t alphaFormat = anyNonAlpha ? kCGImageAlphaNoneSkipLast : kCGImageAlphaPremultipliedFirst;
@@ -1326,7 +1323,7 @@
 }
 
 + (NSString*)getServerPort:(NSString*)serverPort {
-    return serverPort.length ? serverPort : [NSString stringWithFormat:@"%d", DEFAULT_SERVER_PORT];;
+    return serverPort.length ? serverPort : [NSString stringWithFormat:@"%d", DEFAULT_SERVER_PORT];
 }
 
 + (int)getTcpPort:(NSNumber*)tcpPort {

@@ -176,7 +176,6 @@
     if (theTextField.tag < XIB_PASSWORD_FIELD) {
         UITextField *next = (UITextField*)[self.view viewWithTag:theTextField.tag + 1];
         [next becomeFirstResponder];
-        //[next selectAll:self];
         return NO;
     }
     else {
