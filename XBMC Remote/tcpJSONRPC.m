@@ -15,7 +15,7 @@
 #define SERVER_JSON_TIMEOUT (SERVER_CHECK_TIMER - 1.0) // ensure result comes before next heartbeat check
 #define MRMC_TIMEWARP 14.0
 
-NSInputStream	*inStream;
+NSInputStream *inStream;
 
 @implementation tcpJSONRPC
 
