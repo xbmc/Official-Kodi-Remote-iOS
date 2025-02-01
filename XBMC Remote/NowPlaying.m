@@ -2608,11 +2608,6 @@
                                              selector: @selector(enablePopGestureRecognizer:)
                                                  name: @"ECSlidingViewTopDidReset"
                                                object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(connectionSuccess:)
-                                                 name: @"XBMCServerConnectionSuccess"
-                                               object: nil];
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {
@@ -2861,9 +2856,6 @@
     overlayGradient.contentMode = UIViewContentModeScaleToFill;
     overlayGradient.alpha = 0.5;
     [visualEffectView.contentView addSubview:overlayGradient];
-}
-
-- (void)connectionSuccess:(NSNotification*)note {
 }
 
 - (void)handleShakeNotification {

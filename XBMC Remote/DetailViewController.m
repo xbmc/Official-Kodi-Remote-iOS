@@ -6017,11 +6017,6 @@
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleEnterForeground:)
-                                                 name: UIApplicationWillEnterForegroundNotification
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(leaveFullscreen)
                                                  name: @"LeaveFullscreen"
                                                object: nil];
@@ -6154,9 +6149,6 @@
     enableDiskCache = diskcache_preference && [parameters[@"enableLibraryCache"] boolValue];
     [dataList setShowsPullToRefresh:enableDiskCache];
     [collectionView setShowsPullToRefresh:enableDiskCache];
-}
-
-- (void)handleEnterForeground:(NSNotification*)sender {
 }
 
 - (void)handleChangeLibraryView {
