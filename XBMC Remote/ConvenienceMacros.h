@@ -37,6 +37,8 @@
 #define ACTOR_SELECTED_COLOR [Utilities getGrayColor:128 alpha:0.5]
 #define INFO_POPOVER_COLOR [Utilities getGrayColor:0 alpha:0.8]
 #define IPAD_MENU_SEPARATOR [Utilities getGrayColor:77 alpha:0.6]
+#define FONT_SHADOW_WEAK [Utilities getGrayColor:0 alpha:0.6]
+#define FONT_SHADOW_STRONG [Utilities getGrayColor:0 alpha:0.8]
 #define ERROR_MESSAGE_COLOR [Utilities getSystemRed:0.95]
 #define SUCCESS_MESSAGE_COLOR [Utilities getSystemGreen:0.95]
 

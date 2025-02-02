@@ -3842,7 +3842,7 @@
         topNavigationLabel.adjustsFontSizeToFitWidth = YES;
         topNavigationLabel.textAlignment = NSTextAlignmentLeft;
         topNavigationLabel.textColor = UIColor.whiteColor;
-        topNavigationLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.5];
+        topNavigationLabel.shadowColor = FONT_SHADOW_WEAK;
         topNavigationLabel.shadowOffset = CGSizeMake (0, -1);
         topNavigationLabel.highlightedTextColor = UIColor.blackColor;
         topNavigationLabel.opaque = YES;

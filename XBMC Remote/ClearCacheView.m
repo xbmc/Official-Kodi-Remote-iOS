@@ -26,7 +26,7 @@
         PosterLabel *label = [[PosterLabel alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.frame) / 2 - labelHeight / 2, CGRectGetWidth(self.frame) - borderWidth, labelHeight)];
         label.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         label.text = LOCALIZED_STR(@"Clearing app disk cache...\n\nPlease wait, since this may take a while");
-        label.shadowColor = UIColor.blackColor;
+        label.shadowColor = FONT_SHADOW_STRONG;
         label.shadowOffset = CGSizeMake(1, 1);
         label.textAlignment = NSTextAlignmentCenter;
         label.numberOfLines = 0;

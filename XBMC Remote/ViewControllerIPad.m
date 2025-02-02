@@ -486,7 +486,7 @@
     xbmcInfo.titleLabel.numberOfLines = 2;
     xbmcInfo.titleLabel.textAlignment = NSTextAlignmentCenter;
     xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;
-    xbmcInfo.titleLabel.shadowColor = UIColor.blackColor;
+    xbmcInfo.titleLabel.shadowColor = FONT_SHADOW_STRONG;
     xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
     xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
