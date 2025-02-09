@@ -6279,7 +6279,6 @@
                 @"level": @"expert",
             },
             @"label": LOCALIZED_STR(@"XBMC Settings"),
-            @"animationStartBottomScreen": @(IS_IPHONE),
             @"thumbWidth": @0,
         },
                                    
