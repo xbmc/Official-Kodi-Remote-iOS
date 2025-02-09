@@ -3086,7 +3086,7 @@
         @{},
         @{},
         @{},
-        @[],
+        @{},
     ];
     
     menu_Movies.subItem.subItem.enableSection = NO;
@@ -4108,7 +4108,7 @@
             @"itemid_extra_section": @"seasons",
         },
 
-        @[],
+        @{},
                                 
         @{
             @"itemid": @"files",
@@ -4221,11 +4221,11 @@
     ] mutableCopy];
     
     menu_TVShows.subItem.subItem.mainFields = @[
-        @[],
-        @[],
-        @[],
-        @[],
-        @[],
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
     ];
         
     menu_TVShows.subItem.subItem.enableSection = NO;
@@ -4785,9 +4785,9 @@
             @"row15": @"hastimer",
         },
                                         
-        @[],
-        @[],
-        @[],
+        @{},
+        @{},
+        @{},
     ];
     
     menu_LiveTV.subItem.subItem.enableSection = NO;
@@ -5335,9 +5335,9 @@
             @"row15": @"hastimer",
         },
                                         
-        @[],
-        @[],
-        @[],
+        @{},
+        @{},
+        @{},
     ];
     
     menu_Radio.subItem.subItem.enableSection = NO;
@@ -5533,8 +5533,8 @@
     ] mutableCopy];
     
     menu_Pictures.subItem.subItem.mainFields = @[
-        @[],
-        @[],
+        @{},
+        @{},
     ];
     
 #pragma mark - Favourites
