@@ -297,3 +297,12 @@
 "Channel" = "Channel";
 "Date" = "Date";
 "Runtime" = "Runtime";
+"Connected to %@" = "Connectat la %@";
+"Host name" = "Nume gazdă";
+"Random" = "Aleator";
+"Preference" = "Preferință";
+"Date & time" = "Data și ora";
+"Resolution" = "Rezoluție";
+"Play using..." = "Redă folosind...";
+"Movie Tags" = "Etichete filme artistice";
+"Send Wake-On-LAN" = "Trimite pachetul de trezire în rețeaua locală";

@@ -299,3 +299,7 @@
 "Date" = "Data";
 "Runtime" = "Tempo de execução";
 "Random" = "Aleatório";
+"Connected to %@" = "Conectado a %@";
+"Movie Set Details" = "Detalhes da Coleção de Filmes";
+"Min" = "Min";
+"Send Wake-On-LAN" = "Enviar Wake-on-Lan";
