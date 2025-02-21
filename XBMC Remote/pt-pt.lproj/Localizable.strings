@@ -13,14 +13,12 @@
 "Genres" = "Géneros";
 "Suspend" = "Suspender";
 "Reboot" = "Reiniciar";
-"Quit" = "Sair";
 "Queue" = "Adicionar à lista de reprodução";
 "Play" = "Reproduzir";
 "Songs" = "Músicas";
 "Record" = "Gravar";
 "Recordings" = "Gravações";
 "Edit" = "Editar";
-"Video" = "Vídeo";
 "Search" = "Pesquisa";
 "Username" = "Utilizador";
 "Password" = "Palavra Passe";
@@ -49,13 +47,9 @@
 "Added Episodes" = "Episódios adicionados";
 "Pictures Add-ons" = "Imagem - Add-ons";
 "Power off System" = "Desligar o sistema";
-"Power off" = "Desligar";
 "Hibernate" = "Hibernar";
 "Update Audio Library" = "Actualizar colecção de áudio";
-"Clean Audio" = "Limpar áudio";
-"Update Video" = "Actualizar vídeo";
 "Clean Video Library" = "Limpar Biblioteca de Vídeo";
-"Clean Video" = "Limpar vídeo";
 "Keyboard" = "Teclado";
 "Gesture Zone" = "Zona de gestos";
 "Button Pad" = "Botões";
@@ -74,11 +68,9 @@
 "Details" = "Detalhes";
 "Playlist" = "Lista de reprodução";
 "Details not found" = "Detalhes não encontrados";
-"Open in Safari" = "Abrir no Safari";
 "Error loading page" = "Erro ao carregar a página";
 "Cancel" = "Cancelar";
 "Resume from %@" = "Continuar a partir de %@";
-"Resume from" = "Continuar a partir de";
 "First aired on %@" = "Estreia em %@";
 "1 result" = "1 resultado";
 "%d results" = "%d resultados";
@@ -92,12 +84,6 @@
 "Cannot do that" = "Não é possível fazer isso";
 "Are you sure you want to clear the video playlist?" = "Tem a certeza de que quer apagar a lista de reprodução do vídeo?";
 "Are you sure you want to clear the picture playlist?" = "Tem a certeza de que pretende apagar a lista de reprodução de imagens?";
-"Are you sure you want to hibernate your XBMC system now?" = "Tem a certeza que pretende hibernar o seu sistema Kodi agora?";
-"Are you sure you want to suspend your XBMC system now?" = "Tem a certeza que pretende suspender o seu sistema Kodi agora?";
-"Are you sure you want to reboot your XBMC system now?" = "Tem a certeza que pretende reiniciar o seu sistema Kodi agora?";
-"Are you sure you want to update your audio library now?" = "Tem a certeza que pretende actualizar a sua colecção de áudio agora?";
-"Are you sure you want to clean your audio library now?" = "Tem a certeza que pretende limpar a sua colecção de áudio agora?";
-"Are you sure you want to update your video library now?" = "Tem a certeza que pretende actualizar a sua colecção de vídeo agora?";
 "DIRECTED BY" = "REALIZADO POR";
 "RUNTIME" = "DURAÇÃO";
 "PARENTAL RATING" = "CLASSIFICAÇÃO PARENTAL";
@@ -114,11 +100,6 @@
 "STYLE" = "ESTILO";
 "BORN / FORMED" = "Naturalidade / Formação";
 "TRAILER" = "TRAILER";
-"codec" = "codec";
-"bit rate" = "taxa de bits";
-"sample rate" = "taxa de amostragem";
-"resolution" = "resolução";
-"aspect ratio" = "formato";
 "TV SHOW" = "SÉRIE DE TV";
 "Audiostream not available" = "Pista de áudio não disponível";
 "Yes" = "Sim";
@@ -126,7 +107,6 @@
 "Authentication Failed" = "Falha ao autenticar";
 "vote" = "voto";
 "votes" = "votos";
-"Slide your finger up to adjust the scrubbing rate." = "Deslize para cima para ajustar a velocidade do cursor de reprodução.";
 "Pull to sync with XBMC..." = "Puxar para sincronizar com Kodi...";
 "Release to sync with XBMC..." = "Largar para sincronizar com Kodi...";
 "Syncing..." = "A sincronizar...";
@@ -176,7 +156,6 @@
 "How-to activate the remote app in Kodi" = "Como activar a app remota no Kodi";
 "e.g. 192.168.0.8" = "p. ex. 192.168.0.8";
 "Sort by" = "Ordenar por";
-"tap" = "toque";
 "Not listened" = "Não ouvida";
 "Listened one time" = "Ouvida uma vez";
 "Listened %@ times" = "Ouvida %@ vezes";
@@ -186,7 +165,6 @@
 "Year" = "Ano";
 "Play count" = "Reproduções";
 "Name" = "Nome";
-"User rating" = "Classificação do Utilizador";
 "Year %@" = "Ano %@";
 "Rated %@" = "Classificado como %@";
 "Track n.%@" = "Faixa nº%@";
@@ -216,7 +194,6 @@
 "Copy to clipboard" = "Copiar para área de transferência";
 "Not Available" = "Indisponível";
 "Last Updated: %@" = "Última Actualização: %@";
-"For search switch to list view" = "Para pesquisar mudar para ver a lista";
 "Channel" = "Canal";
 "Runtime" = "Duração";
 "Random" = "Aleatório";
@@ -233,7 +210,6 @@
 "Recently added albums" = "Álbuns adicionados recentemente";
 "Recently played songs" = "Músicas recentemente reproduzidas";
 "Quit XBMC application" = "Sair da aplicação Kodi";
-"Update Audio" = "Actualizar áudio";
 "Update Video Library" = "Actualizar colecção de vídeo";
 "Artist Details" = "Detalhes do artista";
 "Album Details" = "Detalhes do álbum";
@@ -242,9 +218,6 @@
 "Released %d" = "Lançado %d";
 "No saved hosts found" = "Nenhum servidor guardado encontrado";
 "Are you sure you want to clear the playlist?" = "Tem a certeza de que quer apagar a lista de reprodução?";
-"Are you sure you want to power off your XBMC system now?" = "Tem a certeza que pretende desligar o seu sistema Kodi agora?";
-"Are you sure you want to quit XBMC application now?" = "Tem a certeza que pretende sair da aplicação Kodi agora?";
-"Are you sure you want to clean your video library now?" = "Tem a certeza que pretende limpar a sua colecção de vídeo agora?";
 "PLOT OUTLINE" = "SINOPSE";
 "Subtitles not available" = "Legendas não disponíveis";
 "Incorrect Username or Password.\nCheck your settings." = "Utilizador ou palavra-passe incorrectos.\nVerifique as suas definições.";
@@ -265,7 +238,6 @@
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Parece que não é possível estabelecer ligação ao Kodi por TCP. Isto impede a app de receber dados do Kodi. Por exemplo, o teclado da app não será mostrado quando o Kodi solicitar a sua utilização.";
 "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Encontrar Kodi\" requer a activação da opção\n\"Anunciar estes serviços para outros sistemas através de Zeroconf\" no servidor Kodi";
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Definições > Serviços > Controlo:\n1. Servidor web > Permitir controlo remoto via HTTP\n2. Controlo de aplicação > Permitir o controlo remoto a partir das aplicações de outros sistemas";
-"the selection" = "na selecção";
 "tap the selection\nto reverse the sort order" = "toque na selecção\npara inverter a ordem";
 "Artist" = "Artista";
 "Track" = "Faixa";
