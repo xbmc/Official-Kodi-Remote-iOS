@@ -1548,7 +1548,7 @@
     int activeTab = [self getActiveTab:item];
     NSDictionary *methods = menuItem.subItem.mainMethod[activeTab];
     NSMutableArray *sheetActions = [menuItem.sheetActions[activeTab] mutableCopy];
-    NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
+    NSMutableDictionary *parameters = menuItem.mainParameters[activeTab];
     if ([item[@"family"] isEqualToString:@"id"]) {
         if (IS_IPHONE) {
             SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:item];
