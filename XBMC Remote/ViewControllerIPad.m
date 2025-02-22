@@ -328,10 +328,9 @@
     // Playlist and NowPlaying
     [self layoutPlaylistNowplayingForTableHeight:tableHeight];
     
-    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
-                                               height:[self screenSizeOrientationIndependent].height
-                                                 YPOS:-YPOS
-                                           fullscreen:isFullscreen];
+    [self.nowPlayingController setNowPlayingSize:UIScreen.mainScreen.fixedCoordinateSpace.bounds.size
+                                            YPOS:-YPOS
+                                      fullscreen:isFullscreen];
 }
 
 - (void)createLeftMenu:(NSInteger)maxMenuItems {
@@ -360,10 +359,9 @@
     self.nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
     [self layoutPlaylistNowplayingForTableHeight:tableHeight];
     
-    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
-                                               height:[self screenSizeOrientationIndependent].height
-                                                 YPOS:-YPOS
-                                           fullscreen:isFullscreen];
+    [self.nowPlayingController setNowPlayingSize:UIScreen.mainScreen.fixedCoordinateSpace.bounds.size
+                                            YPOS:-YPOS
+                                      fullscreen:isFullscreen];
     
     [leftMenuView addSubview:self.nowPlayingController.view];
 }
@@ -640,10 +638,9 @@
                      animations:^{
         playlistHeader.alpha = menuViewController.view.alpha = isFullscreen ? 0 : 1;
         self.nowPlayingController.toolbarBackground.alpha = isFullscreen ? 0.4 : 1;
-        [self.nowPlayingController setNowPlayingDimension:UIScreen.mainScreen.bounds.size.width
-                                                   height:UIScreen.mainScreen.bounds.size.height
-                                                     YPOS:-YPOS
-                                               fullscreen:isFullscreen];
+        [self.nowPlayingController setNowPlayingSize:UIScreen.mainScreen.bounds.size
+                                                YPOS:-YPOS
+                                          fullscreen:isFullscreen];
                      }
                      completion:nil];
 }
@@ -759,15 +756,10 @@
     }];
 }
 
-- (CGSize)screenSizeOrientationIndependent {
-    return UIScreen.mainScreen.fixedCoordinateSpace.bounds.size;
-}
-
 - (void)viewWillLayoutSubviews {
-    [self.nowPlayingController setNowPlayingDimension:UIScreen.mainScreen.bounds.size.width
-                                               height:UIScreen.mainScreen.bounds.size.height
-                                                 YPOS:-YPOS
-                                           fullscreen:isFullscreen];
+    [self.nowPlayingController setNowPlayingSize:UIScreen.mainScreen.bounds.size
+                                            YPOS:-YPOS
+                                      fullscreen:isFullscreen];
 }
 
 - (BOOL)shouldAutorotate {

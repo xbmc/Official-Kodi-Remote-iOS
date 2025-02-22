@@ -99,7 +99,7 @@
     BOOL isRemotePlayer;
 }
 
-- (void)setNowPlayingDimension:(CGFloat)width height:(CGFloat)height YPOS:(CGFloat)YPOS fullscreen:(BOOL)isFullscreen;
+- (void)setNowPlayingSize:(CGSize)viewSize YPOS:(CGFloat)YPOS fullscreen:(BOOL)isFullscreen;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil;
 - (IBAction)startVibrate:(id)sender;
 - (IBAction)changeShuffle:(id)sender;
