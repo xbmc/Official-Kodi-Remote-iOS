@@ -85,7 +85,7 @@
             volumeView.hidden = YES;
             volumeLabel.hidden = YES;
 
-            CGFloat width = IS_IPHONE ? [self currentScreenBoundsDependOnOrientation].size.width - leftAnchor : PAD_REMOTE_WIDTH;
+            CGFloat width = IS_IPHONE ? UIScreen.mainScreen.bounds.size.width - leftAnchor : PAD_REMOTE_WIDTH;
             CGFloat padding = IS_IPHONE ? 0 : VOLUMEICON_PADDING;
             self.frame = CGRectMake(padding, padding, width - 2 * padding, VOLUMESLIDER_HEIGHT);
             
@@ -156,10 +156,6 @@
                                                    object: nil];
     }
     return self;
-}
-
-- (CGRect)currentScreenBoundsDependOnOrientation {
-    return UIScreen.mainScreen.bounds;
 }
 
 - (void)handleServerStatusChanged:(NSNotification*)sender {

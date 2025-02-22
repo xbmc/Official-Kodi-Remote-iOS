@@ -60,10 +60,6 @@
     return self;
 }
 
-double round(double d) {
-    return floor(d + 0.5);
-}
-
 - (void)configureView {
     if (self.detailItem) {
         NSMutableDictionary *item = self.detailItem;
@@ -568,7 +564,6 @@ double round(double d) {
     NSMutableDictionary *item = self.detailItem;
     NSString *placeHolderImage = @"coverbox_back";
     isPvrDetail = item[@"recordingid"] != nil || item[@"broadcastid"] != nil;
-//    NSLog(@"ITEM %@", item);
     JewelType jeweltype = JewelTypeUnknown;
     NSString *jewelImg = @"";
     lineSpacing = IS_IPAD ? 2 : 0;
@@ -1397,10 +1392,6 @@ double round(double d) {
                       }
      ];
     fanartView.clipsToBounds = YES;
-}
-
-- (CGRect)currentScreenBoundsDependOnOrientation {
-    return UIScreen.mainScreen.bounds;
 }
 
 - (void)showBackgroundForTag:(NSInteger)tag {

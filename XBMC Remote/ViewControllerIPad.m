@@ -328,10 +328,9 @@
     // Playlist and NowPlaying
     [self layoutPlaylistNowplayingForTableHeight:tableHeight];
     
-    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
-                                               height:[self screenSizeOrientationIndependent].height
-                                                 YPOS:-YPOS
-                                           fullscreen:isFullscreen];
+    [self.nowPlayingController setNowPlayingSize:UIScreen.mainScreen.fixedCoordinateSpace.bounds.size
+                                            YPOS:-YPOS
+                                      fullscreen:isFullscreen];
 }
 
 - (void)createLeftMenu:(NSInteger)maxMenuItems {
@@ -360,10 +359,9 @@
     self.nowPlayingController = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
     [self layoutPlaylistNowplayingForTableHeight:tableHeight];
     
-    [self.nowPlayingController setNowPlayingDimension:[self screenSizeOrientationIndependent].width
-                                               height:[self screenSizeOrientationIndependent].height
-                                                 YPOS:-YPOS
-                                           fullscreen:isFullscreen];
+    [self.nowPlayingController setNowPlayingSize:UIScreen.mainScreen.fixedCoordinateSpace.bounds.size
+                                            YPOS:-YPOS
+                                      fullscreen:isFullscreen];
     
     [leftMenuView addSubview:self.nowPlayingController.view];
 }
@@ -548,10 +546,6 @@
                                                  name: @"StackScrollOffScreen"
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleWillResignActive:)
-                                                 name: UIApplicationWillResignActiveNotification
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(handleDidEnterBackground:)
                                                  name: UIApplicationDidEnterBackgroundNotification
                                                object: nil];
@@ -644,10 +638,9 @@
                      animations:^{
         playlistHeader.alpha = menuViewController.view.alpha = isFullscreen ? 0 : 1;
         self.nowPlayingController.toolbarBackground.alpha = isFullscreen ? 0.4 : 1;
-        [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width
-                                                   height:[self currentScreenBoundsDependOnOrientation].size.height
-                                                     YPOS:-YPOS
-                                               fullscreen:isFullscreen];
+        [self.nowPlayingController setNowPlayingSize:UIScreen.mainScreen.bounds.size
+                                                YPOS:-YPOS
+                                          fullscreen:isFullscreen];
                      }
                      completion:nil];
 }
@@ -723,9 +716,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
 }
 
-- (void)handleWillResignActive:(NSNotification*)sender {
-}
-
 - (void)handleDidEnterBackground:(NSNotification*)sender {
     [self.tcpJSONRPCconnection stopNetworkCommunication];
 }
@@ -766,19 +756,10 @@
     }];
 }
 
-- (CGSize)screenSizeOrientationIndependent {
-    return UIScreen.mainScreen.fixedCoordinateSpace.bounds.size;
-}
-
-- (CGRect)currentScreenBoundsDependOnOrientation {
-    return UIScreen.mainScreen.bounds;
-}
-
 - (void)viewWillLayoutSubviews {
-    [self.nowPlayingController setNowPlayingDimension:[self currentScreenBoundsDependOnOrientation].size.width
-                                               height:[self currentScreenBoundsDependOnOrientation].size.height
-                                                 YPOS:-YPOS
-                                           fullscreen:isFullscreen];
+    [self.nowPlayingController setNowPlayingSize:UIScreen.mainScreen.bounds.size
+                                            YPOS:-YPOS
+                                      fullscreen:isFullscreen];
 }
 
 - (BOOL)shouldAutorotate {

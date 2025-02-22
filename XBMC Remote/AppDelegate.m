@@ -2542,7 +2542,6 @@
             @"row9": @"file",
             @"row10": @"filetype",
             @"row11": @"type",
-            //@"row11": @"filetype",
         },
     ];
     
@@ -3006,7 +3005,6 @@
             @"row17": @"director",
             @"row18": @"resume",
             @"row19": @"dateadded",
-            //@"itemid_extra_info": @"moviedetails",
             @"row20": @"tagline",
         },
     ];
@@ -3397,7 +3395,6 @@
             @"row9": @"file",
             @"row10": @"filetype",
             @"row11": @"type",
-            //@"row11": @"filetype",
         },
     ];
     
@@ -3571,7 +3568,6 @@
             @"row17": @"director",
             @"row18": @"resume",
             @"row19": @"dateadded",
-            //@"itemid_extra_info": @"moviedetails",
         },
     ];
     
@@ -3766,7 +3762,6 @@
             @"thumbWidth": @EPISODE_THUMB_WIDTH,
             @"defaultThumb": @"nocover_tvshows_episode",
             @"FrodoExtraArt": @YES,
-            //@"enableCollectionView": @YES,
             @"itemSizes": [self itemSizes_TVShowsfullscreen],
         },
                             
@@ -3839,7 +3834,6 @@
             @"row12": @"cast",
             @"row13": @"premiered",
             @"row14": @"episode",
-            //@"row7": @"fanart",
             @"row15": @"plot",
             @"row16": @"studio",
             @"itemid_extra_info": @"tvshowdetails",
@@ -3866,8 +3860,6 @@
             @"row16": @"cast",
             @"row17": @"firstaired",
             @"row18": @"season",
-            //@"row20": @"file",
-            //@"row7": @"file",
             @"itemid_extra_info": @"episodedetails",
         },
                         
@@ -3910,7 +3902,6 @@
             @"row9": @"file",
             @"row10": @"filetype",
             @"row11": @"type",
-            //@"row11": @"filetype",
         },
     ];
     
@@ -4164,7 +4155,6 @@
             @"row17": @"director",
             @"row18": @"resume",
             @"row19": @"dateadded",
-            //@"itemid_extra_info": @"moviedetails",
         },
     ];
     
@@ -6085,9 +6075,6 @@
     ];
     
     [remoteControlMenuItems addObject:remoteControlItem1];
-    
-//    [UIDevice currentDevice].proximityMonitoringEnabled = YES;
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleProximityChangeNotification:) name:UIDeviceProximityStateDidChangeNotification object:nil];
 
 #pragma mark - Build and Initialize menu structure
     
@@ -6232,19 +6219,6 @@
         }
     }
     return @(k);
-}
-
-- (void)handleProximityChangeNotification:(id)sender {
-    if ([[UIDevice currentDevice] proximityState]) {
-        UIApplication.sharedApplication.idleTimerDisabled = YES;
-        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
-    }
-    else {
-        [self setIdleTimerFromUserDefaults];
-        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
-        [UIDevice currentDevice].proximityMonitoringEnabled = NO;
-        [UIDevice currentDevice].proximityMonitoringEnabled = YES;
-    }
 }
 
 // Returns the addresses of the discard service (port 9) on every
@@ -6411,12 +6385,10 @@
 - (void)applicationWillEnterForeground:(UIApplication*)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     [self setIdleTimerFromUserDefaults];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication*)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    
 }
 
 - (void)applicationWillTerminate:(UIApplication*)application {

@@ -91,7 +91,7 @@
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
-        self.navigationItem.title = LOCALIZED_STR(@"Now Playing"); // DA SISTEMARE COME PARAMETRO
+        self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
     }
 }
 
@@ -2285,9 +2285,9 @@
 
 #pragma mark - Interface customizations
 
-- (void)setNowPlayingDimensionIPhone:(CGFloat)width height:(CGFloat)height {
-    CGFloat scaleX = width / BOTTOMVIEW_WIDTH;
-    CGFloat scaleY = height / BOTTOMVIEW_HEIGHT;
+- (void)setNowPlayingSizeIPhone:(CGSize)viewSize {
+    CGFloat scaleX = viewSize.width / BOTTOMVIEW_WIDTH;
+    CGFloat scaleY = viewSize.height / BOTTOMVIEW_HEIGHT;
     CGFloat scale = MIN(scaleX, scaleY);
     
     [self setFontSizes:scale];
@@ -2335,17 +2335,17 @@
     fullscreenCover.frame = visualEffectView.frame = transitionView.frame;
 }
 
-- (void)setNowPlayingDimension:(CGFloat)width height:(CGFloat)height YPOS:(CGFloat)YPOS fullscreen:(BOOL)isFullscreen {
+- (void)setNowPlayingSize:(CGSize)viewSize YPOS:(CGFloat)YPOS fullscreen:(BOOL)isFullscreen {
     CGRect frame;
     
     // Maximum allowed height excludes status bar, toolbar and safe area
     CGFloat bottomPadding = [Utilities getBottomPadding];
     CGFloat statusBar = [Utilities getTopPadding];
-    CGFloat maxheight = height - bottomPadding - statusBar - TOOLBAR_HEIGHT;
+    CGFloat maxheight = viewSize.height - bottomPadding - statusBar - TOOLBAR_HEIGHT;
     
     CGFloat viewOriginX = isFullscreen ? 0 : PAD_MENU_TABLE_WIDTH + IPAD_MENU_SEPARATOR_WIDTH;
     CGFloat viewOriginY = YPOS;
-    CGFloat viewWidth = isFullscreen ? width : width - (PAD_MENU_TABLE_WIDTH + IPAD_MENU_SEPARATOR_WIDTH);
+    CGFloat viewWidth = isFullscreen ? viewSize.width : viewSize.width - (PAD_MENU_TABLE_WIDTH + IPAD_MENU_SEPARATOR_WIDTH);
     CGFloat viewHeight = maxheight;
     nowPlayingView.frame = CGRectMake(viewOriginX, viewOriginY, viewWidth, viewHeight);
     
@@ -2377,7 +2377,7 @@
     [self buildIpadPlaylistToolbar];
     
     frame = toolbarBackground.frame;
-    frame.size.width = width;
+    frame.size.width = viewSize.width;
     toolbarBackground.frame = frame;
     
     backgroundImageView.frame = nowPlayingView.frame;
@@ -2497,10 +2497,6 @@
 
 #pragma mark - UISegmentControl
 
-- (CGRect)currentScreenBoundsDependOnOrientation {
-    return UIScreen.mainScreen.bounds;
-}
-
 - (void)addSegmentControl {
     NSArray *segmentItems = @[[UIImage imageNamed:@"icon_song"],
                               [UIImage imageNamed:@"icon_video"],
@@ -2508,7 +2504,7 @@
     playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:segmentItems];
     CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH) / 2;
     if (IS_IPHONE) {
-        left_margin = floor(([self currentScreenBoundsDependOnOrientation].size.width - SEGMENTCONTROL_WIDTH) / 2);
+        left_margin = floor((UIScreen.mainScreen.bounds.size.width - SEGMENTCONTROL_WIDTH) / 2);
     }
     playlistSegmentedControl.frame = CGRectMake(left_margin,
                                                 (playlistActionView.frame.size.height - SEGMENTCONTROL_HEIGHT) / 2,
@@ -2561,8 +2557,7 @@
         self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.panGesture.delegate = self;
         
-        [self setNowPlayingDimensionIPhone:nowPlayingView.frame.size.width
-                                    height:nowPlayingView.frame.size.height];
+        [self setNowPlayingSizeIPhone:nowPlayingView.frame.size];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -2607,11 +2602,6 @@
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(enablePopGestureRecognizer:)
                                                  name: @"ECSlidingViewTopDidReset"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(connectionSuccess:)
-                                                 name: @"XBMCServerConnectionSuccess"
                                                object: nil];
 }
 
@@ -2861,9 +2851,6 @@
     overlayGradient.contentMode = UIViewContentModeScaleToFill;
     overlayGradient.alpha = 0.5;
     [visualEffectView.contentView addSubview:overlayGradient];
-}
-
-- (void)connectionSuccess:(NSNotification*)note {
 }
 
 - (void)handleShakeNotification {

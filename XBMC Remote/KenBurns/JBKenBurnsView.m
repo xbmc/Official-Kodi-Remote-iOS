@@ -78,9 +78,6 @@
     self.layer.masksToBounds = YES;
     
     newEnlargeRatio = 1.0;
-//    if (IS_IPAD) {
-//        newEnlargeRatio = 1.0;
-//    }
     
     [NSThread detachNewThreadSelector:@selector(_startAnimations:) toTarget:self withObject:images];
     
