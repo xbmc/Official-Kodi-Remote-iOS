@@ -1424,6 +1424,7 @@
                                               @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
                                               @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
+                                              @([parameters[@"forcePlayback"] boolValue]), @"forcePlayback",
                                               @([parameters[@"forceActionSheet"] boolValue]), @"forceActionSheet",
                                               @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
                                               @([parameters[@"blackTableSeparator"] boolValue]), @"blackTableSeparator",
@@ -1547,7 +1548,7 @@
     int activeTab = [self getActiveTab:item];
     NSDictionary *methods = menuItem.subItem.mainMethod[activeTab];
     NSMutableArray *sheetActions = [menuItem.sheetActions[activeTab] mutableCopy];
-    NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
+    NSMutableDictionary *parameters = menuItem.mainParameters[activeTab];
     if ([item[@"family"] isEqualToString:@"id"]) {
         if (IS_IPHONE) {
             SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:item];
@@ -1600,6 +1601,9 @@
             [Utilities showMessage:message color:[Utilities getSystemRed:0.95]];
         }
         [self deselectAtIndexPath:indexPath];
+    }
+    else if ([parameters[@"forcePlayback"] boolValue]) {
+        [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
     }
     else if (methods[@"method"] != nil && ![parameters[@"forceActionSheet"] boolValue] && !stackscrollFullscreen) {
         // There is a child and we want to show it (only when not in fullscreen)

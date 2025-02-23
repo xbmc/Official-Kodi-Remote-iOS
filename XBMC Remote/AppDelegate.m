@@ -4296,6 +4296,7 @@
             @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
             @"enableCollectionView": @YES,
             @"itemSizes": [self itemSizes_Music],
+            @"forcePlayback": @YES,
         },
                           
         @{
@@ -4622,7 +4623,6 @@
             @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
             @"thumbWidth": @LIVETV_THUMB_WIDTH,
             @"itemSizes": [self itemSizes_Music],
-            @"forceActionSheet": @YES,
         },
                                   
         @{
@@ -4645,6 +4645,7 @@
             @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
             @"enableCollectionView": @YES,
             @"itemSizes": [self itemSizes_Music],
+            @"forcePlayback": @YES,
         },
                                   
         @{},
@@ -4747,7 +4748,6 @@
             @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
             @"thumbWidth": @LIVETV_THUMB_WIDTH,
             @"itemSizes": [self itemSizes_Music],
-            @"forceActionSheet": @YES,
         },
                                             
         @{},
@@ -4851,6 +4851,7 @@
             @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
             @"enableCollectionView": @YES,
             @"itemSizes": [self itemSizes_Music],
+            @"forcePlayback": @YES,
         },
                           
         @{
@@ -5175,7 +5176,6 @@
             @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
             @"thumbWidth": @LIVETV_THUMB_WIDTH,
             @"itemSizes": [self itemSizes_Music],
-            @"forceActionSheet": @YES,
         },
                                   
         @{
@@ -5198,6 +5198,7 @@
             @"thumbWidth": @LIVETV_THUMB_WIDTH_SMALL,
             @"enableCollectionView": @YES,
             @"itemSizes": [self itemSizes_Music],
+            @"forcePlayback": @YES,
         },
                                   
         @{},
@@ -5300,7 +5301,6 @@
             @"rowHeight": @CHANNEL_EPG_ROW_HEIGHT,
             @"thumbWidth": @LIVETV_THUMB_WIDTH,
             @"itemSizes": [self itemSizes_Music],
-            @"forceActionSheet": @YES,
         },
                                             
         @{},
@@ -5715,6 +5715,7 @@
             @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
             @"itemSizes": [self itemSizes_Music],
             @"enableCollectionView": @YES,
+            @"forceActionSheet": @YES,
         },
                                    
         @{
@@ -5734,6 +5735,7 @@
             @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
             @"itemSizes": [self itemSizes_Music],
             @"enableCollectionView": @YES,
+            @"forceActionSheet": @YES,
         },
                                    
         @{
@@ -5753,6 +5755,7 @@
             @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
             @"itemSizes": [self itemSizes_Music],
             @"enableCollectionView": @YES,
+            @"forceActionSheet": @YES,
         },
                                    
         @{
@@ -5767,6 +5770,7 @@
             @"rowHeight": @FILEMODE_ROW_HEIGHT,
             @"thumbWidth": @0,
             @"morelabel": LOCALIZED_STR(@"Execute a specific action"),
+            @"forceActionSheet": @YES,
         },
                                    
         @{
@@ -5781,6 +5785,7 @@
             @"rowHeight": @FILEMODE_ROW_HEIGHT,
             @"thumbWidth": @0,
             @"morelabel": LOCALIZED_STR(@"Activate a specific window"),
+            @"forceActionSheet": @YES,
         },
     ] mutableCopy];
     
@@ -5911,26 +5916,11 @@
             @"rowHeight": @SETTINGS_ROW_HEIGHT,
             @"thumbWidth": @0,
         },
-
-        @{
-            @"forceActionSheet": @YES,
-        },
-
-        @{
-            @"forceActionSheet": @YES,
-        },
-
-        @{
-            @"forceActionSheet": @YES,
-        },
-
-        @{
-            @"forceActionSheet": @YES,
-        },
-
-        @{
-            @"forceActionSheet": @YES,
-        },
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
     ] mutableCopy];
     
     xbmcSettings.subItem.mainFields = @[
