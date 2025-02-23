@@ -1603,7 +1603,7 @@
         [self deselectAtIndexPath:indexPath];
     }
     else if ([parameters[@"forcePlayback"] boolValue]) {
-        [self addPlayback:item indexPath:indexPath position:indexPath.row shuffle:NO];
+        [self startPlayback:item indexPath:indexPath shuffle:NO];
     }
     else if (methods[@"method"] != nil && ![parameters[@"forceActionSheet"] boolValue] && !stackscrollFullscreen) {
         // There is a child and we want to show it (only when not in fullscreen)
