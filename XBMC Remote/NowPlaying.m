@@ -2076,10 +2076,7 @@
     }
     else if ([item[@"type"] isEqualToString:@"song"] ||
              [item[@"type"] isEqualToString:@"musicvideo"]) {
-        NSString *album = item[@"album"];
-        NSString *artist = item[@"artist"];
-        NSString *dash = album.length && artist.length ? @" - " : @"";
-        subLabel.text = [NSString stringWithFormat:@"%@%@%@", album, dash, artist];
+        subLabel.text = item[@"artist"];
     }
     else if ([item[@"type"] isEqualToString:@"movie"]) {
         subLabel.text = item[@"genre"];
