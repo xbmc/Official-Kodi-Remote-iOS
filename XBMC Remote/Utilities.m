@@ -1310,6 +1310,10 @@
 
 + (BOOL)isValidIP6Address:(NSString*)ip {
     const char *utf8 = [ip UTF8String];
+    
+    if (utf8 == NULL) {
+        return NO;
+    }
 
     // Check valid IPv6.
     struct in6_addr dst6;
