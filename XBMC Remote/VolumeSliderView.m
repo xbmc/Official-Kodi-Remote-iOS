@@ -207,7 +207,7 @@
     if (AppDelegate.instance.serverTCPConnectionOpen) {
         return;
     }
-    if (AppDelegate.instance.serverVolume > -1) {
+    if (AppDelegate.instance.serverOnLine && AppDelegate.instance.serverVolume > -1) {
         volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
         volumeSlider.value = AppDelegate.instance.serverVolume;
     }
