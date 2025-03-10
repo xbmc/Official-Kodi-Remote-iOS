@@ -229,6 +229,10 @@
 }
 
 - (void)handleMute:(BOOL)mute {
+    if (!AppDelegate.instance.serverOnLine) {
+        return;
+    }
+    
     isMuted = mute;
     UIColor *buttonColor = isMuted ? UIColor.systemRedColor : muteIconColor;
     UIColor *sliderColor = isMuted ? UIColor.darkGrayColor : KODI_BLUE_COLOR;
@@ -299,6 +303,10 @@
 }
 
 - (void)changeVolume:(id)sender {
+    if (!AppDelegate.instance.serverOnLine) {
+        return;
+    }
+    
     // Process the volume change
     isChangingVolume = YES;
     NSInteger action = [sender tag];
