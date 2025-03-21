@@ -3756,11 +3756,16 @@
             }
         }
     }
-    NSString *searchString = item[@"label"];
+    NSString *phrase1 = item[@"label"];
     if (forceMusicAlbumMode) {
-        searchString = self.navigationItem.title;
+        phrase1 = self.navigationItem.title;
         forceMusicAlbumMode = NO;
     }
+    NSString *phrase2 = item[@"genre"];
+    NSString *searchString = [NSString stringWithFormat:@"%@%@%@",
+                              phrase1,
+                              (phrase1.length > 0 && phrase2.length > 0) ? @" " : @"",
+                              phrase2];
     NSString *query = [searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *url = [NSString stringWithFormat:serviceURL, query];
     [Utilities SFloadURL:url fromctrl:self];
