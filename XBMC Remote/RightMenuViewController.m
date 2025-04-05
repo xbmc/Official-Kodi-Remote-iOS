@@ -199,7 +199,7 @@
     CGRect frame = self.view.bounds;
     UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - footerHeight, frame.size.width, footerHeight)];
     newView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-    newView.backgroundColor = [Utilities getGrayColor:36 alpha:1];
+    newView.backgroundColor = TOOLBAR_TINT_COLOR;
     
     // ...more button
     CGFloat originX = self.peekLeftAmount + BUTTON_SPACING;
