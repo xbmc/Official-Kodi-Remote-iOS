@@ -24,22 +24,27 @@
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [Utilities addShadowsToView:navController.view viewFrame:self.view.frame];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+    masterViewController.mainMenu = self.mainMenu;
+    self.underLeftViewController = masterViewController;
+    
     HostManagementViewController *hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
     navController = [[CustomNavigationController alloc] initWithRootViewController:hostManagementViewController];
     navController.navigationBar.barStyle = UIBarStyleBlack;
     navController.navigationBar.tintColor = ICON_TINT_COLOR;
+    [Utilities addShadowsToView:navController.view viewFrame:self.view.frame];
     
     self.view.tintColor = APP_TINT_COLOR;
     [navController hideNavBarBottomLine:YES];
     hostManagementViewController.mainMenu = self.mainMenu;
     self.topViewController = navController;
+    
+    self.slidingViewController.underRightViewController = nil;
+    self.slidingViewController.anchorLeftPeekAmount   = 0;
+    self.slidingViewController.anchorLeftRevealAmount = 0;
     
     // Hide the inital HostManagementVC in case the "start view" is not main menu to avoid disturbing
     // sliding out (this view) and in (the targeted view).

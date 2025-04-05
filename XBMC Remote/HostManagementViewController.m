@@ -477,14 +477,6 @@
     self.preferredContentSize = size;
     [super viewWillAppear:animated];
     if (IS_IPHONE) {
-        if (![self.slidingViewController.underLeftViewController isKindOfClass:[MasterViewController class]]) {
-            MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-            masterViewController.mainMenu = self.mainMenu;
-            self.slidingViewController.underLeftViewController = masterViewController;
-        }
-        self.slidingViewController.underRightViewController = nil;
-        self.slidingViewController.anchorLeftPeekAmount   = 0;
-        self.slidingViewController.anchorLeftRevealAmount = 0;
         self.slidingViewController.panGesture.delegate = self;
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
     }
