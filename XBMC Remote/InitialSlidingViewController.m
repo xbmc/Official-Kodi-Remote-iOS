@@ -32,7 +32,7 @@
     self.underLeftViewController = masterViewController;
     
     HostManagementViewController *hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
-    navController = [[CustomNavigationController alloc] initWithRootViewController:hostManagementViewController];
+    CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:hostManagementViewController];
     navController.navigationBar.barStyle = UIBarStyleBlack;
     navController.navigationBar.tintColor = ICON_TINT_COLOR;
     [Utilities addShadowsToView:navController.view viewFrame:self.view.frame];

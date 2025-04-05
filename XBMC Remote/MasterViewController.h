@@ -15,7 +15,6 @@
 @interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     IBOutlet UITableView *menuList;
     BOOL itemIsActive;
-    CustomNavigationController *navController;
     UIImageView *globalConnectionStatus;
     MessagesView *messagesView;
 }

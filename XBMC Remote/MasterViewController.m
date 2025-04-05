@@ -181,7 +181,7 @@
         default:
             break;
     }
-    navController = [[CustomNavigationController alloc] initWithRootViewController:object];
+    CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:object];
     navController.navigationBar.barStyle = UIBarStyleBlack;
     navController.navigationBar.tintColor = ICON_TINT_COLOR;
     UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
