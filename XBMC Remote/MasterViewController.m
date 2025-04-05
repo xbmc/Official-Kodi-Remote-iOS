@@ -313,7 +313,7 @@
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
     
     // Update dimension of message view
-    CGFloat deltaY = [Utilities getTopPaddingWithNavBar:self.navigationController];
+    CGFloat deltaY = [Utilities getTopPadding];
     [messagesView updateWithFrame:CGRectMake(0,
                                              0,
                                              UIScreen.mainScreen.bounds.size.width,
