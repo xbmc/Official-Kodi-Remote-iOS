@@ -101,6 +101,7 @@
 		C76594B72C5E8A5B00B93A2A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C70F41D02BA4D98E00847C75 /* PrivacyInfo.xcprivacy */; };
 		C78C30F528F877870055CD95 /* VersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = C78C30F428F877870055CD95 /* VersionCheck.m */; };
 		C78C30FA28F8AADA0055CD95 /* SharingActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C78C30F928F89A3E0055CD95 /* SharingActivityItemSource.m */; };
+		C795123F2DC95A7E00A8CEE5 /* LinkPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C795123E2DC95A7E00A8CEE5 /* LinkPresentation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -318,6 +319,7 @@
 		C79F6B332CBBF981009A785C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C78C30F828F89A1E0055CD95 /* SharingActivityItemSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharingActivityItemSource.h; sourceTree = "<group>"; };
 		C78C30F928F89A3E0055CD95 /* SharingActivityItemSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SharingActivityItemSource.m; sourceTree = "<group>"; };
+		C795123E2DC95A7E00A8CEE5 /* LinkPresentation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LinkPresentation.framework; path = System/Library/Frameworks/LinkPresentation.framework; sourceTree = SDKROOT; };
 		C7A030F128B60DB200B27764 /* ca-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ca-ES"; path = "ca-ES.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C7A030F228B60DB200B27764 /* ca-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ca-ES"; path = "ca-ES.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7A030F328B60EB900B27764 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -334,6 +336,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C795123F2DC95A7E00A8CEE5 /* LinkPresentation.framework in Frameworks */,
 				0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -516,6 +519,7 @@
 		0F5548F9151D1187007E633F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C795123E2DC95A7E00A8CEE5 /* LinkPresentation.framework */,
 				C7432A6D2B12195600100E83 /* WebKit.framework */,
 				C703692827148CEF0049F9BF /* StoreKit.framework */,
 				C718444525FFD06300F5A060 /* SafariServices.framework */,
