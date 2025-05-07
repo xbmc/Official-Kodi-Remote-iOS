@@ -1,0 +1,18 @@
+name: Build app
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    name: Build app with fastlane
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install gems
+        run: bundle install
+      - name: Build
+        run: bundle exec fastlane build_pr
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_16.2.app
