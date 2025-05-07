@@ -24,6 +24,7 @@
 #import "Utilities.h"
 
 #define SERVER_TIMEOUT 2.0
+#define CLEARCACHE_TIMEOUT 2.0
 #define CONNECTION_ICON_SIZE 18
 #define MENU_ICON_SIZE 30
 #define ICON_MARGIN 10
@@ -285,7 +286,9 @@
 
 - (void)startClearAppDiskCache:(ClearCacheView*)clearView {
     [AppDelegate.instance clearAppDiskCache];
-    [self performSelectorOnMainThread:@selector(clearAppDiskCacheFinished:) withObject:clearView waitUntilDone:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, CLEARCACHE_TIMEOUT * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self clearAppDiskCacheFinished:clearView];
+    });
 }
 
 - (void)clearAppDiskCacheFinished:(ClearCacheView*)clearView {

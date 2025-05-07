@@ -22,6 +22,7 @@
 
 #define CONNECTION_TIMEOUT 240.0
 #define SERVER_TIMEOUT 2.0
+#define CLEARCACHE_TIMEOUT 2.0
 #define VIEW_PADDING 10 /* separation between toolbar views */
 #define TOOLBAR_HEIGHT 44
 #define XBMCLOGO_WIDTH 30
@@ -262,7 +263,9 @@
 
 - (void)startClearAppDiskCache:(ClearCacheView*)clearView {
     [AppDelegate.instance clearAppDiskCache];
-    [self performSelectorOnMainThread:@selector(clearAppDiskCacheFinished:) withObject:clearView waitUntilDone:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, CLEARCACHE_TIMEOUT * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self clearAppDiskCacheFinished:clearView];
+    });
 }
 
 - (void)clearAppDiskCacheFinished:(ClearCacheView*)clearView {
