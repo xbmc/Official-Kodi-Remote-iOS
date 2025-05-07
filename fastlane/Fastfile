@@ -1,5 +1,7 @@
 fastlane_require 'xcodeproj'
 
+$scheme = 'Kodi Remote'
+
 default_platform(:ios)
 
 before_all do
@@ -11,7 +13,7 @@ before_all do
     issuer_id: "69a6de97-a91c-47e3-e053-5b8c7c11a4d1",
     key_filepath: "AuthKey_AX6GU8LT6K.p8",
     in_house: false,
-  )
+  ) unless is_ci?
 end
 
 after_all do
@@ -22,19 +24,17 @@ error do
   clean_build_artifacts
 end
 
+desc 'Build the app on PR'
+lane :build_pr do |options|
+  buildApp(
+    skip_archive: true,
+    skip_codesigning: true,
+  )
+end
+
 desc 'Build & upload to Testflight'
 lane :tf do |options|
-  xcversion(version: "~> 16.2")
-  scheme = 'Kodi Remote'
-  gym(
-    scheme: scheme,
-    clean: true,
-    output_directory: 'build',
-    include_symbols: true,
-    include_bitcode: false,
-    export_method: 'app-store',
-    xcargs: "CURRENT_PROJECT_VERSION=#{number_of_commits}",
-  )
+  buildApp
 
   # ignore commit messages that contain '[not app]'
   changelogLines = []
@@ -80,7 +80,7 @@ lane :tf do |options|
 
   # pack ipa
   Dir.mktmpdir { |tempDir|
-    ipaPath = "#{tempDir}/#{scheme} #{newTag} #{sh('git rev-parse --short HEAD').strip}.ipa"
+    ipaPath = "#{tempDir}/#{$scheme} #{newTag} #{sh('git rev-parse --short HEAD').strip}.ipa"
     FileUtils.cd(tempDir) {      
       payloadDir = 'Payload'
       Dir.mkdir payloadDir
@@ -164,4 +164,18 @@ def createGithubRelease(name, tag, description = nil, is_draft: false, is_prerel
     upload_assets: assets,
   )
   UI.message JSON.pretty_generate(ghRelease)
+end
+
+def buildApp(gym_options = {})
+  xcversion(version: '~> 16.2')
+  gym(
+    scheme: $scheme,
+    clean: true,
+    output_directory: 'build',
+    include_symbols: true,
+    include_bitcode: false,
+    export_method: 'app-store',
+    xcargs: "CURRENT_PROJECT_VERSION=#{number_of_commits}",
+    **gym_options
+  )
 end
