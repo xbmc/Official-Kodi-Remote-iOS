@@ -13,6 +13,7 @@
 #import "AppInfoViewController.h"
 #import "Utilities.h"
 #import "InitialSlidingViewController.h"
+#import "UIImageView+WebCache.h"
 
 // + 2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
@@ -379,9 +380,10 @@
                                    @"System.HddTemperature",
                                    @"System.OSVersionInfo"]}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        NSMutableAttributedString *infoString = [NSMutableAttributedString new];
+        NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
+        [infoString appendAttributedString:[self formatInfo:@"" text:@"-- Kodi Server --"]];
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-            NSMutableAttributedString *infoString = [NSMutableAttributedString new];
-            NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
             [infoString appendAttributedString:[self formatInfo:@"Name" text:methodResult[@"System.FriendlyName"]]];
             [infoString appendAttributedString:[self formatInfo:@"Build" text:methodResult[@"System.BuildVersion"]]];
             [infoString appendAttributedString:[self formatInfo:@"Build Date" text:methodResult[@"System.BuildDate"]]];
@@ -407,22 +409,27 @@
                                 methodResult[@"System.UsedSpacePercent"],
                                 methodResult[@"System.TotalSpace"]];
             [infoString appendAttributedString:[self formatInfo:@"Storage" text:storage]];
-            
-            serverInfoView.attributedText = infoString;
         }
         else {
             NSString *errorText = @"";
             if (error) {
-                errorText = [NSString stringWithFormat:@"%@\n\n", error.localizedDescription];
+                errorText = [NSString stringWithFormat:@"%@", error.localizedDescription];
             }
             if (methodError) {
-                errorText = [NSString stringWithFormat:@"%@%@\n\n", errorText, methodError];
+                errorText = [NSString stringWithFormat:@"%@\n\n%@", errorText, methodError];
             }
             if (methodResult && ![methodResult isKindOfClass:[NSDictionary class]]) {
-                errorText = [NSString stringWithFormat:@"%@Unexpected class '%@' received.", errorText, NSStringFromClass([methodResult class])];
+                errorText = [NSString stringWithFormat:@"%@\n\nUnexpected class '%@' received.", errorText, NSStringFromClass([methodResult class])];
             }
-            serverInfoView.attributedText = [self formatInfo:LOCALIZED_STR(@"ERROR") text:errorText];
+            [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"ERROR") text:errorText]];
         }
+        [infoString appendAttributedString:newLine];
+        [infoString appendAttributedString:[self formatInfo:@"" text:@"-- Remote App --"]];
+        NSString *appMemoryUsage = [NSString stringWithFormat:@"%llu MB", [Utilities memoryFootprint] / 1024 / 1024];
+        [infoString appendAttributedString:[self formatInfo:@"App Memory Usage" text:appMemoryUsage]];
+        [infoString appendAttributedString:[self formatInfo:@"App Image Cache" text:appImageCacheSize]];
+        
+        serverInfoView.attributedText = infoString;
     }];
 }
 
@@ -431,6 +438,9 @@
     serverInfoView.hidden = !serverInfoView.hidden;
     [serverInfoTimer invalidate];
     if (!serverInfoView.hidden) {
+        // Read the size of image cache only once. Calling this function can become heavy and the cache size is anyway not changing
+        // while showing the info screen.
+        appImageCacheSize = [NSString stringWithFormat:@"%lu MB", ([[SDImageCache sharedImageCache] getSize] / 1024 / 1024)];
         [self updateServerInfo];
         // Start timer to update the server info view
         // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging
@@ -442,7 +452,7 @@
 - (NSAttributedString*)formatInfo:(NSString*)name text:(NSString*)text {
     int fontSize = 15;
     // Bold and gray for label
-    name = [NSString stringWithFormat:@"%@: ", name];
+    name = [NSString stringWithFormat:@"%@%@", name, name.length > 0 ? @": " : @""];
     NSDictionary *boldFontAttrib = @{
         NSFontAttributeName: [UIFont boldSystemFontOfSize:fontSize],
         NSForegroundColorAttributeName: UIColor.lightGrayColor,
