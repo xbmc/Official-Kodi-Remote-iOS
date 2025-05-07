@@ -234,7 +234,6 @@
     int activeTab = 0;
     id movieObj = nil;
     id movieObjKey = nil;
-    BOOL blackTableSeparator = NO;
     if ([item[@"family"] isEqualToString:@"albumid"]) {
         notificationName = @"MainMenuDeselectSection";
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
@@ -282,7 +281,6 @@
             }
             menuItem.thumbWidth = thumbWidth;
             menuItem.rowHeight = tvshowHeight;
-            blackTableSeparator = YES;
         }
     }
     else {
@@ -317,7 +315,6 @@
                                                parameters[@"parameters"][@"properties"], @"properties",
                                                parameters[@"parameters"][@"sort"], @"sort",
                                                nil], @"parameters",
-                                              @(blackTableSeparator), @"blackTableSeparator",
                                               parameters[@"label"], @"label",
                                               @YES, @"fromShowInfo",
                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
