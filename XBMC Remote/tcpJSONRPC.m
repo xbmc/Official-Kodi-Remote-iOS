@@ -22,24 +22,25 @@ NSInputStream *inStream;
 - (id)init {
     if (self = [super init]) {
         infoTitle = @"";
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(handleSystemOnSleep:)
-                                                     name: @"System.OnSleep"
-                                                   object: nil];
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(handleDidBecomeActive:)
-                                                     name: UIApplicationDidBecomeActiveNotification
-                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleSystemOnSleep:)
+                                                     name:@"System.OnSleep"
+                                                   object:nil];
         
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(handleDidEnterBackground:)
-                                                     name: UIApplicationDidEnterBackgroundNotification
-                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleDidBecomeActive:)
+                                                     name:UIApplicationDidBecomeActiveNotification
+                                                   object:nil];
         
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(startServerHeartbeat)
-                                                     name: @"XBMCServerHasChanged"
-                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleDidEnterBackground:)
+                                                     name:UIApplicationDidEnterBackgroundNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(startServerHeartbeat)
+                                                     name:@"XBMCServerHasChanged"
+                                                   object:nil];
     }
     return self;
 }

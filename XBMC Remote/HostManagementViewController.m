@@ -66,9 +66,9 @@
         AppDelegate.instance.obj.serverPort = @"";
         AppDelegate.instance.obj.serverHWAddr = @"";
         AppDelegate.instance.obj.tcpPort = 0;
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setObject: @(-1) forKey:@"lastServer"];
+        [userDefaults setObject:@(-1) forKey:@"lastServer"];
         [connectingActivityIndicator stopAnimating];
     }
     HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
@@ -180,7 +180,7 @@
     AppDelegate.instance.serverOnLine = NO;
     AppDelegate.instance.obj.tcpPort = 0;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject: @(-1) forKey:@"lastServer"];
+    [userDefaults setObject:@(-1) forKey:@"lastServer"];
     ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:@"connection_off"];
 }
 
@@ -201,12 +201,12 @@
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             [self selectServerAtIndexPath:indexPath];
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject: @(indexPath.row) forKey:@"lastServer"];
+            [userDefaults setObject:@(indexPath.row) forKey:@"lastServer"];
             // Trigger Local Network Privacy Alert (if not already done for the App)
             [AppDelegate.instance triggerLocalNetworkPrivacyAlert];
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
 }
 
 - (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -234,7 +234,7 @@
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             if (indexPath.row < storeServerSelection.row) {
                 storeServerSelection = [NSIndexPath indexPathForRow:storeServerSelection.row - 1 inSection:storeServerSelection.section];
-                [userDefaults setObject: @(storeServerSelection.row) forKey:@"lastServer"];
+                [userDefaults setObject:@(storeServerSelection.row) forKey:@"lastServer"];
             }
             else if (storeServerSelection.row == indexPath.row) {
                 storeServerSelection = nil;
@@ -246,8 +246,8 @@
                 AppDelegate.instance.obj.serverPort = @"";
                 AppDelegate.instance.obj.serverHWAddr = @"";
                 AppDelegate.instance.obj.tcpPort = 0;
-                [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
-                [userDefaults setObject: @(-1) forKey:@"lastServer"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
+                [userDefaults setObject:@(-1) forKey:@"lastServer"];
             }
         }
         if (indexPath.row < [tableView numberOfRowsInSection:indexPath.section]) {
@@ -337,7 +337,7 @@
         storeServerSelection = selection;
         [self selectServerAtIndexPath:selection];
         [serverListTableView selectRowAtIndexPath:selection animated:NO scrollPosition:UITableViewScrollPositionNone];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCServerHasChanged" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
     }
 }
 
@@ -643,42 +643,50 @@
     [longPressGesture addTarget:self action:@selector(handleLongPress)];
     [self.view addGestureRecognizer:longPressGesture];
 
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(revealMenu:)
-                                                 name: @"RevealMenu"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(connectionSuccess:)
-                                                 name: @"XBMCServerConnectionSuccess"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(connectionFailed:)
-                                                 name: @"XBMCServerConnectionFailed"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(resetDoReveal:)
-                                                 name: @"ECSlidingViewUnderRightWillAppear"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(authFailed:)
-                                                 name: @"XBMCServerAuthenticationFailed"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(connectionError:)
-                                                 name: @"XBMCServerConnectionError"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(tcpJSONRPCConnectionError:)
-                                                 name: @"tcpJSONRPCConnectionError"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(disablePopGestureRecognizer:)
-                                                 name: @"ECSlidingViewUnderRightWillAppear"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(enablePopGestureRecognizer:)
-                                                 name: @"ECSlidingViewTopDidReset"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(revealMenu:)
+                                                 name:@"RevealMenu"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(connectionSuccess:)
+                                                 name:@"XBMCServerConnectionSuccess"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(connectionFailed:)
+                                                 name:@"XBMCServerConnectionFailed"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(resetDoReveal:)
+                                                 name:@"ECSlidingViewUnderRightWillAppear"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(authFailed:)
+                                                 name:@"XBMCServerAuthenticationFailed"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(connectionError:)
+                                                 name:@"XBMCServerConnectionError"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tcpJSONRPCConnectionError:)
+                                                 name:@"tcpJSONRPCConnectionError"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(disablePopGestureRecognizer:)
+                                                 name:@"ECSlidingViewUnderRightWillAppear"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(enablePopGestureRecognizer:)
+                                                 name:@"ECSlidingViewTopDidReset"
+                                               object:nil];
 }
 
 - (void)powerControl {
@@ -752,9 +760,9 @@
         @"setting": @"services.esallinterfaces",
         @"value": @YES,
     };
-    [[Utilities getJsonRPC] callMethod: methodToCall
-         withParameters: parameters
-           onCompletion: ^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+    [[Utilities getJsonRPC] callMethod:methodToCall
+         withParameters:parameters
+           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                if (error == nil && methodError == nil) {
                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification object:nil userInfo:nil];
                }

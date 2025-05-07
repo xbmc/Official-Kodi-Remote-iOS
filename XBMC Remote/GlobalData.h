@@ -17,8 +17,6 @@
     NSString *serverPort;
     int tcpPort;
     NSString *serverHWAddr;
-
-
 }
 
 @property (nonatomic, strong)NSString *serverDescription;

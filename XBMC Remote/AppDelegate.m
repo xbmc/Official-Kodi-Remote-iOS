@@ -46,7 +46,7 @@
 	return (AppDelegate*)UIApplication.sharedApplication.delegate;
 }
 
-#pragma mark globals
+#pragma mark - Globals
 
 #define ITEM_MUSIC_PHONE_WIDTH 106.0
 #define ITEM_MUSIC_PHONE_HEIGHT 106.0
@@ -77,7 +77,7 @@
 // Amount of bytes per pixel for images cached in memory (32 bit png)
 #define BYTES_PER_PIXEL 4
 
-#pragma mark helper
+#pragma mark - Helper
 
 - (NSDictionary*)itemSizes_Musicfullscreen {
     return @{
@@ -349,8 +349,7 @@
     };
 }
 
-#pragma mark -
-#pragma mark init
+#pragma mark - Init
 
 - (id)init {
 	if (self = [super init]) {
@@ -6359,7 +6358,6 @@
         }
     }
 }
-
 
 - (void)applicationWillResignActive:(UIApplication*)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

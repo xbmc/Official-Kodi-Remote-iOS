@@ -42,7 +42,6 @@
 @interface UIViewExt : UIView {}
 @end
 
-
 @implementation UIViewExt
 - (UIView*)hitTest:(CGPoint)pt withEvent:(UIEvent*)event {
 	UIView *viewToReturn = nil;
@@ -69,8 +68,6 @@
 	return [super hitTest:pt withEvent:event];
 }
 @end
-
-
 
 @implementation ViewControllerIPad
 
@@ -127,7 +124,7 @@
     [Utilities setStyleOfMenuItems:menuViewController.tableView active:status];
     if (status) {
         // Send trigger to start the default controller
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiStartDefaultController" object:nil userInfo:params];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"KodiStartDefaultController" object:nil userInfo:params];
     }
 }
 
@@ -176,7 +173,7 @@
 }
 
 - (void)showDesktop {
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollRemoveAll" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollRemoveAll" object:nil];
 }
 
 - (void)showRemote {
@@ -197,7 +194,7 @@
     [self presentViewController:self.appInfoView animated:YES completion:nil];
 }
 
-#pragma mark - power control action sheet
+#pragma mark - Power control action sheet
 
 - (void)powerControl {
     if (AppDelegate.instance.obj.serverIP.length == 0) {
@@ -533,79 +530,90 @@
     messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     [self.view addSubview:messagesView];
 
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleXBMCServerHasChanged:)
-                                                 name: @"XBMCServerHasChanged"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleStackScrollOnScreen:)
-                                                 name: @"StackScrollOnScreen"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleStackScrollOffScreen:)
-                                                 name: @"StackScrollOffScreen"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleDidEnterBackground:)
-                                                 name: UIApplicationDidEnterBackgroundNotification
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleEnterForeground:)
-                                                 name: UIApplicationWillEnterForegroundNotification
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleTcpJSONRPCShowSetup:)
-                                                 name: @"TcpJSONRPCShowSetup"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleTcpJSONRPCChangeServerStatus:)
-                                                 name: @"TcpJSONRPCChangeServerStatus"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(connectionStatus:)
-                                                 name: @"XBMCServerConnectionSuccess"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(connectionStatus:)
-                                                 name: @"XBMCServerConnectionFailed"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleChangeBackgroundImage:)
-                                                 name: @"IpadChangeBackgroundImage"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleNowPlayingFullscreenToggle)
-                                                 name: @"NowPlayingFullscreenToggle"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handlePlaylistHeaderUpdate:)
-                                                 name: @"PlaylistHeaderUpdate"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleXBMCServerHasChanged:)
+                                                 name:@"XBMCServerHasChanged"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleLibraryNotification:)
-                                                 name: @"AudioLibrary.OnScanFinished"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleStackScrollOnScreen:)
+                                                 name:@"StackScrollOnScreen"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleLibraryNotification:)
-                                                 name: @"AudioLibrary.OnCleanFinished"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleStackScrollOffScreen:)
+                                                 name:@"StackScrollOffScreen"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleLibraryNotification:)
-                                                 name: @"VideoLibrary.OnScanFinished"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleLibraryNotification:)
-                                                 name: @"VideoLibrary.OnCleanFinished"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showNotificationMessage:)
-                                                 name: @"UIShowMessage"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleTcpJSONRPCShowSetup:)
+                                                 name:@"TcpJSONRPCShowSetup"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleTcpJSONRPCChangeServerStatus:)
+                                                 name:@"TcpJSONRPCChangeServerStatus"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(connectionStatus:)
+                                                 name:@"XBMCServerConnectionSuccess"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(connectionStatus:)
+                                                 name:@"XBMCServerConnectionFailed"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleChangeBackgroundImage:)
+                                                 name:@"IpadChangeBackgroundImage"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleNowPlayingFullscreenToggle)
+                                                 name:@"NowPlayingFullscreenToggle"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handlePlaylistHeaderUpdate:)
+                                                 name:@"PlaylistHeaderUpdate"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleLibraryNotification:)
+                                                 name:@"AudioLibrary.OnScanFinished"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleLibraryNotification:)
+                                                 name:@"AudioLibrary.OnCleanFinished"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleLibraryNotification:)
+                                                 name:@"VideoLibrary.OnScanFinished"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleLibraryNotification:)
+                                                 name:@"VideoLibrary.OnCleanFinished"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showNotificationMessage:)
+                                                 name:@"UIShowMessage"
+                                               object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -713,7 +721,7 @@
         [menuViewController setLastSelected:-1];
     }
     [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {

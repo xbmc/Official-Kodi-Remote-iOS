@@ -289,7 +289,7 @@
     [self saveCustomButton:newButton];
 }
 
-#pragma mark - custom button
+#pragma mark - Custom button
 
 - (void)saveCustomButton:(NSDictionary*)button {
     customButton *arrayButtons = [customButton new];
@@ -765,6 +765,7 @@
 - (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
     return footerHeight;
 }
+
 - (NSIndexPath*)getCurrentSelectedOption:(NSArray*)optionList {
     NSIndexPath *foundIndex = nil;
     NSUInteger index = [optionList indexOfObjectPassingTest:

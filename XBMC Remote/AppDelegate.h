@@ -90,17 +90,12 @@
 - (NSArray*)action_album;
 
 @property (strong, nonatomic) UIWindow *window;
-
 @property (strong, nonatomic) CustomNavigationController *navigationController;
-
 @property (nonatomic, strong) ViewControllerIPad *windowController;
-
 @property (strong, nonatomic) NSString *dataFilePath;
 @property (strong, nonatomic) NSString *libraryCachePath;
 @property (strong, nonatomic) NSString *epgCachePath;
-
 @property (nonatomic, strong) NSMutableArray *arrayServerList;
-
 @property (nonatomic, strong) mainMenu *playlistArtistAlbums;
 @property (nonatomic, strong) mainMenu *playlistMovies;
 @property (nonatomic, strong) mainMenu *playlistMusicVideos;

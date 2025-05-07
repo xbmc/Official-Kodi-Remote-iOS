@@ -13,6 +13,7 @@
 @implementation MoreItemsViewController
 
 @synthesize tableView = _tableView;
+
 #define LABEL_PADDING 8
 #define INDICATOR_SIZE 16
 #define LABEL_OFFSET 50
@@ -32,8 +33,8 @@
 	}
     return self;
 }
-#pragma mark -
-#pragma mark Table view data source
+
+#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
     // Return the number of sections.
@@ -84,12 +85,10 @@
     return cell;
 }
 
-
-#pragma mark -
-#pragma mark Table view delegate
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"tabHasChanged" object: indexPath];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"tabHasChanged" object:indexPath];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

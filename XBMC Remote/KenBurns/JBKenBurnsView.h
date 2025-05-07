@@ -22,7 +22,6 @@
 //  IN THE SOFTWARE.
 //
 
-
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
@@ -56,5 +55,3 @@
 - (void)animateWithURLs:(NSArray*)urls transitionDuration:(NSTimeInterval)duration loop:(BOOL)shouldLoop isLandscape:(BOOL)inLandscape;
 
 @end
-
-

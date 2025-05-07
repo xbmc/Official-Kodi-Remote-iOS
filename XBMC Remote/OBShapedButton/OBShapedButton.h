@@ -29,7 +29,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 /*
  OBShapedButton is a UIButton subclass optimized for non-rectangular button shapes.
  Instances of OBShapedButton respond to touches only in areas where the image that is
@@ -45,12 +44,9 @@
    control state is non-transparent.
  */
 
-
-
 // -[UIView hitTest:withEvent: ignores views that an alpha level less than 0.1.
 // So we will do the same and treat pixels with alpha < 0.1 as transparent.
 #define kAlphaVisibleThreshold (0.1f)
-
 
 @interface OBShapedButton : UIButton {
     // Our class interface is empty. OBShapedButton only overwrites one method of UIView.

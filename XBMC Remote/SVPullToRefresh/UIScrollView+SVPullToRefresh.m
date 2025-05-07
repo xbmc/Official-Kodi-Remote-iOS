@@ -22,24 +22,19 @@ static CGFloat const SVPullToRefreshViewHeight = 60;
 
 @end
 
-
 @interface SVPullToRefreshView ()
 
 @property (nonatomic, copy) void (^pullToRefreshActionHandler)(void);
-
 @property (nonatomic, strong) SVPullToRefreshArrow *arrow;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic, strong, readwrite) UILabel *titleLabel;
 @property (nonatomic, strong, readwrite) UILabel *subtitleLabel;
 @property (nonatomic, readwrite) SVPullToRefreshState state;
-
 @property (nonatomic, strong) NSMutableArray *titles;
 @property (nonatomic, strong) NSMutableArray *subtitles;
 @property (nonatomic, strong) NSMutableArray *viewForState;
-
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, readwrite) CGFloat originalTopInset;
-
 @property (nonatomic, assign) BOOL wasTriggeredByUser;
 @property (nonatomic, assign) BOOL showsPullToRefresh;
 @property (nonatomic, assign) BOOL showsDateLabel;
@@ -51,8 +46,6 @@ static CGFloat const SVPullToRefreshViewHeight = 60;
 - (void)rotateArrow:(float)degrees hide:(BOOL)hide;
 
 @end
-
-
 
 #pragma mark - UIScrollView (SVPullToRefresh)
 #import <objc/runtime.h>
@@ -121,20 +114,18 @@ static char UIScrollViewPullToRefreshView;
 @end
 
 #pragma mark - SVPullToRefresh
+
 @implementation SVPullToRefreshView
 
 // public properties
 @synthesize pullToRefreshActionHandler, arrowColor, textColor, activityIndicatorViewStyle, lastUpdatedDate, dateFormatter;
-
 @synthesize state = _state;
 @synthesize scrollView = _scrollView;
 @synthesize showsPullToRefresh = _showsPullToRefresh;
 @synthesize arrow = _arrow;
 @synthesize activityIndicatorView = _activityIndicatorView;
-
 @synthesize titleLabel = _titleLabel;
 @synthesize dateLabel = _dateLabel;
-
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -460,7 +451,7 @@ static char UIScrollViewPullToRefreshView;
     self.dateLabel.text = LOCALIZED_STR_ARGS(@"Last Updated: %@", newLastUpdatedDate ? [self.dateFormatter stringFromDate:newLastUpdatedDate] : LOCALIZED_STR(@"Never"));
 }
 
-#pragma mark -
+#pragma mark - Animation
 
 - (void)triggerRefresh {
     [self.scrollView triggerPullToRefresh];
@@ -525,10 +516,10 @@ static char UIScrollViewPullToRefreshView;
 
 @end
 
-
 #pragma mark - SVPullToRefreshArrow
 
 @implementation SVPullToRefreshArrow
+
 @synthesize arrowColor;
 
 - (UIColor*)arrowColor {

@@ -114,7 +114,7 @@
     return self;
 }
 
-#pragma mark - live tv epg memory/disk cache management
+#pragma mark - Live TV epg memory/disk cache management
 
 - (NSMutableArray*)loadEPGFromMemory:(NSNumber*)channelid {
     __block NSMutableArray *epgarray = nil;
@@ -154,7 +154,7 @@
     }
 }
 
-#pragma mark - live tv epg management
+#pragma mark - Live TV epg management
 
 - (void)getChannelEpgInfo:(NSDictionary*)parameters {
     NSNumber *channelid = [Utilities getNumberFromItem:parameters[@"channelid"]];
@@ -313,7 +313,7 @@
                          @[@"title", @"starttime", @"endtime", @"plot", @"plotoutline"], @"properties",
                          nil]
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-               if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
+               if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                    NSArray *broadcasts = methodResult[@"broadcasts"];
                    if (broadcasts && [broadcasts isKindOfClass:[NSArray class]]) {
                        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -328,7 +328,7 @@
            }];
 }
 
-#pragma mark - library disk cache management
+#pragma mark - Library disk cache management
 
 - (NSString*)getCacheKey:(NSString*)fieldA parameters:(NSMutableDictionary*)fieldB {
     // Which server are we connected to?
@@ -424,10 +424,10 @@
             dateFormatter.locale = [NSLocale currentLocale];
             NSString *dateString = [dateFormatter stringFromDate:[attributes fileModificationDate]];
             NSString *title = [NSString stringWithFormat:@"%@: %@", LOCALIZED_STR(@"Last sync"), dateString];
-            [dataList.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateStopped];
-            [dataList.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateTriggered];
-            [collectionView.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateStopped];
-            [collectionView.pullToRefreshView setSubtitle:title forState: SVPullToRefreshStateTriggered];
+            [dataList.pullToRefreshView setSubtitle:title forState:SVPullToRefreshStateStopped];
+            [dataList.pullToRefreshView setSubtitle:title forState:SVPullToRefreshStateTriggered];
+            [collectionView.pullToRefreshView setSubtitle:title forState:SVPullToRefreshStateStopped];
+            [collectionView.pullToRefreshView setSubtitle:title forState:SVPullToRefreshStateTriggered];
         }
     }
 }
@@ -801,7 +801,7 @@
         iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         iconView.tintColor = lightAlbumColor;
         searchTextField.textColor = lightAlbumColor;
-        searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes: @{NSForegroundColorAttributeName: lightAlbumColor}];
+        searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes:@{NSForegroundColorAttributeName: lightAlbumColor}];
     }
     searchBar.backgroundColor = albumColor;
     searchBar.tintColor = lightAlbumColor;
@@ -985,7 +985,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableStackPan" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIApplicationEnableStackPan" object:nil];
     }
 }
 
@@ -1129,7 +1129,6 @@
     [activityIndicatorView stopAnimating];
 }
 
-
 - (void)handleTabHasChanged:(NSNotification*)notification {
     mainMenu *menuItem = self.detailItem;
     NSArray *buttons = menuItem.mainButtons;
@@ -1144,10 +1143,10 @@
 - (void)changeViewMode:(ViewModes)newViewMode forceRefresh:(BOOL)refresh {
     [activityIndicatorView startAnimating];
     if (!refresh) {
-            [UIView transitionWithView: activeLayoutView
-                              duration: 0.2
-                               options: UIViewAnimationOptionBeginFromCurrentState
-                            animations: ^{
+            [UIView transitionWithView:activeLayoutView
+                              duration:0.2
+                               options:UIViewAnimationOptionBeginFromCurrentState
+                            animations:^{
                                 activeLayoutView.alpha = 1.0;
                                 CGRect frame = activeLayoutView.frame;
                                 frame.origin.x = viewWidth;
@@ -1983,22 +1982,22 @@
         
         sectionNameLabel.text = [self buildSortInfo:storeSectionArray[sender.currentIndex]];
         NSString *value = storeSectionArray[sender.currentIndex];
-        NSPredicate *predExists = [NSPredicate predicateWithFormat: @"SELF.%@ BEGINSWITH[c] %@", sortbymethod, value];
+        NSPredicate *predExists = [NSPredicate predicateWithFormat:@"SELF.%@ BEGINSWITH[c] %@", sortbymethod, value];
         if ([value isEqual:@"#"]) {
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@ MATCHES[c] %@", sortbymethod, @"^[0-9].*"];
+            predExists = [NSPredicate predicateWithFormat:@"SELF.%@ MATCHES[c] %@", sortbymethod, @"^[0-9].*"];
         }
         else if ([sortbymethod isEqualToString:@"rating"] && [value isEqualToString:@"0"]) {
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.length == 0", sortbymethod];
+            predExists = [NSPredicate predicateWithFormat:@"SELF.%@.length == 0", sortbymethod];
         }
         else if ([sortbymethod isEqualToString:@"runtime"]) {
-             [NSPredicate predicateWithFormat: @"attributeName BETWEEN %@", @[@1, @10]];
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue BETWEEN %@", sortbymethod, @[@([value intValue] - 15), @([value intValue])]];
+             [NSPredicate predicateWithFormat:@"attributeName BETWEEN %@", @[@1, @10]];
+            predExists = [NSPredicate predicateWithFormat:@"SELF.%@.intValue BETWEEN %@", sortbymethod, @[@([value intValue] - 15), @([value intValue])]];
         }
         else if ([sortbymethod isEqualToString:@"playcount"]) {
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue == %d", sortbymethod, [value intValue]];
+            predExists = [NSPredicate predicateWithFormat:@"SELF.%@.intValue == %d", sortbymethod, [value intValue]];
         }
         else if ([sortbymethod isEqualToString:@"year"]) {
-            predExists = [NSPredicate predicateWithFormat: @"SELF.%@.intValue >= %d", sortbymethod, [value intValue]];
+            predExists = [NSPredicate predicateWithFormat:@"SELF.%@.intValue >= %d", sortbymethod, [value intValue]];
         }
         NSUInteger index = [sections[@""] indexOfObjectPassingTest:
                             ^(id obj, NSUInteger idx, BOOL *stop) {
@@ -2846,7 +2845,7 @@
 - (NSUInteger)indexOfObjectWithSeason:(NSString*)seasonNumber inArray:(NSArray*)array {
     return [array indexOfObjectPassingTest:
             ^(id dictionary, NSUInteger idx, BOOL *stop) {
-                return ([dictionary[@"season"] isEqualToString: seasonNumber]);
+                return ([dictionary[@"season"] isEqualToString:seasonNumber]);
             }];
 }
 
@@ -3427,7 +3426,7 @@
              // Important: First call updateCellAndSaveRichData to set the updated playcount. Then send the trigger to update the views.
              [self updateCellAndSaveRichData:indexPath watched:watched item:item];
              if (episodesView || tvshowsView) {
-                  [[NSNotificationCenter defaultCenter] postNotificationName: @"PlaycountChanged" object: nil];
+                  [[NSNotificationCenter defaultCenter] postNotificationName:@"PlaycountChanged" object:nil];
              }
          }
         [cellActivityIndicator stopAnimating];
@@ -3588,7 +3587,7 @@
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Play Trailer")]) {
         NSDictionary *itemParams = @{
-            @"item": [NSDictionary dictionaryWithObjectsAndKeys: item[@"trailer"], @"file", nil],
+            @"item": [NSDictionary dictionaryWithObjectsAndKeys:item[@"trailer"], @"file", nil],
         };
         [self playerOpen:itemParams index:selectedIndexPath];
     }
@@ -3605,7 +3604,7 @@
                     params:[NSDictionary dictionaryWithObjectsAndKeys:
                             item[@"addonid"], @"addonid",
                             nil]
-                   success: LOCALIZED_STR(@"Add-on executed successfully")
+                   success:LOCALIZED_STR(@"Add-on executed successfully")
                    failure:LOCALIZED_STR(@"Unable to execute the add-on")
          ];
     }
@@ -3614,7 +3613,7 @@
                     params:[NSDictionary dictionaryWithObjectsAndKeys:
                             item[@"label"], @"action",
                             nil]
-                   success: LOCALIZED_STR(@"Action executed successfully")
+                   success:LOCALIZED_STR(@"Action executed successfully")
                    failure:LOCALIZED_STR(@"Unable to execute the action")
          ];
     }
@@ -3623,7 +3622,7 @@
                     params:[NSDictionary dictionaryWithObjectsAndKeys:
                             item[@"label"], @"window",
                             nil]
-                   success: LOCALIZED_STR(@"Window activated successfully")
+                   success:LOCALIZED_STR(@"Window activated successfully")
                    failure:LOCALIZED_STR(@"Unable to activate the window")
          ];
     }
@@ -3688,10 +3687,10 @@
             if (sort_method_index != NSNotFound) {
                 if (sort_method_index < [sortDictionary[@"method"] count]) {
                     [activityIndicatorView startAnimating];
-                    [UIView transitionWithView: activeLayoutView
-                                      duration: 0.2
-                                       options: UIViewAnimationOptionBeginFromCurrentState
-                                    animations: ^{
+                    [UIView transitionWithView:activeLayoutView
+                                      duration:0.2
+                                       options:UIViewAnimationOptionBeginFromCurrentState
+                                    animations:^{
                                         activeLayoutView.alpha = 1.0;
                                         CGRect frame = activeLayoutView.frame;
                                         frame.origin.x = viewWidth;
@@ -3713,10 +3712,10 @@
             }
             else if ([actiontitle hasPrefix:@"\u2713"]) {
                 [activityIndicatorView startAnimating];
-                [UIView transitionWithView: activeLayoutView
-                                  duration: 0.2
-                                   options: UIViewAnimationOptionBeginFromCurrentState
-                                animations: ^{
+                [UIView transitionWithView:activeLayoutView
+                                  duration:0.2
+                                   options:UIViewAnimationOptionBeginFromCurrentState
+                                animations:^{
                                     activeLayoutView.alpha = 1.0;
                                     CGRect frame = activeLayoutView.frame;
                                     frame.origin.x = viewWidth;
@@ -3743,7 +3742,7 @@
     [arrayButtons saveData];
     [Utilities showMessage:LOCALIZED_STR(@"Button added") color:[Utilities getSystemGreen:0.95]];
     if (IS_IPAD) {
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"UIInterfaceCustomButtonAdded" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIInterfaceCustomButtonAdded" object:nil];
     }
 }
 
@@ -3908,7 +3907,7 @@
             [collectionView reloadData];
             [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
             NSDictionary *params = @{@"duration": @(animDuration)};
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenDisabled" object:self.view userInfo:params];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollFullScreenDisabled" object:self.view userInfo:params];
             [UIView animateWithDuration:0.2
                                   delay:0.0
                                 options:UIViewAnimationOptionCurveEaseInOut
@@ -3973,7 +3972,7 @@
                 @"hideToolbar": @NO,
                 @"duration": @(animDuration),
             };
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollFullScreenEnabled" object:self.view userInfo:params];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollFullScreenEnabled" object:self.view userInfo:params];
             [UIView animateWithDuration:0.2
                                   delay:0.0
                                 options:UIViewAnimationOptionCurveEaseInOut
@@ -4123,7 +4122,7 @@
                        @"status": status,
                    };
                    timerView.hidden = ![status boolValue];
-                   [[NSNotificationCenter defaultCenter] postNotificationName: @"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
                }
                else {
                    NSString *message = [Utilities formatClipboardMessage:methodToCall
@@ -4182,7 +4181,7 @@
                          };
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                              if (error == nil && methodError == nil) {
-                                 [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
                              }
                          }];
                      }
@@ -4208,7 +4207,7 @@
     [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:playlistParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [cellActivityIndicator stopAnimating];
         if (error == nil && methodError == nil) {
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
         }
     }];
     
@@ -4224,7 +4223,7 @@
     [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [cellActivityIndicator stopAnimating];
         if (error == nil && methodError == nil) {
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
             [self showNowPlaying];
             [Utilities checkForReviewRequest];
         }
@@ -4484,7 +4483,6 @@
         [self displayInfoView:item];
     }
 }
-
 
 - (void)showAlbumActions:(UITapGestureRecognizer*)tap {
     if (self.sectionArray.count == 0) {
@@ -5179,7 +5177,7 @@
         NSDate *nowDate = [NSDate date];
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSInteger components = (NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute);
-        NSDateComponents *nowDateComponents = [calendar components:components fromDate: nowDate];
+        NSDateComponents *nowDateComponents = [calendar components:components fromDate:nowDate];
         nowDate = [calendar dateFromComponents:nowDateComponents];
         NSUInteger countRow = 0;
         NSMutableArray *retrievedEPG = [NSMutableArray new];
@@ -5189,9 +5187,9 @@
             NSDate *itemEndDate;
             NSDate *itemStartDate;
             if (starttime != nil && endtime != nil) {
-                NSDateComponents *itemDateComponents = [calendar components:components fromDate: endtime];
+                NSDateComponents *itemDateComponents = [calendar components:components fromDate:endtime];
                 itemEndDate = [calendar dateFromComponents:itemDateComponents];
-                itemDateComponents = [calendar components:components fromDate: starttime];
+                itemDateComponents = [calendar components:components fromDate:starttime];
                 itemStartDate = [calendar dateFromComponents:itemDateComponents];
             }
             NSComparisonResult datesCompare = [itemEndDate compare:nowDate];
@@ -5310,7 +5308,7 @@
         currentValue = [@(round([currentValue doubleValue])) stringValue];
     }
     else if (([sortMethod isEqualToString:@"dateadded"] || [sortMethod isEqualToString:@"starttime"]) && ![currentValue isEqualToString:@"(null)"]) {
-        NSDateComponents *components = [[NSCalendar currentCalendar] components: NSCalendarUnitYear fromDate:[xbmcDateFormatter dateFromString:currentValue]];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:[xbmcDateFormatter dateFromString:currentValue]];
         currentValue = [NSString stringWithFormat:@"%ld", (long)[components year]];
     }
     else if ([sortMethod isEqualToString:@"playcount"] ||
@@ -5389,7 +5387,7 @@
     [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0 YPos:0];
     if (channelGuideView && autoScrollTable != nil && autoScrollTable.row < [dataList numberOfRowsInSection:autoScrollTable.section]) {
-        [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition:UITableViewScrollPositionTop animated: NO];
+        [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
 }
 
@@ -5695,7 +5693,7 @@
     showkeyboard = YES;
 }
 
-#pragma mark UISearchController Delegate Methods
+#pragma mark - UISearchController Delegate Methods
 
 - (void)initSearchController {
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
@@ -5898,8 +5896,8 @@
     }];
     [self disableScrollsToTopPropertyOnAllSubviewsOf:self.slidingViewController.view];
     for (UIView *subView in self.searchController.searchBar.subviews) {
-        if ([subView isKindOfClass: [UITextField class]]) {
-            [(UITextField*)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];
+        if ([subView isKindOfClass:[UITextField class]]) {
+            [(UITextField*)subView setKeyboardAppearance:UIKeyboardAppearanceAlert];
         }
     }
     self.view.userInteractionEnabled = YES;
@@ -6011,49 +6009,51 @@
         dataList.frame = frame;
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleTabHasChanged:)
-                                                 name: @"tabHasChanged"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(revealMenu:)
-                                                 name: @"RevealMenu"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleTabHasChanged:)
+                                                 name:@"tabHasChanged"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(hideKeyboard:)
-                                                 name: @"ECSlidingViewUnderLeftWillAppear"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(showKeyboard:)
-                                                 name: @"ECSlidingViewTopDidReset"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(revealMenu:)
+                                                 name:@"RevealMenu"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleCollectionIndexStateBegin)
-                                                 name: @"BDKCollectionIndexViewGestureRecognizerStateBegin"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideKeyboard:)
+                                                 name:@"ECSlidingViewUnderLeftWillAppear"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleCollectionIndexStateEnded)
-                                                 name: @"BDKCollectionIndexViewGestureRecognizerStateEnded"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showKeyboard:)
+                                                 name:@"ECSlidingViewTopDidReset"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(leaveFullscreen)
-                                                 name: @"LeaveFullscreen"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleCollectionIndexStateBegin)
+                                                 name:@"BDKCollectionIndexViewGestureRecognizerStateBegin"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(updatePlaycount)
-                                                 name: @"PlaycountChanged"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleCollectionIndexStateEnded)
+                                                 name:@"BDKCollectionIndexViewGestureRecognizerStateEnded"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(leaveFullscreen)
+                                                 name:@"LeaveFullscreen"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updatePlaycount)
+                                                 name:@"PlaycountChanged"
+                                               object:nil];
     
     if (channelListView || channelGuideView) {
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(handleRecordTimerStatusChange:)
-                                                     name: @"KodiServerRecordTimerStatusChange"
-                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleRecordTimerStatusChange:)
+                                                     name:@"KodiServerRecordTimerStatusChange"
+                                                   object:nil];
     }
 }
 
@@ -6061,7 +6061,7 @@
     NSDictionary *theData = note.userInfo;
     NSArray *keys = [self.sections allKeys];
     for (NSString *keysV in keys) {
-        [self checkUpdateRecordingState: self.sections[keysV] dataInfo:theData];
+        [self checkUpdateRecordingState:self.sections[keysV] dataInfo:theData];
     }
     if ([self doesShowSearchResults]) {
         [self checkUpdateRecordingState:self.filteredListContent dataInfo:theData];

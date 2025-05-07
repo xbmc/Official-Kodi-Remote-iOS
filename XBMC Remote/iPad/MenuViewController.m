@@ -46,10 +46,10 @@
 #import "RemoteController.h"
 
 @implementation MenuViewController
+
 @synthesize tableView = _tableView;
 
-#pragma mark -
-#pragma mark View lifecycle
+#pragma mark - View lifecycle
 
 - (id)initWithFrame:(CGRect)frame mainMenu:(NSArray*)menu menuHeight:(CGFloat)tableHeight {
     if (self = [super init]) {
@@ -75,18 +75,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     lastSelected = -1;
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleDeselectSection)
-                                                 name: @"MainMenuDeselectSection"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleEnablingDefaultController)
-                                                 name: @"KodiStartDefaultController"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleRemoveStack)
-                                                 name: @"StackScrollRemoveAll"
-                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDeselectSection)
+                                                 name:@"MainMenuDeselectSection"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleEnablingDefaultController)
+                                                 name:@"KodiStartDefaultController"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleRemoveStack)
+                                                 name:@"StackScrollRemoveAll"
+                                               object:nil];
 }
 
 - (void)setMenuHeight:(CGFloat)tableHeight {
@@ -120,7 +123,7 @@
     [super viewDidAppear:animated];
 }
 
-#pragma mark Table view data source
+#pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     return PAD_MENU_HEIGHT;
@@ -164,8 +167,7 @@
     return cell;
 }
 
-#pragma mark -
-#pragma mark Table view delegate
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     if (!AppDelegate.instance.serverOnLine) {
@@ -188,7 +190,7 @@
             return;
         }
         if (item.family == FamilyDetailView) {
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOnScreen" object:nil];
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:YES];
         }
@@ -221,8 +223,7 @@
     lastSelected = selection;
 }
 
-#pragma mark -
-#pragma mark Memory management
+#pragma mark - Memory management
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

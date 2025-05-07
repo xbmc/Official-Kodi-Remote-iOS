@@ -38,7 +38,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface MenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	UITableView *_tableView;
     NSArray *mainMenuItems;
@@ -50,6 +49,5 @@
 - (void)setLastSelected:(int)selection;
 
 @property (nonatomic, strong) UITableView *tableView;
-
 
 @end

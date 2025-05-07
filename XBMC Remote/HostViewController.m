@@ -49,7 +49,6 @@
 #define XIB_FIRST_MAC_ADDRESS_FIELD 5
 #define XIB_LAST_MAC_ADDRESS_FIELD 10
 
-
 @implementation HostViewController
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
@@ -505,11 +504,9 @@
 	return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
 	return services.count;
 }
-
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
 	static NSString *tableCellIdentifier = @"UITableViewCell";

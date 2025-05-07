@@ -30,7 +30,6 @@
 #import "OBShapedButton.h"
 #import "UIImage+ColorAtPixel.h"
 
-
 @interface OBShapedButton ()
 
 @property (nonatomic, assign) CGPoint previousTouchPoint;
@@ -39,7 +38,6 @@
 - (void)resetHitTestCache;
 
 @end
-
 
 @implementation OBShapedButton
 
@@ -61,7 +59,6 @@
     }
     return self;
 }
-
 
 #pragma mark - Hit testing
 
@@ -88,7 +85,6 @@
     }
     return alpha >= kAlphaVisibleThreshold;
 }
-
 
 // UIView uses this method in hitTest:withEvent: to determine which subview should receive a touch event.
 // If pointInside:withEvent: returns YES, then the subview’s hierarchy is traversed; otherwise, its branch
@@ -136,7 +132,6 @@
     self.previousTouchHitTestResponse = response;
     return response;
 }
-
 
 // Reset the Hit Test Cache when a new image is assigned to the button
 - (void)setImage:(UIImage*)image forState:(UIControlState)state {

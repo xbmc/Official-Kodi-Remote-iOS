@@ -114,7 +114,7 @@
     return [img resizedImageSize:thumbSize aspectMode:UIViewContentModeScaleAspectFit];
 }
 
-#pragma mark - utility
+#pragma mark - Utility
 
 - (int)getSecondsFromTimeDict:(NSDictionary*)timeDict {
     int hours = [timeDict[@"hours"] intValue];
@@ -924,7 +924,7 @@
                                    @"VideoPlayer.AudioCodec",
                                    @"VideoPlayer.VideoCodec"]}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-         if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
+         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
              hiresImage.hidden = YES;
              itemDescription.textAlignment = NSTextAlignmentJustified;
              if (currentPlayerID == PLAYERID_MUSIC) {
@@ -1071,7 +1071,7 @@
          withParameters:@{@"booleans": @[@"Window.IsActive(virtualkeyboard)", @"Window.IsActive(selectdialog)"]}
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
              
-             if (error == nil && methodError == nil && [methodResult isKindOfClass: [NSDictionary class]]) {
+             if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                  if (methodResult[@"Window.IsActive(virtualkeyboard)"] != [NSNull null] && methodResult[@"Window.IsActive(selectdialog)"] != [NSNull null]) {
                      NSNumber *virtualKeyboardActive = methodResult[@"Window.IsActive(virtualkeyboard)"];
                      NSNumber *selectDialogActive = methodResult[@"Window.IsActive(selectdialog)"];
@@ -1340,10 +1340,10 @@
         [self.navigationController pushViewController:showInfoViewController animated:YES];
     }
     else {
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOnScreen" object:nil];
         ShowInfoViewController *iPadShowViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" withItem:item withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
         [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadShowViewController invokeByController:self isStackStartView:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:nil];
     }
 }
 
@@ -1533,7 +1533,7 @@
     [self flipAnimButton:playlistButton demo:NO];
 }
 
-#pragma mark - bottom toolbar
+#pragma mark - Bottom toolbar
 
 - (IBAction)startVibrate:(id)sender {
     NSString *action;
@@ -1982,7 +1982,7 @@
                 obj = @{@"artist": artistFrodoWorkaround};
             }
             else {
-                obj = [NSDictionary dictionaryWithObjectsAndKeys: obj, objKey, nil];
+                obj = [NSDictionary dictionaryWithObjectsAndKeys:obj, objKey, nil];
             }
             objKey = @"filter";
         }
@@ -2006,10 +2006,10 @@
             [self.navigationController pushViewController:detailViewController animated:YES];
         }
         else {
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"StackScrollOnScreen" object: nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOnScreen" object:nil];
             DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:menuItem.subItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object: nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:nil];
         }
     }
     else {
@@ -2557,49 +2557,50 @@
         [self setNowPlayingSizeIPhone:nowPlayingView.frame.size];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleEnterForeground:)
-                                                 name: UIApplicationWillEnterForegroundNotification
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleDidEnterBackground:)
-                                                 name: UIApplicationDidEnterBackgroundNotification
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleXBMCPlaylistHasChanged:)
-                                                 name: @"XBMCPlaylistHasChanged"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleXBMCPlaylistHasChanged:)
+                                                 name:@"XBMCPlaylistHasChanged"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleXBMCPlaylistHasChanged:)
-                                                 name: @"Playlist.OnAdd"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleXBMCPlaylistHasChanged:)
+                                                 name:@"Playlist.OnAdd"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleXBMCPlaylistHasChanged:)
-                                                 name: @"Playlist.OnClear"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleXBMCPlaylistHasChanged:)
+                                                 name:@"Playlist.OnClear"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(handleXBMCPlaylistHasChanged:)
-                                                 name: @"Playlist.OnRemove"
-                                               object: nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(revealMenu:)
-                                                 name: @"RevealMenu"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleXBMCPlaylistHasChanged:)
+                                                 name:@"Playlist.OnRemove"
+                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(disablePopGestureRecognizer:)
-                                                 name: @"ECSlidingViewUnderRightWillAppear"
-                                               object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(enablePopGestureRecognizer:)
-                                                 name: @"ECSlidingViewTopDidReset"
-                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(revealMenu:)
+                                                 name:@"RevealMenu"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(disablePopGestureRecognizer:)
+                                                 name:@"ECSlidingViewUnderRightWillAppear"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(enablePopGestureRecognizer:)
+                                                 name:@"ECSlidingViewTopDidReset"
+                                               object:nil];
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {
@@ -2699,7 +2700,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setToolbar {
