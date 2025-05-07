@@ -19,7 +19,7 @@
 #define VOLUMESLIDER_HEIGHT 44
 #define SERVER_TIMEOUT 3.0
 #define VOLUME_HOLD_TIMEOUT 0.2
-#define VOLUME_REPEAT_TIMEOUT 0.05
+#define VOLUME_REPEAT_TIMEOUT 0.03
 #define VOLUME_INFO_TIMEOUT 1.0
 #define VOLUME_BUTTON_UP 1
 #define VOLUME_BUTTON_DOWN 2
@@ -207,7 +207,7 @@
     if (AppDelegate.instance.serverTCPConnectionOpen) {
         return;
     }
-    if (AppDelegate.instance.serverVolume > -1) {
+    if (AppDelegate.instance.serverOnLine && AppDelegate.instance.serverVolume > -1) {
         volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
         volumeSlider.value = AppDelegate.instance.serverVolume;
     }
@@ -229,6 +229,10 @@
 }
 
 - (void)handleMute:(BOOL)mute {
+    if (!AppDelegate.instance.serverOnLine) {
+        return;
+    }
+    
     isMuted = mute;
     UIColor *buttonColor = isMuted ? UIColor.systemRedColor : muteIconColor;
     UIColor *sliderColor = isMuted ? UIColor.darkGrayColor : KODI_BLUE_COLOR;
@@ -299,18 +303,22 @@
 }
 
 - (void)changeVolume:(id)sender {
+    if (!AppDelegate.instance.serverOnLine) {
+        return;
+    }
+    
     // Process the volume change
     isChangingVolume = YES;
     NSInteger action = [sender tag];
     switch (action) {
         case VOLUME_BUTTON_UP: // Volume Increase
-            volumeSlider.value += 2;
+            volumeSlider.value += 1;
             break;
         case VOLUME_BUTTON_DOWN: // Volume Decrease
-            volumeSlider.value -= 2;
+            volumeSlider.value -= 1;
             break;
-        case VOLUME_SLIDER: // Volume slider in 2-step resolution
-            volumeSlider.value = ((int)volumeSlider.value / 2) * 2;
+        case VOLUME_SLIDER: // Volume slider with 1% step resolution
+            volumeSlider.value = (int)volumeSlider.value;
             break;
         default:
             break;
