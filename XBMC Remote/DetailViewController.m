@@ -29,6 +29,7 @@
 #import "SettingsValuesViewController.h"
 #import "customButton.h"
 #import "VersionCheck.h"
+#import "SharingActivityItemSource.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -3324,6 +3325,9 @@
                 if (![VersionCheck hasPlayUsingSupport]) {
                     [sheetActions removeObject:LOCALIZED_STR(@"Play using...")];
                 }
+                if ([item[@"file"] length] > 0 && ![item[@"filetype"] isEqualToString:@"directory"]) {
+                    [sheetActions addObject:LOCALIZED_STR(@"Share")];
+                }
                 BOOL isRecording = [self isTimerActiveForItem:item];
                 UIView *showFromView = self.view;
                 CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
@@ -3532,6 +3536,9 @@
                 [fromctrl presentViewController:alertCtrl animated:YES completion:nil];
             }
         }];
+    }
+    else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Share")]) {
+        [self shareItem:item indexPath:selectedIndexPath];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
@@ -4220,6 +4227,47 @@
             [[NSNotificationCenter defaultCenter] postNotificationName: @"XBMCPlaylistHasChanged" object: nil];
             [self showNowPlaying];
             [Utilities checkForReviewRequest];
+        }
+    }];
+}
+
+- (void)shareItem:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
+    [[Utilities getJsonRPC]
+     callMethod:@"Files.PrepareDownload"
+     withParameters:[NSDictionary dictionaryWithObjectsAndKeys:item[@"file"], @"path", nil]
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (!error && !methodError) {
+            GlobalData *obj = [GlobalData getInstance];
+            NSString *serverURL = [NSString stringWithFormat:@"%@:%@/", obj.serverIP, obj.serverPort];
+            NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, methodResult[@"details"][@"path"]];
+            
+            [[SDImageCache sharedImageCache] queryDiskCacheForKey:item[@"thumbnail"] done:^(UIImage *image, SDImageCacheType cacheType) {
+                // Image is loaded, now create an show the share action sheet
+                NSArray *activityItems = @[[[SharingActivityItemSource alloc] initWithUrlString:stringURL label:item[@"label"] image:image]];
+                NSArray *excludeActivities = @[
+                    UIActivityTypePostToFacebook,
+                    UIActivityTypePostToTwitter,
+                    UIActivityTypePostToVimeo,
+                    UIActivityTypePostToWeibo,
+                    UIActivityTypePostToTencentWeibo,
+                    UIActivityTypePrint,
+                    UIActivityTypeAddToReadingList,
+                    UIActivityTypePostToFlickr,
+                ];
+                UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+                activityController.excludedActivityTypes = excludeActivities;
+                
+                // Origin of popover is the selected item
+                UIView *itemCell = [self getCell:indexPath];
+                
+                // Position the source of the popover
+                UIPopoverPresentationController *popPresenter = [activityController popoverPresentationController];
+                if (popPresenter != nil) {
+                    popPresenter.sourceView = itemCell;
+                    popPresenter.sourceRect = itemCell.bounds;
+                }
+                [self presentViewController:activityController animated:YES completion:nil];
+            }];
         }
     }];
 }
