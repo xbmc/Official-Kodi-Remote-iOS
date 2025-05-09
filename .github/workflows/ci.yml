@@ -14,5 +14,3 @@ jobs:
         run: bundle install
       - name: Build
         run: bundle exec fastlane build_pr
-        env:
-          DEVELOPER_DIR: /Applications/Xcode_16.2.app

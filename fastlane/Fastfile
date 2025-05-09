@@ -167,7 +167,7 @@ def createGithubRelease(name, tag, description = nil, is_draft: false, is_prerel
 end
 
 def buildApp(gym_options = {})
-  xcversion(version: '~> 16.2')
+  xcodes(select_for_current_build_only: true)
   gym(
     scheme: $scheme,
     clean: true,
