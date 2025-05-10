@@ -9,9 +9,7 @@
 #import "ECSlidingViewController.h"
 #import "CustomNavigationController.h"
 
-@interface InitialSlidingViewController : ECSlidingViewController {
-    CustomNavigationController *navController;
-}
+@interface InitialSlidingViewController : ECSlidingViewController
 
 - (void)handleMenuButton;
 

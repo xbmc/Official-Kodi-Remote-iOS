@@ -181,7 +181,7 @@
         default:
             break;
     }
-    navController = [[CustomNavigationController alloc] initWithRootViewController:object];
+    CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:object];
     navController.navigationBar.barStyle = UIBarStyleBlack;
     navController.navigationBar.tintColor = ICON_TINT_COLOR;
     UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
@@ -313,7 +313,7 @@
     self.slidingViewController.underLeftWidthLayout = ECFullWidth;
     
     // Update dimension of message view
-    CGFloat deltaY = [Utilities getTopPaddingWithNavBar:self.navigationController];
+    CGFloat deltaY = [Utilities getTopPadding];
     [messagesView updateWithFrame:CGRectMake(0,
                                              0,
                                              UIScreen.mainScreen.bounds.size.width,
