@@ -65,7 +65,7 @@
         
         UIView *verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, IPAD_MENU_SEPARATOR_WIDTH, self.view.frame.size.height)];
         verticalLineView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-        verticalLineView.backgroundColor = [Utilities getGrayColor:77 alpha:0.6];
+        verticalLineView.backgroundColor = IPAD_MENU_SEPARATOR;
         [self.view addSubview:verticalLineView];
         [self.view bringSubviewToFront:verticalLineView];
 	}
@@ -153,7 +153,7 @@
         
         // Set background view
         UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
-        backgroundView.backgroundColor = [Utilities getGrayColor:0 alpha:0.4];
+        backgroundView.backgroundColor = MAINMENU_SELECTED_COLOR;
         cell.selectedBackgroundView = backgroundView;
     }
     mainMenu *item = mainMenuItems[indexPath.row];

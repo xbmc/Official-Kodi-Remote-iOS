@@ -73,7 +73,7 @@
         cell.backgroundColor = UIColor.clearColor;
     }
     else {
-        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
+        cell.backgroundColor = CUSTOM_BUTTON_BACKGROUND;
     }
 }
 
@@ -83,22 +83,12 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
         cell = nib[0];
-        
-        // Set background view
-        UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
-        backView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
-        cell.selectedBackgroundView = backView;
     }
     */
     // WORKAROUND BEGIN
     // Load nib each time as otherwise the layout of the cells is not properly handled after sleep / resume.
     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
     UITableViewCell *cell = nib[0];
-    
-    // Set background view
-    UIView *backView = [[UIView alloc] initWithFrame:cell.frame];
-    backView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
-    cell.selectedBackgroundView = backView;
     // WROKAROUND END
     
     // Reset to default for each cell to allow dequeuing
@@ -183,7 +173,7 @@
         iconName = tableData[indexPath.row][@"icon"];
     }
     
-    UIColor *fontColor = [Utilities getGrayColor:125 alpha:1];
+    UIColor *fontColor = UIColor.grayColor;
     title.textColor = fontColor;
     title.highlightedTextColor = fontColor;
     
@@ -209,7 +199,7 @@
     CGRect frame = self.view.bounds;
     UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - footerHeight, frame.size.width, footerHeight)];
     newView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-    newView.backgroundColor = [Utilities getGrayColor:36 alpha:1];
+    newView.backgroundColor = TOOLBAR_TINT_COLOR;
     
     // ...more button
     CGFloat originX = self.peekLeftAmount + BUTTON_SPACING;
@@ -524,10 +514,10 @@
     }
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (methodError == nil && error == nil) {
-            [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:SUCCESS_MESSAGE_COLOR];
         }
         else {
-            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
             [sender setUserInteractionEnabled:YES];
