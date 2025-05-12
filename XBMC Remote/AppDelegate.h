@@ -83,7 +83,6 @@
 
 - (void)saveServerList;
 - (void)clearAppDiskCache;
-- (void)triggerLocalNetworkPrivacyAlert;
 - (void)sendWOL:(NSString*)MAC withPort:(NSInteger)WOLport;
 - (NSURL*)getServerJSONEndPoint;
 - (NSDictionary*)getServerHTTPHeaders;
