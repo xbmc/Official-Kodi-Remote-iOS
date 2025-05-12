@@ -4240,7 +4240,9 @@
             NSString *serverURL = [NSString stringWithFormat:@"%@:%@/", obj.serverIP, obj.serverPort];
             NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, methodResult[@"details"][@"path"]];
             
-            [[SDImageCache sharedImageCache] queryDiskCacheForKey:item[@"thumbnail"] done:^(UIImage *image, SDImageCacheType cacheType) {
+            sharedImageView = [UIImageView new];
+            [sharedImageView sd_setImageWithURL:[NSURL URLWithString:item[@"thumbnail"]]
+                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                 // Image is loaded, now create an show the share action sheet
                 NSArray *activityItems = @[[[SharingActivityItemSource alloc] initWithUrlString:stringURL label:item[@"label"] image:image]];
                 NSArray *excludeActivities = @[

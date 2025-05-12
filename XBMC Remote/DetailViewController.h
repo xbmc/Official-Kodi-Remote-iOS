@@ -121,6 +121,7 @@
     BOOL showkeyboard;
     NSIndexPath *selectedIndexPath;
     NSNumber *processAllItemsInSection;
+    UIImageView *sharedImageView;;
 }
 
 - (id)initWithFrame:(CGRect)frame;
