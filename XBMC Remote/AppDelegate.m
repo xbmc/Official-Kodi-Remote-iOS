@@ -14,6 +14,7 @@
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
 #import "Utilities.h"
+#import "Kodi_Remote-Swift.h"
 
 #include <arpa/inet.h>
 #include <net/if.h>
@@ -6376,6 +6377,12 @@
 
 - (void)applicationDidBecomeActive:(UIApplication*)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    // Trigger Local Network Privacy Alert once after app launch
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        LocalNetworkAlertClass *localNetworkAlert = [LocalNetworkAlertClass new];
+        [localNetworkAlert triggerLocalNetworkPrivacyAlert];
+    });
 }
 
 - (void)applicationWillTerminate:(UIApplication*)application {
