@@ -4240,7 +4240,10 @@
             NSString *serverURL = [NSString stringWithFormat:@"%@:%@/", obj.serverIP, obj.serverPort];
             NSString *stringURL = [NSString stringWithFormat:@"http://%@%@", serverURL, methodResult[@"details"][@"path"]];
             
-            sharedImageView = [UIImageView new];
+            static UIImageView *sharedImageView; /* Must be static to exist when sd_setImageWithURL wants to return the image. */
+            if (!sharedImageView) {
+                sharedImageView = [UIImageView new];
+            }
             [sharedImageView sd_setImageWithURL:[NSURL URLWithString:item[@"thumbnail"]]
                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                 // Image is loaded, now create an show the share action sheet
