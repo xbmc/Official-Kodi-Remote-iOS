@@ -128,5 +128,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (void)saveLastServerIndex:(NSIndexPath*)indexPath;
 + (void)readKodiServerParameters;
 + (void)resetKodiServerParameters;
++ (void)setIdleTimerFromUserDefaults;
 
 @end
