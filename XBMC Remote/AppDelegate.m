@@ -21,9 +21,9 @@
 
 @implementation AppDelegate
 
-@synthesize window = _window;
 @synthesize navigationController = _navigationController;
 @synthesize windowController = _windowController;
+@synthesize appRootController;
 @synthesize dataFilePath;
 @synthesize arrayServerList;
 @synthesize serverOnLine;
@@ -124,11 +124,6 @@
     
     [self setIdleTimerFromUserDefaults];
     
-    // Create and set interface style for window
-    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    [self setInterfaceStyleFromUserDefaults];
-    [self.window makeKeyAndVisible];
-    
     // Create GlobalDate which holds the Kodi server parameters
     obj = [GlobalData getInstance];
     
@@ -140,12 +135,12 @@
     if (IS_IPHONE) {
         InitialSlidingViewController *initialSlidingViewController = [[InitialSlidingViewController alloc] initWithNibName:@"InitialSlidingViewController" bundle:nil];
         initialSlidingViewController.mainMenuTable = mainMenuItems;
-        self.window.rootViewController = initialSlidingViewController;
+        appRootController = initialSlidingViewController;
     }
     else {
         self.windowController = [[ViewControllerIPad alloc] initWithNibName:@"ViewControllerIPad" bundle:nil];
         self.windowController.mainMenuTable = mainMenuItems;
-        self.window.rootViewController = self.windowController;
+        appRootController = self.windowController;
     }
     return YES;
 }
@@ -204,23 +199,6 @@
 
 - (void)setIdleTimerFromUserDefaults {
     UIApplication.sharedApplication.idleTimerDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"lockscreen_preference"];
-}
-
-- (void)setInterfaceStyleFromUserDefaults {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *mode = [userDefaults stringForKey:@"theme_mode"];
-    if (@available(iOS 13.0, *)) {
-        UIUserInterfaceStyle style = UIUserInterfaceStyleUnspecified;
-        if (mode.length) {
-            if ([mode isEqualToString:@"dark_mode"]) {
-                style = UIUserInterfaceStyleDark;
-            }
-            else if ([mode isEqualToString:@"light_mode"]) {
-                style = UIUserInterfaceStyleLight;
-            }
-        }
-        self.window.overrideUserInterfaceStyle = style;
-    }
 }
 
 - (void)sendWOL:(NSString*)MAC withPort:(NSInteger)WOLport {
