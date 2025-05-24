@@ -178,7 +178,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"LeaveFullscreen" object:nil userInfo:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOnScreen" object:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"MainMenuDeselectSection" object:nil userInfo:nil];
-            [UIApplication.sharedApplication.keyWindow.rootViewController dismissViewControllerAnimated:YES completion:nil];
+            [AppDelegate.keyWindow.rootViewController dismissViewControllerAnimated:YES completion:nil];
             detailViewController.view.frame = CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height);
             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:YES];
         }
