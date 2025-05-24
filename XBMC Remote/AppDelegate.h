@@ -88,9 +88,9 @@
 - (NSURL*)getServerJSONEndPoint;
 - (NSDictionary*)getServerHTTPHeaders;
 
-@property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) CustomNavigationController *navigationController;
 @property (nonatomic, strong) ViewControllerIPad *windowController;
+@property (nonatomic, strong) UIViewController *appRootController;
 @property (strong, nonatomic) NSString *dataFilePath;
 @property (strong, nonatomic) NSString *libraryCachePath;
 @property (strong, nonatomic) NSString *epgCachePath;
