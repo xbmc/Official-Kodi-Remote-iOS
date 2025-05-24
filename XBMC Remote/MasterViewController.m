@@ -204,7 +204,7 @@
 
 - (void)addConnectionStatusToRootView {
     // Add connection status icon to root view of new controller
-    UIView *rootView = UIApplication.sharedApplication.keyWindow.rootViewController.view;
+    UIView *rootView = AppDelegate.keyWindow.rootViewController.view;
     [rootView addSubview:globalConnectionStatus];
 }
 

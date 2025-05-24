@@ -345,4 +345,27 @@
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
++ (UIWindowScene*)scene {
+    NSArray *scenes= UIApplication.sharedApplication.connectedScenes.allObjects;
+    UIWindowScene *scene = scenes[0];
+    return scene;
+}
+
++ (UIWindow*)keyWindow {
+    /* WORKAROUND: Instead of keyWindow we return the first window. As this app only supports
+     * a single window, this works and avoids a problem caused by the implementation of most app's
+     * UIViewControllers which use keyWindow.safeAreaInset in viewDidLoad instead of willLayoutSubView.
+    return AppDelegate.scene.keyWindow;
+     */
+    return AppDelegate.scene.windows.firstObject;
+}
+
++ (UIStatusBarManager*)statusBarManager {
+    return AppDelegate.scene.statusBarManager;
+}
+
++ (UIInterfaceOrientation)interfaceOrientation {
+    return AppDelegate.scene.interfaceOrientation;
+}
+
 @end
