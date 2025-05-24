@@ -512,7 +512,7 @@ CGPoint center = self.topView.center;
 
 - (CGFloat)screenWidthForOrientation:(BOOL)isLandscape {
     CGSize size = UIScreen.mainScreen.bounds.size;
-    UIApplication *application = UIApplication.sharedApplication;
+    UIStatusBarManager *application = AppDelegate.statusBarManager;
     if (isLandscape) {
         size = CGSizeMake(size.height, size.width);
     }

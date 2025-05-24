@@ -80,6 +80,10 @@
 #define WOL_PORT 9
 
 + (AppDelegate*)instance;
++ (UIWindowScene*)scene;
++ (UIWindow*)keyWindow;
++ (UIStatusBarManager*)statusBarManager;
++ (UIInterfaceOrientation)interfaceOrientation;
 
 - (void)saveServerList;
 - (void)clearAppDiskCache;
