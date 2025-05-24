@@ -8,6 +8,8 @@
 
 #import "SceneDelegate.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
+#import "Kodi_Remote-Swift.h"
 
 @implementation SceneDelegate
 
@@ -22,6 +24,19 @@
     
     // Set interface style for window
     [self setInterfaceStyleFromUserDefaults];
+}
+
+- (void)sceneWillEnterForeground:(UIScene*)scene {
+    [Utilities setIdleTimerFromUserDefaults];
+}
+
+- (void)sceneDidBecomeActive:(UIScene*)scene {
+    // Trigger Local Network Privacy Alert once after app launch
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        LocalNetworkAlertClass *localNetworkAlert = [LocalNetworkAlertClass new];
+        [localNetworkAlert triggerLocalNetworkPrivacyAlert];
+    });
 }
 
 - (void)setInterfaceStyleFromUserDefaults {
