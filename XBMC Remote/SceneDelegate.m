@@ -8,6 +8,8 @@
 
 #import "SceneDelegate.h"
 #import "AppDelegate.h"
+#import "Utilities.h"
+#import "Kodi_Remote-Swift.h"
 
 @implementation SceneDelegate
 
@@ -22,6 +24,34 @@
     
     // Set interface style for window
     [self setInterfaceStyleFromUserDefaults];
+}
+
+- (void)sceneWillEnterForeground:(UIScene*)scene {
+    [Utilities setIdleTimerFromUserDefaults];
+}
+
+- (void)sceneDidBecomeActive:(UIScene*)scene {
+    // Trigger Local Network Privacy Alert once after app launch
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        LocalNetworkAlertClass *localNetworkAlert = [LocalNetworkAlertClass new];
+        [localNetworkAlert triggerLocalNetworkPrivacyAlert];
+    });
+}
+
+- (void)sceneDidEnterBackground:(UIScene*)scene {
+    // Add the server description and address to shortcutItems, which is shown when longpressing the app icon.
+    NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:AppDelegate.instance.arrayServerList.count];
+    for (NSDictionary *server in AppDelegate.instance.arrayServerList) {
+        UIApplicationShortcutIcon *icon = [UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypeFavorite];
+        UIApplicationShortcutItem *shortcut = [[UIApplicationShortcutItem alloc] initWithType:@"ConnectServer"
+                                                                               localizedTitle:server[@"serverDescription"]
+                                                                            localizedSubtitle:server[@"serverIP"]
+                                                                                         icon:icon
+                                                                                     userInfo:nil];
+        [items addObject:shortcut];
+    }
+    UIApplication.sharedApplication.shortcutItems = items;
 }
 
 - (void)setInterfaceStyleFromUserDefaults {
