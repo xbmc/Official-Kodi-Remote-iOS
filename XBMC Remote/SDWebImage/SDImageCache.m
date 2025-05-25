@@ -140,7 +140,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(backgroundCleanDisk)
-                                                     name:UIApplicationDidEnterBackgroundNotification
+                                                     name:UISceneDidEnterBackgroundNotification
                                                    object:nil];
 #endif
     }
