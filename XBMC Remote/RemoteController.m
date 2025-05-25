@@ -1039,7 +1039,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleDidBecomeActive)
-                                                 name:UIApplicationDidBecomeActiveNotification
+                                                 name:UISceneDidActivateNotification
                                                object:nil];
     
     [self.avCaptureDevice addObserver:self
