@@ -3233,7 +3233,7 @@
 
 - (void)showActionSheet:(NSIndexPath*)indexPath sheetActions:(NSArray*)sheetActions item:(NSDictionary*)item origin:(CGPoint)sheetOrigin {
     if (sheetActions.count) {
-        NSString *title = [NSString stringWithFormat:@"%@%@%@", item[@"label"], [item[@"genre"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"\n%@", item[@"genre"]], [item[@"family"] isEqualToString:@"songid"] ? [NSString stringWithFormat:@"\n%@", item[@"album"]] : @""];
+        NSString *title = [self buildActionSheetTitle:item];
         [self showActionSheetWithTitle:title sheetActions:sheetActions item:item origin:sheetOrigin fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
@@ -3291,11 +3291,7 @@
             NSMutableArray *sheetActions = [menuItem.sheetActions[activeTab] mutableCopy];
             if (sheetActions.count) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:menuItem.mainParameters[activeTab]];
-                NSString *title = [NSString stringWithFormat:@"%@", item[@"label"]];
-                if (item[@"genre"] != nil && ![item[@"genre"] isEqualToString:@""]) {
-                    title = [NSString stringWithFormat:@"%@\n%@", title, item[@"genre"]];
-                }
-                
+                NSString *title = [self buildActionSheetTitle:item];
                 UIView *showFromView = self.view;
                 CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
                 [self showActionSheetWithTitle:title sheetActions:sheetActions item:item origin:sheetOrigin fromview:showFromView];
@@ -3354,6 +3350,17 @@
         }
         [fromctrl presentViewController:alertCtrl animated:YES completion:nil];
     }
+}
+
+- (NSString*)buildActionSheetTitle:(NSDictionary*)item {
+    NSString *label = [Utilities getStringFromItem:item[@"label"]];
+    NSString *genre = [item[@"filetype"] length] ? @"" : [Utilities getStringFromItem:item[@"genre"]];
+    NSString *album = [item[@"family"] isEqualToString:@"songid"] ? [Utilities getStringFromItem:item[@"album"]] : @"";
+    
+    NSString *newLine1 = genre.length ? @"\n" : @"";
+    NSString *newLine2 = album.length ? @"\n" : @"";
+    NSString *title = [NSString stringWithFormat:@"%@%@%@%@%@", label, newLine1, genre, newLine2, album];
+    return title;
 }
 
 - (void)markVideo:(NSMutableDictionary*)item indexPath:(NSIndexPath*)indexPath watched:(int)watched {
