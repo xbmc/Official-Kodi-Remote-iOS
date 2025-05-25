@@ -138,12 +138,12 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleDidBecomeActive:)
-                                                     name:UIApplicationDidBecomeActiveNotification
+                                                     name:UISceneDidActivateNotification
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleDidEnterBackground:)
-                                                     name:UIApplicationDidEnterBackgroundNotification
+                                                     name:UISceneDidEnterBackgroundNotification
                                                    object:nil];
     }
     return self;
