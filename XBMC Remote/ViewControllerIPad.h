@@ -10,6 +10,7 @@
 #import "DSJSONRPC.h"
 #import "tcpJSONRPC.h"
 #import "MessagesView.h"
+#import <SafariServices/SafariServices.h>
 
 @class MenuViewController;
 @class StackScrollViewController;
@@ -19,7 +20,7 @@
 @class HostManagementViewController;
 @class AppInfoViewController;
 
-@interface ViewControllerIPad : UIViewController {
+@interface ViewControllerIPad : UIViewController <SFSafariViewControllerDelegate> {
     UIViewExt *rootView;
     UIView *leftMenuView;
     UIView *rightSlideView;

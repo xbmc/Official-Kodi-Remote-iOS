@@ -621,8 +621,17 @@
     }
 }
 
-+ (void)showLocalNetworkAccessError:(UIViewController*)viewCtrl {
-    UIAlertController *alertCtrl = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"-- ERROR --\nLocal Network Access is not granted for the Kodi Remote App. Please fix this by either granting access in the network settings, resetting the network settings of your iOS device or by deleting and reinstalling the Kodi Remote App. You might need to restart your iOS device to let your change take effect.")];
++ (void)showLocalNetworkAccessError:(UIViewController<SFSafariViewControllerDelegate>*)viewCtrl {
+    NSString *message = LOCALIZED_STR(@"Local Network Access is not granted for the Kodi Remote App.");
+    
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"ERROR") message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *helpButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Help") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [Utilities SFloadURL:@"https://forum.kodi.tv/showthread.php?tid=372379" fromctrl:viewCtrl];
+    }];
+    UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:nil];
+    [alertCtrl addAction:okButton];
+    [alertCtrl addAction:helpButton];
+    
     [viewCtrl presentViewController:alertCtrl animated:YES completion:nil];
 }
 
