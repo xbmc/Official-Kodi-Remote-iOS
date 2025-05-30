@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "NSString+MD5.h"
 #import "SDWebImageManager.h"
+#import "LocalNetworkAccess.h"
 
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
@@ -620,6 +621,20 @@
     }
 }
 
++ (void)showLocalNetworkAccessError:(UIViewController*)viewCtrl {
+    NSString *message = LOCALIZED_STR(@"It seems local network access is not enabled for the Kodi Remote App. This is required for the app to find and connect to Kodi servers in your local network.");
+    NSString *fix = LOCALIZED_STR(@"The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect.");
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Local network notice")
+                                                                       message:[NSString stringWithFormat:@"%@\n\n%@", message, fix]
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK")
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:nil];
+    [alertCtrl addAction:okButton];
+    
+    [viewCtrl presentViewController:alertCtrl animated:YES completion:nil];
+}
+
 + (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor {
     if (!messageText || ![messageColor isKindOfClass:[UIColor class]]) {
         return;
@@ -1012,6 +1027,15 @@
             [Utilities showReviewController];
         }
     }
+}
+
++ (void)checkLocalNetworkAccess {
+    LocalNetworkAccess *localNetworkAccess = [LocalNetworkAccess new];
+    [localNetworkAccess checkAccessState:^(BOOL granted) {
+        if (!granted) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"LocalNetworkAccessError" object:nil userInfo:nil];
+        }
+    }];
 }
 
 + (NSString*)getConnectionStatusIconName {
