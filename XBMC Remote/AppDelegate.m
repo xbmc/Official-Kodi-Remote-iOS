@@ -6302,9 +6302,13 @@
 
 - (void)applicationDidBecomeActive:(UIApplication*)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    // Trigger Local Network Privacy Alert
-    LocalNetworkAlertClass *localNetworkAlert = [LocalNetworkAlertClass alloc];
-    [localNetworkAlert triggerLocalNetworkPrivacyAlert];
+    // Trigger Local Network Privacy Alert once after app launch
+    static BOOL isFirstStart = YES;
+    if (isFirstStart) {
+        LocalNetworkAlertClass *localNetworkAlert = [LocalNetworkAlertClass alloc];
+        [localNetworkAlert triggerLocalNetworkPrivacyAlert];
+        isFirstStart = NO;
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication*)application {
