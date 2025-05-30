@@ -14,7 +14,6 @@
 #import "Utilities.h"
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
-#import "Kodi_Remote-Swift.h"
 
 // + 2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
@@ -203,9 +202,6 @@
             [self selectServerAtIndexPath:indexPath];
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setObject:@(indexPath.row) forKey:@"lastServer"];
-            // Trigger Local Network Privacy Alert (if not already done for the App)
-            LocalNetworkAlertClass *localNetworkAlert = [LocalNetworkAlertClass alloc];
-            [localNetworkAlert triggerLocalNetworkPrivacyAlert];
         }
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];

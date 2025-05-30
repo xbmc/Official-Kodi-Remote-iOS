@@ -14,6 +14,7 @@
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
 #import "Utilities.h"
+#import "Kodi_Remote-Swift.h"
 
 #include <arpa/inet.h>
 #include <net/if.h>
@@ -6150,6 +6151,11 @@
         self.windowController.mainMenu = mainMenuItems;
         self.window.rootViewController = self.windowController;
     }
+    
+    // Trigger Local Network Privacy Alert
+    LocalNetworkAlertClass *localNetworkAlert = [LocalNetworkAlertClass alloc];
+    [localNetworkAlert triggerLocalNetworkPrivacyAlert];
+    
     return YES;
 }
 
