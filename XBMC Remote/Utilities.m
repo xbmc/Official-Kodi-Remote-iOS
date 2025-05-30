@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "NSString+MD5.h"
 #import "SDWebImageManager.h"
+#import "LocalNetworkAccess.h"
 
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
@@ -620,6 +621,11 @@
     }
 }
 
++ (void)showLocalNetworkAccessError:(UIViewController*)viewCtrl {
+    UIAlertController *alertCtrl = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"-- ERROR --\nLocal Network Access is not granted for the Kodi Remote App. Please fix this by either granting access in the network settings, resetting the network settings of your iOS device or by deleting and reinstalling the Kodi Remote App. You might need to restart your iOS device to let your change take effect.")];
+    [viewCtrl presentViewController:alertCtrl animated:YES completion:nil];
+}
+
 + (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor {
     if (!messageText || ![messageColor isKindOfClass:[UIColor class]]) {
         return;
@@ -1012,6 +1018,16 @@
             [Utilities showReviewController];
         }
     }
+}
+
++ (void)checkLocalNetworkAccess {
+    LocalNetworkAccess* localNetworkAccess= [LocalNetworkAccess new];
+    [localNetworkAccess checkAccessState:^(BOOL granted) {
+        if (!granted) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"LocalNetworkAccessError" object:nil userInfo:nil];
+        }
+        NSLog(@"Local Network Access Granted: %@", granted ? @"YES" : @"NO");
+    }];
 }
 
 + (NSString*)getConnectionStatusIconName {

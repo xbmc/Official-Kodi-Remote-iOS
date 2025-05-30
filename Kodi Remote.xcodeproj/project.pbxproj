@@ -60,6 +60,7 @@
 		C7106D7B2D33EEE000A96C93 /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D7A2D33EEE000A96C93 /* ProgressBarView.m */; };
 		C7106D842D33FBCE00A96C93 /* PlaylistProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D832D33FBCE00A96C93 /* PlaylistProgressView.m */; };
 		C72CDAF22DD27AB800AFB2FA /* LocalNetworkAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CDAF12DD27AB800AFB2FA /* LocalNetworkAlert.swift */; };
+		C753585F2DE9A25F00952F0D /* LocalNetworkAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = C753585E2DE9A25F00952F0D /* LocalNetworkAccess.m */; };
 		C76451CE29C51221000AE949 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */; };
 		C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B129C51220000AE949 /* UIImage+WebP.m */; };
 		C76451D029C51221000AE949 /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B429C51220000AE949 /* SDWebImagePrefetcher.m */; };
@@ -283,6 +284,8 @@
 		C746406927E6209C00F6AD47 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C746406A27E6209C00F6AD47 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7478BF8257258E700161C1E /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		C753585E2DE9A25F00952F0D /* LocalNetworkAccess.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalNetworkAccess.m; sourceTree = "<group>"; };
+		C75358602DE9A27100952F0D /* LocalNetworkAccess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalNetworkAccess.h; sourceTree = "<group>"; };
 		C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+HighlightedWebCache.m"; path = "SDWebImage/UIImageView+HighlightedWebCache.m"; sourceTree = "<group>"; };
 		C76451AE29C51220000AE949 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+ImageContentType.h"; path = "SDWebImage/NSData+ImageContentType.h"; sourceTree = "<group>"; };
 		C76451AF29C51220000AE949 /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDImageCache.h; path = SDWebImage/SDImageCache.h; sourceTree = "<group>"; };
@@ -719,6 +722,8 @@
 			isa = PBXGroup;
 			children = (
 				C72CDAF12DD27AB800AFB2FA /* LocalNetworkAlert.swift */,
+				C753585E2DE9A25F00952F0D /* LocalNetworkAccess.m */,
+				C75358602DE9A27100952F0D /* LocalNetworkAccess.h */,
 			);
 			path = LocalNetwork;
 			sourceTree = "<group>";
@@ -902,6 +907,7 @@
 				0F8E308816FA536C009DEE72 /* PosterHeaderView.m in Sources */,
 				C78C30F528F877870055CD95 /* VersionCheck.m in Sources */,
 				C76451D629C51221000AE949 /* UIView+WebCacheOperation.m in Sources */,
+				C753585F2DE9A25F00952F0D /* LocalNetworkAccess.m in Sources */,
 				0F4019B318F415A50064E4DC /* MessagesView.m in Sources */,
 				C7106D7B2D33EEE000A96C93 /* ProgressBarView.m in Sources */,
 				0F7F0DCC1703490A0098FF75 /* BDKCollectionIndexView.m in Sources */,
