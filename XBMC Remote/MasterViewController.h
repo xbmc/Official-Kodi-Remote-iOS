@@ -11,8 +11,9 @@
 #import "tcpJSONRPC.h"
 #import "CustomNavigationController.h"
 #import "MessagesView.h"
+#import <SafariServices/SafariServices.h>
 
-@interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SFSafariViewControllerDelegate> {
     IBOutlet UITableView *menuList;
     BOOL itemIsActive;
     CustomNavigationController *navController;

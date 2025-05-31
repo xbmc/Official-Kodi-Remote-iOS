@@ -391,6 +391,11 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleLocalNetworkAccessError:)
+                                                 name:@"LocalNetworkAccessError"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleEnablingDefaultController)
                                                  name:@"KodiStartDefaultController"
                                                object:nil];
@@ -456,6 +461,10 @@
     NSString *message = [sender.userInfo objectForKey:@"message"];
     NSString *icon_connection = [sender.userInfo objectForKey:@"icon_connection"];
     [self changeServerStatus:statusValue infoText:message icon:icon_connection];
+}
+
+- (void)handleLocalNetworkAccessError:(NSNotification*)sender {
+    [Utilities showLocalNetworkAccessError:self];
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {

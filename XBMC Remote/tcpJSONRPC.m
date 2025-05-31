@@ -58,6 +58,9 @@ NSInputStream *inStream;
 }
 
 - (void)startServerHeartbeat {
+    // Check for Local Network Access rights as we now attempt to connect to Kodi.
+    [Utilities checkLocalNetworkAccess];
+    
     [heartbeatTimer invalidate];
     [self checkServer];
     // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging

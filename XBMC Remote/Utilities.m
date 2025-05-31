@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "NSString+MD5.h"
 #import "SDWebImageManager.h"
+#import "LocalNetworkAccess.h"
 
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
@@ -620,6 +621,20 @@
     }
 }
 
++ (void)showLocalNetworkAccessError:(UIViewController<SFSafariViewControllerDelegate>*)viewCtrl {
+    NSString *message = LOCALIZED_STR(@"Local Network Access is not granted for the Kodi Remote App.");
+    
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"ERROR") message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *helpButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Help") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [Utilities SFloadURL:@"https://forum.kodi.tv/showthread.php?tid=372379" fromctrl:viewCtrl];
+    }];
+    UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK") style:UIAlertActionStyleDefault handler:nil];
+    [alertCtrl addAction:okButton];
+    [alertCtrl addAction:helpButton];
+    
+    [viewCtrl presentViewController:alertCtrl animated:YES completion:nil];
+}
+
 + (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor {
     if (!messageText || ![messageColor isKindOfClass:[UIColor class]]) {
         return;
@@ -1012,6 +1027,15 @@
             [Utilities showReviewController];
         }
     }
+}
+
++ (void)checkLocalNetworkAccess {
+    LocalNetworkAccess* localNetworkAccess = [LocalNetworkAccess new];
+    [localNetworkAccess checkAccessState:^(BOOL granted) {
+        if (!granted) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"LocalNetworkAccessError" object:nil userInfo:nil];
+        }
+    }];
 }
 
 + (NSString*)getConnectionStatusIconName {
