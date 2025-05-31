@@ -1035,7 +1035,6 @@
         if (!granted) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"LocalNetworkAccessError" object:nil userInfo:nil];
         }
-        NSLog(@"Local Network Access Granted: %@", granted ? @"YES" : @"NO");
     }];
 }
 
