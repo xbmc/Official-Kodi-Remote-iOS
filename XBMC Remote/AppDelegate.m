@@ -6305,7 +6305,7 @@
     // Trigger Local Network Privacy Alert once after app launch
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        LocalNetworkAlertClass *localNetworkAlert = [LocalNetworkAlertClass alloc];
+        LocalNetworkAlertClass *localNetworkAlert = [LocalNetworkAlertClass new];
         [localNetworkAlert triggerLocalNetworkPrivacyAlert];
     });
 }
