@@ -8,6 +8,10 @@
 
 import Foundation
 
+/* Implementation taken from apple.com
+ * https://developer.apple.com/documentation/technotes/tn3179-understanding-local-network-privacy#Trigger-the-local-network-alert
+ */
+
 class LocalNetworkAlertClass: NSObject {
     
     /// Attempts to trigger the local network privacy alert.
