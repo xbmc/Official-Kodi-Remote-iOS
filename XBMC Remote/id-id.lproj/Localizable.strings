@@ -128,7 +128,7 @@
 "Incorrect Username or Password.\nCheck your settings." = "Nama Pengguna atau Kata Sandi Salah.\nPeriksa pengaturan Anda.";
 "WIKI_LANG" = "id";
 "vote" = "pilihan";
-"votes" = "pilihan";
+"votes" = "suara";
 "Scrubbing 1" = "Penggosokan Kecepatan Tinggi";
 "Scrubbing 0.5" = "Penggosokan Setengah Kecepatan";
 "Scrubbing 0.25" = "Penggosokan Seperempat Kecepatan";
@@ -289,3 +289,4 @@
 "Camera model" = "Model kamera";
 "Play using..." = "Putar menggunakan...";
 "Movie Tags" = "Tag Film";
+"Share" = "Bagikan";
