@@ -1030,7 +1030,7 @@
 }
 
 + (void)checkLocalNetworkAccess {
-    LocalNetworkAccess* localNetworkAccess= [LocalNetworkAccess new];
+    LocalNetworkAccess* localNetworkAccess = [LocalNetworkAccess new];
     [localNetworkAccess checkAccessState:^(BOOL granted) {
         if (!granted) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"LocalNetworkAccessError" object:nil userInfo:nil];
