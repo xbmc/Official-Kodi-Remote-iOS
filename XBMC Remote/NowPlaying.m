@@ -178,6 +178,13 @@
     return codec;
 }
 
+- (NSString*)processVideoCodecName:(NSString*)codec {
+    if ([codec isEqualToString:@"vc-1"]) {
+        codec = @"vc1";
+    }
+    return codec;
+}
+
 - (NSString*)processChannelString:(NSString*)channels {
     NSDictionary *channelSetupTable = @{
         @"0": @"0.0",
@@ -972,7 +979,10 @@
                  codec = [self processAudioCodecName:codec];
                  [self setSongDetails:songNumChannels image:songNumChanImage item:codec];
                  [self setSongDetails:songCodec image:songCodecImage item:methodResult[@"VideoPlayer.VideoResolution"]];
-                 [self setSongDetails:songSampleRate image:songSampleRateImage item:methodResult[@"VideoPlayer.VideoCodec"]];
+                 
+                 codec = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoCodec"]];
+                 codec = [self processVideoCodecName:codec];
+                 [self setSongDetails:songSampleRate image:songSampleRateImage item:codec];
                  
                  NSString *aspect = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoAspect"]];
                  aspect = [self processAspectString:aspect];
