@@ -1363,7 +1363,7 @@
     selectedIndexPath = indexPath;
     mainMenu *menuItem = [self getMainMenu:item];
     int activeTab = [self getActiveTab:item];
-    NSMutableArray *sheetActions = menuItem.sheetActions[activeTab];
+    NSArray *sheetActions = menuItem.sheetActions[activeTab];
     NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
     
@@ -1613,7 +1613,13 @@
             if (![userDefaults boolForKey:@"song_preference"] || [parameters[@"forceActionSheet"] boolValue]) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:menuItem.mainParameters[activeTab]];
                 selectedIndexPath = indexPath;
-                [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
+                if ([item[@"family"] isEqualToString:@"timerid"] && AppDelegate.instance.serverVersion < 17) {
+                    UIAlertController *alertCtrl = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.")];
+                    [self presentViewController:alertCtrl animated:YES completion:nil];
+                }
+                else {
+                    [self showActionSheet:indexPath sheetActions:sheetActions item:item origin:point];
+                }
             }
             else {
                 [self startPlayback:item indexPath:indexPath shuffle:NO];
@@ -3226,15 +3232,9 @@
 #pragma mark - Long Press & Action sheet
 
 - (void)showActionSheet:(NSIndexPath*)indexPath sheetActions:(NSArray*)sheetActions item:(NSDictionary*)item origin:(CGPoint)sheetOrigin {
-    NSInteger numActions = sheetActions.count;
-    if (numActions) {
-        NSString *title = [NSString stringWithFormat:@"%@%@%@", item[@"label"], [item[@"genre"] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@"\n%@", item[@"genre"]], [item[@"family"] isEqualToString:@"songid"] ? [NSString stringWithFormat:@"\n%@", item[@"album"]] : @""];
-        if ([item[@"family"] isEqualToString:@"timerid"] && AppDelegate.instance.serverVersion < 17) {
-            title = [NSString stringWithFormat:@"%@\n\n%@", title, LOCALIZED_STR(@"-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.")];
-            sheetActions = @[LOCALIZED_STR(@"Ok")];
-        }
-        BOOL isRecording = [self isTimerActiveForItem:item];
-        [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromview:self.view];
+    if (sheetActions.count) {
+        NSString *title = [self buildActionSheetTitle:item];
+        [self showActionSheetWithTitle:title sheetActions:sheetActions item:item origin:sheetOrigin fromview:self.view];
     }
     else if (indexPath != nil) { // No actions found, revert back to standard play action
         [self startPlayback:item indexPath:indexPath shuffle:NO];
@@ -3246,7 +3246,8 @@
     if (sender.state == UIGestureRecognizerStateBegan) {
         NSInteger section = [sender.view tag];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
-        NSDictionary *item = [self getItemFromIndexPath:indexPath];
+        NSMutableDictionary *item = [[self getItemFromIndexPath:indexPath] mutableCopy];
+        [item removeObjectForKey:@"file"]; // A season is not a file, avoids adding "Share" option.
         
         processAllItemsInSection = @(section);
         NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d", [item[@"season"] intValue]] inArray:self.extraSectionRichResults];
@@ -3265,7 +3266,7 @@
             
             UIView *showFromView = self.view;
             CGPoint sheetOrigin = [sender locationInView:showFromView];
-            [self showActionSheetOptions:title options:sheetActions recording:NO origin:sheetOrigin fromview:showFromView];
+            [self showActionSheetWithTitle:title sheetActions:sheetActions item:item origin:sheetOrigin fromview:showFromView];
         }
     }
 }
@@ -3288,64 +3289,47 @@
             mainMenu *menuItem = [self getMainMenu:item];
             int activeTab = [self getActiveTab:item];
             NSMutableArray *sheetActions = [menuItem.sheetActions[activeTab] mutableCopy];
-            if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
-                [sheetActions removeObject:LOCALIZED_STR(@"Play Trailer")];
-                [sheetActions removeObject:LOCALIZED_STR(@"Mark as watched")];
-                [sheetActions removeObject:LOCALIZED_STR(@"Mark as unwatched")];
-            }
-            NSInteger numActions = sheetActions.count;
-            if (numActions) {
+            if (sheetActions.count) {
                 sheetActions = [self getPlaylistActions:sheetActions item:item params:menuItem.mainParameters[activeTab]];
-                NSString *title = [NSString stringWithFormat:@"%@", item[@"label"]];
-                if (item[@"genre"] != nil && ![item[@"genre"] isEqualToString:@""]) {
-                    title = [NSString stringWithFormat:@"%@\n%@", title, item[@"genre"]];
-                }
-                
-                if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
-                    if ([item[@"trailer"] length] != 0 && [sheetActions isKindOfClass:[NSMutableArray class]]) {
-                        [sheetActions addObject:LOCALIZED_STR(@"Play Trailer")];
-                    }
-                }
-                if ([item[@"family"] isEqualToString:@"movieid"] ||
-                    [item[@"family"] isEqualToString:@"episodeid"] ||
-                    [item[@"family"] isEqualToString:@"musicvideoid"] ||
-                    [item[@"family"] isEqualToString:@"tvshowid"]) {
-                    if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
-                        NSString *actionString = @"";
-                        if ([item[@"playcount"] intValue] == 0) {
-                            actionString = LOCALIZED_STR(@"Mark as watched");
-                        }
-                        else {
-                            actionString = LOCALIZED_STR(@"Mark as unwatched");
-                        }
-                        [sheetActions addObject:actionString];
-                    }
-                }
-                if (![VersionCheck hasPlayUsingSupport]) {
-                    [sheetActions removeObject:LOCALIZED_STR(@"Play using...")];
-                }
-                if ([item[@"file"] length] > 0 && ![item[@"filetype"] isEqualToString:@"directory"]) {
-                    [sheetActions addObject:LOCALIZED_STR(@"Share")];
-                }
-                BOOL isRecording = [self isTimerActiveForItem:item];
+                NSString *title = [self buildActionSheetTitle:item];
                 UIView *showFromView = self.view;
                 CGPoint sheetOrigin = [activeRecognizer locationInView:showFromView];
-                [self showActionSheetOptions:title options:sheetActions recording:isRecording origin:sheetOrigin fromview:showFromView];
+                [self showActionSheetWithTitle:title sheetActions:sheetActions item:item origin:sheetOrigin fromview:showFromView];
             }
         }
     }
 }
 
-- (void)showActionSheetOptions:(NSString*)title options:(NSArray*)sheetActions recording:(BOOL)isRecording origin:(CGPoint)origin fromview:(UIView*)fromview {
-    NSInteger numActions = sheetActions.count;
-    if (numActions) {
+- (void)showActionSheetWithTitle:(NSString*)title sheetActions:(NSArray*)sheetActions item:(NSDictionary*)item origin:(CGPoint)origin fromview:(UIView*)fromview {
+    BOOL isRecording = [self isTimerActiveForItem:item];
+    if (sheetActions.count) {
         UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_cancel = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             forceMusicAlbumMode = NO;
         }];
         
-        for (NSString *actionName in sheetActions) {
+        // Trim action list
+        NSMutableArray *mutableActions = [sheetActions mutableCopy];
+        if ([item[@"trailer"] length] > 0) {
+            [mutableActions addObject:LOCALIZED_STR(@"Play Trailer")];
+        }
+        if ([item[@"family"] isEqualToString:@"movieid"] ||
+            [item[@"family"] isEqualToString:@"episodeid"] ||
+            [item[@"family"] isEqualToString:@"musicvideoid"] ||
+            [item[@"family"] isEqualToString:@"tvshowid"]) {
+            NSString *actionString = [item[@"playcount"] intValue] == 0 ? LOCALIZED_STR(@"Mark as watched") : LOCALIZED_STR(@"Mark as unwatched");
+            [mutableActions addObject:actionString];
+        }
+        if (![VersionCheck hasPlayUsingSupport]) {
+            [mutableActions removeObject:LOCALIZED_STR(@"Play using...")];
+        }
+        if ([item[@"file"] length] > 0 && ![item[@"filetype"] isEqualToString:@"directory"]) {
+            [mutableActions addObject:LOCALIZED_STR(@"Share")];
+        }
+        
+        // Convert action list to actions
+        for (NSString *actionName in mutableActions) {
             NSString *actiontitle = actionName;
             if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] && isRecording) {
                 actiontitle = LOCALIZED_STR(@"Stop Recording");
@@ -3366,6 +3350,17 @@
         }
         [fromctrl presentViewController:alertCtrl animated:YES completion:nil];
     }
+}
+
+- (NSString*)buildActionSheetTitle:(NSDictionary*)item {
+    NSString *label = [Utilities getStringFromItem:item[@"label"]];
+    NSString *genre = [item[@"filetype"] length] ? @"" : [Utilities getStringFromItem:item[@"genre"]];
+    NSString *album = [item[@"family"] isEqualToString:@"songid"] ? [Utilities getStringFromItem:item[@"album"]] : @"";
+    
+    NSString *newLine1 = genre.length ? @"\n" : @"";
+    NSString *newLine2 = album.length ? @"\n" : @"";
+    NSString *title = [NSString stringWithFormat:@"%@%@%@%@%@", label, newLine1, genre, newLine2, album];
+    return title;
 }
 
 - (void)markVideo:(NSMutableDictionary*)item indexPath:(NSIndexPath*)indexPath watched:(int)watched {
@@ -4494,12 +4489,10 @@
         return;
     };
     NSMutableArray *sheetActions = [[AppDelegate.instance action_album] mutableCopy];
-    if (![VersionCheck hasPlayUsingSupport]) {
-        [sheetActions removeObject:LOCALIZED_STR(@"Play using...")];
-    }
     selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     NSMutableDictionary *item = [sectionItem mutableCopy];
     item[@"label"] = self.navigationItem.title;
+    [item removeObjectForKey:@"file"]; // An album is not a file, avoids adding "Share" option.
     forceMusicAlbumMode = YES;
     CGFloat rectOrigin = floor((albumViewHeight - albumViewPadding * 2) / 2);
     CGPoint sheetOrigin = CGPointMake(rectOrigin + albumViewPadding, rectOrigin);
@@ -6240,7 +6233,7 @@
     NSString *title = [NSString stringWithFormat:@"%@\n\n(%@)",
                        LOCALIZED_STR(@"Sort by"),
                        LOCALIZED_STR(@"tap the selection\nto reverse the sort order")];
-    [self showActionSheetOptions:title options:sortOptions recording:NO origin:sheetOrigin fromview:buttonsView];
+    [self showActionSheetWithTitle:title sheetActions:sortOptions item:nil origin:sheetOrigin fromview:buttonsView];
 }
 
 - (BOOL)shouldAutorotate {
