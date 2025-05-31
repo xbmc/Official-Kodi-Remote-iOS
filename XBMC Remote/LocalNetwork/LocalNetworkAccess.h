@@ -6,6 +6,8 @@
 //  Copyright © 2025 Team Kodi. All rights reserved.
 //
 
+@import Foundation;
+
 @interface LocalNetworkAccess : NSObject
 
 - (void)checkAccessState:(void (^)(BOOL))completion;
