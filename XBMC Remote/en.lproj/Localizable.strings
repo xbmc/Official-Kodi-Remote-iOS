@@ -240,6 +240,10 @@
 "Don't show this message again" = "Don't show this message again";
 "Enable TCP connection on Kodi" = "Enable TCP connection on Kodi";
 
+"Local network notice" = "Local network notice";
+"It seems local network access is not enabled for the Kodi Remote App. This is required for the app to find and connect to Kodi servers in your local network." = "It seems local network access is not enabled for the Kodi Remote App. This is required for the app to find and connect to Kodi servers in your local network.";
+"The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect." = "The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect.";
+
 "Description" = "Description";
 "Host : port /\nTCP port" = "Host : port /\nTCP port";
 "MAC Address" = "MAC Address";

@@ -31,9 +31,6 @@
 #import <netinet/in.h>
 #import "Utilities.h"
 
-#define serviceTypeHTTP @"_xbmc-jsonrpc-h._tcp"
-#define serviceTypeTCP @"_xbmc-jsonrpc._tcp"
-#define domainName @"local"
 #define DISCOVER_TIMEOUT 15.0
 #define BUFLEN (sizeof(struct rt_msghdr) + 512)
 #define SEQ 9999

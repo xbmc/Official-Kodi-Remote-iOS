@@ -202,8 +202,6 @@
             [self selectServerAtIndexPath:indexPath];
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setObject:@(indexPath.row) forKey:@"lastServer"];
-            // Trigger Local Network Privacy Alert (if not already done for the App)
-            [AppDelegate.instance triggerLocalNetworkPrivacyAlert];
         }
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];

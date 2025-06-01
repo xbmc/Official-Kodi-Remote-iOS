@@ -61,4 +61,11 @@
 #define DEFAULT_SERVER_PORT 8080
 #define DEFAULT_TCP_PORT 9090
 
+/*
+ * Service constants
+ */
+#define serviceTypeHTTP @"_xbmc-jsonrpc-h._tcp"
+#define serviceTypeTCP @"_xbmc-jsonrpc._tcp"
+#define domainName @"local"
+
 #endif /* ConvenienceMacros_h */

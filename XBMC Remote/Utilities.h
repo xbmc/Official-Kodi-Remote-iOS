@@ -67,6 +67,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (UIAlertController*)createPowerControl;
 + (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate>*)fromctrl;
 + (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor;
++ (void)showLocalNetworkAccessError:(UIViewController*)viewCtrl;
 + (DSJSONRPC*)getJsonRPC;
 + (void)setWebImageAuthorizationOnSuccessNotification:(NSNotification*)note;
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds;
@@ -96,6 +97,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (void)sendXbmcHttp:(NSString*)command;
 + (NSString*)getAppVersionString;
 + (void)checkForReviewRequest;
++ (void)checkLocalNetworkAccess;
 + (NSString*)getConnectionStatusIconName;
 + (NSString*)getConnectionStatusServerName;
 + (void)addShadowsToView:(UIView*)view viewFrame:(CGRect)frame;
