@@ -45,7 +45,7 @@
         _posterLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterLabel.backgroundColor = UIColor.clearColor;
         _posterLabel.textColor = UIColor.whiteColor;
-        _posterLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.6];
+        _posterLabel.shadowColor = FONT_SHADOW_WEAK;
         _posterLabel.shadowOffset = CGSizeMake(0, 1);
         _posterLabel.numberOfLines = 1;
         _posterLabel.minimumScaleFactor = FONT_SCALING_MIN;
@@ -56,7 +56,7 @@
         _posterGenre.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterGenre.backgroundColor = UIColor.clearColor;
         _posterGenre.textColor = UIColor.whiteColor;
-        _posterGenre.shadowColor = [Utilities getGrayColor:0 alpha:0.6];
+        _posterGenre.shadowColor = FONT_SHADOW_WEAK;
         _posterGenre.shadowOffset = CGSizeMake(0, 1);
         _posterGenre.numberOfLines = 1;
         _posterGenre.minimumScaleFactor = FONT_SCALING_MIN;
@@ -67,7 +67,7 @@
         _posterYear.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterYear.backgroundColor = UIColor.clearColor;
         _posterYear.textColor = UIColor.whiteColor;
-        _posterYear.shadowColor = [Utilities getGrayColor:0 alpha:0.6];
+        _posterYear.shadowColor = FONT_SHADOW_WEAK;
         _posterYear.shadowOffset = CGSizeMake(0, 1);
         _posterYear.numberOfLines = 1;
         _posterYear.minimumScaleFactor = FONT_SCALING_MIN;

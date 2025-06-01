@@ -416,7 +416,7 @@
         UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
         [appearance configureWithOpaqueBackground];
         appearance.titleTextAttributes = @{NSForegroundColorAttributeName : UIColor.whiteColor};
-        appearance.backgroundColor = [Utilities getGrayColor:38 alpha:1.0];
+        appearance.backgroundColor = NAVBAR_TINT_COLOR;
         [UINavigationBar appearance].standardAppearance = appearance;
         [UINavigationBar appearance].scrollEdgeAppearance = appearance;
     }

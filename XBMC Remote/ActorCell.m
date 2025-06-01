@@ -32,7 +32,7 @@ int offsetY = 5;
         UIView *actorContainer = [[UIView alloc] initWithFrame:CGRectMake(offsetX, offsetY, castWidth, castHeight)];
         actorContainer.clipsToBounds = NO;
         actorContainer.backgroundColor = UIColor.clearColor;
-        actorContainer.layer.shadowColor = [Utilities getGrayColor:0 alpha:0.8].CGColor;
+        actorContainer.layer.shadowColor = FONT_SHADOW_STRONG.CGColor;
         actorContainer.layer.shadowOpacity = 0.7f;
         actorContainer.layer.shadowOffset = CGSizeZero;
         actorContainer.layer.shadowRadius = 2.0;
@@ -53,7 +53,7 @@ int offsetY = 5;
         _actorName.backgroundColor = UIColor.clearColor;
         _actorName.textColor = UIColor.whiteColor;
         _actorName.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
-        _actorName.shadowColor = UIColor.blackColor;
+        _actorName.shadowColor = FONT_SHADOW_WEAK;
         _actorName.shadowOffset = CGSizeMake(1, 1);
         [self addSubview:_actorName];
         
@@ -62,13 +62,13 @@ int offsetY = 5;
         _actorRole.font = [UIFont systemFontOfSize:castFontSize - 2];
         _actorRole.backgroundColor = UIColor.clearColor;
         _actorRole.textColor = UIColor.lightGrayColor;
-        _actorRole.shadowColor = UIColor.blackColor;
+        _actorRole.shadowColor = FONT_SHADOW_STRONG;
         _actorRole.shadowOffset = CGSizeMake(1, 1);
         _actorRole.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         [self addSubview:_actorRole];
         
         UIView *myBackView = [[UIView alloc] initWithFrame:self.frame];
-        myBackView.backgroundColor = [Utilities getGrayColor:128 alpha:0.5];
+        myBackView.backgroundColor = ACTOR_SELECTED_COLOR;
         self.selectedBackgroundView = myBackView;
     }
     return self;

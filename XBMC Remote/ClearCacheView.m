@@ -21,12 +21,12 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        self.backgroundColor = [Utilities getGrayColor:0 alpha:0.7];
+        self.backgroundColor = INFO_POPOVER_COLOR;
         CGFloat labelHeight = 300.0;
         PosterLabel *label = [[PosterLabel alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.frame) / 2 - labelHeight / 2, CGRectGetWidth(self.frame) - borderWidth, labelHeight)];
         label.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         label.text = LOCALIZED_STR(@"Clearing app disk cache...\n\nPlease wait, since this may take a while");
-        label.shadowColor = UIColor.blackColor;
+        label.shadowColor = FONT_SHADOW_STRONG;
         label.shadowOffset = CGSizeMake(1, 1);
         label.textAlignment = NSTextAlignmentCenter;
         label.numberOfLines = 0;

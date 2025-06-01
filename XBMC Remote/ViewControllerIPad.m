@@ -110,7 +110,7 @@
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
         notificationName = @"XBMCServerConnectionSuccess";
         NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"Connected to %@"), AppDelegate.instance.obj.serverDescription];
-        [Utilities showMessage:message color:[Utilities getSystemGreen:0.95]];
+        [Utilities showMessage:message color:SUCCESS_MESSAGE_COLOR];
         [volumeSliderView startTimer];
     }
     else {
@@ -351,7 +351,7 @@
     playlistHeader.textColor = UIColor.lightGrayColor;
     playlistHeader.text = LOCALIZED_STR(@"Playlist");
     playlistHeader.textAlignment = NSTextAlignmentCenter;
-    playlistHeader.layer.borderColor = [Utilities getGrayColor:77 alpha:0.6].CGColor;
+    playlistHeader.layer.borderColor = IPAD_MENU_SEPARATOR.CGColor;
     playlistHeader.layer.borderWidth = 1.0;
     [leftMenuView addSubview:playlistHeader];
     
@@ -486,7 +486,7 @@
     xbmcInfo.titleLabel.numberOfLines = 2;
     xbmcInfo.titleLabel.textAlignment = NSTextAlignmentCenter;
     xbmcInfo.titleEdgeInsets = UIEdgeInsetsZero;
-    xbmcInfo.titleLabel.shadowColor = UIColor.blackColor;
+    xbmcInfo.titleLabel.shadowColor = FONT_SHADOW_STRONG;
     xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
     xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
@@ -631,7 +631,7 @@
 }
 
 - (void)handleLibraryNotification:(NSNotification*)note {
-    [Utilities showMessage:note.name color:[Utilities getSystemGreen:0.95]];
+    [Utilities showMessage:note.name color:SUCCESS_MESSAGE_COLOR];
 }
 
 - (void)showNotificationMessage:(NSNotification*)note {

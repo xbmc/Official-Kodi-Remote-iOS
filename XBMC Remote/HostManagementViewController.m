@@ -572,7 +572,6 @@
     
     if (IS_IPAD) {
         self.edgesForExtendedLayout = 0;
-        self.view.tintColor = APP_TINT_COLOR;
         CGRect frame = backgroundImageView.frame;
         frame.size.height = frame.size.height + 8;
         backgroundImageView.frame = frame;
@@ -767,7 +766,7 @@
 
 - (void)connectionError:(NSNotification*)note {
     NSDictionary *theData = note.userInfo;
-    [Utilities showMessage:theData[@"error_message"] color:[Utilities getSystemRed:0.95]];
+    [Utilities showMessage:theData[@"error_message"] color:ERROR_MESSAGE_COLOR];
 }
 
 - (void)authFailed:(NSNotification*)note {
