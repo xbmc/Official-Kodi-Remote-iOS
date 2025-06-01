@@ -6285,6 +6285,10 @@
     }
 }
 
+- (void)applicationWillEnterForeground:(UIApplication*)application {
+    [self setIdleTimerFromUserDefaults];
+}
+
 - (void)applicationDidBecomeActive:(UIApplication*)application {
     // Trigger Local Network Privacy Alert once after app launch
     static dispatch_once_t once;
