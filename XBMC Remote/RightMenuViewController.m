@@ -73,7 +73,7 @@
         cell.backgroundColor = UIColor.clearColor;
     }
     else {
-        cell.backgroundColor = [Utilities getGrayColor:36 alpha:1];
+        cell.backgroundColor = CUSTOM_BUTTON_BACKGROUND;
     }
 }
 
@@ -514,10 +514,10 @@
     }
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (methodError == nil && error == nil) {
-            [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:SUCCESS_MESSAGE_COLOR];
         }
         else {
-            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
             [sender setUserInteractionEnabled:YES];

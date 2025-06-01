@@ -136,7 +136,7 @@
             viewTitle.minimumScaleFactor = FONT_SCALING_DEFAULT;
             viewTitle.adjustsFontSizeToFitWidth = YES;
             viewTitle.shadowOffset = CGSizeMake(1, 1);
-            viewTitle.shadowColor = [Utilities getGrayColor:0 alpha:0.7];
+            viewTitle.shadowColor = FONT_SHADOW_WEAK;
             viewTitle.autoresizingMask = UIViewAutoresizingNone;
             viewTitle.contentMode = UIViewContentModeScaleAspectFill;
             [viewTitle sizeThatFits:viewTitle.frame.size];
@@ -1038,7 +1038,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:defaultFrame];
     label.hidden = NO;
     label.textColor = UIColor.lightGrayColor;
-    label.shadowColor = UIColor.blackColor;
+    label.shadowColor = FONT_SHADOW_STRONG;
     label.font = [UIFont systemFontOfSize:12];
     label.textAlignment = NSTextAlignmentLeft;
     label.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -1052,7 +1052,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:defaultFrame];
     label.hidden = NO;
     label.textColor = UIColor.whiteColor;
-    label.shadowColor = UIColor.blackColor;
+    label.shadowColor = FONT_SHADOW_WEAK;
     label.font = [UIFont systemFontOfSize:15];
     label.textAlignment = NSTextAlignmentJustified;
     label.lineBreakMode = NSLineBreakByWordWrapping;
@@ -1329,7 +1329,7 @@
 - (void)processClearlogoFromDictionary:(NSDictionary*)item {
     clearlogoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     clearlogoButton.frame = CGRectMake(LEFT_RIGHT_PADDING, 0, clearLogoWidth, clearLogoHeight);
-    clearlogoButton.titleLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.8];
+    clearlogoButton.titleLabel.shadowColor = FONT_SHADOW_STRONG;
     clearlogoButton.titleLabel.shadowOffset = CGSizeMake(0, 1);
     clearlogoButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [clearlogoButton addTarget:self action:@selector(showBackground:) forControlEvents:UIControlEventTouchUpInside];
@@ -1489,7 +1489,7 @@
                                            UIViewAutoresizingFlexibleWidth;
             if (clearLogoImageView.frame.size.width == 0) {
                 [closeButton setTitle:clearlogoButton.titleLabel.text forState:UIControlStateNormal];
-                [closeButton setTitleShadowColor:[Utilities getGrayColor:0 alpha:0.8] forState:UIControlStateNormal];
+                [closeButton setTitleShadowColor:FONT_SHADOW_STRONG forState:UIControlStateNormal];
                 closeButton.titleLabel.shadowOffset = CGSizeMake(1, 1);
                 closeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
             }

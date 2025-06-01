@@ -62,7 +62,7 @@
         [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
         notificationName = @"XBMCServerConnectionSuccess";
         NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"Connected to %@"), AppDelegate.instance.obj.serverDescription];
-        [Utilities showMessage:message color:[Utilities getSystemGreen:0.95]];
+        [Utilities showMessage:message color:SUCCESS_MESSAGE_COLOR];
     }
     else {
         [self.tcpJSONRPCconnection stopNetworkCommunication];
@@ -99,7 +99,7 @@
         
         // Set background view
         UIView *backgroundView = [[UIView alloc] initWithFrame:cell.frame];
-        backgroundView.backgroundColor = [Utilities getGrayColor:22 alpha:1];
+        backgroundView.backgroundColor = MAINMENU_SELECTED_COLOR;
         cell.selectedBackgroundView = backgroundView;
     }
     mainMenu *item = self.mainMenu[indexPath.row];
@@ -115,7 +115,7 @@
         title.numberOfLines = 2;
         title.text = [Utilities getConnectionStatusServerName];
         [self setConnectionIcon:icon];
-        cell.backgroundColor = [Utilities getGrayColor:53 alpha:1];
+        cell.backgroundColor = MAINMENU_SERVER_COLOR;
     }
     else {
         // Adapt layout for main menu cells
@@ -429,7 +429,7 @@
 }
 
 - (void)handleLibraryNotification:(NSNotification*)note {
-    [Utilities showMessage:note.name color:[Utilities getSystemGreen:0.95]];
+    [Utilities showMessage:note.name color:SUCCESS_MESSAGE_COLOR];
 }
 
 - (void)showNotificationMessage:(NSNotification*)note {

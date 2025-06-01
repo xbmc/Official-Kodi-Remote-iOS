@@ -22,7 +22,7 @@
     if (self) {
         self.clipsToBounds = NO;
         self.restorationIdentifier = @"posterHeaderView";
-        self.backgroundColor = [Utilities getGrayColor:44 alpha:1.0];
+        self.backgroundColor = GRIDVIEW_SECTION_COLOR;
 
         // Draw text into section header
         if (self.frame.size.height > 20) {

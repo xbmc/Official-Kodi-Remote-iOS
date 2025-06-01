@@ -41,7 +41,7 @@
         _posterLabel.backgroundColor = UIColor.clearColor;
         _posterLabel.textAlignment = NSTextAlignmentCenter;
         _posterLabel.textColor = UIColor.whiteColor;
-        _posterLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.6];
+        _posterLabel.shadowColor = FONT_SHADOW_WEAK;
         _posterLabel.shadowOffset = CGSizeMake(0, 1);
         _posterLabel.numberOfLines = 2;
         _posterLabel.adjustsFontSizeToFitWidth = YES;

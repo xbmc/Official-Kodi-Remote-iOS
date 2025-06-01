@@ -998,8 +998,7 @@
             if (!enableCollectionView && !stackscrollFullscreen) {
                 // If loaded, we use a dark background
                 if (!useFallback) {
-                    // Gray:28 is similar to systemGray6 in Dark Mode
-                    cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+                    cell.backgroundColor = SYSTEMGRAY6_DARKMODE;
                 }
                 // If not loaded, use default background color and poster dimensions for default thumb
                 else {
@@ -1008,15 +1007,13 @@
             }
             // When in grid or fullscreen view
             else {
-                // Gray:28 is similar to systemGray6 in Dark Mode
-                cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+                cell.backgroundColor = SYSTEMGRAY6_DARKMODE;
             }
         }
         // Other tabs (e.g. list of episodes) use default layout
         else {
             if (enableCollectionView) {
-                // Gray:28 is similar to systemGray6 in Dark Mode
-                cell.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+                cell.backgroundColor = SYSTEMGRAY6_DARKMODE;
             }
             else {
                 cell.backgroundColor = [Utilities getSystemGray6];
@@ -1593,7 +1590,7 @@
         // Selected favourite item is an unknown type -> throw an error
         else {
             NSString *message = [NSString stringWithFormat:@"%@ (type = '%@')", LOCALIZED_STR(@"Cannot do that"), item[@"type"]];
-            [Utilities showMessage:message color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:message color:ERROR_MESSAGE_COLOR];
         }
         [self deselectAtIndexPath:indexPath];
     }
@@ -1803,7 +1800,7 @@
         [cell setPosterCellLayoutManually:cell.bounds];
         [self setCellImageView:cell.posterThumbnail cell:cell dictItem:item url:stringURL size:CGSizeMake(cellthumbWidth, cellthumbHeight) defaultImg:displayThumb];
         if (!stringURL.length) {
-            cell.posterThumbnail.backgroundColor = [Utilities getGrayColor:28 alpha:1.0];
+            cell.posterThumbnail.backgroundColor = SYSTEMGRAY6_DARKMODE;
         }
         // Set label visibility based on setting and current view
         if (hiddenLabel || stackscrollFullscreen) {
@@ -1902,7 +1899,7 @@
                                                                       overlayWidth,
                                                                       overlayHeight)];
     sectionNameOverlayView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
-    sectionNameOverlayView.backgroundColor = [Utilities getGrayColor:0 alpha:0.8];
+    sectionNameOverlayView.backgroundColor = INFO_POPOVER_COLOR;
     sectionNameOverlayView.layer.cornerRadius = 12;
     [sectionNameOverlayView addSubview:sectionNameLabel];
     [self.view addSubview:sectionNameOverlayView];
@@ -2177,7 +2174,7 @@
 
 - (void)setSearchBar:(UISearchBar*)searchBar toDark:(BOOL)isDark {
     if (isDark) {
-        searchBar.backgroundColor = [Utilities getGrayColor:22 alpha:1];
+        searchBar.backgroundColor = SYSTEMGRAY6_DARKMODE;
         searchBar.tintColor = ICON_TINT_COLOR;
     }
     else {
@@ -3735,7 +3732,7 @@
     customButton *arrayButtons = [customButton new];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [Utilities showMessage:LOCALIZED_STR(@"Button added") color:[Utilities getSystemGreen:0.95]];
+    [Utilities showMessage:LOCALIZED_STR(@"Button added") color:SUCCESS_MESSAGE_COLOR];
     if (IS_IPAD) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"UIInterfaceCustomButtonAdded" object:nil];
     }
@@ -3840,7 +3837,7 @@
         topNavigationLabel.adjustsFontSizeToFitWidth = YES;
         topNavigationLabel.textAlignment = NSTextAlignmentLeft;
         topNavigationLabel.textColor = UIColor.whiteColor;
-        topNavigationLabel.shadowColor = [Utilities getGrayColor:0 alpha:0.5];
+        topNavigationLabel.shadowColor = FONT_SHADOW_WEAK;
         topNavigationLabel.shadowOffset = CGSizeMake (0, -1);
         topNavigationLabel.highlightedTextColor = UIColor.blackColor;
         topNavigationLabel.opaque = YES;
@@ -4408,10 +4405,10 @@
 - (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters success:(NSString*)successMessage failure:(NSString*)failureMessage {
     [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
-            [Utilities showMessage:successMessage color:[Utilities getSystemGreen:0.95]];
+            [Utilities showMessage:successMessage color:SUCCESS_MESSAGE_COLOR];
         }
         else {
-            [Utilities showMessage:failureMessage color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:failureMessage color:ERROR_MESSAGE_COLOR];
         }
     }];
 }

@@ -248,8 +248,8 @@
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode {
     UIColor *bgcolor = UIColor.clearColor;
     UIColor *imgcolor = nil;
-    UIColor *bglight = [Utilities getGrayColor:242 alpha:1.0];
-    UIColor *bgdark = [Utilities getGrayColor:28 alpha:1.0];
+    UIColor *bglight = SYSTEMGRAY6_LIGHTMODE;
+    UIColor *bgdark = SYSTEMGRAY6_DARKMODE;
     switch (mode) {
         case LogoBackgroundAuto:
             // get background color and colorize the image background
@@ -511,10 +511,10 @@
     [[Utilities getJsonRPC] callMethod:command withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         // User already confirmed, so we only show a short-lived message.
         if (methodError == nil && error == nil) {
-            [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:SUCCESS_MESSAGE_COLOR];
         }
         else {
-            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         }
     }];
 }
@@ -528,10 +528,10 @@
             // In this case we want to have a user interaction popup instead of a short-lived message.
             if ([Utilities isValidMacAddress:AppDelegate.instance.obj.serverHWAddr]) {
                 [Utilities wakeUp:AppDelegate.instance.obj.serverHWAddr];
-                [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
+                [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:SUCCESS_MESSAGE_COLOR];
             }
             else {
-                [Utilities showMessage:LOCALIZED_STR(@"No server MAC address defined") color:[Utilities getSystemRed:0.95]];
+                [Utilities showMessage:LOCALIZED_STR(@"No server MAC address defined") color:ERROR_MESSAGE_COLOR];
             }
         }];
         [alertCtrl addAction:action_wake];

@@ -160,11 +160,11 @@
         longPressGesture.delegate = self;
         [_tableView addGestureRecognizer:longPressGesture];
         
-        scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0, 
+        scrubbingView = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                  0,
                                                                  frame.size.width,
                                                                  SCRUBBINGVIEW_HEIGHT)];
-        scrubbingView.backgroundColor = [Utilities getGrayColor:0 alpha:0.8];
+        scrubbingView.backgroundColor = INFO_POPOVER_COLOR;
         scrubbingView.alpha = 0.0;
         
         scrubbingMessage = [[UILabel alloc] initWithFrame:CGRectMake(SCRUBBINGTEXT_PADDING,
@@ -295,7 +295,7 @@
     customButton *arrayButtons = [customButton new];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
-    [Utilities showMessage:LOCALIZED_STR(@"Button added") color:[Utilities getSystemGreen:0.95]];
+    [Utilities showMessage:LOCALIZED_STR(@"Button added") color:SUCCESS_MESSAGE_COLOR];
     if (IS_IPAD) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"UIInterfaceCustomButtonAdded" object:nil];
     }
@@ -311,10 +311,10 @@
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [activityIndicator stopAnimating];
         if (methodError == nil && error == nil) {
-            [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:[Utilities getSystemGreen:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:SUCCESS_MESSAGE_COLOR];
         }
         else {
-            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         }
         if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
             [sender setUserInteractionEnabled:YES];
@@ -753,7 +753,7 @@
 - (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
     UIView *helpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, footerHeight)];
     if (xbmcSetting == SettingTypeUnsupported) {
-        helpView.backgroundColor = [Utilities getSystemRed:0.95];
+        helpView.backgroundColor = ERROR_MESSAGE_COLOR;
     }
     else {
         helpView.backgroundColor = TOOLBAR_TINT_COLOR;

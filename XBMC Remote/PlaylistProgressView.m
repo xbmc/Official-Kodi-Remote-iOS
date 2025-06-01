@@ -25,7 +25,7 @@
 }
 
 - (void)createProgressView {
-    self.backgroundColor = [Utilities getGrayColor:96 alpha:1.0];
+    self.backgroundColor = PLAYLIST_PROGRESSBAR_BACKGROUND_COLOR;
     
     timeLabel = [UILabel new];
     timeLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
@@ -39,7 +39,7 @@
     progressBarView = [ProgressBarView new];
     [self addSubview:progressBarView];
     
-    [progressBarView setTrackColor:[Utilities getGrayColor:28 alpha:1.0]];
+    [progressBarView setTrackColor:PLAYLIST_PROGRESSBAR_TRACK_COLOR];
 }
 
 - (void)setProgress:(CGFloat)progress {

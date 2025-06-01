@@ -2213,7 +2213,7 @@
         else {
             [playlistTableView reloadData];
             [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
+            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         }
     }];
 }
@@ -2243,7 +2243,7 @@
             else {
                 [playlistTableView reloadData];
                 [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-                [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:[Utilities getSystemRed:0.95]];
+                [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
             }
         }];
     }
@@ -2739,6 +2739,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    scrabbingView.backgroundColor = INFO_POPOVER_COLOR;
+    songDetailsView.backgroundColor = INFO_POPOVER_COLOR;
     itemDescription.selectable = NO;
     itemLogoImage.layer.minificationFilter = kCAFilterTrilinear;
     songCodecImage.layer.minificationFilter = kCAFilterTrilinear;

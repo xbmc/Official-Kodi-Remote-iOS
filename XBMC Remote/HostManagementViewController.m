@@ -766,7 +766,7 @@
 
 - (void)connectionError:(NSNotification*)note {
     NSDictionary *theData = note.userInfo;
-    [Utilities showMessage:theData[@"error_message"] color:[Utilities getSystemRed:0.95]];
+    [Utilities showMessage:theData[@"error_message"] color:ERROR_MESSAGE_COLOR];
 }
 
 - (void)authFailed:(NSNotification*)note {
