@@ -622,17 +622,33 @@
 }
 
 + (void)showLocalNetworkAccessError:(UIViewController*)viewCtrl {
-    NSString *message = LOCALIZED_STR(@"It seems local network access is not enabled for the Kodi Remote App. This is required for the app to find and connect to Kodi servers in your local network.");
-    NSString *fix = LOCALIZED_STR(@"The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect.");
-    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Local network notice")
-                                                                       message:[NSString stringWithFormat:@"%@\n\n%@", message, fix]
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK")
-                                                       style:UIAlertActionStyleDefault
-                                                     handler:nil];
-    [alertCtrl addAction:okButton];
-    
-    [viewCtrl presentViewController:alertCtrl animated:YES completion:nil];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL showLocalNetworkNotice = [userDefaults boolForKey:@"local_network_info_preference"];
+    if (showLocalNetworkNotice) {
+        NSString *message = LOCALIZED_STR(@"It seems local network access is not enabled for the Kodi Remote App. This is required for the app to find and connect to Kodi servers in your local network.");
+        NSString *fix = LOCALIZED_STR(@"The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect.");
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Local network notice")
+                                                                           message:[NSString stringWithFormat:@"%@\n\n%@", message, fix]
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"OK")
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+        UIAlertAction *dontShowButton = [UIAlertAction
+                                         actionWithTitle:LOCALIZED_STR(@"Don't show this message again")
+                                         style:UIAlertActionStyleDestructive
+                                         handler:^(UIAlertAction *action) {
+            [Utilities disableLocalNetworkconnectionNotice];
+        }];
+        [alertCtrl addAction:dontShowButton];
+        [alertCtrl addAction:okButton];
+        
+        [viewCtrl presentViewController:alertCtrl animated:YES completion:nil];
+    }
+}
+
++ (void)disableLocalNetworkconnectionNotice {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:NO forKey:@"local_network_info_preference"];
 }
 
 + (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor {

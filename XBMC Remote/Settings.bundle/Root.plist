@@ -22,6 +22,16 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
+			<true/>
+			<key>Key</key>
+			<string>local_network_info_preference</string>
+			<key>Title</key>
+			<string>Show local network notice</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
 			<string>lockscreen_preference</string>
