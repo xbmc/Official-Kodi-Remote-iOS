@@ -23,6 +23,6 @@
     NSDictionary *infoCustomButton;
 }
 
-@property (strong, nonatomic) NSMutableArray *rightMenuItems;
+@property (strong, nonatomic) NSArray *rightMenuItems;
 
 @end

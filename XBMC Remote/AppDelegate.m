@@ -5995,7 +5995,6 @@
     xbmcSettings.subItem.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
 #pragma mark - Now Playing Right Menu
-    nowPlayingMenuItems = [NSMutableArray arrayWithCapacity:1];
     __auto_type nowPlayingItem1 = [mainMenu new];
     nowPlayingItem1.mainLabel = @"EmbeddedRemote";
     nowPlayingItem1.family = FamilyNowPlaying;
@@ -6019,10 +6018,9 @@
         },
     ];
     
-    [nowPlayingMenuItems addObject:nowPlayingItem1];
+    nowPlayingMenuItems = @[nowPlayingItem1];
     
 #pragma mark - Remote Control Right Menu
-    remoteControlMenuItems = [NSMutableArray arrayWithCapacity:1];
     __auto_type remoteControlItem1 = [mainMenu new];
     remoteControlItem1.mainLabel = @"RemoteControl";
     remoteControlItem1.family = FamilyRemote;
@@ -6063,7 +6061,7 @@
         },
     ];
     
-    [remoteControlMenuItems addObject:remoteControlItem1];
+    remoteControlMenuItems = @[remoteControlItem1];
 
 #pragma mark - Build and Initialize menu structure
     
