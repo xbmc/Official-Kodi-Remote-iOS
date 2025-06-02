@@ -267,6 +267,14 @@
     }
 }
 
+#pragma mark - Helper
+
+- (void)handleDisconnectActiveServer {
+    // Deselect any current active server
+    NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
+    [self deselectServerAtIndexPath:selection];
+}
+
 #pragma mark - Long Press & Action sheet
 
 - (void)handleLongPress {
@@ -635,6 +643,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(enablePopGestureRecognizer:)
                                                  name:@"ECSlidingViewTopDidReset"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDisconnectActiveServer)
+                                                 name:@"DisconnectActiveServer"
                                                object:nil];
 }
 
