@@ -539,21 +539,25 @@
     else {
         UIAlertAction *action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Shutdown"];
+            [Utilities disconnectFromActiveServer];
         }];
         [alertCtrl addAction:action_pwr_off_system];
         
         UIAlertAction *action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"Application.Quit"];
+            [Utilities disconnectFromActiveServer];
         }];
         [alertCtrl addAction:action_quit_kodi];
         
         UIAlertAction *action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Hibernate"];
+            [Utilities disconnectFromActiveServer];
         }];
         [alertCtrl addAction:action_hibernate];
         
         UIAlertAction *action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Suspend"];
+            [Utilities disconnectFromActiveServer];
         }];
         [alertCtrl addAction:action_suspend];
         
@@ -1426,6 +1430,13 @@
     AppDelegate.instance.obj.serverPort = @"";
     AppDelegate.instance.obj.serverHWAddr = @"";
     AppDelegate.instance.obj.tcpPort = 0;
+}
+
++ (void)disconnectFromActiveServer {
+    [Utilities resetKodiServerParameters];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@(-1) forKey:@"lastServer"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisconnectActiveServer" object:nil];
 }
 
 @end
