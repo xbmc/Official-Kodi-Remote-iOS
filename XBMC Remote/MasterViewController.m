@@ -321,6 +321,8 @@
                            deltaY:deltaY
                            deltaX:0];
     [self addMessagesToRootView];
+    
+    [self addConnectionStatusToRootView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -356,7 +358,6 @@
                                                                            [Utilities getTopPadding],
                                                                            CONNECTION_STATUS_SIZE,
                                                                            CONNECTION_STATUS_SIZE)];
-    [self addConnectionStatusToRootView];
     
     messagesView = [[MessagesView alloc] initWithFrame:CGRectZero deltaY:0 deltaX:0];
     
