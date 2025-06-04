@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseMasterViewController.h"
 #import "DSJSONRPC.h"
 #import "tcpJSONRPC.h"
 #import "CustomNavigationController.h"
 #import "MessagesView.h"
 
-@interface MasterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface MasterViewController : BaseMasterViewController <UITableViewDataSource, UITableViewDelegate> {
     IBOutlet UITableView *menuList;
     BOOL itemIsActive;
     UIImageView *globalConnectionStatus;
