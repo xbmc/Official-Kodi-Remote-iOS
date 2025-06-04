@@ -322,11 +322,6 @@
     messagesView = [[MessagesView alloc] initWithFrame:CGRectZero deltaY:0 deltaX:0];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleXBMCServerHasChanged:)
-                                                 name:@"XBMCServerHasChanged"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionStatus:)
                                                  name:@"XBMCServerConnectionSuccess"
                                                object:nil];
@@ -403,10 +398,6 @@
 
 - (void)handleLocalNetworkAccessError:(NSNotification*)sender {
     [Utilities showLocalNetworkAccessError:self];
-}
-
-- (void)handleXBMCServerHasChanged:(NSNotification*)sender {
-    [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
 }
 
 - (void)handleEnablingDefaultController {

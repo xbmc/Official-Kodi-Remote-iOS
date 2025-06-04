@@ -29,6 +29,11 @@
                                              selector:@selector(handleTcpJSONRPCChangeServerStatus:)
                                                  name:@"TcpJSONRPCChangeServerStatus"
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleXBMCServerHasChanged:)
+                                                 name:@"XBMCServerHasChanged"
+                                               object:nil];
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {
@@ -71,6 +76,10 @@
         // Send trigger to start the default controller
         [[NSNotificationCenter defaultCenter] postNotificationName:@"KodiStartDefaultController" object:nil userInfo:params];
     }
+}
+
+- (void)handleXBMCServerHasChanged:(NSNotification*)sender {
+    [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
 }
 
 @end
