@@ -24,7 +24,6 @@
 #import "Utilities.h"
 
 #define SERVER_TIMEOUT 2.0
-#define CLEARCACHE_TIMEOUT 2.0
 #define CONNECTION_ICON_SIZE 18
 #define MENU_ICON_SIZE 30
 #define ICON_MARGIN 10
@@ -244,29 +243,6 @@
                                   (height - arrowRight.frame.size.height) / 2,
                                   arrowRight.frame.size.width,
                                   arrowRight.frame.size.height);
-}
-
-#pragma mark - App clear disk cache methods
-
-- (void)startClearAppDiskCache:(ClearCacheView*)clearView {
-    [AppDelegate.instance clearAppDiskCache];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, CLEARCACHE_TIMEOUT * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [self clearAppDiskCacheFinished:clearView];
-    });
-}
-
-- (void)clearAppDiskCacheFinished:(ClearCacheView*)clearView {
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         [clearView stopActivityIndicator];
-                         clearView.alpha = 0;
-                     }
-                     completion:^(BOOL finished) {
-                         [clearView stopActivityIndicator];
-                         [clearView removeFromSuperview];
-                         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                         [userDefaults removeObjectForKey:@"clearcache_preference"];
-                     }];
 }
 
 #pragma mark - LifeCycle
