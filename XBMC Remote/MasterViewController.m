@@ -342,35 +342,11 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleLibraryNotification:)
-                                                 name:@"AudioLibrary.OnScanFinished"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleLibraryNotification:)
-                                                 name:@"AudioLibrary.OnCleanFinished"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleLibraryNotification:)
-                                                 name:@"VideoLibrary.OnScanFinished"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleLibraryNotification:)
-                                                 name:@"VideoLibrary.OnCleanFinished"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(showNotificationMessage:)
                                                  name:@"UIShowMessage"
                                                object:nil];
     
     [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-}
-
-- (void)handleLibraryNotification:(NSNotification*)note {
-    [Utilities showMessage:note.name color:SUCCESS_MESSAGE_COLOR];
 }
 
 - (void)showNotificationMessage:(NSNotification*)note {

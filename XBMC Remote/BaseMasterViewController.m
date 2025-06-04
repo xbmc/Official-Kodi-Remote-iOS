@@ -34,6 +34,26 @@
                                              selector:@selector(handleXBMCServerHasChanged:)
                                                  name:@"XBMCServerHasChanged"
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleLibraryNotification:)
+                                                 name:@"AudioLibrary.OnScanFinished"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleLibraryNotification:)
+                                                 name:@"AudioLibrary.OnCleanFinished"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleLibraryNotification:)
+                                                 name:@"VideoLibrary.OnScanFinished"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleLibraryNotification:)
+                                                 name:@"VideoLibrary.OnCleanFinished"
+                                               object:nil];
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {
@@ -80,6 +100,10 @@
 
 - (void)handleXBMCServerHasChanged:(NSNotification*)sender {
     [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
+}
+
+- (void)handleLibraryNotification:(NSNotification*)note {
+    [Utilities showMessage:note.name color:SUCCESS_MESSAGE_COLOR];
 }
 
 @end
