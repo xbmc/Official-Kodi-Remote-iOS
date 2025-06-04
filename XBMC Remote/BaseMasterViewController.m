@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 #import "Utilities.h"
 
+#define CLEARCACHE_TIMEOUT 2.0
+
 @import UIKit;
 
 @implementation BaseMasterViewController
@@ -115,6 +117,31 @@
 
 - (void)handleLocalNetworkAccessError:(NSNotification*)sender {
     [Utilities showLocalNetworkAccessError:self];
+}
+
+#pragma mark - App clear disk cache methods
+
+- (void)startClearAppDiskCache:(ClearCacheView*)clearView {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [AppDelegate.instance clearAppDiskCache];
+    });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, CLEARCACHE_TIMEOUT * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self clearAppDiskCacheFinished:clearView];
+    });
+}
+
+- (void)clearAppDiskCacheFinished:(ClearCacheView*)clearView {
+    [UIView animateWithDuration:0.3
+                     animations:^{
+        [clearView stopActivityIndicator];
+        clearView.alpha = 0;
+    }
+                     completion:^(BOOL finished) {
+        [clearView stopActivityIndicator];
+        [clearView removeFromSuperview];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults removeObjectForKey:@"clearcache_preference"];
+    }];
 }
 
 @end
