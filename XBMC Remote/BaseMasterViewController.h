@@ -13,6 +13,7 @@
 
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName;
 - (void)handleXBMCServerHasChanged:(NSNotification*)sender;
+- (void)connectionStatus:(NSNotification*)note;
 - (void)startClearAppDiskCache:(ClearCacheView*)clearView;
 - (void)addClearCacheMessage;
 

@@ -40,6 +40,16 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(connectionStatus:)
+                                                 name:@"XBMCServerConnectionSuccess"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(connectionStatus:)
+                                                 name:@"XBMCServerConnectionFailed"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleLibraryNotification:)
                                                  name:@"AudioLibrary.OnScanFinished"
                                                object:nil];
@@ -117,6 +127,11 @@
 
 - (void)handleLocalNetworkAccessError:(NSNotification*)sender {
     [Utilities showLocalNetworkAccessError:self];
+}
+
+- (void)connectionStatus:(NSNotification*)note {
+    // We are connected to server, we now need to share credentials with SDWebImageManager
+    [Utilities setWebImageAuthorizationOnSuccessNotification:note];
 }
 
 #pragma mark - App clear disk cache methods
