@@ -88,12 +88,10 @@
 #pragma mark - ServerManagement
 
 - (void)connectionStatus:(NSNotification*)note {
+    [super connectionStatus:note];
     NSDictionary *theData = note.userInfo;
     NSString *icon_connection = theData[@"icon_connection"];
     connectionStatus.image = [UIImage imageNamed:icon_connection];
-    
-    // We are connected to server, we now need to share credentials with SDWebImageManager
-    [Utilities setWebImageAuthorizationOnSuccessNotification:note];
 }
 
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
@@ -493,16 +491,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleTcpJSONRPCShowSetup:)
                                                  name:@"TcpJSONRPCShowSetup"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(connectionStatus:)
-                                                 name:@"XBMCServerConnectionSuccess"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(connectionStatus:)
-                                                 name:@"XBMCServerConnectionFailed"
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self

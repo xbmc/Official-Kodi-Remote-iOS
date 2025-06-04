@@ -290,16 +290,6 @@
     messagesView = [[MessagesView alloc] initWithFrame:CGRectZero deltaY:0 deltaX:0];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(connectionStatus:)
-                                                 name:@"XBMCServerConnectionSuccess"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(connectionStatus:)
-                                                 name:@"XBMCServerConnectionFailed"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleEnablingDefaultController)
                                                  name:@"KodiStartDefaultController"
                                                object:nil];
@@ -323,6 +313,7 @@
 }
 
 - (void)connectionStatus:(NSNotification*)note {
+    [super connectionStatus:note];
     NSDictionary *theData = note.userInfo;
     NSString *infoText = theData[@"message"];
     UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -330,9 +321,6 @@
     [self setConnectionIcon:icon];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
     title.text = infoText;
-    
-    // We are connected to server, we now need to share credentials with SDWebImageManager
-    [Utilities setWebImageAuthorizationOnSuccessNotification:note];
 }
 
 - (void)handleEnablingDefaultController {
