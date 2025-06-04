@@ -1627,6 +1627,11 @@
         param = @"file";
         value = item[@"file"];
     }
+    if (!value || !param) {
+        [activityIndicatorView stopAnimating];
+        [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
+        return;
+    }
     if (afterCurrent) {
         NSDictionary *params = @{
             @"playerid": @(playlistid),
@@ -1645,7 +1650,7 @@
                          NSString *action2 = @"Playlist.Insert";
                          NSDictionary *params2 = @{
                              @"playlistid": @(playlistid),
-                             @"item": [NSDictionary dictionaryWithObjectsAndKeys:value, param, nil],
+                             @"item": @{param: value},
                              @"position": @(newPos),
                          };
                          [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
@@ -1673,7 +1678,7 @@
         [activityIndicatorView startAnimating];
         NSDictionary *params = @{
             @"playlistid": @(playlistid),
-            @"item": [NSDictionary dictionaryWithObjectsAndKeys:value, param, nil],
+            @"item": @{param: value},
         };
         [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             [activityIndicatorView stopAnimating];
@@ -1700,6 +1705,7 @@
         id value = item[key];
         if (!value || !key) {
             [activityIndicatorView stopAnimating];
+            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
             return;
         }
         NSDictionary *params = @{

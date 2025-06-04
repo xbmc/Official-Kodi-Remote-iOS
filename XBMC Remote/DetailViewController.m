@@ -3501,6 +3501,7 @@
             if (error == nil && methodError == nil) {
                 NSArray *sheetActions = [self getSupportedPlayers:methodResult forItem:item];
                 if (!sheetActions.count) {
+                    [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
                     return;
                 }
                 UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Play using...") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -4145,6 +4146,7 @@
     id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
     if (!playlistItems) {
         [cellActivityIndicator stopAnimating];
+        [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
     NSDictionary *playlistParams = @{
@@ -4298,6 +4300,7 @@
     id playlistItems = [self buildPlaylistItems:item key:mainFields[@"row9"]];
     if (!playlistItems) {
         [cellActivityIndicator stopAnimating];
+        [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
     NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -4334,6 +4337,7 @@
     }
     if (!value || !key) {
         [cellActivityIndicator stopAnimating];
+        [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
     NSDictionary *playbackParams = @{@"item": @{key: value}};
