@@ -51,30 +51,9 @@
 }
 	
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   infoText, @"message",
-                                   iconName, @"icon_connection",
-                                   nil];
-    AppDelegate.instance.serverOnLine = status;
-    AppDelegate.instance.serverName = infoText;
-    NSString *notificationName;
-    if (status) {
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
-        notificationName = @"XBMCServerConnectionSuccess";
-        NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"Connected to %@"), AppDelegate.instance.obj.serverDescription];
-        [Utilities showMessage:message color:SUCCESS_MESSAGE_COLOR];
-    }
-    else {
-        [self.tcpJSONRPCconnection stopNetworkCommunication];
-        notificationName = @"XBMCServerConnectionFailed";
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:nil userInfo:params];
+    [super changeServerStatus:status infoText:infoText icon:iconName];
     itemIsActive = NO;
     [Utilities setStyleOfMenuItems:menuList active:status];
-    if (status) {
-        // Send trigger to start the default controller
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"KodiStartDefaultController" object:nil userInfo:params];
-    }
 }
 
 #pragma mark - Table view methods & data source
@@ -348,11 +327,6 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleTcpJSONRPCChangeServerStatus:)
-                                                 name:@"TcpJSONRPCChangeServerStatus"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionStatus:)
                                                  name:@"XBMCServerConnectionSuccess"
                                                object:nil];
@@ -425,13 +399,6 @@
     
     // We are connected to server, we now need to share credentials with SDWebImageManager
     [Utilities setWebImageAuthorizationOnSuccessNotification:note];
-}
-
-- (void)handleTcpJSONRPCChangeServerStatus:(NSNotification*)sender {
-    BOOL statusValue = [[sender.userInfo objectForKey:@"status"] boolValue];
-    NSString *message = [sender.userInfo objectForKey:@"message"];
-    NSString *icon_connection = [sender.userInfo objectForKey:@"icon_connection"];
-    [self changeServerStatus:statusValue infoText:message icon:icon_connection];
 }
 
 - (void)handleLocalNetworkAccessError:(NSNotification*)sender {
