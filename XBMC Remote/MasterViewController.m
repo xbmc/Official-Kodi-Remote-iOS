@@ -343,11 +343,6 @@
     messagesView = [[MessagesView alloc] initWithFrame:CGRectZero deltaY:0 deltaX:0];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleEnterForeground:)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleXBMCServerHasChanged:)
                                                  name:@"XBMCServerHasChanged"
                                                object:nil];
@@ -441,12 +436,6 @@
 
 - (void)handleLocalNetworkAccessError:(NSNotification*)sender {
     [Utilities showLocalNetworkAccessError:self];
-}
-
-- (void)handleEnterForeground:(NSNotification*)sender {
-    if (AppDelegate.instance.serverOnLine) {
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
-    }
 }
 
 - (void)handleXBMCServerHasChanged:(NSNotification*)sender {
