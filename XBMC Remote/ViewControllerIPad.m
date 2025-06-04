@@ -542,11 +542,6 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleLocalNetworkAccessError:)
-                                                 name:@"LocalNetworkAccessError"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleChangeBackgroundImage:)
                                                  name:@"IpadChangeBackgroundImage"
                                                object:nil];
@@ -635,10 +630,6 @@
 - (void)handleTcpJSONRPCShowSetup:(NSNotification*)sender {
     BOOL showValue = [[sender.userInfo objectForKey:@"showSetup"] boolValue];
     [self showSetup:showValue];
-}
-
-- (void)handleLocalNetworkAccessError:(NSNotification*)sender {
-    [Utilities showLocalNetworkAccessError:self];
 }
 
 - (void)hideSongInfoView {
