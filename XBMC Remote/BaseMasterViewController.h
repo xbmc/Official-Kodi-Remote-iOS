@@ -6,8 +6,12 @@
 //  Copyright © 2025 Team Kodi. All rights reserved.
 //
 
+#import "tcpJSONRPC.h"
+
 @import UIKit;
 
 @interface BaseMasterViewController : UIViewController
+
+@property (strong, nonatomic) tcpJSONRPC *tcpJSONRPCconnection;
 
 @end

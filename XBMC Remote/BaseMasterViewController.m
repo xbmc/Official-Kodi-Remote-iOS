@@ -10,4 +10,17 @@
 
 @implementation BaseMasterViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+}
+
+- (void)handleDidEnterBackground:(NSNotification*)sender {
+    [self.tcpJSONRPCconnection stopNetworkCommunication];
+}
+
 @end
