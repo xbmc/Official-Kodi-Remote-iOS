@@ -54,6 +54,11 @@
                                              selector:@selector(handleLibraryNotification:)
                                                  name:@"VideoLibrary.OnCleanFinished"
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleLocalNetworkAccessError:)
+                                                 name:@"LocalNetworkAccessError"
+                                               object:nil];
 }
 
 - (void)handleDidEnterBackground:(NSNotification*)sender {
@@ -104,6 +109,10 @@
 
 - (void)handleLibraryNotification:(NSNotification*)note {
     [Utilities showMessage:note.name color:SUCCESS_MESSAGE_COLOR];
+}
+
+- (void)handleLocalNetworkAccessError:(NSNotification*)sender {
+    [Utilities showLocalNetworkAccessError:self];
 }
 
 @end

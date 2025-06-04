@@ -332,11 +332,6 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleLocalNetworkAccessError:)
-                                                 name:@"LocalNetworkAccessError"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleEnablingDefaultController)
                                                  name:@"KodiStartDefaultController"
                                                object:nil];
@@ -370,10 +365,6 @@
     
     // We are connected to server, we now need to share credentials with SDWebImageManager
     [Utilities setWebImageAuthorizationOnSuccessNotification:note];
-}
-
-- (void)handleLocalNetworkAccessError:(NSNotification*)sender {
-    [Utilities showLocalNetworkAccessError:self];
 }
 
 - (void)handleEnablingDefaultController {
