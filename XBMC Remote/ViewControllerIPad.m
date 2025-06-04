@@ -515,11 +515,6 @@
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];
     messagesView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     [self.view addSubview:messagesView];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleXBMCServerHasChanged:)
-                                                 name:@"XBMCServerHasChanged"
-                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleStackScrollOnScreen:)
@@ -687,13 +682,13 @@
 }
 
 - (void)handleXBMCServerHasChanged:(NSNotification*)sender {
+    [super handleXBMCServerHasChanged:sender];
     [AppDelegate.instance.windowController.stackScrollViewController offView];
     NSIndexPath *selection = [menuViewController.tableView indexPathForSelectedRow];
     if (selection) {
         [menuViewController.tableView deselectRowAtIndexPath:selection animated:YES];
         [menuViewController setLastSelected:-1];
     }
-    [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
 }
 
