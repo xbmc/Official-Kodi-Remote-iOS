@@ -1629,6 +1629,7 @@
     }
     if (!value || !param) {
         [activityIndicatorView stopAnimating];
+        [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
     if (afterCurrent) {
@@ -1704,6 +1705,7 @@
         id value = item[key];
         if (!value || !key) {
             [activityIndicatorView stopAnimating];
+            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
             return;
         }
         NSDictionary *params = @{
