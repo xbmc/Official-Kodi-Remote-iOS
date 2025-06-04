@@ -104,6 +104,7 @@
 		C78C30F528F877870055CD95 /* VersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = C78C30F428F877870055CD95 /* VersionCheck.m */; };
 		C78C30FA28F8AADA0055CD95 /* SharingActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C78C30F928F89A3E0055CD95 /* SharingActivityItemSource.m */; };
 		C795123F2DC95A7E00A8CEE5 /* LinkPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C795123E2DC95A7E00A8CEE5 /* LinkPresentation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C79B0EA52DF0CF6900046334 /* BaseMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C79B0EA42DF0CF6900046334 /* BaseMasterViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -324,6 +325,8 @@
 		C78C30F828F89A1E0055CD95 /* SharingActivityItemSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharingActivityItemSource.h; sourceTree = "<group>"; };
 		C78C30F928F89A3E0055CD95 /* SharingActivityItemSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SharingActivityItemSource.m; sourceTree = "<group>"; };
 		C795123E2DC95A7E00A8CEE5 /* LinkPresentation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LinkPresentation.framework; path = System/Library/Frameworks/LinkPresentation.framework; sourceTree = SDKROOT; };
+		C79B0EA42DF0CF6900046334 /* BaseMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseMasterViewController.m; sourceTree = "<group>"; };
+		C79B0EA62DF0CF8C00046334 /* BaseMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseMasterViewController.h; sourceTree = "<group>"; };
 		C79F6B322CBBF981009A785C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C79F6B332CBBF981009A785C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7A030F128B60DB200B27764 /* ca-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ca-ES"; path = "ca-ES.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -547,6 +550,8 @@
 				0FDFC67C15377CE9000BE837 /* Settings.bundle */,
 				0F554909151D1187007E633F /* AppDelegate.h */,
 				0F55490A151D1187007E633F /* AppDelegate.m */,
+				C79B0EA62DF0CF8C00046334 /* BaseMasterViewController.h */,
+				C79B0EA42DF0CF6900046334 /* BaseMasterViewController.m */,
 				0F554C1E151D14DA007E633F /* mainMenu.h */,
 				0F554C1F151D14DA007E633F /* mainMenu.m */,
 				0F4883C21521B3D400883243 /* GlobalData.h */,
@@ -891,6 +896,7 @@
 				0F4156451646D810009E6DD4 /* JBKenBurnsView.m in Sources */,
 				C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */,
 				0F7F3DA5164A6D730080A14A /* ECSlidingViewController.m in Sources */,
+				C79B0EA52DF0CF6900046334 /* BaseMasterViewController.m in Sources */,
 				0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */,
 				0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */,
 				0F40F5A7164D5FA000AF9DE9 /* RightMenuViewController.m in Sources */,
