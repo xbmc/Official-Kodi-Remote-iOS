@@ -549,11 +549,6 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleDidEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
@@ -734,10 +729,6 @@
     }
     [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-}
-
-- (void)handleDidEnterBackground:(NSNotification*)sender {
-    [self.tcpJSONRPCconnection stopNetworkCommunication];
 }
 
 - (void)handleEnterForeground:(NSNotification*)sender {

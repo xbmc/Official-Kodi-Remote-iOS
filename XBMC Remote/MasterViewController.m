@@ -361,11 +361,6 @@
     messagesView = [[MessagesView alloc] initWithFrame:CGRectZero deltaY:0 deltaX:0];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleDidEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
@@ -464,10 +459,6 @@
 
 - (void)handleLocalNetworkAccessError:(NSNotification*)sender {
     [Utilities showLocalNetworkAccessError:self];
-}
-
-- (void)handleDidEnterBackground:(NSNotification*)sender {
-    [self.tcpJSONRPCconnection stopNetworkCommunication];
 }
 
 - (void)handleEnterForeground:(NSNotification*)sender {
