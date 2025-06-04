@@ -10,6 +10,8 @@
 
 @interface BaseMasterViewController : UIViewController
 
+- (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName;
+
 @property (strong, nonatomic) tcpJSONRPC *tcpJSONRPCconnection;
 
 @end
