@@ -16,7 +16,6 @@
 #import "HostManagementViewController.h"
 #import "AppInfoViewController.h"
 #import "XBMCVirtualKeyboard.h"
-#import "ClearCacheView.h"
 #import "CustomNavigationController.h"
 #import "Utilities.h"
 
@@ -457,18 +456,8 @@
     [self.view insertSubview:self.nowPlayingController.songDetailsView aboveSubview:rootView];
     [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:self.nowPlayingController.songDetailsView];
     [self.view insertSubview:self.nowPlayingController.playlistToolbarView belowSubview:self.nowPlayingController.BottomView];
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL clearCache = [userDefaults boolForKey:@"clearcache_preference"];
-    if (clearCache) {
-        ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame];
-        [clearView startActivityIndicator];
-        [self.view addSubview:clearView];
-        [NSThread detachNewThreadSelector:@selector(startClearAppDiskCache:) toTarget:self withObject:clearView];
-    }
 
     int bottomPadding = [Utilities getBottomPadding];
-    
     if (bottomPadding > 0) {
         CGRect frame = volumeSliderView.frame;
         frame.origin.y -= bottomPadding;
@@ -668,6 +657,11 @@
     [self.nowPlayingController setNowPlayingSize:UIScreen.mainScreen.bounds.size
                                             YPOS:-YPOS
                                       fullscreen:isFullscreen];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self addClearCacheMessage];
 }
 
 - (BOOL)shouldAutorotate {

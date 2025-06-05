@@ -140,4 +140,16 @@
     }];
 }
 
+- (void)addClearCacheMessage {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL clearCacheEnabled = [userDefaults boolForKey:@"clearcache_preference"];
+    if (clearCacheEnabled) {
+        UIView *view = IS_IPHONE ? self.parentViewController.view : self.view;
+        ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:view.bounds];
+        [clearView startActivityIndicator];
+        [view addSubview:clearView];
+        [NSThread detachNewThreadSelector:@selector(startClearAppDiskCache:) toTarget:self withObject:clearView];
+    }
+}
+
 @end
