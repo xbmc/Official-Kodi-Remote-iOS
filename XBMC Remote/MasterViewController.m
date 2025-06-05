@@ -20,7 +20,6 @@
 #import "AppInfoViewController.h"
 #import "tcpJSONRPC.h"
 #import "XBMCVirtualKeyboard.h"
-#import "ClearCacheView.h"
 #import "Utilities.h"
 
 #define SERVER_TIMEOUT 2.0
@@ -276,6 +275,8 @@
                            deltaY:deltaY
                            deltaX:0];
     [self addMessagesToRootView];
+    
+    [self addClearCacheMessage];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -293,14 +294,7 @@
     menuList.frame = frame;
     
     menuList.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL clearCache = [userDefaults boolForKey:@"clearcache_preference"];
-    if (clearCache) {
-        ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame border:40];
-        [clearView startActivityIndicator];
-        [self.view addSubview:clearView];
-        [NSThread detachNewThreadSelector:@selector(startClearAppDiskCache:) toTarget:self withObject:clearView];
-    }
+    
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     AppDelegate.instance.obj = [GlobalData getInstance];
