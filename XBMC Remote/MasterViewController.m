@@ -22,8 +22,6 @@
 #import "XBMCVirtualKeyboard.h"
 #import "Utilities.h"
 
-#define SERVER_TIMEOUT 2.0
-#define CONNECTION_ICON_SIZE 18
 #define MENU_ICON_SIZE 30
 #define ICON_MARGIN 10
 #define CONNECTION_STATUS_PADDING 4
