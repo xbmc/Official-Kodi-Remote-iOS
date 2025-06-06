@@ -290,3 +290,6 @@
 "Play using..." = "Putar menggunakan...";
 "Movie Tags" = "Tag Film";
 "Share" = "Bagikan";
+"Local network notice" = "Pemberitahuan jaringan lokal";
+"The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect." = "Akses jaringan lokal dapat diamtifkan dalam pengaturan jaringan iOS atau pengaturan aplikasi. Anda mungkin perlu mengatur ulang pengaturan jaringan Anda, memulai ulang perangkat iOS Anda atau bahkan menghapus/memasang ulang aplikasinya untuk diterapkan.";
+"It seems local network access is not enabled for the Kodi Remote App. This is required for the app to find and connect to Kodi servers in your local network." = "Sepertinya akses jaringan lokal tidak diaktifkan untuk Aplikasi Remot Kodi. Ini diperlukan untuk aplikasi supaya dapat menemukan dan menghubungkan ke server Kodi dalam jaringan lokal Anda.";
