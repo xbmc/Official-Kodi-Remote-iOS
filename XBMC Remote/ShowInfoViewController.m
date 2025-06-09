@@ -1917,10 +1917,6 @@
                                                object:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }

@@ -115,14 +115,6 @@
     [Utilities enableDefaultController:self tableView:_tableView menuItems:mainMenuItems];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
 #pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -221,12 +213,6 @@
 
 - (void)setLastSelected:(int)selection {
     lastSelected = selection;
-}
-
-#pragma mark - Memory management
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
 }
 
 @end

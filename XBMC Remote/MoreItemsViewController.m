@@ -94,10 +94,6 @@
 
 #pragma mark - LifeCycle
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }
