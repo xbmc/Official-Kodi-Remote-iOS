@@ -42,14 +42,6 @@
     navBarHairlineImageView.hidden = hideBottomLine;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 - (BOOL)shouldAutorotate {
     return NO;
 }

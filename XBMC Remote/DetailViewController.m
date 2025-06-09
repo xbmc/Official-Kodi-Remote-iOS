@@ -5471,10 +5471,6 @@
     [self setButtonViewContent:chosenTab];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 - (void)revealMenu:(id)sender {
     [self.slidingViewController anchorTopViewTo:ECRight];
 }

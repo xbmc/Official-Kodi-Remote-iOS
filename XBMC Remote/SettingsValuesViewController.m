@@ -871,8 +871,4 @@
     [self.view addGestureRecognizer:tap];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 @end

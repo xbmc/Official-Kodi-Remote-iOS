@@ -69,10 +69,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"RevealMenu" object:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }

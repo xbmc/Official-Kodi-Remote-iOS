@@ -466,10 +466,6 @@
     [view.layer addAnimation:bounceAnimation forKey:@"bounceAnimation"];
 }
 
-- (void)loadView {
-    [super loadView];
-}
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -481,10 +477,6 @@
 
 - (void)handleAutoPan {
     [self moveStack];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
 }
 
 - (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView {
@@ -635,10 +627,6 @@
             }
         }
     }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
 }
 
 #pragma mark - Rotation support

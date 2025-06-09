@@ -52,10 +52,6 @@
     appDescription.font = [UIFont systemFontOfSize:floor(14 * scale)];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.edgesForExtendedLayout = 0;
