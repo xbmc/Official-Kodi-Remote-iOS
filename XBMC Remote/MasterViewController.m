@@ -162,6 +162,10 @@
                                                                                style:UIBarButtonItemStylePlain
                                                                               target:nil
                                                                               action:@selector(handleMenuButton)];
+    object.navigationItem.leftBarButtonItem.tintColor = ICON_TINT_COLOR;
+    if (@available(iOS 26.0, *)) {
+        object.navigationItem.leftBarButtonItem.hidesSharedBackground = YES;
+    }
     
     if (hideBottonLine) {
         [navController hideNavBarBottomLine:YES];

@@ -191,6 +191,14 @@
         }
         else {
             self.navigationItem.title = item[@"label"];
+            actionSheetButtonItem.tintColor = ICON_TINT_COLOR;
+            if (@available(iOS 26.0, *)) {
+                actionSheetButtonItem.hidesSharedBackground = YES;
+            }
+            extraButton.tintColor = ICON_TINT_COLOR;
+            if (@available(iOS 26.0, *)) {
+                extraButton.hidesSharedBackground = YES;
+            }
             if (actionSheetButtonItem && extraButton) {
                 UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
                 self.navigationItem.rightBarButtonItems = @[actionSheetButtonItem, fixedSpace, extraButton];
