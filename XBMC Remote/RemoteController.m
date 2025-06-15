@@ -1000,6 +1000,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
         self.navigationItem.rightBarButtonItems = @[
             [[UIBarButtonItem alloc] initWithImage:customImg style:UIBarButtonItemStylePlain target:self action:@selector(enterCustomButtons)],
+            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil],
             [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)],
         ];
         self.navigationController.navigationBar.barTintColor = REMOTE_CONTROL_BAR_TINT_COLOR;
