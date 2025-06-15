@@ -63,8 +63,6 @@
 		<key>UISceneConfigurations</key>
 		<dict/>
 	</dict>
-	<key>UIDesignRequiresCompatibility</key>
-	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
 	<key>UIPrerenderedIcon</key>
