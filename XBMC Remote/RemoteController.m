@@ -1340,7 +1340,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.edgesForExtendedLayout = 0;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     
     quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
     [self loadRemoteMode];

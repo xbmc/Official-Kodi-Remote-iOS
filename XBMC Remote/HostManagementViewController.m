@@ -554,7 +554,7 @@
     serverListTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     
     if (IS_IPAD) {
-        self.edgesForExtendedLayout = 0;
+        self.edgesForExtendedLayout = UIRectEdgeNone;
         CGRect frame = backgroundImageView.frame;
         frame.size.height = frame.size.height + 8;
         backgroundImageView.frame = frame;
