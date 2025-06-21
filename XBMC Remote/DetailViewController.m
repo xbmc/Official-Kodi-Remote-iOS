@@ -5914,7 +5914,7 @@
         buttonsView.backgroundColor = UIColor.clearColor;
     }
     else {
-        buttonsViewBgToolbar.backgroundColor = TOOLBAR_TINT_COLOR;
+        buttonsViewBgToolbar.backgroundColor = UIColor.clearColor;
     }
     
     if ([methods[@"albumView"] boolValue]) {
