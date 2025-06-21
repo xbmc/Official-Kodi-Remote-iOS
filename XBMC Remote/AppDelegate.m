@@ -110,12 +110,14 @@
 }
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
-    // iOS 13 and later use appearance for the navigationbar, from iOS 15 this is required as it else defaults to unwanted transparency
+    // Make navigation bar transparent
     if (@available(iOS 13, *)) {
         UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
         [appearance configureWithOpaqueBackground];
+        [appearance configureWithTransparentBackground];
+        appearance.backgroundEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
         appearance.titleTextAttributes = @{NSForegroundColorAttributeName : UIColor.whiteColor};
-        appearance.backgroundColor = NAVBAR_TINT_COLOR;
+        appearance.backgroundColor = UIColor.clearColor;
         [UINavigationBar appearance].standardAppearance = appearance;
         [UINavigationBar appearance].scrollEdgeAppearance = appearance;
     }
