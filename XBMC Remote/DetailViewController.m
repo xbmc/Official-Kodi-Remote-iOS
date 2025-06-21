@@ -3865,7 +3865,7 @@
         }
                          completion:^(BOOL finished) {
             viewWidth = STACKSCROLL_WIDTH;
-            button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = 1.0;
+            button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = buttonsViewEffect.alpha = topNavigationLabel.alpha = 1.0;
             if ([self collectionViewCanBeEnabled]) {
                 button6.hidden = NO;
             }
@@ -3912,7 +3912,7 @@
                          animations:^{
             collectionView.alpha = 0;
             dataList.alpha = 0;
-            button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = topNavigationLabel.alpha = 0.0;
+            button1.alpha = button2.alpha = button3.alpha = button4.alpha = button5.alpha = button6.alpha = button7.alpha = buttonsViewBgToolbar.alpha = buttonsViewEffect.alpha = topNavigationLabel.alpha = 0.0;
         }
                          completion:^(BOOL finished) {
             button6.hidden = YES;
@@ -5903,7 +5903,7 @@
     
     // Gray background for toolbar
     if (IS_IPHONE) {
-        buttonsView.backgroundColor = TOOLBAR_TINT_COLOR;
+        buttonsView.backgroundColor = UIColor.clearColor;
     }
     else {
         buttonsViewBgToolbar.backgroundColor = TOOLBAR_TINT_COLOR;
