@@ -40,6 +40,7 @@
     IBOutlet UIButton *button6;
     IBOutlet UIButton *button7;
     IBOutlet UIView *buttonsView;
+    IBOutlet UIVisualEffectView *buttonsViewEffect;
     NSString *defaultThumb;
     int cellHeight;
     int thumbWidth;
