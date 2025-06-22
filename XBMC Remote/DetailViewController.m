@@ -2837,9 +2837,6 @@
     NSDictionary *item = [self getItemFromIndexPath:indexPath];
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     CGPoint offsetPoint = [dataList contentOffset];
-    if ([self doesShowSearchResults]) {
-        offsetPoint.y = offsetPoint.y - 44;
-    }
     int rectOriginX = cell.frame.origin.x + cell.frame.size.width / 2;
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height / 2 - offsetPoint.y;
     [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
