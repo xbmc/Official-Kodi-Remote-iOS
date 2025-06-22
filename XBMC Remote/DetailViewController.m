@@ -1437,8 +1437,8 @@
         [self enterSubmenuForItem:item params:newParameters];
     }
     else { // CHILD IS FILEMODE
-        NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
-        NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @44;
+        NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
+        NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
         if ([item[@"filetype"] length] != 0 && ![item[@"isSources"] boolValue]) { // WE ARE ALREADY IN BROWSING FILES MODE
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
                 parameters = menuItem.mainParameters[activeTab];
@@ -4009,8 +4009,8 @@
     NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
     NSNumber *libraryRowHeight = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
     NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
-    NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
-    NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @44;
+    NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
+    NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"file_properties"] mutableCopy];
     if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
         [mutableProperties addObject:@"art"];
