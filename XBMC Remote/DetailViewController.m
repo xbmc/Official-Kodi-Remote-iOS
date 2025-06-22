@@ -6104,7 +6104,7 @@
         
         // Add the corner info view
         titleView = [[UIView alloc] initWithFrame:CGRectMake(buttonsView.frame.size.width - FIXED_SPACE_WIDTH, 0, FIXED_SPACE_WIDTH - SMALL_PADDING, buttonsView.frame.size.height)];
-        titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
+        titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
         topNavigationLabel.textAlignment = NSTextAlignmentRight;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:14];
         topNavigationLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
