@@ -186,7 +186,6 @@
             });
         }
     }
-    return;
 }
 
 - (NSMutableDictionary*)parseEpgData:(NSMutableArray*)epgData {
@@ -1157,7 +1156,6 @@
     else {
         [self changeViewMode:newViewMode];
     }
-    return;
 }
 
 - (void)changeViewMode:(ViewModes)newViewMode {
@@ -6154,7 +6152,6 @@
             [self toggleFullscreen];
         }
     }
-    return;
 }
 
 - (void)checkDiskCache {

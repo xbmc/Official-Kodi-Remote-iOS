@@ -1105,14 +1105,12 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:isGestureViewActive forKey:@"GestureViewEnabled"];
     [userDefaults setInteger:positionMode forKey:@"RemotePosition"];
-    return;
 }
 
 - (void)loadRemoteMode {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     isGestureViewActive = [userDefaults boolForKey:@"GestureViewEnabled"];
     positionMode = (RemotePositionType)[userDefaults integerForKey:@"RemotePosition"];
-    return;
 }
 
 #pragma mark - Life Cycle

@@ -346,7 +346,6 @@
                    [self scrollTableRow:settingOptions];
                }
            }];
-    return;
 }
 
 - (void)setSettingValue:(id)value sender:(id)sender {

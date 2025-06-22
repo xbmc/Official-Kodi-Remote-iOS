@@ -287,7 +287,6 @@
 - (void)saveLeftMenuSplit:(NSInteger)numberOfMenuItems {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setInteger:numberOfMenuItems forKey:@"numberOfMenuItemsShownInLeftMenu"];
-    return;
 }
 
 - (NSInteger)loadLeftMenuSplit {
