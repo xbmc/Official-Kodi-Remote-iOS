@@ -3829,7 +3829,7 @@
 - (void)configureView {
     mainMenu *menuItem = self.detailItem;
     if (menuItem) {
-        topNavigationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 240, 44)];
+        topNavigationLabel = [UILabel new];
         topNavigationLabel.backgroundColor = UIColor.clearColor;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
         topNavigationLabel.minimumScaleFactor = FONT_SCALING_DEFAULT;
@@ -6103,7 +6103,7 @@
         }
         
         // Add the corner info view
-        titleView = [[UIView alloc] initWithFrame:CGRectMake(buttonsView.frame.size.width - FIXED_SPACE_WIDTH, 0, FIXED_SPACE_WIDTH - 5, buttonsView.frame.size.height)];
+        titleView = [[UIView alloc] initWithFrame:CGRectMake(buttonsView.frame.size.width - FIXED_SPACE_WIDTH, 0, FIXED_SPACE_WIDTH - SMALL_PADDING, buttonsView.frame.size.height)];
         titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
         topNavigationLabel.textAlignment = NSTextAlignmentRight;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:14];
@@ -6119,7 +6119,6 @@
     if (IS_IPAD && menuItem.enableSection) {
         NSDictionary *parameters = menuItem.mainParameters[chosenTab];
         if ([self collectionViewCanBeEnabled] && ([parameters[@"enableLibraryFullScreen"] boolValue] && !forceHide)) {
-            int buttonPadding = 1;
             if (fullscreenButton == nil) {
                 fullscreenButton = [UIButton buttonWithType:UIButtonTypeCustom];
                 fullscreenButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
@@ -6130,20 +6129,20 @@
                 fullscreenButton.layer.cornerRadius = 2;
                 fullscreenButton.tintColor = UIColor.whiteColor;
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen) forControlEvents:UIControlEventTouchUpInside];
-                fullscreenButton.frame = CGRectMake(titleView.frame.size.width - fullscreenButton.frame.size.width - buttonPadding, titleView.frame.size.height / 2 - fullscreenButton.frame.size.height / 2, fullscreenButton.frame.size.width, fullscreenButton.frame.size.height);
+                fullscreenButton.frame = CGRectMake(titleView.frame.size.width - fullscreenButton.frame.size.width, titleView.frame.size.height / 2 - fullscreenButton.frame.size.height / 2, fullscreenButton.frame.size.width, fullscreenButton.frame.size.height);
                 [titleView addSubview:fullscreenButton];
             }
             if (twoFingerPinch == nil) {
                 twoFingerPinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerPinch:)];
                 [self.view addGestureRecognizer:twoFingerPinch];
             }
-            topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - buttonPadding * 2, 44);
+            topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - TINY_PADDING, titleView.frame.size.height);
             topNavigationLabel.alpha = 0;
             fullscreenButton.hidden = NO;
             twoFingerPinch.enabled = YES;
         }
         else {
-            topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - 4, 44);
+            topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width, titleView.frame.size.height);
             topNavigationLabel.alpha = 0;
             fullscreenButton.hidden = YES;
             twoFingerPinch.enabled = NO;
