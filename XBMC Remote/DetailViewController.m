@@ -52,6 +52,7 @@
 #define FIXED_SPACE_WIDTH 120
 #define INFO_PADDING 10
 #define MONKEY_COUNT 38
+#define MONKEY_OFFSET_X 3
 #define GLOBALSEARCH_INDEX_MOVIES 0
 #define GLOBALSEARCH_INDEX_MOVIESETS 1
 #define GLOBALSEARCH_INDEX_TVSHOWS 2
@@ -4505,18 +4506,19 @@
     }
     startTime = [NSDate timeIntervalSinceReferenceDate];
     if (elapsedTime > WARNING_TIMEOUT && longTimeout == nil) {
-        longTimeout = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 111, 56)];
         NSMutableArray *monkeys = [NSMutableArray arrayWithCapacity:MONKEY_COUNT];
         for (int i = 1; i <= MONKEY_COUNT; ++i) {
             [monkeys addObject:[UIImage imageNamed:[NSString stringWithFormat:@"monkeys_%d", i]]];
         }
+        UIImage *image = monkeys[0];
+        longTimeout = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
         longTimeout.animationImages = monkeys;
         longTimeout.animationDuration = 5.0;
         longTimeout.animationRepeatCount = 0;
         longTimeout.center = activityIndicatorView.center;
         CGRect frame = longTimeout.frame;
-        frame.origin.y = frame.origin.y + 30;
-        frame.origin.x = frame.origin.x - 3;
+        frame.origin.y = CGRectGetMaxY(activityIndicatorView.frame);
+        frame.origin.x -= MONKEY_OFFSET_X;
         longTimeout.frame = frame;
         [longTimeout startAnimating];
         [self.view addSubview:longTimeout];
