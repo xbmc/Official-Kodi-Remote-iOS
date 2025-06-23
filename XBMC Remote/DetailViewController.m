@@ -2974,11 +2974,6 @@
     }
 
     NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
-    if (sectionTitle == nil) {
-        UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
-        sectionView.backgroundColor = [Utilities getSystemGray5];
-        return sectionView;
-    }
     
     // Draw gray bar as section header background
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, sectionHeight)];
