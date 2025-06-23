@@ -1565,7 +1565,7 @@
     static NSString *CellIdentifier = @"CellActor";
     ActorCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[ActorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier castWidth:castWidth castHeight:castHeight size:lineSpacing castFontSize:castFontSize];
+        cell = [[ActorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier castWidth:castWidth castHeight:castHeight lineSpacing:lineSpacing castFontSize:castFontSize];
     }
     if (castList.count > indexPath.row) {
         NSDictionary *castMember = castList[indexPath.row];
