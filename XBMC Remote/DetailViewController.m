@@ -83,6 +83,7 @@
 #define FLOWLAYOUT_FULLSCREEN_LABEL (FULLSCREEN_LABEL_HEIGHT + 8)
 #define TOGGLE_BUTTON_SIZE 11
 #define INFO_BUTTON_SIZE 30
+#define FULLSCREEN_BUTTON_SIZE 26
 #define LABEL_HEIGHT(font) ceil(font.lineHeight)
 
 #define XIB_JSON_DATA_CELL_TITLE 1
@@ -2723,7 +2724,7 @@
             rating.hidden = YES;
             frame = genre.frame;
             frame.size.width = title.frame.size.width;
-            frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
+            frame.size.height = cellHeight - frame.origin.y - SMALL_PADDING;
             genre.frame = frame;
             genre.numberOfLines = 2;
             genre.font = [genre.font fontWithSize:11];
@@ -2755,7 +2756,7 @@
         rating.hidden = YES;
         CGRect frame = genre.frame;
         frame.size.width = title.frame.size.width;
-        frame.size.height = frame.size.height + (cellHeight - (frame.origin.y + frame.size.height)) - 4;
+        frame.size.height = cellHeight - frame.origin.y - SMALL_PADDING;
         genre.frame = frame;
         genre.numberOfLines = 3;
         genre.font = [genre.font fontWithSize:12];
@@ -2981,7 +2982,7 @@
     sectionView.backgroundColor = [Utilities getSystemGray5];
     
     // Draw text into section header
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, viewWidth - 20, sectionHeight)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(LABEL_PADDING, 0, viewWidth - 2 * LABEL_PADDING, sectionHeight)];
     label.backgroundColor = UIColor.clearColor;
     label.textColor = [Utilities get2ndLabelColor];
     label.font = [UIFont boldSystemFontOfSize:sectionHeight - 10];
@@ -6121,7 +6122,7 @@
                 fullscreenButton = [UIButton buttonWithType:UIButtonTypeCustom];
                 fullscreenButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
                 fullscreenButton.showsTouchWhenHighlighted = YES;
-                fullscreenButton.frame = CGRectMake(0, 0, 26, 26);
+                fullscreenButton.frame = CGRectMake(0, 0, FULLSCREEN_BUTTON_SIZE, FULLSCREEN_BUTTON_SIZE);
                 fullscreenButton.contentMode = UIViewContentModeCenter;
                 [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
                 fullscreenButton.layer.cornerRadius = 2;

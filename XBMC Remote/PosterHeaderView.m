@@ -13,6 +13,8 @@
 #import "AppDelegate.h"
 #import "Utilities.h"
 
+#define LABEL_PADDING 10
+
 @implementation PosterHeaderView
 
 @synthesize headerLabel = _headerLabel;
@@ -25,8 +27,8 @@
         self.backgroundColor = GRIDVIEW_SECTION_COLOR;
 
         // Draw text into section header
-        if (self.frame.size.height > 20) {
-            _headerLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width - 20, self.frame.size.height)];
+        if (self.frame.size.height > 2 * LABEL_PADDING) {
+            _headerLabel = [[PosterLabel alloc] initWithFrame:CGRectMake(LABEL_PADDING, 0, self.frame.size.width - 2 * LABEL_PADDING, self.frame.size.height)];
             _headerLabel.backgroundColor = UIColor.clearColor;
             _headerLabel.font = [UIFont boldSystemFontOfSize:self.frame.size.height - 10];
             _headerLabel.textColor = UIColor.lightGrayColor;
