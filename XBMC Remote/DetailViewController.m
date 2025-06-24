@@ -2171,7 +2171,9 @@
 #pragma mark - Table Management
 
 - (CGFloat)getTableInsetTop {
-    return IS_IPHONE ? [Utilities getTopPaddingWithNavBar:self.navigationController] : 0;
+    // Workaround: -1.0 to avoid empty space between collection view's section header and navbar, which
+    // happens for some devices where maxY of navigation bar is not identical to getTopPaddingWithNavBar.
+    return IS_IPHONE ? [Utilities getTopPaddingWithNavBar:self.navigationController] - 1.0 : 0;
 }
 
 - (void)setSearchBar:(UISearchBar*)searchBar toDark:(BOOL)isDark {
