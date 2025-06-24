@@ -3854,6 +3854,7 @@
         else {
             self.navigationItem.rightBarButtonItems = @[remoteButton];
         }
+        [self.view setNeedsLayout];
     }
 }
 
