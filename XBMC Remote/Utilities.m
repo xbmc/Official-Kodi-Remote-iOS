@@ -1002,7 +1002,7 @@
 }
 
 + (CGFloat)getTopPaddingWithNavBar:(UINavigationController*)navCtrl {
-    CGFloat topPadding = UIApplication.sharedApplication.statusBarFrame.size.height + navCtrl.navigationBar.frame.size.height;
+    CGFloat topPadding = CGRectGetMaxY(navCtrl.navigationBar.frame);
     return topPadding;
 }
 
