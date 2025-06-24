@@ -3847,14 +3847,14 @@
         UIBarButtonItem *remoteButton = [[UIBarButtonItem alloc] initWithImage:remoteButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showRemote)];
         UIImage *nowPlayingButtonImage = [UIImage imageNamed:@"icon_menu_playing"];
         UIBarButtonItem *nowPlayingButton = [[UIBarButtonItem alloc] initWithImage:nowPlayingButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
-         if (!menuItem.disableNowPlaying) {
-             self.navigationItem.rightBarButtonItems = @[remoteButton,
-                                                         nowPlayingButton];
-         }
-         else {
-             self.navigationItem.rightBarButtonItems = @[remoteButton];
-         }
-   }
+        if (!menuItem.disableNowPlaying) {
+            self.navigationItem.rightBarButtonItems = @[remoteButton,
+                                                        nowPlayingButton];
+        }
+        else {
+            self.navigationItem.rightBarButtonItems = @[remoteButton];
+        }
+    }
 }
 
 - (void)leaveFullscreen {
