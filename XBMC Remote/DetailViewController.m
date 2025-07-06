@@ -3169,14 +3169,6 @@
     return 0;
 }
 
-- (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
-    return nil;
-}
-
-- (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
-    return 0;
-}
-
 #pragma mark - Content Filtering
 
 - (UIImageView*)findHairlineImageViewUnder:(UIView*)view {
@@ -5477,10 +5469,6 @@
         [[self getSearchTextField] performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.1];
     }
     [self setButtonViewContent:chosenTab];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
 }
 
 - (void)revealMenu:(id)sender {

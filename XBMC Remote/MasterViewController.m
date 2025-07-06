@@ -214,21 +214,6 @@
     return NO;
 }
 
-- (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0;
-}
-
-- (UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section {
-    UIImage *myImage = [UIImage imageNamed:@"blank"];
-	UIImageView *imageView = [[UIImageView alloc] initWithImage:myImage];
-	imageView.frame = CGRectMake(0, 0, 320, 8);
-	return imageView;
-}
-
-- (CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
-	return 1;
-}
-
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     if (indexPath.row == 0) {
         return PHONE_MENU_INFO_HEIGHT;
@@ -323,10 +308,6 @@
     [self addMessagesToRootView];
     
     [self addConnectionStatusToRootView];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad {
