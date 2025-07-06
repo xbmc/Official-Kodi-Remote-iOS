@@ -421,7 +421,7 @@
         if (attributes) {
             NSDateFormatter *dateFormatter = [NSDateFormatter new];
             dateFormatter.dateStyle = NSDateFormatterLongStyle;
-            dateFormatter.timeStyle = NSDateFormatterMediumStyle;
+            dateFormatter.timeStyle = NSDateFormatterShortStyle;
             dateFormatter.locale = [NSLocale currentLocale];
             NSString *dateString = [dateFormatter stringFromDate:[attributes fileModificationDate]];
             NSString *title = [NSString stringWithFormat:@"%@: %@", LOCALIZED_STR(@"Last sync"), dateString];
