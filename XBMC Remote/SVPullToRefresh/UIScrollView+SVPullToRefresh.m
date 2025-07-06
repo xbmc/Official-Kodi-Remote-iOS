@@ -207,8 +207,8 @@ static char UIScrollViewPullToRefreshView;
         
         CGFloat leftViewWidth = MAX(self.arrow.bounds.size.width, self.activityIndicatorView.bounds.size.width);
         CGFloat padding = 10; // Padding left view and right of label
-        CGFloat marginX = 10; // Marging from left view to label
-        CGFloat marginY = 2; // Vertical marging between labels
+        CGFloat marginX = 10; // Margin from left view to label
+        CGFloat marginY = 2; // Vertical margin between labels
         CGFloat labelMaxWidth = self.bounds.size.width - marginX - leftViewWidth - 2 * padding;
         
         self.titleLabel.text = self.titles[self.state];
