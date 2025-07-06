@@ -12,6 +12,7 @@
 
 #define RECENTLY_ADDED_CELL_ACTIVTYINDICATOR SHARED_CELL_ACTIVTYINDICATOR
 #define LABEL_PADDING 4
+#define OVERLAY_PADDING 4
 #define VERTICAL_PADDING 10
 
 @implementation RecentlyAddedCell
@@ -91,8 +92,8 @@
         if (overlayWatched == nil) {
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
             overlayWatched.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-            overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width - 4,
-                                              self.contentView.frame.size.height - overlayWatched.frame.size.height - 4,
+            overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width - OVERLAY_PADDING,
+                                              self.contentView.frame.size.height - overlayWatched.frame.size.height - OVERLAY_PADDING,
                                               overlayWatched.frame.size.width,
                                               overlayWatched.frame.size.height);
             [self.contentView addSubview:overlayWatched];

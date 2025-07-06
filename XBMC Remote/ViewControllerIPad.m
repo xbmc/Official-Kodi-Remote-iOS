@@ -30,7 +30,8 @@
 #define REMOTE_ICON_SIZE 30
 #define CONNECTION_ICON_SIZE 18
 #define CONNECTION_PADDING 20
-#define REMOTE_PADDING_LEFT 45
+#define REMOTE_PADDING 15
+#define DESKTOP_PADDING 25
 #define PLAYLIST_HEADER_HEIGHT 24
 #define PLAYLIST_ACTION_HEIGHT 44
 #define PLAYLIST_CELL_HEIGHT 53
@@ -431,7 +432,7 @@
     // remote button next to volume control buttons
     UIImage *image = [UIImage imageNamed:@"icon_menu_remote"];
     image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
-    UIButton *remoteButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - REMOTE_PADDING_LEFT, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
+    UIButton *remoteButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - REMOTE_PADDING - REMOTE_ICON_SIZE, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
     [remoteButton setImage:image forState:UIControlStateNormal];
     [remoteButton setImage:image forState:UIControlStateHighlighted];
     remoteButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
@@ -441,7 +442,7 @@
     // "show desktop" button next to remote button
     image = [UIImage imageNamed:@"icon_menu_playing"];
     image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
-    UIButton *showDesktopButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width + 25, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
+    UIButton *showDesktopButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width + DESKTOP_PADDING, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
     [showDesktopButton setImage:image forState:UIControlStateNormal];
     [showDesktopButton setImage:image forState:UIControlStateHighlighted];
     showDesktopButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;

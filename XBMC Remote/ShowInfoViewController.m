@@ -30,9 +30,11 @@
 #define LABEL_HEIGHT 20
 #define REC_DOT_SIZE 10
 #define REC_DOT_PADDING 4
+#define SMALL_PADDING 4
 #define ARROW_ALPHA 0.5
 #define IPAD_NAVBAR_PADDING 20
 #define FANART_FULLSCREEN_DISABLE 1
+#define CLEARLOGO_FULLSCREEN_PADDING 20
 #define DVD_HEIGHT_IPAD 560
 #define DVD_HEIGHT_IPHONE 376
 #define TV_HEIGHT_IPAD 280
@@ -529,7 +531,7 @@
         frame.size.width = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.9);
         frame.size.height = ceil(TV_LOGO_SIZE_REC_DETAILS * 0.7);
         frame.origin.x = coverView.frame.origin.x + (coverView.frame.size.width - frame.size.width) / 2;
-        frame.origin.y = coverView.frame.origin.y + 4;
+        frame.origin.y = coverView.frame.origin.y + SMALL_PADDING;
         coverView.frame = frame;
         
         // Ensure we draw the rounded edges around TV station logo view
@@ -1482,7 +1484,7 @@
         if (closeButton == nil) {
             int cbWidth = clearLogoWidth / 2;
             int cbHeight = clearLogoHeight / 2;
-            closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - cbWidth / 2, self.view.bounds.size.height - cbHeight - 20, cbWidth, cbHeight)];
+            closeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - cbWidth / 2, self.view.bounds.size.height - cbHeight - CLEARLOGO_FULLSCREEN_PADDING, cbWidth, cbHeight)];
             closeButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin |
                                            UIViewAutoresizingFlexibleRightMargin |
                                            UIViewAutoresizingFlexibleLeftMargin |
@@ -1565,7 +1567,7 @@
     static NSString *CellIdentifier = @"CellActor";
     ActorCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[ActorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier castWidth:castWidth castHeight:castHeight size:lineSpacing castFontSize:castFontSize];
+        cell = [[ActorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier castWidth:castWidth castHeight:castHeight lineSpacing:lineSpacing castFontSize:castFontSize];
     }
     if (castList.count > indexPath.row) {
         NSDictionary *castMember = castList[indexPath.row];

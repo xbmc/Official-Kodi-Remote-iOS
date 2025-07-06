@@ -12,6 +12,10 @@
 
 #define POSTER_CELL_ACTIVTYINDICATOR SHARED_CELL_ACTIVTYINDICATOR
 #define POSTER_CELL_RECORDING_ICON SHARED_CELL_RECORDING_ICON
+#define OVERLAY_OFFSET_X 2
+#define OVERLAY_OFFSET_Y 1
+#define REC_DOT_SIZE 8
+#define REC_DOT_PADDING 6
 
 @implementation PosterCell
 
@@ -83,8 +87,7 @@
 - (void)setIsRecording:(BOOL)enable {
     if (enable) {
         if (isRecordingImageView == nil) {
-            CGFloat dotSize = 8;
-            isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, dotSize, dotSize)];
+            isRecordingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(REC_DOT_PADDING, REC_DOT_PADDING, REC_DOT_SIZE, REC_DOT_SIZE)];
             isRecordingImageView.image = [UIImage imageNamed:@"button_timer"];
             isRecordingImageView.contentMode = UIViewContentModeScaleToFill;
             isRecordingImageView.tag = POSTER_CELL_RECORDING_ICON;
@@ -103,8 +106,8 @@
         if (overlayWatched == nil) {
             overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
             overlayWatched.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-            overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width + 2,
-                                              self.contentView.frame.size.height - overlayWatched.frame.size.height + 1,
+            overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width + OVERLAY_OFFSET_X,
+                                              self.contentView.frame.size.height - overlayWatched.frame.size.height + OVERLAY_OFFSET_Y,
                                               overlayWatched.frame.size.width,
                                               overlayWatched.frame.size.height);
             [self.contentView addSubview:overlayWatched];

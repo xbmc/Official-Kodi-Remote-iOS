@@ -11,16 +11,18 @@
 #import "AppDelegate.h"
 #import "Utilities.h"
 
+#define LABEL_PADDING 10
+#define THUMB_PADDING 10
+#define VERTICAL_PADDING 5
+#define ACCESSORY_RESERVED 20
+
 @implementation ActorCell
 
 @synthesize actorThumbnail = _actorThumbnail;
 @synthesize actorName = _actorName;
 @synthesize actorRole = _actorRole;
 
-int offsetX = 10;
-int offsetY = 5;
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)reuseIdentifier castWidth:(int)castWidth castHeight:(int)castHeight size:(int)size castFontSize:(int)castFontSize {
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)reuseIdentifier castWidth:(int)castWidth castHeight:(int)castHeight lineSpacing:(int)spacing castFontSize:(int)castFontSize {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = UIColor.clearColor;
@@ -29,7 +31,7 @@ int offsetY = 5;
             self.selectionStyle = UITableViewCellSelectionStyleGray;
         }
         
-        UIView *actorContainer = [[UIView alloc] initWithFrame:CGRectMake(offsetX, offsetY, castWidth, castHeight)];
+        UIView *actorContainer = [[UIView alloc] initWithFrame:CGRectMake(THUMB_PADDING, VERTICAL_PADDING, castWidth, castHeight)];
         actorContainer.clipsToBounds = NO;
         actorContainer.backgroundColor = UIColor.clearColor;
         actorContainer.layer.shadowColor = FONT_SHADOW_STRONG.CGColor;
@@ -48,8 +50,12 @@ int offsetY = 5;
         [actorContainer addSubview:_actorThumbnail];
         [self addSubview:actorContainer];
         
-        _actorName = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, offsetY, self.frame.size.width - (castWidth + offsetX + 20), 16 + size)];
-        _actorName.font = [UIFont systemFontOfSize:castFontSize];
+        UIFont *nameFont = [UIFont systemFontOfSize:castFontSize];
+        _actorName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(actorContainer.frame) + LABEL_PADDING,
+                                                               CGRectGetMinY(actorContainer.frame),
+                                                               self.frame.size.width - CGRectGetMaxX(actorContainer.frame) - 2 * LABEL_PADDING,
+                                                               nameFont.lineHeight)];
+        _actorName.font = nameFont;
         _actorName.backgroundColor = UIColor.clearColor;
         _actorName.textColor = UIColor.whiteColor;
         _actorName.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
@@ -57,9 +63,13 @@ int offsetY = 5;
         _actorName.shadowOffset = CGSizeMake(1, 1);
         [self addSubview:_actorName];
         
-        _actorRole = [[UILabel alloc] initWithFrame:CGRectMake(castWidth + offsetX + 10, offsetY + 17 + size / 2, self.frame.size.width - (castWidth + offsetX + 20), 16 + size)];
+        UIFont *roleFont = [UIFont systemFontOfSize:castFontSize - 2];
+        _actorRole = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_actorName.frame),
+                                                               CGRectGetMaxY(_actorName.frame) + spacing,
+                                                               CGRectGetWidth(_actorName.frame) - ACCESSORY_RESERVED,
+                                                               roleFont.lineHeight)];
         _actorRole.numberOfLines = 3;
-        _actorRole.font = [UIFont systemFontOfSize:castFontSize - 2];
+        _actorRole.font = roleFont;
         _actorRole.backgroundColor = UIColor.clearColor;
         _actorRole.textColor = UIColor.lightGrayColor;
         _actorRole.shadowColor = FONT_SHADOW_STRONG;

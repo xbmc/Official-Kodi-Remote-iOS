@@ -535,14 +535,6 @@
         [viewControllersStack removeAllObjects];
     }
     
-    if (slideViews.subviews.count != 0) {
-        UIView *verticalLineView = [[UIView alloc] initWithFrame:CGRectMake(-40, 0, 40, self.view.frame.size.height - bottomPadding)];
-        verticalLineView.backgroundColor = UIColor.clearColor;
-        verticalLineView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-        verticalLineView.clipsToBounds = NO;
-        [controller.view addSubview:verticalLineView];
-    }
-    
     [viewControllersStack addObject:controller];
     if (invokeByController != nil) {
         viewXPosition = invokeByController.view.frame.origin.x + invokeByController.view.frame.size.width;

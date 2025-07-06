@@ -18,7 +18,6 @@
 // + 2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
 #define MARGIN 5
-#define BLOCK_MARGIN 10
 #define IPAD_POPOVER_WIDTH 400
 #define IPAD_POPOVER_HEIGHT 500
 
