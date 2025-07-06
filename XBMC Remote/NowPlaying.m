@@ -266,7 +266,6 @@
              }];
         }
     }
-    return;
 }
 
 - (void)setPlaylistProgressView:(UITableViewCell*)cell hidden:(BOOL)hidden {

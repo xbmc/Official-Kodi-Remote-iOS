@@ -186,7 +186,6 @@
             });
         }
     }
-    return;
 }
 
 - (NSMutableDictionary*)parseEpgData:(NSMutableArray*)epgData {
@@ -1157,7 +1156,6 @@
     else {
         [self changeViewMode:newViewMode];
     }
-    return;
 }
 
 - (void)changeViewMode:(ViewModes)newViewMode {
@@ -1439,8 +1437,8 @@
         [self enterSubmenuForItem:item params:newParameters];
     }
     else { // CHILD IS FILEMODE
-        NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
-        NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @44;
+        NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
+        NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
         if ([item[@"filetype"] length] != 0 && ![item[@"isSources"] boolValue]) { // WE ARE ALREADY IN BROWSING FILES MODE
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
                 parameters = menuItem.mainParameters[activeTab];
@@ -2837,9 +2835,6 @@
     NSDictionary *item = [self getItemFromIndexPath:indexPath];
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     CGPoint offsetPoint = [dataList contentOffset];
-    if ([self doesShowSearchResults]) {
-        offsetPoint.y = offsetPoint.y - 44;
-    }
     int rectOriginX = cell.frame.origin.x + cell.frame.size.width / 2;
     int rectOriginY = cell.frame.origin.y + cell.frame.size.height / 2 - offsetPoint.y;
     [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
@@ -4015,8 +4010,8 @@
     NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
     NSNumber *libraryRowHeight = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
     NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
-    NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @44;
-    NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @44;
+    NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
+    NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"file_properties"] mutableCopy];
     if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
         [mutableProperties addObject:@"art"];
@@ -6158,7 +6153,6 @@
             [self toggleFullscreen];
         }
     }
-    return;
 }
 
 - (void)checkDiskCache {
