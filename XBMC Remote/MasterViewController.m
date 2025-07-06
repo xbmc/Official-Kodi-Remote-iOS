@@ -273,8 +273,6 @@
                            deltaY:deltaY
                            deltaX:0];
     [self addMessagesToRootView];
-    
-    [self addClearCacheMessage];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
