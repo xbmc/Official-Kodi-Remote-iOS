@@ -9,6 +9,8 @@
 #import "tcpJSONRPC.h"
 #import "ClearCacheView.h"
 
+@import UIKit;
+
 @interface BaseMasterViewController : UIViewController
 
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName;

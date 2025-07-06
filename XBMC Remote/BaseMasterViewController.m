@@ -12,8 +12,6 @@
 
 #define CLEARCACHE_TIMEOUT 2.0
 
-@import UIKit;
-
 @implementation BaseMasterViewController
 
 - (void)viewDidLoad {
