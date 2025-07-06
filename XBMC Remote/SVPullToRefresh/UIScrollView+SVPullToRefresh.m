@@ -37,7 +37,6 @@ static CGFloat const SVPullToRefreshViewHeight = 60;
 @property (nonatomic, readwrite) CGFloat originalTopInset;
 @property (nonatomic, assign) BOOL wasTriggeredByUser;
 @property (nonatomic, assign) BOOL showsPullToRefresh;
-@property (nonatomic, assign) BOOL showsDateLabel;
 @property (nonatomic, assign) BOOL isObserving;
 
 - (void)resetScrollViewContentInset;
@@ -118,14 +117,13 @@ static char UIScrollViewPullToRefreshView;
 @implementation SVPullToRefreshView
 
 // public properties
-@synthesize pullToRefreshActionHandler, arrowColor, textColor, activityIndicatorViewStyle, lastUpdatedDate, dateFormatter;
+@synthesize pullToRefreshActionHandler, arrowColor, textColor, activityIndicatorViewStyle;
 @synthesize state = _state;
 @synthesize scrollView = _scrollView;
 @synthesize showsPullToRefresh = _showsPullToRefresh;
 @synthesize arrow = _arrow;
 @synthesize activityIndicatorView = _activityIndicatorView;
 @synthesize titleLabel = _titleLabel;
-@synthesize dateLabel = _dateLabel;
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -135,7 +133,6 @@ static char UIScrollViewPullToRefreshView;
         self.textColor = UIColor.whiteColor;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.state = SVPullToRefreshStateStopped;
-        self.showsDateLabel = NO;
         
         self.titles = [
             @[
@@ -349,20 +346,6 @@ static char UIScrollViewPullToRefreshView;
     return _subtitleLabel;
 }
 
-- (UILabel*)dateLabel {
-    return self.showsDateLabel ? self.subtitleLabel : nil;
-}
-
-- (NSDateFormatter*)dateFormatter {
-    if (!dateFormatter) {
-        dateFormatter = [NSDateFormatter new];
-		dateFormatter.dateStyle = NSDateFormatterShortStyle;
-		dateFormatter.timeStyle = NSDateFormatterShortStyle;
-		dateFormatter.locale = [NSLocale currentLocale];
-    }
-    return dateFormatter;
-}
-
 - (UIColor*)arrowColor {
 	return self.arrow.arrowColor; // pass through
 }
@@ -437,11 +420,6 @@ static char UIScrollViewPullToRefreshView;
 
 - (void)setActivityIndicatorViewStyle:(UIActivityIndicatorViewStyle)viewStyle {
     self.activityIndicatorView.activityIndicatorViewStyle = viewStyle;
-}
-
-- (void)setLastUpdatedDate:(NSDate*)newLastUpdatedDate {
-    self.showsDateLabel = YES;
-    self.dateLabel.text = LOCALIZED_STR_ARGS(@"Last Updated: %@", newLastUpdatedDate ? [self.dateFormatter stringFromDate:newLastUpdatedDate] : LOCALIZED_STR(@"Never"));
 }
 
 #pragma mark - Animation
