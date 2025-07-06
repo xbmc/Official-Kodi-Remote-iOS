@@ -262,8 +262,6 @@
     [self addMessagesToRootView];
     
     [self addConnectionStatusToRootView];
-    
-    [self addClearCacheMessage];
 }
 
 - (void)viewDidLoad {

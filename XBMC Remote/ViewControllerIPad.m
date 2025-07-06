@@ -659,11 +659,6 @@
                                       fullscreen:isFullscreen];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self addClearCacheMessage];
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }

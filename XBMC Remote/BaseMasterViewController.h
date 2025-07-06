@@ -16,7 +16,6 @@
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName;
 - (void)handleXBMCServerHasChanged:(NSNotification*)sender;
 - (void)startClearAppDiskCache:(ClearCacheView*)clearView;
-- (void)addClearCacheMessage;
 
 @property (strong, nonatomic) tcpJSONRPC *tcpJSONRPCconnection;
 
