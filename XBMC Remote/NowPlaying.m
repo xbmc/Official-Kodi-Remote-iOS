@@ -92,6 +92,7 @@
     // Update the user interface for the detail item.
     if (self.detailItem) {
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
+        [self.view setNeedsLayout];
     }
 }
 
