@@ -222,12 +222,12 @@ static char UIScrollViewPullToRefreshView;
         CGSize subtitleSize = [self.subtitleLabel sizeThatFits:CGSizeMake(labelMaxWidth, self.subtitleLabel.font.lineHeight)];
         subtitleSize.width = MIN(subtitleSize.width, labelMaxWidth);
         
-        // Horizontally centralize the compound of arrow and labels
+        // Horizontally center the compound of arrow and labels
         CGFloat maxLabelWidth = MAX(titleSize.width, subtitleSize.width);
         CGFloat totalMaxWidth = leftViewWidth + marginX + maxLabelWidth;
         CGFloat labelX = self.bounds.size.width / 2 - totalMaxWidth / 2 + leftViewWidth + marginX;
         
-        // Vertically centralize the compound of label(s)
+        // Vertically center the compound of label(s)
         CGFloat totalHeight = titleSize.height + (subtitleSize.height > 0 ? subtitleSize.height + marginY : 0);
         CGFloat minY = self.bounds.size.height / 2 - totalHeight / 2;
         
