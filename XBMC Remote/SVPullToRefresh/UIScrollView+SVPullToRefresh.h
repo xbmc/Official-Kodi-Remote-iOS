@@ -46,12 +46,4 @@ typedef NSUInteger SVPullToRefreshState;
 - (void)startAnimating;
 - (void)stopAnimating;
 
-// deprecated; use setSubtitle:forState: instead
-@property (nonatomic, strong, readonly) UILabel *dateLabel DEPRECATED_ATTRIBUTE;
-@property (nonatomic, strong) NSDate *lastUpdatedDate DEPRECATED_ATTRIBUTE;
-@property (nonatomic, strong) NSDateFormatter *dateFormatter DEPRECATED_ATTRIBUTE;
-
-// deprecated; use [self.scrollView triggerPullToRefresh] instead
-- (void)triggerRefresh DEPRECATED_ATTRIBUTE;
-
 @end
