@@ -20,12 +20,8 @@
 #import "AppInfoViewController.h"
 #import "tcpJSONRPC.h"
 #import "XBMCVirtualKeyboard.h"
-#import "ClearCacheView.h"
 #import "Utilities.h"
 
-#define SERVER_TIMEOUT 2.0
-#define CLEARCACHE_TIMEOUT 2.0
-#define CONNECTION_ICON_SIZE 18
 #define MENU_ICON_SIZE 30
 #define ICON_MARGIN 10
 #define CONNECTION_STATUS_PADDING 4
@@ -51,30 +47,9 @@
 }
 	
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   infoText, @"message",
-                                   iconName, @"icon_connection",
-                                   nil];
-    AppDelegate.instance.serverOnLine = status;
-    AppDelegate.instance.serverName = infoText;
-    NSString *notificationName;
-    if (status) {
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
-        notificationName = @"XBMCServerConnectionSuccess";
-        NSString *message = [NSString stringWithFormat:LOCALIZED_STR(@"Connected to %@"), AppDelegate.instance.obj.serverDescription];
-        [Utilities showMessage:message color:SUCCESS_MESSAGE_COLOR];
-    }
-    else {
-        [self.tcpJSONRPCconnection stopNetworkCommunication];
-        notificationName = @"XBMCServerConnectionFailed";
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:nil userInfo:params];
+    [super changeServerStatus:status infoText:infoText icon:iconName];
     itemIsActive = NO;
     [Utilities setStyleOfMenuItems:menuList active:status];
-    if (status) {
-        // Send trigger to start the default controller
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"KodiStartDefaultController" object:nil userInfo:params];
-    }
 }
 
 #pragma mark - Table view methods & data source
@@ -267,29 +242,6 @@
                                   arrowRight.frame.size.height);
 }
 
-#pragma mark - App clear disk cache methods
-
-- (void)startClearAppDiskCache:(ClearCacheView*)clearView {
-    [AppDelegate.instance clearAppDiskCache];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, CLEARCACHE_TIMEOUT * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [self clearAppDiskCacheFinished:clearView];
-    });
-}
-
-- (void)clearAppDiskCacheFinished:(ClearCacheView*)clearView {
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         [clearView stopActivityIndicator];
-                         clearView.alpha = 0;
-                     }
-                     completion:^(BOOL finished) {
-                         [clearView stopActivityIndicator];
-                         [clearView removeFromSuperview];
-                         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                         [userDefaults removeObjectForKey:@"clearcache_preference"];
-                     }];
-}
-
 #pragma mark - LifeCycle
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -321,14 +273,7 @@
     menuList.frame = frame;
     
     menuList.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL clearCache = [userDefaults boolForKey:@"clearcache_preference"];
-    if (clearCache) {
-        ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:self.view.frame border:40];
-        [clearView startActivityIndicator];
-        [self.view addSubview:clearView];
-        [NSThread detachNewThreadSelector:@selector(startClearAppDiskCache:) toTarget:self withObject:clearView];
-    }
+    
     XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     [self.view addSubview:virtualKeyboard];
     AppDelegate.instance.obj = [GlobalData getInstance];
@@ -343,63 +288,8 @@
     messagesView = [[MessagesView alloc] initWithFrame:CGRectZero deltaY:0 deltaX:0];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleDidEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleEnterForeground:)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleXBMCServerHasChanged:)
-                                                 name:@"XBMCServerHasChanged"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleTcpJSONRPCChangeServerStatus:)
-                                                 name:@"TcpJSONRPCChangeServerStatus"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(connectionStatus:)
-                                                 name:@"XBMCServerConnectionSuccess"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(connectionStatus:)
-                                                 name:@"XBMCServerConnectionFailed"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleLocalNetworkAccessError:)
-                                                 name:@"LocalNetworkAccessError"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleEnablingDefaultController)
                                                  name:@"KodiStartDefaultController"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleLibraryNotification:)
-                                                 name:@"AudioLibrary.OnScanFinished"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleLibraryNotification:)
-                                                 name:@"AudioLibrary.OnCleanFinished"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleLibraryNotification:)
-                                                 name:@"VideoLibrary.OnScanFinished"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleLibraryNotification:)
-                                                 name:@"VideoLibrary.OnCleanFinished"
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -408,10 +298,6 @@
                                                object:nil];
     
     [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-}
-
-- (void)handleLibraryNotification:(NSNotification*)note {
-    [Utilities showMessage:note.name color:SUCCESS_MESSAGE_COLOR];
 }
 
 - (void)showNotificationMessage:(NSNotification*)note {
@@ -425,6 +311,7 @@
 }
 
 - (void)connectionStatus:(NSNotification*)note {
+    [super connectionStatus:note];
     NSDictionary *theData = note.userInfo;
     NSString *infoText = theData[@"message"];
     UITableViewCell *cell = [menuList cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -432,34 +319,6 @@
     [self setConnectionIcon:icon];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
     title.text = infoText;
-    
-    // We are connected to server, we now need to share credentials with SDWebImageManager
-    [Utilities setWebImageAuthorizationOnSuccessNotification:note];
-}
-
-- (void)handleTcpJSONRPCChangeServerStatus:(NSNotification*)sender {
-    BOOL statusValue = [[sender.userInfo objectForKey:@"status"] boolValue];
-    NSString *message = [sender.userInfo objectForKey:@"message"];
-    NSString *icon_connection = [sender.userInfo objectForKey:@"icon_connection"];
-    [self changeServerStatus:statusValue infoText:message icon:icon_connection];
-}
-
-- (void)handleLocalNetworkAccessError:(NSNotification*)sender {
-    [Utilities showLocalNetworkAccessError:self];
-}
-
-- (void)handleDidEnterBackground:(NSNotification*)sender {
-    [self.tcpJSONRPCconnection stopNetworkCommunication];
-}
-
-- (void)handleEnterForeground:(NSNotification*)sender {
-    if (AppDelegate.instance.serverOnLine) {
-        [self.tcpJSONRPCconnection startNetworkCommunicationWithServer:AppDelegate.instance.obj.serverRawIP serverPort:AppDelegate.instance.obj.tcpPort];
-    }
-}
-
-- (void)handleXBMCServerHasChanged:(NSNotification*)sender {
-    [self changeServerStatus:NO infoText:LOCALIZED_STR(@"No connection") icon:@"connection_off"];
 }
 
 - (void)handleEnablingDefaultController {
