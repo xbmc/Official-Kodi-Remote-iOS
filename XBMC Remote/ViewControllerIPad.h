@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseMasterViewController.h"
 #import "DSJSONRPC.h"
 #import "tcpJSONRPC.h"
 #import "MessagesView.h"
@@ -19,7 +20,7 @@
 @class HostManagementViewController;
 @class AppInfoViewController;
 
-@interface ViewControllerIPad : UIViewController {
+@interface ViewControllerIPad : BaseMasterViewController {
     UIViewExt *rootView;
     UIView *leftMenuView;
     UIView *rightSlideView;
