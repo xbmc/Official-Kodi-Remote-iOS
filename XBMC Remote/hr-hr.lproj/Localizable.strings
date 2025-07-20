@@ -264,8 +264,6 @@
 "Add window activation button" = "Dodaj tipku aktivacije prozora";
 "Copy to clipboard" = "Kopiraj u međuspremnik";
 "Not Available" = "Nedostupno";
-"Last Updated: %@" = "Posljednja nadopuna: %@";
-"Never" = "Nikada";
 "Channel" = "Program";
 "Date" = "Datum";
 "Runtime" = "Vrijeme izvođenja";

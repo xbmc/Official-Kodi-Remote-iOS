@@ -255,11 +255,9 @@
 "Unable to execute the action" = "动作无法执行";
 "Action executed successfully" = "动作执行成功";
 "Music Roles" = "音乐角色";
-"Never" = "从不";
 "Not Available" = "不可用";
 "Username" = "用户名";
 "Radio" = "电台";
-"Last Updated: %@" = "最近更新：%@";
 "Copy to clipboard" = "复制到剪贴板";
 "MUSIC ROLES" = "音乐角色";
 "Channel Groups" = "频道组";

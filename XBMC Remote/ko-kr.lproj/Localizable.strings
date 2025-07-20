@@ -264,8 +264,6 @@
 "Add window activation button" = "창 활성화 버튼 추가";
 "Copy to clipboard" = "클립 보드에 복사";
 "Not Available" = "사용할 수 없음";
-"Last Updated: %@" = "마지막 업데이트: %@";
-"Never" = "절대 안 함";
 "Channel" = "채널";
 "Date" = "날짜";
 "Runtime" = "런타임";

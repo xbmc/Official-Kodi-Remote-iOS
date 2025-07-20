@@ -260,6 +260,4 @@
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Configuración > Servicios > Control:\n1. Servidor web > Permitir el control remoto mediante HTTP\n2. Control de la aplicación > Permitir el control remoto desde aplicaciones en otros sistemas";
 "Less than half an hour" = "Menos de media hora";
 "About two and a half hours" = "Cerca de dos horas y media";
-"Last Updated: %@" = "Última actualización: %@";
-"Never" = "Nunca";
 "Resolution" = "Resolución";
