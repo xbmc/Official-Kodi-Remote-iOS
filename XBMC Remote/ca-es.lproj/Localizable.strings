@@ -264,8 +264,6 @@
 "Add window activation button" = "Afegeix un botó d'activació de la finestra";
 "Copy to clipboard" = "Copiar al porta-retalls";
 "Not Available" = "No Disponible";
-"Last Updated: %@" = "Darrera actualització: %@";
-"Never" = "Mai";
 "Channel" = "Canal";
 "Date" = "Data";
 "Runtime" = "Durada";

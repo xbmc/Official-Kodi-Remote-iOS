@@ -264,8 +264,6 @@
 "Add window activation button" = "Lisää ikkunan aktivointipainike";
 "Copy to clipboard" = "Kopioi leikepöydälle";
 "Not Available" = "Ei käytettävissä";
-"Last Updated: %@" = "Viimeksi päivitetty: %@";
-"Never" = "Ei koskaan";
 "Channel" = "Kanava";
 "Date" = "Päiväys";
 "Runtime" = "Kesto";

@@ -24,7 +24,6 @@
 "Password" = "Palavra Passe";
 "Unknown" = "Desconhecido";
 "Subtitles" = "Legendas";
-"Never" = "Nunca";
 "Modify XBMC Server" = "Modificar servidor Kodi";
 "Select an XBMC Server from the list" = "Selecione um servidor de Kodi na lista";
 "Files" = "Ficheiros";
@@ -193,7 +192,6 @@
 "Add action button" = "Adicionar botão de acção";
 "Copy to clipboard" = "Copiar para área de transferência";
 "Not Available" = "Indisponível";
-"Last Updated: %@" = "Última Actualização: %@";
 "Channel" = "Canal";
 "Runtime" = "Duração";
 "Random" = "Aleatório";
