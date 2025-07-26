@@ -11,85 +11,64 @@
 @implementation FloatingHeaderFlowLayout
 
 - (NSArray*)layoutAttributesForElementsInRect:(CGRect)rect {
+    NSMutableArray *layoutAttributes = [[super layoutAttributesForElementsInRect:rect] mutableCopy];
     
-    NSMutableArray *answer = [[super layoutAttributesForElementsInRect:rect] mutableCopy];
-    UICollectionView * const cv = self.collectionView;
-    CGPoint contentOffset = cv.contentOffset;
-    contentOffset.y = contentOffset.y + cv.contentInset.top;
-    NSMutableIndexSet *missingSections = [NSMutableIndexSet indexSet];
-    for (UICollectionViewLayoutAttributes *layoutAttributes in answer) {
-        if (layoutAttributes.representedElementCategory == UICollectionElementCategoryCell) {
-            [missingSections addIndex:layoutAttributes.indexPath.section];
+    NSMutableIndexSet *headersNeedingLayout = [NSMutableIndexSet indexSet];
+    for (UICollectionViewLayoutAttributes *attributes in layoutAttributes) {
+        if (attributes.representedElementCategory == UICollectionElementCategoryCell) {
+            [headersNeedingLayout addIndex:attributes.indexPath.section];
         }
     }
-    for (UICollectionViewLayoutAttributes *layoutAttributes in answer) {
-        if ([layoutAttributes.representedElementKind isEqualToString:UICollectionElementKindSectionHeader]) {
-            [missingSections removeIndex:layoutAttributes.indexPath.section];
+    for (UICollectionViewLayoutAttributes *attributes in layoutAttributes) {
+        if ([attributes.representedElementKind isEqualToString:UICollectionElementKindSectionHeader]) {
+            [headersNeedingLayout removeIndex:attributes.indexPath.section];
         }
     }
     
-    [missingSections enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        
+    [headersNeedingLayout enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:idx];
-        
-        UICollectionViewLayoutAttributes *layoutAttributes = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
-        if (layoutAttributes != nil) {
-            [answer addObject:layoutAttributes];
+        UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
+        if (attributes != nil) {
+            [layoutAttributes addObject:attributes];
         }
-        
     }];
     
-    for (UICollectionViewLayoutAttributes *layoutAttributes in answer) {
-        
-        if ([layoutAttributes.representedElementKind isEqualToString:UICollectionElementKindSectionHeader]) {
-            
-            NSInteger section = layoutAttributes.indexPath.section;
-            if (section >= cv.numberOfSections) {
-                return answer;
+    for (UICollectionViewLayoutAttributes *attributes in layoutAttributes) {
+        if ([attributes.representedElementKind isEqualToString:UICollectionElementKindSectionHeader]) {
+            NSInteger section = attributes.indexPath.section;
+            if (section >= self.collectionView.numberOfSections) {
+                return layoutAttributes;
             }
-            NSInteger numberOfItemsInSection = [cv numberOfItemsInSection:section];
+            NSInteger numberOfItemsInSection = [self.collectionView numberOfItemsInSection:section];
             
-            NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
-            NSIndexPath *lastCellIndexPath = [NSIndexPath indexPathForItem:MAX(0, (numberOfItemsInSection - 1)) inSection:section];
+            NSIndexPath *indexPathFirstItem = [NSIndexPath indexPathForItem:0 inSection:section];
+            NSIndexPath *indexPathLastItem = [NSIndexPath indexPathForItem:MAX(0, (numberOfItemsInSection - 1)) inSection:section];
             
-            UICollectionViewLayoutAttributes *firstCellAttrs = [self layoutAttributesForItemAtIndexPath:firstCellIndexPath];
-            UICollectionViewLayoutAttributes *lastCellAttrs = [self layoutAttributesForItemAtIndexPath:lastCellIndexPath];
+            UICollectionViewLayoutAttributes *attributesFirstItem = [self layoutAttributesForItemAtIndexPath:indexPathFirstItem];
+            UICollectionViewLayoutAttributes *attributesLastItem = [self layoutAttributesForItemAtIndexPath:indexPathLastItem];
             
-            CGFloat headerHeight = CGRectGetHeight(layoutAttributes.frame);
-            CGPoint origin = layoutAttributes.frame.origin;
-            origin.y = MIN(
-                           MAX(
-                               contentOffset.y,
-                               (CGRectGetMinY(firstCellAttrs.frame) - headerHeight)
-                               ),
-                           (CGRectGetMaxY(lastCellAttrs.frame) - headerHeight)
-                           );
+            CGRect frame = attributes.frame;
+            CGFloat offset = self.collectionView.contentOffset.y + self.collectionView.contentInset.top;
             
-            layoutAttributes.zIndex = 1024;
-            layoutAttributes.frame = (CGRect) {
-                .origin = origin,
-                .size = layoutAttributes.frame.size
-            };
-            
+            CGFloat minY = CGRectGetMinY(attributesFirstItem.frame) - frame.size.height;
+            CGFloat maxY = CGRectGetMaxY(attributesLastItem.frame) - frame.size.height;
+            CGFloat posY = MIN(MAX(offset, minY), maxY);
+            frame.origin.y = posY;
+            attributes.frame = frame;
+            attributes.zIndex = 1024;
         }
-        
     }
-    
-    return answer;
-    
+    return layoutAttributes;
 }
 
-- (BOOL) shouldInvalidateLayoutForBoundsChange:(CGRect)newBound {
-    
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBound {
     return YES;
-    
 }
 
 - (CGSize)collectionViewContentSize {
+    // Lets the collection view hide the searchbar on load, if there are only few items in the view
     CGSize size = [super collectionViewContentSize];
-    if (size.height < self.collectionView.frame.size.height + searchBarHeight) {
-        size.height = self.collectionView.frame.size.height + searchBarHeight;
-    }
+    size.height = MAX(size.height, self.collectionView.frame.size.height + searchBarHeight);
     return size;
 }
 
@@ -98,10 +77,10 @@
 }
 
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity {
+    // If searchbar is partially shown, snap to a position either showing (>=50% revealed) or hiding it (<50% revealed).
     CGFloat offsetAdjustment = 0;
     CGFloat threshold = searchBarHeight / 2;
-    CGFloat contentOffsetInset = proposedContentOffset.y;
-    contentOffsetInset = contentOffsetInset + self.collectionView.contentInset.top;
+    CGFloat contentOffsetInset = proposedContentOffset.y + self.collectionView.contentInset.top;
     if (contentOffsetInset <= threshold) {
         offsetAdjustment = -contentOffsetInset;
     }

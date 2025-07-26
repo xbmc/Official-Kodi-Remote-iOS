@@ -54,7 +54,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.edgesForExtendedLayout = 0;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     appName.text = @"Official Kodi Remote";
     appVersion.text = [Utilities getAppVersionString];
     appDescription.text = LOCALIZED_STR(@"Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi");
