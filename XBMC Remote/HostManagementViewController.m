@@ -486,14 +486,14 @@
     if (IS_IPAD) {
         bottomPadding = SERVERPOPUP_BOTTOMPADDING;
     }
+    
+    // Transparent toolbar
+    [Utilities createTransparentToolbar:bottomToolbar];
+    
     CGRect frame = bottomToolbar.frame;
     frame.origin.y -= bottomPadding;
     frame.size.height += bottomPadding;
-    bottomToolbar.frame = frame;
-    
-    frame = bottomToolbarShadowImageView.frame;
-    frame.origin.y -= bottomPadding;
-    bottomToolbarShadowImageView.frame = frame;
+    bottomToolbarEffect.frame = bottomToolbar.frame = frame;
     
     frame = addHostButton.frame;
     frame.origin.y -= bottomPadding;
@@ -506,6 +506,15 @@
     frame = serverInfoButton.frame;
     frame.origin.y -= bottomPadding;
     serverInfoButton.frame = frame;
+    
+    frame = serverListTableView.frame;
+    frame.origin.y = frame.origin.y + deltaY;
+    frame.size.height = frame.size.height - deltaY + bottomToolbar.frame.size.height - bottomPadding;
+    serverListTableView.frame = frame;
+    
+    UIEdgeInsets viewInsets = serverListTableView.contentInset;
+    viewInsets.bottom = bottomToolbar.frame.size.height - bottomPadding;
+    serverListTableView.contentInset = viewInsets;
     
     CGFloat toolbarHeight = bottomToolbar.frame.size.height;
     serverInfoView = [[UITextView alloc] initWithFrame:CGRectMake(MARGIN, deltaY + MARGIN, self.view.frame.size.width - 2 * MARGIN, self.view.frame.size.height - deltaY - toolbarHeight - 2 * MARGIN)];
@@ -555,9 +564,6 @@
     
     if (IS_IPAD) {
         self.edgesForExtendedLayout = 0;
-        CGRect frame = backgroundImageView.frame;
-        frame.size.height = frame.size.height + 8;
-        backgroundImageView.frame = frame;
         self.view.backgroundColor = UIColor.blackColor;
         self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
         self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
@@ -566,11 +572,6 @@
         CGRect frame = supportedVersionView.frame;
         frame.origin.y = frame.origin.y + deltaY;
         supportedVersionView.frame = frame;
-        
-        frame = serverListTableView.frame;
-        frame.origin.y = frame.origin.y + deltaY;
-        frame.size.height = frame.size.height - deltaY - bottomPadding;
-        serverListTableView.frame = frame;
         
         frame = connectingActivityIndicator.frame;
         frame.origin.y = frame.origin.y + deltaY;
