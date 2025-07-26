@@ -495,10 +495,6 @@
     frame.size.height += bottomPadding;
     bottomToolbarEffect.frame = bottomToolbar.frame = frame;
     
-    frame = bottomToolbarShadowImageView.frame;
-    frame.origin.y -= bottomPadding;
-    bottomToolbarShadowImageView.frame = frame;
-    
     frame = addHostButton.frame;
     frame.origin.y -= bottomPadding;
     addHostButton.frame = frame;
