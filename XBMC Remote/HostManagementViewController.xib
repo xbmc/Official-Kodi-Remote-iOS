@@ -11,7 +11,6 @@
             <connections>
                 <outlet property="addHostButton" destination="10" id="nxP-ze-Fwa"/>
                 <outlet property="backgroundImageView" destination="9" id="24"/>
-                <outlet property="bottomToolbar" destination="q9g-cA-CZS" id="9Kn-SK-f4i"/>
                 <outlet property="bottomToolbarEffect" destination="ciQ-0V-gEM" id="U1n-sc-qGY"/>
                 <outlet property="connectingActivityIndicator" destination="26" id="27"/>
                 <outlet property="editTableButton" destination="5" id="18"/>
@@ -50,11 +49,6 @@
                     </view>
                     <blurEffect style="dark"/>
                 </visualEffectView>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="q9g-cA-CZS">
-                    <rect key="frame" x="0.0" y="203" width="320" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <items/>
-                </toolbar>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="10">
                     <rect key="frame" x="10" y="211" width="125" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
