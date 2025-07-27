@@ -487,13 +487,10 @@
         bottomPadding = SERVERPOPUP_BOTTOMPADDING;
     }
     
-    // Transparent toolbar
-    [Utilities createTransparentToolbar:bottomToolbar];
-    
-    CGRect frame = bottomToolbar.frame;
+    CGRect frame = bottomToolbarEffect.frame;
     frame.origin.y -= bottomPadding;
     frame.size.height += bottomPadding;
-    bottomToolbarEffect.frame = bottomToolbar.frame = frame;
+    bottomToolbarEffect.frame = frame;
     
     frame = addHostButton.frame;
     frame.origin.y -= bottomPadding;
@@ -509,14 +506,14 @@
     
     frame = serverListTableView.frame;
     frame.origin.y = frame.origin.y + deltaY;
-    frame.size.height = frame.size.height - deltaY + bottomToolbar.frame.size.height - bottomPadding;
+    frame.size.height = frame.size.height - deltaY + bottomToolbarEffect.frame.size.height - bottomPadding;
     serverListTableView.frame = frame;
     
     UIEdgeInsets viewInsets = serverListTableView.contentInset;
-    viewInsets.bottom = bottomToolbar.frame.size.height - bottomPadding;
+    viewInsets.bottom = bottomToolbarEffect.frame.size.height - bottomPadding;
     serverListTableView.contentInset = viewInsets;
     
-    CGFloat toolbarHeight = bottomToolbar.frame.size.height;
+    CGFloat toolbarHeight = bottomToolbarEffect.frame.size.height;
     serverInfoView = [[UITextView alloc] initWithFrame:CGRectMake(MARGIN, deltaY + MARGIN, self.view.frame.size.width - 2 * MARGIN, self.view.frame.size.height - deltaY - toolbarHeight - 2 * MARGIN)];
     serverInfoView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
                                       UIViewAutoresizingFlexibleHeight |
