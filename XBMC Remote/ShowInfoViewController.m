@@ -125,9 +125,6 @@
             }
         }
         if (IS_IPAD) {
-            toolbar = [UIToolbar new];
-            toolbar.barStyle = UIBarStyleBlack;
-            toolbar.translucent = YES;
             viewTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, TITLE_HEIGHT)];
             viewTitle.backgroundColor = UIColor.clearColor;
             viewTitle.textAlignment = NSTextAlignmentLeft;
@@ -169,6 +166,7 @@
             [items addObject:spaceFixedRight];
             [items addObject:spaceUndo];
             
+            toolbar = [UIToolbar new];
             toolbar.items = items;
             toolbar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
             toolbar.contentMode = UIViewContentModeScaleAspectFill;
@@ -179,7 +177,15 @@
                                        CGRectGetMinY(mainViewBounds),
                                        CGRectGetWidth(mainViewBounds),
                                        toolbarHeight);
+            // Transparent toolbar
+            [Utilities createTransparentToolbar:toolbar];
             [self.view addSubview:toolbar];
+            
+            UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithFrame:toolbar.frame];
+            effectView.autoresizingMask = toolbar.autoresizingMask;
+            effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+            [self.view insertSubview:effectView belowSubview:toolbar];
+            
             scrollView.contentInset = UIEdgeInsetsMake(toolbarHeight, 0, 0, 0);
         }
         else {
