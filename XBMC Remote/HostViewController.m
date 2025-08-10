@@ -586,7 +586,7 @@
     passwordUI.placeholder = LOCALIZED_STR(@"Password");
     tcpPortUI.placeholder = [NSString stringWithFormat:@"%d", DEFAULT_TCP_PORT];
     portUI.placeholder = [NSString stringWithFormat:@"%d", DEFAULT_SERVER_PORT];
-    self.edgesForExtendedLayout = 0;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     
     for (UITextField *textfield in [self getAllEntryMaskLabels]) {
         textfield.layer.borderColor = UIColor.lightGrayColor.CGColor;
