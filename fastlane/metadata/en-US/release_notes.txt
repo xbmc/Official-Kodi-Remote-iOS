@@ -1,17 +1,17 @@
 Features:
-- Support iOS 18 dark/light/tinted app icon
+- Share URL of items (e.g. for playback with other apps)
 
 Bugfixes:
-- Bring back Play/Queue for add-on content
-- Fix Resume when using Turkish language
-- Fix playing wrong PVR recording
-- Fix potential crashes
+- NowPlaying wrong sized after entering from library view
 
 Improvements:
-- Modernized live broadcast progress and timer state
-- Play TV/Radio channel on select
-- Align app icon with Kodi icon
-- Support Afrikaans language
+- Use frosted glass effect for all toolbars
+- Improved search results for for Wikipedia search
+- Show warning if local network access is not granted
+- Show memory usage and image cache size in info screen
+- Support Galician (Spain)
+- Support Indonesian (Indonesia) 
+- Support Ukrainian (Ukraine)
 - Translation updates for several languages
 - Many more small improvements...
 
