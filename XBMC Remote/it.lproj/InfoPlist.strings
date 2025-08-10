@@ -1,1 +1,1 @@
-NSLocalNetworkUsageDescription="L'app Kodi Remote usa la rete locale per trovare e comunicare con le istanze Kodi nella rete.";
+"NSLocalNetworkUsageDescription" = "L'app Kodi Remote usa la rete locale per trovare e comunicare con le istanze Kodi nella rete.";
