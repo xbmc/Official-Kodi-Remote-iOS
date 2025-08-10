@@ -25,8 +25,7 @@
     __weak IBOutlet UIButton *addHostButton;
     __weak IBOutlet UIView *supportedVersionView;
     __weak IBOutlet UILabel *supportedVersionLabel;
-    __weak IBOutlet UIToolbar *bottomToolbar;
-    __weak IBOutlet UIImageView *bottomToolbarShadowImageView;
+    __weak IBOutlet UIVisualEffectView *bottomToolbarEffect;
     UITextView *serverInfoView;
     __weak IBOutlet UIButton *serverInfoButton;
     NSTimer *serverInfoTimer;

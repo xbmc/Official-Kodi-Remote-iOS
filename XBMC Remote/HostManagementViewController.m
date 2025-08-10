@@ -486,14 +486,11 @@
     if (IS_IPAD) {
         bottomPadding = SERVERPOPUP_BOTTOMPADDING;
     }
-    CGRect frame = bottomToolbar.frame;
+    
+    CGRect frame = bottomToolbarEffect.frame;
     frame.origin.y -= bottomPadding;
     frame.size.height += bottomPadding;
-    bottomToolbar.frame = frame;
-    
-    frame = bottomToolbarShadowImageView.frame;
-    frame.origin.y -= bottomPadding;
-    bottomToolbarShadowImageView.frame = frame;
+    bottomToolbarEffect.frame = frame;
     
     frame = addHostButton.frame;
     frame.origin.y -= bottomPadding;
@@ -507,7 +504,16 @@
     frame.origin.y -= bottomPadding;
     serverInfoButton.frame = frame;
     
-    CGFloat toolbarHeight = bottomToolbar.frame.size.height;
+    frame = serverListTableView.frame;
+    frame.origin.y = frame.origin.y + deltaY;
+    frame.size.height = frame.size.height - deltaY + bottomToolbarEffect.frame.size.height - bottomPadding;
+    serverListTableView.frame = frame;
+    
+    UIEdgeInsets viewInsets = serverListTableView.contentInset;
+    viewInsets.bottom = bottomToolbarEffect.frame.size.height - bottomPadding;
+    serverListTableView.contentInset = viewInsets;
+    
+    CGFloat toolbarHeight = bottomToolbarEffect.frame.size.height;
     serverInfoView = [[UITextView alloc] initWithFrame:CGRectMake(MARGIN, deltaY + MARGIN, self.view.frame.size.width - 2 * MARGIN, self.view.frame.size.height - deltaY - toolbarHeight - 2 * MARGIN)];
     serverInfoView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
                                       UIViewAutoresizingFlexibleHeight |
@@ -555,9 +561,6 @@
     
     if (IS_IPAD) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
-        CGRect frame = backgroundImageView.frame;
-        frame.size.height = frame.size.height + 8;
-        backgroundImageView.frame = frame;
         self.view.backgroundColor = UIColor.blackColor;
         self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
         self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
@@ -566,11 +569,6 @@
         CGRect frame = supportedVersionView.frame;
         frame.origin.y = frame.origin.y + deltaY;
         supportedVersionView.frame = frame;
-        
-        frame = serverListTableView.frame;
-        frame.origin.y = frame.origin.y + deltaY;
-        frame.size.height = frame.size.height - deltaY - bottomPadding;
-        serverListTableView.frame = frame;
         
         frame = connectingActivityIndicator.frame;
         frame.origin.y = frame.origin.y + deltaY;
