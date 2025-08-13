@@ -193,7 +193,7 @@
     
     [self setupGestureView];
     if ([Utilities hasRemoteToolBar]) {
-        [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_PARENT_HEIGHT isEmbedded:YES];
+        [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_PARENT_HEIGHT];
     }
     else {
         // Overload "stop" button with gesture icon in case the toolbar cannot be displayed (e.g. iPhone 4S)
@@ -270,7 +270,7 @@
     }
     [self setupGestureView];
     if ([Utilities hasRemoteToolBar]) {
-        [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:0 yMax:self.view.bounds.size.height isEmbedded:NO];
+        [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:0 yMax:self.view.bounds.size.height];
     }
 }
 
@@ -1240,13 +1240,13 @@
     [self saveRemoteMode];
 }
 
-- (void)createRemoteToolbar:(UIImage*)gestureButtonImg width:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax isEmbedded:(BOOL)isEmbedded {
+- (void)createRemoteToolbar:(UIImage*)gestureButtonImg width:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax {
     torchIsOn = [Utilities isTorchOn];
-    // Non-embedded layout has 5 buttons (Settings > Gesture > Keyboard > Info > Torch with Flex around the buttons)
-    // Embedded layout has 4 buttons (Gesture > Keyboard > Info > Torch with Flex around the buttons)
-    // iPhone has an addtional button to toggle the remote's position is available
+    // iPhone layout has 5 buttons (Gesture > Keyboard > Info > Torch > Additional) with flex spaces around buttons.
+    // iPad layout has 6 buttons (Settings > Gesture > Keyboard > Info > Torch > Additional) with flex spaces around buttons.
+    // iPhone has an addtional button to toggle the remote's vertical position
     // iPad has an additional button to close the modal view
-    int numButtons = isEmbedded ? 5 : 6;
+    int numButtons = IS_IPAD ? 6 : 5;
     CGFloat ToolbarFlexSpace = ((width - numButtons * TOOLBAR_ICON_SIZE) / (numButtons + 1));
     CGFloat ToolbarPadding = (TOOLBAR_ICON_SIZE + ToolbarFlexSpace);
     
@@ -1264,7 +1264,7 @@
     
     // Add buttons to toolbar
     frame.origin.x -= ToolbarPadding;
-    if (!isEmbedded) {
+    if (IS_IPAD) {
         UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
         frame.origin.x += ToolbarPadding;
         settingButton.frame = frame;
