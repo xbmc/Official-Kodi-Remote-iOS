@@ -78,6 +78,10 @@
         }
         tcpPortUI.text = item[@"tcpPort"];
     }
+    // Move view right out of self.view
+    CGRect frame = discoveredInstancesView.frame;
+    frame.origin.x = self.view.frame.size.width;
+    discoveredInstancesView.frame = frame;
 }
 
 - (IBAction)dismissView:(id)sender {
