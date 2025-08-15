@@ -35,7 +35,7 @@
     CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:hostManagementViewController];
     navController.navigationBar.barStyle = UIBarStyleBlack;
     navController.navigationBar.tintColor = ICON_TINT_COLOR;
-    [Utilities addShadowsToView:navController.view viewFrame:self.view.frame];
+    [Utilities addShadowsToView:navController.view viewFrame:navController.view.frame];
     
     self.view.tintColor = APP_TINT_COLOR;
     [navController hideNavBarBottomLine:YES];
