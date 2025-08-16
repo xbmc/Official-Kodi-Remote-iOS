@@ -103,11 +103,11 @@
         
         cellNoServerFound.highlightedTextColor = [Utilities get1stLabelColor];
         cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
-        cellIP.highlightedTextColor = [Utilities get1stLabelColor];
+        cellIP.highlightedTextColor = [Utilities get2ndLabelColor];
         
         cellNoServerFound.textColor = [Utilities getSystemGray1];
         cellLabel.textColor = [Utilities getSystemGray1];
-        cellIP.textColor = [Utilities getSystemGray1];
+        cellIP.textColor = [Utilities getSystemGray2];
         
         cell.tintColor = UIColor.lightGrayColor;
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
