@@ -507,11 +507,14 @@
     return alertCtrl;
 }
 
-+ (void)powerAction:(NSString*)command {
++ (void)powerAction:(NSString*)command onSuccess:(void (^)(void))onSuccess {
     [[Utilities getJsonRPC] callMethod:command withParameters:@{} onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         // User already confirmed, so we only show a short-lived message.
         if (methodError == nil && error == nil) {
             [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:SUCCESS_MESSAGE_COLOR];
+            if (onSuccess) {
+                onSuccess();
+            }
         }
         else {
             [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
@@ -538,47 +541,55 @@
     }
     else {
         UIAlertAction *action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Shutdown"];
+            [self powerAction:@"System.Shutdown" onSuccess:^{
+                [Utilities disconnectFromActiveServer];
+            }];
         }];
         [alertCtrl addAction:action_pwr_off_system];
         
         UIAlertAction *action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"Application.Quit"];
+            [self powerAction:@"Application.Quit" onSuccess:^{
+                [Utilities disconnectFromActiveServer];
+            }];
         }];
         [alertCtrl addAction:action_quit_kodi];
         
         UIAlertAction *action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Hibernate"];
+            [self powerAction:@"System.Hibernate" onSuccess:^{
+                [Utilities disconnectFromActiveServer];
+            }];
         }];
         [alertCtrl addAction:action_hibernate];
         
         UIAlertAction *action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Suspend"];
+            [self powerAction:@"System.Suspend" onSuccess:^{
+                [Utilities disconnectFromActiveServer];
+            }];
         }];
         [alertCtrl addAction:action_suspend];
         
         UIAlertAction *action_reboot = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Reboot") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"System.Reboot"];
+            [self powerAction:@"System.Reboot" onSuccess:nil];
         }];
         [alertCtrl addAction:action_reboot];
         
         UIAlertAction *action_scan_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"AudioLibrary.Scan"];
+            [self powerAction:@"AudioLibrary.Scan" onSuccess:nil];
         }];
         [alertCtrl addAction:action_scan_audio_lib];
         
         UIAlertAction *action_clean_audio_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Audio Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"AudioLibrary.Clean"];
+            [self powerAction:@"AudioLibrary.Clean" onSuccess:nil];
         }];
         [alertCtrl addAction:action_clean_audio_lib];
         
         UIAlertAction *action_scan_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"VideoLibrary.Scan"];
+            [self powerAction:@"VideoLibrary.Scan" onSuccess:nil];
         }];
         [alertCtrl addAction:action_scan_video_lib];
         
         UIAlertAction *action_clean_video_lib = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Clean Video Library") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self powerAction:@"VideoLibrary.Clean"];
+            [self powerAction:@"VideoLibrary.Clean" onSuccess:nil];
         }];
         [alertCtrl addAction:action_clean_video_lib];
     }
@@ -1415,6 +1426,24 @@
         return 0;
     }
     return vmInfo.phys_footprint;
+}
+
++ (void)resetKodiServerParameters {
+    AppDelegate.instance.obj.serverDescription = @"";
+    AppDelegate.instance.obj.serverUser = @"";
+    AppDelegate.instance.obj.serverPass = @"";
+    AppDelegate.instance.obj.serverRawIP = @"";
+    AppDelegate.instance.obj.serverIP = @"";
+    AppDelegate.instance.obj.serverPort = @"";
+    AppDelegate.instance.obj.serverHWAddr = @"";
+    AppDelegate.instance.obj.tcpPort = 0;
+}
+
++ (void)disconnectFromActiveServer {
+    [Utilities resetKodiServerParameters];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:@(-1) forKey:@"lastServer"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisconnectActiveServer" object:nil];
 }
 
 @end
