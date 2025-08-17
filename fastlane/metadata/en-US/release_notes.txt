@@ -2,6 +2,7 @@ Features:
 - Share URL of items (e.g. for playback with other apps)
 
 Bugfixes:
+- 1.18.1: restore app functionality on iOS 12
 - NowPlaying wrong sized after entering from library view
 
 Improvements:
