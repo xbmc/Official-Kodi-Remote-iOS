@@ -90,7 +90,7 @@
         title.numberOfLines = 2;
         title.text = [Utilities getConnectionStatusServerName];
         [self setConnectionIcon:icon];
-        cell.backgroundColor = MAINMENU_SERVER_COLOR;
+        cell.backgroundColor = UIColor.clearColor;
     }
     else {
         // Adapt layout for main menu cells
