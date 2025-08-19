@@ -10,6 +10,8 @@
 #import "Utilities.h"
 #import "AppDelegate.h"
 
+#import "GeneratedAssetSymbols.h"
+
 #define RECENTLY_ADDED_CELL_ACTIVTYINDICATOR SHARED_CELL_ACTIVTYINDICATOR
 #define LABEL_PADDING 4
 #define OVERLAY_PADDING 4
@@ -90,7 +92,7 @@
 - (void)setOverlayWatched:(BOOL)enable {
     if (enable) {
         if (overlayWatched == nil) {
-            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
+            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:ACImageNameOverlayWatched]];
             overlayWatched.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
             overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width - OVERLAY_PADDING,
                                               self.contentView.frame.size.height - overlayWatched.frame.size.height - OVERLAY_PADDING,
