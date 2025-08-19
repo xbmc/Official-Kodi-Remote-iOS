@@ -31,6 +31,8 @@
 #import "VersionCheck.h"
 #import "SharingActivityItemSource.h"
 
+#import "GeneratedAssetSymbols.h"
+
 @interface DetailViewController ()
 - (void)configureView;
 @end
@@ -3064,7 +3066,7 @@
     [albumDetailView addSubview:thumbImageView];
     
     // Add watched overlay icon to lower right corner of thumb
-    UIImageView *watchedIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
+    UIImageView *watchedIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:ACImageNameOverlayWatched]];
     watchedIcon.frame = CGRectMake(CGRectGetMaxX(thumbImageView.frame) - FLAG_SIZE / 2 - TINY_PADDING,
                                    CGRectGetMaxY(thumbImageView.frame) - FLAG_SIZE - TINY_PADDING,
                                    CGRectGetWidth(watchedIcon.frame),

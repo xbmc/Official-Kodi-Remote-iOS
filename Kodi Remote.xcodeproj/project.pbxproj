@@ -56,7 +56,6 @@
 		0FEA79FC165FBBED00BB281F /* XBMCVirtualKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA79FB165FBBEC00BB281F /* XBMCVirtualKeyboard.m */; };
 		0FEAE76816EA632800387DED /* ActorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEAE76716EA632800387DED /* ActorCell.m */; };
 		0FEE08161704819A00EC9BC7 /* FloatingHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEE08151704819A00EC9BC7 /* FloatingHeaderFlowLayout.m */; };
-		AC2B34B22E52504E007BFD9D /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B34B12E52504E007BFD9D /* SwiftUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C7106D792D33C25400A96C93 /* BroadcastProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D782D33C25400A96C93 /* BroadcastProgressView.m */; };
 		C7106D7B2D33EEE000A96C93 /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D7A2D33EEE000A96C93 /* ProgressBarView.m */; };
 		C7106D842D33FBCE00A96C93 /* PlaylistProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D832D33FBCE00A96C93 /* PlaylistProgressView.m */; };
@@ -265,7 +264,6 @@
 		1A9786C31683D8E900B4F3F8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8ED18E7A16B572D700CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8ED18E7B16B572D700CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		AC2B34B12E52504E007BFD9D /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		B1FF37DE1709D1EB005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		B1FF37DF1709D1ED005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C703692827148CEF0049F9BF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -351,7 +349,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC2B34B22E52504E007BFD9D /* SwiftUI.framework in Frameworks */,
 				C795123F2DC95A7E00A8CEE5 /* LinkPresentation.framework in Frameworks */,
 				0F5548FB151D1187007E633F /* UIKit.framework in Frameworks */,
 			);
@@ -535,7 +532,6 @@
 		0F5548F9151D1187007E633F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AC2B34B12E52504E007BFD9D /* SwiftUI.framework */,
 				C795123E2DC95A7E00A8CEE5 /* LinkPresentation.framework */,
 				C7432A6D2B12195600100E83 /* WebKit.framework */,
 				C703692827148CEF0049F9BF /* StoreKit.framework */,
@@ -1009,6 +1005,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOL_FRAMEWORKS = UIKit;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1055,6 +1052,10 @@
 				MARKETING_VERSION = 1.18.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1062,6 +1063,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOL_FRAMEWORKS = UIKit;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1103,6 +1105,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1111,8 +1115,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
@@ -1123,9 +1125,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "it.joethefox.XBMC-Remote";
 				PRODUCT_NAME = "Kodi Remote";
 				SWIFT_OBJC_BRIDGING_HEADER = "XBMC Remote/Kodi Remote-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1134,8 +1133,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
@@ -1144,8 +1141,6 @@
 				PRODUCT_NAME = "Kodi Remote";
 				PROVISIONING_PROFILE_SPECIFIER = "Kodi Remote AppStore";
 				SWIFT_OBJC_BRIDGING_HEADER = "XBMC Remote/Kodi Remote-Bridging-Header.h";
-				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -10,6 +10,8 @@
 #import "Utilities.h"
 #import "AppDelegate.h"
 
+#import "GeneratedAssetSymbols.h"
+
 #define POSTER_CELL_ACTIVTYINDICATOR SHARED_CELL_ACTIVTYINDICATOR
 #define POSTER_CELL_RECORDING_ICON SHARED_CELL_RECORDING_ICON
 #define OVERLAY_OFFSET_X 2
@@ -104,7 +106,7 @@
 - (void)setOverlayWatched:(BOOL)enable {
     if (enable) {
         if (overlayWatched == nil) {
-            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OverlayWatched"]];
+            overlayWatched = [[UIImageView alloc] initWithImage:[UIImage imageNamed:ACImageNameOverlayWatched]];
             overlayWatched.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
             overlayWatched.frame = CGRectMake(self.contentView.frame.size.width - overlayWatched.frame.size.width + OVERLAY_OFFSET_X,
                                               self.contentView.frame.size.height - overlayWatched.frame.size.height + OVERLAY_OFFSET_Y,
