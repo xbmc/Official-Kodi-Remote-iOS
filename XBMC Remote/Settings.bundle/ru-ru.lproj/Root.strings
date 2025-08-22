@@ -40,3 +40,5 @@
 "Filemode and Theme changes need app restart" = "Изменения файлового режима и темы требуют перезапуска приложения";
 "Episode identifier" = "Идентификатор эпизода";
 "Colorize UI automatically" = "Автоматическое изменение цвета интерфейса";
+"Show local network notice" = "Показать уведомление о локальной сети";
+"Blurred cover effect" = "Эффект размытого покрытия";
