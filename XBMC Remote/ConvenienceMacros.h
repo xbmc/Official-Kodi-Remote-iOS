@@ -32,8 +32,7 @@
 #define GRIDVIEW_SECTION_COLOR [Utilities getGrayColor:44 alpha:1.0]
 #define SYSTEMGRAY6_DARKMODE [Utilities getGrayColor:28 alpha:1] // Gray:28 is similar to systemGray6 in Dark Mode
 #define SYSTEMGRAY6_LIGHTMODE [Utilities getGrayColor:242 alpha:1] // Gray:242 is similar to systemGray6 in Light Mode
-#define MAINMENU_SELECTED_COLOR [Utilities getGrayColor:8 alpha:1]
-#define MAINMENU_SERVER_COLOR [Utilities getGrayColor:53 alpha:1]
+#define MAINMENU_SELECTED_COLOR [Utilities getGrayColor:58 alpha:1] // Gray:58 is similar to systemGray4 in Dark Mode
 #define ACTOR_SELECTED_COLOR [Utilities getGrayColor:128 alpha:0.5]
 #define INFO_POPOVER_COLOR [Utilities getGrayColor:0 alpha:0.8]
 #define IPAD_MENU_SEPARATOR [Utilities getGrayColor:77 alpha:0.6]
