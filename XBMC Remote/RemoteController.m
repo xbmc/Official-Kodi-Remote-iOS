@@ -1360,7 +1360,7 @@
         [self revealUnderRight];
     }
     else {
-        [self addButtonToListIPad];
+        [self enterCustomButtonsIPad];
     }
 }
 
@@ -1372,25 +1372,12 @@
     [self presentViewController:alertCtrl animated:YES completion:nil];
 }
 
-- (void)addButtonToListIPad {
-    if (AppDelegate.instance.serverVersion < 13) {
-        UIAlertController *alertCtrl = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
-        [self presentViewController:alertCtrl animated:YES completion:nil];
-    }
-    else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-        rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
-        if (rightMenuViewController.rightMenuItems.count) {
-            mainMenu *menuItem = rightMenuViewController.rightMenuItems[0];
-            menuItem.mainMethod = nil;
-        }
-        rightMenuViewController.view.frame = CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height);
-        [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:rightMenuViewController invokeByController:self isStackStartView:NO];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"LeaveFullscreen" object:nil userInfo:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOnScreen" object:nil];
-    }
+- (void)enterCustomButtonsIPad {
+    RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
+    rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
+    rightMenuViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    rightMenuViewController.view.frame = self.view.frame;
+    [self presentViewController:rightMenuViewController animated:YES completion:nil];
 }
 
 - (BOOL)shouldAutorotate {

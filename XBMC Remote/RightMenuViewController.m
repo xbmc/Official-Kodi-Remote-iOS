@@ -30,13 +30,8 @@
 #define XIB_RIGHT_MENU_CELL_ICON 1
 #define XIB_RIGHT_MENU_CELL_TITLE 3
 
-@interface RightMenuViewController ()
-@property (nonatomic, unsafe_unretained) CGFloat peekLeftAmount;
-@end
-
 @implementation RightMenuViewController
 
-@synthesize peekLeftAmount;
 @synthesize rightMenuItems;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
@@ -214,8 +209,8 @@
     [newView addSubview:effectView];
     
     // ...more button
-    CGFloat originX = self.peekLeftAmount + BUTTON_SPACING;
     moreButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, BUTTON_WIDTH, TOOLBAR_HEIGHT)];
+    CGFloat originX = IS_IPHONE ? (ANCHOR_RIGHT_PEEK + PANEL_SHADOW_SIZE) : 0 + BUTTON_SPACING;
     moreButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [moreButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateDisabled];
@@ -266,8 +261,12 @@
             [self presentViewController:navController animated:YES completion:nil];
         }
         else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"LeaveFullscreen" object:nil userInfo:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOnScreen" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"MainMenuDeselectSection" object:nil userInfo:nil];
+            [UIApplication.sharedApplication.keyWindow.rootViewController dismissViewControllerAnimated:YES completion:nil];
             detailViewController.view.frame = CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height);
-            [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:NO];
+            [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:detailViewController invokeByController:self isStackStartView:YES];
         }
     }
 }
@@ -569,26 +568,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGFloat deltaY = [Utilities getTopPadding];
-    self.peekLeftAmount = ANCHOR_RIGHT_PEEK;
-    CGRect frame = UIScreen.mainScreen.bounds;
-    if (IS_IPAD) {
-        frame.size.width = STACKSCROLL_WIDTH;
-        deltaY = 0;
-        self.peekLeftAmount = 0;
-    }
-    torchIsOn = [Utilities isTorchOn];
-    self.slidingViewController.anchorLeftPeekAmount = self.peekLeftAmount;
-    self.slidingViewController.underRightWidthLayout = ECFullWidth;
-    
-    infoCustomButton = @{
-        @"label": LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."),
-        @"icon": @"default-right-menu-icon",
-        @"action": @{},
-        @"revealViewTop": @NO,
-        @"isSetting": @NO,
-        @"type": @"",
-    };
     
     mainMenu *menuItems = self.rightMenuItems[0];
     CGFloat bottomPadding = IS_IPAD ? 0 : [Utilities getBottomPadding];
@@ -601,25 +580,45 @@
         volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
         [volumeSliderView startTimer];
     }
-    menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.peekLeftAmount, deltaY, frame.size.width - self.peekLeftAmount, self.view.frame.size.height - deltaY - toolbarHeight) style:UITableViewStylePlain];
+    
+    menuTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    if (IS_IPHONE) {
+        CGFloat deltaY = [Utilities getTopPadding];
+        self.slidingViewController.anchorLeftPeekAmount = ANCHOR_RIGHT_PEEK;
+        self.slidingViewController.underRightWidthLayout = ECFullWidth;
+        menuTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        menuTableView.frame = CGRectMake(ANCHOR_RIGHT_PEEK,
+                                         deltaY,
+                                         UIScreen.mainScreen.bounds.size.width - ANCHOR_RIGHT_PEEK,
+                                         self.view.frame.size.height - deltaY - toolbarHeight);
+    }
+    else {
+        menuTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        menuTableView.frame = CGRectMake(0,
+                                         0,
+                                         self.view.frame.size.width,
+                                         self.view.frame.size.height - toolbarHeight);
+    }
     menuTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     menuTableView.delegate = self;
     menuTableView.dataSource = self;
     menuTableView.backgroundColor = UIColor.clearColor;
-    menuTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    [menuTableView setScrollEnabled:menuItems.enableSection];
+    menuTableView.scrollEnabled = menuItems.enableSection;
     menuTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     menuTableView.contentInset = UIEdgeInsetsMake(0, 0, toolbarHeight, 0);
     menuTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     [self.view addSubview:menuTableView];
     
-    if (menuItems.family == FamilyRemote) {
-        [self.view addSubview:[self createToolbarView:toolbarHeight]];
-    }
-    if (menuItems.family == FamilyNowPlaying || menuItems.family == FamilyRemote) {
-        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
-        [volumeSliderView startTimer];
-    }
+    torchIsOn = [Utilities isTorchOn];
+    
+    infoCustomButton = @{
+        @"label": LOCALIZED_STR(@"No custom button defined.\r\nPress \"...more\" below to add new ones."),
+        @"icon": @"button_info",
+        @"action": @{},
+        @"revealViewTop": @NO,
+        @"isSetting": @NO,
+        @"type": @"",
+    };
 
     if (AppDelegate.instance.obj.serverIP.length != 0) {
         if (!AppDelegate.instance.serverOnLine) {
