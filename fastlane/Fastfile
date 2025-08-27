@@ -26,10 +26,19 @@ end
 
 desc 'Build the app on PR'
 lane :build_pr do |options|
+  config = 'Release'
+  artifactsPath = "#{Dir.pwd}/build_artifacts"
   buildApp(
+    ["SYMROOT='#{artifactsPath}'"],
+    configuration: config,
     skip_archive: true,
     skip_codesigning: true,
   )
+
+  # ensure that SwiftUI framework isn't linked
+  executablePath = "#{artifactsPath}/#{config}-iphoneos/#{$scheme}.app/#{$scheme}"
+  hasSwiftUI = system("otool -L '#{executablePath}' | fgrep SwiftUI.framework")
+  UI.build_failure! 'SwiftUI framework is linked, this is unexpected' if hasSwiftUI
 end
 
 desc 'Build & upload to Testflight'
@@ -166,7 +175,7 @@ def createGithubRelease(name, tag, description = nil, is_draft: false, is_prerel
   UI.message JSON.pretty_generate(ghRelease)
 end
 
-def buildApp(gym_options = {})
+def buildApp(xcargs = [], gym_options = {})
   xcodes(select_for_current_build_only: true)
   gym(
     scheme: $scheme,
@@ -175,7 +184,7 @@ def buildApp(gym_options = {})
     include_symbols: true,
     include_bitcode: false,
     export_method: 'app-store',
-    xcargs: "CURRENT_PROJECT_VERSION=#{number_of_commits}",
+    xcargs: "#{xcargs.join(' ')} CURRENT_PROJECT_VERSION=#{number_of_commits}",
     **gym_options
   )
 end
