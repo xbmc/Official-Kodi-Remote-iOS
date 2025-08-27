@@ -2,9 +2,9 @@
 "Movies" = "Filmovi";
 "TV Shows" = "TV serije";
 "Pictures" = "Slike";
-"Now Playing" = "Now playing";
+"Now Playing" = "Trenutno se reproducira";
 "Favourites" = "Omiljeno";
-"Global Search" = "Global Search";
+"Global Search" = "Globalna pretraga";
 "Remote Control" = "Daljinsko upravljanje";
 "XBMC Server" = "Kodi Server";
 "New XBMC Server" = "New Kodi Server";
@@ -12,7 +12,7 @@
 "Select an XBMC Server from the list" = "Select a Kodi Server from the list";
 "Files" = "Files";
 "Video Add-ons" = "Video Add-ons";
-"Live TV" = "TV";
+"Live TV" = "TV uživo";
 "Radio" = "Radio";
 "Movie Genres" = "Movie Genres";
 "Music Videos" = "Music Videos";
