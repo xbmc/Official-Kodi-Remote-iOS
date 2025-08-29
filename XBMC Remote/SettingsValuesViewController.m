@@ -390,6 +390,7 @@
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
 	cell.backgroundColor = [Utilities getSystemGray6];
+    cell.tintColor = [Utilities getSystemBlue];
     cell.accessoryType = UITableViewCellAccessoryNone;
 
     UILabel *cellLabel = (UILabel*)[cell viewWithTag:SETTINGS_CELL_LABEL];
