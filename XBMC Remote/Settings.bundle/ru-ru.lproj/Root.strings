@@ -5,8 +5,8 @@
 "Ken Burns effect" = "Эффект Кена Бёрнса";
 "Shake to clear playlist" = "Встряхните, чтобы очистить список воспроизведения";
 "Show jewel cases" = "Show jewel cases";
-"Hide labels in wall view" = "Hide labels in wall view";
-"Prefer posters for TV shows" = "Prefer posters for TV shows";
+"Hide labels in wall view" = "Скрыть метки в режиме просмотра на стене";
+"Prefer posters for TV shows" = "Предпочитать постеры для телешоу";
 "Use rounded corner images" = "Use rounded corner images";
 "TV logo background" = "TV logo background";
 "Dark" = "тёмное";
@@ -41,4 +41,4 @@
 "Episode identifier" = "Идентификатор эпизода";
 "Colorize UI automatically" = "Автоматическое изменение цвета интерфейса";
 "Show local network notice" = "Показать уведомление о локальной сети";
-"Blurred cover effect" = "Эффект размытого покрытия";
+"Blurred cover effect" = "Эффект размытой обложки";
