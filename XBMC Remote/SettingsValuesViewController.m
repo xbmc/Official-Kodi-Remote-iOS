@@ -253,7 +253,6 @@
 }
 
 - (void)addActionButton:(UIAlertController*)alertCtrl {
-    NSString *command = @"Settings.SetSettingValue";
     id value = @"";
     NSString *type = self.detailItem[@"year"] ?: @"string";
     switch (xbmcSetting) {
@@ -278,11 +277,11 @@
     NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                alertCtrl.textFields[0].text, @"label",
                                type, @"type",
-                               @"default-right-menu-icon", @"icon",
+                               @"", @"icon",
                                @(xbmcSetting), @"xbmcSetting",
                                self.detailItem[@"genre"], @"helpText",
                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                command, @"command",
+                                @"Settings.SetSettingValue", @"command",
                                 params, @"params",
                                 nil], @"action",
                                nil];

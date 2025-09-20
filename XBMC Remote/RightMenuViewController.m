@@ -177,17 +177,27 @@
     title.textColor = fontColor;
     title.highlightedTextColor = fontColor;
     
+    NSString *command = tableData[indexPath.row][@"action"][@"command"];
     if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
         icon.alpha = 0.8;
         if (torchIsOn) {
             iconName = @"torch_on";
         }
     }
-    if ([tableData[indexPath.row][@"type"] isEqualToString:@"xbmc-exec-addon"]) {
+    if ([command isEqualToString:@"Addons.ExecuteAddon"]) {
         [icon sd_setImageWithURL:[NSURL URLWithString:tableData[indexPath.row][@"icon"]]
                 placeholderImage:[UIImage imageNamed:@"blank"]
                          options:SDWebImageScaleToNativeSize];
         icon.alpha = 1.0;
+    }
+    else if ([command isEqualToString:@"Input.ExecuteAction"]) {
+        icon.image = [UIImage imageNamed:@"default-right-action-icon"];
+    }
+    else if ([command isEqualToString:@"GUI.ActivateWindow"]) {
+        icon.image = [UIImage imageNamed:@"default-right-window-icon"];
+    }
+    else if ([command isEqualToString:@"Settings.SetSettingValue"]) {
+        icon.image = [UIImage imageNamed:@"default-right-menu-icon"];
     }
     else {
         icon.image = [UIImage imageNamed:iconName];

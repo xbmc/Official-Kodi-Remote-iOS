@@ -3629,7 +3629,7 @@
         NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    item[@"label"], @"label",
                                    @"string", @"type",
-                                   item[@"thumbnail"], @"icon",
+                                   @"", @"icon",
                                    @(0), @"xbmcSetting",
                                    item[@"genre"], @"helpText",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3646,7 +3646,7 @@
         NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    item[@"label"], @"label",
                                    @"string", @"type",
-                                   item[@"thumbnail"], @"icon",
+                                   @"", @"icon",
                                    @(0), @"xbmcSetting",
                                    item[@"genre"], @"helpText",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
