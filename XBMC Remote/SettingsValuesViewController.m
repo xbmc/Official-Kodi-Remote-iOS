@@ -387,8 +387,9 @@
     return numRows;
 }
 
-- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+- (void)layoutCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
 	cell.backgroundColor = [Utilities getSystemGray6];
+    cell.tintColor = [Utilities getSystemBlue];
     cell.accessoryType = UITableViewCellAccessoryNone;
 
     UILabel *cellLabel = (UILabel*)[cell viewWithTag:SETTINGS_CELL_LABEL];
@@ -683,6 +684,7 @@
         textInputField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:textInputField];
 	}
+    [self layoutCell:cell forRowAtIndexPath:indexPath];
     return cell;
 }
 
