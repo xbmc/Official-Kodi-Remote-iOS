@@ -208,14 +208,15 @@
     effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     [newView addSubview:effectView];
     
-    // ...more button
-    moreButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, BUTTON_WIDTH, TOOLBAR_HEIGHT)];
+    // plus button
+    UIImage *image = [UIImage imageNamed:@"icon_plus"];
+    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
     CGFloat originX = IS_IPHONE ? (ANCHOR_RIGHT_PEEK + PANEL_SHADOW_SIZE) : 0 + BUTTON_SPACING;
+    moreButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, TOOLBAR_HEIGHT, TOOLBAR_HEIGHT)];
     moreButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [moreButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateDisabled];
-    [moreButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateNormal];
-    [moreButton setTitle:LOCALIZED_STR(@"...more") forState:UIControlStateNormal];
+    [moreButton setImage:image forState:UIControlStateNormal];
+    [moreButton setImage:image forState:UIControlStateHighlighted];
     [moreButton addTarget:self action:@selector(addButtonToList:) forControlEvents:UIControlEventTouchUpInside];
     [newView addSubview:moreButton];
     
