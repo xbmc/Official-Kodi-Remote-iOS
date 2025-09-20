@@ -2232,9 +2232,9 @@
                     [playlistData removeObjectAtIndex:indexPath.row];
                 }
                 if (indexPath.row < [playlistTableView numberOfRowsInSection:indexPath.section]) {
-                    [playlistTableView beginUpdates];
-                    [playlistTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-                    [playlistTableView endUpdates];
+                    [playlistTableView performBatchUpdates:^{
+                        [playlistTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+                    } completion:nil];
                 }
                 if (storeSelection && indexPath.row < storeSelection.row) {
                     storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];

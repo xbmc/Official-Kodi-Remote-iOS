@@ -434,9 +434,9 @@
             [tableData removeObjectAtIndex:indexPath.row];
         }
         if (indexPath.row < [tableView numberOfRowsInSection:indexPath.section]) {
-            [tableView beginUpdates];
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-            [tableView endUpdates];
+            [tableView performBatchUpdates:^{
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            } completion:nil];
         }
         [self deleteCustomButton:(indexPath.row - editableRowStartAt)];
 	}
