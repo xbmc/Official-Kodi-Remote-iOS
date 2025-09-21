@@ -28,7 +28,6 @@
 #define ONOFF_BUTTON_TAG_OFFSET 1000
 
 #define XIB_RIGHT_MENU_CELL_ICON 1
-#define XIB_RIGHT_MENU_CELL_STATUS 2
 #define XIB_RIGHT_MENU_CELL_TITLE 3
 
 @interface RightMenuViewController ()
@@ -93,10 +92,7 @@
     
     // Reset to default for each cell to allow dequeuing
     UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_ICON];
-    UIImageView *status = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_STATUS];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_TITLE];
-    status.hidden = YES;
-    status.image = nil;
     icon.hidden = NO;
     icon.image = nil;
     icon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
