@@ -31,6 +31,7 @@
 @synthesize serverVersion;
 @synthesize serverMinorVersion;
 @synthesize obj;
+@synthesize customButtonEntry;
 @synthesize playlistArtistAlbums;
 @synthesize playlistMovies;
 @synthesize playlistMusicVideos;
@@ -6456,6 +6457,351 @@
     
     xbmcSettings.subItem.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
     xbmcSettings.subItem.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
+    
+#pragma mark - Custom Button Entry (Settings & Addons)
+    customButtonEntry = [mainMenu new];
+    customButtonEntry.subItem = [mainMenu new];
+    customButtonEntry.subItem.subItem = [mainMenu new];
+    
+    customButtonEntry.mainLabel = @"Custom Button Menu";
+    customButtonEntry.icon = @"icon_menu_settings";
+    customButtonEntry.family = FamilyDetailView;
+    customButtonEntry.enableSection = YES;
+    customButtonEntry.rowHeight = SETTINGS_ROW_HEIGHT;
+    customButtonEntry.thumbWidth = SETTINGS_THUMB_WIDTH;
+    customButtonEntry.mainButtons = @[
+        @"st_filemode",
+        @"st_addons",
+        @"st_video_addon",
+        @"st_music_addon",
+        @"st_kodi_action",
+        @"st_kodi_window",
+    ];
+    
+    customButtonEntry.mainMethod = [@[
+        @{
+            @"method": @"Settings.GetSections",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"JSONRPC.Introspect",
+        },
+        @{
+            @"method": @"JSONRPC.Introspect",
+        },
+    ] mutableCopy];
+    
+    customButtonEntry.mainParameters = [@[
+        @{
+            @"parameters": @{
+                @"level": @"expert",
+            },
+            @"label": LOCALIZED_STR(@"XBMC Settings"),
+            @"thumbWidth": @0,
+        },
+                                   
+        @{
+            @"parameters": @{
+                @"type": @"xbmc.addon.executable",
+                @"enabled": @YES,
+                @"properties": @[
+                        @"name",
+                        @"version",
+                        @"summary",
+                        @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Programs"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+            @"forceActionSheet": @YES,
+        },
+                                   
+        @{
+            @"parameters": @{
+                @"type": @"xbmc.addon.video",
+                @"enabled": @YES,
+                @"properties": @[
+                        @"name",
+                        @"version",
+                        @"summary",
+                        @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+            @"forceActionSheet": @YES,
+        },
+                                   
+        @{
+            @"parameters": @{
+                @"type": @"xbmc.addon.audio",
+                @"enabled": @YES,
+                @"properties": @[
+                        @"name",
+                        @"version",
+                        @"summary",
+                        @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Music Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+            @"forceActionSheet": @YES,
+        },
+                                   
+        @{
+            @"parameters": @{
+                @"filter": @{
+                        @"id": @"Input.ExecuteAction",
+                        @"type": @"method",
+                },
+            },
+            @"label": LOCALIZED_STR(@"Kodi actions"),
+            @"defaultThumb": @"default-right-action-icon",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @0,
+            @"morelabel": LOCALIZED_STR(@"Execute a specific action"),
+            @"forceActionSheet": @YES,
+        },
+                                   
+        @{
+            @"parameters": @{
+                @"filter": @{
+                        @"id": @"GUI.ActivateWindow",
+                        @"type": @"method",
+                },
+            },
+            @"label": LOCALIZED_STR(@"Kodi windows"),
+            @"defaultThumb": @"default-right-window-icon",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @0,
+            @"morelabel": LOCALIZED_STR(@"Activate a specific window"),
+            @"forceActionSheet": @YES,
+        },
+    ] mutableCopy];
+    
+    customButtonEntry.mainFields = @[
+        @{
+            @"itemid": @"sections",
+            @"row1": @"label",
+            @"row2": @"help",
+            @"row3": @"id",
+            @"row4": @"id",
+            @"row5": @"id",
+            @"row6": @"id",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row8": @"sectionid",
+            @"row9": @"id",
+        },
+                               
+        @{
+            @"itemid": @"addons",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+                               
+        @{
+            @"itemid": @"addons",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+                               
+        @{
+            @"itemid": @"addons",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+                               
+        @{
+            @"itemid": @"types",
+            @"typename": @"Input.Action",
+            @"fieldname": @"enums",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+                               
+        @{
+            @"itemid": @"types",
+            @"typename": @"GUI.Window",
+            @"fieldname": @"enums",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+    ];
+    
+    customButtonEntry.sheetActions = @[
+        @[],
+        @[
+            LOCALIZED_STR(@"Execute program"),
+            LOCALIZED_STR(@"Add button"),
+        ],
+        @[
+            LOCALIZED_STR(@"Execute video add-on"),
+            LOCALIZED_STR(@"Add button"),
+        ],
+        @[
+            LOCALIZED_STR(@"Execute audio add-on"),
+            LOCALIZED_STR(@"Add button"),
+        ],
+        @[
+            LOCALIZED_STR(@"Execute action"),
+            LOCALIZED_STR(@"Add action button"),
+        ],
+        @[
+            LOCALIZED_STR(@"Activate window"),
+            LOCALIZED_STR(@"Add window activation button"),
+        ],
+    ];
+    
+    customButtonEntry.subItem.mainMethod = [@[
+        @{
+            @"method": @"Settings.GetCategories",
+        },
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+    ] mutableCopy];
+    
+    customButtonEntry.subItem.mainParameters = [@[
+        @{
+            @"label": LOCALIZED_STR(@"Settings"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @0,
+        },
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+    ] mutableCopy];
+    
+    customButtonEntry.subItem.mainFields = @[
+        @{
+            @"itemid": @"categories",
+            @"row1": @"label",
+            @"row2": @"help",
+            @"row3": @"id",
+            @"row4": @"id",
+            @"row5": @"id",
+            @"row6": @"id",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row8": @"categoryid",
+            @"row9": @"id",
+        },
+        @{},
+        @{},
+        @{},
+        @{},
+        @{},
+    ];
+    
+    customButtonEntry.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
+    customButtonEntry.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
+    
+    customButtonEntry.subItem.subItem.mainMethod = [@[
+        @{
+            @"method": @"Settings.GetSettings",
+        },
+    ] mutableCopy];
+    
+    customButtonEntry.subItem.subItem.mainParameters = [@[
+        @{
+            @"label": LOCALIZED_STR(@"Settings"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @0,
+        },
+    ] mutableCopy];
+    
+    customButtonEntry.subItem.subItem.mainFields = @[
+        @{
+            @"itemid": @"settings",
+            @"row1": @"label",
+            @"row2": @"help",
+            @"row3": @"type",
+            @"row4": @"default",
+            @"row5": @"enabled",
+            @"row6": @"id",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row7": @"delimiter",
+            @"row8": @"id",
+            @"row9": @"id",
+            @"row10": @"parent",
+            @"row11": @"control",
+            @"row12": @"value",
+            @"row13": @"options",
+            @"row14": @"allowempty",
+            @"row15": @"addontype",
+            @"row16": @"maximum",
+            @"row17": @"minimum",
+            @"row18": @"step",
+            @"row19": @"definition",
+        },
+    ];
+    
+    customButtonEntry.subItem.subItem.sheetActions = @[
+        @[],
+    ];
+    
+    customButtonEntry.subItem.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
+    customButtonEntry.subItem.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
 #pragma mark - Now Playing Right Menu
     __auto_type nowPlayingItem1 = [mainMenu new];

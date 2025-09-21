@@ -5339,7 +5339,7 @@
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     
-    BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel] && ![menuItem.mainLabel isEqualToString:LOCALIZED_STR(@"XBMC Settings")];
+    BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel] && !([menuItem.mainLabel isEqualToString:LOCALIZED_STR(@"XBMC Settings")] || [menuItem.mainLabel isEqualToString:@"Custom Button Menu"]);
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
     self.navigationItem.backButtonTitle = labelText;
     if (!albumView) {

@@ -95,6 +95,7 @@
 @property (strong, nonatomic) NSString *libraryCachePath;
 @property (strong, nonatomic) NSString *epgCachePath;
 @property (nonatomic, strong) NSMutableArray *arrayServerList;
+@property (nonatomic, strong) mainMenu *customButtonEntry;
 @property (nonatomic, strong) mainMenu *playlistArtistAlbums;
 @property (nonatomic, strong) mainMenu *playlistMovies;
 @property (nonatomic, strong) mainMenu *playlistMusicVideos;

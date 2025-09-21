@@ -253,7 +253,7 @@
     }
     else {
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-        detailViewController.detailItem = AppDelegate.instance.xbmcSettings;
+        detailViewController.detailItem = AppDelegate.instance.customButtonEntry;
         if (IS_IPHONE) {
             CustomNavigationController *navController = [[CustomNavigationController alloc] initWithRootViewController:detailViewController];
             navController.navigationBar.barStyle = UIBarStyleBlack;
