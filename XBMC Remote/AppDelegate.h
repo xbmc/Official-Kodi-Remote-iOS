@@ -101,7 +101,6 @@
 @property (nonatomic, strong) mainMenu *playlistMusicVideos;
 @property (nonatomic, strong) mainMenu *playlistTvShows;
 @property (nonatomic, strong) mainMenu *playlistPVR;
-@property (nonatomic, strong) mainMenu *xbmcSettings;
 @property (nonatomic, strong) NSArray *globalSearchMenuLookup;
 @property (nonatomic, strong) NSArray *nowPlayingMenuItems;
 @property (nonatomic, strong) NSArray *remoteControlMenuItems;

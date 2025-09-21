@@ -42,7 +42,6 @@
 @synthesize nowPlayingMenuItems;
 @synthesize serverVolume;
 @synthesize remoteControlMenuItems;
-@synthesize xbmcSettings;
 
 + (AppDelegate*)instance {
 	return (AppDelegate*)UIApplication.sharedApplication.delegate;
@@ -474,6 +473,7 @@
     __auto_type menu_Search = [mainMenu new];
     __auto_type menu_Addons = [mainMenu new];
     __auto_type menu_Files = [mainMenu new];
+    __auto_type menu_Settings = [mainMenu new];
 
     menu_Music.subItem = [mainMenu new];
     menu_Music.subItem.subItem = [mainMenu new];
@@ -6245,23 +6245,23 @@
     menu_Addons.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
 #pragma mark - XBMC Settings 
-    xbmcSettings = [mainMenu new];
-    xbmcSettings.subItem = [mainMenu new];
-    xbmcSettings.subItem.subItem = [mainMenu new];
+    menu_Settings = [mainMenu new];
+    menu_Settings.subItem = [mainMenu new];
+    menu_Settings.subItem.subItem = [mainMenu new];
     
-    xbmcSettings.mainLabel = LOCALIZED_STR(@"XBMC Settings");
-    xbmcSettings.icon = @"icon_menu_settings";
-    xbmcSettings.family = FamilyDetailView;
-    xbmcSettings.enableSection = YES;
-    xbmcSettings.rowHeight = SETTINGS_ROW_HEIGHT;
-    xbmcSettings.thumbWidth = SETTINGS_THUMB_WIDTH;
-    xbmcSettings.mainButtons = @[
+    menu_Settings.mainLabel = LOCALIZED_STR(@"XBMC Settings");
+    menu_Settings.icon = @"icon_menu_settings";
+    menu_Settings.family = FamilyDetailView;
+    menu_Settings.enableSection = YES;
+    menu_Settings.rowHeight = SETTINGS_ROW_HEIGHT;
+    menu_Settings.thumbWidth = SETTINGS_THUMB_WIDTH;
+    menu_Settings.mainButtons = @[
         @"st_filemode",
         @"st_kodi_action",
         @"st_kodi_window",
     ];
     
-    xbmcSettings.mainMethod = [@[
+    menu_Settings.mainMethod = [@[
         @{
             @"method": @"Settings.GetSections",
         },
@@ -6273,7 +6273,7 @@
         },
     ] mutableCopy];
     
-    xbmcSettings.mainParameters = [@[
+    menu_Settings.mainParameters = [@[
         @{
             @"parameters": @{
                 @"level": @"expert",
@@ -6314,7 +6314,7 @@
         },
     ] mutableCopy];
     
-    xbmcSettings.mainFields = @[
+    menu_Settings.mainFields = @[
         @{
             @"itemid": @"sections",
             @"row1": @"label",
@@ -6359,7 +6359,7 @@
         },
     ];
     
-    xbmcSettings.sheetActions = @[
+    menu_Settings.sheetActions = @[
         @[],
         @[
             LOCALIZED_STR(@"Execute action"),
@@ -6371,7 +6371,7 @@
         ],
     ];
     
-    xbmcSettings.subItem.mainMethod = [@[
+    menu_Settings.subItem.mainMethod = [@[
         @{
             @"method": @"Settings.GetCategories",
         },
@@ -6379,7 +6379,7 @@
         @{},
     ] mutableCopy];
     
-    xbmcSettings.subItem.mainParameters = [@[
+    menu_Settings.subItem.mainParameters = [@[
         @{
             @"label": LOCALIZED_STR(@"Settings"),
             @"defaultThumb": @"nocover_filemode",
@@ -6390,7 +6390,7 @@
         @{},
     ] mutableCopy];
     
-    xbmcSettings.subItem.mainFields = @[
+    menu_Settings.subItem.mainFields = @[
         @{
             @"itemid": @"categories",
             @"row1": @"label",
@@ -6407,16 +6407,16 @@
         @{},
     ];
     
-    xbmcSettings.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
-    xbmcSettings.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
+    menu_Settings.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
+    menu_Settings.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
-    xbmcSettings.subItem.subItem.mainMethod = [@[
+    menu_Settings.subItem.subItem.mainMethod = [@[
         @{
             @"method": @"Settings.GetSettings",
         },
     ] mutableCopy];
     
-    xbmcSettings.subItem.subItem.mainParameters = [@[
+    menu_Settings.subItem.subItem.mainParameters = [@[
         @{
             @"label": LOCALIZED_STR(@"Settings"),
             @"defaultThumb": @"nocover_filemode",
@@ -6425,7 +6425,7 @@
         },
     ] mutableCopy];
     
-    xbmcSettings.subItem.subItem.mainFields = @[
+    menu_Settings.subItem.subItem.mainFields = @[
         @{
             @"itemid": @"settings",
             @"row1": @"label",
@@ -6451,12 +6451,12 @@
         },
     ];
     
-    xbmcSettings.subItem.subItem.sheetActions = @[
+    menu_Settings.subItem.subItem.sheetActions = @[
         @[],
     ];
     
-    xbmcSettings.subItem.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
-    xbmcSettings.subItem.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
+    menu_Settings.subItem.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
+    menu_Settings.subItem.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
 #pragma mark - Custom Button Entry (Settings & Addons)
     customButtonEntry = [mainMenu new];
@@ -6918,7 +6918,7 @@
         [mainMenuItems addObject:menu_Addons];
     }
     if ([self isMenuEntryEnabled:@"menu_settings"]) {
-        [mainMenuItems addObject:xbmcSettings];
+        [mainMenuItems addObject:menu_Settings];
     }
     
     // Set rootLabel for all menu entries
