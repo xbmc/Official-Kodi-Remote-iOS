@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0636D0DE2E86BF3E00789FCC /* PlayOnKodi.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0636D0D42E86BF3E00789FCC /* PlayOnKodi.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0F00207816EE247A003822B5 /* OBSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F00207616EE247A003822B5 /* OBSlider.m */; };
 		0F05FB69170D79D400BBA833 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F05FB68170D79D400BBA833 /* NSString+MD5.m */; };
 		0F089AA518EC4E3300F32430 /* SettingsValuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F089AA418EC4E3300F32430 /* SettingsValuesViewController.m */; };
@@ -107,7 +108,33 @@
 		C79B0EA52DF0CF6900046334 /* BaseMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C79B0EA42DF0CF6900046334 /* BaseMasterViewController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0636D0DC2E86BF3E00789FCC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F5548ED151D1187007E633F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0636D0D32E86BF3E00789FCC;
+			remoteInfo = PlayOnKodi;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0636D0DF2E86BF3E00789FCC /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				0636D0DE2E86BF3E00789FCC /* PlayOnKodi.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0636D0D42E86BF3E00789FCC /* PlayOnKodi.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PlayOnKodi.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0636D0E72E86C0A200789FCC /* Kodi Remote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Kodi Remote.entitlements"; sourceTree = "<group>"; };
 		0F00207516EE247A003822B5 /* OBSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBSlider.h; sourceTree = "<group>"; };
 		0F00207616EE247A003822B5 /* OBSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBSlider.m; sourceTree = "<group>"; };
 		0F0320841C59531700C7E25D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -346,7 +373,28 @@
 		C7F28D4826961FE50004B112 /* ConvenienceMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConvenienceMacros.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0636D0E22E86BF3E00789FCC /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0636D0D32E86BF3E00789FCC /* PlayOnKodi */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0636D0D52E86BF3E00789FCC /* PlayOnKodi */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (0636D0E22E86BF3E00789FCC /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PlayOnKodi; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		0636D0D12E86BF3E00789FCC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F5548F3151D1187007E633F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -513,11 +561,13 @@
 		0F5548EB151D1187007E633F = {
 			isa = PBXGroup;
 			children = (
+				0636D0E72E86C0A200789FCC /* Kodi Remote.entitlements */,
 				C70F41D02BA4D98E00847C75 /* PrivacyInfo.xcprivacy */,
 				0F59E2661564796B00184AE8 /* CONTRIBUTING.md */,
 				0F59E26315646FB800184AE8 /* LICENSE */,
 				0F8717911564566300AE2D48 /* README.md */,
 				0F554900151D1187007E633F /* XBMC Remote */,
+				0636D0D52E86BF3E00789FCC /* PlayOnKodi */,
 				0F5548F9151D1187007E633F /* Frameworks */,
 				0F5548F7151D1187007E633F /* Products */,
 			);
@@ -527,6 +577,7 @@
 			isa = PBXGroup;
 			children = (
 				0F5548F6151D1187007E633F /* Kodi Remote.app */,
+				0636D0D42E86BF3E00789FCC /* PlayOnKodi.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -751,6 +802,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0636D0D32E86BF3E00789FCC /* PlayOnKodi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0636D0E32E86BF3E00789FCC /* Build configuration list for PBXNativeTarget "PlayOnKodi" */;
+			buildPhases = (
+				0636D0D02E86BF3E00789FCC /* Sources */,
+				0636D0D12E86BF3E00789FCC /* Frameworks */,
+				0636D0D22E86BF3E00789FCC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				0636D0D52E86BF3E00789FCC /* PlayOnKodi */,
+			);
+			name = PlayOnKodi;
+			packageProductDependencies = (
+			);
+			productName = PlayOnKodi;
+			productReference = 0636D0D42E86BF3E00789FCC /* PlayOnKodi.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		0F5548F5151D1187007E633F /* Kodi Remote */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0F55491A151D1187007E633F /* Build configuration list for PBXNativeTarget "Kodi Remote" */;
@@ -758,10 +831,12 @@
 				0F5548F2151D1187007E633F /* Sources */,
 				0F5548F3151D1187007E633F /* Frameworks */,
 				0F5548F4151D1187007E633F /* Resources */,
+				0636D0DF2E86BF3E00789FCC /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0636D0DD2E86BF3E00789FCC /* PBXTargetDependency */,
 			);
 			name = "Kodi Remote";
 			productName = "XBMC Remote";
@@ -775,9 +850,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1520;
 				ORGANIZATIONNAME = "Team Kodi";
 				TargetAttributes = {
+					0636D0D32E86BF3E00789FCC = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					0F5548F5151D1187007E633F = {
 						LastSwiftMigration = 1620;
 					};
@@ -820,11 +899,19 @@
 			projectRoot = "";
 			targets = (
 				0F5548F5151D1187007E633F /* Kodi Remote */,
+				0636D0D32E86BF3E00789FCC /* PlayOnKodi */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0636D0D22E86BF3E00789FCC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F5548F4151D1187007E633F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -860,6 +947,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0636D0D02E86BF3E00789FCC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F5548F2151D1187007E633F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -940,6 +1034,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0636D0DD2E86BF3E00789FCC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0636D0D32E86BF3E00789FCC /* PlayOnKodi */;
+			targetProxy = 0636D0DC2E86BF3E00789FCC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		0F554903151D1187007E633F /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -1006,6 +1108,95 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0636D0E02E86BF3E00789FCC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = PlayOnKodi/PlayOnKodi.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PlayOnKodi/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PlayOnKodi;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Team Kodi. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "it.joethefox.XBMC-Remote.PlayOnKodi";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0636D0E12E86BF3E00789FCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = PlayOnKodi/PlayOnKodi.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PlayOnKodi/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PlayOnKodi;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Team Kodi. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "it.joethefox.XBMC-Remote.PlayOnKodi";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		0F554918151D1187007E633F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1120,6 +1311,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Kodi Remote.entitlements";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
@@ -1138,6 +1330,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Kodi Remote.entitlements";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
@@ -1153,6 +1346,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0636D0E32E86BF3E00789FCC /* Build configuration list for PBXNativeTarget "PlayOnKodi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0636D0E02E86BF3E00789FCC /* Debug */,
+				0636D0E12E86BF3E00789FCC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0F5548F0151D1187007E633F /* Build configuration list for PBXProject "Kodi Remote" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
