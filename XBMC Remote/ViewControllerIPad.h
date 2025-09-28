@@ -51,7 +51,6 @@
 @property (nonatomic, strong) MenuViewController *menuViewController;
 @property (nonatomic, strong) NowPlaying *nowPlayingController;
 @property (nonatomic, strong) StackScrollViewController *stackScrollViewController;
-@property (strong, nonatomic) tcpJSONRPC *tcpJSONRPCconnection;
 @property (nonatomic, strong) HostManagementViewController *hostPickerViewController;
 @property (nonatomic, strong) AppInfoViewController *appInfoView;
 

@@ -36,15 +36,6 @@
 @implementation MasterViewController
 
 @synthesize mainMenu;
-@synthesize tcpJSONRPCconnection;
-
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.tcpJSONRPCconnection = [tcpJSONRPC new];
-    }
-    return self;
-}
 	
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
     [super changeServerStatus:status infoText:infoText icon:iconName];
