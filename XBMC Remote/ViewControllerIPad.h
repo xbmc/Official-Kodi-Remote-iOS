@@ -28,7 +28,6 @@
     MenuViewController *menuViewController;
     NowPlaying *nowPlayingController;
     StackScrollViewController *stackScrollViewController;
-    NSIndexPath *storeServerSelection;
     int YPOS;
     UIButton *xbmcLogo;
     UIButton *xbmcInfo;
