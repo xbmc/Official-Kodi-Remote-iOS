@@ -51,17 +51,14 @@
 }
 
 - (void)modifyHost:(NSIndexPath*)item {
-    if (storeServerSelection && item.row == storeServerSelection.row) {
-        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:item];
-        ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:@"connection_off"];
-        [serverListTableView deselectRowAtIndexPath:item animated:YES];
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        storeServerSelection = nil;
+    NSIndexPath *selectedPath = storeServerSelection;
+    if (selectedPath && item.row == selectedPath.row) {
         [Utilities resetKodiServerParameters];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:@(-1) forKey:@"lastServer"];
         [connectingActivityIndicator stopAnimating];
+        [serverListTableView reloadData];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
     }
     HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
     hostController.detailItem = item;
@@ -129,15 +126,17 @@
         NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
         cellLabel.text = item[@"serverDescription"];
         cellIP.text = item[@"serverIP"];
-        NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
-        if (selection && indexPath.row == selection.row) {
+        NSIndexPath *selectedPath = storeServerSelection;
+        if (selectedPath && indexPath.row == selectedPath.row) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             NSString *iconName = [Utilities getConnectionStatusIconName];
             iconView.image = [UIImage imageNamed:iconName];
+            [serverListTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryNone;
             iconView.image = [UIImage imageNamed:@"connection_off"];
+            [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
         }
         editTableButton.enabled = YES;
     }
@@ -156,17 +155,16 @@
     AppDelegate.instance.obj.tcpPort = [Utilities getTcpPort:item[@"tcpPort"]];
 }
 
-- (void)deselectServerAtIndexPath:(NSIndexPath*)indexPath {
+- (void)deselectServer {
+    // Permanently disconnect the server. This will unselect the server from the server list and will
+    // not reconnect after wakeup or restart.
     [connectingActivityIndicator stopAnimating];
-    UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
-    [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
-    cell.accessoryType = UITableViewCellAccessoryNone;
     storeServerSelection = nil;
     [Utilities resetKodiServerParameters];
     AppDelegate.instance.serverOnLine = NO;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:@(-1) forKey:@"lastServer"];
-    ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:@"connection_off"];
+    [serverListTableView reloadData];
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -175,27 +173,19 @@
         [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else {
-        NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
-        if (storeServerSelection && selection.row == storeServerSelection.row) {
-            [self deselectServerAtIndexPath:indexPath];
+        NSIndexPath *selectedPath = storeServerSelection;
+        if (selectedPath && selectedPath.row == indexPath.row) {
+            [self deselectServer];
         }
         else {
-            storeServerSelection = indexPath;
             [connectingActivityIndicator startAnimating];
-            UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
             [self selectServerAtIndexPath:indexPath];
+            storeServerSelection = indexPath;
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setObject:@(indexPath.row) forKey:@"lastServer"];
         }
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
-}
-
-- (void)tableView:(UITableView*)tableView didDeselectRowAtIndexPath:(NSIndexPath*)indexPath {
-    UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:@"connection_off"];
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView*)aTableView editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -213,17 +203,20 @@
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
         [AppDelegate.instance.arrayServerList removeObjectAtIndex:indexPath.row];
         [AppDelegate.instance saveServerList];
-        if (storeServerSelection) {
+        NSIndexPath *selectedPath = storeServerSelection;
+        if (selectedPath) {
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            if (indexPath.row < storeServerSelection.row) {
-                storeServerSelection = [NSIndexPath indexPathForRow:storeServerSelection.row - 1 inSection:storeServerSelection.section];
-                [userDefaults setObject:@(storeServerSelection.row) forKey:@"lastServer"];
+            if (indexPath.row < selectedPath.row) {
+                // When removing a server above the active one, the index for the active server reduces by 1.
+                storeServerSelection = [NSIndexPath indexPathForRow:selectedPath.row - 1 inSection:selectedPath.section];
+                [userDefaults setObject:@(selectedPath.row) forKey:@"lastServer"];
             }
-            else if (storeServerSelection.row == indexPath.row) {
-                storeServerSelection = nil;
+            else if (selectedPath.row == indexPath.row) {
+                // When removing the active server, invalidate the server parameters, which will stop the connection.
                 [Utilities resetKodiServerParameters];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
+                storeServerSelection = nil;
                 [userDefaults setObject:@(-1) forKey:@"lastServer"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
             }
         }
         if (indexPath.row < [tableView numberOfRowsInSection:indexPath.section]) {
@@ -255,11 +248,6 @@
         if (AppDelegate.instance.arrayServerList.count == 0) {
             [serverListTableView reloadData];
         }
-        if (storeServerSelection) {
-            [serverListTableView selectRowAtIndexPath:storeServerSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-            UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        }
     }
     else {
         [serverListTableView setEditing:YES animated:YES];
@@ -270,9 +258,14 @@
 #pragma mark - Helper
 
 - (void)handleDisconnectActiveServer {
-    // Deselect any current active server
-    NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
-    [self deselectServerAtIndexPath:selection];
+    // Temporarily disconnect the server by resetting the server parameters. This will keep the
+    // server selected in the server list and will support reconnecting after wakeup or restart.
+    [Utilities resetKodiServerParameters];
+    AppDelegate.instance.serverOnLine = NO;
+    [serverListTableView reloadData];
+    
+    // Send XBMCServerHasChanged notification to let main menu deactivate the menu items
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
 }
 
 #pragma mark - Long Press & Action sheet
@@ -288,26 +281,7 @@
     }
 }
 
-#pragma mark - TableManagement instances 
-
-- (void)selectIndex:(NSIndexPath*)selection reloadData:(BOOL)reload {
-    if (reload) {
-        NSIndexPath *checkSelection = [serverListTableView indexPathForSelectedRow];
-        [serverListTableView reloadData];
-        if (checkSelection) {
-            [serverListTableView selectRowAtIndexPath:checkSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-            UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:checkSelection];
-            storeServerSelection = checkSelection;
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        }
-    }
-    else if (selection) {
-        storeServerSelection = selection;
-        [self selectServerAtIndexPath:selection];
-        [serverListTableView selectRowAtIndexPath:selection animated:NO scrollPosition:UITableViewScrollPositionNone];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
-    }
-}
+#pragma mark - TableManagement instances
 
 - (void)infoView {
     appInfoView = [[AppInfoViewController alloc] initWithNibName:@"AppInfoViewController" bundle:nil];
@@ -459,7 +433,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self selectIndex:nil reloadData:YES];
+    [serverListTableView reloadData];
 }
 
 - (void)revealMenu:(NSNotification*)note {
@@ -578,21 +552,8 @@
     }
     doRevealMenu = YES;
 
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if ([userDefaults objectForKey:@"lastServer"] != nil) {
-        NSInteger lastServer = [userDefaults integerForKey:@"lastServer"];
-        if (lastServer > -1 && lastServer < AppDelegate.instance.arrayServerList.count) {
-            NSIndexPath *lastServerIndexPath = [NSIndexPath indexPathForRow:lastServer inSection:0];
-            if (!AppDelegate.instance.serverOnLine) {
-                [self selectIndex:lastServerIndexPath reloadData:NO];
-                [connectingActivityIndicator startAnimating];
-            }
-            else {
-                [self selectServerAtIndexPath:lastServerIndexPath];
-                [serverListTableView selectRowAtIndexPath:lastServerIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-            }
-        }
-    }
+    // Gather active server
+    storeServerSelection = [Utilities readLastServerIndex];
     
     // If there is no host saved at all, enter "add host" automatically
     if (AppDelegate.instance.arrayServerList.count == 0) {
@@ -750,8 +711,7 @@
     [self presentViewController:alertCtrl animated:YES completion:nil];
     
     // Deselect the server which causes the authentication error to allow to correct the credentials
-    NSIndexPath *selection = [serverListTableView indexPathForSelectedRow];
-    [self tableView:serverListTableView didSelectRowAtIndexPath:selection];
+    [self deselectServer];
 }
 
 - (void)resetDoReveal:(NSNotification*)note {
@@ -759,11 +719,11 @@
 }
 
 - (void)connectionSuccess:(NSNotification*)note {
-    NSDictionary *theData = note.userInfo;
-    if (storeServerSelection != nil) {
-        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-        ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:theData[@"icon_connection"]];
-    }
+    [serverListTableView reloadData];
+    
+    // Gather active server
+    storeServerSelection = [Utilities readLastServerIndex];
+    
     [connectingActivityIndicator stopAnimating];
     if (doRevealMenu) {
         [self revealMenu:nil];
@@ -771,11 +731,7 @@
 }
 
 - (void)connectionFailed:(NSNotification*)note {
-    NSDictionary *theData = note.userInfo;
-    if (storeServerSelection != nil) {
-        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:storeServerSelection];
-        ((UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON]).image = [UIImage imageNamed:theData[@"icon_connection"]];
-    }
+    [serverListTableView reloadData];
 }
 
 - (BOOL)shouldAutorotate {

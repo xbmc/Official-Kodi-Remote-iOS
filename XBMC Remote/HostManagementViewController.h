@@ -33,7 +33,6 @@
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil;
-- (void)selectIndex:(NSIndexPath*)selection reloadData:(BOOL)reload;
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 

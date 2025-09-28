@@ -1420,6 +1420,17 @@
     return vmInfo.phys_footprint;
 }
 
++ (NSIndexPath*)readLastServerIndex {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults objectForKey:@"lastServer"] != nil) {
+        NSInteger lastServer = [userDefaults integerForKey:@"lastServer"];
+        if (lastServer > -1 && lastServer < AppDelegate.instance.arrayServerList.count) {
+            return [NSIndexPath indexPathForRow:lastServer inSection:0];
+        }
+    }
+    return nil;
+}
+
 + (void)resetKodiServerParameters {
     AppDelegate.instance.obj.serverDescription = @"";
     AppDelegate.instance.obj.serverUser = @"";
@@ -1433,8 +1444,6 @@
 
 + (void)disconnectFromActiveServer {
     [Utilities resetKodiServerParameters];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:@(-1) forKey:@"lastServer"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DisconnectActiveServer" object:nil];
 }
 
