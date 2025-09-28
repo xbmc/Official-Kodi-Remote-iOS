@@ -5583,7 +5583,7 @@
             @"row5": [NSNull null],
             @"row6": @"title",
             @"row7": @"path",
-            @"playlistid": @(-1),
+            @"playlistid": @PLAYERID_UNKNOWN,
             @"row8": @"type",
             @"row9": @"window",
             @"row10": @"windowparameter",
