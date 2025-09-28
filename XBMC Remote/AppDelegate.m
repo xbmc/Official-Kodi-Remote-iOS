@@ -6941,21 +6941,7 @@
     ];
     
     // Load last Kodi server. Will be taken up by tcpJSONRPC heartbeat when controllers are initialized
-    if ([userDefaults objectForKey:@"lastServer"] != nil) {
-        NSInteger lastServer = [userDefaults integerForKey:@"lastServer"];
-        if (lastServer > -1 && lastServer < AppDelegate.instance.arrayServerList.count) {
-            NSIndexPath *lastServerIndexPath = [NSIndexPath indexPathForRow:lastServer inSection:0];
-            NSDictionary *item = AppDelegate.instance.arrayServerList[lastServerIndexPath.row];
-            AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
-            AppDelegate.instance.obj.serverUser = item[@"serverUser"];
-            AppDelegate.instance.obj.serverPass = item[@"serverPass"];
-            AppDelegate.instance.obj.serverRawIP = item[@"serverIP"];
-            AppDelegate.instance.obj.serverIP = [Utilities getUrlStyleAddress:item[@"serverIP"]];
-            AppDelegate.instance.obj.serverPort = [Utilities getServerPort:item[@"serverPort"]];
-            AppDelegate.instance.obj.serverHWAddr = item[@"serverMacAddress"];
-            AppDelegate.instance.obj.tcpPort = [Utilities getTcpPort:item[@"tcpPort"]];
-        }
-    }
+    [Utilities readKodiServerParameters];
     
     // Initialize controllers
     self.serverName = LOCALIZED_STR(@"No connection");

@@ -130,6 +130,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (UIViewController*)topMostControllerIgnoringClass:(Class)ignoredClass;
 + (uint64_t)memoryFootprint;
 + (NSIndexPath*)readLastServerIndex;
++ (void)readKodiServerParameters;
 + (void)resetKodiServerParameters;
 
 @end
