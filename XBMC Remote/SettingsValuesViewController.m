@@ -269,6 +269,10 @@
             value = @(storeSliderValue);
             break;
             
+        case SettingTypeMultiselect:
+            value = self.detailItem[@"value"] ?: @"";
+            break;
+            
         default:
             value = @"";
             break;
