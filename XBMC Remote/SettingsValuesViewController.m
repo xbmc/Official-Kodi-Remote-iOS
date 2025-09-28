@@ -270,6 +270,7 @@
             break;
             
         case SettingTypeMultiselect:
+        case SettingTypeInput:
             value = self.detailItem[@"value"] ?: @"";
             break;
             
