@@ -6466,6 +6466,7 @@
     customButtonEntry.icon = @"icon_menu_settings";
     customButtonEntry.family = FamilyDetailView;
     customButtonEntry.enableSection = YES;
+    customButtonEntry.disableNavbarButtons = YES;
     customButtonEntry.rowHeight = SETTINGS_ROW_HEIGHT;
     customButtonEntry.thumbWidth = SETTINGS_THUMB_WIDTH;
     customButtonEntry.mainButtons = @[
@@ -6751,6 +6752,7 @@
         @{},
     ];
     
+    customButtonEntry.subItem.disableNavbarButtons = YES;
     customButtonEntry.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
     customButtonEntry.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
@@ -6799,6 +6801,7 @@
         @[],
     ];
     
+    customButtonEntry.subItem.subItem.disableNavbarButtons = YES;
     customButtonEntry.subItem.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
     customButtonEntry.subItem.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     

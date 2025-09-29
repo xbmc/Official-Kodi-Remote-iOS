@@ -3820,7 +3820,7 @@
 
 - (void)configureView {
     mainMenu *menuItem = self.detailItem;
-    if (menuItem) {
+    if (menuItem && !menuItem.disableNavbarButtons) {
         topNavigationLabel = [UILabel new];
         topNavigationLabel.backgroundColor = UIColor.clearColor;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
