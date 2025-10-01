@@ -502,7 +502,7 @@
 - (void)setFilternameLabel:(NSString*)labelText {
     labelText = [Utilities stripBBandHTML:labelText];
     self.navigationItem.title = labelText;
-    if (IS_IPHONE) {
+    if (IS_IPHONE || stackscrollFullscreen) {
         return;
     }
     [UIView animateWithDuration:0.1
