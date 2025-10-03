@@ -244,9 +244,7 @@
     if (serverListTableView.editing || forceClose) {
         [serverListTableView setEditing:NO animated:YES];
         editTableButton.selected = NO;
-        if (AppDelegate.instance.arrayServerList.count == 0) {
-            [serverListTableView reloadData];
-        }
+        [serverListTableView reloadData];
     }
     else {
         [serverListTableView setEditing:YES animated:YES];
