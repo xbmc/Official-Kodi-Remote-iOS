@@ -542,28 +542,28 @@
     else {
         UIAlertAction *action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Shutdown" onSuccess:^{
-                [Utilities disconnectFromActiveServer];
+                [Utilities stopPollingActiveServer];
             }];
         }];
         [alertCtrl addAction:action_pwr_off_system];
         
         UIAlertAction *action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"Application.Quit" onSuccess:^{
-                [Utilities disconnectFromActiveServer];
+                [Utilities stopPollingActiveServer];
             }];
         }];
         [alertCtrl addAction:action_quit_kodi];
         
         UIAlertAction *action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Hibernate" onSuccess:^{
-                [Utilities disconnectFromActiveServer];
+                [Utilities stopPollingActiveServer];
             }];
         }];
         [alertCtrl addAction:action_hibernate];
         
         UIAlertAction *action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Suspend" onSuccess:^{
-                [Utilities disconnectFromActiveServer];
+                [Utilities stopPollingActiveServer];
             }];
         }];
         [alertCtrl addAction:action_suspend];
@@ -1467,9 +1467,13 @@
     AppDelegate.instance.obj.tcpPort = 0;
 }
 
-+ (void)disconnectFromActiveServer {
++ (void)stopPollingActiveServer {
+    // Temporarily disconnect the server by resetting the server parameters. This will keep the server
+    // selected in the server list, but will stop polling and supports reconnecting after wakeup or restart.
     [Utilities resetKodiServerParameters];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisconnectActiveServer" object:nil];
+    
+    // Send XBMCServerHasChanged notification to let main menu deactivate the menu items
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
 }
 
 @end

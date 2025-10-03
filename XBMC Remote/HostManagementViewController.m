@@ -248,19 +248,6 @@
     }
 }
 
-#pragma mark - Helper
-
-- (void)handleDisconnectActiveServer {
-    // Temporarily disconnect the server by resetting the server parameters. This will keep the
-    // server selected in the server list and will support reconnecting after wakeup or restart.
-    [Utilities resetKodiServerParameters];
-    AppDelegate.instance.serverOnLine = NO;
-    [serverListTableView reloadData];
-    
-    // Send XBMCServerHasChanged notification to let main menu deactivate the menu items
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
-}
-
 #pragma mark - Long Press & Action sheet
 
 - (void)handleLongPress {
@@ -594,11 +581,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(enablePopGestureRecognizer:)
                                                  name:@"ECSlidingViewTopDidReset"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleDisconnectActiveServer)
-                                                 name:@"DisconnectActiveServer"
                                                object:nil];
 }
 
