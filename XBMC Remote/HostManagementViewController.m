@@ -54,8 +54,7 @@
     NSIndexPath *selectedPath = storeServerSelection;
     if (selectedPath && item.row == selectedPath.row) {
         [Utilities resetKodiServerParameters];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setObject:@(-1) forKey:@"lastServer"];
+        [Utilities saveLastServerIndex:nil];
         [connectingActivityIndicator stopAnimating];
         [serverListTableView reloadData];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
@@ -162,8 +161,7 @@
     storeServerSelection = nil;
     [Utilities resetKodiServerParameters];
     AppDelegate.instance.serverOnLine = NO;
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:@(-1) forKey:@"lastServer"];
+    [Utilities saveLastServerIndex:nil];
     [serverListTableView reloadData];
 }
 
@@ -180,8 +178,7 @@
             [connectingActivityIndicator startAnimating];
             [self selectServerAtIndexPath:indexPath];
             storeServerSelection = indexPath;
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:@(indexPath.row) forKey:@"lastServer"];
+            [Utilities saveLastServerIndex:indexPath];
         }
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
@@ -204,17 +201,16 @@
         [AppDelegate.instance saveServerList];
         NSIndexPath *selectedPath = storeServerSelection;
         if (selectedPath) {
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             if (indexPath.row < selectedPath.row) {
                 // When removing a server above the active one, the index for the active server reduces by 1.
                 storeServerSelection = [NSIndexPath indexPathForRow:selectedPath.row - 1 inSection:selectedPath.section];
-                [userDefaults setObject:@(selectedPath.row) forKey:@"lastServer"];
+                [Utilities saveLastServerIndex:selectedPath];
             }
             else if (selectedPath.row == indexPath.row) {
                 // When removing the active server, invalidate the server parameters, which will stop the connection.
                 [Utilities resetKodiServerParameters];
                 storeServerSelection = nil;
-                [userDefaults setObject:@(-1) forKey:@"lastServer"];
+                [Utilities saveLastServerIndex:nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
             }
         }

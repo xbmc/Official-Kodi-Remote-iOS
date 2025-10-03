@@ -1431,6 +1431,12 @@
     return nil;
 }
 
++ (void)saveLastServerIndex:(NSIndexPath*)indexPath {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *lastServerIndex = indexPath ? @(indexPath.row) : @(-1);
+    [userDefaults setObject:lastServerIndex forKey:@"lastServer"];
+}
+
 + (void)readKodiServerParameters {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if ([userDefaults objectForKey:@"lastServer"] != nil) {
