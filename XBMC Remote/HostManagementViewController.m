@@ -168,7 +168,6 @@
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    doRevealMenu = YES;
     if (AppDelegate.instance.arrayServerList.count == 0) {
         [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
     }
@@ -550,7 +549,6 @@
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)];
     }
-    doRevealMenu = YES;
 
     // Gather active server
     storeServerSelection = [Utilities readLastServerIndex];
@@ -577,11 +575,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionFailed:)
                                                  name:@"XBMCServerConnectionFailed"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(resetDoReveal:)
-                                                 name:@"ECSlidingViewUnderRightWillAppear"
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -714,10 +707,6 @@
     [self deselectServer];
 }
 
-- (void)resetDoReveal:(NSNotification*)note {
-    doRevealMenu = NO;
-}
-
 - (void)connectionSuccess:(NSNotification*)note {
     [serverListTableView reloadData];
     
@@ -725,9 +714,9 @@
     storeServerSelection = [Utilities readLastServerIndex];
     
     [connectingActivityIndicator stopAnimating];
-    if (doRevealMenu) {
-        [self revealMenu:nil];
-    }
+    
+    // On connection success the main menu shall become visible
+    [self revealMenu:nil];
 }
 
 - (void)connectionFailed:(NSNotification*)note {

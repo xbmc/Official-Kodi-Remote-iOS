@@ -20,7 +20,6 @@
     IBOutlet UIImageView *backgroundImageView;
     NSIndexPath *storeServerSelection;
     __weak IBOutlet UIActivityIndicatorView *connectingActivityIndicator;
-    BOOL doRevealMenu;
     AppInfoViewController *appInfoView;
     __weak IBOutlet UIButton *addHostButton;
     __weak IBOutlet UIView *supportedVersionView;
