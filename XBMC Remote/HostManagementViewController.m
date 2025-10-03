@@ -618,7 +618,7 @@
 - (void)powerControl {
     UIAlertController *alertCtrl;
     if (AppDelegate.instance.obj.serverIP.length == 0) {
-        alertCtrl = [Utilities createAlertOK:LOCALIZED_STR(@"Select an XBMC Server from the list") message:nil];
+        alertCtrl = [Utilities createAlertOK:LOCALIZED_STR(@"No connection") message:nil];
     }
     else {
         alertCtrl = [Utilities createPowerControl];
