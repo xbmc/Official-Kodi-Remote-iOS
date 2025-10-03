@@ -6940,9 +6940,6 @@
         @[menu_Music,   [self getGlobalSearchTab:menu_Music   label:LOCALIZED_STR(@"All songs")]], // Songs
     ];
     
-    // Load last Kodi server. Will be taken up by tcpJSONRPC heartbeat when controllers are initialized
-    [Utilities readKodiServerParameters];
-    
     // Initialize controllers
     self.serverName = LOCALIZED_STR(@"No connection");
     if (IS_IPHONE) {
