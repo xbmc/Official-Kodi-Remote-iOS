@@ -128,14 +128,13 @@
     
     [self setIdleTimerFromUserDefaults];
     
+    // Create and set interface style for window
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    
-    // Set interface style for window
     [self setInterfaceStyleFromUserDefaults];
-    
-    obj = [GlobalData getInstance];
-    
     [self.window makeKeyAndVisible];
+    
+    // Create GlobalDate which holds the Kodi server parameters
+    obj = [GlobalData getInstance];
     
     // Create the menu tree
     mainMenuItems = [mainMenu generateMenus];
