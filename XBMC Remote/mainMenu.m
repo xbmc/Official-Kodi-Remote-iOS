@@ -384,51 +384,8 @@
         tvshowHeight = (int)(PAD_TV_SHOWS_BANNER_HEIGHT * transform);
     }
     
-    NSMutableArray *mainMenuItems = [NSMutableArray arrayWithCapacity:1];
-    __auto_type menu_Music = [mainMenu new];
-    __auto_type menu_Movies = [mainMenu new];
-    __auto_type menu_Videos = [mainMenu new];
-    __auto_type menu_TVShows = [mainMenu new];
-    __auto_type menu_Pictures = [mainMenu new];
-    __auto_type menu_Favourites = [mainMenu new];
-    __auto_type menu_NowPlaying = [mainMenu new];
-    __auto_type menu_Remote = [mainMenu new];
-    __auto_type menu_Server = [mainMenu new];
-    __auto_type menu_LiveTV = [mainMenu new];
-    __auto_type menu_Radio = [mainMenu new];
-    __auto_type menu_Search = [mainMenu new];
-    __auto_type menu_Addons = [mainMenu new];
-    __auto_type menu_Files = [mainMenu new];
-    __auto_type menu_Settings = [mainMenu new];
-    
-    menu_Music.subItem = [mainMenu new];
-    menu_Music.subItem.subItem = [mainMenu new];
-    menu_Music.subItem.subItem.subItem = [mainMenu new];
-    
-    menu_Movies.subItem = [mainMenu new];
-    menu_Movies.subItem.subItem = [mainMenu new];
-    
-    menu_Videos.subItem = [mainMenu new];
-    menu_Videos.subItem.subItem = [mainMenu new];
-    
-    menu_TVShows.subItem = [mainMenu new];
-    menu_TVShows.subItem.subItem = [mainMenu new];
-    
-    menu_Pictures.subItem = [mainMenu new];
-    menu_Pictures.subItem.subItem = [mainMenu new];
-    
-    menu_LiveTV.subItem = [mainMenu new];
-    menu_LiveTV.subItem.subItem = [mainMenu new];
-    
-    menu_Radio.subItem = [mainMenu new];
-    menu_Radio.subItem.subItem = [mainMenu new];
-    
-    menu_Addons.subItem = [mainMenu new];
-    
-    menu_Files.subItem = [mainMenu new];
-    menu_Files.subItem.subItem = [mainMenu new];
-    
 #pragma mark - Music
+    __auto_type menu_Music = [mainMenu new];
     menu_Music.mainLabel = LOCALIZED_STR(@"Music");
     menu_Music.icon = @"icon_menu_music";
     menu_Music.family = FamilyDetailView;
@@ -1197,6 +1154,7 @@
         @NO,
     ];
     
+    menu_Music.subItem = [mainMenu new];
     menu_Music.subItem.mainMethod = @[
         @{
             @"method": @"AudioLibrary.GetSongs",
@@ -1713,6 +1671,7 @@
         @NO,
     ];
     
+    menu_Music.subItem.subItem = [mainMenu new];
     menu_Music.subItem.subItem.mainMethod = @[
         @{},
         @{
@@ -1943,6 +1902,7 @@
         @NO,
     ];
     
+    menu_Music.subItem.subItem.subItem = [mainMenu new];
     menu_Music.subItem.subItem.subItem.mainMethod = @[
         @{},
         @{},
@@ -2068,6 +2028,7 @@
     ];
     
 #pragma mark - Movies
+    __auto_type menu_Movies = [mainMenu new];
     menu_Movies.mainLabel = LOCALIZED_STR(@"Movies");
     menu_Movies.icon = @"icon_menu_movies";
     menu_Movies.family = FamilyDetailView;
@@ -2514,6 +2475,7 @@
         [self modes_icons_empty],
     ];
     
+    menu_Movies.subItem = [mainMenu new];
     menu_Movies.subItem.mainMethod = [@[
         @{},
         @{
@@ -2979,6 +2941,7 @@
         [self modes_icons_empty],
     ];
     
+    menu_Movies.subItem.subItem = [mainMenu new];
     menu_Movies.subItem.subItem.noConvertTime = YES;
     menu_Movies.subItem.subItem.mainMethod = [@[
         @{},
@@ -3036,6 +2999,7 @@
     ];
     
 #pragma mark - Videos
+    __auto_type menu_Videos = [mainMenu new];
     menu_Videos.mainLabel = LOCALIZED_STR(@"Videos");
     menu_Videos.icon = @"icon_menu_videos";
     menu_Videos.family = FamilyDetailView;
@@ -3358,6 +3322,7 @@
         [self modes_icons_empty],
     ];
     
+    menu_Videos.subItem = [mainMenu new];
     menu_Videos.subItem.mainMethod = [@[
         @{},
         @{},
@@ -3524,6 +3489,7 @@
         [self modes_icons_empty],
     ];
     
+    menu_Videos.subItem.subItem = [mainMenu new];
     menu_Videos.subItem.subItem.noConvertTime = YES;
     menu_Videos.subItem.subItem.mainMethod = [@[
         @{},
@@ -3569,6 +3535,7 @@
     ];
     
 #pragma mark - TV Shows
+    __auto_type menu_TVShows = [mainMenu new];
     menu_TVShows.mainLabel = LOCALIZED_STR(@"TV Shows");
     menu_TVShows.icon = @"icon_menu_tvshows";
     menu_TVShows.family = FamilyDetailView;
@@ -3864,6 +3831,7 @@
         [self modes_icons_empty],
     ];
     
+    menu_TVShows.subItem = [mainMenu new];
     menu_TVShows.subItem.mainMethod = [@[
         @{
             @"method": @"VideoLibrary.GetEpisodes",
@@ -4119,6 +4087,7 @@
         @NO,
     ];
     
+    menu_TVShows.subItem.subItem = [mainMenu new];
     menu_TVShows.subItem.subItem.mainMethod = [@[
         @{},
         @{},
@@ -4173,6 +4142,7 @@
     menu_TVShows.subItem.subItem.noConvertTime = YES;
     
 #pragma mark - Live TV
+    __auto_type menu_LiveTV = [mainMenu new];
     menu_LiveTV.mainLabel = LOCALIZED_STR(@"Live TV");
     menu_LiveTV.icon = @"icon_menu_livetv";
     menu_LiveTV.family = FamilyDetailView;
@@ -4519,6 +4489,7 @@
         [self modes_icons_empty],
     ];
     
+    menu_LiveTV.subItem = [mainMenu new];
     menu_LiveTV.subItem.mainMethod = [@[
         @{
             @"method": @"PVR.GetBroadcasts",
@@ -4646,6 +4617,7 @@
         @{},
     ];
     
+    menu_LiveTV.subItem.subItem = [mainMenu new];
     menu_LiveTV.subItem.subItem.noConvertTime = YES;
     menu_LiveTV.subItem.subItem.mainMethod = [@[
         @{},
@@ -4728,6 +4700,7 @@
     ];
     
 #pragma mark - Radio
+    __auto_type menu_Radio = [mainMenu new];
     menu_Radio.mainLabel = LOCALIZED_STR(@"Radio");
     menu_Radio.icon = @"icon_menu_radio";
     menu_Radio.family = FamilyDetailView;
@@ -5072,6 +5045,7 @@
         [self modes_icons_empty],
     ];
     
+    menu_Radio.subItem = [mainMenu new];
     menu_Radio.subItem.mainMethod = [@[
         @{
             @"method": @"PVR.GetBroadcasts",
@@ -5199,6 +5173,7 @@
         @{},
     ];
     
+    menu_Radio.subItem.subItem = [mainMenu new];
     menu_Radio.subItem.subItem.noConvertTime = YES;
     menu_Radio.subItem.subItem.mainMethod = [@[
         @{},
@@ -5281,6 +5256,7 @@
     ];
     
 #pragma mark - Pictures
+    __auto_type menu_Pictures = [mainMenu new];
     menu_Pictures.mainLabel = LOCALIZED_STR(@"Pictures");
     menu_Pictures.icon = @"icon_menu_pictures";
     menu_Pictures.family = FamilyDetailView;
@@ -5361,6 +5337,7 @@
     menu_Pictures.thumbWidth = DEFAULT_THUMB_WIDTH;
     menu_Pictures.defaultThumb = @"nocover_filemode";
     
+    menu_Pictures.subItem = [mainMenu new];
     menu_Pictures.subItem.mainMethod = [@[
         @{
             @"method": @"Files.GetDirectory",
@@ -5446,6 +5423,7 @@
         @[],
     ];
     
+    menu_Pictures.subItem.subItem = [mainMenu new];
     menu_Pictures.subItem.subItem.mainMethod = [@[
         @{
             @"method": @"Files.GetDirectory",
@@ -5466,6 +5444,7 @@
     ];
     
 #pragma mark - Favourites
+    __auto_type menu_Favourites = [mainMenu new];
     menu_Favourites.mainLabel = LOCALIZED_STR(@"Favourites");
     menu_Favourites.icon = @"icon_menu_favourites";
     menu_Favourites.family = FamilyDetailView;
@@ -5521,16 +5500,19 @@
     menu_Favourites.defaultThumb = @"nocover_filemode";
     
 #pragma mark - Now Playing
+    __auto_type menu_NowPlaying = [mainMenu new];
     menu_NowPlaying.mainLabel = LOCALIZED_STR(@"Now Playing");
     menu_NowPlaying.icon = @"icon_menu_playing";
     menu_NowPlaying.family = FamilyNowPlaying;
     
 #pragma mark - Remote Control
+    __auto_type menu_Remote = [mainMenu new];
     menu_Remote.mainLabel = LOCALIZED_STR(@"Remote Control");
     menu_Remote.icon = @"icon_menu_remote";
     menu_Remote.family = FamilyRemote;
     
 #pragma mark - Global Search
+    __auto_type menu_Search = [mainMenu new];
     menu_Search.mainLabel = LOCALIZED_STR(@"Global Search");
     menu_Search.icon = @"icon_menu_search";
     menu_Search.family = FamilyDetailView;
@@ -5559,6 +5541,7 @@
     ] mutableCopy];
     
 #pragma mark - Files
+    __auto_type menu_Files = [mainMenu new];
     menu_Files.mainLabel = LOCALIZED_STR(@"Files");
     menu_Files.icon = @"st_filemode";
     menu_Files.family = FamilyDetailView;
@@ -5679,6 +5662,7 @@
         [self modes_icons_empty],
     ];
     
+    menu_Files.subItem = [mainMenu new];
     menu_Files.subItem.mainMethod = [@[
         @{
             @"method": @"Files.GetDirectory",
@@ -5813,6 +5797,7 @@
         [self modes_icons_empty],
     ];
     
+    menu_Files.subItem.subItem = [mainMenu new];
     menu_Files.subItem.subItem.noConvertTime = YES;
     menu_Files.subItem.subItem.mainMethod = [@[
         @{
@@ -5849,6 +5834,7 @@
     ];
     
 #pragma mark - Kodi Server Management
+    __auto_type menu_Server = [mainMenu new];
     menu_Server.mainLabel = LOCALIZED_STR(@"XBMC Server");
     menu_Server.icon = @"";
     menu_Server.family = FamilyServer;
@@ -5869,6 +5855,7 @@
     AppDelegate.instance.playlistPVR = [menu_LiveTV copy];
     
 #pragma mark - Addons
+    __auto_type menu_Addons = [mainMenu new];
     menu_Addons.mainLabel = LOCALIZED_STR(@"Add-ons");
     menu_Addons.icon = @"st_addons";
     menu_Addons.family = FamilyDetailView;
@@ -6048,6 +6035,7 @@
         ],
     ];
     
+    menu_Addons.subItem = [mainMenu new];
     menu_Addons.subItem.mainMethod = [@[
         @{},
         @{
@@ -6171,7 +6159,7 @@
     menu_Addons.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
 #pragma mark - Kodi Settings
-    menu_Settings = [mainMenu new];
+    __auto_type menu_Settings = [mainMenu new];
     menu_Settings.subItem = [mainMenu new];
     menu_Settings.subItem.subItem = [mainMenu new];
     
@@ -6385,9 +6373,6 @@
     
 #pragma mark - Custom Button Entry (Settings & Addons)
     __auto_type customButtonEntry = [mainMenu new];
-    customButtonEntry.subItem = [mainMenu new];
-    customButtonEntry.subItem.subItem = [mainMenu new];
-    
     customButtonEntry.mainLabel = @"Custom Button Menu";
     customButtonEntry.icon = @"icon_menu_settings";
     customButtonEntry.family = FamilyDetailView;
@@ -6633,6 +6618,7 @@
         ],
     ];
     
+    customButtonEntry.subItem = [mainMenu new];
     customButtonEntry.subItem.mainMethod = [@[
         @{
             @"method": @"Settings.GetCategories",
@@ -6682,6 +6668,7 @@
     customButtonEntry.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
     customButtonEntry.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
+    customButtonEntry.subItem.subItem = [mainMenu new];
     customButtonEntry.subItem.subItem.mainMethod = [@[
         @{
             @"method": @"Settings.GetSettings",
@@ -6805,6 +6792,7 @@
 #pragma mark - Build and Initialize Menu Structure
     
     // Build menu tree
+    NSMutableArray *mainMenuItems = [NSMutableArray new];
     if (IS_IPHONE) {
         [mainMenuItems addObject:menu_Server];
     }
