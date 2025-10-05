@@ -4481,7 +4481,7 @@
     if (!sectionItem) {
         return;
     };
-    NSMutableArray *sheetActions = [[AppDelegate.instance action_album] mutableCopy];
+    NSMutableArray *sheetActions = [[mainMenu action_album] mutableCopy];
     selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     NSMutableDictionary *item = [sectionItem mutableCopy];
     item[@"label"] = self.navigationItem.title;
