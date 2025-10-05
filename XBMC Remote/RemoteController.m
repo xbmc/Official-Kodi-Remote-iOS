@@ -25,7 +25,6 @@
 #define TOOLBAR_ICON_SIZE 36
 #define TOOLBAR_FIXED_OFFSET 8
 #define TOOLBAR_HEIGHT (TOOLBAR_ICON_SIZE + TOOLBAR_FIXED_OFFSET)
-#define TOOLBAR_PARENT_HEIGHT 50
 #define TAG_BUTTON_FULLSCREEN 1
 #define TAG_BUTTON_SEEK_BACKWARD 2
 #define TAG_BUTTON_PLAY_PAUSE 3
@@ -142,100 +141,45 @@
     return yOrigin;
 }
 
-- (void)setEmbeddedView {
-    CGRect frame = TransitionalView.frame;
-    CGFloat newWidth = GET_MAINSCREEN_WIDTH - ANCHOR_RIGHT_PEEK;
-    CGFloat shift;
-    [self hideButton:@[buttonSeekBackward,
-                       buttonPlayPause,
-                       buttonSeekForward,
-                       buttonPrevious,
-                       buttonNext]
-                hide:YES];
-    if ([Utilities hasRemoteToolBar]) {
-        shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY(buttonNext.frame);
-        [self moveButton:@[buttonMusic,
-                           buttonMovies,
-                           buttonTVShows,
-                           buttonPictures]
-                    ypos:-shift];
-    }
-    else {
-        shift = CGRectGetMinY(TransitionalView.frame) - CGRectGetMinY(buttonStop.frame);
-        [self hideButton:@[buttonMusic,
-                           buttonMovies,
-                           buttonTVShows,
-                           buttonPictures]
-                    hide:YES];
-    }
-    
-    // Place the transitional view in the middle between the two button rows
-    CGFloat lowerButtonUpperBorder = CGRectGetMinY(buttonMusic.frame);
-    CGFloat upperButtonLowerBorder = CGRectGetMaxY(buttonStop.frame);
-    CGFloat transViewY = (lowerButtonUpperBorder + upperButtonLowerBorder - TransitionalView.frame.size.height) / 2;
-    TransitionalView.frame = CGRectMake(frame.origin.x, transViewY, frame.size.width, frame.size.height);
-    
-    // Maintain aspect ratio
-    CGFloat transform = newWidth / remoteControlView.frame.size.width;
-    CGFloat newHeight = remoteControlView.frame.size.height * transform;
-    CGFloat toolbarPadding = [Utilities getBottomPadding];
-    CGFloat offset = [self getOriginYForRemote:shift * transform - newHeight + TOOLBAR_PARENT_HEIGHT - TOOLBAR_HEIGHT - toolbarPadding];
-    remoteControlView.frame = CGRectMake(0, offset, newWidth, newHeight);
-    embeddedShift = shift * transform;
-    
-    frame = remoteControlView.frame;
-    frame.origin.y = 0;
-    frame.size.height -= shift;
-    quickHelpView.frame = frame;
-    
-    // embedded remote needs a transparent background
-    panFallbackImageView.image = nil;
-    
-    [self setupGestureView];
-    if ([Utilities hasRemoteToolBar]) {
-        [self createRemoteToolbar:gestureImage width:newWidth xMin:ANCHOR_RIGHT_PEEK yMax:TOOLBAR_PARENT_HEIGHT];
-    }
-    else {
-        // Overload "stop" button with gesture icon in case the toolbar cannot be displayed (e.g. iPhone 4S)
-        UIButton *gestureButton = buttonStop;
-        gestureButton.contentMode = UIViewContentModeScaleAspectFit;
-        gestureButton.showsTouchWhenHighlighted = NO;
-        [gestureButton setImage:gestureImage forState:UIControlStateNormal];
-        [gestureButton setImage:gestureImage forState:UIControlStateHighlighted];
-        [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_up"] forState:UIControlStateNormal];
-        [gestureButton setBackgroundImage:[UIImage imageNamed:@"remote_button_blank_down"] forState:UIControlStateHighlighted];
-        gestureButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-        [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
-    }
-}
-
 - (void)configureView {
     self.navigationItem.title = LOCALIZED_STR(@"Remote Control");
     CGFloat toolbarPadding = TOOLBAR_HEIGHT;
     if (![Utilities hasRemoteToolBar]) {
         toolbarPadding = 0;
     }
+    CGFloat leftPadding = (IS_IPHONE && isEmbeddedMode) ? ANCHOR_RIGHT_PEEK : 0;
     if (IS_IPHONE) {
+        CGFloat newWidth = GET_MAINSCREEN_WIDTH - leftPadding;
+        
+        // Maintain aspect ratio
+        CGFloat transform = newWidth / remoteControlView.frame.size.width;
+        CGFloat newHeight = remoteControlView.frame.size.height * transform;
+        CGFloat toolbarPadding = [Utilities getBottomPadding];
+        CGFloat offset = [self getOriginYForRemote:self.view.bounds.size.height - newHeight - toolbarPadding - TOOLBAR_HEIGHT];
+        remoteControlView.frame = CGRectMake(leftPadding, offset, newWidth, newHeight);
+        
         VolumeSliderView *volumeSliderView = nil;
-        CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
-        toolbarPadding += [Utilities getBottomPadding];
-        frame.size.height *= transform;
-        frame.size.width *= transform;
-        frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
         
         if ([Utilities hasRemoteToolBar]) {
-            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
+            CGFloat topPadding = isEmbeddedMode ? [Utilities getTopPadding] : 0;
+            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:leftPadding isSliderType:YES];
+            CGRect frame1 = volumeSliderView.frame;
+            frame1.origin.y = topPadding;
+            frame1.origin.x = leftPadding;
+            volumeSliderView.frame = frame1;
+            
             [volumeSliderView startTimer];
             [self.view addSubview:volumeSliderView];
             if (frame.origin.y == 0) {
-                frame.origin.y = volumeSliderView.frame.size.height;
+                frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
             }
-            topRemoteOffset = volumeSliderView.frame.size.height;
+            topRemoteOffset = CGRectGetMaxY(volumeSliderView.frame);
         }
         remoteControlView.frame = frame;
         
         frame.origin.y = 0;
+        frame.origin.x = 0;
         quickHelpView.frame = frame;
     }
     else {
@@ -270,7 +214,7 @@
     }
     [self setupGestureView];
     if ([Utilities hasRemoteToolBar]) {
-        [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:0 yMax:self.view.bounds.size.height];
+        [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:leftPadding yMax:self.view.bounds.size.height];
     }
 }
 
@@ -1230,7 +1174,7 @@
     positionMode = positionMode == RemoteAtBottom ? RemoteAtTop : RemoteAtBottom;
     CGRect frame = remoteControlView.frame;
     if (positionMode == RemoteAtBottom && [Utilities hasRemoteToolBar]) {
-        frame.origin.y = CGRectGetMinY(remoteToolbar.frame) - CGRectGetHeight(remoteControlView.frame) + embeddedShift;
+        frame.origin.y = CGRectGetMinY(remoteToolbar.frame) - CGRectGetHeight(remoteControlView.frame);
     }
     else {
         frame.origin.y = topRemoteOffset;
@@ -1256,7 +1200,7 @@
     }
     
     // Frame for remoteToolbarView placed at bottom - toolbar's height
-    remoteToolbar = [[UIView alloc] initWithFrame:CGRectMake(0, yMax - TOOLBAR_HEIGHT, width, TOOLBAR_HEIGHT)];
+    remoteToolbar = [[UIView alloc] initWithFrame:CGRectMake(xMin, yMax - TOOLBAR_HEIGHT, width - xMin, TOOLBAR_HEIGHT)];
     remoteToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     // Frame for buttons in remoteToolbarView
@@ -1344,12 +1288,7 @@
     
     quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
     [self loadRemoteMode];
-    if (!isEmbeddedMode) {
-        [self configureView];
-    }
-    else {
-        [self setEmbeddedView];
-    }
+    [self configureView];
     
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundImage_repeat"]];
