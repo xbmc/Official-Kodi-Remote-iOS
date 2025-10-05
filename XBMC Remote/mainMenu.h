@@ -52,5 +52,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 @property (nonatomic, copy) NSArray *filterModes;
 
 - (id)copyWithZone:(NSZone*)zone;
++ (NSMutableArray*)generateMenus;
++ (NSArray*)action_album;
 
 @end
