@@ -1514,6 +1514,9 @@
                             menuItem.mainParameters[activeTab][@"parameters"][@"section"], @"section",
                             nil];
             }
+            else if ([item[@"family"] isEqualToString:@"addonid"]) {
+                objValue = [@"plugin://" stringByAppendingString: objValue];
+            }
             NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                   [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                    objValue, fileModeKey,
@@ -3578,6 +3581,7 @@
         [self searchWeb:item indexPath:selectedIndexPath serviceURL:@"http://m.last.fm/music/%@/+charts?subtype=tracks&rangetype=6month&go=Go"];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Execute program")] ||
+             [actiontitle isEqualToString:LOCALIZED_STR(@"Execute add-on")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute video add-on")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Execute audio add-on")]) {
         [self SimpleAction:@"Addons.ExecuteAddon"
@@ -3816,7 +3820,7 @@
 
 - (void)configureView {
     mainMenu *menuItem = self.detailItem;
-    if (menuItem) {
+    if (menuItem && !menuItem.disableNavbarButtons) {
         topNavigationLabel = [UILabel new];
         topNavigationLabel.backgroundColor = UIColor.clearColor;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
@@ -3835,13 +3839,8 @@
         UIBarButtonItem *remoteButton = [[UIBarButtonItem alloc] initWithImage:remoteButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showRemote)];
         UIImage *nowPlayingButtonImage = [UIImage imageNamed:@"icon_menu_playing"];
         UIBarButtonItem *nowPlayingButton = [[UIBarButtonItem alloc] initWithImage:nowPlayingButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
-        if (!menuItem.disableNowPlaying) {
-            self.navigationItem.rightBarButtonItems = @[remoteButton,
-                                                        nowPlayingButton];
-        }
-        else {
-            self.navigationItem.rightBarButtonItems = @[remoteButton];
-        }
+        self.navigationItem.rightBarButtonItems = @[remoteButton,
+                                                    nowPlayingButton];
     }
 }
 
@@ -4781,6 +4780,14 @@
             useCommonPvrRecordingsTimers = YES;
         }
     }
+    
+    // Settings access requires Kodi 13 or higher
+    if ([methodToCall containsString:@"Settings."] && AppDelegate.instance.serverVersion < 13) {
+        UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
+        [self presentViewController:alertView animated:YES completion:nil];
+        [self animateNoResultsFound];
+        return;
+    }
 
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     elapsedTime = 0;
@@ -5332,7 +5339,7 @@
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     
-    BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel] && ![menuItem.mainLabel isEqualToString:LOCALIZED_STR(@"XBMC Settings")];
+    BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel] && !([menuItem.mainLabel isEqualToString:LOCALIZED_STR(@"XBMC Settings")] || [menuItem.mainLabel isEqualToString:@"Custom Button Menu"]);
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
     self.navigationItem.backButtonTitle = labelText;
     if (!albumView) {
@@ -5982,11 +5989,11 @@
     
     [activityIndicatorView startAnimating];
     
-    // As an exception the settings on iPhone animate bottom-up. This requires to
+    // As an exception custom button menu on iPhone animates bottom-up. This requires to
     // change the initial frame for the first table shown (list view). It is important
     // to apply this only change after the library view has been initialized as this
     // uses the list view frame to set its own frame.
-    if ([parameters[@"animationStartBottomScreen"] boolValue]) {
+    if ([menuItem.mainLabel isEqualToString:@"Custom Button Menu"] && IS_IPHONE) {
         frame = dataList.frame;
         frame.origin.x = 0;
         frame.origin.y = UIScreen.mainScreen.bounds.size.height;

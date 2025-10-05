@@ -430,6 +430,36 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<true/>
+			<key>Key</key>
+			<string>menu_files</string>
+			<key>Title</key>
+			<string>Files</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<true/>
+			<key>Key</key>
+			<string>menu_addons</string>
+			<key>Title</key>
+			<string>Add-ons</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<true/>
+			<key>Key</key>
+			<string>menu_settings</string>
+			<key>Title</key>
+			<string>Kodi Settings</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
 	</array>
 	<key>StringsTable</key>
 	<string>Root</string>

@@ -254,7 +254,7 @@
 
 - (void)addActionButton:(UIAlertController*)alertCtrl {
     id value = @"";
-    NSString *type = self.detailItem[@"year"] ?: @"string";
+    NSString *type = self.detailItem[@"type"] ?: @"string";
     switch (xbmcSetting) {
         case SettingTypeList:
             if ([type isEqualToString:@"integer"]) {

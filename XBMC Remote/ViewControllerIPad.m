@@ -151,7 +151,7 @@
     RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
     remoteController.modalPresentationStyle = UIModalPresentationFormSheet;
     [remoteController setPreferredContentSize:remoteController.view.frame.size];
-    [self presentViewController:remoteController animated:YES completion:nil];
+    [UIApplication.sharedApplication.keyWindow.rootViewController presentViewController:remoteController animated:YES completion:nil];
 }
 
 - (void)toggleInfoView {

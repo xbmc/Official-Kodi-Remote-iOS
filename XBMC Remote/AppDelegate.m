@@ -31,6 +31,7 @@
 @synthesize serverVersion;
 @synthesize serverMinorVersion;
 @synthesize obj;
+@synthesize customButtonEntry;
 @synthesize playlistArtistAlbums;
 @synthesize playlistMovies;
 @synthesize playlistMusicVideos;
@@ -41,7 +42,6 @@
 @synthesize nowPlayingMenuItems;
 @synthesize serverVolume;
 @synthesize remoteControlMenuItems;
-@synthesize xbmcSettings;
 
 + (AppDelegate*)instance {
 	return (AppDelegate*)UIApplication.sharedApplication.delegate;
@@ -471,6 +471,9 @@
     __auto_type menu_LiveTV = [mainMenu new];
     __auto_type menu_Radio = [mainMenu new];
     __auto_type menu_Search = [mainMenu new];
+    __auto_type menu_Addons = [mainMenu new];
+    __auto_type menu_Files = [mainMenu new];
+    __auto_type menu_Settings = [mainMenu new];
 
     menu_Music.subItem = [mainMenu new];
     menu_Music.subItem.subItem = [mainMenu new];
@@ -494,6 +497,10 @@
     menu_Radio.subItem = [mainMenu new];
     menu_Radio.subItem.subItem = [mainMenu new];
 
+    menu_Addons.subItem = [mainMenu new];
+    
+    menu_Files.subItem = [mainMenu new];
+    menu_Files.subItem.subItem = [mainMenu new];
     
 #pragma mark - Music
     menu_Music.mainLabel = LOCALIZED_STR(@"Music");
@@ -5576,7 +5583,7 @@
             @"row5": [NSNull null],
             @"row6": @"title",
             @"row7": @"path",
-            @"playlistid": @(-1),
+            @"playlistid": @PLAYERID_UNKNOWN,
             @"row8": @"type",
             @"row9": @"window",
             @"row10": @"windowparameter",
@@ -5625,6 +5632,296 @@
         },
     ] mutableCopy];
     
+#pragma mark - Files
+    menu_Files.mainLabel = LOCALIZED_STR(@"Files");
+    menu_Files.icon = @"st_filemode";
+    menu_Files.family = FamilyDetailView;
+    menu_Files.enableSection = YES;
+    menu_Files.noConvertTime = YES;
+    menu_Files.mainButtons = @[
+        @"icon_song",
+        @"icon_video",
+        @"icon_picture",
+    ];
+    
+    menu_Files.mainMethod = @[
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+        @{
+            @"method": @"Files.GetSources",
+        },
+    ];
+    
+    menu_Files.mainParameters = [@[
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": @"music",
+            },
+            @"label": LOCALIZED_STR(@"Music"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": @"video",
+            },
+            @"label": LOCALIZED_STR(@"Videos"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": @"pictures",
+            },
+            @"label": LOCALIZED_STR(@"Pictures"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+    ] mutableCopy];
+    
+    menu_Files.mainFields = @[
+        @{
+            @"itemid": @"sources",
+            @"row1": @"label",
+            @"row2": @"year",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"file",
+            @"playlistid": @PLAYERID_MUSIC,
+            @"row8": @"file",
+            @"row9": @"file",
+        },
+        
+        @{
+            @"itemid": @"sources",
+            @"row1": @"label",
+            @"row2": @"year",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"file",
+            @"playlistid": @PLAYERID_VIDEO,
+            @"row8": @"file",
+            @"row9": @"file",
+        },
+        
+        @{
+            @"itemid": @"sources",
+            @"row1": @"label",
+            @"row2": @"year",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"file",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row8": @"file",
+            @"row9": @"file",
+        },
+    ];
+    
+    menu_Files.rowHeight = PORTRAIT_ROW_HEIGHT;
+    menu_Files.thumbWidth = DEFAULT_THUMB_WIDTH;
+    menu_Files.defaultThumb = @"nocover_musicvideos";
+    menu_Files.sheetActions = @[
+        [self action_filemode_music],
+        [self action_queue_to_play],
+        [self action_pictures],
+    ];
+    
+    menu_Files.showInfo = @[
+        @NO,
+        @NO,
+        @NO,
+    ];
+    
+    menu_Files.filterModes = @[
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+    ];
+    
+    menu_Files.subItem.mainMethod = [@[
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+    ] mutableCopy];
+    
+    menu_Files.subItem.noConvertTime = YES;
+
+    menu_Files.subItem.mainParameters = [@[
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": filemodeMusicType,
+                @"file_properties": @[
+                    @"thumbnail",
+                    @"art",
+                    @"playcount",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": filemodeVideoType,
+                @"file_properties": @[
+                    @"thumbnail",
+                    @"art",
+                    @"playcount",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"media": @"pictures",
+                @"file_properties": @[
+                    @"thumbnail",
+                    @"art",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Files"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+    ] mutableCopy];
+    
+    menu_Files.subItem.mainFields = @[
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"row7": @"playcount",
+            @"playlistid": @PLAYERID_MUSIC,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"row7": @"playcount",
+            @"playlistid": @PLAYERID_VIDEO,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"playlistid": @PLAYERID_PICTURES,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+    ];
+    
+    menu_Files.subItem.enableSection = YES;
+    menu_Files.subItem.rowHeight = PORTRAIT_ROW_HEIGHT;
+    menu_Files.subItem.thumbWidth = DEFAULT_THUMB_WIDTH;
+    menu_Files.subItem.defaultThumb = @"nocover_musicvideos";
+    menu_Files.subItem.sheetActions = @[
+        [self action_filemode_music],
+        [self action_queue_to_play],
+        [self action_pictures],
+    ];
+    
+    menu_Files.subItem.showInfo = @[
+        @NO,
+        @NO,
+        @NO,
+    ];
+    
+    menu_Files.subItem.filterModes = @[
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+        [self modes_icons_empty],
+    ];
+
+    menu_Files.subItem.subItem.noConvertTime = YES;
+    menu_Files.subItem.subItem.mainMethod = [@[
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+    ] mutableCopy];
+    
+    menu_Files.subItem.subItem.mainParameters = [@[
+        @{},
+        @{},
+        @{},
+    ] mutableCopy];
+    
+    menu_Files.subItem.subItem.mainFields = @[
+        @{},
+        @{},
+        @{},
+    ];
+    
+    menu_Files.subItem.subItem.enableSection = NO;
+    menu_Files.subItem.subItem.rowHeight = PORTRAIT_ROW_HEIGHT;
+    menu_Files.subItem.subItem.thumbWidth = DEFAULT_THUMB_WIDTH;
+    menu_Files.subItem.subItem.defaultThumb = @"nocover_filemode";
+    menu_Files.subItem.subItem.sheetActions = @[
+        @[],
+        @[],
+        @[],
+    ];
+    
 #pragma mark - XBMC Server Management
     menu_Server.mainLabel = LOCALIZED_STR(@"XBMC Server");
     menu_Server.icon = @"";
@@ -5645,19 +5942,534 @@
 #pragma mark - Playlist PVR
     playlistPVR = [menu_LiveTV copy];
     
-#pragma mark - XBMC Settings 
-    xbmcSettings = [mainMenu new];
-    xbmcSettings.subItem = [mainMenu new];
-    xbmcSettings.subItem.subItem = [mainMenu new];
+#pragma mark - Addons
+    menu_Addons.mainLabel = LOCALIZED_STR(@"Add-ons");
+    menu_Addons.icon = @"st_addons";
+    menu_Addons.family = FamilyDetailView;
+    menu_Addons.enableSection = YES;
+    menu_Addons.rowHeight = SETTINGS_ROW_HEIGHT;
+    menu_Addons.thumbWidth = SETTINGS_THUMB_WIDTH;
+    menu_Addons.mainButtons = @[
+        @"st_addons",
+        @"icon_song",
+        @"icon_video",
+        @"icon_picture",
+    ];
     
-    xbmcSettings.mainLabel = LOCALIZED_STR(@"XBMC Settings");
-    xbmcSettings.icon = @"icon_menu_settings";
-    xbmcSettings.family = FamilyDetailView;
-    xbmcSettings.enableSection = YES;
-    xbmcSettings.rowHeight = SETTINGS_ROW_HEIGHT;
-    xbmcSettings.thumbWidth = SETTINGS_THUMB_WIDTH;
-    xbmcSettings.disableNowPlaying = YES;
-    xbmcSettings.mainButtons = @[
+    menu_Addons.mainMethod = [@[
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+        @{
+            @"method": @"Addons.GetAddons",
+        },
+    ] mutableCopy];
+    
+    menu_Addons.mainParameters = [@[
+        @{
+            @"parameters": @{
+                @"type": @"xbmc.addon.executable",
+                @"enabled": @YES,
+                @"properties": @[
+                    @"name",
+                    @"version",
+                    @"summary",
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Programs"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+        },
+                                   
+        @{
+            @"parameters": @{
+                @"type": @"xbmc.addon.audio",
+                @"enabled": @YES,
+                @"properties": @[
+                    @"name",
+                    @"version",
+                    @"summary",
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Music Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+        },
+                                   
+        @{
+            @"parameters": @{
+                @"type": @"xbmc.addon.video",
+                @"enabled": @YES,
+                @"properties": @[
+                    @"name",
+                    @"version",
+                    @"summary",
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+        },
+        
+        @{
+            @"parameters": @{
+                @"type": @"xbmc.addon.image",
+                @"enabled": @YES,
+                @"properties": @[
+                    @"name",
+                    @"version",
+                    @"summary",
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Pictures Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @SETTINGS_THUMB_WIDTH_BIG,
+            @"itemSizes": [self itemSizes_Music],
+            @"enableCollectionView": @YES,
+        },
+    ] mutableCopy];
+    
+    menu_Addons.mainFields = @[
+        @{
+            @"itemid": @"addons",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+                               
+        @{
+            @"itemid": @"addons",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+                               
+        @{
+            @"itemid": @"addons",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+        
+        @{
+            @"itemid": @"addons",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+    ];
+    
+    menu_Addons.sheetActions = @[
+        @[
+            LOCALIZED_STR(@"Execute program"),
+            LOCALIZED_STR(@"Add button"),
+        ],
+        @[
+            LOCALIZED_STR(@"Execute audio add-on"),
+            LOCALIZED_STR(@"Add button"),
+        ],
+        @[
+            LOCALIZED_STR(@"Execute video add-on"),
+            LOCALIZED_STR(@"Add button"),
+        ],
+        @[
+            LOCALIZED_STR(@"Execute add-on"),
+            LOCALIZED_STR(@"Add button"),
+        ],
+    ];
+    
+    menu_Addons.subItem.mainMethod = [@[
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+    ] mutableCopy];
+    
+    menu_Addons.subItem.mainParameters = [@[
+        @{
+            @"forceActionSheet": @YES,
+        },
+
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
+                @"media": @"music",
+                @"file_properties": @[
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Music Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
+
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
+                @"media": @"video",
+                @"file_properties": @[
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"none" order:@"ascending" ignorearticle:NO],
+                @"media": @"pictures",
+                @"file_properties": @[
+                    @"thumbnail",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Pictures Add-ons"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Music],
+        },
+    ] mutableCopy];
+    
+    menu_Addons.subItem.mainFields = @[
+        @{},
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"row7": @"plugin",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"row7": @"plugin",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+        
+        @{
+            @"itemid": @"files",
+            @"row1": @"label",
+            @"row2": @"filetype",
+            @"row3": @"filetype",
+            @"row4": @"filetype",
+            @"row5": @"filetype",
+            @"row6": @"file",
+            @"row7": @"plugin",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"file",
+            @"row9": @"file",
+            @"row10": @"filetype",
+            @"row11": @"type",
+        },
+    ];
+    
+    menu_Addons.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
+    menu_Addons.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
+    
+#pragma mark - XBMC Settings 
+    menu_Settings = [mainMenu new];
+    menu_Settings.subItem = [mainMenu new];
+    menu_Settings.subItem.subItem = [mainMenu new];
+    
+    menu_Settings.mainLabel = LOCALIZED_STR(@"XBMC Settings");
+    menu_Settings.icon = @"icon_menu_settings";
+    menu_Settings.family = FamilyDetailView;
+    menu_Settings.enableSection = YES;
+    menu_Settings.rowHeight = SETTINGS_ROW_HEIGHT;
+    menu_Settings.thumbWidth = SETTINGS_THUMB_WIDTH;
+    menu_Settings.mainButtons = @[
+        @"st_filemode",
+        @"st_kodi_action",
+        @"st_kodi_window",
+    ];
+    
+    menu_Settings.mainMethod = [@[
+        @{
+            @"method": @"Settings.GetSections",
+        },
+        @{
+            @"method": @"JSONRPC.Introspect",
+        },
+        @{
+            @"method": @"JSONRPC.Introspect",
+        },
+    ] mutableCopy];
+    
+    menu_Settings.mainParameters = [@[
+        @{
+            @"parameters": @{
+                @"level": @"expert",
+            },
+            @"label": LOCALIZED_STR(@"XBMC Settings"),
+            @"thumbWidth": @0,
+        },
+                                   
+        @{
+            @"parameters": @{
+                @"filter": @{
+                        @"id": @"Input.ExecuteAction",
+                        @"type": @"method",
+                },
+            },
+            @"label": LOCALIZED_STR(@"Kodi actions"),
+            @"defaultThumb": @"default-right-action-icon",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @0,
+            @"morelabel": LOCALIZED_STR(@"Execute a specific action"),
+            @"forceActionSheet": @YES,
+        },
+                                   
+        @{
+            @"parameters": @{
+                @"filter": @{
+                        @"id": @"GUI.ActivateWindow",
+                        @"type": @"method",
+                },
+            },
+            @"label": LOCALIZED_STR(@"Kodi windows"),
+            @"defaultThumb": @"default-right-window-icon",
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @0,
+            @"morelabel": LOCALIZED_STR(@"Activate a specific window"),
+            @"forceActionSheet": @YES,
+        },
+    ] mutableCopy];
+    
+    menu_Settings.mainFields = @[
+        @{
+            @"itemid": @"sections",
+            @"row1": @"label",
+            @"row2": @"help",
+            @"row3": @"id",
+            @"row4": @"id",
+            @"row5": @"id",
+            @"row6": @"id",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"sectionid",
+            @"row9": @"id",
+        },
+                               
+        @{
+            @"itemid": @"types",
+            @"typename": @"Input.Action",
+            @"fieldname": @"enums",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+                               
+        @{
+            @"itemid": @"types",
+            @"typename": @"GUI.Window",
+            @"fieldname": @"enums",
+            @"row1": @"name",
+            @"row2": @"summary",
+            @"row3": @"blank",
+            @"row4": @"blank",
+            @"row5": @"addonid",
+            @"row6": @"addonid",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"addonid",
+            @"row9": @"addonid",
+        },
+    ];
+    
+    menu_Settings.sheetActions = @[
+        @[],
+        @[
+            LOCALIZED_STR(@"Execute action"),
+            LOCALIZED_STR(@"Add action button"),
+        ],
+        @[
+            LOCALIZED_STR(@"Activate window"),
+            LOCALIZED_STR(@"Add window activation button"),
+        ],
+    ];
+    
+    menu_Settings.subItem.mainMethod = [@[
+        @{
+            @"method": @"Settings.GetCategories",
+        },
+        @{},
+        @{},
+    ] mutableCopy];
+    
+    menu_Settings.subItem.mainParameters = [@[
+        @{
+            @"label": LOCALIZED_STR(@"Settings"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @0,
+        },
+        @{},
+        @{},
+    ] mutableCopy];
+    
+    menu_Settings.subItem.mainFields = @[
+        @{
+            @"itemid": @"categories",
+            @"row1": @"label",
+            @"row2": @"help",
+            @"row3": @"id",
+            @"row4": @"id",
+            @"row5": @"id",
+            @"row6": @"id",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row8": @"categoryid",
+            @"row9": @"id",
+        },
+        @{},
+        @{},
+    ];
+    
+    menu_Settings.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
+    menu_Settings.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
+    
+    menu_Settings.subItem.subItem.mainMethod = [@[
+        @{
+            @"method": @"Settings.GetSettings",
+        },
+    ] mutableCopy];
+    
+    menu_Settings.subItem.subItem.mainParameters = [@[
+        @{
+            @"label": LOCALIZED_STR(@"Settings"),
+            @"defaultThumb": @"nocover_filemode",
+            @"rowHeight": @SETTINGS_ROW_HEIGHT,
+            @"thumbWidth": @0,
+        },
+    ] mutableCopy];
+    
+    menu_Settings.subItem.subItem.mainFields = @[
+        @{
+            @"itemid": @"settings",
+            @"row1": @"label",
+            @"row2": @"help",
+            @"row3": @"id",
+            @"row4": @"default",
+            @"row5": @"enabled",
+            @"row6": @"id",
+            @"playlistid": @PLAYERID_UNKNOWN,
+            @"row7": @"delimiter",
+            @"row8": @"id",
+            @"row9": @"type",
+            @"row10": @"parent",
+            @"row11": @"control",
+            @"row12": @"value",
+            @"row13": @"options",
+            @"row14": @"allowempty",
+            @"row15": @"addontype",
+            @"row16": @"maximum",
+            @"row17": @"minimum",
+            @"row18": @"step",
+            @"row19": @"definition",
+        },
+    ];
+    
+    menu_Settings.subItem.subItem.sheetActions = @[
+        @[],
+    ];
+    
+    menu_Settings.subItem.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
+    menu_Settings.subItem.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
+    
+#pragma mark - Custom Button Entry (Settings & Addons)
+    customButtonEntry = [mainMenu new];
+    customButtonEntry.subItem = [mainMenu new];
+    customButtonEntry.subItem.subItem = [mainMenu new];
+    
+    customButtonEntry.mainLabel = @"Custom Button Menu";
+    customButtonEntry.icon = @"icon_menu_settings";
+    customButtonEntry.family = FamilyDetailView;
+    customButtonEntry.enableSection = YES;
+    customButtonEntry.disableNavbarButtons = YES;
+    customButtonEntry.rowHeight = SETTINGS_ROW_HEIGHT;
+    customButtonEntry.thumbWidth = SETTINGS_THUMB_WIDTH;
+    customButtonEntry.mainButtons = @[
         @"st_filemode",
         @"st_addons",
         @"st_video_addon",
@@ -5666,7 +6478,7 @@
         @"st_kodi_window",
     ];
     
-    xbmcSettings.mainMethod = [@[
+    customButtonEntry.mainMethod = [@[
         @{
             @"method": @"Settings.GetSections",
         },
@@ -5687,13 +6499,12 @@
         },
     ] mutableCopy];
     
-    xbmcSettings.mainParameters = [@[
+    customButtonEntry.mainParameters = [@[
         @{
             @"parameters": @{
                 @"level": @"expert",
             },
             @"label": LOCALIZED_STR(@"XBMC Settings"),
-            @"animationStartBottomScreen": @(IS_IPHONE),
             @"thumbWidth": @0,
         },
                                    
@@ -5788,7 +6599,7 @@
         },
     ] mutableCopy];
     
-    xbmcSettings.mainFields = @[
+    customButtonEntry.mainFields = @[
         @{
             @"itemid": @"sections",
             @"row1": @"label",
@@ -5797,7 +6608,7 @@
             @"row4": @"id",
             @"row5": @"id",
             @"row6": @"id",
-            @"playlistid": @PLAYERID_PICTURES,
+            @"playlistid": @PLAYERID_UNKNOWN,
             @"row8": @"sectionid",
             @"row9": @"id",
         },
@@ -5810,7 +6621,7 @@
             @"row4": @"blank",
             @"row5": @"addonid",
             @"row6": @"addonid",
-            @"playlistid": @PLAYERID_PICTURES,
+            @"playlistid": @PLAYERID_UNKNOWN,
             @"row8": @"addonid",
             @"row9": @"addonid",
         },
@@ -5823,7 +6634,7 @@
             @"row4": @"blank",
             @"row5": @"addonid",
             @"row6": @"addonid",
-            @"playlistid": @PLAYERID_PICTURES,
+            @"playlistid": @PLAYERID_UNKNOWN,
             @"row8": @"addonid",
             @"row9": @"addonid",
         },
@@ -5836,7 +6647,7 @@
             @"row4": @"blank",
             @"row5": @"addonid",
             @"row6": @"addonid",
-            @"playlistid": @PLAYERID_PICTURES,
+            @"playlistid": @PLAYERID_UNKNOWN,
             @"row8": @"addonid",
             @"row9": @"addonid",
         },
@@ -5851,7 +6662,7 @@
             @"row4": @"blank",
             @"row5": @"addonid",
             @"row6": @"addonid",
-            @"playlistid": @PLAYERID_PICTURES,
+            @"playlistid": @PLAYERID_UNKNOWN,
             @"row8": @"addonid",
             @"row9": @"addonid",
         },
@@ -5866,13 +6677,13 @@
             @"row4": @"blank",
             @"row5": @"addonid",
             @"row6": @"addonid",
-            @"playlistid": @PLAYERID_PICTURES,
+            @"playlistid": @PLAYERID_UNKNOWN,
             @"row8": @"addonid",
             @"row9": @"addonid",
         },
     ];
     
-    xbmcSettings.sheetActions = @[
+    customButtonEntry.sheetActions = @[
         @[],
         @[
             LOCALIZED_STR(@"Execute program"),
@@ -5896,8 +6707,7 @@
         ],
     ];
     
-    xbmcSettings.subItem.disableNowPlaying = YES;
-    xbmcSettings.subItem.mainMethod = [@[
+    customButtonEntry.subItem.mainMethod = [@[
         @{
             @"method": @"Settings.GetCategories",
         },
@@ -5908,7 +6718,7 @@
         @{},
     ] mutableCopy];
     
-    xbmcSettings.subItem.mainParameters = [@[
+    customButtonEntry.subItem.mainParameters = [@[
         @{
             @"label": LOCALIZED_STR(@"Settings"),
             @"defaultThumb": @"nocover_filemode",
@@ -5922,7 +6732,7 @@
         @{},
     ] mutableCopy];
     
-    xbmcSettings.subItem.mainFields = @[
+    customButtonEntry.subItem.mainFields = @[
         @{
             @"itemid": @"categories",
             @"row1": @"label",
@@ -5931,7 +6741,7 @@
             @"row4": @"id",
             @"row5": @"id",
             @"row6": @"id",
-            @"playlistid": @PLAYERID_PICTURES,
+            @"playlistid": @PLAYERID_UNKNOWN,
             @"row8": @"categoryid",
             @"row9": @"id",
         },
@@ -5942,17 +6752,17 @@
         @{},
     ];
     
-    xbmcSettings.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
-    xbmcSettings.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
+    customButtonEntry.subItem.disableNavbarButtons = YES;
+    customButtonEntry.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
+    customButtonEntry.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
-    xbmcSettings.subItem.subItem.disableNowPlaying = YES;
-    xbmcSettings.subItem.subItem.mainMethod = [@[
+    customButtonEntry.subItem.subItem.mainMethod = [@[
         @{
             @"method": @"Settings.GetSettings",
         },
     ] mutableCopy];
     
-    xbmcSettings.subItem.subItem.mainParameters = [@[
+    customButtonEntry.subItem.subItem.mainParameters = [@[
         @{
             @"label": LOCALIZED_STR(@"Settings"),
             @"defaultThumb": @"nocover_filemode",
@@ -5961,19 +6771,19 @@
         },
     ] mutableCopy];
     
-    xbmcSettings.subItem.subItem.mainFields = @[
+    customButtonEntry.subItem.subItem.mainFields = @[
         @{
             @"itemid": @"settings",
             @"row1": @"label",
             @"row2": @"help",
-            @"row3": @"type",
+            @"row3": @"id",
             @"row4": @"default",
             @"row5": @"enabled",
             @"row6": @"id",
-            @"playlistid": @PLAYERID_PICTURES,
+            @"playlistid": @PLAYERID_UNKNOWN,
             @"row7": @"delimiter",
             @"row8": @"id",
-            @"row9": @"id",
+            @"row9": @"type",
             @"row10": @"parent",
             @"row11": @"control",
             @"row12": @"value",
@@ -5987,12 +6797,13 @@
         },
     ];
     
-    xbmcSettings.subItem.subItem.sheetActions = @[
+    customButtonEntry.subItem.subItem.sheetActions = @[
         @[],
     ];
     
-    xbmcSettings.subItem.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
-    xbmcSettings.subItem.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
+    customButtonEntry.subItem.subItem.disableNavbarButtons = YES;
+    customButtonEntry.subItem.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
+    customButtonEntry.subItem.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
 #pragma mark - Now Playing Right Menu
     __auto_type nowPlayingItem1 = [mainMenu new];
@@ -6101,6 +6912,15 @@
     }
     if ([self isMenuEntryEnabled:@"menu_search"]) {
         [mainMenuItems addObject:menu_Search];
+    }
+    if ([self isMenuEntryEnabled:@"menu_files"]) {
+        [mainMenuItems addObject:menu_Files];
+    }
+    if ([self isMenuEntryEnabled:@"menu_addons"]) {
+        [mainMenuItems addObject:menu_Addons];
+    }
+    if ([self isMenuEntryEnabled:@"menu_settings"]) {
+        [mainMenuItems addObject:menu_Settings];
     }
     
     // Set rootLabel for all menu entries

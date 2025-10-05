@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 @property int originYearDuration;
 @property int widthLabel;
 @property int chooseTab;
-@property BOOL disableNowPlaying;
+@property BOOL disableNavbarButtons;
 @property (nonatomic, copy) NSArray *showRuntime;
 @property BOOL noConvertTime;
 @property (nonatomic, copy) NSArray *filterModes;

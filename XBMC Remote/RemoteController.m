@@ -1130,10 +1130,10 @@
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
-        UIImage *settingsImg = [UIImage imageNamed:@"default-right-menu-icon"];
+        UIImage *customImg = [UIImage imageNamed:@"icon_custom_buttons"];
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
         self.navigationItem.rightBarButtonItems = @[
-            [[UIBarButtonItem alloc] initWithImage:settingsImg style:UIBarButtonItemStylePlain target:self action:@selector(handleSettingsButton:)],
+            [[UIBarButtonItem alloc] initWithImage:customImg style:UIBarButtonItemStylePlain target:self action:@selector(enterCustomButtons:)],
             [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)]
         ];
         self.navigationController.navigationBar.barTintColor = REMOTE_CONTROL_BAR_TINT_COLOR;
@@ -1265,14 +1265,14 @@
     // Add buttons to toolbar
     frame.origin.x -= ToolbarPadding;
     if (IS_IPAD) {
-        UIButton *settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIButton *customButton = [UIButton buttonWithType:UIButtonTypeCustom];
         frame.origin.x += ToolbarPadding;
-        settingButton.frame = frame;
-        settingButton.showsTouchWhenHighlighted = YES;
-        [settingButton setImage:[UIImage imageNamed:@"default-right-menu-icon"] forState:UIControlStateNormal];
-        [settingButton addTarget:self action:@selector(handleSettingsButton:) forControlEvents:UIControlEventTouchUpInside];
-        settingButton.alpha = 0.8;
-        [remoteToolbar addSubview:settingButton];
+        customButton.frame = frame;
+        customButton.showsTouchWhenHighlighted = YES;
+        [customButton setImage:[UIImage imageNamed:@"icon_custom_buttons"] forState:UIControlStateNormal];
+        [customButton addTarget:self action:@selector(enterCustomButtons:) forControlEvents:UIControlEventTouchUpInside];
+        customButton.alpha = 0.8;
+        [remoteToolbar addSubview:customButton];
     }
     
     UIButton *gestureButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1355,12 +1355,12 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundImage_repeat"]];
 }
 
-- (void)handleSettingsButton:(id)sender {
+- (void)enterCustomButtons:(id)sender {
     if (IS_IPHONE) {
         [self revealUnderRight];
     }
     else {
-        [self addButtonToListIPad];
+        [self enterCustomButtonsIPad];
     }
 }
 
@@ -1372,25 +1372,12 @@
     [self presentViewController:alertCtrl animated:YES completion:nil];
 }
 
-- (void)addButtonToListIPad {
-    if (AppDelegate.instance.serverVersion < 13) {
-        UIAlertController *alertCtrl = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
-        [self presentViewController:alertCtrl animated:YES completion:nil];
-    }
-    else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-        rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
-        if (rightMenuViewController.rightMenuItems.count) {
-            mainMenu *menuItem = rightMenuViewController.rightMenuItems[0];
-            menuItem.mainMethod = nil;
-        }
-        rightMenuViewController.view.frame = CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height);
-        [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:rightMenuViewController invokeByController:self isStackStartView:NO];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"LeaveFullscreen" object:nil userInfo:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOnScreen" object:nil];
-    }
+- (void)enterCustomButtonsIPad {
+    RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
+    rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
+    rightMenuViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    rightMenuViewController.view.frame = self.view.frame;
+    [self presentViewController:rightMenuViewController animated:YES completion:nil];
 }
 
 - (BOOL)shouldAutorotate {

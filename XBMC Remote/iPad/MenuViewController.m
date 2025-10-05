@@ -190,7 +190,7 @@
             RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
             remoteController.modalPresentationStyle = UIModalPresentationFormSheet;
             [remoteController setPreferredContentSize:remoteController.view.frame.size];
-            [self presentViewController:remoteController animated:YES completion:nil];
+            [UIApplication.sharedApplication.keyWindow.rootViewController presentViewController:remoteController animated:YES completion:nil];
             if (IS_IPAD) {
                 if (lastSelected != -1) {
                     // Restore the selected item and unselect remote again (remote is only a popover)
