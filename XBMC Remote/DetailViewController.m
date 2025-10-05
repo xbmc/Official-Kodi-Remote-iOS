@@ -785,7 +785,8 @@
     NSUInteger numResult = self.filteredListContent.count;
     if (numResult > 0) {
         if (numResult > 1) {
-            results = LOCALIZED_STR_ARGS(@"%lu results", numResult);
+            // Keep cast to (int) as "%d" is used for many translated languages
+            results = LOCALIZED_STR_ARGS(@"%d results", (int)numResult);
         }
         else {
             results = LOCALIZED_STR(@"1 result");
