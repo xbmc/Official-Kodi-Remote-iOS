@@ -2679,10 +2679,9 @@
     [self startNowPlayingUpdates];
     fromItself = NO;
     if (IS_IPHONE) {
-        self.slidingViewController.underRightViewController = nil;
-        RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-        rightMenuViewController.rightMenuItems = AppDelegate.instance.nowPlayingMenuItems;
-        self.slidingViewController.underRightViewController = rightMenuViewController;
+        RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:YES bundle:nil];
+        self.slidingViewController.underRightViewController = remoteController;
+        self.slidingViewController.anchorLeftPeekAmount = ANCHOR_RIGHT_PEEK;
     }
 }
 
