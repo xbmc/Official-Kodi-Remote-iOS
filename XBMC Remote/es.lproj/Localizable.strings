@@ -160,14 +160,12 @@
 "Button added" = "Botón añadido";
 "enter value" = "introducir valor";
 "Tap and hold a setting to add a new button." = "Pulsar y mantener un ajuste para añadir un nuevo botón.";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "No hay definido botón personalizado.\r\nA continuación presionar \"...más\" para añadir nuevos.";
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- AVISO --\nKodi API antes de la versión Krypton (v17) no permiten la modificación del temporizadores. Usa la GUI de Kodi para agregar, editar y eliminar temporizadores. Gracias.";
 "Execute program" = "Ejecutar programa";
 "Execute video add-on" = "Ejecutar add-on de vídeo";
 "Execute audio add-on" = "Ejecutar de audio";
 "Add-on executed successfully" = "Add-on ejecutado satisfactoriamente";
 "Unable to execute the add-on" = "No se puede ejecutar el add-on";
-"...more" = "...más";
 "Edit" = "Editar";
 "Done" = "Hecho";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Se requiere Kodi versión 13 o superior para acceder a los ajustes de Kodi";

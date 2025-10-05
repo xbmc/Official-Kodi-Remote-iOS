@@ -160,14 +160,12 @@
 "Button added" = "按钮已增加";
 "enter value" = "输入数值";
 "Tap and hold a setting to add a new button." = "点按设置来增加新按钮。";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "无自定义按钮。\r\n按 \"...更多\" 来增加。";
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- 注意 --\nKodi API 之前的 Krypton（v17）不允许计时器编辑。请使用 Kodi 图形用户界面增加、编辑和删除定时器。谢谢。";
 "Execute program" = "运行程序";
 "Execute video add-on" = "运行视频插件";
 "Execute audio add-on" = "运行音频插件";
 "Add-on executed successfully" = "插件运行成功";
 "Unable to execute the add-on" = "无法运行插件";
-"...more" = "...更多";
 "Edit" = "编辑";
 "Done" = "完成";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "访问Kodi设置需要Kodi 13或更高版本";
