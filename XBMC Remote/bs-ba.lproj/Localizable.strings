@@ -172,14 +172,12 @@
 "Button added" = "Dugme je dodano";
 "enter value" = "unesite vrijednost";
 "Tap and hold a setting to add a new button." = "Dodirnite i držite postavku da biste dodali novo dugme.";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Nije definirano prilagođeno dugme.\nPritisnite \"...više\" ispod da biste dodali nove.";
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- UPOZORENJE --\nKodi API prije Kryptona (v17) ne dozvoljava uređivanje tajmera. Koristite Kodi GUI za dodavanje, uređivanje i uklanjanje tajmera. Hvala vam.";
 "Execute program" = "Izvrši program";
 "Execute video add-on" = "Izvrši video dodatak";
 "Execute audio add-on" = "Izvrši audio dodatak";
 "Add-on executed successfully" = "Dodatak uspješno izvršen";
 "Unable to execute the add-on" = "Nije moguće izvršiti dodatak";
-"...more" = "...više";
 "Edit" = "Uredi";
 "Done" = "Gotovo";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Za pristup Kodi postavkama potrebna je Kodi verzija 13 ili novija";

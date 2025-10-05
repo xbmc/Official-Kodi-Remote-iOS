@@ -172,14 +172,12 @@
 "Button added" = "Knoppie bygevoeg";
 "enter value" = "tik waarde in";
 "Tap and hold a setting to add a new button." = "Tik en hou 'n instelling om 'n nuwe knoppie by te voeg.";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Geen pasgemaakte knoppie gedefinieer nie.\nDruk \"...meer\" onder om nuwes by te voeg.";
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- WAARSKUWING --\nKodi API voor Krypton (v17) laat nie tydhouer redigering toe nie. Gebruik die Kodi GUI om tydhouers by te voeg, redigeer en verwyder. Dankie.";
 "Execute program" = "Voer program uit";
 "Execute video add-on" = "Voer video byvoegsel uit";
 "Execute audio add-on" = "Voer oudio byvoegsel uit";
 "Add-on executed successfully" = "Byvoegsel suksesvol uitgevoer";
 "Unable to execute the add-on" = "Kan nie die byvoegsel uitvoer nie";
-"...more" = "...meer";
 "Edit" = "Redigeer";
 "Done" = "Gedoen";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi weergawe 13 of hoër word vereis vir toegang tot Kodi instellings";

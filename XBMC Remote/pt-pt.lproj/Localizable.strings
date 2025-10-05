@@ -132,7 +132,6 @@
 "Button added" = "Botão adicionado";
 "enter value" = "introduzir valor";
 "Tap and hold a setting to add a new button." = "Toque e segure uma definição para adicionar um novo botão.";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "Nenhum botão personalizado definido.\nPressione abaixo em \"...mais\" para adicionar novos.";
 "Execute program" = "Executar programa";
 "Execute video add-on" = "Executar add-on de vídeo";
 "Execute audio add-on" = "Executar add-on de áudio";
@@ -223,7 +222,6 @@
 "Mark as watched" = "Marcar como visto";
 "Slide your finger up or down to adjust the scrubbing rate." = "Deslize para cima ou para baixo para ajustar a velocidade do cursor de reprodução.";
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- AVISO --\nA API do Kodi anterior ao Krypton (v17) não permite editar temporizadores. Utilize o GUI do Kodi para adicionar, editar ou remover temporizadores. Obrigado.";
-"...more" = "...mais";
 "Done" = "Concluir";
 "Top 100 Albums" = "Top 100 de álbuns";
 "All songs" = "Todas as músicas";

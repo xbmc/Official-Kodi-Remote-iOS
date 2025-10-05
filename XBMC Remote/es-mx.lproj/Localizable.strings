@@ -178,13 +178,11 @@
 "Button added" = "Botón agregado";
 "enter value" = "ingresa un valor";
 "Tap and hold a setting to add a new button." = "Toca y mantén sobre un ajuste para agregar un nuevo botón.";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "No hay botones personalizados definidos.\nPresiona \"...más\" debajo para agregar nuevos botones.";
 "Execute program" = "Ejecutar programa";
 "Execute video add-on" = "Ejecutar complemento de video";
 "Execute audio add-on" = "Ejecutar complemento de audio";
 "Add-on executed successfully" = "Complemento ejecutado exitosamente";
 "Unable to execute the add-on" = "No se pudo ejecutar el complemento";
-"...more" = "...más";
 "Done" = "Hecho";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Se requiere Kodi versión 13 o superior para acceder a la configuración de Kodi";
 "No items found." = "No se encontraron elementos.";

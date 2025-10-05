@@ -172,14 +172,12 @@
 "Button added" = "버튼 추가됨";
 "enter value" = "값을 입력";
 "Tap and hold a setting to add a new button." = "새 버튼을 추가하려면 설정을 길게 누릅니다.";
-"No custom button defined.\r\nPress \"...more\" below to add new ones." = "사용자 정의 버튼이 정의되지 않았습니다.\n새 항목을 추가하려면 아래의 \"...더보기\"를 누르십시오.";
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- 경고 --\nKodi API 이전 Krypton(v17)은 타이머 편집을 허용하지 않습니다. 타이머를 추가, 편집하거나 지우려면 Kodi GUI를 사용하십시오. 감사합니다.";
 "Execute program" = "프로그램 실행";
 "Execute video add-on" = "비디오 추가 기능 실행";
 "Execute audio add-on" = "오디오 추가 기능 실행";
 "Add-on executed successfully" = "추가 기능이 성공적으로 실행됨";
 "Unable to execute the add-on" = "추가 기능을 실행할 수 없음";
-"...more" = "...더보기";
 "Edit" = "수정";
 "Done" = "완료";
 "XBMC \"Gotham\" version 13 or superior is required to access XBMC settings" = "Kodi 설정에 접근하려면 Kodi 버전 13 이상이 필요함";
