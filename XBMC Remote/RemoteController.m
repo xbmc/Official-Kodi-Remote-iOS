@@ -1026,19 +1026,20 @@
     if (IS_IPHONE) {
         [self setRemoteToPosition];
     }
-    if (IS_IPHONE) {
-        if (self.slidingViewController != nil) {
-            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-            self.slidingViewController.underRightViewController = nil;
-            self.slidingViewController.anchorLeftPeekAmount   = 0;
-            self.slidingViewController.anchorLeftRevealAmount = 0;
-            self.slidingViewController.panGesture.delegate = self;
-            // Allow panning gesture for full view (but gestureRecognizer will skip if GestureZone is touched)
-            [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-        }
+    // Set up the view for full screen remote on iPhone
+    if (IS_IPHONE && !isEmbeddedMode) {
+        // Allow panning gesture for full view (but gestureRecognizer will skip if GestureZone is touched)
+        [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+        self.slidingViewController.anchorLeftPeekAmount   = 0;
+        self.slidingViewController.anchorLeftRevealAmount = 0;
+        self.slidingViewController.panGesture.delegate = self;
+        
+        // Create custom button view and attach it to underRight view
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
+        
+        // Add the power and custom button buttons to navigation bar
         UIImage *customImg = [UIImage imageNamed:@"icon_custom_buttons"];
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
         self.navigationItem.rightBarButtonItems = @[
@@ -1046,8 +1047,8 @@
             [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)]
         ];
         self.navigationController.navigationBar.barTintColor = REMOTE_CONTROL_BAR_TINT_COLOR;
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
     [self volumeInfo];
     
