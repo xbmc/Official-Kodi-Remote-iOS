@@ -75,15 +75,6 @@
 @synthesize nowPlayingController;
 @synthesize hostPickerViewController = _hostPickerViewController;
 @synthesize appInfoView = _appInfoView;
-@synthesize tcpJSONRPCconnection;
-
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.tcpJSONRPCconnection = [tcpJSONRPC new];
-    }
-    return self;
-}
 
 #pragma mark - ServerManagement
 

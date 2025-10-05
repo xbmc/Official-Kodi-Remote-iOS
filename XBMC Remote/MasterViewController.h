@@ -21,6 +21,5 @@
 }
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
-@property (strong, nonatomic) tcpJSONRPC *tcpJSONRPCconnection;
 
 @end
