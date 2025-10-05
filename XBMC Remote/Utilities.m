@@ -542,28 +542,28 @@
     else {
         UIAlertAction *action_pwr_off_system = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Power off System") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Shutdown" onSuccess:^{
-                [Utilities disconnectFromActiveServer];
+                [Utilities stopPollingActiveServer];
             }];
         }];
         [alertCtrl addAction:action_pwr_off_system];
         
         UIAlertAction *action_quit_kodi = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Quit XBMC application") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"Application.Quit" onSuccess:^{
-                [Utilities disconnectFromActiveServer];
+                [Utilities stopPollingActiveServer];
             }];
         }];
         [alertCtrl addAction:action_quit_kodi];
         
         UIAlertAction *action_hibernate = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Hibernate") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Hibernate" onSuccess:^{
-                [Utilities disconnectFromActiveServer];
+                [Utilities stopPollingActiveServer];
             }];
         }];
         [alertCtrl addAction:action_hibernate];
         
         UIAlertAction *action_suspend = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Suspend") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self powerAction:@"System.Suspend" onSuccess:^{
-                [Utilities disconnectFromActiveServer];
+                [Utilities stopPollingActiveServer];
             }];
         }];
         [alertCtrl addAction:action_suspend];
@@ -1420,6 +1420,42 @@
     return vmInfo.phys_footprint;
 }
 
++ (NSIndexPath*)readLastServerIndex {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults objectForKey:@"lastServer"] != nil) {
+        NSInteger lastServer = [userDefaults integerForKey:@"lastServer"];
+        if (lastServer > -1 && lastServer < AppDelegate.instance.arrayServerList.count) {
+            return [NSIndexPath indexPathForRow:lastServer inSection:0];
+        }
+    }
+    return nil;
+}
+
++ (void)saveLastServerIndex:(NSIndexPath*)indexPath {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *lastServerIndex = indexPath ? @(indexPath.row) : @(-1);
+    [userDefaults setObject:lastServerIndex forKey:@"lastServer"];
+}
+
++ (void)readKodiServerParameters {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults objectForKey:@"lastServer"] != nil) {
+        NSInteger lastServer = [userDefaults integerForKey:@"lastServer"];
+        if (lastServer > -1 && lastServer < AppDelegate.instance.arrayServerList.count) {
+            NSIndexPath *lastServerIndexPath = [NSIndexPath indexPathForRow:lastServer inSection:0];
+            NSDictionary *item = AppDelegate.instance.arrayServerList[lastServerIndexPath.row];
+            AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
+            AppDelegate.instance.obj.serverUser = item[@"serverUser"];
+            AppDelegate.instance.obj.serverPass = item[@"serverPass"];
+            AppDelegate.instance.obj.serverRawIP = item[@"serverIP"];
+            AppDelegate.instance.obj.serverIP = [Utilities getUrlStyleAddress:item[@"serverIP"]];
+            AppDelegate.instance.obj.serverPort = [Utilities getServerPort:item[@"serverPort"]];
+            AppDelegate.instance.obj.serverHWAddr = item[@"serverMacAddress"];
+            AppDelegate.instance.obj.tcpPort = [Utilities getTcpPort:item[@"tcpPort"]];
+        }
+    }
+}
+
 + (void)resetKodiServerParameters {
     AppDelegate.instance.obj.serverDescription = @"";
     AppDelegate.instance.obj.serverUser = @"";
@@ -1431,11 +1467,13 @@
     AppDelegate.instance.obj.tcpPort = 0;
 }
 
-+ (void)disconnectFromActiveServer {
++ (void)stopPollingActiveServer {
+    // Temporarily disconnect the server by resetting the server parameters. This will keep the server
+    // selected in the server list, but will stop polling and supports reconnecting after wakeup or restart.
     [Utilities resetKodiServerParameters];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:@(-1) forKey:@"lastServer"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisconnectActiveServer" object:nil];
+    
+    // Send XBMCServerHasChanged notification to let main menu deactivate the menu items
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
 }
 
 @end

@@ -20,7 +20,6 @@
     IBOutlet UIImageView *backgroundImageView;
     NSIndexPath *storeServerSelection;
     __weak IBOutlet UIActivityIndicatorView *connectingActivityIndicator;
-    BOOL doRevealMenu;
     AppInfoViewController *appInfoView;
     __weak IBOutlet UIButton *addHostButton;
     __weak IBOutlet UIView *supportedVersionView;
@@ -33,7 +32,6 @@
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil;
-- (void)selectIndex:(NSIndexPath*)selection reloadData:(BOOL)reload;
 
 @property (nonatomic, strong) NSMutableArray *mainMenu;
 

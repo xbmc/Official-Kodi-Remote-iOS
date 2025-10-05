@@ -54,6 +54,8 @@ NSInputStream *inStream;
 }
 
 - (void)handleDidBecomeActive:(NSNotification*)sender {
+    // First load Kodi server parameters, then let this be taken up by tcpJSONRPC heartbeat
+    [Utilities readKodiServerParameters];
     [self startServerHeartbeat];
 }
 
