@@ -90,7 +90,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (void)turnTorchOn:(id)sender on:(BOOL)torchOn;
 + (BOOL)hasTorch;
 + (BOOL)isTorchOn;
-+ (BOOL)hasRemoteToolBar;
 + (CGFloat)getBottomPadding;
 + (CGFloat)getTopPadding;
 + (CGFloat)getTopPaddingWithNavBar:(UINavigationController*)navCtrl;
