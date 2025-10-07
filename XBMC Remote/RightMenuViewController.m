@@ -240,8 +240,7 @@
     // Layout is (top-down): status bar > volume slider > (menu items) > remote view
     CGFloat statusBarHeight = [Utilities getTopPadding];
     CGFloat sliderHeight = volumeSliderView.frame.size.height;
-    CGFloat menuItemsHeight = [Utilities hasRemoteToolBar] ? 0 : 3 * RIGHT_MENU_ITEM_HEIGHT;
-    return statusBarHeight + sliderHeight + menuItemsHeight;
+    return statusBarHeight + sliderHeight;
 }
 
 #pragma mark - Table actions
@@ -671,13 +670,12 @@
             [item[@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad/Gesture Zone")] ||
             [item[@"label"] isEqualToString:LOCALIZED_STR(@"Help Screen")] ||
             [item[@"label"] isEqualToString:LOCALIZED_STR(@"VolumeControl")] ||
-            [item[@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) &&
-            [Utilities hasRemoteToolBar];
+            [item[@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]);
 }
 
 - (BOOL)showEmbeddedVolumeBar:(NSDictionary*)item mainLabel:(NSString*)mainLabel {
     return [item[@"label"] isEqualToString:LOCALIZED_STR(@"VolumeControl")] &&
-           [mainLabel isEqualToString:@"EmbeddedRemote"] && [Utilities hasRemoteToolBar];
+           [mainLabel isEqualToString:@"EmbeddedRemote"];
 }
 
 - (NSIndexPath*)getIndexPathForKey:(NSString*)key withValue:(NSString*)value inArray:(NSMutableArray*)array {
