@@ -130,10 +130,6 @@
 
 - (void)configureView {
     self.navigationItem.title = LOCALIZED_STR(@"Remote Control");
-    CGFloat toolbarPadding = TOOLBAR_HEIGHT;
-    if (![Utilities hasRemoteToolBar]) {
-        toolbarPadding = 0;
-    }
     CGFloat leftPadding = (IS_IPHONE && isEmbeddedMode) ? ANCHOR_RIGHT_PEEK : 0;
     if (IS_IPHONE) {
         CGFloat newWidth = GET_MAINSCREEN_WIDTH - leftPadding;
@@ -147,21 +143,19 @@
         VolumeSliderView *volumeSliderView = nil;
         CGRect frame = remoteControlView.frame;
         
-        if ([Utilities hasRemoteToolBar]) {
-            CGFloat topPadding = isEmbeddedMode ? [Utilities getTopPadding] : 0;
-            volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:leftPadding isSliderType:YES];
-            CGRect frame1 = volumeSliderView.frame;
-            frame1.origin.y = topPadding;
-            frame1.origin.x = leftPadding;
-            volumeSliderView.frame = frame1;
-            
-            [volumeSliderView startTimer];
-            [self.view addSubview:volumeSliderView];
-            if (frame.origin.y == 0) {
-                frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
-            }
-            topRemoteOffset = CGRectGetMaxY(volumeSliderView.frame);
+        CGFloat topPadding = isEmbeddedMode ? [Utilities getTopPadding] : 0;
+        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:leftPadding isSliderType:YES];
+        CGRect frame1 = volumeSliderView.frame;
+        frame1.origin.y = topPadding;
+        frame1.origin.x = leftPadding;
+        volumeSliderView.frame = frame1;
+        
+        [volumeSliderView startTimer];
+        [self.view addSubview:volumeSliderView];
+        if (frame.origin.y == 0) {
+            frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
         }
+        topRemoteOffset = CGRectGetMaxY(volumeSliderView.frame);
         remoteControlView.frame = frame;
         
         frame.origin.y = 0;
@@ -200,9 +194,7 @@
         self.view.frame = frame;
     }
     [self setupGestureView];
-    if ([Utilities hasRemoteToolBar]) {
-        [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:leftPadding yMax:self.view.bounds.size.height];
-    }
+    [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:leftPadding yMax:self.view.bounds.size.height];
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil withEmbedded:(BOOL)withEmbedded bundle:(NSBundle*)nibBundleOrNil {
@@ -1166,7 +1158,7 @@
 
 - (void)setRemoteToPosition {
     CGRect frame = remoteControlView.frame;
-    if (positionMode == RemoteAtBottom && [Utilities hasRemoteToolBar]) {
+    if (positionMode == RemoteAtBottom) {
         frame.origin.y = CGRectGetMinY(remoteToolbar.frame) - CGRectGetHeight(remoteControlView.frame);
     }
     else {
