@@ -131,6 +131,11 @@
 - (void)configureView {
     self.navigationItem.title = LOCALIZED_STR(@"Remote Control");
     CGFloat leftPadding = (IS_IPHONE && isEmbeddedMode) ? ANCHOR_RIGHT_PEEK : 0;
+    
+    VolumeSliderView *volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:leftPadding isSliderType:YES];
+    [volumeSliderView startTimer];
+    [self.view addSubview:volumeSliderView];
+    
     if (IS_IPHONE) {
         CGFloat newWidth = GET_MAINSCREEN_WIDTH - leftPadding;
         
@@ -140,18 +145,14 @@
         remoteControlView.frame = CGRectMake(leftPadding, 0, newWidth, newHeight);
         remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
         
-        VolumeSliderView *volumeSliderView = nil;
         CGRect frame = remoteControlView.frame;
         
         CGFloat topPadding = isEmbeddedMode ? [Utilities getTopPadding] : 0;
-        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:leftPadding isSliderType:YES];
         CGRect frame1 = volumeSliderView.frame;
         frame1.origin.y = topPadding;
         frame1.origin.x = leftPadding;
         volumeSliderView.frame = frame1;
         
-        [volumeSliderView startTimer];
-        [self.view addSubview:volumeSliderView];
         if (frame.origin.y == 0) {
             frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
         }
@@ -163,10 +164,6 @@
         quickHelpView.frame = frame;
     }
     else {
-        VolumeSliderView *volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
-        [volumeSliderView startTimer];
-        [self.view addSubview:volumeSliderView];
-        
         // Used to avoid drawing remote buttons into the safe area
         CGFloat bottomPadding = [Utilities getBottomPadding];
         // Calculate the maximum possible scaling for the remote
