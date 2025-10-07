@@ -1061,6 +1061,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self setRemoteToPosition];
     if (IS_IPHONE) {
         if (self.slidingViewController != nil) {
             [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
@@ -1172,6 +1173,11 @@
 
 - (void)toggleRemotePosition {
     positionMode = positionMode == RemoteAtBottom ? RemoteAtTop : RemoteAtBottom;
+    [self setRemoteToPosition];
+    [self saveRemoteMode];
+}
+
+- (void)setRemoteToPosition {
     CGRect frame = remoteControlView.frame;
     if (positionMode == RemoteAtBottom && [Utilities hasRemoteToolBar]) {
         frame.origin.y = CGRectGetMinY(remoteToolbar.frame) - CGRectGetHeight(remoteControlView.frame);
@@ -1181,7 +1187,6 @@
     }
     remoteControlView.frame = frame;
     remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-    [self saveRemoteMode];
 }
 
 - (void)createRemoteToolbar:(UIImage*)gestureButtonImg width:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax {
