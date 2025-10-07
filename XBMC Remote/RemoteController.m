@@ -128,19 +128,6 @@
     }
 }
 
-- (CGFloat)getOriginYForRemote:(CGFloat)offsetBottomMode {
-    CGFloat yOrigin = 0;
-    topRemoteOffset = 0;
-    if (positionMode == RemoteAtBottom && [Utilities hasRemoteToolBar]) {
-        yOrigin = offsetBottomMode;
-        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    }
-    else {
-        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-    }
-    return yOrigin;
-}
-
 - (void)configureView {
     self.navigationItem.title = LOCALIZED_STR(@"Remote Control");
     CGFloat toolbarPadding = TOOLBAR_HEIGHT;
@@ -154,9 +141,8 @@
         // Maintain aspect ratio
         CGFloat transform = newWidth / remoteControlView.frame.size.width;
         CGFloat newHeight = remoteControlView.frame.size.height * transform;
-        CGFloat toolbarPadding = [Utilities getBottomPadding];
-        CGFloat offset = [self getOriginYForRemote:self.view.bounds.size.height - newHeight - toolbarPadding - TOOLBAR_HEIGHT];
-        remoteControlView.frame = CGRectMake(leftPadding, offset, newWidth, newHeight);
+        remoteControlView.frame = CGRectMake(leftPadding, 0, newWidth, newHeight);
+        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
         
         VolumeSliderView *volumeSliderView = nil;
         CGRect frame = remoteControlView.frame;
@@ -199,11 +185,12 @@
         frame.size.height *= transform;
         frame.size.width *= transform;
         frame.origin.x = 0;
-        frame.origin.y = [self getOriginYForRemote:remoteControlView.frame.size.height - frame.size.height - toolbarPadding];
+        frame.origin.y = 0;
         if (frame.origin.y == 0) {
             frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
         }
         remoteControlView.frame = frame;
+        remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
         
         frame.origin = CGPointZero;
         quickHelpView.frame = frame;
