@@ -1057,21 +1057,6 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(toggleVirtualKeyboard:)
-                                                 name:@"UIToggleVirtualKeyboard"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(toggleQuickHelp:)
-                                                 name:@"UIToggleQuickHelp"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(toggleGestureZone:)
-                                                 name:@"UIToggleGestureZone"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(hideKeyboard:)
                                                  name:@"ECSlidingViewTopWillReset"
                                                object:nil];
