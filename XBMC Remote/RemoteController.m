@@ -1233,10 +1233,11 @@
 
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
     [self loadRemoteMode];
     [self configureView];
     
+    quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
+    quickHelpImageView.layer.minificationFilter = kCAFilterTrilinear;
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
 }
 
