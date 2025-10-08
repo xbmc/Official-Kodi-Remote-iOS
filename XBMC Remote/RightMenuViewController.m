@@ -90,13 +90,13 @@
         cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
     }
     cell.tintColor = UIColor.lightGrayColor;
-    NSString *iconName = @"blank";
     
     // Tailor cell layout
     CGRect frame = title.frame;
     frame.origin.y = RIGHT_MENU_CELL_SPACING;
     frame.size.height = RIGHT_MENU_ITEM_HEIGHT - 2 * RIGHT_MENU_CELL_SPACING;
     if ([tableData[indexPath.row][@"type"] isEqualToString:@"boolean"]) {
+        NSMutableDictionary *params = tableData[indexPath.row][@"action"][@"params"];
         UISwitch *onoff = [[UISwitch alloc] initWithFrame:CGRectZero];
         onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
@@ -114,15 +114,15 @@
         
         frame.size.width = cell.frame.size.width - frame.origin.x - RIGHT_MENU_ICON_SPACING;
         icon.hidden = YES;
-        if ([tableData[indexPath.row][@"action"][@"params"][@"value"] isKindOfClass:[NSNumber class]]) {
-            [onoff setOn:[tableData[indexPath.row][@"action"][@"params"][@"value"] boolValue]];
+        if ([params[@"value"] isKindOfClass:[NSNumber class]]) {
+            [onoff setOn:[params[@"value"] boolValue]];
         }
         else {
             onoff.hidden = YES;
             [indicator startAnimating];
             NSString *command = @"Settings.GetSettingValue";
-            NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:tableData[indexPath.row][@"action"][@"params"][@"setting"], @"setting", nil];
-            [self getXBMCValue:command params:parameters uiControl:onoff storeSetting: tableData[indexPath.row][@"action"][@"params"] indicator:indicator];
+            NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:params[@"setting"], @"setting", nil];
+            [self getXBMCValue:command params:parameters uiControl:onoff storeSetting:params indicator:indicator];
         }
         cell.accessoryView = onoffview;
     }
@@ -131,15 +131,15 @@
     }
     title.frame = frame;
     title.text = tableData[indexPath.row][@"label"];
-    iconName = tableData[indexPath.row][@"icon"];
     
     UIColor *fontColor = UIColor.grayColor;
     title.textColor = fontColor;
     title.highlightedTextColor = fontColor;
     
+    NSString *iconName = tableData[indexPath.row][@"icon"];
     NSString *command = tableData[indexPath.row][@"action"][@"command"];
     if ([command isEqualToString:@"Addons.ExecuteAddon"]) {
-        [icon sd_setImageWithURL:[NSURL URLWithString:tableData[indexPath.row][@"icon"]]
+        [icon sd_setImageWithURL:[NSURL URLWithString:iconName]
                 placeholderImage:[UIImage imageNamed:@"blank"]
                          options:SDWebImageScaleToNativeSize];
         icon.alpha = 1.0;
@@ -278,10 +278,11 @@
     UISwitch *onoff = (UISwitch*)sender;
     NSInteger tableIdx = onoff.tag - ONOFF_BUTTON_TAG_OFFSET;
     if (tableIdx < tableData.count) {
+        NSMutableDictionary *params = tableData[tableIdx][@"action"][@"params"];
         NSString *command = tableData[tableIdx][@"action"][@"command"];
-        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:tableData[tableIdx][@"action"][@"params"][@"setting"], @"setting", @(onoff.on), @"value", nil];
-        if ([tableData[tableIdx][@"action"][@"params"] respondsToSelector:@selector(setObject:forKey:)]) {
-            tableData[tableIdx][@"action"][@"params"][@"value"] = @(onoff.on);
+        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:params[@"setting"], @"setting", @(onoff.on), @"value", nil];
+        if ([params respondsToSelector:@selector(setObject:forKey:)]) {
+            params[@"value"] = @(onoff.on);
         }
         [self xbmcAction:command params:parameters uiControl:onoff];
     }
