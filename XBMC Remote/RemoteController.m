@@ -142,10 +142,8 @@
         // Maintain aspect ratio
         CGFloat transform = newWidth / remoteControlView.frame.size.width;
         CGFloat newHeight = remoteControlView.frame.size.height * transform;
-        remoteControlView.frame = CGRectMake(leftPadding, 0, newWidth, newHeight);
+        remoteControlView.frame = CGRectMake(leftPadding, CGRectGetMaxY(volumeSliderView.frame), newWidth, newHeight);
         remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-        
-        CGRect frame = remoteControlView.frame;
         
         CGFloat topPadding = isEmbeddedMode ? [Utilities getTopPadding] : 0;
         CGRect frame = volumeSliderView.frame;
@@ -153,15 +151,7 @@
         frame.origin.x = leftPadding;
         volumeSliderView.frame = frame;
         
-        if (frame.origin.y == 0) {
-            frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
-        }
         topRemoteOffset = CGRectGetMaxY(volumeSliderView.frame);
-        remoteControlView.frame = frame;
-        
-        frame.origin.y = 0;
-        frame.origin.x = 0;
-        quickHelpView.frame = frame;
     }
     else {
         // Used to avoid drawing remote buttons into the safe area
@@ -176,20 +166,18 @@
         frame.size.height *= transform;
         frame.size.width *= transform;
         frame.origin.x = 0;
-        frame.origin.y = 0;
-        if (frame.origin.y == 0) {
-            frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
-        }
+        frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
         remoteControlView.frame = frame;
         remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
         
-        frame.origin = CGPointZero;
-        quickHelpView.frame = frame;
-        
-        frame = remoteControlView.frame;
+        // Adapt size of modal view to contain the toolbar
         frame.size.height += TOOLBAR_HEIGHT + CGRectGetMaxY(volumeSliderView.frame);
         self.view.frame = frame;
     }
+    CGRect frame = remoteControlView.frame;
+    frame.origin = CGPointZero;
+    quickHelpView.frame = frame;
+    
     [self setupGestureView];
     [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:leftPadding yMax:self.view.bounds.size.height];
 }
