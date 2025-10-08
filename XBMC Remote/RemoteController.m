@@ -1025,7 +1025,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self setRemoteToPosition];
+    if (IS_IPHONE) {
+        [self setRemoteToPosition];
+    }
     if (IS_IPHONE) {
         if (self.slidingViewController != nil) {
             [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
