@@ -139,12 +139,6 @@
     title.highlightedTextColor = fontColor;
     
     NSString *command = tableData[indexPath.row][@"action"][@"command"];
-    if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
-        icon.alpha = 0.8;
-        if (torchIsOn) {
-            iconName = @"torch_on";
-        }
-    }
     if ([command isEqualToString:@"Addons.ExecuteAddon"]) {
         [icon sd_setImageWithURL:[NSURL URLWithString:tableData[indexPath.row][@"icon"]]
                 placeholderImage:[UIImage imageNamed:@"blank"]
@@ -411,35 +405,6 @@
             NSDictionary *parameters = tableData[indexPath.row][@"action"][@"params"] ?: @{};
             [self xbmcAction:command params:parameters uiControl:nil];
         }
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Keyboard")]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleVirtualKeyboard" object:nil userInfo:nil];
-        if ([tableData[indexPath.row][@"revealViewTop"] boolValue]) {
-            [self.slidingViewController resetTopView];
-        }
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Help Screen")]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleQuickHelp" object:nil userInfo:nil];
-        [self.slidingViewController resetTopView];
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Gesture Zone")]) {
-        NSDictionary *userInfo = @{@"forceGestureZone": @YES};
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleGestureZone" object:nil userInfo:userInfo];
-        [self.slidingViewController resetTopView];
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad")]) {
-        NSDictionary *userInfo = @{@"forceGestureZone": @NO};
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleGestureZone" object:nil userInfo:userInfo];
-        [self.slidingViewController resetTopView];
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad/Gesture Zone")]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleGestureZone" object:nil userInfo:nil];
-        [self.slidingViewController resetTopView];
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
-        UIImageView *torchIcon = (UIImageView*)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:XIB_RIGHT_MENU_CELL_ICON];
-        torchIsOn = !torchIsOn;
-        [Utilities turnTorchOn:torchIcon on:torchIsOn];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Cancel")]) {
         [self.slidingViewController resetTopView];
