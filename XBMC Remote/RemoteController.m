@@ -148,10 +148,10 @@
         CGRect frame = remoteControlView.frame;
         
         CGFloat topPadding = isEmbeddedMode ? [Utilities getTopPadding] : 0;
-        CGRect frame1 = volumeSliderView.frame;
-        frame1.origin.y = topPadding;
-        frame1.origin.x = leftPadding;
-        volumeSliderView.frame = frame1;
+        CGRect frame = volumeSliderView.frame;
+        frame.origin.y = topPadding;
+        frame.origin.x = leftPadding;
+        volumeSliderView.frame = frame;
         
         if (frame.origin.y == 0) {
             frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
