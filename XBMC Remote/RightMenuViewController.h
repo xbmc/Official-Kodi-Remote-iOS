@@ -8,21 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
-#import "RemoteController.h"
-#import "VolumeSliderView.h"
 
 @interface RightMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     UITableView *menuTableView;
     NSMutableArray *tableData;
-    VolumeSliderView *volumeSliderView;
-    RemoteController *remoteControllerView;
     BOOL torchIsOn;
     NSUInteger editableRowStartAt;
     UIButton *editTableButton;
     UIButton *moreButton;
     NSDictionary *infoCustomButton;
 }
-
-@property (strong, nonatomic) NSArray *rightMenuItems;
 
 @end
