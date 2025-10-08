@@ -132,7 +132,7 @@
     self.navigationItem.title = LOCALIZED_STR(@"Remote Control");
     CGFloat leftPadding = (IS_IPHONE && isEmbeddedMode) ? ANCHOR_RIGHT_PEEK : 0;
     
-    VolumeSliderView *volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:leftPadding isSliderType:YES];
+    volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:leftPadding isSliderType:YES];
     [volumeSliderView startTimer];
     [self.view addSubview:volumeSliderView];
     
@@ -150,8 +150,6 @@
         frame.origin.y = topPadding;
         frame.origin.x = leftPadding;
         volumeSliderView.frame = frame;
-        
-        topRemoteOffset = CGRectGetMaxY(volumeSliderView.frame);
     }
     else {
         // Used to avoid drawing remote buttons into the safe area
@@ -1149,7 +1147,7 @@
         frame.origin.y = CGRectGetMinY(remoteToolbar.frame) - CGRectGetHeight(remoteControlView.frame);
     }
     else {
-        frame.origin.y = topRemoteOffset;
+        frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
     }
     remoteControlView.frame = frame;
     remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
