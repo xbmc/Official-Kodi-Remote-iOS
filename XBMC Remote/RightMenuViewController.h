@@ -13,7 +13,6 @@
     UITableView *menuTableView;
     NSMutableArray *tableData;
     BOOL torchIsOn;
-    NSUInteger editableRowStartAt;
     UIButton *editTableButton;
     UIButton *moreButton;
     NSDictionary *infoCustomButton;

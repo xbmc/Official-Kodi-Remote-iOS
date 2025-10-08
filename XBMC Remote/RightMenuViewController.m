@@ -271,7 +271,6 @@
         
         [tableData addObject:itemDict];
     }
-    editableRowStartAt = 0;
 }
 
 #pragma mark - UISwitch
@@ -312,8 +311,8 @@
 }
 
 - (NSIndexPath*)tableView:(UITableView*)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath*)sourceIndexPath toProposedIndexPath:(NSIndexPath*)proposedDestinationIndexPath {
-    if (proposedDestinationIndexPath.row < editableRowStartAt) {
-        return [NSIndexPath indexPathForRow:editableRowStartAt inSection:0];
+    if (proposedDestinationIndexPath.row < 0) {
+        return [NSIndexPath indexPathForRow:0 inSection:0];
     }
     else {
         return proposedDestinationIndexPath;
@@ -331,9 +330,9 @@
     [tableData insertObject:objectMove atIndex:destinationIndexPath.row];
     
     customButton *arrayButtons = [customButton new];
-    objectMove = arrayButtons.buttons[(sourceIndexPath.row - editableRowStartAt)];
-    [arrayButtons.buttons removeObjectAtIndex:(sourceIndexPath.row - editableRowStartAt)];
-    [arrayButtons.buttons insertObject:objectMove atIndex:(destinationIndexPath.row - editableRowStartAt)];
+    objectMove = arrayButtons.buttons[sourceIndexPath.row];
+    [arrayButtons.buttons removeObjectAtIndex:sourceIndexPath.row];
+    [arrayButtons.buttons insertObject:objectMove atIndex:destinationIndexPath.row];
     [arrayButtons saveData];
 }
 
@@ -356,7 +355,7 @@
                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
             } completion:nil];
         }
-        [self deleteCustomButton:(indexPath.row - editableRowStartAt)];
+        [self deleteCustomButton:indexPath.row];
 	}
 }
 
@@ -377,8 +376,8 @@
         title.text = alertCtrl.textFields[0].text;
         
         customButton *arrayButtons = [customButton new];
-        if ([arrayButtons.buttons[indexPath.row - editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]) {
-            arrayButtons.buttons[indexPath.row - editableRowStartAt][@"label"] = alertCtrl.textFields[0].text;
+        if ([arrayButtons.buttons[indexPath.row] respondsToSelector:@selector(setObject:forKey:)]) {
+            arrayButtons.buttons[indexPath.row][@"label"] = alertCtrl.textFields[0].text;
             [arrayButtons saveData];
         }
     }];
