@@ -241,19 +241,13 @@
         [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
         editTableButton.enabled = NO;
         [arrayButtons.buttons addObject:infoCustomButton];
-        [self loadRightMenuContentConnected:YES];
+        [self loadCustomButtons];
         [menuTableView reloadData];
     }
 }
 
-- (void)loadRightMenuContentConnected:(BOOL)isConnected {
-    NSString *menuKey = isConnected ? @"online" : @"offline";
-    tableData = [NSMutableArray new];
-    editableRowStartAt = tableData.count;
-    [self loadCustomButtons];
-}
-
 - (void)loadCustomButtons {
+    // Create and load custom buttons
     customButton *arrayButtons = [customButton new];
     if (arrayButtons.buttons.count == 0) {
         editTableButton.enabled = NO;
@@ -262,6 +256,9 @@
     else {
         editTableButton.enabled = YES;
     }
+    
+    // Build table with custom buttons
+    tableData = [[NSMutableArray alloc] initWithCapacity:arrayButtons.buttons.count];
     for (NSDictionary *item in arrayButtons.buttons) {
         NSString *label = item[@"label"] ?: @"";
         NSString *icon = item[@"icon"] ?: @"";
@@ -280,6 +277,7 @@
         
         [tableData addObject:itemDict];
     }
+    editableRowStartAt = 0;
 }
 
 #pragma mark - UISwitch
@@ -542,14 +540,7 @@
     };
 
     if (AppDelegate.instance.obj.serverIP.length != 0) {
-        if (!AppDelegate.instance.serverOnLine) {
-            [self loadRightMenuContentConnected:NO];
-            moreButton.enabled = NO;
-        }
-        else {
-            [self loadRightMenuContentConnected:YES];
-            moreButton.enabled = YES;
-        }
+        [self loadCustomButtons];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -569,7 +560,7 @@
 }
 
 - (void)reloadCustomButtonTable:(NSNotification*)note {
-    [self loadRightMenuContentConnected:YES];
+    [self loadCustomButtons];
     [menuTableView reloadData];
 }
 
@@ -586,20 +577,20 @@
 }
 
 - (void)connectionSuccess:(NSNotification*)note {
-    [self loadRightMenuContentConnected:YES];
+    [self loadCustomButtons];
     [menuTableView reloadData];
     moreButton.enabled = YES;
 }
 
 - (void)connectionFailed:(NSNotification*)note {
     if (AppDelegate.instance.obj.serverIP.length != 0) {
-        [self loadRightMenuContentConnected:YES];
+        [self loadCustomButtons];
         [menuTableView reloadData];
         moreButton.enabled = NO;
     }
     else {
         [tableData removeAllObjects];
-        [self loadRightMenuContentConnected:YES];
+        [self loadCustomButtons];
         [menuTableView reloadData];
     }
 }
