@@ -7,16 +7,9 @@
 //
 
 #import "RemoteController.h"
-#import "mainMenu.h"
 #import <AudioToolbox/AudioToolbox.h>
-#import "GlobalData.h"
-#import "SDImageCache.h"
-#import "AppDelegate.h"
-#import "ViewControllerIPad.h"
-#import "StackScrollViewController.h"
 #import "RemoteControllerGestureZoneView.h"
 #import "RightMenuViewController.h"
-#import "DetailViewController.h"
 #import "Utilities.h"
 #import "VersionCheck.h"
 
