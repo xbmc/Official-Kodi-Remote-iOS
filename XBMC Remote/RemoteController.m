@@ -1238,7 +1238,6 @@
     [self configureView];
     
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundImage_repeat"]];
 }
 
 - (void)enterCustomButtons:(id)sender {
