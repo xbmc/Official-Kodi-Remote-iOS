@@ -1036,7 +1036,6 @@
         
         // Create custom button view and attach it to underRight view
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-        rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
         self.slidingViewController.underRightViewController = rightMenuViewController;
         
         // Add the power and custom button buttons to navigation bar
@@ -1283,7 +1282,6 @@
 
 - (void)enterCustomButtonsIPad {
     RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-    rightMenuViewController.rightMenuItems = AppDelegate.instance.remoteControlMenuItems;
     rightMenuViewController.modalPresentationStyle = UIModalPresentationFormSheet;
     rightMenuViewController.view.frame = self.view.frame;
     [self presentViewController:rightMenuViewController animated:YES completion:nil];

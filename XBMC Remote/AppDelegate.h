@@ -101,8 +101,6 @@
 @property (nonatomic, strong) mainMenu *playlistTvShows;
 @property (nonatomic, strong) mainMenu *playlistPVR;
 @property (nonatomic, strong) NSArray *globalSearchMenuLookup;
-@property (nonatomic, strong) NSArray *nowPlayingMenuItems;
-@property (nonatomic, strong) NSArray *remoteControlMenuItems;
 @property (nonatomic, assign) BOOL serverOnLine;
 @property (nonatomic, assign) BOOL serverTCPConnectionOpen;
 @property (nonatomic, assign) int serverVersion;
