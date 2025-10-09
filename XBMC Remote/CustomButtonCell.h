@@ -11,6 +11,7 @@
 #define CUSTOM_BUTTON_ITEM_HEIGHT 50.0
 #define CUSTOM_BUTTON_ITEM_SPACING 4.0
 #define CUSTOM_BUTTON_LABEL_PADDING 4.0
+#define CUSTOM_BUTTON_BACKGROUND_INSET 2.0
 
 @interface CustomButtonCell : UITableViewCell {
     UILabel *buttonLabel;

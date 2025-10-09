@@ -28,7 +28,7 @@
 #define TOOLBAR_TINT_COLOR [Utilities getGrayColor:38 alpha:0.95]
 #define NAVBAR_TINT_COLOR [Utilities getGrayColor:38 alpha:1.0]
 #define KODI_BLUE_COLOR [Utilities getKodiBlue]
-#define CUSTOM_BUTTON_BACKGROUND [Utilities getGrayColor:36 alpha:1]
+#define CUSTOM_BUTTON_BACKGROUND [Utilities getGrayColor:25 alpha:1] // Gray:25 is same as the other remote buttons
 #define GRIDVIEW_SECTION_COLOR [Utilities getGrayColor:44 alpha:1.0]
 #define SYSTEMGRAY6_DARKMODE [Utilities getGrayColor:28 alpha:1] // Gray:28 is similar to systemGray6 in Dark Mode
 #define SYSTEMGRAY6_LIGHTMODE [Utilities getGrayColor:242 alpha:1] // Gray:242 is similar to systemGray6 in Light Mode

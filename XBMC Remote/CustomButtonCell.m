@@ -7,6 +7,7 @@
 //
 
 #import "CustomButtonCell.h"
+#import "Utilities.h"
 
 @implementation CustomButtonCell;
 
@@ -25,6 +26,19 @@
         frame.size.width -= padding;
         frame.size.height = CUSTOM_BUTTON_ITEM_HEIGHT;
         self.contentView.frame = frame;
+        
+        // Background view to better match a button style
+        UIView *buttonBackground = [UIView new];
+        frame = self.frame;
+        frame.origin.y = CUSTOM_BUTTON_BACKGROUND_INSET;
+        frame.origin.x = CUSTOM_BUTTON_BACKGROUND_INSET;
+        frame.size.height -= CUSTOM_BUTTON_BACKGROUND_INSET * 2;
+        frame.size.width -= CUSTOM_BUTTON_BACKGROUND_INSET * 2;
+        buttonBackground.frame = frame;
+        buttonBackground.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        buttonBackground.layer.cornerRadius = 8;
+        buttonBackground.backgroundColor = CUSTOM_BUTTON_BACKGROUND;
+        [self insertSubview:buttonBackground belowSubview:self.contentView];
         
         // OnOff switch is placed right aligned in the content view
         UISwitch *onoff = [[UISwitch alloc] initWithFrame:CGRectZero];
