@@ -40,13 +40,14 @@
 
 @implementation mainMenu
 
-@synthesize rootLabel, mainLabel, icon, family, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, noConvertTime, chooseTab, disableNavbarButtons, filterModes;
+@synthesize rootLabel, mainLabel, icon, family, type, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, noConvertTime, chooseTab, disableNavbarButtons, filterModes;
 
 - (id)copyWithZone:(NSZone*)zone {
     mainMenu *menuCopy = [[mainMenu allocWithZone:zone] init];
     menuCopy.rootLabel = [self.rootLabel copy];
     menuCopy.mainLabel = [self.mainLabel copy];
     menuCopy.family = self.family;
+    menuCopy.type = self.type;
     menuCopy.enableSection = self.enableSection;
     menuCopy.icon = [self.icon copy];
     menuCopy.mainMethod = [self.mainMethod copy];
