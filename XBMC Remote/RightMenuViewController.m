@@ -13,20 +13,13 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "Utilities.h"
+#import "CustomButtonCell.h"
 
 #define TOOLBAR_HEIGHT 44.0
-#define RIGHT_MENU_ITEM_HEIGHT 50.0
-#define RIGHT_MENU_ICON_SIZE 18.0
-#define RIGHT_MENU_ICON_SPACING 16.0
-#define RIGHT_MENU_CELL_SPACING 6.0
-#define RIGHT_MENU_TITLE_START 24.0
-#define RIGHT_MENU_TITLE_WIDTH 202.0
 #define BUTTON_SPACING 8.0
 #define BUTTON_WIDTH 100.0
 #define ONOFF_BUTTON_TAG_OFFSET 1000
-
-#define XIB_RIGHT_MENU_CELL_ICON 1
-#define XIB_RIGHT_MENU_CELL_TITLE 3
+#define CUSTOM_BUTTON_CELL_IDENTIFIER @"customButtonCellIdentifier"
 
 @implementation RightMenuViewController
 
@@ -38,7 +31,7 @@
 #pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-    return RIGHT_MENU_ITEM_HEIGHT;
+    return CUSTOM_BUTTON_ITEM_HEIGHT;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
@@ -54,88 +47,50 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    /*
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rightMenuCellIdentifier"];
-    if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
-        cell = nib[0];
-    }
-    */
-    // WORKAROUND BEGIN
-    // Load nib each time as otherwise the layout of the cells is not properly handled after sleep / resume.
-    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
-    UITableViewCell *cell = nib[0];
-    // WROKAROUND END
-    
-    // Reset to default for each cell to allow dequeuing
-    UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_ICON];
-    UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_TITLE];
-    icon.hidden = NO;
-    icon.image = nil;
-    icon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    icon.alpha = 0.6;
-    title.textAlignment = NSTextAlignmentRight;
-    title.numberOfLines = 2;
-    title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
-    title.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    title.frame = CGRectMake(RIGHT_MENU_TITLE_START,
-                             0,
-                             RIGHT_MENU_TITLE_WIDTH,
-                             RIGHT_MENU_ITEM_HEIGHT);
-    title.text = @"";
-    cell.accessoryView = nil;
+    CustomButtonCell *cell = [tableView dequeueReusableCellWithIdentifier:CUSTOM_BUTTON_CELL_IDENTIFIER forIndexPath:indexPath];
     cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.tintColor = UIColor.lightGrayColor;
     if (@available(iOS 13.0, *)) {
         cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
     }
-    cell.tintColor = UIColor.lightGrayColor;
     
-    // Tailor cell layout
-    CGRect frame = title.frame;
-    frame.origin.y = RIGHT_MENU_CELL_SPACING;
-    frame.size.height = RIGHT_MENU_ITEM_HEIGHT - 2 * RIGHT_MENU_CELL_SPACING;
+    // UISwitch calls toggleSwitch
+    UISwitch *onoff = cell.onoffSwitch;
+    onoff.hidden = YES;
+    [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
+    
+    // Reset to default for each cell to allow dequeuing
+    UIImageView *icon = cell.buttonIcon;
+    icon.hidden = NO;
+    icon.alpha = 0.6;
+    
+    // Important note: The switch's tag is different for each cell. This is required to identify which
+    // cell's switch was pressed when processing this in toggleSwitch.
+    onoff.tag = ONOFF_BUTTON_TAG_OFFSET + indexPath.row;
+    
+    UILabel *title = cell.buttonLabel;
+    title.text = tableData[indexPath.row][@"label"];
+    
+    // Tailor cell layout for boolean switch
     if ([tableData[indexPath.row][@"type"] isEqualToString:@"boolean"]) {
-        NSMutableDictionary *params = tableData[indexPath.row][@"action"][@"params"];
-        UISwitch *onoff = [[UISwitch alloc] initWithFrame:CGRectZero];
-        onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-        onoff.frame = CGRectMake(0, (RIGHT_MENU_ITEM_HEIGHT - onoff.frame.size.height) / 2, onoff.frame.size.width, onoff.frame.size.height);
         onoff.hidden = NO;
-        onoff.tag = ONOFF_BUTTON_TAG_OFFSET + indexPath.row;
-        
-        UIView *onoffview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, onoff.frame.size.width, RIGHT_MENU_ITEM_HEIGHT)];
-        [onoffview addSubview:onoff];
-        
-        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        indicator.hidesWhenStopped = YES;
-        indicator.center = onoff.center;
-        [onoffview addSubview:indicator];
-        
-        frame.size.width = cell.frame.size.width - frame.origin.x - RIGHT_MENU_ICON_SPACING;
         icon.hidden = YES;
+        
+        NSMutableDictionary *params = tableData[indexPath.row][@"action"][@"params"];
         if ([params[@"value"] isKindOfClass:[NSNumber class]]) {
             [onoff setOn:[params[@"value"] boolValue]];
         }
         else {
             onoff.hidden = YES;
-            [indicator startAnimating];
+            [cell.busyView startAnimating];
             NSString *command = @"Settings.GetSettingValue";
             NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:params[@"setting"], @"setting", nil];
-            [self getXBMCValue:command params:parameters uiControl:onoff storeSetting:params indicator:indicator];
+            [self getXBMCValue:command params:parameters uiControl:onoff storeSetting:params indicator:cell.busyView];
         }
-        cell.accessoryView = onoffview;
     }
-    else {
-        frame.size.width = cell.frame.size.width - frame.origin.x - RIGHT_MENU_ICON_SIZE - 2 * RIGHT_MENU_ICON_SPACING;
-    }
-    title.frame = frame;
-    title.text = tableData[indexPath.row][@"label"];
     
-    UIColor *fontColor = UIColor.grayColor;
-    title.textColor = fontColor;
-    title.highlightedTextColor = fontColor;
-    
+    // Load the icon for the custom button
     NSString *iconName = tableData[indexPath.row][@"icon"];
     NSString *command = tableData[indexPath.row][@"action"][@"command"];
     if ([command isEqualToString:@"Addons.ExecuteAddon"]) {
@@ -371,8 +326,8 @@
         }
         tableData[indexPath.row][@"label"] = alertCtrl.textFields[0].text;
         
-        UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
-        UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_TITLE];
+        CustomButtonCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+        UILabel *title = cell.buttonLabel;
         title.text = alertCtrl.textFields[0].text;
         
         customButton *arrayButtons = [customButton new];
@@ -466,6 +421,7 @@
     [self.view addSubview:[self createToolbarView:toolbarHeight]];
     
     menuTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    [menuTableView registerClass:[CustomButtonCell class] forCellReuseIdentifier:CUSTOM_BUTTON_CELL_IDENTIFIER];
     if (IS_IPHONE) {
         CGFloat deltaY = [Utilities getTopPadding];
         self.slidingViewController.anchorLeftPeekAmount = ANCHOR_RIGHT_PEEK;
