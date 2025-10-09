@@ -12,7 +12,7 @@ typedef NS_ENUM(NSInteger, MenuItemFamilyType) {
     FamilyDetailView,
     FamilyNowPlaying,
     FamilyRemote,
-    FamilyServer
+    FamilyServer,
 };
 
 typedef NS_ENUM(NSInteger, ViewModes) {
@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
     ViewModeListened,
     ViewModeDefaultArtists,
     ViewModeAlbumArtists,
-    ViewModeSongArtists
+    ViewModeSongArtists,
 };
 
 @interface mainMenu : NSObject
