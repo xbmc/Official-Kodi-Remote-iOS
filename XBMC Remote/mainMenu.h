@@ -15,6 +15,26 @@ typedef NS_ENUM(NSInteger, MenuItemFamily) {
     FamilyServer,
 };
 
+typedef NS_ENUM(NSInteger, MenuItemType) {
+    TypeNone = 0,
+    TypeServer,
+    TypeMusic,
+    TypeMovies,
+    TypeVideos,
+    TypeTvShows,
+    TypePictures,
+    TypeLiveTv,
+    TypeRadio,
+    TypeFavourites,
+    TypeNowPlaying,
+    TypeRemote,
+    TypeGlobalSearch,
+    TypeFiles,
+    TypeAddons,
+    TypeSettings,
+    TypeCustomButtonEntry,
+};
+
 typedef NS_ENUM(NSInteger, ViewModes) {
     ViewModeDefault,
     ViewModeUnwatched,
@@ -31,6 +51,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 @property (nonatomic, copy) NSString *rootLabel;
 @property (nonatomic, copy) NSString *mainLabel;
 @property MenuItemFamily family;
+@property MenuItemType type;
 @property BOOL enableSection;
 @property (nonatomic, copy) NSString *icon;
 @property (nonatomic, copy) NSArray *mainMethod;
