@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, MenuItemFamilyType) {
+typedef NS_ENUM(NSInteger, MenuItemFamily) {
     FamilyDetailView,
     FamilyNowPlaying,
     FamilyRemote,
@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 
 @property (nonatomic, copy) NSString *rootLabel;
 @property (nonatomic, copy) NSString *mainLabel;
-@property MenuItemFamilyType family;
+@property MenuItemFamily family;
 @property BOOL enableSection;
 @property (nonatomic, copy) NSString *icon;
 @property (nonatomic, copy) NSArray *mainMethod;
