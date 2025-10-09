@@ -266,15 +266,6 @@
     return YES;
 }
 
-- (NSIndexPath*)tableView:(UITableView*)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath*)sourceIndexPath toProposedIndexPath:(NSIndexPath*)proposedDestinationIndexPath {
-    if (proposedDestinationIndexPath.row < 0) {
-        return [NSIndexPath indexPathForRow:0 inSection:0];
-    }
-    else {
-        return proposedDestinationIndexPath;
-    }
-}
-
 - (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
     id objectMove = tableData[sourceIndexPath.row];
     [tableData removeObjectAtIndex:sourceIndexPath.row];
