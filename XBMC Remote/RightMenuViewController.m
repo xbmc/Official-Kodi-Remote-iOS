@@ -62,7 +62,6 @@
     // Reset to default for each cell to allow dequeuing
     UIImageView *icon = cell.buttonIcon;
     icon.hidden = NO;
-    icon.alpha = 0.6;
     
     UILabel *title = cell.buttonLabel;
     title.text = tableData[indexPath.row][@"label"];
@@ -92,7 +91,6 @@
         [icon sd_setImageWithURL:[NSURL URLWithString:iconName]
                 placeholderImage:[UIImage imageNamed:@"blank"]
                          options:SDWebImageScaleToNativeSize];
-        icon.alpha = 1.0;
     }
     else if ([command isEqualToString:@"Input.ExecuteAction"]) {
         icon.image = [UIImage imageNamed:@"default-right-action-icon"];

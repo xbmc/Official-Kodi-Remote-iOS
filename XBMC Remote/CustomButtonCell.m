@@ -34,6 +34,7 @@
         onoff.frame = frame;
         onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         onoff.hidden = YES;
+        onoff.alpha = 0.9;
         [self.contentView addSubview:onoff];
         self.onoffSwitch = onoff;
         
@@ -45,7 +46,7 @@
                                 iconSize,
                                 iconSize);
         icon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        icon.alpha = 0.6;
+        icon.alpha = 0.9;
         [self.contentView addSubview:icon];
         self.buttonIcon = icon;
         
@@ -61,7 +62,7 @@
         title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
         title.adjustsFontSizeToFitWidth = YES;
         title.minimumScaleFactor = FONT_SCALING_MIN;
-        title.textColor = UIColor.grayColor;
+        title.textColor = UIColor.lightGrayColor;
         title.highlightedTextColor = UIColor.grayColor;
         [self.contentView addSubview:title];
         self.buttonLabel = title;
