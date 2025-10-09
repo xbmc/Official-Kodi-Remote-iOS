@@ -7,15 +7,25 @@
 //
 
 #import "CustomButtonCell.h"
+#import "Utilities.h"
 
 #define CUSTOM_BUTTON_ITEM_SPACING 4.0
 #define CUSTOM_BUTTON_LABEL_PADDING 4.0
+#define CUSTOM_BUTTON_BACKGROUND_INSET 2.0
 
 @implementation CustomButtonCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString*)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        // Background view to better match a button style
+        UIView *buttonBackground = [UIView new];
+        buttonBackground.frame = CGRectInset(self.frame, CUSTOM_BUTTON_BACKGROUND_INSET, CUSTOM_BUTTON_BACKGROUND_INSET);
+        buttonBackground.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        buttonBackground.layer.cornerRadius = 8;
+        buttonBackground.backgroundColor = CUSTOM_BUTTON_BACKGROUND;
+        [self insertSubview:buttonBackground belowSubview:self.contentView];
+        
         // OnOff switch is placed right aligned in the content view
         UISwitch *onoff = [UISwitch new];
         CGRect frame = onoff.frame;

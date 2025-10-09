@@ -42,7 +42,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    cell.backgroundColor = CUSTOM_BUTTON_BACKGROUND;
+    cell.backgroundColor = UIColor.clearColor;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
