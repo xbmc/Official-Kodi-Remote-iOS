@@ -6160,9 +6160,6 @@
     
 #pragma mark - Kodi Settings
     __auto_type menu_Settings = [mainMenu new];
-    menu_Settings.subItem = [mainMenu new];
-    menu_Settings.subItem.subItem = [mainMenu new];
-    
     menu_Settings.mainLabel = LOCALIZED_STR(@"XBMC Settings");
     menu_Settings.icon = @"icon_menu_settings";
     menu_Settings.family = FamilyDetailView;
@@ -6284,6 +6281,7 @@
         ],
     ];
     
+    menu_Settings.subItem = [mainMenu new];
     menu_Settings.subItem.mainMethod = [@[
         @{
             @"method": @"Settings.GetCategories",
@@ -6323,6 +6321,7 @@
     menu_Settings.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
     menu_Settings.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
+    menu_Settings.subItem.subItem = [mainMenu new];
     menu_Settings.subItem.subItem.mainMethod = [@[
         @{
             @"method": @"Settings.GetSettings",

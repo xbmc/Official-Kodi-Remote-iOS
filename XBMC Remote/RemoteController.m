@@ -743,7 +743,7 @@
 }
 
 - (void)longpressKey:(id)timer {
-    // Repeatable key was lomgpressed
+    // Repeatable key was longpressed
     id sender = [timer userInfo];
     [self.holdKeyTimer invalidate];
     self.holdKeyTimer = [NSTimer scheduledTimerWithTimeInterval:KEY_REPEAT_TIMEOUT
