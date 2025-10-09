@@ -40,11 +40,10 @@
 
 @implementation mainMenu
 
-@synthesize rootLabel, mainLabel, icon, family, type, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, noConvertTime, chooseTab, disableNavbarButtons, filterModes;
+@synthesize mainLabel, icon, family, type, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, noConvertTime, chooseTab, disableNavbarButtons, filterModes;
 
 - (id)copyWithZone:(NSZone*)zone {
     mainMenu *menuCopy = [[mainMenu allocWithZone:zone] init];
-    menuCopy.rootLabel = [self.rootLabel copy];
     menuCopy.mainLabel = [self.mainLabel copy];
     menuCopy.family = self.family;
     menuCopy.type = self.type;
@@ -6854,11 +6853,6 @@
     }
     if ([self isMenuEntryEnabled:@"menu_settings"]) {
         [mainMenuItems addObject:menu_Settings];
-    }
-    
-    // Set rootLabel for all menu entries
-    for (mainMenu *menuItem in mainMenuItems) {
-        menuItem.rootLabel = menuItem.mainLabel;
     }
     
 #pragma mark - Build and Initialize Global Search Lookup
