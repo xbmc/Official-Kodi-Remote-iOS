@@ -81,7 +81,6 @@
 		C76594A02C5E871100B93A2A /* cellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E9192809B70024FEFA /* cellViewIPad.xib */; };
 		C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */; };
 		C76594A22C5E871600B93A2A /* cellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* cellView.xib */; };
-		C76594A32C5E871900B93A2A /* rightCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234EB19280B120024FEFA /* rightCellView.xib */; };
 		C76594A42C5E871C00B93A2A /* jsonDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB16163151F156A001BA2D4 /* jsonDataCell.xib */; };
 		C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D41527A9DF00D5958F /* playlistCellView.xib */; };
 		C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F487B5915399716004530C1 /* serverListCellView.xib */; };
@@ -197,7 +196,6 @@
 		0F61E198153C828300A89BB1 /* AppInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppInfoViewController.m; sourceTree = "<group>"; };
 		0F6234E7192808120024FEFA /* cellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cellView.xib; sourceTree = "<group>"; };
 		0F6234E9192809B70024FEFA /* cellViewIPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cellViewIPad.xib; sourceTree = "<group>"; };
-		0F6234EB19280B120024FEFA /* rightCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = rightCellView.xib; sourceTree = "<group>"; };
 		0F6234ED19280D9B0024FEFA /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		0F6234EF192811150024FEFA /* NowPlaying.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NowPlaying.xib; sourceTree = "<group>"; };
 		0F680CB717103DB60092298A /* ClearCacheView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClearCacheView.h; sourceTree = "<group>"; };
@@ -443,7 +441,6 @@
 			isa = PBXGroup;
 			children = (
 				0F6234E7192808120024FEFA /* cellView.xib */,
-				0F6234EB19280B120024FEFA /* rightCellView.xib */,
 				0FB16163151F156A001BA2D4 /* jsonDataCell.xib */,
 				0F44E2D41527A9DF00D5958F /* playlistCellView.xib */,
 				0F487B5915399716004530C1 /* serverListCellView.xib */,
@@ -838,7 +835,6 @@
 				C76594A02C5E871100B93A2A /* cellViewIPad.xib in Resources */,
 				C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */,
 				C76594A22C5E871600B93A2A /* cellView.xib in Resources */,
-				C76594A32C5E871900B93A2A /* rightCellView.xib in Resources */,
 				C76594A42C5E871C00B93A2A /* jsonDataCell.xib in Resources */,
 				C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */,
 				C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */,
