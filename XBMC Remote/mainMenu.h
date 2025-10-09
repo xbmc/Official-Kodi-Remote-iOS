@@ -48,7 +48,6 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 
 @interface mainMenu : NSObject
 
-@property (nonatomic, copy) NSString *rootLabel;
 @property (nonatomic, copy) NSString *mainLabel;
 @property MenuItemFamily family;
 @property MenuItemType type;

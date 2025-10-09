@@ -1146,7 +1146,7 @@
     // Search for the index path of the desired controller
     for (int row = 0; row < menuItems.count; ++row) {
         mainMenu *item = menuItems[row];
-        if ([item.rootLabel isEqualToString:LOCALIZED_STR(label)]) {
+        if ([item.mainLabel isEqualToString:LOCALIZED_STR(label)]) {
             return [NSIndexPath indexPathForRow:row inSection:0];
         }
     }
