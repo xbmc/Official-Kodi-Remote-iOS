@@ -4831,8 +4831,8 @@
          // postprocessing. Ignore Radio recordings/timers, if we are in TV mode. Or ignore TV recordings/timers,
          // if we are in Radio mode.
          BOOL isRecordingsOrTimersMethod = [methodToCall isEqualToString:@"PVR.GetRecordings"] || [methodToCall isEqualToString:@"PVR.GetTimers"];
-         BOOL ignoreRadioItems = [menuItem.rootLabel isEqualToString:LOCALIZED_STR(@"Live TV")] && isRecordingsOrTimersMethod;
-         BOOL ignoreTvItems = [menuItem.rootLabel isEqualToString:LOCALIZED_STR(@"Radio")] && isRecordingsOrTimersMethod;
+         BOOL ignoreRadioItems = menuItem.type == TypeLiveTv && isRecordingsOrTimersMethod;
+         BOOL ignoreTvItems = menuItem.type == TypeRadio && isRecordingsOrTimersMethod;
          // If we are reading PVR timer, we need to filter them for the current mode in postprocessing. Ignore
          // scheduled recordings, if we are in timer rules mode. Or ignore timer rules, if scheduled recordings
          // are listed.
@@ -5339,7 +5339,8 @@
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     
-    BOOL useMainLabel = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel] && !([menuItem.mainLabel isEqualToString:LOCALIZED_STR(@"XBMC Settings")] || [menuItem.mainLabel isEqualToString:@"Custom Button Menu"]);
+    BOOL mainLabelChanged = ![menuItem.mainLabel isEqualToString:menuItem.rootLabel];
+    BOOL useMainLabel = mainLabelChanged && !(menuItem.type == TypeSettings || menuItem.type == TypeCustomButtonEntry);
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
     self.navigationItem.backButtonTitle = labelText;
     if (!albumView) {
@@ -5935,7 +5936,7 @@
     else if ([methods[@"channelListView"] boolValue]) {
         channelListView = YES;
     }
-    else if ([menuItem.rootLabel isEqualToString:LOCALIZED_STR(@"Global Search")]) {
+    else if (menuItem.type == TypeGlobalSearch) {
         globalSearchView = YES;
     }
     
@@ -5993,7 +5994,7 @@
     // change the initial frame for the first table shown (list view). It is important
     // to apply this only change after the library view has been initialized as this
     // uses the list view frame to set its own frame.
-    if ([menuItem.mainLabel isEqualToString:@"Custom Button Menu"] && IS_IPHONE) {
+    if (menuItem.type == TypeCustomButtonEntry && IS_IPHONE) {
         frame = dataList.frame;
         frame.origin.x = 0;
         frame.origin.y = UIScreen.mainScreen.bounds.size.height;
