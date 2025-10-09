@@ -990,10 +990,6 @@
     return torchIsOn;
 }
 
-+ (BOOL)hasRemoteToolBar {
-    return UIScreen.mainScreen.bounds.size.height >= 568;
-}
-
 + (CGFloat)getBottomPadding {
     CGFloat bottomPadding = UIApplication.sharedApplication.keyWindow.safeAreaInsets.bottom;
     return bottomPadding;

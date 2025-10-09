@@ -18,6 +18,7 @@
 #import "XBMCVirtualKeyboard.h"
 #import "CustomNavigationController.h"
 #import "Utilities.h"
+#import "RemoteController.h"
 
 #define CONNECTION_TIMEOUT 240.0
 #define VIEW_PADDING 10 /* separation between toolbar views */
