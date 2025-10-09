@@ -295,6 +295,9 @@
 				<string>Now Playing</string>
 				<string>Remote Control</string>
 				<string>Global Search</string>
+				<string>Files</string>
+				<string>Add-ons</string>
+				<string>Kodi Settings</string>
 			</array>
 			<key>Values</key>
 			<array>
@@ -310,6 +313,9 @@
 				<string>Now Playing</string>
 				<string>Remote Control</string>
 				<string>Global Search</string>
+				<string>Files</string>
+				<string>Add-ons</string>
+				<string>Kodi Settings</string>
 			</array>
 		</dict>
 		<dict>
