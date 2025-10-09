@@ -18,7 +18,6 @@
 #define TOOLBAR_HEIGHT 44.0
 #define BUTTON_SPACING 8.0
 #define BUTTON_WIDTH 100.0
-#define ONOFF_BUTTON_TAG_OFFSET 1000
 #define CUSTOM_BUTTON_CELL_IDENTIFIER @"customButtonCellIdentifier"
 
 @implementation RightMenuViewController
@@ -64,10 +63,6 @@
     UIImageView *icon = cell.buttonIcon;
     icon.hidden = NO;
     icon.alpha = 0.6;
-    
-    // Important note: The switch's tag is different for each cell. This is required to identify which
-    // cell's switch was pressed when processing this in toggleSwitch.
-    onoff.tag = ONOFF_BUTTON_TAG_OFFSET + indexPath.row;
     
     UILabel *title = cell.buttonLabel;
     title.text = tableData[indexPath.row][@"label"];
@@ -229,16 +224,22 @@
 
 #pragma mark - UISwitch
 
-- (void)toggleSwitch:(id)sender {
-    UISwitch *onoff = (UISwitch*)sender;
-    NSInteger tableIdx = onoff.tag - ONOFF_BUTTON_TAG_OFFSET;
+- (void)toggleSwitch:(UISwitch*)onoff {
+    // Gather NSIndexPath from sender
+    CGPoint hitPoint = [onoff convertPoint:CGPointZero toView:menuTableView];
+    NSIndexPath *hitIndex = [menuTableView indexPathForRowAtPoint:hitPoint];
+    
+    // Process the clicked UISwitch
+    NSInteger tableIdx = hitIndex.row;
     if (tableIdx < tableData.count) {
         NSMutableDictionary *params = tableData[tableIdx][@"action"][@"params"];
+        
+        // Save value in tableData to avoid re-reading it via JSON when updating dequeued cells in cellForRowAtIndexPath
+        params[@"value"] = @(onoff.on);
+        
+        // Build and send JSON command
         NSString *command = tableData[tableIdx][@"action"][@"command"];
-        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:params[@"setting"], @"setting", @(onoff.on), @"value", nil];
-        if ([params respondsToSelector:@selector(setObject:forKey:)]) {
-            params[@"value"] = @(onoff.on);
-        }
+        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:params[@"setting"], @"setting", params[@"value"], @"value", nil];
         [self xbmcAction:command params:parameters uiControl:onoff];
     }
 }
@@ -275,11 +276,6 @@
 }
 
 - (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
-    UISwitch *onoffSource = (UISwitch*)[[[tableView cellForRowAtIndexPath:sourceIndexPath]accessoryView] viewWithTag:ONOFF_BUTTON_TAG_OFFSET + sourceIndexPath.row];
-    UISwitch *onoffDestination = (UISwitch*)[[[tableView cellForRowAtIndexPath:destinationIndexPath]accessoryView] viewWithTag:ONOFF_BUTTON_TAG_OFFSET + destinationIndexPath.row];
-    onoffSource.tag = ONOFF_BUTTON_TAG_OFFSET + destinationIndexPath.row;
-    onoffDestination.tag = ONOFF_BUTTON_TAG_OFFSET + sourceIndexPath.row;
-
     id objectMove = tableData[sourceIndexPath.row];
     [tableData removeObjectAtIndex:sourceIndexPath.row];
     [tableData insertObject:objectMove atIndex:destinationIndexPath.row];
