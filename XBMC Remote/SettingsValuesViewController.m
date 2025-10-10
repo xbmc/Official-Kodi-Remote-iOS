@@ -236,7 +236,7 @@
     NSString *subTitle = @"";
     switch (xbmcSetting) {
         case SettingTypeList:
-            subTitle = [NSString stringWithFormat:@": %@", settingOptions[longPressRow.row][@"label"]];
+            subTitle = [NSString stringWithFormat:@"%@", settingOptions[longPressRow.row][@"label"]];
             break;
             
         case SettingTypeSlider:
@@ -249,7 +249,7 @@
         default:
             break;
     }
-    return [NSString stringWithFormat:@"%@%@", self.detailItem[@"label"], subTitle];
+    return [NSString stringWithFormat:@"%@%@%@", self.detailItem[@"label"], subTitle.length ? @": " : @"", subTitle ?: @""];
 }
 
 - (void)addActionButton:(UIAlertController*)alertCtrl {
