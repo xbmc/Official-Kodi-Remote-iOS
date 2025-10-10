@@ -15,6 +15,8 @@
 #import "StackScrollViewController.h"
 #import "Utilities.h"
 
+#include "convert_fmt.hpp"
+
 #define SETTINGS_CELL_LABEL 1
 #define SETTINGS_CELL_DESCRIPTION 2
 #define SETTINGS_CELL_SLIDER 101
@@ -232,15 +234,13 @@
 
 - (NSString*)getActionButtonTitle {
     NSString *subTitle = @"";
-    NSString *stringFormat = @": %i";
     switch (xbmcSetting) {
         case SettingTypeList:
             subTitle = [NSString stringWithFormat:@": %@", settingOptions[longPressRow.row][@"label"]];
             break;
             
         case SettingTypeSlider:
-            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
-            subTitle = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
+            subTitle = [self getStringForSliderItem:itemControls value:(int)storeSliderValue];
             break;
             
         case SettingTypeUnsupported:
@@ -364,14 +364,20 @@
 
 #pragma mark - Helper
 
-- (NSString*)getStringFormatFromItem:(id)item defaultFormat:(NSString*)defaultFormat {
-    // Workaround!! Before Kodi 18.x an older format ("%i ms") was used. The new format ("{0:d} ms") needs
-    // an updated parser. Until this is implemented just display the value itself, without the unit.
+- (NSString*)getStringForSliderItem:(id)item value:(int)value {
+    NSString *stringResult;
     NSString *format = item[@"formatlabel"];
-    if (format.length > 0 && AppDelegate.instance.serverVersion < 18) {
-        return format;
+    if (AppDelegate.instance.serverVersion < 18) {
+        // Before Kodi 18.x an older format ("%i ms") was used.
+        stringResult = [NSString stringWithFormat:format, value];
     }
-    return defaultFormat;
+    else {
+        // Since Kodi 18.x fmt formatting ("{0:d} ms") is used.
+        const char *formatStr = [format UTF8String];
+        char *string = convert_fmt(formatStr, value);
+        stringResult = [NSString stringWithUTF8String:string];
+    }
+    return stringResult;
 }
 
 #pragma mark - Table view data source
@@ -410,7 +416,6 @@
     onoff.hidden = YES;
     textInputField.hidden = YES;
     
-    NSString *stringFormat = @"%i";
     NSString *descriptionString = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
     descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
     descriptionString = [Utilities stripBBandHTML:descriptionString];
@@ -480,8 +485,7 @@
                                                 LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:descriptionLabel];
             
-            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
-            sliderLabel.text = [NSString stringWithFormat:stringFormat, [self.detailItem[@"value"] intValue]];
+            sliderLabel.text = [self getStringForSliderItem:itemControls value:[self.detailItem[@"value"] intValue]];
             sliderLabel.frame = CGRectMake(CGRectGetMinX(sliderLabel.frame),
                                            CGRectGetMaxY(descriptionLabel.frame) + 2 * PADDING_VERTICAL,
                                            CGRectGetWidth(sliderLabel.frame),
@@ -801,11 +805,7 @@
     if (!FLOAT_EQUAL_ZERO(newValue - storeSliderValue)) {
         storeSliderValue = newValue;
         UILabel *sliderLabel = [[slider superview] viewWithTag:SETTINGS_CELL_SLIDER_LABEL];
-        if (sliderLabel) {
-            NSString *stringFormat = @"%i";
-            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
-            sliderLabel.text = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
-        }
+        sliderLabel.text = [self getStringForSliderItem:itemControls value:(int)storeSliderValue];
     }
     scrubbingRate.text = LOCALIZED_STR(([NSString stringWithFormat:@"Scrubbing %@", @(slider.scrubbingSpeed)]));
 }
