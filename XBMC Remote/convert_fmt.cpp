@@ -9,9 +9,10 @@
 #include "convert_fmt.hpp"
 #include <fmt/core.h>
 
-char* convert_fmt(const char *format, int value) {
-    static char s[128];
-    memset(s, 0, sizeof(s));
-    fmt::format_to(s, format, value);
-    return s;
+void convert_fmt(char *output, int size, const char *format, int value) {
+    // Initialize char array with zeros
+    memset(output, 0, size);
+    
+    // Only fill up to size-1 to esnure null-termination
+    fmt::format_to_n(output, size - 1, format, value);
 }
