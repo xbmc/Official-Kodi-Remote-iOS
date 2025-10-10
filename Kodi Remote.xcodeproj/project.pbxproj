@@ -100,6 +100,7 @@
 		C76594B52C5E883A00B93A2A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9786C21683D87800B4F3F8 /* Localizable.strings */; };
 		C76594B62C5E885B00B93A2A /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6087E164B3094009CA3A9 /* Roboto-Regular.ttf */; };
 		C76594B72C5E8A5B00B93A2A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C70F41D02BA4D98E00847C75 /* PrivacyInfo.xcprivacy */; };
+		C771C7292EC7879300581D44 /* fmt_convert.mm in Sources */ = {isa = PBXBuildFile; fileRef = C771C7282EC7879300581D44 /* fmt_convert.mm */; };
 		C78C30F528F877870055CD95 /* VersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = C78C30F428F877870055CD95 /* VersionCheck.m */; };
 		C78C30FA28F8AADA0055CD95 /* SharingActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C78C30F928F89A3E0055CD95 /* SharingActivityItemSource.m */; };
 		C795123F2DC95A7E00A8CEE5 /* LinkPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C795123E2DC95A7E00A8CEE5 /* LinkPresentation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -321,6 +322,8 @@
 		C76451CB29C51221000AE949 /* UIButton+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+WebCache.m"; path = "SDWebImage/UIButton+WebCache.m"; sourceTree = "<group>"; };
 		C76451CC29C51221000AE949 /* SDWebImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDWebImageManager.h; path = SDWebImage/SDWebImageManager.h; sourceTree = "<group>"; };
 		C76451CD29C51221000AE949 /* UIImage+MultiFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+MultiFormat.m"; path = "SDWebImage/UIImage+MultiFormat.m"; sourceTree = "<group>"; };
+		C771C7282EC7879300581D44 /* fmt_convert.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = fmt_convert.mm; sourceTree = "<group>"; };
+		C771C72A2EC787B500581D44 /* fmt_convert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_convert.h; sourceTree = "<group>"; };
 		C772AD2A2E675D8300435181 /* bs-BA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bs-BA"; path = "bs-BA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C772AD2B2E675D8300435181 /* bs-BA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bs-BA"; path = "bs-BA.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C78204462E3930FC00B3F1E9 /* uk-UA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "uk-UA"; path = "uk-UA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -577,6 +580,8 @@
 				0F4019B218F415A50064E4DC /* MessagesView.m */,
 				0F4AB8181903DDCE005DEC5C /* RemoteControllerGestureZoneView.h */,
 				0F4AB8191903DDCE005DEC5C /* RemoteControllerGestureZoneView.m */,
+				C771C72A2EC787B500581D44 /* fmt_convert.h */,
+				C771C7282EC7879300581D44 /* fmt_convert.mm */,
 				0F747736151DD98600EF78AD /* classes */,
 				0F554901151D1187007E633F /* Supporting Files */,
 				0F554C21151D197F007E633F /* nib */,
@@ -907,6 +912,7 @@
 				0F4156451646D810009E6DD4 /* JBKenBurnsView.m in Sources */,
 				C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */,
 				0F7F3DA5164A6D730080A14A /* ECSlidingViewController.m in Sources */,
+				C771C7292EC7879300581D44 /* fmt_convert.mm in Sources */,
 				C79B0EA52DF0CF6900046334 /* BaseMasterViewController.m in Sources */,
 				0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */,
 				0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */,

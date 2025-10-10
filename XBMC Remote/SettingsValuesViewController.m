@@ -14,6 +14,7 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "Utilities.h"
+#import "fmt_convert.h"
 
 #define SETTINGS_CELL_LABEL 1
 #define SETTINGS_CELL_DESCRIPTION 2
@@ -372,43 +373,37 @@
 
 #pragma mark - Helper
 
-- (NSString*)getFormatString:(NSString*)format {
-    // Default format does not provide any units
-    NSString *defaultFormat = settingValueType == SettingValueTypeNumber ? @"%.2f" : @"%i";
-    
-    // Identify fmt-like format string
+- (BOOL)fmtLikeFormat:(NSString*)format {
     NSInteger openBraceLoc = [format rangeOfString:@"{"].location;
     NSInteger closeBraceLoc = [format rangeOfString:@"}" options:NSBackwardsSearch].location;
     if (format.length && openBraceLoc != NSNotFound && closeBraceLoc != NSNotFound && openBraceLoc < closeBraceLoc) {
-        // Gather range for unit which is added after last "}"
-        NSRange range;
-        range.location = closeBraceLoc + 1;
-        range.length = format.length - range.location;
-        
-        // Extract unit and make percent character is formatted correctly
-        NSString *unit = [format substringWithRange:range];
-        unit = [unit stringByReplacingOccurrencesOfString:@"%" withString:@"%%"];
-        
-        // Build std format string, appending the fmt format string's unit
-        format = [defaultFormat stringByAppendingString:unit];
+        return YES;
     }
-    // Fallback to default in case no format is defined or we missed to identify fmt-style format (which is used for Kodi 18 and later)
-    else if (!format.length || AppDelegate.instance.serverVersion >= 18) {
-        format = defaultFormat;
-    }
-    return format;
+    return NO;
 }
 
 - (NSString*)getStringForSliderItem:(id)item value:(float)value {
-    NSString *format = [self getFormatString:item[@"formatlabel"]];
+    NSString *defaultFormat = settingValueType == SettingValueTypeNumber ? @"%.2f" : @"%i";
+    NSString *format = item[@"formatlabel"] ?: defaultFormat;
+    BOOL fmtLike = [self fmtLikeFormat:format];
     NSString *stringResult;
     switch (settingValueType) {
         case SettingValueTypeNumber:
-            stringResult = [NSString stringWithFormat:format, value];
+            if (fmtLike) {
+                stringResult = [NSString fmtFormatted:format defaultFormat:defaultFormat floatValue:value];
+            }
+            else {
+                stringResult = [NSString stringWithFormat:format, value];
+            }
             break;
         case SettingValueTypeInteger:
         default:
-            stringResult = [NSString stringWithFormat:format, (int)value];
+            if (fmtLike) {
+                stringResult = [NSString fmtFormatted:format defaultFormat:defaultFormat intValue:(int)value];
+            }
+            else {
+                stringResult = [NSString stringWithFormat:format, (int)value];
+            }
             break;
     }
     return stringResult;
