@@ -1141,16 +1141,33 @@
 + (NSIndexPath*)getIndexPathForDefaultController:(NSArray*)menuItems {
     // Read the default controller from the app settings
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *label = [userDefaults stringForKey:@"start_menu"];
+    NSString *startId = [userDefaults stringForKey:@"start_menu"];
+    
+    // Map startId to MenuItemType (default = TypeNone = 0)
+    NSDictionary *defaultMenus = @{
+        @"start_menu_main": @(TypeNone),
+        @"start_menu_music": @(TypeMusic),
+        @"start_menu_movies": @(TypeMovies),
+        @"start_menu_videos": @(TypeVideos),
+        @"start_menu_tvshows": @(TypeTvShows),
+        @"start_menu_pictures": @(TypePictures),
+        @"start_menu_livetv": @(TypeLiveTv),
+        @"start_menu_radio": @(TypeRadio),
+        @"start_menu_favourites": @(TypeFavourites),
+        @"start_menu_nowplaying": @(TypeNowPlaying),
+        @"start_menu_remote": @(TypeRemote),
+        @"start_menu_search": @(TypeGlobalSearch),
+        @"start_menu_files": @(TypeFiles),
+        @"start_menu_addons": @(TypeAddons),
+        @"start_menu_settings": @(TypeSettings),
+    };
+    MenuItemType startMenuType = [defaultMenus[startId] intValue];
     
     // Search for the index path of the desired controller
-    for (int row = 0; row < menuItems.count; ++row) {
-        mainMenu *item = menuItems[row];
-        if ([item.mainLabel isEqualToString:LOCALIZED_STR(label)]) {
-            return [NSIndexPath indexPathForRow:row inSection:0];
-        }
-    }
-    return nil;
+    NSUInteger index = [menuItems indexOfObjectPassingTest:^BOOL(mainMenu *item, NSUInteger idx, BOOL *stop) {
+      return item.type == startMenuType;
+    }];
+    return index != NSNotFound ? [NSIndexPath indexPathForRow:index inSection:0] : nil;
 }
 
 + (void)enableDefaultController:(id<UITableViewDelegate>)viewController tableView:(UITableView*)tableView menuItems:(NSArray*)menuItems {
