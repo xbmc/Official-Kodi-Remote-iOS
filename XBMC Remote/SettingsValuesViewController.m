@@ -372,10 +372,13 @@
         stringResult = [NSString stringWithFormat:format, value];
     }
     else {
+        // Allocate fmtOutput here to use automatic dellocation once method is finished
+        char fmtOutput[64];
+        
         // Since Kodi 18.x fmt formatting ("{0:d} ms") is used.
-        const char *formatStr = [format UTF8String];
-        char *string = convert_fmt(formatStr, value);
-        stringResult = [NSString stringWithUTF8String:string];
+        const char *fmtFormat = [format UTF8String];
+        convert_fmt(fmtOutput, sizeof(fmtOutput), fmtFormat, value);
+        stringResult = [NSString stringWithUTF8String:fmtOutput];
     }
     return stringResult;
 }

@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-extern char* convert_fmt(const char *format, int value);
+extern void convert_fmt(char *io, int size, const char *format, int value);
 
 #ifdef __cplusplus
 }
