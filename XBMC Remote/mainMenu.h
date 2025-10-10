@@ -8,11 +8,31 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, MenuItemFamilyType) {
+typedef NS_ENUM(NSInteger, MenuItemFamily) {
     FamilyDetailView,
     FamilyNowPlaying,
     FamilyRemote,
-    FamilyServer
+    FamilyServer,
+};
+
+typedef NS_ENUM(NSInteger, MenuItemType) {
+    TypeNone = 0,
+    TypeServer,
+    TypeMusic,
+    TypeMovies,
+    TypeVideos,
+    TypeTvShows,
+    TypePictures,
+    TypeLiveTv,
+    TypeRadio,
+    TypeFavourites,
+    TypeNowPlaying,
+    TypeRemote,
+    TypeGlobalSearch,
+    TypeFiles,
+    TypeAddons,
+    TypeSettings,
+    TypeCustomButtonEntry,
 };
 
 typedef NS_ENUM(NSInteger, ViewModes) {
@@ -23,14 +43,14 @@ typedef NS_ENUM(NSInteger, ViewModes) {
     ViewModeListened,
     ViewModeDefaultArtists,
     ViewModeAlbumArtists,
-    ViewModeSongArtists
+    ViewModeSongArtists,
 };
 
 @interface mainMenu : NSObject
 
-@property (nonatomic, copy) NSString *rootLabel;
 @property (nonatomic, copy) NSString *mainLabel;
-@property MenuItemFamilyType family;
+@property MenuItemFamily family;
+@property MenuItemType type;
 @property BOOL enableSection;
 @property (nonatomic, copy) NSString *icon;
 @property (nonatomic, copy) NSArray *mainMethod;
