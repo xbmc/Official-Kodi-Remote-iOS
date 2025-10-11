@@ -182,10 +182,10 @@
     [self startTimer];
 }
 
-- (void)changeServerVolume:(id)sender {
+- (void)changeServerVolume:(id)value {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume" 
-     withParameters:@{@"volume": @(volumeSlider.value)}];
+     withParameters:@{@"volume": value}];
 }
 
 - (void)startTimer {
@@ -313,19 +313,21 @@
     switch (action) {
         case VOLUME_BUTTON_UP: // Volume Increase
             volumeSlider.value += 1;
+            [self changeServerVolume:@"increment"];
             break;
         case VOLUME_BUTTON_DOWN: // Volume Decrease
             volumeSlider.value -= 1;
+            [self changeServerVolume:@"decrement"];
             break;
         case VOLUME_SLIDER: // Volume slider with 1% step resolution
             volumeSlider.value = (int)volumeSlider.value;
+            [self changeServerVolume:@(volumeSlider.value)];
             break;
         default:
             break;
     }
     AppDelegate.instance.serverVolume = volumeSlider.value;
     volumeLabel.text = [NSString stringWithFormat:@"%.0f", volumeSlider.value];
-    [self changeServerVolume:nil];
     if (isMuted) {
         [self toggleMute:nil];
     }
