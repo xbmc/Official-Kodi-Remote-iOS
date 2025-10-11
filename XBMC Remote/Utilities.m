@@ -1141,12 +1141,60 @@
 + (NSIndexPath*)getIndexPathForDefaultController:(NSArray*)menuItems {
     // Read the default controller from the app settings
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *label = [userDefaults stringForKey:@"start_menu"];
+    NSString *startId = [userDefaults stringForKey:@"start_menu"];
+    
+    // Map startId to MenuItemType
+    MenuItemType startMenuType = TypeNone;
+    if ([startId isEqualToString:@"start_menu_main"]) {
+        startMenuType = TypeNone;
+    }
+    else if ([startId isEqualToString:@"start_menu_music"]) {
+        startMenuType = TypeMusic;
+    }
+    else if ([startId isEqualToString:@"start_menu_movies"]) {
+        startMenuType = TypeMovies;
+    }
+    else if ([startId isEqualToString:@"start_menu_videos"]) {
+        startMenuType = TypeVideos;
+    }
+    else if ([startId isEqualToString:@"start_menu_tvshows"]) {
+        startMenuType = TypeTvShows;
+    }
+    else if ([startId isEqualToString:@"start_menu_pictures"]) {
+        startMenuType = TypePictures;
+    }
+    else if ([startId isEqualToString:@"start_menu_livetv"]) {
+        startMenuType = TypeLiveTv;
+    }
+    else if ([startId isEqualToString:@"start_menu_radio"]) {
+        startMenuType = TypeRadio;
+    }
+    else if ([startId isEqualToString:@"start_menu_favourites"]) {
+        startMenuType = TypeFavourites;
+    }
+    else if ([startId isEqualToString:@"start_menu_nowplaying"]) {
+        startMenuType = TypeNowPlaying;
+    }
+    else if ([startId isEqualToString:@"start_menu_remote"]) {
+        startMenuType = TypeRemote;
+    }
+    else if ([startId isEqualToString:@"start_menu_search"]) {
+        startMenuType = TypeGlobalSearch;
+    }
+    else if ([startId isEqualToString:@"start_menu_files"]) {
+        startMenuType = TypeFiles;
+    }
+    else if ([startId isEqualToString:@"start_menu_addons"]) {
+        startMenuType = TypeAddons;
+    }
+    else if ([startId isEqualToString:@"start_menu_settings"]) {
+        startMenuType = TypeSettings;
+    }
     
     // Search for the index path of the desired controller
     for (int row = 0; row < menuItems.count; ++row) {
         mainMenu *item = menuItems[row];
-        if ([item.rootLabel isEqualToString:LOCALIZED_STR(label)]) {
+        if (item.type == startMenuType) {
             return [NSIndexPath indexPathForRow:row inSection:0];
         }
     }
