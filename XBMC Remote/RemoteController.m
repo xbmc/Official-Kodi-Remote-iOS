@@ -374,12 +374,12 @@
 	}
 	CGFloat rotation = 0.0 - (lastRotation - [(UIRotationGestureRecognizer*)sender rotation]);
     
-    if (rotation > ROTATION_TRIGGER && audioVolume < 100) {
-        audioVolume += 1;
+    if (rotation > ROTATION_TRIGGER) {
+        audioVolume = MIN(audioVolume + 1, 100);
         [self changeServerVolume:@"increment"];
     }
-    else if (rotation < -ROTATION_TRIGGER && audioVolume > 0) {
-        audioVolume -= 1;
+    else if (rotation < -ROTATION_TRIGGER) {
+        audioVolume = MAX(audioVolume - 1, 0);
         [self changeServerVolume:@"decrement"];
     }
 	lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
