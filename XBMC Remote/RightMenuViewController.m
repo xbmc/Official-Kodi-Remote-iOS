@@ -252,10 +252,20 @@
     if (menuTableView.editing) {
         [menuTableView setEditing:NO animated:YES];
         [editButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
+        // Enable the UISWitch and align the alpha of the icons
+        for (CustomButtonCell *cell in menuTableView.visibleCells) {
+            cell.onoffSwitch.enabled = YES;
+            cell.buttonIcon.alpha = 0.9;
+        }
     }
     else {
         [menuTableView setEditing:YES animated:YES];
         [editButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateNormal];
+        // Disable the UISWitch and align the alpha of the icons
+        for (CustomButtonCell *cell in menuTableView.visibleCells) {
+            cell.onoffSwitch.enabled = NO;
+            cell.buttonIcon.alpha = 0.5;
+        }
     }
 }
 
