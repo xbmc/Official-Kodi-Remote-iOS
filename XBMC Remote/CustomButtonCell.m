@@ -78,4 +78,16 @@
     return self;
 }
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    if (editing) {
+        self.onoffSwitch.enabled = NO;
+        self.buttonIcon.alpha = 0.5;
+    }
+    else {
+        self.onoffSwitch.enabled = YES;
+        self.buttonIcon.alpha = 0.9;
+    }
+}
+
 @end
