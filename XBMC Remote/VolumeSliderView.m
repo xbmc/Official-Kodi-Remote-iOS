@@ -187,8 +187,13 @@
 
 - (void)changeServerVolume:(id)value {
     [[Utilities getJsonRPC]
-     callMethod:@"Application.SetVolume" 
-     withParameters:@{@"volume": value}];
+     callMethod:@"Application.SetVolume"
+     withParameters:@{@"volume": value}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (error == nil && methodError == nil) {
+            [self readServerVolume];
+        }
+    }];
 }
 
 - (void)startTimer {
@@ -210,21 +215,25 @@
         return;
     }
     else {
-        NSDictionary *checkServerParams = @{@"properties": @[@"volume"]};
-        [[Utilities getJsonRPC]
-         callMethod:@"Application.GetProperties"
-         withParameters:checkServerParams
-         withTimeout:VOLUME_INFO_TIMEOUT
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-                AppDelegate.instance.serverVolume = [methodResult[@"volume"] intValue];
-            }
-            else {
-                AppDelegate.instance.serverVolume = -1;
-            }
-            [self showServerVolume];
-        }];
+        [self readServerVolume];
     }
+}
+
+- (void)readServerVolume {
+    NSDictionary *checkServerParams = @{@"properties": @[@"volume"]};
+    [[Utilities getJsonRPC]
+     callMethod:@"Application.GetProperties"
+     withParameters:checkServerParams
+     withTimeout:VOLUME_INFO_TIMEOUT
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+            AppDelegate.instance.serverVolume = [methodResult[@"volume"] intValue];
+        }
+        else {
+            AppDelegate.instance.serverVolume = -1;
+        }
+        [self showServerVolume];
+    }];
 }
 
 - (void)showServerVolume {
@@ -327,22 +336,17 @@
     NSInteger action = [sender tag];
     switch (action) {
         case VOLUME_BUTTON_UP: // Volume Increase
-            volumeSlider.value += 1;
             [self changeServerVolume:@"increment"];
             break;
         case VOLUME_BUTTON_DOWN: // Volume Decrease
-            volumeSlider.value -= 1;
             [self changeServerVolume:@"decrement"];
             break;
         case VOLUME_SLIDER: // Volume slider with 1% step resolution
-            volumeSlider.value = (int)volumeSlider.value;
-            [self changeServerVolume:@(volumeSlider.value)];
+            [self changeServerVolume:@((int)volumeSlider.value)];
             break;
         default:
             break;
     }
-    AppDelegate.instance.serverVolume = volumeSlider.value;
-    [self showServerVolume];
     if (isMuted) {
         [self toggleMute:nil];
     }
