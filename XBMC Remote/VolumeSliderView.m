@@ -21,9 +21,6 @@
 #define VOLUME_HOLD_TIMEOUT 0.2
 #define VOLUME_REPEAT_TIMEOUT 0.03
 #define VOLUME_INFO_TIMEOUT 1.0
-#define VOLUME_BUTTON_UP 1
-#define VOLUME_BUTTON_DOWN 2
-#define VOLUME_SLIDER 10
 
 @implementation VolumeSliderView
 
@@ -40,7 +37,7 @@
         [volumeSlider setThumbImage:img forState:UIControlStateNormal];
         [volumeSlider setThumbImage:img forState:UIControlStateHighlighted];
         [self volumeInfo];
-        [volumeSlider addTarget:self action:@selector(changeVolume:) forControlEvents:UIControlEventValueChanged];
+        [volumeSlider addTarget:self action:@selector(handleSliderValueChanged:) forControlEvents:UIControlEventValueChanged];
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpInside];
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpOutside];
         CGRect frame_tmp;
@@ -295,7 +292,7 @@
     // Volume up/down button is touched
     isChangingVolume = YES;
     [self stopTimer];
-    [self changeVolume:sender];
+    [self changeVolume:[sender tag]];
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_HOLD_TIMEOUT
                                                             target:self
                                                           selector:@selector(longpressVolume:)
@@ -323,17 +320,20 @@
 - (void)autoChangeVolume:(id)timer {
     // Volume up/down is automatically changed until holdVolumeTimer is stopped when button is untouched again
     id sender = [timer userInfo];
-    [self changeVolume:sender];
+    [self changeVolume:[sender tag]];
 }
 
-- (void)changeVolume:(id)sender {
+- (void)handleSliderValueChanged:(id)sender {
+    [self changeVolume:[sender tag]];
+}
+
+- (void)changeVolume:(NSInteger)action {
     if (!AppDelegate.instance.serverOnLine) {
         return;
     }
     
     // Process the volume change
     isChangingVolume = YES;
-    NSInteger action = [sender tag];
     switch (action) {
         case VOLUME_BUTTON_UP: // Volume Increase
             [self changeServerVolume:@"increment"];

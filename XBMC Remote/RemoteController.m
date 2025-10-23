@@ -216,7 +216,7 @@
         toolbarPadding = 0;
     }
     if (IS_IPHONE) {
-        VolumeSliderView *volumeSliderView = nil;
+        volumeSliderView = nil;
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
         toolbarPadding += [Utilities getBottomPadding];
@@ -239,7 +239,7 @@
         quickHelpView.frame = frame;
     }
     else {
-        VolumeSliderView *volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
+        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
         [volumeSliderView startTimer];
         [self.view addSubview:volumeSliderView];
         
@@ -372,10 +372,10 @@
 	CGFloat rotation = 0.0 - (lastRotation - [(UIRotationGestureRecognizer*)sender rotation]);
     
     if (rotation > ROTATION_TRIGGER) {
-        [self changeServerVolume:@"increment"];
+        [volumeSliderView changeVolume:VOLUME_BUTTON_UP];
     }
     else if (rotation < -ROTATION_TRIGGER) {
-        [self changeServerVolume:@"decrement"];
+        [volumeSliderView changeVolume:VOLUME_BUTTON_DOWN];
     }
 	lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
 }
@@ -604,12 +604,6 @@
             [Utilities sendXbmcHttp:callback];
         }
     }];
-}
-
-- (void)changeServerVolume:(id)value {
-    [[Utilities getJsonRPC]
-     callMethod:@"Application.SetVolume" 
-     withParameters:@{@"volume": value}];
 }
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
