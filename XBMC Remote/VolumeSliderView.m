@@ -183,8 +183,13 @@
 
 - (void)changeServerVolume:(id)sender {
     [[Utilities getJsonRPC]
-     callMethod:@"Application.SetVolume" 
-     withParameters:@{@"volume": @(volumeSlider.value)}];
+     callMethod:@"Application.SetVolume"
+     withParameters:@{@"volume": @(volumeSlider.value)}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (error == nil && methodError == nil) {
+            [self readServerVolume];
+        }
+    }];
 }
 
 - (void)startTimer {
@@ -206,6 +211,23 @@
         return;
     }
     [self showServerVolume];
+}
+
+- (void)readServerVolume {
+    NSDictionary *checkServerParams = @{@"properties": @[@"volume"]};
+    [[Utilities getJsonRPC]
+     callMethod:@"Application.GetProperties"
+     withParameters:checkServerParams
+     withTimeout:VOLUME_INFO_TIMEOUT
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+            AppDelegate.instance.serverVolume = [methodResult[@"volume"] intValue];
+        }
+        else {
+            AppDelegate.instance.serverVolume = -1;
+        }
+        [self showServerVolume];
+    }];
 }
 
 - (void)showServerVolume {
@@ -315,19 +337,18 @@
     switch (action) {
         case VOLUME_BUTTON_UP: // Volume Increase
             volumeSlider.value += 1;
+            [self changeServerVolume:@((int)volumeSlider.value)];
             break;
         case VOLUME_BUTTON_DOWN: // Volume Decrease
             volumeSlider.value -= 1;
+            [self changeServerVolume:@((int)volumeSlider.value)];
             break;
         case VOLUME_SLIDER: // Volume slider with 1% step resolution
-            volumeSlider.value = (int)volumeSlider.value;
+            [self changeServerVolume:@((int)volumeSlider.value)];
             break;
         default:
             break;
     }
-    AppDelegate.instance.serverVolume = volumeSlider.value;
-    [self showServerVolume];
-    [self changeServerVolume:nil];
     if (isMuted) {
         [self toggleMute:nil];
     }
