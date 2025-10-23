@@ -117,6 +117,10 @@
             subView.center = CGPointMake(subView.center.x, center_y);
         }
         
+        volumeSlider.tag = VOLUME_SLIDER;
+        minusButton.tag = VOLUME_BUTTON_DOWN;
+        plusButton.tag = VOLUME_BUTTON_UP;
+        
         [muteButton setBackgroundImage:muteBackgroundImage forState:UIControlStateNormal];
         [muteButton setBackgroundImage:muteBackgroundImage forState:UIControlStateHighlighted];
         img = [UIImage imageNamed:@"volume_slash"];
