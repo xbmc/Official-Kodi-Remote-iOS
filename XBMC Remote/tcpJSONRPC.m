@@ -197,7 +197,7 @@ NSInputStream *inStream;
     }
     inCheck = YES;
     
-    NSDictionary *checkServerParams = @{@"properties": @[@"version", @"volume", @"name"]};
+    NSDictionary *checkServerParams = @{@"properties": @[@"version", @"name"]};
     [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
      withParameters:checkServerParams
@@ -214,7 +214,6 @@ NSInputStream *inStream;
             // Read if ignorearticles is enabled
             [self readIgnoreArticlesEnabled];
 
-            AppDelegate.instance.serverVolume = [methodResult[@"volume"] intValue];
             if (!AppDelegate.instance.serverOnLine) {
                 if ([methodResult isKindOfClass:[NSDictionary class]]) {
                     NSDictionary *serverInfo = methodResult[@"version"];
@@ -244,7 +243,6 @@ NSInputStream *inStream;
             if (error != nil) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionError" object:nil userInfo:@{@"error_message": [error localizedDescription]}];
             }
-            AppDelegate.instance.serverVolume = -1;
             if (AppDelegate.instance.serverOnLine) {
                 [self jsonConnectionNotifications:NO];
             }
