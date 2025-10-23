@@ -365,21 +365,16 @@
 }
 
 - (void)handleRotate:(id)sender {
-    if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan) {
-        [self volumeInfo];
-    }
-	else if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
+    if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
 		lastRotation = 0.0;
 		return;
 	}
 	CGFloat rotation = 0.0 - (lastRotation - [(UIRotationGestureRecognizer*)sender rotation]);
     
     if (rotation > ROTATION_TRIGGER) {
-        audioVolume = MIN(audioVolume + 1, 100);
         [self changeServerVolume:@"increment"];
     }
     else if (rotation < -ROTATION_TRIGGER) {
-        audioVolume = MAX(audioVolume - 1, 0);
         [self changeServerVolume:@"decrement"];
     }
 	lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
@@ -609,15 +604,6 @@
             [Utilities sendXbmcHttp:callback];
         }
     }];
-}
-
-- (void)volumeInfo {
-    if (AppDelegate.instance.serverVolume > -1) {
-        audioVolume = AppDelegate.instance.serverVolume;
-    }
-    else {
-        audioVolume = 0;
-    }
 }
 
 - (void)changeServerVolume:(id)value {
@@ -1141,7 +1127,6 @@
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
-    [self volumeInfo];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(revealMenu:)
