@@ -228,10 +228,12 @@
 }
 
 - (void)volumeInfo {
-    if (AppDelegate.instance.serverTCPConnectionOpen) {
+    if (AppDelegate.instance.serverTCPConnectionOpen || isChangingVolume) {
         return;
     }
-    [self showServerVolume];
+    else {
+        [self readServerVolume];
+    }
 }
 
 - (void)readServerVolume {
