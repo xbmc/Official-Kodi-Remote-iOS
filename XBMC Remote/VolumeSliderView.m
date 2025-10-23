@@ -264,12 +264,6 @@
     }
 }
 
-- (IBAction)slideVolume:(id)sender {
-    volumeSlider.value = (int)volumeSlider.value;
-    AppDelegate.instance.serverVolume = (int)volumeSlider.value;
-    volumeLabel.text = [NSString stringWithFormat:@"%.0f", volumeSlider.value];
-}
-
 - (IBAction)toggleMute:(id)sender {
     [self handleMute:!isMuted];
     [self changeMuteServer];
