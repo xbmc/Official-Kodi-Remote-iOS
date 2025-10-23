@@ -39,7 +39,6 @@
 @synthesize playlistPVR;
 @synthesize globalSearchMenuLookup;
 @synthesize serverName;
-@synthesize serverVolume;
 
 + (AppDelegate*)instance {
 	return (AppDelegate*)UIApplication.sharedApplication.delegate;

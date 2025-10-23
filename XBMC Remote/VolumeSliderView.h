@@ -19,6 +19,7 @@
     BOOL isMuted;
     BOOL isChangingVolume;
     UIColor *muteIconColor;
+    int serverVolume;
 }
 
 - (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor isSliderType:(BOOL)isSliderType;

@@ -41,7 +41,6 @@
         volumeSlider.maximumTrackTintColor = UIColor.darkGrayColor;
         [volumeSlider setThumbImage:img forState:UIControlStateNormal];
         [volumeSlider setThumbImage:img forState:UIControlStateHighlighted];
-        [self volumeInfo];
         [volumeSlider addTarget:self action:@selector(handleSliderValueChanged:) forControlEvents:UIControlEventValueChanged];
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpInside];
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpOutside];
@@ -135,6 +134,7 @@
         [plusButton setImage:img forState:UIControlStateNormal];
         [plusButton setImage:img forState:UIControlStateHighlighted];
         
+        [self readServerVolume];
         [self readServerMute];
         
         [self setVolumeButtonMode];
@@ -163,7 +163,7 @@
 }
 
 - (void)handleServerStatusChanged:(NSNotification*)sender {
-    [self showServerVolume];
+    [self readServerVolume];
     [self readServerMute];
 }
 
@@ -171,8 +171,9 @@
     if (!isChangingVolume) {
         NSDictionary *theData = sender.userInfo;
         if ([theData isKindOfClass:[NSDictionary class]]) {
-            AppDelegate.instance.serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
-            [self handleServerStatusChanged:nil];
+            serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
+            [self showServerVolume];
+            [self readServerMute];
         }
     }
 }
@@ -244,19 +245,19 @@
      withTimeout:VOLUME_INFO_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-            AppDelegate.instance.serverVolume = [methodResult[@"volume"] intValue];
+            serverVolume = [methodResult[@"volume"] intValue];
         }
         else {
-            AppDelegate.instance.serverVolume = -1;
+            serverVolume = -1;
         }
         [self showServerVolume];
     }];
 }
 
 - (void)showServerVolume {
-    if (AppDelegate.instance.serverOnLine && AppDelegate.instance.serverVolume > -1) {
-        volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
-        volumeSlider.value = AppDelegate.instance.serverVolume;
+    if (AppDelegate.instance.serverOnLine && serverVolume > -1) {
+        volumeLabel.text = [NSString stringWithFormat:@"%d", serverVolume];
+        volumeSlider.value = serverVolume;
     }
     else {
         volumeLabel.text = @"0";
