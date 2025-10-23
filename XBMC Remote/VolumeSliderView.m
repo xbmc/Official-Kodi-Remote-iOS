@@ -134,7 +134,7 @@
         [plusButton setImage:img forState:UIControlStateNormal];
         [plusButton setImage:img forState:UIControlStateHighlighted];
         
-        [self checkMuteServer];
+        [self readServerMute];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleApplicationOnVolumeChanged:)
@@ -161,7 +161,7 @@
 
 - (void)handleServerStatusChanged:(NSNotification*)sender {
     [self showServerVolume];
-    [self checkMuteServer];
+    [self readServerMute];
 }
 
 - (void)handleApplicationOnVolumeChanged:(NSNotification*)sender {
@@ -245,11 +245,11 @@
 }
 
 - (IBAction)toggleMute:(id)sender {
-    [self handleMute:!isMuted];
-    [self changeMuteServer];
+    [self showServerMute:!isMuted];
+    [self changeServerMute];
 }
 
-- (void)handleMute:(BOOL)mute {
+- (void)showServerMute:(BOOL)mute {
     if (!AppDelegate.instance.serverOnLine) {
         return;
     }
@@ -269,13 +269,13 @@
     volumeSlider.userInteractionEnabled = !isMuted;
 }
 
-- (void)changeMuteServer {
+- (void)changeServerMute {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetMute"
      withParameters:@{@"mute": @"toggle"}];
 }
 
-- (void)checkMuteServer {
+- (void)readServerMute {
     [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
      withParameters:@{@"properties": @[@"muted"]}
@@ -283,7 +283,7 @@
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
              isMuted = [methodResult[@"muted"] boolValue];
-             [self handleMute:isMuted];
+             [self showServerMute:isMuted];
          }
     }];
 }
