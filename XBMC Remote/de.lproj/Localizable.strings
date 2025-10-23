@@ -9,7 +9,6 @@
 "XBMC Server" = "Kodi-Server";
 "New XBMC Server" = "Neuer Kodi-Server";
 "Modify XBMC Server" = "Kodi-Server bearbeiten";
-"Select an XBMC Server from the list" = "Einen Kodi-Server aus der Liste auswählen";
 "Files" = "Dateien";
 "Video Add-ons" = "Video-Addons";
 "Live TV" = "TV";
@@ -289,3 +288,6 @@
 "Local network notice" = "Hinweis zum lokalen Netzwerk";
 "It seems local network access is not enabled for the Kodi Remote App. This is required for the app to find and connect to Kodi servers in your local network." = "Der Zugriff auf das lokale Netzwerk ist für die Kodi Remote App nicht aktiviert. Dies ist erforderlich, damit die App Kodi-Server im lokalen Netzwerk finden und sich mit ihnen verbinden kann.";
 "The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect." = "Der Zugriff auf das lokale Netzwerk kann in den iOS Netzwerk- oder in den App-Einstellungen aktiviert werden. Möglicherweise müssen die Netzwerkeinstellungen zurückgesetzt, das iOS-Gerät neu gestartet oder die App deinstalliert/neu installiert werden, damit die Aktivierung wirksam wird.";
+"Add-ons" = "Addons";
+"No custom button defined." = "Keine benutzerdefinierte Taste vorhanden.";
+"Execute add-on" = "Addon ausführen";
