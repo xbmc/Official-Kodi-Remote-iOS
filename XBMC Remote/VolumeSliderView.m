@@ -163,8 +163,7 @@
 }
 
 - (void)handleServerStatusChanged:(NSNotification*)sender {
-    volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
-    volumeSlider.value = AppDelegate.instance.serverVolume;
+    [self showServerVolume];
     [self checkMuteServer];
 }
 
@@ -193,8 +192,7 @@
 }
 
 - (void)startTimer {
-    volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
-    volumeSlider.value = AppDelegate.instance.serverVolume;
+    [self showServerVolume];
     [self stopTimer];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_INFO_TIMEOUT
                                                   target:self
@@ -211,6 +209,10 @@
     if (AppDelegate.instance.serverTCPConnectionOpen) {
         return;
     }
+    [self showServerVolume];
+}
+
+- (void)showServerVolume {
     if (AppDelegate.instance.serverOnLine && AppDelegate.instance.serverVolume > -1) {
         volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
         volumeSlider.value = AppDelegate.instance.serverVolume;
@@ -325,7 +327,7 @@
             break;
     }
     AppDelegate.instance.serverVolume = volumeSlider.value;
-    volumeLabel.text = [NSString stringWithFormat:@"%.0f", volumeSlider.value];
+    [self showServerVolume];
     if (isMuted) {
         [self toggleMute:nil];
     }
