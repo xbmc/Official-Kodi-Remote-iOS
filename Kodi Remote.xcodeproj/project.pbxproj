@@ -60,6 +60,7 @@
 		C7106D7B2D33EEE000A96C93 /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D7A2D33EEE000A96C93 /* ProgressBarView.m */; };
 		C7106D842D33FBCE00A96C93 /* PlaylistProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D832D33FBCE00A96C93 /* PlaylistProgressView.m */; };
 		C72CDAF22DD27AB800AFB2FA /* LocalNetworkAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CDAF12DD27AB800AFB2FA /* LocalNetworkAlert.swift */; };
+		C74B9CC52E993FCC0029B27E /* convert_fmt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C74B9CC42E993FCC0029B27E /* convert_fmt.cpp */; };
 		C753585F2DE9A25F00952F0D /* LocalNetworkAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = C753585E2DE9A25F00952F0D /* LocalNetworkAccess.m */; };
 		C76451CE29C51221000AE949 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */; };
 		C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B129C51220000AE949 /* UIImage+WebP.m */; };
@@ -264,6 +265,7 @@
 		1A9786C31683D8E900B4F3F8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8ED18E7A16B572D700CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8ED18E7B16B572D700CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ACCBC14627BBB259000A16E1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B1FF37DE1709D1EB005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		B1FF37DF1709D1ED005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C703692827148CEF0049F9BF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -287,6 +289,8 @@
 		C746406927E6209C00F6AD47 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C746406A27E6209C00F6AD47 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7478BF8257258E700161C1E /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		C74B9CC32E993FCC0029B27E /* convert_fmt.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = convert_fmt.hpp; sourceTree = "<group>"; };
+		C74B9CC42E993FCC0029B27E /* convert_fmt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = convert_fmt.cpp; sourceTree = "<group>"; };
 		C753585E2DE9A25F00952F0D /* LocalNetworkAccess.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalNetworkAccess.m; sourceTree = "<group>"; };
 		C75358602DE9A27100952F0D /* LocalNetworkAccess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalNetworkAccess.h; sourceTree = "<group>"; };
 		C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+HighlightedWebCache.m"; path = "SDWebImage/UIImageView+HighlightedWebCache.m"; sourceTree = "<group>"; };
@@ -514,6 +518,7 @@
 			isa = PBXGroup;
 			children = (
 				C70F41D02BA4D98E00847C75 /* PrivacyInfo.xcprivacy */,
+				ACCBC14627BBB259000A16E1 /* Config.xcconfig */,
 				0F59E2661564796B00184AE8 /* CONTRIBUTING.md */,
 				0F59E26315646FB800184AE8 /* LICENSE */,
 				0F8717911564566300AE2D48 /* README.md */,
@@ -581,6 +586,8 @@
 				0F554C21151D197F007E633F /* nib */,
 				0FCCA21717B25F07000FF09C /* Images.xcassets */,
 				C7478BF8257258E700161C1E /* Launch Screen.storyboard */,
+				C74B9CC32E993FCC0029B27E /* convert_fmt.hpp */,
+				C74B9CC42E993FCC0029B27E /* convert_fmt.cpp */,
 			);
 			path = "XBMC Remote";
 			sourceTree = "<group>";
@@ -887,6 +894,7 @@
 				0F4883D21521CC7300883243 /* VolumeSliderView.m in Sources */,
 				0F4883E51522418E00883243 /* ShowInfoViewController.m in Sources */,
 				C76451D729C51221000AE949 /* UIImage+GIF.m in Sources */,
+				C74B9CC52E993FCC0029B27E /* convert_fmt.cpp in Sources */,
 				0F487B4C15396D4C004530C1 /* HostViewController.m in Sources */,
 				0F61E19A153C828300A89BB1 /* AppInfoViewController.m in Sources */,
 				C76451DC29C51221000AE949 /* UIButton+WebCache.m in Sources */,
@@ -1012,6 +1020,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOL_FRAMEWORKS = UIKit;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -1046,7 +1056,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1070,6 +1079,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOL_FRAMEWORKS = UIKit;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -1098,7 +1109,6 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1118,6 +1128,7 @@
 		};
 		0F55491B151D1187007E633F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACCBC14627BBB259000A16E1 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1126,6 +1137,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-w",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "it.joethefox.XBMC-Remote";
 				PRODUCT_NAME = "Kodi Remote";
@@ -1136,12 +1148,16 @@
 		};
 		0F55491C151D1187007E633F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACCBC14627BBB259000A16E1 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "it.joethefox.XBMC-Remote";
 				PRODUCT_NAME = "Kodi Remote";
 				PROVISIONING_PROFILE_SPECIFIER = "Kodi Remote AppStore";
