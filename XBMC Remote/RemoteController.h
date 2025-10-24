@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
+#import "VolumeSliderView.h"
 
 typedef NS_ENUM(NSInteger, RemotePositionType) {
     RemoteAtTop,
@@ -38,8 +39,7 @@ typedef NS_ENUM(NSInteger, RemotePositionType) {
     RemotePositionType positionMode;
     UIView *remoteToolbar;
     UIButton *positionButton;
-    CGFloat embeddedShift;
-    CGFloat topRemoteOffset;
+    VolumeSliderView *volumeSliderView;
     __weak IBOutlet UIView *TransitionalView;
     __weak IBOutlet UIImageView *gestureZoneImageView;
     UIImage *gestureImage;
@@ -51,7 +51,6 @@ typedef NS_ENUM(NSInteger, RemotePositionType) {
 }
 
 - (IBAction)startVibrate:(id)sender;
-- (void)setEmbeddedView;
 - (id)initWithNibName:(NSString*)nibNameOrNil withEmbedded:(BOOL)withEmbedded bundle:(NSBundle*)nibBundleOrNil;
 
 @property (strong, nonatomic) id detailItem;

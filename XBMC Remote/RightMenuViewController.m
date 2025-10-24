@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 #import "RightMenuViewController.h"
-#import "mainMenu.h"
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "CustomNavigationController.h"
@@ -14,25 +13,13 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "Utilities.h"
+#import "CustomButtonCell.h"
 
 #define TOOLBAR_HEIGHT 44.0
-#define RIGHT_MENU_ITEM_HEIGHT 50.0
-#define RIGHT_MENU_ICON_SIZE 18.0
-#define RIGHT_MENU_ICON_SPACING 16.0
-#define RIGHT_MENU_CELL_SPACING 6.0
-#define RIGHT_MENU_TITLE_START 24.0
-#define RIGHT_MENU_TITLE_WIDTH 202.0
 #define BUTTON_SPACING 8.0
 #define BUTTON_WIDTH 100.0
-#define STATUS_SPACING 10.0
-#define ONOFF_BUTTON_TAG_OFFSET 1000
-
-#define XIB_RIGHT_MENU_CELL_ICON 1
-#define XIB_RIGHT_MENU_CELL_TITLE 3
 
 @implementation RightMenuViewController
-
-@synthesize rightMenuItems;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -42,14 +29,7 @@
 #pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-    NSString *rowContent = tableData[indexPath.row][@"label"];
-    if ([rowContent isEqualToString:@"RemoteControl"]) {
-        return UIScreen.mainScreen.bounds.size.height - [self getRemoteViewOffsetY];
-    }
-    else if ([rowContent isEqualToString:@"VolumeControl"]) {
-        return volumeSliderView.frame.size.height;
-    }
-    return RIGHT_MENU_ITEM_HEIGHT;
+    return CUSTOM_BUTTON_ITEM_HEIGHT;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
@@ -61,125 +41,60 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    NSString *rowContent = tableData[indexPath.row][@"label"];
-    if ([rowContent isEqualToString:@"RemoteControl"] ||
-        [rowContent isEqualToString:@"VolumeControl"]) {
-        cell.backgroundColor = UIColor.clearColor;
-    }
-    else {
-        cell.backgroundColor = CUSTOM_BUTTON_BACKGROUND;
-    }
+    cell.backgroundColor = UIColor.clearColor;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    /*
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rightMenuCellIdentifier"];
+    CustomButtonCell *cell = [tableView dequeueReusableCellWithIdentifier:@"customButtonCellIdentifier"];
     if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
-        cell = nib[0];
+        cell = [[CustomButtonCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"customButtonCellIdentifier"];
+        cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.tintColor = UIColor.lightGrayColor;
+        if (@available(iOS 13.0, *)) {
+            cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+        }
+        
+        // UISwitch calls toggleSwitch
+        UISwitch *onoff = cell.onoffSwitch;
+        [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
     }
-    */
-    // WORKAROUND BEGIN
-    // Load nib each time as otherwise the layout of the cells is not properly handled after sleep / resume.
-    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"rightCellView" owner:self options:nil];
-    UITableViewCell *cell = nib[0];
-    // WROKAROUND END
     
     // Reset to default for each cell to allow dequeuing
-    UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_ICON];
-    UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_TITLE];
+    UIImageView *icon = cell.buttonIcon;
     icon.hidden = NO;
-    icon.image = nil;
-    icon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    icon.alpha = 0.6;
-    title.textAlignment = NSTextAlignmentRight;
-    title.numberOfLines = 2;
-    title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
-    title.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    title.frame = CGRectMake(RIGHT_MENU_TITLE_START,
-                             0,
-                             RIGHT_MENU_TITLE_WIDTH,
-                             RIGHT_MENU_ITEM_HEIGHT);
-    title.text = @"";
-    cell.accessoryView = nil;
-    cell.editingAccessoryType = UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if (@available(iOS 13.0, *)) {
-        cell.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
-    }
-    cell.tintColor = UIColor.lightGrayColor;
-    NSString *iconName = @"blank";
     
-    // Tailor cell layout for content type
-    if ([tableData[indexPath.row][@"label"] isEqualToString:@"VolumeControl"]) {
-        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
-        [volumeSliderView startTimer];
-        [cell.contentView addSubview:volumeSliderView];
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:@"RemoteControl"]) {
-        remoteControllerView = [[RemoteController alloc] initWithNibName:@"RemoteController" withEmbedded:YES bundle:nil];
-        [cell.contentView addSubview:remoteControllerView.view];
-    }
-    else {
-        cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    UISwitch *onoff = cell.onoffSwitch;
+    onoff.hidden = YES;
+    
+    UILabel *title = cell.buttonLabel;
+    title.text = tableData[indexPath.row][@"label"];
+    
+    // Tailor cell layout for boolean switch
+    if ([tableData[indexPath.row][@"type"] isEqualToString:@"boolean"]) {
+        onoff.hidden = NO;
+        icon.hidden = YES;
         
-        CGRect frame = title.frame;
-        frame.origin.y = RIGHT_MENU_CELL_SPACING;
-        frame.size.height = RIGHT_MENU_ITEM_HEIGHT - 2 * RIGHT_MENU_CELL_SPACING;
-        if ([tableData[indexPath.row][@"type"] isEqualToString:@"boolean"]) {
-            UISwitch *onoff = [[UISwitch alloc] initWithFrame:CGRectZero];
-            onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-            [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-            onoff.frame = CGRectMake(0, (RIGHT_MENU_ITEM_HEIGHT - onoff.frame.size.height) / 2, onoff.frame.size.width, onoff.frame.size.height);
-            onoff.hidden = NO;
-            onoff.tag = ONOFF_BUTTON_TAG_OFFSET + indexPath.row;
-
-            UIView *onoffview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, onoff.frame.size.width, RIGHT_MENU_ITEM_HEIGHT)];
-            [onoffview addSubview:onoff];
-
-            UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-            indicator.hidesWhenStopped = YES;
-            indicator.center = onoff.center;
-            [onoffview addSubview:indicator];
-
-            frame.size.width = cell.frame.size.width - frame.origin.x - RIGHT_MENU_ICON_SPACING;
-            icon.hidden = YES;
-            if ([tableData[indexPath.row][@"action"][@"params"][@"value"] isKindOfClass:[NSNumber class]]) {
-                [onoff setOn:[tableData[indexPath.row][@"action"][@"params"][@"value"] boolValue]];
-            }
-            else {
-                onoff.hidden = YES;
-                [indicator startAnimating];
-                NSString *command = @"Settings.GetSettingValue";
-                NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:tableData[indexPath.row][@"action"][@"params"][@"setting"], @"setting", nil];
-                [self getXBMCValue:command params:parameters uiControl:onoff storeSetting: tableData[indexPath.row][@"action"][@"params"] indicator:indicator];
-            }
-            cell.accessoryView = onoffview;
+        NSMutableDictionary *params = tableData[indexPath.row][@"action"][@"params"];
+        if ([params[@"value"] isKindOfClass:[NSNumber class]]) {
+            [onoff setOn:[params[@"value"] boolValue]];
         }
         else {
-            frame.size.width = cell.frame.size.width - frame.origin.x - RIGHT_MENU_ICON_SIZE - 2 * RIGHT_MENU_ICON_SPACING;
+            onoff.hidden = YES;
+            [cell.busyView startAnimating];
+            NSString *command = @"Settings.GetSettingValue";
+            NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:params[@"setting"], @"setting", nil];
+            [self getXBMCValue:command params:parameters uiControl:onoff storeSetting:params indicator:cell.busyView];
         }
-        title.frame = frame;
-        title.text = tableData[indexPath.row][@"label"];
-        iconName = tableData[indexPath.row][@"icon"];
     }
     
-    UIColor *fontColor = UIColor.grayColor;
-    title.textColor = fontColor;
-    title.highlightedTextColor = fontColor;
-    
+    // Load the icon for the custom button
+    NSString *iconName = tableData[indexPath.row][@"icon"];
     NSString *command = tableData[indexPath.row][@"action"][@"command"];
-    if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
-        icon.alpha = 0.8;
-        if (torchIsOn) {
-            iconName = @"torch_on";
-        }
-    }
     if ([command isEqualToString:@"Addons.ExecuteAddon"]) {
-        [icon sd_setImageWithURL:[NSURL URLWithString:tableData[indexPath.row][@"icon"]]
+        [icon sd_setImageWithURL:[NSURL URLWithString:iconName]
                 placeholderImage:[UIImage imageNamed:@"blank"]
                          options:SDWebImageScaleToNativeSize];
-        icon.alpha = 1.0;
     }
     else if ([command isEqualToString:@"Input.ExecuteAction"]) {
         icon.image = [UIImage imageNamed:@"default-right-action-icon"];
@@ -234,16 +149,6 @@
     return newView;
 }
 
-#pragma mark - Helper
-
-- (CGFloat)getRemoteViewOffsetY {
-    // Layout is (top-down): status bar > volume slider > (menu items) > remote view
-    CGFloat statusBarHeight = [Utilities getTopPadding];
-    CGFloat sliderHeight = volumeSliderView.frame.size.height;
-    CGFloat menuItemsHeight = [Utilities hasRemoteToolBar] ? 0 : 3 * RIGHT_MENU_ITEM_HEIGHT;
-    return statusBarHeight + sliderHeight + menuItemsHeight;
-}
-
 #pragma mark - Table actions
 
 - (void)addButtonToList:(id)sender {
@@ -281,49 +186,13 @@
         [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
         editTableButton.enabled = NO;
         [arrayButtons.buttons addObject:infoCustomButton];
-        [self loadRightMenuContentConnected:YES];
+        [self loadCustomButtons];
         [menuTableView reloadData];
     }
 }
 
-- (void)loadRightMenuContentConnected:(BOOL)isConnected {
-    NSString *menuKey = isConnected ? @"online" : @"offline";
-    mainMenu *menuItem = self.rightMenuItems[0];
-    tableData = [NSMutableArray new];
-    for (NSDictionary *item in menuItem.mainMethod[0][menuKey]) {
-        NSString *label = item[@"label"] ?: @"";
-        NSString *icon = item[@"icon"] ?: @"blank";
-        NSDictionary *action = item[@"action"] ?: @{};
-        NSNumber *showTop = item[@"revealViewTop"] ?: @NO;
-        
-        NSDictionary *itemDict = @{
-            @"label": label,
-            @"icon": icon,
-            @"action": action,
-            @"revealViewTop": showTop,
-            @"isSetting": @NO,
-            @"type": @"embedded",
-        };
-         
-        // Do not show the remoteToolBar items in the menu while in "online" state
-        if (![self itemShownInRemoteToolBar:item]) {
-            [tableData addObject:itemDict];
-        }
-        // "embedded remote" (reachable from NowPlaying screen) always has the volume bar
-        if ([self showEmbeddedVolumeBar:item mainLabel:menuItem.mainLabel]) {
-            [tableData addObject:itemDict];
-        }
-    }
-    editableRowStartAt = tableData.count;
-    [self loadCustomButtons];
-}
-
 - (void)loadCustomButtons {
-    mainMenu *menuItem = self.rightMenuItems[0];
-    if (menuItem.family != FamilyRemote) {
-        return;
-    }
-    
+    // Create and load custom buttons
     customButton *arrayButtons = [customButton new];
     if (arrayButtons.buttons.count == 0) {
         editTableButton.enabled = NO;
@@ -332,6 +201,9 @@
     else {
         editTableButton.enabled = YES;
     }
+    
+    // Build table with custom buttons
+    tableData = [NSMutableArray new];
     for (NSDictionary *item in arrayButtons.buttons) {
         NSString *label = item[@"label"] ?: @"";
         NSString *icon = item[@"icon"] ?: @"";
@@ -355,13 +227,19 @@
 #pragma mark - UISwitch
 
 - (void)toggleSwitch:(id)sender {
-    UISwitch *onoff = (UISwitch*)sender;
-    NSInteger tableIdx = onoff.tag - ONOFF_BUTTON_TAG_OFFSET;
+    // Gather NSIndexPath from sender
+    CGPoint hitPoint = [sender convertPoint:CGPointZero toView:menuTableView];
+    NSIndexPath *hitIndex = [menuTableView indexPathForRowAtPoint:hitPoint];
+    
+    // Process the clicked UISwitch
+    NSInteger tableIdx = hitIndex.row;
     if (tableIdx < tableData.count) {
+        UISwitch *onoff = (UISwitch*)sender;
+        NSMutableDictionary *params = tableData[tableIdx][@"action"][@"params"];
         NSString *command = tableData[tableIdx][@"action"][@"command"];
-        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:tableData[tableIdx][@"action"][@"params"][@"setting"], @"setting", @(onoff.on), @"value", nil];
-        if ([tableData[tableIdx][@"action"][@"params"] respondsToSelector:@selector(setObject:forKey:)]) {
-            tableData[tableIdx][@"action"][@"params"][@"value"] = @(onoff.on);
+        NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:params[@"setting"], @"setting", @(onoff.on), @"value", nil];
+        if ([params respondsToSelector:@selector(setObject:forKey:)]) {
+            params[@"value"] = @(onoff.on);
         }
         [self xbmcAction:command params:parameters uiControl:onoff];
     }
@@ -374,10 +252,20 @@
     if (menuTableView.editing) {
         [menuTableView setEditing:NO animated:YES];
         [editButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
+        // Enable the UISWitch and align the alpha of the icons
+        for (CustomButtonCell *cell in menuTableView.visibleCells) {
+            cell.onoffSwitch.enabled = YES;
+            cell.buttonIcon.alpha = 0.9;
+        }
     }
     else {
         [menuTableView setEditing:YES animated:YES];
         [editButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateNormal];
+        // Disable the UISWitch and align the alpha of the icons
+        for (CustomButtonCell *cell in menuTableView.visibleCells) {
+            cell.onoffSwitch.enabled = NO;
+            cell.buttonIcon.alpha = 0.5;
+        }
     }
 }
 
@@ -389,29 +277,15 @@
     return YES;
 }
 
-- (NSIndexPath*)tableView:(UITableView*)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath*)sourceIndexPath toProposedIndexPath:(NSIndexPath*)proposedDestinationIndexPath {
-    if (proposedDestinationIndexPath.row < editableRowStartAt) {
-        return [NSIndexPath indexPathForRow:editableRowStartAt inSection:0];
-    }
-    else {
-        return proposedDestinationIndexPath;
-    }
-}
-
 - (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
-    UISwitch *onoffSource = (UISwitch*)[[[tableView cellForRowAtIndexPath:sourceIndexPath]accessoryView] viewWithTag:ONOFF_BUTTON_TAG_OFFSET + sourceIndexPath.row];
-    UISwitch *onoffDestination = (UISwitch*)[[[tableView cellForRowAtIndexPath:destinationIndexPath]accessoryView] viewWithTag:ONOFF_BUTTON_TAG_OFFSET + destinationIndexPath.row];
-    onoffSource.tag = ONOFF_BUTTON_TAG_OFFSET + destinationIndexPath.row;
-    onoffDestination.tag = ONOFF_BUTTON_TAG_OFFSET + sourceIndexPath.row;
-
     id objectMove = tableData[sourceIndexPath.row];
     [tableData removeObjectAtIndex:sourceIndexPath.row];
     [tableData insertObject:objectMove atIndex:destinationIndexPath.row];
     
     customButton *arrayButtons = [customButton new];
-    objectMove = arrayButtons.buttons[(sourceIndexPath.row - editableRowStartAt)];
-    [arrayButtons.buttons removeObjectAtIndex:(sourceIndexPath.row - editableRowStartAt)];
-    [arrayButtons.buttons insertObject:objectMove atIndex:(destinationIndexPath.row - editableRowStartAt)];
+    objectMove = arrayButtons.buttons[sourceIndexPath.row];
+    [arrayButtons.buttons removeObjectAtIndex:sourceIndexPath.row];
+    [arrayButtons.buttons insertObject:objectMove atIndex:destinationIndexPath.row];
     [arrayButtons saveData];
 }
 
@@ -434,7 +308,7 @@
                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
             } completion:nil];
         }
-        [self deleteCustomButton:(indexPath.row - editableRowStartAt)];
+        [self deleteCustomButton:indexPath.row];
 	}
 }
 
@@ -450,13 +324,13 @@
         }
         tableData[indexPath.row][@"label"] = alertCtrl.textFields[0].text;
         
-        UITableViewCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
-        UILabel *title = (UILabel*)[cell viewWithTag:XIB_RIGHT_MENU_CELL_TITLE];
+        CustomButtonCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+        UILabel *title = cell.buttonLabel;
         title.text = alertCtrl.textFields[0].text;
         
         customButton *arrayButtons = [customButton new];
-        if ([arrayButtons.buttons[indexPath.row - editableRowStartAt] respondsToSelector:@selector(setObject:forKey:)]) {
-            arrayButtons.buttons[indexPath.row - editableRowStartAt][@"label"] = alertCtrl.textFields[0].text;
+        if ([arrayButtons.buttons[indexPath.row] respondsToSelector:@selector(setObject:forKey:)]) {
+            arrayButtons.buttons[indexPath.row][@"label"] = alertCtrl.textFields[0].text;
             [arrayButtons saveData];
         }
     }];
@@ -483,35 +357,6 @@
             NSDictionary *parameters = tableData[indexPath.row][@"action"][@"params"] ?: @{};
             [self xbmcAction:command params:parameters uiControl:nil];
         }
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Keyboard")]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleVirtualKeyboard" object:nil userInfo:nil];
-        if ([tableData[indexPath.row][@"revealViewTop"] boolValue]) {
-            [self.slidingViewController resetTopView];
-        }
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Help Screen")]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleQuickHelp" object:nil userInfo:nil];
-        [self.slidingViewController resetTopView];
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Gesture Zone")]) {
-        NSDictionary *userInfo = @{@"forceGestureZone": @YES};
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleGestureZone" object:nil userInfo:userInfo];
-        [self.slidingViewController resetTopView];
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad")]) {
-        NSDictionary *userInfo = @{@"forceGestureZone": @NO};
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleGestureZone" object:nil userInfo:userInfo];
-        [self.slidingViewController resetTopView];
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad/Gesture Zone")]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UIToggleGestureZone" object:nil userInfo:nil];
-        [self.slidingViewController resetTopView];
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) {
-        UIImageView *torchIcon = (UIImageView*)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:XIB_RIGHT_MENU_CELL_ICON];
-        torchIsOn = !torchIsOn;
-        [Utilities turnTorchOn:torchIcon on:torchIsOn];
     }
     else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Cancel")]) {
         [self.slidingViewController resetTopView];
@@ -564,23 +409,14 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [volumeSliderView stopTimer];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    mainMenu *menuItems = self.rightMenuItems[0];
     CGFloat bottomPadding = IS_IPAD ? 0 : [Utilities getBottomPadding];
-    CGFloat toolbarHeight = 0;
-    if (menuItems.family == FamilyRemote) {
-        toolbarHeight = TOOLBAR_HEIGHT + bottomPadding;
-        [self.view addSubview:[self createToolbarView:toolbarHeight]];
-    }
-    if (menuItems.family == FamilyNowPlaying || menuItems.family == FamilyRemote) {
-        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:ANCHOR_RIGHT_PEEK isSliderType:YES];
-        [volumeSliderView startTimer];
-    }
+    CGFloat toolbarHeight = TOOLBAR_HEIGHT + bottomPadding;
+    [self.view addSubview:[self createToolbarView:toolbarHeight]];
     
     menuTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     if (IS_IPHONE) {
@@ -604,7 +440,6 @@
     menuTableView.delegate = self;
     menuTableView.dataSource = self;
     menuTableView.backgroundColor = UIColor.clearColor;
-    menuTableView.scrollEnabled = menuItems.enableSection;
     menuTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     menuTableView.contentInset = UIEdgeInsetsMake(0, 0, toolbarHeight, 0);
     menuTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
@@ -622,14 +457,7 @@
     };
 
     if (AppDelegate.instance.obj.serverIP.length != 0) {
-        if (!AppDelegate.instance.serverOnLine) {
-            [self loadRightMenuContentConnected:NO];
-            moreButton.enabled = NO;
-        }
-        else {
-            [self loadRightMenuContentConnected:YES];
-            moreButton.enabled = YES;
-        }
+        [self loadCustomButtons];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -643,41 +471,14 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(stopTimer:)
-                                                 name:@"ECSlidingViewUnderRightWillDisappear"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reloadCustomButtonTable:)
                                                  name:@"UIInterfaceCustomButtonAdded"
                                                object:nil];
 }
 
 - (void)reloadCustomButtonTable:(NSNotification*)note {
-    [self loadRightMenuContentConnected:YES];
+    [self loadCustomButtons];
     [menuTableView reloadData];
-}
-
-- (void)startTimer:(id)sender {
-    [volumeSliderView startTimer];
-}
-
-- (void)stopTimer:(id)sender {
-    [volumeSliderView stopTimer];
-}
-
-- (BOOL)itemShownInRemoteToolBar:(NSDictionary*)item {
-    return ([item[@"label"] isEqualToString:LOCALIZED_STR(@"Keyboard")] ||
-            [item[@"label"] isEqualToString:LOCALIZED_STR(@"Button Pad/Gesture Zone")] ||
-            [item[@"label"] isEqualToString:LOCALIZED_STR(@"Help Screen")] ||
-            [item[@"label"] isEqualToString:LOCALIZED_STR(@"VolumeControl")] ||
-            [item[@"label"] isEqualToString:LOCALIZED_STR(@"LED Torch")]) &&
-            [Utilities hasRemoteToolBar];
-}
-
-- (BOOL)showEmbeddedVolumeBar:(NSDictionary*)item mainLabel:(NSString*)mainLabel {
-    return [item[@"label"] isEqualToString:LOCALIZED_STR(@"VolumeControl")] &&
-           [mainLabel isEqualToString:@"EmbeddedRemote"] && [Utilities hasRemoteToolBar];
 }
 
 - (NSIndexPath*)getIndexPathForKey:(NSString*)key withValue:(NSString*)value inArray:(NSMutableArray*)array {
@@ -693,20 +494,20 @@
 }
 
 - (void)connectionSuccess:(NSNotification*)note {
-    [self loadRightMenuContentConnected:YES];
+    [self loadCustomButtons];
     [menuTableView reloadData];
     moreButton.enabled = YES;
 }
 
 - (void)connectionFailed:(NSNotification*)note {
     if (AppDelegate.instance.obj.serverIP.length != 0) {
-        [self loadRightMenuContentConnected:YES];
+        [self loadCustomButtons];
         [menuTableView reloadData];
         moreButton.enabled = NO;
     }
     else {
         [tableData removeAllObjects];
-        [self loadRightMenuContentConnected:YES];
+        [self loadCustomButtons];
         [menuTableView reloadData];
     }
 }

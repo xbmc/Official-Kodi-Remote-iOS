@@ -30,6 +30,7 @@
 #import "customButton.h"
 #import "VersionCheck.h"
 #import "SharingActivityItemSource.h"
+#import "RemoteController.h"
 
 #import "GeneratedAssetSymbols.h"
 
