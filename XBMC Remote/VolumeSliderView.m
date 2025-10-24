@@ -286,7 +286,7 @@
     isChangingVolume = NO;
 }
 - (void)longpressVolume:(id)timer {
-    // Volume up/down was lomgpressed
+    // Volume up/down was longpressed
     id sender = [timer userInfo];
     [self.holdVolumeTimer invalidate];
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_REPEAT_TIMEOUT

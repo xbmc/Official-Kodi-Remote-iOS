@@ -239,28 +239,28 @@
 - (void)showContent:(id)sender {
     NSDictionary *item = self.detailItem;
     mainMenu *menuItem = nil;
-    mainMenu *choosedMenuItem = nil;
+    mainMenu *chosenMenuItem = nil;
     int activeTab = 0;
     id movieObj = nil;
     id movieObjKey = nil;
     if ([item[@"family"] isEqualToString:@"albumid"]) {
         notificationName = @"MainMenuDeselectSection";
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
-        choosedMenuItem = menuItem.subItem;
-        choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
+        chosenMenuItem = menuItem.subItem;
+        chosenMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"tvshowid"] && ![sender isKindOfClass:[NSString class]]) {
         notificationName = @"MainMenuDeselectSection";
         menuItem = [AppDelegate.instance.playlistTvShows copy];
-        choosedMenuItem = menuItem.subItem;
-        choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
+        chosenMenuItem = menuItem.subItem;
+        chosenMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
         notificationName = @"MainMenuDeselectSection";
         activeTab = 1;
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
-        choosedMenuItem = menuItem.subItem;
-        choosedMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
+        chosenMenuItem = menuItem.subItem;
+        chosenMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"movieid"] && AppDelegate.instance.serverVersion > 11) {
         if ([sender isKindOfClass:[NSString class]]) {
@@ -269,8 +269,8 @@
             menuItem = [AppDelegate.instance.playlistMovies copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
-            choosedMenuItem = menuItem.subItem;
-            choosedMenuItem.mainLabel = actorName;
+            chosenMenuItem = menuItem.subItem;
+            chosenMenuItem.mainLabel = actorName;
         }
     }
     else if (([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"tvshowid"]) && AppDelegate.instance.serverVersion > 11) {
@@ -280,8 +280,8 @@
             menuItem = [AppDelegate.instance.playlistTvShows copy];
             movieObj = [NSDictionary dictionaryWithObjectsAndKeys:actorName, @"actor", nil];
             movieObjKey = @"filter";
-            choosedMenuItem = menuItem;
-            choosedMenuItem.mainLabel = actorName;
+            chosenMenuItem = menuItem;
+            chosenMenuItem.mainLabel = actorName;
             menuItem.enableSection = NO;
             menuItem.mainButtons = nil;
             if ([Utilities getPreferTvPosterMode]) {
@@ -295,10 +295,10 @@
     else {
         return;
     }
-    NSDictionary *methods = choosedMenuItem.mainMethod[activeTab];
+    NSDictionary *methods = chosenMenuItem.mainMethod[activeTab];
     if (methods[@"method"] != nil) { // THERE IS A CHILD
         NSDictionary *mainFields = menuItem.mainFields[activeTab];
-        NSMutableDictionary *parameters = choosedMenuItem.mainParameters[activeTab];
+        NSMutableDictionary *parameters = chosenMenuItem.mainParameters[activeTab];
         id objKey = mainFields[@"row6"];
         id obj = [Utilities getNumberFromItem:item[objKey]];
         if (movieObj != nil && movieObjKey != nil) {
@@ -334,21 +334,21 @@
                                               @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
                                               newSectionParameters, @"extra_section_parameters",
                                               nil];
-        choosedMenuItem.mainParameters[activeTab] = newParameters;
-        choosedMenuItem.chooseTab = activeTab;
+        chosenMenuItem.mainParameters[activeTab] = newParameters;
+        chosenMenuItem.chooseTab = activeTab;
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-            detailViewController.detailItem = choosedMenuItem;
+            detailViewController.detailItem = chosenMenuItem;
             [self.navigationController pushViewController:detailViewController animated:YES];
         }
         else {
             if (![self isModal]) {
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:chosenMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                 [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
                 [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:nil];
             }
             else {
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:choosedMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:chosenMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                 iPadDetailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
                 [self presentViewController:iPadDetailViewController animated:YES completion:nil];
             }

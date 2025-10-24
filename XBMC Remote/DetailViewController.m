@@ -5991,7 +5991,7 @@
     
     // As an exception custom button menu on iPhone animates bottom-up. This requires to
     // change the initial frame for the first table shown (list view). It is important
-    // to apply this only change after the library view has been initialized as this
+    // to apply this change only after the library view has been initialized, as this
     // uses the list view frame to set its own frame.
     if ([menuItem.mainLabel isEqualToString:@"Custom Button Menu"] && IS_IPHONE) {
         frame = dataList.frame;
