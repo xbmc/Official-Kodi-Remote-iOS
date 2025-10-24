@@ -138,6 +138,26 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
+			<string>volume_button_absolute</string>
+			<key>Key</key>
+			<string>volume_button_mode</string>
+			<key>Title</key>
+			<string>Volume button mode (experimental)</string>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Titles</key>
+			<array>
+				<string>Absolute values (0-100%)</string>
+				<string>Incremental (supports CEC)</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>volume_button_absolute</string>
+				<string>volume_button_incremental</string>
+			</array>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
 			<string>%d.%02d</string>
 			<key>Key</key>
 			<string>episode_identifier</string>

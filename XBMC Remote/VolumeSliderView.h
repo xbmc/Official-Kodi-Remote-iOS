@@ -19,12 +19,14 @@
     BOOL isMuted;
     BOOL isChangingVolume;
     UIColor *muteIconColor;
+    int serverVolume;
 }
 
 - (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor isSliderType:(BOOL)isSliderType;
-- (IBAction)slideVolume:(id)sender;
 - (void)startTimer;
 - (void)stopTimer;
+- (void)handleVolumeIncrease;
+- (void)handleVolumeDecrease;
 
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) NSTimer *holdVolumeTimer;

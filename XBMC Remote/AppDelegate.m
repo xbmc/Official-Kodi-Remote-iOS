@@ -40,7 +40,6 @@
 @synthesize globalSearchMenuLookup;
 @synthesize serverName;
 @synthesize nowPlayingMenuItems;
-@synthesize serverVolume;
 @synthesize remoteControlMenuItems;
 
 + (AppDelegate*)instance {

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
+#import "VolumeSliderView.h"
 
 typedef NS_ENUM(NSInteger, RemotePositionType) {
     RemoteAtTop,
@@ -33,13 +34,13 @@ typedef NS_ENUM(NSInteger, RemotePositionType) {
     IBOutlet UIButton *buttonPictures;
     IBOutlet UIButton *buttonSubtitles;
     IBOutlet UIButton *buttonAudiostreams;
-    int audioVolume;
     CGFloat lastRotation;
     RemotePositionType positionMode;
     UIView *remoteToolbar;
     UIButton *positionButton;
     CGFloat embeddedShift;
     CGFloat topRemoteOffset;
+    VolumeSliderView *volumeSliderView;
     __weak IBOutlet UIView *TransitionalView;
     __weak IBOutlet UIImageView *gestureZoneImageView;
     UIImage *gestureImage;

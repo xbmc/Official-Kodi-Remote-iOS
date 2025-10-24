@@ -216,7 +216,7 @@
         toolbarPadding = 0;
     }
     if (IS_IPHONE) {
-        VolumeSliderView *volumeSliderView = nil;
+        volumeSliderView = nil;
         CGFloat transform = [Utilities getTransformX];
         CGRect frame = remoteControlView.frame;
         toolbarPadding += [Utilities getBottomPadding];
@@ -239,7 +239,7 @@
         quickHelpView.frame = frame;
     }
     else {
-        VolumeSliderView *volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
+        volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:0.0 isSliderType:YES];
         [volumeSliderView startTimer];
         [self.view addSubview:volumeSliderView];
         
@@ -365,22 +365,18 @@
 }
 
 - (void)handleRotate:(id)sender {
-    if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan) {
-        [self volumeInfo];
-    }
-	else if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
+    if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
 		lastRotation = 0.0;
 		return;
 	}
 	CGFloat rotation = 0.0 - (lastRotation - [(UIRotationGestureRecognizer*)sender rotation]);
     
-    if (rotation > ROTATION_TRIGGER && audioVolume < 100) {
-        audioVolume += 1;
+    if (rotation > ROTATION_TRIGGER) {
+        [volumeSliderView handleVolumeIncrease];
     }
-    else if (rotation < -ROTATION_TRIGGER && audioVolume > 0) {
-        audioVolume -= 1;
+    else if (rotation < -ROTATION_TRIGGER) {
+        [volumeSliderView handleVolumeDecrease];
     }
-    [self changeServerVolume];
 	lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
 }
 
@@ -608,21 +604,6 @@
             [Utilities sendXbmcHttp:callback];
         }
     }];
-}
-
-- (void)volumeInfo {
-    if (AppDelegate.instance.serverVolume > -1) {
-        audioVolume = AppDelegate.instance.serverVolume;
-    }
-    else {
-        audioVolume = 0;
-    }
-}
-
-- (void)changeServerVolume {
-    [[Utilities getJsonRPC]
-     callMethod:@"Application.SetVolume" 
-     withParameters:@{@"volume": @(audioVolume)}];
 }
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
@@ -1140,7 +1121,6 @@
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     quickHelpView.alpha = 0.0;
-    [self volumeInfo];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(revealMenu:)
