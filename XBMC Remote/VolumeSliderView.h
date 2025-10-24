@@ -9,10 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 
-#define VOLUME_BUTTON_UP 1
-#define VOLUME_BUTTON_DOWN 2
-#define VOLUME_SLIDER 10
-
 @interface VolumeSliderView : UIView {
     IBOutlet UIView *volumeView;
     IBOutlet UISlider *volumeSlider;
@@ -29,7 +25,8 @@
 - (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor isSliderType:(BOOL)isSliderType;
 - (void)startTimer;
 - (void)stopTimer;
-- (void)changeVolume:(NSInteger)action;
+- (void)handleVolumeIncrease;
+- (void)handleVolumeDecrease;
 
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) NSTimer *holdVolumeTimer;

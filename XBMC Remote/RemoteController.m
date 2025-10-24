@@ -372,10 +372,10 @@
 	CGFloat rotation = 0.0 - (lastRotation - [(UIRotationGestureRecognizer*)sender rotation]);
     
     if (rotation > ROTATION_TRIGGER) {
-        [volumeSliderView changeVolume:VOLUME_BUTTON_UP];
+        [volumeSliderView handleVolumeIncrease];
     }
     else if (rotation < -ROTATION_TRIGGER) {
-        [volumeSliderView changeVolume:VOLUME_BUTTON_DOWN];
+        [volumeSliderView handleVolumeDecrease];
     }
 	lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
 }
