@@ -301,21 +301,21 @@
 			</array>
 			<key>Values</key>
 			<array>
-				<string>Main Menu</string>
-				<string>Music</string>
-				<string>Movies</string>
-				<string>Videos</string>
-				<string>TV Shows</string>
-				<string>Pictures</string>
-				<string>Live TV</string>
-				<string>Radio</string>
-				<string>Favourites</string>
-				<string>Now Playing</string>
-				<string>Remote Control</string>
-				<string>Global Search</string>
-				<string>Files</string>
-				<string>Add-ons</string>
-				<string>Kodi Settings</string>
+				<string>start_menu_main</string>
+				<string>start_menu_music</string>
+				<string>start_menu_movies</string>
+				<string>start_menu_videos</string>
+				<string>start_menu_tvshows</string>
+				<string>start_menu_pictures</string>
+				<string>start_menu_livetv</string>
+				<string>start_menu_radio</string>
+				<string>start_menu_favourites</string>
+				<string>start_menu_nowplaying</string>
+				<string>start_menu_remote</string>
+				<string>start_menu_search</string>
+				<string>start_menu_files</string>
+				<string>start_menu_addons</string>
+				<string>start_menu_settings</string>
 			</array>
 		</dict>
 		<dict>
