@@ -40,13 +40,13 @@
 
 @implementation mainMenu
 
-@synthesize rootLabel, mainLabel, icon, family, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, noConvertTime, chooseTab, disableNavbarButtons, filterModes;
+@synthesize mainLabel, icon, family, type, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, noConvertTime, chooseTab, disableNavbarButtons, filterModes;
 
 - (id)copyWithZone:(NSZone*)zone {
     mainMenu *menuCopy = [[mainMenu allocWithZone:zone] init];
-    menuCopy.rootLabel = [self.rootLabel copy];
     menuCopy.mainLabel = [self.mainLabel copy];
     menuCopy.family = self.family;
+    menuCopy.type = self.type;
     menuCopy.enableSection = self.enableSection;
     menuCopy.icon = [self.icon copy];
     menuCopy.mainMethod = [self.mainMethod copy];
@@ -388,6 +388,7 @@
     __auto_type menu_Music = [mainMenu new];
     menu_Music.mainLabel = LOCALIZED_STR(@"Music");
     menu_Music.icon = @"icon_menu_music";
+    menu_Music.type = TypeMusic;
     menu_Music.family = FamilyDetailView;
     menu_Music.enableSection = YES;
     menu_Music.mainButtons = @[
@@ -2031,6 +2032,7 @@
     __auto_type menu_Movies = [mainMenu new];
     menu_Movies.mainLabel = LOCALIZED_STR(@"Movies");
     menu_Movies.icon = @"icon_menu_movies";
+    menu_Movies.type = TypeMovies;
     menu_Movies.family = FamilyDetailView;
     menu_Movies.enableSection = YES;
     menu_Movies.noConvertTime = YES;
@@ -3002,6 +3004,7 @@
     __auto_type menu_Videos = [mainMenu new];
     menu_Videos.mainLabel = LOCALIZED_STR(@"Videos");
     menu_Videos.icon = @"icon_menu_videos";
+    menu_Videos.type = TypeVideos;
     menu_Videos.family = FamilyDetailView;
     menu_Videos.enableSection = YES;
     menu_Videos.noConvertTime = YES;
@@ -3538,6 +3541,7 @@
     __auto_type menu_TVShows = [mainMenu new];
     menu_TVShows.mainLabel = LOCALIZED_STR(@"TV Shows");
     menu_TVShows.icon = @"icon_menu_tvshows";
+    menu_TVShows.type = TypeTvShows;
     menu_TVShows.family = FamilyDetailView;
     menu_TVShows.enableSection = YES;
     menu_TVShows.mainButtons = @[
@@ -4145,6 +4149,7 @@
     __auto_type menu_LiveTV = [mainMenu new];
     menu_LiveTV.mainLabel = LOCALIZED_STR(@"Live TV");
     menu_LiveTV.icon = @"icon_menu_livetv";
+    menu_LiveTV.type = TypeLiveTv;
     menu_LiveTV.family = FamilyDetailView;
     menu_LiveTV.enableSection = YES;
     menu_LiveTV.noConvertTime = YES;
@@ -4703,6 +4708,7 @@
     __auto_type menu_Radio = [mainMenu new];
     menu_Radio.mainLabel = LOCALIZED_STR(@"Radio");
     menu_Radio.icon = @"icon_menu_radio";
+    menu_Radio.type = TypeRadio;
     menu_Radio.family = FamilyDetailView;
     menu_Radio.enableSection = YES;
     menu_Radio.noConvertTime = YES;
@@ -5259,6 +5265,7 @@
     __auto_type menu_Pictures = [mainMenu new];
     menu_Pictures.mainLabel = LOCALIZED_STR(@"Pictures");
     menu_Pictures.icon = @"icon_menu_pictures";
+    menu_Pictures.type = TypePictures;
     menu_Pictures.family = FamilyDetailView;
     menu_Pictures.enableSection = YES;
     menu_Pictures.mainButtons = @[
@@ -5447,6 +5454,7 @@
     __auto_type menu_Favourites = [mainMenu new];
     menu_Favourites.mainLabel = LOCALIZED_STR(@"Favourites");
     menu_Favourites.icon = @"icon_menu_favourites";
+    menu_Favourites.type = TypeFavourites;
     menu_Favourites.family = FamilyDetailView;
     menu_Favourites.enableSection = YES;
     menu_Favourites.mainButtons = @[
@@ -5503,18 +5511,21 @@
     __auto_type menu_NowPlaying = [mainMenu new];
     menu_NowPlaying.mainLabel = LOCALIZED_STR(@"Now Playing");
     menu_NowPlaying.icon = @"icon_menu_playing";
+    menu_NowPlaying.type = TypeNowPlaying;
     menu_NowPlaying.family = FamilyNowPlaying;
     
 #pragma mark - Remote Control
     __auto_type menu_Remote = [mainMenu new];
     menu_Remote.mainLabel = LOCALIZED_STR(@"Remote Control");
     menu_Remote.icon = @"icon_menu_remote";
+    menu_Remote.type = TypeRemote;
     menu_Remote.family = FamilyRemote;
     
 #pragma mark - Global Search
     __auto_type menu_Search = [mainMenu new];
     menu_Search.mainLabel = LOCALIZED_STR(@"Global Search");
     menu_Search.icon = @"icon_menu_search";
+    menu_Search.type = TypeGlobalSearch;
     menu_Search.family = FamilyDetailView;
     menu_Search.enableSection = YES;
     menu_Search.rowHeight = DEFAULT_ROW_HEIGHT;
@@ -5544,6 +5555,7 @@
     __auto_type menu_Files = [mainMenu new];
     menu_Files.mainLabel = LOCALIZED_STR(@"Files");
     menu_Files.icon = @"st_filemode";
+    menu_Files.type = TypeFiles;
     menu_Files.family = FamilyDetailView;
     menu_Files.enableSection = YES;
     menu_Files.noConvertTime = YES;
@@ -5836,6 +5848,7 @@
 #pragma mark - Kodi Server Management
     __auto_type menu_Server = [mainMenu new];
     menu_Server.mainLabel = LOCALIZED_STR(@"XBMC Server");
+    menu_Server.type = TypeServer;
     menu_Server.icon = @"";
     menu_Server.family = FamilyServer;
     
@@ -5858,6 +5871,7 @@
     __auto_type menu_Addons = [mainMenu new];
     menu_Addons.mainLabel = LOCALIZED_STR(@"Add-ons");
     menu_Addons.icon = @"st_addons";
+    menu_Addons.type = TypeAddons;
     menu_Addons.family = FamilyDetailView;
     menu_Addons.enableSection = YES;
     menu_Addons.rowHeight = SETTINGS_ROW_HEIGHT;
@@ -6162,6 +6176,7 @@
     __auto_type menu_Settings = [mainMenu new];
     menu_Settings.mainLabel = LOCALIZED_STR(@"XBMC Settings");
     menu_Settings.icon = @"icon_menu_settings";
+    menu_Settings.type = TypeSettings;
     menu_Settings.family = FamilyDetailView;
     menu_Settings.enableSection = YES;
     menu_Settings.rowHeight = SETTINGS_ROW_HEIGHT;
@@ -6374,6 +6389,7 @@
     __auto_type customButtonEntry = [mainMenu new];
     customButtonEntry.mainLabel = @"Custom Button Menu";
     customButtonEntry.icon = @"icon_menu_settings";
+    customButtonEntry.type = TypeCustomButtonEntry;
     customButtonEntry.family = FamilyDetailView;
     customButtonEntry.enableSection = YES;
     customButtonEntry.disableNavbarButtons = YES;
@@ -6836,11 +6852,6 @@
     }
     if ([self isMenuEntryEnabled:@"menu_settings"]) {
         [mainMenuItems addObject:menu_Settings];
-    }
-    
-    // Set rootLabel for all menu entries
-    for (mainMenu *menuItem in mainMenuItems) {
-        menuItem.rootLabel = menuItem.mainLabel;
     }
     
 #pragma mark - Build and Initialize Global Search Lookup
