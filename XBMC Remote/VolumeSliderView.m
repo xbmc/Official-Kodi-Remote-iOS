@@ -21,9 +21,11 @@
 #define VOLUME_HOLD_TIMEOUT 0.2
 #define VOLUME_REPEAT_TIMEOUT 0.03
 #define VOLUME_INFO_TIMEOUT 1.0
-#define VOLUME_BUTTON_UP 1
-#define VOLUME_BUTTON_DOWN 2
-#define VOLUME_SLIDER 10
+#define VOLUME_BUTTON_INC 1
+#define VOLUME_BUTTON_DEC 2
+#define VOLUME_SLIDER_INC 3
+#define VOLUME_SLIDER_DEC 4
+#define VOLUME_SLIDER_SET 10
 
 @implementation VolumeSliderView
 
@@ -40,7 +42,7 @@
         [volumeSlider setThumbImage:img forState:UIControlStateNormal];
         [volumeSlider setThumbImage:img forState:UIControlStateHighlighted];
         [self volumeInfo];
-        [volumeSlider addTarget:self action:@selector(changeVolume:) forControlEvents:UIControlEventValueChanged];
+        [volumeSlider addTarget:self action:@selector(handleSliderValueChanged:) forControlEvents:UIControlEventValueChanged];
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpInside];
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpOutside];
         CGRect frame_tmp;
@@ -135,6 +137,8 @@
         
         [self checkMuteServer];
         
+        [self setVolumeButtonMode];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleApplicationOnVolumeChanged:)
                                                      name:@"Application.OnVolumeChanged"
@@ -179,12 +183,29 @@
 
 - (void)handleEnterForeground:(NSNotification*)sender {
     [self startTimer];
+    [self setVolumeButtonMode];
 }
 
-- (void)changeServerVolume:(id)sender {
+- (void)setVolumeButtonMode {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL enableCEC = [userDefaults boolForKey:@"cec_support_preference"];
+    if (enableCEC) {
+        // Volume buttons will set increment/decrement (supports CEC)
+        minusButton.tag = VOLUME_BUTTON_DEC;
+        plusButton.tag = VOLUME_BUTTON_INC;
+    }
+    else {
+        // Volume buttons will set absolute values (0-100%) - default
+        minusButton.tag = VOLUME_SLIDER_DEC;
+        plusButton.tag = VOLUME_SLIDER_INC;
+    }
+    volumeSlider.tag = VOLUME_SLIDER_SET;
+}
+
+- (void)changeServerVolume:(id)value {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume"
-     withParameters:@{@"volume": @(volumeSlider.value)}
+     withParameters:@{@"volume": value}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [self readServerVolume];
@@ -295,7 +316,7 @@
     // Volume up/down button is touched
     isChangingVolume = YES;
     [self stopTimer];
-    [self changeVolume:sender];
+    [self changeVolume:[sender tag]];
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_HOLD_TIMEOUT
                                                             target:self
                                                           selector:@selector(longpressVolume:)
@@ -323,27 +344,44 @@
 - (void)autoChangeVolume:(id)timer {
     // Volume up/down is automatically changed until holdVolumeTimer is stopped when button is untouched again
     id sender = [timer userInfo];
-    [self changeVolume:sender];
+    [self changeVolume:[sender tag]];
 }
 
-- (void)changeVolume:(id)sender {
+- (void)handleVolumeIncrease {
+    [self changeVolume:plusButton.tag];
+}
+
+- (void)handleVolumeDecrease {
+    [self changeVolume:minusButton.tag];
+}
+
+- (void)handleSliderValueChanged:(id)sender {
+    [self changeVolume:[sender tag]];
+}
+
+- (void)changeVolume:(NSInteger)action {
     if (!AppDelegate.instance.serverOnLine) {
         return;
     }
     
     // Process the volume change
     isChangingVolume = YES;
-    NSInteger action = [sender tag];
     switch (action) {
-        case VOLUME_BUTTON_UP: // Volume Increase
-            volumeSlider.value += 1;
+        case VOLUME_BUTTON_INC: // Volume increase using increment
+            [self changeServerVolume:@"increment"];
+            break;
+        case VOLUME_BUTTON_DEC: // Volume decrease using decrement
+            [self changeServerVolume:@"decrement"];
+            break;
+        case VOLUME_SLIDER_INC: // Volume increase using absolute value
+            volumeSlider.value = (int)MIN(volumeSlider.value + 1, 100);
             [self changeServerVolume:@((int)volumeSlider.value)];
             break;
-        case VOLUME_BUTTON_DOWN: // Volume Decrease
-            volumeSlider.value -= 1;
+        case VOLUME_SLIDER_DEC: // Volume decrease using absolute value
+            volumeSlider.value = (int)MAX(volumeSlider.value - 1, 0);
             [self changeServerVolume:@((int)volumeSlider.value)];
             break;
-        case VOLUME_SLIDER: // Volume slider with 1% step resolution
+        case VOLUME_SLIDER_SET: // Volume slider with 1% step resolution
             [self changeServerVolume:@((int)volumeSlider.value)];
             break;
         default:

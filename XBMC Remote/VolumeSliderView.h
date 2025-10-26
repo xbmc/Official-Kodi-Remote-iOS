@@ -25,6 +25,8 @@
 - (IBAction)slideVolume:(id)sender;
 - (void)startTimer;
 - (void)stopTimer;
+- (void)handleVolumeIncrease;
+- (void)handleVolumeDecrease;
 
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) NSTimer *holdVolumeTimer;
