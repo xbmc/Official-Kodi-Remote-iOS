@@ -109,18 +109,6 @@
     buttonZoneView.alpha = 0;
 }
 
-- (void)moveButton:(NSArray*)buttonsToDo ypos:(int)y {
-    for (UIButton *button in buttonsToDo) {
-        button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y + y, button.frame.size.width, button.frame.size.height);
-    }
-}
-
-- (void)hideButton:(NSArray*)buttonsToDo hide:(BOOL)hide {
-    for (UIButton *button in buttonsToDo) {
-        button.hidden = hide;
-    }
-}
-
 - (void)configureView {
     self.navigationItem.title = LOCALIZED_STR(@"Remote Control");
     CGFloat leftPadding = (IS_IPHONE && isEmbeddedMode) ? ANCHOR_RIGHT_PEEK : 0;
