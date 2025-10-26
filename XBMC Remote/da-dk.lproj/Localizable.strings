@@ -49,11 +49,6 @@
 "Clean Audio Library" = "Ryd op i musikbiblioteket";
 "Update Video Library" = "Opdater videobibliotek";
 "Clean Video Library" = "Ryd op i videobiblioteket";
-"Keyboard" = "Tastatur";
-"Gesture Zone" = "Gesture Zone";
-"Button Pad" = "Button Pad";
-"Help Screen" = "Hjælpeskærm";
-"LED Torch" = "LED Torch";
 "No connection" = "Ingen forbindelse";
 "Queue after current" = "Queue after current";
 "Queue" = "Sæt i kø";
@@ -158,7 +153,6 @@
 "Subtitle" = "Subtitle";
 "Mark as watched" = "Mark as watched";
 "Mark as unwatched" = "Mark as unwatched";
-"Button Pad/Gesture Zone" = "Button Pad/Gesture Zone";
 "Slide your finger up or down to adjust the scrubbing rate." = "Slide your finger up or down to adjust the scrubbing rate.";
 "Programs" = "Programs";
 "XBMC Settings" = "Kodi Settings";

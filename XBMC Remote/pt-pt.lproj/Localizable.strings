@@ -48,11 +48,6 @@
 "Hibernate" = "Hibernar";
 "Update Audio Library" = "Actualizar colecção de áudio";
 "Clean Video Library" = "Limpar Biblioteca de Vídeo";
-"Keyboard" = "Teclado";
-"Gesture Zone" = "Zona de gestos";
-"Button Pad" = "Botões";
-"Help Screen" = "Ecrã de ajuda";
-"LED Torch" = "Flash LED";
 "No connection" = "Sem ligação";
 "Queue after current" = "Colocar na fila depois de actual";
 "Search Wikipedia" = "Procurar na Wikipédia";
@@ -122,7 +117,6 @@
 "ERROR" = "ERRO";
 "Subtitle" = "Legenda";
 "Mark as unwatched" = "Marcar como não visto";
-"Button Pad/Gesture Zone" = "Botões / Gestos";
 "Programs" = "Programas";
 "Custom button" = "Botão personalizado";
 "Modify label:" = "Modificar etiqueta:";

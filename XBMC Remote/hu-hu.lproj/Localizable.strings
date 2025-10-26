@@ -49,11 +49,6 @@
 "Clean Audio Library" = "Clean Audio Library";
 "Update Video Library" = "Update Video Library";
 "Clean Video Library" = "Clean Video Library";
-"Keyboard" = "Keyboard";
-"Gesture Zone" = "Gesture Zone";
-"Button Pad" = "Button Pad";
-"Help Screen" = "Help Screen";
-"LED Torch" = "LED Torch";
 "No connection" = "No connection";
 "Queue after current" = "Queue after current";
 "Queue" = "Sor";
@@ -158,7 +153,6 @@
 "Subtitle" = "Subtitle";
 "Mark as watched" = "Mark as watched";
 "Mark as unwatched" = "Mark as unwatched";
-"Button Pad/Gesture Zone" = "Button Pad/Gesture Zone";
 "Slide your finger up or down to adjust the scrubbing rate." = "Slide your finger up or down to adjust the scrubbing rate.";
 "Programs" = "Programs";
 "XBMC Settings" = "Kodi Settings";

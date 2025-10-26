@@ -49,11 +49,6 @@
 "Clean Audio Library" = "Očisti audioteku";
 "Update Video Library" = "Ažuriranje videoteke";
 "Clean Video Library" = "Očisti videoteku";
-"Keyboard" = "Tastatura";
-"Gesture Zone" = "Zona gestikulacije";
-"Button Pad" = "Tipka za daljinsko upravljanje";
-"Help Screen" = "Ekran za pomoć";
-"LED Torch" = "LED svjetiljka";
 "No connection" = "Nema veze";
 "Queue after current" = "Red nakon trenutnog";
 "Queue" = "Red čekanja";
@@ -158,7 +153,6 @@
 "Subtitle" = "Podnaslov";
 "Mark as watched" = "Označi kao gledano";
 "Mark as unwatched" = "Označi kao nepregledano";
-"Button Pad/Gesture Zone" = "Taster/Zona za geste";
 "Slide your finger up or down to adjust the scrubbing rate." = "Pomaknite prst gore ili dolje da biste prilagodili brzinu trljanja.";
 "Programs" = "Programi";
 "XBMC Settings" = "Kodi postavke";

@@ -49,11 +49,6 @@
 "Clean Audio Library" = "Очистити музичну медіатеку";
 "Update Video Library" = "Оновити медіатеку відео";
 "Clean Video Library" = "Очистити медіатеку відео";
-"Keyboard" = "Клавіатура";
-"Gesture Zone" = "Зона жестів";
-"Button Pad" = "Панель з кнопками";
-"Help Screen" = "Екран довідки";
-"LED Torch" = "LED-ліхтарик";
 "No connection" = "Немає з'єднання";
 "Queue after current" = "Додати в черга після поточного";
 "Queue" = "Додати до черги";
@@ -158,7 +153,6 @@
 "Subtitle" = "Субтитри";
 "Mark as watched" = "Відміт. як переглянуте";
 "Mark as unwatched" = "Відміт. як непереглянуте";
-"Button Pad/Gesture Zone" = "Кнопкова панель/Зона жестів";
 "Slide your finger up or down to adjust the scrubbing rate." = "Потягніть пальцем вгору або вниз, щоб налаштувати швидкість сканування.";
 "Programs" = "Програми";
 "XBMC Settings" = "Налаштування Kodi";
@@ -288,3 +282,6 @@
 "Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "У офіційному додатку Kodi Remote використовуються зображення, завантажені з сервера Kodi, або з Інтернету, коли сервер Kodi посилається на них. Щоб отримати гарний вигляд, використовуйте додаток Kodi \"Universal Scraper\" або інші додатки-екстрактори.\n\nЛоготип Kodi та піктограми Official Kodi Remote є власністю організації Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Команда Kodi";
 "Play using..." = "Відтворити за допомогою...";
 "Movie Tags" = "Теги фільмів";
+"Add-ons" = "Додатки";
+"No custom button defined." = "Користувацькі кнопки не призначені.";
+"Execute add-on" = "Запустити додаток";

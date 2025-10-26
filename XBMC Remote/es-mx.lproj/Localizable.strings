@@ -62,11 +62,6 @@
 "Power off System" = "Apagar el sistema";
 "Hibernate" = "Hibernar";
 "Quit XBMC application" = "Salir de Kodi";
-"Keyboard" = "Teclado";
-"Gesture Zone" = "Zona de gestos";
-"Button Pad" = "Botones de dirección";
-"Help Screen" = "Pantalla de ayuda";
-"LED Torch" = "Linterna LED";
 "No connection" = "Sin conexión";
 "Queue after current" = "Encolar después de actual";
 "Search Wikipedia" = "Buscar en Wikipedia";
@@ -165,7 +160,6 @@
 "Subtitle" = "Subtítulos";
 "Mark as watched" = "Marcar como visto";
 "Mark as unwatched" = "Marcar como no visto";
-"Button Pad/Gesture Zone" = "Botones de dirección/Zona de gestos";
 "Programs" = "Programas";
 "XBMC Settings" = "Configuración de Kodi";
 "Custom button" = "Botón personalizado";

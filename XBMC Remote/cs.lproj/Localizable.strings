@@ -42,11 +42,6 @@
 "Clean Audio Library" = "Vyčistit knihovnu hudby";
 "Update Video Library" = "Aktualizovat knihovnu videí";
 "Clean Video Library" = "Vyčistit knihovnu videí";
-"Keyboard" = "Klávesnice";
-"Gesture Zone" = "Zóna gest";
-"Button Pad" = "Tlačítka";
-"Help Screen" = "Nápověda";
-"LED Torch" = "LED svítilna";
 "No connection" = "Bez připojení";
 "Queue after current" = "Fronta po stávající";
 "Queue" = "Fronta";
@@ -146,7 +141,6 @@
 "Subtitle" = "Titulky";
 "Mark as watched" = "Označit jako shlédnuté";
 "Mark as unwatched" = "Označit jako neshlédnuté";
-"Button Pad/Gesture Zone" = "Tlačítka/Zóna gest";
 "Slide your finger up or down to adjust the scrubbing rate." = "Pohybem prstu nahoru můžete upravit rychlost převíjení.";
 "Programs" = "Programy";
 "XBMC Settings" = "Nastavení Kodi";

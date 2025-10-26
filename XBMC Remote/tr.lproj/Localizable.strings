@@ -41,11 +41,6 @@
 "Clean Audio Library" = "Ses Kütüphanesini Temizle";
 "Update Video Library" = "Video Kütüphanesini Güncelle";
 "Clean Video Library" = "Video Kütüphanesini Temizle";
-"Keyboard" = "Klavye";
-"Gesture Zone" = "Dokunma Alanı";
-"Button Pad" = "Tuş Takımı";
-"Help Screen" = "Yardım";
-"LED Torch" = "Aydınlatma";
 "No connection" = "Bağlantı Yok";
 "Queue after current" = "Bundan Sonra Oynat";
 "Queue" = "Kuyruğa Ekle";
@@ -145,7 +140,6 @@
 "Subtitle" = "Altyazı";
 "Mark as watched" = "İzlendi olarak işaretle";
 "Mark as unwatched" = "İzlenmedi olarak işaretle";
-"Button Pad/Gesture Zone" = "Tuş Takımı/Dokunma Alanı";
 "Slide your finger up or down to adjust the scrubbing rate." = "Düzeltme oranını ayarlamak için yukarı/aşağı kaydırın.";
 "Programs" = "Programlar";
 "XBMC Settings" = "Kodi Ayarları";

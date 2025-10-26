@@ -49,11 +49,6 @@
 "Clean Audio Library" = "Maak Oudio Biblioteek skoon";
 "Update Video Library" = "Opdateer Video Biblioteek";
 "Clean Video Library" = "Maak Video Biblioteek skoon";
-"Keyboard" = "Sleutelbord";
-"Gesture Zone" = "Gebaar Sone";
-"Button Pad" = "Knoppie Pad";
-"Help Screen" = "Help Skerm";
-"LED Torch" = "LED Flits";
 "No connection" = "Geen konneksie";
 "Queue after current" = "Tou na huidige";
 "Queue" = "Tou";
@@ -158,7 +153,6 @@
 "Subtitle" = "Onderskrif";
 "Mark as watched" = "Merk as gekyk";
 "Mark as unwatched" = "Merk as ongekyk";
-"Button Pad/Gesture Zone" = "Knoppie Pad/Gebaar Sone";
 "Slide your finger up or down to adjust the scrubbing rate." = "Skuif jou vinger op of af om die skrop tempo aan te pas.";
 "Programs" = "Programme";
 "XBMC Settings" = "Kodi Instellings";
@@ -284,3 +278,8 @@
 "Send Wake-On-LAN" = "Stuur Wake-On-LAN";
 "Movie Tags" = "Fliek Etikette";
 "Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "Die offisiële Kodi Remote toepassing gebruik kuns afgelaai vanaf jou Kodi bediener of vanaf die internet wanneer jou Kodi bediener daarna verwys. Om die prag van kuns te ontsluit, gebruik Kodi se \"Universal Scraper\" of ander skraper byvoegsels.\n\nKodi logo en Official Kodi Remote ikone is eiendom van Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Span Kodi";
+"Add-ons" = "Byvoegsels";
+"No custom button defined." = "Geen pasgemaakte knoppie gedefinieer nie.";
+"Share" = "Deel";
+"Local network notice" = "Lokale netwerk kennisgewing";
+"Execute add-on" = "Voer byvoegsel uit";

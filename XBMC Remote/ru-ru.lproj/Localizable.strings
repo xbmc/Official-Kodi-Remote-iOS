@@ -49,11 +49,6 @@
 "Clean Audio Library" = "Очистить аудиотеку";
 "Update Video Library" = "Обновить видеотеку";
 "Clean Video Library" = "Очистить видеотеку";
-"Keyboard" = "Клавиатура";
-"Gesture Zone" = "Зона жестов";
-"Button Pad" = "Панель кнопок";
-"Help Screen" = "Экран помощи";
-"LED Torch" = "LED Torch";
 "No connection" = "Нет соединения";
 "Queue after current" = "Очередь после текущей";
 "Queue" = "В очередь";
@@ -158,7 +153,6 @@
 "Subtitle" = "Subtitle";
 "Mark as watched" = "Mark as watched";
 "Mark as unwatched" = "Mark as unwatched";
-"Button Pad/Gesture Zone" = "Button Pad/Gesture Zone";
 "Slide your finger up or down to adjust the scrubbing rate." = "Slide your finger up or down to adjust the scrubbing rate.";
 "Programs" = "Programs";
 "XBMC Settings" = "Kodi Settings";
