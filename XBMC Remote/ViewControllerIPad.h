@@ -11,6 +11,7 @@
 #import "DSJSONRPC.h"
 #import "tcpJSONRPC.h"
 #import "MessagesView.h"
+#import "VolumeSliderView.h"
 
 @class MenuViewController;
 @class StackScrollViewController;

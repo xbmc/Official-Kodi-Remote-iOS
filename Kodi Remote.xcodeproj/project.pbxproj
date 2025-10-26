@@ -60,6 +60,7 @@
 		C7106D7B2D33EEE000A96C93 /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D7A2D33EEE000A96C93 /* ProgressBarView.m */; };
 		C7106D842D33FBCE00A96C93 /* PlaylistProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D832D33FBCE00A96C93 /* PlaylistProgressView.m */; };
 		C72CDAF22DD27AB800AFB2FA /* LocalNetworkAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CDAF12DD27AB800AFB2FA /* LocalNetworkAlert.swift */; };
+		C74B9CB22E979E2F0029B27E /* CustomButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74B9CB12E979E2F0029B27E /* CustomButtonCell.m */; };
 		C753585F2DE9A25F00952F0D /* LocalNetworkAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = C753585E2DE9A25F00952F0D /* LocalNetworkAccess.m */; };
 		C76451CE29C51221000AE949 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */; };
 		C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451B129C51220000AE949 /* UIImage+WebP.m */; };
@@ -80,7 +81,6 @@
 		C76594A02C5E871100B93A2A /* cellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E9192809B70024FEFA /* cellViewIPad.xib */; };
 		C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */; };
 		C76594A22C5E871600B93A2A /* cellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* cellView.xib */; };
-		C76594A32C5E871900B93A2A /* rightCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234EB19280B120024FEFA /* rightCellView.xib */; };
 		C76594A42C5E871C00B93A2A /* jsonDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB16163151F156A001BA2D4 /* jsonDataCell.xib */; };
 		C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D41527A9DF00D5958F /* playlistCellView.xib */; };
 		C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F487B5915399716004530C1 /* serverListCellView.xib */; };
@@ -196,7 +196,6 @@
 		0F61E198153C828300A89BB1 /* AppInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppInfoViewController.m; sourceTree = "<group>"; };
 		0F6234E7192808120024FEFA /* cellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cellView.xib; sourceTree = "<group>"; };
 		0F6234E9192809B70024FEFA /* cellViewIPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cellViewIPad.xib; sourceTree = "<group>"; };
-		0F6234EB19280B120024FEFA /* rightCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = rightCellView.xib; sourceTree = "<group>"; };
 		0F6234ED19280D9B0024FEFA /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		0F6234EF192811150024FEFA /* NowPlaying.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NowPlaying.xib; sourceTree = "<group>"; };
 		0F680CB717103DB60092298A /* ClearCacheView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClearCacheView.h; sourceTree = "<group>"; };
@@ -287,6 +286,8 @@
 		C746406927E6209C00F6AD47 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C746406A27E6209C00F6AD47 /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7478BF8257258E700161C1E /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		C74B9CB12E979E2F0029B27E /* CustomButtonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomButtonCell.m; sourceTree = "<group>"; };
+		C74B9CB32E979E480029B27E /* CustomButtonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomButtonCell.h; sourceTree = "<group>"; };
 		C753585E2DE9A25F00952F0D /* LocalNetworkAccess.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalNetworkAccess.m; sourceTree = "<group>"; };
 		C75358602DE9A27100952F0D /* LocalNetworkAccess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalNetworkAccess.h; sourceTree = "<group>"; };
 		C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+HighlightedWebCache.m"; path = "SDWebImage/UIImageView+HighlightedWebCache.m"; sourceTree = "<group>"; };
@@ -420,6 +421,8 @@
 				0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */,
 				0F40F5A4164D5FA000AF9DE9 /* RightMenuViewController.h */,
 				0F40F5A5164D5FA000AF9DE9 /* RightMenuViewController.m */,
+				C74B9CB32E979E480029B27E /* CustomButtonCell.h */,
+				C74B9CB12E979E2F0029B27E /* CustomButtonCell.m */,
 				0FEAE76616EA632800387DED /* ActorCell.h */,
 				0FEAE76716EA632800387DED /* ActorCell.m */,
 				0F284A5316F6419700AFC1EF /* PosterCell.h */,
@@ -438,7 +441,6 @@
 			isa = PBXGroup;
 			children = (
 				0F6234E7192808120024FEFA /* cellView.xib */,
-				0F6234EB19280B120024FEFA /* rightCellView.xib */,
 				0FB16163151F156A001BA2D4 /* jsonDataCell.xib */,
 				0F44E2D41527A9DF00D5958F /* playlistCellView.xib */,
 				0F487B5915399716004530C1 /* serverListCellView.xib */,
@@ -833,7 +835,6 @@
 				C76594A02C5E871100B93A2A /* cellViewIPad.xib in Resources */,
 				C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */,
 				C76594A22C5E871600B93A2A /* cellView.xib in Resources */,
-				C76594A32C5E871900B93A2A /* rightCellView.xib in Resources */,
 				C76594A42C5E871C00B93A2A /* jsonDataCell.xib in Resources */,
 				C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */,
 				C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */,
@@ -868,6 +869,7 @@
 				0F554907151D1187007E633F /* main.m in Sources */,
 				0F55490B151D1187007E633F /* AppDelegate.m in Sources */,
 				0F55490E151D1187007E633F /* MasterViewController.m in Sources */,
+				C74B9CB22E979E2F0029B27E /* CustomButtonCell.m in Sources */,
 				C76451D129C51221000AE949 /* NSData+ImageContentType.m in Sources */,
 				0F554911151D1187007E633F /* DetailViewController.m in Sources */,
 				C7106D842D33FBCE00A96C93 /* PlaylistProgressView.m in Sources */,
