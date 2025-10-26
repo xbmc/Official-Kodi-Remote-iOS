@@ -253,10 +253,10 @@
 
 - (void)handleRotate:(UIRotationGestureRecognizer*)gesture {
     if (gesture.state == UIGestureRecognizerStateEnded) {
-		lastRotation = 0.0;
-		return;
-	}
-	CGFloat rotation = 0.0 - (lastRotation - gesture.rotation);
+        lastRotation = 0.0;
+        return;
+    }
+    CGFloat rotation = 0.0 - (lastRotation - gesture.rotation);
     
     if (rotation > ROTATION_TRIGGER) {
         [volumeSliderView handleVolumeIncrease];
@@ -264,7 +264,7 @@
     else if (rotation < -ROTATION_TRIGGER) {
         [volumeSliderView handleVolumeDecrease];
     }
-	lastRotation = gesture.rotation;
+    lastRotation = gesture.rotation;
 }
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
