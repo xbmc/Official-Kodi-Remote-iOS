@@ -251,12 +251,12 @@
     }
 }
 
-- (void)handleRotate:(id)sender {
-    if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
+- (void)handleRotate:(UIRotationGestureRecognizer*)gesture {
+    if (gesture.state == UIGestureRecognizerStateEnded) {
 		lastRotation = 0.0;
 		return;
 	}
-	CGFloat rotation = 0.0 - (lastRotation - [(UIRotationGestureRecognizer*)sender rotation]);
+	CGFloat rotation = 0.0 - (lastRotation - gesture.rotation);
     
     if (rotation > ROTATION_TRIGGER) {
         [volumeSliderView handleVolumeIncrease];
@@ -264,7 +264,7 @@
     else if (rotation < -ROTATION_TRIGGER) {
         [volumeSliderView handleVolumeDecrease];
     }
-	lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
+	lastRotation = gesture.rotation;
 }
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
