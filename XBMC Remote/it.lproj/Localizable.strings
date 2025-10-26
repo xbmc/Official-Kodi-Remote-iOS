@@ -42,11 +42,6 @@
 "Clean Audio Library" = "Pulisci libreria audio";
 "Update Video Library" = "Aggiorna libreria video";
 "Clean Video Library" = "Pulisci libreria video";
-"Keyboard" = "Tastiera";
-"Gesture Zone" = "Zona gesti";
-"Button Pad" = "Pulsantiera";
-"Help Screen" = "Schermata di aiuto";
-"LED Torch" = "Torcia LED";
 "No connection" = "Nessuna connessione";
 "Queue after current" = "Accoda dopo attuale";
 "Queue" = "Coda";
@@ -146,7 +141,6 @@
 "Subtitle" = "Sottotitolo";
 "Mark as watched" = "Segna come già visto";
 "Mark as unwatched" = "Segna come non visto";
-"Button Pad/Gesture Zone" = "Pulsantiera/Zona gesti";
 "Slide your finger up or down to adjust the scrubbing rate." = "Scorri il dito verso l'alto o il basso per regolare la velocità di scrubbing.";
 "Programs" = "Programmi";
 "XBMC Settings" = "Impostazioni Kodi";
@@ -288,3 +282,6 @@
 "Local network notice" = "Avviso di rete locale";
 "It seems local network access is not enabled for the Kodi Remote App. This is required for the app to find and connect to Kodi servers in your local network." = "Sembra che l'accesso alla rete locale non sia abilitato per l'app Kodi Remote. Questo è necessario affinché l'app possa trovare e connettersi ai server Kodi nella tua rete locale.";
 "The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect." = "L'accesso alla rete locale può essere abilitato nella rete iOS o nelle impostazioni dell'app. Potrebbe essere necessario ripristinare le impostazioni di rete, riavviare il dispositivo iOS o persino rimuovere/reinstallare l'app affinché la modifica abbia effetto.";
+"Add-ons" = "Add-on";
+"No custom button defined." = "Nessun pulsante personalizzato definito.";
+"Execute add-on" = "Esegui add-on";

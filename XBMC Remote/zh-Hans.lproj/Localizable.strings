@@ -42,11 +42,6 @@
 "Clean Audio Library" = "清理音频资料库";
 "Update Video Library" = "更新视频资料库";
 "Clean Video Library" = "清理视频资料库";
-"Keyboard" = "键盘";
-"Gesture Zone" = "手势区";
-"Button Pad" = "按键板";
-"Help Screen" = "帮助屏";
-"LED Torch" = "LED电筒";
 "No connection" = "无连接";
 "Queue after current" = "队列当前位置后";
 "Queue" = "队列";
@@ -146,7 +141,6 @@
 "Subtitle" = "字幕";
 "Mark as watched" = "标记为已观看";
 "Mark as unwatched" = "标记为未观看";
-"Button Pad/Gesture Zone" = "按键板/手势区";
 "Slide your finger up or down to adjust the scrubbing rate." = "上下滑动手指调整拖动速度。";
 "Programs" = "程序";
 "XBMC Settings" = "Kodi设置";

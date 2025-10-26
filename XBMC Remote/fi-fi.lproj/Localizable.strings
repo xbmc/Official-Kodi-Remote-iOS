@@ -49,11 +49,6 @@
 "Clean Audio Library" = "Siivoa äänikirjasto";
 "Update Video Library" = "Päivitä videokirjasto";
 "Clean Video Library" = "Siivoa videokirjasto";
-"Keyboard" = "Näppäimistö";
-"Gesture Zone" = "Eleiden syöttöalue";
-"Button Pad" = "Painikealue";
-"Help Screen" = "Ohjenäyttö";
-"LED Torch" = "LED-soihtu";
 "No connection" = "Ei yhteyttä";
 "Queue after current" = "Lisää jonoon nykyisen jälkeen";
 "Queue" = "Jono";
@@ -158,7 +153,6 @@
 "Subtitle" = "Tekstitys";
 "Mark as watched" = "Merkitse katsotuksi";
 "Mark as unwatched" = "Merkitse katsomattomaksi";
-"Button Pad/Gesture Zone" = "Painikealue/Eleiden syöttöalue";
 "Slide your finger up or down to adjust the scrubbing rate." = "Säädä siirtonopeutta liu'uttamalla sormeasi ylös tai alas.";
 "Programs" = "Ohjelmat";
 "XBMC Settings" = "Kodin asetukset";
@@ -285,3 +279,9 @@
 "Official Kodi Remote app uses artwork downloaded from your Kodi server or from the internet when your Kodi server refers to it. To unleash the beauty of artwork use Kodi's \"Universal Scraper\" or other scraper add-ons.\n\nKodi logo and Official Kodi Remote icons are property of Kodi Foundation.\nhttp://www.kodi.tv/contribute\n\n - Team Kodi" = "Virallinen Kodi Remote -sovellus käyttää Kodi-palvelimelta tai Internetistä ladattavia mediakuvituksia Kodi-palvelimen viitatessa niihin. Vapauta upeat kuvitukset Kodin \"Universal Scraper\" tai muiden tietolähdelisäosien avulla.\n\nKodi-logo ja viralliset Kodi Remote -kuvakkeet ovat Kodi Säätiön omaisuutta.\nhttp://www.kodi.tv/contribute\n\n - Kodin tiimi";
 "Connected to %@" = "Yhdistetty kohteeseen %@";
 "Share" = "Jaa";
+"Execute add-on" = "Suorita lisäosa";
+"No custom button defined." = "Omia painikkeita ei ole määritetty.";
+"Add-ons" = "Lisäosat";
+"Local network notice" = "Lähiverkkoyhteysilmoitus";
+"It seems local network access is not enabled for the Kodi Remote App. This is required for the app to find and connect to Kodi servers in your local network." = "Lähiverkkoyhteys ei näytä olevan Kodi Remote -sovelluksen käytettävissä. Tämä on välttämätöntä, jotta sovellus voi etsiä ja yhdistää lähiverkossa oleviin Kodi-palvelimiin.";
+"The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect." = "Lähiverkkoyhteys voidaan otaa käyttöön iOS:n verkko- tai sovellusasetuksista. Saatat joutua palauttamaan alkuperäiset verkkoasetukset, käynnistämään iOS-laitteen uudelleen tai jopa asentamaan sovelluksden uudelleen, jotta muutos tulee voimaan.";

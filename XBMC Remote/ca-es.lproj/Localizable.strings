@@ -49,11 +49,6 @@
 "Clean Audio Library" = "Neteja la biblioteca d'àudio";
 "Update Video Library" = "Actualitza la biblioteca de vídeo";
 "Clean Video Library" = "Neteja la biblioteca de vídeo";
-"Keyboard" = "Teclat";
-"Gesture Zone" = "Zona de gestos";
-"Button Pad" = "Botonera";
-"Help Screen" = "Pantalla d'ajuda";
-"LED Torch" = "Llanterna LED";
 "No connection" = "Sense connexió";
 "Queue after current" = "Afegir a la cua després de l'actual";
 "Queue" = "Cua";
@@ -158,7 +153,6 @@
 "Subtitle" = "Subtítol";
 "Mark as watched" = "Marca com vist";
 "Mark as unwatched" = "Marca com no vist";
-"Button Pad/Gesture Zone" = "Botons de direcció/Zona de gestos";
 "Slide your finger up or down to adjust the scrubbing rate." = "Llisca el dit cap amunt o cap avall per ajustar la velocitat de depuració.";
 "Programs" = "Programes";
 "XBMC Settings" = "Configuració de Kodi";

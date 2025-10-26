@@ -42,11 +42,6 @@
 "Clean Audio Library" = "Städa i ljudbiblioteket";
 "Update Video Library" = "Uppdatera filmbiblioteket";
 "Clean Video Library" = "Städa i filmbiblioteket";
-"Keyboard" = "Tangentbord";
-"Gesture Zone" = "Gestzon";
-"Button Pad" = "Knappsats";
-"Help Screen" = "Hjälpskärm";
-"LED Torch" = "LED-lampa";
 "No connection" = "Ingen anslutning";
 "Queue after current" = "Kölägg efter aktuell";
 "Queue" = "Kölägg";
@@ -146,7 +141,6 @@
 "Subtitle" = "Undertext";
 "Mark as watched" = "Markera som sedd";
 "Mark as unwatched" = "Markera som icke-sedd";
-"Button Pad/Gesture Zone" = "Knappsats/Gestzon";
 "Slide your finger up or down to adjust the scrubbing rate." = "Dra ditt finger upp eller ner för att justera snabbspolningshastigheten.";
 "Programs" = "Program";
 "XBMC Settings" = "Kodi-inställningar";

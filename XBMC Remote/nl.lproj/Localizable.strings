@@ -42,11 +42,6 @@
 "Clean Audio Library" = "Audiobibliotheek opschonen";
 "Update Video Library" = "Videobibliotheek bijwerken";
 "Clean Video Library" = "Videobibliotheek opschonen";
-"Keyboard" = "Toetsenbord";
-"Gesture Zone" = "Gebarenbesturing";
-"Button Pad" = "Knoppenbesturing";
-"Help Screen" = "Help pagina";
-"LED Torch" = "Zaklamp";
 "No connection" = "Geen verbinding";
 "Queue after current" = "Na huidige toevoegen";
 "Queue" = "Toevoegen";
@@ -146,7 +141,6 @@
 "Subtitle" = "Ondertitel";
 "Mark as watched" = "Markeren als bekeken";
 "Mark as unwatched" = "Markeren als niet bekeken";
-"Button Pad/Gesture Zone" = "Knoppen- / Gebarenbesturing";
 "Slide your finger up or down to adjust the scrubbing rate." = "Vinger omhoog of omlaag schuiven om de scrollsnelheid aan te passen.";
 "Programs" = "Programma's";
 "XBMC Settings" = "Kodi-instellingen";

@@ -49,11 +49,6 @@
 "Clean Audio Library" = "Audiobibliothek bereinigen";
 "Update Video Library" = "Videobibliothek aktualisieren";
 "Clean Video Library" = "Videobibliothek bereinigen";
-"Keyboard" = "Tastatur";
-"Gesture Zone" = "Gestenbereich";
-"Button Pad" = "Tastenfeld";
-"Help Screen" = "Hilfeseite";
-"LED Torch" = "LED-Taschenlampe";
 "No connection" = "Keine Verbindung";
 "Queue after current" = "Nach Aktuellem hinzufügen";
 "Queue" = "Hinzufügen";
@@ -159,7 +154,6 @@
 "Subtitle" = "Untertitel";
 "Mark as watched" = "Als „gesehen“ markieren";
 "Mark as unwatched" = "Als „nicht gesehen“ markieren";
-"Button Pad/Gesture Zone" = "Tastenfeld/Gestenbereich";
 "Slide your finger up or down to adjust the scrubbing rate." = "Zum Anpassen mit dem Finger nach oben oder unten streichen.";
 "Programs" = "Programme";
 "XBMC Settings" = "Kodi-Einstellungen";

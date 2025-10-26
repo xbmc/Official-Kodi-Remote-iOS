@@ -49,11 +49,6 @@
 "Clean Audio Library" = "Bersihkan Pustaka Audio";
 "Update Video Library" = "Perbarui Pustaka Video";
 "Clean Video Library" = "Bersihkan Pustaka Video";
-"Keyboard" = "Papan Ketik";
-"Gesture Zone" = "Zona Gestur";
-"Button Pad" = "Pad Tombol";
-"Help Screen" = "Layar Bantuan";
-"LED Torch" = "Senter LED";
 "No connection" = "Tidak ada koneksi";
 "Queue after current" = "Antrekan setelah yang sekarang";
 "Queue" = "Antri";
@@ -158,7 +153,6 @@
 "Subtitle" = "Subtitel";
 "Mark as watched" = "Tandai sebagai sudah ditonton";
 "Mark as unwatched" = "Tandai sebagai belum ditonton";
-"Button Pad/Gesture Zone" = "Pad Tombol/Zona Gestur";
 "Slide your finger up or down to adjust the scrubbing rate." = "Geser jari Anda ke atas atau ke bawah untuk menyesuaikan kecepatan penggosokan.";
 "Programs" = "Program";
 "XBMC Settings" = "Pengaturan Kodi";

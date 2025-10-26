@@ -42,11 +42,6 @@
 "Clean Audio Library" = "Wyczyść bibliotekę audio";
 "Update Video Library" = "Zaktualizuj bibliotekę wideo";
 "Clean Video Library" = "Wyczyść bibliotekę wideo";
-"Keyboard" = "Klawiatura";
-"Gesture Zone" = "Gesty";
-"Button Pad" = "Przyciski";
-"Help Screen" = "Pomoc";
-"LED Torch" = "Latarka LED";
 "No connection" = "Brak połączenia";
 "Queue after current" = "Kolejkuj po bieżącym";
 "Queue" = "Kolejkuj";
@@ -146,7 +141,6 @@
 "Subtitle" = "Napisy";
 "Mark as watched" = "Oznacz jako oglądane";
 "Mark as unwatched" = "Oznacz jako nieoglądane";
-"Button Pad/Gesture Zone" = "Przyciski/Gesty";
 "Slide your finger up or down to adjust the scrubbing rate." = "Przesuń palcem, aby ustawić szybkość przewijania.";
 "Programs" = "Programy";
 "XBMC Settings" = "Ustawienia Kodi";

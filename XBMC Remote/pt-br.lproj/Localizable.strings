@@ -83,11 +83,6 @@
 "Pictures Add-ons" = "Add-ons de imagens";
 "Music Roles" = "Funções musicais";
 "Recording Details" = "Detalhes da gravação";
-"Keyboard" = "Teclado";
-"Gesture Zone" = "Zona de gestos";
-"Button Pad" = "Teclado de botão";
-"Help Screen" = "Tela de ajuda";
-"LED Torch" = "Lanterna de LED";
 "No connection" = "Sem conexão";
 "Queue after current" = "Fila de espera após o atual";
 "Search Wikipedia" = "Pesquisar na Wikipédia";
@@ -152,7 +147,6 @@
 "Subtitle" = "Legenda";
 "Mark as watched" = "Marcar como assistido";
 "Mark as unwatched" = "Marcar como não assistido";
-"Button Pad/Gesture Zone" = "Teclado de botão/Zona de gestos";
 "Done" = "Pronto";
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- AVISO --\nEsse tipo de configuração não pode ser definida remotamente. Use a GUI do Kodi para alterar essa configuração.\nObrigado.";
 "No items found." = "Nenhum item encontrado.";
