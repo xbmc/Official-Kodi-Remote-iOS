@@ -964,7 +964,7 @@
 
 #pragma mark - Quick Help
 
-- (IBAction)toggleQuickHelp:(id)sender {
+- (IBAction)toggleQuickHelp {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     if (quickHelpView.alpha == 0) {
         [Utilities alphaView:quickHelpView AnimDuration:0.2 Alpha:1.0];
@@ -978,11 +978,11 @@
 
 #pragma mark - Keyboard methods
 
-- (void)toggleVirtualKeyboard:(id)sender {
+- (void)toggleVirtualKeyboard {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"toggleVirtualKeyboard" object:nil userInfo:nil];
 }
 
-- (void)hideKeyboard:(id)sender {
+- (void)hideKeyboard {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
@@ -1023,7 +1023,7 @@
         UIImage *customImg = [UIImage imageNamed:@"icon_custom_buttons"];
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
         self.navigationItem.rightBarButtonItems = @[
-            [[UIBarButtonItem alloc] initWithImage:customImg style:UIBarButtonItemStylePlain target:self action:@selector(enterCustomButtons:)],
+            [[UIBarButtonItem alloc] initWithImage:customImg style:UIBarButtonItemStylePlain target:self action:@selector(enterCustomButtons)],
             [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)]
         ];
         self.navigationController.navigationBar.barTintColor = REMOTE_CONTROL_BAR_TINT_COLOR;
@@ -1033,45 +1033,45 @@
     [self volumeInfo];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(revealMenu:)
+                                             selector:@selector(revealMenu)
                                                  name:@"RevealMenu"
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(hideKeyboard:)
+                                             selector:@selector(hideKeyboard)
                                                  name:@"ECSlidingViewTopWillReset"
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(hideKeyboard:)
+                                             selector:@selector(hideKeyboard)
                                                  name:@"ECSlidingViewUnderRightWillAppear"
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(hideKeyboard:)
+                                             selector:@selector(hideKeyboard)
                                                  name:@"ECSlidingViewUnderLeftWillAppear"
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(disablePopGestureRecognizer:)
+                                             selector:@selector(disablePopGestureRecognizer)
                                                  name:@"ECSlidingViewUnderRightWillAppear"
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(enablePopGestureRecognizer:)
+                                             selector:@selector(enablePopGestureRecognizer)
                                                  name:@"ECSlidingViewTopDidReset"
                                                object:nil];
 }
 
-- (void)enablePopGestureRecognizer:(id)sender {
+- (void)enablePopGestureRecognizer {
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
 }
 
-- (void)disablePopGestureRecognizer:(id)sender {
+- (void)disablePopGestureRecognizer {
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
-- (void)revealMenu:(id)sender {
+- (void)revealMenu {
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
@@ -1149,7 +1149,7 @@
         customButton.frame = frame;
         customButton.showsTouchWhenHighlighted = YES;
         [customButton setImage:[UIImage imageNamed:@"icon_custom_buttons"] forState:UIControlStateNormal];
-        [customButton addTarget:self action:@selector(enterCustomButtons:) forControlEvents:UIControlEventTouchUpInside];
+        [customButton addTarget:self action:@selector(enterCustomButtons) forControlEvents:UIControlEventTouchUpInside];
         customButton.alpha = 0.8;
         [remoteToolbar addSubview:customButton];
     }
@@ -1168,7 +1168,7 @@
     keyboardButton.frame = frame;
     keyboardButton.showsTouchWhenHighlighted = YES;
     [keyboardButton setImage:[UIImage imageNamed:@"keyboard_icon"] forState:UIControlStateNormal];
-    [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard:) forControlEvents:UIControlEventTouchUpInside];
+    [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard) forControlEvents:UIControlEventTouchUpInside];
     keyboardButton.alpha = 0.8;
     [remoteToolbar addSubview:keyboardButton];
 
@@ -1177,7 +1177,7 @@
     helpButton.frame = frame;
     helpButton.showsTouchWhenHighlighted = YES;
     [helpButton setImage:[UIImage imageNamed:@"button_info"] forState:UIControlStateNormal];
-    [helpButton addTarget:self action:@selector(toggleQuickHelp:) forControlEvents:UIControlEventTouchUpInside];
+    [helpButton addTarget:self action:@selector(toggleQuickHelp) forControlEvents:UIControlEventTouchUpInside];
     helpButton.alpha = 0.8;
     [remoteToolbar addSubview:helpButton];
     
@@ -1229,7 +1229,7 @@
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
 }
 
-- (void)enterCustomButtons:(id)sender {
+- (void)enterCustomButtons {
     if (IS_IPHONE) {
         [self revealUnderRight];
     }
