@@ -165,6 +165,22 @@
     [serverListTableView reloadData];
 }
 
+- (void)selectServer:(NSNotification*)notification  {
+    // userInfo == nil means no valid server was found from the list in application:openURL:options:.
+    if (!notification.userInfo) {
+        [self deselectServer];
+    }
+    else {
+        NSInteger index = [notification.userInfo[@"index"] integerValue];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        [connectingActivityIndicator startAnimating];
+        [self selectServerAtIndexPath:indexPath];
+        storeServerSelection = indexPath;
+        [Utilities saveLastServerIndex:indexPath];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
+}
+
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     if (AppDelegate.instance.arrayServerList.count == 0) {
         [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -581,6 +597,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(enablePopGestureRecognizer:)
                                                  name:@"ECSlidingViewTopDidReset"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(selectServer:)
+                                                 name:@"SelectKodiServer"
                                                object:nil];
 }
 
