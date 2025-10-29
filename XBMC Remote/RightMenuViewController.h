@@ -12,7 +12,6 @@
 @interface RightMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     UITableView *menuTableView;
     NSMutableArray *tableData;
-    BOOL torchIsOn;
     UIButton *editTableButton;
     UIButton *moreButton;
     NSDictionary *infoCustomButton;

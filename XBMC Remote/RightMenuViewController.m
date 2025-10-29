@@ -433,8 +433,6 @@
     menuTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     [self.view addSubview:menuTableView];
     
-    torchIsOn = [Utilities isTorchOn];
-    
     infoCustomButton = @{
         @"label": LOCALIZED_STR(@"No custom button defined."),
         @"icon": @"button_info",
