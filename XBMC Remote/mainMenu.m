@@ -38,6 +38,8 @@
 #define ITEM_MOVIE_PAD_WIDTH_RECENTLY_FULLSCREEN 502.0
 #define ITEM_MOVIE_PAD_HEIGHT_RECENTLY_FULLSCREEN 206.0
 
+#define LOOKUP_ITEM(mPath, mLabel, mIcon, mItemId) [[LookupItem alloc] initWithPath:mPath label:mLabel icon:mIcon itemId:mItemId]
+
 @implementation mainMenu
 
 @synthesize mainLabel, icon, family, type, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, noConvertTime, chooseTab, disableNavbarButtons, filterModes;
@@ -344,18 +346,6 @@
 + (BOOL)isMenuEntryEnabled:(NSString*)menuItem {
     id menuEnabled = [[NSUserDefaults standardUserDefaults] objectForKey:menuItem];
     return (menuEnabled == nil || [menuEnabled boolValue]);
-}
-
-+ (NSNumber*)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel {
-    // Search for the method index with the desired sub label (e.g. "All Songs")
-    int k;
-    for (k = 0; k < menuItem.mainMethod.count; ++k) {
-        id parameters = menuItem.mainParameters[k];
-        if ([parameters[@"label"] isEqualToString:subLabel]) {
-            break;
-        }
-    }
-    return @(k);
 }
 
 # pragma mark - Build Menu Tree
@@ -6873,18 +6863,128 @@
     
 #pragma mark - Build and Initialize Global Search Lookup
     
-    AppDelegate.instance.globalSearchMenuLookup = @[
-        @[menu_Movies,          [self getGlobalSearchTab:menu_Movies          label:LOCALIZED_STR(@"Movies")]],         // Movies
-        @[menu_Movies,          [self getGlobalSearchTab:menu_Movies          label:LOCALIZED_STR(@"Movie Sets")]],     // Movie Sets
-        @[menu_TVShows,         [self getGlobalSearchTab:menu_TVShows         label:LOCALIZED_STR(@"TV Shows")]],       // TV Shows
-        @[menu_TVShows.subItem, [self getGlobalSearchTab:menu_TVShows.subItem label:LOCALIZED_STR(@"Episodes")]],       // Episodes
-        @[menu_Videos,          [self getGlobalSearchTab:menu_Videos          label:LOCALIZED_STR(@"Music Videos")]],   // Music Videos
-        @[menu_Music,           [self getGlobalSearchTab:menu_Music           label:LOCALIZED_STR(@"Artists")]],        // Artists
-        @[menu_Music,           [self getGlobalSearchTab:menu_Music           label:LOCALIZED_STR(@"Albums")]],         // Albums
-        @[menu_Music,           [self getGlobalSearchTab:menu_Music           label:LOCALIZED_STR(@"All songs")]],      // Songs
+    NSArray *globalSearchKeyConfig = @[
+                    //menu path,          label of tab                    nocover icon                itemid
+        LOOKUP_ITEM(menu_Movies,          LOCALIZED_STR(@"Movies"),       @"nocover_movies",          @"movieid"),
+        LOOKUP_ITEM(menu_Movies,          LOCALIZED_STR(@"Movie Sets"),   @"nocover_movie_sets",      @"setid"),
+        LOOKUP_ITEM(menu_TVShows,         LOCALIZED_STR(@"TV Shows"),     @"nocover_tvshows_episode", @"tvshowid"),
+        LOOKUP_ITEM(menu_TVShows.subItem, LOCALIZED_STR(@"Episodes"),     @"nocover_tvshows_episode", @"episodeid"),
+        LOOKUP_ITEM(menu_Videos,          LOCALIZED_STR(@"Music Videos"), @"nocover_music",           @"musicvideoid"),
+        LOOKUP_ITEM(menu_Music,           LOCALIZED_STR(@"Artists"),      @"nocover_artist",          @"artistid"),
+        LOOKUP_ITEM(menu_Music,           LOCALIZED_STR(@"Albums"),       @"nocover_music",           @"albumid"),
+        LOOKUP_ITEM(menu_Music,           LOCALIZED_STR(@"All songs"),    @"nocover_music",           @"songid"),
     ];
     
+    // Build the GlobalSearch lookup table
+    MainMenuGlobalSearchLookup *lookup = [[MainMenuGlobalSearchLookup alloc] initWithConfiguration:globalSearchKeyConfig];
+    AppDelegate.instance.globalSearchLookup = lookup;
+    
     return mainMenuItems;
+}
+
+@end
+
+#pragma mark - Lookup Item Implementation
+
+@implementation LookupItem
+
+- (instancetype)initWithPath:(mainMenu*)path label:(NSString*)label icon:(NSString*)icon itemId:(NSString*)itemId {
+    self = [super init];
+    self.menuPath = path;
+    self.menuLabel = label;
+    self.menuIcon = icon;
+    self.itemId = itemId;
+    return self;
+}
+
+@end
+
+#pragma mark - Global Search Lookup Implementation
+
+@implementation MainMenuGlobalSearchLookup
+
+- (instancetype)initWithConfiguration:(NSArray*)configTable {
+    self = [super init];
+    
+    // Build the GlobalSearch lookup table (filtering out entries which cannot resolve tabIndex)
+    lookupTable = [configTable filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^(LookupItem *lookupItem, NSDictionary *bindings) {
+        NSInteger tabIndex = [self getGlobalSearchTab:lookupItem.menuPath label:lookupItem.menuLabel];
+        if (tabIndex == NSNotFound) {
+            return NO;
+        }
+        lookupItem.menuTab = tabIndex;
+        return YES;
+    }]];
+    
+    return self;
+}
+
+- (NSInteger)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel {
+    // Search for the method index with the desired sub label (e.g. "All Songs")
+    NSInteger tab = NSNotFound;
+    for (int k = 0; k < menuItem.mainMethod.count; ++k) {
+        id parameters = menuItem.mainParameters[k];
+        if ([parameters[@"label"] isEqualToString:subLabel]) {
+            return k;
+        }
+    }
+    return tab;
+}
+
+- (NSUInteger)getLookupIndexForItemId:(NSString*)itemid {
+    // Search for the GlobalSearch index for the desired itemid
+    NSUInteger index = [lookupTable indexOfObjectPassingTest:^BOOL(LookupItem *item, NSUInteger idx, BOOL *stop) {
+      return [itemid isEqualToString:item.itemId];
+    }];
+    return index;
+}
+
+- (NSString*)getThumbForItem:(NSDictionary*)item {
+    NSUInteger index = [self getLookupIndexForItemId:item[@"family"]];
+    if (index != NSNotFound) {
+        LookupItem *lookupItem = lookupTable[index];
+        return lookupItem.menuIcon;
+    }
+    return @"nocover_filemode";
+}
+
+- (LookupItem*)getLookupForItem:(id)item {
+    NSUInteger index = [self getLookupIndexForItemId:item[@"family"]];
+    return index != NSNotFound ? lookupTable[index] : nil;
+}
+
+- (mainMenu*)getMenuForItem:(id)item {
+    LookupItem *lookupItem = [self getLookupForItem:item];
+    return lookupItem.menuPath;
+}
+
+- (NSInteger)getTabForItem:(id)item {
+    LookupItem *lookupItem = [self getLookupForItem:item];
+    return lookupItem ? lookupItem.menuTab : NSNotFound;
+}
+
+- (mainMenu*)getMenuForIndex:(int)index {
+    if (index < 0 || index >= lookupTable.count) {
+        return nil;
+    }
+    LookupItem *lookupItem = lookupTable[index];
+    return lookupItem.menuPath;
+}
+
+- (NSInteger)getTabForIndex:(int)index {
+    if (index < 0 || index >= lookupTable.count) {
+        return NSNotFound;
+    }
+    LookupItem *lookupItem = lookupTable[index];
+    return lookupItem ? lookupItem.menuTab : NSNotFound;
+}
+
+- (NSString*)getLongNameForIndex:(int)index {
+    if (index < 0 || index >= lookupTable.count) {
+        return nil;
+    }
+    LookupItem *lookupItem = lookupTable[index];
+    return lookupItem.menuLabel;
 }
 
 @end

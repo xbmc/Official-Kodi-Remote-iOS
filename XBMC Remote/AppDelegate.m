@@ -37,7 +37,7 @@
 @synthesize playlistMusicVideos;
 @synthesize playlistTvShows;
 @synthesize playlistPVR;
-@synthesize globalSearchMenuLookup;
+@synthesize globalSearchLookup;
 @synthesize serverName;
 
 + (AppDelegate*)instance {

@@ -78,3 +78,32 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 + (NSArray*)action_album;
 
 @end
+
+@interface LookupItem : NSObject
+
+- (instancetype)initWithPath:(mainMenu*)path label:(NSString*)label icon:(NSString*)icon itemId:(NSString*)itemId;
+
+@property (nonatomic, copy) mainMenu *menuPath;
+@property (nonatomic, assign) NSInteger menuTab;
+@property (nonatomic, copy) NSString *menuLabel;
+@property (nonatomic, copy) NSString *menuIcon;
+@property (nonatomic, copy) NSString *itemId;
+
+@end
+
+
+@interface MainMenuGlobalSearchLookup : NSObject {
+    NSArray *lookupTable;
+}
+
+- (instancetype)initWithConfiguration:(NSArray*)configTable;
+- (NSUInteger)getLookupIndexForItemId:(NSString*)itemid;
+- (NSString*)getThumbForItem:(NSDictionary*)item;
+- (LookupItem*)getLookupForItem:(id)item;
+- (mainMenu*)getMenuForItem:(id)item;
+- (NSInteger)getTabForItem:(id)item;
+- (mainMenu*)getMenuForIndex:(int)index;
+- (NSInteger)getTabForIndex:(int)index;
+- (NSString*)getLongNameForIndex:(int)index;
+
+@end
