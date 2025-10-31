@@ -59,10 +59,11 @@
 #define GLOBALSEARCH_INDEX_MOVIES 0
 #define GLOBALSEARCH_INDEX_MOVIESETS 1
 #define GLOBALSEARCH_INDEX_TVSHOWS 2
-#define GLOBALSEARCH_INDEX_MUSICVIDEOS 3
-#define GLOBALSEARCH_INDEX_ARTISTS 4
-#define GLOBALSEARCH_INDEX_ALBUMS 5
-#define GLOBALSEARCH_INDEX_SONGS 6
+#define GLOBALSEARCH_INDEX_EPISODES 3
+#define GLOBALSEARCH_INDEX_MUSICVIDEOS 4
+#define GLOBALSEARCH_INDEX_ARTISTS 5
+#define GLOBALSEARCH_INDEX_ALBUMS 6
+#define GLOBALSEARCH_INDEX_SONGS 7
 #define IPHONE_SEASON_SECTION_HEIGHT 99
 #define IPHONE_ALBUM_SECTION_HEIGHT 116
 #define IPAD_SEASON_SECTION_HEIGHT 120
@@ -672,6 +673,9 @@
     else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
         thumb = @"nocover_tvshows_episode";
     }
+    else if ([item[@"family"] isEqualToString:@"episodeid"]) {
+        thumb = @"nocover_tvshows_episode";
+    }
     else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
         thumb = @"nocover_music";
     }
@@ -709,6 +713,9 @@
     }
     else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
         lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_TVSHOWS];
+    }
+    else if ([item[@"family"] isEqualToString:@"episodeid"]) {
+        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_EPISODES];
     }
     return lookup;
 }
@@ -2397,6 +2404,9 @@
                 break;
             case GLOBALSEARCH_INDEX_TVSHOWS:
                 sectionLongName = LOCALIZED_STR(@"TV Shows");
+                break;
+            case GLOBALSEARCH_INDEX_EPISODES:
+                sectionLongName = LOCALIZED_STR(@"Episodes");
                 break;
             case GLOBALSEARCH_INDEX_MUSICVIDEOS:
                 sectionLongName = LOCALIZED_STR(@"Music Videos");
@@ -4685,6 +4695,9 @@
     }
     else if ([family isEqualToString:@"tvshowid"]) {
         index = GLOBALSEARCH_INDEX_TVSHOWS;
+    }
+    else if ([family isEqualToString:@"episodeid"]) {
+        index = GLOBALSEARCH_INDEX_EPISODES;
     }
     else if ([family isEqualToString:@"musicvideoid"]) {
         index = GLOBALSEARCH_INDEX_MUSICVIDEOS;
