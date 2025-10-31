@@ -56,14 +56,6 @@
 #define INFO_PADDING 10
 #define MONKEY_COUNT 38
 #define MONKEY_OFFSET_X 3
-#define GLOBALSEARCH_INDEX_MOVIES 0
-#define GLOBALSEARCH_INDEX_MOVIESETS 1
-#define GLOBALSEARCH_INDEX_TVSHOWS 2
-#define GLOBALSEARCH_INDEX_EPISODES 3
-#define GLOBALSEARCH_INDEX_MUSICVIDEOS 4
-#define GLOBALSEARCH_INDEX_ARTISTS 5
-#define GLOBALSEARCH_INDEX_ALBUMS 6
-#define GLOBALSEARCH_INDEX_SONGS 7
 #define IPHONE_SEASON_SECTION_HEIGHT 99
 #define IPHONE_ALBUM_SECTION_HEIGHT 116
 #define IPAD_SEASON_SECTION_HEIGHT 120
@@ -662,62 +654,22 @@
     return thumbSize;
 }
 
+- (NSUInteger)getGlobalSearchLookupIndexForItemId:(NSString*)itemid {
+    // Search for the GlobalSearch index for the desired itemid
+    NSUInteger index = [AppDelegate.instance.globalSearchMenuLookup indexOfObjectPassingTest:^BOOL(NSArray *item, NSUInteger idx, BOOL *stop) {
+      return [itemid isEqualToString:item[4]];
+    }];
+    return index;
+}
+
 - (NSString*)getGlobalSearchThumb:(NSDictionary*)item {
-    NSString *thumb = @"nocover_filemode";
-    if ([item[@"family"] isEqualToString:@"movieid"]) {
-        thumb = @"nocover_movies";
-    }
-    else if ([item[@"family"] isEqualToString:@"setid"]) {
-        thumb = @"nocover_movie_sets";
-    }
-    else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
-        thumb = @"nocover_tvshows_episode";
-    }
-    else if ([item[@"family"] isEqualToString:@"episodeid"]) {
-        thumb = @"nocover_tvshows_episode";
-    }
-    else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
-        thumb = @"nocover_music";
-    }
-    else if ([item[@"family"] isEqualToString:@"artistid"]) {
-        thumb = @"nocover_artist";
-    }
-    else if ([item[@"family"] isEqualToString:@"albumid"]) {
-        thumb = @"nocover_music";
-    }
-    else if ([item[@"family"] isEqualToString:@"songid"]) {
-        thumb = @"nocover_music";
-    }
-    return thumb;
+    NSUInteger index = [self getGlobalSearchLookupIndexForItemId:item[@"family"]];
+    return index != NSNotFound ? AppDelegate.instance.globalSearchMenuLookup[index][3] : @"nocover_filemode";
 }
 
 - (NSArray*)getGlobalSearchLookup:(id)item {
-    NSArray *lookup;
-    if ([item[@"family"] isEqualToString:@"albumid"]) {
-        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_ALBUMS];
-    }
-    else if ([item[@"family"] isEqualToString:@"artistid"]) {
-        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_ARTISTS];
-    }
-    else if ([item[@"family"] isEqualToString:@"songid"]) {
-        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_SONGS];
-    }
-    else if ([item[@"family"] isEqualToString:@"movieid"]) {
-        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MOVIES];
-    }
-    else if ([item[@"family"] isEqualToString:@"setid"]) {
-        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MOVIESETS];
-    }
-    else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
-        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_MUSICVIDEOS];
-    }
-    else if ([item[@"family"] isEqualToString:@"tvshowid"]) {
-        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_TVSHOWS];
-    }
-    else if ([item[@"family"] isEqualToString:@"episodeid"]) {
-        lookup = AppDelegate.instance.globalSearchMenuLookup[GLOBALSEARCH_INDEX_EPISODES];
-    }
-    return lookup;
+    NSUInteger index = [self getGlobalSearchLookupIndexForItemId:item[@"family"]];
+    return index != NSNotFound ? AppDelegate.instance.globalSearchMenuLookup[index] : nil;
 }
 
 - (mainMenu*)getMainMenu:(id)item {
@@ -2401,35 +2353,10 @@
     else if ([sortMethodName isEqualToString:@"itemgroup"]) {
         int index = [sectionName intValue];
         NSString *sectionLongName;
-        switch (index) {
-            case GLOBALSEARCH_INDEX_MOVIES:
-                sectionLongName = LOCALIZED_STR(@"Movies");
-                break;
-            case GLOBALSEARCH_INDEX_TVSHOWS:
-                sectionLongName = LOCALIZED_STR(@"TV Shows");
-                break;
-            case GLOBALSEARCH_INDEX_EPISODES:
-                sectionLongName = LOCALIZED_STR(@"Episodes");
-                break;
-            case GLOBALSEARCH_INDEX_MUSICVIDEOS:
-                sectionLongName = LOCALIZED_STR(@"Music Videos");
-                break;
-            case GLOBALSEARCH_INDEX_ARTISTS:
-                sectionLongName = LOCALIZED_STR(@"Artists");
-                break;
-            case GLOBALSEARCH_INDEX_ALBUMS:
-                sectionLongName = LOCALIZED_STR(@"Albums");
-                break;
-            case GLOBALSEARCH_INDEX_SONGS:
-                sectionLongName = LOCALIZED_STR(@"Songs");
-                break;
-            case GLOBALSEARCH_INDEX_MOVIESETS:
-                sectionLongName = LOCALIZED_STR(@"Movie Sets");
-                break;
-            default:
-                break;
+        if (index >= 0 && index < AppDelegate.instance.globalSearchMenuLookup.count) {
+            sectionLongName = AppDelegate.instance.globalSearchMenuLookup[index][2];
         }
-        sectionName = [NSString stringWithFormat:@"%@ - %@", sectionName, sectionLongName];
+        sectionName = [NSString stringWithFormat:@"%@%@%@", sectionName, sectionLongName.length ? @" - " : @"", sectionLongName];
     }
     return sectionName;
 }
@@ -4631,34 +4558,10 @@
 }
 
 - (void)addItemGroup:(NSMutableDictionary*)dict {
-    NSString *family = dict[@"family"];
-    int index = -1;
-    if ([family isEqualToString:@"albumid"]) {
-        index = GLOBALSEARCH_INDEX_ALBUMS;
-    }
-    else if ([family isEqualToString:@"artistid"]) {
-        index = GLOBALSEARCH_INDEX_ARTISTS;
-    }
-    else if ([family isEqualToString:@"songid"]) {
-        index = GLOBALSEARCH_INDEX_SONGS;
-    }
-    else if ([family isEqualToString:@"movieid"]) {
-        index = GLOBALSEARCH_INDEX_MOVIES;
-    }
-    else if ([family isEqualToString:@"setid"]) {
-        index = GLOBALSEARCH_INDEX_MOVIESETS;
-    }
-    else if ([family isEqualToString:@"tvshowid"]) {
-        index = GLOBALSEARCH_INDEX_TVSHOWS;
-    }
-    else if ([family isEqualToString:@"episodeid"]) {
-        index = GLOBALSEARCH_INDEX_EPISODES;
-    }
-    else if ([family isEqualToString:@"musicvideoid"]) {
-        index = GLOBALSEARCH_INDEX_MUSICVIDEOS;
-    }
+    NSUInteger index = [self getGlobalSearchLookupIndexForItemId:dict[@"family"]];
+    
     // The index shall only show numbers to be able to jump to the sections
-    dict[@"itemgroup"] = [NSString stringWithFormat:@"%i", index];
+    dict[@"itemgroup"] = (index != NSNotFound) ? [NSString stringWithFormat:@"%i", (int)index] : @"";
 }
 
 - (void)loadDetailedData:(NSArray*)itemsAndTabs index:(int)index results:(NSMutableArray*)richData {

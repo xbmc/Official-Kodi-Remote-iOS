@@ -346,16 +346,16 @@
     return (menuEnabled == nil || [menuEnabled boolValue]);
 }
 
-+ (NSNumber*)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel {
++ (NSInteger)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel {
     // Search for the method index with the desired sub label (e.g. "All Songs")
-    int k;
-    for (k = 0; k < menuItem.mainMethod.count; ++k) {
+    NSInteger tab = -1;
+    for (int k = 0; k < menuItem.mainMethod.count; ++k) {
         id parameters = menuItem.mainParameters[k];
         if ([parameters[@"label"] isEqualToString:subLabel]) {
-            break;
+            return k;
         }
     }
-    return @(k);
+    return tab;
 }
 
 # pragma mark - Build Menu Tree
@@ -6845,16 +6845,35 @@
     
 #pragma mark - Build and Initialize Global Search Lookup
     
-    AppDelegate.instance.globalSearchMenuLookup = @[
-        @[menu_Movies,          [self getGlobalSearchTab:menu_Movies          label:LOCALIZED_STR(@"Movies")]],         // Movies
-        @[menu_Movies,          [self getGlobalSearchTab:menu_Movies          label:LOCALIZED_STR(@"Movie Sets")]],     // Movie Sets
-        @[menu_TVShows,         [self getGlobalSearchTab:menu_TVShows         label:LOCALIZED_STR(@"TV Shows")]],       // TV Shows
-        @[menu_TVShows.subItem, [self getGlobalSearchTab:menu_TVShows.subItem label:LOCALIZED_STR(@"Episodes")]],       // Episodes
-        @[menu_Videos,          [self getGlobalSearchTab:menu_Videos          label:LOCALIZED_STR(@"Music Videos")]],   // Music Videos
-        @[menu_Music,           [self getGlobalSearchTab:menu_Music           label:LOCALIZED_STR(@"Artists")]],        // Artists
-        @[menu_Music,           [self getGlobalSearchTab:menu_Music           label:LOCALIZED_STR(@"Albums")]],         // Albums
-        @[menu_Music,           [self getGlobalSearchTab:menu_Music           label:LOCALIZED_STR(@"All songs")]],      // Songs
+    // Define the key elements of GlobalSearch menu
+    NSArray *globalSearchKeyConfig = @[
+        //menu path,            label of tab                    nocover iconitemid          nocover icon
+        @[menu_Movies,          LOCALIZED_STR(@"Movies"),       @"nocover_movies",          @"movieid"],
+        @[menu_Movies,          LOCALIZED_STR(@"Movie Sets"),   @"nocover_movie_sets",      @"setid"],
+        @[menu_TVShows,         LOCALIZED_STR(@"TV Shows"),     @"nocover_tvshows_episode", @"tvshowid"],
+        @[menu_TVShows.subItem, LOCALIZED_STR(@"Episodes"),     @"nocover_tvshows_episode", @"episodeid"],
+        @[menu_Videos,          LOCALIZED_STR(@"Music Videos"), @"nocover_music",           @"musicvideoid"],
+        @[menu_Music,           LOCALIZED_STR(@"Artists"),      @"nocover_artist",          @"artistid"],
+        @[menu_Music,           LOCALIZED_STR(@"Albums"),       @"nocover_music",           @"albumid"],
+        @[menu_Music,           LOCALIZED_STR(@"All songs"),    @"nocover_music",           @"songid"],
     ];
+    
+    // Build the GlobalSearch lookup table
+    NSMutableArray *lookupArray = [[NSMutableArray alloc] initWithCapacity:globalSearchKeyConfig.count];
+    for (NSArray *keyItem in globalSearchKeyConfig) {
+        NSInteger tab = [self getGlobalSearchTab:keyItem[0] label:keyItem[1]];
+        if (tab > -1) {
+            NSArray *lookupItem = @[
+                keyItem[0], // 0: menu path
+                @(tab),     // 1: tab in menu to reach view named label
+                keyItem[1], // 2: label
+                keyItem[2], // 3: nocover icon
+                keyItem[3], // 4: item id
+            ];
+            [lookupArray addObject:lookupItem];
+        }
+    }
+    AppDelegate.instance.globalSearchMenuLookup = [lookupArray copy];
     
     return mainMenuItems;
 }
