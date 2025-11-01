@@ -94,6 +94,13 @@
             xbmcSetting = SettingTypeSlider;
             storeSliderValue = [self.detailItem[@"value"] intValue];
         }
+        else if ([itemControls[@"type"] isEqualToString:@"slider"] && settingOptions == nil) {
+            xbmcSetting = SettingTypeSlider;
+            storeSliderValue = [self.detailItem[@"value"] intValue];
+            if ([itemControls[@"format"] isEqualToString:@"percentage"] && ![self.detailItem[@"maximum"] intValue]) {
+                self.detailItem[@"maximum"] = @100;
+            }
+        }
         else if ([itemControls[@"type"] isEqualToString:@"edit"]) {
             xbmcSetting = SettingTypeInput;
         }
@@ -792,8 +799,8 @@
 }
 
 - (void)sliderAction:(OBSlider*)slider {
-    float newStep = roundf(slider.value / [self.detailItem[@"step"] intValue]);
-    float newValue = newStep * [self.detailItem[@"step"] intValue];
+    float newStep = roundf(slider.value / [self.detailItem[@"step"] floatValue]);
+    float newValue = newStep * [self.detailItem[@"step"] floatValue];
     if (!FLOAT_EQUAL_ZERO(newValue - storeSliderValue)) {
         storeSliderValue = newValue;
         UILabel *sliderLabel = [[slider superview] viewWithTag:SETTINGS_CELL_SLIDER_LABEL];
