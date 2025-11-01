@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong) NSMutableArray *buttons;
 
-- (void)loadData;
 - (void)saveData;
 
 @end
