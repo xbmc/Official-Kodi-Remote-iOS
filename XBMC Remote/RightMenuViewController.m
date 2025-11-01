@@ -88,7 +88,7 @@
             [cell.busyView startAnimating];
             NSString *command = @"Settings.GetSettingValue";
             NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:params[@"setting"], @"setting", nil];
-            [self getXBMCValue:command params:parameters uiControl:onoff storeSetting:params indicator:cell.busyView];
+            [self getSwitchValue:command params:parameters uiSwitch:onoff storeSetting:params indicator:cell.busyView];
         }
     }
     
@@ -377,26 +377,16 @@
     }];
 }
 
-- (void)getXBMCValue:(NSString*)action params:(NSDictionary*)params uiControl:(id)sender storeSetting:(NSMutableDictionary*)setting indicator:(UIActivityIndicatorView*)busyView {
-    if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
-        [sender setUserInteractionEnabled:NO];
-    }
+- (void)getSwitchValue:(NSString*)action params:(NSDictionary*)params uiSwitch:(UISwitch*)onoff storeSetting:(NSMutableDictionary*)setting indicator:(UIActivityIndicatorView*)busyView {
+    onoff.enabled = NO;
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (methodError == nil && error == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-            [busyView stopAnimating];
-            if ([sender respondsToSelector:@selector(setHidden:)]) {
-                [sender setHidden:NO];
-            }
-            if ([sender respondsToSelector:@selector(setOn:)]) {
-                [sender setOn:[methodResult[@"value"] boolValue]];
-                if ([setting respondsToSelector:@selector(setObject:forKey:)]) {
-                    setting[@"value"] = @([methodResult[@"value"] boolValue]);
-                }
-            }
+            onoff.hidden = NO;
+            onoff.on = [methodResult[@"value"] boolValue];
+            setting[@"value"] = @([methodResult[@"value"] boolValue]);
         }
-        if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
-            [sender setUserInteractionEnabled:YES];
-        }
+        [busyView stopAnimating];
+        onoff.enabled = YES;
     }];
 }
 
