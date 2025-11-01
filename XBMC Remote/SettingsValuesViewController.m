@@ -812,9 +812,8 @@
 
 #pragma mark - UISwitch
 
-- (void)toggleSwitch:(id)sender {
-    UISwitch *onoff = (UISwitch*)sender;
-    [self setSettingValue:@(onoff.on) sender:sender];
+- (void)toggleSwitch:(UISwitch*)onoff {
+    [self setSettingValue:@(onoff.on) sender:onoff];
 }
 
 #pragma mark - UITextFieldDelegate Methods
