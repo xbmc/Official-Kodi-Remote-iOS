@@ -536,22 +536,23 @@
         case SettingTypeDefault:
         case SettingTypeMultiselect:
             if (self.detailItem[@"value"] != nil) {
+                NSString *delimiter;
+                NSArray *settingsArray;
                 if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
-                    NSString *delimiter = self.detailItem[@"delimiter"];
-                    if (delimiter == nil) {
-                        delimiter = @", ";
-                    }
-                    else {
-                        delimiter = [NSString stringWithFormat:@"%@ ", delimiter];
-                    }
-                    NSArray *settingsArray = self.detailItem[@"value"];
+                    delimiter = self.detailItem[@"delimiter"];
+                    delimiter = delimiter ? [NSString stringWithFormat:@"%@ ", delimiter] : @", ";
+                    
                     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:YES];
+                    settingsArray = self.detailItem[@"value"];
                     settingsArray = [settingsArray sortedArrayUsingDescriptors:@[descriptor]];
-                    cellLabel.text = [settingsArray componentsJoinedByString:delimiter];
                 }
                 else {
-                    cellLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
+                    delimiter = @"";
+                    settingsArray = @[self.detailItem[@"value"]];
                 }
+                settingsArray = [self convertValueListToLabelList:settingsArray];
+                cellLabel.text = [settingsArray componentsJoinedByString:delimiter];
+                
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 
                 cellLabel.text = cellLabel.text.length ? cellLabel.text : descriptionString;
@@ -597,6 +598,23 @@
             }
             break;
     }
+}
+
+- (NSArray*)convertValueListToLabelList:(NSArray*)valueList {
+    NSArray *optionList = self.detailItem[@"definition"][@"options"];
+    if (!optionList) {
+        return valueList;
+    }
+    NSMutableArray *labelList = [[NSMutableArray alloc] initWithCapacity:valueList.count];
+    for (id value in valueList) {
+        for (id option in optionList) {
+            if (([value isKindOfClass:[NSNumber class]] && [value intValue] == [option[@"value"] intValue]) ||
+                ([value isKindOfClass:[NSString class]] && [value isEqualToString:option[@"value"]])) {
+                [labelList addObject:option[@"label"]];
+            }
+        }
+    }
+    return labelList;
 }
 
 - (void)setAutomaticLabelHeight:(UILabel*)label {
