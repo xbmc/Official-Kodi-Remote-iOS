@@ -360,10 +360,8 @@
 
 #pragma mark - JSON
 
-- (void)xbmcAction:(NSString*)action params:(NSDictionary*)params uiControl:(id)sender {
-    if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
-        [sender setUserInteractionEnabled:NO];
-    }
+- (void)xbmcAction:(NSString*)action params:(NSDictionary*)params uiControl:(UIControl*)control {
+    control.enabled = NO;
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (methodError == nil && error == nil) {
             [Utilities showMessage:LOCALIZED_STR(@"Command executed") color:SUCCESS_MESSAGE_COLOR];
@@ -371,9 +369,7 @@
         else {
             [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         }
-        if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
-            [sender setUserInteractionEnabled:YES];
-        }
+        control.enabled = YES;
     }];
 }
 
