@@ -73,54 +73,55 @@
         settingValueType = [self readSettingValueType];
         
         xbmcSetting = SettingTypeDefault;
-        if ([itemControls[@"format"] isEqualToString:@"boolean"]) {
+        if ([itemControls[@"type"] isEqualToString:@"toggle"]) {
             xbmcSetting = SettingTypeSwitch;
         }
-        else if ([itemControls[@"multiselect"] boolValue] && ![settingOptions isKindOfClass:[NSArray class]]) {
-            xbmcSetting = SettingTypeMultiselect;
-            self.detailItem[@"value"] = [self.detailItem[@"value"] mutableCopy];
+        else if ([itemControls[@"type"] isEqualToString:@"button"]) {
+            if ([itemControls[@"format"] isEqualToString:@"addon"]) {
+                xbmcSetting = SettingTypeList;
+                settingOptions = [NSMutableArray new];
+                [self retrieveXBMCData:@"Addons.GetAddons"
+                            parameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        self.detailItem[@"addontype"], @"type",
+                                        @YES, @"enabled",
+                                        @[@"name"], @"properties",
+                                        nil]
+                               itemKey:@"addons"];
+            }
+            else if ([itemControls[@"format"] isEqualToString:@"action"] || [itemControls[@"format"] isEqualToString:@"path"]) {
+                xbmcSetting = SettingTypeUnsupported;
+            }
         }
-        else if ([itemControls[@"format"] isEqualToString:@"addon"]) {
-            xbmcSetting = SettingTypeList;
-            self.navigationItem.title = self.detailItem[@"label"];
-            settingOptions = [NSMutableArray new];
-            [self retrieveXBMCData:@"Addons.GetAddons"
-                        parameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                    self.detailItem[@"addontype"], @"type",
-                                    @YES, @"enabled",
-                                    @[@"name"], @"properties",
-                                    nil]
-                           itemKey:@"addons"];
-        }
-        else if ([itemControls[@"format"] isEqualToString:@"action"] || [itemControls[@"format"] isEqualToString:@"path"]) {
-            self.navigationItem.title = self.detailItem[@"label"];
-            xbmcSetting = SettingTypeUnsupported;
-        }
-        else if ([itemControls[@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
-            xbmcSetting = SettingTypeSlider;
-            storeSliderValue = [self.detailItem[@"value"] floatValue];
-        }
-        else if ([itemControls[@"type"] isEqualToString:@"slider"] && settingOptions == nil) {
-            xbmcSetting = SettingTypeSlider;
-            storeSliderValue = [self.detailItem[@"value"] floatValue];
-            if ([itemControls[@"format"] isEqualToString:@"percentage"] && ![self.detailItem[@"maximum"] intValue]) {
-                self.detailItem[@"maximum"] = @100;
+        else if ([itemControls[@"type"] isEqualToString:@"spinner"] || [itemControls[@"type"] isEqualToString:@"slider"]) {
+            if (!settingOptions) {
+                xbmcSetting = SettingTypeSlider;
+                storeSliderValue = [self.detailItem[@"value"] floatValue];
+                if ([itemControls[@"format"] isEqualToString:@"percentage"] && ![self.detailItem[@"maximum"] intValue]) {
+                    self.detailItem[@"maximum"] = @100;
+                }
+            }
+            else if (settingOptions.count > 0) {
+                xbmcSetting = SettingTypeList;
             }
         }
         else if ([itemControls[@"type"] isEqualToString:@"edit"]) {
             xbmcSetting = SettingTypeInput;
         }
-        else if ([itemControls[@"type"] isEqualToString:@"list"] && settingOptions == nil) {
-            xbmcSetting = SettingTypeSlider;
-            storeSliderValue = [self.detailItem[@"value"] floatValue];
+        else if ([itemControls[@"type"] isEqualToString:@"list"]) {
+            if ([itemControls[@"multiselect"] boolValue] && !settingOptions) {
+                xbmcSetting = SettingTypeMultiselect;
+                self.detailItem[@"value"] = [self.detailItem[@"value"] mutableCopy];
+            }
+            else if (!settingOptions) {
+                xbmcSetting = SettingTypeSlider;
+                storeSliderValue = [self.detailItem[@"value"] floatValue];
+            }
+            else if (settingOptions.count > 0) {
+                xbmcSetting = SettingTypeList;
+            }
         }
         else {
-            self.navigationItem.title = self.detailItem[@"label"];
-            if ([settingOptions isKindOfClass:[NSArray class]]) {
-                if (settingOptions.count > 0) {
-                    xbmcSetting = SettingTypeList;
-                }
-            }
+            NSLog(@"Unexpected setting controls type / format: '%@' / '%@'", itemControls[@"type"], itemControls[@"format"]);
         }
         
         NSString *footerMessage;
@@ -481,6 +482,7 @@
             break;
             
         case SettingTypeList:
+            self.navigationItem.title = self.detailItem[@"label"];
             cellLabel.text = [NSString stringWithFormat:@"%@", settingOptions[indexPath.row][@"label"]];
             if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
                 if ([self.detailItem[@"value"] containsObject:settingOptions[indexPath.row][@"value"]]) {
@@ -565,8 +567,8 @@
             cellHeight = CGRectGetMaxY(textInputField.frame) + PADDING_VERTICAL;
             break;
             
-        case SettingTypeDefault:
         case SettingTypeMultiselect:
+            self.navigationItem.title = self.detailItem[@"label"];
             if (self.detailItem[@"value"] != nil) {
                 NSString *delimiter;
                 NSArray *settingsArray;
@@ -600,6 +602,7 @@
             break;
             
         case SettingTypeUnsupported:
+            self.navigationItem.title = self.detailItem[@"label"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             cellLabel.text = descriptionString;
@@ -613,6 +616,7 @@
             cellHeight = CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL;
             break;
             
+        case SettingTypeDefault:
         default:
             if (self.detailItem[@"value"] != nil) {
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
