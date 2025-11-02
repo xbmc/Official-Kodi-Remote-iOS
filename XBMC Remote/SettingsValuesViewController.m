@@ -98,11 +98,11 @@
         }
         else if ([itemControls[@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
             xbmcSetting = SettingTypeSlider;
-            storeSliderValue = [self.detailItem[@"value"] intValue];
+            storeSliderValue = [self.detailItem[@"value"] floatValue];
         }
         else if ([itemControls[@"type"] isEqualToString:@"slider"] && settingOptions == nil) {
             xbmcSetting = SettingTypeSlider;
-            storeSliderValue = [self.detailItem[@"value"] intValue];
+            storeSliderValue = [self.detailItem[@"value"] floatValue];
             if ([itemControls[@"format"] isEqualToString:@"percentage"] && ![self.detailItem[@"maximum"] intValue]) {
                 self.detailItem[@"maximum"] = @100;
             }
@@ -112,7 +112,7 @@
         }
         else if ([itemControls[@"type"] isEqualToString:@"list"] && settingOptions == nil) {
             xbmcSetting = SettingTypeSlider;
-            storeSliderValue = [self.detailItem[@"value"] intValue];
+            storeSliderValue = [self.detailItem[@"value"] floatValue];
         }
         else {
             self.navigationItem.title = self.detailItem[@"label"];
@@ -245,15 +245,13 @@
 
 - (NSString*)getActionButtonTitle {
     NSString *subTitle = @"";
-    NSString *stringFormat = @": %i";
     switch (xbmcSetting) {
         case SettingTypeList:
             subTitle = [NSString stringWithFormat:@"%@", settingOptions[longPressRow.row][@"label"]];
             break;
             
         case SettingTypeSlider:
-            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
-            subTitle = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
+            subTitle = [self getStringForSliderItem:itemControls value:storeSliderValue];
             break;
             
         case SettingTypeUnsupported:
@@ -373,14 +371,31 @@
 
 #pragma mark - Helper
 
-- (NSString*)getStringFormatFromItem:(id)item defaultFormat:(NSString*)defaultFormat {
+- (NSString*)getFormatString:(NSString*)format {
+    // Default format does not provide any units
+    NSString *defaultFormat = settingValueType == SettingValueTypeNumber ? @"%.2f" : @"%i";
+    
     // Workaround!! Before Kodi 18.x an older format ("%i ms") was used. The new format ("{0:d} ms") needs
     // an updated parser. Until this is implemented just display the value itself, without the unit.
-    NSString *format = item[@"formatlabel"];
     if (format.length > 0 && AppDelegate.instance.serverVersion < 18) {
         return format;
     }
     return defaultFormat;
+}
+
+- (NSString*)getStringForSliderItem:(id)item value:(float)value {
+    NSString *format = [self getFormatString:item[@"formatlabel"]];
+    NSString *stringResult;
+    switch (settingValueType) {
+        case SettingValueTypeNumber:
+            stringResult = [NSString stringWithFormat:format, value];
+            break;
+        case SettingValueTypeInteger:
+        default:
+            stringResult = [NSString stringWithFormat:format, (int)value];
+            break;
+    }
+    return stringResult;
 }
 
 - (int)readSettingValueType {
@@ -432,7 +447,6 @@
     onoff.hidden = YES;
     textInputField.hidden = YES;
     
-    NSString *stringFormat = @"%i";
     NSString *descriptionString = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
     descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
     descriptionString = [Utilities stripBBandHTML:descriptionString];
@@ -502,8 +516,7 @@
                                                 LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:descriptionLabel];
             
-            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
-            sliderLabel.text = [NSString stringWithFormat:stringFormat, [self.detailItem[@"value"] intValue]];
+            sliderLabel.text = [self getStringForSliderItem:itemControls value:[self.detailItem[@"value"] floatValue]];
             sliderLabel.frame = CGRectMake(CGRectGetMinX(sliderLabel.frame),
                                            CGRectGetMaxY(descriptionLabel.frame) + 2 * PADDING_VERTICAL,
                                            CGRectGetWidth(sliderLabel.frame),
@@ -512,7 +525,7 @@
             
             slider.minimumValue = [self.detailItem[@"minimum"] intValue];
             slider.maximumValue = [self.detailItem[@"maximum"] intValue];
-            slider.value = [self.detailItem[@"value"] intValue];
+            slider.value = [self.detailItem[@"value"] floatValue];
             slider.frame = CGRectMake(CGRectGetMinX(slider.frame),
                                       CGRectGetMaxY(sliderLabel.frame) + PADDING_VERTICAL,
                                       CGRectGetWidth(slider.frame),
@@ -841,11 +854,7 @@
     if (!FLOAT_EQUAL_ZERO(newValue - storeSliderValue)) {
         storeSliderValue = newValue;
         UILabel *sliderLabel = [[slider superview] viewWithTag:SETTINGS_CELL_SLIDER_LABEL];
-        if (sliderLabel) {
-            NSString *stringFormat = @"%i";
-            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
-            sliderLabel.text = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
-        }
+        sliderLabel.text = [self getStringForSliderItem:itemControls value:storeSliderValue];
     }
     scrubbingRate.text = LOCALIZED_STR(([NSString stringWithFormat:@"Scrubbing %@", @(slider.scrubbingSpeed)]));
 }
