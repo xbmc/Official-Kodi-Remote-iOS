@@ -27,7 +27,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.service = [[NSNetService alloc] initWithDomain:@"local." type:serviceTypeTCP name:@"LocalNetworkPrivacy" port:1100];
+        self.service = [[NSNetService alloc] initWithDomain:@"local." type:SERVICE_TYPE_TCP name:@"LocalNetworkPrivacy" port:1100];
     }
     return self;
 }

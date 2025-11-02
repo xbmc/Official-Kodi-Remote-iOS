@@ -219,7 +219,7 @@
     NSString *type = aNetService.type;
     NSString *name = aNetService.name;
     NSLog(@"Found '%@', '%@'", name, type);
-    if ([type containsString:serviceTypeHTTP]) {
+    if ([type containsString:SERVICE_TYPE_HTTP]) {
         [services addObject:aNetService];
         if (!moreComing) {
             [self stopDiscovery];
@@ -235,7 +235,7 @@
          didRemoveService:(NSNetService*)aNetService
                moreComing:(BOOL)moreComing {
     NSString *type = aNetService.type;
-    if ([type containsString:serviceTypeHTTP]) {
+    if ([type containsString:SERVICE_TYPE_HTTP]) {
         [services removeObject:aNetService];
     }
     if (!moreComing) {
@@ -370,7 +370,7 @@
 
 - (void)netServiceDidResolveAddress:(NSNetService*)service {
     NSString *type = service.type;
-    if ([type containsString:serviceTypeHTTP]) {
+    if ([type containsString:SERVICE_TYPE_HTTP]) {
         serverAddresses = [NSMutableDictionary new];
         serverAddresses[@"serverName"] = service.name;
         for (NSData *data in [service addresses]) {
@@ -418,7 +418,7 @@
             [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
             
             // Trigger search for TCP service
-            [netServiceBrowser searchForServicesOfType:serviceTypeTCP inDomain:domainName];
+            [netServiceBrowser searchForServicesOfType:SERVICE_TYPE_TCP inDomain:DOMAIN_NAME];
             timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
         }
     }
@@ -460,7 +460,7 @@
 
     searching = NO;
     netServiceBrowser.delegate = self;
-    [netServiceBrowser searchForServicesOfType:serviceTypeHTTP inDomain:domainName];
+    [netServiceBrowser searchForServicesOfType:SERVICE_TYPE_HTTP inDomain:DOMAIN_NAME];
     timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
 }
 
