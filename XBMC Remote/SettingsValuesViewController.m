@@ -443,10 +443,12 @@
     return numRows;
 }
 
-- (void)layoutCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+- (void)configureCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
 	cell.backgroundColor = [Utilities getSystemGray6];
     cell.tintColor = [Utilities getSystemBlue];
     cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    CGFloat cellWidth = IS_IPHONE ? GET_MAINSCREEN_WIDTH : STACKSCROLL_WIDTH;
 
     UILabel *cellLabel = (UILabel*)[cell viewWithTag:SETTINGS_CELL_LABEL];
     UILabel *descriptionLabel = (UILabel*)[cell viewWithTag:SETTINGS_CELL_DESCRIPTION];
@@ -474,12 +476,12 @@
             cellLabel.numberOfLines = 0;
             cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                          PADDING_VERTICAL,
-                                         cell.bounds.size.width - onoff.frame.size.width - 3 * PADDING_HORIZONTAL,
+                                         cellWidth - onoff.frame.size.width - 3 * PADDING_HORIZONTAL,
                                          LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:cellLabel];
             
             onoff.on = [self.detailItem[@"value"] boolValue];
-            onoff.frame = CGRectMake(cell.bounds.size.width - onoff.frame.size.width - PADDING_HORIZONTAL,
+            onoff.frame = CGRectMake(cellWidth - onoff.frame.size.width - PADDING_HORIZONTAL,
                                      (CGRectGetHeight(cellLabel.frame) - CGRectGetHeight(onoff.frame)) / 2 + CGRectGetMinY(cellLabel.frame),
                                      CGRectGetWidth(onoff.frame),
                                      CGRectGetHeight(onoff.frame));
@@ -487,7 +489,7 @@
             descriptionLabel.text = descriptionString;
             descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                                 CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL,
-                                                cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                cellWidth - 2 * PADDING_HORIZONTAL,
                                                 LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:descriptionLabel];
             
@@ -505,6 +507,11 @@
             else if ([settingOptions[indexPath.row][@"value"] isEqual:self.detailItem[@"value"]]) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
+            cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                         PADDING_VERTICAL,
+                                         cellWidth - 2 * PADDING_HORIZONTAL,
+                                         LABEL_HEIGHT_DEFAULT);
+            cellHeight = CELL_HEIGHT_DEFAULT;
             break;
             
         case SettingTypeSlider:
@@ -518,7 +525,7 @@
             cellLabel.numberOfLines = 0;
             cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                          PADDING_VERTICAL,
-                                         cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                         cellWidth - 2 * PADDING_HORIZONTAL,
                                          LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:cellLabel];
             
@@ -527,24 +534,24 @@
             descriptionLabel.numberOfLines = 0;
             descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                                 CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL,
-                                                cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                cellWidth - 2 * PADDING_HORIZONTAL,
                                                 LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:descriptionLabel];
             
             sliderLabel.text = [self getStringForSliderItem:itemControls value:[self.detailItem[@"value"] floatValue]];
-            sliderLabel.frame = CGRectMake(CGRectGetMinX(sliderLabel.frame),
+            sliderLabel.frame = CGRectMake(SLIDER_PADDING,
                                            CGRectGetMaxY(descriptionLabel.frame) + 2 * PADDING_VERTICAL,
-                                           CGRectGetWidth(sliderLabel.frame),
+                                           cellWidth - 2 * SLIDER_PADDING,
                                            LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:sliderLabel];
             
             slider.minimumValue = [self.detailItem[@"minimum"] intValue];
             slider.maximumValue = [self.detailItem[@"maximum"] intValue];
             slider.value = [self.detailItem[@"value"] floatValue];
-            slider.frame = CGRectMake(CGRectGetMinX(slider.frame),
+            slider.frame = CGRectMake(SLIDER_PADDING,
                                       CGRectGetMaxY(sliderLabel.frame) + PADDING_VERTICAL,
-                                      CGRectGetWidth(slider.frame),
-                                      CGRectGetHeight(slider.frame));
+                                      cellWidth - 2 * SLIDER_PADDING,
+                                      SLIDER_HEIGHT);
             
             cellHeight = CGRectGetMaxY(slider.frame) + 2 * PADDING_VERTICAL;
             break;
@@ -558,7 +565,7 @@
             cellLabel.numberOfLines = 0;
             cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                          PADDING_VERTICAL,
-                                         cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                         cellWidth - 2 * PADDING_HORIZONTAL,
                                          LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:cellLabel];
             
@@ -567,15 +574,15 @@
             descriptionLabel.numberOfLines = 0;
             descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                                 CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL,
-                                                cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                cellWidth - 2 * PADDING_HORIZONTAL,
                                                 LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:descriptionLabel];
             
             textInputField.text = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
-            textInputField.frame = CGRectMake(CGRectGetMinX(textInputField.frame),
+            textInputField.frame = CGRectMake(SLIDER_PADDING,
                                               CGRectGetMaxY(descriptionLabel.frame) + PADDING_VERTICAL,
-                                              CGRectGetWidth(textInputField.frame),
-                                              CGRectGetHeight(textInputField.frame));
+                                              cellWidth - 2 * SLIDER_PADDING,
+                                              TEXTFIELD_HEIGHT);
             
             cellHeight = CGRectGetMaxY(textInputField.frame) + PADDING_VERTICAL;
             break;
@@ -606,7 +613,7 @@
                 cellLabel.numberOfLines = 0;
                 cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                              PADDING_VERTICAL,
-                                             cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                             cellWidth - 2 * PADDING_HORIZONTAL,
                                              LABEL_HEIGHT_DEFAULT);
                 [self setAutomaticLabelHeight:cellLabel];
                 
@@ -622,7 +629,7 @@
             cellLabel.numberOfLines = 0;
             cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                          PADDING_VERTICAL,
-                                         cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                         cellWidth - 2 * PADDING_HORIZONTAL,
                                          LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:cellLabel];
             
@@ -639,7 +646,7 @@
                 cellLabel.numberOfLines = 0;
                 cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                              PADDING_VERTICAL,
-                                             cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                             cellWidth - 2 * PADDING_HORIZONTAL,
                                              LABEL_HEIGHT_DEFAULT);
                 [self setAutomaticLabelHeight:cellLabel];
                 
@@ -677,29 +684,21 @@
     UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
-        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
-                                                                       (CELL_HEIGHT_DEFAULT - LABEL_HEIGHT_DEFAULT) / 2,
-                                                                       cell.frame.size.width - 2 * PADDING_HORIZONTAL,
-                                                                       LABEL_HEIGHT_DEFAULT)];
+        UILabel *cellLabel = [UILabel new];
         cellLabel.tag = SETTINGS_CELL_LABEL;
         cellLabel.font = [UIFont systemFontOfSize:16];
         cellLabel.adjustsFontSizeToFitWidth = YES;
         cellLabel.minimumScaleFactor = FONT_SCALING_MIN;
         cellLabel.textColor = [Utilities get1stLabelColor];
         cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
-        cellLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:cellLabel];
         
         UISwitch *onoff = [UISwitch new];
         onoff.tag = SETTINGS_CELL_ONOFF_SWITCH;
-        onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
         [cell.contentView addSubview:onoff];
 
-        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
-                                                                              0,
-                                                                              cell.frame.size.width - 2 * PADDING_HORIZONTAL,
-                                                                              LABEL_HEIGHT_DEFAULT)];
+        UILabel *descriptionLabel = [UILabel new];
         descriptionLabel.tag = SETTINGS_CELL_DESCRIPTION;
         descriptionLabel.font = [UIFont systemFontOfSize:14];
         descriptionLabel.adjustsFontSizeToFitWidth = YES;
@@ -707,18 +706,13 @@
         descriptionLabel.numberOfLines = 0;
         descriptionLabel.textColor = [Utilities get2ndLabelColor];
         descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-        descriptionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:descriptionLabel];
         
-        OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
-                                                                      0,
-                                                                      cell.frame.size.width - 2 * SLIDER_PADDING,
-                                                                      SLIDER_HEIGHT)];
+        OBSlider *slider = [OBSlider new];
         slider.tag = SETTINGS_CELL_SLIDER;
         slider.backgroundColor = UIColor.clearColor;
         slider.minimumTrackTintColor = KODI_BLUE_COLOR;
         slider.continuous = YES;
-        slider.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
         [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventEditingDidEnd];
         [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchCancel];
@@ -727,10 +721,7 @@
         [slider addTarget:self action:@selector(startUpdateSlider:) forControlEvents:UIControlEventTouchDown];
         [cell.contentView addSubview:slider];
         
-        UILabel *sliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
-                                                                         0,
-                                                                         cell.frame.size.width - 2 * SLIDER_PADDING,
-                                                                         LABEL_HEIGHT_DEFAULT)];
+        UILabel *sliderLabel = [UILabel new];
         sliderLabel.tag = SETTINGS_CELL_SLIDER_LABEL;
         sliderLabel.font = [UIFont systemFontOfSize:14];
         sliderLabel.adjustsFontSizeToFitWidth = YES;
@@ -738,13 +729,9 @@
         sliderLabel.textAlignment = NSTextAlignmentCenter;
         sliderLabel.textColor = [Utilities get2ndLabelColor];
         sliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-        sliderLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:sliderLabel];
         
-        UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
-                                                                                    0,
-                                                                                    cell.frame.size.width - 2 * SLIDER_PADDING,
-                                                                                    TEXTFIELD_HEIGHT)];
+        UITextField *textInputField = [UITextField new];
         textInputField.tag = SETTINGS_CELL_TEXTFIELD;
         textInputField.borderStyle = UITextBorderStyleRoundedRect;
         textInputField.textAlignment = NSTextAlignmentCenter;
@@ -756,10 +743,9 @@
         textInputField.clearButtonMode = UITextFieldViewModeWhileEditing;
         textInputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textInputField.delegate = self;
-        textInputField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:textInputField];
 	}
-    [self layoutCell:cell forRowAtIndexPath:indexPath];
+    [self configureCell:cell forRowAtIndexPath:indexPath];
     return cell;
 }
 
