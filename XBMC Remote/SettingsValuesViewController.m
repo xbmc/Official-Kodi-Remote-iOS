@@ -40,8 +40,22 @@
 
 - (id)initWithFrame:(CGRect)frame withItem:(id)item {
     if (self = [super init]) {
-		
+        self.detailItem = item;
         self.view.frame = frame;
+        cellHeight = CELL_HEIGHT_DEFAULT;
+        
+        valueTypeLookup = @{
+            @"boolean": @(SettingValueTypeBoolean),
+            @"integer": @(SettingValueTypeInteger),
+            @"number": @(SettingValueTypeNumber),
+            @"string": @(SettingValueTypeString),
+            @"action": @(SettingValueTypeAction),
+            @"list": @(SettingValueTypeList),
+            @"path": @(SettingValueTypePath),
+            @"addon": @(SettingValueTypeAddon),
+            @"date": @(SettingValueTypeDate),
+            @"time": @(SettingValueTypeTime),
+        };
         
         UIImageView *imageBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"appViewBackground"]];
         imageBackground.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -53,20 +67,12 @@
         activityIndicator.center = CGPointMake(frame.size.width / 2, frame.size.height / 2);
         activityIndicator.hidesWhenStopped = YES;
         [self.view addSubview:activityIndicator];
-
-        self.detailItem = item;
-
-        cellHeight = CELL_HEIGHT_DEFAULT;
         
-        settingOptions = self.detailItem[@"options"];
-        
-        if (![settingOptions isKindOfClass:[NSArray class]]) {
-            settingOptions = nil;
-        }
         itemControls = self.detailItem[@"control"];
+        settingOptions = [self readSettingOptions];
+        settingValueType = [self readSettingValueType];
         
         xbmcSetting = SettingTypeDefault;
-        
         if ([itemControls[@"format"] isEqualToString:@"boolean"]) {
             xbmcSetting = SettingTypeSwitch;
         }
@@ -375,6 +381,19 @@
         return format;
     }
     return defaultFormat;
+}
+
+- (int)readSettingValueType {
+    id valueType = valueTypeLookup[self.detailItem[@"type"]];
+    return valueType ? [valueType intValue] : SettingValueTypeUnknown;
+}
+
+- (NSMutableArray*)readSettingOptions {
+    NSArray *options = self.detailItem[@"options"];
+    if (![options isKindOfClass:[NSArray class]]) {
+        return nil;
+    }
+    return [options mutableCopy];
 }
 
 #pragma mark - Table view data source
