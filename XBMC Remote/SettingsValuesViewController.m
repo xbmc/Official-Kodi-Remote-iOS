@@ -376,12 +376,25 @@
     // Default format does not provide any units
     NSString *defaultFormat = settingValueType == SettingValueTypeNumber ? @"%.2f" : @"%i";
     
-    // Workaround!! Before Kodi 18.x an older format ("%i ms") was used. The new format ("{0:d} ms") needs
-    // an updated parser. Until this is implemented just display the value itself, without the unit.
-    if (format.length > 0 && AppDelegate.instance.serverVersion < 18) {
-        return format;
+    // Identify fmt-like format string
+    if (format.length && [format rangeOfString:@"{"].location != NSNotFound && [format rangeOfString:@"}"].location != NSNotFound) {
+        // Gather range for unit which is added after last "}"
+        NSRange range;
+        range.location = [format rangeOfString:@"}" options:NSBackwardsSearch].location + 1;
+        range.length = format.length - range.location;
+        
+        // Extract unit and make percent character is formatted correctly
+        NSString *unit = [format substringWithRange:range];
+        unit = [unit stringByReplacingOccurrencesOfString:@"%" withString:@"%%"];
+        
+        // Build std format string, appending the fmt format string's unit
+        format = [defaultFormat stringByAppendingString:unit];
     }
-    return defaultFormat;
+    // Fallback to default in case no format is defined or we missed to identify fmt-style format (which is used for Kodi 18 and later)
+    else if (!format.length || AppDelegate.instance.serverVersion >= 18) {
+        format = defaultFormat;
+    }
+    return format;
 }
 
 - (NSString*)getStringForSliderItem:(id)item value:(float)value {
