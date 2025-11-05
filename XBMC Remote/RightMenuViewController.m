@@ -454,9 +454,7 @@
         @"type": @"",
     };
 
-    if (AppDelegate.instance.obj.serverIP.length != 0) {
-        [self loadCustomButtons];
-    }
+    [self loadCustomButtons];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(connectionSuccess:)
@@ -471,6 +469,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reloadCustomButtonTable:)
                                                  name:@"UIInterfaceCustomButtonAdded"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:menuTableView
+                                             selector:@selector(reloadData)
+                                                 name:@"XBMCServerHasChanged"
                                                object:nil];
 }
 
@@ -492,22 +495,12 @@
 }
 
 - (void)connectionSuccess:(NSNotification*)note {
-    [self loadCustomButtons];
     [menuTableView reloadData];
     moreButton.enabled = YES;
 }
 
 - (void)connectionFailed:(NSNotification*)note {
-    if (AppDelegate.instance.obj.serverIP.length != 0) {
-        [self loadCustomButtons];
-        [menuTableView reloadData];
-        moreButton.enabled = NO;
-    }
-    else {
-        [tableData removeAllObjects];
-        [self loadCustomButtons];
-        [menuTableView reloadData];
-    }
+    moreButton.enabled = NO;
 }
 
 @end
