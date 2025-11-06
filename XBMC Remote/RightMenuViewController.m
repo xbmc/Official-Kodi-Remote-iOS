@@ -19,6 +19,7 @@
 #define BUTTON_SPACING 8.0
 #define BUTTON_WIDTH 100.0
 #define CUSTOM_BUTTON_CELL_IDENTIFIER @"customButtonCellIdentifier"
+#define CUSTOM_TOGGLE_CELL_IDENTIFIER @"customToggleCellIdentifier"
 
 @implementation RightMenuViewController
 
@@ -46,7 +47,14 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    CustomButtonCell *cell = [tableView dequeueReusableCellWithIdentifier:CUSTOM_BUTTON_CELL_IDENTIFIER forIndexPath:indexPath];
+    BOOL isButtonToggleCell = [tableData[indexPath.row][@"type"] isEqualToString:@"boolean"];
+    
+    // Use two different queues with different identifiers for custom buttons with and without UISWitch.
+    // This ensures that the asynchronous updates of UISwitch state by JSON API response will always happen
+    // on a cell of the correct type.
+    NSString *queueIdentifier = isButtonToggleCell ? CUSTOM_TOGGLE_CELL_IDENTIFIER : CUSTOM_BUTTON_CELL_IDENTIFIER;
+    CustomButtonCell *cell = [tableView dequeueReusableCellWithIdentifier:queueIdentifier forIndexPath:indexPath];
+    
     cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.tintColor = UIColor.lightGrayColor;
@@ -67,7 +75,7 @@
     title.text = tableData[indexPath.row][@"label"];
     
     // Tailor cell layout for boolean switch
-    if ([tableData[indexPath.row][@"type"] isEqualToString:@"boolean"]) {
+    if (isButtonToggleCell) {
         onoff.hidden = NO;
         icon.hidden = YES;
         
@@ -406,7 +414,11 @@
     [self.view addSubview:[self createToolbarView:toolbarHeight]];
     
     menuTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    
+    // Register for two separate queues for the different buttons
     [menuTableView registerClass:[CustomButtonCell class] forCellReuseIdentifier:CUSTOM_BUTTON_CELL_IDENTIFIER];
+    [menuTableView registerClass:[CustomButtonCell class] forCellReuseIdentifier:CUSTOM_TOGGLE_CELL_IDENTIFIER];
+    
     if (IS_IPHONE) {
         CGFloat deltaY = [Utilities getTopPadding];
         self.slidingViewController.anchorLeftPeekAmount = ANCHOR_RIGHT_PEEK;
