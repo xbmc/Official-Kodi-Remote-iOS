@@ -6172,6 +6172,54 @@
     menu_Addons.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
     menu_Addons.subItem.thumbWidth = SETTINGS_THUMB_WIDTH;
     
+    menu_Addons.subItem.subItem = [mainMenu new];
+    menu_Addons.subItem.subItem.mainMethod = [@[
+        @{},
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+        @{
+            @"method": @"Files.GetDirectory",
+        },
+    ] mutableCopy];
+    
+    menu_Addons.subItem.subItem.mainParameters = [@[
+        @{},
+        @{
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        @{
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+        @{
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @FILEMODE_THUMB_WIDTH,
+        },
+    ] mutableCopy];
+    
+    menu_Addons.subItem.subItem.mainFields = @[
+        @{},
+        @{},
+        @{},
+        @{},
+    ];
+    
+    menu_Addons.subItem.subItem.enableSection = NO;
+    menu_Addons.subItem.subItem.rowHeight = SETTINGS_ROW_HEIGHT;
+    menu_Addons.subItem.subItem.thumbWidth = SETTINGS_ROW_HEIGHT;
+    menu_Addons.subItem.subItem.defaultThumb = @"nocover_filemode";
+    menu_Addons.subItem.subItem.sheetActions = @[
+        @[],
+        @[],
+        @[],
+        @[],
+    ];
+    
 #pragma mark - Kodi Settings
     __auto_type menu_Settings = [mainMenu new];
     menu_Settings.mainLabel = LOCALIZED_STR(@"XBMC Settings");
