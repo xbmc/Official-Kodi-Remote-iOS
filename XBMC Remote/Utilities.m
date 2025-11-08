@@ -1112,15 +1112,20 @@
 }
 
 + (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active {
+    NSInteger lastRow = [tableView numberOfRowsInSection:0] - 1;
+    BOOL cellIsActive;
     for (NSIndexPath *indexPath in tableView.indexPathsForVisibleRows) {
-        // The iPhone uses the top most cell as connection status. This should not be faded/unfaded.
-        if (IS_IPHONE && indexPath.row == 0 && indexPath.section == 0) {
-            continue;
+        // The iPhone uses the top most cell as connection status and the last cell for app settings. Those should not be faded/unfaded.
+        if (IS_IPHONE && (indexPath.row == 0 || indexPath.row == lastRow)) {
+            cellIsActive = YES;
+        }
+        else {
+            cellIsActive = active;
         }
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [UIView animateWithDuration:0.3
                          animations:^{
-                            [Utilities setStyleOfMenuItemCell:cell active:active];
+                            [Utilities setStyleOfMenuItemCell:cell active:cellIsActive];
                          }];
     }
 }
@@ -1146,7 +1151,7 @@
         @"start_menu_search": @(TypeGlobalSearch),
         @"start_menu_files": @(TypeFiles),
         @"start_menu_addons": @(TypeAddons),
-        @"start_menu_settings": @(TypeSettings),
+        @"start_menu_settings": @(TypeKodiSettings),
     };
     MenuItemType startMenuType = [defaultMenus[startId] intValue];
     

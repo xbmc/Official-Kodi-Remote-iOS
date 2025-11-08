@@ -145,6 +145,11 @@
     [Utilities setWebImageAuthorizationOnSuccessNotification:note];
 }
 
+- (void)enterAppSettings {
+    NSURL *url = [[NSURL alloc] initWithString:UIApplicationOpenSettingsURLString];
+    [UIApplication.sharedApplication openURL:url options:@{} completionHandler:nil];
+}
+
 #pragma mark - App clear disk cache methods
 
 - (void)startClearAppDiskCache:(ClearCacheView*)clearView {

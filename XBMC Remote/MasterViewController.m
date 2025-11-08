@@ -54,7 +54,8 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine || indexPath.row == 0];
+    NSInteger lastRow = [tableView numberOfRowsInSection:0] - 1;
+    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine || indexPath.row == 0 || indexPath.row == lastRow];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -100,11 +101,15 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     mainMenu *item = self.mainMenu[indexPath.row];
-    if (!AppDelegate.instance.serverOnLine && item.family != FamilyServer) {
+    if (item.family == FamilyAppSettings) {
+        [self enterAppSettings];
+        return;
+    }
+    else if (!AppDelegate.instance.serverOnLine && item.family != FamilyServer) {
         [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return;
     }
-    if (itemIsActive) {
+    else if (itemIsActive) {
         return;
     }
     

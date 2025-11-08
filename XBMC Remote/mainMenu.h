@@ -13,6 +13,7 @@ typedef NS_ENUM(NSInteger, MenuItemFamily) {
     FamilyNowPlaying,
     FamilyRemote,
     FamilyServer,
+    FamilyAppSettings,
 };
 
 typedef NS_ENUM(NSInteger, MenuItemType) {
@@ -31,8 +32,9 @@ typedef NS_ENUM(NSInteger, MenuItemType) {
     TypeGlobalSearch,
     TypeFiles,
     TypeAddons,
-    TypeSettings,
+    TypeKodiSettings,
     TypeCustomButtonEntry,
+    TypeAppSettings,
 };
 
 typedef NS_ENUM(NSInteger, ViewModes) {
