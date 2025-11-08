@@ -5382,7 +5382,7 @@
                     @"thumbnail",
                 ],
             },
-            @"label": LOCALIZED_STR(@"Video Add-ons"),
+            @"label": LOCALIZED_STR(@"Pictures Add-ons"),
             @"defaultThumb": @"nocover_filemode",
             @"rowHeight": @FILEMODE_ROW_HEIGHT,
             @"thumbWidth": @FILEMODE_THUMB_WIDTH,
