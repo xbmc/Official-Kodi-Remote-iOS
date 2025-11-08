@@ -2053,7 +2053,7 @@
         defaultThumb = parameters[@"defaultThumb"];
     }
     else {
-        defaultThumb = menuItem.defaultThumb;
+        defaultThumb = @"nocover_filemode";
     }
     if (parameters[@"rowHeight"]) {
         cellHeight = [parameters[@"rowHeight"] intValue];
