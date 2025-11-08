@@ -1259,7 +1259,7 @@
 
 - (void)enterCustomButtonsIPad {
     RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
-    rightMenuViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    rightMenuViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
     rightMenuViewController.view.frame = self.view.frame;
     [self presentViewController:rightMenuViewController animated:YES completion:nil];
 }
