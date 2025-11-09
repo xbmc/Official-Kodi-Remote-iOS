@@ -21,13 +21,15 @@
 #import "RemoteController.h"
 
 #define CONNECTION_TIMEOUT 240.0
-#define VIEW_PADDING 10 /* separation between toolbar views */
+#define INFO_PADDING 10
+#define BUTTON_PADDING 5
 #define TOOLBAR_HEIGHT 44
-#define XBMCLOGO_WIDTH 30
+#define XBMCLOGO_WIDTH 42
 #define POWERBUTTON_WIDTH 42
+#define SETTINGSBUTTON_WIDTH 42
 #define REMOTE_ICON_SIZE 30
 #define CONNECTION_ICON_SIZE 18
-#define CONNECTION_PADDING 20
+#define CONNECTION_PADDING 10
 #define REMOTE_PADDING 15
 #define DESKTOP_PADDING 25
 #define PLAYLIST_HEADER_HEIGHT 24
@@ -97,7 +99,7 @@
         }
     }
     [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-    [Utilities setStyleOfMenuItems:menuViewController.tableView active:status];
+    [Utilities setStyleOfMenuItems:menuViewController.tableView active:status menu:mainMenu];
 }
 
 - (void)offStackView {
@@ -397,7 +399,7 @@
     [self.view addSubview:showDesktopButton];
     
     // right most element
-    connectionStatus = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - CONNECTION_ICON_SIZE - VIEW_PADDING, self.view.frame.size.height - (TOOLBAR_HEIGHT + CONNECTION_ICON_SIZE) / 2 - [Utilities getBottomPadding], CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE)];
+    connectionStatus = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - CONNECTION_ICON_SIZE - CONNECTION_PADDING, self.view.frame.size.height - (TOOLBAR_HEIGHT + CONNECTION_ICON_SIZE) / 2 - [Utilities getBottomPadding], CONNECTION_ICON_SIZE, CONNECTION_ICON_SIZE)];
     connectionStatus.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:connectionStatus];
     
@@ -413,9 +415,19 @@
     [self.view addSubview:xbmcLogo];
     
     // 3rd right most element
+    image = [UIImage imageNamed:@"icon_menu_settings"];
+    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    settingsButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - SETTINGSBUTTON_WIDTH - BUTTON_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, SETTINGSBUTTON_WIDTH, TOOLBAR_HEIGHT)];
+    [settingsButton setImage:image forState:UIControlStateNormal];
+    [settingsButton setImage:image forState:UIControlStateHighlighted];
+    settingsButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    [settingsButton addTarget:self action:@selector(enterAppSettings) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:settingsButton];
+    
+    // 4th right most element
     image = [UIImage imageNamed:@"icon_power"];
     image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
-    powerButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - POWERBUTTON_WIDTH - VIEW_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
+    powerButton = [[UIButton alloc] initWithFrame:CGRectMake(settingsButton.frame.origin.x - POWERBUTTON_WIDTH - BUTTON_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
     [powerButton setImage:image forState:UIControlStateNormal];
     [powerButton setImage:image forState:UIControlStateHighlighted];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
@@ -423,7 +435,7 @@
     [self.view addSubview:powerButton];
     
     // element between left most and 2nd right most uses up free space
-    CGFloat infoPadding = self.view.frame.size.width - CGRectGetMinX(powerButton.frame) + 2 * VIEW_PADDING;
+    CGFloat infoPadding = self.view.frame.size.width - CGRectGetMinX(powerButton.frame) + 2 * INFO_PADDING;
     CGFloat infoStart = PAD_MENU_TABLE_WIDTH + infoPadding;
     CGFloat infoWidth = self.view.frame.size.width - PAD_MENU_TABLE_WIDTH - 2 * infoPadding;
     xbmcInfo = [[UIButton alloc] initWithFrame:CGRectMake(infoStart, self.view.frame.size.height - TOOLBAR_HEIGHT, infoWidth, TOOLBAR_HEIGHT)];
@@ -456,6 +468,10 @@
         frame = powerButton.frame;
         frame.origin.y -= bottomPadding;
         powerButton.frame = frame;
+        
+        frame = settingsButton.frame;
+        frame.origin.y -= bottomPadding;
+        settingsButton.frame = frame;
         
         frame = xbmcInfo.frame;
         frame.origin.y -= bottomPadding;

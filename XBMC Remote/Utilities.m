@@ -1103,7 +1103,9 @@
     }
 }
 
-+ (void)setStyleOfMenuItemCell:(UITableViewCell*)cell active:(BOOL)active {
++ (void)setStyleOfMenuItemCell:(UITableViewCell*)cell active:(BOOL)active menuType:(MenuItemType)type {
+    // Connection status and App settings are always visible. Those should not be faded/unfaded.
+    active = active || type == TypeServer || type == TypeAppSettings;
     CGFloat alpha = active ? 1.0 : 0.3;
     UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
@@ -1111,16 +1113,13 @@
     title.alpha = alpha;
 }
 
-+ (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active {
++ (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active menu:(NSArray*)menuList {
     for (NSIndexPath *indexPath in tableView.indexPathsForVisibleRows) {
-        // The iPhone uses the top most cell as connection status. This should not be faded/unfaded.
-        if (IS_IPHONE && indexPath.row == 0 && indexPath.section == 0) {
-            continue;
-        }
+        mainMenu *menuItem = menuList[indexPath.row];
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [UIView animateWithDuration:0.3
                          animations:^{
-                            [Utilities setStyleOfMenuItemCell:cell active:active];
+                            [Utilities setStyleOfMenuItemCell:cell active:active menuType:menuItem.type];
                          }];
     }
 }
@@ -1146,7 +1145,7 @@
         @"start_menu_search": @(TypeGlobalSearch),
         @"start_menu_files": @(TypeFiles),
         @"start_menu_addons": @(TypeAddons),
-        @"start_menu_settings": @(TypeSettings),
+        @"start_menu_settings": @(TypeKodiSettings),
     };
     MenuItemType startMenuType = [defaultMenus[startId] intValue];
     

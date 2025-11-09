@@ -5341,7 +5341,7 @@
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     
     BOOL mainLabelChanged = menuItem.mainLabel.length && menuItem.type == TypeNone;
-    BOOL useMainLabel = mainLabelChanged && !(menuItem.type == TypeSettings || menuItem.type == TypeCustomButtonEntry);
+    BOOL useMainLabel = mainLabelChanged && !(menuItem.type == TypeKodiSettings || menuItem.type == TypeCustomButtonEntry);
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
     self.navigationItem.backButtonTitle = labelText;
     if (!albumView) {

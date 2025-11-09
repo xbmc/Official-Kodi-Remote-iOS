@@ -132,7 +132,8 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine];
+    mainMenu *menuItem = mainMenuItems[indexPath.row];
+    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine menuType:menuItem.type];
     cell.backgroundColor = UIColor.clearColor;
 }
 

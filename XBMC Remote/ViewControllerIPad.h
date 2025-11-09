@@ -33,6 +33,7 @@
     UIButton *xbmcLogo;
     UIButton *xbmcInfo;
     UIButton *powerButton;
+    UIButton *settingsButton;
     UIImageView *connectionStatus;
     VolumeSliderView *volumeSliderView;
     BOOL didTouchLeftMenu;

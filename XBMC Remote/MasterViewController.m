@@ -40,7 +40,7 @@
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
     [super changeServerStatus:status infoText:infoText icon:iconName];
     itemIsActive = NO;
-    [Utilities setStyleOfMenuItems:menuList active:status];
+    [Utilities setStyleOfMenuItems:menuList active:status menu:self.mainMenu];
 }
 
 #pragma mark - Table view methods & data source
@@ -54,7 +54,8 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine || indexPath.row == 0];
+    mainMenu *menuItem = self.mainMenu[indexPath.row];
+    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine menuType:menuItem.type];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -100,11 +101,15 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     mainMenu *item = self.mainMenu[indexPath.row];
-    if (!AppDelegate.instance.serverOnLine && item.family != FamilyServer) {
+    if (item.family == FamilyAppSettings) {
+        [self enterAppSettings];
+        return;
+    }
+    else if (!AppDelegate.instance.serverOnLine && item.family != FamilyServer) {
         [menuList selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section] animated:YES scrollPosition:UITableViewScrollPositionNone];
         return;
     }
-    if (itemIsActive) {
+    else if (itemIsActive) {
         return;
     }
     
