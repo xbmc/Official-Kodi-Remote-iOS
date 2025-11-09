@@ -42,7 +42,7 @@
         CGFloat iconSize = CGRectGetHeight(self.onoffSwitch.frame);
         UIImageView *icon = [UIImageView new];
         icon.frame = CGRectMake(CGRectGetWidth(self.contentView.frame) - (CGRectGetWidth(self.onoffSwitch.frame) + iconSize) / 2 - CUSTOM_BUTTON_ITEM_SPACING,
-                                (CGRectGetHeight(self.contentView.frame) - iconSize) / 2,
+                                (CUSTOM_BUTTON_ITEM_HEIGHT - iconSize) / 2,
                                 iconSize,
                                 iconSize);
         icon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
