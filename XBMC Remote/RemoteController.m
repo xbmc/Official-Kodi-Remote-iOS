@@ -1061,6 +1061,17 @@
                                              selector:@selector(enablePopGestureRecognizer)
                                                  name:@"ECSlidingViewTopDidReset"
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleEnterForeground)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+}
+
+- (void)handleEnterForeground {
+    // Update torch mode
+    torchIsOn = [Utilities isTorchOn];
+    [Utilities turnTorchOn:torchButton on:torchIsOn];
 }
 
 - (void)enablePopGestureRecognizer {
@@ -1181,7 +1192,7 @@
     helpButton.alpha = 0.8;
     [remoteToolbar addSubview:helpButton];
     
-    UIButton *torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
     frame.origin.x += ToolbarPadding;
     torchButton.frame = frame;
     torchButton.showsTouchWhenHighlighted = YES;

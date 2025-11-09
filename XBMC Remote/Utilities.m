@@ -942,7 +942,7 @@
     }
 }
 
-+ (void)turnTorchOn:(id)sender on:(BOOL)torchOn {
++ (void)turnTorchOn:(UIButton*)button on:(BOOL)torchOn {
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     if (!(device.hasTorch && device.hasFlash)) {
         return;
@@ -962,16 +962,7 @@
         settings.flashMode = AVCaptureFlashModeOff;
         img = [UIImage imageNamed:@"torch"];
     }
-    // Check for class of sender and use matching function to set button image
-    if ([sender isKindOfClass:[UIImageView class]]) {
-        [sender setImage:img];
-    }
-    else if ([sender isKindOfClass:[UIButton class]]) {
-        [sender setImage:img forState:UIControlStateNormal];
-    }
-    else {
-        NSAssert(NO, @"Unexpected class. Cannot set image for torch icon.");
-    }
+    [button setImage:img forState:UIControlStateNormal];
         
     [device unlockForConfiguration];
 }

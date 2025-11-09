@@ -39,6 +39,7 @@ typedef NS_ENUM(NSInteger, RemotePositionType) {
     RemotePositionType positionMode;
     UIView *remoteToolbar;
     UIButton *positionButton;
+    UIButton *torchButton;
     VolumeSliderView *volumeSliderView;
     __weak IBOutlet UIView *TransitionalView;
     __weak IBOutlet UIImageView *gestureZoneImageView;
