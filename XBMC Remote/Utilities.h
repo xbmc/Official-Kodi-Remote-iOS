@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
 #import "MessagesView.h"
+#import "mainMenu.h"
 #import "DSJSONRPC.h"
 
 typedef NS_ENUM(NSInteger, JewelType) {
@@ -100,8 +101,8 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (NSString*)getConnectionStatusIconName;
 + (NSString*)getConnectionStatusServerName;
 + (void)addShadowsToView:(UIView*)view viewFrame:(CGRect)frame;
-+ (void)setStyleOfMenuItemCell:(UITableViewCell*)cell active:(BOOL)active;
-+ (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active;
++ (void)setStyleOfMenuItemCell:(UITableViewCell*)cell active:(BOOL)active menuType:(MenuItemType)type;
++ (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active menu:(NSArray*)menuList;
 + (NSIndexPath*)getIndexPathForDefaultController:(NSArray*)menuItems;
 + (void)enableDefaultController:(id<UITableViewDelegate>)viewController tableView:(UITableView*)tableView menuItems:(NSArray*)menuItems;
 + (id)unarchivePath:(NSString*)path file:(NSString*)filename;

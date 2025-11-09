@@ -40,7 +40,7 @@
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
     [super changeServerStatus:status infoText:infoText icon:iconName];
     itemIsActive = NO;
-    [Utilities setStyleOfMenuItems:menuList active:status];
+    [Utilities setStyleOfMenuItems:menuList active:status menu:self.mainMenu];
 }
 
 #pragma mark - Table view methods & data source
@@ -54,8 +54,8 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    NSInteger lastRow = [tableView numberOfRowsInSection:0] - 1;
-    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine || indexPath.row == 0 || indexPath.row == lastRow];
+    mainMenu *menuItem = self.mainMenu[indexPath.row];
+    [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine menuType:menuItem.type];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {

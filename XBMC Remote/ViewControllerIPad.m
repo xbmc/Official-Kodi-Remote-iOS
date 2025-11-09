@@ -98,7 +98,7 @@
         }
     }
     [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-    [Utilities setStyleOfMenuItems:menuViewController.tableView active:status];
+    [Utilities setStyleOfMenuItems:menuViewController.tableView active:status menu:mainMenu];
 }
 
 - (void)offStackView {
