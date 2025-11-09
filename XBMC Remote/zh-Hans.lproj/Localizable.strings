@@ -282,3 +282,6 @@
 "Local network notice" = "本地网络通知";
 "It seems local network access is not enabled for the Kodi Remote App. This is required for the app to find and connect to Kodi servers in your local network." = "Kodi Remote 应用程序似乎未启用本地网络访问。这是应用程序在本地网络中查找和连接 Kodi 服务器的必要条件。";
 "The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect." = "本地网络访问可以在 iOS 网络或应用程序设置中启用。您可能需要重置网络设置、重启 iOS 设备，甚至删除/重新安装应用程序才能使其生效。";
+"Add-ons" = "插件";
+"No custom button defined." = "无自定义按钮。";
+"Execute add-on" = "运行插件";

@@ -282,3 +282,6 @@
 "Local network notice" = "Notificación red local";
 "It seems local network access is not enabled for the Kodi Remote App. This is required for the app to find and connect to Kodi servers in your local network." = "Parece que no está activado el acceso a red local para la App Kodi Remote. Se requiere para que la app pueda encontrar y conectarse a servidores Kodi en la red local.";
 "The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect." = "El acceso a red local se puede activar en la red iOS on en los ajustes de la app. Puede ser necesario reiniciar los ajustes de la red, reiniciar el dispositivo iOS o incluso borrar y reinstalar la app para que tome efecto.";
+"Add-ons" = "Addons";
+"No custom button defined." = "No hay definido ningún botón personalizado.";
+"Execute add-on" = "Ejecutar addon";
