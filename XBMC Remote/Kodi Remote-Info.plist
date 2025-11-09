@@ -28,6 +28,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>xbmcremote</string>
+				<string>kodiremote</string>
 			</array>
 		</dict>
 	</array>
