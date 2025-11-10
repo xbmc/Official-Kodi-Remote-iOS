@@ -377,10 +377,12 @@
     NSString *defaultFormat = settingValueType == SettingValueTypeNumber ? @"%.2f" : @"%i";
     
     // Identify fmt-like format string
-    if (format.length && [format rangeOfString:@"{"].location != NSNotFound && [format rangeOfString:@"}"].location != NSNotFound) {
+    NSInteger openBraceLoc = [format rangeOfString:@"{"].location;
+    NSInteger closeBraceLoc = [format rangeOfString:@"}" options:NSBackwardsSearch].location;
+    if (format.length && openBraceLoc != NSNotFound && closeBraceLoc != NSNotFound && openBraceLoc < closeBraceLoc) {
         // Gather range for unit which is added after last "}"
         NSRange range;
-        range.location = [format rangeOfString:@"}" options:NSBackwardsSearch].location + 1;
+        range.location = closeBraceLoc + 1;
         range.length = format.length - range.location;
         
         // Extract unit and make percent character is formatted correctly
