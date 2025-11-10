@@ -78,8 +78,8 @@
 /*
  * Service constants
  */
-#define serviceTypeHTTP @"_xbmc-jsonrpc-h._tcp"
-#define serviceTypeTCP @"_xbmc-jsonrpc._tcp"
-#define domainName @"local"
+#define SERVICE_TYPE_HTTP @"_xbmc-jsonrpc-h._tcp"
+#define SERVICE_TYPE_TCP @"_xbmc-jsonrpc._tcp"
+#define DOMAIN_NAME @"local"
 
 #endif /* ConvenienceMacros_h */
