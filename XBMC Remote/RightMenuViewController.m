@@ -324,10 +324,8 @@
         title.text = alertCtrl.textFields[0].text;
         
         customButton *arrayButtons = [customButton new];
-        if ([arrayButtons.buttons[indexPath.row] respondsToSelector:@selector(setObject:forKey:)]) {
-            arrayButtons.buttons[indexPath.row][@"label"] = alertCtrl.textFields[0].text;
-            [arrayButtons saveData];
-        }
+        arrayButtons.buttons[indexPath.row][@"label"] = alertCtrl.textFields[0].text;
+        [arrayButtons saveData];
     }];
     UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
     [alertCtrl addAction:updateButton];

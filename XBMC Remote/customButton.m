@@ -32,12 +32,14 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *filename = [NSString stringWithFormat:@"customButtons_%@.dat", [self getServerKey]];
     NSMutableArray *tempArray = [Utilities unarchivePath:paths[0] file:filename];
-    if (tempArray) {
-        [self setButtons:tempArray];
+    
+    // Make sure the objects in the button array are mutable. The user might edit them.
+    NSMutableArray *buttonArray = [[NSMutableArray alloc] initWithCapacity:tempArray.count];
+    for (id object in tempArray) {
+        id mutableObject = [object mutableCopy];
+        [buttonArray addObject:mutableObject];
     }
-    else {
-        buttons = [NSMutableArray new];
-    }
+    buttons = buttonArray;
 }
 
 - (void)saveData {
