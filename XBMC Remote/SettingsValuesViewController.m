@@ -307,10 +307,8 @@
 
 #pragma mark - JSON
 
-- (void)xbmcAction:(NSString*)action params:(NSDictionary*)params uiControl:(id)sender {
-    if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
-        [sender setUserInteractionEnabled:NO];
-    }
+- (void)xbmcAction:(NSString*)action params:(NSDictionary*)params uiControl:(UIControl*)control {
+    control.enabled = NO;
     [activityIndicator startAnimating];
     [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         [activityIndicator stopAnimating];
@@ -320,9 +318,7 @@
         else {
             [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         }
-        if ([sender respondsToSelector:@selector(setUserInteractionEnabled:)]) {
-            [sender setUserInteractionEnabled:YES];
-        }
+        control.enabled = YES;
     }];
 }
 
@@ -724,7 +720,7 @@
                 selectedSetting = indexPath;
                 self.detailItem[@"value"] = settingOptions[selectedSetting.row][@"value"];
             }
-            [self setSettingValue:self.detailItem[@"value"] sender:_tableView];
+            [self setSettingValue:self.detailItem[@"value"] sender:nil];
             break;
             
         case SettingTypeMultiselect:
@@ -785,14 +781,14 @@
 
 #pragma mark - UISlider
 
-- (void)startUpdateSlider:(id)sender {
+- (void)startUpdateSlider:(UISlider*)slider {
     scrubbingView.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
     [Utilities alphaView:scrubbingView AnimDuration:0.3 Alpha:1.0];
 }
 
-- (void)stopUpdateSlider:(id)sender {
+- (void)stopUpdateSlider:(UISlider*)slider {
     [Utilities alphaView:scrubbingView AnimDuration:0.3 Alpha:0.0];
-    [self setSettingValue:@(storeSliderValue) sender:sender];
+    [self setSettingValue:@(storeSliderValue) sender:slider];
 }
 
 - (void)sliderAction:(OBSlider*)slider {
@@ -812,9 +808,8 @@
 
 #pragma mark - UISwitch
 
-- (void)toggleSwitch:(id)sender {
-    UISwitch *onoff = (UISwitch*)sender;
-    [self setSettingValue:@(onoff.on) sender:sender];
+- (void)toggleSwitch:(UISwitch*)onoff {
+    [self setSettingValue:@(onoff.on) sender:onoff];
 }
 
 #pragma mark - UITextFieldDelegate Methods
