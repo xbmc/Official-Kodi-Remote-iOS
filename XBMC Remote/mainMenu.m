@@ -6873,7 +6873,7 @@
             [lookupArray addObject:lookupItem];
         }
     }
-    AppDelegate.instance.globalSearchMenuLookup = [lookupArray copy];
+    AppDelegate.instance.globalSearchMenuLookup = lookupArray;
     
     return mainMenuItems;
 }
