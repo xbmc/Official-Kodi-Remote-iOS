@@ -105,7 +105,6 @@
 @property (nonatomic, assign) BOOL serverTCPConnectionOpen;
 @property (nonatomic, assign) int serverVersion;
 @property (nonatomic, assign) int serverMinorVersion;
-@property (nonatomic, assign) int serverVolume;
 @property (strong, nonatomic) NSString *serverName;
 @property (nonatomic, assign) int APImajorVersion;
 @property (nonatomic, assign) int APIminorVersion;

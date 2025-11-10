@@ -34,7 +34,6 @@ typedef NS_ENUM(NSInteger, RemotePositionType) {
     IBOutlet UIButton *buttonPictures;
     IBOutlet UIButton *buttonSubtitles;
     IBOutlet UIButton *buttonAudiostreams;
-    int audioVolume;
     CGFloat lastRotation;
     RemotePositionType positionMode;
     UIView *remoteToolbar;

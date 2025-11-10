@@ -82,6 +82,24 @@
 		</dict>
 		<dict>
 			<key>Title</key>
+			<string>Volume control</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>FooterText</key>
+			<string>The app controls volume via buttons and a slider. The slider will always change the Kodi internal volume level. The buttons allow to control AV equipment&apos;s volume level via CEC, if this mode is enabled and Kodi identified a compatible device. The CEC functionality is embedded within Kodi itself.</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
+			<string>cec_support_preference</string>
+			<key>Title</key>
+			<string>CEC support via volume buttons</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>Title</key>
 			<string>Cache Settings</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>

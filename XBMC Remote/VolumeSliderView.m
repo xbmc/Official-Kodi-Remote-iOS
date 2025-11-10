@@ -21,9 +21,11 @@
 #define VOLUME_HOLD_TIMEOUT 0.2
 #define VOLUME_REPEAT_TIMEOUT 0.03
 #define VOLUME_INFO_TIMEOUT 1.0
-#define VOLUME_BUTTON_UP 1
-#define VOLUME_BUTTON_DOWN 2
-#define VOLUME_SLIDER 10
+#define VOLUME_BUTTON_INC 1
+#define VOLUME_BUTTON_DEC 2
+#define VOLUME_SLIDER_INC 3
+#define VOLUME_SLIDER_DEC 4
+#define VOLUME_SLIDER_SET 10
 
 @implementation VolumeSliderView
 
@@ -39,8 +41,7 @@
         volumeSlider.maximumTrackTintColor = UIColor.darkGrayColor;
         [volumeSlider setThumbImage:img forState:UIControlStateNormal];
         [volumeSlider setThumbImage:img forState:UIControlStateHighlighted];
-        [self volumeInfo];
-        [volumeSlider addTarget:self action:@selector(changeVolume:) forControlEvents:UIControlEventValueChanged];
+        [volumeSlider addTarget:self action:@selector(handleSliderValueChanged:) forControlEvents:UIControlEventValueChanged];
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpInside];
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpOutside];
         CGRect frame_tmp;
@@ -133,7 +134,10 @@
         [plusButton setImage:img forState:UIControlStateNormal];
         [plusButton setImage:img forState:UIControlStateHighlighted];
         
-        [self checkMuteServer];
+        [self readServerVolume];
+        [self readServerMute];
+        
+        [self setVolumeButtonMode];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleApplicationOnVolumeChanged:)
@@ -159,17 +163,17 @@
 }
 
 - (void)handleServerStatusChanged:(NSNotification*)sender {
-    volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
-    volumeSlider.value = AppDelegate.instance.serverVolume;
-    [self checkMuteServer];
+    [self readServerVolume];
+    [self readServerMute];
 }
 
 - (void)handleApplicationOnVolumeChanged:(NSNotification*)sender {
     if (!isChangingVolume) {
         NSDictionary *theData = sender.userInfo;
         if ([theData isKindOfClass:[NSDictionary class]]) {
-            AppDelegate.instance.serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
-            [self handleServerStatusChanged:nil];
+            serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
+            [self showServerVolume];
+            [self readServerMute];
         }
     }
 }
@@ -180,17 +184,38 @@
 
 - (void)handleEnterForeground:(NSNotification*)sender {
     [self startTimer];
+    [self setVolumeButtonMode];
 }
 
-- (void)changeServerVolume:(id)sender {
+- (void)setVolumeButtonMode {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL enableCEC = [userDefaults boolForKey:@"cec_support_preference"];
+    if (enableCEC) {
+        // Volume buttons will set increment/decrement (supports CEC)
+        minusButton.tag = VOLUME_BUTTON_DEC;
+        plusButton.tag = VOLUME_BUTTON_INC;
+    }
+    else {
+        // Volume buttons will set absolute values (0-100%) - default
+        minusButton.tag = VOLUME_SLIDER_DEC;
+        plusButton.tag = VOLUME_SLIDER_INC;
+    }
+    volumeSlider.tag = VOLUME_SLIDER_SET;
+}
+
+- (void)changeServerVolume:(id)value {
     [[Utilities getJsonRPC]
-     callMethod:@"Application.SetVolume" 
-     withParameters:@{@"volume": @(volumeSlider.value)}];
+     callMethod:@"Application.SetVolume"
+     withParameters:@{@"volume": value}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (error == nil && methodError == nil) {
+            [self readServerVolume];
+        }
+    }];
 }
 
 - (void)startTimer {
-    volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
-    volumeSlider.value = AppDelegate.instance.serverVolume;
+    [self showServerVolume];
     [self stopTimer];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_INFO_TIMEOUT
                                                   target:self
@@ -204,12 +229,35 @@
 }
 
 - (void)volumeInfo {
-    if (AppDelegate.instance.serverTCPConnectionOpen) {
+    if (AppDelegate.instance.serverTCPConnectionOpen || isChangingVolume) {
         return;
     }
-    if (AppDelegate.instance.serverOnLine && AppDelegate.instance.serverVolume > -1) {
-        volumeLabel.text = [NSString stringWithFormat:@"%d", AppDelegate.instance.serverVolume];
-        volumeSlider.value = AppDelegate.instance.serverVolume;
+    else {
+        [self readServerVolume];
+    }
+}
+
+- (void)readServerVolume {
+    NSDictionary *checkServerParams = @{@"properties": @[@"volume"]};
+    [[Utilities getJsonRPC]
+     callMethod:@"Application.GetProperties"
+     withParameters:checkServerParams
+     withTimeout:VOLUME_INFO_TIMEOUT
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+            serverVolume = [methodResult[@"volume"] intValue];
+        }
+        else {
+            serverVolume = -1;
+        }
+        [self showServerVolume];
+    }];
+}
+
+- (void)showServerVolume {
+    if (AppDelegate.instance.serverOnLine && serverVolume > -1) {
+        volumeLabel.text = [NSString stringWithFormat:@"%d", serverVolume];
+        volumeSlider.value = serverVolume;
     }
     else {
         volumeLabel.text = @"0";
@@ -217,18 +265,12 @@
     }
 }
 
-- (IBAction)slideVolume:(id)sender {
-    volumeSlider.value = (int)volumeSlider.value;
-    AppDelegate.instance.serverVolume = (int)volumeSlider.value;
-    volumeLabel.text = [NSString stringWithFormat:@"%.0f", volumeSlider.value];
-}
-
 - (IBAction)toggleMute:(id)sender {
-    [self handleMute:!isMuted];
-    [self changeMuteServer];
+    [self showServerMute:!isMuted];
+    [self changeServerMute];
 }
 
-- (void)handleMute:(BOOL)mute {
+- (void)showServerMute:(BOOL)mute {
     if (!AppDelegate.instance.serverOnLine) {
         return;
     }
@@ -248,13 +290,13 @@
     volumeSlider.userInteractionEnabled = !isMuted;
 }
 
-- (void)changeMuteServer {
+- (void)changeServerMute {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetMute"
      withParameters:@{@"mute": @"toggle"}];
 }
 
-- (void)checkMuteServer {
+- (void)readServerMute {
     [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
      withParameters:@{@"properties": @[@"muted"]}
@@ -262,7 +304,7 @@
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
              isMuted = [methodResult[@"muted"] boolValue];
-             [self handleMute:isMuted];
+             [self showServerMute:isMuted];
          }
     }];
 }
@@ -271,7 +313,7 @@
     // Volume up/down button is touched
     isChangingVolume = YES;
     [self stopTimer];
-    [self changeVolume:sender];
+    [self changeVolume:[sender tag]];
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_HOLD_TIMEOUT
                                                             target:self
                                                           selector:@selector(longpressVolume:)
@@ -299,33 +341,49 @@
 - (void)autoChangeVolume:(id)timer {
     // Volume up/down is automatically changed until holdVolumeTimer is stopped when button is untouched again
     id sender = [timer userInfo];
-    [self changeVolume:sender];
+    [self changeVolume:[sender tag]];
 }
 
-- (void)changeVolume:(id)sender {
+- (void)handleVolumeIncrease {
+    [self changeVolume:plusButton.tag];
+}
+
+- (void)handleVolumeDecrease {
+    [self changeVolume:minusButton.tag];
+}
+
+- (void)handleSliderValueChanged:(id)sender {
+    [self changeVolume:[sender tag]];
+}
+
+- (void)changeVolume:(NSInteger)action {
     if (!AppDelegate.instance.serverOnLine) {
         return;
     }
     
     // Process the volume change
     isChangingVolume = YES;
-    NSInteger action = [sender tag];
     switch (action) {
-        case VOLUME_BUTTON_UP: // Volume Increase
-            volumeSlider.value += 1;
+        case VOLUME_BUTTON_INC: // Volume increase using increment
+            [self changeServerVolume:@"increment"];
             break;
-        case VOLUME_BUTTON_DOWN: // Volume Decrease
-            volumeSlider.value -= 1;
+        case VOLUME_BUTTON_DEC: // Volume decrease using decrement
+            [self changeServerVolume:@"decrement"];
             break;
-        case VOLUME_SLIDER: // Volume slider with 1% step resolution
-            volumeSlider.value = (int)volumeSlider.value;
+        case VOLUME_SLIDER_INC: // Volume increase using absolute value
+            volumeSlider.value = (int)MIN(volumeSlider.value + 1, 100);
+            [self changeServerVolume:@((int)volumeSlider.value)];
+            break;
+        case VOLUME_SLIDER_DEC: // Volume decrease using absolute value
+            volumeSlider.value = (int)MAX(volumeSlider.value - 1, 0);
+            [self changeServerVolume:@((int)volumeSlider.value)];
+            break;
+        case VOLUME_SLIDER_SET: // Volume slider with 1% step resolution
+            [self changeServerVolume:@((int)volumeSlider.value)];
             break;
         default:
             break;
     }
-    AppDelegate.instance.serverVolume = volumeSlider.value;
-    volumeLabel.text = [NSString stringWithFormat:@"%.0f", volumeSlider.value];
-    [self changeServerVolume:nil];
     if (isMuted) {
         [self toggleMute:nil];
     }

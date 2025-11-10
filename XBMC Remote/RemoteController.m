@@ -251,24 +251,20 @@
     }
 }
 
-- (void)handleRotate:(id)sender {
-    if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan) {
-        [self volumeInfo];
+- (void)handleRotate:(UIRotationGestureRecognizer*)gesture {
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        lastRotation = 0.0;
+        return;
     }
-	else if ([(UIRotationGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
-		lastRotation = 0.0;
-		return;
-	}
-	CGFloat rotation = 0.0 - (lastRotation - [(UIRotationGestureRecognizer*)sender rotation]);
+    CGFloat rotation = 0.0 - (lastRotation - gesture.rotation);
     
-    if (rotation > ROTATION_TRIGGER && audioVolume < 100) {
-        audioVolume += 1;
+    if (rotation > ROTATION_TRIGGER) {
+        [volumeSliderView handleVolumeIncrease];
     }
-    else if (rotation < -ROTATION_TRIGGER && audioVolume > 0) {
-        audioVolume -= 1;
+    else if (rotation < -ROTATION_TRIGGER) {
+        [volumeSliderView handleVolumeDecrease];
     }
-    [self changeServerVolume];
-	lastRotation = [(UIRotationGestureRecognizer*)sender rotation];
+    lastRotation = gesture.rotation;
 }
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
@@ -495,21 +491,6 @@
             [Utilities sendXbmcHttp:callback];
         }
     }];
-}
-
-- (void)volumeInfo {
-    if (AppDelegate.instance.serverVolume > -1) {
-        audioVolume = AppDelegate.instance.serverVolume;
-    }
-    else {
-        audioVolume = 0;
-    }
-}
-
-- (void)changeServerVolume {
-    [[Utilities getJsonRPC]
-     callMethod:@"Application.SetVolume" 
-     withParameters:@{@"volume": @(audioVolume)}];
 }
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
@@ -1030,7 +1011,6 @@
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     quickHelpView.alpha = 0.0;
-    [self volumeInfo];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(revealMenu)
