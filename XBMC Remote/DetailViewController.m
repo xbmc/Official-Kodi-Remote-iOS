@@ -4561,7 +4561,7 @@
     NSUInteger index = [self getGlobalSearchLookupIndexForItemId:dict[@"family"]];
     
     // The index shall only show numbers to be able to jump to the sections
-    dict[@"itemgroup"] = (index != NSNotFound) ? [NSString stringWithFormat:@"%i", (int)index] : @"";
+    dict[@"itemgroup"] = (index != NSNotFound) ? [NSString stringWithFormat:@"%li", index] : @"";
 }
 
 - (void)loadDetailedData:(NSArray*)itemsAndTabs index:(int)index results:(NSMutableArray*)richData {
