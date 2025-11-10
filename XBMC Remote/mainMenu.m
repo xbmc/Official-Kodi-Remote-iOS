@@ -348,7 +348,7 @@
 
 + (NSInteger)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel {
     // Search for the method index with the desired sub label (e.g. "All Songs")
-    NSInteger tab = -1;
+    NSInteger tab = NSNotFound;
     for (int k = 0; k < menuItem.mainMethod.count; ++k) {
         id parameters = menuItem.mainParameters[k];
         if ([parameters[@"label"] isEqualToString:subLabel]) {
@@ -6862,7 +6862,7 @@
     NSMutableArray *lookupArray = [[NSMutableArray alloc] initWithCapacity:globalSearchKeyConfig.count];
     for (NSArray *keyItem in globalSearchKeyConfig) {
         NSInteger tab = [self getGlobalSearchTab:keyItem[0] label:keyItem[1]];
-        if (tab > -1) {
+        if (tab != NSNotFound) {
             NSArray *lookupItem = @[
                 keyItem[0], // 0: menu path
                 @(tab),     // 1: tab in menu to reach view named label
