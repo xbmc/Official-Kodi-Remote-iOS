@@ -40,8 +40,22 @@
 
 - (id)initWithFrame:(CGRect)frame withItem:(id)item {
     if (self = [super init]) {
-		
+        self.detailItem = item;
         self.view.frame = frame;
+        cellHeight = CELL_HEIGHT_DEFAULT;
+        
+        valueTypeLookup = @{
+            @"boolean": @(SettingValueTypeBoolean),
+            @"integer": @(SettingValueTypeInteger),
+            @"number": @(SettingValueTypeNumber),
+            @"string": @(SettingValueTypeString),
+            @"action": @(SettingValueTypeAction),
+            @"list": @(SettingValueTypeList),
+            @"path": @(SettingValueTypePath),
+            @"addon": @(SettingValueTypeAddon),
+            @"date": @(SettingValueTypeDate),
+            @"time": @(SettingValueTypeTime),
+        };
         
         UIImageView *imageBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"appViewBackground"]];
         imageBackground.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -53,61 +67,61 @@
         activityIndicator.center = CGPointMake(frame.size.width / 2, frame.size.height / 2);
         activityIndicator.hidesWhenStopped = YES;
         [self.view addSubview:activityIndicator];
-
-        self.detailItem = item;
-
-        cellHeight = CELL_HEIGHT_DEFAULT;
         
-        settingOptions = self.detailItem[@"options"];
-        
-        if (![settingOptions isKindOfClass:[NSArray class]]) {
-            settingOptions = nil;
-        }
         itemControls = self.detailItem[@"control"];
+        settingOptions = [self readSettingOptions];
+        settingValueType = [self readSettingValueType];
         
         xbmcSetting = SettingTypeDefault;
-        
-        if ([itemControls[@"format"] isEqualToString:@"boolean"]) {
+        if ([itemControls[@"type"] isEqualToString:@"toggle"]) {
             xbmcSetting = SettingTypeSwitch;
         }
-        else if ([itemControls[@"multiselect"] boolValue] && ![settingOptions isKindOfClass:[NSArray class]]) {
-            xbmcSetting = SettingTypeMultiselect;
-            self.detailItem[@"value"] = [self.detailItem[@"value"] mutableCopy];
+        else if ([itemControls[@"type"] isEqualToString:@"button"]) {
+            if ([itemControls[@"format"] isEqualToString:@"addon"]) {
+                xbmcSetting = SettingTypeList;
+                settingOptions = [NSMutableArray new];
+                [self retrieveXBMCData:@"Addons.GetAddons"
+                            parameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        self.detailItem[@"addontype"], @"type",
+                                        @YES, @"enabled",
+                                        @[@"name"], @"properties",
+                                        nil]
+                               itemKey:@"addons"];
+            }
+            else if ([itemControls[@"format"] isEqualToString:@"action"] || [itemControls[@"format"] isEqualToString:@"path"]) {
+                xbmcSetting = SettingTypeUnsupported;
+            }
         }
-        else if ([itemControls[@"format"] isEqualToString:@"addon"]) {
-            xbmcSetting = SettingTypeList;
-            self.navigationItem.title = self.detailItem[@"label"];
-            settingOptions = [NSMutableArray new];
-            [self retrieveXBMCData:@"Addons.GetAddons"
-                        parameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                    self.detailItem[@"addontype"], @"type",
-                                    @YES, @"enabled",
-                                    @[@"name"], @"properties",
-                                    nil]
-                           itemKey:@"addons"];
-        }
-        else if ([itemControls[@"format"] isEqualToString:@"action"] || [itemControls[@"format"] isEqualToString:@"path"]) {
-            self.navigationItem.title = self.detailItem[@"label"];
-            xbmcSetting = SettingTypeUnsupported;
-        }
-        else if ([itemControls[@"type"] isEqualToString:@"spinner"] && settingOptions == nil) {
-            xbmcSetting = SettingTypeSlider;
-            storeSliderValue = [self.detailItem[@"value"] intValue];
+        else if ([itemControls[@"type"] isEqualToString:@"spinner"] || [itemControls[@"type"] isEqualToString:@"slider"]) {
+            if (!settingOptions) {
+                xbmcSetting = SettingTypeSlider;
+                storeSliderValue = [self.detailItem[@"value"] floatValue];
+                if ([itemControls[@"format"] isEqualToString:@"percentage"] && ![self.detailItem[@"maximum"] intValue]) {
+                    self.detailItem[@"maximum"] = @100;
+                }
+            }
+            else if (settingOptions.count > 0) {
+                xbmcSetting = SettingTypeList;
+            }
         }
         else if ([itemControls[@"type"] isEqualToString:@"edit"]) {
             xbmcSetting = SettingTypeInput;
         }
-        else if ([itemControls[@"type"] isEqualToString:@"list"] && settingOptions == nil) {
-            xbmcSetting = SettingTypeSlider;
-            storeSliderValue = [self.detailItem[@"value"] intValue];
+        else if ([itemControls[@"type"] isEqualToString:@"list"]) {
+            if ([itemControls[@"multiselect"] boolValue] && !settingOptions) {
+                xbmcSetting = SettingTypeMultiselect;
+                self.detailItem[@"value"] = [self.detailItem[@"value"] mutableCopy];
+            }
+            else if (!settingOptions) {
+                xbmcSetting = SettingTypeSlider;
+                storeSliderValue = [self.detailItem[@"value"] floatValue];
+            }
+            else if (settingOptions.count > 0) {
+                xbmcSetting = SettingTypeList;
+            }
         }
         else {
-            self.navigationItem.title = self.detailItem[@"label"];
-            if ([settingOptions isKindOfClass:[NSArray class]]) {
-                if (settingOptions.count > 0) {
-                    xbmcSetting = SettingTypeList;
-                }
-            }
+            NSLog(@"Unexpected setting controls type / format: '%@' / '%@'", itemControls[@"type"], itemControls[@"format"]);
         }
         
         NSString *footerMessage;
@@ -232,15 +246,13 @@
 
 - (NSString*)getActionButtonTitle {
     NSString *subTitle = @"";
-    NSString *stringFormat = @": %i";
     switch (xbmcSetting) {
         case SettingTypeList:
-            subTitle = [NSString stringWithFormat:@": %@", settingOptions[longPressRow.row][@"label"]];
+            subTitle = [NSString stringWithFormat:@"%@", settingOptions[longPressRow.row][@"label"]];
             break;
             
         case SettingTypeSlider:
-            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
-            subTitle = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
+            subTitle = [self getStringForSliderItem:itemControls value:storeSliderValue];
             break;
             
         case SettingTypeUnsupported:
@@ -249,7 +261,7 @@
         default:
             break;
     }
-    return [NSString stringWithFormat:@"%@%@", self.detailItem[@"label"], subTitle];
+    return [NSString stringWithFormat:@"%@%@%@", self.detailItem[@"label"], subTitle.length ? @": " : @"", subTitle ?: @""];
 }
 
 - (void)addActionButton:(UIAlertController*)alertCtrl {
@@ -360,14 +372,59 @@
 
 #pragma mark - Helper
 
-- (NSString*)getStringFormatFromItem:(id)item defaultFormat:(NSString*)defaultFormat {
-    // Workaround!! Before Kodi 18.x an older format ("%i ms") was used. The new format ("{0:d} ms") needs
-    // an updated parser. Until this is implemented just display the value itself, without the unit.
-    NSString *format = item[@"formatlabel"];
-    if (format.length > 0 && AppDelegate.instance.serverVersion < 18) {
-        return format;
+- (NSString*)getFormatString:(NSString*)format {
+    // Default format does not provide any units
+    NSString *defaultFormat = settingValueType == SettingValueTypeNumber ? @"%.2f" : @"%i";
+    
+    // Identify fmt-like format string
+    NSInteger openBraceLoc = [format rangeOfString:@"{"].location;
+    NSInteger closeBraceLoc = [format rangeOfString:@"}" options:NSBackwardsSearch].location;
+    if (format.length && openBraceLoc != NSNotFound && closeBraceLoc != NSNotFound && openBraceLoc < closeBraceLoc) {
+        // Gather range for unit which is added after last "}"
+        NSRange range;
+        range.location = closeBraceLoc + 1;
+        range.length = format.length - range.location;
+        
+        // Extract unit and make percent character is formatted correctly
+        NSString *unit = [format substringWithRange:range];
+        unit = [unit stringByReplacingOccurrencesOfString:@"%" withString:@"%%"];
+        
+        // Build std format string, appending the fmt format string's unit
+        format = [defaultFormat stringByAppendingString:unit];
     }
-    return defaultFormat;
+    // Fallback to default in case no format is defined or we missed to identify fmt-style format (which is used for Kodi 18 and later)
+    else if (!format.length || AppDelegate.instance.serverVersion >= 18) {
+        format = defaultFormat;
+    }
+    return format;
+}
+
+- (NSString*)getStringForSliderItem:(id)item value:(float)value {
+    NSString *format = [self getFormatString:item[@"formatlabel"]];
+    NSString *stringResult;
+    switch (settingValueType) {
+        case SettingValueTypeNumber:
+            stringResult = [NSString stringWithFormat:format, value];
+            break;
+        case SettingValueTypeInteger:
+        default:
+            stringResult = [NSString stringWithFormat:format, (int)value];
+            break;
+    }
+    return stringResult;
+}
+
+- (int)readSettingValueType {
+    id valueType = valueTypeLookup[self.detailItem[@"type"]];
+    return valueType ? [valueType intValue] : SettingValueTypeUnknown;
+}
+
+- (NSMutableArray*)readSettingOptions {
+    NSArray *options = self.detailItem[@"options"];
+    if (![options isKindOfClass:[NSArray class]]) {
+        return nil;
+    }
+    return [options mutableCopy];
 }
 
 #pragma mark - Table view data source
@@ -388,10 +445,12 @@
     return numRows;
 }
 
-- (void)layoutCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+- (void)configureCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
 	cell.backgroundColor = [Utilities getSystemGray6];
     cell.tintColor = [Utilities getSystemBlue];
     cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    CGFloat cellWidth = IS_IPHONE ? GET_MAINSCREEN_WIDTH : STACKSCROLL_WIDTH;
 
     UILabel *cellLabel = (UILabel*)[cell viewWithTag:SETTINGS_CELL_LABEL];
     UILabel *descriptionLabel = (UILabel*)[cell viewWithTag:SETTINGS_CELL_DESCRIPTION];
@@ -406,7 +465,6 @@
     onoff.hidden = YES;
     textInputField.hidden = YES;
     
-    NSString *stringFormat = @"%i";
     NSString *descriptionString = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
     descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
     descriptionString = [Utilities stripBBandHTML:descriptionString];
@@ -420,12 +478,12 @@
             cellLabel.numberOfLines = 0;
             cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                          PADDING_VERTICAL,
-                                         cell.bounds.size.width - onoff.frame.size.width - 3 * PADDING_HORIZONTAL,
+                                         cellWidth - onoff.frame.size.width - 3 * PADDING_HORIZONTAL,
                                          LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:cellLabel];
             
             onoff.on = [self.detailItem[@"value"] boolValue];
-            onoff.frame = CGRectMake(cell.bounds.size.width - onoff.frame.size.width - PADDING_HORIZONTAL,
+            onoff.frame = CGRectMake(cellWidth - onoff.frame.size.width - PADDING_HORIZONTAL,
                                      (CGRectGetHeight(cellLabel.frame) - CGRectGetHeight(onoff.frame)) / 2 + CGRectGetMinY(cellLabel.frame),
                                      CGRectGetWidth(onoff.frame),
                                      CGRectGetHeight(onoff.frame));
@@ -433,7 +491,7 @@
             descriptionLabel.text = descriptionString;
             descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                                 CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL,
-                                                cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                cellWidth - 2 * PADDING_HORIZONTAL,
                                                 LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:descriptionLabel];
             
@@ -441,6 +499,7 @@
             break;
             
         case SettingTypeList:
+            self.navigationItem.title = self.detailItem[@"label"];
             cellLabel.text = [NSString stringWithFormat:@"%@", settingOptions[indexPath.row][@"label"]];
             if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
                 if ([self.detailItem[@"value"] containsObject:settingOptions[indexPath.row][@"value"]]) {
@@ -450,6 +509,11 @@
             else if ([settingOptions[indexPath.row][@"value"] isEqual:self.detailItem[@"value"]]) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
+            cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
+                                         PADDING_VERTICAL,
+                                         cellWidth - 2 * PADDING_HORIZONTAL,
+                                         LABEL_HEIGHT_DEFAULT);
+            cellHeight = CELL_HEIGHT_DEFAULT;
             break;
             
         case SettingTypeSlider:
@@ -463,7 +527,7 @@
             cellLabel.numberOfLines = 0;
             cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                          PADDING_VERTICAL,
-                                         cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                         cellWidth - 2 * PADDING_HORIZONTAL,
                                          LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:cellLabel];
             
@@ -472,25 +536,24 @@
             descriptionLabel.numberOfLines = 0;
             descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                                 CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL,
-                                                cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                cellWidth - 2 * PADDING_HORIZONTAL,
                                                 LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:descriptionLabel];
             
-            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
-            sliderLabel.text = [NSString stringWithFormat:stringFormat, [self.detailItem[@"value"] intValue]];
-            sliderLabel.frame = CGRectMake(CGRectGetMinX(sliderLabel.frame),
+            sliderLabel.text = [self getStringForSliderItem:itemControls value:[self.detailItem[@"value"] floatValue]];
+            sliderLabel.frame = CGRectMake(SLIDER_PADDING,
                                            CGRectGetMaxY(descriptionLabel.frame) + 2 * PADDING_VERTICAL,
-                                           CGRectGetWidth(sliderLabel.frame),
+                                           cellWidth - 2 * SLIDER_PADDING,
                                            LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:sliderLabel];
             
             slider.minimumValue = [self.detailItem[@"minimum"] intValue];
             slider.maximumValue = [self.detailItem[@"maximum"] intValue];
-            slider.value = [self.detailItem[@"value"] intValue];
-            slider.frame = CGRectMake(CGRectGetMinX(slider.frame),
+            slider.value = [self.detailItem[@"value"] floatValue];
+            slider.frame = CGRectMake(SLIDER_PADDING,
                                       CGRectGetMaxY(sliderLabel.frame) + PADDING_VERTICAL,
-                                      CGRectGetWidth(slider.frame),
-                                      CGRectGetHeight(slider.frame));
+                                      cellWidth - 2 * SLIDER_PADDING,
+                                      SLIDER_HEIGHT);
             
             cellHeight = CGRectGetMaxY(slider.frame) + 2 * PADDING_VERTICAL;
             break;
@@ -504,7 +567,7 @@
             cellLabel.numberOfLines = 0;
             cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                          PADDING_VERTICAL,
-                                         cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                         cellWidth - 2 * PADDING_HORIZONTAL,
                                          LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:cellLabel];
             
@@ -513,45 +576,46 @@
             descriptionLabel.numberOfLines = 0;
             descriptionLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                                 CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL,
-                                                cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                                cellWidth - 2 * PADDING_HORIZONTAL,
                                                 LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:descriptionLabel];
             
             textInputField.text = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
-            textInputField.frame = CGRectMake(CGRectGetMinX(textInputField.frame),
+            textInputField.frame = CGRectMake(SLIDER_PADDING,
                                               CGRectGetMaxY(descriptionLabel.frame) + PADDING_VERTICAL,
-                                              CGRectGetWidth(textInputField.frame),
-                                              CGRectGetHeight(textInputField.frame));
+                                              cellWidth - 2 * SLIDER_PADDING,
+                                              TEXTFIELD_HEIGHT);
             
             cellHeight = CGRectGetMaxY(textInputField.frame) + PADDING_VERTICAL;
             break;
             
-        case SettingTypeDefault:
         case SettingTypeMultiselect:
+            self.navigationItem.title = self.detailItem[@"label"];
             if (self.detailItem[@"value"] != nil) {
+                NSString *delimiter;
+                NSArray *settingsArray;
                 if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
-                    NSString *delimiter = self.detailItem[@"delimiter"];
-                    if (delimiter == nil) {
-                        delimiter = @", ";
-                    }
-                    else {
-                        delimiter = [NSString stringWithFormat:@"%@ ", delimiter];
-                    }
-                    NSArray *settingsArray = self.detailItem[@"value"];
+                    delimiter = self.detailItem[@"delimiter"];
+                    delimiter = delimiter ? [NSString stringWithFormat:@"%@ ", delimiter] : @", ";
+                    
                     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:YES];
+                    settingsArray = self.detailItem[@"value"];
                     settingsArray = [settingsArray sortedArrayUsingDescriptors:@[descriptor]];
-                    cellLabel.text = [settingsArray componentsJoinedByString:delimiter];
                 }
                 else {
-                    cellLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
+                    delimiter = @"";
+                    settingsArray = @[self.detailItem[@"value"]];
                 }
+                settingsArray = [self convertValueListToLabelList:settingsArray];
+                cellLabel.text = [settingsArray componentsJoinedByString:delimiter];
+                
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 
                 cellLabel.text = cellLabel.text.length ? cellLabel.text : descriptionString;
                 cellLabel.numberOfLines = 0;
                 cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                              PADDING_VERTICAL,
-                                             cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                             cellWidth - 2 * PADDING_HORIZONTAL,
                                              LABEL_HEIGHT_DEFAULT);
                 [self setAutomaticLabelHeight:cellLabel];
                 
@@ -560,19 +624,21 @@
             break;
             
         case SettingTypeUnsupported:
+            self.navigationItem.title = self.detailItem[@"label"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             cellLabel.text = descriptionString;
             cellLabel.numberOfLines = 0;
             cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                          PADDING_VERTICAL,
-                                         cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                         cellWidth - 2 * PADDING_HORIZONTAL,
                                          LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:cellLabel];
             
             cellHeight = CGRectGetMaxY(cellLabel.frame) + PADDING_VERTICAL;
             break;
             
+        case SettingTypeDefault:
         default:
             if (self.detailItem[@"value"] != nil) {
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -582,7 +648,7 @@
                 cellLabel.numberOfLines = 0;
                 cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                              PADDING_VERTICAL,
-                                             cell.bounds.size.width - 2 * PADDING_HORIZONTAL,
+                                             cellWidth - 2 * PADDING_HORIZONTAL,
                                              LABEL_HEIGHT_DEFAULT);
                 [self setAutomaticLabelHeight:cellLabel];
                 
@@ -590,6 +656,23 @@
             }
             break;
     }
+}
+
+- (NSArray*)convertValueListToLabelList:(NSArray*)valueList {
+    NSArray *optionList = self.detailItem[@"definition"][@"options"];
+    if (!optionList) {
+        return valueList;
+    }
+    NSMutableArray *labelList = [[NSMutableArray alloc] initWithCapacity:valueList.count];
+    for (id value in valueList) {
+        for (id option in optionList) {
+            if (([value isKindOfClass:[NSNumber class]] && [value intValue] == [option[@"value"] intValue]) ||
+                ([value isKindOfClass:[NSString class]] && [value isEqualToString:option[@"value"]])) {
+                [labelList addObject:option[@"label"]];
+            }
+        }
+    }
+    return labelList;
 }
 
 - (void)setAutomaticLabelHeight:(UILabel*)label {
@@ -603,29 +686,21 @@
     UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
-        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
-                                                                       (CELL_HEIGHT_DEFAULT - LABEL_HEIGHT_DEFAULT) / 2,
-                                                                       cell.frame.size.width - 2 * PADDING_HORIZONTAL,
-                                                                       LABEL_HEIGHT_DEFAULT)];
+        UILabel *cellLabel = [UILabel new];
         cellLabel.tag = SETTINGS_CELL_LABEL;
         cellLabel.font = [UIFont systemFontOfSize:16];
         cellLabel.adjustsFontSizeToFitWidth = YES;
         cellLabel.minimumScaleFactor = FONT_SCALING_MIN;
         cellLabel.textColor = [Utilities get1stLabelColor];
         cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
-        cellLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:cellLabel];
         
         UISwitch *onoff = [UISwitch new];
         onoff.tag = SETTINGS_CELL_ONOFF_SWITCH;
-        onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         [onoff addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
         [cell.contentView addSubview:onoff];
 
-        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_HORIZONTAL,
-                                                                              0,
-                                                                              cell.frame.size.width - 2 * PADDING_HORIZONTAL,
-                                                                              LABEL_HEIGHT_DEFAULT)];
+        UILabel *descriptionLabel = [UILabel new];
         descriptionLabel.tag = SETTINGS_CELL_DESCRIPTION;
         descriptionLabel.font = [UIFont systemFontOfSize:14];
         descriptionLabel.adjustsFontSizeToFitWidth = YES;
@@ -633,18 +708,13 @@
         descriptionLabel.numberOfLines = 0;
         descriptionLabel.textColor = [Utilities get2ndLabelColor];
         descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-        descriptionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:descriptionLabel];
         
-        OBSlider *slider = [[OBSlider alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
-                                                                      0,
-                                                                      cell.frame.size.width - 2 * SLIDER_PADDING,
-                                                                      SLIDER_HEIGHT)];
+        OBSlider *slider = [OBSlider new];
         slider.tag = SETTINGS_CELL_SLIDER;
         slider.backgroundColor = UIColor.clearColor;
         slider.minimumTrackTintColor = KODI_BLUE_COLOR;
         slider.continuous = YES;
-        slider.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
         [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventEditingDidEnd];
         [slider addTarget:self action:@selector(stopUpdateSlider:) forControlEvents:UIControlEventTouchCancel];
@@ -653,10 +723,7 @@
         [slider addTarget:self action:@selector(startUpdateSlider:) forControlEvents:UIControlEventTouchDown];
         [cell.contentView addSubview:slider];
         
-        UILabel *sliderLabel = [[UILabel alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
-                                                                         0,
-                                                                         cell.frame.size.width - 2 * SLIDER_PADDING,
-                                                                         LABEL_HEIGHT_DEFAULT)];
+        UILabel *sliderLabel = [UILabel new];
         sliderLabel.tag = SETTINGS_CELL_SLIDER_LABEL;
         sliderLabel.font = [UIFont systemFontOfSize:14];
         sliderLabel.adjustsFontSizeToFitWidth = YES;
@@ -664,13 +731,9 @@
         sliderLabel.textAlignment = NSTextAlignmentCenter;
         sliderLabel.textColor = [Utilities get2ndLabelColor];
         sliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-        sliderLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:sliderLabel];
         
-        UITextField *textInputField = [[UITextField alloc] initWithFrame:CGRectMake(SLIDER_PADDING,
-                                                                                    0,
-                                                                                    cell.frame.size.width - 2 * SLIDER_PADDING,
-                                                                                    TEXTFIELD_HEIGHT)];
+        UITextField *textInputField = [UITextField new];
         textInputField.tag = SETTINGS_CELL_TEXTFIELD;
         textInputField.borderStyle = UITextBorderStyleRoundedRect;
         textInputField.textAlignment = NSTextAlignmentCenter;
@@ -682,10 +745,9 @@
         textInputField.clearButtonMode = UITextFieldViewModeWhileEditing;
         textInputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textInputField.delegate = self;
-        textInputField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [cell.contentView addSubview:textInputField];
 	}
-    [self layoutCell:cell forRowAtIndexPath:indexPath];
+    [self configureCell:cell forRowAtIndexPath:indexPath];
     return cell;
 }
 
@@ -792,16 +854,12 @@
 }
 
 - (void)sliderAction:(OBSlider*)slider {
-    float newStep = roundf(slider.value / [self.detailItem[@"step"] intValue]);
-    float newValue = newStep * [self.detailItem[@"step"] intValue];
+    float newStep = roundf(slider.value / [self.detailItem[@"step"] floatValue]);
+    float newValue = newStep * [self.detailItem[@"step"] floatValue];
     if (!FLOAT_EQUAL_ZERO(newValue - storeSliderValue)) {
         storeSliderValue = newValue;
         UILabel *sliderLabel = [[slider superview] viewWithTag:SETTINGS_CELL_SLIDER_LABEL];
-        if (sliderLabel) {
-            NSString *stringFormat = @"%i";
-            stringFormat = [self getStringFormatFromItem:itemControls defaultFormat:stringFormat];
-            sliderLabel.text = [NSString stringWithFormat:stringFormat, (int)storeSliderValue];
-        }
+        sliderLabel.text = [self getStringForSliderItem:itemControls value:storeSliderValue];
     }
     scrubbingRate.text = LOCALIZED_STR(([NSString stringWithFormat:@"Scrubbing %@", @(slider.scrubbingSpeed)]));
 }

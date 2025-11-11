@@ -18,6 +18,20 @@ typedef NS_ENUM(NSInteger, SettingType) {
     SettingTypeUnsupported,
 };
 
+typedef NS_ENUM(NSInteger, SettingValueType) {
+    SettingValueTypeBoolean,
+    SettingValueTypeInteger,
+    SettingValueTypeNumber,
+    SettingValueTypeString,
+    SettingValueTypeAction,
+    SettingValueTypeList,
+    SettingValueTypePath,
+    SettingValueTypeAddon,
+    SettingValueTypeDate,
+    SettingValueTypeTime,
+    SettingValueTypeUnknown,
+};
+
 @interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate> {
     CGFloat cellHeight;
     NSMutableArray *settingOptions;
@@ -33,6 +47,8 @@ typedef NS_ENUM(NSInteger, SettingType) {
     UILabel *scrubbingRate;
     UILabel *footerDescription;
     BOOL fromItself;
+    SettingValueType settingValueType;
+    NSDictionary *valueTypeLookup;
 }
 
 - (id)initWithFrame:(CGRect)frame withItem:(id)item;
