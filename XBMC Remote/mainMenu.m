@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import "mainMenu.h"
 #import "AppDelegate.h"
 #import "Utilities.h"
 
@@ -344,18 +343,6 @@
 + (BOOL)isMenuEntryEnabled:(NSString*)menuItem {
     id menuEnabled = [[NSUserDefaults standardUserDefaults] objectForKey:menuItem];
     return (menuEnabled == nil || [menuEnabled boolValue]);
-}
-
-+ (NSInteger)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel {
-    // Search for the method index with the desired sub label (e.g. "All Songs")
-    NSInteger tab = NSNotFound;
-    for (int k = 0; k < menuItem.mainMethod.count; ++k) {
-        id parameters = menuItem.mainParameters[k];
-        if ([parameters[@"label"] isEqualToString:subLabel]) {
-            return k;
-        }
-    }
-    return tab;
 }
 
 # pragma mark - Build Menu Tree
@@ -6859,8 +6846,23 @@
     ];
     
     // Build the GlobalSearch lookup table
-    NSMutableArray *lookupArray = [[NSMutableArray alloc] initWithCapacity:globalSearchKeyConfig.count];
-    for (NSArray *keyItem in globalSearchKeyConfig) {
+    MainMenuGlobalSearchLookup *lookup = [MainMenuGlobalSearchLookup new];
+    [lookup generateLookupTable:globalSearchKeyConfig];
+    AppDelegate.instance.globalSearchLookup = lookup;
+    
+    return mainMenuItems;
+}
+
+@end
+
+#pragma mark - Global Search Lookup Implementation
+
+@implementation MainMenuGlobalSearchLookup
+
+- (void)generateLookupTable:(NSArray*)keyConfig {
+    // Build the GlobalSearch lookup table
+    NSMutableArray *lookupArray = [[NSMutableArray alloc] initWithCapacity:keyConfig.count];
+    for (NSArray *keyItem in keyConfig) {
         NSInteger tab = [self getGlobalSearchTab:keyItem[0] label:keyItem[1]];
         if (tab != NSNotFound) {
             NSArray *lookupItem = @[
@@ -6873,9 +6875,70 @@
             [lookupArray addObject:lookupItem];
         }
     }
-    AppDelegate.instance.globalSearchMenuLookup = lookupArray;
-    
-    return mainMenuItems;
+    lookupTable = [lookupArray copy];
+}
+
+- (NSInteger)getGlobalSearchTab:(mainMenu*)menuItem label:(NSString*)subLabel {
+    // Search for the method index with the desired sub label (e.g. "All Songs")
+    NSInteger tab = NSNotFound;
+    for (int k = 0; k < menuItem.mainMethod.count; ++k) {
+        id parameters = menuItem.mainParameters[k];
+        if ([parameters[@"label"] isEqualToString:subLabel]) {
+            return k;
+        }
+    }
+    return tab;
+}
+
+- (NSUInteger)getGlobalSearchLookupIndexForItemId:(NSString*)itemid {
+    // Search for the GlobalSearch index for the desired itemid
+    NSUInteger index = [lookupTable indexOfObjectPassingTest:^BOOL(NSArray *item, NSUInteger idx, BOOL *stop) {
+      return [itemid isEqualToString:item[4]];
+    }];
+    return index;
+}
+
+- (NSString*)getGlobalSearchThumbForItem:(NSDictionary*)item {
+    NSUInteger index = [self getGlobalSearchLookupIndexForItemId:item[@"family"]];
+    return index != NSNotFound ? lookupTable[index][3] : @"nocover_filemode";
+}
+
+- (NSArray*)getGlobalSearchLookupForItem:(id)item {
+    NSUInteger index = [self getGlobalSearchLookupIndexForItemId:item[@"family"]];
+    return index != NSNotFound ? lookupTable[index] : nil;
+}
+
+- (mainMenu*)getGlobalSearchMenuForItem:(id)item {
+    NSArray *lookup = [self getGlobalSearchLookupForItem:item];
+    return lookup ? lookup[0] : nil;
+}
+
+- (NSInteger)getGlobalSearchTabForItem:(id)item {
+    NSArray *lookup = [self getGlobalSearchLookupForItem:item];
+    return lookup ? [lookup[1] intValue] : NSNotFound;
+}
+
+- (mainMenu*)getGlobalSearchMenuForIndex:(int)index {
+    if (index < 0 || index >= lookupTable.count) {
+        return nil;
+    }
+    NSArray *lookup = lookupTable[index];
+    return lookup ? lookup[0] : nil;
+}
+
+- (NSInteger)getGlobalSearchTabForIndex:(int)index {
+    if (index < 0 || index >= lookupTable.count) {
+        return NSNotFound;
+    }
+    NSArray *lookup = lookupTable[index];
+    return lookup ? [lookup[1] intValue] : NSNotFound;
+}
+
+- (NSString*)getGlobalSearchLongNameForIndex:(int)index {
+    if (index < 0 || index >= lookupTable.count) {
+        return nil;
+    }
+    return lookupTable[index][2];
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "mainMenu.h"
 
 typedef NS_ENUM(NSInteger, MenuItemFamily) {
     FamilyDetailView,
@@ -76,5 +77,21 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 - (id)copyWithZone:(NSZone*)zone;
 + (NSMutableArray*)generateMenus;
 + (NSArray*)action_album;
+
+@end
+
+@interface MainMenuGlobalSearchLookup : NSObject {
+    NSArray *lookupTable;
+}
+
+- (void)generateLookupTable:(NSArray*)keyConfig;
+- (NSUInteger)getGlobalSearchLookupIndexForItemId:(NSString*)itemid;
+- (NSString*)getGlobalSearchThumbForItem:(NSDictionary*)item;
+- (NSArray*)getGlobalSearchLookupForItem:(id)item;
+- (mainMenu*)getGlobalSearchMenuForItem:(id)item;
+- (NSInteger)getGlobalSearchTabForItem:(id)item;
+- (mainMenu*)getGlobalSearchMenuForIndex:(int)index;
+- (NSInteger)getGlobalSearchTabForIndex:(int)index;
+- (NSString*)getGlobalSearchLongNameForIndex:(int)index;
 
 @end

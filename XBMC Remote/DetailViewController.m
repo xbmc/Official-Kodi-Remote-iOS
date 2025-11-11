@@ -655,30 +655,22 @@
 }
 
 - (NSUInteger)getGlobalSearchLookupIndexForItemId:(NSString*)itemid {
-    // Search for the GlobalSearch index for the desired itemid
-    NSUInteger index = [AppDelegate.instance.globalSearchMenuLookup indexOfObjectPassingTest:^BOOL(NSArray *item, NSUInteger idx, BOOL *stop) {
-      return [itemid isEqualToString:item[4]];
-    }];
-    return index;
+    return [AppDelegate.instance.globalSearchLookup getGlobalSearchLookupIndexForItemId:itemid];
 }
 
 - (NSString*)getGlobalSearchThumb:(NSDictionary*)item {
-    NSUInteger index = [self getGlobalSearchLookupIndexForItemId:item[@"family"]];
-    return index != NSNotFound ? AppDelegate.instance.globalSearchMenuLookup[index][3] : @"nocover_filemode";
+    return [AppDelegate.instance.globalSearchLookup getGlobalSearchThumbForItem:item];
 }
 
 - (NSArray*)getGlobalSearchLookup:(id)item {
-    NSUInteger index = [self getGlobalSearchLookupIndexForItemId:item[@"family"]];
-    return index != NSNotFound ? AppDelegate.instance.globalSearchMenuLookup[index] : nil;
+    return [AppDelegate.instance.globalSearchLookup getGlobalSearchLookupForItem:item];
 }
 
 - (mainMenu*)getMainMenu:(id)item {
     mainMenu *menuItem = self.detailItem;
     if (globalSearchView) {
-        NSArray *lookup = [self getGlobalSearchLookup:item];
-        if (lookup.count > 0) {
-            menuItem = lookup[0];
-        }
+        mainMenu *menuFromLookup = [AppDelegate.instance.globalSearchLookup getGlobalSearchMenuForItem:item];
+        menuItem = menuFromLookup ?: menuItem;
     }
     return menuItem;
 }
@@ -686,10 +678,8 @@
 - (int)getActiveTab:(id)item {
     int activeTab = chosenTab;
     if (globalSearchView) {
-        NSArray *lookup = [self getGlobalSearchLookup:item];
-        if (lookup.count > 1) {
-            activeTab = [lookup[1] intValue];
-        }
+        NSInteger tab  = [AppDelegate.instance.globalSearchLookup getGlobalSearchTabForItem:item];
+        activeTab = tab != NSNotFound ? (int)tab : activeTab;
     }
     return activeTab;
 }
@@ -2352,10 +2342,7 @@
     }
     else if ([sortMethodName isEqualToString:@"itemgroup"]) {
         int index = [sectionName intValue];
-        NSString *sectionLongName;
-        if (index >= 0 && index < AppDelegate.instance.globalSearchMenuLookup.count) {
-            sectionLongName = AppDelegate.instance.globalSearchMenuLookup[index][2];
-        }
+        NSString *sectionLongName = [AppDelegate.instance.globalSearchLookup getGlobalSearchLongNameForIndex:index];
         sectionName = [NSString stringWithFormat:@"%@%@%@", sectionName, sectionLongName.length ? @" - " : @"", sectionLongName];
     }
     return sectionName;
@@ -4544,8 +4531,6 @@
 }
 
 - (void)retrieveGlobalData:(BOOL)forceRefresh {
-    NSArray *itemsAndTabs = AppDelegate.instance.globalSearchMenuLookup;
-    
     mainMenu *menuItem = self.detailItem;
     NSMutableDictionary *parameters = [menuItem.mainParameters[chosenTab] mutableCopy];
     if ([self loadedDataFromDisk:nil parameters:parameters refresh:forceRefresh]) {
@@ -4554,7 +4539,7 @@
     
     // Kick off recursive calls
     NSMutableArray *richData = [NSMutableArray new];
-    [self loadDetailedData:itemsAndTabs index:0 results:richData];
+    [self loadDetailedDataForIndex:0 results:richData];
 }
 
 - (void)addItemGroup:(NSMutableDictionary*)dict {
@@ -4564,8 +4549,10 @@
     dict[@"itemgroup"] = (index != NSNotFound) ? [NSString stringWithFormat:@"%li", index] : @"";
 }
 
-- (void)loadDetailedData:(NSArray*)itemsAndTabs index:(int)index results:(NSMutableArray*)richData {
-    if (index > itemsAndTabs.count - 1) {
+- (void)loadDetailedDataForIndex:(int)index results:(NSMutableArray*)richData {
+    mainMenu *menuItem = [AppDelegate.instance.globalSearchLookup getGlobalSearchMenuForIndex:index];
+    int activeTab = (int)[AppDelegate.instance.globalSearchLookup getGlobalSearchTabForIndex:index];
+    if (!menuItem) {
         [self.sections removeAllObjects];
         [self.richResults removeAllObjects];
         [self.filteredListContent removeAllObjects];
@@ -4582,8 +4569,6 @@
         [self indexAndDisplayData];
         return;
     }
-    mainMenu *menuItem = itemsAndTabs[index][0];
-    int activeTab = [itemsAndTabs[index][1] intValue];
     NSDictionary *methods = menuItem.mainMethod[activeTab];
     NSDictionary *parameters = menuItem.mainParameters[activeTab];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
@@ -4625,7 +4610,7 @@
                 }
             }
         }
-        [self loadDetailedData:itemsAndTabs index:index + 1 results:richData];
+        [self loadDetailedDataForIndex:index + 1 results:richData];
     }];
 }
 
