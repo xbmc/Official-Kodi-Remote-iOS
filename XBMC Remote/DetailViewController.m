@@ -655,21 +655,21 @@
 }
 
 - (NSUInteger)getGlobalSearchLookupIndexForItemId:(NSString*)itemid {
-    return [AppDelegate.instance.globalSearchLookup getGlobalSearchLookupIndexForItemId:itemid];
+    return [AppDelegate.instance.globalSearchLookup getLookupIndexForItemId:itemid];
 }
 
 - (NSString*)getGlobalSearchThumb:(NSDictionary*)item {
-    return [AppDelegate.instance.globalSearchLookup getGlobalSearchThumbForItem:item];
+    return [AppDelegate.instance.globalSearchLookup getThumbForItem:item];
 }
 
 - (NSArray*)getGlobalSearchLookup:(id)item {
-    return [AppDelegate.instance.globalSearchLookup getGlobalSearchLookupForItem:item];
+    return [AppDelegate.instance.globalSearchLookup getLookupForItem:item];
 }
 
 - (mainMenu*)getMainMenu:(id)item {
     mainMenu *menuItem = self.detailItem;
     if (globalSearchView) {
-        mainMenu *menuFromLookup = [AppDelegate.instance.globalSearchLookup getGlobalSearchMenuForItem:item];
+        mainMenu *menuFromLookup = [AppDelegate.instance.globalSearchLookup getMenuForItem:item];
         menuItem = menuFromLookup ?: menuItem;
     }
     return menuItem;
@@ -678,7 +678,7 @@
 - (int)getActiveTab:(id)item {
     int activeTab = chosenTab;
     if (globalSearchView) {
-        NSInteger tab  = [AppDelegate.instance.globalSearchLookup getGlobalSearchTabForItem:item];
+        NSInteger tab  = [AppDelegate.instance.globalSearchLookup getTabForItem:item];
         activeTab = tab != NSNotFound ? (int)tab : activeTab;
     }
     return activeTab;
@@ -2342,7 +2342,7 @@
     }
     else if ([sortMethodName isEqualToString:@"itemgroup"]) {
         int index = [sectionName intValue];
-        NSString *sectionLongName = [AppDelegate.instance.globalSearchLookup getGlobalSearchLongNameForIndex:index];
+        NSString *sectionLongName = [AppDelegate.instance.globalSearchLookup getLongNameForIndex:index];
         sectionName = [NSString stringWithFormat:@"%@%@%@", sectionName, sectionLongName.length ? @" - " : @"", sectionLongName];
     }
     return sectionName;
@@ -4550,8 +4550,8 @@
 }
 
 - (void)loadDetailedDataForIndex:(int)index results:(NSMutableArray*)richData {
-    mainMenu *menuItem = [AppDelegate.instance.globalSearchLookup getGlobalSearchMenuForIndex:index];
-    int activeTab = (int)[AppDelegate.instance.globalSearchLookup getGlobalSearchTabForIndex:index];
+    mainMenu *menuItem = [AppDelegate.instance.globalSearchLookup getMenuForIndex:index];
+    int activeTab = (int)[AppDelegate.instance.globalSearchLookup getTabForIndex:index];
     if (!menuItem) {
         [self.sections removeAllObjects];
         [self.richResults removeAllObjects];

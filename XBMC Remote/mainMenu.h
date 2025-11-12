@@ -85,13 +85,13 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 }
 
 - (void)generateLookupTable:(NSArray*)keyConfig;
-- (NSUInteger)getGlobalSearchLookupIndexForItemId:(NSString*)itemid;
-- (NSString*)getGlobalSearchThumbForItem:(NSDictionary*)item;
-- (NSArray*)getGlobalSearchLookupForItem:(id)item;
-- (mainMenu*)getGlobalSearchMenuForItem:(id)item;
-- (NSInteger)getGlobalSearchTabForItem:(id)item;
-- (mainMenu*)getGlobalSearchMenuForIndex:(int)index;
-- (NSInteger)getGlobalSearchTabForIndex:(int)index;
-- (NSString*)getGlobalSearchLongNameForIndex:(int)index;
+- (NSUInteger)getLookupIndexForItemId:(NSString*)itemid;
+- (NSString*)getThumbForItem:(NSDictionary*)item;
+- (NSArray*)getLookupForItem:(id)item;
+- (mainMenu*)getMenuForItem:(id)item;
+- (NSInteger)getTabForItem:(id)item;
+- (mainMenu*)getMenuForIndex:(int)index;
+- (NSInteger)getTabForIndex:(int)index;
+- (NSString*)getLongNameForIndex:(int)index;
 
 @end
