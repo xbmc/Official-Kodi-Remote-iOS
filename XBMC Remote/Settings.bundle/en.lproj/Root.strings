@@ -47,3 +47,6 @@
 "Kodi Settings" = "Kodi Settings";
 "Main Menu changes needs app restart" = "Main Menu changes needs app restart";
 "Episode identifier" = "Episode identifier";
+"Volume control" = "Volume control";
+"CEC support via volume buttons" = "CEC support via volume buttons";
+"The app controls volume via buttons and a slider. The slider will always change the Kodi internal volume level. The buttons allow to control AV equipment's volume level via CEC, if this mode is enabled and Kodi identified a compatible device. The CEC functionality is embedded within Kodi itself." = "The app controls volume via buttons and a slider. The slider will always change the Kodi internal volume level. The buttons allow to control AV equipment's volume level via CEC, if this mode is enabled and Kodi identified a compatible device. The CEC functionality is embedded within Kodi itself.";
