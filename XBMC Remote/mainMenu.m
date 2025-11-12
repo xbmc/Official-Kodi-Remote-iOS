@@ -6857,11 +6857,11 @@
 
 #pragma mark - Global Search Lookup Implementation
 
-#define GLOBAL_SEARCH_MENU_INDEX 0
-#define GLOBAL_SEARCH_TAB_INDEX 1
-#define GLOBAL_SEARCH_LABEL_INDEX 2
-#define GLOBAL_SEARCH_THUMB_INDEX 3
-#define GLOBAL_SEARCH_ITEMID_INDEX 4
+#define GLOBAL_SEARCH_MENU_KEY @"menu"
+#define GLOBAL_SEARCH_TAB_KEY @"tab"
+#define GLOBAL_SEARCH_LABEL_KEY @"label"
+#define GLOBAL_SEARCH_THUMB_KEY @"thumb"
+#define GLOBAL_SEARCH_ITEMID_KEY @"itemid"
 
 @implementation MainMenuGlobalSearchLookup
 
@@ -6871,13 +6871,13 @@
     for (NSArray *keyItem in keyConfig) {
         NSInteger tab = [self getGlobalSearchTab:keyItem[0] label:keyItem[1]];
         if (tab != NSNotFound) {
-            NSArray *lookupItem = @[
-                keyItem[0], // 0: menu path
-                @(tab),     // 1: tab in menu to reach view named label
-                keyItem[1], // 2: label
-                keyItem[2], // 3: nocover icon
-                keyItem[3], // 4: item id
-            ];
+            NSDictionary *lookupItem = @{
+                GLOBAL_SEARCH_MENU_KEY: keyItem[0],   // menu path
+                GLOBAL_SEARCH_TAB_KEY: @(tab),        // tab in menu to reach view named label
+                GLOBAL_SEARCH_LABEL_KEY: keyItem[1],  // label
+                GLOBAL_SEARCH_THUMB_KEY: keyItem[2],  // nocover icon
+                GLOBAL_SEARCH_ITEMID_KEY: keyItem[3], // item id
+            };
             [lookupArray addObject:lookupItem];
         }
     }
@@ -6898,53 +6898,53 @@
 
 - (NSUInteger)getLookupIndexForItemId:(NSString*)itemid {
     // Search for the GlobalSearch index for the desired itemid
-    NSUInteger index = [lookupTable indexOfObjectPassingTest:^BOOL(NSArray *item, NSUInteger idx, BOOL *stop) {
-      return [itemid isEqualToString:item[GLOBAL_SEARCH_ITEMID_INDEX]];
+    NSUInteger index = [lookupTable indexOfObjectPassingTest:^BOOL(NSDictionary *item, NSUInteger idx, BOOL *stop) {
+      return [itemid isEqualToString:item[GLOBAL_SEARCH_ITEMID_KEY]];
     }];
     return index;
 }
 
 - (NSString*)getThumbForItem:(NSDictionary*)item {
     NSUInteger index = [self getLookupIndexForItemId:item[@"family"]];
-    return index != NSNotFound ? lookupTable[index][GLOBAL_SEARCH_THUMB_INDEX] : @"nocover_filemode";
+    return index != NSNotFound ? lookupTable[index][GLOBAL_SEARCH_THUMB_KEY] : @"nocover_filemode";
 }
 
-- (NSArray*)getLookupForItem:(id)item {
+- (NSDictionary*)getLookupForItem:(id)item {
     NSUInteger index = [self getLookupIndexForItemId:item[@"family"]];
     return index != NSNotFound ? lookupTable[index] : nil;
 }
 
 - (mainMenu*)getMenuForItem:(id)item {
-    NSArray *lookup = [self getLookupForItem:item];
-    return lookup ? lookup[GLOBAL_SEARCH_MENU_INDEX] : nil;
+    NSDictionary *lookup = [self getLookupForItem:item];
+    return lookup ? lookup[GLOBAL_SEARCH_MENU_KEY] : nil;
 }
 
 - (NSInteger)getTabForItem:(id)item {
-    NSArray *lookup = [self getLookupForItem:item];
-    return lookup ? [lookup[GLOBAL_SEARCH_TAB_INDEX] intValue] : NSNotFound;
+    NSDictionary *lookup = [self getLookupForItem:item];
+    return lookup ? [lookup[GLOBAL_SEARCH_TAB_KEY] intValue] : NSNotFound;
 }
 
 - (mainMenu*)getMenuForIndex:(int)index {
     if (index < 0 || index >= lookupTable.count) {
         return nil;
     }
-    NSArray *lookup = lookupTable[index];
-    return lookup ? lookup[GLOBAL_SEARCH_MENU_INDEX] : nil;
+    NSDictionary *lookup = lookupTable[index];
+    return lookup ? lookup[GLOBAL_SEARCH_MENU_KEY] : nil;
 }
 
 - (NSInteger)getTabForIndex:(int)index {
     if (index < 0 || index >= lookupTable.count) {
         return NSNotFound;
     }
-    NSArray *lookup = lookupTable[index];
-    return lookup ? [lookup[GLOBAL_SEARCH_TAB_INDEX] intValue] : NSNotFound;
+    NSDictionary *lookup = lookupTable[index];
+    return lookup ? [lookup[GLOBAL_SEARCH_TAB_KEY] intValue] : NSNotFound;
 }
 
 - (NSString*)getLongNameForIndex:(int)index {
     if (index < 0 || index >= lookupTable.count) {
         return nil;
     }
-    return lookupTable[index][GLOBAL_SEARCH_LABEL_INDEX];
+    return lookupTable[index][GLOBAL_SEARCH_LABEL_KEY];
 }
 
 @end
