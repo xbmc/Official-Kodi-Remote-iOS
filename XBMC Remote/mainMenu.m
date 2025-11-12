@@ -6857,6 +6857,12 @@
 
 #pragma mark - Global Search Lookup Implementation
 
+#define GLOBAL_SEARCH_MENU_INDEX 0
+#define GLOBAL_SEARCH_TAB_INDEX 1
+#define GLOBAL_SEARCH_LABEL_INDEX 2
+#define GLOBAL_SEARCH_THUMB_INDEX 3
+#define GLOBAL_SEARCH_ITEMID_INDEX 4
+
 @implementation MainMenuGlobalSearchLookup
 
 - (void)generateLookupTable:(NSArray*)keyConfig {
@@ -6893,14 +6899,14 @@
 - (NSUInteger)getLookupIndexForItemId:(NSString*)itemid {
     // Search for the GlobalSearch index for the desired itemid
     NSUInteger index = [lookupTable indexOfObjectPassingTest:^BOOL(NSArray *item, NSUInteger idx, BOOL *stop) {
-      return [itemid isEqualToString:item[4]];
+      return [itemid isEqualToString:item[GLOBAL_SEARCH_ITEMID_INDEX]];
     }];
     return index;
 }
 
 - (NSString*)getThumbForItem:(NSDictionary*)item {
     NSUInteger index = [self getLookupIndexForItemId:item[@"family"]];
-    return index != NSNotFound ? lookupTable[index][3] : @"nocover_filemode";
+    return index != NSNotFound ? lookupTable[index][GLOBAL_SEARCH_THUMB_INDEX] : @"nocover_filemode";
 }
 
 - (NSArray*)getLookupForItem:(id)item {
@@ -6910,12 +6916,12 @@
 
 - (mainMenu*)getMenuForItem:(id)item {
     NSArray *lookup = [self getLookupForItem:item];
-    return lookup ? lookup[0] : nil;
+    return lookup ? lookup[GLOBAL_SEARCH_MENU_INDEX] : nil;
 }
 
 - (NSInteger)getTabForItem:(id)item {
     NSArray *lookup = [self getLookupForItem:item];
-    return lookup ? [lookup[1] intValue] : NSNotFound;
+    return lookup ? [lookup[GLOBAL_SEARCH_TAB_INDEX] intValue] : NSNotFound;
 }
 
 - (mainMenu*)getMenuForIndex:(int)index {
@@ -6923,7 +6929,7 @@
         return nil;
     }
     NSArray *lookup = lookupTable[index];
-    return lookup ? lookup[0] : nil;
+    return lookup ? lookup[GLOBAL_SEARCH_MENU_INDEX] : nil;
 }
 
 - (NSInteger)getTabForIndex:(int)index {
@@ -6931,14 +6937,14 @@
         return NSNotFound;
     }
     NSArray *lookup = lookupTable[index];
-    return lookup ? [lookup[1] intValue] : NSNotFound;
+    return lookup ? [lookup[GLOBAL_SEARCH_TAB_INDEX] intValue] : NSNotFound;
 }
 
 - (NSString*)getLongNameForIndex:(int)index {
     if (index < 0 || index >= lookupTable.count) {
         return nil;
     }
-    return lookupTable[index][2];
+    return lookupTable[index][GLOBAL_SEARCH_LABEL_INDEX];
 }
 
 @end
