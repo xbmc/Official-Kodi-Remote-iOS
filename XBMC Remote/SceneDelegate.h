@@ -8,7 +8,10 @@
 
 @import UIKit;
 
-@interface SceneDelegate : UIResponder <UIWindowSceneDelegate> {}
+@interface SceneDelegate : UIResponder <UIWindowSceneDelegate> {
+    UIApplicationShortcutItem *launchShortcutItem;
+    id launchURLContexts;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
