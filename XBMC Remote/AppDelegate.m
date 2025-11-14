@@ -163,40 +163,6 @@
 
 #pragma mark - Helper
 
-- (BOOL)connectToServerFromList:(NSString*)host {
-    if (!host.length) {
-        return NO;
-    }
-    
-    // Host name needs ".local." at the end
-    if ([host hasSuffix:@".local"]) {
-        host = [host stringByAppendingString:@"."];
-    }
-    
-    // Try to map server name or IP address to the list of Kodi servers
-    NSInteger index = [self.arrayServerList indexOfObjectPassingTest:^BOOL(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
-        return [host isEqualToString:obj[@"serverDescription"]] || [host isEqualToString:obj[@"serverIP"]];
-    }];
-    
-    // We want to connect to the desired server only. If this is not present, disconnect from any active server.
-    BOOL result = NO;
-    NSIndexPath *serverIndexPath;
-    NSDictionary *params;
-    if (index != NSNotFound) {
-        serverIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
-        params = @{@"index": @(index)};
-        result = YES;
-    }
-    
-    // Case 1: App just starts. Set the last active server before readKodiServerParameters is called
-    [Utilities saveLastServerIndex:serverIndexPath];
-    
-    // Case 2: App already runs. Send a notification to select the server via its index.
-    [NSNotificationCenter.defaultCenter postNotificationName:@"SelectKodiServer" object:nil userInfo:params];
-    
-    return result;
-}
-
 - (void)sendWOL:(NSString*)MAC withPort:(NSInteger)WOLport {
     CFSocketRef     WOLsocket;
     WOLsocket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_DGRAM, IPPROTO_UDP, 0, NULL, NULL);
@@ -270,16 +236,6 @@
             NSLog(@"CFSocketSendData error: %li", CFSocketSendData_error);
         }
     }
-}
-
-- (BOOL)application:(UIApplication*)app openURL:(NSURL*)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id>*)options {
-    // Use URL host to map to server list and connect the server.
-    return [self connectToServerFromList:url.host.stringByRemovingPercentEncoding];
-}
-
-- (void)application:(UIApplication*)application performActionForShortcutItem:(UIApplicationShortcutItem*)shortcutItem completionHandler:(void(^)(BOOL))completionHandler {
-    // Use shortcut title (= server description) to map to server list and connect the server.
-    [self connectToServerFromList:shortcutItem.localizedTitle];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication*)application {
