@@ -1044,7 +1044,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleEnterForeground)
-                                                 name:UIApplicationWillEnterForegroundNotification
+                                                 name:UISceneWillEnterForegroundNotification
                                                object:nil];
 }
 
