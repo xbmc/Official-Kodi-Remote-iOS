@@ -9,5 +9,7 @@
 #import "UIViewController+Extensions.h"
 #import "UIImageView+WebCache.h"
 
-@import UIKit;
-@import Foundation;
+#ifdef __OBJC__
+#include <UIKit/UIKit.h>
+#include <Foundation/Foundation.h>
+#endif
