@@ -904,10 +904,6 @@
     return urlString;
 }
 
-+ (CGSize)getSizeOfLabel:(UILabel*)label {
-    return [label sizeThatFits:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)];
-}
-
 + (UIImage*)roundedCornerImage:(UIImage*)image {
     if (image.size.width == 0 || image.size.height == 0) {
         return image;
@@ -1439,6 +1435,16 @@
     
     // Send XBMCServerHasChanged notification to let main menu deactivate the menu items
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
+}
+
+@end
+
+#pragma mark - UILabel extensions
+
+@implementation UILabel (Extensions)
+
+- (CGSize)getSize {
+    return [self sizeThatFits:CGSizeMake(self.frame.size.width, CGFLOAT_MAX)];
 }
 
 @end

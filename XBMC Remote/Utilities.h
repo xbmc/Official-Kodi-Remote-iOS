@@ -84,7 +84,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (int)getSec2Min:(BOOL)convert;
 + (NSString*)getImageServerURL;
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
-+ (CGSize)getSizeOfLabel:(UILabel*)label;
 + (UIImage*)applyRoundedEdgesImage:(UIImage*)image;
 + (void)applyRoundedEdgesView:(UIView*)view;
 + (CGFloat)getBottomPadding;
@@ -128,5 +127,11 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (void)saveLastServerIndex:(NSIndexPath*)indexPath;
 + (void)readKodiServerParameters;
 + (void)resetKodiServerParameters;
+
+@end
+
+@interface UILabel (Extensions)
+
+- (CGSize)getSize;
 
 @end
