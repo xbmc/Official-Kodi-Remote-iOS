@@ -677,7 +677,7 @@
 
 - (void)setAutomaticLabelHeight:(UILabel*)label {
     CGRect frame = label.frame;
-    frame.size.height = [Utilities getSizeOfLabel:label].height;
+    frame.size.height = [label getSize].height;
     label.frame = frame;
 }
 

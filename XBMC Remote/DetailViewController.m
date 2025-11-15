@@ -2738,13 +2738,13 @@
         timerView.hidden = ![item[@"hastimer"] boolValue];
     }
     if (!runtimeyear.hidden) {
-        CGFloat runtimeYearWidth = MIN([Utilities getSizeOfLabel:runtimeyear].width, CGRectGetWidth(runtimeyear.frame));
+        CGFloat runtimeYearWidth = MIN([runtimeyear getSize].width, CGRectGetWidth(runtimeyear.frame));
         frame = genre.frame;
         frame.size.width = menuItem.widthLabel - runtimeYearWidth - LABEL_PADDING;
         genre.frame = frame;
     }
     if (!rating.hidden) {
-        CGFloat ratingWidth = MIN([Utilities getSizeOfLabel:rating].width, CGRectGetWidth(rating.frame));
+        CGFloat ratingWidth = MIN([rating getSize].width, CGRectGetWidth(rating.frame));
         frame = runtime.frame;
         frame.size.width = menuItem.widthLabel - ratingWidth - LABEL_PADDING;
         runtime.frame = frame;
