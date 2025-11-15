@@ -255,11 +255,11 @@
         }
         else {
             if (j == 0) {
-                [Utilities AnimView:noInstances AnimDuration:0.3 Alpha:1.0 XPos:0];
+                [noInstances animateX:0 alpha:1.0 duration:1.0];
             }
             else {
                 [discoveredInstancesTableView reloadData];
-                [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                [discoveredInstancesView animateX:0 alpha:1.0 duration:0.3];
             }
         }
     }
@@ -415,7 +415,7 @@
 #endif
         // Show discovered instances view (for multiple instances) and trigger the TCP port discovery
         if (serverAddresses.count) {
-            [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
+            [discoveredInstancesView animateX:self.view.frame.size.width alpha:1.0 duration:0.3];
             
             // Trigger search for TCP service
             [netServiceBrowser searchForServicesOfType:SERVICE_TYPE_TCP inDomain:DOMAIN_NAME];
@@ -455,8 +455,8 @@
     [activityIndicatorView startAnimating];
     [services removeAllObjects];
     startDiscover.enabled = NO;
-    [Utilities AnimView:noInstances AnimDuration:0.3 Alpha:0.0 XPos:self.view.frame.size.width];
-    [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
+    [noInstances animateX:self.view.frame.size.width alpha:0.0 duration:0.3];
+    [discoveredInstancesView animateX:self.view.frame.size.width alpha:1.0 duration:0.3];
 
     searching = NO;
     netServiceBrowser.delegate = self;
