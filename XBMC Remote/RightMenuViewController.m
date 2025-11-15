@@ -197,7 +197,7 @@
     if (arrayButtons.buttons.count == 0) {
         editTableButton.enabled = NO;
         editTableButton.selected = NO;
-        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
+        [noFoundLabel animateAlpha:1.0 duration:0.2];
     }
 }
 
@@ -206,11 +206,11 @@
     customButton *arrayButtons = [customButton new];
     if (arrayButtons.buttons.count == 0) {
         editTableButton.enabled = NO;
-        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
+        [noFoundLabel animateAlpha:1.0 duration:0.2];
     }
     else {
         editTableButton.enabled = YES;
-        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
+        [noFoundLabel animateAlpha:0.0 duration:0.2];
     }
     
     // Build table with custom buttons

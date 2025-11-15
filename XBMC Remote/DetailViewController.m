@@ -982,7 +982,7 @@
         imgView.contentMode = UIViewContentModeScaleAspectFit;
     }
     BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
-    [Utilities applyRoundedEdgesView:imgView];
+    [imgView applyRoundedEdges];
     // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
     // ensure sd_setImageWithURL falls back to this icon.
     if (stringURL.length) {
@@ -1031,7 +1031,7 @@
     self.indexView.hidden = YES;
     button6.hidden = YES;
     button7.hidden = YES;
-    [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
+    [noFoundLabel animateAlpha:0.0 duration:0.2];
     [activityIndicatorView startAnimating];
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     if (chosenTab < buttonsIB.count) {
@@ -1039,7 +1039,7 @@
     }
     chosenTab = MAX_NORMAL_BUTTONS;
     [buttonsIB[chosenTab] setSelected:YES];
-    [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    [activeLayoutView animateX:viewWidth alpha:1.0 duration:0.3];
     int i;
     NSInteger count = menuItem.mainParameters.count;
     NSMutableArray *moreMenu = [NSMutableArray new];
@@ -1066,7 +1066,7 @@
         [maskView insertSubview:moreItemsViewController.view aboveSubview:dataList];
     }
 
-    [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [moreItemsViewController.view animateX:0 alpha:1.0 duration:0.3];
     NSString *labelText = LOCALIZED_STR_ARGS(@"More (%d)", (int)(count - MAX_NORMAL_BUTTONS));
     [self checkFullscreenButton:YES];
     [self setFilternameLabel:labelText];
@@ -1092,10 +1092,7 @@
                                options:UIViewAnimationOptionBeginFromCurrentState
                             animations:^{
                                 activeLayoutView.alpha = 1.0;
-                                CGRect frame = activeLayoutView.frame;
-                                frame.origin.x = viewWidth;
-                                frame.origin.y = 0;
-                                activeLayoutView.frame = frame;
+                                [activeLayoutView setOrigin:CGPointMake(viewWidth, 0)];
                             }
                             completion:^(BOOL finished) {
                                 [self changeViewMode:newViewMode];
@@ -1269,7 +1266,7 @@
         [longTimeout removeFromSuperview];
         longTimeout = nil;
     }
-    [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    [moreItemsViewController.view animateX:viewWidth alpha:1.0 duration:0.3];
     
     [activityIndicatorView startAnimating];
 
@@ -1281,7 +1278,7 @@
     [self setButtonViewContent:chosenTab];
     [self checkDiskCache];
     
-    [Utilities SetView:activeLayoutView Alpha:1.0 XPos:viewWidth];
+    [activeLayoutView setX:viewWidth alpha:1.0];
     
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
@@ -1296,7 +1293,7 @@
     }
     else {
         [activityIndicatorView stopAnimating];
-        [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [activeLayoutView animateX:0 alpha:1.0 duration:0.3];
     }
 }
 
@@ -1726,7 +1723,7 @@
     if (!recentlyAddedView) {
         static NSString *identifier = @"posterCell";
         PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-        [Utilities applyRoundedEdgesView:cell.contentView];
+        [cell.contentView applyRoundedEdges];
         cell.posterLabel.text = @"";
         cell.posterLabelFullscreen.text = @"";
         cell.posterLabel.font = [UIFont boldSystemFontOfSize:posterFontSize];
@@ -1773,7 +1770,7 @@
     else {
         static NSString *identifier = @"recentlyAddedCell";
         RecentlyAddedCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-        [Utilities applyRoundedEdgesView:cell.contentView];
+        [cell.contentView applyRoundedEdges];
         [cell setRecentlyAddedCellLayoutManually:cell.bounds];
 
         if (stringURL.length) {
@@ -1985,13 +1982,13 @@
 
 - (void)handleCollectionIndexStateBegin {
     if (stackscrollFullscreen) {
-        [Utilities alphaView:sectionNameOverlayView AnimDuration:0.1 Alpha:1];
+        [sectionNameOverlayView animateAlpha:1.0 duration:0.1];
     }
 }
 
 - (void)handleCollectionIndexStateEnded {
     if (stackscrollFullscreen) {
-        [Utilities alphaView:sectionNameOverlayView AnimDuration:0.3 Alpha:0];
+        [sectionNameOverlayView animateAlpha:0.0 duration:0.3];
     }
     self.indexView.alpha = 1.0;
 }
@@ -2466,9 +2463,7 @@
     BOOL hasChild = method.count > 0;
     BOOL isSettingID = [item[@"family"] isEqualToString:@"id"];
     if (!thumbWidth && self.indexView.hidden && (hasChild || isSettingID)) {
-        frame = title.frame;
-        frame.size.width = frame.size.width - INDICATOR_SIZE - LABEL_PADDING;
-        title.frame = frame;
+        [title setWidth:title.frame.size.width - INDICATOR_SIZE - LABEL_PADDING];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else {
@@ -2485,11 +2480,8 @@
     else {
         genre.text = [item[@"genre"] stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
     }
-
-    frame = runtimeyear.frame;
-    frame.origin.x = menuItem.maxXrightLabel - CGRectGetWidth(runtimeyear.frame);
-    runtimeyear.frame = frame;
-
+    
+    [runtimeyear setX:menuItem.maxXrightLabel - CGRectGetWidth(runtimeyear.frame)];
     if ([menuItem.showRuntime[chosenTab] boolValue]) {
         NSString *duration = @"";
         if (!menuItem.noConvertTime) {
@@ -2511,10 +2503,8 @@
     frame.origin.x = labelPosition;
     runtime.frame = frame;
     runtime.text = item[@"runtime"];
-
-    frame = rating.frame;
-    frame.origin.x = menuItem.maxXrightLabel - CGRectGetWidth(rating.frame);
-    rating.frame = frame;
+    
+    [rating setX:menuItem.maxXrightLabel - CGRectGetWidth(rating.frame)];
     rating.text = [Utilities getRatingFromItem:item[@"rating"]];
     cell.urlImageView.contentMode = UIViewContentModeScaleAspectFill;
     genre.hidden = NO;
@@ -2639,9 +2629,7 @@
             frame.size.width = title.frame.size.width;
             frame.size.height = cellHeight - frame.origin.y - SMALL_PADDING;
             genre.frame = frame;
-            frame = title.frame;
-            frame.origin.y = 0;
-            title.frame = frame;
+            [title setY:0];
             genre.font = [genre.font fontWithSize:12];
             genre.minimumScaleFactor = FONT_SCALING_DEFAULT;
             [genre sizeToFit];
@@ -2742,24 +2730,17 @@
         timerView.hidden = ![item[@"hastimer"] boolValue];
     }
     if (!runtimeyear.hidden) {
-        CGFloat runtimeYearWidth = MIN([Utilities getSizeOfLabel:runtimeyear].width, CGRectGetWidth(runtimeyear.frame));
-        frame = genre.frame;
-        frame.size.width = menuItem.widthLabel - runtimeYearWidth - LABEL_PADDING;
-        genre.frame = frame;
+        CGFloat runtimeYearWidth = MIN([runtimeyear getFittingSize].width, CGRectGetWidth(runtimeyear.frame));
+        [genre setWidth:menuItem.widthLabel - runtimeYearWidth - LABEL_PADDING];
     }
     if (!rating.hidden) {
-        CGFloat ratingWidth = MIN([Utilities getSizeOfLabel:rating].width, CGRectGetWidth(rating.frame));
-        frame = runtime.frame;
-        frame.size.width = menuItem.widthLabel - ratingWidth - LABEL_PADDING;
-        runtime.frame = frame;
+        CGFloat ratingWidth = MIN([rating getFittingSize].width, CGRectGetWidth(rating.frame));
+        [runtime setWidth:menuItem.widthLabel - ratingWidth - LABEL_PADDING];
     }
     
     NSString *playcount = [NSString stringWithFormat:@"%@", item[@"playcount"]];
     UIImageView *flagView = (UIImageView*)[cell viewWithTag:XIB_JSON_DATA_CELL_WATCHED_FLAG];
-    frame = flagView.frame;
-    frame.origin.x = flagX;
-    frame.origin.y = flagY;
-    flagView.frame = frame;
+    [flagView setOrigin:CGPointMake(flagX, flagY)];
     if ([playcount intValue]) {
         flagView.hidden = NO;
     }
@@ -2968,7 +2949,7 @@
     
     // Show default thumb image and set the colors for the labels and the gradient
     NSString *displayThumb = episodesView ? @"nocover_tvshows" : @"coverbox_back";
-    [Utilities applyRoundedEdgesView:thumbImageView];
+    [thumbImageView applyRoundedEdges];
     thumbImageView.image = [UIImage imageNamed:displayThumb];
     [self setViewColor:albumDetailView
                  image:thumbImageView.image
@@ -3608,10 +3589,7 @@
                                        options:UIViewAnimationOptionBeginFromCurrentState
                                     animations:^{
                                         activeLayoutView.alpha = 1.0;
-                                        CGRect frame = activeLayoutView.frame;
-                                        frame.origin.x = viewWidth;
-                                        frame.origin.y = 0;
-                                        activeLayoutView.frame = frame;
+                                        [activeLayoutView setOrigin:CGPointMake(viewWidth, 0)];
                                     }
                                     completion:^(BOOL finished) {
                                         NSString *sortMethod = sortDictionary[@"method"][sort_method_index];
@@ -3633,10 +3611,7 @@
                                    options:UIViewAnimationOptionBeginFromCurrentState
                                 animations:^{
                                     activeLayoutView.alpha = 1.0;
-                                    CGRect frame = activeLayoutView.frame;
-                                    frame.origin.x = viewWidth;
-                                    frame.origin.y = 0;
-                                    activeLayoutView.frame = frame;
+                                    [activeLayoutView setOrigin:CGPointMake(viewWidth, 0)];
                                 }
                                 completion:^(BOOL finished) {
                                     sortAscDesc = !([sortAscDesc isEqualToString:@"ascending"] || sortAscDesc == nil) ? @"ascending" : @"descending";
@@ -3813,10 +3788,10 @@
             [self setCellLayoutParameters];
             if (forceCollection) {
                 forceCollection = NO;
-                [Utilities SetView:activeLayoutView Alpha:0.0 XPos:viewWidth];
+                [activeLayoutView setX:viewWidth alpha:0.0];
                 enableCollectionView = NO;
                 [self configureLibraryView];
-                [Utilities SetView:activeLayoutView Alpha:0.0 XPos:0];
+                [activeLayoutView setX:0 alpha:0.0];
             }
             [self setFlowLayoutParams];
             [collectionView.collectionViewLayout invalidateLayout];
@@ -3858,10 +3833,10 @@
             moreItemsViewController.view.hidden = YES;
             if (!enableCollectionView) {
                 forceCollection = YES;
-                [Utilities SetView:activeLayoutView Alpha:0.0 XPos:viewWidth];
+                [activeLayoutView setX:viewWidth alpha:0.0];
                 enableCollectionView = YES;
                 [self configureLibraryView];
-                [Utilities SetView:activeLayoutView Alpha:0.0 XPos:0];
+                [activeLayoutView setX:0 alpha:0.0];
             }
             else {
                 forceCollection = NO;
@@ -3981,7 +3956,7 @@
                [cellActivityIndicator stopAnimating];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
-                   [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+                   [activeLayoutView animateX:viewWidth alpha:1.0 duration:0.3];
                    [self startRetrieveDataWithRefresh:YES];
                }
                else {
@@ -4477,10 +4452,7 @@
         longTimeout.animationDuration = 5.0;
         longTimeout.animationRepeatCount = 0;
         longTimeout.center = activityIndicatorView.center;
-        CGRect frame = longTimeout.frame;
-        frame.origin.y = CGRectGetMaxY(activityIndicatorView.frame);
-        frame.origin.x -= MONKEY_OFFSET_X;
-        longTimeout.frame = frame;
+        [longTimeout setOrigin:CGPointMake(longTimeout.frame.origin.x - MONKEY_OFFSET_X, CGRectGetMaxY(activityIndicatorView.frame))];
         [longTimeout startAnimating];
         [self.view addSubview:longTimeout];
     }
@@ -4568,7 +4540,7 @@
     }
     else {
         [activityIndicatorView stopAnimating];
-        [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [activeLayoutView animateX:0 alpha:1.0 duration:0.3];
     }
 }
 
@@ -4741,7 +4713,7 @@
         return;
     }
     
-    [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
+    [noFoundLabel animateAlpha:0.0 duration:0.2];
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
@@ -4965,7 +4937,7 @@
 }
 
 - (void)animateNoResultsFound {
-    [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
+    [noFoundLabel animateAlpha:1.0 duration:0.2];
     [activityIndicatorView stopAnimating];
     [activeLayoutView.pullToRefreshView stopAnimating];
     [self setGridListButtonImage:enableCollectionView];
@@ -5302,10 +5274,10 @@
     [self setFilternameLabel:labelText];
     
     if (!self.richResults.count) {
-        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
+        [noFoundLabel animateAlpha:1.0 duration:0.2];
     }
     else {
-        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
+        [noFoundLabel animateAlpha:0.0 duration:0.2];
     }
     NSDictionary *itemSizes = parameters[@"itemSizes"];
     if (IS_IPHONE) {
@@ -5334,7 +5306,7 @@
     [dataList setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
     [collectionView layoutSubviews];
     [collectionView setContentOffset:CGPointMake(0, iOSYDelta) animated:NO];
-    [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0 YPos:0];
+    [activeLayoutView animateOrigin:CGPointZero duration:0.3];
     if (channelGuideView && autoScrollTable != nil && autoScrollTable.row < [dataList numberOfRowsInSection:autoScrollTable.section]) {
         [dataList scrollToRowAtIndexPath:autoScrollTable atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
@@ -5445,7 +5417,6 @@
     UIImage *imageOff = nil;
     UIImage *imageOn = nil;
     UIImage *img = nil;
-    CGRect frame;
     NSInteger count = buttons.count;
     // If >6 buttons are required, only use 4 normal buttons and keep 5th for "more items"
     if (count > MAX_NORMAL_BUTTONS + 1) {
@@ -5477,9 +5448,7 @@
         case 0:
             // no button, no toolbar
             button1.hidden = button2.hidden = button3.hidden = button4.hidden = button5.hidden = YES;
-            frame = dataList.frame;
-            frame.size.height = self.view.bounds.size.height;
-            dataList.frame = frame;
+            [dataList setHeight:self.view.bounds.size.height];
             break;
         case 1:
             button2.hidden = button3.hidden = button4.hidden = button5.hidden = YES;
@@ -5841,9 +5810,7 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataList.indicatorStyle = UIScrollViewIndicatorStyleDefault;
     
-    CGRect frame = dataList.frame;
-    frame.size.height = self.view.bounds.size.height;
-    dataList.frame = frame;
+    [dataList setHeight:self.view.bounds.size.height];
     buttonsViewBgToolbar.hidden = NO;
     
     __weak DetailViewController *weakSelf = self;
@@ -5912,7 +5879,7 @@
     bottomPadding = [Utilities getBottomPadding];
     if (IS_IPHONE) {
         if (bottomPadding > 0) {
-            frame = buttonsView.frame;
+            CGRect frame = buttonsView.frame;
             frame.size.height += bottomPadding;
             frame.origin.y -= bottomPadding;
             buttonsView.frame = frame;
@@ -5923,7 +5890,7 @@
              * Only required for iOS26 and until UIDesignRequiresCompatibility is removed. Once this flag is
              * removed, the UIToolbar is anyway transparent and the extension into safe area is not relevant anymore.
              */
-            frame = buttonsViewBgToolbar.frame;
+            CGRect frame = buttonsViewBgToolbar.frame;
             frame.size.height += 0.00000001;
             buttonsViewBgToolbar.frame = frame;
         }
@@ -5939,9 +5906,7 @@
     }
     
     // As default both list and grid views animate from right to left.
-    frame = dataList.frame;
-    frame.origin.x = viewWidth;
-    dataList.frame = frame;
+    [dataList setX:viewWidth];
     
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     enableCollectionView = [self collectionViewIsEnabled];
@@ -5971,10 +5936,7 @@
     // to apply this change only after the library view has been initialized, as this
     // uses the list view frame to set its own frame.
     if (menuItem.type == TypeCustomButtonEntry && IS_IPHONE) {
-        frame = dataList.frame;
-        frame.origin.x = 0;
-        frame.origin.y = UIScreen.mainScreen.bounds.size.height;
-        dataList.frame = frame;
+        [dataList setOrigin:CGPointMake(0, UIScreen.mainScreen.bounds.size.height)];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -6171,16 +6133,14 @@
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
-                             CGRect frame = activeLayoutView.frame;
-                             frame.origin.x = viewWidth;
-                             activeLayoutView.frame = frame;
+                             [activeLayoutView setX:viewWidth];
                          }
                          completion:^(BOOL finished) {
                              activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
                              recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
                              enableCollectionView = [self collectionViewIsEnabled];
                              [self configureLibraryView];
-                             [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                             [activeLayoutView animateX:0 alpha:1.0 duration:0.3];
                              activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
                          }];
     }
