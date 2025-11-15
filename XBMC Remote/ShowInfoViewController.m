@@ -203,13 +203,9 @@
         }
         // Place the up and down arrows. Keep them invisible for now.
         CGFloat bottomPadding = [Utilities getBottomPadding];
-        CGRect frame = arrow_continue_down.frame;
-        frame.origin.y -= bottomPadding;
-        arrow_continue_down.frame = frame;
+        [arrow_continue_down offsetY:-bottomPadding];
         arrow_continue_down.alpha = 0;
-        frame = arrow_back_up.frame;
-        frame.origin.y += scrollView.contentInset.top;
-        arrow_back_up.frame = frame;
+        [arrow_back_up offsetY:scrollView.contentInset.top];
         arrow_back_up.alpha = 0;
     }
 }
@@ -597,9 +593,7 @@
         frame.size.height += lineSpacing * 2;
         starsView.frame = frame;
         
-        frame = voteLabel.frame;
-        frame.origin.y -= lineSpacing;
-        voteLabel.frame = frame;
+        [voteLabel offsetY:-lineSpacing];
     }
     else {
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
@@ -642,9 +636,7 @@
         jewelImg = @"jewel_dvd.9";
         jeweltype = JewelTypeDVD;
         int coverHeight = IS_IPAD ? DVD_HEIGHT_IPAD : DVD_HEIGHT_IPHONE;
-        CGRect frame = jewelView.frame;
-        frame.size.height = coverHeight;
-        jewelView.frame = frame;
+        [jewelView setHeight:coverHeight];
         
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleAspectFill;
@@ -674,9 +666,7 @@
         jewelImg = @"jewel_tv.9";
         jeweltype = JewelTypeTV;
         int coverHeight = IS_IPAD ? TV_HEIGHT_IPAD : TV_HEIGHT_IPHONE;
-        CGRect frame = jewelView.frame;
-        frame.size.height = coverHeight;
-        jewelView.frame = frame;
+        [jewelView setHeight:coverHeight];
         
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleAspectFill;
@@ -707,9 +697,7 @@
         jewelImg = @"jewel_cd.9";
         jeweltype = JewelTypeCD;
         int coverHeight = IS_IPAD ? CD_HEIGHT_IPAD : CD_HEIGHT_IPHONE;
-        CGRect frame = jewelView.frame;
-        frame.size.height = coverHeight;
-        jewelView.frame = frame;
+        [jewelView setHeight:coverHeight];
     }
     else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
         placeHolderImage = @"nocover_musicvideos_wall";
@@ -735,9 +723,7 @@
         jewelImg = @"jewel_cd.9";
         jeweltype = JewelTypeCD;
         int coverHeight = IS_IPAD ? CD_HEIGHT_IPAD : CD_HEIGHT_IPHONE;
-        CGRect frame = jewelView.frame;
-        frame.size.height = coverHeight;
-        jewelView.frame = frame;
+        [jewelView setHeight:coverHeight];
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
         placeHolderImage = @"nocover_artist_wall";
@@ -859,9 +845,7 @@
         jewelImg = @"jewel_dvd.9";
         jeweltype = JewelTypeDVD;
         int coverHeight = IS_IPAD ? DVD_HEIGHT_IPAD : DVD_HEIGHT_IPHONE;
-        CGRect frame = jewelView.frame;
-        frame.size.height = coverHeight;
-        jewelView.frame = frame;
+        [jewelView setHeight:coverHeight];
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleToFill;
     }
@@ -1026,17 +1010,9 @@
 
 - (CGFloat)layoutStars:(CGFloat)offset {
     if (!starsView.hidden) {
-        CGRect frame = starsView.frame;
-        frame.origin.y = offset;
-        starsView.frame = frame;
-        
-        frame = voteLabel.frame;
-        frame.origin.y = offset;
-        voteLabel.frame = frame;
-        
-        frame = numVotesLabel.frame;
-        frame.origin.y = offset;
-        numVotesLabel.frame = frame;
+        [starsView setY:offset];
+        [voteLabel setY:offset];
+        [numVotesLabel setY:offset];
         
         offset = CGRectGetMaxY(starsView.frame);
     }
@@ -1115,19 +1091,15 @@
         castMainLabel.frame = frame;
         offset += frame.size.height;
         
-        frame = actorsTable.frame;
-        frame.origin.y = offset;
-        actorsTable.frame = frame;
+        [actorsTable setY:offset];
         offset += frame.size.height + VERTICAL_PADDING;
     }
     return offset;
 }
 
 - (CGFloat)layoutClearLogo:(CGFloat)offset {
-    CGRect frame = clearlogoButton.frame;
-    frame.origin.y = offset;
-    clearlogoButton.frame = frame;
-    offset += frame.size.height;
+    [clearlogoButton setY:offset];
+    offset += clearlogoButton.frame.size.height;
     return offset;
 }
 

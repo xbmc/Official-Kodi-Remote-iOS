@@ -81,9 +81,7 @@
         tcpPortUI.text = item[@"tcpPort"];
     }
     // Move view right out of self.view
-    CGRect frame = discoveredInstancesView.frame;
-    frame.origin.x = self.view.frame.size.width;
-    discoveredInstancesView.frame = frame;
+    [discoveredInstancesView setX:self.view.frame.size.width];
 }
 
 - (IBAction)dismissView:(id)sender {
@@ -633,9 +631,7 @@
         bottomPadding = SERVERPOPUP_BOTTOMPADDING;
     }
     if (bottomPadding > 0) {
-        CGRect frame = tipView.frame;
-        frame.origin.y -= bottomPadding;
-        tipView.frame = frame;
+        [tipView offsetY:-bottomPadding];
     }
     
     // We use white fonts for the segment control
