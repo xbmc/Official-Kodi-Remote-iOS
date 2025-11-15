@@ -570,12 +570,12 @@
     [discoveryTimeoutTimer invalidate];
     netServiceBrowser = nil;
     services = nil;
-    [Utilities SetView:discoveredInstancesView Alpha:1.0 XPos:self.view.frame.size.width];
+    [discoveredInstancesView setX:self.view.frame.size.width alpha:1.0];
     for (UITextField *textfield in [self getAllEntryMaskLabels]) {
         textfield.text = @"";
         textfield.textColor = [Utilities get1stLabelColor];
     }
-    [Utilities SetView:noInstances Alpha:0.0 XPos:self.view.frame.size.width];
+    [noInstances setX:self.view.frame.size.width alpha:0.0];
 }
 
 - (void)viewDidLoad {
