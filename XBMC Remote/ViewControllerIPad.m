@@ -544,7 +544,7 @@
     if ([userDefaults boolForKey:@"blurred_cover_preference"] && coverImage) {
         // Enable blur effect and animate to cover image
         visualEffectView.hidden = NO;
-        [Utilities imageView:coverBackgroundImage AnimDuration:1.0 Image:coverImage];
+        [coverBackgroundImage animateImage:coverImage duration:1.0];
     }
     else {
         // Disable blur effect and remove cover image
@@ -559,11 +559,11 @@
             [fanartBackgroundImage sd_setImageWithURL:[NSURL URLWithString:fanartURL]
                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                 UIImage *fanartImage = (error == nil && image != nil) ? image : nil;
-                [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:fanartImage];
+                [fanartBackgroundImage animateImage:fanartImage duration:1.0];
             }];
         }
         else {
-            [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:nil];
+            [fanartBackgroundImage animateImage:nil duration:1.0];
         }
     }
 }
