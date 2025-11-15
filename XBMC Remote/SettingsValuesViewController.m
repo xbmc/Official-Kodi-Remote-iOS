@@ -353,7 +353,7 @@
                         ];
                    }
                    [_tableView reloadData];
-                   [Utilities AnimView:_tableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                   [_tableView animateX:0 alpha:1.0 duration:0.3];
                    [self scrollTableRow:settingOptions];
                }
            }];
@@ -675,9 +675,7 @@
 }
 
 - (void)setAutomaticLabelHeight:(UILabel*)label {
-    CGRect frame = label.frame;
-    frame.size.height = [Utilities getSizeOfLabel:label].height;
-    label.frame = frame;
+    [label setHeight:[label getFittingSize].height];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -844,11 +842,11 @@
 
 - (void)startUpdateSlider:(UISlider*)slider {
     scrubbingView.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
-    [Utilities alphaView:scrubbingView AnimDuration:0.3 Alpha:1.0];
+    [scrubbingView animateAlpha:1.0 duration:0.3];
 }
 
 - (void)stopUpdateSlider:(UISlider*)slider {
-    [Utilities alphaView:scrubbingView AnimDuration:0.3 Alpha:0.0];
+    [scrubbingView animateAlpha:0.0 duration:0.3];
     [self setSettingValue:@(storeSliderValue) sender:slider];
 }
 

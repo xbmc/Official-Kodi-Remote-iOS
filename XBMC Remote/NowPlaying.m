@@ -1232,18 +1232,18 @@
     
     if (currentPlaylistID == PLAYERID_MUSIC) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_MUSIC;
-        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:1.0 XPos:PARTYBUTTON_PADDING_LEFT];
+        [PartyModeButton animateX:PARTYBUTTON_PADDING_LEFT alpha:1.0 duration:0.3];
     }
     else if (currentPlaylistID == PLAYERID_VIDEO) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_VIDEO;
-        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
+        [PartyModeButton animateX:-PartyModeButton.frame.size.width alpha:0.0 duration:0.3];
     }
     else if (currentPlaylistID == PLAYERID_PICTURES) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_PICTURES;
-        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
+        [PartyModeButton animateX:-PartyModeButton.frame.size.width alpha:0.0 duration:0.3];
     }
     editTableButton.hidden = currentPlaylistID == PLAYERID_PICTURES;
-    [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
+    [noFoundLabel animateAlpha:0.0 duration:0.2];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
                         withParameters:@{@"properties": @[@"thumbnail",
                                                           @"duration",
@@ -1267,12 +1267,12 @@
                    if ([methodResult isKindOfClass:[NSDictionary class]]) {
                        NSArray *playlistItems = methodResult[@"items"];
                        if (playlistItems.count == 0) {
-                           [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
+                           [noFoundLabel animateAlpha:1.0 duration:0.2];
                            editTableButton.enabled = NO;
                            editTableButton.selected = NO;
                        }
                        else {
-                           [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
+                           [noFoundLabel animateAlpha:0.0 duration:0.2];
                            editTableButton.enabled = YES;
                        }
                        NSString *serverURL = [Utilities getImageServerURL];
@@ -1355,7 +1355,7 @@
 
 - (void)showPlaylistTableAnimated:(BOOL)animated {
     if (playlistData.count == 0) {
-        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
+        [noFoundLabel animateAlpha:1.0 duration:0.2];
         [playlistTableView reloadData];
     }
     else {
@@ -1957,12 +1957,12 @@
 
 - (IBAction)stopUpdateProgressBar:(id)sender {
     updateProgressBar = NO;
-    [Utilities alphaView:scrabbingView AnimDuration:0.3 Alpha:1.0];
+    [scrabbingView animateAlpha:1.0 duration:0.3];
 }
 
 - (IBAction)startUpdateProgressBar:(id)sender {
     [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:currentPlayerID percentage:ProgressSlider.value] reloadPlaylist:NO startProgressBar:YES];
-    [Utilities alphaView:scrabbingView AnimDuration:0.3 Alpha:0.0];
+    [scrabbingView animateAlpha:0.0 duration:0.3];
 }
 
 - (IBAction)updateCurrentTime:(id)sender {
@@ -2218,7 +2218,7 @@
     [thumb sd_setImageWithURL:[NSURL URLWithString:stringURL]
              placeholderImage:defaultThumb
                       options:SDWebImageScaleToNativeSize];
-    [Utilities applyRoundedEdgesView:thumb];
+    [thumb applyRoundedEdges];
     
     PlaylistProgressView *playlistProgressView = (PlaylistProgressView*)[cell viewWithTag:TAG_PLAYLIST_CELL_PROGRESSVIEW];
     [playlistProgressView setProgress:0];
@@ -2348,7 +2348,7 @@
             // Are there still editable entries?
             if (playlistData.count == 0) {
                 editTableButton.selected = editTableButton.enabled = NO;
-                [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
+                [noFoundLabel animateAlpha:1.0 duration:0.2];
             }
         }];
     }
@@ -2406,20 +2406,14 @@
     CGFloat reservedHeight = [Utilities getBottomPadding] + topBarHeight + CGRectGetHeight(playlistToolbarView.frame);
     
     // Set correct size for background image and views
-    CGRect frame = transitionView.frame;
-    frame.size.height = GET_MAINSCREEN_HEIGHT;
-    frame.origin.y = -topBarHeight;
-    transitionView.frame = frame;
+    [transitionView setY:-topBarHeight];
+    [transitionView setHeight:GET_MAINSCREEN_HEIGHT];
     
-    frame = nowPlayingView.frame;
-    frame.size.height = GET_MAINSCREEN_HEIGHT - reservedHeight;
-    frame.origin.y = topBarHeight;
-    nowPlayingView.frame = frame;
+    [nowPlayingView setY:topBarHeight];
+    [nowPlayingView setHeight:GET_MAINSCREEN_HEIGHT - reservedHeight];
     
-    frame = playlistView.frame;
-    frame.size.height = GET_MAINSCREEN_HEIGHT - reservedHeight;
-    frame.origin.y = topBarHeight;
-    playlistView.frame = frame;
+    [playlistView setY:topBarHeight];
+    [playlistView setHeight:GET_MAINSCREEN_HEIGHT - reservedHeight];
     
     CGFloat newWidth = floor(BOTTOMVIEW_WIDTH * scale);
     CGFloat newHeight = floor(BOTTOMVIEW_HEIGHT * scale);
@@ -2485,9 +2479,7 @@
     playlistToolbarView.frame = frame;
     [self buildIpadPlaylistToolbar];
     
-    frame = toolbarBackground.frame;
-    frame.size.width = viewSize.width;
-    toolbarBackground.frame = frame;
+    [toolbarBackground setWidth:viewSize.width];
     
     backgroundImageView.frame = nowPlayingView.frame;
     playlistActionView.alpha = playlistView.alpha = isFullscreen ? 0 : 1;
@@ -2559,9 +2551,7 @@
 }
 
 - (void)setIphoneInterface {
-    CGRect frame = playlistActionView.frame;
-    frame.origin.y = CGRectGetMinY(playlistToolbarView.frame) - CGRectGetHeight(playlistActionView.frame);
-    playlistActionView.frame = frame;
+    [playlistActionView setY:CGRectGetMinY(playlistToolbarView.frame) - CGRectGetHeight(playlistActionView.frame)];
     playlistActionView.alpha = 0.0;
 }
 
@@ -2571,9 +2561,7 @@
     nowPlayingView.hidden = NO;
     playlistView.hidden = NO;
     
-    CGRect frame = playlistActionView.frame;
-    frame.origin.y = CGRectGetHeight(playlistTableView.frame) - CGRectGetHeight(playlistActionView.frame);
-    playlistActionView.frame = frame;
+    [playlistActionView setY:CGRectGetHeight(playlistTableView.frame) - CGRectGetHeight(playlistActionView.frame)];
     playlistActionView.alpha = 1.0;
     
     // Prepare iPad fullscreen toggle button
@@ -2872,18 +2860,10 @@
     [self setToolbar];
 
     if (bottomPadding > 0) {
-        CGRect frame = playlistToolbarView.frame;
-        frame.origin.y -= bottomPadding;
-        playlistToolbarView.frame = frame;
-        
-        frame = nowPlayingView.frame;
-        frame.size.height -= bottomPadding;
-        nowPlayingView.frame = frame;
-        
-        frame = playlistTableView.frame;
-        frame.size.height -= bottomPadding;
-        playlistView.frame = frame;
-        playlistTableView.frame = frame;
+        [playlistToolbarView offsetYBy:-bottomPadding];
+        [nowPlayingView setHeight:CGRectGetHeight(nowPlayingView.frame) - bottomPadding];
+        [playlistTableView setHeight:CGRectGetHeight(playlistTableView.frame) - bottomPadding];
+        playlistView.frame = playlistTableView.frame;
     }
     playlistTableView.contentInset = UIEdgeInsetsMake(0, 0, CGRectGetHeight(playlistActionView.frame), 0);
     self.edgesForExtendedLayout = UIRectEdgeNone;

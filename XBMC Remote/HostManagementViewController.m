@@ -271,7 +271,7 @@
         // Are there still editable entries?
         if (AppDelegate.instance.arrayServerList.count == 0) {
             editTableButton.selected = editTableButton.enabled = NO;
-            [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
+            [noFoundLabel animateAlpha:1.0 duration:0.2];
         }
     }
 }
@@ -499,17 +499,9 @@
     frame.size.height += bottomPadding;
     bottomToolbarEffect.frame = frame;
     
-    frame = addHostButton.frame;
-    frame.origin.y -= bottomPadding;
-    addHostButton.frame = frame;
-    
-    frame = editTableButton.frame;
-    frame.origin.y -= bottomPadding;
-    editTableButton.frame = frame;
-    
-    frame = serverInfoButton.frame;
-    frame.origin.y -= bottomPadding;
-    serverInfoButton.frame = frame;
+    [addHostButton offsetYBy:-bottomPadding];
+    [editTableButton offsetYBy:-bottomPadding];
+    [serverInfoButton offsetYBy:-bottomPadding];
     
     frame = serverListTableView.frame;
     frame.origin.y = frame.origin.y + deltaY;
@@ -573,13 +565,8 @@
         self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     }
     else {
-        CGRect frame = supportedVersionView.frame;
-        frame.origin.y = frame.origin.y + deltaY;
-        supportedVersionView.frame = frame;
-        
-        frame = connectingActivityIndicator.frame;
-        frame.origin.y = frame.origin.y + deltaY;
-        connectingActivityIndicator.frame = frame;
+        [supportedVersionView offsetYBy:deltaY];
+        [connectingActivityIndicator offsetYBy:deltaY];
         
         UIImage *image = [UIImage imageNamed:@"kodi_logo_wide"];
         UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];

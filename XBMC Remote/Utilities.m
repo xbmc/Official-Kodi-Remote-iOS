@@ -905,10 +905,6 @@
     return urlString;
 }
 
-+ (CGSize)getSizeOfLabel:(UILabel*)label {
-    return [label sizeThatFits:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)];
-}
-
 + (UIImage*)roundedCornerImage:(UIImage*)image {
     if (image.size.width == 0 || image.size.height == 0) {
         return image;
@@ -933,10 +929,6 @@
     return roundedCornerImage;
 }
 
-+ (void)roundedCornerView:(UIView*)view {
-    view.layer.cornerRadius = GET_ROUNDED_EDGES_RADIUS(view.layer.frame.size);
-}
-
 + (UIImage*)applyRoundedEdgesImage:(UIImage*)image {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
@@ -944,14 +936,6 @@
         image = [Utilities roundedCornerImage:image];
     }
     return image;
-}
-
-+ (void)applyRoundedEdgesView:(UIView*)view {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
-    if (corner_preference) {
-        [Utilities roundedCornerView:view];
-    }
 }
 
 + (CGFloat)getBottomPadding {
@@ -1187,49 +1171,6 @@
     if (!error) {
         [archiveData writeToFile:filePath options:NSDataWritingAtomic error:&error];
     }
-}
-
-+ (void)SetView:(UIView*)view Alpha:(CGFloat)alphavalue XPos:(int)X {
-    view.alpha = alphavalue;
-    CGRect frame = view.frame;
-    frame.origin.x = X;
-    view.frame = frame;
-}
-
-+ (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-    [UIView animateWithDuration:seconds
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        view.alpha = alphavalue;
-        CGRect frame = view.frame;
-        frame.origin.x = X;
-        view.frame = frame;
-                     }
-                     completion:nil];
-}
-
-+ (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X YPos:(int)Y {
-    [UIView animateWithDuration:seconds
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        CGRect frame = view.frame;
-        frame.origin.x = X;
-        frame.origin.y = Y;
-        view.frame = frame;
-                     }
-                     completion:nil];
-}
-
-+ (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView animateWithDuration:seconds
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        view.alpha = alphavalue;
-                     }
-                     completion:nil];
 }
 
 + (void)imageView:(UIImageView*)view AnimDuration:(NSTimeInterval)seconds Image:(UIImage*)image {

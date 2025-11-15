@@ -121,10 +121,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
         
         CGFloat topPadding = isEmbeddedMode ? [Utilities getTopPadding] : 0;
-        CGRect frame = volumeSliderView.frame;
-        frame.origin.y = topPadding;
-        frame.origin.x = leftPadding;
-        volumeSliderView.frame = frame;
+        [volumeSliderView setOrigin:CGPointMake(leftPadding, topPadding)];
     }
     else {
         // Used to avoid drawing remote buttons into the safe area
@@ -315,29 +312,13 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 }
 
 - (void)setLayoutForGestureMode {
-    CGRect frame = gestureZoneView.frame;
-    frame.origin.x = 0;
-    gestureZoneView.frame = frame;
-    
-    frame = buttonZoneView.frame;
-    frame.origin.x = self.view.frame.size.width;
-    buttonZoneView.frame = frame;
-    
-    gestureZoneView.alpha = 1;
-    buttonZoneView.alpha = 0;
+    [gestureZoneView setX:0 alpha:1.0];
+    [buttonZoneView setX:self.view.frame.size.width alpha:0.0];
 }
 
 - (void)setLayoutForButtonMode {
-    CGRect frame = gestureZoneView.frame;
-    frame.origin.x = -self.view.frame.size.width;
-    gestureZoneView.frame = frame;
-    
-    frame = buttonZoneView.frame;
-    frame.origin.x = 0;
-    buttonZoneView.frame = frame;
-    
-    gestureZoneView.alpha = 0;
-    buttonZoneView.alpha = 1;
+    [gestureZoneView setX:-self.view.frame.size.width alpha:0.0];
+    [buttonZoneView setX:0 alpha:1.0];
 }
 
 # pragma mark - JSON
@@ -940,11 +921,11 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         quickHelpSubLabel.text = isGestureViewActive ? LOCALIZED_STR(@"Gestures") : LOCALIZED_STR(@"Remote Control");
         quickHelpImageView.image = [UIImage imageNamed:imageName];
         quickHelpImageView.layer.minificationFilter = kCAFilterTrilinear;
-        [Utilities alphaView:quickHelpView AnimDuration:0.2 Alpha:1.0];
+        [quickHelpView animateAlpha:1.0 duration:0.2];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     else {
-        [Utilities alphaView:quickHelpView AnimDuration:0.2 Alpha:0.0];
+        [quickHelpView animateAlpha:0.0 duration:0.2];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
 }
@@ -1149,14 +1130,12 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 }
 
 - (void)setRemoteToPosition {
-    CGRect frame = remoteControlView.frame;
     if (positionMode == RemoteAtBottom) {
-        frame.origin.y = CGRectGetMinY(remoteToolbar.frame) - CGRectGetHeight(remoteControlView.frame);
+        [remoteControlView setY:CGRectGetMinY(remoteToolbar.frame) - CGRectGetHeight(remoteControlView.frame)];
     }
     else {
-        frame.origin.y = CGRectGetMaxY(volumeSliderView.frame);
+        [remoteControlView setY:CGRectGetMaxY(volumeSliderView.frame)];
     }
-    remoteControlView.frame = frame;
     remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
 }
 

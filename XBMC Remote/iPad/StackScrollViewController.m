@@ -224,19 +224,6 @@
     }];
 }
 
-- (void)changeFrame:(UIView*)view originX:(CGFloat)originX {
-    CGRect frame = view.frame;
-    frame.origin.x = originX;
-    view.frame = frame;
-}
-
-- (void)changeFrame:(UIView*)view originX:(CGFloat)originX height:(CGFloat)height {
-    CGRect frame = view.frame;
-    frame.origin.x = originX;
-    frame.size.height = height;
-    view.frame = frame;
-}
-
 - (void)handlePanFrom:(UIPanGestureRecognizer*)recognizer {
     if (stackScrollIsFullscreen) {
         return;
@@ -331,16 +318,13 @@
                     rightViewShift = MAX(referenceXviewAtRight + translatedPoint.x, SLIDE_VIEWS_MINUS_X_POSITION);
                 }
             }
-            [self changeFrame:viewAtLeft
-                      originX:leftViewShift];
-            [self changeFrame:viewAtRight
-                      originX:rightViewShift];
+            [viewAtLeft setX:leftViewShift];
+            [viewAtRight setX:rightViewShift];
         }
         else {
             // Only viewAtLeft exists and is moved.
             CGFloat leftViewShift = MAX(referenceXviewAtLeft + translatedPoint.x, SLIDE_VIEWS_MINUS_X_POSITION);
-            [self changeFrame:viewAtLeft
-                      originX:leftViewShift];
+            [viewAtLeft setX:leftViewShift];
         }
     }
     lastTouchPoint = location.x;
@@ -384,12 +368,9 @@
                               duration:SLIDE_TRANSITION_TIME
                                options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                             animations:^{
-                [self changeFrame:viewAtLeft
-                          originX:SLIDE_VIEWS_MINUS_X_POSITION];
-                [self changeFrame:viewAtRight
-                          originX:rightOrigin];
-                [self changeFrame:viewAtRight2
-                          originX:CGRectGetMaxX(self.view.frame)];
+                [viewAtLeft setX:SLIDE_VIEWS_MINUS_X_POSITION];
+                [viewAtRight setX:rightOrigin];
+                [viewAtRight2 setX:CGRectGetMaxX(self.view.frame)];
             }
                             completion:^(BOOL finished) {
                 // Bounce of viewAtLeft uses half amount to have a rubberband like effect.
@@ -406,8 +387,7 @@
                               duration:SLIDE_TRANSITION_TIME
                                options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                             animations:^{
-                [self changeFrame:viewAtLeft
-                          originX:SLIDE_VIEWS_START_X_POS];
+                [viewAtLeft setX:SLIDE_VIEWS_START_X_POS];
             }
                             completion:^(BOOL finished) {
                 [self bounceView:viewAtLeft amount:bounce];
@@ -431,12 +411,9 @@
                           duration:SLIDE_TRANSITION_TIME
                            options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionTransitionNone
                         animations:^{
-            [self changeFrame:viewAtLeft
-                      originX:SLIDE_VIEWS_MINUS_X_POSITION];
-            [self changeFrame:viewAtRight
-                      originX:rightOrigin];
-            [self changeFrame:viewAtRight2
-                      originX:CGRectGetMaxX(self.view.frame)];
+            [viewAtLeft setX:SLIDE_VIEWS_MINUS_X_POSITION];
+            [viewAtRight setX:rightOrigin];
+            [viewAtRight2 setX:CGRectGetMaxX(self.view.frame)];
         }
                         completion:^(BOOL finished) {
             // Bounce of viewAtLeft uses half amount to have a rubberband like effect.
@@ -567,10 +544,8 @@
                               duration:SLIDE_TRANSITION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^{
-                [self changeFrame:viewAtLeft
-                          originX:SLIDE_VIEWS_MINUS_X_POSITION];
-                [self changeFrame:viewAtRight
-                          originX:self.view.frame.size.width - viewAtRight.frame.size.width];
+                [viewAtLeft setX:SLIDE_VIEWS_MINUS_X_POSITION];
+                [viewAtRight setX:self.view.frame.size.width - viewAtRight.frame.size.width];
             }
                             completion:^(BOOL finished) {
                 [self bounceView:viewAtLeft amount:-BOUNCE_X / 2];
@@ -590,12 +565,9 @@
                               duration:SLIDE_TRANSITION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^{
-                [self changeFrame:viewAtLeft2
-                          originX:SLIDE_VIEWS_MINUS_X_POSITION];
-                [self changeFrame:viewAtLeft
-                          originX:SLIDE_VIEWS_MINUS_X_POSITION];
-                [self changeFrame:viewAtRight
-                          originX:self.view.frame.size.width - viewAtRight.frame.size.width];
+                [viewAtLeft2 setX:SLIDE_VIEWS_MINUS_X_POSITION];
+                [viewAtLeft setX:SLIDE_VIEWS_MINUS_X_POSITION];
+                [viewAtRight setX:self.view.frame.size.width - viewAtRight.frame.size.width];
             }
                             completion:^(BOOL finished) {
                 [self bounceView:viewAtLeft amount:-BOUNCE_X / 2];
@@ -631,57 +603,46 @@
         }
         else if (viewAtRight != nil && [viewAtRight isEqual:subController.view]) {
             if (viewAtRight.frame.origin.x <= CGRectGetMaxX(viewAtLeft.frame)) {
-                [self changeFrame:subController.view
-                          originX:self.view.frame.size.width - subController.view.frame.size.width
-                           height:self.view.frame.size.height - bottomPadding];
+                [subController.view setX:self.view.frame.size.width - subController.view.frame.size.width];
+                [subController.view setHeight:self.view.frame.size.height - bottomPadding];
             }
             else {
-                [self changeFrame:subController.view
-                          originX:CGRectGetMaxX(viewAtLeft.frame)
-                           height:self.view.frame.size.height - bottomPadding];
+                [subController.view setX:CGRectGetMaxX(viewAtLeft.frame)];
+                [subController.view setHeight:self.view.frame.size.height - bottomPadding];
             }
             isViewOutOfScreen = YES;
         }
         else if (viewAtLeft != nil && [viewAtLeft isEqual:subController.view]) {
             if (viewAtLeft2 == nil) {
                 if (viewAtRight == nil) {
-                    [self changeFrame:subController.view
-                              originX:SLIDE_VIEWS_START_X_POS
-                               height:self.view.frame.size.height - bottomPadding];
+                    [subController.view setX:SLIDE_VIEWS_START_X_POS];
+                    [subController.view setHeight:self.view.frame.size.height - bottomPadding];
                 }
                 else {
-                    [self changeFrame:subController.view
-                              originX:SLIDE_VIEWS_MINUS_X_POSITION
-                               height:self.view.frame.size.height - bottomPadding];
+                    [subController.view setX:SLIDE_VIEWS_MINUS_X_POSITION];
+                    [subController.view setHeight:self.view.frame.size.height - bottomPadding];
                 }
             }
             else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION || viewAtLeft.frame.origin.x == SLIDE_VIEWS_START_X_POS) {
-                [self changeFrame:subController.view
-                          originX:subController.view.frame.origin.x
-                           height:self.view.frame.size.height - bottomPadding];
+                [subController.view setHeight:self.view.frame.size.height - bottomPadding];
             }
             else {
                 if (CGRectGetMaxX(viewAtLeft.frame) == self.view.frame.size.width) {
-                    [self changeFrame:subController.view
-                              originX:self.view.frame.size.width - subController.view.frame.size.width
-                               height:self.view.frame.size.height - bottomPadding];
+                    [subController.view setX:self.view.frame.size.width - subController.view.frame.size.width];
+                    [subController.view setHeight:self.view.frame.size.height - bottomPadding];
                 }
                 else {
-                    [self changeFrame:subController.view
-                              originX:CGRectGetMaxX(viewAtLeft2.frame)
-                               height:self.view.frame.size.height - bottomPadding];
+                    [subController.view setX:CGRectGetMaxX(viewAtLeft2.frame)];
+                    [subController.view setHeight:self.view.frame.size.height - bottomPadding];
                 }
             }
         }
         else if (isViewOutOfScreen) {
-            [self changeFrame:subController.view
-                      originX:self.view.frame.size.width
-                       height:self.view.frame.size.height - bottomPadding];
+            [subController.view setX:self.view.frame.size.width];
+            [subController.view setHeight:self.view.frame.size.height - bottomPadding];
         }
         else {
-            [self changeFrame:subController.view
-                      originX:subController.view.frame.origin.x
-                       height:self.view.frame.size.height - bottomPadding];
+            [subController.view setHeight:self.view.frame.size.height - bottomPadding];
         }
     }
     for (UIViewController *subController in viewControllersStack) {

@@ -272,9 +272,7 @@
     [menuViewController setMenuHeight:tableHeight];
     
     // Separator
-    CGRect frame = playlistHeader.frame;
-    frame.origin.y = tableHeight;
-    playlistHeader.frame = frame;
+    [playlistHeader setY:tableHeight];
     
     // Playlist and NowPlaying
     [self layoutPlaylistNowplayingForTableHeight:tableHeight];
@@ -461,25 +459,11 @@
 
     int bottomPadding = [Utilities getBottomPadding];
     if (bottomPadding > 0) {
-        CGRect frame = volumeSliderView.frame;
-        frame.origin.y -= bottomPadding;
-        volumeSliderView.frame = frame;
-        
-        frame = powerButton.frame;
-        frame.origin.y -= bottomPadding;
-        powerButton.frame = frame;
-        
-        frame = settingsButton.frame;
-        frame.origin.y -= bottomPadding;
-        settingsButton.frame = frame;
-        
-        frame = xbmcInfo.frame;
-        frame.origin.y -= bottomPadding;
-        xbmcInfo.frame = frame;
-        
-        frame = xbmcLogo.frame;
-        frame.origin.y -= bottomPadding;
-        xbmcLogo.frame = frame;
+        [volumeSliderView offsetYBy:-bottomPadding];
+        [powerButton offsetYBy:-bottomPadding];
+        [settingsButton offsetYBy:-bottomPadding];
+        [xbmcInfo offsetYBy:-bottomPadding];
+        [xbmcLogo offsetYBy:-bottomPadding];
     }
     
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];
@@ -599,7 +583,7 @@
 
 - (void)hideSongInfoView {
     self.nowPlayingController.itemDescription.scrollsToTop = NO;
-    [Utilities alphaView:self.nowPlayingController.songDetailsView AnimDuration:0.2 Alpha:0.0];
+    [self.nowPlayingController.songDetailsView animateAlpha:0.0 duration:0.2];
 }
 
 - (void)handleStackScrollOnScreen:(NSNotification*)sender {
