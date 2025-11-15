@@ -120,10 +120,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
         
         CGFloat topPadding = isEmbeddedMode ? [Utilities getTopPadding] : 0;
-        CGRect frame = volumeSliderView.frame;
-        frame.origin.y = topPadding;
-        frame.origin.x = leftPadding;
-        volumeSliderView.frame = frame;
+        [volumeSliderView setOrigin:CGPointMake(leftPadding, topPadding)];
     }
     else {
         // Used to avoid drawing remote buttons into the safe area
@@ -314,27 +311,15 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 }
 
 - (void)setLayoutForGestureMode {
-    CGRect frame = gestureZoneView.frame;
-    frame.origin.x = 0;
-    gestureZoneView.frame = frame;
-    
-    frame = buttonZoneView.frame;
-    frame.origin.x = self.view.frame.size.width;
-    buttonZoneView.frame = frame;
-    
+    [gestureZoneView setX:0];
+    [buttonZoneView setX:self.view.frame.size.width];
     gestureZoneView.alpha = 1;
     buttonZoneView.alpha = 0;
 }
 
 - (void)setLayoutForButtonMode {
-    CGRect frame = gestureZoneView.frame;
-    frame.origin.x = -self.view.frame.size.width;
-    gestureZoneView.frame = frame;
-    
-    frame = buttonZoneView.frame;
-    frame.origin.x = 0;
-    buttonZoneView.frame = frame;
-    
+    [gestureZoneView setX:-self.view.frame.size.width];
+    [buttonZoneView setX:0];
     gestureZoneView.alpha = 0;
     buttonZoneView.alpha = 1;
 }

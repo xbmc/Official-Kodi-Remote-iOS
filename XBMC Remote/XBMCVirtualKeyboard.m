@@ -165,9 +165,7 @@
 
 - (void)textFieldDidBeginEditing:(UITextField*)textField {
     // Adapt title height to render full text
-    CGRect frame = keyboardTitle.frame;
-    frame.size.height = [keyboardTitle getSize].height;
-    keyboardTitle.frame = frame;
+    [keyboardTitle setHeight:[keyboardTitle getSize].height];
     
     // Calculate accessory view height. In case no title is given, only show the input text field with padding.
     CGFloat accessoryHeight = CGRectGetHeight(keyboardTitle.frame) + CGRectGetHeight(backgroundTextField.frame) + 3 * VERTICAL_PADDING;

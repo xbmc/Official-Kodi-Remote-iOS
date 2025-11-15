@@ -676,9 +676,7 @@
 }
 
 - (void)setAutomaticLabelHeight:(UILabel*)label {
-    CGRect frame = label.frame;
-    frame.size.height = [label getSize].height;
-    label.frame = frame;
+    [label setHeight:[label getSize].height];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
