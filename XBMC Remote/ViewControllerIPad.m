@@ -575,7 +575,7 @@
 
 - (void)hideSongInfoView {
     self.nowPlayingController.itemDescription.scrollsToTop = NO;
-    [Utilities alphaView:self.nowPlayingController.songDetailsView AnimDuration:0.2 Alpha:0.0];
+    [self.nowPlayingController.songDetailsView animateAlpha:0.0 duration:0.2];
 }
 
 - (void)handleStackScrollOnScreen:(NSNotification*)sender {

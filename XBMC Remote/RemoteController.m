@@ -923,11 +923,11 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         quickHelpSubLabel.text = isGestureViewActive ? LOCALIZED_STR(@"Gestures") : LOCALIZED_STR(@"Remote Control");
         quickHelpImageView.image = [UIImage imageNamed:imageName];
         quickHelpImageView.layer.minificationFilter = kCAFilterTrilinear;
-        [Utilities alphaView:quickHelpView AnimDuration:0.2 Alpha:1.0];
+        [quickHelpView animateAlpha:1.0 duration:0.2];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     else {
-        [Utilities alphaView:quickHelpView AnimDuration:0.2 Alpha:0.0];
+        [quickHelpView animateAlpha:0.0 duration:0.2];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
 }
