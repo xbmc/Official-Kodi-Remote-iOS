@@ -102,7 +102,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (void)enableDefaultController:(id<UITableViewDelegate>)viewController tableView:(UITableView*)tableView menuItems:(NSArray*)menuItems;
 + (id)unarchivePath:(NSString*)path file:(NSString*)filename;
 + (void)archivePath:(NSString*)path file:(NSString*)filename data:(id)data;
-+ (void)imageView:(UIImageView*)view AnimDuration:(NSTimeInterval)seconds Image:(UIImage*)image;
 + (float)getPercentElapsed:(NSDate*)startDate EndDate:(NSDate*)endDate;
 + (void)createTransparentToolbar:(UIToolbar*)toolbar;
 + (NSString*)formatTVShowStringForSeasonTrailing:(id)season episode:(id)episode title:(NSString*)title;
