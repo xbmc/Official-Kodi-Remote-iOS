@@ -1027,7 +1027,7 @@
     self.indexView.hidden = YES;
     button6.hidden = YES;
     button7.hidden = YES;
-    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [noFoundView animateAlpha:0.0 duration:0.2];
     [activityIndicatorView startAnimating];
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     if (chosenTab < buttonsIB.count) {
@@ -1978,13 +1978,13 @@
 
 - (void)handleCollectionIndexStateBegin {
     if (stackscrollFullscreen) {
-        [Utilities alphaView:sectionNameOverlayView AnimDuration:0.1 Alpha:1];
+        [sectionNameOverlayView animateAlpha:1.0 duration:0.1];
     }
 }
 
 - (void)handleCollectionIndexStateEnded {
     if (stackscrollFullscreen) {
-        [Utilities alphaView:sectionNameOverlayView AnimDuration:0.3 Alpha:0];
+        [sectionNameOverlayView animateAlpha:0.0 duration:0.3];
     }
     self.indexView.alpha = 1.0;
 }
@@ -4701,7 +4701,7 @@
         [self animateNoResultsFound];
         return;
     }
-
+    
     // Profiles functions requires Kodi 17 or higher
     if ([methodToCall containsString:@"Profiles."] && ![VersionCheck hasProfilesSupport]) {
         UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"Kodi \"Krypton\" version 17 or later is required to access user profiles.")];
@@ -4710,7 +4710,7 @@
         return;
     }
     
-    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [noFoundView animateAlpha:0.0 duration:0.2];
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
@@ -4934,7 +4934,7 @@
 }
 
 - (void)animateNoResultsFound {
-    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+    [noFoundView animateAlpha:1.0 duration:0.2];
     [activityIndicatorView stopAnimating];
     [activeLayoutView.pullToRefreshView stopAnimating];
     [self setGridListButtonImage:enableCollectionView];
@@ -5270,10 +5270,10 @@
     [self setFilternameLabel:labelText];
     
     if (!self.richResults.count) {
-        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+        [noFoundView animateAlpha:1.0 duration:0.2];
     }
     else {
-        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+        [noFoundView animateAlpha:0.0 duration:0.2];
     }
     NSDictionary *itemSizes = parameters[@"itemSizes"];
     if (IS_IPHONE) {
