@@ -97,13 +97,13 @@
         UILabel *cellLabel = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_LABEL];
         UILabel *cellIP = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_IP];
         
-        cellNoServerFound.highlightedTextColor = [Utilities get1stLabelColor];
-        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
-        cellIP.highlightedTextColor = [Utilities get2ndLabelColor];
+        cellNoServerFound.highlightedTextColor = [UIColor get1stLabelColor];
+        cellLabel.highlightedTextColor = [UIColor get1stLabelColor];
+        cellIP.highlightedTextColor = [UIColor get2ndLabelColor];
         
-        cellNoServerFound.textColor = [Utilities getSystemGray1];
-        cellLabel.textColor = [Utilities getSystemGray1];
-        cellIP.textColor = [Utilities getSystemGray2];
+        cellNoServerFound.textColor = [UIColor getSystemGray1];
+        cellLabel.textColor = [UIColor getSystemGray1];
+        cellIP.textColor = [UIColor getSystemGray2];
         
         cell.tintColor = UIColor.lightGrayColor;
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;

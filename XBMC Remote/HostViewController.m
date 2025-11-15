@@ -42,7 +42,7 @@
 #define IPAD_POPOVER_WIDTH 400
 #define IPAD_POPOVER_HEIGHT 500
 #define BUTTON_RADIUS 6
-#define BUTTON_COLOR [Utilities getSystemBlue]
+#define BUTTON_COLOR [UIColor getSystemBlue]
 
 #define XIB_PASSWORD_FIELD 12
 #define XIB_FIRST_MAC_ADDRESS_FIELD 5
@@ -152,7 +152,7 @@
 #pragma mark - UITextFieldDelegate Methods
 
 - (void)textFieldDidBeginEditing:(UITextField*)textField {
-    textField.textColor = [Utilities get1stLabelColor];
+    textField.textColor = [UIColor get1stLabelColor];
     [self tailorViewContent:YES];
 }
 
@@ -326,7 +326,7 @@
         ];
         [macLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
             label.text = macPart[idx];
-            label.textColor = [Utilities getSystemBlue];
+            label.textColor = [UIColor getSystemBlue];
         }];
     }
 }
@@ -497,13 +497,13 @@
     descriptionUI.text = serverAddresses[@"serverName"];
     ipUI.text = server[@"addr"];
     portUI.text = server[@"port"];
-    descriptionUI.textColor = [Utilities getSystemBlue];
-    ipUI.textColor = [Utilities getSystemBlue];
-    portUI.textColor = [Utilities getSystemBlue];
+    descriptionUI.textColor = [UIColor getSystemBlue];
+    ipUI.textColor = [UIColor getSystemBlue];
+    portUI.textColor = [UIColor getSystemBlue];
     
     // Set values for UI and persistency
     tcpPortUI.text = server[@"tcpport"];
-    tcpPortUI.textColor = [Utilities getSystemBlue];
+    tcpPortUI.textColor = [UIColor getSystemBlue];
 }
 
 #pragma mark - Help URLs
@@ -538,7 +538,7 @@
 	}
     NSNetService *service = services[indexPath.row];
 	cell.textLabel.text = service.name;
-	cell.textLabel.textColor = [Utilities get1stLabelColor];
+	cell.textLabel.textColor = [UIColor get1stLabelColor];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	return cell;
 }
@@ -573,7 +573,7 @@
     [discoveredInstancesView setX:self.view.frame.size.width alpha:1.0];
     for (UITextField *textfield in [self getAllEntryMaskLabels]) {
         textfield.text = @"";
-        textfield.textColor = [Utilities get1stLabelColor];
+        textfield.textColor = [UIColor get1stLabelColor];
     }
     [noInstances setX:self.view.frame.size.width alpha:0.0];
 }
@@ -619,12 +619,12 @@
         textfield.layer.borderColor = UIColor.lightGrayColor.CGColor;
         textfield.layer.borderWidth = 1.0 / UIScreen.mainScreen.scale;
         textfield.layer.cornerRadius = 4;
-        textfield.backgroundColor = [Utilities getSystemGray6];
-        textfield.tintColor = [Utilities get1stLabelColor];
+        textfield.backgroundColor = [UIColor getSystemGray6];
+        textfield.tintColor = [UIColor get1stLabelColor];
         textfield.minimumFontSize = 10;
         textfield.adjustsFontSizeToFitWidth = YES;
     }
-    discoveredInstancesTableView.backgroundColor = [Utilities getSystemGray6];
+    discoveredInstancesTableView.backgroundColor = [UIColor getSystemGray6];
     
     CGFloat bottomPadding = [Utilities getBottomPadding];
     if (IS_IPAD) {

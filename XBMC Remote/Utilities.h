@@ -45,22 +45,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (NSDictionary*)buildPlayerSeekPercentageParams:(int)playerID percentage:(float)percentage;
 + (NSDictionary*)buildPlayerSeekStepParams:(NSString*)stepmode;
 + (CGFloat)getTransformX;
-+ (UIColor*)getSystemRed:(CGFloat)alpha;
-+ (UIColor*)getSystemGreen:(CGFloat)alpha;
-+ (UIColor*)getKodiBlue;
-+ (UIColor*)getSystemBlue;
-+ (UIColor*)getSystemTeal;
-+ (UIColor*)getSystemGray1;
-+ (UIColor*)getSystemGray2;
-+ (UIColor*)getSystemGray3;
-+ (UIColor*)getSystemGray4;
-+ (UIColor*)getSystemGray5;
-+ (UIColor*)getSystemGray6;
-+ (UIColor*)get1stLabelColor;
-+ (UIColor*)get2ndLabelColor;
-+ (UIColor*)get3rdLabelColor;
-+ (UIColor*)get4thLabelColor;
-+ (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha;
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(JewelType)type;
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
@@ -149,5 +133,25 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 @interface UIImageView (Extensions)
 
 - (void)animateImage:(UIImage*)image duration:(NSTimeInterval)seconds;
+
+@end
+
+@interface UIColor (Extensions)
+
++ (UIColor*)getSystemRed:(CGFloat)alpha;
++ (UIColor*)getSystemGreen:(CGFloat)alpha;
++ (UIColor*)getKodiBlue;
++ (UIColor*)getSystemBlue;
++ (UIColor*)getSystemGray1;
++ (UIColor*)getSystemGray2;
++ (UIColor*)getSystemGray3;
++ (UIColor*)getSystemGray4;
++ (UIColor*)getSystemGray5;
++ (UIColor*)getSystemGray6;
++ (UIColor*)get1stLabelColor;
++ (UIColor*)get2ndLabelColor;
++ (UIColor*)get3rdLabelColor;
++ (UIColor*)get4thLabelColor;
++ (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha;
 
 @end

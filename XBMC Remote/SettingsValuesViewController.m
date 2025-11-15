@@ -446,8 +446,8 @@
 }
 
 - (void)configureCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-	cell.backgroundColor = [Utilities getSystemGray6];
-    cell.tintColor = [Utilities getSystemBlue];
+	cell.backgroundColor = [UIColor getSystemGray6];
+    cell.tintColor = [UIColor getSystemBlue];
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     CGFloat cellWidth = IS_IPHONE ? GET_MAINSCREEN_WIDTH : STACKSCROLL_WIDTH;
@@ -689,8 +689,8 @@
         cellLabel.font = [UIFont systemFontOfSize:16];
         cellLabel.adjustsFontSizeToFitWidth = YES;
         cellLabel.minimumScaleFactor = FONT_SCALING_MIN;
-        cellLabel.textColor = [Utilities get1stLabelColor];
-        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
+        cellLabel.textColor = [UIColor get1stLabelColor];
+        cellLabel.highlightedTextColor = [UIColor get1stLabelColor];
         [cell.contentView addSubview:cellLabel];
         
         UISwitch *onoff = [UISwitch new];
@@ -704,8 +704,8 @@
         descriptionLabel.adjustsFontSizeToFitWidth = YES;
         descriptionLabel.minimumScaleFactor = FONT_SCALING_MIN;
         descriptionLabel.numberOfLines = 0;
-        descriptionLabel.textColor = [Utilities get2ndLabelColor];
-        descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        descriptionLabel.textColor = [UIColor get2ndLabelColor];
+        descriptionLabel.highlightedTextColor = [UIColor get2ndLabelColor];
         [cell.contentView addSubview:descriptionLabel];
         
         OBSlider *slider = [OBSlider new];
@@ -727,8 +727,8 @@
         sliderLabel.adjustsFontSizeToFitWidth = YES;
         sliderLabel.minimumScaleFactor = FONT_SCALING_MIN;
         sliderLabel.textAlignment = NSTextAlignmentCenter;
-        sliderLabel.textColor = [Utilities get2ndLabelColor];
-        sliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        sliderLabel.textColor = [UIColor get2ndLabelColor];
+        sliderLabel.highlightedTextColor = [UIColor get2ndLabelColor];
         [cell.contentView addSubview:sliderLabel];
         
         UITextField *textInputField = [UITextField new];

@@ -2040,7 +2040,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    cell.backgroundColor = [Utilities getSystemGray6];
+    cell.backgroundColor = [UIColor getSystemGray6];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -2053,13 +2053,13 @@
         UILabel *cornerLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_CORNERTITLE];
         UIImageView *thumb = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
         
-        mainLabel.highlightedTextColor = [Utilities get1stLabelColor];
-        subLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-        cornerLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        mainLabel.highlightedTextColor = [UIColor get1stLabelColor];
+        subLabel.highlightedTextColor = [UIColor get2ndLabelColor];
+        cornerLabel.highlightedTextColor = [UIColor get2ndLabelColor];
         
-        mainLabel.textColor = [Utilities get1stLabelColor];
-        subLabel.textColor = [Utilities get2ndLabelColor];
-        cornerLabel.textColor = [Utilities get2ndLabelColor];
+        mainLabel.textColor = [UIColor get1stLabelColor];
+        subLabel.textColor = [UIColor get2ndLabelColor];
+        cornerLabel.textColor = [UIColor get2ndLabelColor];
         
         tableView.separatorInset = UIEdgeInsetsMake(0, CGRectGetMinX(mainLabel.frame), 0, 0);
         
