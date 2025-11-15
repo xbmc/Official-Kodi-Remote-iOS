@@ -135,3 +135,14 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 - (CGSize)getSize;
 
 @end
+
+@interface UIView (Extensions)
+
+- (void)setX:(CGFloat)x;
+- (void)setY:(CGFloat)y;
+- (void)setOrigin:(CGPoint)origin;
+- (void)setHeight:(CGFloat)height;
+- (void)setWidth:(CGFloat)width;
+- (void)offsetY:(CGFloat)offset;
+
+@end

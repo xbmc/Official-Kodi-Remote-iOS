@@ -1448,3 +1448,45 @@
 }
 
 @end
+
+#pragma mark - UIView extensions
+
+@implementation UIView (Extensions)
+
+- (void)setX:(CGFloat)x {
+    CGRect frame = self.frame;
+    frame.origin.x = x;
+    self.frame = frame;
+}
+
+- (void)setY:(CGFloat)y {
+    CGRect frame = self.frame;
+    frame.origin.y = y;
+    self.frame = frame;
+}
+
+- (void)setOrigin:(CGPoint)origin {
+    CGRect frame = self.frame;
+    frame.origin = origin;
+    self.frame = frame;
+}
+
+- (void)setHeight:(CGFloat)height {
+    CGRect frame = self.frame;
+    frame.size.height = height;
+    self.frame = frame;
+}
+
+- (void)setWidth:(CGFloat)width {
+    CGRect frame = self.frame;
+    frame.size.width = width;
+    self.frame = frame;
+}
+
+- (void)offsetY:(CGFloat)offset {
+    CGRect frame = self.frame;
+    frame.origin.y += offset;
+    self.frame = frame;
+}
+
+@end
