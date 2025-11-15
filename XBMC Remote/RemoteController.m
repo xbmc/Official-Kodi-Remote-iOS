@@ -311,17 +311,13 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 }
 
 - (void)setLayoutForGestureMode {
-    [gestureZoneView setX:0];
-    [buttonZoneView setX:self.view.frame.size.width];
-    gestureZoneView.alpha = 1;
-    buttonZoneView.alpha = 0;
+    [gestureZoneView setX:0 alpha:1.0];
+    [buttonZoneView setX:self.view.frame.size.width alpha:0.0];
 }
 
 - (void)setLayoutForButtonMode {
-    [gestureZoneView setX:-self.view.frame.size.width];
-    [buttonZoneView setX:0];
-    gestureZoneView.alpha = 0;
-    buttonZoneView.alpha = 1;
+    [gestureZoneView setX:-self.view.frame.size.width alpha:0.0];
+    [buttonZoneView setX:0 alpha:1.0];
 }
 
 # pragma mark - JSON
