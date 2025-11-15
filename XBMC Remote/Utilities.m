@@ -1171,19 +1171,6 @@
     }
 }
 
-+ (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-    [UIView animateWithDuration:seconds
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        view.alpha = alphavalue;
-        CGRect frame = view.frame;
-        frame.origin.x = X;
-        view.frame = frame;
-                     }
-                     completion:nil];
-}
-
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X YPos:(int)Y {
     [UIView animateWithDuration:seconds
                           delay:0.0
@@ -1487,6 +1474,16 @@
     frame.origin.x = x;
     self.frame = frame;
     self.alpha = alpha;
+}
+
+- (void)animateX:(CGFloat)x alpha:(CGFloat)alpha duration:(NSTimeInterval)seconds {
+    [UIView animateWithDuration:seconds
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        [self setX:x alpha:alpha];
+    }
+                     completion:nil];
 }
 
 @end

@@ -102,7 +102,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (void)enableDefaultController:(id<UITableViewDelegate>)viewController tableView:(UITableView*)tableView menuItems:(NSArray*)menuItems;
 + (id)unarchivePath:(NSString*)path file:(NSString*)filename;
 + (void)archivePath:(NSString*)path file:(NSString*)filename data:(id)data;
-+ (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X;
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X YPos:(int)Y;
 + (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue;
 + (void)imageView:(UIImageView*)view AnimDuration:(NSTimeInterval)seconds Image:(UIImage*)image;
@@ -144,5 +143,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 - (void)setWidth:(CGFloat)width;
 - (void)offsetY:(CGFloat)offset;
 - (void)setX:(CGFloat)x alpha:(CGFloat)alpha;
+- (void)animateX:(CGFloat)x alpha:(CGFloat)alpha duration:(NSTimeInterval)seconds;
 
 @end

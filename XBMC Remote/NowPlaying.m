@@ -1141,15 +1141,15 @@
     
     if (currentPlaylistID == PLAYERID_MUSIC) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_MUSIC;
-        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:1.0 XPos:PARTYBUTTON_PADDING_LEFT];
+        [PartyModeButton animateX:PARTYBUTTON_PADDING_LEFT alpha:1.0 duration:0.3];
     }
     else if (currentPlaylistID == PLAYERID_VIDEO) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_VIDEO;
-        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
+        [PartyModeButton animateX:-PartyModeButton.frame.size.width alpha:0.0 duration:0.3];
     }
     else if (currentPlaylistID == PLAYERID_PICTURES) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_PICTURES;
-        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
+        [PartyModeButton animateX:-PartyModeButton.frame.size.width alpha:0.0 duration:0.3];
     }
     editTableButton.hidden = currentPlaylistID == PLAYERID_PICTURES;
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];

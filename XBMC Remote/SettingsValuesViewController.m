@@ -354,7 +354,7 @@
                         ];
                    }
                    [_tableView reloadData];
-                   [Utilities AnimView:_tableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                   [_tableView animateX:0 alpha:1.0 duration:0.3];
                    [self scrollTableRow:settingOptions];
                }
            }];

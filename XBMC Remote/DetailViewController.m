@@ -1035,7 +1035,7 @@
     }
     chosenTab = MAX_NORMAL_BUTTONS;
     [buttonsIB[chosenTab] setSelected:YES];
-    [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    [activeLayoutView animateX:viewWidth alpha:1.0 duration:0.3];
     int i;
     NSInteger count = menuItem.mainParameters.count;
     NSMutableArray *moreMenu = [NSMutableArray new];
@@ -1062,7 +1062,7 @@
         [maskView insertSubview:moreItemsViewController.view aboveSubview:dataList];
     }
 
-    [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:0];
+    [moreItemsViewController.view animateX:0 alpha:1.0 duration:0.3];
     NSString *labelText = LOCALIZED_STR_ARGS(@"More (%d)", (int)(count - MAX_NORMAL_BUTTONS));
     [self checkFullscreenButton:YES];
     [self setFilternameLabel:labelText];
@@ -1262,7 +1262,7 @@
         [longTimeout removeFromSuperview];
         longTimeout = nil;
     }
-    [Utilities AnimView:moreItemsViewController.view AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+    [moreItemsViewController.view animateX:viewWidth alpha:1.0 duration:0.3];
     
     [activityIndicatorView startAnimating];
 
@@ -1289,7 +1289,7 @@
     }
     else {
         [activityIndicatorView stopAnimating];
-        [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [activeLayoutView animateX:0 alpha:1.0 duration:0.3];
     }
 }
 
@@ -3953,7 +3953,7 @@
                [cellActivityIndicator stopAnimating];
                if (error == nil && methodError == nil) {
                    [self.searchController setActive:NO];
-                   [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:viewWidth];
+                   [activeLayoutView animateX:viewWidth alpha:1.0 duration:0.3];
                    [self startRetrieveDataWithRefresh:YES];
                }
                else {
@@ -4537,7 +4537,7 @@
     }
     else {
         [activityIndicatorView stopAnimating];
-        [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+        [activeLayoutView animateX:0 alpha:1.0 duration:0.3];
     }
 }
 
@@ -6113,7 +6113,7 @@
                              recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
                              enableCollectionView = [self collectionViewIsEnabled];
                              [self configureLibraryView];
-                             [Utilities AnimView:activeLayoutView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                             [activeLayoutView animateX:0 alpha:1.0 duration:0.3];
                              activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
                          }];
     }
