@@ -41,7 +41,7 @@
         keyboardTitle.backgroundColor = UIColor.clearColor;
         keyboardTitle.numberOfLines = 4;
         keyboardTitle.font = [UIFont boldSystemFontOfSize:FONT_SIZE];
-        keyboardTitle.textColor = [Utilities get1stLabelColor];
+        keyboardTitle.textColor = [UIColor get1stLabelColor];
 
         backgroundTextField = [[UITextField alloc] initWithFrame:CGRectMake(INPUT_PADDING,
                                                                             CGRectGetMaxY(keyboardTitle.frame) + VERTICAL_PADDING,
@@ -49,9 +49,9 @@
                                                                             HEIGHT_DEFAULT)];
         backgroundTextField.userInteractionEnabled = YES;
         backgroundTextField.borderStyle = UITextBorderStyleRoundedRect;
-        backgroundTextField.backgroundColor = [Utilities getSystemGray6];
+        backgroundTextField.backgroundColor = [UIColor getSystemGray6];
         backgroundTextField.font = [UIFont systemFontOfSize:FONT_SIZE];
-        backgroundTextField.textColor = [Utilities get1stLabelColor];
+        backgroundTextField.textColor = [UIColor get1stLabelColor];
         backgroundTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         backgroundTextField.autocorrectionType = UITextAutocorrectionTypeNo;
         backgroundTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -63,7 +63,7 @@
                                                                 0,
                                                                 UIScreen.mainScreen.bounds.size.width,
                                                                 CGRectGetMaxY(backgroundTextField.frame) + VERTICAL_PADDING)];
-        inputAccView.backgroundColor = [Utilities getSystemGray4];
+        inputAccView.backgroundColor = [UIColor getSystemGray4];
         [inputAccView addSubview:keyboardTitle];
         [inputAccView addSubview:backgroundTextField];
         

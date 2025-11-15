@@ -20,29 +20,29 @@
 /*
  * Color defines
  */
-#define APP_TINT_COLOR [Utilities getGrayColor:0 alpha:0.3]
+#define APP_TINT_COLOR [UIColor getGrayColor:0 alpha:0.3]
 #define ICON_TINT_COLOR UIColor.lightGrayColor
 #define ICON_TINT_COLOR_ACTIVE UIColor.systemBlueColor
-#define REMOTE_CONTROL_BAR_TINT_COLOR [Utilities getGrayColor:12 alpha:1]
+#define REMOTE_CONTROL_BAR_TINT_COLOR [UIColor getGrayColor:12 alpha:1]
 #define SLIDER_DEFAULT_COLOR UIColor.lightGrayColor
-#define TOOLBAR_TINT_COLOR [Utilities getGrayColor:38 alpha:0.95]
-#define NAVBAR_TINT_COLOR [Utilities getGrayColor:38 alpha:1.0]
-#define KODI_BLUE_COLOR [Utilities getKodiBlue]
-#define CUSTOM_BUTTON_BACKGROUND [Utilities getGrayColor:25 alpha:1] // Gray:25 is same as the other remote buttons
-#define GRIDVIEW_SECTION_COLOR [Utilities getGrayColor:44 alpha:1.0]
-#define SYSTEMGRAY6_DARKMODE [Utilities getGrayColor:28 alpha:1] // Gray:28 is similar to systemGray6 in Dark Mode
-#define SYSTEMGRAY6_LIGHTMODE [Utilities getGrayColor:242 alpha:1] // Gray:242 is similar to systemGray6 in Light Mode
-#define MAINMENU_SELECTED_COLOR [Utilities getGrayColor:58 alpha:1] // Gray:58 is similar to systemGray4 in Dark Mode
-#define ACTOR_SELECTED_COLOR [Utilities getGrayColor:128 alpha:0.5]
-#define INFO_POPOVER_COLOR [Utilities getGrayColor:0 alpha:0.8]
-#define IPAD_MENU_SEPARATOR [Utilities getGrayColor:77 alpha:0.6]
-#define PLAYLIST_PROGRESSBAR_BACKGROUND_COLOR [Utilities getGrayColor:96 alpha:1.0]
-#define PLAYLIST_PROGRESSBAR_TRACK_COLOR [Utilities getGrayColor:28 alpha:1.0]
-#define FONT_SHADOW_WEAK [Utilities getGrayColor:0 alpha:0.6]
-#define FONT_SHADOW_STRONG [Utilities getGrayColor:0 alpha:0.8]
-#define ERROR_MESSAGE_COLOR [Utilities getSystemRed:0.95]
-#define SUCCESS_MESSAGE_COLOR [Utilities getSystemGreen:0.95]
-#define UI_AVERAGE_DEFAULT_COLOR [Utilities getSystemGray2]
+#define TOOLBAR_TINT_COLOR [UIColor getGrayColor:38 alpha:0.95]
+#define NAVBAR_TINT_COLOR [UIColor getGrayColor:38 alpha:1.0]
+#define KODI_BLUE_COLOR [UIColor getKodiBlue]
+#define CUSTOM_BUTTON_BACKGROUND [UIColor getGrayColor:25 alpha:1] // Gray:25 is same as the other remote buttons
+#define GRIDVIEW_SECTION_COLOR [UIColor getGrayColor:44 alpha:1.0]
+#define SYSTEMGRAY6_DARKMODE [UIColor getGrayColor:28 alpha:1] // Gray:28 is similar to systemGray6 in Dark Mode
+#define SYSTEMGRAY6_LIGHTMODE [UIColor getGrayColor:242 alpha:1] // Gray:242 is similar to systemGray6 in Light Mode
+#define MAINMENU_SELECTED_COLOR [UIColor getGrayColor:58 alpha:1] // Gray:58 is similar to systemGray4 in Dark Mode
+#define ACTOR_SELECTED_COLOR [UIColor getGrayColor:128 alpha:0.5]
+#define INFO_POPOVER_COLOR [UIColor getGrayColor:0 alpha:0.8]
+#define IPAD_MENU_SEPARATOR [UIColor getGrayColor:77 alpha:0.6]
+#define PLAYLIST_PROGRESSBAR_BACKGROUND_COLOR [UIColor getGrayColor:96 alpha:1.0]
+#define PLAYLIST_PROGRESSBAR_TRACK_COLOR [UIColor getGrayColor:28 alpha:1.0]
+#define FONT_SHADOW_WEAK [UIColor getGrayColor:0 alpha:0.6]
+#define FONT_SHADOW_STRONG [UIColor getGrayColor:0 alpha:0.8]
+#define ERROR_MESSAGE_COLOR [UIColor getSystemRed:0.95]
+#define SUCCESS_MESSAGE_COLOR [UIColor getSystemGreen:0.95]
+#define UI_AVERAGE_DEFAULT_COLOR [UIColor getSystemGray2]
 
 /*
  * Dimension and layout macros

@@ -769,8 +769,8 @@
     
     // Set text colors
     UIColor *label12Color = [Utilities contrastColor:gradientTop
-                                          lightColor:[Utilities getGrayColor:255 alpha:1.0]
-                                           darkColor:[Utilities getGrayColor:0 alpha:1.0]];
+                                          lightColor:[UIColor getGrayColor:255 alpha:1.0]
+                                           darkColor:[UIColor getGrayColor:0 alpha:1.0]];
     UIColor *label34Color = [label12Color colorWithAlphaComponent:0.95];
     
     // Set colors for the different labels
@@ -945,7 +945,7 @@
                 }
                 // If not loaded, use default background color and poster dimensions for default thumb
                 else {
-                    cell.backgroundColor = [Utilities getSystemGray6];
+                    cell.backgroundColor = [UIColor getSystemGray6];
                 }
             }
             // When in grid or fullscreen view
@@ -959,7 +959,7 @@
                 cell.backgroundColor = SYSTEMGRAY6_DARKMODE;
             }
             else {
-                cell.backgroundColor = [Utilities getSystemGray6];
+                cell.backgroundColor = [UIColor getSystemGray6];
             }
         }
         if ([cell isKindOfClass:[UITableViewCell class]]) {
@@ -2119,8 +2119,8 @@
         searchBar.tintColor = ICON_TINT_COLOR;
     }
     else {
-        searchBar.backgroundColor = [Utilities getSystemGray6];
-        searchBar.tintColor = [Utilities get2ndLabelColor];
+        searchBar.backgroundColor = [UIColor getSystemGray6];
+        searchBar.tintColor = [UIColor get2ndLabelColor];
     }
 }
 
@@ -2375,8 +2375,8 @@
             trackNumberLabel.minimumScaleFactor = FONT_SCALING_DEFAULT;
             trackNumberLabel.textAlignment = NSTextAlignmentCenter;
             trackNumberLabel.tag = ALBUM_VIEW_CELL_TRACKNUMBER;
-            trackNumberLabel.highlightedTextColor = [Utilities get1stLabelColor];
-            trackNumberLabel.textColor = [Utilities get1stLabelColor];
+            trackNumberLabel.highlightedTextColor = [UIColor get1stLabelColor];
+            trackNumberLabel.textColor = [UIColor get1stLabelColor];
             [cell.contentView addSubview:trackNumberLabel];
         }
         else if (channelGuideView) {
@@ -2389,8 +2389,8 @@
             programTimeLabel.minimumScaleFactor = FONT_SCALING_DEFAULT;
             programTimeLabel.textAlignment = NSTextAlignmentCenter;
             programTimeLabel.tag = EPG_VIEW_CELL_STARTTIME;
-            programTimeLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-            programTimeLabel.textColor = [Utilities get2ndLabelColor];
+            programTimeLabel.highlightedTextColor = [UIColor get2ndLabelColor];
+            programTimeLabel.textColor = [UIColor get2ndLabelColor];
             [cell.contentView addSubview:programTimeLabel];
             
             [self addProgressBar:cell recDotSize:RECORDING_DOT_SIZE];
@@ -2404,19 +2404,19 @@
         UILabel *runtime = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIME];
         UILabel *rating = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RATING];
         
-        title.highlightedTextColor = [Utilities get1stLabelColor];
-        genre.highlightedTextColor = [Utilities get2ndLabelColor];
-        runtimeyear.highlightedTextColor = [Utilities get2ndLabelColor];
-        runtime.highlightedTextColor = [Utilities get2ndLabelColor];
-        rating.highlightedTextColor = [Utilities get2ndLabelColor];
+        title.highlightedTextColor = [UIColor get1stLabelColor];
+        genre.highlightedTextColor = [UIColor get2ndLabelColor];
+        runtimeyear.highlightedTextColor = [UIColor get2ndLabelColor];
+        runtime.highlightedTextColor = [UIColor get2ndLabelColor];
+        rating.highlightedTextColor = [UIColor get2ndLabelColor];
         
-        title.textColor = [Utilities get1stLabelColor];
-        genre.textColor = [Utilities get2ndLabelColor];
-        runtimeyear.textColor = [Utilities get2ndLabelColor];
-        runtime.textColor = [Utilities get2ndLabelColor];
-        rating.textColor = [Utilities get2ndLabelColor];
+        title.textColor = [UIColor get1stLabelColor];
+        genre.textColor = [UIColor get2ndLabelColor];
+        runtimeyear.textColor = [UIColor get2ndLabelColor];
+        runtime.textColor = [UIColor get2ndLabelColor];
+        rating.textColor = [UIColor get2ndLabelColor];
         
-        cell.backgroundColor = [Utilities getSystemGray6];
+        cell.backgroundColor = [UIColor getSystemGray6];
     }
     mainMenu *menuItem = self.detailItem;
     CGPoint thumbSize = globalSearchView ? [self getGlobalSearchThumbsize:item] : CGPointMake(thumbWidth, cellHeight);
@@ -2530,7 +2530,7 @@
             frame.size.width = title.frame.size.width;
             frame.size.height = GENRE_HEIGHT;
             genre.frame = frame;
-            genre.textColor = [Utilities get1stLabelColor];
+            genre.textColor = [UIColor get1stLabelColor];
             genre.font = [UIFont boldSystemFontOfSize:14];
             progressView.hidden = YES;
             timerView.hidden = ![item[@"isrecording"] boolValue];
@@ -2542,7 +2542,7 @@
             [NSThread detachNewThreadSelector:@selector(getChannelEpgInfo:) toTarget:self withObject:params];
         }
         if (recordingListView) {
-            genre.textColor = [Utilities get2ndLabelColor];
+            genre.textColor = [UIColor get2ndLabelColor];
             genre.font = [UIFont systemFontOfSize:12];
         }
         NSString *stringURL = tvshowsView ? item[@"banner"] : item[@"thumbnail"];
@@ -2692,16 +2692,16 @@
         progressView.frame = progressFrame;
         timerView.center = [progressView convertPoint:[progressView getReservedCenter] toView:cell.contentView];
         
-        title.textColor = [Utilities get1stLabelColor];
-        genre.textColor = [Utilities get2ndLabelColor];
-        title.highlightedTextColor = [Utilities get1stLabelColor];
-        genre.highlightedTextColor = [Utilities get2ndLabelColor];
+        title.textColor = [UIColor get1stLabelColor];
+        genre.textColor = [UIColor get2ndLabelColor];
+        title.highlightedTextColor = [UIColor get1stLabelColor];
+        genre.highlightedTextColor = [UIColor get2ndLabelColor];
 
         if (percent_elapsed > 0 && percent_elapsed < 100) {
-            programStartTime.textColor = [Utilities get1stLabelColor];
-            programStartTime.highlightedTextColor = [Utilities get1stLabelColor];
+            programStartTime.textColor = [UIColor get1stLabelColor];
+            programStartTime.highlightedTextColor = [UIColor get1stLabelColor];
             programStartTime.font = [UIFont systemFontOfSize:14];
-            cell.backgroundColor = [Utilities getSystemGray4];
+            cell.backgroundColor = [UIColor getSystemGray4];
             
             [progressView setProgress:percent_elapsed / 100.0];
             NSCalendar *gregorian = [[NSCalendar alloc]
@@ -2716,10 +2716,10 @@
             progressView.hidden = NO;
         }
         else {
-            programStartTime.textColor = [Utilities get2ndLabelColor];
-            programStartTime.highlightedTextColor = [Utilities get2ndLabelColor];
+            programStartTime.textColor = [UIColor get2ndLabelColor];
+            programStartTime.highlightedTextColor = [UIColor get2ndLabelColor];
             programStartTime.font = [UIFont systemFontOfSize:13];
-            cell.backgroundColor = [Utilities getSystemGray6];
+            cell.backgroundColor = [UIColor getSystemGray6];
             
             progressView.hidden = YES;
         }
@@ -2888,12 +2888,12 @@
     
     // Draw gray bar as section header background
     UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, sectionHeight)];
-    sectionView.backgroundColor = [Utilities getSystemGray5];
+    sectionView.backgroundColor = [UIColor getSystemGray5];
     
     // Draw text into section header
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(LABEL_PADDING, 0, viewWidth - 2 * LABEL_PADDING, sectionHeight)];
     label.backgroundColor = UIColor.clearColor;
-    label.textColor = [Utilities get2ndLabelColor];
+    label.textColor = [UIColor get2ndLabelColor];
     label.font = [UIFont boldSystemFontOfSize:sectionHeight - 10];
     label.text = sectionTitle;
     label.autoresizingMask = UIViewAutoresizingFlexibleHeight |
@@ -3867,7 +3867,7 @@
                              animations:^{
                 collectionView.alpha = 1;
                 [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen"] forState:UIControlStateNormal];
-                fullscreenButton.backgroundColor = [Utilities getGrayColor:0 alpha:0.5];
+                fullscreenButton.backgroundColor = [UIColor getGrayColor:0 alpha:0.5];
             }
                              completion:^(BOOL finished) {
                 [activityIndicatorView stopAnimating];
