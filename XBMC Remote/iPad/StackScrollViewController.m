@@ -537,7 +537,7 @@
     
     [viewControllersStack addObject:controller];
     if (invokeByController != nil) {
-        viewXPosition = invokeByController.view.frame.origin.x + invokeByController.view.frame.size.width;
+        viewXPosition = CGRectGetMaxX(invokeByController.view.frame);
     }
     if (slideViews.subviews.count == 0) {
         slideStartPosition = SLIDE_VIEWS_START_X_POS;
@@ -683,7 +683,7 @@
                 }
                 else {
                     [self changeFrame:subController.view
-                              originX:viewAtLeft2.frame.origin.x + viewAtLeft2.frame.size.width
+                              originX:CGRectGetMaxX(viewAtLeft2.frame)
                                height:self.view.frame.size.height - bottomPadding];
                 }
             }
