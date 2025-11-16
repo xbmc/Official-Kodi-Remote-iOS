@@ -1571,7 +1571,7 @@
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if (AppDelegate.instance.serverVersion > 11 && ![self isModal]) {
-        UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:@"table_arrow_right"] withColor:UIColor.grayColor];
+        UIImage *image = [[UIImage imageNamed:@"table_arrow_right"] colorizeWithColor:UIColor.grayColor];
         cell.accessoryView = [[UIImageView alloc] initWithImage:image];
         cell.accessoryView.alpha = ARROW_ALPHA;
     }

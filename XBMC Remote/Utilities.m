@@ -208,20 +208,6 @@
     return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
 }
 
-+ (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {
-    if (color == nil || image.size.width == 0 || image.size.height == 0) {
-        return image;
-    }
-    CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = image.size};
-    UIImage *newImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    UIGraphicsBeginImageContextWithOptions(newImage.size, NO, newImage.scale);
-    [color set];
-    [newImage drawInRect:contextRect];
-    newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-
 + (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightColor:(UIColor*)lightColor darkColor:(UIColor*)darkColor {
     if (@available(iOS 13.0, *)) {
         UITraitCollection *scale = [UITraitCollection currentTraitCollection];
@@ -234,13 +220,13 @@
         
         __block UIImage *lightImage = image;
         [darkScaledTC performAsCurrentTraitCollection:^{
-            lightImage = [Utilities colorizeImage:lightImage withColor:lightColor];
+            lightImage = [lightImage colorizeWithColor:lightColor];
             lightImage = [lightImage imageWithConfiguration:[lightImage.configuration configurationWithTraitCollection:lightTraitCollection]];
         }];
         
         __block UIImage *darkImage = image;
         [lightScaledTC performAsCurrentTraitCollection:^{
-            darkImage = [Utilities colorizeImage:darkImage withColor:darkColor];
+            darkImage = [darkImage colorizeWithColor:darkColor];
             darkImage = [darkImage imageWithConfiguration:[darkImage.configuration configurationWithTraitCollection:darkTraitCollection]];
         }];
         
@@ -248,7 +234,7 @@
         return lightImage;
     }
     else {
-        image = [Utilities colorizeImage:image withColor:lightColor];
+        image = [image colorizeWithColor:lightColor];
         return image;
     }
 }
@@ -1495,6 +1481,21 @@
     CGImageRelease(linearSrgbImageRef);
     
     return averageColor;
+}
+
+- (UIImage*)colorizeWithColor:(UIColor*)color {
+    UIImage *image = self;
+    if (color == nil || image.size.width == 0 || image.size.height == 0) {
+        return image;
+    }
+    CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = image.size};
+    UIImage *newImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIGraphicsBeginImageContextWithOptions(newImage.size, NO, newImage.scale);
+    [color set];
+    [newImage drawInRect:contextRect];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 @end

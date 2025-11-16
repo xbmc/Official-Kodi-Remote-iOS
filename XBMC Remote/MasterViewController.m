@@ -92,7 +92,7 @@
         title.numberOfLines = 1;
         title.text = item.mainLabel;
         icon.highlightedImage = [UIImage imageNamed:iconName];
-        icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
+        icon.image = [icon.highlightedImage colorizeWithColor:UIColor.grayColor];
         cell.backgroundColor = UIColor.clearColor;
     }
     return cell;
@@ -211,7 +211,7 @@
 - (void)setConnectionIcon:(UIImageView*)icon {
     // Load icon for top row in main menu
     UIColor *iconColor = AppDelegate.instance.serverOnLine ? KODI_BLUE_COLOR : UIColor.grayColor;
-    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:@"st_kodi_action"] withColor:iconColor];
+    UIImage *image = [[UIImage imageNamed:@"st_kodi_action"] colorizeWithColor:iconColor];
     icon.highlightedImage = image;
     icon.image = image;
     

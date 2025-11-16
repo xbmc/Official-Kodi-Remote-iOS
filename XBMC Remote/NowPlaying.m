@@ -285,17 +285,17 @@
 - (void)updateRepeatButton:(NSString*)mode {
     if ([mode isEqualToString:@"all"]) {
         UIImage *image = [UIImage imageNamed:@"button_repeat_all"];
-        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+        image = [image colorizeWithColor:KODI_BLUE_COLOR];
         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
     }
     else if ([mode isEqualToString:@"one"]) {
         UIImage *image = [UIImage imageNamed:@"button_repeat_one"];
-        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+        image = [image colorizeWithColor:KODI_BLUE_COLOR];
         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
     }
     else {
         UIImage *image = [UIImage imageNamed:@"button_repeat"];
-        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+        image = [image colorizeWithColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
     }
 }
@@ -303,12 +303,12 @@
 - (void)updateShuffleButton:(BOOL)shuffle {
     if (shuffle) {
         UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
-        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+        image = [image colorizeWithColor:KODI_BLUE_COLOR];
         [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
     }
     else {
         UIImage *image = [UIImage imageNamed:@"button_shuffle"];
-        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+        image = [image colorizeWithColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
         [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
     }
 }
@@ -584,7 +584,7 @@
     if (canSeek && !ProgressSlider.userInteractionEnabled) {
         ProgressSlider.userInteractionEnabled = YES;
         UIImage *image = [UIImage imageNamed:@"pgbar_thumb"];
-        image = [Utilities colorizeImage:image withColor:SLIDER_DEFAULT_COLOR];
+        image = [image colorizeWithColor:SLIDER_DEFAULT_COLOR];
         [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
         [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
     }
@@ -2390,7 +2390,7 @@
     // Adapt fullscreen toggle button icon to current screen mode
     NSString *imageName = isFullscreen ? @"button_exit_fullscreen" : @"button_fullscreen";
     UIImage *image = [UIImage imageNamed:imageName];
-    image = [Utilities colorizeImage:image withColor:UIColor.whiteColor];
+    image = [image colorizeWithColor:UIColor.whiteColor];
     [fullscreenToggleButton setImage:image forState:UIControlStateNormal];
     [fullscreenToggleButton setImage:image forState:UIControlStateHighlighted];
     fullscreenToggleButton.alpha = 0.9;

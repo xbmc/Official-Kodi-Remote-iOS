@@ -307,7 +307,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 
 - (UIImage*)getImageForRemoteMode {
     UIImage *gestureImage = [UIImage imageNamed:isGestureViewActive ? @"icon_remote" : @"icon_finger"];
-    return [Utilities colorizeImage:gestureImage withColor:ICON_TINT_COLOR];
+    return [gestureImage colorizeWithColor:ICON_TINT_COLOR];
 }
 
 - (void)setLayoutForGestureMode {
@@ -1111,7 +1111,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 
 - (void)setTorchIcon:(BOOL)torchActive {
     UIImage *buttonImage = [UIImage imageNamed:torchActive ? @"torch_on" : @"torch"];
-    buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+    buttonImage = [buttonImage colorizeWithColor:ICON_TINT_COLOR];
     [torchButton setImage:buttonImage forState:UIControlStateNormal];
 }
 
@@ -1168,7 +1168,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         customButton.frame = frame;
         customButton.showsTouchWhenHighlighted = YES;
         buttonImage = [UIImage imageNamed:@"icon_custom_buttons"];
-        buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+        buttonImage = [buttonImage colorizeWithColor:ICON_TINT_COLOR];
         [customButton setImage:buttonImage forState:UIControlStateNormal];
         [customButton addTarget:self action:@selector(enterCustomButtons) forControlEvents:UIControlEventTouchUpInside];
         [remoteToolbar addSubview:customButton];
@@ -1187,7 +1187,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     keyboardButton.frame = frame;
     keyboardButton.showsTouchWhenHighlighted = YES;
     buttonImage = [UIImage imageNamed:@"icon_keyboard"];
-    buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+    buttonImage = [buttonImage colorizeWithColor:ICON_TINT_COLOR];
     [keyboardButton setImage:buttonImage forState:UIControlStateNormal];
     [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard) forControlEvents:UIControlEventTouchUpInside];
     [remoteToolbar addSubview:keyboardButton];
@@ -1197,7 +1197,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     helpButton.frame = frame;
     helpButton.showsTouchWhenHighlighted = YES;
     buttonImage = [UIImage imageNamed:@"button_info"];
-    buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+    buttonImage = [buttonImage colorizeWithColor:ICON_TINT_COLOR];
     [helpButton setImage:buttonImage forState:UIControlStateNormal];
     [helpButton addTarget:self action:@selector(toggleQuickHelp) forControlEvents:UIControlEventTouchUpInside];
     [remoteToolbar addSubview:helpButton];
@@ -1217,7 +1217,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         positionButton.frame = frame;
         positionButton.showsTouchWhenHighlighted = YES;
         buttonImage = [UIImage imageNamed:@"icon_up_down"];
-        buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+        buttonImage = [buttonImage colorizeWithColor:ICON_TINT_COLOR];
         [positionButton setImage:buttonImage forState:UIControlStateNormal];
         [positionButton addTarget:self action:@selector(toggleRemotePosition) forControlEvents:UIControlEventTouchUpInside];
         [remoteToolbar addSubview:positionButton];
@@ -1228,7 +1228,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         closeButton.frame = frame;
         closeButton.showsTouchWhenHighlighted = YES;
         buttonImage = [UIImage imageNamed:@"button_close"];
-        buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+        buttonImage = [buttonImage colorizeWithColor:ICON_TINT_COLOR];
         [closeButton setImage:buttonImage forState:UIControlStateNormal];
         [closeButton addTarget:self action:@selector(dismissModal) forControlEvents:UIControlEventTouchUpInside];
         [remoteToolbar addSubview:closeButton];
