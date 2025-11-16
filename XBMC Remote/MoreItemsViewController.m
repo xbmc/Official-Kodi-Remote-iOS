@@ -77,8 +77,8 @@
                                               ICON_HEIGHT);
         UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
         UIImage *image = [Utilities setLightDarkModeImageAsset:[UIImage imageNamed:item[@"icon"]]
-                                                    lightColor:UIColor.darkGrayColor
-                                                     darkColor:UIColor.lightGrayColor];
+                                                lightModeColor:UIColor.darkGrayColor
+                                                 darkModeColor:UIColor.lightGrayColor];
         iconImage.image = image;
         [cell.contentView addSubview:iconImage];
     }
