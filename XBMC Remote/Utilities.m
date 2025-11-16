@@ -135,18 +135,6 @@
     return [UIColor colorWithRed:sRGB_red green:sRGB_green blue:sRGB_blue alpha:1];
 }
 
-+ (UIColor*)averageColor:(UIImage*)image {
-    CGImageRef linearSrgbImageRef = [self createLinearSRGBFromImage:image];
-    if (linearSrgbImageRef == NULL) {
-        return nil;
-    }
-    
-    UIColor *averageColor = [self averageColorForImageRef:linearSrgbImageRef];
-    CGImageRelease(linearSrgbImageRef);
-    
-    return averageColor;
-}
-
 + (UIColor*)getUIColorFromImage:(UIImage*)image {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL autocolor_preference = [userDefaults boolForKey:@"autocolor_ui_preference"];
@@ -154,7 +142,7 @@
         return UI_AVERAGE_DEFAULT_COLOR;
     }
     
-    UIColor *uiColor = [Utilities averageColor:image];
+    UIColor *uiColor = [image averageColor];
     return uiColor ?: UI_AVERAGE_DEFAULT_COLOR;
 }
 
@@ -270,7 +258,7 @@
     switch (mode) {
         case LogoBackgroundAuto:
             // get background color and colorize the image background
-            imgcolor = [Utilities averageColor:imageview.image];
+            imgcolor = [imageview.image averageColor];
             bgcolor = [Utilities contrastColor:imgcolor lightColor:bglight darkColor:bgdark];
             break;
         case LogoBackgroundLight:
@@ -1486,6 +1474,24 @@
 
 + (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha {
     return RGBA(tone, tone, tone, alpha);
+}
+
+@end
+
+#pragma mark - UIImage extensions
+
+@implementation UIImage (Extensions)
+
+- (UIColor*)averageColor {
+    CGImageRef linearSrgbImageRef = [Utilities createLinearSRGBFromImage:self];
+    if (linearSrgbImageRef == NULL) {
+        return nil;
+    }
+    
+    UIColor *averageColor = [Utilities averageColorForImageRef:linearSrgbImageRef];
+    CGImageRelease(linearSrgbImageRef);
+    
+    return averageColor;
 }
 
 @end
