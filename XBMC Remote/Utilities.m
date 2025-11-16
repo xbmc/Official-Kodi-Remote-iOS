@@ -208,7 +208,7 @@
     return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
 }
 
-+ (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightColor:(UIColor*)lightColor darkColor:(UIColor*)darkColor {
++ (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightModeColor:(UIColor*)lightColor darkModeColor:(UIColor*)darkColor {
     if (@available(iOS 13.0, *)) {
         UITraitCollection *scale = [UITraitCollection currentTraitCollection];
         UITraitCollection *lightUI = [UITraitCollection traitCollectionWithUserInterfaceStyle:UIUserInterfaceStyleLight];

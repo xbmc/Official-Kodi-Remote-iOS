@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (UIColor*)sectionGradientTopColor:(UIColor*)color;
 + (UIColor*)sectionGradientBottomColor:(UIColor*)color;
 + (UIColor*)contrastColor:(UIColor*)color lightColor:(UIColor*)lighter darkColor:(UIColor*)darker;
-+ (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightColor:(UIColor*)lightColor darkColor:(UIColor*)darkColor;
++ (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightModeColor:(UIColor*)lightColor darkModeColor:(UIColor*)darkColor;
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode;
 + (BOOL)getPreferTvPosterMode;
 + (LogoBackgroundType)getLogoBackgroundMode;
