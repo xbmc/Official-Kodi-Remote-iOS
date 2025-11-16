@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 
 @interface Utilities : NSObject
 
-+ (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse;
++ (UIColor*)averageColor:(UIImage*)image;
 + (UIColor*)getUIColorFromImage:(UIImage*)image;
 + (UIColor*)limitSaturation:(UIColor*)c satmax:(CGFloat)satmax;
 + (UIColor*)lighterColorForColor:(UIColor*)c;

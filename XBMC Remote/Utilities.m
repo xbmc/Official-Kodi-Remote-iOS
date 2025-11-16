@@ -54,7 +54,7 @@
     return imageRefOut;
 }
 
-+ (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse {
++ (UIColor*)averageColor:(UIImage*)image {
     CGImageRef inputImageRef = [image CGImage];
     if (inputImageRef == NULL) {
         return UIColor.clearColor;
@@ -128,11 +128,6 @@
         }
         f = 1.0 / (255.0 * alpha);
     }
-    if (inverse) {
-        UInt64 tmp = red;
-        red = blue;
-        blue = tmp;
-    }
     CFRelease(data);
     CGImageRelease(rawImageRef);
     
@@ -146,7 +141,7 @@
         return [Utilities getSystemGray2];
     }
     
-    return [Utilities averageColor:image inverse:NO];
+    return [Utilities averageColor:image];
 }
 
 + (UIColor*)limitSaturation:(UIColor*)color_in satmax:(CGFloat)satmax {
@@ -249,7 +244,7 @@
     switch (mode) {
         case LogoBackgroundAuto:
             // get background color and colorize the image background
-            imgcolor = [Utilities averageColor:imageview.image inverse:NO];
+            imgcolor = [Utilities averageColor:imageview.image];
             bgcolor = [Utilities updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
             break;
         case LogoBackgroundLight:
