@@ -815,7 +815,7 @@
 
 - (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 gradient:(CAGradientLayer*)gradient infoButton:(UIButton*)infoButton {
     // Gather average cover color and limit saturation
-    UIColor *mainColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
+    UIColor *mainColor = [Utilities getUIColorFromImage:image];
     mainColor = [Utilities limitSaturation:mainColor satmax:0.33];
     
     // Set gradient colors

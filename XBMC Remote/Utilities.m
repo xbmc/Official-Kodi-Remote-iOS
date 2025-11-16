@@ -54,16 +54,10 @@
     return imageRefOut;
 }
 
-+ (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse autoColorCheck:(BOOL)autoColorCheck {
++ (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse {
     CGImageRef inputImageRef = [image CGImage];
     if (inputImageRef == NULL) {
         return UIColor.clearColor;
-    }
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL autocolor_preference = [userDefaults boolForKey:@"autocolor_ui_preference"];
-    if (autoColorCheck && !autocolor_preference) {
-        return [Utilities getSystemGray2];
     }
     
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(inputImageRef);
@@ -143,6 +137,16 @@
     CGImageRelease(rawImageRef);
     
     return [UIColor colorWithRed:f * red green:f * green blue:f * blue alpha:1];
+}
+
++ (UIColor*)getUIColorFromImage:(UIImage*)image {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL autocolor_preference = [userDefaults boolForKey:@"autocolor_ui_preference"];
+    if (!autocolor_preference) {
+        return [Utilities getSystemGray2];
+    }
+    
+    return [Utilities averageColor:image inverse:NO];
 }
 
 + (UIColor*)limitSaturation:(UIColor*)color_in satmax:(CGFloat)satmax {
@@ -245,7 +249,7 @@
     switch (mode) {
         case LogoBackgroundAuto:
             // get background color and colorize the image background
-            imgcolor = [Utilities averageColor:imageview.image inverse:NO autoColorCheck:NO];
+            imgcolor = [Utilities averageColor:imageview.image inverse:NO];
             bgcolor = [Utilities updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
             break;
         case LogoBackgroundLight:
