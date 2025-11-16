@@ -668,9 +668,6 @@
                     [self changeFrame:subController.view
                               originX:SLIDE_VIEWS_MINUS_X_POSITION
                                height:self.view.frame.size.height - bottomPadding];
-                    [self changeFrame:viewAtRight
-                              originX:SLIDE_VIEWS_MINUS_X_POSITION + subController.view.frame.size.width
-                               height:viewAtRight.frame.size.height - bottomPadding];
                 }
             }
             else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION || viewAtLeft.frame.origin.x == SLIDE_VIEWS_START_X_POS) {
