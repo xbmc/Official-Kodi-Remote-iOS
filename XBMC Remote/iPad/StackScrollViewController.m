@@ -626,10 +626,6 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     BOOL isViewOutOfScreen = NO;
-    CGFloat posX = SLIDE_VIEWS_START_X_POS;
-    if (viewControllersStack.count == 1) {
-        posX = slideViews.subviews[0].frame.origin.x;
-    }
     for (UIViewController *subController in viewControllersStack) {
         // If we have a view in fullscreen, keep it fullscreen
         if (fullscreenView != nil && [fullscreenView isEqual:subController.view]) {
@@ -661,7 +657,7 @@
             if (viewAtLeft2 == nil) {
                 if (viewAtRight == nil) {
                     [self changeFrame:subController.view
-                              originX:posX
+                              originX:SLIDE_VIEWS_START_X_POS
                                height:self.view.frame.size.height - bottomPadding];
                 }
                 else {
