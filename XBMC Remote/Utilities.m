@@ -169,16 +169,8 @@
     return color_out;
 }
 
-+ (UIColor*)slightLighterColorForColor:(UIColor*)color_in {
-    return [Utilities tailorColor:color_in satscale:0.33 brightscale:1.2 brightmin:0.5 brightmax:0.6];
-}
-
 + (UIColor*)lighterColorForColor:(UIColor*)color_in {
     return [Utilities tailorColor:color_in satscale:0.33 brightscale:1.5 brightmin:0.7 brightmax:0.9];
-}
-
-+ (UIColor*)darkerColorForColor:(UIColor*)color_in {
-    return [Utilities tailorColor:color_in satscale:0.33 brightscale:0.7 brightmin:0.2 brightmax:0.4];
 }
 
 + (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker {
@@ -442,15 +434,6 @@
 
 + (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha {
     return RGBA(tone, tone, tone, alpha);
-}
-
-+ (CGRect)createXBMCInfoframe:(UIImage*)logo height:(CGFloat)height width:(CGFloat)width {
-    if (IS_IPHONE) {
-        return CGRectMake(width - ANCHOR_RIGHT_PEEK - logo.size.width - XBMC_LOGO_PADDING, (height - logo.size.height) / 2, logo.size.width, logo.size.height);
-    }
-    else {
-        return CGRectMake(width - logo.size.width / 2 - XBMC_LOGO_PADDING, (height - logo.size.height / 2) / 2, logo.size.width / 2, logo.size.height / 2);
-    }
 }
 
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(JewelType)type {
@@ -1252,16 +1235,6 @@
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
         view.image = image;
-                    }
-                    completion:nil];
-}
-
-+ (void)colorLabel:(UILabel*)view AnimDuration:(NSTimeInterval)seconds Color:(UIColor*)color {
-    [UIView transitionWithView:view
-                      duration:seconds
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-        view.textColor = color;
                     }
                     completion:nil];
 }

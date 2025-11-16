@@ -32,9 +32,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 
 + (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse autoColorCheck:(BOOL)autoColorCheck;
 + (UIColor*)limitSaturation:(UIColor*)c satmax:(CGFloat)satmax;
-+ (UIColor*)slightLighterColorForColor:(UIColor*)c;
 + (UIColor*)lighterColorForColor:(UIColor*)c;
-+ (UIColor*)darkerColorForColor:(UIColor*)c;
 + (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker;
 + (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker trigger:(CGFloat)trigger;
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color;
@@ -61,7 +59,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (UIColor*)get3rdLabelColor;
 + (UIColor*)get4thLabelColor;
 + (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha;
-+ (CGRect)createXBMCInfoframe:(UIImage*)logo height:(CGFloat)height width:(CGFloat)width;
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(JewelType)type;
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
@@ -112,7 +109,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X YPos:(int)Y;
 + (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue;
 + (void)imageView:(UIImageView*)view AnimDuration:(NSTimeInterval)seconds Image:(UIImage*)image;
-+ (void)colorLabel:(UILabel*)view AnimDuration:(NSTimeInterval)seconds Color:(UIColor*)color;
 + (float)getPercentElapsed:(NSDate*)startDate EndDate:(NSDate*)endDate;
 + (void)createTransparentToolbar:(UIToolbar*)toolbar;
 + (NSString*)formatTVShowStringForSeasonTrailing:(id)season episode:(id)episode title:(NSString*)title;
