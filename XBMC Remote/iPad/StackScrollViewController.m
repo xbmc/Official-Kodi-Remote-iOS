@@ -688,14 +688,14 @@
                 }
             }
         }
-        else if (!isViewOutOfScreen) {
+        else if (isViewOutOfScreen) {
             [self changeFrame:subController.view
-                      originX:subController.view.frame.origin.x
+                      originX:self.view.frame.size.width
                        height:self.view.frame.size.height - bottomPadding];
         }
         else {
             [self changeFrame:subController.view
-                      originX:self.view.frame.size.width
+                      originX:subController.view.frame.origin.x
                        height:self.view.frame.size.height - bottomPadding];
         }
     }
