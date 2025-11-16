@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 
 @interface Utilities : NSObject
 
-+ (UIColor*)averageColor:(UIImage*)image;
++ (CGImageRef)createLinearSRGBFromImage:(UIImage*)image size:(CGSize)size;
 + (UIColor*)getUIColorFromImage:(UIImage*)image;
 + (UIColor*)textTintColor:(UIColor*)color;
 + (UIColor*)sectionGradientTopColor:(UIColor*)color;
@@ -153,5 +153,11 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (UIColor*)get3rdLabelColor;
 + (UIColor*)get4thLabelColor;
 + (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha;
+
+@end
+
+@interface UIImage (Extensions)
+
+- (UIColor*)averageColor;
 
 @end
