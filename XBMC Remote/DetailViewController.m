@@ -778,7 +778,7 @@
     label3.textColor = label4.textColor = label34Color;
     
     // Set color of info button
-    UIImage *buttonImage = [Utilities colorizeImage:[UIImage imageNamed:@"table_arrow_right"] withColor:label34Color];
+    UIImage *buttonImage = [[UIImage imageNamed:@"table_arrow_right"] colorizeWithColor:label34Color];
     [infoButton setImage:buttonImage forState:UIControlStateNormal];
     
     // Only the top most item shall define albumcolor, searchbar tint and navigationbar tint
@@ -820,13 +820,13 @@
 
 - (void)setGridListButtonImage:(BOOL)isGridView {
     NSString *imgName = isGridView ? @"st_view_grid" : @"st_view_list";
-    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:ICON_TINT_COLOR];
+    UIImage *image = [[UIImage imageNamed:imgName] colorizeWithColor:ICON_TINT_COLOR];
     [button6 setBackgroundImage:image forState:UIControlStateNormal];
 }
 
 - (void)setSortButtonImage:(NSString*)sortOrder {
     NSString *imgName = [sortOrder isEqualToString:@"descending"] ? @"st_sort_desc" : @"st_sort_asc";
-    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:ICON_TINT_COLOR];
+    UIImage *image = [[UIImage imageNamed:imgName] colorizeWithColor:ICON_TINT_COLOR];
     [button7 setBackgroundImage:image forState:UIControlStateNormal];
 }
 
@@ -5418,8 +5418,8 @@
     }
     for (int i = 0; i < count; i++) {
         img = [UIImage imageNamed:buttons[i]];
-        imageOff = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
-        imageOn = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR_ACTIVE];
+        imageOff = [img colorizeWithColor:ICON_TINT_COLOR];
+        imageOn = [img colorizeWithColor:ICON_TINT_COLOR_ACTIVE];
         [buttonsIB[i] setBackgroundImage:imageOff forState:UIControlStateNormal];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateSelected];
         [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
@@ -5451,8 +5451,8 @@
         default:
             // 6 or more buttons/actions require a "more" button
             img = [UIImage imageNamed:@"st_more"];
-            imageOff = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
-            imageOn = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR_ACTIVE];
+            imageOff = [img colorizeWithColor:ICON_TINT_COLOR];
+            imageOn = [img colorizeWithColor:ICON_TINT_COLOR_ACTIVE];
             [buttonsIB.lastObject setBackgroundImage:imageOff forState:UIControlStateNormal];
             [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateSelected];
             [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateHighlighted];
