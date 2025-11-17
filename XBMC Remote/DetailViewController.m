@@ -818,27 +818,23 @@
     UIColor *mainColor = [Utilities getUIColorFromImage:image];
     
     // Create gradient based on average color
+    UIColor *gradientTop = [Utilities sectionGradientTopColor:mainColor];
+    UIColor *gradientBottom = [Utilities sectionGradientBottomColor:mainColor];
     gradient.colors = @[
-        (id)[Utilities sectionGradientTopColor:mainColor].CGColor,
-        (id)[Utilities sectionGradientBottomColor:mainColor].CGColor,
+        (id)gradientTop.CGColor,
+        (id)gradientBottom.CGColor,
     ];
     [view.layer insertSublayer:gradient atIndex:0];
     
-    // Set text/shadow colors
-    UIColor *label12Color = [Utilities contrastColor:mainColor
+    // Set text colors
+    UIColor *label12Color = [Utilities contrastColor:gradientTop
                                           lightColor:[Utilities getGrayColor:255 alpha:1.0]
                                            darkColor:[Utilities getGrayColor:0 alpha:1.0]];
-    UIColor *label34Color = [Utilities contrastColor:mainColor
-                                          lightColor:[Utilities getGrayColor:255 alpha:0.8]
-                                           darkColor:[Utilities getGrayColor:0 alpha:0.7]];
-    UIColor *shadowColor = [Utilities contrastColor:mainColor
-                                         lightColor:[Utilities getGrayColor:0 alpha:0.3]
-                                          darkColor:[Utilities getGrayColor:255 alpha:0.3]];
+    UIColor *label34Color = [label12Color colorWithAlphaComponent:0.95];
     
     // Set colors for the different labels
     label1.textColor = label2.textColor = label12Color;
     label3.textColor = label4.textColor = label34Color;
-    label1.shadowColor = label2.shadowColor = label3.shadowColor = label4.shadowColor = shadowColor;
     
     // Set color of info button
     UIImage *buttonImage = [Utilities colorizeImage:[UIImage imageNamed:@"table_arrow_right"] withColor:label34Color];
@@ -847,8 +843,8 @@
     // Only the top most item shall define albumcolor, searchbar tint and navigationbar tint
     if (isTopMost) {
         albumColor = mainColor;
-        [self setSearchBar:self.searchController.searchBar toColor:albumColor];
-        [self setSearchBar:(UISearchBar*)dataList.tableHeaderView toColor:albumColor];
+        [self setSearchBar:self.searchController.searchBar toColor:gradientTop];
+        [self setSearchBar:(UISearchBar*)dataList.tableHeaderView toColor:gradientTop];
         self.navigationController.navigationBar.tintColor = [Utilities textTintColor:albumColor];
     }
 }
