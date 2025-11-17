@@ -144,18 +144,6 @@
     return [Utilities averageColor:image];
 }
 
-+ (UIColor*)limitSaturation:(UIColor*)color satmax:(CGFloat)satmax {
-    CGFloat hue, sat, bright, alpha;
-    BOOL success = [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
-    if (!success) {
-        return nil;
-    }
-    
-    // Limit saturation to range [0 ... satmax]
-    sat = MIN(MAX(sat, 0), satmax);
-    return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
-}
-
 + (UIColor*)tailorColor:(UIColor*)color satscale:(CGFloat)satscale brightscale:(CGFloat)brightscale brightmin:(CGFloat)brightmin brightmax:(CGFloat)brightmax {
     CGFloat hue, sat, bright, alpha;
     BOOL success = [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
@@ -170,7 +158,7 @@
     return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
 }
 
-+ (UIColor*)lighterColorForColor:(UIColor*)color {
++ (UIColor*)textTintColor:(UIColor*)color {
     return [Utilities tailorColor:color satscale:0.33 brightscale:1.5 brightmin:0.7 brightmax:0.9];
 }
 
@@ -184,6 +172,36 @@
     
     // Choose color which has better contrast to color
     return (!success || luminance < 0.4) ? lighter : darker;
+}
+
++ (UIColor*)sectionGradientTopColor:(UIColor*)color {
+    CGFloat hue, sat, bright, alpha;
+    BOOL success = [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
+    if (!success) {
+        return color;
+    }
+    
+    // Limit saturation
+    sat = MIN(MAX(sat, 0), 0.33);
+    // Limit brightness range
+    bright = MIN(MAX(bright, 0.4), 0.8);
+    return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
+}
+
++ (UIColor*)sectionGradientBottomColor:(UIColor*)color {
+    color = [Utilities sectionGradientTopColor:color];
+    
+    CGFloat hue, sat, bright, alpha;
+    BOOL success = [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
+    if (!success) {
+        return color;
+    }
+    
+    // Desaturate bottom stronger than top
+    sat = MIN(MAX(sat * 0.33, 0), 1);
+    // Make bottom slightly brighter than top
+    bright = MIN(MAX(bright + 0.1, 0.0), 1.0);
+    return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
 }
 
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {

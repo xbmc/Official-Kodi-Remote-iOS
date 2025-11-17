@@ -32,8 +32,9 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 
 + (UIColor*)averageColor:(UIImage*)image;
 + (UIColor*)getUIColorFromImage:(UIImage*)image;
-+ (UIColor*)limitSaturation:(UIColor*)color satmax:(CGFloat)satmax;
-+ (UIColor*)lighterColorForColor:(UIColor*)color;
++ (UIColor*)textTintColor:(UIColor*)color;
++ (UIColor*)sectionGradientTopColor:(UIColor*)color;
++ (UIColor*)sectionGradientBottomColor:(UIColor*)color;
 + (UIColor*)contrastColor:(UIColor*)color lightColor:(UIColor*)lighter darkColor:(UIColor*)darker;
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color;
 + (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightColor:(UIColor*)lightColor darkColor:(UIColor*)darkColor;
