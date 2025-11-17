@@ -526,9 +526,9 @@
                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                  if (error == nil) {
                      [weakSelf processLoadedThumbImage:weakSelf thumb:thumb image:image enableJewel:enableJewel];
-                     [weakSelf updateBlurredCoverBackground:image];
-                     [weakSelf notifyChangeForBackgroundImage:fanart coverImage:image];
                  }
+                 [weakSelf updateBlurredCoverBackground:image];
+                 [weakSelf notifyChangeForBackgroundImage:fanart coverImage:image];
              }];
         }
     }
