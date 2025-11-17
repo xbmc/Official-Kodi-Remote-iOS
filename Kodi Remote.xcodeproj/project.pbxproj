@@ -50,7 +50,6 @@
 		0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */; };
 		0F8E308816FA536C009DEE72 /* PosterHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8E308716FA536C009DEE72 /* PosterHeaderView.m */; };
 		0F90904516E53C590021EFA9 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90904416E53C580021EFA9 /* Utilities.m */; };
-		0FA39CBD165419F400A61E4A /* gradientUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA39CBC165419F400A61E4A /* gradientUIView.m */; };
 		0FB133AA165EC1E5003756C1 /* tcpJSONRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB133A9165EC1E5003756C1 /* tcpJSONRPC.m */; };
 		0FDC891A170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDC8919170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m */; };
 		0FEA79FC165FBBED00BB281F /* XBMCVirtualKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA79FB165FBBEC00BB281F /* XBMCVirtualKeyboard.m */; };
@@ -231,8 +230,6 @@
 		0F8E308716FA536C009DEE72 /* PosterHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PosterHeaderView.m; sourceTree = "<group>"; };
 		0F90904316E53C580021EFA9 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		0F90904416E53C580021EFA9 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
-		0FA39CBB165419F400A61E4A /* gradientUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gradientUIView.h; sourceTree = "<group>"; };
-		0FA39CBC165419F400A61E4A /* gradientUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = gradientUIView.m; sourceTree = "<group>"; };
 		0FB133A8165EC1E5003756C1 /* tcpJSONRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcpJSONRPC.h; sourceTree = "<group>"; };
 		0FB133A9165EC1E5003756C1 /* tcpJSONRPC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tcpJSONRPC.m; sourceTree = "<group>"; };
 		0FB16163151F156A001BA2D4 /* jsonDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = jsonDataCell.xib; sourceTree = "<group>"; };
@@ -477,8 +474,6 @@
 				0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */,
 				0F175F2C154D6AFA00C1C61F /* MenuViewController.h */,
 				0F175F2D154D6AFA00C1C61F /* MenuViewController.m */,
-				0FA39CBB165419F400A61E4A /* gradientUIView.h */,
-				0FA39CBC165419F400A61E4A /* gradientUIView.m */,
 			);
 			name = iPad;
 			sourceTree = "<group>";
@@ -911,7 +906,6 @@
 				0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */,
 				0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */,
 				0F40F5A7164D5FA000AF9DE9 /* RightMenuViewController.m in Sources */,
-				0FA39CBD165419F400A61E4A /* gradientUIView.m in Sources */,
 				0FB133AA165EC1E5003756C1 /* tcpJSONRPC.m in Sources */,
 				C76451DB29C51221000AE949 /* UIImageView+WebCache.m in Sources */,
 				0FEA79FC165FBBED00BB281F /* XBMCVirtualKeyboard.m in Sources */,
