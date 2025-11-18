@@ -798,9 +798,9 @@
 
 - (void)setSearchBar:(UISearchBar*)searchBar toColor:(UIColor*)albumColor {
     UITextField *searchTextField = [self getSearchTextField:searchBar];
-    UIColor *lightAlbumColor = [Utilities updateColor:albumColor
-                                           lightColor:[Utilities getGrayColor:255 alpha:0.7]
-                                            darkColor:[Utilities getGrayColor:0 alpha:0.6]];
+    UIColor *lightAlbumColor = [Utilities contrastColor:albumColor
+                                             lightColor:[Utilities getGrayColor:255 alpha:0.7]
+                                              darkColor:[Utilities getGrayColor:0 alpha:0.6]];
     if (searchTextField != nil) {
         UIImageView *iconView = (id)searchTextField.leftView;
         iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -822,15 +822,15 @@
     gradient.colors = @[(id)[mainColor CGColor], (id)[[Utilities lighterColorForColor:mainColor] CGColor]];
     
     // Set text/shadow colors
-    UIColor *label12Color = [Utilities updateColor:mainColor
-                                        lightColor:[Utilities getGrayColor:255 alpha:1.0]
-                                         darkColor:[Utilities getGrayColor:0 alpha:1.0]];
-    UIColor *label34Color = [Utilities updateColor:mainColor
-                                        lightColor:[Utilities getGrayColor:255 alpha:0.8]
-                                         darkColor:[Utilities getGrayColor:0 alpha:0.7]];
-    UIColor *shadowColor = [Utilities updateColor:mainColor
-                                       lightColor:[Utilities getGrayColor:0 alpha:0.3]
-                                        darkColor:[Utilities getGrayColor:255 alpha:0.3]];
+    UIColor *label12Color = [Utilities contrastColor:mainColor
+                                          lightColor:[Utilities getGrayColor:255 alpha:1.0]
+                                           darkColor:[Utilities getGrayColor:0 alpha:1.0]];
+    UIColor *label34Color = [Utilities contrastColor:mainColor
+                                          lightColor:[Utilities getGrayColor:255 alpha:0.8]
+                                           darkColor:[Utilities getGrayColor:0 alpha:0.7]];
+    UIColor *shadowColor = [Utilities contrastColor:mainColor
+                                         lightColor:[Utilities getGrayColor:0 alpha:0.3]
+                                          darkColor:[Utilities getGrayColor:255 alpha:0.3]];
     
     // Set colors for the different labels
     label1.textColor = label2.textColor = label12Color;

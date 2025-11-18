@@ -174,7 +174,7 @@
     return [Utilities tailorColor:color satscale:0.33 brightscale:1.5 brightmin:0.7 brightmax:0.9];
 }
 
-+ (UIColor*)updateColor:(UIColor*)color lightColor:(UIColor*)lighter darkColor:(UIColor*)darker {
++ (UIColor*)contrastColor:(UIColor*)color lightColor:(UIColor*)lighter darkColor:(UIColor*)darker {
     CGFloat red, green, blue, alpha;
     BOOL success = [color getRed:&red green:&green blue:&blue alpha:&alpha];
     
@@ -240,7 +240,7 @@
         case LogoBackgroundAuto:
             // get background color and colorize the image background
             imgcolor = [Utilities averageColor:imageview.image];
-            bgcolor = [Utilities updateColor:imgcolor lightColor:bglight darkColor:bgdark];
+            bgcolor = [Utilities contrastColor:imgcolor lightColor:bglight darkColor:bgdark];
             break;
         case LogoBackgroundLight:
             bgcolor = bglight;
