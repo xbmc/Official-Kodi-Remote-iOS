@@ -47,7 +47,7 @@
     if (ctx == NULL) {
         return NULL;
     }
-    CGRect rect = CGRectMake(0, 0, CGImageGetWidth(imageRefIn), CGImageGetHeight(imageRefIn));
+    CGRect rect = CGRectMake(0, 0, CGBitmapContextGetWidth(ctx), CGBitmapContextGetHeight(ctx));
     CGContextDrawImage(ctx, rect, imageRefIn);
     CGImageRef imageRefOut = CGBitmapContextCreateImage(ctx);
     CGContextRelease(ctx);
