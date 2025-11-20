@@ -120,13 +120,13 @@
             const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
             for (int column = 0; column < imageWidth; column++) {
                 alpha  += rowPtr[0];
-                red    += rowPtr[1] * rowPtr[0];
-                green  += rowPtr[2] * rowPtr[0];
-                blue   += rowPtr[3] * rowPtr[0];
+                red    += rowPtr[1];
+                green  += rowPtr[2];
+                blue   += rowPtr[3];
                 rowPtr += stride;
             }
         }
-        f = 1.0 / (255.0 * alpha);
+        f = 1.0 / alpha;
     }
     CFRelease(data);
     CGImageRelease(rawImageRef);
