@@ -30,7 +30,8 @@
     size_t height = CGImageGetHeight(inImage);
     unsigned long bytesPerRow = width * 4; // 4 bytes for alpha, red, green and blue
     
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    // For averaging colors a linear color space is required.
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceLinearSRGB);
     if (colorSpace == NULL) {
         return NULL;
     }
@@ -131,7 +132,12 @@
     CFRelease(data);
     CGImageRelease(rawImageRef);
     
-    return [UIColor colorWithRed:f * red green:f * green blue:f * blue alpha:1];
+    // We worked in linear sRGB color space for calculating the average (kCGColorSpaceLinearSRGB).
+    // Now we need to go back to non-linear sRGB as used in UIColor.
+    CGFloat sRGB_red   = pow(f * red,   1/2.2);
+    CGFloat sRGB_green = pow(f * green, 1/2.2);
+    CGFloat sRGB_blue  = pow(f * blue,  1/2.2);
+    return [UIColor colorWithRed:sRGB_red green:sRGB_green blue:sRGB_blue alpha:1];
 }
 
 + (UIColor*)getUIColorFromImage:(UIImage*)image {
