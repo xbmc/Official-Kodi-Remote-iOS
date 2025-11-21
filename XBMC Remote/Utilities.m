@@ -172,12 +172,11 @@
     CGFloat red, green, blue, alpha;
     BOOL success = [color getRed:&red green:&green blue:&blue alpha:&alpha];
     
-    // Reference https://stackoverflow.com/questions/1855884/determine-font-color-based-on-background-color
-    // Luminance for NTSC YIQ
-    CGFloat luminance = red * 0.299 + green * 0.587 + blue * 0.114;
-    
-    // Choose color which has better contrast to color
-    return (!success || luminance < 0.4) ? lighter : darker;
+    // Reference https://stackoverflow.com/questions/596216/formula-to-determine-perceived-brightness-of-rgb-color
+    // Relative luminance for sRGB BT.709 using approximate linearization with gamma 2.2 and weighting
+    // Middle contrast of relative luminance is around 0.36-0.37
+    CGFloat luminance = pow(red, 2.2) * 0.2126 + pow(green, 2.2) * 0.7152 + pow(blue, 2.2) * 0.0722;
+    return (!success || luminance < 0.36) ? lighter : darker;
 }
 
 + (UIColor*)sectionGradientTopColor:(UIColor*)color {
