@@ -796,21 +796,18 @@
     return results;
 }
 
-- (void)setSearchBar:(UISearchBar*)searchBar toColor:(UIColor*)albumColor {
+- (void)setSearchBar:(UISearchBar*)searchBar toColor:(UIColor*)sectionColor tintColor:(UIColor*)tintColor {
     UITextField *searchTextField = [self getSearchTextField:searchBar];
-    UIColor *lightAlbumColor = [Utilities contrastColor:albumColor
-                                             lightColor:[Utilities getGrayColor:255 alpha:0.7]
-                                              darkColor:[Utilities getGrayColor:0 alpha:0.6]];
     if (searchTextField != nil) {
         UIImageView *iconView = (id)searchTextField.leftView;
         iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        iconView.tintColor = lightAlbumColor;
-        searchTextField.textColor = lightAlbumColor;
-        searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes:@{NSForegroundColorAttributeName: lightAlbumColor}];
+        iconView.tintColor = tintColor;
+        searchTextField.textColor = tintColor;
+        searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes:@{NSForegroundColorAttributeName: tintColor}];
     }
-    searchBar.backgroundColor = albumColor;
-    searchBar.tintColor = lightAlbumColor;
-    searchBar.barTintColor = lightAlbumColor;
+    searchBar.backgroundColor = sectionColor;
+    searchBar.tintColor = tintColor;
+    searchBar.barTintColor = tintColor;
 }
 
 - (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 gradient:(CAGradientLayer*)gradient infoButton:(UIButton*)infoButton {
@@ -843,8 +840,9 @@
     // Only the top most item shall define albumcolor, searchbar tint and navigationbar tint
     if (isTopMost) {
         albumColor = mainColor;
-        [self setSearchBar:self.searchController.searchBar toColor:gradientTop];
-        [self setSearchBar:(UISearchBar*)dataList.tableHeaderView toColor:gradientTop];
+        UIColor *searchbarTintColor = [label12Color colorWithAlphaComponent:0.8];
+        [self setSearchBar:self.searchController.searchBar toColor:gradientTop tintColor:searchbarTintColor];
+        [self setSearchBar:(UISearchBar*)dataList.tableHeaderView toColor:gradientTop tintColor:searchbarTintColor];
         self.navigationController.navigationBar.tintColor = [Utilities textTintColor:albumColor];
     }
 }
