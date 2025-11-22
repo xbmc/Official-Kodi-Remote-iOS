@@ -813,16 +813,13 @@
     searchBar.barTintColor = lightAlbumColor;
 }
 
-- (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 infoButton:(UIButton*)infoButton {
+- (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 gradient:(CAGradientLayer*)gradient infoButton:(UIButton*)infoButton {
     // Gather average cover color and limit saturation
     UIColor *mainColor = [Utilities averageColor:image inverse:NO autoColorCheck:YES];
     mainColor = [Utilities limitSaturation:mainColor satmax:0.33];
     
-    // Create gradient based on average color
-    CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = view.bounds;
+    // Set gradient colors
     gradient.colors = @[(id)[mainColor CGColor], (id)[[Utilities lighterColorForColor:mainColor] CGColor]];
-    [view.layer insertSublayer:gradient atIndex:0];
     
     // Set text/shadow colors
     UIColor *label12Color = [Utilities updateColor:mainColor
@@ -3006,6 +3003,7 @@
     UILabel *trackCount = [UILabel new];
     UILabel *released = [UILabel new];
     UIButton *albumInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    CAGradientLayer *gradient = [CAGradientLayer layer];
     
     // Set dimensions for thumb view
     int thumbHeight = albumViewHeight - albumViewPadding * 2;
@@ -3035,9 +3033,21 @@
         [albumDetailView addSubview:fanartBackgroundImage];
     }
     
-    // Load the thumb image and set the colors for the labels
+    // Show default thumb image and set the colors for the labels and the gradient
     NSString *displayThumb = episodesView ? @"coverbox_back_section" : @"coverbox_back";
     [Utilities applyRoundedEdgesView:thumbImageView];
+    thumbImageView.image = [UIImage imageNamed:displayThumb];
+    [self setViewColor:albumDetailView
+                 image:thumbImageView.image
+             isTopMost:isTopMost
+                label1:artist
+                label2:album
+                label3:trackCount
+                label4:released
+              gradient:gradient
+            infoButton:albumInfoButton];
+    
+    // Load the thumb image and set the colors for the labels and the gradient
     if (stringURL.length) {
         // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
         // ensure setImageWithURL falls back to this icon.
@@ -3054,21 +3064,15 @@
                         label2:album
                         label3:trackCount
                         label4:released
+                      gradient:gradient
                     infoButton:albumInfoButton];
         }];
     }
-    else {
-        thumbImageView.image = [UIImage imageNamed:displayThumb];
-        [self setViewColor:albumDetailView
-                     image:thumbImageView.image
-                 isTopMost:isTopMost
-                    label1:artist
-                    label2:album
-                    label3:trackCount
-                    label4:released
-                infoButton:albumInfoButton];
-    }
     [albumDetailView addSubview:thumbImageView];
+    
+    // Add gradient
+    gradient.frame = albumDetailView.bounds;
+    [albumDetailView.layer insertSublayer:gradient atIndex:0];
     
     // Add watched overlay icon to lower right corner of thumb
     UIImageView *watchedIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:ACImageNameOverlayWatched]];
