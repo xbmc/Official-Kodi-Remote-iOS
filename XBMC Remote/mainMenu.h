@@ -97,7 +97,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
     NSArray *lookupTable;
 }
 
-- (MainMenuGlobalSearchLookup*)initWithConfiguration:(NSArray*)configTable;
+- (instancetype)initWithConfiguration:(NSArray*)configTable;
 - (NSUInteger)getLookupIndexForItemId:(NSString*)itemid;
 - (NSString*)getThumbForItem:(NSDictionary*)item;
 - (LookupItem*)getLookupForItem:(id)item;

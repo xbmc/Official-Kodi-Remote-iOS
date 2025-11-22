@@ -6870,7 +6870,9 @@
 
 @implementation MainMenuGlobalSearchLookup
 
-- (MainMenuGlobalSearchLookup*)initWithConfiguration:(NSArray*)configTable {
+- (instancetype)initWithConfiguration:(NSArray*)configTable {
+    self = [super init];
+    
     // Build the GlobalSearch lookup table
     NSMutableArray *lookupArray = [[NSMutableArray alloc] initWithCapacity:configTable.count];
     for (LookupItem *lookupItem in configTable) {
