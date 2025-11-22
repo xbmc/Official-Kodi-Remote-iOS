@@ -82,7 +82,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 
 @interface LookupItem : NSObject
 
-- (LookupItem*)initWithPath:(mainMenu*)path label:(NSString*)label icon:(NSString*)icon itemId:(NSString*)itemId;
+- (instancetype)initWithPath:(mainMenu*)path label:(NSString*)label icon:(NSString*)icon itemId:(NSString*)itemId;
 
 @property (nonatomic, copy) mainMenu *menuPath;
 @property (nonatomic, assign) NSInteger menuTab;

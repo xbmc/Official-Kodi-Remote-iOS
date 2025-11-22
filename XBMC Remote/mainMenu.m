@@ -6856,7 +6856,7 @@
 
 @implementation LookupItem
 
-- (LookupItem*)initWithPath:(mainMenu*)path label:(NSString*)label icon:(NSString*)icon itemId:(NSString*)itemId {
+- (instancetype)initWithPath:(mainMenu*)path label:(NSString*)label icon:(NSString*)icon itemId:(NSString*)itemId {
     self.menuPath = path;
     self.menuLabel = label;
     self.menuIcon = icon;
