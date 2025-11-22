@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "mainMenu.h"
 
 typedef NS_ENUM(NSInteger, MenuItemFamily) {
     FamilyDetailView,
