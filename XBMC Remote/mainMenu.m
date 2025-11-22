@@ -6922,7 +6922,7 @@
 
 - (mainMenu*)getMenuForItem:(id)item {
     LookupItem *lookupItem = [self getLookupForItem:item];
-    return lookupItem ? lookupItem.menuPath : nil;
+    return lookupItem.menuPath;
 }
 
 - (NSInteger)getTabForItem:(id)item {
@@ -6935,7 +6935,7 @@
         return nil;
     }
     LookupItem *lookupItem = lookupTable[index];
-    return lookupItem ? lookupItem.menuPath : nil;
+    return lookupItem.menuPath;
 }
 
 - (NSInteger)getTabForIndex:(int)index {
