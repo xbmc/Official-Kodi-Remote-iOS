@@ -6834,7 +6834,7 @@
     
     // Define the key elements of GlobalSearch menu
     NSArray *globalSearchKeyConfig = @[
-        //menu path,            label of tab                    nocover iconitemid          nocover icon
+        //menu path,            label of tab                    nocover icon                itemid
         @[menu_Movies,          LOCALIZED_STR(@"Movies"),       @"nocover_movies",          @"movieid"],
         @[menu_Movies,          LOCALIZED_STR(@"Movie Sets"),   @"nocover_movie_sets",      @"setid"],
         @[menu_TVShows,         LOCALIZED_STR(@"TV Shows"),     @"nocover_tvshows_episode", @"tvshowid"],
