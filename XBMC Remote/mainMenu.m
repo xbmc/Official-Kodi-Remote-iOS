@@ -504,7 +504,7 @@
                 @"properties": @[
                     @"thumbnail",
                     @"genre",
-                ]
+                ],
             },
             @"extra_info_parameters": @{
                 @"properties": @[
@@ -6385,7 +6385,7 @@
         },
         @{},
         @{},
-        @{}
+        @{},
     ] mutableCopy];
     
     menu_Settings.subItem.mainFields = @[
@@ -6403,7 +6403,7 @@
         },
         @{},
         @{},
-        @{}
+        @{},
     ];
     
     menu_Settings.subItem.rowHeight = SETTINGS_ROW_HEIGHT;

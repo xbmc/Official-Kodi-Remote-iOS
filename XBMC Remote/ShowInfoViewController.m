@@ -68,7 +68,7 @@
         NSMutableDictionary *item = self.detailItem;
         sheetActions = [@[LOCALIZED_STR(@"Queue after current"),
                           LOCALIZED_STR(@"Queue"),
-                          LOCALIZED_STR(@"Play")
+                          LOCALIZED_STR(@"Play"),
                         ] mutableCopy];
         NSDictionary *resumePointDict = item[@"resume"];
         if (resumePointDict && [resumePointDict isKindOfClass:[NSDictionary class]]) {

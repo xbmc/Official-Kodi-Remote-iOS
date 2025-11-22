@@ -1005,7 +1005,7 @@
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
         self.navigationItem.rightBarButtonItems = @[
             [[UIBarButtonItem alloc] initWithImage:customImg style:UIBarButtonItemStylePlain target:self action:@selector(enterCustomButtons)],
-            [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)]
+            [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)],
         ];
         self.navigationController.navigationBar.barTintColor = REMOTE_CONTROL_BAR_TINT_COLOR;
         [self.navigationController setNavigationBarHidden:NO animated:YES];
