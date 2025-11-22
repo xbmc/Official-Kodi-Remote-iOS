@@ -159,5 +159,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 
 - (UIColor*)averageColor;
 - (UIImage*)colorizeWithColor:(UIColor*)color;
+- (UIImage*)resizedImageSize:(CGSize)newSize aspectMode:(UIViewContentMode)contentMode;
 
 @end
