@@ -674,7 +674,7 @@
 - (int)getActiveTab:(id)item {
     int activeTab = chosenTab;
     if (globalSearchView) {
-        NSInteger tab  = [AppDelegate.instance.globalSearchLookup getTabForItem:item];
+        NSInteger tab = [AppDelegate.instance.globalSearchLookup getTabForItem:item];
         activeTab = tab != NSNotFound ? (int)tab : activeTab;
     }
     return activeTab;
