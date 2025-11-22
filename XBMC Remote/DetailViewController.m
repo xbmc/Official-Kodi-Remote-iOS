@@ -2656,7 +2656,7 @@
             [item[@"family"] isEqualToString:@"roleid"]) {
             genre.hidden = YES;
             runtimeyear.hidden = YES;
-            title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
+            title.frame = CGRectMake(title.frame.origin.x, floor(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
         }
         else if ([item[@"family"] isEqualToString:@"profile"]) {
             if ([item[@"label"] isEqualToString:AppDelegate.instance.currentProfile]) {
@@ -2667,7 +2667,7 @@
             }
             genre.hidden = YES;
             runtimeyear.hidden = YES;
-            title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
+            title.frame = CGRectMake(title.frame.origin.x, floor(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
         }
         else if ([item[@"family"] isEqualToString:@"channelid"]) {
             runtimeyear.hidden = YES;
