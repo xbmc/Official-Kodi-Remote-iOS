@@ -662,10 +662,6 @@
     return [AppDelegate.instance.globalSearchLookup getThumbForItem:item];
 }
 
-- (NSArray*)getGlobalSearchLookup:(id)item {
-    return [AppDelegate.instance.globalSearchLookup getLookupForItem:item];
-}
-
 - (mainMenu*)getMainMenu:(id)item {
     mainMenu *menuItem = self.detailItem;
     if (globalSearchView) {
