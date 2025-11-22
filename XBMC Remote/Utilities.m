@@ -54,16 +54,10 @@
     return imageRefOut;
 }
 
-+ (UIColor*)averageColor:(UIImage*)image inverse:(BOOL)inverse autoColorCheck:(BOOL)autoColorCheck {
++ (UIColor*)averageColor:(UIImage*)image {
     CGImageRef inputImageRef = [image CGImage];
     if (inputImageRef == NULL) {
         return UIColor.clearColor;
-    }
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL autocolor_preference = [userDefaults boolForKey:@"autocolor_ui_preference"];
-    if (autoColorCheck && !autocolor_preference) {
-        return [Utilities getSystemGray2];
     }
     
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(inputImageRef);
@@ -134,70 +128,62 @@
         }
         f = 1.0 / (255.0 * alpha);
     }
-    if (inverse) {
-        UInt64 tmp = red;
-        red = blue;
-        blue = tmp;
-    }
     CFRelease(data);
     CGImageRelease(rawImageRef);
     
     return [UIColor colorWithRed:f * red green:f * green blue:f * blue alpha:1];
 }
 
-+ (UIColor*)limitSaturation:(UIColor*)color_in satmax:(CGFloat)satmax {
++ (UIColor*)getUIColorFromImage:(UIImage*)image {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL autocolor_preference = [userDefaults boolForKey:@"autocolor_ui_preference"];
+    if (!autocolor_preference) {
+        return [Utilities getSystemGray2];
+    }
+    
+    return [Utilities averageColor:image];
+}
+
++ (UIColor*)limitSaturation:(UIColor*)color satmax:(CGFloat)satmax {
     CGFloat hue, sat, bright, alpha;
-    UIColor *color_out = nil;
-    if ([color_in getHue:&hue saturation:&sat brightness:&bright alpha:&alpha]) {
-        // limit saturation
-        sat = MIN(MAX(sat, 0), satmax);
-        color_out = [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
+    BOOL success = [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
+    if (!success) {
+        return nil;
     }
-    return color_out;
+    
+    // Limit saturation to range [0 ... satmax]
+    sat = MIN(MAX(sat, 0), satmax);
+    return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
 }
 
-+ (UIColor*)tailorColor:(UIColor*)color_in satscale:(CGFloat)satscale brightscale:(CGFloat)brightscale brightmin:(CGFloat)brightmin brightmax:(CGFloat)brightmax {
++ (UIColor*)tailorColor:(UIColor*)color satscale:(CGFloat)satscale brightscale:(CGFloat)brightscale brightmin:(CGFloat)brightmin brightmax:(CGFloat)brightmax {
     CGFloat hue, sat, bright, alpha;
-    UIColor *color_out = nil;
-    if ([color_in getHue:&hue saturation:&sat brightness:&bright alpha:&alpha]) {
-        // de-saturate, but do not remove saturation fully
-        sat = MIN(MAX(sat * satscale, 0), 1);
-        // scale and limit brightness to range [brightmin ... brightmax]
-        bright = MIN(MAX(bright * brightscale, brightmin), brightmax);
-        color_out = [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
+    BOOL success = [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
+    if (!success) {
+        return nil;
     }
-    return color_out;
+    
+    // Scale and limit saturation to range [0 ... 1]
+    sat = MIN(MAX(sat * satscale, 0), 1);
+    // Scale and limit brightness to range [brightmin ... brightmax]
+    bright = MIN(MAX(bright * brightscale, brightmin), brightmax);
+    return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
 }
 
-+ (UIColor*)slightLighterColorForColor:(UIColor*)color_in {
-    return [Utilities tailorColor:color_in satscale:0.33 brightscale:1.2 brightmin:0.5 brightmax:0.6];
++ (UIColor*)lighterColorForColor:(UIColor*)color {
+    return [Utilities tailorColor:color satscale:0.33 brightscale:1.5 brightmin:0.7 brightmax:0.9];
 }
 
-+ (UIColor*)lighterColorForColor:(UIColor*)color_in {
-    return [Utilities tailorColor:color_in satscale:0.33 brightscale:1.5 brightmin:0.7 brightmax:0.9];
-}
-
-+ (UIColor*)darkerColorForColor:(UIColor*)color_in {
-    return [Utilities tailorColor:color_in satscale:0.33 brightscale:0.7 brightmin:0.2 brightmax:0.4];
-}
-
-+ (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker {
-    CGFloat trigger = 0.4;
-    return [Utilities updateColor:newColor lightColor:lighter darkColor:darker trigger:trigger];
-}
-
-+ (UIColor*)updateColor:(UIColor*)newColor lightColor:(UIColor*)lighter darkColor:(UIColor*)darker trigger:(CGFloat)trigger {
-    if ([newColor isEqual:UIColor.clearColor] || newColor == nil) {
-        return lighter;
-    }
-    const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
-    CGFloat colorBrightness = (componentColors[0] * 299 + componentColors[1] * 587 + componentColors[2] * 114) / 1000;
-    if (colorBrightness < trigger) {
-        return lighter;
-    }
-    else {
-        return darker;
-    }
++ (UIColor*)contrastColor:(UIColor*)color lightColor:(UIColor*)lighter darkColor:(UIColor*)darker {
+    CGFloat red, green, blue, alpha;
+    BOOL success = [color getRed:&red green:&green blue:&blue alpha:&alpha];
+    
+    // Reference https://stackoverflow.com/questions/1855884/determine-font-color-based-on-background-color
+    // Luminance for NTSC YIQ
+    CGFloat luminance = red * 0.299 + green * 0.587 + blue * 0.114;
+    
+    // Choose color which has better contrast to color
+    return (!success || luminance < 0.4) ? lighter : darker;
 }
 
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {
@@ -253,8 +239,8 @@
     switch (mode) {
         case LogoBackgroundAuto:
             // get background color and colorize the image background
-            imgcolor = [Utilities averageColor:imageview.image inverse:NO autoColorCheck:NO];
-            bgcolor = [Utilities updateColor:imgcolor lightColor:bglight darkColor:bgdark trigger:0.4];
+            imgcolor = [Utilities averageColor:imageview.image];
+            bgcolor = [Utilities contrastColor:imgcolor lightColor:bglight darkColor:bgdark];
             break;
         case LogoBackgroundLight:
             bgcolor = bglight;
@@ -442,15 +428,6 @@
 
 + (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha {
     return RGBA(tone, tone, tone, alpha);
-}
-
-+ (CGRect)createXBMCInfoframe:(UIImage*)logo height:(CGFloat)height width:(CGFloat)width {
-    if (IS_IPHONE) {
-        return CGRectMake(width - ANCHOR_RIGHT_PEEK - logo.size.width - XBMC_LOGO_PADDING, (height - logo.size.height) / 2, logo.size.width, logo.size.height);
-    }
-    else {
-        return CGRectMake(width - logo.size.width / 2 - XBMC_LOGO_PADDING, (height - logo.size.height / 2) / 2, logo.size.width / 2, logo.size.height / 2);
-    }
 }
 
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(JewelType)type {
@@ -1252,16 +1229,6 @@
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
         view.image = image;
-                    }
-                    completion:nil];
-}
-
-+ (void)colorLabel:(UILabel*)view AnimDuration:(NSTimeInterval)seconds Color:(UIColor*)color {
-    [UIView transitionWithView:view
-                      duration:seconds
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-        view.textColor = color;
                     }
                     completion:nil];
 }

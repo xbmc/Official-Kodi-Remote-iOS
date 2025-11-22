@@ -1377,7 +1377,7 @@
                             return;
                         }
                         if (image != nil) {
-                            UIColor *newColor = [Utilities lighterColorForColor:[Utilities averageColor:image inverse:NO autoColorCheck:YES]];
+                            UIColor *newColor = [Utilities lighterColorForColor:[Utilities getUIColorFromImage:image]];
                             [strongSelf setIOS7barTintColor:newColor];
                             foundTintColor = newColor;
                         }
