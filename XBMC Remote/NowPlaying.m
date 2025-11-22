@@ -2117,7 +2117,7 @@
     [thumb sd_setImageWithURL:[NSURL URLWithString:stringURL]
              placeholderImage:defaultThumb
                       options:SDWebImageScaleToNativeSize];
-    [Utilities applyRoundedEdgesView:thumb];
+    [thumb applyRoundedEdges];
     
     PlaylistProgressView *playlistProgressView = (PlaylistProgressView*)[cell viewWithTag:TAG_PLAYLIST_CELL_PROGRESSVIEW];
     [playlistProgressView setProgress:0];

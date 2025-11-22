@@ -765,18 +765,6 @@
     return urlString;
 }
 
-+ (void)roundedCornerView:(UIView*)view {
-    view.layer.cornerRadius = GET_ROUNDED_EDGES_RADIUS(view.layer.frame.size);
-}
-
-+ (void)applyRoundedEdgesView:(UIView*)view {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
-    if (corner_preference) {
-        [Utilities roundedCornerView:view];
-    }
-}
-
 + (CGFloat)getBottomPadding {
     CGFloat bottomPadding = UIApplication.sharedApplication.keyWindow.safeAreaInsets.bottom;
     return bottomPadding;
@@ -1299,6 +1287,19 @@
         self.alpha = alpha;
     }
                      completion:nil];
+}
+
+- (void)setCornerRadiusForRoundedEdges {
+    self.layer.cornerRadius = GET_ROUNDED_EDGES_RADIUS(self.layer.frame.size);
+}
+
+- (void)applyRoundedEdges {
+    UIView *view = self;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
+    if (corner_preference) {
+        [view setCornerRadiusForRoundedEdges];
+    }
 }
 
 @end

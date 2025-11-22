@@ -538,7 +538,7 @@
         
         // Ensure we draw the rounded edges around TV station logo view
         coverView.image = imageToShow;
-        [Utilities applyRoundedEdgesView:coverView];
+        [coverView applyRoundedEdges];
         
         // Choose correct background color for station logos
         if (image != nil) {
@@ -1289,7 +1289,7 @@
             trailerWebView.opaque = NO;
             trailerWebView.backgroundColor = UIColor.blackColor;
             trailerWebView.UIDelegate = self;
-            [Utilities applyRoundedEdgesView:trailerWebView];
+            [trailerWebView applyRoundedEdges];
             [scrollView addSubview:trailerWebView];
             
             trailerComponents = [NSURLComponents componentsWithURL:embedVideoURL resolvingAgainstBaseURL:YES];
@@ -1560,7 +1560,7 @@
         [cell.actorThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                placeholderImage:[UIImage imageNamed:@"nocover_actor"]
                                         options:SDWebImageScaleToNativeSize];
-        [Utilities applyRoundedEdgesView:cell.actorThumbnail];
+        [cell.actorThumbnail applyRoundedEdges];
         cell.actorName.text = castMember[@"name"] ?: self.detailItem[@"label"];
         cell.actorRole.text = castMember[@"role"];
         [cell.actorRole sizeToFit];
