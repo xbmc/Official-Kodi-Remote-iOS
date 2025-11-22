@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 - (LookupItem*)initWithPath:(mainMenu*)path label:(NSString*)label icon:(NSString*)icon itemId:(NSString*)itemId;
 
 @property (nonatomic, copy) mainMenu *menuPath;
-@property NSInteger menuTab;
+@property (nonatomic, assign) NSInteger menuTab;
 @property (nonatomic, copy) NSString *menuLabel;
 @property (nonatomic, copy) NSString *menuIcon;
 @property (nonatomic, copy) NSString *itemId;
