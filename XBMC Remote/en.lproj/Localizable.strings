@@ -191,6 +191,7 @@
 
 "Slide your finger up or down to adjust the scrubbing rate." = "Slide your finger up or down to adjust the scrubbing rate.";
 
+"Profiles" = "Profiles";
 "Programs" = "Programs";
 "XBMC Settings" = "Kodi Settings";
 "App Settings" = "App Settings";
@@ -207,6 +208,8 @@
 "No custom button defined." = "No custom button defined.";
 
 "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you." = "-- WARNING --\nKodi API prior Krypton (v17) don't allow timers editing. Use the Kodi GUI for adding, editing and removing timers. Thank you.";
+"The user profile has been changed. Please reconnect to the Kodi server manually." = "The user profile has been changed. Please reconnect to the Kodi server manually.";
+"Kodi \"Krypton\" version 17 or later is required to access user profiles." = "Kodi \"Krypton\" version 17 or later is required to access user profiles.";
 
 "Execute program" = "Execute program";
 "Execute video add-on" = "Execute video add-on";

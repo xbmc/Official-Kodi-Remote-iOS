@@ -1601,6 +1601,9 @@
     else if ([parameters[@"forcePlayback"] boolValue]) {
         [self startPlayback:item indexPath:indexPath shuffle:NO];
     }
+    else if ([item[@"family"] isEqualToString:@"profile"]) {
+        [self loadProfile:item];
+    }
     else if (methods[@"method"] != nil && ![parameters[@"forceActionSheet"] boolValue] && !stackscrollFullscreen) {
         // There is a child and we want to show it (only when not in fullscreen)
         [self viewChild:indexPath item:item displayPoint:point];
@@ -2653,7 +2656,18 @@
             [item[@"family"] isEqualToString:@"roleid"]) {
             genre.hidden = YES;
             runtimeyear.hidden = YES;
-            title.frame = CGRectMake(title.frame.origin.x, (int)(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
+            title.frame = CGRectMake(title.frame.origin.x, floor(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
+        }
+        else if ([item[@"family"] isEqualToString:@"profile"]) {
+            if ([item[@"label"] isEqualToString:AppDelegate.instance.currentProfile]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
+            else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+            genre.hidden = YES;
+            runtimeyear.hidden = YES;
+            title.frame = CGRectMake(title.frame.origin.x, floor(cellHeight / 2 - title.frame.size.height / 2), title.frame.size.width, title.frame.size.height);
         }
         else if ([item[@"family"] isEqualToString:@"channelid"]) {
             runtimeyear.hidden = YES;
@@ -4408,6 +4422,36 @@
     }];
 }
 
+- (void)loadProfile:(NSDictionary*)item {
+    NSString *profileName = item[@"label"];
+    if ([profileName isEqualToString:AppDelegate.instance.currentProfile]) {
+        return;
+    }
+    // Load user profile
+    [[Utilities getJsonRPC]
+     callMethod:@"Profiles.LoadProfile"
+     withParameters:@{
+        @"profile": profileName,
+        @"prompt": @YES,
+    }
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (!error && !methodError) {
+            // Mark new user profile active
+            AppDelegate.instance.currentProfile = profileName;
+            [dataList reloadData];
+            
+            // Disconnect from server
+            [Utilities resetKodiServerParameters];
+            [Utilities saveLastServerIndex:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
+            
+            // Show pupup to inform user about need to manually reconnect
+            UIAlertController *alertCtrl = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"The user profile has been changed. Please reconnect to the Kodi server manually.")];
+            [self presentViewController:alertCtrl animated:YES completion:nil];
+        }
+    }];
+}
+
 - (void)displayInfoView:(NSDictionary*)item {
     if (IS_IPHONE) {
         ShowInfoViewController *showInfoViewController = [[ShowInfoViewController alloc] initWithNibName:@"ShowInfoViewController" bundle:nil];
@@ -4794,6 +4838,14 @@
         return;
     }
 
+    // Profiles functions requires Kodi 17 or higher
+    if ([methodToCall containsString:@"Profiles."] && ![VersionCheck hasProfilesSupport]) {
+        UIAlertController *alertView = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"Kodi \"Krypton\" version 17 or later is required to access user profiles.")];
+        [self presentViewController:alertView animated:YES completion:nil];
+        [self animateNoResultsFound];
+        return;
+    }
+    
     [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];

@@ -65,4 +65,9 @@
     return AppDelegate.instance.serverVersion > 11;
 }
 
++ (BOOL)hasProfilesSupport {
+    // Profiles methods are supported from API 8 on
+    return AppDelegate.instance.APImajorVersion >= 8;
+}
+
 @end
