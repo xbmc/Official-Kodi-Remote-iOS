@@ -548,7 +548,7 @@
     }
     else {
         // Ensure we draw the rounded edges around thumbnail images
-        coverView.image = [Utilities applyRoundedEdgesImage:imageToShow];
+        coverView.image = [imageToShow applyRoundedEdges];
     }
     [coverView animateAlpha:1.0 duration:0.1];
 }

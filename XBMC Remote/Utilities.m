@@ -17,7 +17,6 @@
 @import StoreKit;
 
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
-#define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:(a)]
 #define GAMMA_DEC(x) pow(x, 2.2)
 #define GAMMA_ENC(x) pow(x, 1/2.2)
@@ -769,41 +768,8 @@
     return urlString;
 }
 
-+ (UIImage*)roundedCornerImage:(UIImage*)image {
-    if (image.size.width == 0 || image.size.height == 0) {
-        return image;
-    }
-    
-    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0);
-
-    // Set radius for corners
-    CGFloat radius = GET_ROUNDED_EDGES_RADIUS(image.size);
-    
-    // Define our path, capitalizing on UIKit's corner rounding magic
-    UIBezierPath *path = GET_ROUNDED_EDGES_PATH(imageRect, radius);
-    [path addClip];
-
-    // Draw the image into the implicit context
-    [image drawInRect:imageRect];
-     
-    // Get image and cleanup
-    UIImage *roundedCornerImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return roundedCornerImage;
-}
-
 + (void)roundedCornerView:(UIView*)view {
     view.layer.cornerRadius = GET_ROUNDED_EDGES_RADIUS(view.layer.frame.size);
-}
-
-+ (UIImage*)applyRoundedEdgesImage:(UIImage*)image {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
-    if (corner_preference) {
-        image = [Utilities roundedCornerImage:image];
-    }
-    return image;
 }
 
 + (void)applyRoundedEdgesView:(UIView*)view {
@@ -1470,6 +1436,41 @@
 #pragma mark - UIImage extensions
 
 @implementation UIImage (Extensions)
+
+- (UIImage*)setCornerRadiusForRoundedEdges {
+    UIImage *image = self;
+    if (image.size.width == 0 || image.size.height == 0) {
+        return image;
+    }
+    
+    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0);
+
+    // Set radius for corners
+    CGFloat radius = GET_ROUNDED_EDGES_RADIUS(image.size);
+    
+    // Define our path, capitalizing on UIKit's corner rounding magic
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:imageRect cornerRadius:radius];
+    [path addClip];
+
+    // Draw the image into the implicit context
+    [image drawInRect:imageRect];
+     
+    // Get image and cleanup
+    UIImage *roundedCornerImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return roundedCornerImage;
+}
+
+- (UIImage*)applyRoundedEdges {
+    UIImage *image = self;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
+    if (corner_preference) {
+        image = [image setCornerRadiusForRoundedEdges];
+    }
+    return image;
+}
 
 - (UIColor*)averageColor {
     CGImageRef linearSrgbImageRef = [Utilities createLinearSRGBFromImage:self size:IMAGE_SIZE_COLOR_AVERAGING];
