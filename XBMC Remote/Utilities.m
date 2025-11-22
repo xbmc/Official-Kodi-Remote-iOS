@@ -19,6 +19,8 @@
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:(a)]
+#define GAMMA_DEC(x) pow(x, 2.2)
+#define GAMMA_ENC(x) pow(x, 1/2.2)
 #define XBMC_LOGO_PADDING 10
 #define PERSISTENCE_KEY_VERSION @"VersionUnderReview"
 #define PERSISTENCE_KEY_PLAYBACK_ATTEMPTS @"PlaybackAttempts"
@@ -134,9 +136,9 @@
     
     // We worked in linear sRGB color space for calculating the average (kCGColorSpaceLinearSRGB).
     // Now we need to go back to non-linear sRGB as used in UIColor.
-    CGFloat sRGB_red   = pow(f * red,   1/2.2);
-    CGFloat sRGB_green = pow(f * green, 1/2.2);
-    CGFloat sRGB_blue  = pow(f * blue,  1/2.2);
+    CGFloat sRGB_red   = GAMMA_ENC(f * red);
+    CGFloat sRGB_green = GAMMA_ENC(f * green);
+    CGFloat sRGB_blue  = GAMMA_ENC(f * blue);
     return [UIColor colorWithRed:sRGB_red green:sRGB_green blue:sRGB_blue alpha:1];
 }
 
@@ -175,7 +177,7 @@
     // Reference https://stackoverflow.com/questions/596216/formula-to-determine-perceived-brightness-of-rgb-color
     // Relative luminance for sRGB BT.709 using approximate linearization with gamma 2.2 and weighting
     // Middle contrast of relative luminance is around 0.36-0.37
-    CGFloat luminance = pow(red, 2.2) * 0.2126 + pow(green, 2.2) * 0.7152 + pow(blue, 2.2) * 0.0722;
+    CGFloat luminance = GAMMA_DEC(red) * 0.2126 + GAMMA_DEC(green) * 0.7152 + GAMMA_DEC(blue) * 0.0722;
     return (!success || luminance < 0.36) ? lighter : darker;
 }
 
