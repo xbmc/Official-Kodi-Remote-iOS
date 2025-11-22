@@ -6878,16 +6878,16 @@
 - (instancetype)initWithConfiguration:(NSArray*)configTable {
     self = [super init];
     
-    // Build the GlobalSearch lookup table
-    NSMutableArray *lookupArray = [[NSMutableArray alloc] initWithCapacity:configTable.count];
-    for (LookupItem *lookupItem in configTable) {
-        NSInteger tab = [self getGlobalSearchTab:lookupItem.menuPath label:lookupItem.menuLabel];
-        if (tab != NSNotFound) {
-            lookupItem.menuTab = tab;
-            [lookupArray addObject:lookupItem];
+    // Build the GlobalSearch lookup table (filtering out entries which cannot resolve tabIndex)
+    lookupTable = [configTable filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^(LookupItem *lookupItem, NSDictionary *bindings) {
+        NSInteger tabIndex = [self getGlobalSearchTab:lookupItem.menuPath label:lookupItem.menuLabel];
+        if (tabIndex == NSNotFound) {
+            return NO;
         }
-    }
-    lookupTable = [lookupArray copy];
+        lookupItem.menuTab = tabIndex;
+        return YES;
+    }]];
+    
     return self;
 }
 
