@@ -537,7 +537,7 @@
     
     [viewControllersStack addObject:controller];
     if (invokeByController != nil) {
-        viewXPosition = invokeByController.view.frame.origin.x + invokeByController.view.frame.size.width;
+        viewXPosition = CGRectGetMaxX(invokeByController.view.frame);
     }
     if (slideViews.subviews.count == 0) {
         slideStartPosition = SLIDE_VIEWS_START_X_POS;
@@ -626,10 +626,6 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     BOOL isViewOutOfScreen = NO;
-    CGFloat posX = SLIDE_VIEWS_START_X_POS;
-    if (viewControllersStack.count == 1) {
-        posX = slideViews.subviews[0].frame.origin.x;
-    }
     for (UIViewController *subController in viewControllersStack) {
         // If we have a view in fullscreen, keep it fullscreen
         if (fullscreenView != nil && [fullscreenView isEqual:subController.view]) {
@@ -661,16 +657,13 @@
             if (viewAtLeft2 == nil) {
                 if (viewAtRight == nil) {
                     [self changeFrame:subController.view
-                              originX:posX
+                              originX:SLIDE_VIEWS_START_X_POS
                                height:self.view.frame.size.height - bottomPadding];
                 }
                 else {
                     [self changeFrame:subController.view
                               originX:SLIDE_VIEWS_MINUS_X_POSITION
                                height:self.view.frame.size.height - bottomPadding];
-                    [self changeFrame:viewAtRight
-                              originX:SLIDE_VIEWS_MINUS_X_POSITION + subController.view.frame.size.width
-                               height:viewAtRight.frame.size.height - bottomPadding];
                 }
             }
             else if (viewAtLeft.frame.origin.x == SLIDE_VIEWS_MINUS_X_POSITION || viewAtLeft.frame.origin.x == SLIDE_VIEWS_START_X_POS) {
@@ -686,19 +679,19 @@
                 }
                 else {
                     [self changeFrame:subController.view
-                              originX:viewAtLeft2.frame.origin.x + viewAtLeft2.frame.size.width
+                              originX:CGRectGetMaxX(viewAtLeft2.frame)
                                height:self.view.frame.size.height - bottomPadding];
                 }
             }
         }
-        else if (!isViewOutOfScreen) {
+        else if (isViewOutOfScreen) {
             [self changeFrame:subController.view
-                      originX:subController.view.frame.origin.x
+                      originX:self.view.frame.size.width
                        height:self.view.frame.size.height - bottomPadding];
         }
         else {
             [self changeFrame:subController.view
-                      originX:self.view.frame.size.width
+                      originX:subController.view.frame.origin.x
                        height:self.view.frame.size.height - bottomPadding];
         }
     }
