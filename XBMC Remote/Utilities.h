@@ -67,7 +67,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (int)getSec2Min:(BOOL)convert;
 + (NSString*)getImageServerURL;
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
-+ (void)applyRoundedEdgesView:(UIView*)view;
 + (CGFloat)getBottomPadding;
 + (CGFloat)getTopPadding;
 + (CGFloat)getTopPaddingWithNavBar:(UINavigationController*)navCtrl;
@@ -125,6 +124,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 - (void)animateX:(CGFloat)x alpha:(CGFloat)alpha duration:(NSTimeInterval)seconds;
 - (void)animateOrigin:(CGPoint)origin duration:(NSTimeInterval)seconds;
 - (void)animateAlpha:(CGFloat)alpha duration:(NSTimeInterval)seconds;
+- (void)applyRoundedEdges;
 
 @end
 

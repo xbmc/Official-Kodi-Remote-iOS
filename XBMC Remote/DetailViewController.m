@@ -978,7 +978,7 @@
         imgView.contentMode = UIViewContentModeScaleAspectFit;
     }
     BOOL isOnPVR = [item[@"path"] hasPrefix:@"pvr:"];
-    [Utilities applyRoundedEdgesView:imgView];
+    [imgView applyRoundedEdges];
     // In few cases stringURL does not hold an URL path but a loadable icon name. In this case
     // ensure sd_setImageWithURL falls back to this icon.
     if (stringURL.length) {
@@ -1719,7 +1719,7 @@
     if (!recentlyAddedView) {
         static NSString *identifier = @"posterCell";
         PosterCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-        [Utilities applyRoundedEdgesView:cell.contentView];
+        [cell.contentView applyRoundedEdges];
         cell.posterLabel.text = @"";
         cell.posterLabelFullscreen.text = @"";
         cell.posterLabel.font = [UIFont boldSystemFontOfSize:posterFontSize];
@@ -1766,7 +1766,7 @@
     else {
         static NSString *identifier = @"recentlyAddedCell";
         RecentlyAddedCell *cell = [cView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-        [Utilities applyRoundedEdgesView:cell.contentView];
+        [cell.contentView applyRoundedEdges];
         [cell setRecentlyAddedCellLayoutManually:cell.bounds];
 
         if (stringURL.length) {
@@ -2945,7 +2945,7 @@
     
     // Show default thumb image and set the colors for the labels and the gradient
     NSString *displayThumb = episodesView ? @"nocover_tvshows" : @"coverbox_back";
-    [Utilities applyRoundedEdgesView:thumbImageView];
+    [thumbImageView applyRoundedEdges];
     thumbImageView.image = [UIImage imageNamed:displayThumb];
     [self setViewColor:albumDetailView
                  image:thumbImageView.image
