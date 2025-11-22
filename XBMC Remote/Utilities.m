@@ -19,6 +19,8 @@
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:(a)]
+#define GAMMA_DEC(x) pow(x, 2.2)
+#define GAMMA_ENC(x) pow(x, 1/2.2)
 #define XBMC_LOGO_PADDING 10
 #define PERSISTENCE_KEY_VERSION @"VersionUnderReview"
 #define PERSISTENCE_KEY_PLAYBACK_ATTEMPTS @"PlaybackAttempts"
@@ -30,7 +32,8 @@
     size_t height = CGImageGetHeight(inImage);
     unsigned long bytesPerRow = width * 4; // 4 bytes for alpha, red, green and blue
     
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    // For averaging colors a linear color space is required.
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceLinearSRGB);
     if (colorSpace == NULL) {
         return NULL;
     }
@@ -47,7 +50,7 @@
     if (ctx == NULL) {
         return NULL;
     }
-    CGRect rect = CGRectMake(0, 0, CGImageGetWidth(imageRefIn), CGImageGetHeight(imageRefIn));
+    CGRect rect = CGRectMake(0, 0, CGBitmapContextGetWidth(ctx), CGBitmapContextGetHeight(ctx));
     CGContextDrawImage(ctx, rect, imageRefIn);
     CGImageRef imageRefOut = CGBitmapContextCreateImage(ctx);
     CGContextRelease(ctx);
@@ -120,18 +123,23 @@
             const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
             for (int column = 0; column < imageWidth; column++) {
                 alpha  += rowPtr[0];
-                red    += rowPtr[1] * rowPtr[0];
-                green  += rowPtr[2] * rowPtr[0];
-                blue   += rowPtr[3] * rowPtr[0];
+                red    += rowPtr[1];
+                green  += rowPtr[2];
+                blue   += rowPtr[3];
                 rowPtr += stride;
             }
         }
-        f = 1.0 / (255.0 * alpha);
+        f = 1.0 / alpha;
     }
     CFRelease(data);
     CGImageRelease(rawImageRef);
     
-    return [UIColor colorWithRed:f * red green:f * green blue:f * blue alpha:1];
+    // We worked in linear sRGB color space for calculating the average (kCGColorSpaceLinearSRGB).
+    // Now we need to go back to non-linear sRGB as used in UIColor.
+    CGFloat sRGB_red   = GAMMA_ENC(f * red);
+    CGFloat sRGB_green = GAMMA_ENC(f * green);
+    CGFloat sRGB_blue  = GAMMA_ENC(f * blue);
+    return [UIColor colorWithRed:sRGB_red green:sRGB_green blue:sRGB_blue alpha:1];
 }
 
 + (UIColor*)getUIColorFromImage:(UIImage*)image {
@@ -142,18 +150,6 @@
     }
     
     return [Utilities averageColor:image];
-}
-
-+ (UIColor*)limitSaturation:(UIColor*)color satmax:(CGFloat)satmax {
-    CGFloat hue, sat, bright, alpha;
-    BOOL success = [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
-    if (!success) {
-        return nil;
-    }
-    
-    // Limit saturation to range [0 ... satmax]
-    sat = MIN(MAX(sat, 0), satmax);
-    return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
 }
 
 + (UIColor*)tailorColor:(UIColor*)color satscale:(CGFloat)satscale brightscale:(CGFloat)brightscale brightmin:(CGFloat)brightmin brightmax:(CGFloat)brightmax {
@@ -170,7 +166,7 @@
     return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
 }
 
-+ (UIColor*)lighterColorForColor:(UIColor*)color {
++ (UIColor*)textTintColor:(UIColor*)color {
     return [Utilities tailorColor:color satscale:0.33 brightscale:1.5 brightmin:0.7 brightmax:0.9];
 }
 
@@ -178,12 +174,41 @@
     CGFloat red, green, blue, alpha;
     BOOL success = [color getRed:&red green:&green blue:&blue alpha:&alpha];
     
-    // Reference https://stackoverflow.com/questions/1855884/determine-font-color-based-on-background-color
-    // Luminance for NTSC YIQ
-    CGFloat luminance = red * 0.299 + green * 0.587 + blue * 0.114;
+    // Reference https://stackoverflow.com/questions/596216/formula-to-determine-perceived-brightness-of-rgb-color
+    // Relative luminance for sRGB BT.709 using approximate linearization with gamma 2.2 and weighting
+    // Middle contrast of relative luminance is around 0.36-0.37
+    CGFloat luminance = GAMMA_DEC(red) * 0.2126 + GAMMA_DEC(green) * 0.7152 + GAMMA_DEC(blue) * 0.0722;
+    return (!success || luminance < 0.36) ? lighter : darker;
+}
+
++ (UIColor*)sectionGradientTopColor:(UIColor*)color {
+    CGFloat hue, sat, bright, alpha;
+    BOOL success = [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
+    if (!success) {
+        return color;
+    }
     
-    // Choose color which has better contrast to color
-    return (!success || luminance < 0.4) ? lighter : darker;
+    // Limit saturation
+    sat = MIN(MAX(sat, 0), 0.33);
+    // Limit brightness range
+    bright = MIN(MAX(bright, 0.4), 0.8);
+    return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
+}
+
++ (UIColor*)sectionGradientBottomColor:(UIColor*)color {
+    color = [Utilities sectionGradientTopColor:color];
+    
+    CGFloat hue, sat, bright, alpha;
+    BOOL success = [color getHue:&hue saturation:&sat brightness:&bright alpha:&alpha];
+    if (!success) {
+        return color;
+    }
+    
+    // Desaturate bottom stronger than top
+    sat = MIN(MAX(sat * 0.33, 0), 1);
+    // Make bottom slightly brighter than top
+    bright = MIN(MAX(bright + 0.1, 0.0), 1.0);
+    return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
 }
 
 + (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {

@@ -796,46 +796,42 @@
     return results;
 }
 
-- (void)setSearchBar:(UISearchBar*)searchBar toColor:(UIColor*)albumColor {
+- (void)setSearchBar:(UISearchBar*)searchBar toColor:(UIColor*)sectionColor tintColor:(UIColor*)tintColor {
     UITextField *searchTextField = [self getSearchTextField:searchBar];
-    UIColor *lightAlbumColor = [Utilities contrastColor:albumColor
-                                             lightColor:[Utilities getGrayColor:255 alpha:0.7]
-                                              darkColor:[Utilities getGrayColor:0 alpha:0.6]];
     if (searchTextField != nil) {
         UIImageView *iconView = (id)searchTextField.leftView;
         iconView.image = [iconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        iconView.tintColor = lightAlbumColor;
-        searchTextField.textColor = lightAlbumColor;
-        searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes:@{NSForegroundColorAttributeName: lightAlbumColor}];
+        iconView.tintColor = tintColor;
+        searchTextField.textColor = tintColor;
+        searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.searchController.searchBar.placeholder attributes:@{NSForegroundColorAttributeName: tintColor}];
     }
-    searchBar.backgroundColor = albumColor;
-    searchBar.tintColor = lightAlbumColor;
-    searchBar.barTintColor = lightAlbumColor;
+    searchBar.backgroundColor = sectionColor;
+    searchBar.tintColor = tintColor;
+    searchBar.barTintColor = tintColor;
 }
 
 - (void)setViewColor:(UIView*)view image:(UIImage*)image isTopMost:(BOOL)isTopMost label1:(UILabel*)label1 label2:(UILabel*)label2 label3:(UILabel*)label3 label4:(UILabel*)label4 gradient:(CAGradientLayer*)gradient infoButton:(UIButton*)infoButton {
     // Gather average cover color and limit saturation
     UIColor *mainColor = [Utilities getUIColorFromImage:image];
-    mainColor = [Utilities limitSaturation:mainColor satmax:0.33];
     
-    // Set gradient colors
-    gradient.colors = @[(id)[mainColor CGColor], (id)[[Utilities lighterColorForColor:mainColor] CGColor]];
+    // Create gradient based on average color
+    UIColor *gradientTop = [Utilities sectionGradientTopColor:mainColor];
+    UIColor *gradientBottom = [Utilities sectionGradientBottomColor:mainColor];
+    gradient.colors = @[
+        (id)gradientTop.CGColor,
+        (id)gradientBottom.CGColor,
+    ];
+    [view.layer insertSublayer:gradient atIndex:0];
     
-    // Set text/shadow colors
-    UIColor *label12Color = [Utilities contrastColor:mainColor
+    // Set text colors
+    UIColor *label12Color = [Utilities contrastColor:gradientTop
                                           lightColor:[Utilities getGrayColor:255 alpha:1.0]
                                            darkColor:[Utilities getGrayColor:0 alpha:1.0]];
-    UIColor *label34Color = [Utilities contrastColor:mainColor
-                                          lightColor:[Utilities getGrayColor:255 alpha:0.8]
-                                           darkColor:[Utilities getGrayColor:0 alpha:0.7]];
-    UIColor *shadowColor = [Utilities contrastColor:mainColor
-                                         lightColor:[Utilities getGrayColor:0 alpha:0.3]
-                                          darkColor:[Utilities getGrayColor:255 alpha:0.3]];
+    UIColor *label34Color = [label12Color colorWithAlphaComponent:0.95];
     
     // Set colors for the different labels
     label1.textColor = label2.textColor = label12Color;
     label3.textColor = label4.textColor = label34Color;
-    label1.shadowColor = label2.shadowColor = label3.shadowColor = label4.shadowColor = shadowColor;
     
     // Set color of info button
     UIImage *buttonImage = [Utilities colorizeImage:[UIImage imageNamed:@"table_arrow_right"] withColor:label34Color];
@@ -844,9 +840,10 @@
     // Only the top most item shall define albumcolor, searchbar tint and navigationbar tint
     if (isTopMost) {
         albumColor = mainColor;
-        [self setSearchBar:self.searchController.searchBar toColor:albumColor];
-        [self setSearchBar:(UISearchBar*)dataList.tableHeaderView toColor:albumColor];
-        self.navigationController.navigationBar.tintColor = [Utilities lighterColorForColor:albumColor];
+        UIColor *searchbarTintColor = [label12Color colorWithAlphaComponent:0.8];
+        [self setSearchBar:self.searchController.searchBar toColor:gradientTop tintColor:searchbarTintColor];
+        [self setSearchBar:(UISearchBar*)dataList.tableHeaderView toColor:gradientTop tintColor:searchbarTintColor];
+        self.navigationController.navigationBar.tintColor = [Utilities textTintColor:albumColor];
     }
 }
 
@@ -5504,7 +5501,7 @@
     }
     [activeLayoutView setScrollsToTop:YES];
     if (albumColor != nil) {
-        self.navigationController.navigationBar.tintColor = [Utilities lighterColorForColor:albumColor];
+        self.navigationController.navigationBar.tintColor = [Utilities textTintColor:albumColor];
     }
     else {
         self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
