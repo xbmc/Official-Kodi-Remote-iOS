@@ -37,6 +37,8 @@
 #define ITEM_MOVIE_PAD_WIDTH_RECENTLY_FULLSCREEN 502.0
 #define ITEM_MOVIE_PAD_HEIGHT_RECENTLY_FULLSCREEN 206.0
 
+#define LOOKUP_ITEM(mPath, mLabel, mIcon, mItemId) [[LookupItem alloc] initWithPath:mPath label:mLabel icon:mIcon itemId:mItemId]
+
 @implementation mainMenu
 
 @synthesize mainLabel, icon, family, type, mainButtons, mainMethod, mainFields, mainParameters, rowHeight, thumbWidth, defaultThumb, subItem, enableSection, sheetActions, showInfo, originYearDuration, widthLabel, showRuntime, noConvertTime, chooseTab, disableNavbarButtons, filterModes;
@@ -6833,14 +6835,15 @@
 #pragma mark - Build and Initialize Global Search Lookup
     
     NSArray *globalSearchKeyConfig = @[
-        [[LookupItem alloc] initWithPath:menu_Movies label:LOCALIZED_STR(@"Movies") icon:@"nocover_movies" itemId:@"movieid"],
-        [[LookupItem alloc] initWithPath:menu_Movies label:LOCALIZED_STR(@"Movie Sets") icon:@"nocover_movie_sets" itemId:@"setid"],
-        [[LookupItem alloc] initWithPath:menu_TVShows label:LOCALIZED_STR(@"TV Shows") icon:@"nocover_tvshows_episode" itemId:@"tvshowid"],
-        [[LookupItem alloc] initWithPath:menu_TVShows.subItem label:LOCALIZED_STR(@"Episodes") icon:@"nocover_tvshows_episode" itemId:@"episodeid"],
-        [[LookupItem alloc] initWithPath:menu_Videos label:LOCALIZED_STR(@"Music Videos") icon:@"nocover_music" itemId:@"musicvideoid"],
-        [[LookupItem alloc] initWithPath:menu_Music label:LOCALIZED_STR(@"Artists") icon:@"nocover_artist" itemId:@"artistid"],
-        [[LookupItem alloc] initWithPath:menu_Music label:LOCALIZED_STR(@"Albums") icon:@"nocover_music" itemId:@"albumid"],
-        [[LookupItem alloc] initWithPath:menu_Music label:LOCALIZED_STR(@"All songs") icon:@"nocover_music" itemId:@"songid"],
+                    //menu path,          label of tab                    nocover icon                itemid
+        LOOKUP_ITEM(menu_Movies,          LOCALIZED_STR(@"Movies"),       @"nocover_movies",          @"movieid"),
+        LOOKUP_ITEM(menu_Movies,          LOCALIZED_STR(@"Movie Sets"),   @"nocover_movie_sets",      @"setid"),
+        LOOKUP_ITEM(menu_TVShows,         LOCALIZED_STR(@"TV Shows"),     @"nocover_tvshows_episode", @"tvshowid"),
+        LOOKUP_ITEM(menu_TVShows.subItem, LOCALIZED_STR(@"Episodes"),     @"nocover_tvshows_episode", @"episodeid"),
+        LOOKUP_ITEM(menu_Videos,          LOCALIZED_STR(@"Music Videos"), @"nocover_music",           @"musicvideoid"),
+        LOOKUP_ITEM(menu_Music,           LOCALIZED_STR(@"Artists"),      @"nocover_artist",          @"artistid"),
+        LOOKUP_ITEM(menu_Music,           LOCALIZED_STR(@"Albums"),       @"nocover_music",           @"albumid"),
+        LOOKUP_ITEM(menu_Music,           LOCALIZED_STR(@"All songs"),    @"nocover_music",           @"songid"),
     ];
     
     // Build the GlobalSearch lookup table
