@@ -65,7 +65,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (int)getSec2Min:(BOOL)convert;
 + (NSString*)getImageServerURL;
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
-+ (UIImage*)applyRoundedEdgesImage:(UIImage*)image;
 + (void)applyRoundedEdgesView:(UIView*)view;
 + (CGFloat)getBottomPadding;
 + (CGFloat)getTopPadding;
@@ -155,6 +154,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 
 @interface UIImage (Extensions)
 
+- (UIImage*)applyRoundedEdges;
 - (UIColor*)averageColor;
 - (UIImage*)colorizeWithColor:(UIColor*)color;
 - (UIImage*)resizedImageSize:(CGSize)newSize aspectMode:(UIViewContentMode)contentMode;
