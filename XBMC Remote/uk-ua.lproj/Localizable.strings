@@ -194,7 +194,7 @@
 "No XBMC instances were found :(" = "Екземпляри Kodi не знайдено :(";
 "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "Для пошуку Kodi потрібно, щоб на сервері Kodi був увімкнений параметр\n\"Анонсувати ці служби іншим системам через Zeroconf\"";
 "How-to activate the remote app in Kodi" = "Як активувати віддалений доступ в Kodi";
-"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Налаштування > Служби > Керування:\n1. Веб-сервер > Дозволити віддалене керування через HTTP\n2. Керування програмою > Дозволити віддалене керування програмам на інших системах";
+"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Налаштування > Служби > Керування:\n1. Веб-сервер > Дозволити віддалене керування через HTTP\n2. Керування додатком > Дозволити віддалене керування з додатків на інших системах";
 "e.g. My XBMC" = "напр., Мій Kodi";
 "e.g. 192.168.0.8" = "напр. 192.168.0.8";
 "Username" = "Ім'я користувача";
