@@ -36,7 +36,7 @@
 //  Copyright 2011 raw engineering. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import UIKit;
 
 typedef NS_ENUM(NSInteger, StackDragDirection) {
     StackDraggedLeft,

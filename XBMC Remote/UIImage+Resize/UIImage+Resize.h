@@ -7,6 +7,8 @@
 //
 // Extends the UIImage class to support resizing
 
+@import UIKit;
+
 @interface UIImage (Resize)
 
 - (UIImage*)resizedImageSize:(CGSize)newSize aspectMode:(UIViewContentMode)contentMode;
