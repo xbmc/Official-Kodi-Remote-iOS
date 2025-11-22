@@ -43,7 +43,6 @@
 		0F747734151DD91D00EF78AD /* RemoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F747732151DD91D00EF78AD /* RemoteController.m */; };
 		0F74776F151E5E8600EF78AD /* DSJSONRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776A151E5E8600EF78AD /* DSJSONRPC.m */; };
 		0F747770151E5E8600EF78AD /* DSJSONRPCError.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776C151E5E8600EF78AD /* DSJSONRPCError.m */; };
-		0F7B951A1708975500880F33 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7B95141708975500880F33 /* UIImage+Resize.m */; };
 		0F7F0DCC1703490A0098FF75 /* BDKCollectionIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F0DC91703490A0098FF75 /* BDKCollectionIndexView.m */; };
 		0F7F3DA5164A6D730080A14A /* ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA2164A6D730080A14A /* ECSlidingViewController.m */; };
 		0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA4164A6D730080A14A /* UIImage+ImageWithUIView.m */; };
@@ -214,8 +213,6 @@
 		0F79838C1C26ABDB002863D0 /* if_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = if_types.h; path = Network/if_types.h; sourceTree = "<group>"; };
 		0F79838D1C26ABDB002863D0 /* route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = route.h; path = Network/route.h; sourceTree = "<group>"; };
 		0F7A8A911926776900313C17 /* AppInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppInfoViewController.xib; sourceTree = "<group>"; };
-		0F7B95131708975500880F33 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
-		0F7B95141708975500880F33 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		0F7F0DC81703490A0098FF75 /* BDKCollectionIndexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDKCollectionIndexView.h; sourceTree = "<group>"; };
 		0F7F0DC91703490A0098FF75 /* BDKCollectionIndexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDKCollectionIndexView.m; sourceTree = "<group>"; };
 		0F7F3DA1164A6D730080A14A /* ECSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSlidingViewController.h; sourceTree = "<group>"; };
@@ -611,7 +608,6 @@
 			children = (
 				0F175F20154D5C0D00C1C61F /* iPad */,
 				0F175F13154D45B300C1C61F /* iPhone */,
-				0F7B95101708975500880F33 /* UIImage+Resize */,
 				0FB1616B151F4005001BA2D4 /* SDWebImage */,
 				0F747767151E5E8600EF78AD /* Demiurgic-JSON-RPC */,
 				0F545D041575563100B6320D /* OBShapedButton */,
@@ -650,15 +646,6 @@
 				0F79838D1C26ABDB002863D0 /* route.h */,
 			);
 			name = Network;
-			sourceTree = "<group>";
-		};
-		0F7B95101708975500880F33 /* UIImage+Resize */ = {
-			isa = PBXGroup;
-			children = (
-				0F7B95131708975500880F33 /* UIImage+Resize.h */,
-				0F7B95141708975500880F33 /* UIImage+Resize.m */,
-			);
-			path = "UIImage+Resize";
 			sourceTree = "<group>";
 		};
 		0F7F0DC71703490A0098FF75 /* BDKCollectionIndexView */ = {
@@ -926,7 +913,6 @@
 				C7106D7B2D33EEE000A96C93 /* ProgressBarView.m in Sources */,
 				0F7F0DCC1703490A0098FF75 /* BDKCollectionIndexView.m in Sources */,
 				0FEE08161704819A00EC9BC7 /* FloatingHeaderFlowLayout.m in Sources */,
-				0F7B951A1708975500880F33 /* UIImage+Resize.m in Sources */,
 				0F4205D217099AE500EA533C /* RecentlyAddedCell.m in Sources */,
 				0F05FB69170D79D400BBA833 /* NSString+MD5.m in Sources */,
 				0F4019B018F3ECEB0064E4DC /* customButton.m in Sources */,
