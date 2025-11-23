@@ -403,7 +403,9 @@
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
-        [self recordChannel];
+        [self recordChannel:self.detailItem indicator:activityIndicatorView onSuccess:^{
+            [self animateRecordAction];
+        }];
     }
     else if ([actiontitle rangeOfString:resumeKey].location != NSNotFound) {
         [self startPlayback:YES];
@@ -437,64 +439,6 @@
                          }
                      }
                      completion:nil];
-}
-
-- (void)recordChannel {
-    NSDictionary *item = self.detailItem;
-    NSNumber *channelid = [Utilities getNumberFromItem:item[@"pvrExtraInfo"][@"channelid"]];
-    if ([channelid longValue] == 0) {
-        return;
-    }
-    NSString *methodToCall = @"PVR.Record";
-    NSString *parameterName = @"channel";
-    NSNumber *itemid = [Utilities getNumberFromItem:item[@"channelid"]];
-    NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = [Utilities getNumberFromItem:item[@"broadcastid"]];
-    if ([itemid longValue] == 0) {
-        itemid = [Utilities getNumberFromItem:item[@"pvrExtraInfo"][@"channelid"]];
-        if ([itemid longValue] == 0) {
-            return;
-        }
-        storeChannelid = itemid;
-        NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
-        NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
-        float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
-        if (percent_elapsed < 0) {
-            itemid = [Utilities getNumberFromItem:item[@"broadcastid"]];
-            storeBroadcastid = itemid;
-            storeChannelid = @(0);
-            methodToCall = @"PVR.ToggleTimer";
-            parameterName = @"broadcastid";
-        }
-    }
-    [activityIndicatorView startAnimating];
-    NSDictionary *parameters = @{parameterName: itemid};
-    [[Utilities getJsonRPC] callMethod:methodToCall
-         withParameters:parameters
-           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-               [activityIndicatorView stopAnimating];
-               if (error == nil && methodError == nil) {
-                   [self animateRecordAction];
-                   NSNumber *status = @(![item[@"isrecording"] boolValue]);
-                   if ([item[@"broadcastid"] longLongValue] > 0) {
-                       status = @(![item[@"hastimer"] boolValue]);
-                   }
-                   NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           storeChannelid, @"channelid",
-                                           storeBroadcastid, @"broadcastid",
-                                           status, @"status",
-                                           nil];
-                   [[NSNotificationCenter defaultCenter] postNotificationName:@"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
-               }
-               else {
-                   NSString *message = [Utilities formatClipboardMessage:methodToCall
-                                                              parameters:parameters
-                                                                   error:error
-                                                             methodError:methodError];
-                   UIAlertController *alertCtrl = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
-                   [self presentViewController:alertCtrl animated:YES completion:nil];
-               }
-           }];
 }
 
 - (IBAction)scrollUp:(id)sender {
@@ -1828,11 +1772,6 @@
     coverView.layer.magnificationFilter = kCAFilterTrilinear;
     fanartView.layer.minificationFilter = kCAFilterTrilinear;
     fanartView.layer.magnificationFilter = kCAFilterTrilinear;
-    
-    xbmcDateFormatter = [NSDateFormatter new];
-    xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    xbmcDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"]; // all times in Kodi PVR are UTC
-    xbmcDateFormatter.locale = [NSLocale systemLocale]; // Needed to work with 12h system setting in combination with "UTC"
     
     localStartDateFormatter = [NSDateFormatter new];
     localStartDateFormatter.timeZone = [NSTimeZone systemTimeZone];
