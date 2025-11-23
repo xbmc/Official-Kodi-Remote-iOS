@@ -460,10 +460,6 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     }];
 }
 
-- (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters {
-    [self playerAction:action params:parameters];
-}
-
 - (void)simpleAction:(NSString*)action params:(NSDictionary*)params xbmcHttp:(NSString*)command {
     [self simpleAction:action params:params completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         // Backwards compatibility for Kodi "Eden" which supports xbmchttp but not JSON API for some commands
@@ -497,7 +493,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
                         if (![audiostreamsDictionary[@"audiostreams"][i] isEqual:audiostreamsDictionary[@"currentaudiostream"]]) {
                             id audiostreamIndex = audiostreamsDictionary[@"audiostreams"][i][@"index"];
                             if (audiostreamIndex) {
-                                [self playbackAction:@"Player.SetAudioStream" params:@{@"stream": audiostreamIndex}];
+                                [self playerAction:@"Player.SetAudioStream" params:@{@"stream": audiostreamIndex}];
                                 [self showSubInfo:actiontitle color:SUCCESS_MESSAGE_COLOR];
                             }
                         }
@@ -527,7 +523,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 
         UIAlertAction *action_disable = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Disable subtitles") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") color:SUCCESS_MESSAGE_COLOR];
-            [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"off"}];
+            [self playerAction:@"Player.SetSubtitle" params:@{@"subtitle": @"off"}];
         }];
         if ([subsDictionary[@"subtitleenabled"] boolValue]) {
             [alertCtrl addAction:action_disable];
@@ -542,8 +538,8 @@ static void *TorchRemoteContext = &TorchRemoteContext;
                             ![subsDictionary[@"subtitleenabled"] boolValue]) {
                             id subsIndex = subsDictionary[@"subtitles"][i][@"index"];
                             if (subsIndex) {
-                                [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": subsIndex}];
-                                [self playbackAction:@"Player.SetSubtitle" params:@{@"subtitle": @"on"}];
+                                [self playerAction:@"Player.SetSubtitle" params:@{@"subtitle": subsIndex}];
+                                [self playerAction:@"Player.SetSubtitle" params:@{@"subtitle": @"on"}];
                                 [self showSubInfo:actiontitle color:SUCCESS_MESSAGE_COLOR];
                             }
                         }
@@ -709,62 +705,62 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         case TAG_BUTTON_SEEK_BACKWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
-            [self playbackAction:action params:params];
+            [self playerAction:action params:params];
             break;
             
         case TAG_BUTTON_SEEK_BACKWARD_BIG:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"bigbackward"];
-            [self playbackAction:action params:params];
+            [self playerAction:action params:params];
             break;
             
         case TAG_BUTTON_PLAY_PAUSE:
             action = @"Player.PlayPause";
             params = nil;
-            [self playbackAction:action params:nil];
+            [self playerAction:action params:nil];
             break;
             
         case TAG_BUTTON_SEEK_FORWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
-            [self playbackAction:action params:params];
+            [self playerAction:action params:params];
             break;
         
         case TAG_BUTTON_SEEK_FORWARD_BIG:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"bigforward"];
-            [self playbackAction:action params:params];
+            [self playerAction:action params:params];
             break;
             
         case TAG_BUTTON_PREVIOUS:
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @{@"to": @"previous"};
-                [self playbackAction:action params:params];
+                [self playerAction:action params:params];
             }
             else {
                 action = @"Player.GoPrevious";
                 params = nil;
-                [self playbackAction:action params:nil];
+                [self playerAction:action params:nil];
             }
             break;
             
         case TAG_BUTTON_STOP:
             action = @"Player.Stop";
             params = nil;
-            [self playbackAction:action params:nil];
+            [self playerAction:action params:nil];
             break;
             
         case TAG_BUTTON_NEXT:
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @{@"to": @"next"};
-                [self playbackAction:action params:params];
+                [self playerAction:action params:params];
             }
             else {
                 action = @"Player.GoNext";
                 params = nil;
-                [self playbackAction:action params:nil];
+                [self playerAction:action params:nil];
             }
             break;
         
@@ -859,11 +855,11 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             break;
             
         case TAG_BUTTON_SEEK_BACKWARD: // DECREASE PLAYBACK SPEED
-            [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
+            [self playerAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
             break;
             
         case TAG_BUTTON_SEEK_FORWARD: // INCREASE PLAYBACK SPEED
-            [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
+            [self playerAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
             break;
             
         case TAG_BUTTON_INFO: // CODEC INFO
