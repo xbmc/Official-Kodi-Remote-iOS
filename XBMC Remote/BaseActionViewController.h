@@ -11,7 +11,9 @@
 
 @import UIKit;
 
-@interface BaseActionViewController : UIViewController <SFSafariViewControllerDelegate>
+@interface BaseActionViewController : UIViewController <SFSafariViewControllerDelegate> {
+    NSDateFormatter *xbmcDateFormatter;
+}
 
 - (void)showRemote;
 - (void)showNowPlaying;
@@ -26,6 +28,7 @@
 - (void)playlistQueue:(int)playlistid items:(NSDictionary*)playlistItems afterCurrent:(BOOL)afterCurrent indicator:(UIActivityIndicatorView*)cellActivityIndicator;
 - (void)startPlaybackItems:(NSDictionary*)playlistItems using:(NSString*)playername shuffle:(BOOL)shuffled resume:(BOOL)resume indicator:(UIActivityIndicatorView*)cellActivityIndicator;
 - (void)SFloadURL:(NSString*)url;
+- (void)recordChannel:(NSDictionary*)item indicator:(UIActivityIndicatorView*)cellActivityIndicator onSuccess:(void (^)(void))onSuccess;
 
 @property (strong, nonatomic) id detailItem;
 
