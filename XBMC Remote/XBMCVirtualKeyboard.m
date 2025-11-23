@@ -105,7 +105,7 @@
              if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                  if (methodResult[@"currentwindow"] != [NSNull null]) {
                      if ([methodResult[@"currentwindow"][@"id"] longLongValue] == WINDOW_VIRTUAL_KEYBOARD) {
-                         [self GUIAction:@"Input.Back" params:@{} httpAPIcallback:nil];
+                         [self simpleAction:@"Input.Back" params:@{}];
                      }
                  }
              }
@@ -185,7 +185,7 @@
         else { // CHARACTER
             unichar x = [string characterAtIndex:0];
             if (x == '\n') {
-                [self GUIAction:@"Input.Select" params:@{} httpAPIcallback:nil];
+                [self simpleAction:@"Input.Select" params:@{}];
                 [backgroundTextField resignFirstResponder];
                 [xbmcVirtualKeyboard resignFirstResponder];
             }
@@ -209,7 +209,7 @@
             }
         }
         stringToSend = stringToSend ?: @"";
-        [self GUIAction:@"Input.SendText" params:@{@"text": stringToSend, @"done": @(inputFinished)} httpAPIcallback:nil];
+        [self simpleAction:@"Input.SendText" params:@{@"text": stringToSend, @"done": @(inputFinished)}];
         return YES;
     }
 }
@@ -222,12 +222,8 @@
 
 #pragma mark - JSON commands
 
-- (void)GUIAction:(NSString*)action params:(NSDictionary*)params httpAPIcallback:(NSString*)callback {
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if ((methodError != nil || error != nil) && callback != nil) { // Backward compatibility
-            [Utilities sendXbmcHttp:callback];
-        }
-    }];
+- (void)simpleAction:(NSString*)action params:(NSDictionary*)params {
+    [[Utilities getJsonRPC] callMethod:action withParameters:params];
 }
 
 @end
