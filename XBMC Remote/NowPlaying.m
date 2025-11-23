@@ -141,6 +141,27 @@
     return headerLabel;
 }
 
+- (NSString*)getHostForStreamItem:(id)item {
+    NSString *file = [Utilities getStringFromItem:item[@"file"]];
+    NSURL *url = [NSURL URLWithString:file];
+    if (url) {
+        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+        if (urlComponents) {
+            NSString *host = urlComponents.host;
+            if (host.length) {
+                return host;
+            }
+        }
+    }
+    return nil;
+}
+
+- (NSString*)getTitleFromQueryFormat:(NSString*)title {
+    title = [title stringByRemovingPercentEncoding];
+    title = [title stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+    return title;
+}
+
 - (void)updateBlurredCoverBackground:(UIImage*)image {
     // Show blurred cover background (iPhone only, as iPad uses other layout)
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -495,6 +516,13 @@
     // Keep year always visible at the tail
     artistName.lineBreakMode = year.length ? NSLineBreakByTruncatingMiddle : NSLineBreakByTruncatingTail;
     
+    // For streams
+    NSString *host = [self getHostForStreamItem:item];
+    if (host) {
+        title = [self getTitleFromQueryFormat:title];
+        artist = host;
+    }
+    
     // top to bottom: songName, artistName, albumName
     songName.text = title;
     artistName.text = artist;
@@ -719,6 +747,7 @@
                                     @"description",
                                     @"year",
                                     @"director",
+                                    @"file",
                                     @"plot"] mutableCopy];
     if (AppDelegate.instance.serverVersion > 11) {
         [properties addObject:@"art"];
@@ -1207,6 +1236,13 @@
                            NSString *thumbnailPath = [self getNowPlayingThumbnailPath:item];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                            NSString *file = [Utilities getStringFromItem:item[@"file"]];
+                           // For streams
+                           NSString *host = [self getHostForStreamItem:item];
+                           if (host) {
+                               label = [self getTitleFromQueryFormat:label];
+                               artist = host;
+                               type = @"stream";
+                           }
                            [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
                                                     file, @"file",
@@ -2085,7 +2121,8 @@
         subLabel.text = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];
     }
     else if ([item[@"type"] isEqualToString:@"song"] ||
-             [item[@"type"] isEqualToString:@"musicvideo"]) {
+             [item[@"type"] isEqualToString:@"musicvideo"] ||
+             [item[@"type"] isEqualToString:@"stream"]) {
         subLabel.text = item[@"artist"];
     }
     else if ([item[@"type"] isEqualToString:@"movie"]) {
