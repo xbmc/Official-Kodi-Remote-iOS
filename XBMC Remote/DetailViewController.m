@@ -430,6 +430,16 @@
 
 #pragma mark - Utility
 
+- (void)updateTimerIcon:(NSDictionary*)item {
+    id cell = [self getCell:selectedIndexPath];
+    NSNumber *status = @(![item[@"isrecording"] boolValue]);
+    if ([item[@"broadcastid"] longLongValue] > 0) {
+        status = @(![item[@"hastimer"] boolValue]);
+    }
+    UIImageView *timerView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
+    timerView.hidden = ![status boolValue];
+}
+
 - (BOOL)isTimerActiveForItem:(id)item {
     return [item[@"hastimer"] boolValue] || [item[@"isrecording"] boolValue];
 }
@@ -3458,7 +3468,9 @@
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
-        [self recordChannel:item indexPath:selectedIndexPath];
+        [self recordChannel:item indicator:[self getCellActivityIndicator:selectedIndexPath] onSuccess:^{
+            [self updateTimerIcon:item];
+        }];
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Delete timer")]) {
         [self deleteTimer:item indexPath:selectedIndexPath];
@@ -3979,62 +3991,6 @@
                    [self presentViewController:alertView animated:YES completion:nil];
                }
     }];
-}
-
-- (void)recordChannel:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
-    NSString *methodToCall = @"PVR.Record";
-    NSString *parameterName = @"channel";
-    NSNumber *itemid = [Utilities getNumberFromItem:item[@"channelid"]];
-    NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = [Utilities getNumberFromItem:item[@"broadcastid"]];
-    if ([itemid longValue] == 0) {
-        itemid = [Utilities getNumberFromItem:item[@"pvrExtraInfo"][@"channelid"]];
-        if ([itemid longValue] == 0) {
-            return;
-        }
-        storeChannelid = itemid;
-        NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
-        NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
-        float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
-        if (percent_elapsed < 0) {
-            itemid = [Utilities getNumberFromItem:item[@"broadcastid"]];
-            storeBroadcastid = itemid;
-            storeChannelid = @(0);
-            methodToCall = @"PVR.ToggleTimer";
-            parameterName = @"broadcastid";
-        }
-    }
-    UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
-    [cellActivityIndicator startAnimating];
-    NSDictionary *parameters = @{parameterName: itemid};
-    [[Utilities getJsonRPC] callMethod:methodToCall
-         withParameters:parameters
-           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-               [cellActivityIndicator stopAnimating];
-               if (error == nil && methodError == nil) {
-                   id cell = [self getCell:indexPath];
-                   UIImageView *timerView = (UIImageView*)[cell viewWithTag:EPG_VIEW_CELL_RECORDING_ICON];
-                   NSNumber *status = @(![item[@"isrecording"] boolValue]);
-                   if ([item[@"broadcastid"] longLongValue] > 0) {
-                       status = @(![item[@"hastimer"] boolValue]);
-                   }
-                   NSDictionary *params = @{
-                       @"channelid": storeChannelid,
-                       @"broadcastid": storeBroadcastid,
-                       @"status": status,
-                   };
-                   timerView.hidden = ![status boolValue];
-                   [[NSNotificationCenter defaultCenter] postNotificationName:@"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
-               }
-               else {
-                   NSString *message = [Utilities formatClipboardMessage:methodToCall
-                                                              parameters:parameters
-                                                                   error:error
-                                                             methodError:methodError];
-                   UIAlertController *alertView = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
-                   [self presentViewController:alertView animated:YES completion:nil];
-               }
-           }];
 }
 
 - (void)addQueue:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
@@ -5683,10 +5639,6 @@
     epglockqueue = dispatch_queue_create("com.epg.arrayupdate", DISPATCH_QUEUE_SERIAL);
     epgDict = [NSMutableDictionary new];
     epgDownloadQueue = [NSMutableArray new];
-    xbmcDateFormatter = [NSDateFormatter new];
-    xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    xbmcDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"]; // all times in Kodi PVR are UTC
-    xbmcDateFormatter.locale = [NSLocale systemLocale]; // Needed to work with 12h system setting in combination with "UTC"
     localHourMinuteFormatter = [NSDateFormatter new];
     localHourMinuteFormatter.dateFormat = @"HH:mm";
     localHourMinuteFormatter.timeZone = [NSTimeZone systemTimeZone];

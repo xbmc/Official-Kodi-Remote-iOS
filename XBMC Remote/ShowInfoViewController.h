@@ -50,7 +50,6 @@
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *fanartView;
 
-    NSDateFormatter *xbmcDateFormatter;
     NSDateFormatter *localStartDateFormatter;
     NSDateFormatter *localEndDateFormatter;
     BOOL isPvrDetail;
