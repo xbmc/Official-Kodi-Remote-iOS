@@ -464,10 +464,11 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     [self playerAction:action params:parameters];
 }
 
-- (void)GUIAction:(NSString*)action params:(NSDictionary*)params httpAPIcallback:(NSString*)callback {
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if ((methodError != nil || error != nil) && callback != nil) { // Backward compatibility
-            [Utilities sendXbmcHttp:callback];
+- (void)simpleAction:(NSString*)action params:(NSDictionary*)params xbmcHttp:(NSString*)command {
+    [self simpleAction:action params:params completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        // Backwards compatibility for Kodi "Eden" which supports xbmchttp but not JSON API for some commands
+        if ((methodError != nil || error != nil) && command != nil && AppDelegate.instance.serverVersion == 11) {
+            [Utilities sendXbmcHttp:command];
         }
     }];
 }
@@ -658,51 +659,51 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     switch (buttonTag) {
         case TAG_BUTTON_ARROW_UP:
             if ([VersionCheck hasInputButtonEventSupport]) {
-                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"up", @"keymap": @"KB"} httpAPIcallback:nil];
+                [self simpleAction:@"Input.ButtonEvent" params:@{@"button": @"up", @"keymap": @"KB"}];
             }
             else {
-                [self GUIAction:@"Input.Up" params:@{} httpAPIcallback:nil];
+                [self simpleAction:@"Input.Up" params:@{}];
                 [self playerActionVideo:TAG_BUTTON_SEEK_FORWARD_BIG actionMusic:TAG_BUTTON_NEXT];
             }
             break;
             
         case TAG_BUTTON_ARROW_LEFT:
             if ([VersionCheck hasInputButtonEventSupport]) {
-                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"left", @"keymap": @"KB"} httpAPIcallback:nil];
+                [self simpleAction:@"Input.ButtonEvent" params:@{@"button": @"left", @"keymap": @"KB"}];
             }
             else {
-                [self GUIAction:@"Input.Left" params:@{} httpAPIcallback:nil];
+                [self simpleAction:@"Input.Left" params:@{}];
                 [self playerActionVideo:TAG_BUTTON_SEEK_BACKWARD actionMusic:TAG_BUTTON_SEEK_BACKWARD];
             }
             break;
             
         case TAG_BUTTON_ARROW_RIGHT:
             if ([VersionCheck hasInputButtonEventSupport]) {
-                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"right", @"keymap": @"KB"} httpAPIcallback:nil];
+                [self simpleAction:@"Input.ButtonEvent" params:@{@"button": @"right", @"keymap": @"KB"}];
             }
             else {
-                [self GUIAction:@"Input.Right" params:@{} httpAPIcallback:nil];
+                [self simpleAction:@"Input.Right" params:@{}];
                 [self playerActionVideo:TAG_BUTTON_SEEK_FORWARD actionMusic:TAG_BUTTON_SEEK_FORWARD];
             }
             break;
             
         case TAG_BUTTON_ARROW_DOWN:
             if ([VersionCheck hasInputButtonEventSupport]) {
-                [self GUIAction:@"Input.ButtonEvent" params:@{@"button": @"down", @"keymap": @"KB"} httpAPIcallback:nil];
+                [self simpleAction:@"Input.ButtonEvent" params:@{@"button": @"down", @"keymap": @"KB"}];
             }
             else {
-                [self GUIAction:@"Input.Down" params:@{} httpAPIcallback:nil];
+                [self simpleAction:@"Input.Down" params:@{}];
                 [self playerActionVideo:TAG_BUTTON_SEEK_BACKWARD_BIG actionMusic:TAG_BUTTON_PREVIOUS];
             }
             break;
             
         case TAG_BUTTON_BACK:
-            [self GUIAction:@"Input.Back" params:@{} httpAPIcallback:nil];
+            [self simpleAction:@"Input.Back" params:@{}];
             break;
             
         case TAG_BUTTON_FULLSCREEN:
             action = @"GUI.SetFullscreen";
-            [self GUIAction:action params:@{@"fullscreen": @"toggle"} httpAPIcallback:@"SendKey(0xf009)"];
+            [self simpleAction:action params:@{@"fullscreen": @"toggle"} xbmcHttp:@"SendKey(0xf009)"];
             break;
             
         case TAG_BUTTON_SEEK_BACKWARD:
@@ -769,23 +770,23 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         
         case TAG_BUTTON_HOME: // HOME
             action = @"Input.Home";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
+            [self simpleAction:action params:@{}];
             break;
             
         case TAG_BUTTON_INFO: // INFO
             action = @"Input.Info";
-            [self GUIAction:action params:@{} httpAPIcallback:@"SendKey(0xF049)"];
+            [self simpleAction:action params:@{} xbmcHttp:@"SendKey(0xF049)"];
             break;
             
         case TAG_BUTTON_SELECT:
             action = @"Input.Select";
-            [self GUIAction:action params:@{} httpAPIcallback:nil];
+            [self simpleAction:action params:@{}];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
             break;
             
         case TAG_BUTTON_MENU: // MENU OSD
             action = @"Input.ShowOSD";
-            [self GUIAction:action params:@{} httpAPIcallback:@"SendKey(0xF04D)"];
+            [self simpleAction:action params:@{} xbmcHttp:@"SendKey(0xF04D)"];
             break;
         
         case TAG_BUTTON_SUBTITLES:
@@ -799,27 +800,27 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         case TAG_BUTTON_MUSIC:
             action = @"GUI.ActivateWindow";
             params = @{@"window": @"music"};
-            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
+            [self simpleAction:action params:params xbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
             break;
             
         case TAG_BUTTON_MOVIES:
             action = @"GUI.ActivateWindow";
             params = @{@"window": @"videos",
                        @"parameters": @[@"MovieTitles"]};
-            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
+            [self simpleAction:action params:params xbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
             break;
         
         case TAG_BUTTON_TVSHOWS:
             action = @"GUI.ActivateWindow";
             params = @{@"window": @"videos",
                        @"parameters": @[@"tvshowtitles"]};
-            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
+            [self simpleAction:action params:params xbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
             break;
         
         case TAG_BUTTON_PICTURES:
             action = @"GUI.ActivateWindow";
             params = @{@"window": @"pictures"};
-            [self GUIAction:action params:params httpAPIcallback:@"ExecBuiltIn&parameter=ActivateWindow(Pictures)"];
+            [self simpleAction:action params:params xbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Pictures)"];
             break;
             
         default:
@@ -854,7 +855,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 - (void)processButtonLongPress:(NSInteger)buttonTag {
     switch (buttonTag) {
         case TAG_BUTTON_FULLSCREEN:
-            [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"togglefullscreen"} httpAPIcallback:@"Action(199)"];
+            [self simpleAction:@"Input.ExecuteAction" params:@{@"action": @"togglefullscreen"} xbmcHttp:@"Action(199)"];
             break;
             
         case TAG_BUTTON_SEEK_BACKWARD: // DECREASE PLAYBACK SPEED
@@ -867,48 +868,48 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             
         case TAG_BUTTON_INFO: // CODEC INFO
             if (AppDelegate.instance.serverVersion > 16) {
-                [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"playerdebug"} httpAPIcallback:nil];
+                [self simpleAction:@"Input.ExecuteAction" params:@{@"action": @"playerdebug"}];
             }
             else {
-                [self GUIAction:@"Input.ShowCodec" params:@{} httpAPIcallback:@"SendKey(0xF04F)"];
+                [self simpleAction:@"Input.ShowCodec" params:@{} xbmcHttp:@"SendKey(0xF04F)"];
             }
             break;
 
         case TAG_BUTTON_SELECT: // CONTEXT MENU
         case TAG_BUTTON_MENU:
-            [self GUIAction:@"Input.ContextMenu" params:@{} httpAPIcallback:@"SendKey(0xF043)"];
+            [self simpleAction:@"Input.ContextMenu" params:@{} xbmcHttp:@"SendKey(0xF043)"];
             break;
 
         case TAG_BUTTON_SUBTITLES: // SUBTITLES BUTTON
             if (AppDelegate.instance.serverVersion > 12) {
-                [self GUIAction:@"GUI.ActivateWindow"
+                [self simpleAction:@"GUI.ActivateWindow"
                          params:@{@"window": @"subtitlesearch"}
-                httpAPIcallback:nil];
+               ];
             }
             else {
-                [self GUIAction:@"Addons.ExecuteAddon"
+                [self simpleAction:@"Addons.ExecuteAddon"
                          params:@{@"addonid": @"script.xbmc.subtitles"}
-                httpAPIcallback:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
+                xbmcHttp:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
             }
             break;
             
         case TAG_BUTTON_MOVIES:
-            [self GUIAction:@"GUI.ActivateWindow"
+            [self simpleAction:@"GUI.ActivateWindow"
                      params:@{@"window": @"pvr",
                               @"parameters": @[@"31", @"0", @"10", @"0"]}
-            httpAPIcallback:nil];
+           ];
             break;
             
         case TAG_BUTTON_TVSHOWS:
-            [self GUIAction:@"GUI.ActivateWindow"
+            [self simpleAction:@"GUI.ActivateWindow"
                      params:@{@"window": @"pvrosdguide"}
-            httpAPIcallback:nil];
+           ];
             break;
             
         case TAG_BUTTON_PICTURES:
-            [self GUIAction:@"GUI.ActivateWindow"
+            [self simpleAction:@"GUI.ActivateWindow"
                      params:@{@"window": @"pvrosdchannels"}
-            httpAPIcallback:nil];
+           ];
             break;
 
         default:
