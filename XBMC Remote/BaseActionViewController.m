@@ -14,6 +14,15 @@
 
 @implementation BaseActionViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    xbmcDateFormatter = [NSDateFormatter new];
+    xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    xbmcDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"]; // all times in Kodi PVR are UTC
+    xbmcDateFormatter.locale = [NSLocale systemLocale]; // Needed to work with 12h system setting in combination with "UTC"
+}
+
 - (void)showRemote {
     RemoteController *remote = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
     [self.navigationController pushViewController:remote animated:YES];
@@ -194,6 +203,63 @@
         }
         [ctrl presentViewController:svc animated:YES completion:nil];
     }
+}
+
+- (void)recordChannel:(NSDictionary*)item indicator:(UIActivityIndicatorView*)cellActivityIndicator onSuccess:(void (^)(void))onSuccess {
+    NSString *methodToCall = @"PVR.Record";
+    NSString *parameterName = @"channel";
+    NSNumber *itemid = [Utilities getNumberFromItem:item[@"channelid"]];
+    NSNumber *storeChannelid = itemid;
+    NSNumber *storeBroadcastid = [Utilities getNumberFromItem:item[@"broadcastid"]];
+    if ([itemid longValue] == 0) {
+        itemid = [Utilities getNumberFromItem:item[@"pvrExtraInfo"][@"channelid"]];
+        if ([itemid longValue] == 0) {
+            return;
+        }
+        storeChannelid = itemid;
+        NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
+        NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
+        float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
+        if (percent_elapsed < 0) {
+            itemid = [Utilities getNumberFromItem:item[@"broadcastid"]];
+            storeBroadcastid = itemid;
+            storeChannelid = @(0);
+            methodToCall = @"PVR.ToggleTimer";
+            parameterName = @"broadcastid";
+        }
+    }
+    
+    [cellActivityIndicator startAnimating];
+    NSDictionary *parameters = @{parameterName: itemid};
+    [[Utilities getJsonRPC] callMethod:methodToCall
+                        withParameters:parameters
+                          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        [cellActivityIndicator stopAnimating];
+        if (error == nil && methodError == nil) {
+            NSNumber *status = @(![item[@"isrecording"] boolValue]);
+            if ([item[@"broadcastid"] longLongValue] > 0) {
+                status = @(![item[@"hastimer"] boolValue]);
+            }
+            NSDictionary *params = @{
+                @"channelid": storeChannelid,
+                @"broadcastid": storeBroadcastid,
+                @"status": status,
+            };
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
+            
+            if (onSuccess) {
+                onSuccess();
+            }
+        }
+        else {
+            NSString *message = [Utilities formatClipboardMessage:methodToCall
+                                                       parameters:parameters
+                                                            error:error
+                                                      methodError:methodError];
+            UIAlertController *alertCtrl = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
+            [self presentViewController:alertCtrl animated:YES completion:nil];
+        }
+    }];
 }
 
 @end
