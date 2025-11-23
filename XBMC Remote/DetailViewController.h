@@ -92,7 +92,6 @@
     BOOL forceMusicAlbumMode;
     NSMutableDictionary *epgDict;
     NSMutableArray *epgDownloadQueue;
-    NSDateFormatter *xbmcDateFormatter;
     NSDateFormatter *localHourMinuteFormatter;
     NSIndexPath *autoScrollTable;
     BOOL stackscrollFullscreen;
