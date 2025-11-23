@@ -1198,10 +1198,6 @@
     }];
 }
 
-- (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters {
-    [self playerAction:action params:parameters playerid:currentPlayerID];
-}
-
 - (void)updatePartyModePlaylist {
     lastSelected = SELECTED_NONE;
     storeSelection = nil;
@@ -1621,12 +1617,12 @@
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @{@"to": @"previous"};
-                [self playbackAction:action params:params];
+                [self playerAction:action params:params];
             }
             else {
                 action = @"Player.GoPrevious";
                 params = nil;
-                [self playbackAction:action params:nil];
+                [self playerAction:action params:nil];
             }
             ProgressSlider.value = 0;
             break;
@@ -1634,13 +1630,13 @@
         case TAG_ID_PLAYPAUSE:
             action = @"Player.PlayPause";
             params = nil;
-            [self playbackAction:action params:nil];
+            [self playerAction:action params:nil];
             break;
             
         case TAG_ID_STOP:
             action = @"Player.Stop";
             params = nil;
-            [self playbackAction:action params:nil];
+            [self playerAction:action params:nil];
             storeSelection = nil;
             break;
             
@@ -1648,12 +1644,12 @@
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @{@"to": @"next"};
-                [self playbackAction:action params:params];
+                [self playerAction:action params:params];
             }
             else {
                 action = @"Player.GoNext";
                 params = nil;
-                [self playbackAction:action params:nil];
+                [self playerAction:action params:nil];
             }
             break;
             
@@ -1669,13 +1665,13 @@
         case TAG_SEEK_BACKWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
-            [self playbackAction:action params:params];
+            [self playerAction:action params:params];
             break;
             
         case TAG_SEEK_FORWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
-            [self playbackAction:action params:params];
+            [self playerAction:action params:params];
             break;
                     
         default:
@@ -1760,10 +1756,10 @@
     
     // Send the command to Kodi
     if (AppDelegate.instance.serverVersion > 11) {
-        [self playbackAction:@"Player.SetRepeat" params:@{@"playerid": @(currentPlayerID), @"repeat": @"cycle"}];
+        [self playerAction:@"Player.SetRepeat" params:@{@"playerid": @(currentPlayerID), @"repeat": @"cycle"}];
     }
     else {
-        [self playbackAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": newRepeatStatus}];
+        [self playerAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": newRepeatStatus}];
     }
     
     // Update the button status
@@ -1921,11 +1917,11 @@
                 break;
                 
             case TAG_SEEK_BACKWARD:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
+                [self playerAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
                 break;
                 
             case TAG_SEEK_FORWARD:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
+                [self playerAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
                 break;
                 
             case TAG_ID_EDIT:// EDIT TABLE
