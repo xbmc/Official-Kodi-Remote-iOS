@@ -7,6 +7,7 @@
 //
 
 #import "BaseMasterViewController.h"
+#import "XBMCVirtualKeyboard.h"
 #import "AppDelegate.h"
 #import "Utilities.h"
 
@@ -29,6 +30,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    XBMCVirtualKeyboard *virtualKeyboard = [XBMCVirtualKeyboard new];
+    [self.view addSubview:virtualKeyboard];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleDidEnterBackground:)
