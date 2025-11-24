@@ -29,8 +29,6 @@
 
 @implementation VolumeSliderView
 
-@synthesize timer, holdVolumeTimer;
-
 - (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor isSliderType:(BOOL)isSliderType {
     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:nil options:nil];
     self = nib[0];
@@ -217,15 +215,15 @@
 - (void)startTimer {
     [self showServerVolume];
     [self stopTimer];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_INFO_TIMEOUT
-                                                  target:self
-                                                selector:@selector(volumeInfo)
-                                                userInfo:nil
-                                                 repeats:YES];
+    self.pollVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_INFO_TIMEOUT
+                                                            target:self
+                                                          selector:@selector(volumeInfo)
+                                                          userInfo:nil
+                                                           repeats:YES];
 }
 
 - (void)stopTimer {
-    [self.timer invalidate];
+    [self.pollVolumeTimer invalidate];
 }
 
 - (void)volumeInfo {

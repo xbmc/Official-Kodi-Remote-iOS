@@ -28,7 +28,7 @@
 - (void)handleVolumeIncrease;
 - (void)handleVolumeDecrease;
 
-@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) NSTimer *pollVolumeTimer;
 @property (nonatomic, strong) NSTimer *holdVolumeTimer;
 
 @end
