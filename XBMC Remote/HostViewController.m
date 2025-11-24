@@ -419,11 +419,7 @@
             
             // Trigger search for TCP service
             [netServiceBrowser searchForServicesOfType:SERVICE_TYPE_TCP inDomain:DOMAIN_NAME];
-            discoveryTimeoutTimer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT
-                                                                     target:self
-                                                                   selector:@selector(stopDiscovery)
-                                                                   userInfo:nil
-                                                                    repeats:NO];
+            [self startDiscoveryTimeoutTimer];
         }
     }
     else {
@@ -465,6 +461,10 @@
     searching = NO;
     netServiceBrowser.delegate = self;
     [netServiceBrowser searchForServicesOfType:SERVICE_TYPE_HTTP inDomain:DOMAIN_NAME];
+    [self startDiscoveryTimeoutTimer];
+}
+
+- (void)startDiscoveryTimeoutTimer {
     discoveryTimeoutTimer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT
                                                              target:self
                                                            selector:@selector(stopDiscovery)
