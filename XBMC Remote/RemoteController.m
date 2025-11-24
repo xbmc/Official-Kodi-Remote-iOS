@@ -1043,12 +1043,12 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleEnterForeground)
-                                                 name:UIApplicationWillEnterForegroundNotification
+                                             selector:@selector(handleDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
 }
 
-- (void)handleEnterForeground {
+- (void)handleDidBecomeActive {
     // Update torch mode
     torchIsOn = [Utilities isTorchOn];
     [Utilities turnTorchOn:torchButton on:torchIsOn];
