@@ -183,6 +183,7 @@
 }
 
 - (void)handleEnterForeground:(NSNotification*)sender {
+    [self readServerVolume];
     [self startTimer];
     [self setVolumeButtonMode];
 }
