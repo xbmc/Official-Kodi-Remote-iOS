@@ -28,7 +28,7 @@
     BOOL searching;
     NSNetServiceBrowser *netServiceBrowser;
     NSNetService *remoteService;
-    NSTimer *timer;
+    NSTimer *discoveryTimeoutTimer;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     IBOutlet UIView *noInstances;
     IBOutlet UIButton *startDiscover;
