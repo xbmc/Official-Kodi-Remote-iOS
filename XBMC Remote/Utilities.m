@@ -27,83 +27,69 @@
 
 @implementation Utilities
 
-+ (CGContextRef)createBitmapContextFromImage:(CGImageRef)inImage format:(uint32_t)format {
-    size_t width = CGImageGetWidth(inImage);
-    size_t height = CGImageGetHeight(inImage);
-    unsigned long bytesPerRow = width * 4; // 4 bytes for alpha, red, green and blue
++ (BOOL)isImageUsingAlpha:(CGImageRef)imageRef {
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
+    int infoMask = bitmapInfo & kCGBitmapAlphaInfoMask;
+    return infoMask & (kCGImageAlphaPremultipliedFirst | kCGImageAlphaPremultipliedLast | kCGImageAlphaFirst | kCGImageAlphaLast);
+}
+
++ (CGImageRef)createLinearSRGBFromImage:(UIImage*)image {
+    CGImageRef inputImageRef = [image CGImage];
+    if (inputImageRef == NULL) {
+        return NULL;
+    }
     
     // For averaging colors a linear color space is required.
     CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceLinearSRGB);
     if (colorSpace == NULL) {
         return NULL;
     }
-
-    CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8 /* 8 bits */, bytesPerRow, colorSpace, (CGBitmapInfo)format);
     
-    // Make sure and release colorspace before returning
+    // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
+    BOOL anyAlpha = [Utilities isImageUsingAlpha:inputImageRef];
+    CGContextRef context = CGBitmapContextCreate(NULL,
+                                                 CGImageGetWidth(inputImageRef),
+                                                 CGImageGetHeight(inputImageRef),
+                                                 8 /* 8 bits per components */,
+                                                 CGImageGetWidth(inputImageRef) * 4 /* 4 components for ARGB */,
+                                                 colorSpace,
+                                                 anyAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipLast);
     CGColorSpaceRelease(colorSpace);
-    return context;
-}
-
-+ (CGImageRef)create32bppImage:(CGImageRef)imageRefIn format:(uint32_t)format {
-    CGContextRef ctx = [Utilities createBitmapContextFromImage:imageRefIn format:format];
-    if (ctx == NULL) {
+    if (context == NULL) {
         return NULL;
     }
-    CGRect rect = CGRectMake(0, 0, CGBitmapContextGetWidth(ctx), CGBitmapContextGetHeight(ctx));
-    CGContextDrawImage(ctx, rect, imageRefIn);
-    CGImageRef imageRefOut = CGBitmapContextCreateImage(ctx);
-    CGContextRelease(ctx);
+    
+    // Redraw to new format
+    CGRect rect = CGRectMake(0, 0, CGBitmapContextGetWidth(context), CGBitmapContextGetHeight(context));
+    CGContextDrawImage(context, rect, inputImageRef);
+    CGImageRef imageRefOut = CGBitmapContextCreateImage(context);
+    CGContextRelease(context);
+    
     return imageRefOut;
 }
 
-+ (UIColor*)averageColor:(UIImage*)image {
-    CGImageRef inputImageRef = [image CGImage];
-    if (inputImageRef == NULL) {
-        return UIColor.clearColor;
-    }
-    
-    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(inputImageRef);
-    int infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
-    BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
-                        infoMask == kCGImageAlphaNoneSkipFirst ||
-                        infoMask == kCGImageAlphaNoneSkipLast);
-    
-    // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
-    uint32_t alphaFormat = anyNonAlpha ? kCGImageAlphaNoneSkipLast : kCGImageAlphaPremultipliedFirst;
-    CGImageRef rawImageRef = [Utilities create32bppImage:inputImageRef format:alphaFormat];
-    if (rawImageRef == NULL) {
-        return UIColor.clearColor;
-    }
-    
++ (UIColor*)averageColorForImageRef:(CGImageRef)rawImageRef {
     CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(rawImageRef));
+    if (data == NULL) {
+        return nil;
+    }
     const UInt8 *rawPixelData = CFDataGetBytePtr(data);
     
     NSUInteger imageHeight = CGImageGetHeight(rawImageRef);
     NSUInteger imageWidth  = CGImageGetWidth(rawImageRef);
     NSUInteger bytesPerRow = CGImageGetBytesPerRow(rawImageRef);
-    NSUInteger stride = CGImageGetBitsPerPixel(rawImageRef) / 8;
-    
-    // DEBUG
-    /*
-     bitmapInfo = CGImageGetBitmapInfo(rawImageRef);
-     infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
-     BOOL isARGB = infoMask == kCGImageAlphaPremultipliedFirst;
-     BOOL isRGBA = infoMask == kCGImageAlphaPremultipliedLast;
-     BOOL isRGBa = infoMask == kCGImageAlphaLast;
-     BOOL isaRGB = infoMask == kCGImageAlphaFirst;
-     BOOL isxRGB = infoMask == kCGImageAlphaNoneSkipFirst;
-     BOOL isRGBx = infoMask == kCGImageAlphaNoneSkipLast;
-     BOOL isRGB = infoMask == kCGImageAlphaNone;
-     */
+    NSUInteger bitsPerComp = CGImageGetBitsPerComponent(rawImageRef);
+    NSUInteger stride = CGImageGetBitsPerPixel(rawImageRef) / bitsPerComp;
     
     UInt64 red   = 0;
     UInt64 green = 0;
     UInt64 blue  = 0;
     UInt64 alpha = 0;
     CGFloat f = 1.0;
+    BOOL formatError = NO;
     
-    if (anyNonAlpha) {
+    int alphaInfo = CGImageGetBitmapInfo(rawImageRef) & kCGBitmapAlphaInfoMask;
+    if (alphaInfo == kCGImageAlphaNoneSkipLast) {
         // RGB (kCGImageAlphaNoneSkipLast)
         for (int row = 0; row < imageHeight; row++) {
             const UInt8 *rowPtr = rawPixelData + bytesPerRow * row;
@@ -116,7 +102,7 @@
         }
         f = 1.0 / (255.0 * imageWidth * imageHeight);
     }
-    else {
+    else if (alphaInfo == kCGImageAlphaPremultipliedFirst) {
         // weight color with alpha to ignore transparent sections
         // ARGB (kCGImageAlphaPremultipliedFirst)
         for (int row = 0; row < imageHeight; row++) {
@@ -130,9 +116,17 @@
             }
         }
         f = 1.0 / alpha;
+        formatError = alpha == 0;
+    }
+    else {
+        formatError = YES;
     }
     CFRelease(data);
-    CGImageRelease(rawImageRef);
+    
+    // No alpha pixels were found or wrong image format was provided.
+    if (formatError) {
+        return nil;
+    }
     
     // We worked in linear sRGB color space for calculating the average (kCGColorSpaceLinearSRGB).
     // Now we need to go back to non-linear sRGB as used in UIColor.
@@ -140,6 +134,18 @@
     CGFloat sRGB_green = GAMMA_ENC(f * green);
     CGFloat sRGB_blue  = GAMMA_ENC(f * blue);
     return [UIColor colorWithRed:sRGB_red green:sRGB_green blue:sRGB_blue alpha:1];
+}
+
++ (UIColor*)averageColor:(UIImage*)image {
+    CGImageRef linearSrgbImageRef = [self createLinearSRGBFromImage:image];
+    if (linearSrgbImageRef == NULL) {
+        return nil;
+    }
+    
+    UIColor *averageColor = [self averageColorForImageRef:linearSrgbImageRef];
+    CGImageRelease(linearSrgbImageRef);
+    
+    return averageColor;
 }
 
 + (UIColor*)getUIColorFromImage:(UIImage*)image {
