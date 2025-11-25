@@ -23,6 +23,7 @@
 #define XBMC_LOGO_PADDING 10
 #define PERSISTENCE_KEY_VERSION @"VersionUnderReview"
 #define PERSISTENCE_KEY_PLAYBACK_ATTEMPTS @"PlaybackAttempts"
+#define IMAGE_SIZE_COLOR_AVERAGING CGSizeMake(64, 64) // Scale (down) to this size before averaging an image color
 
 @implementation Utilities
 
@@ -137,7 +138,7 @@
 }
 
 + (UIColor*)averageColor:(UIImage*)image {
-    CGImageRef linearSrgbImageRef = [self createLinearSRGBFromImage:image size:CGSizeZero];
+    CGImageRef linearSrgbImageRef = [self createLinearSRGBFromImage:image size:IMAGE_SIZE_COLOR_AVERAGING];
     if (linearSrgbImageRef == NULL) {
         return nil;
     }
