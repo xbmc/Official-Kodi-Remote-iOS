@@ -152,10 +152,11 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL autocolor_preference = [userDefaults boolForKey:@"autocolor_ui_preference"];
     if (!autocolor_preference) {
-        return [Utilities getSystemGray2];
+        return UI_AVERAGE_DEFAULT_COLOR;
     }
     
-    return [Utilities averageColor:image];
+    UIColor *uiColor = [Utilities averageColor:image];
+    return uiColor ?: UI_AVERAGE_DEFAULT_COLOR;
 }
 
 + (UIColor*)tailorColor:(UIColor*)color satscale:(CGFloat)satscale brightscale:(CGFloat)brightscale brightmin:(CGFloat)brightmin brightmax:(CGFloat)brightmax {
