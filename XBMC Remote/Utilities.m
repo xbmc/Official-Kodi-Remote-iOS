@@ -32,7 +32,7 @@
     return infoMask & (kCGImageAlphaPremultipliedFirst | kCGImageAlphaPremultipliedLast | kCGImageAlphaFirst | kCGImageAlphaLast);
 }
 
-+ (CGImageRef)createLinearSRGBFromImage:(UIImage*)image {
++ (CGImageRef)createLinearSRGBFromImage:(UIImage*)image size:(CGSize)size {
     CGImageRef inputImageRef = [image CGImage];
     if (inputImageRef == NULL) {
         return NULL;
@@ -45,12 +45,13 @@
     }
     
     // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
+    size = (size.height > 0 && size.width > 0) ? size : CGSizeMake(CGImageGetWidth(inputImageRef), CGImageGetHeight(inputImageRef));
     BOOL anyAlpha = [Utilities isImageUsingAlpha:inputImageRef];
     CGContextRef context = CGBitmapContextCreate(NULL,
-                                                 CGImageGetWidth(inputImageRef),
-                                                 CGImageGetHeight(inputImageRef),
+                                                 size.width,
+                                                 size.height,
                                                  8 /* 8 bits per components */,
-                                                 CGImageGetWidth(inputImageRef) * 4 /* 4 components for ARGB */,
+                                                 size.width * 4 /* 4 components for ARGB */,
                                                  colorSpace,
                                                  anyAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipLast);
     CGColorSpaceRelease(colorSpace);
@@ -136,7 +137,7 @@
 }
 
 + (UIColor*)averageColor:(UIImage*)image {
-    CGImageRef linearSrgbImageRef = [self createLinearSRGBFromImage:image];
+    CGImageRef linearSrgbImageRef = [self createLinearSRGBFromImage:image size:CGSizeZero];
     if (linearSrgbImageRef == NULL) {
         return nil;
     }
