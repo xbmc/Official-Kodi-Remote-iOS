@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "finger.png",
+      "filename" : "icon_finger.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "finger@2x.png",
+      "filename" : "icon_finger@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -1,12 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "circle.png",
+      "filename" : "icon_aspect.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "circle@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

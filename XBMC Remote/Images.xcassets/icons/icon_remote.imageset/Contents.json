@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "aspect.png",
+      "filename" : "icon_remote.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "icon_remote@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

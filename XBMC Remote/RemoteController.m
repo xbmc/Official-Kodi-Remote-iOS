@@ -91,12 +91,12 @@
     twoFingersTap.numberOfTouchesRequired = 2;
     [gestureZoneView addGestureRecognizer:twoFingersTap];
     
-    gestureImage = [UIImage imageNamed:@"finger"];
+    gestureImage = [UIImage imageNamed:@"icon_finger"];
     if (!isGestureViewActive) {
         return;
     }
     
-    gestureImage = [UIImage imageNamed:@"circle"];
+    gestureImage = [UIImage imageNamed:@"icon_remote"];
     CGRect frame = gestureZoneView.frame;
     frame.origin.x = 0;
     gestureZoneView.frame = frame;
@@ -316,7 +316,7 @@
             buttonZoneView.alpha = 0;
                          }
                          completion:nil];
-        imageName = @"circle";
+        imageName = @"icon_remote";
     }
     else {
         isGestureViewActive = NO;
@@ -337,7 +337,7 @@
             buttonZoneView.alpha = 1;
                          }
                          completion:nil];
-        imageName = @"finger";
+        imageName = @"icon_finger";
     }
     if ([sender isKindOfClass:[UIButton class]]) {
         [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
@@ -1158,7 +1158,7 @@
     frame.origin.x += ToolbarPadding;
     keyboardButton.frame = frame;
     keyboardButton.showsTouchWhenHighlighted = YES;
-    [keyboardButton setImage:[UIImage imageNamed:@"keyboard_icon"] forState:UIControlStateNormal];
+    [keyboardButton setImage:[UIImage imageNamed:@"icon_keyboard"] forState:UIControlStateNormal];
     [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard) forControlEvents:UIControlEventTouchUpInside];
     keyboardButton.alpha = 0.8;
     [remoteToolbar addSubview:keyboardButton];

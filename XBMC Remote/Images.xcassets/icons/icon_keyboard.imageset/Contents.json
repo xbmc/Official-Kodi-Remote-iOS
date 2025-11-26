@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "keyboard_icon.png",
+      "filename" : "icon_keyboard.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "keyboard_icon@2x.png",
+      "filename" : "icon_keyboard@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

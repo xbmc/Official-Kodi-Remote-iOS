@@ -942,7 +942,7 @@
                  NSString *channels = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Channels"]];
                  channels = [self processChannelString:channels];
                  songBitRate.text = channels;
-                 songBitRateImage.image = [self loadImageFromName:@"channels"];
+                 songBitRateImage.image = [self loadImageFromName:@"icon_channels"];
                  songBitRate.hidden = songBitRateImage.hidden = channels.length == 0;
                  
                  BOOL isLossless = [self isLosslessFormat:codec];
@@ -987,7 +987,7 @@
                  NSString *aspect = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoAspect"]];
                  aspect = [self processAspectString:aspect];
                  songBitRate.text = aspect;
-                 songBitRateImage.image = [self loadImageFromName:@"aspect"];
+                 songBitRateImage.image = [self loadImageFromName:@"icon_aspect"];
                  songBitRateImage.hidden = songBitRate.hidden = aspect.length == 0;
                  
                  itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
@@ -1000,7 +1000,7 @@
                  NSString *resolution = [Utilities getStringFromItem:methodResult[@"Slideshow.Resolution"]];
                  resolution = [resolution stringByReplacingOccurrencesOfString:@" x " withString:@"\n"];
                  songCodec.text = resolution;
-                 songCodecImage.image = [self loadImageFromName:@"aspect"];
+                 songCodecImage.image = [self loadImageFromName:@"icon_aspect"];
                  songCodecImage.hidden = resolution.length == 0;
                  
                  NSString *camera = [Utilities getStringFromItem:methodResult[@"Slideshow.CameraModel"]];
