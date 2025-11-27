@@ -5550,9 +5550,9 @@
     menu_Files.enableSection = YES;
     menu_Files.noConvertTime = YES;
     menu_Files.mainButtons = @[
-        @"icon_song",
-        @"icon_video",
-        @"icon_picture",
+        @"st_songs",
+        @"st_videos",
+        @"st_pictures",
     ];
     
     menu_Files.mainMethod = @[

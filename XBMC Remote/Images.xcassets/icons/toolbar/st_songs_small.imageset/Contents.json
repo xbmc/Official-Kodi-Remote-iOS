@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "st_songs_small.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "st_songs_small@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "st_songs_small@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

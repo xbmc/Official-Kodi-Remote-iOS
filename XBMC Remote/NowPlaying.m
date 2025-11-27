@@ -2505,9 +2505,9 @@
 #pragma mark - UISegmentControl
 
 - (void)addSegmentControl {
-    NSArray *segmentItems = @[[UIImage imageNamed:@"icon_song"],
-                              [UIImage imageNamed:@"icon_video"],
-                              [UIImage imageNamed:@"icon_picture"]];
+    NSArray *segmentItems = @[[UIImage imageNamed:@"icon_song_segment"],
+                              [UIImage imageNamed:@"icon_video_segment"],
+                              [UIImage imageNamed:@"icon_picture_segment"]];
     playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:segmentItems];
     CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH) / 2;
     if (IS_IPHONE) {
