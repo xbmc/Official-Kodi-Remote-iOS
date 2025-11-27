@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "st_recordings.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "st_recordings@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "st_recordings@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

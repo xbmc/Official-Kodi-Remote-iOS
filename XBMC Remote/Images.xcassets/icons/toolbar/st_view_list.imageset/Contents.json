@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "st_view_list.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "st_view_list@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "st_view_listlist@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
