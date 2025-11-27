@@ -1739,10 +1739,6 @@
             cell.posterLabelFullscreen.hidden = YES;
         }
         
-        if (tvshowsView && chosenTab == 0) {
-            defaultThumb = displayThumb = @"nocover_tvshows";
-        }
-        
         if (channelListView) {
             [cell setIsRecording:[item[@"isrecording"] boolValue]];
         }
@@ -2965,7 +2961,7 @@
     }
     
     // Show default thumb image and set the colors for the labels and the gradient
-    NSString *displayThumb = episodesView ? @"coverbox_back_section" : @"coverbox_back";
+    NSString *displayThumb = episodesView ? @"nocover_tvshows" : @"coverbox_back";
     [Utilities applyRoundedEdgesView:thumbImageView];
     thumbImageView.image = [UIImage imageNamed:displayThumb];
     [self setViewColor:albumDetailView

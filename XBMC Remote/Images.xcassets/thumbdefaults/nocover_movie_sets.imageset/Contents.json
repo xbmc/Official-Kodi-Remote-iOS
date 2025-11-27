@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "nocover_movie_sets.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "nocover_movie_sets@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "nocover_movie_sets@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
