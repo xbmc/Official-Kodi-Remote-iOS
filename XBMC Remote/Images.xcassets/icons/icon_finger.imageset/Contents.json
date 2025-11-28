@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "icon_finger.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icon_finger@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "finger@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
