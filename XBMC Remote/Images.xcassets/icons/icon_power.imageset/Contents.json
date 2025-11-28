@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "icon_power.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icon_power@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "icon_power@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
