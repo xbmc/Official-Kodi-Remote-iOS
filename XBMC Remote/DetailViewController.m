@@ -2570,6 +2570,7 @@
             [item[@"family"] isEqualToString:@"type"] ||
             [item[@"family"] isEqualToString:@"genreid"] ||
             [item[@"family"] isEqualToString:@"channelgroupid"] ||
+            [item[@"family"] isEqualToString:@"tagid"] ||
             [item[@"family"] isEqualToString:@"roleid"]) {
             genre.hidden = YES;
             runtimeyear.hidden = YES;
