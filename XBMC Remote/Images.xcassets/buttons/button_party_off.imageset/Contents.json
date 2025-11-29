@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "button_party_off.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "button_party_off@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "button_party_off@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

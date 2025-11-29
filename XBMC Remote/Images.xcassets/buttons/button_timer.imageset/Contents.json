@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "button_timer.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "button_timer@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "button_timer@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

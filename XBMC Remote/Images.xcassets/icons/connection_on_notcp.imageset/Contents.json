@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "connection_on_notcp.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "connection_on_notcp@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "connection_on_notcp@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

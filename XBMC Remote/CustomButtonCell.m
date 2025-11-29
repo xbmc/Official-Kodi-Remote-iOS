@@ -46,7 +46,7 @@
                                 iconSize,
                                 iconSize);
         icon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        icon.alpha = 0.9;
+        icon.alpha = 0.8;
         [self.contentView addSubview:icon];
         self.buttonIcon = icon;
         
@@ -86,7 +86,7 @@
     }
     else {
         self.onoffSwitch.enabled = YES;
-        self.buttonIcon.alpha = 0.9;
+        self.buttonIcon.alpha = 0.8;
     }
 }
 

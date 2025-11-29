@@ -1,12 +1,10 @@
 {
   "images" : [
     {
-      "filename" : "default-right-action-icon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "default-right-action-icon@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -6071,6 +6071,7 @@
                 [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
                 fullscreenButton.layer.cornerRadius = 2;
                 fullscreenButton.tintColor = UIColor.whiteColor;
+                fullscreenButton.alpha = 0.9;
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen) forControlEvents:UIControlEventTouchUpInside];
                 fullscreenButton.frame = CGRectMake(titleView.frame.size.width - fullscreenButton.frame.size.width, titleView.frame.size.height / 2 - fullscreenButton.frame.size.height / 2, fullscreenButton.frame.size.width, fullscreenButton.frame.size.height);
                 [titleView addSubview:fullscreenButton];
@@ -6079,7 +6080,7 @@
                 twoFingerPinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerPinch:)];
                 [self.view addGestureRecognizer:twoFingerPinch];
             }
-            topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - TINY_PADDING, titleView.frame.size.height);
+            topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - SMALL_PADDING, titleView.frame.size.height);
             topNavigationLabel.alpha = 0;
             fullscreenButton.hidden = NO;
             twoFingerPinch.enabled = YES;
