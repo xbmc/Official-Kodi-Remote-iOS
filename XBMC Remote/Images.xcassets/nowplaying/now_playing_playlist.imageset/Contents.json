@@ -5,11 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "now_playing_playlist@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "nowplaying_playlist@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

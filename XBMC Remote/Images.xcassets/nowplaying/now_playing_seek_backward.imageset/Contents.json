@@ -5,11 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "now_playing_seek_backward@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "nowplaying_rewind@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
