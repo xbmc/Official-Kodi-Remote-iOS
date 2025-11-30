@@ -41,6 +41,8 @@
 #define RTA_DST	0x1             // destination sockaddr present
 #define IPAD_POPOVER_WIDTH 400
 #define IPAD_POPOVER_HEIGHT 500
+#define BUTTON_RADIUS 6
+#define BUTTON_COLOR [Utilities getSystemBlue]
 
 #define XIB_PASSWORD_FIELD 12
 #define XIB_FIRST_MAC_ADDRESS_FIELD 5
@@ -574,15 +576,15 @@
     howtoLaterLabel.text = LOCALIZED_STR(@"Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems");
     
     [saveButton setTitle:LOCALIZED_STR(@"Save") forState:UIControlStateNormal];
+    saveButton.layer.cornerRadius = BUTTON_RADIUS;
+    saveButton.backgroundColor = BUTTON_COLOR;
+    
     [startDiscover setTitle:LOCALIZED_STR(@"Find XBMC") forState:UIControlStateNormal];
     startDiscover.titleLabel.numberOfLines = 1;
     startDiscover.titleLabel.adjustsFontSizeToFitWidth = YES;
     startDiscover.titleLabel.lineBreakMode = NSLineBreakByClipping;
-    
-    UIImage *img = [UIImage imageNamed:@"button_find"];
-    img = [Utilities colorizeImage:img withColor:[Utilities getSystemBlue]];
-    [saveButton setBackgroundImage:img forState:UIControlStateNormal];
-    [startDiscover setBackgroundImage:img forState:UIControlStateNormal];
+    startDiscover.layer.cornerRadius = BUTTON_RADIUS;
+    startDiscover.backgroundColor = BUTTON_COLOR;
     
     descriptionUI.placeholder = LOCALIZED_STR(@"e.g. My XBMC");
     ipUI.placeholder = LOCALIZED_STR(@"e.g. 192.168.0.8");
