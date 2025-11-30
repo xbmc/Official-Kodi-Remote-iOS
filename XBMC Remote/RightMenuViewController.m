@@ -157,7 +157,10 @@
 #pragma mark - Table actions
 
 - (void)addButtonToList:(id)sender {
-    if (AppDelegate.instance.serverVersion < 13) {
+    if (!AppDelegate.instance.serverOnLine) {
+        return;
+    }
+    else if (AppDelegate.instance.serverVersion < 13) {
         UIAlertController *alertCtrl = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
         [self presentViewController:alertCtrl animated:YES completion:nil];
     }
