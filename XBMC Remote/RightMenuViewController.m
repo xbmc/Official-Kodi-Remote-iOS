@@ -347,10 +347,7 @@
     }
     if ([tableData[indexPath.row][@"action"] count]) {
         NSString *command = tableData[indexPath.row][@"action"][@"command"];
-        if ([command isEqualToString:@"AddButton"]) {
-            [self addButtonToList:nil];
-        }
-        else if (command != nil) {
+        if (command != nil) {
             NSDictionary *parameters = tableData[indexPath.row][@"action"][@"params"] ?: @{};
             [self xbmcAction:command params:parameters uiControl:nil];
         }
