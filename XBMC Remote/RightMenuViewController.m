@@ -355,9 +355,6 @@
             [self xbmcAction:command params:parameters uiControl:nil];
         }
     }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Cancel")]) {
-        [self.slidingViewController resetTopView];
-    }
 }
 
 #pragma mark - JSON
