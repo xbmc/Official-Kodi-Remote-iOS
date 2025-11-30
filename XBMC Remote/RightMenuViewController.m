@@ -134,6 +134,7 @@
     moreButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, TOOLBAR_HEIGHT, TOOLBAR_HEIGHT)];
     moreButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    moreButton.enabled = AppDelegate.instance.serverOnLine;
     [moreButton setImage:image forState:UIControlStateNormal];
     [moreButton setImage:image forState:UIControlStateHighlighted];
     [moreButton addTarget:self action:@selector(addButtonToList:) forControlEvents:UIControlEventTouchUpInside];
