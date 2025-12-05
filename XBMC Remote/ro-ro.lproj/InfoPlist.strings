@@ -1,1 +1,1 @@
-NSLocalNetworkUsageDescription="Kodi Remote App uses local network to find and communicate to Kodi instances in the network.";
+"NSLocalNetworkUsageDescription" = "Aplicația de telecomandă a programului Kodi folosește rețeaua locală pentru a comunica cu instanțele Kodi din rețea.";

@@ -285,3 +285,7 @@
 "Add-ons" = "插件";
 "No custom button defined." = "无自定义按钮。";
 "Execute add-on" = "运行插件";
+"Profiles" = "用户配置";
+"App Settings" = "应用设置";
+"The user profile has been changed. Please reconnect to the Kodi server manually." = "用户配置文件已切换。请手动重新连接至 Kodi 服务器。";
+"Kodi \"Krypton\" version 17 or later is required to access user profiles." = "访问用户配置文件需使用 Kodi“Krypton”17 版或更高版本。";

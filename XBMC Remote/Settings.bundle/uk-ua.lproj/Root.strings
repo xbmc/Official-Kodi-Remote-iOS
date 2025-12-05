@@ -45,3 +45,6 @@
 "Kodi Settings" = "Налаштування Kodi";
 "Files" = "Файли";
 "Add-ons" = "Додатки";
+"Volume control" = "Керування гучністю";
+"CEC support via volume buttons" = "Підтримка CEC через кнопки гучності";
+"The app controls volume via buttons and a slider. The slider will always change the Kodi internal volume level. The buttons allow to control AV equipment's volume level via CEC, if this mode is enabled and Kodi identified a compatible device. The CEC functionality is embedded within Kodi itself." = "Додаток контролює гучністю за допомогою кнопок та повзунка. Повзунок завжди змінюватиме внутрішній рівень гучності Kodi. Кнопками можна змінювати гучність аудіо- та відеообладнання через CEC, якщо цей режим увімкнено і Kodi визначив сумісний пристрій. Підтримка CEC вже вбудована в Kodi.";
