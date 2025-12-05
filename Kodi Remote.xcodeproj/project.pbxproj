@@ -285,6 +285,8 @@
 		C7478BF8257258E700161C1E /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C74B9CB12E979E2F0029B27E /* CustomButtonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomButtonCell.m; sourceTree = "<group>"; };
 		C74B9CB32E979E480029B27E /* CustomButtonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomButtonCell.h; sourceTree = "<group>"; };
+		C74F4FEC2EE2FE1B004144F3 /* ro-RO */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ro-RO"; path = "ro-RO.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		C74F4FED2EE2FE1B004144F3 /* ro-RO */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ro-RO"; path = "ro-RO.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C753585E2DE9A25F00952F0D /* LocalNetworkAccess.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalNetworkAccess.m; sourceTree = "<group>"; };
 		C75358602DE9A27100952F0D /* LocalNetworkAccess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalNetworkAccess.h; sourceTree = "<group>"; };
 		C76451AD29C51220000AE949 /* UIImageView+HighlightedWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+HighlightedWebCache.m"; path = "SDWebImage/UIImageView+HighlightedWebCache.m"; sourceTree = "<group>"; };
@@ -810,6 +812,7 @@
 				"uk-UA",
 				"gl-ES",
 				"bs-BA",
+				"ro-RO",
 			);
 			mainGroup = 0F5548EB151D1187007E633F;
 			productRefGroup = 0F5548F7151D1187007E633F /* Products */;
@@ -964,6 +967,7 @@
 				C78204462E3930FC00B3F1E9 /* uk-UA */,
 				C740474E2E47347B008C1E70 /* gl-ES */,
 				C772AD2A2E675D8300435181 /* bs-BA */,
+				C74F4FEC2EE2FE1B004144F3 /* ro-RO */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -995,6 +999,7 @@
 				C78204472E3930FC00B3F1E9 /* uk-UA */,
 				C740474F2E47347B008C1E70 /* gl-ES */,
 				C772AD2B2E675D8300435181 /* bs-BA */,
+				C74F4FED2EE2FE1B004144F3 /* ro-RO */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
