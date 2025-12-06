@@ -1739,10 +1739,6 @@
             cell.posterLabelFullscreen.hidden = YES;
         }
         
-        if (tvshowsView && chosenTab == 0) {
-            defaultThumb = displayThumb = @"nocover_tvshows";
-        }
-        
         if (channelListView) {
             [cell setIsRecording:[item[@"isrecording"] boolValue]];
         }
@@ -2966,7 +2962,7 @@
     }
     
     // Show default thumb image and set the colors for the labels and the gradient
-    NSString *displayThumb = episodesView ? @"coverbox_back_section" : @"coverbox_back";
+    NSString *displayThumb = episodesView ? @"nocover_tvshows" : @"coverbox_back";
     [Utilities applyRoundedEdgesView:thumbImageView];
     thumbImageView.image = [UIImage imageNamed:displayThumb];
     [self setViewColor:albumDetailView
@@ -6076,6 +6072,7 @@
                 [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
                 fullscreenButton.layer.cornerRadius = 2;
                 fullscreenButton.tintColor = UIColor.whiteColor;
+                fullscreenButton.alpha = 0.9;
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen) forControlEvents:UIControlEventTouchUpInside];
                 fullscreenButton.frame = CGRectMake(titleView.frame.size.width - fullscreenButton.frame.size.width, titleView.frame.size.height / 2 - fullscreenButton.frame.size.height / 2, fullscreenButton.frame.size.width, fullscreenButton.frame.size.height);
                 [titleView addSubview:fullscreenButton];
@@ -6084,7 +6081,7 @@
                 twoFingerPinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerPinch:)];
                 [self.view addGestureRecognizer:twoFingerPinch];
             }
-            topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - TINY_PADDING, titleView.frame.size.height);
+            topNavigationLabel.frame = CGRectMake(0, 0, titleView.frame.size.width - fullscreenButton.frame.size.width - SMALL_PADDING, titleView.frame.size.height);
             topNavigationLabel.alpha = 0;
             fullscreenButton.hidden = NO;
             twoFingerPinch.enabled = YES;

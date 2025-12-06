@@ -623,7 +623,7 @@
     parentalRatingSubLabel = [self createSubLabel];
     
     if ([item[@"family"] isEqualToString:@"tvshowid"]) {
-        placeHolderImage = @"coverbox_back_tvshows";
+        placeHolderImage = @"nocover_tvshows_wall";
         
         mainLabel1.text = LOCALIZED_STR(@"EPISODES");
         mainLabel2.text = LOCALIZED_STR(@"FIRST AIRED");
@@ -649,7 +649,7 @@
         coverView.contentMode = UIViewContentModeScaleAspectFill;
     }
     else if ([item[@"family"] isEqualToString:@"episodeid"]) {
-        placeHolderImage = @"coverbox_back_tvshows";
+        placeHolderImage = @"nocover_tvshows_episode_wall";
         
         mainLabel1.text = LOCALIZED_STR(@"TV SHOW");
         mainLabel2.text = LOCALIZED_STR(@"FIRST AIRED");
@@ -709,7 +709,7 @@
         jewelView.frame = frame;
     }
     else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
-        placeHolderImage = @"coverbox_back";
+        placeHolderImage = @"nocover_musicvideos_wall";
         
         NSString *director = [Utilities getStringFromItem:item[@"director"]];
         NSString *year = [Utilities getYearFromItem:item[@"year"]];
@@ -735,7 +735,7 @@
         jewelView.frame = frame;
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
-        placeHolderImage = @"coverbox_back_artists";
+        placeHolderImage = @"nocover_artist_wall";
         contributorString = @"roles";
         
         mainLabel1.text = LOCALIZED_STR(@"GENRE");
@@ -763,7 +763,7 @@
         enableJewel = NO;
     }
     else if ([item[@"family"] isEqualToString:@"recordingid"]) {
-        placeHolderImage = @"nocover_channels";
+        placeHolderImage = @"nocover_channels_wall";
         
         // Be aware: "rating" is later used to display the label
         item[@"rating"] = item[@"label"];
@@ -797,7 +797,7 @@
         [self layoutPvrDetails];
     }
     else if ([item[@"family"] isEqualToString:@"broadcastid"]) {
-        placeHolderImage = @"nocover_channels";
+        placeHolderImage = @"nocover_channels_wall";
         
         // Be aware: "rating" is later used to display the label
         item[@"rating"] = item[@"label"];
@@ -831,7 +831,7 @@
         [self processRecordingTimerFromItem:item];
     }
     else {
-        placeHolderImage = @"coverbox_back_movies";
+        placeHolderImage = @"nocover_movies_wall";
         
         NSString *director = [Utilities getStringFromItem:item[@"director"]];
         NSString *year = [Utilities getYearFromItem:item[@"year"]];
@@ -1580,7 +1580,7 @@
         NSString *serverURL = [Utilities getImageServerURL];
         NSString *stringURL = [Utilities formatStringURL:castMember[@"thumbnail"] serverURL:serverURL];
         [cell.actorThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
-                               placeholderImage:[UIImage imageNamed:@"person"]
+                               placeholderImage:[UIImage imageNamed:@"nocover_actor"]
                                         options:SDWebImageScaleToNativeSize];
         [Utilities applyRoundedEdgesView:cell.actorThumbnail];
         cell.actorName.text = castMember[@"name"] ?: self.detailItem[@"label"];

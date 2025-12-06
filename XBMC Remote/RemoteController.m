@@ -91,12 +91,12 @@
     twoFingersTap.numberOfTouchesRequired = 2;
     [gestureZoneView addGestureRecognizer:twoFingersTap];
     
-    gestureImage = [UIImage imageNamed:@"finger"];
+    gestureImage = [UIImage imageNamed:@"icon_finger"];
     if (!isGestureViewActive) {
         return;
     }
     
-    gestureImage = [UIImage imageNamed:@"circle"];
+    gestureImage = [UIImage imageNamed:@"icon_remote"];
     CGRect frame = gestureZoneView.frame;
     frame.origin.x = 0;
     gestureZoneView.frame = frame;
@@ -316,7 +316,7 @@
             buttonZoneView.alpha = 0;
                          }
                          completion:nil];
-        imageName = @"circle";
+        imageName = @"icon_remote";
     }
     else {
         isGestureViewActive = NO;
@@ -337,7 +337,7 @@
             buttonZoneView.alpha = 1;
                          }
                          completion:nil];
-        imageName = @"finger";
+        imageName = @"icon_finger";
     }
     if ([sender isKindOfClass:[UIButton class]]) {
         [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
@@ -1141,7 +1141,7 @@
         customButton.showsTouchWhenHighlighted = YES;
         [customButton setImage:[UIImage imageNamed:@"icon_custom_buttons"] forState:UIControlStateNormal];
         [customButton addTarget:self action:@selector(enterCustomButtons) forControlEvents:UIControlEventTouchUpInside];
-        customButton.alpha = 0.8;
+        customButton.alpha = 0.6;
         [remoteToolbar addSubview:customButton];
     }
     
@@ -1151,16 +1151,16 @@
     gestureButton.showsTouchWhenHighlighted = YES;
     [gestureButton setImage:gestureButtonImg forState:UIControlStateNormal];
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
-    gestureButton.alpha = 0.8;
+    gestureButton.alpha = 0.6;
     [remoteToolbar addSubview:gestureButton];
     
     UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
     frame.origin.x += ToolbarPadding;
     keyboardButton.frame = frame;
     keyboardButton.showsTouchWhenHighlighted = YES;
-    [keyboardButton setImage:[UIImage imageNamed:@"keyboard_icon"] forState:UIControlStateNormal];
+    [keyboardButton setImage:[UIImage imageNamed:@"icon_keyboard"] forState:UIControlStateNormal];
     [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard) forControlEvents:UIControlEventTouchUpInside];
-    keyboardButton.alpha = 0.8;
+    keyboardButton.alpha = 0.6;
     [remoteToolbar addSubview:keyboardButton];
 
     UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1169,7 +1169,7 @@
     helpButton.showsTouchWhenHighlighted = YES;
     [helpButton setImage:[UIImage imageNamed:@"button_info"] forState:UIControlStateNormal];
     [helpButton addTarget:self action:@selector(toggleQuickHelp) forControlEvents:UIControlEventTouchUpInside];
-    helpButton.alpha = 0.8;
+    helpButton.alpha = 0.6;
     [remoteToolbar addSubview:helpButton];
     
     torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1178,7 +1178,7 @@
     torchButton.showsTouchWhenHighlighted = YES;
     [torchButton setImage:[UIImage imageNamed:torchIsOn ? @"torch_on" : @"torch"] forState:UIControlStateNormal];
     [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
-    torchButton.alpha = 0.8;
+    torchButton.alpha = 0.6;
     torchButton.enabled = [Utilities hasTorch];
     [remoteToolbar addSubview:torchButton];
     

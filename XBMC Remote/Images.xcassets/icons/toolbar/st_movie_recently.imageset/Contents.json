@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "st_movie_recently.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "st_movie_recently@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "st_movie_recently@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

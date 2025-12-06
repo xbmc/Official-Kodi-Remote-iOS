@@ -5,11 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "button_shuffle@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "button_shuffle@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

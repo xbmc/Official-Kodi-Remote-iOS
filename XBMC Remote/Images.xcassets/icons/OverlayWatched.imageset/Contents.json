@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "OverlayWatched.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "OverlayWatched@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "OverlayWatched@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

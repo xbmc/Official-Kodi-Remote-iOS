@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "torch.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "torch@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "torch@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -972,7 +972,7 @@
                  NSString *channels = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Channels"]];
                  channels = [self processChannelString:channels];
                  songBitRate.text = channels;
-                 songBitRateImage.image = [self loadImageFromName:@"channels"];
+                 songBitRateImage.image = [self loadImageFromName:@"icon_channels"];
                  songBitRate.hidden = songBitRateImage.hidden = channels.length == 0;
                  
                  BOOL isLossless = [self isLosslessFormat:codec];
@@ -1017,7 +1017,7 @@
                  NSString *aspect = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoAspect"]];
                  aspect = [self processAspectString:aspect];
                  songBitRate.text = aspect;
-                 songBitRateImage.image = [self loadImageFromName:@"aspect"];
+                 songBitRateImage.image = [self loadImageFromName:@"icon_aspect"];
                  songBitRateImage.hidden = songBitRate.hidden = aspect.length == 0;
                  
                  itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
@@ -1030,7 +1030,7 @@
                  NSString *resolution = [Utilities getStringFromItem:methodResult[@"Slideshow.Resolution"]];
                  resolution = [resolution stringByReplacingOccurrencesOfString:@" x " withString:@"\n"];
                  songCodec.text = resolution;
-                 songCodecImage.image = [self loadImageFromName:@"aspect"];
+                 songCodecImage.image = [self loadImageFromName:@"icon_aspect"];
                  songCodecImage.hidden = resolution.length == 0;
                  
                  NSString *camera = [Utilities getStringFromItem:methodResult[@"Slideshow.CameraModel"]];
@@ -2434,6 +2434,7 @@
     image = [Utilities colorizeImage:image withColor:UIColor.whiteColor];
     [fullscreenToggleButton setImage:image forState:UIControlStateNormal];
     [fullscreenToggleButton setImage:image forState:UIControlStateHighlighted];
+    fullscreenToggleButton.alpha = 0.9;
     
     [self setCoverSize:currentType];
 }
@@ -2543,9 +2544,9 @@
 #pragma mark - UISegmentControl
 
 - (void)addSegmentControl {
-    NSArray *segmentItems = @[[UIImage imageNamed:@"icon_song"],
-                              [UIImage imageNamed:@"icon_video"],
-                              [UIImage imageNamed:@"icon_picture"]];
+    NSArray *segmentItems = @[[UIImage imageNamed:@"icon_song_segment"],
+                              [UIImage imageNamed:@"icon_video_segment"],
+                              [UIImage imageNamed:@"icon_picture_segment"]];
     playlistSegmentedControl = [[UISegmentedControl alloc] initWithItems:segmentItems];
     CGFloat left_margin = (PAD_MENU_TABLE_WIDTH - SEGMENTCONTROL_WIDTH) / 2;
     if (IS_IPHONE) {

@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "st_music_videos.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "st_music_videos@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "st_musicvideos@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -1,16 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "nocover_timerrules_wall.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "nocover_timerrules_wall@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "nocover_timerrules_wall@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

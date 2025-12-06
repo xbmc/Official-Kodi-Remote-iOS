@@ -5550,9 +5550,9 @@
     menu_Files.enableSection = YES;
     menu_Files.noConvertTime = YES;
     menu_Files.mainButtons = @[
-        @"icon_song",
-        @"icon_video",
-        @"icon_picture",
+        @"st_songs",
+        @"st_videos",
+        @"st_pictures",
     ];
     
     menu_Files.mainMethod = @[
@@ -6220,7 +6220,7 @@
 #pragma mark - Kodi Settings
     __auto_type menu_Settings = [mainMenu new];
     menu_Settings.mainLabel = LOCALIZED_STR(@"XBMC Settings");
-    menu_Settings.icon = @"st_kodi_action";
+    menu_Settings.icon = @"icon_menu_kodi";
     menu_Settings.type = TypeKodiSettings;
     menu_Settings.family = FamilyDetailView;
     menu_Settings.enableSection = YES;
