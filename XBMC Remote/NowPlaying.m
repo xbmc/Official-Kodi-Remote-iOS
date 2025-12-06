@@ -610,7 +610,8 @@
     BOOL canSeek = [item[@"canseek"] boolValue];
     if (canSeek && !ProgressSlider.userInteractionEnabled) {
         ProgressSlider.userInteractionEnabled = YES;
-        UIImage *image = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
+        UIImage *image = [UIImage imageNamed:@"pgbar_thumb"];
+        image = [Utilities colorizeImage:image withColor:SLIDER_DEFAULT_COLOR];
         [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
         [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
     }

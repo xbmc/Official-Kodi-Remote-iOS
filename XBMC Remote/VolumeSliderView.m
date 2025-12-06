@@ -35,7 +35,7 @@
     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:nil options:nil];
     self = nib[0];
     if (self) {
-        UIImage *img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
+        UIImage *img = [UIImage imageNamed:@"pgbar_thumb"];
         img = [Utilities colorizeImage:img withColor:KODI_BLUE_COLOR];
         volumeSlider.minimumTrackTintColor = KODI_BLUE_COLOR;
         volumeSlider.maximumTrackTintColor = UIColor.darkGrayColor;
@@ -108,7 +108,7 @@
             plusButton.frame = frame_tmp;
             
             muteIconColor = UIColor.blackColor;
-            img = [UIImage imageNamed:@"icon_dark"];
+            img = [UIImage imageNamed:@"icon_circle"];
             muteBackgroundImage = [Utilities colorizeImage:img withColor:UIColor.darkGrayColor];
             volumeIconColor = UIColor.grayColor;
         }
@@ -284,7 +284,7 @@
     img = [Utilities colorizeImage:img withColor:buttonColor];
     [muteButton setImage:img forState:UIControlStateNormal];
     
-    img = [UIImage imageNamed:@"pgbar_thumb_iOS7"];
+    img = [UIImage imageNamed:@"pgbar_thumb"];
     img = [Utilities colorizeImage:img withColor:sliderColor];
     [volumeSlider setThumbImage:img forState:UIControlStateNormal];
     volumeSlider.minimumTrackTintColor = sliderColor;

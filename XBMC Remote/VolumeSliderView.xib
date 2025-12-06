@@ -62,7 +62,7 @@
                     <rect key="frame" x="28" y="6" width="36" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" image="volume_slash" backgroundImage="icon_dark">
+                    <state key="normal" image="volume_slash" backgroundImage="icon_circle">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
@@ -113,9 +113,9 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_dark" width="37.5" height="37.5"/>
+        <image name="icon_circle" width="50" height="50"/>
         <image name="volume_1" width="24" height="27"/>
         <image name="volume_3" width="35" height="27"/>
-        <image name="volume_slash" width="28" height="28"/>
+        <image name="volume_slash" width="27" height="27"/>
     </resources>
 </document>
