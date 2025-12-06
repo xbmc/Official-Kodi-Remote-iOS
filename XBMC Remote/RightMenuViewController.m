@@ -134,6 +134,7 @@
     moreButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, TOOLBAR_HEIGHT, TOOLBAR_HEIGHT)];
     moreButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    moreButton.enabled = AppDelegate.instance.serverOnLine;
     [moreButton setImage:image forState:UIControlStateNormal];
     [moreButton setImage:image forState:UIControlStateHighlighted];
     [moreButton addTarget:self action:@selector(addButtonToList:) forControlEvents:UIControlEventTouchUpInside];
@@ -156,7 +157,10 @@
 #pragma mark - Table actions
 
 - (void)addButtonToList:(id)sender {
-    if (AppDelegate.instance.serverVersion < 13) {
+    if (!AppDelegate.instance.serverOnLine) {
+        return;
+    }
+    else if (AppDelegate.instance.serverVersion < 13) {
         UIAlertController *alertCtrl = [Utilities createAlertOK:@"" message:LOCALIZED_STR(@"XBMC \"Gotham\" version 13 or superior is required to access XBMC settings")];
         [self presentViewController:alertCtrl animated:YES completion:nil];
     }
@@ -343,16 +347,10 @@
     }
     if ([tableData[indexPath.row][@"action"] count]) {
         NSString *command = tableData[indexPath.row][@"action"][@"command"];
-        if ([command isEqualToString:@"AddButton"]) {
-            [self addButtonToList:nil];
-        }
-        else if (command != nil) {
+        if (command != nil) {
             NSDictionary *parameters = tableData[indexPath.row][@"action"][@"params"] ?: @{};
             [self xbmcAction:command params:parameters uiControl:nil];
         }
-    }
-    else if ([tableData[indexPath.row][@"label"] isEqualToString:LOCALIZED_STR(@"Cancel")]) {
-        [self.slidingViewController resetTopView];
     }
 }
 
