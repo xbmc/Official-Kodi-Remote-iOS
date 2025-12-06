@@ -335,7 +335,7 @@
     fanartBackgroundImage = [[UIImageView alloc] initWithFrame:self.view.bounds];
     fanartBackgroundImage.autoresizingMask = rootView.autoresizingMask;
     fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
-    fanartBackgroundImage.alpha = 0.05;
+    fanartBackgroundImage.alpha = BACKGROUND_ARTWORK_VERY_WEAK_ALPHA;
     fanartBackgroundImage.layer.minificationFilter = kCAFilterTrilinear;
     fanartBackgroundImage.layer.magnificationFilter = kCAFilterTrilinear;
     [self.view addSubview:fanartBackgroundImage];

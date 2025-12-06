@@ -36,7 +36,7 @@
         _posterFanart.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterFanart.clipsToBounds = YES;
         _posterFanart.contentMode = UIViewContentModeScaleAspectFill;
-        _posterFanart.alpha = 0.9;
+        _posterFanart.alpha = BACKGROUND_ARTWORK_VERY_STRONG_ALPHA;
         [self.contentView addSubview:_posterFanart];
 
         _labelImageView = [UIImageView new];

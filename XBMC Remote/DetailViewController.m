@@ -2955,7 +2955,7 @@
         UIImageView *fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, -topExpansion, viewWidth, albumViewHeight + topExpansion)];
         fanartBackgroundImage.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
-        fanartBackgroundImage.alpha = 0.1;
+        fanartBackgroundImage.alpha = BACKGROUND_ARTWORK_WEAK_ALPHA;
         fanartBackgroundImage.clipsToBounds = YES;
         [fanartBackgroundImage sd_setImageWithURL:[NSURL URLWithString:fanartURL]
                                  placeholderImage:[UIImage imageNamed:@"blank"]];

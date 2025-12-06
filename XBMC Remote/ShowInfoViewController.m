@@ -1393,7 +1393,7 @@
                           __auto_type strongSelf = weakSelf;
                           if (strongSelf != nil && strongSelf->enableKenBurns) {
                               [strongSelf elabKenBurns:image];
-                              [Utilities alphaView:strongSelf.kenView AnimDuration:1.5 Alpha:0.2];
+                              [Utilities alphaView:strongSelf.kenView AnimDuration:1.5 Alpha:BACKGROUND_ARTWORK_MEDIUM_ALPHA];
                           }
                       }
      ];
@@ -1414,10 +1414,10 @@
                             isFullscreenFanArt = NO;
                             closeButton.alpha = 0.0;
                             if (!enableKenBurns) {
-                                fanartView.alpha = 0.2;
+                                fanartView.alpha = BACKGROUND_ARTWORK_MEDIUM_ALPHA;
                             }
                             else {
-                                self.kenView.alpha = 0.2;
+                                self.kenView.alpha = BACKGROUND_ARTWORK_MEDIUM_ALPHA;
                             }
                             if (IS_IPAD) {
                                 if (![self isModal]) {
