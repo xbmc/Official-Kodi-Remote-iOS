@@ -42,6 +42,7 @@
 #define FONT_SHADOW_STRONG [Utilities getGrayColor:0 alpha:0.8]
 #define ERROR_MESSAGE_COLOR [Utilities getSystemRed:0.95]
 #define SUCCESS_MESSAGE_COLOR [Utilities getSystemGreen:0.95]
+#define UI_AVERAGE_DEFAULT_COLOR [Utilities getSystemGray2]
 
 /*
  * Dimension and layout macros
