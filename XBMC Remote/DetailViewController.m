@@ -6072,7 +6072,7 @@
                 [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
                 fullscreenButton.layer.cornerRadius = 2;
                 fullscreenButton.tintColor = UIColor.whiteColor;
-                fullscreenButton.alpha = 0.9;
+                fullscreenButton.alpha = FULLSCREEN_TOGGLE_BUTTON_ALPHA;
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen) forControlEvents:UIControlEventTouchUpInside];
                 fullscreenButton.frame = CGRectMake(titleView.frame.size.width - fullscreenButton.frame.size.width, titleView.frame.size.height / 2 - fullscreenButton.frame.size.height / 2, fullscreenButton.frame.size.width, fullscreenButton.frame.size.height);
                 [titleView addSubview:fullscreenButton];

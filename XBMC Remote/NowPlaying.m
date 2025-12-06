@@ -2434,7 +2434,7 @@
     image = [Utilities colorizeImage:image withColor:UIColor.whiteColor];
     [fullscreenToggleButton setImage:image forState:UIControlStateNormal];
     [fullscreenToggleButton setImage:image forState:UIControlStateHighlighted];
-    fullscreenToggleButton.alpha = 0.9;
+    fullscreenToggleButton.alpha = FULLSCREEN_TOGGLE_BUTTON_ALPHA;
     
     [self setCoverSize:currentType];
 }

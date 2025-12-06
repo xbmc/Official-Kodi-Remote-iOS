@@ -63,6 +63,11 @@
 #define FLOAT_EQUAL_ZERO(x) (fabs(x) < FLT_EPSILON)
 
 /*
+ * alpha values
+ */
+#define FULLSCREEN_TOGGLE_BUTTON_ALPHA 0.9
+
+/*
  * Font scaling
  */
 #define FONT_SCALING_MIN 0.8
