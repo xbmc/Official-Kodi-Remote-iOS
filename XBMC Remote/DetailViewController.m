@@ -81,6 +81,7 @@
 #define INFO_BUTTON_SIZE 30
 #define FULLSCREEN_BUTTON_SIZE 26
 #define LABEL_HEIGHT(font) ceil(font.lineHeight)
+#define SECTION_BUTTON_ALPHA 0.8
 
 #define XIB_JSON_DATA_CELL_TITLE 1
 #define XIB_JSON_DATA_CELL_GENRE 2
@@ -2891,7 +2892,7 @@
             
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.tag = SEASON_VIEW_CELL_TOGGLE;
-            button.alpha = 0.5;
+            button.alpha = SECTION_BUTTON_ALPHA;
             button.frame = CGRectMake(0, 0, TOGGLE_BUTTON_SIZE, TOGGLE_BUTTON_SIZE);
             button.center = CGPointMake(thumbImageView.frame.origin.x / 2, thumbImageView.center.y);
             [button setImage:[UIImage imageNamed:@"arrow_close"] forState:UIControlStateNormal];
@@ -3012,7 +3013,7 @@
     [albumDetailView addSubview:watchedIcon];
     
     // Add Info button to bottom-right corner
-    albumInfoButton.alpha = 0.8;
+    albumInfoButton.alpha = SECTION_BUTTON_ALPHA;
     albumInfoButton.showsTouchWhenHighlighted = YES;
     albumInfoButton.frame = CGRectMake(albumDetailView.bounds.size.width - INFO_BUTTON_SIZE,
                                        albumDetailView.bounds.size.height - INFO_BUTTON_SIZE - TINY_PADDING,
