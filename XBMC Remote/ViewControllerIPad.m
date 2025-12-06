@@ -15,7 +15,6 @@
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
 #import "AppInfoViewController.h"
-#import "XBMCVirtualKeyboard.h"
 #import "CustomNavigationController.h"
 #import "Utilities.h"
 #import "RemoteController.h"
@@ -320,8 +319,6 @@
     int deltaY = [Utilities getTopPadding];
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
-    XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
-    [self.view addSubview:virtualKeyboard];
     AppDelegate.instance.obj = [GlobalData getInstance];
     
     // Create the left menu

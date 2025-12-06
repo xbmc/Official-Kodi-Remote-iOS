@@ -19,7 +19,6 @@
 #import "InitialSlidingViewController.h"
 #import "AppInfoViewController.h"
 #import "tcpJSONRPC.h"
-#import "XBMCVirtualKeyboard.h"
 #import "Utilities.h"
 
 #define MENU_ICON_SIZE 30
@@ -273,8 +272,6 @@
     
     menuList.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     
-    XBMCVirtualKeyboard *virtualKeyboard = [[XBMCVirtualKeyboard alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
-    [self.view addSubview:virtualKeyboard];
     AppDelegate.instance.obj = [GlobalData getInstance];
     menuList.scrollsToTop = NO;
     
