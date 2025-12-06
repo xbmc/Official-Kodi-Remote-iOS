@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "UIImageView+WebCache.h"
-#import "RightMenuViewController.h"
 #import "OBSlider.h"
 
 @class ShowInfoViewController;
