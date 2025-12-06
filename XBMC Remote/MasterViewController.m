@@ -103,6 +103,9 @@
     mainMenu *item = self.mainMenu[indexPath.row];
     if (item.family == FamilyAppSettings) {
         [self enterAppSettings];
+        
+        // Unselect App Settings again immediately. We leave the app, there is no active submenu.
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
     else if (!AppDelegate.instance.serverOnLine && item.family != FamilyServer) {
