@@ -411,7 +411,6 @@
     xbmcLogo.showsTouchWhenHighlighted = NO;
     [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-    xbmcLogo.alpha = 0.9;
     [self.view addSubview:xbmcLogo];
     
     // 3rd right most element
