@@ -46,6 +46,7 @@
 #define WINDOW_VISUALISATION 12006
 #define KEY_HOLD_TIMEOUT 0.5
 #define KEY_REPEAT_TIMEOUT 0.1
+#define REMOTE_TOOLBAR_ICON_ALPHA 0.6
 
 @interface RemoteController ()
 
@@ -1141,7 +1142,7 @@
         customButton.showsTouchWhenHighlighted = YES;
         [customButton setImage:[UIImage imageNamed:@"icon_custom_buttons"] forState:UIControlStateNormal];
         [customButton addTarget:self action:@selector(enterCustomButtons) forControlEvents:UIControlEventTouchUpInside];
-        customButton.alpha = 0.6;
+        customButton.alpha = REMOTE_TOOLBAR_ICON_ALPHA;
         [remoteToolbar addSubview:customButton];
     }
     
@@ -1151,7 +1152,7 @@
     gestureButton.showsTouchWhenHighlighted = YES;
     [gestureButton setImage:gestureButtonImg forState:UIControlStateNormal];
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
-    gestureButton.alpha = 0.6;
+    gestureButton.alpha = REMOTE_TOOLBAR_ICON_ALPHA;
     [remoteToolbar addSubview:gestureButton];
     
     UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1160,7 +1161,7 @@
     keyboardButton.showsTouchWhenHighlighted = YES;
     [keyboardButton setImage:[UIImage imageNamed:@"icon_keyboard"] forState:UIControlStateNormal];
     [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard) forControlEvents:UIControlEventTouchUpInside];
-    keyboardButton.alpha = 0.6;
+    keyboardButton.alpha = REMOTE_TOOLBAR_ICON_ALPHA;
     [remoteToolbar addSubview:keyboardButton];
 
     UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1169,7 +1170,7 @@
     helpButton.showsTouchWhenHighlighted = YES;
     [helpButton setImage:[UIImage imageNamed:@"button_info"] forState:UIControlStateNormal];
     [helpButton addTarget:self action:@selector(toggleQuickHelp) forControlEvents:UIControlEventTouchUpInside];
-    helpButton.alpha = 0.6;
+    helpButton.alpha = REMOTE_TOOLBAR_ICON_ALPHA;
     [remoteToolbar addSubview:helpButton];
     
     torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1178,7 +1179,7 @@
     torchButton.showsTouchWhenHighlighted = YES;
     [torchButton setImage:[UIImage imageNamed:torchIsOn ? @"torch_on" : @"torch"] forState:UIControlStateNormal];
     [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
-    torchButton.alpha = 0.6;
+    torchButton.alpha = REMOTE_TOOLBAR_ICON_ALPHA;
     torchButton.enabled = [Utilities hasTorch];
     [remoteToolbar addSubview:torchButton];
     
@@ -1189,7 +1190,7 @@
         positionButton.showsTouchWhenHighlighted = YES;
         [positionButton setImage:[UIImage imageNamed:@"icon_up_down"] forState:UIControlStateNormal];
         [positionButton addTarget:self action:@selector(toggleRemotePosition) forControlEvents:UIControlEventTouchUpInside];
-        positionButton.alpha = 0.6;
+        positionButton.alpha = REMOTE_TOOLBAR_ICON_ALPHA;
         [remoteToolbar addSubview:positionButton];
     }
     else {
@@ -1199,7 +1200,7 @@
         closeButton.showsTouchWhenHighlighted = YES;
         [closeButton setImage:[UIImage imageNamed:@"button_close"] forState:UIControlStateNormal];
         [closeButton addTarget:self action:@selector(dismissModal) forControlEvents:UIControlEventTouchUpInside];
-        closeButton.alpha = 0.6;
+        closeButton.alpha = REMOTE_TOOLBAR_ICON_ALPHA;
         [remoteToolbar addSubview:closeButton];
     }
     
