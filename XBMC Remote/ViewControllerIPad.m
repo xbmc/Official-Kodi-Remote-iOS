@@ -35,6 +35,7 @@
 #define PLAYLIST_HEADER_HEIGHT 24
 #define PLAYLIST_ACTION_HEIGHT 44
 #define PLAYLIST_CELL_HEIGHT 53
+#define FANART_BACKGROUND_ARTWORK_ALPHA 0.05
 
 @interface ViewControllerIPad () {
     NSMutableArray *mainMenu;
@@ -335,7 +336,7 @@
     fanartBackgroundImage = [[UIImageView alloc] initWithFrame:self.view.bounds];
     fanartBackgroundImage.autoresizingMask = rootView.autoresizingMask;
     fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
-    fanartBackgroundImage.alpha = BACKGROUND_ARTWORK_VERY_WEAK_ALPHA;
+    fanartBackgroundImage.alpha = FANART_BACKGROUND_ARTWORK_ALPHA;
     fanartBackgroundImage.layer.minificationFilter = kCAFilterTrilinear;
     fanartBackgroundImage.layer.magnificationFilter = kCAFilterTrilinear;
     [self.view addSubview:fanartBackgroundImage];

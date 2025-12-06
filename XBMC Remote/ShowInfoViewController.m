@@ -41,6 +41,7 @@
 #define TV_HEIGHT_IPHONE 200
 #define CD_HEIGHT_IPAD 380
 #define CD_HEIGHT_IPHONE 290
+#define DETAILS_ARTWORK_ALPHA 0.2
 
 @interface ShowInfoViewController ()
 
@@ -1393,7 +1394,7 @@
                           __auto_type strongSelf = weakSelf;
                           if (strongSelf != nil && strongSelf->enableKenBurns) {
                               [strongSelf elabKenBurns:image];
-                              [Utilities alphaView:strongSelf.kenView AnimDuration:1.5 Alpha:BACKGROUND_ARTWORK_MEDIUM_ALPHA];
+                              [Utilities alphaView:strongSelf.kenView AnimDuration:1.5 Alpha:DETAILS_ARTWORK_ALPHA];
                           }
                       }
      ];
@@ -1414,10 +1415,10 @@
                             isFullscreenFanArt = NO;
                             closeButton.alpha = 0.0;
                             if (!enableKenBurns) {
-                                fanartView.alpha = BACKGROUND_ARTWORK_MEDIUM_ALPHA;
+                                fanartView.alpha = DETAILS_ARTWORK_ALPHA;
                             }
                             else {
-                                self.kenView.alpha = BACKGROUND_ARTWORK_MEDIUM_ALPHA;
+                                self.kenView.alpha = DETAILS_ARTWORK_ALPHA;
                             }
                             if (IS_IPAD) {
                                 if (![self isModal]) {

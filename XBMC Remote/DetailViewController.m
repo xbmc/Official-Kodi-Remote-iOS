@@ -82,6 +82,7 @@
 #define FULLSCREEN_BUTTON_SIZE 26
 #define LABEL_HEIGHT(font) ceil(font.lineHeight)
 #define SECTION_BUTTON_ALPHA 0.8
+#define SECTION_BACKGROUND_ARTWORK_ALPHA 0.1
 
 #define XIB_JSON_DATA_CELL_TITLE 1
 #define XIB_JSON_DATA_CELL_GENRE 2
@@ -2955,7 +2956,7 @@
         UIImageView *fanartBackgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, -topExpansion, viewWidth, albumViewHeight + topExpansion)];
         fanartBackgroundImage.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         fanartBackgroundImage.contentMode = UIViewContentModeScaleAspectFill;
-        fanartBackgroundImage.alpha = BACKGROUND_ARTWORK_WEAK_ALPHA;
+        fanartBackgroundImage.alpha = SECTION_BACKGROUND_ARTWORK_ALPHA;
         fanartBackgroundImage.clipsToBounds = YES;
         [fanartBackgroundImage sd_setImageWithURL:[NSURL URLWithString:fanartURL]
                                  placeholderImage:[UIImage imageNamed:@"blank"]];

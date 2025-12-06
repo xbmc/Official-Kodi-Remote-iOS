@@ -16,6 +16,7 @@
 #define LABEL_PADDING 4
 #define OVERLAY_PADDING 4
 #define VERTICAL_PADDING 10
+#define POSTER_BACKGROUND_ARTWORK_ALPHA 0.9
 
 @implementation RecentlyAddedCell
 
@@ -36,7 +37,7 @@
         _posterFanart.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _posterFanart.clipsToBounds = YES;
         _posterFanart.contentMode = UIViewContentModeScaleAspectFill;
-        _posterFanart.alpha = BACKGROUND_ARTWORK_VERY_STRONG_ALPHA;
+        _posterFanart.alpha = POSTER_BACKGROUND_ARTWORK_ALPHA;
         [self.contentView addSubview:_posterFanart];
 
         _labelImageView = [UIImageView new];
