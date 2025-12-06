@@ -3891,7 +3891,7 @@
                              animations:^{
                 collectionView.alpha = 1;
                 [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen"] forState:UIControlStateNormal];
-                fullscreenButton.backgroundColor = [Utilities getGrayColor:0 alpha:0.5];
+                fullscreenButton.backgroundColor = FULLSCREEN_TOGGLE_BUTTON_BACKGROUND;
             }
                              completion:^(BOOL finished) {
                 [activityIndicatorView stopAnimating];
