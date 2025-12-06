@@ -45,3 +45,6 @@
 "Add-ons" = "Addons";
 "Files" = "Dateien";
 "Kodi Settings" = "Kodi-Einstellungen";
+"Volume control" = "Lautstärkeregelung";
+"CEC support via volume buttons" = "CEC-Unterstützung über Lautstärketasten";
+"The app controls volume via buttons and a slider. The slider will always change the Kodi internal volume level. The buttons allow to control AV equipment's volume level via CEC, if this mode is enabled and Kodi identified a compatible device. The CEC functionality is embedded within Kodi itself." = "Die App regelt die Lautstärke über Tasten und einen Schieberegler. Der Schieberegler verändert dabei immer Kodis interne Lautstärke. Die Tasten erlauben die Lautstärkeregelung an AV-Geräten über CEC, wenn dieser Modus aktiviert ist und Kodi ein kompatibles Gerät erkannt hat. Die CEC-Funktionalität ist innerhalb von Kodi umgesetzt.";

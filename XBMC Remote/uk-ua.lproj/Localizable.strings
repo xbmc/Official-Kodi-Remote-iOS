@@ -286,3 +286,6 @@
 "No custom button defined." = "Користувацькі кнопки не призначені.";
 "Execute add-on" = "Запустити додаток";
 "App Settings" = "Налаштування додатка";
+"Profiles" = "Профілі";
+"The user profile has been changed. Please reconnect to the Kodi server manually." = "Профіль користувача було змінено. Підключіться до сервера Kodi ще раз в ручному режимі.";
+"Kodi \"Krypton\" version 17 or later is required to access user profiles." = "Для доступу до профілів користувачів потрібен Kodi \"Krypton\" версії 17 або більш нової.";

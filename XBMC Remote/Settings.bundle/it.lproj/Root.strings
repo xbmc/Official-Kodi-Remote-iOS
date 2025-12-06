@@ -45,3 +45,6 @@
 "Kodi Settings" = "Impostazioni Kodi";
 "Files" = "File";
 "Add-ons" = "Add-on";
+"Volume control" = "Controllo volume";
+"CEC support via volume buttons" = "Supporto CEC tramite pulsanti volume";
+"The app controls volume via buttons and a slider. The slider will always change the Kodi internal volume level. The buttons allow to control AV equipment's volume level via CEC, if this mode is enabled and Kodi identified a compatible device. The CEC functionality is embedded within Kodi itself." = "L'app controlla il volume tramite i pulsanti e un cursore. Il cursore modificherà sempre il livello del volume interno di Kodi. I pulsanti consentono di controllare il volume delle apparecchiature AV tramite CEC, se questa modalità è abilitata e Kodi ha identificato un dispositivo compatibile. La funzionalità CEC è integrata in Kodi stesso.";

@@ -43,3 +43,8 @@
 "Episode identifier" = "剧集标识符";
 "Show local network notice" = "显示本地网络通知";
 "Add-ons" = "插件";
+"Files" = "文件";
+"Kodi Settings" = "Kodi 设置";
+"Volume control" = "音量控制";
+"CEC support via volume buttons" = "通过音量按键实现 CEC 控制支持";
+"The app controls volume via buttons and a slider. The slider will always change the Kodi internal volume level. The buttons allow to control AV equipment's volume level via CEC, if this mode is enabled and Kodi identified a compatible device. The CEC functionality is embedded within Kodi itself." = "本应用可通过按键和音量滑块控制音量。音量滑块始终用于调节 Kodi 的内部音量大小。若已启用该模式且 Kodi 已识别到兼容设备，按键可通过 CEC 协议控制影音设备的音量大小。CEC 功能直接内嵌于 Kodi 系统本身。";
