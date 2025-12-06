@@ -12,6 +12,9 @@
 #define CUSTOM_BUTTON_ITEM_SPACING 4.0
 #define CUSTOM_BUTTON_LABEL_PADDING 4.0
 #define CUSTOM_BUTTON_BACKGROUND_INSET 2.0
+#define CUSTOM_BUTTON_ONOFF_ENABLED_ALPHA 0.9
+#define CUSTOM_BUTTON_ICON_ENABLED_ALPHA 0.8
+#define CUSTOM_BUTTON_ICON_DISABLED_ALPHA 0.5
 
 @implementation CustomButtonCell
 
@@ -34,7 +37,7 @@
         onoff.frame = frame;
         onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         onoff.hidden = YES;
-        onoff.alpha = 0.9;
+        onoff.alpha = CUSTOM_BUTTON_ONOFF_ENABLED_ALPHA;
         [self.contentView addSubview:onoff];
         self.onoffSwitch = onoff;
         
@@ -46,7 +49,7 @@
                                 iconSize,
                                 iconSize);
         icon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        icon.alpha = 0.8;
+        icon.alpha = CUSTOM_BUTTON_ICON_ENABLED_ALPHA;
         [self.contentView addSubview:icon];
         self.buttonIcon = icon;
         
@@ -82,11 +85,11 @@
     [super setEditing:editing animated:animated];
     if (editing) {
         self.onoffSwitch.enabled = NO;
-        self.buttonIcon.alpha = 0.5;
+        self.buttonIcon.alpha = CUSTOM_BUTTON_ICON_DISABLED_ALPHA;
     }
     else {
         self.onoffSwitch.enabled = YES;
-        self.buttonIcon.alpha = 0.8;
+        self.buttonIcon.alpha = CUSTOM_BUTTON_ICON_ENABLED_ALPHA;
     }
 }
 
