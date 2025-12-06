@@ -357,7 +357,7 @@
     overlayGradient.autoresizingMask = rootView.autoresizingMask;
     overlayGradient.image = [UIImage imageNamed:@"overlay_gradient"];
     overlayGradient.contentMode = UIViewContentModeScaleToFill;
-    overlayGradient.alpha = 0.5;
+    overlayGradient.alpha = BACKGROUND_OVERLAY_ALPHA;
     [visualEffectView.contentView addSubview:overlayGradient];
 
 	rightSlideView = [[UIView alloc] initWithFrame:CGRectMake(PAD_MENU_TABLE_WIDTH, 0, rootView.frame.size.width - PAD_MENU_TABLE_WIDTH, rootView.frame.size.height - TOOLBAR_HEIGHT)];

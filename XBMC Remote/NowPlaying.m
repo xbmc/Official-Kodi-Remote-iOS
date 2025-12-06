@@ -2897,7 +2897,7 @@
     overlayGradient.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     overlayGradient.image = [UIImage imageNamed:@"overlay_gradient"];
     overlayGradient.contentMode = UIViewContentModeScaleToFill;
-    overlayGradient.alpha = 0.5;
+    overlayGradient.alpha = BACKGROUND_OVERLAY_ALPHA;
     [visualEffectView.contentView addSubview:overlayGradient];
 }
 

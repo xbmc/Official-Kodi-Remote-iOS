@@ -67,6 +67,7 @@
  * alpha values
  */
 #define FULLSCREEN_TOGGLE_BUTTON_ALPHA 0.9
+#define BACKGROUND_OVERLAY_ALPHA 0.5
 
 /*
  * Font scaling
