@@ -138,7 +138,7 @@ static char UIScrollViewPullToRefreshView;
             @[
                 LOCALIZED_STR(@"Pull to sync with XBMC..."),
                 LOCALIZED_STR(@"Release to sync with XBMC..."),
-                LOCALIZED_STR(@"Syncing...")
+                LOCALIZED_STR(@"Syncing..."),
             ] mutableCopy];
         
         self.subtitles = [@[@"", @"", @"", @""] mutableCopy];
@@ -528,7 +528,7 @@ static char UIScrollViewPullToRefreshView;
 	CGGradientRef alphaGradient = nil;
     NSArray *alphaGradientColors = @[
                                     (id)[self.arrowColor colorWithAlphaComponent:0].CGColor,
-                                    (id)[self.arrowColor colorWithAlphaComponent:1].CGColor
+                                    (id)[self.arrowColor colorWithAlphaComponent:1].CGColor,
                                     ];
     alphaGradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)alphaGradientColors, alphaGradientLocations);
 	

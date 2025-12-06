@@ -421,7 +421,7 @@
             
             // Trigger search for TCP service
             [netServiceBrowser searchForServicesOfType:SERVICE_TYPE_TCP inDomain:DOMAIN_NAME];
-            timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
+            [self startDiscoveryTimeoutTimer];
         }
     }
     else {
@@ -438,14 +438,14 @@
         }
         NSLog(@"TCP port for '%@': %@", service.name, serverAddresses[@"hostname"][@"tcpport"]);
         
-        [timer invalidate];
+        [discoveryTimeoutTimer invalidate];
     }
     
     [self fillServerDetailsForSegment:segmentServerType.selectedSegmentIndex];
 }
 
 - (void)stopDiscovery {
-    [timer invalidate];
+    [discoveryTimeoutTimer invalidate];
     [netServiceBrowser stop];
     [activityIndicatorView stopAnimating];
     startDiscover.enabled = YES;
@@ -463,7 +463,15 @@
     searching = NO;
     netServiceBrowser.delegate = self;
     [netServiceBrowser searchForServicesOfType:SERVICE_TYPE_HTTP inDomain:DOMAIN_NAME];
-    timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT target:self selector:@selector(stopDiscovery) userInfo:nil repeats:NO];
+    [self startDiscoveryTimeoutTimer];
+}
+
+- (void)startDiscoveryTimeoutTimer {
+    discoveryTimeoutTimer = [NSTimer scheduledTimerWithTimeInterval:DISCOVER_TIMEOUT
+                                                             target:self
+                                                           selector:@selector(stopDiscovery)
+                                                           userInfo:nil
+                                                            repeats:NO];
 }
 
 #pragma mark - Segment control
@@ -552,7 +560,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [timer invalidate];
+    [discoveryTimeoutTimer invalidate];
     netServiceBrowser = nil;
     services = nil;
     [Utilities SetView:discoveredInstancesView Alpha:1.0 XPos:self.view.frame.size.width];

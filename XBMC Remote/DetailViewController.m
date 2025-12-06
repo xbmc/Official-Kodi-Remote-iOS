@@ -2047,7 +2047,7 @@
     }
 }
 
-- (void)choseParams {
+- (void)setCellLayoutParameters {
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     if ([parameters[@"defaultThumb"] length] != 0 && ![parameters[@"defaultThumb"] isEqualToString:@"(null)"]) {
@@ -3806,7 +3806,7 @@
             }
             sectionArray = [storeSectionArray copy];
             sections = [storeSections mutableCopy];
-            [self choseParams];
+            [self setCellLayoutParameters];
             if (forceCollection) {
                 forceCollection = NO;
                 [Utilities SetView:activeLayoutView Alpha:0.0 XPos:viewWidth];
@@ -3864,7 +3864,7 @@
             }
             storeSectionArray = [sectionArray copy];
             storeSections = [sections mutableCopy];
-            [self choseParams];
+            [self setCellLayoutParameters];
             NSMutableDictionary *sectionsTemp = [NSMutableDictionary new];
             [sectionsTemp setValue:[NSMutableArray new] forKey:@""];
             for (id key in self.sectionArray) {
@@ -5282,7 +5282,7 @@
 
 - (void)displayData {
     [self configureLibraryView];
-    [self choseParams];
+    [self setCellLayoutParameters];
     NSUInteger numResults = self.richResults.count;
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
@@ -5376,7 +5376,7 @@
         [collectionView deselectItemAtIndexPath:selection animated:YES];
     }
 
-    [self choseParams];
+    [self setCellLayoutParameters];
 
     if ([self isModal]) {
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
