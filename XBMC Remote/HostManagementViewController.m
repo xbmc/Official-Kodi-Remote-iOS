@@ -546,19 +546,15 @@
     supportedVersionLabel.text = LOCALIZED_STR(@"Supported XBMC version is Eden (11) or higher");
     
     editTableButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateDisabled];
-    [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
-    [editTableButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
+    [editTableButton setTextStyle];
     editTableButton.titleLabel.shadowOffset = CGSizeZero;
     
     addHostButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [addHostButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
-    [addHostButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
+    [addHostButton setTextStyle];
     addHostButton.titleLabel.shadowOffset = CGSizeZero;
     
     serverInfoButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [serverInfoButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
-    [serverInfoButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
+    [serverInfoButton setTextStyle];
     serverInfoButton.titleLabel.shadowOffset = CGSizeZero;
     
     serverListTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
@@ -581,8 +577,6 @@
         UIImage *image = [UIImage imageNamed:@"kodi_logo_wide"];
         UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
         [xbmcLogo setImage:image forState:UIControlStateNormal];
-        [xbmcLogo setImage:image forState:UIControlStateHighlighted];
-        xbmcLogo.showsTouchWhenHighlighted = NO;
         [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = xbmcLogo;
         UIImage *menuImg = [UIImage imageNamed:@"button_menu"];

@@ -820,14 +820,12 @@
 
 - (void)setGridListButtonImage:(BOOL)isGridView {
     NSString *imgName = isGridView ? @"st_view_grid" : @"st_view_list";
-    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:ICON_TINT_COLOR];
-    [button6 setBackgroundImage:image forState:UIControlStateNormal];
+    [button6 setDatabaseToolbarStyle:[UIImage imageNamed:imgName]];
 }
 
 - (void)setSortButtonImage:(NSString*)sortOrder {
     NSString *imgName = [sortOrder isEqualToString:@"descending"] ? @"st_sort_desc" : @"st_sort_asc";
-    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imgName] withColor:ICON_TINT_COLOR];
-    [button7 setBackgroundImage:image forState:UIControlStateNormal];
+    [button7 setDatabaseToolbarStyle:[UIImage imageNamed:imgName]];
 }
 
 - (void)setButtonViewContent:(int)activeTab {
@@ -3014,7 +3012,6 @@
     
     // Add Info button to bottom-right corner
     albumInfoButton.alpha = 0.8;
-    albumInfoButton.showsTouchWhenHighlighted = YES;
     albumInfoButton.frame = CGRectMake(albumDetailView.bounds.size.width - INFO_BUTTON_SIZE,
                                        albumDetailView.bounds.size.height - INFO_BUTTON_SIZE - TINY_PADDING,
                                        INFO_BUTTON_SIZE,
@@ -3827,9 +3824,7 @@
                              animations:^{
                 collectionView.alpha = 1;
                 dataList.alpha = 1;
-                UIImage *buttonImage = [UIImage imageNamed:@"button_fullscreen"];
-                buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
-                [fullscreenButton setImage:buttonImage forState:UIControlStateNormal];
+                [fullscreenButton setIconStyle:[UIImage imageNamed:@"button_fullscreen"]];
                 fullscreenButton.backgroundColor = UIColor.clearColor;
             }
                              completion:^(BOOL finished) {
@@ -3893,9 +3888,7 @@
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
                 collectionView.alpha = 1;
-                UIImage *buttonImage = [UIImage imageNamed:@"button_exit_fullscreen"];
-                buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
-                [fullscreenButton setImage:buttonImage forState:UIControlStateNormal];
+                [fullscreenButton setIconStyle:[UIImage imageNamed:@"button_exit_fullscreen"]];
                 fullscreenButton.backgroundColor = INFO_POPOVER_COLOR;
             }
                              completion:^(BOOL finished) {
@@ -5440,9 +5433,6 @@
     mainMenu *menuItem = self.detailItem;
     NSArray *buttons = menuItem.mainButtons;
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
-    UIImage *imageOff = nil;
-    UIImage *imageOn = nil;
-    UIImage *img = nil;
     CGRect frame;
     NSInteger count = buttons.count;
     // If >6 buttons are required, only use 4 normal buttons and keep 5th for "more items"
@@ -5450,12 +5440,7 @@
         count = MAX_NORMAL_BUTTONS;
     }
     for (int i = 0; i < count; i++) {
-        img = [UIImage imageNamed:buttons[i]];
-        imageOff = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
-        imageOn = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR_ACTIVE];
-        [buttonsIB[i] setBackgroundImage:imageOff forState:UIControlStateNormal];
-        [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateSelected];
-        [buttonsIB[i] setBackgroundImage:imageOn forState:UIControlStateHighlighted];
+        [buttonsIB[i] setDatabaseToolbarStyle:[UIImage imageNamed:buttons[i]]];
         [buttonsIB[i] setEnabled:YES];
     }
     activeTab = MIN(activeTab, MAX_NORMAL_BUTTONS);
@@ -5485,12 +5470,7 @@
             break;
         default:
             // 6 or more buttons/actions require a "more" button
-            img = [UIImage imageNamed:@"st_more"];
-            imageOff = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
-            imageOn = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR_ACTIVE];
-            [buttonsIB.lastObject setBackgroundImage:imageOff forState:UIControlStateNormal];
-            [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateSelected];
-            [buttonsIB.lastObject setBackgroundImage:imageOn forState:UIControlStateHighlighted];
+            [buttonsIB.lastObject setDatabaseToolbarStyle:[UIImage imageNamed:@"st_more"]];
             [buttonsIB.lastObject setEnabled:YES];
             break;
     }
@@ -6071,12 +6051,9 @@
             if (fullscreenButton == nil) {
                 fullscreenButton = [UIButton buttonWithType:UIButtonTypeCustom];
                 fullscreenButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-                fullscreenButton.showsTouchWhenHighlighted = YES;
                 fullscreenButton.frame = CGRectMake(0, 0, FULLSCREEN_BUTTON_SIZE, FULLSCREEN_BUTTON_SIZE);
                 fullscreenButton.contentMode = UIViewContentModeCenter;
-                UIImage *buttonImage = [UIImage imageNamed:@"button_fullscreen"];
-                buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
-                [fullscreenButton setImage:buttonImage forState:UIControlStateNormal];
+                [fullscreenButton setIconStyle:[UIImage imageNamed:@"button_fullscreen"]];
                 fullscreenButton.layer.cornerRadius = 2;
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen) forControlEvents:UIControlEventTouchUpInside];
                 fullscreenButton.frame = CGRectMake(titleView.frame.size.width - fullscreenButton.frame.size.width, titleView.frame.size.height / 2 - fullscreenButton.frame.size.height / 2, fullscreenButton.frame.size.width, fullscreenButton.frame.size.height);
