@@ -2713,16 +2713,6 @@
 }
 
 - (void)setToolbar {
-    UIButton *buttonItem = nil;
-    for (int i = 1; i < 8; i++) {
-        buttonItem = (UIButton*)[self.view viewWithTag:i];
-        [buttonItem setBackgroundImage:[UIImage new] forState:UIControlStateNormal];
-        [buttonItem setBackgroundImage:[UIImage new] forState:UIControlStateHighlighted];
-    }
-    
-    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateNormal];
-    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateHighlighted];
-    [editTableButton setBackgroundImage:[UIImage new] forState:UIControlStateSelected];
     editTableButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateDisabled];
     [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
