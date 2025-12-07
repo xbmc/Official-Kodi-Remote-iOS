@@ -5,6 +5,7 @@
 #import "UIImage+Extensions.h"
 #import "NSString+Extensions.h"
 #import "UIBarButtonItem+Extensions.h"
+#import "UIButton+Extensions.h"
 #import "UILabel+Extensions.h"
 #import "UIViewController+Extensions.h"
 #import "UIImageView+WebCache.h"
