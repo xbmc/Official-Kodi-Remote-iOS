@@ -210,7 +210,7 @@
 
 - (void)setConnectionIcon:(UIImageView*)icon {
     // Load icon for top row in main menu
-    UIColor *iconColor = AppDelegate.instance.serverOnLine ? KODI_BLUE_COLOR : UIColor.grayColor;
+    UIColor *iconColor = AppDelegate.instance.serverOnLine ? KODI_BLUE_COLOR : ICON_TINT_COLOR;
     UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:@"st_kodi_action"] withColor:iconColor];
     icon.highlightedImage = image;
     icon.image = image;

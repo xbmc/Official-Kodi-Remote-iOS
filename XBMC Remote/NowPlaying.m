@@ -295,7 +295,7 @@
     }
     else {
         UIImage *image = [UIImage imageNamed:@"button_repeat"];
-        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : ICON_TINT_COLOR];
         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
     }
 }
@@ -308,7 +308,7 @@
     }
     else {
         UIImage *image = [UIImage imageNamed:@"button_shuffle"];
-        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : ICON_TINT_COLOR];
         [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
     }
 }
