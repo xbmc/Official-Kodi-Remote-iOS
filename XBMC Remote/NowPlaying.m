@@ -287,31 +287,26 @@
 - (void)updateRepeatButton:(NSString*)mode {
     if ([mode isEqualToString:@"all"]) {
         UIImage *image = [UIImage imageNamed:@"button_repeat_all"];
-        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-        [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
+        [repeatButton setIconStyle:image withColor:KODI_BLUE_COLOR];
     }
     else if ([mode isEqualToString:@"one"]) {
         UIImage *image = [UIImage imageNamed:@"button_repeat_one"];
-        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-        [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
+        [repeatButton setIconStyle:image withColor:KODI_BLUE_COLOR];
     }
     else {
         UIImage *image = [UIImage imageNamed:@"button_repeat"];
-        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : ICON_TINT_COLOR];
-        [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
+        [repeatButton setIconStyle:image withColor:nil];
     }
 }
 
 - (void)updateShuffleButton:(BOOL)shuffle {
     if (shuffle) {
         UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
-        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
-        [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
+        [shuffleButton setIconStyle:image withColor:KODI_BLUE_COLOR];
     }
     else {
         UIImage *image = [UIImage imageNamed:@"button_shuffle"];
-        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : ICON_TINT_COLOR];
-        [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
+        [shuffleButton setIconStyle:image withColor:nil];
     }
 }
 
@@ -434,8 +429,6 @@
 - (void)setButtonImageAndStartDemo:(UIImage*)buttonImage {
     if (nowPlayingView.hidden || startFlipDemo) {
         [playlistButton setImage:buttonImage forState:UIControlStateNormal];
-        [playlistButton setImage:buttonImage forState:UIControlStateHighlighted];
-        [playlistButton setImage:buttonImage forState:UIControlStateSelected];
         if (startFlipDemo) {
             [NSTimer scheduledTimerWithTimeInterval:FLIP_DEMO_DELAY target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
             startFlipDemo = NO;
@@ -1592,9 +1585,7 @@
                     animations:^{
         // Animate transition to new button image
         [button setImage:buttonImage forState:UIControlStateNormal];
-        [button setImage:buttonImage forState:UIControlStateHighlighted];
-        [button setImage:buttonImage forState:UIControlStateSelected];
-                     } 
+                     }
                      completion:nil
     ];
 }
@@ -2496,7 +2487,6 @@
     NSString *imageName = isFullscreen ? @"button_exit_fullscreen" : @"button_fullscreen";
     UIImage *image = [UIImage imageNamed:imageName];
     [fullscreenToggleButton setImage:image forState:UIControlStateNormal];
-    [fullscreenToggleButton setImage:image forState:UIControlStateHighlighted];
     
     [self setCoverSize:currentType];
 }
@@ -2576,7 +2566,6 @@
     
     // Prepare iPad fullscreen toggle button
     fullscreenToggleButton = [self.view viewWithTag:TAG_ID_TOGGLE];
-    fullscreenToggleButton.showsTouchWhenHighlighted = YES;
 }
 
 - (BOOL)enableJewelCases {
@@ -2822,15 +2811,11 @@
 
 - (void)setToolbar {
     editTableButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateDisabled];
-    [editTableButton setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
-    [editTableButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
+    [editTableButton setTextStyle];
     editTableButton.titleLabel.shadowOffset = CGSizeZero;
     
     PartyModeButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [PartyModeButton setTitleColor:UIColor.grayColor forState:UIControlStateNormal];
-    [PartyModeButton setTitleColor:UIColor.whiteColor forState:UIControlStateSelected];
-    [PartyModeButton setTitleColor:UIColor.whiteColor forState:UIControlStateHighlighted];
+    [PartyModeButton setTextStyle];
     PartyModeButton.titleLabel.shadowOffset = CGSizeZero;
 }
 
