@@ -156,7 +156,7 @@
     title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
     title.text = item.mainLabel;
     icon.highlightedImage = [UIImage imageNamed:iconName];
-    icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
+    icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:ICON_TINT_COLOR];
     return cell;
 }
 
