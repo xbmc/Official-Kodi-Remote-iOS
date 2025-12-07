@@ -12,6 +12,8 @@
 #define CUSTOM_BUTTON_ITEM_SPACING 4.0
 #define CUSTOM_BUTTON_LABEL_PADDING 4.0
 #define CUSTOM_BUTTON_BACKGROUND_INSET 2.0
+#define ICON_ALPHA 0.8 // Reduce alpha to soften appearance next to button name
+#define ICON_ALPHA_DISABLED 0.5 // Align with alpha of disabled UISwitch
 
 @implementation CustomButtonCell
 
@@ -34,7 +36,7 @@
         onoff.frame = frame;
         onoff.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         onoff.hidden = YES;
-        onoff.alpha = 0.9;
+        onoff.alpha = ICON_ALPHA;
         [self.contentView addSubview:onoff];
         self.onoffSwitch = onoff;
         
@@ -46,7 +48,7 @@
                                 iconSize,
                                 iconSize);
         icon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        icon.alpha = 0.8;
+        icon.alpha = ICON_ALPHA;
         [self.contentView addSubview:icon];
         self.buttonIcon = icon;
         
@@ -82,11 +84,11 @@
     [super setEditing:editing animated:animated];
     if (editing) {
         self.onoffSwitch.enabled = NO;
-        self.buttonIcon.alpha = 0.5;
+        self.buttonIcon.alpha = ICON_ALPHA_DISABLED;
     }
     else {
         self.onoffSwitch.enabled = YES;
-        self.buttonIcon.alpha = 0.8;
+        self.buttonIcon.alpha = ICON_ALPHA;
     }
 }
 
