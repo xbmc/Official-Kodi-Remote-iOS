@@ -2392,10 +2392,8 @@
     // Adapt fullscreen toggle button icon to current screen mode
     NSString *imageName = isFullscreen ? @"button_exit_fullscreen" : @"button_fullscreen";
     UIImage *image = [UIImage imageNamed:imageName];
-    image = [Utilities colorizeImage:image withColor:UIColor.whiteColor];
     [fullscreenToggleButton setImage:image forState:UIControlStateNormal];
     [fullscreenToggleButton setImage:image forState:UIControlStateHighlighted];
-    fullscreenToggleButton.alpha = 0.9;
     
     [self setCoverSize:currentType];
 }

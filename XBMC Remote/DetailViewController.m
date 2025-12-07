@@ -3827,7 +3827,9 @@
                              animations:^{
                 collectionView.alpha = 1;
                 dataList.alpha = 1;
-                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
+                UIImage *buttonImage = [UIImage imageNamed:@"button_fullscreen"];
+                buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+                [fullscreenButton setImage:buttonImage forState:UIControlStateNormal];
                 fullscreenButton.backgroundColor = UIColor.clearColor;
             }
                              completion:^(BOOL finished) {
@@ -3891,8 +3893,10 @@
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
                 collectionView.alpha = 1;
-                [fullscreenButton setImage:[UIImage imageNamed:@"button_exit_fullscreen"] forState:UIControlStateNormal];
-                fullscreenButton.backgroundColor = [Utilities getGrayColor:0 alpha:0.5];
+                UIImage *buttonImage = [UIImage imageNamed:@"button_exit_fullscreen"];
+                buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+                [fullscreenButton setImage:buttonImage forState:UIControlStateNormal];
+                fullscreenButton.backgroundColor = INFO_POPOVER_COLOR;
             }
                              completion:^(BOOL finished) {
                 [activityIndicatorView stopAnimating];
@@ -6070,10 +6074,10 @@
                 fullscreenButton.showsTouchWhenHighlighted = YES;
                 fullscreenButton.frame = CGRectMake(0, 0, FULLSCREEN_BUTTON_SIZE, FULLSCREEN_BUTTON_SIZE);
                 fullscreenButton.contentMode = UIViewContentModeCenter;
-                [fullscreenButton setImage:[UIImage imageNamed:@"button_fullscreen"] forState:UIControlStateNormal];
+                UIImage *buttonImage = [UIImage imageNamed:@"button_fullscreen"];
+                buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+                [fullscreenButton setImage:buttonImage forState:UIControlStateNormal];
                 fullscreenButton.layer.cornerRadius = 2;
-                fullscreenButton.tintColor = UIColor.whiteColor;
-                fullscreenButton.alpha = 0.9;
                 [fullscreenButton addTarget:self action:@selector(toggleFullscreen) forControlEvents:UIControlEventTouchUpInside];
                 fullscreenButton.frame = CGRectMake(titleView.frame.size.width - fullscreenButton.frame.size.width, titleView.frame.size.height / 2 - fullscreenButton.frame.size.height / 2, fullscreenButton.frame.size.width, fullscreenButton.frame.size.height);
                 [titleView addSubview:fullscreenButton];
