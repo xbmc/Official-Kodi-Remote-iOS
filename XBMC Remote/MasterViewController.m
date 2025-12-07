@@ -89,7 +89,7 @@
         title.numberOfLines = 1;
         title.text = item.mainLabel;
         icon.highlightedImage = [UIImage imageNamed:iconName];
-        icon.image = [icon.highlightedImage colorizeWithColor:UIColor.grayColor];
+        icon.image = [icon.highlightedImage colorizeWithColor:ICON_TINT_COLOR];
         cell.backgroundColor = UIColor.clearColor;
     }
     return cell;
