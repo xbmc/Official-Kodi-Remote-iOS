@@ -128,15 +128,12 @@
     [newView addSubview:effectView];
     
     // plus button
-    UIImage *image = [UIImage imageNamed:@"icon_plus"];
-    image = [Utilities colorizeImage:image withColor:ICON_TINT_COLOR];
     CGFloat originX = IS_IPHONE ? (ANCHOR_RIGHT_PEEK + PANEL_SHADOW_SIZE) : 0 + BUTTON_SPACING;
     moreButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, TOOLBAR_HEIGHT, TOOLBAR_HEIGHT)];
     moreButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     moreButton.enabled = AppDelegate.instance.serverOnLine;
-    [moreButton setImage:image forState:UIControlStateNormal];
-    [moreButton setImage:image forState:UIControlStateHighlighted];
+    [moreButton setIconStyle:[UIImage imageNamed:@"icon_plus"]];
     [moreButton addTarget:self action:@selector(addButtonToList:) forControlEvents:UIControlEventTouchUpInside];
     [newView addSubview:moreButton];
     
@@ -145,8 +142,7 @@
     editTableButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, BUTTON_WIDTH, TOOLBAR_HEIGHT)];
     editTableButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     editTableButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-    [editTableButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateDisabled];
-    [editTableButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateNormal];
+    [editTableButton setTextStyle];
     [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
     [editTableButton addTarget:self action:@selector(editTable:) forControlEvents:UIControlEventTouchUpInside];
     [newView addSubview:editTableButton];

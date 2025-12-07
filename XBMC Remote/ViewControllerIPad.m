@@ -376,21 +376,15 @@
     [self.view addSubview:volumeSliderView];
     
     // remote button next to volume control buttons
-    UIImage *image = [UIImage imageNamed:@"icon_menu_remote"];
-    image = [Utilities colorizeImage:image withColor:ICON_TINT_COLOR];
     UIButton *remoteButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - REMOTE_PADDING - REMOTE_ICON_SIZE, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
-    [remoteButton setImage:image forState:UIControlStateNormal];
-    [remoteButton setImage:image forState:UIControlStateHighlighted];
+    [remoteButton setIconStyle:[UIImage imageNamed:@"icon_menu_remote"]];
     remoteButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     [remoteButton addTarget:self action:@selector(showRemote) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:remoteButton];
     
     // "show desktop" button next to remote button
-    image = [UIImage imageNamed:@"icon_menu_playing"];
-    image = [Utilities colorizeImage:image withColor:ICON_TINT_COLOR];
     UIButton *showDesktopButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width + DESKTOP_PADDING, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
-    [showDesktopButton setImage:image forState:UIControlStateNormal];
-    [showDesktopButton setImage:image forState:UIControlStateHighlighted];
+    [showDesktopButton setIconStyle:[UIImage imageNamed:@"icon_menu_playing"]];
     showDesktopButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
     [showDesktopButton addTarget:self action:@selector(showDesktop) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showDesktopButton];
@@ -401,32 +395,22 @@
     [self.view addSubview:connectionStatus];
     
     // 2nd right most element
-    image = [UIImage imageNamed:@"app_logo_small"];
     xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(connectionStatus.frame) - XBMCLOGO_WIDTH - CONNECTION_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, XBMCLOGO_WIDTH, TOOLBAR_HEIGHT)];
-    [xbmcLogo setImage:image forState:UIControlStateNormal];
-    [xbmcLogo setImage:image forState:UIControlStateHighlighted];
-    xbmcLogo.showsTouchWhenHighlighted = NO;
+    [xbmcLogo setIconStyle:[UIImage imageNamed:@"app_logo_small"] withColor:KODI_BLUE_COLOR];
     [xbmcLogo addTarget:self action:@selector(toggleInfoView) forControlEvents:UIControlEventTouchUpInside];
     xbmcLogo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-    xbmcLogo.alpha = 0.9;
     [self.view addSubview:xbmcLogo];
     
     // 3rd right most element
-    image = [UIImage imageNamed:@"icon_menu_settings"];
-    image = [Utilities colorizeImage:image withColor:ICON_TINT_COLOR];
     settingsButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - SETTINGSBUTTON_WIDTH - BUTTON_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, SETTINGSBUTTON_WIDTH, TOOLBAR_HEIGHT)];
-    [settingsButton setImage:image forState:UIControlStateNormal];
-    [settingsButton setImage:image forState:UIControlStateHighlighted];
+    [settingsButton setIconStyle:[UIImage imageNamed:@"icon_menu_settings"]];
     settingsButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [settingsButton addTarget:self action:@selector(enterAppSettings) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:settingsButton];
     
     // 4th right most element
-    image = [UIImage imageNamed:@"icon_power"];
-    image = [Utilities colorizeImage:image withColor:ICON_TINT_COLOR];
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(settingsButton.frame.origin.x - POWERBUTTON_WIDTH - BUTTON_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
-    [powerButton setImage:image forState:UIControlStateNormal];
-    [powerButton setImage:image forState:UIControlStateHighlighted];
+    [powerButton setIconStyle:[UIImage imageNamed:@"icon_power"]];
     powerButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [powerButton addTarget:self action:@selector(powerControl) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:powerButton];
@@ -446,8 +430,7 @@
     xbmcInfo.titleLabel.shadowOffset = CGSizeZero;
     xbmcInfo.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [xbmcInfo addTarget:self action:@selector(toggleSetup) forControlEvents:UIControlEventTouchUpInside];
-    [xbmcInfo setTitleColor:UIColor.grayColor forState:UIControlStateHighlighted];
-    [xbmcInfo setTitleColor:UIColor.grayColor forState:UIControlStateSelected];
+    [xbmcInfo setTextStyle];
     [self.view addSubview:xbmcInfo];
     
     menuViewController.tableView.separatorInset = UIEdgeInsetsZero;
