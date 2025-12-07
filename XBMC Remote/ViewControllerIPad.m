@@ -377,7 +377,7 @@
     
     // remote button next to volume control buttons
     UIImage *image = [UIImage imageNamed:@"icon_menu_remote"];
-    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    image = [Utilities colorizeImage:image withColor:ICON_TINT_COLOR];
     UIButton *remoteButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - REMOTE_PADDING - REMOTE_ICON_SIZE, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
     [remoteButton setImage:image forState:UIControlStateNormal];
     [remoteButton setImage:image forState:UIControlStateHighlighted];
@@ -387,7 +387,7 @@
     
     // "show desktop" button next to remote button
     image = [UIImage imageNamed:@"icon_menu_playing"];
-    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    image = [Utilities colorizeImage:image withColor:ICON_TINT_COLOR];
     UIButton *showDesktopButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width + DESKTOP_PADDING, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
     [showDesktopButton setImage:image forState:UIControlStateNormal];
     [showDesktopButton setImage:image forState:UIControlStateHighlighted];
@@ -413,7 +413,7 @@
     
     // 3rd right most element
     image = [UIImage imageNamed:@"icon_menu_settings"];
-    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    image = [Utilities colorizeImage:image withColor:ICON_TINT_COLOR];
     settingsButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - SETTINGSBUTTON_WIDTH - BUTTON_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, SETTINGSBUTTON_WIDTH, TOOLBAR_HEIGHT)];
     [settingsButton setImage:image forState:UIControlStateNormal];
     [settingsButton setImage:image forState:UIControlStateHighlighted];
@@ -423,7 +423,7 @@
     
     // 4th right most element
     image = [UIImage imageNamed:@"icon_power"];
-    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    image = [Utilities colorizeImage:image withColor:ICON_TINT_COLOR];
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(settingsButton.frame.origin.x - POWERBUTTON_WIDTH - BUTTON_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
     [powerButton setImage:image forState:UIControlStateNormal];
     [powerButton setImage:image forState:UIControlStateHighlighted];

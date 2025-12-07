@@ -78,7 +78,7 @@
         UIImageView *iconImage = [[UIImageView alloc] initWithFrame:iconImageViewRect];
         UIImage *image = [Utilities setLightDarkModeImageAsset:[UIImage imageNamed:item[@"icon"]]
                                                     lightColor:UIColor.darkGrayColor
-                                                     darkColor:UIColor.lightGrayColor];
+                                                     darkColor:ICON_TINT_COLOR];
         iconImage.image = image;
         [cell.contentView addSubview:iconImage];
     }
