@@ -236,6 +236,70 @@
       "idiom" : "universal",
       "locale" : "cs",
       "scale" : "3x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "af-ZA",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "af-ZA",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "remote_help@3x-AF.png",
+      "idiom" : "universal",
+      "locale" : "af-ZA",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "ro-RO",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "ro-RO",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "remote_help@3x-RO.png",
+      "idiom" : "universal",
+      "locale" : "ro-RO",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "bs-BA",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "bs-BA",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "remote_help@3x-BS.png",
+      "idiom" : "universal",
+      "locale" : "bs-BA",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "id-ID",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "id-ID",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "remote_help@3x-ID.png",
+      "idiom" : "universal",
+      "locale" : "id-ID",
+      "scale" : "3x"
     }
   ],
   "info" : {
