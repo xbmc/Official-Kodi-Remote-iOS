@@ -1017,6 +1017,7 @@
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     quickHelpView.alpha = 0.0;
+    quickHelpView.backgroundColor = INFO_POPOVER_COLOR;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(revealMenu)
