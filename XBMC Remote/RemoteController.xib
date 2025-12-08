@@ -118,11 +118,11 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="174" userLabel="Gesture Zone" customClass="RemoteControllerGestureZoneView">
-                                    <rect key="frame" x="-320" y="0.0" width="320" height="290"/>
+                                    <rect key="frame" x="-320" y="5" width="320" height="280"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="gesturezone_background" translatesAutoresizingMaskIntoConstraints="NO" id="175">
-                                            <rect key="frame" x="16" y="0.0" width="287" height="289"/>
+                                            <rect key="frame" x="14" y="0.0" width="290" height="280"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                     </subviews>
