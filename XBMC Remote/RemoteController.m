@@ -1224,7 +1224,7 @@
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
     gestureZoneImageView.layer.cornerRadius = GESTUREZONE_RADIUS;
     gestureZoneImageView.layer.borderWidth = GESTUREZONE_BORDERWIDTH;
-    gestureZoneImageView.layer.borderColor = UIColor.whiteColor.CGColor;
+    gestureZoneImageView.layer.borderColor = UIColor.grayColor.CGColor;
     gestureZoneImageView.clipsToBounds = YES;
 }
 
