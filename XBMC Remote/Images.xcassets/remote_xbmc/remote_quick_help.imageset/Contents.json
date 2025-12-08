@@ -5,11 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -19,12 +19,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-DE.png",
       "idiom" : "universal",
       "locale" : "de",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-DE.png",
       "idiom" : "universal",
       "locale" : "de",
       "scale" : "3x"
@@ -35,12 +35,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-EN.png",
       "idiom" : "universal",
       "locale" : "en",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-EN.png",
       "idiom" : "universal",
       "locale" : "en",
       "scale" : "3x"
@@ -51,12 +51,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-ES.png",
       "idiom" : "universal",
       "locale" : "es",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-ES.png",
       "idiom" : "universal",
       "locale" : "es",
       "scale" : "3x"
@@ -67,12 +67,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-IT.png",
       "idiom" : "universal",
       "locale" : "it",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-IT.png",
       "idiom" : "universal",
       "locale" : "it",
       "scale" : "3x"
@@ -83,12 +83,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-PL.png",
       "idiom" : "universal",
       "locale" : "pl",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-PL.png",
       "idiom" : "universal",
       "locale" : "pl",
       "scale" : "3x"
@@ -99,12 +99,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-PT.png",
       "idiom" : "universal",
       "locale" : "pt-PT",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-PT.png",
       "idiom" : "universal",
       "locale" : "pt-PT",
       "scale" : "3x"
@@ -115,12 +115,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-ZH.png",
       "idiom" : "universal",
       "locale" : "zh-Hans",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-ZH.png",
       "idiom" : "universal",
       "locale" : "zh-Hans",
       "scale" : "3x"
@@ -131,12 +131,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-SV.png",
       "idiom" : "universal",
       "locale" : "sv",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-SV.png",
       "idiom" : "universal",
       "locale" : "sv",
       "scale" : "3x"
@@ -147,12 +147,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-TR.png",
       "idiom" : "universal",
       "locale" : "tr",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-TR.png",
       "idiom" : "universal",
       "locale" : "tr",
       "scale" : "3x"
@@ -163,12 +163,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-FI.png",
       "idiom" : "universal",
       "locale" : "fi-FI",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-FI.png",
       "idiom" : "universal",
       "locale" : "fi-FI",
       "scale" : "3x"
@@ -179,12 +179,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-KO.png",
       "idiom" : "universal",
       "locale" : "ko-KR",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-KO.png",
       "idiom" : "universal",
       "locale" : "ko-KR",
       "scale" : "3x"
@@ -195,12 +195,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-FR.png",
       "idiom" : "universal",
       "locale" : "fr",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-FR.png",
       "idiom" : "universal",
       "locale" : "fr",
       "scale" : "3x"
@@ -211,12 +211,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-NL.png",
       "idiom" : "universal",
       "locale" : "nl",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-NL.png",
       "idiom" : "universal",
       "locale" : "nl",
       "scale" : "3x"
@@ -227,14 +227,78 @@
       "scale" : "1x"
     },
     {
-      "filename" : "remote_help@2x-CS.png",
       "idiom" : "universal",
       "locale" : "cs",
       "scale" : "2x"
     },
     {
+      "filename" : "remote_help@3x-CS.png",
       "idiom" : "universal",
       "locale" : "cs",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "af-ZA",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "af-ZA",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "remote_help@3x-AF.png",
+      "idiom" : "universal",
+      "locale" : "af-ZA",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "ro-RO",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "ro-RO",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "remote_help@3x-RO.png",
+      "idiom" : "universal",
+      "locale" : "ro-RO",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "bs-BA",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "bs-BA",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "remote_help@3x-BS.png",
+      "idiom" : "universal",
+      "locale" : "bs-BA",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "id-ID",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "id-ID",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "remote_help@3x-ID.png",
+      "idiom" : "universal",
+      "locale" : "id-ID",
       "scale" : "3x"
     }
   ],
