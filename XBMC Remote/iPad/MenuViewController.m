@@ -190,7 +190,7 @@
         else if (item.family == FamilyRemote) {
             RemoteController *remoteController = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
             remoteController.modalPresentationStyle = UIModalPresentationFormSheet;
-            [remoteController setPreferredContentSize:remoteController.view.frame.size];
+            remoteController.preferredContentSize = remoteController.view.frame.size;
             [UIApplication.sharedApplication.keyWindow.rootViewController presentViewController:remoteController animated:YES completion:nil];
             if (IS_IPAD) {
                 if (lastSelected != -1) {
