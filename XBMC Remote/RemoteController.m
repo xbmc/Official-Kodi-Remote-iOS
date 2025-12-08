@@ -952,6 +952,8 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     if (quickHelpView.alpha == 0) {
         NSString *imageName = isGestureViewActive ? @"gesturezone_help" : @"remote_quick_help";
+        quickHelpMainLabel.text = isGestureViewActive ? LOCALIZED_STR(@"QUICK HELP") : @"";
+        quickHelpSubLabel.text = isGestureViewActive ? LOCALIZED_STR(@"Gestures") : @"";
         quickHelpImageView.image = [UIImage imageNamed:imageName];
         quickHelpImageView.layer.minificationFilter = kCAFilterTrilinear;
         [Utilities alphaView:quickHelpView AnimDuration:0.2 Alpha:1.0];
