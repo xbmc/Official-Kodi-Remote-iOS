@@ -506,7 +506,7 @@
 - (IBAction)scrollDown:(id)sender {
     int height_content = scrollView.contentSize.height;
     int height_bounds = scrollView.bounds.size.height;
-    int bottom_scroll = MAX(height_content - height_bounds, 0);
+    int bottom_scroll = MAX(height_content - height_bounds, -scrollView.contentInset.top);
     CGPoint bottomOffset = CGPointMake(0, bottom_scroll);
     [scrollView setContentOffset:bottomOffset animated:YES];
 }
