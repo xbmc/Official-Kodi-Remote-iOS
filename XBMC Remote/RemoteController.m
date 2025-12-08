@@ -950,6 +950,9 @@
 - (IBAction)toggleQuickHelp {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     if (quickHelpView.alpha == 0) {
+        NSString *imageName = isGestureViewActive ? @"gesturezone_help" : @"remote_quick_help";
+        quickHelpImageView.image = [UIImage imageNamed:imageName];
+        quickHelpImageView.layer.minificationFilter = kCAFilterTrilinear;
         [Utilities alphaView:quickHelpView AnimDuration:0.2 Alpha:1.0];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
@@ -1217,8 +1220,6 @@
     [self loadRemoteMode];
     [self configureView];
     
-    quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
-    quickHelpImageView.layer.minificationFilter = kCAFilterTrilinear;
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
     gestureZoneImageView.layer.cornerRadius = GESTUREZONE_RADIUS;
     gestureZoneImageView.layer.borderWidth = GESTUREZONE_BORDERWIDTH;
