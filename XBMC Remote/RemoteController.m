@@ -46,6 +46,8 @@
 #define WINDOW_VISUALISATION 12006
 #define KEY_HOLD_TIMEOUT 0.5
 #define KEY_REPEAT_TIMEOUT 0.1
+#define GESTUREZONE_RADIUS 20.0
+#define GESTUREZONE_BORDERWIDTH 1.0
 
 @interface RemoteController ()
 
@@ -1218,6 +1220,10 @@
     quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
     quickHelpImageView.layer.minificationFilter = kCAFilterTrilinear;
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
+    gestureZoneImageView.layer.cornerRadius = GESTUREZONE_RADIUS;
+    gestureZoneImageView.layer.borderWidth = GESTUREZONE_BORDERWIDTH;
+    gestureZoneImageView.layer.borderColor = UIColor.whiteColor.CGColor;
+    gestureZoneImageView.clipsToBounds = YES;
 }
 
 - (void)enterCustomButtons {
