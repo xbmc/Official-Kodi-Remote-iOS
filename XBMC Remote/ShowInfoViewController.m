@@ -651,16 +651,18 @@
     else if ([item[@"family"] isEqualToString:@"episodeid"]) {
         placeHolderImage = @"nocover_tvshows_episode_wall";
         
-        mainLabel1.text = LOCALIZED_STR(@"TV SHOW");
-        mainLabel2.text = LOCALIZED_STR(@"FIRST AIRED");
-        mainLabel3.text = LOCALIZED_STR(@"DIRECTOR");
+        mainLabel0.text = LOCALIZED_STR(@"TV SHOW");
+        mainLabel1.text = LOCALIZED_STR(@"FIRST AIRED");
+        mainLabel2.text = LOCALIZED_STR(@"DIRECTOR");
+        mainLabel3.text = LOCALIZED_STR(@"RUNTIME");
         mainLabel4.text = LOCALIZED_STR(@"WRITER");
         mainLabel5.text = LOCALIZED_STR(@"SUMMARY");
         castMainLabel.text = LOCALIZED_STR(@"CAST");
         parentalRatingMainLabel.text = LOCALIZED_STR(@"PARENTAL RATING");
-        subLabel1.text = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];
-        subLabel2.text = [Utilities getDateFromItem:item[@"firstaired"] dateStyle:NSDateFormatterLongStyle];
-        subLabel3.text = [Utilities getStringFromItem:item[@"director"]];
+        subLabel0.text = [Utilities formatTVShowStringForSeasonTrailing:item[@"season"] episode:item[@"episode"] title:item[@"showtitle"]];
+        subLabel1.text = [Utilities getDateFromItem:item[@"firstaired"] dateStyle:NSDateFormatterLongStyle];
+        subLabel2.text = [Utilities getStringFromItem:item[@"director"]];
+        subLabel3.text = [Utilities getStringFromItem:item[@"runtime"]];
         subLabel4.text = [Utilities getStringFromItem:item[@"writer"]];
         subLabel5.text = [Utilities getStringFromItem:item[@"plot"]];
         
@@ -714,16 +716,18 @@
         NSString *director = [Utilities getStringFromItem:item[@"director"]];
         NSString *year = [Utilities getYearFromItem:item[@"year"]];
         
-        mainLabel1.text = LOCALIZED_STR(@"ARTIST");
-        mainLabel2.text = LOCALIZED_STR(@"GENRE");
-        mainLabel3.text = [self formatDirectorYearHeading:director year:year];
+        mainLabel0.text = LOCALIZED_STR(@"ARTIST");
+        mainLabel1.text = LOCALIZED_STR(@"GENRE");
+        mainLabel2.text = [self formatDirectorYearHeading:director year:year];
+        mainLabel3.text = LOCALIZED_STR(@"RUNTIME");
         mainLabel4.text = LOCALIZED_STR(@"STUDIO");
         mainLabel5.text = LOCALIZED_STR(@"SUMMARY");
         castMainLabel.text = @"";
         parentalRatingMainLabel.text = LOCALIZED_STR(@"PARENTAL RATING");
-        subLabel1.text = [Utilities getStringFromItem:item[@"artist"]];
-        subLabel2.text = [Utilities getStringFromItem:item[@"genre"]];
-        subLabel3.text = [self formatDirectorYear:director year:year];
+        subLabel0.text = [Utilities getStringFromItem:item[@"artist"]];
+        subLabel1.text = [Utilities getStringFromItem:item[@"genre"]];
+        subLabel2.text = [self formatDirectorYear:director year:year];
+        subLabel3.text = [Utilities getStringFromItem:item[@"runtime"]];
         subLabel4.text = [Utilities getStringFromItem:item[@"studio"]];
         subLabel5.text = [Utilities getStringFromItem:item[@"plot"]];
         
