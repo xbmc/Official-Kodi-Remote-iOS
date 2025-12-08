@@ -286,6 +286,7 @@
 # pragma mark - ToolBar
 
 - (void)toggleGestureZone:(id)sender {
+    quickHelpView.alpha = 0;
     NSString *imageName = @"blank";
     BOOL showGesture = !isGestureViewActive;
     if ([sender isKindOfClass:[NSNotification class]]) {
