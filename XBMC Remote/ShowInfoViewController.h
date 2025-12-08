@@ -55,6 +55,7 @@
     NSDateFormatter *localEndDateFormatter;
     BOOL isPvrDetail;
     UIToolbar *toolbar;
+    UIVisualEffectView *effectView;
     NSMutableArray *sheetActions;
     UIBarButtonItem *actionSheetButtonItem;
     UIBarButtonItem *extraButton;

@@ -181,7 +181,7 @@
             [Utilities createTransparentToolbar:toolbar];
             [self.view addSubview:toolbar];
             
-            UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithFrame:toolbar.frame];
+            effectView = [[UIVisualEffectView alloc] initWithFrame:toolbar.frame];
             effectView.autoresizingMask = toolbar.autoresizingMask;
             effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
             [self.view insertSubview:effectView belowSubview:toolbar];
@@ -1431,6 +1431,7 @@
                                                 options:UIViewAnimationOptionCurveEaseInOut
                                              animations:^{
                                                 scrollView.alpha = 1.0;
+                                                effectView.alpha = 1.0;
                                                 toolbar.alpha = 1.0;
                                                 arrow_back_up.alpha = ARROW_ALPHA;
                                              }
@@ -1449,6 +1450,7 @@
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                             scrollView.alpha = 0.0;
+                            effectView.alpha = 0.0;
                             toolbar.alpha = 0.0;
                             arrow_back_up.alpha = 0.0;
                             arrow_continue_down.alpha = 0.0;
