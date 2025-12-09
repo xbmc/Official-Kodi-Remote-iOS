@@ -242,7 +242,7 @@
 }
 
 - (void)showServerVolume {
-    if (AppDelegate.instance.serverOnLine && serverVolume > -1) {
+    if (serverVolume > -1) {
         volumeLabel.text = [NSString stringWithFormat:@"%d", serverVolume];
         volumeSlider.value = serverVolume;
     }
