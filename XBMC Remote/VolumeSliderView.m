@@ -148,8 +148,8 @@
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(handleEnterForeground:)
-                                                     name:UIApplicationWillEnterForegroundNotification
+                                                 selector:@selector(handleDidBecomeActive:)
+                                                     name:UIApplicationDidBecomeActiveNotification
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -180,7 +180,7 @@
     [self stopTimer];
 }
 
-- (void)handleEnterForeground:(NSNotification*)sender {
+- (void)handleDidBecomeActive:(NSNotification*)sender {
     [self readServerVolume];
     [self startTimer];
     [self setVolumeButtonMode];
