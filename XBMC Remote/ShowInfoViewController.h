@@ -11,12 +11,12 @@
 #import "DSJSONRPC.h"
 #import "JBKenBurnsView.h"
 #import "Utilities.h"
-#import <SafariServices/SafariServices.h>
+#import "BaseActionViewController.h"
 
 @class NowPlaying;
 @class DetailViewController;
 
-@interface ShowInfoViewController : UIViewController <UIScrollViewDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate, SFSafariViewControllerDelegate, WKUIDelegate> {
+@interface ShowInfoViewController : BaseActionViewController <UIScrollViewDelegate, KenBurnsViewDelegate, UITableViewDataSource, UITableViewDelegate, WKUIDelegate> {
     IBOutlet UIImageView *coverView;
     IBOutlet UIImageView *starsView;
     IBOutlet UILabel *voteLabel;
@@ -50,7 +50,6 @@
     IBOutlet UIImageView *jewelView;
     IBOutlet UIImageView *fanartView;
 
-    NSDateFormatter *xbmcDateFormatter;
     NSDateFormatter *localStartDateFormatter;
     NSDateFormatter *localEndDateFormatter;
     BOOL isPvrDetail;
@@ -88,7 +87,6 @@
 
 - (id)initWithNibName:(NSString*)nibNameOrNil withItem:(NSDictionary*)item withFrame:(CGRect)frame bundle:(NSBundle*)nibBundleOrNil;
 
-@property (strong, nonatomic) id detailItem;
 @property (nonatomic, strong) KenBurnsView *kenView;
 
 @end
