@@ -181,7 +181,7 @@
             [Utilities createTransparentToolbar:toolbar];
             [self.view addSubview:toolbar];
             
-            UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithFrame:toolbar.frame];
+            effectView = [[UIVisualEffectView alloc] initWithFrame:toolbar.frame];
             effectView.autoresizingMask = toolbar.autoresizingMask;
             effectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
             [self.view insertSubview:effectView belowSubview:toolbar];
@@ -506,7 +506,7 @@
 - (IBAction)scrollDown:(id)sender {
     int height_content = scrollView.contentSize.height;
     int height_bounds = scrollView.bounds.size.height;
-    int bottom_scroll = MAX(height_content - height_bounds, 0);
+    int bottom_scroll = MAX(height_content - height_bounds, -scrollView.contentInset.top);
     CGPoint bottomOffset = CGPointMake(0, bottom_scroll);
     [scrollView setContentOffset:bottomOffset animated:YES];
 }
@@ -1431,6 +1431,7 @@
                                                 options:UIViewAnimationOptionCurveEaseInOut
                                              animations:^{
                                                 scrollView.alpha = 1.0;
+                                                effectView.alpha = 1.0;
                                                 toolbar.alpha = 1.0;
                                                 arrow_back_up.alpha = ARROW_ALPHA;
                                              }
@@ -1449,6 +1450,7 @@
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                             scrollView.alpha = 0.0;
+                            effectView.alpha = 0.0;
                             toolbar.alpha = 0.0;
                             arrow_back_up.alpha = 0.0;
                             arrow_continue_down.alpha = 0.0;
