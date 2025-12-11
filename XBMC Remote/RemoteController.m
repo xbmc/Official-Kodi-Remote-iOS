@@ -286,6 +286,7 @@
 # pragma mark - ToolBar
 
 - (void)toggleGestureZone:(id)sender {
+    quickHelpView.alpha = 0;
     NSString *imageName = @"blank";
     BOOL showGesture = !isGestureViewActive;
     if ([sender isKindOfClass:[NSNotification class]]) {
@@ -950,6 +951,11 @@
 - (IBAction)toggleQuickHelp {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
     if (quickHelpView.alpha == 0) {
+        NSString *imageName = isGestureViewActive ? @"gesturezone_help" : @"remote_quick_help";
+        quickHelpMainLabel.text = LOCALIZED_STR(@"QUICK HELP");
+        quickHelpSubLabel.text = isGestureViewActive ? LOCALIZED_STR(@"Gestures") : LOCALIZED_STR(@"Remote Control");
+        quickHelpImageView.image = [UIImage imageNamed:imageName];
+        quickHelpImageView.layer.minificationFilter = kCAFilterTrilinear;
         [Utilities alphaView:quickHelpView AnimDuration:0.2 Alpha:1.0];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
@@ -1013,6 +1019,7 @@
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     quickHelpView.alpha = 0.0;
+    quickHelpView.backgroundColor = INFO_POPOVER_COLOR;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(revealMenu)
@@ -1217,12 +1224,10 @@
     [self loadRemoteMode];
     [self configureView];
     
-    quickHelpImageView.image = [UIImage imageNamed:@"remote_quick_help"];
-    quickHelpImageView.layer.minificationFilter = kCAFilterTrilinear;
     gestureZoneImageView.layer.minificationFilter = kCAFilterTrilinear;
     gestureZoneImageView.layer.cornerRadius = GESTUREZONE_RADIUS;
     gestureZoneImageView.layer.borderWidth = GESTUREZONE_BORDERWIDTH;
-    gestureZoneImageView.layer.borderColor = UIColor.whiteColor.CGColor;
+    gestureZoneImageView.layer.borderColor = UIColor.grayColor.CGColor;
     gestureZoneImageView.clipsToBounds = YES;
 }
 
