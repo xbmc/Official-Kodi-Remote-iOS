@@ -1053,7 +1053,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleDidBecomeActive)
-                                                 name:UIApplicationDidBecomeActiveNotification
+                                                 name:UISceneDidActivateNotification
                                                object:nil];
 }
 
