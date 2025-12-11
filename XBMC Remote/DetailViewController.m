@@ -61,7 +61,6 @@
 #define IPAD_SEASON_SECTION_HEIGHT 120
 #define IPAD_ALBUM_SECTION_HEIGHT 166
 #define INDEX_WIDTH 34
-#define RUNTIMEYEAR_WIDTH 63
 #define GENRE_HEIGHT 18
 #define EPGCHANNELTIME_WIDTH 40
 #define EPGCHANNELTIME_HEIGHT 12
@@ -2098,7 +2097,7 @@
     int newWidthLabel = 0;
     if (episodesView || (self.sectionArray.count == 1 && !channelGuideView)) {
         newWidthLabel = viewWidth - LABEL_PADDING - labelPosition;
-        menuItem.originYearDuration = viewWidth - RUNTIMEYEAR_WIDTH - LABEL_PADDING;
+        menuItem.maxXrightLabel = viewWidth - LABEL_PADDING;
         UIEdgeInsets dataListSeparatorInset = [dataList separatorInset];
         dataListSeparatorInset.right = 0;
         dataList.separatorInset = dataListSeparatorInset;
@@ -2109,7 +2108,7 @@
         dataListSeparatorInset.right = indexPadding;
         dataList.separatorInset = dataListSeparatorInset;
         newWidthLabel = viewWidth - labelPosition - indexPadding;
-        menuItem.originYearDuration = viewWidth - indexPadding - RUNTIMEYEAR_WIDTH;
+        menuItem.maxXrightLabel = viewWidth - indexPadding;
     }
     menuItem.widthLabel = newWidthLabel;
     [self setWatchedOverlayPosition];
@@ -2484,7 +2483,7 @@
     }
 
     frame = runtimeyear.frame;
-    frame.origin.x = menuItem.originYearDuration;
+    frame.origin.x = menuItem.maxXrightLabel - CGRectGetWidth(runtimeyear.frame);
     runtimeyear.frame = frame;
 
     if ([menuItem.showRuntime[chosenTab] boolValue]) {
@@ -2510,7 +2509,7 @@
     runtime.text = item[@"runtime"];
 
     frame = rating.frame;
-    frame.origin.x = menuItem.originYearDuration;
+    frame.origin.x = menuItem.maxXrightLabel - CGRectGetWidth(rating.frame);
     rating.frame = frame;
     rating.text = [Utilities getRatingFromItem:item[@"rating"]];
     cell.urlImageView.contentMode = UIViewContentModeScaleAspectFill;
