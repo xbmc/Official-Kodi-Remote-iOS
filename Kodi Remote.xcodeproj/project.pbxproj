@@ -100,6 +100,7 @@
 		C76594B52C5E883A00B93A2A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A9786C21683D87800B4F3F8 /* Localizable.strings */; };
 		C76594B62C5E885B00B93A2A /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6087E164B3094009CA3A9 /* Roboto-Regular.ttf */; };
 		C76594B72C5E8A5B00B93A2A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C70F41D02BA4D98E00847C75 /* PrivacyInfo.xcprivacy */; };
+		C771C7292EC7879300581D44 /* fmt_convert.mm in Sources */ = {isa = PBXBuildFile; fileRef = C771C7282EC7879300581D44 /* fmt_convert.mm */; };
 		C78C30F528F877870055CD95 /* VersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = C78C30F428F877870055CD95 /* VersionCheck.m */; };
 		C78C30FA28F8AADA0055CD95 /* SharingActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C78C30F928F89A3E0055CD95 /* SharingActivityItemSource.m */; };
 		C795123F2DC95A7E00A8CEE5 /* LinkPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C795123E2DC95A7E00A8CEE5 /* LinkPresentation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -260,6 +261,7 @@
 		1A9786C31683D8E900B4F3F8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8ED18E7A16B572D700CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8ED18E7B16B572D700CA03F4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ACCBC14627BBB259000A16E1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B1FF37DE1709D1EB005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		B1FF37DF1709D1ED005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C703692827148CEF0049F9BF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -320,6 +322,8 @@
 		C76451CB29C51221000AE949 /* UIButton+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+WebCache.m"; path = "SDWebImage/UIButton+WebCache.m"; sourceTree = "<group>"; };
 		C76451CC29C51221000AE949 /* SDWebImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDWebImageManager.h; path = SDWebImage/SDWebImageManager.h; sourceTree = "<group>"; };
 		C76451CD29C51221000AE949 /* UIImage+MultiFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+MultiFormat.m"; path = "SDWebImage/UIImage+MultiFormat.m"; sourceTree = "<group>"; };
+		C771C7282EC7879300581D44 /* fmt_convert.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = fmt_convert.mm; sourceTree = "<group>"; };
+		C771C72A2EC787B500581D44 /* fmt_convert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_convert.h; sourceTree = "<group>"; };
 		C772AD2A2E675D8300435181 /* bs-BA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bs-BA"; path = "bs-BA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C772AD2B2E675D8300435181 /* bs-BA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bs-BA"; path = "bs-BA.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C78204462E3930FC00B3F1E9 /* uk-UA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "uk-UA"; path = "uk-UA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -513,6 +517,7 @@
 			isa = PBXGroup;
 			children = (
 				C70F41D02BA4D98E00847C75 /* PrivacyInfo.xcprivacy */,
+				ACCBC14627BBB259000A16E1 /* Config.xcconfig */,
 				0F59E2661564796B00184AE8 /* CONTRIBUTING.md */,
 				0F59E26315646FB800184AE8 /* LICENSE */,
 				0F8717911564566300AE2D48 /* README.md */,
@@ -575,6 +580,8 @@
 				0F4019B218F415A50064E4DC /* MessagesView.m */,
 				0F4AB8181903DDCE005DEC5C /* RemoteControllerGestureZoneView.h */,
 				0F4AB8191903DDCE005DEC5C /* RemoteControllerGestureZoneView.m */,
+				C771C72A2EC787B500581D44 /* fmt_convert.h */,
+				C771C7282EC7879300581D44 /* fmt_convert.mm */,
 				0F747736151DD98600EF78AD /* classes */,
 				0F554901151D1187007E633F /* Supporting Files */,
 				0F554C21151D197F007E633F /* nib */,
@@ -905,6 +912,7 @@
 				0F4156451646D810009E6DD4 /* JBKenBurnsView.m in Sources */,
 				C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */,
 				0F7F3DA5164A6D730080A14A /* ECSlidingViewController.m in Sources */,
+				C771C7292EC7879300581D44 /* fmt_convert.mm in Sources */,
 				C79B0EA52DF0CF6900046334 /* BaseMasterViewController.m in Sources */,
 				0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */,
 				0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */,
@@ -1013,6 +1021,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOL_FRAMEWORKS = UIKit;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -1047,7 +1057,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1071,6 +1080,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOL_FRAMEWORKS = UIKit;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -1099,7 +1110,6 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1119,6 +1129,7 @@
 		};
 		0F55491B151D1187007E633F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACCBC14627BBB259000A16E1 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1127,6 +1138,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-w",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "it.joethefox.XBMC-Remote";
 				PRODUCT_NAME = "Kodi Remote";
@@ -1137,12 +1149,16 @@
 		};
 		0F55491C151D1187007E633F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACCBC14627BBB259000A16E1 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XBMC Remote/Kodi Remote-Prefix.pch";
 				INFOPLIST_FILE = "XBMC Remote/Kodi Remote-Info.plist";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "it.joethefox.XBMC-Remote";
 				PRODUCT_NAME = "Kodi Remote";
 				PROVISIONING_PROFILE_SPECIFIER = "Kodi Remote AppStore";
