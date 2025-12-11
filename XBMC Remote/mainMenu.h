@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 @property int rowHeight;
 @property int thumbWidth;
 @property (nonatomic, copy) NSArray *showInfo;
-@property int originYearDuration;
+@property int maxXrightLabel;
 @property int widthLabel;
 @property int chooseTab;
 @property BOOL disableNavbarButtons;
