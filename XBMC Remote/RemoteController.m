@@ -344,13 +344,14 @@
                          completion:nil];
         imageName = @"icon_finger";
     }
+    UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:imageName] withColor:ICON_TINT_COLOR];
     if ([sender isKindOfClass:[UIButton class]]) {
-        [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
-        [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateHighlighted];
+        [sender setImage:image forState:UIControlStateNormal];
+        [sender setImage:image forState:UIControlStateHighlighted];
 
     }
     else if ([sender isKindOfClass:[UIBarButtonItem class]]) {
-        [sender setImage:[UIImage imageNamed:imageName]];
+        [sender setImage:image];
     }
     [self saveRemoteMode];
 }
