@@ -209,6 +209,38 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
 }
 
+- (BOOL)tableView:(UITableView*)tableview canMoveRowAtIndexPath:(NSIndexPath*)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
+    id objectMove = AppDelegate.instance.arrayServerList[sourceIndexPath.row];
+    [AppDelegate.instance.arrayServerList removeObjectAtIndex:sourceIndexPath.row];
+    [AppDelegate.instance.arrayServerList insertObject:objectMove atIndex:destinationIndexPath.row];
+    [AppDelegate.instance saveServerList];
+    
+    NSIndexPath *selectedPath = storeServerSelection;
+    if (!selectedPath) {
+        return;
+    }
+    if (sourceIndexPath.row > selectedPath.row && destinationIndexPath.row <= selectedPath.row) {
+        // When moving a server above the active one, the index for the active server increases by 1.
+        storeServerSelection = [NSIndexPath indexPathForRow:selectedPath.row + 1 inSection:selectedPath.section];
+        [Utilities saveLastServerIndex:storeServerSelection];
+    }
+    else if (sourceIndexPath.row < selectedPath.row && destinationIndexPath.row >= selectedPath.row) {
+        // When moving a server under the active one, the index for the active server decreases by 1.
+        storeServerSelection = [NSIndexPath indexPathForRow:selectedPath.row - 1 inSection:selectedPath.section];
+        [Utilities saveLastServerIndex:storeServerSelection];
+    }
+    else if (sourceIndexPath.row == selectedPath.row) {
+        // When moving the active server, the index for the active server equals the destination index.
+        storeServerSelection = destinationIndexPath;
+        [Utilities saveLastServerIndex:storeServerSelection];
+    }
+}
+
+
 - (UITableViewCellEditingStyle)tableView:(UITableView*)aTableView editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath {
     return UITableViewCellEditingStyleDelete;
 }
