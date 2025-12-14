@@ -552,7 +552,7 @@
         <image name="appViewBackground" width="320" height="480"/>
         <image name="button_close" width="30" height="30"/>
         <image name="crosshair" width="424" height="424"/>
-        <image name="gesturezone_background" width="280" height="280.33334350585938"/>
+        <image name="gesturezone_background" width="280" height="280"/>
         <image name="remote_button_audio_down" width="73" height="34"/>
         <image name="remote_button_audio_up" width="73" height="34"/>
         <image name="remote_button_back_down" width="86" height="86"/>
