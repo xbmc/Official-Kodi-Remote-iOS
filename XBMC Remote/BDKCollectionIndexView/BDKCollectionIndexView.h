@@ -31,11 +31,11 @@ typedef NS_ENUM(NSInteger, BDKCollectionIndexViewDirection) {
 
 /** The direction in which the control is oriented; this is automatically set based on the frame given.
  */
-@property (readonly) BDKCollectionIndexViewDirection direction;
+@property (readonly, nonatomic) BDKCollectionIndexViewDirection direction;
 
 /** The index title at the index of `currentIndex`.
  */
-@property (readonly) NSString *currentIndexTitle;
+@property (readonly, nonatomic) NSString *currentIndexTitle;
 
 /** A class message to initialize and return an index view control, given a frame and a list of index titles.
  *  @param frame the frame to use when initializing the control.
