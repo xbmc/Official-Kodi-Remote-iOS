@@ -48,7 +48,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button tag="21" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="125" userLabel="Button - Music">
-                            <rect key="frame" x="10" y="370" width="75" height="35"/>
+                            <rect key="frame" x="15" y="370" width="65" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" backgroundImage="remote_button_music_up">
@@ -63,7 +63,7 @@
                             </connections>
                         </button>
                         <button tag="22" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="127" userLabel="Button - Movies">
-                            <rect key="frame" x="85" y="370" width="75" height="35"/>
+                            <rect key="frame" x="90" y="370" width="65" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -80,7 +80,7 @@
                             </connections>
                         </button>
                         <button tag="23" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="129" userLabel="Button - TV Shows">
-                            <rect key="frame" x="160" y="370" width="75" height="35"/>
+                            <rect key="frame" x="165" y="370" width="65" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -97,7 +97,7 @@
                             </connections>
                         </button>
                         <button tag="24" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="131" userLabel="Button - Pictures">
-                            <rect key="frame" x="235" y="370" width="75" height="35"/>
+                            <rect key="frame" x="240" y="370" width="65" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -114,15 +114,15 @@
                             </connections>
                         </button>
                         <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="178" userLabel="Transitional View">
-                            <rect key="frame" x="0.0" y="78" width="320" height="290"/>
+                            <rect key="frame" x="0.0" y="79" width="320" height="290"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="174" userLabel="Gesture Zone" customClass="RemoteControllerGestureZoneView">
-                                    <rect key="frame" x="-320" y="0.0" width="320" height="290"/>
+                                    <rect key="frame" x="-320" y="5" width="320" height="280"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="gesturezone_background" translatesAutoresizingMaskIntoConstraints="NO" id="175">
-                                            <rect key="frame" x="16" y="0.0" width="287" height="289"/>
+                                            <rect key="frame" x="12" y="0.0" width="290" height="280"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                     </subviews>
@@ -133,7 +133,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button tag="10" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35" userLabel="Button - up" customClass="OBShapedButton">
-                                            <rect key="frame" x="60" y="0.0" width="200" height="100"/>
+                                            <rect key="frame" x="20" y="0.0" width="280" height="280"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" backgroundImage="remote_button_up_up">
@@ -151,7 +151,7 @@
                                             </connections>
                                         </button>
                                         <button tag="12" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="37" userLabel="Button - left" customClass="OBShapedButton">
-                                            <rect key="frame" x="20" y="40" width="100" height="200"/>
+                                            <rect key="frame" x="20" y="0.0" width="280" height="280"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" backgroundImage="remote_button_left_up">
@@ -169,7 +169,7 @@
                                             </connections>
                                         </button>
                                         <button tag="14" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="39" userLabel="Button - right" customClass="OBShapedButton">
-                                            <rect key="frame" x="200" y="40" width="100" height="200"/>
+                                            <rect key="frame" x="20" y="0.0" width="280" height="280"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" backgroundImage="remote_button_right_up">
@@ -187,7 +187,7 @@
                                             </connections>
                                         </button>
                                         <button tag="16" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="41" userLabel="Button - down" customClass="OBShapedButton">
-                                            <rect key="frame" x="60" y="180" width="200" height="100"/>
+                                            <rect key="frame" x="20" y="0.0" width="280" height="280"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" backgroundImage="remote_button_down_up">
@@ -271,8 +271,8 @@
                                                 <outletCollection property="gestureRecognizers" destination="155" appends="YES" id="156"/>
                                             </connections>
                                         </button>
-                                        <button tag="13" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38" userLabel="Button - select">
-                                            <rect key="frame" x="96" y="76" width="128" height="128"/>
+                                        <button tag="13" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38" userLabel="Button - select" customClass="OBShapedButton">
+                                            <rect key="frame" x="20" y="0.0" width="280" height="280"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" backgroundImage="remote_button_xbmc_select_up">
@@ -287,6 +287,10 @@
                                                 <outletCollection property="gestureRecognizers" destination="Cas-ni-19z" appends="YES" id="SBi-3y-6Ge"/>
                                             </connections>
                                         </button>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="crosshair" id="c2x-PW-C8g">
+                                            <rect key="frame" x="20" y="0.0" width="280" height="280"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
@@ -294,7 +298,7 @@
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                         <button tag="6" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="31" userLabel="Button - stop">
-                            <rect key="frame" x="10" y="5" width="75" height="35"/>
+                            <rect key="frame" x="15" y="5" width="65" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" backgroundImage="remote_button_stop_up">
@@ -309,7 +313,7 @@
                             </connections>
                         </button>
                         <button tag="19" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="118" userLabel="Button - subtitles">
-                            <rect key="frame" x="85" y="5" width="75" height="35"/>
+                            <rect key="frame" x="90" y="5" width="65" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -326,7 +330,7 @@
                             </connections>
                         </button>
                         <button tag="20" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="120" userLabel="Button - audiostreams">
-                            <rect key="frame" x="160" y="5" width="75" height="35"/>
+                            <rect key="frame" x="165" y="5" width="65" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" backgroundImage="remote_button_audio_up">
@@ -341,7 +345,7 @@
                             </connections>
                         </button>
                         <button tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="25" userLabel="Button - playback fullscreen">
-                            <rect key="frame" x="235" y="5" width="75" height="35"/>
+                            <rect key="frame" x="240" y="5" width="65" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -358,7 +362,7 @@
                             </connections>
                         </button>
                         <button tag="5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="30" userLabel="Button - previous">
-                            <rect key="frame" x="10" y="44" width="60" height="33"/>
+                            <rect key="frame" x="15" y="45" width="50" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" backgroundImage="remote_button_skip_backward_up">
@@ -373,7 +377,7 @@
                             </connections>
                         </button>
                         <button tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="27" userLabel="Button - rewind">
-                            <rect key="frame" x="70" y="44" width="60" height="33"/>
+                            <rect key="frame" x="75" y="45" width="50" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -390,7 +394,7 @@
                             </connections>
                         </button>
                         <button tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28" userLabel="Button - play">
-                            <rect key="frame" x="130" y="44" width="60" height="33"/>
+                            <rect key="frame" x="135" y="45" width="50" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" backgroundImage="remote_button_play_pause_up">
@@ -405,7 +409,7 @@
                             </connections>
                         </button>
                         <button tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="29" userLabel="Button - forward">
-                            <rect key="frame" x="190" y="44" width="60" height="33"/>
+                            <rect key="frame" x="195" y="45" width="50" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -422,7 +426,7 @@
                             </connections>
                         </button>
                         <button tag="8" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33" userLabel="Button - next">
-                            <rect key="frame" x="250" y="44" width="60" height="33"/>
+                            <rect key="frame" x="255" y="45" width="50" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" backgroundImage="remote_button_skip_forward_up">
@@ -547,23 +551,20 @@
     <resources>
         <image name="appViewBackground" width="320" height="480"/>
         <image name="button_close" width="30" height="30"/>
-        <image name="gesturezone_background" width="280" height="280.33334350585938"/>
+        <image name="crosshair" width="424" height="424"/>
+        <image name="gesturezone_background" width="280" height="280"/>
         <image name="remote_button_audio_down" width="73" height="34"/>
         <image name="remote_button_audio_up" width="73" height="34"/>
         <image name="remote_button_back_down" width="86" height="86"/>
         <image name="remote_button_back_up" width="86" height="86"/>
         <image name="remote_button_display_down" width="73" height="34"/>
         <image name="remote_button_display_up" width="73" height="34"/>
-        <image name="remote_button_down_down" width="200" height="100"/>
-        <image name="remote_button_down_up" width="200" height="100"/>
         <image name="remote_button_forward_down" width="59" height="33"/>
         <image name="remote_button_forward_up" width="59" height="33"/>
         <image name="remote_button_home_down" width="86" height="86"/>
         <image name="remote_button_home_up" width="86" height="86"/>
         <image name="remote_button_info_down" width="86" height="86"/>
         <image name="remote_button_info_up" width="86" height="86"/>
-        <image name="remote_button_left_down" width="100" height="200"/>
-        <image name="remote_button_left_up" width="100" height="200"/>
         <image name="remote_button_menu_down" width="86" height="86"/>
         <image name="remote_button_menu_up" width="86" height="86"/>
         <image name="remote_button_movies_down" width="73" height="34"/>
@@ -576,8 +577,6 @@
         <image name="remote_button_play_pause_up" width="59" height="33"/>
         <image name="remote_button_rewind_down" width="59" height="33"/>
         <image name="remote_button_rewind_up" width="59" height="33"/>
-        <image name="remote_button_right_down" width="100" height="200"/>
-        <image name="remote_button_right_up" width="100" height="200"/>
         <image name="remote_button_skip_backward_down" width="59" height="33"/>
         <image name="remote_button_skip_backward_up" width="59" height="33"/>
         <image name="remote_button_skip_forward_down" width="59" height="33"/>
@@ -588,9 +587,15 @@
         <image name="remote_button_sub_up" width="73" height="34"/>
         <image name="remote_button_tv_down" width="73" height="34"/>
         <image name="remote_button_tv_up" width="73" height="34"/>
-        <image name="remote_button_up_down" width="200" height="100"/>
-        <image name="remote_button_up_up" width="200" height="100"/>
-        <image name="remote_button_xbmc_select_down" width="125" height="125"/>
-        <image name="remote_button_xbmc_select_up" width="125" height="125"/>
+        <image name="remote_button_down_down" width="424" height="424"/>
+        <image name="remote_button_down_up" width="424" height="424"/>
+        <image name="remote_button_left_down" width="424" height="424"/>
+        <image name="remote_button_left_up" width="424" height="424"/>
+        <image name="remote_button_right_down" width="424" height="424"/>
+        <image name="remote_button_right_up" width="424" height="424"/>
+        <image name="remote_button_up_down" width="424" height="424"/>
+        <image name="remote_button_up_up" width="424" height="424"/>
+        <image name="remote_button_xbmc_select_down" width="424" height="424"/>
+        <image name="remote_button_xbmc_select_up" width="424" height="424"/>
     </resources>
 </document>

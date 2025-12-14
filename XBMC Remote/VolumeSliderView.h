@@ -18,7 +18,6 @@
     IBOutlet UIButton *minusButton;
     BOOL isMuted;
     BOOL isChangingVolume;
-    UIColor *muteIconColor;
     int serverVolume;
 }
 

@@ -43,8 +43,6 @@
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpInside];
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpOutside];
         CGRect frame_tmp;
-        UIColor *volumeIconColor = nil;
-        UIImage *muteBackgroundImage = nil;
         if (!isSliderType) {
             volumeLabel.alpha = 1.0;
             volumeView.hidden = YES;
@@ -76,9 +74,6 @@
             plusButton.frame = frame_tmp;
             
             volumeLabel.textColor = UIColor.lightGrayColor;
-            
-            muteIconColor = UIColor.grayColor;
-            volumeIconColor = UIColor.lightGrayColor;
         }
         else {
             volumeView.hidden = YES;
@@ -104,11 +99,6 @@
             frame_tmp = plusButton.frame;
             frame_tmp.origin.x = CGRectGetMaxX(volumeSlider.frame) + VOLUMEICON_PADDING;
             plusButton.frame = frame_tmp;
-            
-            muteIconColor = UIColor.blackColor;
-            img = [UIImage imageNamed:@"icon_circle"];
-            muteBackgroundImage = [Utilities colorizeImage:img withColor:UIColor.darkGrayColor];
-            volumeIconColor = UIColor.grayColor;
         }
         // Move all buttons to vertical center of view
         CGFloat center_y = self.frame.size.height / 2;
@@ -116,19 +106,17 @@
             subView.center = CGPointMake(subView.center.x, center_y);
         }
         
-        [muteButton setBackgroundImage:muteBackgroundImage forState:UIControlStateNormal];
-        [muteButton setBackgroundImage:muteBackgroundImage forState:UIControlStateHighlighted];
         img = [UIImage imageNamed:@"volume_slash"];
-        img = [Utilities colorizeImage:img withColor:muteIconColor];
+        img = [Utilities colorizeImage:img withColor:UIColor.grayColor];
         [muteButton setImage:img forState:UIControlStateNormal];
         
         img = [UIImage imageNamed:@"volume_1"];
-        img = [Utilities colorizeImage:img withColor:volumeIconColor];
+        img = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
         [minusButton setImage:img forState:UIControlStateNormal];
         [minusButton setImage:img forState:UIControlStateHighlighted];
         
         img = [UIImage imageNamed:@"volume_3"];
-        img = [Utilities colorizeImage:img withColor:volumeIconColor];
+        img = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
         [plusButton setImage:img forState:UIControlStateNormal];
         [plusButton setImage:img forState:UIControlStateHighlighted];
         
@@ -275,7 +263,7 @@
     }
     
     isMuted = mute;
-    UIColor *buttonColor = isMuted ? UIColor.systemRedColor : muteIconColor;
+    UIColor *buttonColor = isMuted ? UIColor.systemRedColor : UIColor.grayColor;
     UIColor *sliderColor = isMuted ? UIColor.darkGrayColor : KODI_BLUE_COLOR;
 
     UIImage *img = [UIImage imageNamed:@"volume_slash"];

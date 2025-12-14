@@ -93,22 +93,9 @@
     twoFingersTap.numberOfTouchesRequired = 2;
     [gestureZoneView addGestureRecognizer:twoFingersTap];
     
-    gestureImage = [UIImage imageNamed:@"icon_finger"];
-    if (!isGestureViewActive) {
-        return;
+    if (isGestureViewActive) {
+        [self setLayoutForGestureMode];
     }
-    
-    gestureImage = [UIImage imageNamed:@"icon_remote"];
-    CGRect frame = gestureZoneView.frame;
-    frame.origin.x = 0;
-    gestureZoneView.frame = frame;
-    
-    frame = buttonZoneView.frame;
-    frame.origin.x = self.view.frame.size.width;
-    buttonZoneView.frame = frame;
-    
-    gestureZoneView.alpha = 1;
-    buttonZoneView.alpha = 0;
 }
 
 - (void)configureView {
@@ -160,7 +147,7 @@
     quickHelpView.frame = frame;
     
     [self setupGestureView];
-    [self createRemoteToolbar:gestureImage width:remoteControlView.frame.size.width xMin:leftPadding yMax:self.view.bounds.size.height];
+    [self createRemoteToolbarWidth:remoteControlView.frame.size.width xMin:leftPadding yMax:self.view.bounds.size.height];
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil withEmbedded:(BOOL)withEmbedded bundle:(NSBundle*)nibBundleOrNil {
@@ -287,39 +274,19 @@
 
 - (void)toggleGestureZone:(id)sender {
     quickHelpView.alpha = 0;
-    NSString *imageName = @"blank";
     BOOL showGesture = !isGestureViewActive;
-    if ([sender isKindOfClass:[NSNotification class]]) {
-        if ([[sender userInfo] isKindOfClass:[NSDictionary class]]) {
-            showGesture = [[[sender userInfo] objectForKey:@"forceGestureZone"] boolValue];
-        }
-    }
     if (showGesture && gestureZoneView.alpha == 1) {
         return;
     }
     if (showGesture) {
         isGestureViewActive = YES;
-        CGRect frame;
-        frame = gestureZoneView.frame;
-        frame.origin.x = -self.view.frame.size.width;
-        gestureZoneView.frame = frame;
         [UIView animateWithDuration:0.3
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-            CGRect frame = gestureZoneView.frame;
-            frame.origin.x = 0;
-            gestureZoneView.frame = frame;
-            
-            frame = buttonZoneView.frame;
-            frame.origin.x = self.view.frame.size.width;
-            buttonZoneView.frame = frame;
-            
-            gestureZoneView.alpha = 1;
-            buttonZoneView.alpha = 0;
+            [self setLayoutForGestureMode];
                          }
                          completion:nil];
-        imageName = @"icon_remote";
     }
     else {
         isGestureViewActive = NO;
@@ -327,30 +294,45 @@
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-            CGRect frame;
-            frame = gestureZoneView.frame;
-            frame.origin.x = -self.view.frame.size.width;
-            gestureZoneView.frame = frame;
-            
-            frame = buttonZoneView.frame;
-            frame.origin.x = 0;
-            buttonZoneView.frame = frame;
-            
-            gestureZoneView.alpha = 0;
-            buttonZoneView.alpha = 1;
+            [self setLayoutForButtonMode];
                          }
                          completion:nil];
-        imageName = @"icon_finger";
     }
     if ([sender isKindOfClass:[UIButton class]]) {
-        [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
-        [sender setImage:[UIImage imageNamed:imageName] forState:UIControlStateHighlighted];
-
-    }
-    else if ([sender isKindOfClass:[UIBarButtonItem class]]) {
-        [sender setImage:[UIImage imageNamed:imageName]];
+        [sender setImage:[self getImageForRemoteMode] forState:UIControlStateNormal];
     }
     [self saveRemoteMode];
+}
+
+- (UIImage*)getImageForRemoteMode {
+    UIImage *gestureImage = [UIImage imageNamed:isGestureViewActive ? @"icon_remote" : @"icon_finger"];
+    return [Utilities colorizeImage:gestureImage withColor:ICON_TINT_COLOR];
+}
+
+- (void)setLayoutForGestureMode {
+    CGRect frame = gestureZoneView.frame;
+    frame.origin.x = 0;
+    gestureZoneView.frame = frame;
+    
+    frame = buttonZoneView.frame;
+    frame.origin.x = self.view.frame.size.width;
+    buttonZoneView.frame = frame;
+    
+    gestureZoneView.alpha = 1;
+    buttonZoneView.alpha = 0;
+}
+
+- (void)setLayoutForButtonMode {
+    CGRect frame = gestureZoneView.frame;
+    frame.origin.x = -self.view.frame.size.width;
+    gestureZoneView.frame = frame;
+    
+    frame = buttonZoneView.frame;
+    frame.origin.x = 0;
+    buttonZoneView.frame = frame;
+    
+    gestureZoneView.alpha = 0;
+    buttonZoneView.alpha = 1;
 }
 
 # pragma mark - JSON
@@ -1119,7 +1101,7 @@
     remoteControlView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
 }
 
-- (void)createRemoteToolbar:(UIImage*)gestureButtonImg width:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax {
+- (void)createRemoteToolbarWidth:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax {
     torchIsOn = [Utilities isTorchOn];
     // iPhone layout has 5 buttons (Gesture > Keyboard > Info > Torch > Additional) with flex spaces around buttons.
     // iPad layout has 6 buttons (Settings > Gesture > Keyboard > Info > Torch > Additional) with flex spaces around buttons.
@@ -1143,14 +1125,16 @@
     
     // Add buttons to toolbar
     frame.origin.x -= ToolbarPadding;
+    UIImage *buttonImage;
     if (IS_IPAD) {
         UIButton *customButton = [UIButton buttonWithType:UIButtonTypeCustom];
         frame.origin.x += ToolbarPadding;
         customButton.frame = frame;
         customButton.showsTouchWhenHighlighted = YES;
-        [customButton setImage:[UIImage imageNamed:@"icon_custom_buttons"] forState:UIControlStateNormal];
+        buttonImage = [UIImage imageNamed:@"icon_custom_buttons"];
+        buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+        [customButton setImage:buttonImage forState:UIControlStateNormal];
         [customButton addTarget:self action:@selector(enterCustomButtons) forControlEvents:UIControlEventTouchUpInside];
-        customButton.alpha = 0.6;
         [remoteToolbar addSubview:customButton];
     }
     
@@ -1158,36 +1142,38 @@
     frame.origin.x += ToolbarPadding;
     gestureButton.frame = frame;
     gestureButton.showsTouchWhenHighlighted = YES;
-    [gestureButton setImage:gestureButtonImg forState:UIControlStateNormal];
+    [gestureButton setImage:[self getImageForRemoteMode] forState:UIControlStateNormal];
     [gestureButton addTarget:self action:@selector(toggleGestureZone:) forControlEvents:UIControlEventTouchUpInside];
-    gestureButton.alpha = 0.6;
     [remoteToolbar addSubview:gestureButton];
     
     UIButton *keyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
     frame.origin.x += ToolbarPadding;
     keyboardButton.frame = frame;
     keyboardButton.showsTouchWhenHighlighted = YES;
-    [keyboardButton setImage:[UIImage imageNamed:@"icon_keyboard"] forState:UIControlStateNormal];
+    buttonImage = [UIImage imageNamed:@"icon_keyboard"];
+    buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+    [keyboardButton setImage:buttonImage forState:UIControlStateNormal];
     [keyboardButton addTarget:self action:@selector(toggleVirtualKeyboard) forControlEvents:UIControlEventTouchUpInside];
-    keyboardButton.alpha = 0.6;
     [remoteToolbar addSubview:keyboardButton];
 
     UIButton *helpButton = [UIButton buttonWithType:UIButtonTypeCustom];
     frame.origin.x += ToolbarPadding;
     helpButton.frame = frame;
     helpButton.showsTouchWhenHighlighted = YES;
-    [helpButton setImage:[UIImage imageNamed:@"button_info"] forState:UIControlStateNormal];
+    buttonImage = [UIImage imageNamed:@"button_info"];
+    buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+    [helpButton setImage:buttonImage forState:UIControlStateNormal];
     [helpButton addTarget:self action:@selector(toggleQuickHelp) forControlEvents:UIControlEventTouchUpInside];
-    helpButton.alpha = 0.6;
     [remoteToolbar addSubview:helpButton];
     
     torchButton = [UIButton buttonWithType:UIButtonTypeCustom];
     frame.origin.x += ToolbarPadding;
     torchButton.frame = frame;
     torchButton.showsTouchWhenHighlighted = YES;
-    [torchButton setImage:[UIImage imageNamed:torchIsOn ? @"torch_on" : @"torch"] forState:UIControlStateNormal];
+    buttonImage = [UIImage imageNamed:torchIsOn ? @"torch_on" : @"torch"];
+    buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+    [torchButton setImage:buttonImage forState:UIControlStateNormal];
     [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
-    torchButton.alpha = 0.6;
     torchButton.enabled = [Utilities hasTorch];
     [remoteToolbar addSubview:torchButton];
     
@@ -1196,9 +1182,10 @@
         frame.origin.x += ToolbarPadding;
         positionButton.frame = frame;
         positionButton.showsTouchWhenHighlighted = YES;
-        [positionButton setImage:[UIImage imageNamed:@"icon_up_down"] forState:UIControlStateNormal];
+        buttonImage = [UIImage imageNamed:@"icon_up_down"];
+        buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+        [positionButton setImage:buttonImage forState:UIControlStateNormal];
         [positionButton addTarget:self action:@selector(toggleRemotePosition) forControlEvents:UIControlEventTouchUpInside];
-        positionButton.alpha = 0.6;
         [remoteToolbar addSubview:positionButton];
     }
     else {
@@ -1206,9 +1193,10 @@
         frame.origin.x += ToolbarPadding;
         closeButton.frame = frame;
         closeButton.showsTouchWhenHighlighted = YES;
-        [closeButton setImage:[UIImage imageNamed:@"button_close"] forState:UIControlStateNormal];
+        buttonImage = [UIImage imageNamed:@"button_close"];
+        buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+        [closeButton setImage:buttonImage forState:UIControlStateNormal];
         [closeButton addTarget:self action:@selector(dismissModal) forControlEvents:UIControlEventTouchUpInside];
-        closeButton.alpha = 0.6;
         [remoteToolbar addSubview:closeButton];
     }
     

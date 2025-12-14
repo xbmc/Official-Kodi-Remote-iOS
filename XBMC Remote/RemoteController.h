@@ -44,7 +44,6 @@ typedef NS_ENUM(NSInteger, RemotePositionType) {
     VolumeSliderView *volumeSliderView;
     __weak IBOutlet UIView *TransitionalView;
     __weak IBOutlet UIImageView *gestureZoneImageView;
-    UIImage *gestureImage;
     BOOL torchIsOn;
     BOOL isEmbeddedMode;
     BOOL isGestureViewActive;
