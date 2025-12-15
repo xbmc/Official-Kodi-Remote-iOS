@@ -1,19 +1,29 @@
 Features:
-- Share URL of items (e.g. for playback with other apps)
+- Added to main menu: Files, Add-ons and Settings
+- Support CEC volume control (see app settings)
+- Start app via URL scheme (e.g. "kodiremote://192.168.1.2")
+- Support app shortcuts (via long pressing app icon)
+- List and load user profiles
 
 Bugfixes:
-- 1.18.1: restore app functionality on iOS 12
-- NowPlaying wrong sized after entering from library view
+- Fix "Error 153" for embedded youtube videos
+- Fix custom buttons for several settings types
+- Do not truncate dates in library view
 
 Improvements:
-- Use frosted glass effect for all toolbars
-- Improved search results for for Wikipedia search
-- Show warning if local network access is not granted
-- Show memory usage and image cache size in info screen
-- Support Galician (Spain)
-- Support Indonesian (Indonesia) 
-- Support Ukrainian (Ukraine)
+- Higher resolution for all icons and images
+- App settings reachable via shortcut from app
+- "Start in view" option independent of translations
+- Re-connect on restart/wakeup after quit/shutdown/hibernate/suspend
+- Settings show labels (e.g. "Movie plot") instead of numbers
+- Setting sliders show units (e.g. "ms")
+- iPad custom button view as popover
+- Movable servers in list
+- Support Romanian
+- Support Bosnian
 - Translation updates for several languages
 - Many more small improvements...
+
+Remark: "Start in view" needs to be set again after updating to this version.
 
 Beta-testers are welcome to join TestFlight! Please follow us on https://forum.kodi.tv/forumdisplay.php?fid=193
