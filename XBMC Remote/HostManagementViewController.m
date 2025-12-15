@@ -39,6 +39,15 @@
     return self;
 }
 
+#pragma mark - UIGestureDelegate to block panGesture during table editing
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer*)otherGestureRecognizer {
+    if (gestureRecognizer == self.slidingViewController.panGesture) {
+        return serverListTableView.editing;
+    }
+    return NO;
+}
+
 #pragma mark - Button Management
 
 - (IBAction)addHost:(id)sender {
@@ -48,6 +57,7 @@
     hostController.detailItem = nil;
     [self.navigationController pushViewController:hostController animated:YES];
     [serverListTableView setEditing:NO animated:YES];
+    editTableButton.selected = NO;
 }
 
 - (void)modifyHost:(NSIndexPath*)item {
@@ -200,11 +210,40 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView*)aTableView editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (aTableView.editing) {
-        return UITableViewCellEditingStyleDelete;
+- (BOOL)tableView:(UITableView*)tableview canMoveRowAtIndexPath:(NSIndexPath*)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
+    id objectMove = AppDelegate.instance.arrayServerList[sourceIndexPath.row];
+    [AppDelegate.instance.arrayServerList removeObjectAtIndex:sourceIndexPath.row];
+    [AppDelegate.instance.arrayServerList insertObject:objectMove atIndex:destinationIndexPath.row];
+    [AppDelegate.instance saveServerList];
+    
+    NSIndexPath *selectedPath = storeServerSelection;
+    if (!selectedPath) {
+        return;
     }
-    return UITableViewCellEditingStyleNone;
+    if (sourceIndexPath.row > selectedPath.row && destinationIndexPath.row <= selectedPath.row) {
+        // When moving a server above the active one, the index for the active server increases by 1.
+        storeServerSelection = [NSIndexPath indexPathForRow:selectedPath.row + 1 inSection:selectedPath.section];
+        [Utilities saveLastServerIndex:storeServerSelection];
+    }
+    else if (sourceIndexPath.row < selectedPath.row && destinationIndexPath.row >= selectedPath.row) {
+        // When moving a server under the active one, the index for the active server decreases by 1.
+        storeServerSelection = [NSIndexPath indexPathForRow:selectedPath.row - 1 inSection:selectedPath.section];
+        [Utilities saveLastServerIndex:storeServerSelection];
+    }
+    else if (sourceIndexPath.row == selectedPath.row) {
+        // When moving the active server, the index for the active server equals the destination index.
+        storeServerSelection = destinationIndexPath;
+        [Utilities saveLastServerIndex:storeServerSelection];
+    }
+}
+
+
+- (UITableViewCellEditingStyle)tableView:(UITableView*)aTableView editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath {
+    return UITableViewCellEditingStyleDelete;
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -430,6 +469,11 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [serverListTableView reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.slidingViewController.panGesture.delegate = nil;
 }
 
 - (void)revealMenu:(NSNotification*)note {
