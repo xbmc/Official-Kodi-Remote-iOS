@@ -17,8 +17,6 @@
 #import "AppDelegate.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
-#import "QuartzCore/CALayer.h"
-#import <QuartzCore/QuartzCore.h>
 #import "PosterCell.h"
 #import "PosterLabel.h"
 #import "PosterHeaderView.h"
@@ -33,6 +31,8 @@
 #import "RemoteController.h"
 
 #import "GeneratedAssetSymbols.h"
+
+@import QuartzCore;
 
 @interface DetailViewController ()
 - (void)configureView;

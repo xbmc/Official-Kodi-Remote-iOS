@@ -1,7 +1,8 @@
 #import "BDKCollectionIndexView.h"
 #import "Utilities.h"
 #import "AppDelegate.h"
-#import <QuartzCore/QuartzCore.h>
+
+@import QuartzCore;
 
 #define DEFAULT_ALPHA 0.3
 #define INDEX_HEIGHT_IPHONE 14  // tested for iPod and Xs and 12 Pro and 6s (10.x)

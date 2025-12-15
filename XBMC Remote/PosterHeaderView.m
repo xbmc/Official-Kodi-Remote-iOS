@@ -7,11 +7,11 @@
 //
 
 #import "PosterHeaderView.h"
-#import "QuartzCore/CALayer.h"
-#import <QuartzCore/QuartzCore.h>
 #import "PosterLabel.h"
 #import "AppDelegate.h"
 #import "Utilities.h"
+
+@import QuartzCore;
 
 #define LABEL_PADDING 10
 

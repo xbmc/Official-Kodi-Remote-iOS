@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 joethefox inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface RemoteControllerGestureZoneView : UIView
 

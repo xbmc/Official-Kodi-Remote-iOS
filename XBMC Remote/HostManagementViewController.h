@@ -6,9 +6,10 @@
 //  Copyright (c) 2012 Korec s.r.l. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "MasterViewController.h"
 #import "DSJSONRPC.h"
+
+@import UIKit;
 
 @class HostViewController;
 @class AppInfoViewController;

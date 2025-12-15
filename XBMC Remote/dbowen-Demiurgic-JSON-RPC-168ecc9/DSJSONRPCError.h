@@ -36,7 +36,7 @@
  *
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 typedef NS_ENUM(NSInteger, JSONRPCErrorType) {
     JSONRPCMethodExecutionFailure = -32100,

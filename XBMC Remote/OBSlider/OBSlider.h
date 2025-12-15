@@ -5,7 +5,7 @@
 //  Copyright 2011 Ole Begemann. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface OBSlider : UISlider
 

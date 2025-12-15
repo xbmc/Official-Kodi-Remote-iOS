@@ -7,11 +7,12 @@
 //
 
 #import "RemoteController.h"
-#import <AudioToolbox/AudioToolbox.h>
 #import "RemoteControllerGestureZoneView.h"
 #import "RightMenuViewController.h"
 #import "Utilities.h"
 #import "VersionCheck.h"
+
+@import AudioToolbox;
 
 #define ROTATION_TRIGGER 0.015
 #define REMOTE_PADDING (44 + 44 + 44) // Space unused above and below the popover and by remote toolbar

@@ -2,8 +2,8 @@
 //  UIImage+ImageWithUIView.h
 //
 
-#import <UIKit/UIKit.h>
-#import <QuartzCore/QuartzCore.h>
+@import UIKit;
+@import QuartzCore;
 
 @interface UIImage (ImageWithUIView)
 + (UIImage*)imageWithUIView:(UIView*)view;

@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @interface GlobalData : NSObject {
     NSString *serverDescription;

@@ -6,11 +6,12 @@
 //  Copyright (c) 2013 joethefox inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <SafariServices/SafariServices.h>
 #import "MessagesView.h"
 #import "mainMenu.h"
 #import "DSJSONRPC.h"
+
+@import Foundation;
+@import SafariServices;
 
 typedef NS_ENUM(NSInteger, JewelType) {
     JewelTypeCD,

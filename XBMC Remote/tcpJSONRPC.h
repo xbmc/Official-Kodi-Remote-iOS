@@ -6,8 +6,9 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "DSJSONRPC.h"
+
+@import Foundation;
 
 @interface tcpJSONRPC : NSObject <NSStreamDelegate> {
     BOOL inCheck;

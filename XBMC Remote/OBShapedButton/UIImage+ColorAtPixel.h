@@ -27,7 +27,7 @@
  October, 2009
  */
  
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 /*
  A category on UIImage that enables you to query the color value of arbitrary 

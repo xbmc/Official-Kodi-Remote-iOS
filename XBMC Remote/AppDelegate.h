@@ -6,11 +6,12 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "GlobalData.h"
 #import "mainMenu.h"
 #import "ECSlidingViewController.h"
 #import "CustomNavigationController.h"
+
+@import UIKit;
 
 @class ViewControllerIPad;
 

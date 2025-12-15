@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <SafariServices/SafariServices.h>
+@import UIKit;
+@import SafariServices;
 
 #define SERVERPOPUP_BOTTOMPADDING 10
 

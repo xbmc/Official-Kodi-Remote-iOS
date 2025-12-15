@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 joethefox inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 #define DEFAULT_MSG_HEIGHT 44
 

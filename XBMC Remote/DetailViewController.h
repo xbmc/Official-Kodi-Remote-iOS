@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "jsonDataCell.h"
 #import "ShowInfoViewController.h"
@@ -17,7 +16,9 @@
 #import "Utilities.h"
 #import "BDKCollectionIndexView.h"
 #import "FloatingHeaderFlowLayout.h"
-#import <SafariServices/SafariServices.h>
+
+@import UIKit;
+@import SafariServices;
 
 @class NowPlaying;
 

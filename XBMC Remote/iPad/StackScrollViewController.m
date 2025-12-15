@@ -41,7 +41,8 @@
 #import "RemoteControllerGestureZoneView.h"
 #import "OBSlider.h"
 #import "Utilities.h"
-#import <QuartzCore/QuartzCore.h>
+
+@import QuartzCore;
 
 #define VIEW_TAG 1000
 #define SLIDE_VIEWS_MINUS_NON_OVERLAP (GET_MAINSCREEN_HEIGHT - PAD_MENU_TABLE_WIDTH - 2 * STACKSCROLL_WIDTH)

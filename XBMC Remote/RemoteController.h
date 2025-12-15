@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "VolumeSliderView.h"
 
+@import UIKit;
 @import AVFoundation;
 
 typedef NS_ENUM(NSInteger, RemotePositionType) {
