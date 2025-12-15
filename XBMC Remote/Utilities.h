@@ -86,9 +86,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (CGSize)getSizeOfLabel:(UILabel*)label;
 + (UIImage*)applyRoundedEdgesImage:(UIImage*)image;
 + (void)applyRoundedEdgesView:(UIView*)view;
-+ (void)turnTorchOn:(UIButton*)button on:(BOOL)torchOn;
-+ (BOOL)hasTorch;
-+ (BOOL)isTorchOn;
 + (CGFloat)getBottomPadding;
 + (CGFloat)getTopPadding;
 + (CGFloat)getTopPaddingWithNavBar:(UINavigationController*)navCtrl;

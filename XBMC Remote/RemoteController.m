@@ -48,6 +48,10 @@
 #define KEY_REPEAT_TIMEOUT 0.1
 #define GESTUREZONE_RADIUS 20.0
 #define GESTUREZONE_BORDERWIDTH 1.0
+#define KEYPATH_TORCHACTIVE @"torchActive"
+#define KEYPATH_TORCHAVAILABLE @"torchAvailable"
+
+static void *TorchRemoteContext = &TorchRemoteContext;
 
 @interface RemoteController ()
 
@@ -1037,12 +1041,43 @@
                                              selector:@selector(handleDidBecomeActive)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
+    
+    [self.avCaptureDevice addObserver:self
+                           forKeyPath:KEYPATH_TORCHACTIVE
+                              options:NSKeyValueObservingOptionNew
+                              context:TorchRemoteContext];
+    
+    [self.avCaptureDevice addObserver:self
+                           forKeyPath:KEYPATH_TORCHAVAILABLE
+                              options:NSKeyValueObservingOptionNew
+                              context:TorchRemoteContext];
+}
+
+- (void)observeValueForKeyPath:(NSString*)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary*)change
+                       context:(void*)context {
+    if (context == TorchRemoteContext) {
+        if ([keyPath isEqualToString:KEYPATH_TORCHACTIVE]) {
+            torchIsOn = [change[NSKeyValueChangeNewKey] boolValue];
+            [self setTorchIcon:torchIsOn];
+        }
+        else if ([keyPath isEqualToString:KEYPATH_TORCHAVAILABLE]) {
+            torchButton.enabled = [change[NSKeyValueChangeNewKey] boolValue];
+        }
+    }
+    else {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
 }
 
 - (void)handleDidBecomeActive {
     // Update torch mode
-    torchIsOn = [Utilities isTorchOn];
-    [Utilities turnTorchOn:torchButton on:torchIsOn];
+    torchIsOn = self.avCaptureDevice.torchActive;
+    [self setTorchIcon:torchIsOn];
 }
 
 - (void)enablePopGestureRecognizer {
@@ -1074,9 +1109,19 @@
     self.slidingViewController.panGesture.delegate = nil;
 }
 
-- (void)turnTorchOn:(id)sender {
+- (void)toggleTorch {
     torchIsOn = !torchIsOn;
-    [Utilities turnTorchOn:sender on:torchIsOn];
+    
+    AVCaptureDevice *device = self.avCaptureDevice;
+    [device lockForConfiguration:nil];
+    device.torchMode = torchIsOn ? AVCaptureTorchModeOn : AVCaptureTorchModeOff;
+    [device unlockForConfiguration];
+}
+
+- (void)setTorchIcon:(BOOL)torchActive {
+    UIImage *buttonImage = [UIImage imageNamed:torchActive ? @"torch_on" : @"torch"];
+    buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
+    [torchButton setImage:buttonImage forState:UIControlStateNormal];
 }
 
 - (void)dismissModal {
@@ -1102,7 +1147,7 @@
 }
 
 - (void)createRemoteToolbarWidth:(CGFloat)width xMin:(CGFloat)xMin yMax:(CGFloat)yMax {
-    torchIsOn = [Utilities isTorchOn];
+    torchIsOn = self.avCaptureDevice.torchActive;
     // iPhone layout has 5 buttons (Gesture > Keyboard > Info > Torch > Additional) with flex spaces around buttons.
     // iPad layout has 6 buttons (Settings > Gesture > Keyboard > Info > Torch > Additional) with flex spaces around buttons.
     // iPhone has an addtional button to toggle the remote's vertical position
@@ -1170,11 +1215,9 @@
     frame.origin.x += ToolbarPadding;
     torchButton.frame = frame;
     torchButton.showsTouchWhenHighlighted = YES;
-    buttonImage = [UIImage imageNamed:torchIsOn ? @"torch_on" : @"torch"];
-    buttonImage = [Utilities colorizeImage:buttonImage withColor:ICON_TINT_COLOR];
-    [torchButton setImage:buttonImage forState:UIControlStateNormal];
-    [torchButton addTarget:self action:@selector(turnTorchOn:) forControlEvents:UIControlEventTouchUpInside];
-    torchButton.enabled = [Utilities hasTorch];
+    torchButton.enabled = self.avCaptureDevice.torchAvailable;
+    [self setTorchIcon:torchIsOn];
+    [torchButton addTarget:self action:@selector(toggleTorch) forControlEvents:UIControlEventTouchUpInside];
     [remoteToolbar addSubview:torchButton];
     
     if (IS_IPHONE) {
@@ -1208,6 +1251,7 @@
     [super viewDidLoad];
 
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.avCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     
     [self loadRemoteMode];
     [self configureView];

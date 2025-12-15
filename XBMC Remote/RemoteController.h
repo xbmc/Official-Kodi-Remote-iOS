@@ -10,6 +10,8 @@
 #import "DSJSONRPC.h"
 #import "VolumeSliderView.h"
 
+@import AVFoundation;
+
 typedef NS_ENUM(NSInteger, RemotePositionType) {
     RemoteAtTop,
     RemoteAtBottom,
@@ -56,5 +58,6 @@ typedef NS_ENUM(NSInteger, RemotePositionType) {
 
 @property (strong, nonatomic) id detailItem;
 @property (nonatomic, strong) NSTimer *holdKeyTimer;
+@property (nonatomic, strong) AVCaptureDevice *avCaptureDevice;
 
 @end

@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 joethefox inc. All rights reserved.
 //
 
-#import <AVFoundation/AVFoundation.h>
 #import <StoreKit/StoreKit.h>
 #import <arpa/inet.h>
 #import <mach/mach.h>
@@ -949,45 +948,6 @@
     if (corner_preference) {
         [Utilities roundedCornerView:view];
     }
-}
-
-+ (void)turnTorchOn:(UIButton*)button on:(BOOL)torchOn {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if (!(device.hasTorch && device.hasFlash)) {
-        return;
-    }
-    
-    AVCapturePhotoSettings *settings = [AVCapturePhotoSettings photoSettings];
-    UIImage *img;
-    [device lockForConfiguration:nil];
-    // Set torch and select button image
-    if (torchOn) {
-        device.torchMode = AVCaptureTorchModeOn;
-        settings.flashMode = AVCaptureFlashModeOn;
-        img = [UIImage imageNamed:@"torch_on"];
-    }
-    else {
-        device.torchMode = AVCaptureTorchModeOff;
-        settings.flashMode = AVCaptureFlashModeOff;
-        img = [UIImage imageNamed:@"torch"];
-    }
-    [button setImage:img forState:UIControlStateNormal];
-        
-    [device unlockForConfiguration];
-}
-
-+ (BOOL)hasTorch {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    return device.hasTorch && device.hasFlash;
-}
-
-+ (BOOL)isTorchOn {
-    BOOL torchIsOn = NO;
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if (device.hasTorch && device.hasFlash) {
-        torchIsOn = device.torchActive;
-    }
-    return torchIsOn;
 }
 
 + (CGFloat)getBottomPadding {
