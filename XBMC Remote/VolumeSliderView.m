@@ -136,8 +136,8 @@
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(handleEnterForeground:)
-                                                     name:UIApplicationWillEnterForegroundNotification
+                                                 selector:@selector(handleDidBecomeActive:)
+                                                     name:UIApplicationDidBecomeActiveNotification
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -168,7 +168,7 @@
     [self stopTimer];
 }
 
-- (void)handleEnterForeground:(NSNotification*)sender {
+- (void)handleDidBecomeActive:(NSNotification*)sender {
     [self readServerVolume];
     [self startTimer];
     [self setVolumeButtonMode];
@@ -242,7 +242,7 @@
 }
 
 - (void)showServerVolume {
-    if (AppDelegate.instance.serverOnLine && serverVolume > -1) {
+    if (serverVolume > -1) {
         volumeLabel.text = [NSString stringWithFormat:@"%d", serverVolume];
         volumeSlider.value = serverVolume;
     }
