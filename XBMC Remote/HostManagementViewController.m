@@ -57,6 +57,7 @@
     hostController.detailItem = nil;
     [self.navigationController pushViewController:hostController animated:YES];
     [serverListTableView setEditing:NO animated:YES];
+    editTableButton.selected = NO;
 }
 
 - (void)modifyHost:(NSIndexPath*)item {
