@@ -39,6 +39,15 @@
     return self;
 }
 
+#pragma mark - UIGestureDelegate to block panGesture during table editing
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer*)otherGestureRecognizer {
+    if (gestureRecognizer == self.slidingViewController.panGesture) {
+        return serverListTableView.editing;
+    }
+    return NO;
+}
+
 #pragma mark - Button Management
 
 - (IBAction)addHost:(id)sender {
