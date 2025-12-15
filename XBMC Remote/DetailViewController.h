@@ -10,7 +10,6 @@
 #import "jsonDataCell.h"
 #import "ShowInfoViewController.h"
 #import "UIImageView+WebCache.h"
-#import <MediaPlayer/MediaPlayer.h>
 #import "mainMenu.h"
 #import "MoreItemsViewController.h"
 #import "Utilities.h"
