@@ -471,6 +471,11 @@
     [serverListTableView reloadData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.slidingViewController.panGesture.delegate = nil;
+}
+
 - (void)revealMenu:(NSNotification*)note {
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
