@@ -253,16 +253,15 @@
 }
 
 - (IBAction)toggleMute:(id)sender {
-    [self showServerMute:!isMuted];
+    [self showServerMute];
     [self changeServerMute];
 }
 
-- (void)showServerMute:(BOOL)mute {
+- (void)showServerMute {
     if (!AppDelegate.instance.serverOnLine) {
         return;
     }
     
-    isMuted = mute;
     UIColor *buttonColor = isMuted ? UIColor.systemRedColor : UIColor.grayColor;
     UIColor *sliderColor = isMuted ? UIColor.darkGrayColor : KODI_BLUE_COLOR;
 
@@ -291,7 +290,7 @@
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
          if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
              isMuted = [methodResult[@"muted"] boolValue];
-             [self showServerMute:isMuted];
+             [self showServerMute];
          }
     }];
 }
