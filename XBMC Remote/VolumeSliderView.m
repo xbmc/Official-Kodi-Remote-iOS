@@ -340,6 +340,8 @@
 }
 
 - (void)handleSliderValueChanged:(id)sender {
+    // Volume slider is changed
+    isChangingVolume = YES;
     [self changeVolume:[sender tag]];
 }
 
@@ -349,7 +351,6 @@
     }
     
     // Process the volume change
-    isChangingVolume = YES;
     switch (action) {
         case VOLUME_BUTTON_INC: // Volume increase using increment
             [self changeServerVolume:@"increment"];
