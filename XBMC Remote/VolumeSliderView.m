@@ -17,10 +17,11 @@
 #define VOLUMEICON_PADDING 10 /* space left/right from volume icons */
 #define VOLUMELABEL_PADDING 5 /* space left/right from volume label */
 #define VOLUMESLIDER_HEIGHT 44
-#define SERVER_TIMEOUT 3.0
 #define VOLUME_HOLD_TIMEOUT 0.2
 #define VOLUME_REPEAT_TIMEOUT 0.03
 #define VOLUME_INFO_TIMEOUT 1.0
+#define SET_VOLUME_TIMEOUT 3.0
+#define SET_MUTE_TIMEOUT 3.0
 #define VOLUME_BUTTON_INC 1
 #define VOLUME_BUTTON_DEC 2
 #define VOLUME_SLIDER_INC 3
@@ -193,6 +194,7 @@
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume"
      withParameters:@{@"volume": value}
+     withTimeout:SET_VOLUME_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             serverVolume = [methodResult intValue];
@@ -280,7 +282,7 @@
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetMute"
      withParameters:@{@"mute": @"toggle"}
-     withTimeout:VOLUME_INFO_TIMEOUT
+     withTimeout:SET_MUTE_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             isMuted = [methodResult boolValue];
