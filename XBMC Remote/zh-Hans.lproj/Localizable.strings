@@ -113,7 +113,7 @@
 "Incorrect Username or Password.\nCheck your settings." = "错误用户名或密码。\n请检查你的设置。";
 "WIKI_LANG" = "zh";
 "vote" = "投票";
-"votes" = "得票数";
+"votes" = "投票数";
 "Scrubbing 1" = "拖动速率 1";
 "Scrubbing 0.5" = "拖动速率 0.5";
 "Scrubbing 0.25" = "拖动速率 0.25";
@@ -289,3 +289,5 @@
 "App Settings" = "应用设置";
 "The user profile has been changed. Please reconnect to the Kodi server manually." = "用户配置文件已切换。请手动重新连接至 Kodi 服务器。";
 "Kodi \"Krypton\" version 17 or later is required to access user profiles." = "访问用户配置文件需使用 Kodi“Krypton”17 版或更高版本。";
+"QUICK HELP" = "快速求助";
+"Gestures" = "手势";
