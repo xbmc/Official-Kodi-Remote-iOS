@@ -23,6 +23,7 @@
 #define XBMC_LOGO_PADDING 10
 #define PERSISTENCE_KEY_VERSION @"VersionUnderReview"
 #define PERSISTENCE_KEY_PLAYBACK_ATTEMPTS @"PlaybackAttempts"
+#define IMAGE_SIZE_COLOR_AVERAGING CGSizeMake(64, 64) // Scale (down) to this size before averaging an image color
 
 @implementation Utilities
 
@@ -32,7 +33,7 @@
     return infoMask & (kCGImageAlphaPremultipliedFirst | kCGImageAlphaPremultipliedLast | kCGImageAlphaFirst | kCGImageAlphaLast);
 }
 
-+ (CGImageRef)createLinearSRGBFromImage:(UIImage*)image {
++ (CGImageRef)createLinearSRGBFromImage:(UIImage*)image size:(CGSize)size {
     CGImageRef inputImageRef = [image CGImage];
     if (inputImageRef == NULL) {
         return NULL;
@@ -45,12 +46,13 @@
     }
     
     // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
+    size = (size.height > 0 && size.width > 0) ? size : CGSizeMake(CGImageGetWidth(inputImageRef), CGImageGetHeight(inputImageRef));
     BOOL anyAlpha = [Utilities isImageUsingAlpha:inputImageRef];
     CGContextRef context = CGBitmapContextCreate(NULL,
-                                                 CGImageGetWidth(inputImageRef),
-                                                 CGImageGetHeight(inputImageRef),
+                                                 size.width,
+                                                 size.height,
                                                  8 /* 8 bits per components */,
-                                                 CGImageGetWidth(inputImageRef) * 4 /* 4 components for ARGB */,
+                                                 size.width * 4 /* 4 components for ARGB */,
                                                  colorSpace,
                                                  anyAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipLast);
     CGColorSpaceRelease(colorSpace);
@@ -136,7 +138,7 @@
 }
 
 + (UIColor*)averageColor:(UIImage*)image {
-    CGImageRef linearSrgbImageRef = [self createLinearSRGBFromImage:image];
+    CGImageRef linearSrgbImageRef = [self createLinearSRGBFromImage:image size:IMAGE_SIZE_COLOR_AVERAGING];
     if (linearSrgbImageRef == NULL) {
         return nil;
     }
