@@ -1624,7 +1624,19 @@
 
 - (void)loadTrailerInWebKit:(id)sender {
     trailerPlayButton.hidden = YES;
-    NSURLRequest *urlrequest = [NSURLRequest requestWithURL:embedVideoURL];
+    NSMutableURLRequest *urlrequest = [NSMutableURLRequest requestWithURL:embedVideoURL];
+    
+    /*
+     Add Referer and origin to fix youtube "Error 153"
+     References:
+     https://developers.google.com/youtube/terms/required-minimum-functionality?hl=en#embedded-player-api-client-identity
+     https://stackoverflow.com/questions/79802987/youtube-error-153-video-player-configuration-error-when-embedding-youtube-video
+     */
+    NSString *bundleID = NSBundle.mainBundle.bundleIdentifier;
+    NSString *referrer = [NSString stringWithFormat:@"https://%@", bundleID.lowercaseString];
+    [urlrequest addValue:referrer forHTTPHeaderField:@"Referer"];
+    [urlrequest addValue:referrer forHTTPHeaderField:@"origin"];
+    
     [trailerWebView loadRequest:urlrequest];
 }
 
