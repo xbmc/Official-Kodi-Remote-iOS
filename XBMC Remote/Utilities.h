@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <SafariServices/SafariServices.h>
 #import "MessagesView.h"
 #import "mainMenu.h"
 #import "DSJSONRPC.h"
@@ -64,7 +63,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createPowerControl;
-+ (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate>*)fromctrl;
 + (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor;
 + (void)showLocalNetworkAccessError:(UIViewController*)viewCtrl;
 + (DSJSONRPC*)getJsonRPC;

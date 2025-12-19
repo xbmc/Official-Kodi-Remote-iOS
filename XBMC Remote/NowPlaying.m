@@ -1110,13 +1110,6 @@
     }];
 }
 
-- (void)playbackAction:(NSString*)action params:(NSDictionary*)parameters {
-    NSMutableDictionary *commonParams = [NSMutableDictionary dictionaryWithDictionary:parameters];
-    commonParams[@"playerid"] = @(currentPlayerID);
-    [[Utilities getJsonRPC] callMethod:action withParameters:commonParams onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-    }];
-}
-
 - (void)updatePartyModePlaylist {
     lastSelected = SELECTED_NONE;
     storeSelection = nil;
@@ -1302,24 +1295,6 @@
     [self notifyChangeForPlaylistHeader];
     [activityIndicatorView stopAnimating];
     lastSelected = SELECTED_NONE;
-}
-
-- (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters reloadPlaylist:(BOOL)reload startProgressBar:(BOOL)progressBar {
-    [[Utilities getJsonRPC] callMethod:action withParameters:parameters onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        if (error == nil && methodError == nil) {
-            if (reload) {
-                [self createPlaylistAnimated:YES];
-            }
-            if (progressBar) {
-                updateProgressBar = YES;
-            }
-        }
-        else {
-            if (progressBar) {
-                updateProgressBar = YES;
-            }
-        }
-    }];
 }
 
 - (void)showInfo:(NSDictionary*)item menuItem:(mainMenu*)menuItem activeTab:(int)activeTab indexPath:(NSIndexPath*)indexPath {
@@ -1554,12 +1529,12 @@
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @{@"to": @"previous"};
-                [self playbackAction:action params:params];
+                [self playerAction:action params:params];
             }
             else {
                 action = @"Player.GoPrevious";
                 params = nil;
-                [self playbackAction:action params:nil];
+                [self playerAction:action params:nil];
             }
             ProgressSlider.value = 0;
             break;
@@ -1567,13 +1542,13 @@
         case TAG_ID_PLAYPAUSE:
             action = @"Player.PlayPause";
             params = nil;
-            [self playbackAction:action params:nil];
+            [self playerAction:action params:nil];
             break;
             
         case TAG_ID_STOP:
             action = @"Player.Stop";
             params = nil;
-            [self playbackAction:action params:nil];
+            [self playerAction:action params:nil];
             storeSelection = nil;
             break;
             
@@ -1581,12 +1556,12 @@
             if (AppDelegate.instance.serverVersion > 11) {
                 action = @"Player.GoTo";
                 params = @{@"to": @"next"};
-                [self playbackAction:action params:params];
+                [self playerAction:action params:params];
             }
             else {
                 action = @"Player.GoNext";
                 params = nil;
-                [self playbackAction:action params:nil];
+                [self playerAction:action params:nil];
             }
             break;
             
@@ -1602,13 +1577,13 @@
         case TAG_SEEK_BACKWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallbackward"];
-            [self playbackAction:action params:params];
+            [self playerAction:action params:params];
             break;
             
         case TAG_SEEK_FORWARD:
             action = @"Player.Seek";
             params = [Utilities buildPlayerSeekStepParams:@"smallforward"];
-            [self playbackAction:action params:params];
+            [self playerAction:action params:params];
             break;
                     
         default:
@@ -1656,11 +1631,19 @@
     
     // Send the command to Kodi
     if (AppDelegate.instance.serverVersion > 11) {
-        [self SimpleAction:@"Player.SetShuffle" params:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"} reloadPlaylist:YES startProgressBar:NO];
+        [self simpleAction:@"Player.SetShuffle" params:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"} completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (error == nil && methodError == nil) {
+                [self createPlaylistAnimated:YES];
+            }
+        }];
     }
     else {
         NSString *shuffleCommand = newShuffleStatus ? @"Player.Shuffle" : @"Player.UnShuffle";
-        [self SimpleAction:shuffleCommand params:@{@"playerid": @(currentPlayerID)} reloadPlaylist:YES startProgressBar:NO];
+        [self simpleAction:shuffleCommand params:@{@"playerid": @(currentPlayerID)} completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (error == nil && methodError == nil) {
+                [self createPlaylistAnimated:YES];
+            }
+        }];
     }
     
     // Update the button status
@@ -1685,10 +1668,10 @@
     
     // Send the command to Kodi
     if (AppDelegate.instance.serverVersion > 11) {
-        [self SimpleAction:@"Player.SetRepeat" params:@{@"playerid": @(currentPlayerID), @"repeat": @"cycle"} reloadPlaylist:NO startProgressBar:NO];
+        [self playerAction:@"Player.SetRepeat" params:@{@"playerid": @(currentPlayerID), @"repeat": @"cycle"}];
     }
     else {
-        [self SimpleAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": newRepeatStatus} reloadPlaylist:NO startProgressBar:NO];
+        [self playerAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": newRepeatStatus}];
     }
     
     // Update the button status
@@ -1838,11 +1821,11 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         switch (gestureRecognizer.view.tag) {
             case TAG_SEEK_BACKWARD:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
+                [self playerAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
                 break;
                 
             case TAG_SEEK_FORWARD:// FORWARD BUTTON - INCREASE PLAYBACK SPEED
-                [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
+                [self playerAction:@"Player.SetSpeed" params:@{@"speed": @"increment"}];
                 break;
                 
             case TAG_ID_EDIT:// EDIT TABLE
@@ -1861,7 +1844,9 @@
 }
 
 - (IBAction)startUpdateProgressBar:(id)sender {
-    [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:currentPlayerID percentage:ProgressSlider.value] reloadPlaylist:NO startProgressBar:YES];
+    [self simpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:currentPlayerID percentage:ProgressSlider.value] completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        updateProgressBar = YES;
+    }];
     [Utilities alphaView:scrabbingView AnimDuration:0.3 Alpha:0.0];
 }
 
@@ -2639,8 +2624,7 @@
 
 - (void)showRemote {
     fromItself = YES;
-    RemoteController *remote = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
-    [self.navigationController pushViewController:remote animated:YES];
+    [super showRemote];
 }
 
 - (void)powerControl {
