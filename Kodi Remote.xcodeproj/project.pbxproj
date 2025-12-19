@@ -55,6 +55,7 @@
 		0FEA79FC165FBBED00BB281F /* XBMCVirtualKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA79FB165FBBEC00BB281F /* XBMCVirtualKeyboard.m */; };
 		0FEAE76816EA632800387DED /* ActorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEAE76716EA632800387DED /* ActorCell.m */; };
 		0FEE08161704819A00EC9BC7 /* FloatingHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEE08151704819A00EC9BC7 /* FloatingHeaderFlowLayout.m */; };
+		C70B9C7C2DE1CB6900F14093 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C70B9C7B2DE1CB6900F14093 /* SceneDelegate.m */; };
 		C7106D792D33C25400A96C93 /* BroadcastProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D782D33C25400A96C93 /* BroadcastProgressView.m */; };
 		C7106D7B2D33EEE000A96C93 /* ProgressBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D7A2D33EEE000A96C93 /* ProgressBarView.m */; };
 		C7106D842D33FBCE00A96C93 /* PlaylistProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D832D33FBCE00A96C93 /* PlaylistProgressView.m */; };
@@ -263,6 +264,8 @@
 		B1FF37DE1709D1EB005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		B1FF37DF1709D1ED005473FF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C703692827148CEF0049F9BF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		C70B9C7B2DE1CB6900F14093 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		C70B9C7D2DE1CBA300F14093 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		C70F41D02BA4D98E00847C75 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C7106D752D2FC9BC00A96C93 /* af-ZA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "af-ZA"; path = "af-ZA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C7106D762D2FC9BC00A96C93 /* af-ZA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "af-ZA"; path = "af-ZA.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -555,6 +558,8 @@
 				0FDFC67C15377CE9000BE837 /* Settings.bundle */,
 				0F554909151D1187007E633F /* AppDelegate.h */,
 				0F55490A151D1187007E633F /* AppDelegate.m */,
+				C70B9C7D2DE1CBA300F14093 /* SceneDelegate.h */,
+				C70B9C7B2DE1CB6900F14093 /* SceneDelegate.m */,
 				C79B0EA62DF0CF8C00046334 /* BaseMasterViewController.h */,
 				C79B0EA42DF0CF6900046334 /* BaseMasterViewController.m */,
 				0F554C1E151D14DA007E633F /* mainMenu.h */,
@@ -898,6 +903,7 @@
 				0F5A504C155FA8640062FD6E /* HostManagementViewController.m in Sources */,
 				0F545D0B1575563100B6320D /* OBShapedButton.m in Sources */,
 				0F545D0C1575563100B6320D /* UIImage+ColorAtPixel.m in Sources */,
+				C70B9C7C2DE1CB6900F14093 /* SceneDelegate.m in Sources */,
 				0F4063351578C6CD00596B61 /* MoreItemsViewController.m in Sources */,
 				0F540662160C82E900853B02 /* CustomNavigationController.m in Sources */,
 				C72CDAF22DD27AB800AFB2FA /* LocalNetworkAlert.swift in Sources */,
