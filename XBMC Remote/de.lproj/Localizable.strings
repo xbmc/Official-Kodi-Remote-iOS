@@ -289,3 +289,5 @@
 "Profiles" = "Profile";
 "The user profile has been changed. Please reconnect to the Kodi server manually." = "Das Nutzerprofil wurde gewechselt. Bitte selbst wieder mit dem Kodi-Server verbinden.";
 "Kodi \"Krypton\" version 17 or later is required to access user profiles." = "Zum Aufrufen der Nutzerprofile wird Kodi „Krypton“ Version 17 oder höher benötigt.";
+"QUICK HELP" = "SCHNELLHILFE";
+"Gestures" = "Gesten";
