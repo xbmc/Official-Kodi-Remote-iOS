@@ -29,5 +29,6 @@
 
 @property (nonatomic, strong) NSTimer *pollVolumeTimer;
 @property (nonatomic, strong) NSTimer *holdVolumeTimer;
+@property (nonatomic, strong) NSTimer *muteReadTimer;
 
 @end

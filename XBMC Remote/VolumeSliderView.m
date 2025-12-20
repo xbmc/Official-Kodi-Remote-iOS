@@ -22,6 +22,7 @@
 #define VOLUME_INFO_TIMEOUT 1.0
 #define SET_VOLUME_TIMEOUT 3.0
 #define SET_MUTE_TIMEOUT 3.0
+#define MUTE_READ_TIMEOUT 0.2
 #define VOLUME_BUTTON_INC 1
 #define VOLUME_BUTTON_DEC 2
 #define VOLUME_SLIDER_INC 3
@@ -281,8 +282,14 @@
      withTimeout:SET_MUTE_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
-            isMuted = [methodResult boolValue];
-            [self showServerMute];
+            // Workaround: Kodi does report back the correct mute state in methodResult in some setups.
+            // Therefore give Kodi some time before reading the mute state via JSON API.
+            [self.muteReadTimer invalidate];
+            self.muteReadTimer = [NSTimer scheduledTimerWithTimeInterval:MUTE_READ_TIMEOUT
+                                                                  target:self
+                                                                selector:@selector(readServerVolume)
+                                                                userInfo:nil
+                                                                 repeats:NO];
             if (onSuccess) {
                 onSuccess();
             }
