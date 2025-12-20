@@ -260,10 +260,6 @@
 }
 
 - (void)showServerMute {
-    if (!AppDelegate.instance.serverOnLine) {
-        return;
-    }
-    
     UIColor *buttonColor = isMuted ? UIColor.systemRedColor : UIColor.grayColor;
     UIColor *sliderColor = isMuted ? UIColor.darkGrayColor : KODI_BLUE_COLOR;
 
