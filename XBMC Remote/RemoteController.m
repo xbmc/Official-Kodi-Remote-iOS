@@ -586,13 +586,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
                                                        selector:@selector(longpressKey:)
                                                        userInfo:params
                                                         repeats:NO];
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL startVibrate = [userDefaults boolForKey:@"vibrate_preference"];
-    if (startVibrate) {
-        [[UIDevice currentDevice] playInputClick];
-        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    }
+    [Utilities giveHapticFeedback];
 }
 
 - (IBAction)stopHoldKey:(id)sender {
@@ -839,13 +833,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 
 - (IBAction)startVibrate:(id)sender {
     [self processButtonPress:[sender tag]];
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL startVibrate = [userDefaults boolForKey:@"vibrate_preference"];
-    if (startVibrate) {
-        [[UIDevice currentDevice] playInputClick];
-        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    }
+    [Utilities giveHapticFeedback];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
 }
 
@@ -929,6 +917,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 - (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         [self processButtonLongPress:gestureRecognizer.view.tag];
+        [Utilities giveHapticFeedback];
     }
 }
 
