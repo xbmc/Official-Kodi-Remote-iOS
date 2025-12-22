@@ -2734,15 +2734,10 @@
         [runtime setWidth:menuItem.widthLabel - ratingWidth - LABEL_PADDING];
     }
     
-    NSString *playcount = [NSString stringWithFormat:@"%@", item[@"playcount"]];
+    BOOL wasWatched = [item[@"playcount"] intValue] > 0;
     UIImageView *flagView = (UIImageView*)[cell viewWithTag:XIB_JSON_DATA_CELL_WATCHED_FLAG];
     [flagView setOrigin:CGPointMake(flagX, flagY)];
-    if ([playcount intValue]) {
-        flagView.hidden = NO;
-    }
-    else {
-        flagView.hidden = YES;
-    }
+    flagView.hidden = !wasWatched;
     return cell;
 }
 
