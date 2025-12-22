@@ -10,11 +10,11 @@
 #import <mach/mach.h>
 #import "Utilities.h"
 #import "AppDelegate.h"
-#import "NSString+MD5.h"
 #import "SDWebImageManager.h"
 #import "LocalNetworkAccess.h"
 
 @import StoreKit;
+@import CommonCrypto;
 
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:(a)]
@@ -1046,31 +1046,6 @@
     return message;
 }
 
-+ (NSString*)stripRegEx:(NSString*)regExp text:(NSString*)textIn {
-    // Returns unchanged string, if regExp is nil. Returns nil, if string is nil.
-    if (!textIn || !regExp) {
-        return textIn;
-    }
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regExp options:NSRegularExpressionCaseInsensitive error:NULL];
-    NSString *textOut = [regex stringByReplacingMatchesInString:textIn options:0 range:NSMakeRange(0, [textIn length]) withTemplate:@""];
-    return textOut;
-}
-
-+ (NSString*)stripBBandHTML:(NSString*)text {
-    NSString *textOut = text;
-    
-    // Strip html, <x>, whereas x is not ""
-    textOut = [Utilities stripRegEx:@"<[^>]+>" text:textOut];
-    
-    // Strip BB code, [x] [/x], whereas x = b,u,i,s,center,left,right,url,img and spaces
-    textOut = [Utilities stripRegEx:@"\\[/?(b|u|i|s|center|left|right|url|img)\\]" text:textOut];
-    
-    // Strip BB code, [x=anything] [/x], whereas x = font,size,color,url and spaces
-    textOut = [Utilities stripRegEx:@"\\[/?(font|size|color|url)(=[^]]+)?\\]" text:textOut];
-    
-    return textOut;
-}
-
 + (BOOL)isValidMacAddress:(NSString*)macAddress {
     return macAddress && macAddress.length && ![macAddress isEqualToString:@":::::"];
 }
@@ -1588,6 +1563,49 @@
     CGImageRelease(newImageRef);
     
     return newImage;
+}
+
+@end
+
+#pragma mark - NSString extensions
+
+@implementation NSString (Extensions)
+
+- (NSString*)SHA256String {
+    const char *utf8chars = [self UTF8String];
+    unsigned char result[CC_SHA256_DIGEST_LENGTH];
+    CC_SHA256(utf8chars, (CC_LONG)strlen(utf8chars), result);
+    
+    NSMutableString *ret = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
+    for (int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
+        [ret appendFormat:@"%02x", result[i]];
+    }
+    return ret;
+}
+
+- (NSString*)stripRegEx:(NSString*)regExp {
+    // Returns unchanged string, if regExp is nil.
+    if (!regExp) {
+        return self;
+    }
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regExp options:NSRegularExpressionCaseInsensitive error:NULL];
+    NSString *textOut = [regex stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, self.length) withTemplate:@""];
+    return textOut;
+}
+
+- (NSString*)stripBBandHTML {
+    NSString *textOut = self;
+    
+    // Strip html, <x>, whereas x is not ""
+    textOut = [textOut stripRegEx:@"<[^>]+>"];
+    
+    // Strip BB code, [x] [/x], whereas x = b,u,i,s,center,left,right,url,img and spaces
+    textOut = [textOut stripRegEx:@"\\[/?(b|u|i|s|center|left|right|url|img)\\]"];
+    
+    // Strip BB code, [x=anything] [/x], whereas x = font,size,color,url and spaces
+    textOut = [textOut stripRegEx:@"\\[/?(font|size|color|url)(=[^]]+)?\\]"];
+    
+    return textOut;
 }
 
 @end

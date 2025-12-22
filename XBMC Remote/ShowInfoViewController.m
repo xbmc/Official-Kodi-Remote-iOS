@@ -873,7 +873,7 @@
 
     parentalRatingSubLabel.text = [Utilities getStringFromItem:item[@"mpaa"]];
     
-    subLabel5.text = [Utilities stripBBandHTML:subLabel5.text];
+    subLabel5.text = [subLabel5.text stripBBandHTML];
     
     if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
         [self processTrailerFromString:item[@"trailer"]];

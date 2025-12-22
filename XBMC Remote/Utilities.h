@@ -89,7 +89,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (NSString*)formatTVShowStringForSeasonLeading:(id)season episode:(id)episode title:(NSString*)title;
 + (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode;
 + (NSString*)formatClipboardMessage:(NSString*)method parameters:(NSDictionary*)parameters error:(NSError*)error methodError:(DSJSONRPCError*)methodError;
-+ (NSString*)stripBBandHTML:(NSString*)text;
 + (BOOL)isValidMacAddress:(NSString*)macAddress;
 + (void)wakeUp:(NSString*)macAddress;
 + (NSString*)getUrlStyleAddress:(NSString*)address;
@@ -160,5 +159,12 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 - (UIColor*)averageColor;
 - (UIImage*)colorizeWithColor:(UIColor*)color;
 - (UIImage*)resizedImageSize:(CGSize)newSize aspectMode:(UIViewContentMode)contentMode;
+
+@end
+
+@interface NSString (Extensions)
+
+- (NSString*)SHA256String;
+- (NSString*)stripBBandHTML;
 
 @end

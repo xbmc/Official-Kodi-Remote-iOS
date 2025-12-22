@@ -467,7 +467,7 @@
     
     NSString *descriptionString = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
     descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
-    descriptionString = [Utilities stripBBandHTML:descriptionString];
+    descriptionString = [descriptionString stripBBandHTML];
     switch (xbmcSetting) {
         case SettingTypeSwitch:
             cell.selectionStyle = UITableViewCellSelectionStyleNone;

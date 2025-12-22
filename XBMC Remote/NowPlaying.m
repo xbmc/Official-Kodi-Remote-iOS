@@ -451,7 +451,7 @@
         NSString *description = [Utilities getStringFromItem:item[@"description"]];
         NSString *plot = [Utilities getStringFromItem:item[@"plot"]];
         itemDescription.text = description.length ? description : (plot.length ? plot : @"");
-        itemDescription.text = [Utilities stripBBandHTML:itemDescription.text];
+        itemDescription.text = [itemDescription.text stripBBandHTML];
         [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
     }
     
