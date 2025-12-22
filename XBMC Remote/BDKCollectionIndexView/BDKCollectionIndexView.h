@@ -1,4 +1,4 @@
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 /** The direction in which the control is oriented. Assists in determining layout values.
  */

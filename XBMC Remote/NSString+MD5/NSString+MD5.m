@@ -7,7 +7,8 @@
 //
 
 #import "NSString+MD5.h"
-#import <CommonCrypto/CommonDigest.h>
+
+@import CommonCrypto;
 
 @implementation NSString (MD5)
 

@@ -10,7 +10,6 @@
 #import "mainMenu.h"
 #import "UIImageView+WebCache.h"
 #import "UIImage+Resize.h"
-#import <QuartzCore/QuartzCore.h>
 #import "GlobalData.h"
 #import "SDImageCache.h"
 #import "RemoteController.h"
@@ -22,6 +21,8 @@
 #import "OBSlider.h"
 #import "Utilities.h"
 #import "PlaylistProgressView.h"
+
+@import QuartzCore;
 
 @interface NowPlaying ()
 

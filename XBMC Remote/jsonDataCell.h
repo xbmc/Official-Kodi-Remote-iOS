@@ -1,5 +1,5 @@
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface jsonDataCell : UITableViewCell {
     IBOutlet UIImageView *urlImageView;

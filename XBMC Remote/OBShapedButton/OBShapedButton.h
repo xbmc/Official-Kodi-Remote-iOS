@@ -27,7 +27,7 @@
  October, 2009
  */
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 /*
  OBShapedButton is a UIButton subclass optimized for non-rectangular button shapes.

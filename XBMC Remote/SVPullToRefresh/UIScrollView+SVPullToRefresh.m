@@ -7,9 +7,11 @@
 // https://github.com/samvermette/SVPullToRefresh
 //
 
-#import <QuartzCore/QuartzCore.h>
 #import "UIScrollView+SVPullToRefresh.h"
 #import "AppDelegate.h"
+
+@import QuartzCore;
+@import ObjectiveC;
 
 // fequalzro() from http://stackoverflow.com/a/1614761/184130
 #define fequalzero(a) (fabs(a) < FLT_EPSILON)
@@ -47,7 +49,6 @@ static CGFloat const SVPullToRefreshViewHeight = 60;
 @end
 
 #pragma mark - UIScrollView (SVPullToRefresh)
-#import <objc/runtime.h>
 
 static char UIScrollViewPullToRefreshView;
 

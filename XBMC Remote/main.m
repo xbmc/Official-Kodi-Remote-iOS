@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 #import "AppDelegate.h"
+
+@import UIKit;
 
 int main(int argc, char *argv[]) {
     @autoreleasepool {

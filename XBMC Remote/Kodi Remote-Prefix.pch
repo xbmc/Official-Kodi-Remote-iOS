@@ -1,3 +1,4 @@
-#import <UIKit/UIKit.h>
-#import <Foundation/Foundation.h>
 #import "ConvenienceMacros.h"
+
+@import UIKit;
+@import Foundation;

@@ -12,7 +12,6 @@
 #import "GlobalData.h"
 #import "SDImageCache.h"
 #import "UIImageView+WebCache.h"
-#import <QuartzCore/QuartzCore.h>
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "ViewControllerIPad.h"
@@ -20,6 +19,8 @@
 #import "ActorCell.h"
 #import "Utilities.h"
 #import "VersionCheck.h"
+
+@import QuartzCore;
 
 #define PLAY_BUTTON_SIZE 40
 #define TV_LOGO_SIZE_REC_DETAILS 72

@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 joethefox inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "PosterLabel.h"
+
+@import UIKit;
 
 @interface PosterHeaderView : UICollectionReusableView
 

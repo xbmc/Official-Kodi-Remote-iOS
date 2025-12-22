@@ -6,8 +6,9 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
+
+@import UIKit;
 
 @interface VolumeSliderView : UIView {
     IBOutlet UIView *volumeView;

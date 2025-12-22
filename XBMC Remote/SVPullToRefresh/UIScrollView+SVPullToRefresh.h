@@ -7,8 +7,9 @@
 // https://github.com/samvermette/SVPullToRefresh
 //
 
-#import <UIKit/UIKit.h>
 #import <AvailabilityMacros.h>
+
+@import UIKit;
 
 @class SVPullToRefreshView;
 

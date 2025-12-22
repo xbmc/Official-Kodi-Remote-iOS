@@ -6,8 +6,9 @@
 //  Copyright © 2022 Team Kodi. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "AppDelegate.h"
+
+@import Foundation;
 
 @interface VersionCheck : NSObject
 

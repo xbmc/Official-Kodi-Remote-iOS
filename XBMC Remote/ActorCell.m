@@ -7,9 +7,10 @@
 //
 
 #import "ActorCell.h"
-#import <QuartzCore/QuartzCore.h>
 #import "AppDelegate.h"
 #import "Utilities.h"
+
+@import QuartzCore;
 
 #define LABEL_PADDING 10
 #define THUMB_PADDING 10

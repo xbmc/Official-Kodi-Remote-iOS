@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 joethefox inc. All rights reserved.
 //
 
-#import <StoreKit/StoreKit.h>
 #import <arpa/inet.h>
 #import <mach/mach.h>
 #import "Utilities.h"
@@ -14,6 +13,8 @@
 #import "NSString+MD5.h"
 #import "SDWebImageManager.h"
 #import "LocalNetworkAccess.h"
+
+@import StoreKit;
 
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
 #define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];

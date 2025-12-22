@@ -6,10 +6,11 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "DSJSONRPC.h"
 #import "UIImageView+WebCache.h"
 #import "OBSlider.h"
+
+@import UIKit;
 
 @class ShowInfoViewController;
 @class RemoteController;

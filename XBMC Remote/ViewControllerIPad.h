@@ -6,12 +6,13 @@
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "BaseMasterViewController.h"
 #import "DSJSONRPC.h"
 #import "tcpJSONRPC.h"
 #import "MessagesView.h"
 #import "VolumeSliderView.h"
+
+@import UIKit;
 
 @class MenuViewController;
 @class StackScrollViewController;
