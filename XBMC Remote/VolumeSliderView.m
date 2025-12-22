@@ -257,7 +257,7 @@
 }
 
 - (IBAction)toggleMute:(id)sender {
-    [self changeServerMute:nil];
+    [self changeServerMute:@"toggle" onSuccess:nil];
 }
 
 - (void)showServerMute {
@@ -275,10 +275,10 @@
     volumeSlider.userInteractionEnabled = !isMuted;
 }
 
-- (void)changeServerMute:(void(^)(void))onSuccess {
+- (void)changeServerMute:(id)value onSuccess:(void(^)(void))onSuccess {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetMute"
-     withParameters:@{@"mute": @"toggle"}
+     withParameters:@{@"mute": value}
      withTimeout:SET_MUTE_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
@@ -379,7 +379,7 @@
     // In case of active mute, demute first. Then change the volume. This keeps Kodi's internal mute state
     // and potentially connected AV equipment in sync.
     if (isMuted) {
-        [self changeServerMute:^{
+        [self changeServerMute:@NO onSuccess:^{
             [self changeServerVolume:volumeCommand];
         }];
     }
