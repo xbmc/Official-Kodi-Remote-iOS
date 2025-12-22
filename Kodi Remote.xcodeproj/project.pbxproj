@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0F00207816EE247A003822B5 /* OBSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F00207616EE247A003822B5 /* OBSlider.m */; };
-		0F05FB69170D79D400BBA833 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F05FB68170D79D400BBA833 /* NSString+MD5.m */; };
 		0F089AA518EC4E3300F32430 /* SettingsValuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F089AA418EC4E3300F32430 /* SettingsValuesViewController.m */; };
 		0F175F24154D5C3600C1C61F /* ViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */; };
 		0F175F28154D696B00C1C61F /* StackScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F27154D696B00C1C61F /* StackScrollViewController.m */; };
@@ -110,8 +109,6 @@
 		0F00207616EE247A003822B5 /* OBSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBSlider.m; sourceTree = "<group>"; };
 		0F0320841C59531700C7E25D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F0320851C59531700C7E25D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		0F05FB67170D79D400BBA833 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
-		0F05FB68170D79D400BBA833 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		0F089AA318EC4E3300F32430 /* SettingsValuesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsValuesViewController.h; sourceTree = "<group>"; };
 		0F089AA418EC4E3300F32430 /* SettingsValuesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsValuesViewController.m; sourceTree = "<group>"; };
 		0F175F21154D5C3600C1C61F /* ViewControllerIPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerIPad.h; sourceTree = "<group>"; };
@@ -365,15 +362,6 @@
 			path = OBSlider;
 			sourceTree = "<group>";
 		};
-		0F05FB66170D79B000BBA833 /* NSString+MD5 */ = {
-			isa = PBXGroup;
-			children = (
-				0F05FB67170D79D400BBA833 /* NSString+MD5.h */,
-				0F05FB68170D79D400BBA833 /* NSString+MD5.m */,
-			);
-			path = "NSString+MD5";
-			sourceTree = "<group>";
-		};
 		0F175F13154D45B300C1C61F /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
@@ -615,7 +603,6 @@
 				0F4156421646D810009E6DD4 /* KenBurns */,
 				0F7F3DA0164A6D730080A14A /* ECSlidingViewController */,
 				0F7F0DC71703490A0098FF75 /* BDKCollectionIndexView */,
-				0F05FB66170D79B000BBA833 /* NSString+MD5 */,
 				0FDC8917170DCAEA00419F58 /* SVPullToRefresh */,
 				C78C30F728F899DF0055CD95 /* SharingActivityItemSource */,
 				C72CDAF52DD27ACC00AFB2FA /* LocalNetwork */,
@@ -914,7 +901,6 @@
 				0F7F0DCC1703490A0098FF75 /* BDKCollectionIndexView.m in Sources */,
 				0FEE08161704819A00EC9BC7 /* FloatingHeaderFlowLayout.m in Sources */,
 				0F4205D217099AE500EA533C /* RecentlyAddedCell.m in Sources */,
-				0F05FB69170D79D400BBA833 /* NSString+MD5.m in Sources */,
 				0F4019B018F3ECEB0064E4DC /* customButton.m in Sources */,
 				0FDC891A170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m in Sources */,
 				C76451DA29C51221000AE949 /* SDWebImageDownloaderOperation.m in Sources */,
