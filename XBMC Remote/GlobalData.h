@@ -19,14 +19,14 @@
     NSString *serverHWAddr;
 }
 
-@property (nonatomic, strong)NSString *serverDescription;
-@property (nonatomic, strong)NSString *serverUser;
-@property (nonatomic, strong)NSString *serverPass;
-@property (nonatomic, strong)NSString *serverRawIP;
-@property (nonatomic, strong)NSString *serverIP;
-@property int tcpPort;
-@property (nonatomic, strong)NSString *serverPort;
-@property (nonatomic, strong)NSString *serverHWAddr;
+@property (nonatomic, strong) NSString *serverDescription;
+@property (nonatomic, strong) NSString *serverUser;
+@property (nonatomic, strong) NSString *serverPass;
+@property (nonatomic, strong) NSString *serverRawIP;
+@property (nonatomic, strong) NSString *serverIP;
+@property (nonatomic) int tcpPort;
+@property (nonatomic, strong) NSString *serverPort;
+@property (nonatomic, strong) NSString *serverHWAddr;
 
 + (GlobalData*)getInstance;
 

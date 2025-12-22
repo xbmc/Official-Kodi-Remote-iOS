@@ -51,9 +51,9 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 @interface mainMenu : NSObject
 
 @property (nonatomic, copy) NSString *mainLabel;
-@property MenuItemFamily family;
-@property MenuItemType type;
-@property BOOL enableSection;
+@property (nonatomic) MenuItemFamily family;
+@property (nonatomic) MenuItemType type;
+@property (nonatomic) BOOL enableSection;
 @property (nonatomic, copy) NSString *icon;
 @property (nonatomic, copy) NSArray *mainMethod;
 @property (nonatomic, copy) NSString *defaultThumb;
@@ -62,15 +62,15 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 @property (nonatomic, strong) NSMutableArray *mainParameters;
 @property (nonatomic, strong) mainMenu *subItem;
 @property (nonatomic, copy) NSArray *sheetActions;
-@property int rowHeight;
-@property int thumbWidth;
+@property (nonatomic) int rowHeight;
+@property (nonatomic) int thumbWidth;
 @property (nonatomic, copy) NSArray *showInfo;
-@property int maxXrightLabel;
-@property int widthLabel;
-@property int chooseTab;
-@property BOOL disableNavbarButtons;
+@property (nonatomic) int maxXrightLabel;
+@property (nonatomic) int widthLabel;
+@property (nonatomic) int chooseTab;
+@property (nonatomic) BOOL disableNavbarButtons;
 @property (nonatomic, copy) NSArray *showRuntime;
-@property BOOL noConvertTime;
+@property (nonatomic) BOOL noConvertTime;
 @property (nonatomic, copy) NSArray *filterModes;
 
 - (id)copyWithZone:(NSZone*)zone;

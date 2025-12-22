@@ -48,7 +48,7 @@
 @property (nonatomic, strong) NSMutableArray *imagesArray;
 @property (nonatomic) BOOL isLoop;
 @property (nonatomic) BOOL isLandscape;
-@property (weak) id<KenBurnsViewDelegate> delegate;
+@property (nonatomic, weak) id<KenBurnsViewDelegate> delegate;
 
 - (void)stopAnimation;
 - (void)animateWithImages:(NSArray*)images transitionDuration:(NSTimeInterval)time loop:(BOOL)isLoop isLandscape:(BOOL)isLandscape;

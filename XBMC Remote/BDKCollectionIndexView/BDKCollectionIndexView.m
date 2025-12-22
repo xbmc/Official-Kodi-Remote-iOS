@@ -23,7 +23,7 @@
 
 /** A gesture recognizer that handles panning.
  */
-@property (readonly) CGFloat theDimension;
+@property (readonly, nonatomic) CGFloat theDimension;
 
 /** Handles events sent by the long press gesture recognizer.
  *  @param recognizer the sender of the event; usually a UILongPressGestureRecognizer.
