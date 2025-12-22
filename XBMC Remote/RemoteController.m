@@ -107,7 +107,6 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     CGFloat leftPadding = (IS_IPHONE && isEmbeddedMode) ? ANCHOR_RIGHT_PEEK : 0;
     
     volumeSliderView = [[VolumeSliderView alloc] initWithFrame:CGRectZero leftAnchor:leftPadding isSliderType:YES];
-    [volumeSliderView startTimer];
     [self.view addSubview:volumeSliderView];
     
     if (IS_IPHONE) {
@@ -1007,6 +1006,8 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     quickHelpView.alpha = 0.0;
     quickHelpView.backgroundColor = INFO_POPOVER_COLOR;
     
+    [volumeSliderView startTimer];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(revealMenu)
                                                  name:@"RevealMenu"
@@ -1107,6 +1108,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     [super viewWillDisappear:animated];
     [self resetRemote];
     self.slidingViewController.panGesture.delegate = nil;
+    [volumeSliderView stopTimer];
 }
 
 - (void)toggleTorch {

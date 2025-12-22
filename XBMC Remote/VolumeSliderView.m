@@ -17,10 +17,12 @@
 #define VOLUMEICON_PADDING 10 /* space left/right from volume icons */
 #define VOLUMELABEL_PADDING 5 /* space left/right from volume label */
 #define VOLUMESLIDER_HEIGHT 44
-#define SERVER_TIMEOUT 3.0
 #define VOLUME_HOLD_TIMEOUT 0.2
 #define VOLUME_REPEAT_TIMEOUT 0.03
 #define VOLUME_INFO_TIMEOUT 1.0
+#define SET_VOLUME_TIMEOUT 3.0
+#define SET_MUTE_TIMEOUT 3.0
+#define MUTE_READ_TIMEOUT 0.2
 #define VOLUME_BUTTON_INC 1
 #define VOLUME_BUTTON_DEC 2
 #define VOLUME_SLIDER_INC 3
@@ -121,7 +123,6 @@
         [plusButton setImage:img forState:UIControlStateHighlighted];
         
         [self readServerVolume];
-        [self readServerMute];
         
         [self setVolumeButtonMode];
         
@@ -150,7 +151,6 @@
 
 - (void)handleServerStatusChanged:(NSNotification*)sender {
     [self readServerVolume];
-    [self readServerMute];
 }
 
 - (void)handleApplicationOnVolumeChanged:(NSNotification*)sender {
@@ -159,7 +159,8 @@
         if ([theData isKindOfClass:[NSDictionary class]]) {
             serverVolume = [theData[@"params"][@"data"][@"volume"] intValue];
             [self showServerVolume];
-            [self readServerMute];
+            isMuted = [theData[@"params"][@"data"][@"muted"] boolValue];
+            [self showServerMute];
         }
     }
 }
@@ -194,9 +195,11 @@
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetVolume"
      withParameters:@{@"volume": value}
+     withTimeout:SET_VOLUME_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
-            [self readServerVolume];
+            serverVolume = [methodResult intValue];
+            [self showServerVolume];
         }
     }];
 }
@@ -225,14 +228,15 @@
 }
 
 - (void)readServerVolume {
-    NSDictionary *checkServerParams = @{@"properties": @[@"volume"]};
     [[Utilities getJsonRPC]
      callMethod:@"Application.GetProperties"
-     withParameters:checkServerParams
+     withParameters:@{@"properties": @[@"volume", @"muted"]}
      withTimeout:VOLUME_INFO_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
             serverVolume = [methodResult[@"volume"] intValue];
+            isMuted = [methodResult[@"muted"] boolValue];
+            [self showServerMute];
         }
         else {
             serverVolume = -1;
@@ -253,16 +257,10 @@
 }
 
 - (IBAction)toggleMute:(id)sender {
-    [self showServerMute:!isMuted];
-    [self changeServerMute];
+    [self changeServerMute:@"toggle" onSuccess:nil];
 }
 
-- (void)showServerMute:(BOOL)mute {
-    if (!AppDelegate.instance.serverOnLine) {
-        return;
-    }
-    
-    isMuted = mute;
+- (void)showServerMute {
     UIColor *buttonColor = isMuted ? UIColor.systemRedColor : UIColor.grayColor;
     UIColor *sliderColor = isMuted ? UIColor.darkGrayColor : KODI_BLUE_COLOR;
 
@@ -277,22 +275,25 @@
     volumeSlider.userInteractionEnabled = !isMuted;
 }
 
-- (void)changeServerMute {
+- (void)changeServerMute:(id)value onSuccess:(void(^)(void))onSuccess {
     [[Utilities getJsonRPC]
      callMethod:@"Application.SetMute"
-     withParameters:@{@"mute": @"toggle"}];
-}
-
-- (void)readServerMute {
-    [[Utilities getJsonRPC]
-     callMethod:@"Application.GetProperties"
-     withParameters:@{@"properties": @[@"muted"]}
-     withTimeout:SERVER_TIMEOUT
+     withParameters:@{@"mute": value}
+     withTimeout:SET_MUTE_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-             isMuted = [methodResult[@"muted"] boolValue];
-             [self showServerMute:isMuted];
-         }
+        if (error == nil && methodError == nil) {
+            // Workaround: Kodi does report back the correct mute state in methodResult in some setups.
+            // Therefore give Kodi some time before reading the mute state via JSON API.
+            [self.muteReadTimer invalidate];
+            self.muteReadTimer = [NSTimer scheduledTimerWithTimeInterval:MUTE_READ_TIMEOUT
+                                                                  target:self
+                                                                selector:@selector(readServerVolume)
+                                                                userInfo:nil
+                                                                 repeats:NO];
+            if (onSuccess) {
+                onSuccess();
+            }
+        }
     }];
 }
 
@@ -340,6 +341,8 @@
 }
 
 - (void)handleSliderValueChanged:(id)sender {
+    // Volume slider is changed
+    isChangingVolume = YES;
     [self changeVolume:[sender tag]];
 }
 
@@ -349,30 +352,39 @@
     }
     
     // Process the volume change
-    isChangingVolume = YES;
+    id volumeCommand;
     switch (action) {
         case VOLUME_BUTTON_INC: // Volume increase using increment
-            [self changeServerVolume:@"increment"];
+            volumeCommand = @"increment";
             break;
         case VOLUME_BUTTON_DEC: // Volume decrease using decrement
-            [self changeServerVolume:@"decrement"];
+            volumeCommand = @"decrement";
             break;
         case VOLUME_SLIDER_INC: // Volume increase using absolute value
             volumeSlider.value = (int)MIN(volumeSlider.value + 1, 100);
-            [self changeServerVolume:@((int)volumeSlider.value)];
+            volumeCommand =  @((int)volumeSlider.value);
             break;
         case VOLUME_SLIDER_DEC: // Volume decrease using absolute value
             volumeSlider.value = (int)MAX(volumeSlider.value - 1, 0);
-            [self changeServerVolume:@((int)volumeSlider.value)];
+            volumeCommand =  @((int)volumeSlider.value);
             break;
         case VOLUME_SLIDER_SET: // Volume slider with 1% step resolution
-            [self changeServerVolume:@((int)volumeSlider.value)];
+            volumeCommand = @((int)volumeSlider.value);
             break;
-        default:
+        default: // Undefined state, better return.
+            return;
             break;
     }
+    
+    // In case of active mute, demute first. Then change the volume. This keeps Kodi's internal mute state
+    // and potentially connected AV equipment in sync.
     if (isMuted) {
-        [self toggleMute:nil];
+        [self changeServerMute:@NO onSuccess:^{
+            [self changeServerVolume:volumeCommand];
+        }];
+    }
+    else {
+        [self changeServerVolume:volumeCommand];
     }
 }
 
