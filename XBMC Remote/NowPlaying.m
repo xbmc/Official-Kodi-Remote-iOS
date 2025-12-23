@@ -1488,7 +1488,7 @@
             buttonImage = [self resizeToolbarThumb:image];
         }
         if (!buttonImage.size.width) {
-            buttonImage = [self resizeToolbarThumb:[UIImage imageNamed:@"st_nowplaying_small"]];
+            buttonImage = [UIImage imageNamed:@"st_nowplaying_small"];
         }
     }
     else {
