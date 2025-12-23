@@ -557,7 +557,7 @@
     [Utilities alphaView:coverView AnimDuration:0.1 Alpha:1.0];
 }
 
-- (void)setIOS7barTintColor:(UIColor*)tintColor {
+- (void)setTopBarTintColor:(UIColor*)tintColor {
     self.navigationController.navigationBar.tintColor = tintColor;
     toolbar.tintColor = tintColor;
 }
@@ -1383,7 +1383,7 @@
                         }
                         if (image != nil) {
                             UIColor *newColor = [Utilities textTintColor:[Utilities getUIColorFromImage:image]];
-                            [strongSelf setIOS7barTintColor:newColor];
+                            [strongSelf setTopBarTintColor:newColor];
                             foundTintColor = newColor;
                         }
                         [strongSelf elaborateImage:image fallbackImage:[UIImage imageNamed:placeHolderImage]];
@@ -1833,7 +1833,7 @@
             }
         }
         
-        [self setIOS7barTintColor:ICON_TINT_COLOR];
+        [self setTopBarTintColor:ICON_TINT_COLOR];
         viewTitle.textAlignment = NSTextAlignmentCenter;
         bottomShadow.hidden = YES;
     }
@@ -1842,12 +1842,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (foundTintColor != nil) {
-        [self setIOS7barTintColor:foundTintColor];
-    }
-    else {
-        [self setIOS7barTintColor:ICON_TINT_COLOR];
-    }
+    [self setTopBarTintColor:foundTintColor ?: ICON_TINT_COLOR];
     CGFloat alphaValue = 0.2;
     if (closeButton.alpha == 1) {
         alphaValue = 1;
@@ -1878,7 +1873,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self setIOS7barTintColor:ICON_TINT_COLOR];
+    [self setTopBarTintColor:ICON_TINT_COLOR];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
