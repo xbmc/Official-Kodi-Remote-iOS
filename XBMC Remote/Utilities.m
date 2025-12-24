@@ -11,12 +11,12 @@
 #import <mach/mach.h>
 #import "Utilities.h"
 #import "AppDelegate.h"
-#import "NSString+MD5.h"
 #import "SDWebImageManager.h"
 #import "LocalNetworkAccess.h"
 
+@import CommonCrypto;
+
 #define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
-#define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:(a)]
 #define GAMMA_DEC(x) pow(x, 2.2)
 #define GAMMA_ENC(x) pow(x, 1/2.2)
@@ -135,18 +135,6 @@
     return [UIColor colorWithRed:sRGB_red green:sRGB_green blue:sRGB_blue alpha:1];
 }
 
-+ (UIColor*)averageColor:(UIImage*)image {
-    CGImageRef linearSrgbImageRef = [self createLinearSRGBFromImage:image];
-    if (linearSrgbImageRef == NULL) {
-        return nil;
-    }
-    
-    UIColor *averageColor = [self averageColorForImageRef:linearSrgbImageRef];
-    CGImageRelease(linearSrgbImageRef);
-    
-    return averageColor;
-}
-
 + (UIColor*)getUIColorFromImage:(UIImage*)image {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL autocolor_preference = [userDefaults boolForKey:@"autocolor_ui_preference"];
@@ -154,7 +142,7 @@
         return UI_AVERAGE_DEFAULT_COLOR;
     }
     
-    UIColor *uiColor = [Utilities averageColor:image];
+    UIColor *uiColor = [image averageColor];
     return uiColor ?: UI_AVERAGE_DEFAULT_COLOR;
 }
 
@@ -217,21 +205,7 @@
     return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
 }
 
-+ (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {
-    if (color == nil || image.size.width == 0 || image.size.height == 0) {
-        return image;
-    }
-    CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = image.size};
-    UIImage *newImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    UIGraphicsBeginImageContextWithOptions(newImage.size, NO, newImage.scale);
-    [color set];
-    [newImage drawInRect:contextRect];
-    newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-
-+ (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightColor:(UIColor*)lightColor darkColor:(UIColor*)darkColor {
++ (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightModeColor:(UIColor*)lightColor darkModeColor:(UIColor*)darkColor {
     if (@available(iOS 13.0, *)) {
         UITraitCollection *scale = [UITraitCollection currentTraitCollection];
         UITraitCollection *lightUI = [UITraitCollection traitCollectionWithUserInterfaceStyle:UIUserInterfaceStyleLight];
@@ -243,13 +217,13 @@
         
         __block UIImage *lightImage = image;
         [darkScaledTC performAsCurrentTraitCollection:^{
-            lightImage = [Utilities colorizeImage:lightImage withColor:lightColor];
+            lightImage = [lightImage colorizeWithColor:lightColor];
             lightImage = [lightImage imageWithConfiguration:[lightImage.configuration configurationWithTraitCollection:lightTraitCollection]];
         }];
         
         __block UIImage *darkImage = image;
         [lightScaledTC performAsCurrentTraitCollection:^{
-            darkImage = [Utilities colorizeImage:darkImage withColor:darkColor];
+            darkImage = [darkImage colorizeWithColor:darkColor];
             darkImage = [darkImage imageWithConfiguration:[darkImage.configuration configurationWithTraitCollection:darkTraitCollection]];
         }];
         
@@ -257,7 +231,7 @@
         return lightImage;
     }
     else {
-        image = [Utilities colorizeImage:image withColor:lightColor];
+        image = [image colorizeWithColor:lightColor];
         return image;
     }
 }
@@ -270,7 +244,7 @@
     switch (mode) {
         case LogoBackgroundAuto:
             // get background color and colorize the image background
-            imgcolor = [Utilities averageColor:imageview.image];
+            imgcolor = [imageview.image averageColor];
             bgcolor = [Utilities contrastColor:imgcolor lightColor:bglight darkColor:bgdark];
             break;
         case LogoBackgroundLight:
@@ -350,115 +324,6 @@
     else {
         return (STACKSCROLL_WIDTH / IPAD_SCREEN_DESIGN_WIDTH);
     }
-}
-
-+ (UIColor*)getSystemRed:(CGFloat)alpha {
-    return [UIColor.systemRedColor colorWithAlphaComponent:alpha];
-}
-
-+ (UIColor*)getSystemGreen:(CGFloat)alpha {
-    return [UIColor.systemGreenColor colorWithAlphaComponent:alpha];
-}
-
-+ (UIColor*)getKodiBlue {
-    return RGBA(20, 178, 231, 1.0);
-}
-
-+ (UIColor*)getSystemBlue {
-    return UIColor.systemBlueColor;
-}
-
-+ (UIColor*)getSystemTeal {
-    return UIColor.systemTealColor;
-}
-
-+ (UIColor*)getSystemGray1 {
-    return UIColor.systemGrayColor;
-}
-
-+ (UIColor*)getSystemGray2 {
-    if (@available(iOS 13.0, *)) {
-        return UIColor.systemGray2Color;
-    }
-    else {
-        return RGBA(174, 174, 178, 1.0);
-    }
-}
-
-+ (UIColor*)getSystemGray3 {
-    if (@available(iOS 13.0, *)) {
-        return UIColor.systemGray3Color;
-    }
-    else {
-        return RGBA(199, 199, 204, 1.0);
-    }
-}
-
-+ (UIColor*)getSystemGray4 {
-    if (@available(iOS 13.0, *)) {
-        return UIColor.systemGray4Color;
-    }
-    else {
-        return RGBA(209, 209, 214, 1.0);
-    }
-}
-
-+ (UIColor*)getSystemGray5 {
-    if (@available(iOS 13.0, *)) {
-        return UIColor.systemGray5Color;
-    }
-    else {
-        return RGBA(229, 229, 234, 1.0);
-    }
-}
-
-+ (UIColor*)getSystemGray6 {
-    if (@available(iOS 13.0, *)) {
-        return UIColor.systemGray6Color;
-    }
-    else {
-        return RGBA(242, 242, 247, 1.0);
-    }
-}
-
-+ (UIColor*)get1stLabelColor {
-    if (@available(iOS 13.0, *)) {
-        return UIColor.labelColor;
-    }
-    else {
-        return RGBA(0, 0, 0, 1.0);
-    }
-}
-
-+ (UIColor*)get2ndLabelColor {
-    if (@available(iOS 13.0, *)) {
-        return UIColor.secondaryLabelColor;
-    }
-    else {
-        return RGBA(60, 60, 67, 0.6);
-    }
-}
-
-+ (UIColor*)get3rdLabelColor {
-    if (@available(iOS 13.0, *)) {
-        return UIColor.tertiaryLabelColor;
-    }
-    else {
-        return RGBA(60, 60, 67, 0.3);
-    }
-}
-
-+ (UIColor*)get4thLabelColor {
-    if (@available(iOS 13.0, *)) {
-        return UIColor.quaternaryLabelColor;
-    }
-    else {
-        return RGBA(60, 60, 67, 0.18);
-    }
-}
-
-+ (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha {
-    return RGBA(tone, tone, tone, alpha);
 }
 
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(JewelType)type {
@@ -901,55 +766,6 @@
     return urlString;
 }
 
-+ (CGSize)getSizeOfLabel:(UILabel*)label {
-    return [label sizeThatFits:CGSizeMake(label.frame.size.width, CGFLOAT_MAX)];
-}
-
-+ (UIImage*)roundedCornerImage:(UIImage*)image {
-    if (image.size.width == 0 || image.size.height == 0) {
-        return image;
-    }
-    
-    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0);
-
-    // Set radius for corners
-    CGFloat radius = GET_ROUNDED_EDGES_RADIUS(image.size);
-    
-    // Define our path, capitalizing on UIKit's corner rounding magic
-    UIBezierPath *path = GET_ROUNDED_EDGES_PATH(imageRect, radius);
-    [path addClip];
-
-    // Draw the image into the implicit context
-    [image drawInRect:imageRect];
-     
-    // Get image and cleanup
-    UIImage *roundedCornerImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return roundedCornerImage;
-}
-
-+ (void)roundedCornerView:(UIView*)view {
-    view.layer.cornerRadius = GET_ROUNDED_EDGES_RADIUS(view.layer.frame.size);
-}
-
-+ (UIImage*)applyRoundedEdgesImage:(UIImage*)image {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
-    if (corner_preference) {
-        image = [Utilities roundedCornerImage:image];
-    }
-    return image;
-}
-
-+ (void)applyRoundedEdgesView:(UIView*)view {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
-    if (corner_preference) {
-        [Utilities roundedCornerView:view];
-    }
-}
-
 + (CGFloat)getBottomPadding {
     CGFloat bottomPadding = UIApplication.sharedApplication.keyWindow.safeAreaInsets.bottom;
     return bottomPadding;
@@ -1172,59 +988,6 @@
     }
 }
 
-+ (void)SetView:(UIView*)view Alpha:(CGFloat)alphavalue XPos:(int)X {
-    view.alpha = alphavalue;
-    CGRect frame = view.frame;
-    frame.origin.x = X;
-    view.frame = frame;
-}
-
-+ (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X {
-    [UIView animateWithDuration:seconds
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        view.alpha = alphavalue;
-        CGRect frame = view.frame;
-        frame.origin.x = X;
-        view.frame = frame;
-                     }
-                     completion:nil];
-}
-
-+ (void)AnimView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue XPos:(int)X YPos:(int)Y {
-    [UIView animateWithDuration:seconds
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        CGRect frame = view.frame;
-        frame.origin.x = X;
-        frame.origin.y = Y;
-        view.frame = frame;
-                     }
-                     completion:nil];
-}
-
-+ (void)alphaView:(UIView*)view AnimDuration:(NSTimeInterval)seconds Alpha:(CGFloat)alphavalue {
-    [UIView animateWithDuration:seconds
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        view.alpha = alphavalue;
-                     }
-                     completion:nil];
-}
-
-+ (void)imageView:(UIImageView*)view AnimDuration:(NSTimeInterval)seconds Image:(UIImage*)image {
-    [UIView transitionWithView:view
-                      duration:seconds
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-        view.image = image;
-                    }
-                    completion:nil];
-}
-
 + (float)getPercentElapsed:(NSDate*)startDate EndDate:(NSDate*)endDate {
     float total_seconds = [endDate timeIntervalSince1970] - [startDate timeIntervalSince1970];
     float elapsed_seconds = [[NSDate date] timeIntervalSince1970] - [startDate timeIntervalSince1970];
@@ -1279,31 +1042,6 @@
         message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
     }
     return message;
-}
-
-+ (NSString*)stripRegEx:(NSString*)regExp text:(NSString*)textIn {
-    // Returns unchanged string, if regExp is nil. Returns nil, if string is nil.
-    if (!textIn || !regExp) {
-        return textIn;
-    }
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regExp options:NSRegularExpressionCaseInsensitive error:NULL];
-    NSString *textOut = [regex stringByReplacingMatchesInString:textIn options:0 range:NSMakeRange(0, [textIn length]) withTemplate:@""];
-    return textOut;
-}
-
-+ (NSString*)stripBBandHTML:(NSString*)text {
-    NSString *textOut = text;
-    
-    // Strip html, <x>, whereas x is not ""
-    textOut = [Utilities stripRegEx:@"<[^>]+>" text:textOut];
-    
-    // Strip BB code, [x] [/x], whereas x = b,u,i,s,center,left,right,url,img and spaces
-    textOut = [Utilities stripRegEx:@"\\[/?(b|u|i|s|center|left|right|url|img)\\]" text:textOut];
-    
-    // Strip BB code, [x=anything] [/x], whereas x = font,size,color,url and spaces
-    textOut = [Utilities stripRegEx:@"\\[/?(font|size|color|url)(=[^]]+)?\\]" text:textOut];
-    
-    return textOut;
 }
 
 + (BOOL)isValidMacAddress:(NSString*)macAddress {
@@ -1436,6 +1174,436 @@
     
     // Send XBMCServerHasChanged notification to let main menu deactivate the menu items
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
+}
+
+@end
+
+#pragma mark - UILabel extensions
+
+@implementation UILabel (Extensions)
+
+- (CGSize)getSize {
+    return [self sizeThatFits:CGSizeMake(self.frame.size.width, CGFLOAT_MAX)];
+}
+
+@end
+
+#pragma mark - UIView extensions
+
+@implementation UIView (Extensions)
+
+- (void)setX:(CGFloat)x {
+    CGRect frame = self.frame;
+    frame.origin.x = x;
+    self.frame = frame;
+}
+
+- (void)setY:(CGFloat)y {
+    CGRect frame = self.frame;
+    frame.origin.y = y;
+    self.frame = frame;
+}
+
+- (void)setOrigin:(CGPoint)origin {
+    CGRect frame = self.frame;
+    frame.origin = origin;
+    self.frame = frame;
+}
+
+- (void)setHeight:(CGFloat)height {
+    CGRect frame = self.frame;
+    frame.size.height = height;
+    self.frame = frame;
+}
+
+- (void)setWidth:(CGFloat)width {
+    CGRect frame = self.frame;
+    frame.size.width = width;
+    self.frame = frame;
+}
+
+- (void)offsetY:(CGFloat)offset {
+    CGRect frame = self.frame;
+    frame.origin.y += offset;
+    self.frame = frame;
+}
+
+- (void)setX:(CGFloat)x alpha:(CGFloat)alpha {
+    CGRect frame = self.frame;
+    frame.origin.x = x;
+    self.frame = frame;
+    self.alpha = alpha;
+}
+
+- (void)animateX:(CGFloat)x alpha:(CGFloat)alpha duration:(NSTimeInterval)seconds {
+    [UIView animateWithDuration:seconds
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        [self setX:x alpha:alpha];
+    }
+                     completion:nil];
+}
+
+- (void)animateOrigin:(CGPoint)origin duration:(NSTimeInterval)seconds {
+    [UIView animateWithDuration:seconds
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        [self setOrigin:origin];
+    }
+                     completion:nil];
+}
+
+- (void)animateAlpha:(CGFloat)alpha duration:(NSTimeInterval)seconds {
+    [UIView animateWithDuration:seconds
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        self.alpha = alpha;
+    }
+                     completion:nil];
+}
+
+- (void)setCornerRadiusForRoundedEdges {
+    self.layer.cornerRadius = GET_ROUNDED_EDGES_RADIUS(self.layer.frame.size);
+}
+
+- (void)applyRoundedEdges {
+    UIView *view = self;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
+    if (corner_preference) {
+        [view setCornerRadiusForRoundedEdges];
+    }
+}
+
+@end
+
+#pragma mark - UIImageView extensions
+
+@implementation UIImageView (Extensions)
+
+- (void)animateImage:(UIImage*)image duration:(NSTimeInterval)seconds {
+    [UIView transitionWithView:self
+                      duration:seconds
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+        self.image = image;
+    }
+                    completion:nil];
+}
+
+@end
+
+#pragma mark - UIColor extensions
+
+@implementation UIColor (Extensions)
+
++ (UIColor*)getSystemRed:(CGFloat)alpha {
+    return [UIColor.systemRedColor colorWithAlphaComponent:alpha];
+}
+
++ (UIColor*)getSystemGreen:(CGFloat)alpha {
+    return [UIColor.systemGreenColor colorWithAlphaComponent:alpha];
+}
+
++ (UIColor*)getKodiBlue {
+    return RGBA(20, 178, 231, 1.0);
+}
+
++ (UIColor*)getSystemBlue {
+    return UIColor.systemBlueColor;
+}
+
++ (UIColor*)getSystemGray1 {
+    return UIColor.systemGrayColor;
+}
+
++ (UIColor*)getSystemGray2 {
+    if (@available(iOS 13.0, *)) {
+        return UIColor.systemGray2Color;
+    }
+    else {
+        return RGBA(174, 174, 178, 1.0);
+    }
+}
+
++ (UIColor*)getSystemGray3 {
+    if (@available(iOS 13.0, *)) {
+        return UIColor.systemGray3Color;
+    }
+    else {
+        return RGBA(199, 199, 204, 1.0);
+    }
+}
+
++ (UIColor*)getSystemGray4 {
+    if (@available(iOS 13.0, *)) {
+        return UIColor.systemGray4Color;
+    }
+    else {
+        return RGBA(209, 209, 214, 1.0);
+    }
+}
+
++ (UIColor*)getSystemGray5 {
+    if (@available(iOS 13.0, *)) {
+        return UIColor.systemGray5Color;
+    }
+    else {
+        return RGBA(229, 229, 234, 1.0);
+    }
+}
+
++ (UIColor*)getSystemGray6 {
+    if (@available(iOS 13.0, *)) {
+        return UIColor.systemGray6Color;
+    }
+    else {
+        return RGBA(242, 242, 247, 1.0);
+    }
+}
+
++ (UIColor*)get1stLabelColor {
+    if (@available(iOS 13.0, *)) {
+        return UIColor.labelColor;
+    }
+    else {
+        return RGBA(0, 0, 0, 1.0);
+    }
+}
+
++ (UIColor*)get2ndLabelColor {
+    if (@available(iOS 13.0, *)) {
+        return UIColor.secondaryLabelColor;
+    }
+    else {
+        return RGBA(60, 60, 67, 0.6);
+    }
+}
+
++ (UIColor*)get3rdLabelColor {
+    if (@available(iOS 13.0, *)) {
+        return UIColor.tertiaryLabelColor;
+    }
+    else {
+        return RGBA(60, 60, 67, 0.3);
+    }
+}
+
++ (UIColor*)get4thLabelColor {
+    if (@available(iOS 13.0, *)) {
+        return UIColor.quaternaryLabelColor;
+    }
+    else {
+        return RGBA(60, 60, 67, 0.18);
+    }
+}
+
++ (UIColor*)getGrayColor:(int)tone alpha:(CGFloat)alpha {
+    return RGBA(tone, tone, tone, alpha);
+}
+
+@end
+
+#pragma mark - UIImage extensions
+
+@implementation UIImage (Extensions)
+
+- (UIImage*)setCornerRadiusForRoundedEdges {
+    UIImage *image = self;
+    if (image.size.width == 0 || image.size.height == 0) {
+        return image;
+    }
+    
+    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0);
+
+    // Set radius for corners
+    CGFloat radius = GET_ROUNDED_EDGES_RADIUS(image.size);
+    
+    // Define our path, capitalizing on UIKit's corner rounding magic
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:imageRect cornerRadius:radius];
+    [path addClip];
+
+    // Draw the image into the implicit context
+    [image drawInRect:imageRect];
+     
+    // Get image and cleanup
+    UIImage *roundedCornerImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return roundedCornerImage;
+}
+
+- (UIImage*)applyRoundedEdges {
+    UIImage *image = self;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
+    if (corner_preference) {
+        image = [image setCornerRadiusForRoundedEdges];
+    }
+    return image;
+}
+
+- (UIColor*)averageColor {
+    CGImageRef linearSrgbImageRef = [Utilities createLinearSRGBFromImage:self];
+    if (linearSrgbImageRef == NULL) {
+        return nil;
+    }
+    
+    UIColor *averageColor = [Utilities averageColorForImageRef:linearSrgbImageRef];
+    CGImageRelease(linearSrgbImageRef);
+    
+    return averageColor;
+}
+
+- (UIImage*)colorizeWithColor:(UIColor*)color {
+    UIImage *image = self;
+    if (color == nil || image.size.width == 0 || image.size.height == 0) {
+        return image;
+    }
+    CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = image.size};
+    UIImage *newImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIGraphicsBeginImageContextWithOptions(newImage.size, NO, newImage.scale);
+    [color set];
+    [newImage drawInRect:contextRect];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
+- (UIImage*)resizedImageSize:(CGSize)newSize aspectMode:(UIViewContentMode)contentMode {
+    CGImageRef imageRef = self.CGImage;
+    
+    // Calculate new dimension for the three scale modes, default is ScaleAspectFill.
+    CGFloat horizontalRatio = newSize.width / self.size.width;
+    CGFloat verticalRatio = newSize.height / self.size.height;
+    CGFloat ratio, width, height;
+    switch (contentMode) {
+        case UIViewContentModeScaleToFill:
+            width = newSize.width;
+            height = newSize.height;
+            break;
+            
+        case UIViewContentModeScaleAspectFit:
+            ratio = MIN(horizontalRatio, verticalRatio);
+            width = floor(self.size.width * ratio);
+            height = floor(self.size.height * ratio);
+            break;
+            
+        case UIViewContentModeScaleAspectFill:
+        default:
+            ratio = MAX(horizontalRatio, verticalRatio);
+            width = floor(self.size.width * ratio);
+            height = floor(self.size.height * ratio);
+            break;
+    }
+    
+    // The new image will have the target dimension given by newSize. We need to render
+    // the scaled image into this and will place it centralized.
+    CGRect newImageRect = CGRectMake(floor((newSize.width - width) / 2),
+                                     floor((newSize.height - height) / 2),
+                                     width,
+                                     height);
+    
+    // Read color space. Only create new color space (memory intense), if it is not already RGB.
+    CGColorSpaceModel imageColorSpaceModel = CGColorSpaceGetModel(CGImageGetColorSpace(imageRef));
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(imageRef);
+    BOOL isRGB = imageColorSpaceModel == kCGColorSpaceModelRGB;
+    if (!isRGB) {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
+    }
+    
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
+    
+    CGImageAlphaInfo infoMask = (bitmapInfo & kCGBitmapAlphaInfoMask);
+    BOOL anyNonAlpha = (infoMask == kCGImageAlphaNone ||
+                        infoMask == kCGImageAlphaNoneSkipFirst ||
+                        infoMask == kCGImageAlphaNoneSkipLast);
+    
+    // CGBitmapContextCreate doesn't support kCGImageAlphaNone with RGB.
+    // https://developer.apple.com/library/mac/#qa/qa1037/_index.html
+    if (infoMask == kCGImageAlphaNone && CGColorSpaceGetNumberOfComponents(colorSpace) > 1) {
+        // Unset the old alpha info.
+        bitmapInfo &= ~kCGBitmapAlphaInfoMask;
+        
+        // Set noneSkipFirst.
+        bitmapInfo |= kCGImageAlphaNoneSkipFirst;
+    }
+    // Some PNGs tell us they have alpha but only 3 components. Odd.
+    else if (!anyNonAlpha && CGColorSpaceGetNumberOfComponents(colorSpace) == 3) {
+        // Unset the old alpha info.
+        bitmapInfo &= ~kCGBitmapAlphaInfoMask;
+        bitmapInfo |= kCGImageAlphaPremultipliedFirst;
+    }
+    
+    CGContextRef bitmap = CGBitmapContextCreate(NULL,
+                                                newSize.width,
+                                                newSize.height,
+                                                CGImageGetBitsPerComponent(imageRef),
+                                                0,
+                                                colorSpace,
+                                                bitmapInfo);
+    
+    CGContextSetShouldAntialias(bitmap, YES);
+    CGContextSetAllowsAntialiasing(bitmap, YES);
+    CGContextSetInterpolationQuality(bitmap, kCGInterpolationHigh);
+    CGContextDrawImage(bitmap, newImageRect, imageRef);
+    CGImageRef newImageRef = CGBitmapContextCreateImage(bitmap);
+    UIImage *newImage = [UIImage imageWithCGImage:newImageRef];
+    
+    // Release memory
+    if (!isRGB) {
+        CGColorSpaceRelease(colorSpace);
+    }
+    CGContextRelease(bitmap);
+    CGImageRelease(newImageRef);
+    
+    return newImage;
+}
+
+@end
+
+#pragma mark - NSString extensions
+
+@implementation NSString (Extensions)
+
+- (NSString*)SHA256String {
+    const char *utf8chars = [self UTF8String];
+    unsigned char result[CC_SHA256_DIGEST_LENGTH];
+    CC_SHA256(utf8chars, (CC_LONG)strlen(utf8chars), result);
+    
+    NSMutableString *ret = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
+    for (int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
+        [ret appendFormat:@"%02x", result[i]];
+    }
+    return ret;
+}
+
+- (NSString*)stripRegEx:(NSString*)regExp {
+    // Returns unchanged string, if regExp is nil.
+    if (!regExp) {
+        return self;
+    }
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regExp options:NSRegularExpressionCaseInsensitive error:NULL];
+    NSString *textOut = [regex stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, self.length) withTemplate:@""];
+    return textOut;
+}
+
+- (NSString*)stripBBandHTML {
+    NSString *textOut = self;
+    
+    // Strip html, <x>, whereas x is not ""
+    textOut = [textOut stripRegEx:@"<[^>]+>"];
+    
+    // Strip BB code, [x] [/x], whereas x = b,u,i,s,center,left,right,url,img and spaces
+    textOut = [textOut stripRegEx:@"\\[/?(b|u|i|s|center|left|right|url|img)\\]"];
+    
+    // Strip BB code, [x=anything] [/x], whereas x = font,size,color,url and spaces
+    textOut = [textOut stripRegEx:@"\\[/?(font|size|color|url)(=[^]]+)?\\]"];
+    
+    return textOut;
 }
 
 @end

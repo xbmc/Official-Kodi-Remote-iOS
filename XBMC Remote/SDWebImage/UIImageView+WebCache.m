@@ -9,7 +9,7 @@
 #import "UIImageView+WebCache.h"
 #import "objc/runtime.h"
 #import "UIView+WebCacheOperation.h"
-#import "UIImage+Resize.h"
+#import "Utilities.h"
 
 static char imageURLKey;
 static char TAG_ACTIVITY_INDICATOR;

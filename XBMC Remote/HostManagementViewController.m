@@ -100,13 +100,13 @@
         UILabel *cellLabel = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_LABEL];
         UILabel *cellIP = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_IP];
         
-        cellNoServerFound.highlightedTextColor = [Utilities get1stLabelColor];
-        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
-        cellIP.highlightedTextColor = [Utilities get2ndLabelColor];
+        cellNoServerFound.highlightedTextColor = [UIColor get1stLabelColor];
+        cellLabel.highlightedTextColor = [UIColor get1stLabelColor];
+        cellIP.highlightedTextColor = [UIColor get2ndLabelColor];
         
-        cellNoServerFound.textColor = [Utilities getSystemGray1];
-        cellLabel.textColor = [Utilities getSystemGray1];
-        cellIP.textColor = [Utilities getSystemGray2];
+        cellNoServerFound.textColor = [UIColor getSystemGray1];
+        cellLabel.textColor = [UIColor getSystemGray1];
+        cellIP.textColor = [UIColor getSystemGray2];
         
         cell.tintColor = UIColor.lightGrayColor;
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -496,17 +496,9 @@
     frame.size.height += bottomPadding;
     bottomToolbarEffect.frame = frame;
     
-    frame = addHostButton.frame;
-    frame.origin.y -= bottomPadding;
-    addHostButton.frame = frame;
-    
-    frame = editTableButton.frame;
-    frame.origin.y -= bottomPadding;
-    editTableButton.frame = frame;
-    
-    frame = serverInfoButton.frame;
-    frame.origin.y -= bottomPadding;
-    serverInfoButton.frame = frame;
+    [addHostButton offsetY:-bottomPadding];
+    [editTableButton offsetY:-bottomPadding];
+    [serverInfoButton offsetY:-bottomPadding];
     
     frame = serverListTableView.frame;
     frame.origin.y = frame.origin.y + deltaY;
@@ -570,13 +562,8 @@
         self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
     }
     else {
-        CGRect frame = supportedVersionView.frame;
-        frame.origin.y = frame.origin.y + deltaY;
-        supportedVersionView.frame = frame;
-        
-        frame = connectingActivityIndicator.frame;
-        frame.origin.y = frame.origin.y + deltaY;
-        connectingActivityIndicator.frame = frame;
+        [supportedVersionView offsetY:deltaY];
+        [connectingActivityIndicator offsetY:deltaY];
         
         UIImage *image = [UIImage imageNamed:@"kodi_logo_wide"];
         UIButton *xbmcLogo = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];

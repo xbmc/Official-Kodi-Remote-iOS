@@ -93,9 +93,7 @@
 }
 
 - (void)setMenuHeight:(CGFloat)tableHeight {
-    CGRect frame = _tableView.frame;
-    frame.size.height = tableHeight;
-    _tableView.frame = frame;
+    [_tableView setHeight:tableHeight];
 }
 
 - (void)handleRemoveStack {
@@ -156,7 +154,7 @@
     title.font = [UIFont fontWithName:@"Roboto-Regular" size:20];
     title.text = item.mainLabel;
     icon.highlightedImage = [UIImage imageNamed:iconName];
-    icon.image = [Utilities colorizeImage:icon.highlightedImage withColor:UIColor.grayColor];
+    icon.image = [icon.highlightedImage colorizeWithColor:UIColor.grayColor];
     return cell;
 }
 

@@ -42,7 +42,7 @@
 #define IPAD_POPOVER_WIDTH 400
 #define IPAD_POPOVER_HEIGHT 500
 #define BUTTON_RADIUS 6
-#define BUTTON_COLOR [Utilities getSystemBlue]
+#define BUTTON_COLOR [UIColor getSystemBlue]
 
 #define XIB_PASSWORD_FIELD 12
 #define XIB_FIRST_MAC_ADDRESS_FIELD 5
@@ -81,9 +81,7 @@
         tcpPortUI.text = item[@"tcpPort"];
     }
     // Move view right out of self.view
-    CGRect frame = discoveredInstancesView.frame;
-    frame.origin.x = self.view.frame.size.width;
-    discoveredInstancesView.frame = frame;
+    [discoveredInstancesView setX:self.view.frame.size.width];
 }
 
 - (IBAction)dismissView:(id)sender {
@@ -154,7 +152,7 @@
 #pragma mark - UITextFieldDelegate Methods
 
 - (void)textFieldDidBeginEditing:(UITextField*)textField {
-    textField.textColor = [Utilities get1stLabelColor];
+    textField.textColor = [UIColor get1stLabelColor];
     [self tailorViewContent:YES];
 }
 
@@ -257,11 +255,11 @@
         }
         else {
             if (j == 0) {
-                [Utilities AnimView:noInstances AnimDuration:0.3 Alpha:1.0 XPos:0];
+                [noInstances animateX:0 alpha:1.0 duration:1.0];
             }
             else {
                 [discoveredInstancesTableView reloadData];
-                [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                [discoveredInstancesView animateX:0 alpha:1.0 duration:0.3];
             }
         }
     }
@@ -327,7 +325,7 @@
         ];
         [macLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
             label.text = macPart[idx];
-            label.textColor = [Utilities getSystemBlue];
+            label.textColor = [UIColor getSystemBlue];
         }];
     }
 }
@@ -417,7 +415,7 @@
 #endif
         // Show discovered instances view (for multiple instances) and trigger the TCP port discovery
         if (serverAddresses.count) {
-            [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
+            [discoveredInstancesView animateX:self.view.frame.size.width alpha:1.0 duration:0.3];
             
             // Trigger search for TCP service
             [netServiceBrowser searchForServicesOfType:SERVICE_TYPE_TCP inDomain:DOMAIN_NAME];
@@ -457,8 +455,8 @@
     [activityIndicatorView startAnimating];
     [services removeAllObjects];
     startDiscover.enabled = NO;
-    [Utilities AnimView:noInstances AnimDuration:0.3 Alpha:0.0 XPos:self.view.frame.size.width];
-    [Utilities AnimView:discoveredInstancesView AnimDuration:0.3 Alpha:1.0 XPos:self.view.frame.size.width];
+    [noInstances animateX:self.view.frame.size.width alpha:0.0 duration:0.3];
+    [discoveredInstancesView animateX:self.view.frame.size.width alpha:1.0 duration:0.3];
 
     searching = NO;
     netServiceBrowser.delegate = self;
@@ -490,13 +488,13 @@
     descriptionUI.text = serverAddresses[@"serverName"];
     ipUI.text = server[@"addr"];
     portUI.text = server[@"port"];
-    descriptionUI.textColor = [Utilities getSystemBlue];
-    ipUI.textColor = [Utilities getSystemBlue];
-    portUI.textColor = [Utilities getSystemBlue];
+    descriptionUI.textColor = [UIColor getSystemBlue];
+    ipUI.textColor = [UIColor getSystemBlue];
+    portUI.textColor = [UIColor getSystemBlue];
     
     // Set values for UI and persistency
     tcpPortUI.text = server[@"tcpport"];
-    tcpPortUI.textColor = [Utilities getSystemBlue];
+    tcpPortUI.textColor = [UIColor getSystemBlue];
 }
 
 #pragma mark - Help URLs
@@ -531,7 +529,7 @@
 	}
     NSNetService *service = services[indexPath.row];
 	cell.textLabel.text = service.name;
-	cell.textLabel.textColor = [Utilities get1stLabelColor];
+	cell.textLabel.textColor = [UIColor get1stLabelColor];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	return cell;
 }
@@ -563,12 +561,12 @@
     [discoveryTimeoutTimer invalidate];
     netServiceBrowser = nil;
     services = nil;
-    [Utilities SetView:discoveredInstancesView Alpha:1.0 XPos:self.view.frame.size.width];
+    [discoveredInstancesView setX:self.view.frame.size.width alpha:1.0];
     for (UITextField *textfield in [self getAllEntryMaskLabels]) {
         textfield.text = @"";
-        textfield.textColor = [Utilities get1stLabelColor];
+        textfield.textColor = [UIColor get1stLabelColor];
     }
-    [Utilities SetView:noInstances Alpha:0.0 XPos:self.view.frame.size.width];
+    [noInstances setX:self.view.frame.size.width alpha:0.0];
 }
 
 - (void)viewDidLoad {
@@ -605,19 +603,17 @@
     for (UITextField *textfield in [self getAllEntryMaskLabels]) {
         textfield.layer.borderColor = UIColor.lightGrayColor.CGColor;
         textfield.layer.borderWidth = 1.0 / UIScreen.mainScreen.scale;
-        textfield.backgroundColor = [Utilities getSystemGray6];
-        textfield.tintColor = [Utilities get1stLabelColor];
+        textfield.backgroundColor = [UIColor getSystemGray6];
+        textfield.tintColor = [UIColor get1stLabelColor];
     }
-    discoveredInstancesTableView.backgroundColor = [Utilities getSystemGray6];
+    discoveredInstancesTableView.backgroundColor = [UIColor getSystemGray6];
     
     CGFloat bottomPadding = [Utilities getBottomPadding];
     if (IS_IPAD) {
         bottomPadding = SERVERPOPUP_BOTTOMPADDING;
     }
     if (bottomPadding > 0) {
-        CGRect frame = tipView.frame;
-        frame.origin.y -= bottomPadding;
-        tipView.frame = frame;
+        [tipView offsetY:-bottomPadding];
     }
     
     // We use white fonts for the segment control

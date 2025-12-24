@@ -354,7 +354,7 @@
                         ];
                    }
                    [_tableView reloadData];
-                   [Utilities AnimView:_tableView AnimDuration:0.3 Alpha:1.0 XPos:0];
+                   [_tableView animateX:0 alpha:1.0 duration:0.3];
                    [self scrollTableRow:settingOptions];
                }
            }];
@@ -446,8 +446,8 @@
 }
 
 - (void)configureCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-	cell.backgroundColor = [Utilities getSystemGray6];
-    cell.tintColor = [Utilities getSystemBlue];
+	cell.backgroundColor = [UIColor getSystemGray6];
+    cell.tintColor = [UIColor getSystemBlue];
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     CGFloat cellWidth = IS_IPHONE ? GET_MAINSCREEN_WIDTH : STACKSCROLL_WIDTH;
@@ -467,7 +467,7 @@
     
     NSString *descriptionString = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
     descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
-    descriptionString = [Utilities stripBBandHTML:descriptionString];
+    descriptionString = [descriptionString stripBBandHTML];
     switch (xbmcSetting) {
         case SettingTypeSwitch:
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -676,9 +676,7 @@
 }
 
 - (void)setAutomaticLabelHeight:(UILabel*)label {
-    CGRect frame = label.frame;
-    frame.size.height = [Utilities getSizeOfLabel:label].height;
-    label.frame = frame;
+    [label setHeight:[label getSize].height];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -691,8 +689,8 @@
         cellLabel.font = [UIFont systemFontOfSize:16];
         cellLabel.adjustsFontSizeToFitWidth = YES;
         cellLabel.minimumScaleFactor = FONT_SCALING_MIN;
-        cellLabel.textColor = [Utilities get1stLabelColor];
-        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
+        cellLabel.textColor = [UIColor get1stLabelColor];
+        cellLabel.highlightedTextColor = [UIColor get1stLabelColor];
         [cell.contentView addSubview:cellLabel];
         
         UISwitch *onoff = [UISwitch new];
@@ -706,8 +704,8 @@
         descriptionLabel.adjustsFontSizeToFitWidth = YES;
         descriptionLabel.minimumScaleFactor = FONT_SCALING_MIN;
         descriptionLabel.numberOfLines = 0;
-        descriptionLabel.textColor = [Utilities get2ndLabelColor];
-        descriptionLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        descriptionLabel.textColor = [UIColor get2ndLabelColor];
+        descriptionLabel.highlightedTextColor = [UIColor get2ndLabelColor];
         [cell.contentView addSubview:descriptionLabel];
         
         OBSlider *slider = [OBSlider new];
@@ -729,8 +727,8 @@
         sliderLabel.adjustsFontSizeToFitWidth = YES;
         sliderLabel.minimumScaleFactor = FONT_SCALING_MIN;
         sliderLabel.textAlignment = NSTextAlignmentCenter;
-        sliderLabel.textColor = [Utilities get2ndLabelColor];
-        sliderLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        sliderLabel.textColor = [UIColor get2ndLabelColor];
+        sliderLabel.highlightedTextColor = [UIColor get2ndLabelColor];
         [cell.contentView addSubview:sliderLabel];
         
         UITextField *textInputField = [UITextField new];
@@ -845,11 +843,11 @@
 
 - (void)startUpdateSlider:(UISlider*)slider {
     scrubbingView.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
-    [Utilities alphaView:scrubbingView AnimDuration:0.3 Alpha:1.0];
+    [scrubbingView animateAlpha:1.0 duration:0.3];
 }
 
 - (void)stopUpdateSlider:(UISlider*)slider {
-    [Utilities alphaView:scrubbingView AnimDuration:0.3 Alpha:0.0];
+    [scrubbingView animateAlpha:0.0 duration:0.3];
     [self setSettingValue:@(storeSliderValue) sender:slider];
 }
 

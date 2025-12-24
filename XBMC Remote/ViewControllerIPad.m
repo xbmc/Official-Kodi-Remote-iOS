@@ -269,9 +269,7 @@
     [menuViewController setMenuHeight:tableHeight];
     
     // Seperator
-    CGRect frame = playlistHeader.frame;
-    frame.origin.y = tableHeight;
-    playlistHeader.frame = frame;
+    [playlistHeader setY:tableHeight];
     
     // Playlist and NowPlaying
     [self layoutPlaylistNowplayingForTableHeight:tableHeight];
@@ -377,7 +375,7 @@
     
     // remote button next to volume control buttons
     UIImage *image = [UIImage imageNamed:@"icon_menu_remote"];
-    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    image = [image colorizeWithColor:UIColor.lightGrayColor];
     UIButton *remoteButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width - REMOTE_PADDING - REMOTE_ICON_SIZE, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
     [remoteButton setImage:image forState:UIControlStateNormal];
     [remoteButton setImage:image forState:UIControlStateHighlighted];
@@ -387,7 +385,7 @@
     
     // "show desktop" button next to remote button
     image = [UIImage imageNamed:@"icon_menu_playing"];
-    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    image = [image colorizeWithColor:UIColor.lightGrayColor];
     UIButton *showDesktopButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMenuView.frame.size.width + DESKTOP_PADDING, self.view.frame.size.height - (TOOLBAR_HEIGHT + REMOTE_ICON_SIZE) / 2 - [Utilities getBottomPadding], REMOTE_ICON_SIZE, REMOTE_ICON_SIZE)];
     [showDesktopButton setImage:image forState:UIControlStateNormal];
     [showDesktopButton setImage:image forState:UIControlStateHighlighted];
@@ -413,7 +411,7 @@
     
     // 3rd right most element
     image = [UIImage imageNamed:@"icon_menu_settings"];
-    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    image = [image colorizeWithColor:UIColor.lightGrayColor];
     settingsButton = [[UIButton alloc] initWithFrame:CGRectMake(xbmcLogo.frame.origin.x - SETTINGSBUTTON_WIDTH - BUTTON_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, SETTINGSBUTTON_WIDTH, TOOLBAR_HEIGHT)];
     [settingsButton setImage:image forState:UIControlStateNormal];
     [settingsButton setImage:image forState:UIControlStateHighlighted];
@@ -423,7 +421,7 @@
     
     // 4th right most element
     image = [UIImage imageNamed:@"icon_power"];
-    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    image = [image colorizeWithColor:UIColor.lightGrayColor];
     powerButton = [[UIButton alloc] initWithFrame:CGRectMake(settingsButton.frame.origin.x - POWERBUTTON_WIDTH - BUTTON_PADDING, self.view.frame.size.height - TOOLBAR_HEIGHT, POWERBUTTON_WIDTH, TOOLBAR_HEIGHT)];
     [powerButton setImage:image forState:UIControlStateNormal];
     [powerButton setImage:image forState:UIControlStateHighlighted];
@@ -458,25 +456,11 @@
 
     int bottomPadding = [Utilities getBottomPadding];
     if (bottomPadding > 0) {
-        CGRect frame = volumeSliderView.frame;
-        frame.origin.y -= bottomPadding;
-        volumeSliderView.frame = frame;
-        
-        frame = powerButton.frame;
-        frame.origin.y -= bottomPadding;
-        powerButton.frame = frame;
-        
-        frame = settingsButton.frame;
-        frame.origin.y -= bottomPadding;
-        settingsButton.frame = frame;
-        
-        frame = xbmcInfo.frame;
-        frame.origin.y -= bottomPadding;
-        xbmcInfo.frame = frame;
-        
-        frame = xbmcLogo.frame;
-        frame.origin.y -= bottomPadding;
-        xbmcLogo.frame = frame;
+        [volumeSliderView offsetY:-bottomPadding];
+        [powerButton offsetY:-bottomPadding];
+        [settingsButton offsetY:-bottomPadding];
+        [xbmcInfo offsetY:-bottomPadding];
+        [xbmcLogo offsetY:-bottomPadding];
     }
     
     messagesView = [[MessagesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DEFAULT_MSG_HEIGHT) deltaY:0 deltaX:0];
@@ -560,7 +544,7 @@
     if ([userDefaults boolForKey:@"blurred_cover_preference"] && coverImage) {
         // Enable blur effect and animate to cover image
         visualEffectView.hidden = NO;
-        [Utilities imageView:coverBackgroundImage AnimDuration:1.0 Image:coverImage];
+        [coverBackgroundImage animateImage:coverImage duration:1.0];
     }
     else {
         // Disable blur effect and remove cover image
@@ -575,11 +559,11 @@
             [fanartBackgroundImage sd_setImageWithURL:[NSURL URLWithString:fanartURL]
                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                 UIImage *fanartImage = (error == nil && image != nil) ? image : nil;
-                [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:fanartImage];
+                [fanartBackgroundImage animateImage:fanartImage duration:1.0];
             }];
         }
         else {
-            [Utilities imageView:fanartBackgroundImage AnimDuration:1.0 Image:nil];
+            [fanartBackgroundImage animateImage:nil duration:1.0];
         }
     }
 }
@@ -591,7 +575,7 @@
 
 - (void)hideSongInfoView {
     self.nowPlayingController.itemDescription.scrollsToTop = NO;
-    [Utilities alphaView:self.nowPlayingController.songDetailsView AnimDuration:0.2 Alpha:0.0];
+    [self.nowPlayingController.songDetailsView animateAlpha:0.0 duration:0.2];
 }
 
 - (void)handleStackScrollOnScreen:(NSNotification*)sender {
