@@ -232,6 +232,20 @@
     }
 }
 
+- (void)highlightCustomButton:(NSIndexPath*)indexPath {
+    // Short animation to highlight the button selection
+    CustomButtonCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+    [UIView animateWithDuration:0.1
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        cell.alpha = 0.1;
+    }
+                     completion:^(BOOL finished) {
+        cell.alpha = 1.0;
+    }];
+}
+
 #pragma mark - UISwitch
 
 - (void)toggleSwitch:(UISwitch*)onoff {
@@ -351,6 +365,7 @@
             NSDictionary *parameters = tableData[indexPath.row][@"action"][@"params"] ?: @{};
             [self xbmcAction:command params:parameters uiControl:nil];
         }
+        [self highlightCustomButton:indexPath];
     }
 }
 

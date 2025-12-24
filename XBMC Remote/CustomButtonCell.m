@@ -65,7 +65,6 @@
         title.adjustsFontSizeToFitWidth = YES;
         title.minimumScaleFactor = FONT_SCALING_MIN;
         title.textColor = UIColor.lightGrayColor;
-        title.highlightedTextColor = UIColor.grayColor;
         [self.contentView addSubview:title];
         self.buttonLabel = title;
         
