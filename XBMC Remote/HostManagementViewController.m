@@ -39,13 +39,10 @@
     return self;
 }
 
-#pragma mark - UIGestureDelegate to block panGesture during table editing
+#pragma mark - UIGestureDelegate to block other gestures during table editing
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer*)otherGestureRecognizer {
-    if (gestureRecognizer == self.slidingViewController.panGesture) {
-        return serverListTableView.editing;
-    }
-    return NO;
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gestureRecognizer {
+    return !serverListTableView.editing;
 }
 
 #pragma mark - Button Management
@@ -600,6 +597,7 @@
     }
     
     longPressGesture = [UILongPressGestureRecognizer new];
+    longPressGesture.delegate = self;
     [longPressGesture addTarget:self action:@selector(handleLongPress)];
     [self.view addGestureRecognizer:longPressGesture];
 
