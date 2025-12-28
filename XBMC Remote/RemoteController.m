@@ -986,6 +986,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     if (IS_IPHONE && !isEmbeddedMode) {
         // Allow panning gesture for full view (but gestureRecognizer will skip if GestureZone is touched)
         [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+        self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.anchorLeftPeekAmount   = 0;
         self.slidingViewController.anchorLeftRevealAmount = 0;
         self.slidingViewController.panGesture.delegate = self;
