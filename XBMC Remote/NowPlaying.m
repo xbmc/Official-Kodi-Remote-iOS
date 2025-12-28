@@ -2258,15 +2258,6 @@
     [self createPlaylistAnimated:YES];
 }
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gestureRecognizer {
-    if (playlistTableView.editing) {
-        return NO;
-    }
-    else {
-        return YES;
-    }
-}
-
 - (IBAction)editTable:(id)sender forceClose:(BOOL)forceClose {
     if (sender != nil) {
         forceClose = NO;
@@ -2289,6 +2280,12 @@
         [playlistTableView setEditing:YES animated:YES];
         editTableButton.selected = YES;
     }
+}
+
+#pragma mark - UIGestureDelegate to block other gestures during table editing
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gestureRecognizer {
+    return !playlistTableView.editing;
 }
 
 #pragma mark - Interface customizations
