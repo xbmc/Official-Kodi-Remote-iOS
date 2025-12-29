@@ -259,7 +259,7 @@
             if (indexPath.row < selectedPath.row) {
                 // When removing a server above the active one, the index for the active server reduces by 1.
                 storeServerSelection = [NSIndexPath indexPathForRow:selectedPath.row - 1 inSection:selectedPath.section];
-                [Utilities saveLastServerIndex:selectedPath];
+                [Utilities saveLastServerIndex:storeServerSelection];
             }
             else if (selectedPath.row == indexPath.row) {
                 // When removing the active server, invalidate the server parameters, which will stop the connection.
