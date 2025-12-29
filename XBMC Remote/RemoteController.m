@@ -1107,6 +1107,12 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     [super viewWillDisappear:animated];
     [self resetRemote];
     self.slidingViewController.panGesture.delegate = nil;
+    [self.avCaptureDevice removeObserver:self
+                              forKeyPath:KEYPATH_TORCHACTIVE
+                                 context:TorchRemoteContext];
+    [self.avCaptureDevice removeObserver:self
+                              forKeyPath:KEYPATH_TORCHAVAILABLE
+                                 context:TorchRemoteContext];
 }
 
 - (void)toggleTorch {
