@@ -1364,9 +1364,9 @@
                                               @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
                                               pvrExtraInfo, @"pvrExtraInfo",
                                               kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
+                                              parameters[@"defaultThumb"] ?: @"", @"defaultThumb",
                                               parameters[@"extra_info_parameters"], @"extra_info_parameters",
                                               newSectionParameters, @"extra_section_parameters",
-                                              parameters[@"defaultThumb"] ?: @"", @"defaultThumb",
                                               parameters[@"watchedListenedStrings"], @"watchedListenedStrings",
                                               nil];
         if (parameters[@"available_sort_methods"] != nil) {
