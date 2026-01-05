@@ -11,7 +11,6 @@
 #import "DSJSONRPC.h"
 
 @import Foundation;
-@import SafariServices;
 
 typedef NS_ENUM(NSInteger, JewelType) {
     JewelTypeCD,
