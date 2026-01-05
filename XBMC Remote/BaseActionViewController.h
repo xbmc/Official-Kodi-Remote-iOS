@@ -6,10 +6,10 @@
 //  Copyright © 2024 Team Kodi. All rights reserved.
 //
 
-#import <SafariServices/SafariServices.h>
 #import "DSJSONRPC.h"
 
 @import UIKit;
+@import SafariServices;
 
 @interface BaseActionViewController : UIViewController <SFSafariViewControllerDelegate> {
     NSDateFormatter *xbmcDateFormatter;
