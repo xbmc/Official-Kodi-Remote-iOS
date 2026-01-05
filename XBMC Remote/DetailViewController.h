@@ -18,7 +18,6 @@
 #import "BaseActionViewController.h"
 
 @import UIKit;
-@import SafariServices;
 
 @class NowPlaying;
 

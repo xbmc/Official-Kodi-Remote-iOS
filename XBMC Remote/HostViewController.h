@@ -9,7 +9,6 @@
 #import "BaseActionViewController.h"
 
 @import UIKit;
-@import SafariServices;
 
 #define SERVERPOPUP_BOTTOMPADDING 10
 
