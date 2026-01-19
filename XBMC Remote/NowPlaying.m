@@ -946,6 +946,9 @@
             if (isLossless && ([bps integerValue] >= 24 || [kHz integerValue] >= 88) && !([bps integerValue] < 16 || [kHz integerValue] < 44)) {
                 hiresImage.hidden = NO;
             }
+            else {
+                hiresImage.hidden = YES;
+            }
             
             NSString *newLine = bps.length && kHz.length ? @"\n" : @"";
             NSString *samplerate = [NSString stringWithFormat:@"%@%@%@", bps, newLine, kHz];
@@ -1056,7 +1059,6 @@
 }
 
 - (void)loadCodecView {
-    hiresImage.hidden = YES;
     itemDescription.textAlignment = NSTextAlignmentJustified;
     switch (currentPlayerID) {
         case PLAYERID_MUSIC:
@@ -1064,14 +1066,17 @@
             break;
             
         case PLAYERID_VIDEO:
+            hiresImage.hidden = YES;
             [self loadVideoCodecDetails];
             break;
             
         case PLAYERID_PICTURES:
+            hiresImage.hidden = YES;
             [self loadPictureDetails];
             break;
             
         default:
+            hiresImage.hidden = YES;
             songCodec.hidden = YES;
             songBitRate.hidden = YES;
             songSampleRate.hidden = YES;
