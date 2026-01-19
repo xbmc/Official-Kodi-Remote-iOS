@@ -992,33 +992,54 @@
 }
 
 - (void)loadVideoCodecDetails {
+    // First read Player.GetProperties. If this is empty, use XBMC.GetInfoLabels.
+    // Note: aspect ratio and resolution is only provided by XBMC.GetInfoLabels.
     [[Utilities getJsonRPC]
-     callMethod:@"XBMC.GetInfoLabels"
-     withParameters:@{@"labels": @[
-         @"VideoPlayer.VideoResolution",
-         @"VideoPlayer.VideoAspect",
-         @"VideoPlayer.AudioCodec",
-         @"VideoPlayer.VideoCodec",
-     ]}
+     callMethod:@"Player.GetProperties"
+     withParameters:@{@"playerid": @(currentPlayerID),
+                      @"properties": @[
+                          @"currentvideostream",
+                          @"currentaudiostream",
+                      ]}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        __block NSString *audiocodec, *videocodec, *aspect, *res;
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-            NSString *codec = [Utilities getStringFromItem:methodResult[@"VideoPlayer.AudioCodec"]];
-            codec = [self processAudioCodecName:codec];
-            [self setSongDetails:songNumChannels image:songNumChanImage item:codec];
-            [self setSongDetails:songCodec image:songCodecImage item:methodResult[@"VideoPlayer.VideoResolution"]];
+            audiocodec = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"codec"]];
+            videocodec = [Utilities getStringFromItem:methodResult[@"currentvideostream"][@"codec"]];
+        }
+        
+        // Use XBMC.GetInfoLabels to gather aspect ratio and resolution. Same for codecs, if empty yet.
+        [[Utilities getJsonRPC]
+         callMethod:@"XBMC.GetInfoLabels"
+         withParameters:@{@"labels": @[
+             @"VideoPlayer.VideoResolution",
+             @"VideoPlayer.VideoAspect",
+             @"VideoPlayer.AudioCodec",
+             @"VideoPlayer.VideoCodec",
+         ]}
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+                audiocodec = audiocodec.length ? audiocodec : [Utilities getStringFromItem:methodResult[@"VideoPlayer.AudioCodec"]];
+                videocodec = videocodec.length ? videocodec : [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoCodec"]];
+                aspect = aspect.length ? aspect : [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoAspect"]];
+                res = res.length ? res : [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoResolution"]];
+            }
             
-            codec = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoCodec"]];
-            codec = [self processVideoCodecName:codec];
-            [self setSongDetails:songSampleRate image:songSampleRateImage item:codec];
+            audiocodec = [self processAudioCodecName:audiocodec];
+            [self setSongDetails:songNumChannels image:songNumChanImage item:audiocodec];
             
-            NSString *aspect = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoAspect"]];
+            videocodec = [self processVideoCodecName:videocodec];
+            [self setSongDetails:songSampleRate image:songSampleRateImage item:videocodec];
+            
+            [self setSongDetails:songCodec image:songCodecImage item:res];
+            
             aspect = [self processAspectString:aspect];
             songBitRate.text = aspect;
             songBitRateImage.image = [self loadImageFromName:@"icon_aspect"];
             songBitRateImage.hidden = songBitRate.hidden = aspect.length == 0;
             
             itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
-        }
+        }];
     }];
 }
 
