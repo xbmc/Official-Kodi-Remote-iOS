@@ -918,21 +918,16 @@
     songBitRateImage.image = [self loadImageFromName:@"icon_channels"];
     songBitRate.hidden = songBitRateImage.hidden = channels.length == 0;
     
+    // Check for High Resolution Audio
+    // Must use a lossless codec and exceed CD format (44.1 kHz / 16 Bit) by using either >= 24 Bit or >= 88.2 kHz.
     BOOL isLossless = [self isLosslessFormat:codec];
+    BOOL exceedsCompactDiscBits = [bps integerValue] >= 24 && [kHz integerValue] >= 44;
+    BOOL exceedsCompactDiscRate = [bps integerValue] >= 16 && [kHz integerValue] >= 88;
+    hiresImage.hidden = !(isLossless && (exceedsCompactDiscBits || exceedsCompactDiscRate));
     
     bps = bps.length ? [NSString stringWithFormat:@"%@ Bit", bps] : @"";
     
     kHz = kHz.length ? [NSString stringWithFormat:@"%@ kHz", kHz] : @"";
-    
-    // Check for High Resolution Audio
-    // Must be using a lossless codec and have either at least 24 Bit or at least 88.2 kHz.
-    // But never have less than 16 Bit or less than 44.1 kHz.
-    if (isLossless && ([bps integerValue] >= 24 || [kHz integerValue] >= 88) && !([bps integerValue] < 16 || [kHz integerValue] < 44)) {
-        hiresImage.hidden = NO;
-    }
-    else {
-        hiresImage.hidden = YES;
-    }
     
     NSString *newLine = bps.length && kHz.length ? @"\n" : @"";
     NSString *samplerate = [NSString stringWithFormat:@"%@%@%@", bps, newLine, kHz];
