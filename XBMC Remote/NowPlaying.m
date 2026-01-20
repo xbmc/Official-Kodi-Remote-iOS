@@ -909,61 +909,90 @@
     return text;
 }
 
+- (void)presentDetailsForAudioCodec:(NSString*)codec channels:(NSString*)channels bitrate:(NSString*)bitrate kHz:(NSString*)kHz bps:(NSString*)bps {
+    codec = [self processAudioCodecName:codec];
+    [self setSongDetails:songCodec image:songCodecImage item:codec];
+    
+    channels = [self processChannelString:channels];
+    songBitRate.text = channels;
+    songBitRateImage.image = [self loadImageFromName:@"icon_channels"];
+    songBitRate.hidden = songBitRateImage.hidden = channels.length == 0;
+    
+    BOOL isLossless = [self isLosslessFormat:codec];
+    
+    bps = bps.length ? [NSString stringWithFormat:@"%@ Bit", bps] : @"";
+    
+    kHz = kHz.length ? [NSString stringWithFormat:@"%@ kHz", kHz] : @"";
+    
+    // Check for High Resolution Audio
+    // Must be using a lossless codec and have either at least 24 Bit or at least 88.2 kHz.
+    // But never have less than 16 Bit or less than 44.1 kHz.
+    if (isLossless && ([bps integerValue] >= 24 || [kHz integerValue] >= 88) && !([bps integerValue] < 16 || [kHz integerValue] < 44)) {
+        hiresImage.hidden = NO;
+    }
+    else {
+        hiresImage.hidden = YES;
+    }
+    
+    NSString *newLine = bps.length && kHz.length ? @"\n" : @"";
+    NSString *samplerate = [NSString stringWithFormat:@"%@%@%@", bps, newLine, kHz];
+    songNumChannels.text = samplerate;
+    songNumChannels.hidden = NO;
+    songNumChanImage.image = nil;
+    
+    bitrate = bitrate.length ? [NSString stringWithFormat:@"%@\nkbit/s", bitrate] : @"";
+    songSampleRate.text = bitrate;
+    songSampleRate.hidden = NO;
+    songSampleRateImage.image = nil;
+    
+    itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
+}
+
 - (void)loadAudioCodecDetails {
+    // First read Player.GetProperties. If this is empty (e.g. Kodi < 19), use XBMC.GetInfoLabels.
+    // Note: bits-per-sample (bps) is only provided by XBMC.GetInfoLabels.
     [[Utilities getJsonRPC]
-     callMethod:@"XBMC.GetInfoLabels"
-     withParameters:@{@"labels": @[
-         @"MusicPlayer.Codec",
-         @"MusicPlayer.SampleRate",
-         @"MusicPlayer.BitRate",
-         @"MusicPlayer.BitsPerSample",
-         @"MusicPlayer.Channels",
-         @"Slideshow.Resolution",
-     ]}
+     callMethod:@"Player.GetProperties"
+     withParameters:@{@"playerid": @(currentPlayerID),
+                      @"properties": @[@"currentaudiostream"]}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        __block NSString *codec, *channels, *bps, *kHz, *bitrate;
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-            NSString *codec = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
-            codec = [self processAudioCodecName:codec];
-            [self setSongDetails:songCodec image:songCodecImage item:codec];
+            codec = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"codec"]];
+            channels = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"channels"]];
             
-            NSString *channels = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Channels"]];
-            channels = [self processChannelString:channels];
-            songBitRate.text = channels;
-            songBitRateImage.image = [self loadImageFromName:@"icon_channels"];
-            songBitRate.hidden = songBitRateImage.hidden = channels.length == 0;
+            // Convert from bit per second to kbit per second.
+            NSNumber *brate = [Utilities getNumberFromItem:methodResult[@"currentaudiostream"][@"bitrate"]];
+            bitrate = [NSString stringWithFormat:@"%ld", lroundf([brate floatValue] / 1000)];
             
-            BOOL isLossless = [self isLosslessFormat:codec];
-            
-            NSString *bps = [Utilities getStringFromItem:methodResult[@"MusicPlayer.BitsPerSample"]];
-            bps = bps.length ? [NSString stringWithFormat:@"%@ Bit", bps] : @"";
-            
-            NSString *kHz = [Utilities getStringFromItem:methodResult[@"MusicPlayer.SampleRate"]];
-            kHz = kHz.length ? [NSString stringWithFormat:@"%@ kHz", kHz] : @"";
-            
-            // Check for High Resolution Audio
-            // Must be using a lossless codec and have either at least 24 Bit or at least 88.2 kHz.
-            // But never have less than 16 Bit or less than 44.1 kHz.
-            if (isLossless && ([bps integerValue] >= 24 || [kHz integerValue] >= 88) && !([bps integerValue] < 16 || [kHz integerValue] < 44)) {
-                hiresImage.hidden = NO;
-            }
-            else {
-                hiresImage.hidden = YES;
-            }
-            
-            NSString *newLine = bps.length && kHz.length ? @"\n" : @"";
-            NSString *samplerate = [NSString stringWithFormat:@"%@%@%@", bps, newLine, kHz];
-            songNumChannels.text = samplerate;
-            songNumChannels.hidden = NO;
-            songNumChanImage.image = nil;
-            
-            NSString *bitrate = [Utilities getStringFromItem:methodResult[@"MusicPlayer.BitRate"]];
-            bitrate = bitrate.length ? [NSString stringWithFormat:@"%@\nkbit/s", bitrate] : @"";
-            songSampleRate.text = bitrate;
-            songSampleRate.hidden = NO;
-            songSampleRateImage.image = nil;
-            
-            itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
+            // Convert from Hz to kHz. Show 1/10th fraction, if not zero
+            NSNumber *srate = [Utilities getNumberFromItem:methodResult[@"currentaudiostream"][@"samplerate"]];
+            BOOL needsFraction = [srate integerValue] / 100 - ([srate integerValue] / 1000) * 10 > 0;
+            NSString *formatString = needsFraction ? @"%.1f" : @"%.0f" ;
+            kHz = [NSString stringWithFormat:formatString, [srate floatValue] / 1000];
         }
+            
+        // Use XBMC.GetInfoLabels to bits-per-sample. Same for other values, if empty yet.
+        [[Utilities getJsonRPC]
+         callMethod:@"XBMC.GetInfoLabels"
+         withParameters:@{@"labels": @[
+             @"MusicPlayer.Codec",
+             @"MusicPlayer.SampleRate",
+             @"MusicPlayer.BitRate",
+             @"MusicPlayer.BitsPerSample",
+             @"MusicPlayer.Channels",
+             @"Slideshow.Resolution",
+         ]}
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+                bps = bps.length ? bps : [Utilities getStringFromItem:methodResult[@"MusicPlayer.BitsPerSample"]];
+                codec = codec.length ? codec : [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
+                channels = channels.length ? channels : [Utilities getStringFromItem:methodResult[@"MusicPlayer.Channels"]];
+                bitrate = bitrate.length ? bitrate : [Utilities getStringFromItem:methodResult[@"MusicPlayer.BitRate"]];
+                kHz = kHz.length ? kHz : [Utilities getStringFromItem:methodResult[@"MusicPlayer.SampleRate"]];
+            }
+            [self presentDetailsForAudioCodec:codec channels:channels bitrate:bitrate kHz:kHz bps:bps];
+        }];
     }];
 }
 
