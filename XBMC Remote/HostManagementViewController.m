@@ -239,7 +239,6 @@
     }
 }
 
-
 - (UITableViewCellEditingStyle)tableView:(UITableView*)aTableView editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath {
     return UITableViewCellEditingStyleDelete;
 }
@@ -277,7 +276,7 @@
         }
         // Are there still editable entries?
         editTableButton.selected = editTableButton.enabled = AppDelegate.instance.arrayServerList.count > 0;
-	}
+    }
 }
 
 - (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
