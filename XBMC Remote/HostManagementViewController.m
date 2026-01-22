@@ -63,12 +63,28 @@
         [Utilities resetKodiServerParameters];
         [Utilities saveLastServerIndex:nil];
         [connectingActivityIndicator stopAnimating];
-        [serverListTableView reloadData];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
     }
     HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
     hostController.detailItem = item;
     [self.navigationController pushViewController:hostController animated:YES];
+}
+
+#pragma mark - Helper
+
+- (void)updateServerCellStatus {
+    for (NSIndexPath *indexPath in serverListTableView.indexPathsForVisibleRows) {
+        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
+        UIImageView *iconView = (UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON];
+        NSIndexPath *selectedPath = storeServerSelection;
+        if (selectedPath && indexPath.row == selectedPath.row) {
+            NSString *iconName = [Utilities getConnectionStatusIconName];
+            iconView.image = [UIImage imageNamed:iconName];
+        }
+        else {
+            iconView.image = [UIImage imageNamed:@"connection_off"];
+        }
+    }
 }
 
 #pragma mark - Table view methods & data source
@@ -169,7 +185,6 @@
     [Utilities resetKodiServerParameters];
     AppDelegate.instance.serverOnLine = NO;
     [Utilities saveLastServerIndex:nil];
-    [serverListTableView reloadData];
 }
 
 - (void)selectServer:(NSNotification*)notification  {
@@ -294,7 +309,6 @@
     if (serverListTableView.editing || forceClose) {
         [serverListTableView setEditing:NO animated:YES];
         editTableButton.selected = NO;
-        [serverListTableView reloadData];
     }
     else {
         [serverListTableView setEditing:YES animated:YES];
@@ -749,7 +763,7 @@
 }
 
 - (void)connectionSuccess:(NSNotification*)note {
-    [serverListTableView reloadData];
+    [self updateServerCellStatus];
     
     // Gather active server
     storeServerSelection = [Utilities readLastServerIndex];
@@ -761,7 +775,7 @@
 }
 
 - (void)connectionFailed:(NSNotification*)note {
-    [serverListTableView reloadData];
+    [self updateServerCellStatus];
 }
 
 - (BOOL)shouldAutorotate {
