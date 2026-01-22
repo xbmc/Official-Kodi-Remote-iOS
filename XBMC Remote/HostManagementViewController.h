@@ -22,6 +22,7 @@
     NSIndexPath *storeServerSelection;
     __weak IBOutlet UIActivityIndicatorView *connectingActivityIndicator;
     AppInfoViewController *appInfoView;
+    UILabel *noFoundLabel;
     __weak IBOutlet UIButton *addHostButton;
     __weak IBOutlet UIView *supportedVersionView;
     __weak IBOutlet UILabel *supportedVersionLabel;
