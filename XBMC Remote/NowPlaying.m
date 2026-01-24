@@ -2292,8 +2292,7 @@
     [[Utilities getJsonRPC] callMethod:actionRemove withParameters:paramsRemove onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [[Utilities getJsonRPC] callMethod:actionInsert withParameters:paramsInsert];
-            NSInteger numObj = playlistData.count;
-            if (sourceIndexPath.row < numObj) {
+            if (sourceIndexPath.row < playlistData.count) {
                 [playlistData removeObjectAtIndex:sourceIndexPath.row];
             }
             if (destinationIndexPath.row <= playlistData.count) {
@@ -2324,8 +2323,7 @@
         };
         [[Utilities getJsonRPC] callMethod:actionRemove withParameters:paramsRemove onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
-                NSInteger numObj = playlistData.count;
-                if (indexPath.row < numObj) {
+                if (indexPath.row < playlistData.count) {
                     [playlistData removeObjectAtIndex:indexPath.row];
                 }
                 if (indexPath.row < [playlistTableView numberOfRowsInSection:indexPath.section]) {
