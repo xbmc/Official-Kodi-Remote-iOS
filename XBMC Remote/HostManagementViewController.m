@@ -243,8 +243,10 @@
 
 - (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [AppDelegate.instance.arrayServerList removeObjectAtIndex:indexPath.row];
-        [AppDelegate.instance saveServerList];
+        if (indexPath.row < AppDelegate.instance.arrayServerList.count) {
+            [AppDelegate.instance.arrayServerList removeObjectAtIndex:indexPath.row];
+            [AppDelegate.instance saveServerList];
+        }
         if (indexPath.row < [tableView numberOfRowsInSection:indexPath.section]) {
             [tableView performBatchUpdates:^{
                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
