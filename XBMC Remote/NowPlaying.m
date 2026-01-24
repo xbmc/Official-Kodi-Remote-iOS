@@ -2233,9 +2233,7 @@
                     [playlistData removeObjectAtIndex:indexPath.row];
                 }
                 if (indexPath.row < [playlistTableView numberOfRowsInSection:indexPath.section]) {
-                    [playlistTableView performBatchUpdates:^{
-                        [playlistTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-                    } completion:nil];
+                    [playlistTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
                 }
                 if (storeSelection && indexPath.row < storeSelection.row) {
                     storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];

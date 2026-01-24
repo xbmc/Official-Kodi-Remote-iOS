@@ -248,9 +248,7 @@
             [AppDelegate.instance saveServerList];
         }
         if (indexPath.row < [tableView numberOfRowsInSection:indexPath.section]) {
-            [tableView performBatchUpdates:^{
-                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-            } completion:nil];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
         }
         
         // Be aware! Sending "XBMCServerHasChanged" results in calling reloadData. Therefore ensure this is not called
