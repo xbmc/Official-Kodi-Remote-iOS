@@ -149,7 +149,9 @@
     editTableButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [editTableButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateDisabled];
     [editTableButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateNormal];
+    [editTableButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateSelected];
     [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
+    [editTableButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateSelected];
     [editTableButton addTarget:self action:@selector(editTable:) forControlEvents:UIControlEventTouchUpInside];
     [newView addSubview:editTableButton];
     
@@ -192,8 +194,8 @@
     [arrayButtons.buttons removeObjectAtIndex:idx];
     [arrayButtons saveData];
     if (arrayButtons.buttons.count == 0) {
-        [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
         editTableButton.enabled = NO;
+        editTableButton.selected = NO;
         [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
     }
 }
@@ -257,14 +259,13 @@
 #pragma mark - Table view delegate
 
 - (void)editTable:(id)sender {
-    UIButton *editButton = (UIButton*)sender;
     if (menuTableView.editing) {
         [menuTableView setEditing:NO animated:YES];
-        [editButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
+        editTableButton.selected = NO;
     }
     else {
         [menuTableView setEditing:YES animated:YES];
-        [editButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateNormal];
+        editTableButton.selected = YES;
     }
 }
 
