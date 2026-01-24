@@ -218,14 +218,11 @@
         NSString *label = item[@"label"] ?: @"";
         NSString *icon = item[@"icon"] ?: @"";
         NSString *type = item[@"type"] ?: @"";
-        NSNumber *isSetting = item[@"isSetting"] ?: @YES;
         NSDictionary *action = item[@"action"] ?: @{};
         
         NSMutableDictionary *itemDict = [@{
             @"label": label,
             @"icon": icon,
-            @"isSetting": isSetting,
-            @"revealViewTop": @NO,
             @"type": type,
             @"action": action,
         } mutableCopy];
@@ -290,12 +287,7 @@
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (indexPath.row < tableData.count) {
-        return [tableData[indexPath.row][@"isSetting"] boolValue];
-    }
-    else {
-        return NO;
-    }
+    return YES;
 }
 
 - (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {

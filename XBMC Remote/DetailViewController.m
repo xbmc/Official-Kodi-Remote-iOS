@@ -3552,8 +3552,6 @@
                                    item[@"label"], @"label",
                                    @"xbmc-exec-addon", @"type",
                                    item[@"thumbnail"], @"icon",
-                                   @(0), @"xbmcSetting",
-                                   item[@"genre"], @"helpText",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     @"Addons.ExecuteAddon", @"command",
                                     params, @"params",
@@ -3569,8 +3567,6 @@
                                    item[@"label"], @"label",
                                    @"string", @"type",
                                    @"", @"icon",
-                                   @(0), @"xbmcSetting",
-                                   item[@"genre"], @"helpText",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     @"Input.ExecuteAction", @"command",
                                     params, @"params",
@@ -3586,8 +3582,6 @@
                                    item[@"label"], @"label",
                                    @"string", @"type",
                                    @"", @"icon",
-                                   @(0), @"xbmcSetting",
-                                   item[@"genre"], @"helpText",
                                    [NSDictionary dictionaryWithObjectsAndKeys:
                                     @"GUI.ActivateWindow", @"command",
                                     params, @"params",
