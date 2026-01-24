@@ -1152,7 +1152,7 @@
         [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
     }
     editTableButton.hidden = currentPlaylistID == PLAYERID_PICTURES;
-    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
                         withParameters:@{@"properties": @[@"thumbnail",
                                                           @"duration",
@@ -1176,12 +1176,12 @@
                    if ([methodResult isKindOfClass:[NSDictionary class]]) {
                        NSArray *playlistItems = methodResult[@"items"];
                        if (playlistItems.count == 0) {
-                           [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+                           [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
                            editTableButton.enabled = NO;
                            editTableButton.selected = NO;
                        }
                        else {
-                           [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+                           [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
                            editTableButton.enabled = YES;
                        }
                        NSString *serverURL = [Utilities getImageServerURL];
@@ -1264,7 +1264,7 @@
 
 - (void)showPlaylistTableAnimated:(BOOL)animated {
     if (playlistData.count == 0) {
-        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
         [playlistTableView reloadData];
     }
     else {
@@ -2755,7 +2755,9 @@
     [editTableButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateSelected];
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    noItemsLabel.text = LOCALIZED_STR(@"No items found.");
+    noFoundLabel.text = LOCALIZED_STR(@"No items found.");
+    noFoundLabel.adjustsFontSizeToFitWidth = YES;
+    noFoundLabel.minimumScaleFactor = FONT_SCALING_MIN;
     [self addSegmentControl];
     bottomPadding = [Utilities getBottomPadding];
     [self setToolbar];

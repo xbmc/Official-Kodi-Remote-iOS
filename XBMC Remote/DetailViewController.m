@@ -1027,7 +1027,7 @@
     self.indexView.hidden = YES;
     button6.hidden = YES;
     button7.hidden = YES;
-    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
     [activityIndicatorView startAnimating];
     NSArray *buttonsIB = @[button1, button2, button3, button4, button5];
     if (chosenTab < buttonsIB.count) {
@@ -4738,7 +4738,7 @@
         return;
     }
     
-    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
     elapsedTime = 0;
     startTime = [NSDate timeIntervalSinceReferenceDate];
     countExecutionTime = [NSTimer scheduledTimerWithTimeInterval:WARNING_TIMEOUT target:self selector:@selector(checkExecutionTime) userInfo:nil repeats:YES];
@@ -4962,7 +4962,7 @@
 }
 
 - (void)animateNoResultsFound {
-    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+    [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
     [activityIndicatorView stopAnimating];
     [activeLayoutView.pullToRefreshView stopAnimating];
     [self setGridListButtonImage:enableCollectionView];
@@ -5298,10 +5298,10 @@
     [self setFilternameLabel:labelText];
     
     if (!self.richResults.count) {
-        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
     }
     else {
-        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
     }
     NSDictionary *itemSizes = parameters[@"itemSizes"];
     if (IS_IPHONE) {
@@ -5794,7 +5794,9 @@
     epgCachePath = AppDelegate.instance.epgCachePath;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     hiddenLabel = [userDefaults boolForKey:@"hidden_label_preference"];
-    noItemsLabel.text = LOCALIZED_STR(@"No items found.");
+    noFoundLabel.text = LOCALIZED_STR(@"No items found.");
+    noFoundLabel.adjustsFontSizeToFitWidth = YES;
+    noFoundLabel.minimumScaleFactor = FONT_SCALING_MIN;
     loadAndPresentDataOnViewDidAppear = YES;
     sectionHeight = LIST_SECTION_HEADER_HEIGHT;
     epglockqueue = dispatch_queue_create("com.epg.arrayupdate", DISPATCH_QUEUE_SERIAL);
