@@ -2242,6 +2242,11 @@
             else {
                 [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
             }
+            // Are there still editable entries?
+            if (playlistData.count == 0) {
+                editTableButton.selected = editTableButton.enabled = NO;
+                [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+            }
         }];
     }
 }
