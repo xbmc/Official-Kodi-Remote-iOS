@@ -2196,23 +2196,30 @@
     };
     [[Utilities getJsonRPC] callMethod:actionRemove withParameters:paramsRemove onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
-            [[Utilities getJsonRPC] callMethod:actionInsert withParameters:paramsInsert];
-            NSInteger numObj = playlistData.count;
-            if (sourceIndexPath.row < numObj) {
-                [playlistData removeObjectAtIndex:sourceIndexPath.row];
-            }
-            if (destinationIndexPath.row <= playlistData.count) {
-                [playlistData insertObject:objSource atIndex:destinationIndexPath.row];
-            }
-            if (sourceIndexPath.row > storeSelection.row && destinationIndexPath.row <= storeSelection.row) {
-                storeSelection = [NSIndexPath indexPathForRow:storeSelection.row + 1 inSection:storeSelection.section];
-            }
-            else if (sourceIndexPath.row < storeSelection.row && destinationIndexPath.row >= storeSelection.row) {
-                storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];
-            }
+            [[Utilities getJsonRPC] callMethod:actionInsert withParameters:paramsInsert onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                if (error == nil && methodError == nil) {
+                    if (sourceIndexPath.row < playlistData.count) {
+                        [playlistData removeObjectAtIndex:sourceIndexPath.row];
+                    }
+                    if (destinationIndexPath.row <= playlistData.count) {
+                        [playlistData insertObject:objSource atIndex:destinationIndexPath.row];
+                    }
+                    if (sourceIndexPath.row > storeSelection.row && destinationIndexPath.row <= storeSelection.row) {
+                        storeSelection = [NSIndexPath indexPathForRow:storeSelection.row + 1 inSection:storeSelection.section];
+                    }
+                    else if (sourceIndexPath.row < storeSelection.row && destinationIndexPath.row >= storeSelection.row) {
+                        storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];
+                    }
+                }
+                else {
+                    [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
+                    [self createPlaylistAnimated:YES];
+                }
+            }];
         }
         else {
             [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
+            [self createPlaylistAnimated:YES];
         }
     }];
 }
