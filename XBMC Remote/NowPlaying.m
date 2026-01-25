@@ -357,6 +357,10 @@
 - (void)serverIsDisconnected {
     currentPlaylistID = PLAYERID_UNKNOWN;
     storedItemID = 0;
+    [self nothingIsPlaying];
+    if (playlistData.count == 0) {
+        return;
+    }
     [UIView animateWithDuration:0.1
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut
@@ -369,7 +373,6 @@
         [playlistTableView reloadData];
         [self notifyChangeForPlaylistHeader];
     }];
-    [self nothingIsPlaying];
 }
 
 - (void)nothingIsPlaying {
