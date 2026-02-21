@@ -970,6 +970,7 @@
 
 - (void)setCellImageView:(UIImageView*)imgView cell:(UIView*)cell dictItem:(NSDictionary*)item url:(NSString*)stringURL size:(CGSize)viewSize defaultImg:(NSString*)displayThumb {
     if (viewSize.width == 0 || viewSize.height == 0) {
+        [self layoutTVShowCell:cell useDefaultThumb:NO imgView:nil];
         return;
     }
     if ([item[@"family"] isEqualToString:@"channelid"] ||
