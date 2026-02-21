@@ -3016,6 +3016,7 @@
     menu_Videos.mainButtons = @[
         @"st_music_videos",
         @"st_movie_recently",
+        @"st_movie_tags",
         @"st_filemode",
         @"st_addons",
         @"st_playlists",
@@ -3029,6 +3030,9 @@
         @{
             @"method": @"VideoLibrary.GetRecentlyAddedMusicVideos",
             @"extra_info_method": @"VideoLibrary.GetMusicVideoDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetTags",
         },
         @{
             @"method": @"Files.GetSources",
@@ -3168,6 +3172,19 @@
         @{
             @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"type": @"musicvideo",
+                @"properties": @[],
+            },
+            @"label": LOCALIZED_STR(@"Music Video Tags"),
+            @"morelabel": LOCALIZED_STR(@"Music Video Tags"),
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @0,
+            @"enableLibraryCache": @YES,
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
             },
             @"label": LOCALIZED_STR(@"Files"),
@@ -3264,6 +3281,19 @@
         },
         
         @{
+            @"itemid": @"tags",
+            @"row1": @"label",
+            @"row2": @"label",
+            @"row3": @"disable",
+            @"row4": @"disable",
+            @"row5": @"disable",
+            @"row6": @"tag",
+            @"playlistid": @PLAYERID_VIDEO,
+            @"row8": @"tagid",
+            @"row19": @"tag",
+        },
+        
+        @{
             @"itemid": @"sources",
             @"row1": @"label",
             @"row2": @"year",
@@ -3310,6 +3340,7 @@
     menu_Videos.sheetActions = @[
         [self action_musicvideo],
         [self action_musicvideo],
+        @[],
         [self action_queue_to_play],
         @[],
         [self action_playlist],
@@ -3321,11 +3352,13 @@
         @NO,
         @NO,
         @NO,
+        @NO,
     ];
     
     menu_Videos.filterModes = @[
         [self modes_icons_watched],
         [self modes_icons_watched],
+        [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
@@ -3336,6 +3369,10 @@
         @{},
         @{},
         @{
+            @"method": @"VideoLibrary.GetMusicVideos",
+            @"extra_info_method": @"VideoLibrary.GetMusicVideoDetails",
+        },
+        @{
             @"method": @"Files.GetDirectory",
         },
         @{
@@ -3345,10 +3382,86 @@
     ] mutableCopy];
     
     menu_Videos.subItem.noConvertTime = YES;
+    menu_Videos.subItem.showInfo = @[
+        @NO,
+        @NO,
+        @YES,
+        @NO,
+        @NO,
+        @NO,
+    ];
     
     menu_Videos.subItem.mainParameters = [@[
         @{},
         @{},
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"properties": @[
+                    @"artist",
+                    @"year",
+                    @"playcount",
+                    @"thumbnail",
+                    @"genre",
+                    @"runtime",
+                    @"studio",
+                    @"director",
+                    @"plot",
+                    @"file",
+                    @"fanart",
+                    @"resume",
+                ],
+            },
+            @"extra_info_parameters": @{
+                @"properties": @[
+                    @"artist",
+                    @"year",
+                    @"playcount",
+                    @"thumbnail",
+                    @"genre",
+                    @"runtime",
+                    @"studio",
+                    @"director",
+                    @"plot",
+                    @"file",
+                    @"fanart",
+                    @"resume",
+                ],
+                @"kodiExtrasPropertiesMinimumVersion": @{
+                    @"18": @[
+                        @"art",
+                    ],
+                },
+            },
+            @"available_sort_methods": @{
+                @"label": @[
+                    LOCALIZED_STR(@"Title"),
+                    LOCALIZED_STR(@"Artist"),
+                    LOCALIZED_STR(@"Genre"),
+                    LOCALIZED_STR(@"Year"),
+                    LOCALIZED_STR(@"Play count"),
+                    LOCALIZED_STR(@"Random"),
+                ],
+                @"method": @[
+                    @"label",
+                    @"artist",
+                    @"genre",
+                    @"year",
+                    @"playcount",
+                    @"random",
+                ],
+            },
+            @"kodiExtrasPropertiesMinimumVersion": @{
+                @"18": @[
+                    @"art",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Music Videos"),
+            @"morelabel": LOCALIZED_STR(@"Music Videos"),
+            @"enableCollectionView": @YES,
+            @"itemSizes": [self itemSizes_Moviefullscreen],
+        },
         
         @{
             @"parameters": @{
@@ -3422,6 +3535,28 @@
         @{},
         
         @{
+            @"itemid": @"musicvideos",
+            @"row1": @"label",
+            @"row2": @"genre",
+            @"row3": @"year",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"musicvideoid",
+            @"playlistid": @PLAYERID_VIDEO,
+            @"row8": @"musicvideoid",
+            @"row9": @"musicvideoid",
+            @"row10": @"director",
+            @"row11": @"artist",
+            @"row12": @"plot",
+            @"row13": @"playcount",
+            @"row14": @"resume",
+            @"row15": @"votes",
+            @"row16": @"artist",
+            @"row7": @"file",
+            @"itemid_extra_info": @"musicvideodetails",
+        },
+        
+        @{
             @"itemid": @"files",
             @"row1": @"label",
             @"row2": @"filetype",
@@ -3484,12 +3619,14 @@
     menu_Videos.subItem.sheetActions = @[
         @[],
         @[],
+        [self action_musicvideo],
         [self action_queue_to_play],
         [self action_queue_to_play],
         [self action_queue_to_play],
     ];
     
     menu_Videos.subItem.filterModes = @[
+        [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
@@ -3502,6 +3639,7 @@
     menu_Videos.subItem.subItem.mainMethod = [@[
         @{},
         @{},
+        @{},
         @{
             @"method": @"Files.GetDirectory",
         },
@@ -3512,6 +3650,7 @@
     ] mutableCopy];
     
     menu_Videos.subItem.subItem.mainParameters = [@[
+        @{},
         @{},
         @{},
         @{},
@@ -3528,12 +3667,14 @@
         @{},
         @{},
         @{},
+        @{},
     ];
     
     menu_Videos.subItem.subItem.enableSection = NO;
     menu_Videos.subItem.subItem.rowHeight = PORTRAIT_ROW_HEIGHT;
     menu_Videos.subItem.subItem.thumbWidth = DEFAULT_THUMB_WIDTH;
     menu_Videos.subItem.subItem.sheetActions = @[
+        @[],
         @[],
         @[],
         @[],
@@ -3551,6 +3692,7 @@
     menu_TVShows.mainButtons = @[
         @"st_tv",
         @"st_tv_recently",
+        @"st_movie_tags",
         @"st_filemode",
         @"st_addons",
         @"st_playlists",
@@ -3565,6 +3707,9 @@
         @{
             @"method": @"VideoLibrary.GetRecentlyAddedEpisodes",
             @"extra_info_method": @"VideoLibrary.GetEpisodeDetails",
+        },
+        @{
+            @"method": @"VideoLibrary.GetTags",
         },
         @{
             @"method": @"Files.GetSources",
@@ -3676,6 +3821,19 @@
         @{
             @"parameters": @{
                 @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"type": @"tvshow",
+                @"properties": @[],
+            },
+            @"label": LOCALIZED_STR(@"TV Show Tags"),
+            @"morelabel": LOCALIZED_STR(@"TV Show Tags"),
+            @"rowHeight": @FILEMODE_ROW_HEIGHT,
+            @"thumbWidth": @0,
+            @"enableLibraryCache": @YES,
+        },
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
                 @"media": @"video",
             },
             @"label": LOCALIZED_STR(@"Files"),
@@ -3772,6 +3930,19 @@
         },
         
         @{
+            @"itemid": @"tags",
+            @"row1": @"label",
+            @"row2": @"label",
+            @"row3": @"disable",
+            @"row4": @"disable",
+            @"row5": @"disable",
+            @"row6": @"tag",
+            @"playlistid": @PLAYERID_VIDEO,
+            @"row8": @"tagid",
+            @"row19": @"tag",
+        },
+        
+        @{
             @"itemid": @"sources",
             @"row1": @"label",
             @"row2": @"year",
@@ -3818,6 +3989,7 @@
     menu_TVShows.sheetActions = @[
         @[LOCALIZED_STR(@"TV Show Details")],
         [self action_episode],
+        @[],
         [self action_queue_to_play],
         @[],
         [self action_playlist],
@@ -3829,11 +4001,13 @@
         @NO,
         @NO,
         @NO,
+        @NO,
     ];
     
     menu_TVShows.filterModes = @[
         [self modes_icons_watched],
         [self modes_icons_watched],
+        [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
@@ -3848,6 +4022,11 @@
             @"extra_section_method": @"VideoLibrary.GetSeasons",
         },
         @{},
+        @{
+            @"method": @"VideoLibrary.GetTVShows",
+            @"extra_info_method": @"VideoLibrary.GetTVShowDetails",
+            @"tvshowsView": @NO,
+        },
         @{
             @"method": @"Files.GetDirectory",
         },
@@ -3912,6 +4091,58 @@
         },
         
         @{},
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"properties": @[
+                    @"year",
+                    @"playcount",
+                    @"rating",
+                    @"thumbnail",
+                    @"genre",
+                    @"studio",
+                    @"episode",
+                ],
+            },
+            @"extra_info_parameters": @{
+                @"properties": @[
+                    @"year",
+                    @"playcount",
+                    @"rating",
+                    @"thumbnail",
+                    @"genre",
+                    @"studio",
+                    @"plot",
+                    @"mpaa",
+                    @"votes",
+                    @"cast",
+                    @"premiered",
+                    @"episode",
+                    @"fanart",
+                ],
+            },
+            @"available_sort_methods": @{
+                @"label": @[
+                    LOCALIZED_STR(@"Title"),
+                    LOCALIZED_STR(@"Year"),
+                    LOCALIZED_STR(@"Rating"),
+                    LOCALIZED_STR(@"Random"),
+                ],
+                @"method": @[
+                    @"label",
+                    @"year",
+                    @"rating",
+                    @"random",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"TV Shows"),
+            @"FrodoExtraArt": @YES,
+            @"enableCollectionView": @YES,
+            @"rowHeight": @PHONE_TV_SHOWS_POSTER_HEIGHT,
+            @"thumbWidth": @PHONE_TV_SHOWS_POSTER_WIDTH,
+            @"itemSizes": [self itemSizes_Moviefullscreen],
+        },
         
         @{
             @"parameters": @{
@@ -4011,6 +4242,27 @@
         @{},
         
         @{
+            @"itemid": @"tvshows",
+            @"row1": @"label",
+            @"row2": @"genre",
+            @"row3": @"year",
+            @"row4": @"studio",
+            @"row5": @"rating",
+            @"row6": @"tvshowid",
+            @"playlistid": @PLAYERID_VIDEO,
+            @"row8": @"tvshowid",
+            @"row9": @"playcount",
+            @"row10": @"mpaa",
+            @"row11": @"votes",
+            @"row12": @"cast",
+            @"row13": @"premiered",
+            @"row14": @"episode",
+            @"row15": @"plot",
+            @"row16": @"studio",
+            @"itemid_extra_info": @"tvshowdetails",
+        },
+        
+        @{
             @"itemid": @"files",
             @"row1": @"label",
             @"row2": @"filetype",
@@ -4073,12 +4325,14 @@
     menu_TVShows.subItem.sheetActions = @[
         [self action_episode],
         @[],
+        @[LOCALIZED_STR(@"TV Show Details")],
         [self action_queue_to_play],
         [self action_queue_to_play],
         [self action_queue_to_play],
     ];
     
     menu_TVShows.subItem.showRuntime = @[
+        @NO,
         @NO,
         @NO,
         @NO,
@@ -4093,12 +4347,19 @@
         @NO,
         @NO,
         @NO,
+        @NO,
     ];
     
     menu_TVShows.subItem.subItem = [mainMenu new];
     menu_TVShows.subItem.subItem.mainMethod = [@[
         @{},
         @{},
+        @{
+            @"method": @"VideoLibrary.GetEpisodes",
+            @"extra_info_method": @"VideoLibrary.GetEpisodeDetails",
+            @"episodesView": @YES,
+            @"extra_section_method": @"VideoLibrary.GetSeasons",
+        },
         @{
             @"method": @"Files.GetDirectory",
         },
@@ -4111,6 +4372,59 @@
     menu_TVShows.subItem.subItem.mainParameters = [@[
         @{},
         @{},
+        
+        @{
+            @"parameters": @{
+                @"sort": [self sortmethod:@"episode" order:@"ascending" ignorearticle:NO],
+                @"properties": @[
+                    @"episode",
+                    @"thumbnail",
+                    @"firstaired",
+                    @"showtitle",
+                    @"playcount",
+                    @"season",
+                    @"tvshowid",
+                    @"runtime",
+                    @"file",
+                    @"title",
+                ],
+            },
+            @"extra_info_parameters": @{
+                @"properties": @[
+                    @"episode",
+                    @"thumbnail",
+                    @"firstaired",
+                    @"runtime",
+                    @"plot",
+                    @"director",
+                    @"writer",
+                    @"rating",
+                    @"title",
+                    @"showtitle",
+                    @"season",
+                    @"cast",
+                    @"fanart",
+                    @"resume",
+                    @"playcount",
+                    @"file",
+                ],
+            },
+            @"extra_section_parameters": @{
+                @"sort": [self sortmethod:@"label" order:@"ascending" ignorearticle:NO],
+                @"properties": @[
+                    @"season",
+                    @"thumbnail",
+                    @"tvshowid",
+                    @"playcount",
+                    @"episode",
+                    @"art",
+                ],
+            },
+            @"label": LOCALIZED_STR(@"Episodes"),
+            @"disableFilterParameter": @YES,
+            @"FrodoExtraArt": @YES,
+        },
+        
         @{},
         @{
             @"rowHeight": @FILEMODE_ROW_HEIGHT,
@@ -4122,6 +4436,34 @@
     menu_TVShows.subItem.subItem.mainFields = @[
         @{},
         @{},
+        
+        @{
+            @"itemid": @"episodes",
+            @"row1": @"title",
+            @"row2": @"showtitle",
+            @"row3": @"firstaired",
+            @"row4": @"runtime",
+            @"row5": @"rating",
+            @"row6": @"episodeid",
+            @"row7": @"playcount",
+            @"row8": @"episodeid",
+            @"playlistid": @PLAYERID_VIDEO,
+            @"row9": @"episodeid",
+            @"row10": @"season",
+            @"row11": @"tvshowid",
+            @"row12": @"file",
+            @"row13": @"writer",
+            @"row14": @"firstaired",
+            @"row15": @"showtitle",
+            @"row16": @"cast",
+            @"row17": @"director",
+            @"row18": @"resume",
+            @"row19": @"episode",
+            @"row20": @"plot",
+            @"itemid_extra_info": @"episodedetails",
+            @"itemid_extra_section": @"seasons",
+        },
+        
         @{},
         @{},
         @{},
@@ -4136,9 +4478,11 @@
         @[],
         @[],
         @[],
+        @[],
     ];
     
     menu_TVShows.subItem.subItem.showRuntime = @[
+        @NO,
         @NO,
         @NO,
         @NO,
