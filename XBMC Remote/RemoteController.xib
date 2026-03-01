@@ -374,6 +374,7 @@
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="65"/>
+                                <outletCollection property="gestureRecognizers" destination="3RE-u0-OQi" appends="YES" id="GIe-qV-ZXB"/>
                             </connections>
                         </button>
                         <button tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="27" userLabel="Button - rewind">
@@ -438,6 +439,7 @@
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="68"/>
+                                <outletCollection property="gestureRecognizers" destination="op8-bd-yIL" appends="YES" id="I6V-sF-pu3"/>
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="167" userLabel="Quick Help - View">
@@ -522,6 +524,16 @@
                 <action selector="handleButtonLongPress:" destination="-1" id="166"/>
             </connections>
         </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="3RE-u0-OQi" userLabel="Long Press Gesture Recognizer - previous">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="h49-rV-aAo"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="op8-bd-yIL" userLabel="Long Press Gesture Recognizer - next">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="h5t-Ha-4l2"/>
+            </connections>
+        </pongPressGestureRecognizer>
         <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="194" userLabel="Long Press Gesture Recognizer - fullscreen">
             <connections>
                 <action selector="handleButtonLongPress:" destination="-1" id="196"/>
@@ -593,6 +605,8 @@
         <image name="remote_button_left_up" width="424" height="424"/>
         <image name="remote_button_right_down" width="424" height="424"/>
         <image name="remote_button_right_up" width="424" height="424"/>
+        <image name="remote_button_tv_down" width="130.33332824707031" height="69.666664123535156"/>
+        <image name="remote_button_tv_up" width="130.33332824707031" height="69.666664123535156"/>
         <image name="remote_button_up_down" width="424" height="424"/>
         <image name="remote_button_up_up" width="424" height="424"/>
         <image name="remote_button_xbmc_select_down" width="424" height="424"/>
