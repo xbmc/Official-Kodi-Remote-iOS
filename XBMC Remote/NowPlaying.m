@@ -1838,6 +1838,14 @@
 - (IBAction)handleButtonLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         switch (gestureRecognizer.view.tag) {
+            case TAG_ID_PREVIOUS:
+                [[Utilities getJsonRPC] callMethod:@"Input.ExecuteAction" withParameters:@{@"action": @"chapterorbigstepback"}];
+                break;
+                
+            case TAG_ID_NEXT:
+                [[Utilities getJsonRPC] callMethod:@"Input.ExecuteAction" withParameters:@{@"action": @"chapterorbigstepforward"}];
+                break;
+                
             case TAG_SEEK_BACKWARD:// BACKWARD BUTTON - DECREASE PLAYBACK SPEED
                 [self playbackAction:@"Player.SetSpeed" params:@{@"speed": @"decrement"}];
                 break;
