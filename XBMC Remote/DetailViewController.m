@@ -5471,6 +5471,16 @@
     activeTab = MIN(activeTab, MAX_NORMAL_BUTTONS);
     [buttonsIB[activeTab] setSelected:YES];
     button1.hidden = button2.hidden = button3.hidden = button4.hidden = button5.hidden = NO;
+    
+    // Remove shared background for all bottom toolbar items
+    if (@available(iOS 26.0, *)) {
+        for (UIBarButtonItem *item in buttonsViewBgToolbar.items) {
+            if ([item isKindOfClass:[UIBarButtonItem class]]) {
+                item.hidesSharedBackground = YES;
+            }
+        }
+    }
+    
     switch (buttons.count) {
         case 0:
             // no button, no toolbar
