@@ -5301,7 +5301,7 @@
     BOOL mainLabelChanged = menuItem.mainLabel.length && menuItem.type == TypeNone;
     BOOL useMainLabel = mainLabelChanged && !(menuItem.type == TypeKodiSettings || menuItem.type == TypeCustomButtonEntry);
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
-    self.navigationItem.backButtonTitle = labelText;
+    self.navigationItem.backBarButtonItem.title = labelText;
     self.navigationItem.backBarButtonItem.tintColor = ICON_TINT_COLOR;
     if (@available(iOS 26.0, *)) {
         self.navigationItem.backBarButtonItem.hidesSharedBackground = YES;
