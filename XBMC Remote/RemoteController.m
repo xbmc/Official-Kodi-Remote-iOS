@@ -999,12 +999,10 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         UIImage *customImg = [UIImage imageNamed:@"icon_custom_buttons"];
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
         UIBarButtonItem *customButton = [[UIBarButtonItem alloc] initWithImage:customImg style:UIBarButtonItemStylePlain target:self action:@selector(enterCustomButtons)];
+        [customButton setAppDefaultStyle];
         UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         UIBarButtonItem *powerButton = [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)];
-        customButton.tintColor = powerButton.tintColor = ICON_TINT_COLOR;
-        if (@available(iOS 26.0, *)) {
-            customButton.hidesSharedBackground = powerButton.hidesSharedBackground = YES;
-        }
+        [powerButton setAppDefaultStyle];
         self.navigationItem.rightBarButtonItems = @[
             customButton,
             fixedSpace,

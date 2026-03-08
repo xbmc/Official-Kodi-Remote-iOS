@@ -1458,3 +1458,16 @@
 }
 
 @end
+
+#pragma mark - UIBarButtonItem extensions
+
+@implementation UIBarButtonItem (Extensions)
+
+- (void)setAppDefaultStyle {
+    self.tintColor = ICON_TINT_COLOR;
+    if (@available(iOS 26.0, *)) {
+        self.hidesSharedBackground = YES;
+    }
+}
+
+@end

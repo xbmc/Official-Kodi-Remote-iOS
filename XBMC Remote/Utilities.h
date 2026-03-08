@@ -136,3 +136,9 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 - (void)setNavigationBarTint:(UIColor*)tintColor;
 
 @end
+
+@interface UIBarButtonItem (Extensions)
+
+- (void)setAppDefaultStyle;
+
+@end

@@ -906,10 +906,7 @@
     if ([self presentingViewController] != nil) {
         UIImage *doneImg = [UIImage imageNamed:@"OverlayWatched"];
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithImage:doneImg style:UIBarButtonItemStylePlain target:self action:@selector(dismissAddAction:)];
-        doneButton.tintColor = ICON_TINT_COLOR;
-        if (@available(iOS 26.0, *)) {
-            doneButton.hidesSharedBackground = YES;
-        }
+        [doneButton setAppDefaultStyle];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
     if (xbmcSetting == SettingTypeMultiselect) {
