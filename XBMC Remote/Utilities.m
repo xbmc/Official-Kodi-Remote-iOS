@@ -1442,3 +1442,18 @@
 }
 
 @end
+
+#pragma mark - UIViewController extensions
+
+@implementation UIViewController (Extensions)
+
+- (void)setNavigationBarTint:(UIColor*)tintColor {
+    self.navigationController.navigationBar.tintColor = tintColor;
+    for (UIBarButtonItem *item in self.navigationItem.rightBarButtonItems) {
+        if ([item isKindOfClass:[UIBarButtonItem class]]) {
+            item.tintColor = tintColor;
+        }
+    }
+}
+
+@end

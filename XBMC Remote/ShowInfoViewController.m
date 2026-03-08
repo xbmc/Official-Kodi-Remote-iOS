@@ -567,8 +567,8 @@
 }
 
 - (void)setIOS7barTintColor:(UIColor*)tintColor {
-    self.navigationController.navigationBar.tintColor = tintColor;
     toolbar.tintColor = tintColor;
+    [self setNavigationBarTint:tintColor];
 }
 
 - (void)createInfo {

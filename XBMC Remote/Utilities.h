@@ -130,3 +130,9 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (void)resetKodiServerParameters;
 
 @end
+
+@interface UIViewController (Extensions)
+
+- (void)setNavigationBarTint:(UIColor*)tintColor;
+
+@end
