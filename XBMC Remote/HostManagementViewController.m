@@ -587,17 +587,11 @@
         self.navigationItem.titleView = xbmcLogo;
         UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
         UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(handleMenuButton)];
-        menuButton.tintColor = ICON_TINT_COLOR;
-        if (@available(iOS 26.0, *)) {
-            menuButton.hidesSharedBackground = YES;
-        }
+        [menuButton setAppDefaultStyle];
         self.navigationItem.leftBarButtonItem = menuButton;
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
         UIBarButtonItem *powerButton = [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)];
-        powerButton.tintColor = ICON_TINT_COLOR;
-        if (@available(iOS 26.0, *)) {
-            powerButton.hidesSharedBackground = YES;
-        }
+        [powerButton setAppDefaultStyle];
         self.navigationItem.rightBarButtonItem = powerButton;
     }
 
