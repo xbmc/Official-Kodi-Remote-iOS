@@ -1450,9 +1450,9 @@
 
 - (void)setNavigationBarTint:(UIColor*)tintColor {
     self.navigationController.navigationBar.tintColor = tintColor;
-    for (UIBarButtonItem *item in self.navigationItem.rightBarButtonItems) {
+    for (id item in self.navigationItem.rightBarButtonItems) {
         if ([item isKindOfClass:[UIBarButtonItem class]]) {
-            item.tintColor = tintColor;
+            [item setTintColor:tintColor];
         }
     }
 }
