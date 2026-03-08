@@ -49,13 +49,14 @@
     // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
     size = (size.height > 0 && size.width > 0) ? size : CGSizeMake(CGImageGetWidth(inputImageRef), CGImageGetHeight(inputImageRef));
     BOOL anyAlpha = [Utilities isImageUsingAlpha:inputImageRef];
+    CGImageAlphaInfo alphaInfo = anyAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipLast;
     CGContextRef context = CGBitmapContextCreate(NULL,
                                                  size.width,
                                                  size.height,
                                                  8 /* 8 bits per components */,
                                                  size.width * 4 /* 4 components for ARGB */,
                                                  colorSpace,
-                                                 anyAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipLast);
+                                                 alphaInfo & kCGBitmapAlphaInfoMask);
     CGColorSpaceRelease(colorSpace);
     if (context == NULL) {
         return NULL;
