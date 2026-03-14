@@ -303,9 +303,7 @@
             [tableData removeObjectAtIndex:indexPath.row];
         }
         if (indexPath.row < [tableView numberOfRowsInSection:indexPath.section]) {
-            [tableView performBatchUpdates:^{
-                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-            } completion:nil];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
         }
         [self deleteCustomButton:indexPath.row];
 	}
