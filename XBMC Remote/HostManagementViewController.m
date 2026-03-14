@@ -725,7 +725,7 @@
          withParameters:parameters
            onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                if (error == nil && methodError == nil) {
-                   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification object:nil userInfo:nil];
+                   [[NSNotificationCenter defaultCenter] postNotificationName:UISceneWillEnterForegroundNotification object:nil userInfo:nil];
                }
                else {
                    UIAlertController *alertCtrl = [Utilities createAlertOK:LOCALIZED_STR(@"Cannot do that") message:nil];
