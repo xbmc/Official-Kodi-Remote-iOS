@@ -619,6 +619,7 @@
     noFoundLabel.adjustsFontSizeToFitWidth = YES;
     noFoundLabel.minimumScaleFactor = FONT_SCALING_MIN;
     noFoundLabel.numberOfLines = 2;
+    noFoundLabel.alpha = 0.0;
     [self.view addSubview:noFoundLabel];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
