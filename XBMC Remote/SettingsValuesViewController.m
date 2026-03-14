@@ -904,7 +904,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if ([self presentingViewController] != nil) {
-        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
+        UIImage *doneImg = [UIImage imageNamed:@"OverlayWatched"];
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithImage:doneImg style:UIBarButtonItemStylePlain target:self action:@selector(dismissAddAction:)];
+        [doneButton setAppDefaultStyle];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
     if (xbmcSetting == SettingTypeMultiselect) {
