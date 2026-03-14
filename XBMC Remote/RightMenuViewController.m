@@ -318,17 +318,21 @@
         textField.text = tableData[indexPath.row][@"label"];
     }];
     UIAlertAction *updateButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update label") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        if (indexPath.row >= tableData.count) {
-            return;
-        }
-        tableData[indexPath.row][@"label"] = alertCtrl.textFields[0].text;
-        
-        CustomButtonCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
-        UILabel *title = cell.buttonLabel;
-        title.text = alertCtrl.textFields[0].text;
+        NSString *newLabel = alertCtrl.textFields[0].text;
         
         customButton *arrayButtons = [customButton new];
-        arrayButtons.buttons[indexPath.row][@"label"] = alertCtrl.textFields[0].text;
+        if (indexPath.row >= tableData.count ||
+            indexPath.row >= arrayButtons.buttons.count ||
+            indexPath.row >= [menuTableView numberOfRowsInSection:0]) {
+            return;
+        }
+        
+        tableData[indexPath.row][@"label"] = newLabel;
+        
+        CustomButtonCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+        cell.buttonLabel.text = newLabel;
+        
+        arrayButtons.buttons[indexPath.row][@"label"] = newLabel;
         [arrayButtons saveData];
     }];
     UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
