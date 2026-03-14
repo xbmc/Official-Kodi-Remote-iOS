@@ -975,6 +975,18 @@
     [[NSURLSession.sharedSession dataTaskWithURL:[NSURL URLWithString:serverHTTP]] resume];
 }
 
++ (void)giveHapticFeedback {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL feedbackEnabled = [userDefaults boolForKey:@"vibrate_preference"];
+    if (feedbackEnabled) {
+        static UIImpactFeedbackGenerator *generator;
+        if (!generator) {
+            generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
+        }
+        [generator impactOccurred];
+    }
+}
+
 + (NSString*)getAppVersionString {
     NSDictionary *infoDict = NSBundle.mainBundle.infoDictionary;
     NSString *appVersion = [NSString stringWithFormat:@"v%@ (%@)", infoDict[@"CFBundleShortVersionString"], infoDict[(NSString*)kCFBundleVersionKey]];
