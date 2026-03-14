@@ -909,143 +909,229 @@
     return text;
 }
 
-- (void)loadCodecView {
+- (void)presentDetailsForAudioCodec:(NSString*)codec channels:(NSString*)channels bitrate:(NSString*)bitrate kHz:(NSString*)kHz bps:(NSString*)bps {
+    codec = [self processAudioCodecName:codec];
+    [self setSongDetails:songCodec image:songCodecImage item:codec];
+    
+    channels = [self processChannelString:channels];
+    songBitRate.text = channels;
+    songBitRateImage.image = [self loadImageFromName:@"icon_channels"];
+    songBitRate.hidden = songBitRateImage.hidden = channels.length == 0;
+    
+    // Check for High Resolution Audio
+    // Must use a lossless codec and exceed CD format (44.1 kHz / 16 Bit) by using either >= 24 Bit or >= 88.2 kHz.
+    BOOL isLossless = [self isLosslessFormat:codec];
+    BOOL exceedsCompactDiscBits = [bps integerValue] >= 24 && [kHz integerValue] >= 44;
+    BOOL exceedsCompactDiscRate = [bps integerValue] >= 16 && [kHz integerValue] >= 88;
+    hiresImage.hidden = !(isLossless && (exceedsCompactDiscBits || exceedsCompactDiscRate));
+    
+    bps = bps.length ? [NSString stringWithFormat:@"%@ Bit", bps] : @"";
+    
+    kHz = kHz.length ? [NSString stringWithFormat:@"%@ kHz", kHz] : @"";
+    
+    NSString *newLine = bps.length && kHz.length ? @"\n" : @"";
+    NSString *samplerate = [NSString stringWithFormat:@"%@%@%@", bps, newLine, kHz];
+    songNumChannels.text = samplerate;
+    songNumChannels.hidden = NO;
+    songNumChanImage.image = nil;
+    
+    bitrate = bitrate.length ? [NSString stringWithFormat:@"%@\nkbit/s", bitrate] : @"";
+    songSampleRate.text = bitrate;
+    songSampleRate.hidden = NO;
+    songSampleRateImage.image = nil;
+    
+    itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
+}
+
+- (void)loadAudioCodecDetails {
+    // First read Player.GetProperties. If this is empty (e.g. Kodi < 19), use XBMC.GetInfoLabels.
+    // Note: bits-per-sample (bps) is only provided by XBMC.GetInfoLabels.
     [[Utilities getJsonRPC]
-     callMethod:@"XBMC.GetInfoLabels" 
-     withParameters:@{@"labels": @[@"MusicPlayer.Codec",
-                                   @"MusicPlayer.SampleRate",
-                                   @"MusicPlayer.BitRate",
-                                   @"MusicPlayer.BitsPerSample",
-                                   @"MusicPlayer.Channels",
-                                   @"Slideshow.Resolution",
-                                   @"Slideshow.Filename",
-                                   @"Slideshow.CameraModel",
-                                   @"Slideshow.EXIFTime",
-                                   @"Slideshow.Aperture",
-                                   @"Slideshow.ISOEquivalence",
-                                   @"Slideshow.ExposureTime",
-                                   @"Slideshow.Exposure",
-                                   @"Slideshow.ExposureBias",
-                                   @"Slideshow.MeteringMode",
-                                   @"Slideshow.FocalLength",
-                                   @"VideoPlayer.VideoResolution",
-                                   @"VideoPlayer.VideoAspect",
-                                   @"VideoPlayer.AudioCodec",
-                                   @"VideoPlayer.VideoCodec"]}
+     callMethod:@"Player.GetProperties"
+     withParameters:@{@"playerid": @(currentPlayerID),
+                      @"properties": @[@"currentaudiostream"]}
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-             hiresImage.hidden = YES;
-             itemDescription.textAlignment = NSTextAlignmentJustified;
-             if (currentPlayerID == PLAYERID_MUSIC) {
-                 NSString *codec = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
-                 codec = [self processAudioCodecName:codec];
-                 [self setSongDetails:songCodec image:songCodecImage item:codec];
-                 
-                 NSString *channels = [Utilities getStringFromItem:methodResult[@"MusicPlayer.Channels"]];
-                 channels = [self processChannelString:channels];
-                 songBitRate.text = channels;
-                 songBitRateImage.image = [self loadImageFromName:@"icon_channels"];
-                 songBitRate.hidden = songBitRateImage.hidden = channels.length == 0;
-                 
-                 BOOL isLossless = [self isLosslessFormat:codec];
-                 
-                 NSString *bps = [Utilities getStringFromItem:methodResult[@"MusicPlayer.BitsPerSample"]];
-                 bps = bps.length ? [NSString stringWithFormat:@"%@ Bit", bps] : @"";
-                 
-                 NSString *kHz = [Utilities getStringFromItem:methodResult[@"MusicPlayer.SampleRate"]];
-                 kHz = kHz.length ? [NSString stringWithFormat:@"%@ kHz", kHz] : @"";
-                 
-                 // Check for High Resolution Audio
-                 // Must be using a lossless codec and have either at least 24 Bit or at least 88.2 kHz.
-                 // But never have less than 16 Bit or less than 44.1 kHz.
-                 if (isLossless && ([bps integerValue] >= 24 || [kHz integerValue] >= 88) && !([bps integerValue] < 16 || [kHz integerValue] < 44)) {
-                     hiresImage.hidden = NO;
-                 }
-                
-                 NSString *newLine = bps.length && kHz.length ? @"\n" : @"";
-                 NSString *samplerate = [NSString stringWithFormat:@"%@%@%@", bps, newLine, kHz];
-                 songNumChannels.text = samplerate;
-                 songNumChannels.hidden = NO;
-                 songNumChanImage.image = nil;
-                 
-                 NSString *bitrate = [Utilities getStringFromItem:methodResult[@"MusicPlayer.BitRate"]];
-                 bitrate = bitrate.length ? [NSString stringWithFormat:@"%@\nkbit/s", bitrate] : @"";
-                 songSampleRate.text = bitrate;
-                 songSampleRate.hidden = NO;
-                 songSampleRateImage.image = nil;
-                 
-                 itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
-             }
-             else if (currentPlayerID == PLAYERID_VIDEO) {
-                 NSString *codec = [Utilities getStringFromItem:methodResult[@"VideoPlayer.AudioCodec"]];
-                 codec = [self processAudioCodecName:codec];
-                 [self setSongDetails:songNumChannels image:songNumChanImage item:codec];
-                 [self setSongDetails:songCodec image:songCodecImage item:methodResult[@"VideoPlayer.VideoResolution"]];
-                 
-                 codec = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoCodec"]];
-                 codec = [self processVideoCodecName:codec];
-                 [self setSongDetails:songSampleRate image:songSampleRateImage item:codec];
-                 
-                 NSString *aspect = [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoAspect"]];
-                 aspect = [self processAspectString:aspect];
-                 songBitRate.text = aspect;
-                 songBitRateImage.image = [self loadImageFromName:@"icon_aspect"];
-                 songBitRateImage.hidden = songBitRate.hidden = aspect.length == 0;
-                 
-                 itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
-             }
-             else if (currentPlayerID == PLAYERID_PICTURES) {
-                 NSString *filename = [Utilities getStringFromItem:methodResult[@"Slideshow.Filename"]];
-                 NSString *filetype = [[filename pathExtension] uppercaseString];
-                 songBitRate.text = filetype;
-                 
-                 NSString *resolution = [Utilities getStringFromItem:methodResult[@"Slideshow.Resolution"]];
-                 resolution = [resolution stringByReplacingOccurrencesOfString:@" x " withString:@"\n"];
-                 songCodec.text = resolution;
-                 songCodecImage.image = [self loadImageFromName:@"icon_aspect"];
-                 songCodecImage.hidden = resolution.length == 0;
-                 
-                 NSString *camera = [Utilities getStringFromItem:methodResult[@"Slideshow.CameraModel"]];
-                 songSampleRate.text = camera;
-                 
-                 BOOL hasEXIF = camera.length;
-                 songNumChannels.text = @"EXIF\n";
-                 songNumChanImage.image = [self loadImageFromName:@"exif"];
-                 songNumChannels.hidden = songNumChanImage.hidden = !hasEXIF;
-                 
-                 songCodec.hidden = !songCodec.text.length;
-                 songBitRate.hidden = !songBitRate.text.length;
-                 songSampleRate.hidden = !songSampleRate.text.length;
-                 songBitRateImage.hidden = YES;
-                 songSampleRateImage.hidden = YES;
-                 
-                 NSMutableAttributedString *infoString = [NSMutableAttributedString new];
-                 if (hasEXIF) {
-                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Date & time") text:methodResult[@"Slideshow.EXIFTime"]]];
-                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"ISO equivalence") text:methodResult[@"Slideshow.ISOEquivalence"]]];
-                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Resolution") text:methodResult[@"Slideshow.Resolution"]]];
-                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Aperture") text:methodResult[@"Slideshow.Aperture"]]];
-                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Exposure time") text:methodResult[@"Slideshow.ExposureTime"]]];
-                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Exposure mode") text:methodResult[@"Slideshow.Exposure"]]];
-                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Exposure bias") text:methodResult[@"Slideshow.ExposureBias"]]];
-                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Metering mode") text:methodResult[@"Slideshow.MeteringMode"]]];
-                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Focal length") text:methodResult[@"Slideshow.FocalLength"]]];
-                     [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Camera model") text:methodResult[@"Slideshow.CameraModel"]]];
-                 }
-                 itemDescription.attributedText = infoString;
-             }
-             else {
-                 songCodec.hidden = YES;
-                 songBitRate.hidden = YES;
-                 songSampleRate.hidden = YES;
-                 songNumChannels.hidden = YES;
-                 songCodecImage.hidden = YES;
-                 songBitRateImage.hidden = YES;
-                 songSampleRateImage.hidden = YES;
-                 songNumChanImage.hidden = YES;
-             }
-         }
+        __block NSString *codec, *channels, *bps, *kHz, *bitrate;
+        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+            codec = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"codec"]];
+            channels = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"channels"]];
+            
+            // Convert from bit per second to kbit per second.
+            NSNumber *brate = [Utilities getNumberFromItem:methodResult[@"currentaudiostream"][@"bitrate"]];
+            bitrate = [NSString stringWithFormat:@"%ld", lroundf([brate floatValue] / 1000)];
+            
+            // Convert from Hz to kHz. Show 1/10th fraction, if not zero
+            NSNumber *srate = [Utilities getNumberFromItem:methodResult[@"currentaudiostream"][@"samplerate"]];
+            BOOL needsFraction = [srate integerValue] / 100 - ([srate integerValue] / 1000) * 10 > 0;
+            NSString *formatString = needsFraction ? @"%.1f" : @"%.0f" ;
+            kHz = [NSString stringWithFormat:formatString, [srate floatValue] / 1000];
+        }
+            
+        // Use XBMC.GetInfoLabels to bits-per-sample. Same for other values, if empty yet.
+        [[Utilities getJsonRPC]
+         callMethod:@"XBMC.GetInfoLabels"
+         withParameters:@{@"labels": @[
+             @"MusicPlayer.Codec",
+             @"MusicPlayer.SampleRate",
+             @"MusicPlayer.BitRate",
+             @"MusicPlayer.BitsPerSample",
+             @"MusicPlayer.Channels",
+             @"Slideshow.Resolution",
+         ]}
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+                bps = bps.length ? bps : [Utilities getStringFromItem:methodResult[@"MusicPlayer.BitsPerSample"]];
+                codec = codec.length ? codec : [Utilities getStringFromItem:methodResult[@"MusicPlayer.Codec"]];
+                channels = channels.length ? channels : [Utilities getStringFromItem:methodResult[@"MusicPlayer.Channels"]];
+                bitrate = bitrate.length ? bitrate : [Utilities getStringFromItem:methodResult[@"MusicPlayer.BitRate"]];
+                kHz = kHz.length ? kHz : [Utilities getStringFromItem:methodResult[@"MusicPlayer.SampleRate"]];
+            }
+            [self presentDetailsForAudioCodec:codec channels:channels bitrate:bitrate kHz:kHz bps:bps];
+        }];
     }];
+}
+
+- (void)loadVideoCodecDetails {
+    // First read Player.GetProperties. If this is empty, use XBMC.GetInfoLabels.
+    // Note: aspect ratio and resolution is only provided by XBMC.GetInfoLabels.
+    [[Utilities getJsonRPC]
+     callMethod:@"Player.GetProperties"
+     withParameters:@{@"playerid": @(currentPlayerID),
+                      @"properties": @[
+                          @"currentvideostream",
+                          @"currentaudiostream",
+                      ]}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        __block NSString *audiocodec, *videocodec, *aspect, *res;
+        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+            audiocodec = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"codec"]];
+            videocodec = [Utilities getStringFromItem:methodResult[@"currentvideostream"][@"codec"]];
+        }
+        
+        // Use XBMC.GetInfoLabels to gather aspect ratio and resolution. Same for codecs, if empty yet.
+        [[Utilities getJsonRPC]
+         callMethod:@"XBMC.GetInfoLabels"
+         withParameters:@{@"labels": @[
+             @"VideoPlayer.VideoResolution",
+             @"VideoPlayer.VideoAspect",
+             @"VideoPlayer.AudioCodec",
+             @"VideoPlayer.VideoCodec",
+         ]}
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+                audiocodec = audiocodec.length ? audiocodec : [Utilities getStringFromItem:methodResult[@"VideoPlayer.AudioCodec"]];
+                videocodec = videocodec.length ? videocodec : [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoCodec"]];
+                aspect = aspect.length ? aspect : [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoAspect"]];
+                res = res.length ? res : [Utilities getStringFromItem:methodResult[@"VideoPlayer.VideoResolution"]];
+            }
+            
+            audiocodec = [self processAudioCodecName:audiocodec];
+            [self setSongDetails:songNumChannels image:songNumChanImage item:audiocodec];
+            
+            videocodec = [self processVideoCodecName:videocodec];
+            [self setSongDetails:songSampleRate image:songSampleRateImage item:videocodec];
+            
+            [self setSongDetails:songCodec image:songCodecImage item:res];
+            
+            aspect = [self processAspectString:aspect];
+            songBitRate.text = aspect;
+            songBitRateImage.image = [self loadImageFromName:@"icon_aspect"];
+            songBitRateImage.hidden = songBitRate.hidden = aspect.length == 0;
+            
+            itemDescription.font  = [UIFont systemFontOfSize:descriptionFontSize];
+        }];
+    }];
+}
+
+- (void)loadPictureDetails {
+    [[Utilities getJsonRPC]
+     callMethod:@"XBMC.GetInfoLabels"
+     withParameters:@{@"labels": @[
+         @"Slideshow.Resolution",
+         @"Slideshow.Filename",
+         @"Slideshow.CameraModel",
+         @"Slideshow.EXIFTime",
+         @"Slideshow.Aperture",
+         @"Slideshow.ISOEquivalence",
+         @"Slideshow.ExposureTime",
+         @"Slideshow.Exposure",
+         @"Slideshow.ExposureBias",
+         @"Slideshow.MeteringMode",
+         @"Slideshow.FocalLength",
+     ]}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+            NSString *filename = [Utilities getStringFromItem:methodResult[@"Slideshow.Filename"]];
+            NSString *filetype = [[filename pathExtension] uppercaseString];
+            songBitRate.text = filetype;
+            
+            NSString *resolution = [Utilities getStringFromItem:methodResult[@"Slideshow.Resolution"]];
+            resolution = [resolution stringByReplacingOccurrencesOfString:@" x " withString:@"\n"];
+            songCodec.text = resolution;
+            songCodecImage.image = [self loadImageFromName:@"icon_aspect"];
+            songCodecImage.hidden = resolution.length == 0;
+            
+            NSString *camera = [Utilities getStringFromItem:methodResult[@"Slideshow.CameraModel"]];
+            songSampleRate.text = camera;
+            
+            BOOL hasEXIF = camera.length;
+            songNumChannels.text = @"EXIF\n";
+            songNumChanImage.image = [self loadImageFromName:@"exif"];
+            songNumChannels.hidden = songNumChanImage.hidden = !hasEXIF;
+            
+            songCodec.hidden = !songCodec.text.length;
+            songBitRate.hidden = !songBitRate.text.length;
+            songSampleRate.hidden = !songSampleRate.text.length;
+            songBitRateImage.hidden = YES;
+            songSampleRateImage.hidden = YES;
+            
+            NSMutableAttributedString *infoString = [NSMutableAttributedString new];
+            if (hasEXIF) {
+                [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Date & time") text:methodResult[@"Slideshow.EXIFTime"]]];
+                [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"ISO equivalence") text:methodResult[@"Slideshow.ISOEquivalence"]]];
+                [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Resolution") text:methodResult[@"Slideshow.Resolution"]]];
+                [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Aperture") text:methodResult[@"Slideshow.Aperture"]]];
+                [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Exposure time") text:methodResult[@"Slideshow.ExposureTime"]]];
+                [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Exposure mode") text:methodResult[@"Slideshow.Exposure"]]];
+                [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Exposure bias") text:methodResult[@"Slideshow.ExposureBias"]]];
+                [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Metering mode") text:methodResult[@"Slideshow.MeteringMode"]]];
+                [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Focal length") text:methodResult[@"Slideshow.FocalLength"]]];
+                [infoString appendAttributedString:[self formatInfo:LOCALIZED_STR(@"Camera model") text:methodResult[@"Slideshow.CameraModel"]]];
+            }
+            itemDescription.attributedText = infoString;
+        }
+    }];
+}
+
+- (void)loadCodecView {
+    itemDescription.textAlignment = NSTextAlignmentJustified;
+    switch (currentPlayerID) {
+        case PLAYERID_MUSIC:
+            [self loadAudioCodecDetails];
+            break;
+            
+        case PLAYERID_VIDEO:
+            hiresImage.hidden = YES;
+            [self loadVideoCodecDetails];
+            break;
+            
+        case PLAYERID_PICTURES:
+            hiresImage.hidden = YES;
+            [self loadPictureDetails];
+            break;
+            
+        default:
+            hiresImage.hidden = YES;
+            songCodec.hidden = YES;
+            songBitRate.hidden = YES;
+            songSampleRate.hidden = YES;
+            songNumChannels.hidden = YES;
+            songCodecImage.hidden = YES;
+            songBitRateImage.hidden = YES;
+            songSampleRateImage.hidden = YES;
+            songNumChanImage.hidden = YES;
+            break;
+    }
 }
 
 - (NSAttributedString*)formatInfo:(NSString*)name text:(NSString*)text {
