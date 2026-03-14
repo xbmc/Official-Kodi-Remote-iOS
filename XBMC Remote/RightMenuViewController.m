@@ -18,6 +18,8 @@
 #define TOOLBAR_HEIGHT 44.0
 #define BUTTON_SPACING 8.0
 #define BUTTON_WIDTH 100.0
+#define LABEL_SPACING 8.0
+#define LABEL_HEIGHT 40.0
 #define CUSTOM_BUTTON_CELL_IDENTIFIER @"customButtonCellIdentifier"
 #define CUSTOM_TOGGLE_CELL_IDENTIFIER @"customToggleCellIdentifier"
 
@@ -147,7 +149,9 @@
     editTableButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [editTableButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateDisabled];
     [editTableButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateNormal];
+    [editTableButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateSelected];
     [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
+    [editTableButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateSelected];
     [editTableButton addTarget:self action:@selector(editTable:) forControlEvents:UIControlEventTouchUpInside];
     [newView addSubview:editTableButton];
     
@@ -190,12 +194,9 @@
     [arrayButtons.buttons removeObjectAtIndex:idx];
     [arrayButtons saveData];
     if (arrayButtons.buttons.count == 0) {
-        [menuTableView setEditing:NO animated:YES];
-        [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
         editTableButton.enabled = NO;
-        [arrayButtons.buttons addObject:infoCustomButton];
-        [self loadCustomButtons];
-        [menuTableView reloadData];
+        editTableButton.selected = NO;
+        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
     }
 }
 
@@ -204,10 +205,11 @@
     customButton *arrayButtons = [customButton new];
     if (arrayButtons.buttons.count == 0) {
         editTableButton.enabled = NO;
-        [arrayButtons.buttons addObject:infoCustomButton];
+        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
     }
     else {
         editTableButton.enabled = YES;
+        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
     }
     
     // Build table with custom buttons
@@ -216,14 +218,11 @@
         NSString *label = item[@"label"] ?: @"";
         NSString *icon = item[@"icon"] ?: @"";
         NSString *type = item[@"type"] ?: @"";
-        NSNumber *isSetting = item[@"isSetting"] ?: @YES;
         NSDictionary *action = item[@"action"] ?: @{};
         
         NSMutableDictionary *itemDict = [@{
             @"label": label,
             @"icon": icon,
-            @"isSetting": isSetting,
-            @"revealViewTop": @NO,
             @"type": type,
             @"action": action,
         } mutableCopy];
@@ -257,14 +256,13 @@
 #pragma mark - Table view delegate
 
 - (void)editTable:(id)sender {
-    UIButton *editButton = (UIButton*)sender;
     if (menuTableView.editing) {
         [menuTableView setEditing:NO animated:YES];
-        [editButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
+        editTableButton.selected = NO;
     }
     else {
         [menuTableView setEditing:YES animated:YES];
-        [editButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateNormal];
+        editTableButton.selected = YES;
     }
 }
 
@@ -289,12 +287,7 @@
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (indexPath.row < tableData.count) {
-        return [tableData[indexPath.row][@"isSetting"] boolValue];
-    }
-    else {
-        return NO;
-    }
+    return YES;
 }
 
 - (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -427,14 +420,19 @@
     menuTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     [self.view addSubview:menuTableView];
     
-    infoCustomButton = @{
-        @"label": LOCALIZED_STR(@"No custom button defined."),
-        @"icon": @"button_info",
-        @"action": @{},
-        @"revealViewTop": @NO,
-        @"isSetting": @NO,
-        @"type": @"",
-    };
+    noFoundLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(menuTableView.frame) + LABEL_SPACING,
+                                                             CGRectGetMinY(menuTableView.frame),
+                                                             CGRectGetWidth(menuTableView.frame) - 2 * LABEL_SPACING,
+                                                             LABEL_HEIGHT)];
+    noFoundLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    noFoundLabel.text = LOCALIZED_STR(@"No custom button defined.");
+    noFoundLabel.textColor = UIColor.lightGrayColor;
+    noFoundLabel.font = [UIFont systemFontOfSize:17];
+    noFoundLabel.textAlignment = NSTextAlignmentCenter;
+    noFoundLabel.adjustsFontSizeToFitWidth = YES;
+    noFoundLabel.minimumScaleFactor = FONT_SCALING_MIN;
+    noFoundLabel.numberOfLines = 2;
+    [self.view addSubview:noFoundLabel];
 
     [self loadCustomButtons];
     
