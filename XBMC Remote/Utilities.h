@@ -130,3 +130,12 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (void)resetKodiServerParameters;
 
 @end
+
+@interface UIButton (Extensions)
+
+- (void)setTextStyle;
+- (void)setIconStyle:(UIImage*)image;
+- (void)setIconStyle:(UIImage*)image withColor:(UIColor*)color;
+- (void)setDatabaseToolbarStyle:(UIImage*)image;
+
+@end
