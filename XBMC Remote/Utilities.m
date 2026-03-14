@@ -964,7 +964,14 @@
 }
 
 + (CGFloat)getTopPaddingWithNavBar:(UINavigationController*)navCtrl {
-    CGFloat topPadding = UIApplication.sharedApplication.statusBarFrame.size.height + navCtrl.navigationBar.frame.size.height;
+    // Workaround: Using CGRectGetMaxY resolves a layout issue where otherwise the inset ends below the navbar (e.g.
+    // iPhone 14 Pro iOS18), but at the same time it causes an issue with the inset not taking into account the status
+    // bar (e.g. iPod Touch iOS15.5). This seems to be caused by calling this method from viewDidLoad instead
+    // of willLayoutSubviews. This workaround avoids rework of DetailVC's delicate layout.
+    CGFloat topPadding = CGRectGetMaxY(navCtrl.navigationBar.frame);
+    if (topPadding <= navCtrl.navigationBar.frame.size.height) {
+        topPadding = UIApplication.sharedApplication.statusBarFrame.size.height + navCtrl.navigationBar.frame.size.height;
+    }
     return topPadding;
 }
 
