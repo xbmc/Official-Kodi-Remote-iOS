@@ -203,13 +203,9 @@
         }
         // Place the up and down arrows. Keep them invisible for now.
         CGFloat bottomPadding = [Utilities getBottomPadding];
-        CGRect frame = arrow_continue_down.frame;
-        frame.origin.y -= bottomPadding;
-        arrow_continue_down.frame = frame;
+        [arrow_continue_down offsetY:-bottomPadding];
         arrow_continue_down.alpha = 0;
-        frame = arrow_back_up.frame;
-        frame.origin.y += scrollView.contentInset.top;
-        arrow_back_up.frame = frame;
+        [arrow_back_up offsetY:scrollView.contentInset.top];
         arrow_back_up.alpha = 0;
     }
 }
@@ -543,7 +539,7 @@
         
         // Ensure we draw the rounded edges around TV station logo view
         coverView.image = imageToShow;
-        [Utilities applyRoundedEdgesView:coverView];
+        [coverView applyRoundedEdges];
         
         // Choose correct background color for station logos
         if (image != nil) {
@@ -552,9 +548,9 @@
     }
     else {
         // Ensure we draw the rounded edges around thumbnail images
-        coverView.image = [Utilities applyRoundedEdgesImage:imageToShow];
+        coverView.image = [imageToShow applyRoundedEdges];
     }
-    [Utilities alphaView:coverView AnimDuration:0.1 Alpha:1.0];
+    [coverView animateAlpha:1.0 duration:0.1];
 }
 
 - (void)setIOS7barTintColor:(UIColor*)tintColor {
@@ -597,9 +593,7 @@
         frame.size.height += lineSpacing * 2;
         starsView.frame = frame;
         
-        frame = voteLabel.frame;
-        frame.origin.y -= lineSpacing;
-        voteLabel.frame = frame;
+        [voteLabel offsetY:-lineSpacing];
     }
     else {
         thumbWidth = (int)(PHONE_TV_SHOWS_BANNER_WIDTH * transform);
@@ -642,9 +636,7 @@
         jewelImg = @"jewel_dvd.9";
         jeweltype = JewelTypeDVD;
         int coverHeight = IS_IPAD ? DVD_HEIGHT_IPAD : DVD_HEIGHT_IPHONE;
-        CGRect frame = jewelView.frame;
-        frame.size.height = coverHeight;
-        jewelView.frame = frame;
+        [jewelView setHeight:coverHeight];
         
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleAspectFill;
@@ -674,9 +666,7 @@
         jewelImg = @"jewel_tv.9";
         jeweltype = JewelTypeTV;
         int coverHeight = IS_IPAD ? TV_HEIGHT_IPAD : TV_HEIGHT_IPHONE;
-        CGRect frame = jewelView.frame;
-        frame.size.height = coverHeight;
-        jewelView.frame = frame;
+        [jewelView setHeight:coverHeight];
         
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleAspectFill;
@@ -707,9 +697,7 @@
         jewelImg = @"jewel_cd.9";
         jeweltype = JewelTypeCD;
         int coverHeight = IS_IPAD ? CD_HEIGHT_IPAD : CD_HEIGHT_IPHONE;
-        CGRect frame = jewelView.frame;
-        frame.size.height = coverHeight;
-        jewelView.frame = frame;
+        [jewelView setHeight:coverHeight];
     }
     else if ([item[@"family"] isEqualToString:@"musicvideoid"]) {
         placeHolderImage = @"nocover_musicvideos_wall";
@@ -735,9 +723,7 @@
         jewelImg = @"jewel_cd.9";
         jeweltype = JewelTypeCD;
         int coverHeight = IS_IPAD ? CD_HEIGHT_IPAD : CD_HEIGHT_IPHONE;
-        CGRect frame = jewelView.frame;
-        frame.size.height = coverHeight;
-        jewelView.frame = frame;
+        [jewelView setHeight:coverHeight];
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
         placeHolderImage = @"nocover_artist_wall";
@@ -859,9 +845,7 @@
         jewelImg = @"jewel_dvd.9";
         jeweltype = JewelTypeDVD;
         int coverHeight = IS_IPAD ? DVD_HEIGHT_IPAD : DVD_HEIGHT_IPHONE;
-        CGRect frame = jewelView.frame;
-        frame.size.height = coverHeight;
-        jewelView.frame = frame;
+        [jewelView setHeight:coverHeight];
         coverView.autoresizingMask = UIViewAutoresizingNone;
         coverView.contentMode = UIViewContentModeScaleToFill;
     }
@@ -889,7 +873,7 @@
 
     parentalRatingSubLabel.text = [Utilities getStringFromItem:item[@"mpaa"]];
     
-    subLabel5.text = [Utilities stripBBandHTML:subLabel5.text];
+    subLabel5.text = [subLabel5.text stripBBandHTML];
     
     if ([item[@"trailer"] isKindOfClass:[NSString class]]) {
         [self processTrailerFromString:item[@"trailer"]];
@@ -1026,17 +1010,9 @@
 
 - (CGFloat)layoutStars:(CGFloat)offset {
     if (!starsView.hidden) {
-        CGRect frame = starsView.frame;
-        frame.origin.y = offset;
-        starsView.frame = frame;
-        
-        frame = voteLabel.frame;
-        frame.origin.y = offset;
-        voteLabel.frame = frame;
-        
-        frame = numVotesLabel.frame;
-        frame.origin.y = offset;
-        numVotesLabel.frame = frame;
+        [starsView setY:offset];
+        [voteLabel setY:offset];
+        [numVotesLabel setY:offset];
         
         offset = CGRectGetMaxY(starsView.frame);
     }
@@ -1078,13 +1054,13 @@
     if (!mainLabel.hidden) {
         CGRect frame = mainLabel.frame;
         frame.origin.y = offset;
-        frame.size.height = [Utilities getSizeOfLabel:mainLabel].height + lineSpacing;
+        frame.size.height = [mainLabel getSize].height + lineSpacing;
         mainLabel.frame = frame;
         offset += frame.size.height;
         
         frame = subLabel.frame;
         frame.origin.y = offset;
-        frame.size.height = [Utilities getSizeOfLabel:subLabel].height + lineSpacing;
+        frame.size.height = [subLabel getSize].height + lineSpacing;
         subLabel.frame = frame;
         offset += frame.size.height + VERTICAL_PADDING;
     }
@@ -1095,7 +1071,7 @@
     if (trailerLabel != nil) {
         CGRect frame = trailerLabel.frame;
         frame.origin.y = offset;
-        frame.size.height = [Utilities getSizeOfLabel:trailerLabel].height + lineSpacing;
+        frame.size.height = [trailerLabel getSize].height + lineSpacing;
         trailerLabel.frame = frame;
         offset += frame.size.height;
         
@@ -1111,23 +1087,19 @@
     if (castList.count) {
         CGRect frame = castMainLabel.frame;
         frame.origin.y = offset;
-        frame.size.height = [Utilities getSizeOfLabel:castMainLabel].height + lineSpacing;
+        frame.size.height = [castMainLabel getSize].height + lineSpacing;
         castMainLabel.frame = frame;
         offset += frame.size.height;
         
-        frame = actorsTable.frame;
-        frame.origin.y = offset;
-        actorsTable.frame = frame;
+        [actorsTable setY:offset];
         offset += frame.size.height + VERTICAL_PADDING;
     }
     return offset;
 }
 
 - (CGFloat)layoutClearLogo:(CGFloat)offset {
-    CGRect frame = clearlogoButton.frame;
-    frame.origin.y = offset;
-    clearlogoButton.frame = frame;
-    offset += frame.size.height;
+    [clearlogoButton setY:offset];
+    offset += clearlogoButton.frame.size.height;
     return offset;
 }
 
@@ -1318,7 +1290,7 @@
             trailerWebView.opaque = NO;
             trailerWebView.backgroundColor = UIColor.blackColor;
             trailerWebView.UIDelegate = self;
-            [Utilities applyRoundedEdgesView:trailerWebView];
+            [trailerWebView applyRoundedEdges];
             [scrollView addSubview:trailerWebView];
             
             trailerComponents = [NSURLComponents componentsWithURL:embedVideoURL resolvingAgainstBaseURL:YES];
@@ -1398,7 +1370,7 @@
                           __auto_type strongSelf = weakSelf;
                           if (strongSelf != nil && strongSelf->enableKenBurns) {
                               [strongSelf elabKenBurns:image];
-                              [Utilities alphaView:strongSelf.kenView AnimDuration:1.5 Alpha:0.2];
+                              [strongSelf.kenView animateAlpha:0.2 duration:1.5];
                           }
                       }
      ];
@@ -1519,7 +1491,7 @@
             closeButton.alpha = 0;
             [self.view addSubview:closeButton];
         }
-        [Utilities alphaView:closeButton AnimDuration:1.5 Alpha:1];
+        [closeButton animateAlpha:1.0 duration:1.5];
     }
     [self scrollDown:nil];
 }
@@ -1548,17 +1520,17 @@
     }
     
     if (arrow_continue_down.alpha && at_bottom) {
-        [Utilities alphaView:arrow_continue_down AnimDuration:0.3 Alpha:0];
+        [arrow_continue_down animateAlpha:0.0 duration:0.3];
     }
     else if (!arrow_continue_down.alpha && !at_bottom) {
-        [Utilities alphaView:arrow_continue_down AnimDuration:0.3 Alpha:ARROW_ALPHA];
+        [arrow_continue_down animateAlpha:ARROW_ALPHA duration:0.3];
     }
     bool at_top = theScrollView.contentOffset.y <= -scrollView.contentInset.top;
     if (arrow_back_up.alpha && at_top) {
-        [Utilities alphaView:arrow_back_up AnimDuration:0.3 Alpha:0];
+        [arrow_back_up animateAlpha:0.0 duration:0.3];
     }
     else if (!arrow_back_up.alpha && !at_top) {
-        [Utilities alphaView:arrow_back_up AnimDuration:0.3 Alpha:ARROW_ALPHA];
+        [arrow_back_up animateAlpha:ARROW_ALPHA duration:0.3];
     }
 }
 
@@ -1589,7 +1561,7 @@
         [cell.actorThumbnail sd_setImageWithURL:[NSURL URLWithString:stringURL]
                                placeholderImage:[UIImage imageNamed:@"nocover_actor"]
                                         options:SDWebImageScaleToNativeSize];
-        [Utilities applyRoundedEdgesView:cell.actorThumbnail];
+        [cell.actorThumbnail applyRoundedEdges];
         cell.actorName.text = castMember[@"name"] ?: self.detailItem[@"label"];
         cell.actorRole.text = castMember[@"role"];
         [cell.actorRole sizeToFit];
@@ -1599,7 +1571,7 @@
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if (AppDelegate.instance.serverVersion > 11 && ![self isModal]) {
-        UIImage *image = [Utilities colorizeImage:[UIImage imageNamed:@"table_arrow_right"] withColor:UIColor.grayColor];
+        UIImage *image = [[UIImage imageNamed:@"table_arrow_right"] colorizeWithColor:UIColor.grayColor];
         cell.accessoryView = [[UIImageView alloc] initWithImage:image];
         cell.accessoryView.alpha = ARROW_ALPHA;
     }
@@ -1861,10 +1833,10 @@
     }
     [self loadFanart:fanart];
     if (!enableKenBurns) {
-        [Utilities alphaView:fanartView AnimDuration:1.5 Alpha:alphaValue];// cool
+        [fanartView animateAlpha:alphaValue duration:1.5];
     }
     else {
-        [Utilities alphaView:self.kenView AnimDuration:1.5 Alpha:alphaValue];// cool
+        [self.kenView animateAlpha:alphaValue duration:1.5];
     }
     if ([self isModal]) {
         clearlogoButton.frame = CGRectMake((int)(self.view.frame.size.width / 2) - (int)(clearlogoButton.frame.size.width / 2),
@@ -1883,7 +1855,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [Utilities alphaView:fanartView AnimDuration:0.3 Alpha:0.0];
+    [fanartView animateAlpha:0.0 duration:0.3];
     if (self.kenView != nil) {
         [UIView animateWithDuration:0.3
                          animations:^{
@@ -1970,7 +1942,7 @@
                              }
                              completion:^(BOOL finished) {
                                  [self elabKenBurns:fanartView.image];
-                                 [Utilities alphaView:self.kenView AnimDuration:0.2 Alpha:alphaValue];
+                                 [self.kenView animateAlpha:alphaValue duration:0.2];
                              }
              ];
         }

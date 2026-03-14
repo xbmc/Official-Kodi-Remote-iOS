@@ -9,7 +9,6 @@
 #import "NowPlaying.h"
 #import "mainMenu.h"
 #import "UIImageView+WebCache.h"
-#import "UIImage+Resize.h"
 #import "GlobalData.h"
 #import "SDImageCache.h"
 #import "RemoteController.h"
@@ -146,7 +145,7 @@
     // Show blurred cover background (iPhone only, as iPad uses other layout)
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if ([userDefaults boolForKey:@"blurred_cover_preference"] && IS_IPHONE) {
-        [Utilities imageView:fullscreenCover AnimDuration:1.0 Image:image];
+        [fullscreenCover animateImage:image duration:1.0];
         visualEffectView.hidden = NO;
     }
     else {
@@ -279,23 +278,23 @@
 }
 
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source {
-    return [Utilities applyRoundedEdgesImage:source];
+    return [source applyRoundedEdges];
 }
 
 - (void)updateRepeatButton:(NSString*)mode {
     if ([mode isEqualToString:@"all"]) {
         UIImage *image = [UIImage imageNamed:@"button_repeat_all"];
-        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+        image = [image colorizeWithColor:KODI_BLUE_COLOR];
         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
     }
     else if ([mode isEqualToString:@"one"]) {
         UIImage *image = [UIImage imageNamed:@"button_repeat_one"];
-        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+        image = [image colorizeWithColor:KODI_BLUE_COLOR];
         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
     }
     else {
         UIImage *image = [UIImage imageNamed:@"button_repeat"];
-        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+        image = [image colorizeWithColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
         [repeatButton setBackgroundImage:image forState:UIControlStateNormal];
     }
 }
@@ -303,12 +302,12 @@
 - (void)updateShuffleButton:(BOOL)shuffle {
     if (shuffle) {
         UIImage *image = [UIImage imageNamed:@"button_shuffle_on"];
-        image = [Utilities colorizeImage:image withColor:KODI_BLUE_COLOR];
+        image = [image colorizeWithColor:KODI_BLUE_COLOR];
         [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
     }
     else {
         UIImage *image = [UIImage imageNamed:@"button_shuffle"];
-        image = [Utilities colorizeImage:image withColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
+        image = [image colorizeWithColor:IS_IPAD ? UIColor.whiteColor : UIColor.lightGrayColor];
         [shuffleButton setBackgroundImage:image forState:UIControlStateNormal];
     }
 }
@@ -439,7 +438,7 @@
 }
 
 - (void)changeImage:(UIImageView*)imageView image:(UIImage*)newImage {
-    [Utilities imageView:imageView AnimDuration:0.2 Image:newImage];
+    [imageView animateImage:newImage duration:0.2];
 }
 
 - (void)setWaitForInfoLabelsToSettle {
@@ -452,7 +451,7 @@
         NSString *description = [Utilities getStringFromItem:item[@"description"]];
         NSString *plot = [Utilities getStringFromItem:item[@"plot"]];
         itemDescription.text = description.length ? description : (plot.length ? plot : @"");
-        itemDescription.text = [Utilities stripBBandHTML:itemDescription.text];
+        itemDescription.text = [itemDescription.text stripBBandHTML];
         [itemDescription scrollRangeToVisible:NSMakeRange(0, 0)];
     }
     
@@ -584,7 +583,7 @@
     if (canSeek && !ProgressSlider.userInteractionEnabled) {
         ProgressSlider.userInteractionEnabled = YES;
         UIImage *image = [UIImage imageNamed:@"pgbar_thumb"];
-        image = [Utilities colorizeImage:image withColor:SLIDER_DEFAULT_COLOR];
+        image = [image colorizeWithColor:SLIDER_DEFAULT_COLOR];
         [ProgressSlider setThumbImage:image forState:UIControlStateNormal];
         [ProgressSlider setThumbImage:image forState:UIControlStateHighlighted];
     }
@@ -1141,18 +1140,18 @@
     
     if (currentPlaylistID == PLAYERID_MUSIC) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_MUSIC;
-        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:1.0 XPos:PARTYBUTTON_PADDING_LEFT];
+        [PartyModeButton animateX:PARTYBUTTON_PADDING_LEFT alpha:1.0 duration:0.3];
     }
     else if (currentPlaylistID == PLAYERID_VIDEO) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_VIDEO;
-        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
+        [PartyModeButton animateX:-PartyModeButton.frame.size.width alpha:0.0 duration:0.3];
     }
     else if (currentPlaylistID == PLAYERID_PICTURES) {
         playlistSegmentedControl.selectedSegmentIndex = PLAYERID_PICTURES;
-        [Utilities AnimView:PartyModeButton AnimDuration:0.3 Alpha:0.0 XPos:-PartyModeButton.frame.size.width];
+        [PartyModeButton animateX:-PartyModeButton.frame.size.width alpha:0.0 duration:0.3];
     }
     editTableButton.hidden = currentPlaylistID == PLAYERID_PICTURES;
-    [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+    [noFoundView animateAlpha:0.0 duration:0.2];
     [[Utilities getJsonRPC] callMethod:@"Playlist.GetItems"
                         withParameters:@{@"properties": @[@"thumbnail",
                                                           @"duration",
@@ -1176,12 +1175,12 @@
                    if ([methodResult isKindOfClass:[NSDictionary class]]) {
                        NSArray *playlistItems = methodResult[@"items"];
                        if (playlistItems.count == 0) {
-                           [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+                           [noFoundView animateAlpha:1.0 duration:0.2];
                            editTableButton.enabled = NO;
                            editTableButton.selected = NO;
                        }
                        else {
-                           [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:0.0];
+                           [noFoundView animateAlpha:0.0 duration:0.2];
                            editTableButton.enabled = YES;
                        }
                        NSString *serverURL = [Utilities getImageServerURL];
@@ -1264,7 +1263,7 @@
 
 - (void)showPlaylistTableAnimated:(BOOL)animated {
     if (playlistData.count == 0) {
-        [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
+        [noFoundView animateAlpha:1.0 duration:0.2];
         [playlistTableView reloadData];
     }
     else {
@@ -1858,12 +1857,12 @@
 
 - (IBAction)stopUpdateProgressBar:(id)sender {
     updateProgressBar = NO;
-    [Utilities alphaView:scrabbingView AnimDuration:0.3 Alpha:1.0];
+    [scrabbingView animateAlpha:1.0 duration:0.3];
 }
 
 - (IBAction)startUpdateProgressBar:(id)sender {
     [self SimpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:currentPlayerID percentage:ProgressSlider.value] reloadPlaylist:NO startProgressBar:YES];
-    [Utilities alphaView:scrabbingView AnimDuration:0.3 Alpha:0.0];
+    [scrabbingView animateAlpha:0.0 duration:0.3];
 }
 
 - (IBAction)updateCurrentTime:(id)sender {
@@ -2040,7 +2039,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    cell.backgroundColor = [Utilities getSystemGray6];
+    cell.backgroundColor = [UIColor getSystemGray6];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -2053,13 +2052,13 @@
         UILabel *cornerLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_CORNERTITLE];
         UIImageView *thumb = (UIImageView*)[cell viewWithTag:XIB_PLAYLIST_CELL_COVER];
         
-        mainLabel.highlightedTextColor = [Utilities get1stLabelColor];
-        subLabel.highlightedTextColor = [Utilities get2ndLabelColor];
-        cornerLabel.highlightedTextColor = [Utilities get2ndLabelColor];
+        mainLabel.highlightedTextColor = [UIColor get1stLabelColor];
+        subLabel.highlightedTextColor = [UIColor get2ndLabelColor];
+        cornerLabel.highlightedTextColor = [UIColor get2ndLabelColor];
         
-        mainLabel.textColor = [Utilities get1stLabelColor];
-        subLabel.textColor = [Utilities get2ndLabelColor];
-        cornerLabel.textColor = [Utilities get2ndLabelColor];
+        mainLabel.textColor = [UIColor get1stLabelColor];
+        subLabel.textColor = [UIColor get2ndLabelColor];
+        cornerLabel.textColor = [UIColor get2ndLabelColor];
         
         tableView.separatorInset = UIEdgeInsetsMake(0, CGRectGetMinX(mainLabel.frame), 0, 0);
         
@@ -2119,7 +2118,7 @@
     [thumb sd_setImageWithURL:[NSURL URLWithString:stringURL]
              placeholderImage:defaultThumb
                       options:SDWebImageScaleToNativeSize];
-    [Utilities applyRoundedEdgesView:thumb];
+    [thumb applyRoundedEdges];
     
     PlaylistProgressView *playlistProgressView = (PlaylistProgressView*)[cell viewWithTag:TAG_PLAYLIST_CELL_PROGRESSVIEW];
     [playlistProgressView setProgress:0];
@@ -2382,9 +2381,7 @@
     playlistToolbarView.frame = frame;
     [self buildIpadPlaylistToolbar];
     
-    frame = toolbarBackground.frame;
-    frame.size.width = viewSize.width;
-    toolbarBackground.frame = frame;
+    [toolbarBackground setWidth:viewSize.width];
     
     backgroundImageView.frame = nowPlayingView.frame;
     playlistActionView.alpha = playlistView.alpha = isFullscreen ? 0 : 1;
@@ -2392,7 +2389,7 @@
     // Adapt fullscreen toggle button icon to current screen mode
     NSString *imageName = isFullscreen ? @"button_exit_fullscreen" : @"button_fullscreen";
     UIImage *image = [UIImage imageNamed:imageName];
-    image = [Utilities colorizeImage:image withColor:UIColor.whiteColor];
+    image = [image colorizeWithColor:UIColor.whiteColor];
     [fullscreenToggleButton setImage:image forState:UIControlStateNormal];
     [fullscreenToggleButton setImage:image forState:UIControlStateHighlighted];
     fullscreenToggleButton.alpha = 0.9;
@@ -2456,9 +2453,7 @@
 }
 
 - (void)setIphoneInterface {
-    CGRect frame = playlistActionView.frame;
-    frame.origin.y = CGRectGetMinY(playlistToolbarView.frame) - CGRectGetHeight(playlistActionView.frame);
-    playlistActionView.frame = frame;
+    [playlistActionView setY:CGRectGetMinY(playlistToolbarView.frame) - CGRectGetHeight(playlistActionView.frame)];
     playlistActionView.alpha = 0.0;
 }
 
@@ -2468,9 +2463,7 @@
     nowPlayingView.hidden = NO;
     playlistView.hidden = NO;
     
-    CGRect frame = playlistActionView.frame;
-    frame.origin.y = CGRectGetHeight(playlistTableView.frame) - CGRectGetHeight(playlistActionView.frame);
-    playlistActionView.frame = frame;
+    [playlistActionView setY:CGRectGetHeight(playlistTableView.frame) - CGRectGetHeight(playlistActionView.frame)];
     playlistActionView.alpha = 1.0;
     
     // Prepare iPad fullscreen toggle button
@@ -2761,18 +2754,10 @@
     [self setToolbar];
 
     if (bottomPadding > 0) {
-        CGRect frame = playlistToolbarView.frame;
-        frame.origin.y -= bottomPadding;
-        playlistToolbarView.frame = frame;
-        
-        frame = nowPlayingView.frame;
-        frame.size.height -= bottomPadding;
-        nowPlayingView.frame = frame;
-        
-        frame = playlistTableView.frame;
-        frame.size.height -= bottomPadding;
-        playlistView.frame = frame;
-        playlistTableView.frame = frame;
+        [playlistToolbarView offsetY:-bottomPadding];
+        [nowPlayingView setHeight:CGRectGetHeight(nowPlayingView.frame) - bottomPadding];
+        [playlistTableView setHeight:CGRectGetHeight(playlistTableView.frame) - bottomPadding];
+        playlistView.frame = playlistTableView.frame;
     }
     playlistTableView.contentInset = UIEdgeInsetsMake(0, 0, CGRectGetHeight(playlistActionView.frame), 0);
     self.edgesForExtendedLayout = UIRectEdgeNone;

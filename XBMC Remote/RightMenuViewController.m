@@ -129,7 +129,7 @@
     
     // plus button
     UIImage *image = [UIImage imageNamed:@"icon_plus"];
-    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    image = [image colorizeWithColor:UIColor.lightGrayColor];
     CGFloat originX = IS_IPHONE ? (ANCHOR_RIGHT_PEEK + PANEL_SHADOW_SIZE) : 0 + BUTTON_SPACING;
     moreButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, TOOLBAR_HEIGHT, TOOLBAR_HEIGHT)];
     moreButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
