@@ -44,7 +44,7 @@
     NSString *defaultThumb;
     int cellHeight;
     int thumbWidth;
-    IBOutlet UIView *noFoundView;
+    IBOutlet UILabel *noFoundLabel;
     int viewWidth;
     IBOutlet UIView *maskView;
     MoreItemsViewController *moreItemsViewController;
@@ -96,7 +96,6 @@
     NSDateFormatter *xbmcDateFormatter;
     NSDateFormatter *localHourMinuteFormatter;
     NSIndexPath *autoScrollTable;
-    __weak IBOutlet UILabel *noItemsLabel;
     BOOL stackscrollFullscreen;
     BOOL forceCollection;
     NSMutableDictionary *storeSections;
