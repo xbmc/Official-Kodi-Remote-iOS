@@ -612,37 +612,6 @@
     return alertCtrl;
 }
 
-+ (void)SFloadURL:(NSString*)url fromctrl:(UIViewController<SFSafariViewControllerDelegate>*)fromctrl {
-    NSURL *nsurl = [NSURL URLWithString:url];
-    SFSafariViewController *svc = nil;
-    // Try to load the URL via SFSafariViewController. If this is not possible, check if this is loadable
-    // with other system applications. If so, load it. If not, show an error popup.
-    @try {
-        svc = [[SFSafariViewController alloc] initWithURL:nsurl];
-    } @catch (NSException *exception) {
-        if ([UIApplication.sharedApplication canOpenURL:nsurl]) {
-            [UIApplication.sharedApplication openURL:nsurl options:@{} completionHandler:nil];
-        }
-        else {
-            UIAlertController *alertCtrl = [Utilities createAlertOK:LOCALIZED_STR(@"Error loading page") message:exception.reason];
-            [fromctrl presentViewController:alertCtrl animated:YES completion:nil];
-        }
-        return;
-    }
-    UIViewController *ctrl = fromctrl;
-    svc.delegate = fromctrl;
-    if (IS_IPAD) {
-        // On iPad presenting from the active ViewController results in blank screen
-        ctrl = UIApplication.sharedApplication.keyWindow.rootViewController;
-    }
-    if (![svc isBeingPresented]) {
-        if (ctrl.presentedViewController) {
-            [ctrl dismissViewControllerAnimated:YES completion:nil];
-        }
-        [ctrl presentViewController:svc animated:YES completion:nil];
-    }
-}
-
 + (void)showLocalNetworkAccessError:(UIViewController*)viewCtrl {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL showLocalNetworkNotice = [userDefaults boolForKey:@"local_network_info_preference"];

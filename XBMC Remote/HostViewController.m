@@ -511,11 +511,11 @@
 #pragma mark - Help URLs
 
 - (IBAction)openHelpWiki:(id)sender {
-    [Utilities SFloadURL:@"https://kodi.wiki/view/Smartphone/tablet_remotes" fromctrl:self];
+    [self SFloadURL:@"https://kodi.wiki/view/Smartphone/tablet_remotes"];
 }
 
 - (IBAction)openHelpForum:(id)sender {
-    [Utilities SFloadURL:@"https://forum.kodi.tv/showthread.php?tid=372379" fromctrl:self];
+    [self SFloadURL:@"https://forum.kodi.tv/showthread.php?tid=372379"];
 }
 
 #pragma mark - TableViewDelegate
