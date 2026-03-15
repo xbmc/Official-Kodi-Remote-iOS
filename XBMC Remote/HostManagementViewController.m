@@ -586,9 +586,13 @@
         [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = xbmcLogo;
         UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(handleMenuButton)];
+        UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(handleMenuButton)];
+        [menuButton setAppDefaultStyle];
+        self.navigationItem.leftBarButtonItem = menuButton;
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)];
+        UIBarButtonItem *powerButton = [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)];
+        [powerButton setAppDefaultStyle];
+        self.navigationItem.rightBarButtonItem = powerButton;
     }
 
     // Gather active server

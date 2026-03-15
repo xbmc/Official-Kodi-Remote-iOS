@@ -162,6 +162,7 @@
                                                                                style:UIBarButtonItemStylePlain
                                                                               target:nil
                                                                               action:@selector(handleMenuButton)];
+    [object.navigationItem.leftBarButtonItem setAppDefaultStyle];
     
     if (hideBottonLine) {
         [navController hideNavBarBottomLine:YES];

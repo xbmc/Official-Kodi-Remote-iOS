@@ -49,13 +49,14 @@
     // Enforce images are converted to default (ARGB or RGB, 32bpp, ByteOrderDefault) before analyzing them
     size = (size.height > 0 && size.width > 0) ? size : CGSizeMake(CGImageGetWidth(inputImageRef), CGImageGetHeight(inputImageRef));
     BOOL anyAlpha = [Utilities isImageUsingAlpha:inputImageRef];
+    CGBitmapInfo bitmapInfo = (CGBitmapInfo)(anyAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipLast);
     CGContextRef context = CGBitmapContextCreate(NULL,
                                                  size.width,
                                                  size.height,
                                                  8 /* 8 bits per components */,
                                                  size.width * 4 /* 4 components for ARGB */,
                                                  colorSpace,
-                                                 anyAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipLast);
+                                                 bitmapInfo);
     CGColorSpaceRelease(colorSpace);
     if (context == NULL) {
         return NULL;
@@ -1439,6 +1440,34 @@
     
     // Send XBMCServerHasChanged notification to let main menu deactivate the menu items
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
+}
+
+@end
+
+#pragma mark - UIViewController extensions
+
+@implementation UIViewController (Extensions)
+
+- (void)setNavigationBarTint:(UIColor*)tintColor {
+    self.navigationController.navigationBar.tintColor = tintColor;
+    for (id item in self.navigationItem.rightBarButtonItems) {
+        if ([item isKindOfClass:[UIBarButtonItem class]]) {
+            [item setTintColor:tintColor];
+        }
+    }
+}
+
+@end
+
+#pragma mark - UIBarButtonItem extensions
+
+@implementation UIBarButtonItem (Extensions)
+
+- (void)setAppDefaultStyle {
+    self.tintColor = ICON_TINT_COLOR;
+    if (@available(iOS 26.0, *)) {
+        self.hidesSharedBackground = YES;
+    }
 }
 
 @end
