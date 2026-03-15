@@ -1364,9 +1364,9 @@
                                               @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
                                               pvrExtraInfo, @"pvrExtraInfo",
                                               kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
+                                              parameters[@"defaultThumb"] ?: @"", @"defaultThumb",
                                               parameters[@"extra_info_parameters"], @"extra_info_parameters",
                                               newSectionParameters, @"extra_section_parameters",
-                                              [NSString stringWithFormat:@"%@", parameters[@"defaultThumb"]], @"defaultThumb",
                                               parameters[@"watchedListenedStrings"], @"watchedListenedStrings",
                                               nil];
         if (parameters[@"available_sort_methods"] != nil) {
@@ -2049,11 +2049,11 @@
 - (void)setCellLayoutParameters {
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
-    if ([parameters[@"defaultThumb"] length] != 0 && ![parameters[@"defaultThumb"] isEqualToString:@"(null)"]) {
+    if ([parameters[@"defaultThumb"] length] != 0) {
         defaultThumb = parameters[@"defaultThumb"];
     }
     else {
-        defaultThumb = menuItem.defaultThumb;
+        defaultThumb = @"nocover_filemode";
     }
     if (parameters[@"rowHeight"]) {
         cellHeight = [parameters[@"rowHeight"] intValue];
