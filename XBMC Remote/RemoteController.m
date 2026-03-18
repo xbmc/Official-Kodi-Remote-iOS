@@ -863,6 +863,14 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 
 - (void)processButtonLongPress:(NSInteger)buttonTag {
     switch (buttonTag) {
+        case TAG_BUTTON_PREVIOUS:
+            [[Utilities getJsonRPC] callMethod:@"Input.ExecuteAction" withParameters:@{@"action": @"chapterorbigstepback"}];
+            break;
+            
+        case TAG_BUTTON_NEXT:
+            [[Utilities getJsonRPC] callMethod:@"Input.ExecuteAction" withParameters:@{@"action": @"chapterorbigstepforward"}];
+            break;
+            
         case TAG_BUTTON_FULLSCREEN:
             [self GUIAction:@"Input.ExecuteAction" params:@{@"action": @"togglefullscreen"} httpAPIcallback:@"Action(199)"];
             break;
