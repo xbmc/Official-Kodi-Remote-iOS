@@ -52,7 +52,7 @@
     IBOutlet UIButton *editTableButton;
     IBOutlet UIButton *PartyModeButton;
     IBOutlet UIImageView *backgroundImageView;
-    IBOutlet UIView *noFoundView;
+    IBOutlet UILabel *noFoundLabel;
     NSIndexPath *storeSelection;
     IBOutlet UIView *playlistToolbarView;
     IBOutlet UIView *playlistActionView;
@@ -79,7 +79,6 @@
     __weak IBOutlet UILabel *scrabbingRate;
     UIView *toolbarBackground;
     UISegmentedControl *playlistSegmentedControl;
-    __weak IBOutlet UILabel *noItemsLabel;
     NSString *storeLiveTVTitle;
     NSString *storeClearlogo;
     NSString *storeClearart;
