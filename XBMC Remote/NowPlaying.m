@@ -357,6 +357,10 @@
 - (void)serverIsDisconnected {
     currentPlaylistID = PLAYERID_UNKNOWN;
     storedItemID = 0;
+    [self nothingIsPlaying];
+    if (playlistData.count == 0) {
+        return;
+    }
     [UIView animateWithDuration:0.1
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut
@@ -369,7 +373,6 @@
         [playlistTableView reloadData];
         [self notifyChangeForPlaylistHeader];
     }];
-    [self nothingIsPlaying];
 }
 
 - (void)nothingIsPlaying {
@@ -2196,26 +2199,30 @@
     };
     [[Utilities getJsonRPC] callMethod:actionRemove withParameters:paramsRemove onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
-            [[Utilities getJsonRPC] callMethod:actionInsert withParameters:paramsInsert];
-            NSInteger numObj = playlistData.count;
-            if (sourceIndexPath.row < numObj) {
-                [playlistData removeObjectAtIndex:sourceIndexPath.row];
-            }
-            if (destinationIndexPath.row <= playlistData.count) {
-                [playlistData insertObject:objSource atIndex:destinationIndexPath.row];
-            }
-            if (sourceIndexPath.row > storeSelection.row && destinationIndexPath.row <= storeSelection.row) {
-                storeSelection = [NSIndexPath indexPathForRow:storeSelection.row + 1 inSection:storeSelection.section];
-            }
-            else if (sourceIndexPath.row < storeSelection.row && destinationIndexPath.row >= storeSelection.row) {
-                storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];
-            }
-            [playlistTableView reloadData];
+            [[Utilities getJsonRPC] callMethod:actionInsert withParameters:paramsInsert onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                if (error == nil && methodError == nil) {
+                    if (sourceIndexPath.row < playlistData.count) {
+                        [playlistData removeObjectAtIndex:sourceIndexPath.row];
+                    }
+                    if (destinationIndexPath.row <= playlistData.count) {
+                        [playlistData insertObject:objSource atIndex:destinationIndexPath.row];
+                    }
+                    if (sourceIndexPath.row > storeSelection.row && destinationIndexPath.row <= storeSelection.row) {
+                        storeSelection = [NSIndexPath indexPathForRow:storeSelection.row + 1 inSection:storeSelection.section];
+                    }
+                    else if (sourceIndexPath.row < storeSelection.row && destinationIndexPath.row >= storeSelection.row) {
+                        storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];
+                    }
+                }
+                else {
+                    [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
+                    [self createPlaylistAnimated:YES];
+                }
+            }];
         }
         else {
-            [playlistTableView reloadData];
-            [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
             [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
+            [self createPlaylistAnimated:YES];
         }
     }];
 }
@@ -2243,9 +2250,12 @@
                 }
             }
             else {
-                [playlistTableView reloadData];
-                [playlistTableView selectRowAtIndexPath:storeSelection animated:YES scrollPosition:UITableViewScrollPositionMiddle];
                 [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
+            }
+            // Are there still editable entries?
+            if (playlistData.count == 0) {
+                editTableButton.selected = editTableButton.enabled = NO;
+                [Utilities alphaView:noFoundView AnimDuration:0.2 Alpha:1.0];
             }
         }];
     }
