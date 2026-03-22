@@ -451,6 +451,7 @@
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="nlM-Ze-wVP"/>
+                                <outletCollection property="gestureRecognizers" destination="SPf-AK-dc6" appends="YES" id="p93-Mw-B5b"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="dUQ-7x-bHs" userLabel="Button Rewind">
@@ -515,6 +516,7 @@
                             </state>
                             <connections>
                                 <action selector="startVibrate:" destination="-1" eventType="touchUpInside" id="F7a-9X-xSi"/>
+                                <outletCollection property="gestureRecognizers" destination="TGv-dc-beJ" appends="YES" id="y6G-Xj-ptp"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Z3l-yA-EDD" userLabel="Button Toggle">
@@ -541,6 +543,16 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-197.10144927536234" y="77.678571428571431"/>
         </view>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="SPf-AK-dc6" userLabel="Long Press Gesture Recognizer - previous">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="YJf-0w-2kZ"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="TGv-dc-beJ" userLabel="Long Press Gesture Recognizer - next">
+            <connections>
+                <action selector="handleButtonLongPress:" destination="-1" id="ZHh-NH-stt"/>
+            </connections>
+        </pongPressGestureRecognizer>
         <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="162" userLabel="Long Press Gesture Recognizer -backward">
             <connections>
                 <action selector="handleButtonLongPress:" destination="-1" id="166"/>
