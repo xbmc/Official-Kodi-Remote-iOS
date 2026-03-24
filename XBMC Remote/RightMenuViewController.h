@@ -15,7 +15,7 @@
     NSMutableArray *tableData;
     UIButton *editTableButton;
     UIButton *moreButton;
-    NSDictionary *infoCustomButton;
+    UILabel *noFoundLabel;
 }
 
 @end

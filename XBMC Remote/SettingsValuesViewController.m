@@ -295,8 +295,6 @@
                                alertCtrl.textFields[0].text, @"label",
                                type, @"type",
                                @"", @"icon",
-                               @(xbmcSetting), @"xbmcSetting",
-                               self.detailItem[@"genre"], @"helpText",
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"Settings.SetSettingValue", @"command",
                                 params, @"params",
