@@ -91,6 +91,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (CGFloat)getTopPadding;
 + (CGFloat)getTopPaddingWithNavBar:(UINavigationController*)navCtrl;
 + (void)sendXbmcHttp:(NSString*)command;
++ (void)giveHapticFeedback;
 + (NSString*)getAppVersionString;
 + (void)checkForReviewRequest;
 + (void)checkLocalNetworkAccess;
