@@ -56,7 +56,6 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 @property (nonatomic) BOOL enableSection;
 @property (nonatomic, copy) NSString *icon;
 @property (nonatomic, copy) NSArray *mainMethod;
-@property (nonatomic, copy) NSString *defaultThumb;
 @property (nonatomic, copy) NSArray *mainButtons;
 @property (nonatomic, copy) NSArray *mainFields;
 @property (nonatomic, strong) NSMutableArray *mainParameters;
