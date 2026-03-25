@@ -926,9 +926,9 @@
     BOOL exceedsCompactDiscRate = [bps integerValue] >= 16 && [kHz integerValue] >= 88;
     hiresImage.hidden = !(isLossless && (exceedsCompactDiscBits || exceedsCompactDiscRate));
     
-    bps = bps.length ? [NSString stringWithFormat:@"%@ Bit", bps] : @"";
+    bps = bps.length ? [NSString stringWithFormat:@"%@ %@", bps, LOCALIZED_STR(@"bit")] : @"";
     
-    kHz = kHz.length ? [NSString stringWithFormat:@"%@ kHz", kHz] : @"";
+    kHz = kHz.length ? [NSString stringWithFormat:@"%@ %@", kHz, LOCALIZED_STR(@"kHz")] : @"";
     
     NSString *newLine = bps.length && kHz.length ? @"\n" : @"";
     NSString *samplerate = [NSString stringWithFormat:@"%@%@%@", bps, newLine, kHz];
@@ -936,7 +936,7 @@
     songNumChannels.hidden = NO;
     songNumChanImage.image = nil;
     
-    bitrate = bitrate.length ? [NSString stringWithFormat:@"%@\nkbit/s", bitrate] : @"";
+    bitrate = bitrate.length ? [NSString stringWithFormat:@"%@\n%@", bitrate, LOCALIZED_STR(@"kbit/s")] : @"";
     songSampleRate.text = bitrate;
     songSampleRate.hidden = NO;
     songSampleRateImage.image = nil;
