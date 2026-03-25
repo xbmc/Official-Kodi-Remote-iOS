@@ -29,6 +29,7 @@
 #import "VersionCheck.h"
 #import "SharingActivityItemSource.h"
 #import "RemoteController.h"
+#import "UIViewController+Extensions.h"
 
 #import "GeneratedAssetSymbols.h"
 
@@ -787,7 +788,7 @@
         UIColor *searchbarTintColor = [label12Color colorWithAlphaComponent:0.8];
         [self setSearchBar:self.searchController.searchBar toColor:gradientTop tintColor:searchbarTintColor];
         [self setSearchBar:(UISearchBar*)dataList.tableHeaderView toColor:gradientTop tintColor:searchbarTintColor];
-        self.navigationController.navigationBar.tintColor = [Utilities textTintColor:albumColor];
+        [self setNavigationBarTint:[Utilities textTintColor:albumColor]];
     }
 }
 
@@ -5360,7 +5361,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputCanceled" object:nil userInfo:nil];
-    self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
+    [self setNavigationBarTint:ICON_TINT_COLOR];
     [channelListUpdateTimer invalidate];
 }
 
@@ -5409,10 +5410,10 @@
     }
     [activeLayoutView setScrollsToTop:YES];
     if (albumColor != nil) {
-        self.navigationController.navigationBar.tintColor = [Utilities textTintColor:albumColor];
+        [self setNavigationBarTint:[Utilities textTintColor:albumColor]];
     }
     else {
-        self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
+        [self setNavigationBarTint:ICON_TINT_COLOR];
     }
     
     // We load data only in viewDidAppear as loading/presenting is tightly coupled and we want

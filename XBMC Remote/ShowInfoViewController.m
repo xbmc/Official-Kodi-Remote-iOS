@@ -19,6 +19,7 @@
 #import "ActorCell.h"
 #import "Utilities.h"
 #import "VersionCheck.h"
+#import "UIViewController+Extensions.h"
 
 @import QuartzCore;
 
@@ -567,8 +568,8 @@
 }
 
 - (void)setIOS7barTintColor:(UIColor*)tintColor {
-    self.navigationController.navigationBar.tintColor = tintColor;
     toolbar.tintColor = tintColor;
+    [self setNavigationBarTint:tintColor];
 }
 
 - (void)createInfo {
