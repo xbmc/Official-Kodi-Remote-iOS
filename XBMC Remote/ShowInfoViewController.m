@@ -19,6 +19,7 @@
 #import "ActorCell.h"
 #import "Utilities.h"
 #import "VersionCheck.h"
+#import "UIBarButtonItem+Extensions.h"
 #import "UIViewController+Extensions.h"
 
 @import QuartzCore;
@@ -192,14 +193,8 @@
         }
         else {
             self.navigationItem.title = item[@"label"];
-            actionSheetButtonItem.tintColor = ICON_TINT_COLOR;
-            if (@available(iOS 26.0, *)) {
-                actionSheetButtonItem.hidesSharedBackground = YES;
-            }
-            extraButton.tintColor = ICON_TINT_COLOR;
-            if (@available(iOS 26.0, *)) {
-                extraButton.hidesSharedBackground = YES;
-            }
+            [actionSheetButtonItem setAppDefaultStyle];
+            [extraButton setAppDefaultStyle];
             if (actionSheetButtonItem && extraButton) {
                 UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
                 self.navigationItem.rightBarButtonItems = @[actionSheetButtonItem, fixedSpace, extraButton];

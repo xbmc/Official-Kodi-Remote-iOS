@@ -29,6 +29,7 @@
 #import "VersionCheck.h"
 #import "SharingActivityItemSource.h"
 #import "RemoteController.h"
+#import "UIBarButtonItem+Extensions.h"
 #import "UIViewController+Extensions.h"
 
 #import "GeneratedAssetSymbols.h"
@@ -3766,16 +3767,10 @@
         // Set up navigation bar items on upper right
         UIImage *remoteButtonImage = [UIImage imageNamed:@"icon_menu_remote"];
         UIBarButtonItem *remoteButton = [[UIBarButtonItem alloc] initWithImage:remoteButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showRemote)];
-        remoteButton.tintColor = ICON_TINT_COLOR;
-        if (@available(iOS 26.0, *)) {
-            remoteButton.hidesSharedBackground = YES;
-        }
+        [remoteButton setAppDefaultStyle];
         UIImage *nowPlayingButtonImage = [UIImage imageNamed:@"icon_menu_playing"];
         UIBarButtonItem *nowPlayingButton = [[UIBarButtonItem alloc] initWithImage:nowPlayingButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
-        nowPlayingButton.tintColor = ICON_TINT_COLOR;
-        if (@available(iOS 26.0, *)) {
-            nowPlayingButton.hidesSharedBackground = YES;
-        }
+        [nowPlayingButton setAppDefaultStyle];
         UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         self.navigationItem.rightBarButtonItems = @[remoteButton,
                                                     fixedSpace,
@@ -5297,10 +5292,7 @@
     BOOL useMainLabel = mainLabelChanged && !(menuItem.type == TypeKodiSettings || menuItem.type == TypeCustomButtonEntry);
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
     self.navigationItem.backBarButtonItem.title = labelText;
-    self.navigationItem.backBarButtonItem.tintColor = ICON_TINT_COLOR;
-    if (@available(iOS 26.0, *)) {
-        self.navigationItem.backBarButtonItem.hidesSharedBackground = YES;
-    }
+    [self.navigationItem.backBarButtonItem setAppDefaultStyle];
     if (!albumView) {
         labelText = [labelText stringByAppendingFormat:@" (%lu)", numResults];
     }
@@ -5391,10 +5383,7 @@
     if ([self isModal]) {
         UIImage *doneImg = [UIImage imageNamed:@"OverlayWatched"];
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithImage:doneImg style:UIBarButtonItemStylePlain target:self action:@selector(dismissAddAction:)];
-        doneButton.tintColor = ICON_TINT_COLOR;
-        if (@available(iOS 26.0, *)) {
-            doneButton.hidesSharedBackground = YES;
-        }
+        [doneButton setAppDefaultStyle];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
     [self hideButtonListWhenEmpty];

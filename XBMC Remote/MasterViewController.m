@@ -20,6 +20,7 @@
 #import "AppInfoViewController.h"
 #import "tcpJSONRPC.h"
 #import "Utilities.h"
+#import "UIBarButtonItem+Extensions.h"
 
 #define MENU_ICON_SIZE 30
 #define ICON_MARGIN 10
@@ -162,10 +163,7 @@
                                                                                style:UIBarButtonItemStylePlain
                                                                               target:nil
                                                                               action:@selector(handleMenuButton)];
-    object.navigationItem.leftBarButtonItem.tintColor = ICON_TINT_COLOR;
-    if (@available(iOS 26.0, *)) {
-        object.navigationItem.leftBarButtonItem.hidesSharedBackground = YES;
-    }
+    [object.navigationItem.leftBarButtonItem setAppDefaultStyle];
     
     if (hideBottonLine) {
         [navController hideNavBarBottomLine:YES];
