@@ -934,7 +934,7 @@
     }
 }
 
-- (void)layoutTVShowCell:(UIView*)cell useDefaultThumb:(BOOL)useFallback imgView:(UIImageView*)imgView {
+- (void)layoutTVShowCell:(UIView*)cell useDefaultThumb:(BOOL)useFallback {
     // Exception handling for TVShow banner view
     if (tvshowsView) {
         // First tab shows the banner
@@ -972,6 +972,7 @@
 
 - (void)setCellImageView:(UIImageView*)imgView cell:(UIView*)cell dictItem:(NSDictionary*)item url:(NSString*)stringURL size:(CGSize)viewSize defaultImg:(NSString*)displayThumb {
     if (viewSize.width == 0 || viewSize.height == 0) {
+        [self layoutTVShowCell:cell useDefaultThumb:NO];
         return;
     }
     if ([item[@"family"] isEqualToString:@"channelid"] ||
@@ -1002,13 +1003,13 @@
                 [Utilities setLogoBackgroundColor:weakImageView mode:logoBackgroundMode];
             }
             // Special handling for TV Show cells
-            [self layoutTVShowCell:cell useDefaultThumb:(!image || error) imgView:weakImageView];
+            [self layoutTVShowCell:cell useDefaultThumb:(!image || error)];
         }];
     }
     else {
         imgView.image = [UIImage imageNamed:displayThumb];
         // Special handling for TV Show cells, this is already in default thumb state
-        [self layoutTVShowCell:cell useDefaultThumb:YES imgView:imgView];
+        [self layoutTVShowCell:cell useDefaultThumb:YES];
     }
 }
 
