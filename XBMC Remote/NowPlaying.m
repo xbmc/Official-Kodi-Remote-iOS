@@ -21,6 +21,7 @@
 #import "OBSlider.h"
 #import "Utilities.h"
 #import "PlaylistProgressView.h"
+#import "UIBarButtonItem+Extensions.h"
 
 @import QuartzCore;
 
@@ -2565,10 +2566,17 @@
         }
         UIImage *remoteImg = [UIImage imageNamed:@"icon_menu_remote"];
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
+        UIBarButtonItem *remoteButton = [[UIBarButtonItem alloc] initWithImage:remoteImg style:UIBarButtonItemStylePlain target:self action:@selector(showRemote)];
+        [remoteButton setAppDefaultStyle];
+        UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        UIBarButtonItem *powerButton = [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)];
+        [powerButton setAppDefaultStyle];
         self.navigationItem.rightBarButtonItems = @[
-            [[UIBarButtonItem alloc] initWithImage:remoteImg style:UIBarButtonItemStylePlain target:self action:@selector(showRemote)],
-            [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)]
+            remoteButton,
+            fixedSpace,
+            powerButton,
         ];
+        
         self.slidingViewController.underRightViewController = nil;
         self.slidingViewController.panGesture.delegate = self;
         

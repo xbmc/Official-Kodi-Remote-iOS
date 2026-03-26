@@ -29,6 +29,8 @@
 #import "VersionCheck.h"
 #import "SharingActivityItemSource.h"
 #import "RemoteController.h"
+#import "UIBarButtonItem+Extensions.h"
+#import "UIViewController+Extensions.h"
 
 #import "GeneratedAssetSymbols.h"
 
@@ -787,7 +789,7 @@
         UIColor *searchbarTintColor = [label12Color colorWithAlphaComponent:0.8];
         [self setSearchBar:self.searchController.searchBar toColor:gradientTop tintColor:searchbarTintColor];
         [self setSearchBar:(UISearchBar*)dataList.tableHeaderView toColor:gradientTop tintColor:searchbarTintColor];
-        self.navigationController.navigationBar.tintColor = [Utilities textTintColor:albumColor];
+        [self setNavigationBarTint:[Utilities textTintColor:albumColor]];
     }
 }
 
@@ -3765,9 +3767,13 @@
         // Set up navigation bar items on upper right
         UIImage *remoteButtonImage = [UIImage imageNamed:@"icon_menu_remote"];
         UIBarButtonItem *remoteButton = [[UIBarButtonItem alloc] initWithImage:remoteButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showRemote)];
+        [remoteButton setAppDefaultStyle];
         UIImage *nowPlayingButtonImage = [UIImage imageNamed:@"icon_menu_playing"];
         UIBarButtonItem *nowPlayingButton = [[UIBarButtonItem alloc] initWithImage:nowPlayingButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
+        [nowPlayingButton setAppDefaultStyle];
+        UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         self.navigationItem.rightBarButtonItems = @[remoteButton,
+                                                    fixedSpace,
                                                     nowPlayingButton];
     }
 }
@@ -5285,7 +5291,8 @@
     BOOL mainLabelChanged = menuItem.mainLabel.length && menuItem.type == TypeNone;
     BOOL useMainLabel = mainLabelChanged && !(menuItem.type == TypeKodiSettings || menuItem.type == TypeCustomButtonEntry);
     NSString *labelText = useMainLabel ? menuItem.mainLabel : parameters[@"label"];
-    self.navigationItem.backButtonTitle = labelText;
+    self.navigationItem.backBarButtonItem.title = labelText;
+    [self.navigationItem.backBarButtonItem setAppDefaultStyle];
     if (!albumView) {
         labelText = [labelText stringByAppendingFormat:@" (%lu)", numResults];
     }
@@ -5346,7 +5353,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputCanceled" object:nil userInfo:nil];
-    self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
+    [self setNavigationBarTint:ICON_TINT_COLOR];
     [channelListUpdateTimer invalidate];
 }
 
@@ -5374,7 +5381,9 @@
     [self setCellLayoutParameters];
 
     if ([self isModal]) {
-        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
+        UIImage *doneImg = [UIImage imageNamed:@"OverlayWatched"];
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithImage:doneImg style:UIBarButtonItemStylePlain target:self action:@selector(dismissAddAction:)];
+        [doneButton setAppDefaultStyle];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
     [self hideButtonListWhenEmpty];
@@ -5390,10 +5399,10 @@
     }
     [activeLayoutView setScrollsToTop:YES];
     if (albumColor != nil) {
-        self.navigationController.navigationBar.tintColor = [Utilities textTintColor:albumColor];
+        [self setNavigationBarTint:[Utilities textTintColor:albumColor]];
     }
     else {
-        self.navigationController.navigationBar.tintColor = ICON_TINT_COLOR;
+        [self setNavigationBarTint:ICON_TINT_COLOR];
     }
     
     // We load data only in viewDidAppear as loading/presenting is tightly coupled and we want
@@ -5451,6 +5460,16 @@
     activeTab = MIN(activeTab, MAX_NORMAL_BUTTONS);
     [buttonsIB[activeTab] setSelected:YES];
     button1.hidden = button2.hidden = button3.hidden = button4.hidden = button5.hidden = NO;
+    
+    // Remove shared background for all bottom toolbar items
+    if (@available(iOS 26.0, *)) {
+        for (UIBarButtonItem *item in buttonsViewBgToolbar.items) {
+            if ([item isKindOfClass:[UIBarButtonItem class]]) {
+                item.hidesSharedBackground = YES;
+            }
+        }
+    }
+    
     switch (buttons.count) {
         case 0:
             // no button, no toolbar

@@ -14,6 +14,7 @@
 #import "Utilities.h"
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
+#import "UIBarButtonItem+Extensions.h"
 
 // + 2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
@@ -586,9 +587,13 @@
         [xbmcLogo addTarget:self action:@selector(infoView) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = xbmcLogo;
         UIImage *menuImg = [UIImage imageNamed:@"button_menu"];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(handleMenuButton)];
+        UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:menuImg style:UIBarButtonItemStylePlain target:nil action:@selector(handleMenuButton)];
+        [menuButton setAppDefaultStyle];
+        self.navigationItem.leftBarButtonItem = menuButton;
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)];
+        UIBarButtonItem *powerButton = [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)];
+        [powerButton setAppDefaultStyle];
+        self.navigationItem.rightBarButtonItem = powerButton;
     }
 
     // Gather active server

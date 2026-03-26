@@ -19,6 +19,8 @@
 #import "ActorCell.h"
 #import "Utilities.h"
 #import "VersionCheck.h"
+#import "UIBarButtonItem+Extensions.h"
+#import "UIViewController+Extensions.h"
 
 @import QuartzCore;
 
@@ -191,8 +193,11 @@
         }
         else {
             self.navigationItem.title = item[@"label"];
+            [actionSheetButtonItem setAppDefaultStyle];
+            [extraButton setAppDefaultStyle];
             if (actionSheetButtonItem && extraButton) {
-                self.navigationItem.rightBarButtonItems = @[actionSheetButtonItem, extraButton];
+                UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+                self.navigationItem.rightBarButtonItems = @[actionSheetButtonItem, fixedSpace, extraButton];
             }
             else if (actionSheetButtonItem) {
                 self.navigationItem.rightBarButtonItems = @[actionSheetButtonItem];
@@ -558,8 +563,8 @@
 }
 
 - (void)setIOS7barTintColor:(UIColor*)tintColor {
-    self.navigationController.navigationBar.tintColor = tintColor;
     toolbar.tintColor = tintColor;
+    [self setNavigationBarTint:tintColor];
 }
 
 - (void)createInfo {

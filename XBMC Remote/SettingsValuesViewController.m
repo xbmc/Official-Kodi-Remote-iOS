@@ -14,6 +14,7 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "Utilities.h"
+#import "UIBarButtonItem+Extensions.h"
 
 #define SETTINGS_CELL_LABEL 1
 #define SETTINGS_CELL_DESCRIPTION 2
@@ -902,7 +903,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if ([self presentingViewController] != nil) {
-        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissAddAction:)];
+        UIImage *doneImg = [UIImage imageNamed:@"OverlayWatched"];
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithImage:doneImg style:UIBarButtonItemStylePlain target:self action:@selector(dismissAddAction:)];
+        [doneButton setAppDefaultStyle];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
     if (xbmcSetting == SettingTypeMultiselect) {

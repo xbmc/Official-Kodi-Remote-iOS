@@ -104,6 +104,8 @@
 		C78C30FA28F8AADA0055CD95 /* SharingActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C78C30F928F89A3E0055CD95 /* SharingActivityItemSource.m */; };
 		C795123F2DC95A7E00A8CEE5 /* LinkPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C795123E2DC95A7E00A8CEE5 /* LinkPresentation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C79B0EA52DF0CF6900046334 /* BaseMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C79B0EA42DF0CF6900046334 /* BaseMasterViewController.m */; };
+		C7B7D02A2F71B37F00689B5A /* UIViewController+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B7D0292F71B37F00689B5A /* UIViewController+Extensions.m */; };
+		C7B7D02D2F732AED00689B5A /* UIBarButtonItem+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B7D0262F71B18300689B5A /* UIBarButtonItem+Extensions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -343,6 +345,10 @@
 		C7A030F428B60EB900B27764 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7A1381F296AF0B500D84A72 /* hr-HR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hr-HR"; path = "hr-HR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C7A13820296AF0B500D84A72 /* hr-HR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hr-HR"; path = "hr-HR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		C7B7D0262F71B18300689B5A /* UIBarButtonItem+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extensions.m"; sourceTree = "<group>"; };
+		C7B7D0282F71B1C100689B5A /* UIBarButtonItem+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extensions.h"; sourceTree = "<group>"; };
+		C7B7D0292F71B37F00689B5A /* UIViewController+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Extensions.m"; sourceTree = "<group>"; };
+		C7B7D02B2F71B39D00689B5A /* UIViewController+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extensions.h"; sourceTree = "<group>"; };
 		C7D95E212DC0963100153267 /* id-ID */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "id-ID"; path = "id-ID.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C7D95E222DC0963100153267 /* id-ID */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "id-ID"; path = "id-ID.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7F28D4826961FE50004B112 /* ConvenienceMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConvenienceMacros.h; sourceTree = "<group>"; };
@@ -611,6 +617,7 @@
 		0F747736151DD98600EF78AD /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				C7B7D0272F71B19300689B5A /* Extensions */,
 				0F175F20154D5C0D00C1C61F /* iPad */,
 				0F175F13154D45B300C1C61F /* iPhone */,
 				0F7B95101708975500880F33 /* UIImage+Resize */,
@@ -749,6 +756,17 @@
 			path = SharingActivityItemSource;
 			sourceTree = "<group>";
 		};
+		C7B7D0272F71B19300689B5A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C7B7D0282F71B1C100689B5A /* UIBarButtonItem+Extensions.h */,
+				C7B7D0262F71B18300689B5A /* UIBarButtonItem+Extensions.m */,
+				C7B7D02B2F71B39D00689B5A /* UIViewController+Extensions.h */,
+				C7B7D0292F71B37F00689B5A /* UIViewController+Extensions.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -866,6 +884,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7B7D02D2F732AED00689B5A /* UIBarButtonItem+Extensions.m in Sources */,
+				C7B7D02A2F71B37F00689B5A /* UIViewController+Extensions.m in Sources */,
 				C76451CE29C51221000AE949 /* UIImageView+HighlightedWebCache.m in Sources */,
 				0F554907151D1187007E633F /* main.m in Sources */,
 				0F55490B151D1187007E633F /* AppDelegate.m in Sources */,

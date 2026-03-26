@@ -11,6 +11,7 @@
 #import "RightMenuViewController.h"
 #import "Utilities.h"
 #import "VersionCheck.h"
+#import "UIBarButtonItem+Extensions.h"
 
 @import AudioToolbox;
 
@@ -995,9 +996,15 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         // Add the power and custom button buttons to navigation bar
         UIImage *customImg = [UIImage imageNamed:@"icon_custom_buttons"];
         UIImage *powerImg = [UIImage imageNamed:@"icon_power"];
+        UIBarButtonItem *customButton = [[UIBarButtonItem alloc] initWithImage:customImg style:UIBarButtonItemStylePlain target:self action:@selector(enterCustomButtons)];
+        [customButton setAppDefaultStyle];
+        UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        UIBarButtonItem *powerButton = [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)];
+        [powerButton setAppDefaultStyle];
         self.navigationItem.rightBarButtonItems = @[
-            [[UIBarButtonItem alloc] initWithImage:customImg style:UIBarButtonItemStylePlain target:self action:@selector(enterCustomButtons)],
-            [[UIBarButtonItem alloc] initWithImage:powerImg style:UIBarButtonItemStylePlain target:self action:@selector(powerControl)],
+            customButton,
+            fixedSpace,
+            powerButton,
         ];
         self.navigationController.navigationBar.barTintColor = REMOTE_CONTROL_BAR_TINT_COLOR;
         [self.navigationController setNavigationBarHidden:NO animated:YES];
