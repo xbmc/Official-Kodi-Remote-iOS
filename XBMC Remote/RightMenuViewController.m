@@ -14,6 +14,7 @@
 #import "StackScrollViewController.h"
 #import "Utilities.h"
 #import "CustomButtonCell.h"
+#import "UILabel+Extensions.h"
 
 #define TOOLBAR_HEIGHT 44.0
 #define BUTTON_SPACING 8.0
@@ -426,14 +427,8 @@
                                                              CGRectGetMinY(menuTableView.frame),
                                                              CGRectGetWidth(menuTableView.frame) - 2 * LABEL_SPACING,
                                                              LABEL_HEIGHT)];
-    noFoundLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     noFoundLabel.text = LOCALIZED_STR(@"No custom button defined.");
-    noFoundLabel.textColor = UIColor.lightGrayColor;
-    noFoundLabel.font = [UIFont systemFontOfSize:17];
-    noFoundLabel.textAlignment = NSTextAlignmentCenter;
-    noFoundLabel.adjustsFontSizeToFitWidth = YES;
-    noFoundLabel.minimumScaleFactor = FONT_SCALING_MIN;
-    noFoundLabel.numberOfLines = 2;
+    [noFoundLabel setNoFoundStyle];
     [self.view addSubview:noFoundLabel];
 
     [self loadCustomButtons];

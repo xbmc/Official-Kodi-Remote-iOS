@@ -22,6 +22,7 @@
 #import "Utilities.h"
 #import "PlaylistProgressView.h"
 #import "UIBarButtonItem+Extensions.h"
+#import "UILabel+Extensions.h"
 
 @import QuartzCore;
 
@@ -2854,9 +2855,7 @@
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     noFoundLabel.text = LOCALIZED_STR(@"No items found.");
-    noFoundLabel.adjustsFontSizeToFitWidth = YES;
-    noFoundLabel.minimumScaleFactor = FONT_SCALING_MIN;
-    noFoundLabel.alpha = 0.0;
+    [noFoundLabel setNoFoundStyle];
     [self addSegmentControl];
     bottomPadding = [Utilities getBottomPadding];
     [self setToolbar];

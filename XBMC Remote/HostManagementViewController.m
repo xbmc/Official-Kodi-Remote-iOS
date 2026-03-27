@@ -15,6 +15,7 @@
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
 #import "UIBarButtonItem+Extensions.h"
+#import "UILabel+Extensions.h"
 
 // + 2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
@@ -616,15 +617,8 @@
                                                              CGRectGetMinY(serverListTableView.frame),
                                                              CGRectGetWidth(serverListTableView.frame) - 2 * LABEL_SPACING,
                                                              LABEL_HEIGHT)];
-    noFoundLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     noFoundLabel.text = LOCALIZED_STR(@"No saved hosts found");
-    noFoundLabel.textColor = UIColor.lightGrayColor;
-    noFoundLabel.font = [UIFont systemFontOfSize:17];
-    noFoundLabel.textAlignment = NSTextAlignmentCenter;
-    noFoundLabel.adjustsFontSizeToFitWidth = YES;
-    noFoundLabel.minimumScaleFactor = FONT_SCALING_MIN;
-    noFoundLabel.numberOfLines = 2;
-    noFoundLabel.alpha = 0.0;
+    [noFoundLabel setNoFoundStyle];
     [self.view addSubview:noFoundLabel];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
