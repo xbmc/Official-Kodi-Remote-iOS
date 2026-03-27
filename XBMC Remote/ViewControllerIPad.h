@@ -30,6 +30,7 @@
     MenuViewController *menuViewController;
     NowPlaying *nowPlayingController;
     StackScrollViewController *stackScrollViewController;
+    NSUInteger maxVisibleMenuItems;
     int YPOS;
     UIButton *xbmcLogo;
     UIButton *xbmcInfo;

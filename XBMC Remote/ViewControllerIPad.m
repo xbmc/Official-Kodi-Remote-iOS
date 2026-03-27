@@ -205,9 +205,8 @@
     CGPoint locationPoint = [touch locationInView:leftMenuView];
     if ([leftMenuView pointInside:locationPoint withEvent:event]) {
         // Change the left menu layout
-        CGFloat maxMenuItems = locationPoint.y / PAD_MENU_HEIGHT;
-        CGFloat tableHeight = MIN([(NSMutableArray*)mainMenu count], maxMenuItems) * PAD_MENU_HEIGHT;
-        [self changeLeftMenu:tableHeight];
+        CGFloat separatorPosition = MIN(locationPoint.y, CGRectGetHeight(leftMenuView.frame) - PLAYLIST_HEADER_HEIGHT);
+        [self changeLeftMenu:separatorPosition];
     }
 }
 
@@ -220,12 +219,15 @@
         playlistHeader.backgroundColor = UIColor.clearColor;
         playlistHeader.textColor = UIColor.lightGrayColor;
         
-        // Finalize the left menu layout
-        NSInteger maxMenuItems = round(CGRectGetMinY(playlistHeader.frame) / PAD_MENU_HEIGHT);
-        CGFloat tableHeight = MIN([(NSMutableArray*)mainMenu count], maxMenuItems) * PAD_MENU_HEIGHT;
-        [self changeLeftMenu:tableHeight];
+        // Finalize the left menu layout. Snap back to last menu item with separator above playlist toolbar
+        NSUInteger maxMenuItems = round(CGRectGetMinY(playlistHeader.frame) / PAD_MENU_HEIGHT);
+        if (maxMenuItems * PAD_MENU_HEIGHT > CGRectGetHeight(leftMenuView.frame) - PLAYLIST_HEADER_HEIGHT) {
+            maxMenuItems -= 1;
+        }
+        [self changeLeftMenu:maxMenuItems * PAD_MENU_HEIGHT];
         
         // Save configuration
+        maxVisibleMenuItems = maxMenuItems;
         [self saveLeftMenuSplit:maxMenuItems];
         didTouchLeftMenu = NO;
     }
@@ -265,6 +267,13 @@
 }
 
 - (void)changeLeftMenu:(CGFloat)tableHeight {
+    tableHeight = MIN([(NSMutableArray*)mainMenu count] * PAD_MENU_HEIGHT, tableHeight);
+    
+    // Keep separator above playlist toolbar
+    if (tableHeight > CGRectGetHeight(leftMenuView.frame) - PLAYLIST_HEADER_HEIGHT) {
+        tableHeight -= PAD_MENU_HEIGHT;
+    }
+    
     // Main menu
     [menuViewController setMenuHeight:tableHeight];
     
@@ -322,8 +331,8 @@
     AppDelegate.instance.obj = [GlobalData getInstance];
     
     // Create the left menu
-    NSInteger maxMenuItems = [self loadLeftMenuSplit];
-    [self createLeftMenu:maxMenuItems];
+    maxVisibleMenuItems = [self loadLeftMenuSplit];
+    [self createLeftMenu:maxVisibleMenuItems];
     
     rootView = [[UIViewExt alloc] initWithFrame:CGRectMake(0, deltaY, self.view.frame.size.width, self.view.frame.size.height - deltaY)];
 	rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -519,6 +528,11 @@
                                                object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self changeLeftMenu:maxVisibleMenuItems * PAD_MENU_HEIGHT];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     BOOL showSetup = AppDelegate.instance.obj.serverIP.length == 0;
@@ -632,6 +646,7 @@
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         [menuViewController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
         [stackScrollViewController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+        [self changeLeftMenu:maxVisibleMenuItems * PAD_MENU_HEIGHT];
     }
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         // restore state
