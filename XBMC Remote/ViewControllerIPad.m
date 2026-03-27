@@ -285,7 +285,7 @@
     NSInteger tableHeight = MIN([(NSMutableArray*)mainMenu count], maxMenuItems) * PAD_MENU_HEIGHT;
     
     // Create left menu
-    leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PAD_MENU_TABLE_WIDTH, self.view.frame.size.height)];
+    leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PAD_MENU_TABLE_WIDTH, self.view.frame.size.height - [Utilities getTopPadding] - [Utilities getBottomPadding] - TOOLBAR_HEIGHT - PLAYLIST_ACTION_HEIGHT)];
     leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     
     // Main menu
