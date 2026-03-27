@@ -337,6 +337,10 @@
 "Focal length" = "Focal length";
 "Camera model" = "Camera model";
 
+"bit" = "bit";
+"kHz" = "kHz";
+"kbit/s" = "kbit/s";
+
 "Received unexpected JSON object." = "Received unexpected JSON object.";
 
 "QUICK HELP" = "QUICK HELP";
