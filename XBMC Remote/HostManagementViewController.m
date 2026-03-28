@@ -15,17 +15,19 @@
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
 #import "UIBarButtonItem+Extensions.h"
+#import "UILabel+Extensions.h"
 
 // + 2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
 #define MARGIN 5
+#define LABEL_SPACING 8
+#define LABEL_HEIGHT 42
 #define IPAD_POPOVER_WIDTH 400
 #define IPAD_POPOVER_HEIGHT 500
 
 #define XIB_HOST_MGMT_CELL_ICON 1
 #define XIB_HOST_MGMT_CELL_LABEL 2
 #define XIB_HOST_MGMT_CELL_IP 3
-#define XIB_HOST_MGMT_CELL_NO_SERVER_FOUND 4
 
 @interface HostManagementViewController ()
 
@@ -64,12 +66,28 @@
         [Utilities resetKodiServerParameters];
         [Utilities saveLastServerIndex:nil];
         [connectingActivityIndicator stopAnimating];
-        [serverListTableView reloadData];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
     }
     HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
     hostController.detailItem = item;
     [self.navigationController pushViewController:hostController animated:YES];
+}
+
+#pragma mark - Helper
+
+- (void)updateServerCellStatus {
+    for (NSIndexPath *indexPath in serverListTableView.indexPathsForVisibleRows) {
+        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
+        UIImageView *iconView = (UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON];
+        NSIndexPath *selectedPath = storeServerSelection;
+        if (selectedPath && indexPath.row == selectedPath.row) {
+            NSString *iconName = [Utilities getConnectionStatusIconName];
+            iconView.image = [UIImage imageNamed:iconName];
+        }
+        else {
+            iconView.image = [UIImage imageNamed:@"connection_off"];
+        }
+    }
 }
 
 #pragma mark - Table view methods & data source
@@ -79,9 +97,6 @@
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    if (AppDelegate.instance.arrayServerList.count == 0 && !tableView.editing) {
-        return 1;
-    }
     return AppDelegate.instance.arrayServerList.count;
 }
 
@@ -94,15 +109,12 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:nil];
         cell = nib[0];
-        UILabel *cellNoServerFound = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_NO_SERVER_FOUND];
         UILabel *cellLabel = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_LABEL];
         UILabel *cellIP = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_IP];
         
-        cellNoServerFound.highlightedTextColor = [Utilities get1stLabelColor];
         cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
         cellIP.highlightedTextColor = [Utilities get2ndLabelColor];
         
-        cellNoServerFound.textColor = [Utilities getSystemGray1];
         cellLabel.textColor = [Utilities getSystemGray1];
         cellIP.textColor = [Utilities getSystemGray2];
         
@@ -113,40 +125,25 @@
         }
     }
     UIImageView *iconView = (UIImageView*)[cell viewWithTag:XIB_HOST_MGMT_CELL_ICON];
-    UILabel *cellNoServerFound = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_NO_SERVER_FOUND];
     UILabel *cellLabel = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_LABEL];
     UILabel *cellIP = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_IP];
-    if (AppDelegate.instance.arrayServerList.count == 0) {
-        iconView.hidden = YES;
-        cellNoServerFound.hidden = NO;
-        cellNoServerFound.text = LOCALIZED_STR(@"No saved hosts found");
-        cellLabel.text = @"";
-        cellIP.text = @"";
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        editTableButton.enabled = NO;
-        return cell;
+    cellLabel.textAlignment = NSTextAlignmentLeft;
+    NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
+    cellLabel.text = item[@"serverDescription"];
+    cellIP.text = item[@"serverIP"];
+    NSIndexPath *selectedPath = storeServerSelection;
+    if (selectedPath && indexPath.row == selectedPath.row) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        NSString *iconName = [Utilities getConnectionStatusIconName];
+        iconView.image = [UIImage imageNamed:iconName];
+        [serverListTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
     }
     else {
-        iconView.hidden = NO;
-        cellNoServerFound.hidden = YES;
-        cellLabel.textAlignment = NSTextAlignmentLeft;
-        NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
-        cellLabel.text = item[@"serverDescription"];
-        cellIP.text = item[@"serverIP"];
-        NSIndexPath *selectedPath = storeServerSelection;
-        if (selectedPath && indexPath.row == selectedPath.row) {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            NSString *iconName = [Utilities getConnectionStatusIconName];
-            iconView.image = [UIImage imageNamed:iconName];
-            [serverListTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            iconView.image = [UIImage imageNamed:@"connection_off"];
-            [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
-        }
-        editTableButton.enabled = YES;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        iconView.image = [UIImage imageNamed:@"connection_off"];
+        [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
     }
+    editTableButton.enabled = YES;
     return cell;
 }
 
@@ -170,7 +167,6 @@
     [Utilities resetKodiServerParameters];
     AppDelegate.instance.serverOnLine = NO;
     [Utilities saveLastServerIndex:nil];
-    [serverListTableView reloadData];
 }
 
 - (void)selectServer:(NSNotification*)notification  {
@@ -239,7 +235,6 @@
     }
 }
 
-
 - (UITableViewCellEditingStyle)tableView:(UITableView*)aTableView editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath {
     return UITableViewCellEditingStyleDelete;
 }
@@ -250,12 +245,12 @@
 
 - (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [AppDelegate.instance.arrayServerList removeObjectAtIndex:indexPath.row];
-        [AppDelegate.instance saveServerList];
+        if (indexPath.row < AppDelegate.instance.arrayServerList.count) {
+            [AppDelegate.instance.arrayServerList removeObjectAtIndex:indexPath.row];
+            [AppDelegate.instance saveServerList];
+        }
         if (indexPath.row < [tableView numberOfRowsInSection:indexPath.section]) {
-            [tableView performBatchUpdates:^{
-                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-            } completion:nil];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
         }
         
         // Be aware! Sending "XBMCServerHasChanged" results in calling reloadData. Therefore ensure this is not called
@@ -276,8 +271,11 @@
             }
         }
         // Are there still editable entries?
-        editTableButton.selected = editTableButton.enabled = AppDelegate.instance.arrayServerList.count > 0;
-	}
+        if (AppDelegate.instance.arrayServerList.count == 0) {
+            editTableButton.selected = editTableButton.enabled = NO;
+            [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
+        }
+    }
 }
 
 - (void)tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath*)indexPath {
@@ -296,7 +294,6 @@
     if (serverListTableView.editing || forceClose) {
         [serverListTableView setEditing:NO animated:YES];
         editTableButton.selected = NO;
-        [serverListTableView reloadData];
     }
     else {
         [serverListTableView setEditing:YES animated:YES];
@@ -465,6 +462,13 @@
         UIImageView *xbmcLogoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"kodi_logo_wide"]];
         self.navigationItem.titleView = xbmcLogoView;
     }
+    if (AppDelegate.instance.arrayServerList.count == 0) {
+        editTableButton.selected = editTableButton.enabled = NO;
+        noFoundLabel.alpha = 1.0;
+    }
+    else {
+        noFoundLabel.alpha = 0.0;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -608,6 +612,14 @@
     longPressGesture.delegate = self;
     [longPressGesture addTarget:self action:@selector(handleLongPress)];
     [self.view addGestureRecognizer:longPressGesture];
+    
+    noFoundLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(serverListTableView.frame) + LABEL_SPACING,
+                                                             CGRectGetMinY(serverListTableView.frame),
+                                                             CGRectGetWidth(serverListTableView.frame) - 2 * LABEL_SPACING,
+                                                             LABEL_HEIGHT)];
+    noFoundLabel.text = LOCALIZED_STR(@"No saved hosts found");
+    [noFoundLabel setNoFoundStyle];
+    [self.view addSubview:noFoundLabel];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(revealMenu:)
@@ -755,7 +767,7 @@
 }
 
 - (void)connectionSuccess:(NSNotification*)note {
-    [serverListTableView reloadData];
+    [self updateServerCellStatus];
     
     // Gather active server
     storeServerSelection = [Utilities readLastServerIndex];
@@ -767,7 +779,7 @@
 }
 
 - (void)connectionFailed:(NSNotification*)note {
-    [serverListTableView reloadData];
+    [self updateServerCellStatus];
 }
 
 - (BOOL)shouldAutorotate {

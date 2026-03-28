@@ -106,6 +106,7 @@
 		C79B0EA52DF0CF6900046334 /* BaseMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C79B0EA42DF0CF6900046334 /* BaseMasterViewController.m */; };
 		C7B7D02A2F71B37F00689B5A /* UIViewController+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B7D0292F71B37F00689B5A /* UIViewController+Extensions.m */; };
 		C7B7D02D2F732AED00689B5A /* UIBarButtonItem+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B7D0262F71B18300689B5A /* UIBarButtonItem+Extensions.m */; };
+		C7B7D03A2F76D36E00689B5A /* UILabel+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B7D0392F76D36E00689B5A /* UILabel+Extensions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -349,6 +350,8 @@
 		C7B7D0282F71B1C100689B5A /* UIBarButtonItem+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extensions.h"; sourceTree = "<group>"; };
 		C7B7D0292F71B37F00689B5A /* UIViewController+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Extensions.m"; sourceTree = "<group>"; };
 		C7B7D02B2F71B39D00689B5A /* UIViewController+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extensions.h"; sourceTree = "<group>"; };
+		C7B7D0392F76D36E00689B5A /* UILabel+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Extensions.m"; sourceTree = "<group>"; };
+		C7B7D03D2F76D38A00689B5A /* UILabel+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+Extensions.h"; sourceTree = "<group>"; };
 		C7D95E212DC0963100153267 /* id-ID */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "id-ID"; path = "id-ID.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C7D95E222DC0963100153267 /* id-ID */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "id-ID"; path = "id-ID.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7F28D4826961FE50004B112 /* ConvenienceMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConvenienceMacros.h; sourceTree = "<group>"; };
@@ -763,6 +766,8 @@
 				C7B7D0262F71B18300689B5A /* UIBarButtonItem+Extensions.m */,
 				C7B7D02B2F71B39D00689B5A /* UIViewController+Extensions.h */,
 				C7B7D0292F71B37F00689B5A /* UIViewController+Extensions.m */,
+				C7B7D03D2F76D38A00689B5A /* UILabel+Extensions.h */,
+				C7B7D0392F76D36E00689B5A /* UILabel+Extensions.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -928,6 +933,7 @@
 				0F4156451646D810009E6DD4 /* JBKenBurnsView.m in Sources */,
 				C76451CF29C51221000AE949 /* UIImage+WebP.m in Sources */,
 				0F7F3DA5164A6D730080A14A /* ECSlidingViewController.m in Sources */,
+				C7B7D03A2F76D36E00689B5A /* UILabel+Extensions.m in Sources */,
 				C79B0EA52DF0CF6900046334 /* BaseMasterViewController.m in Sources */,
 				0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */,
 				0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */,

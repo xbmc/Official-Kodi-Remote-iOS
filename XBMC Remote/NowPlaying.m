@@ -22,6 +22,7 @@
 #import "Utilities.h"
 #import "PlaylistProgressView.h"
 #import "UIBarButtonItem+Extensions.h"
+#import "UILabel+Extensions.h"
 
 @import QuartzCore;
 
@@ -2292,8 +2293,7 @@
     [[Utilities getJsonRPC] callMethod:actionRemove withParameters:paramsRemove onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [[Utilities getJsonRPC] callMethod:actionInsert withParameters:paramsInsert];
-            NSInteger numObj = playlistData.count;
-            if (sourceIndexPath.row < numObj) {
+            if (sourceIndexPath.row < playlistData.count) {
                 [playlistData removeObjectAtIndex:sourceIndexPath.row];
             }
             if (destinationIndexPath.row <= playlistData.count) {
@@ -2324,14 +2324,11 @@
         };
         [[Utilities getJsonRPC] callMethod:actionRemove withParameters:paramsRemove onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
-                NSInteger numObj = playlistData.count;
-                if (indexPath.row < numObj) {
+                if (indexPath.row < playlistData.count) {
                     [playlistData removeObjectAtIndex:indexPath.row];
                 }
                 if (indexPath.row < [playlistTableView numberOfRowsInSection:indexPath.section]) {
-                    [playlistTableView performBatchUpdates:^{
-                        [playlistTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-                    } completion:nil];
+                    [playlistTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
                 }
                 if (storeSelection && indexPath.row < storeSelection.row) {
                     storeSelection = [NSIndexPath indexPathForRow:storeSelection.row - 1 inSection:storeSelection.section];
@@ -2858,9 +2855,7 @@
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     noFoundLabel.text = LOCALIZED_STR(@"No items found.");
-    noFoundLabel.adjustsFontSizeToFitWidth = YES;
-    noFoundLabel.minimumScaleFactor = FONT_SCALING_MIN;
-    noFoundLabel.alpha = 0.0;
+    [noFoundLabel setNoFoundStyle];
     [self addSegmentControl];
     bottomPadding = [Utilities getBottomPadding];
     [self setToolbar];

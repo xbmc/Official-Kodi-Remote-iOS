@@ -31,6 +31,7 @@
 #import "RemoteController.h"
 #import "UIBarButtonItem+Extensions.h"
 #import "UIViewController+Extensions.h"
+#import "UILabel+Extensions.h"
 
 #import "GeneratedAssetSymbols.h"
 
@@ -5809,9 +5810,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     hiddenLabel = [userDefaults boolForKey:@"hidden_label_preference"];
     noFoundLabel.text = LOCALIZED_STR(@"No items found.");
-    noFoundLabel.adjustsFontSizeToFitWidth = YES;
-    noFoundLabel.minimumScaleFactor = FONT_SCALING_MIN;
-    noFoundLabel.alpha = 0.0;
+    [noFoundLabel setNoFoundStyle];
     loadAndPresentDataOnViewDidAppear = YES;
     sectionHeight = LIST_SECTION_HEADER_HEIGHT;
     epglockqueue = dispatch_queue_create("com.epg.arrayupdate", DISPATCH_QUEUE_SERIAL);
