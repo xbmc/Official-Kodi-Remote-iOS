@@ -140,12 +140,12 @@
     self.serverName = LOCALIZED_STR(@"No connection");
     if (IS_IPHONE) {
         InitialSlidingViewController *initialSlidingViewController = [[InitialSlidingViewController alloc] initWithNibName:@"InitialSlidingViewController" bundle:nil];
-        initialSlidingViewController.mainMenu = mainMenuItems;
+        initialSlidingViewController.mainMenuTable = mainMenuItems;
         self.window.rootViewController = initialSlidingViewController;
     }
     else {
         self.windowController = [[ViewControllerIPad alloc] initWithNibName:@"ViewControllerIPad" bundle:nil];
-        self.windowController.mainMenu = mainMenuItems;
+        self.windowController.mainMenuTable = mainMenuItems;
         self.window.rootViewController = self.windowController;
     }
     return YES;

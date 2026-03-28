@@ -50,7 +50,7 @@
     MessagesView *messagesView;
 }
 
-@property (nonatomic, strong) NSMutableArray *mainMenu;
+@property (nonatomic, strong) NSMutableArray *mainMenuTable;
 @property (nonatomic, strong) MenuViewController *menuViewController;
 @property (nonatomic, strong) NowPlaying *nowPlayingController;
 @property (nonatomic, strong) StackScrollViewController *stackScrollViewController;

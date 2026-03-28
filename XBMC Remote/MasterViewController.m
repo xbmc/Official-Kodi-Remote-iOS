@@ -29,18 +29,15 @@
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
-    NSMutableArray *mainMenu;
 }
 @end
 
 @implementation MasterViewController
-
-@synthesize mainMenu;
 	
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
     [super changeServerStatus:status infoText:infoText icon:iconName];
     itemIsActive = NO;
-    [Utilities setStyleOfMenuItems:menuList active:status menu:self.mainMenu];
+    [Utilities setStyleOfMenuItems:menuList active:status menu:self.mainMenuTable];
 }
 
 #pragma mark - Table view methods & data source
@@ -50,11 +47,11 @@
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.mainMenu.count;
+    return self.mainMenuTable.count;
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    mainMenu *menuItem = self.mainMenu[indexPath.row];
+    mainMenu *menuItem = self.mainMenuTable[indexPath.row];
     [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine menuType:menuItem.type];
 }
 
@@ -69,7 +66,7 @@
         backgroundView.backgroundColor = MAINMENU_SELECTED_COLOR;
         cell.selectedBackgroundView = backgroundView;
     }
-    mainMenu *item = self.mainMenu[indexPath.row];
+    mainMenu *item = self.mainMenuTable[indexPath.row];
     NSString *iconName = item.icon;
     UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
@@ -100,7 +97,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    mainMenu *item = self.mainMenu[indexPath.row];
+    mainMenu *item = self.mainMenuTable[indexPath.row];
     if (item.family == FamilyAppSettings) {
         [self enterAppSettings];
         
@@ -320,7 +317,7 @@
 }
 
 - (void)handleEnablingDefaultController {
-    [Utilities enableDefaultController:self tableView:menuList menuItems:self.mainMenu];
+    [Utilities enableDefaultController:self tableView:menuList menuItems:self.mainMenuTable];
 }
 
 - (BOOL)shouldAutorotate {

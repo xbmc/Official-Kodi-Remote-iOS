@@ -35,11 +35,6 @@
 #define PLAYLIST_ACTION_HEIGHT 44
 #define PLAYLIST_CELL_HEIGHT 53
 
-@interface ViewControllerIPad () {
-    NSMutableArray *mainMenu;
-}
-@end
-
 @interface UIViewExt : UIView {}
 @end
 
@@ -72,7 +67,6 @@
 
 @implementation ViewControllerIPad
 
-@synthesize mainMenu;
 @synthesize menuViewController, stackScrollViewController;
 @synthesize nowPlayingController;
 @synthesize hostPickerViewController = _hostPickerViewController;
@@ -98,7 +92,7 @@
         }
     }
     [xbmcInfo setTitle:infoText forState:UIControlStateNormal];
-    [Utilities setStyleOfMenuItems:menuViewController.tableView active:status menu:mainMenu];
+    [Utilities setStyleOfMenuItems:menuViewController.tableView active:status menu:self.mainMenuTable];
 }
 
 - (void)offStackView {
@@ -267,7 +261,7 @@
 }
 
 - (void)changeLeftMenu:(CGFloat)tableHeight {
-    tableHeight = MIN([(NSMutableArray*)mainMenu count] * PAD_MENU_HEIGHT, tableHeight);
+    tableHeight = MIN(self.mainMenuTable.count * PAD_MENU_HEIGHT, tableHeight);
     
     // Keep separator above playlist toolbar
     if (tableHeight > CGRectGetHeight(leftMenuView.frame) - PLAYLIST_HEADER_HEIGHT) {
@@ -291,14 +285,14 @@
 }
 
 - (void)createLeftMenu:(NSInteger)maxMenuItems {
-    NSInteger tableHeight = MIN([(NSMutableArray*)mainMenu count], maxMenuItems) * PAD_MENU_HEIGHT;
+    NSInteger tableHeight = MIN(self.mainMenuTable.count, maxMenuItems) * PAD_MENU_HEIGHT;
     
     // Create left menu
     leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PAD_MENU_TABLE_WIDTH, self.view.frame.size.height - [Utilities getTopPadding] - [Utilities getBottomPadding] - TOOLBAR_HEIGHT - PLAYLIST_ACTION_HEIGHT)];
     leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     
     // Main menu
-    menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, 0, leftMenuView.frame.size.width, leftMenuView.frame.size.height) mainMenu:mainMenu menuHeight:tableHeight];
+    menuViewController = [[MenuViewController alloc] initWithFrame:CGRectMake(0, 0, leftMenuView.frame.size.width, leftMenuView.frame.size.height) mainMenu:self.mainMenuTable menuHeight:tableHeight];
     menuViewController.view.backgroundColor = UIColor.clearColor;
     [leftMenuView addSubview:menuViewController.view];
     

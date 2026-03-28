@@ -21,6 +21,6 @@
     MessagesView *messagesView;
 }
 
-@property (nonatomic, strong) NSMutableArray *mainMenu;
+@property (nonatomic, strong) NSMutableArray *mainMenuTable;
 
 @end
