@@ -8,7 +8,7 @@
 "New XBMC Server" = "Nowy serwer Kodi";
 "Modify XBMC Server" = "Zmodyfikuj serwer Kodi";
 "Files" = "Pliki";
-"Video Add-ons" = "Dodatki Wideo";
+"Video Add-ons" = "Dodatki wideo";
 "Live TV" = "TV na żywo";
 "Movie Genres" = "Gatunki filmowe";
 "Music Videos" = "Teledyski";
@@ -29,7 +29,7 @@
 "Played songs" = "Odtwarzane piosenki";
 "Recently played songs" = "Ostatnio odtwarzane piosenki";
 "All songs" = "Wszystkie piosenki";
-"Music Add-ons" = "Dodatki Muzyki";
+"Music Add-ons" = "Dodatki muzyki";
 "Music Playlists" = "Listy odtwarzania muzyki";
 "Added Episodes" = "Dodane odcinki";
 "Pictures Add-ons" = "Dodatki zdjęć";
@@ -291,3 +291,8 @@
 "Profiles" = "Profile";
 "QUICK HELP" = "SZYBKA POMOC";
 "Gestures" = "Gesty";
+"Music Video Tags" = "Tagi teledysków";
+"TV Show Tags" = "Tagi programów TV";
+"bit" = "bit";
+"kHz" = "kHz";
+"kbit/s" = "kbit/s";
