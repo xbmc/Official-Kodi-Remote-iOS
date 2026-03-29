@@ -423,13 +423,13 @@
     menuTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     [self.view addSubview:menuTableView];
     
-    noFoundLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(menuTableView.frame) + LABEL_SPACING,
-                                                             CGRectGetMinY(menuTableView.frame),
+    noFoundLabel = [[UILabel alloc] initWithFrame:CGRectMake(LABEL_SPACING,
+                                                             0,
                                                              CGRectGetWidth(menuTableView.frame) - 2 * LABEL_SPACING,
                                                              LABEL_HEIGHT)];
     noFoundLabel.text = LOCALIZED_STR(@"No custom button defined.");
     [noFoundLabel setNoFoundStyle];
-    [self.view addSubview:noFoundLabel];
+    [menuTableView addSubview:noFoundLabel];
 
     [self loadCustomButtons];
     
