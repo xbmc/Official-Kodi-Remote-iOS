@@ -17,8 +17,6 @@
 
 @implementation InitialSlidingViewController
 
-@synthesize mainMenu;
-
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     return self;
@@ -28,7 +26,7 @@
     [super viewDidLoad];
     
     MasterViewController *masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
-    masterViewController.mainMenu = self.mainMenu;
+    masterViewController.mainMenuTable = self.mainMenuTable;
     self.underLeftViewController = masterViewController;
     
     HostManagementViewController *hostManagementViewController = [[HostManagementViewController alloc] initWithNibName:@"HostManagementViewController" bundle:nil];
@@ -39,12 +37,12 @@
     
     self.view.tintColor = APP_TINT_COLOR;
     [navController hideNavBarBottomLine:YES];
-    hostManagementViewController.mainMenu = self.mainMenu;
+    hostManagementViewController.mainMenuTable = self.mainMenuTable;
     self.topViewController = navController;
     
     // Hide the inital HostManagementVC in case the "start view" is not main menu to avoid disturbing
     // sliding out (this view) and in (the targeted view).
-    self.topViewController.view.hidden = [Utilities getIndexPathForDefaultController:self.mainMenu] != nil;
+    self.topViewController.view.hidden = [Utilities getIndexPathForDefaultController:self.mainMenuTable] != nil;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleTcpJSONRPCShowSetup:)

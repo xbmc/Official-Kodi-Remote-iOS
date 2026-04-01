@@ -35,6 +35,6 @@
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil;
 
-@property (nonatomic, strong) NSMutableArray *mainMenu;
+@property (nonatomic, strong) NSMutableArray *mainMenuTable;
 
 @end
