@@ -1,6 +1,6 @@
 "Music" = "Música";
 "Movies" = "Películas";
-"TV Shows" = "Series de TV";
+"TV Shows" = "Programas de TV";
 "Pictures" = "Fotos";
 "Now Playing" = "Reproduciendo";
 "Remote Control" = "Control Remoto";
@@ -54,7 +54,7 @@
 "Album Details" = "Detalles de Álbum";
 "Movie Details" = "Detalles de Película";
 "Episode Details" = "Detalles de Episodio";
-"TV Show Details" = "Mostrar Detalles de Programa TV";
+"TV Show Details" = "Detalles de Programa de TV";
 "Music Video Details" = "Detalles de Vídeo Musical";
 "Details" = "Detalles";
 "Play Trailer" = "Reproducir Tráiler";
@@ -291,3 +291,8 @@
 "The user profile has been changed. Please reconnect to the Kodi server manually." = "El perfil de usuario ha cambiado. Por favor, reconecta al servidor Kodi manualmente.";
 "QUICK HELP" = "AYUDA RÁPIDA";
 "Gestures" = "Gestos";
+"Music Video Tags" = "Etiquetas de Vídeo Musical";
+"TV Show Tags" = "Etiquetas de Programa de TV";
+"bit" = "bit";
+"kHz" = "kHz";
+"kbit/s" = "kbit/s";
