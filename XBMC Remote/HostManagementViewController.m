@@ -110,11 +110,11 @@
         UILabel *cellLabel = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_LABEL];
         UILabel *cellIP = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_IP];
         
-        cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
-        cellIP.highlightedTextColor = [Utilities get2ndLabelColor];
+        cellLabel.highlightedTextColor = [UIColor get1stLabelColor];
+        cellIP.highlightedTextColor = [UIColor get2ndLabelColor];
         
-        cellLabel.textColor = [Utilities getSystemGray1];
-        cellIP.textColor = [Utilities getSystemGray2];
+        cellLabel.textColor = [UIColor getSystemGray1];
+        cellIP.textColor = [UIColor getSystemGray2];
         
         cell.tintColor = UIColor.lightGrayColor;
         cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
