@@ -171,7 +171,7 @@
         if ([indexTitle isEqualToString:@"🔍"]) {
             // Use the same icon as iOS's index (magnifying glass with transparent circle)
             UIImage *searchImage = [UIImage imageNamed:@"icon_search"];
-            searchImage = [Utilities colorizeImage:searchImage withColor:UIColor.systemBlueColor];
+            searchImage = [searchImage colorizeWithColor:UIColor.systemBlueColor];
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, label.font.pointSize)];
             imageView.contentMode = UIViewContentModeScaleAspectFit;
             imageView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;

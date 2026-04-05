@@ -2,6 +2,7 @@
 #import "UIView+Extensions.h"
 #import "UIImageView+Extensions.h"
 #import "UIColor+Extensions.h"
+#import "UIImage+Extensions.h"
 
 @import UIKit;
 @import Foundation;

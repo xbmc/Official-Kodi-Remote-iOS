@@ -1,14 +1,76 @@
 //
-//  UIImage+Resize.m
-//  XBMC Remote
+//  NSString+Extensions.m
+//  Kodi Remote
 //
-//  Created by Giovanni Messina on 31/3/13.
-//  Copyright (c) 2013 joethefox inc. All rights reserved.
+//  Created by Buschmann on 05.04.26.
+//  Copyright © 2026 Team Kodi. All rights reserved.
 //
 
-#import "UIImage+Resize.h"
+#import "UIImage+Extensions.h"
+#import "Utilities.h"
 
-@implementation UIImage (Resize)
+#define IMAGE_SIZE_COLOR_AVERAGING CGSizeMake(64, 64) // Scale (down) to this size before averaging an image color
+
+@implementation UIImage (Extensions)
+
+- (UIImage*)setCornerRadiusForRoundedEdges {
+    if (self.size.width == 0 || self.size.height == 0) {
+        return self;
+    }
+    
+    CGRect imageRect = CGRectMake(0, 0, self.size.width, self.size.height);
+    UIGraphicsBeginImageContextWithOptions(self.size, NO, 0);
+
+    // Set radius for corners
+    CGFloat radius = GET_ROUNDED_EDGES_RADIUS(self.size);
+    
+    // Define our path, capitalizing on UIKit's corner rounding magic
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:imageRect cornerRadius:radius];
+    [path addClip];
+
+    // Draw the image into the implicit context
+    [self drawInRect:imageRect];
+     
+    // Get image and cleanup
+    UIImage *roundedCornerImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return roundedCornerImage;
+}
+
+- (UIImage*)applyRoundedEdges {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
+    if (corner_preference) {
+        return [self setCornerRadiusForRoundedEdges];
+    }
+    return self;
+}
+
+- (UIColor*)averageColor {
+    CGImageRef linearSrgbImageRef = [Utilities createLinearSRGBFromImage:self size:IMAGE_SIZE_COLOR_AVERAGING];
+    if (linearSrgbImageRef == NULL) {
+        return nil;
+    }
+    
+    UIColor *averageColor = [Utilities averageColorForImageRef:linearSrgbImageRef];
+    CGImageRelease(linearSrgbImageRef);
+    
+    return averageColor;
+}
+
+- (UIImage*)colorizeWithColor:(UIColor*)color {
+    if (color == nil || self.size.width == 0 || self.size.height == 0) {
+        return self;
+    }
+    CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = self.size};
+    UIImage *newImage = [self imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIGraphicsBeginImageContextWithOptions(newImage.size, NO, newImage.scale);
+    [color set];
+    [newImage drawInRect:contextRect];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
 
 - (UIImage*)resizedImageSize:(CGSize)newSize aspectMode:(UIViewContentMode)contentMode {
     CGImageRef imageRef = self.CGImage;

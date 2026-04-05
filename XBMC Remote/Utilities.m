@@ -16,15 +16,12 @@
 
 @import StoreKit;
 
-#define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
-#define GET_ROUNDED_EDGES_PATH(rect, radius) [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
 #define RGBA(r, g, b, a) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:(a)]
 #define GAMMA_DEC(x) pow(x, 2.2)
 #define GAMMA_ENC(x) pow(x, 1/2.2)
 #define XBMC_LOGO_PADDING 10
 #define PERSISTENCE_KEY_VERSION @"VersionUnderReview"
 #define PERSISTENCE_KEY_PLAYBACK_ATTEMPTS @"PlaybackAttempts"
-#define IMAGE_SIZE_COLOR_AVERAGING CGSizeMake(64, 64) // Scale (down) to this size before averaging an image color
 
 @implementation Utilities
 
@@ -139,18 +136,6 @@
     return [UIColor colorWithRed:sRGB_red green:sRGB_green blue:sRGB_blue alpha:1];
 }
 
-+ (UIColor*)averageColor:(UIImage*)image {
-    CGImageRef linearSrgbImageRef = [self createLinearSRGBFromImage:image size:IMAGE_SIZE_COLOR_AVERAGING];
-    if (linearSrgbImageRef == NULL) {
-        return nil;
-    }
-    
-    UIColor *averageColor = [self averageColorForImageRef:linearSrgbImageRef];
-    CGImageRelease(linearSrgbImageRef);
-    
-    return averageColor;
-}
-
 + (UIColor*)getUIColorFromImage:(UIImage*)image {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL autocolor_preference = [userDefaults boolForKey:@"autocolor_ui_preference"];
@@ -158,7 +143,7 @@
         return UI_AVERAGE_DEFAULT_COLOR;
     }
     
-    UIColor *uiColor = [Utilities averageColor:image];
+    UIColor *uiColor = [image averageColor];
     return uiColor ?: UI_AVERAGE_DEFAULT_COLOR;
 }
 
@@ -221,20 +206,6 @@
     return [UIColor colorWithHue:hue saturation:sat brightness:bright alpha:alpha];
 }
 
-+ (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color {
-    if (color == nil || image.size.width == 0 || image.size.height == 0) {
-        return image;
-    }
-    CGRect contextRect = (CGRect) {.origin = CGPointZero, .size = image.size};
-    UIImage *newImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    UIGraphicsBeginImageContextWithOptions(newImage.size, NO, newImage.scale);
-    [color set];
-    [newImage drawInRect:contextRect];
-    newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-
 + (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightColor:(UIColor*)lightColor darkColor:(UIColor*)darkColor {
     if (@available(iOS 13.0, *)) {
         UITraitCollection *scale = [UITraitCollection currentTraitCollection];
@@ -247,13 +218,13 @@
         
         __block UIImage *lightImage = image;
         [darkScaledTC performAsCurrentTraitCollection:^{
-            lightImage = [Utilities colorizeImage:lightImage withColor:lightColor];
+            lightImage = [lightImage colorizeWithColor:lightColor];
             lightImage = [lightImage imageWithConfiguration:[lightImage.configuration configurationWithTraitCollection:lightTraitCollection]];
         }];
         
         __block UIImage *darkImage = image;
         [lightScaledTC performAsCurrentTraitCollection:^{
-            darkImage = [Utilities colorizeImage:darkImage withColor:darkColor];
+            darkImage = [darkImage colorizeWithColor:darkColor];
             darkImage = [darkImage imageWithConfiguration:[darkImage.configuration configurationWithTraitCollection:darkTraitCollection]];
         }];
         
@@ -261,7 +232,7 @@
         return lightImage;
     }
     else {
-        image = [Utilities colorizeImage:image withColor:lightColor];
+        image = [image colorizeWithColor:lightColor];
         return image;
     }
 }
@@ -274,7 +245,7 @@
     switch (mode) {
         case LogoBackgroundAuto:
             // get background color and colorize the image background
-            imgcolor = [Utilities averageColor:imageview.image];
+            imgcolor = [imageview.image averageColor];
             bgcolor = [Utilities contrastColor:imgcolor lightColor:bglight darkColor:bgdark];
             break;
         case LogoBackgroundLight:
@@ -794,39 +765,6 @@
         }
     }
     return urlString;
-}
-
-+ (UIImage*)roundedCornerImage:(UIImage*)image {
-    if (image.size.width == 0 || image.size.height == 0) {
-        return image;
-    }
-    
-    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0);
-
-    // Set radius for corners
-    CGFloat radius = GET_ROUNDED_EDGES_RADIUS(image.size);
-    
-    // Define our path, capitalizing on UIKit's corner rounding magic
-    UIBezierPath *path = GET_ROUNDED_EDGES_PATH(imageRect, radius);
-    [path addClip];
-
-    // Draw the image into the implicit context
-    [image drawInRect:imageRect];
-     
-    // Get image and cleanup
-    UIImage *roundedCornerImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return roundedCornerImage;
-}
-
-+ (UIImage*)applyRoundedEdgesImage:(UIImage*)image {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL corner_preference = [userDefaults boolForKey:@"rounded_corner_preference"];
-    if (corner_preference) {
-        image = [Utilities roundedCornerImage:image];
-    }
-    return image;
 }
 
 + (CGFloat)getBottomPadding {
