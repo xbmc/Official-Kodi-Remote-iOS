@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0F00207816EE247A003822B5 /* OBSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F00207616EE247A003822B5 /* OBSlider.m */; };
-		0F05FB69170D79D400BBA833 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F05FB68170D79D400BBA833 /* NSString+MD5.m */; };
 		0F089AA518EC4E3300F32430 /* SettingsValuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F089AA418EC4E3300F32430 /* SettingsValuesViewController.m */; };
 		0F175F24154D5C3600C1C61F /* ViewControllerIPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F22154D5C3600C1C61F /* ViewControllerIPad.m */; };
 		0F175F28154D696B00C1C61F /* StackScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F27154D696B00C1C61F /* StackScrollViewController.m */; };
@@ -59,6 +58,7 @@
 		C7106D842D33FBCE00A96C93 /* PlaylistProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7106D832D33FBCE00A96C93 /* PlaylistProgressView.m */; };
 		C72CDAF22DD27AB800AFB2FA /* LocalNetworkAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CDAF12DD27AB800AFB2FA /* LocalNetworkAlert.swift */; };
 		C74B9CB22E979E2F0029B27E /* CustomButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C74B9CB12E979E2F0029B27E /* CustomButtonCell.m */; };
+		C752A3BF2F827E23008154C8 /* NSString+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C752A3BE2F827E23008154C8 /* NSString+Extensions.m */; };
 		C752A3C22F82844D008154C8 /* UIImage+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C752A3C12F82844D008154C8 /* UIImage+Extensions.m */; };
 		C752A3C52F828977008154C8 /* UIColor+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C752A3C42F828977008154C8 /* UIColor+Extensions.m */; };
 		C752A3C82F82A085008154C8 /* UIImageView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C752A3C72F82A085008154C8 /* UIImageView+Extensions.m */; };
@@ -117,8 +117,6 @@
 		0F00207616EE247A003822B5 /* OBSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBSlider.m; sourceTree = "<group>"; };
 		0F0320841C59531700C7E25D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F0320851C59531700C7E25D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		0F05FB67170D79D400BBA833 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
-		0F05FB68170D79D400BBA833 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		0F089AA318EC4E3300F32430 /* SettingsValuesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsValuesViewController.h; sourceTree = "<group>"; };
 		0F089AA418EC4E3300F32430 /* SettingsValuesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsValuesViewController.m; sourceTree = "<group>"; };
 		0F175F21154D5C3600C1C61F /* ViewControllerIPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerIPad.h; sourceTree = "<group>"; };
@@ -293,6 +291,8 @@
 		C74B9CB32E979E480029B27E /* CustomButtonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomButtonCell.h; sourceTree = "<group>"; };
 		C74F4FEC2EE2FE1B004144F3 /* ro-RO */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ro-RO"; path = "ro-RO.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C74F4FED2EE2FE1B004144F3 /* ro-RO */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ro-RO"; path = "ro-RO.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		C752A3BB2F827E02008154C8 /* NSString+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Extensions.h"; sourceTree = "<group>"; };
+		C752A3BE2F827E23008154C8 /* NSString+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extensions.m"; sourceTree = "<group>"; };
 		C752A3C02F828440008154C8 /* UIImage+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extensions.h"; sourceTree = "<group>"; };
 		C752A3C12F82844D008154C8 /* UIImage+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extensions.m"; sourceTree = "<group>"; };
 		C752A3C32F82895F008154C8 /* UIColor+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extensions.h"; sourceTree = "<group>"; };
@@ -386,15 +386,6 @@
 				0F00207616EE247A003822B5 /* OBSlider.m */,
 			);
 			path = OBSlider;
-			sourceTree = "<group>";
-		};
-		0F05FB66170D79B000BBA833 /* NSString+MD5 */ = {
-			isa = PBXGroup;
-			children = (
-				0F05FB67170D79D400BBA833 /* NSString+MD5.h */,
-				0F05FB68170D79D400BBA833 /* NSString+MD5.m */,
-			);
-			path = "NSString+MD5";
 			sourceTree = "<group>";
 		};
 		0F175F13154D45B300C1C61F /* iPhone */ = {
@@ -639,7 +630,6 @@
 				0F4156421646D810009E6DD4 /* KenBurns */,
 				0F7F3DA0164A6D730080A14A /* ECSlidingViewController */,
 				0F7F0DC71703490A0098FF75 /* BDKCollectionIndexView */,
-				0F05FB66170D79B000BBA833 /* NSString+MD5 */,
 				0FDC8917170DCAEA00419F58 /* SVPullToRefresh */,
 				C78C30F728F899DF0055CD95 /* SharingActivityItemSource */,
 				C72CDAF52DD27ACC00AFB2FA /* LocalNetwork */,
@@ -769,6 +759,8 @@
 				C752A3C42F828977008154C8 /* UIColor+Extensions.m */,
 				C752A3C02F828440008154C8 /* UIImage+Extensions.h */,
 				C752A3C12F82844D008154C8 /* UIImage+Extensions.m */,
+				C752A3BB2F827E02008154C8 /* NSString+Extensions.h */,
+				C752A3BE2F827E23008154C8 /* NSString+Extensions.m */,
 				C7B7D0282F71B1C100689B5A /* UIBarButtonItem+Extensions.h */,
 				C7B7D0262F71B18300689B5A /* UIBarButtonItem+Extensions.m */,
 				C7B7D02B2F71B39D00689B5A /* UIViewController+Extensions.h */,
@@ -936,6 +928,7 @@
 				0F5A504C155FA8640062FD6E /* HostManagementViewController.m in Sources */,
 				0F545D0B1575563100B6320D /* OBShapedButton.m in Sources */,
 				0F545D0C1575563100B6320D /* UIImage+ColorAtPixel.m in Sources */,
+				C752A3BF2F827E23008154C8 /* NSString+Extensions.m in Sources */,
 				0F4063351578C6CD00596B61 /* MoreItemsViewController.m in Sources */,
 				0F540662160C82E900853B02 /* CustomNavigationController.m in Sources */,
 				C72CDAF22DD27AB800AFB2FA /* LocalNetworkAlert.swift in Sources */,
@@ -967,7 +960,6 @@
 				0F7F0DCC1703490A0098FF75 /* BDKCollectionIndexView.m in Sources */,
 				0FEE08161704819A00EC9BC7 /* FloatingHeaderFlowLayout.m in Sources */,
 				0F4205D217099AE500EA533C /* RecentlyAddedCell.m in Sources */,
-				0F05FB69170D79D400BBA833 /* NSString+MD5.m in Sources */,
 				0F4019B018F3ECEB0064E4DC /* customButton.m in Sources */,
 				0FDC891A170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m in Sources */,
 				C76451DA29C51221000AE949 /* SDWebImageDownloaderOperation.m in Sources */,

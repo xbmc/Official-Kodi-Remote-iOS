@@ -3,6 +3,7 @@
 #import "UIImageView+Extensions.h"
 #import "UIColor+Extensions.h"
 #import "UIImage+Extensions.h"
+#import "NSString+Extensions.h"
 
 @import UIKit;
 @import Foundation;

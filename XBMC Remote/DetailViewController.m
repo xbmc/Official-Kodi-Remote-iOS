@@ -21,7 +21,6 @@
 #import "PosterLabel.h"
 #import "PosterHeaderView.h"
 #import "RecentlyAddedCell.h"
-#import "NSString+MD5.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "BroadcastProgressView.h"
 #import "SettingsValuesViewController.h"
@@ -496,7 +495,7 @@
 }
 
 - (void)setFilternameLabel:(NSString*)labelText {
-    labelText = [Utilities stripBBandHTML:labelText];
+    labelText = [labelText stripBBandHTML];
     self.navigationItem.title = labelText;
     if (IS_IPHONE || stackscrollFullscreen) {
         return;
@@ -1730,12 +1729,12 @@
         cell.posterLabelFullscreen.font = [UIFont boldSystemFontOfSize:posterFontSize];
         cell.posterThumbnail.contentMode = UIViewContentModeScaleAspectFill;
         if (stackscrollFullscreen) {
-            cell.posterLabelFullscreen.text = [Utilities stripBBandHTML:item[@"label"]];
+            cell.posterLabelFullscreen.text = [item[@"label"] stripBBandHTML];
             cell.labelImageView.hidden = YES;
             cell.posterLabelFullscreen.hidden = NO;
         }
         else {
-            cell.posterLabel.text = [Utilities stripBBandHTML:item[@"label"]];
+            cell.posterLabel.text = [item[@"label"] stripBBandHTML];
             cell.posterLabelFullscreen.hidden = YES;
         }
         
@@ -2455,7 +2454,7 @@
         title.text = [Utilities formatTVShowStringForSeasonLeading:item[@"season"] episode:item[@"episode"] title:item[@"label"]];
     }
     else {
-        title.text = [Utilities stripBBandHTML:item[@"label"]];
+        title.text = [item[@"label"] stripBBandHTML];
     }
     
     // In case no thumbs are shown and there is a child view or we are showing a setting, display disclosure indicator and adapt width.

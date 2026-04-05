@@ -10,7 +10,6 @@
 #import <mach/mach.h>
 #import "Utilities.h"
 #import "AppDelegate.h"
-#import "NSString+MD5.h"
 #import "SDWebImageManager.h"
 #import "LocalNetworkAccess.h"
 
@@ -1056,31 +1055,6 @@
         message = [NSString stringWithFormat:@"%@\n\n%@\n", error.localizedDescription, message];
     }
     return message;
-}
-
-+ (NSString*)stripRegEx:(NSString*)regExp text:(NSString*)textIn {
-    // Returns unchanged string, if regExp is nil. Returns nil, if string is nil.
-    if (!textIn || !regExp) {
-        return textIn;
-    }
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regExp options:NSRegularExpressionCaseInsensitive error:NULL];
-    NSString *textOut = [regex stringByReplacingMatchesInString:textIn options:0 range:NSMakeRange(0, [textIn length]) withTemplate:@""];
-    return textOut;
-}
-
-+ (NSString*)stripBBandHTML:(NSString*)text {
-    NSString *textOut = text;
-    
-    // Strip html, <x>, whereas x is not ""
-    textOut = [Utilities stripRegEx:@"<[^>]+>" text:textOut];
-    
-    // Strip BB code, [x] [/x], whereas x = b,u,i,s,center,left,right,url,img and spaces
-    textOut = [Utilities stripRegEx:@"\\[/?(b|u|i|s|center|left|right|url|img)\\]" text:textOut];
-    
-    // Strip BB code, [x=anything] [/x], whereas x = font,size,color,url and spaces
-    textOut = [Utilities stripRegEx:@"\\[/?(font|size|color|url)(=[^]]+)?\\]" text:textOut];
-    
-    return textOut;
 }
 
 + (BOOL)isValidMacAddress:(NSString*)macAddress {
