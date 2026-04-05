@@ -83,4 +83,9 @@
 #define SERVICE_TYPE_TCP @"_xbmc-jsonrpc._tcp"
 #define DOMAIN_NAME @"local"
 
+/*
+ * Rounded edges
+ */
+#define GET_ROUNDED_EDGES_RADIUS(size) MAX(MIN(size.width, size.height) * 0.03, 6.0)
+
 #endif /* ConvenienceMacros_h */
