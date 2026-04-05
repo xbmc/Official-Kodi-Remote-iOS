@@ -44,7 +44,6 @@
 		0F747770151E5E8600EF78AD /* DSJSONRPCError.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74776C151E5E8600EF78AD /* DSJSONRPCError.m */; };
 		0F7F0DCC1703490A0098FF75 /* BDKCollectionIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F0DC91703490A0098FF75 /* BDKCollectionIndexView.m */; };
 		0F7F3DA5164A6D730080A14A /* ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA2164A6D730080A14A /* ECSlidingViewController.m */; };
-		0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA4164A6D730080A14A /* UIImage+ImageWithUIView.m */; };
 		0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */; };
 		0F8E308816FA536C009DEE72 /* PosterHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8E308716FA536C009DEE72 /* PosterHeaderView.m */; };
 		0F90904516E53C590021EFA9 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90904416E53C580021EFA9 /* Utilities.m */; };
@@ -222,8 +221,6 @@
 		0F7F0DC91703490A0098FF75 /* BDKCollectionIndexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDKCollectionIndexView.m; sourceTree = "<group>"; };
 		0F7F3DA1164A6D730080A14A /* ECSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSlidingViewController.h; sourceTree = "<group>"; };
 		0F7F3DA2164A6D730080A14A /* ECSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSlidingViewController.m; sourceTree = "<group>"; };
-		0F7F3DA3164A6D730080A14A /* UIImage+ImageWithUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageWithUIView.h"; sourceTree = "<group>"; };
-		0F7F3DA4164A6D730080A14A /* UIImage+ImageWithUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageWithUIView.m"; sourceTree = "<group>"; };
 		0F7F3DA8164AAD0F0080A14A /* InitialSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialSlidingViewController.h; sourceTree = "<group>"; };
 		0F7F3DA9164AAD0F0080A14A /* InitialSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialSlidingViewController.m; sourceTree = "<group>"; };
 		0F7F3DAA164AAD0F0080A14A /* InitialSlidingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialSlidingViewController.xib; sourceTree = "<group>"; };
@@ -676,8 +673,6 @@
 			children = (
 				0F7F3DA1164A6D730080A14A /* ECSlidingViewController.h */,
 				0F7F3DA2164A6D730080A14A /* ECSlidingViewController.m */,
-				0F7F3DA3164A6D730080A14A /* UIImage+ImageWithUIView.h */,
-				0F7F3DA4164A6D730080A14A /* UIImage+ImageWithUIView.m */,
 			);
 			path = ECSlidingViewController;
 			sourceTree = "<group>";
@@ -939,7 +934,6 @@
 				C7B7D03A2F76D36E00689B5A /* UILabel+Extensions.m in Sources */,
 				C79B0EA52DF0CF6900046334 /* BaseMasterViewController.m in Sources */,
 				C752A3CB2F82A1EE008154C8 /* UIView+Extensions.m in Sources */,
-				0F7F3DA6164A6D730080A14A /* UIImage+ImageWithUIView.m in Sources */,
 				0F7F3DAB164AAD0F0080A14A /* InitialSlidingViewController.m in Sources */,
 				0F40F5A7164D5FA000AF9DE9 /* RightMenuViewController.m in Sources */,
 				0FB133AA165EC1E5003756C1 /* tcpJSONRPC.m in Sources */,
