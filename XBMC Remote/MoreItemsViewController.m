@@ -47,7 +47,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-	cell.backgroundColor = [Utilities getSystemGray6];
+	cell.backgroundColor = [UIColor getSystemGray6];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -63,8 +63,8 @@
                                                                    self.view.bounds.size.width - LABEL_OFFSET - INDICATOR_SIZE - 2 * LABEL_PADDING,
                                                                    cell.frame.size.height)];
     cellLabel.font = [UIFont systemFontOfSize:18];
-    cellLabel.textColor = [Utilities get1stLabelColor];
-    cellLabel.highlightedTextColor = [Utilities get1stLabelColor];
+    cellLabel.textColor = [UIColor get1stLabelColor];
+    cellLabel.highlightedTextColor = [UIColor get1stLabelColor];
     cellLabel.adjustsFontSizeToFitWidth = YES;
     cellLabel.minimumScaleFactor = FONT_SCALING_MIN;
     NSDictionary *item = mainMenuItems[indexPath.row];
