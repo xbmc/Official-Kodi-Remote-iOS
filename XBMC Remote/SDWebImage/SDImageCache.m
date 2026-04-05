@@ -9,7 +9,6 @@
 #import "SDImageCache.h"
 #import "SDWebImageDecoder.h"
 #import "UIImage+MultiFormat.h"
-#import "NSString+MD5.h"
 #import <CommonCrypto/CommonDigest.h>
 
 // See https://github.com/rs/SDWebImage/pull/1141 for discussion
