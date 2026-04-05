@@ -31,13 +31,13 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 
 @interface Utilities : NSObject
 
-+ (UIColor*)averageColor:(UIImage*)image;
++ (CGImageRef)createLinearSRGBFromImage:(UIImage*)image size:(CGSize)size;
++ (UIColor*)averageColorForImageRef:(CGImageRef)rawImageRef;
 + (UIColor*)getUIColorFromImage:(UIImage*)image;
 + (UIColor*)textTintColor:(UIColor*)color;
 + (UIColor*)sectionGradientTopColor:(UIColor*)color;
 + (UIColor*)sectionGradientBottomColor:(UIColor*)color;
 + (UIColor*)contrastColor:(UIColor*)color lightColor:(UIColor*)lighter darkColor:(UIColor*)darker;
-+ (UIImage*)colorizeImage:(UIImage*)image withColor:(UIColor*)color;
 + (UIImage*)setLightDarkModeImageAsset:(UIImage*)image lightColor:(UIColor*)lightColor darkColor:(UIColor*)darkColor;
 + (void)setLogoBackgroundColor:(UIImageView*)imageview mode:(LogoBackgroundType)mode;
 + (BOOL)getPreferTvPosterMode;
@@ -68,7 +68,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (int)getSec2Min:(BOOL)convert;
 + (NSString*)getImageServerURL;
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
-+ (UIImage*)applyRoundedEdgesImage:(UIImage*)image;
 + (CGFloat)getBottomPadding;
 + (CGFloat)getTopPadding;
 + (CGFloat)getTopPaddingWithNavBar:(UINavigationController*)navCtrl;

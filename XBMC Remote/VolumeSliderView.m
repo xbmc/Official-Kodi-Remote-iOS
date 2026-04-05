@@ -36,7 +36,7 @@
     self = nib[0];
     if (self) {
         UIImage *img = [UIImage imageNamed:@"pgbar_thumb"];
-        img = [Utilities colorizeImage:img withColor:KODI_BLUE_COLOR];
+        img = [img colorizeWithColor:KODI_BLUE_COLOR];
         volumeSlider.minimumTrackTintColor = KODI_BLUE_COLOR;
         volumeSlider.maximumTrackTintColor = UIColor.darkGrayColor;
         [volumeSlider setThumbImage:img forState:UIControlStateNormal];
@@ -92,16 +92,16 @@
         }
         
         img = [UIImage imageNamed:@"volume_slash"];
-        img = [Utilities colorizeImage:img withColor:UIColor.grayColor];
+        img = [img colorizeWithColor:UIColor.grayColor];
         [muteButton setImage:img forState:UIControlStateNormal];
         
         img = [UIImage imageNamed:@"volume_1"];
-        img = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
+        img = [img colorizeWithColor:ICON_TINT_COLOR];
         [minusButton setImage:img forState:UIControlStateNormal];
         [minusButton setImage:img forState:UIControlStateHighlighted];
         
         img = [UIImage imageNamed:@"volume_3"];
-        img = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
+        img = [img colorizeWithColor:ICON_TINT_COLOR];
         [plusButton setImage:img forState:UIControlStateNormal];
         [plusButton setImage:img forState:UIControlStateHighlighted];
         
@@ -248,11 +248,11 @@
     UIColor *sliderColor = isMuted ? UIColor.darkGrayColor : KODI_BLUE_COLOR;
 
     UIImage *img = [UIImage imageNamed:@"volume_slash"];
-    img = [Utilities colorizeImage:img withColor:buttonColor];
+    img = [img colorizeWithColor:buttonColor];
     [muteButton setImage:img forState:UIControlStateNormal];
     
     img = [UIImage imageNamed:@"pgbar_thumb"];
-    img = [Utilities colorizeImage:img withColor:sliderColor];
+    img = [img colorizeWithColor:sliderColor];
     [volumeSlider setThumbImage:img forState:UIControlStateNormal];
     volumeSlider.minimumTrackTintColor = sliderColor;
     volumeSlider.userInteractionEnabled = !isMuted;
