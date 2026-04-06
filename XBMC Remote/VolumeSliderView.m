@@ -112,15 +112,9 @@
         img = [Utilities colorizeImage:img withColor:UIColor.grayColor];
         [muteButton setImage:img forState:UIControlStateNormal];
         
-        img = [UIImage imageNamed:@"volume_1"];
-        img = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
-        [minusButton setImage:img forState:UIControlStateNormal];
-        [minusButton setImage:img forState:UIControlStateHighlighted];
+        [minusButton setIconStyle:[UIImage imageNamed:@"volume_1"]];
         
-        img = [UIImage imageNamed:@"volume_3"];
-        img = [Utilities colorizeImage:img withColor:ICON_TINT_COLOR];
-        [plusButton setImage:img forState:UIControlStateNormal];
-        [plusButton setImage:img forState:UIControlStateHighlighted];
+        [plusButton setIconStyle:[UIImage imageNamed:@"volume_3"]];
         
         [self readServerVolume];
         
