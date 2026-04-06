@@ -8,8 +8,6 @@
 
 #import "UIViewController+Extensions.h"
 
-@import Foundation;
-
 @implementation UIViewController (Extensions)
 
 - (void)setNavigationBarTint:(UIColor*)tintColor {
