@@ -7,6 +7,7 @@
 #import "UIBarButtonItem+Extensions.h"
 #import "UILabel+Extensions.h"
 #import "UIViewController+Extensions.h"
+#import "UIImageView+WebCache.h"
 
 @import UIKit;
 @import Foundation;

@@ -11,7 +11,6 @@
 #import "NowPlaying.h"
 #import "GlobalData.h"
 #import "SDImageCache.h"
-#import "UIImageView+WebCache.h"
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "ViewControllerIPad.h"

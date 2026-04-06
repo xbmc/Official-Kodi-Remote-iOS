@@ -8,7 +8,6 @@
 
 #import "NowPlaying.h"
 #import "mainMenu.h"
-#import "UIImageView+WebCache.h"
 #import "GlobalData.h"
 #import "SDImageCache.h"
 #import "RemoteController.h"
