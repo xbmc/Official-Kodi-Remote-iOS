@@ -13,7 +13,6 @@
 #import "AppInfoViewController.h"
 #import "Utilities.h"
 #import "InitialSlidingViewController.h"
-#import "UIImageView+WebCache.h"
 
 // + 2 to cover two single-line separators
 #define HOSTMANAGERVC_MSG_HEIGHT (supportedVersionView.frame.size.height + 2)
