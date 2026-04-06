@@ -19,7 +19,6 @@
 #import "ActorCell.h"
 #import "Utilities.h"
 #import "VersionCheck.h"
-#import "UIBarButtonItem+Extensions.h"
 #import "UIViewController+Extensions.h"
 
 @import QuartzCore;

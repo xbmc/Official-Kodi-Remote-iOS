@@ -14,7 +14,6 @@
 #import "Utilities.h"
 #import "InitialSlidingViewController.h"
 #import "UIImageView+WebCache.h"
-#import "UIBarButtonItem+Extensions.h"
 #import "UILabel+Extensions.h"
 
 // + 2 to cover two single-line separators

@@ -20,7 +20,6 @@
 #import "AppInfoViewController.h"
 #import "tcpJSONRPC.h"
 #import "Utilities.h"
-#import "UIBarButtonItem+Extensions.h"
 
 #define MENU_ICON_SIZE 30
 #define ICON_MARGIN 10

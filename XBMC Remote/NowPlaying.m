@@ -20,7 +20,6 @@
 #import "OBSlider.h"
 #import "Utilities.h"
 #import "PlaylistProgressView.h"
-#import "UIBarButtonItem+Extensions.h"
 #import "UILabel+Extensions.h"
 
 @import QuartzCore;

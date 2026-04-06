@@ -6,6 +6,8 @@
 //  Copyright © 2026 Team Kodi. All rights reserved.
 //
 
+@import UIKit;
+
 @interface UIBarButtonItem (Extensions)
 
 - (void)setAppDefaultStyle;

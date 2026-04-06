@@ -28,7 +28,6 @@
 #import "VersionCheck.h"
 #import "SharingActivityItemSource.h"
 #import "RemoteController.h"
-#import "UIBarButtonItem+Extensions.h"
 #import "UIViewController+Extensions.h"
 #import "UILabel+Extensions.h"
 
