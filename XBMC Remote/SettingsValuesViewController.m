@@ -14,7 +14,6 @@
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "Utilities.h"
-#import "UIBarButtonItem+Extensions.h"
 
 #define SETTINGS_CELL_LABEL 1
 #define SETTINGS_CELL_DESCRIPTION 2

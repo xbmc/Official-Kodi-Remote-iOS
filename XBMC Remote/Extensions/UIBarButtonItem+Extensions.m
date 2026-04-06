@@ -8,8 +8,6 @@
 
 #import "UIBarButtonItem+Extensions.h"
 
-@import Foundation;
-
 @implementation UIBarButtonItem (Extensions)
 
 - (void)setAppDefaultStyle {
