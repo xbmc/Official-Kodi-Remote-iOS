@@ -29,7 +29,6 @@
 #import "SharingActivityItemSource.h"
 #import "RemoteController.h"
 #import "UIViewController+Extensions.h"
-#import "UILabel+Extensions.h"
 
 #import "GeneratedAssetSymbols.h"
 

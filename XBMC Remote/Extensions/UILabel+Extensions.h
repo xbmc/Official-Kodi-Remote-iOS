@@ -6,6 +6,8 @@
 //  Copyright © 2026 Team Kodi. All rights reserved.
 //
 
+@import Foundation;
+
 @interface UILabel (Extensions)
 
 - (void)setNoFoundStyle;
