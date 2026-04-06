@@ -8,8 +8,6 @@
 
 #import "UILabel+Extensions.h"
 
-@import Foundation;
-
 @implementation UILabel (Extensions)
 
 - (void)setNoFoundStyle {

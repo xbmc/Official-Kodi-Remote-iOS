@@ -14,7 +14,6 @@
 #import "StackScrollViewController.h"
 #import "Utilities.h"
 #import "CustomButtonCell.h"
-#import "UILabel+Extensions.h"
 
 #define TOOLBAR_HEIGHT 44.0
 #define BUTTON_SPACING 8.0
