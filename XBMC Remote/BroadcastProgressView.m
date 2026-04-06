@@ -35,7 +35,7 @@
     barLabel.adjustsFontSizeToFitWidth = YES;
     barLabel.minimumScaleFactor = FONT_SCALING_MIN;
     barLabel.textAlignment = NSTextAlignmentRight;
-    barLabel.textColor = [Utilities get1stLabelColor];
+    barLabel.textColor = [UIColor get1stLabelColor];
     [self addSubview:barLabel];
     
     [progressBarView setTrackColor:UIColor.darkGrayColor];

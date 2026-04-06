@@ -1,0 +1,19 @@
+//
+//  UIImage+Extensions.h
+//  Kodi Remote
+//
+//  Created by Buschmann on 05.04.26.
+//  Copyright © 2026 Team Kodi. All rights reserved.
+//
+
+@import Foundation;
+@import UIKit;
+
+@interface UIImage (Extensions)
+
+- (UIImage*)applyRoundedEdges;
+- (UIColor*)averageColor;
+- (UIImage*)colorizeWithColor:(UIColor*)color;
+- (UIImage*)resizedImageSize:(CGSize)newSize aspectMode:(UIViewContentMode)contentMode;
+
+@end

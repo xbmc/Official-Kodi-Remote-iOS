@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 EdgeCase. All rights reserved.
 //
 
-#import "UIImage+ImageWithUIView.h"
-
 @import UIKit;
 
 /** Notification that gets posted when the underRight view will appear */

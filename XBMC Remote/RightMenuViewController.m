@@ -14,7 +14,6 @@
 #import "StackScrollViewController.h"
 #import "Utilities.h"
 #import "CustomButtonCell.h"
-#import "UILabel+Extensions.h"
 
 #define TOOLBAR_HEIGHT 44.0
 #define BUTTON_SPACING 8.0
@@ -132,7 +131,7 @@
     
     // plus button
     UIImage *image = [UIImage imageNamed:@"icon_plus"];
-    image = [Utilities colorizeImage:image withColor:UIColor.lightGrayColor];
+    image = [image colorizeWithColor:UIColor.lightGrayColor];
     CGFloat originX = IS_IPHONE ? (ANCHOR_RIGHT_PEEK + PANEL_SHADOW_SIZE) : 0 + BUTTON_SPACING;
     moreButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, TOOLBAR_HEIGHT, TOOLBAR_HEIGHT)];
     moreButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
@@ -197,7 +196,7 @@
     if (arrayButtons.buttons.count == 0) {
         editTableButton.enabled = NO;
         editTableButton.selected = NO;
-        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
+        [noFoundLabel animateAlpha:1.0 duration:0.2];
     }
 }
 
@@ -206,11 +205,11 @@
     customButton *arrayButtons = [customButton new];
     if (arrayButtons.buttons.count == 0) {
         editTableButton.enabled = NO;
-        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:1.0];
+        [noFoundLabel animateAlpha:1.0 duration:0.2];
     }
     else {
         editTableButton.enabled = YES;
-        [Utilities alphaView:noFoundLabel AnimDuration:0.2 Alpha:0.0];
+        [noFoundLabel animateAlpha:0.0 duration:0.2];
     }
     
     // Build table with custom buttons
