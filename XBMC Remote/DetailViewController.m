@@ -3753,6 +3753,19 @@
 - (void)configureView {
     mainMenu *menuItem = self.detailItem;
     if (menuItem && !menuItem.disableNavbarButtons) {
+        // Set up navigation bar items on upper right
+        UIImage *remoteButtonImage = [UIImage imageNamed:@"icon_menu_remote"];
+        UIBarButtonItem *remoteButton = [[UIBarButtonItem alloc] initWithImage:remoteButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showRemote)];
+        [remoteButton setAppDefaultStyle];
+        UIImage *nowPlayingButtonImage = [UIImage imageNamed:@"icon_menu_playing"];
+        UIBarButtonItem *nowPlayingButton = [[UIBarButtonItem alloc] initWithImage:nowPlayingButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
+        [nowPlayingButton setAppDefaultStyle];
+        UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        self.navigationItem.rightBarButtonItems = @[remoteButton,
+                                                    fixedSpace,
+                                                    nowPlayingButton];
+    }
+    if (IS_IPAD) {
         topNavigationLabel = [UILabel new];
         topNavigationLabel.backgroundColor = UIColor.clearColor;
         topNavigationLabel.font = [UIFont boldSystemFontOfSize:11];
@@ -3765,18 +3778,6 @@
         topNavigationLabel.shadowOffset = CGSizeMake (0, -1);
         topNavigationLabel.highlightedTextColor = UIColor.blackColor;
         topNavigationLabel.opaque = YES;
-        
-        // Set up navigation bar items on upper right
-        UIImage *remoteButtonImage = [UIImage imageNamed:@"icon_menu_remote"];
-        UIBarButtonItem *remoteButton = [[UIBarButtonItem alloc] initWithImage:remoteButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showRemote)];
-        [remoteButton setAppDefaultStyle];
-        UIImage *nowPlayingButtonImage = [UIImage imageNamed:@"icon_menu_playing"];
-        UIBarButtonItem *nowPlayingButton = [[UIBarButtonItem alloc] initWithImage:nowPlayingButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(showNowPlaying)];
-        [nowPlayingButton setAppDefaultStyle];
-        UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        self.navigationItem.rightBarButtonItems = @[remoteButton,
-                                                    fixedSpace,
-                                                    nowPlayingButton];
     }
 }
 
