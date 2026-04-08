@@ -20,7 +20,7 @@
 "Light" = "Light";
 "Transparent" = "Transparent";
 "Remote Control" = "Remote Control";
-"Vibrate remote control" = "Vibrate remote control";
+"Haptic feedback for remote" = "Haptic feedback for remote";
 "Interface" = "Interface";
 "Cache Settings" = "Cache Settings";
 "Clear cache on next start" = "Clear cache on next start";
