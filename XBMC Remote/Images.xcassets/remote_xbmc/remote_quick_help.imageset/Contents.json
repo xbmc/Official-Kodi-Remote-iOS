@@ -300,6 +300,22 @@
       "idiom" : "universal",
       "locale" : "id-ID",
       "scale" : "3x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "et-EE",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "et-EE",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "remote_help@3x-EE.png",
+      "idiom" : "universal",
+      "locale" : "et-EE",
+      "scale" : "3x"
     }
   ],
   "info" : {
