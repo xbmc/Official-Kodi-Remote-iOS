@@ -1,7 +1,7 @@
 
-#import "jsonDataCell.h"
+#import "JsonDataCell.h"
 
-@implementation jsonDataCell
+@implementation JsonDataCell
 
 @synthesize urlImageView;
 

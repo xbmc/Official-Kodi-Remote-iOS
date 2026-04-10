@@ -15,7 +15,7 @@
 		0F175F2E154D6AFA00C1C61F /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F175F2D154D6AFA00C1C61F /* MenuViewController.m */; };
 		0F284A5216F63C9A00AFC1EF /* PosterLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F284A5116F63C9A00AFC1EF /* PosterLabel.m */; };
 		0F284A5516F6419700AFC1EF /* PosterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F284A5416F6419700AFC1EF /* PosterCell.m */; };
-		0F370054151F6A9E00A3D42C /* jsonDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F370053151F6A9E00A3D42C /* jsonDataCell.m */; };
+		0F370054151F6A9E00A3D42C /* JsonDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F370053151F6A9E00A3D42C /* JsonDataCell.m */; };
 		0F4019B018F3ECEB0064E4DC /* customButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4019AF18F3ECEB0064E4DC /* customButton.m */; };
 		0F4019B318F415A50064E4DC /* MessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4019B218F415A50064E4DC /* MessagesView.m */; };
 		0F4063351578C6CD00596B61 /* MoreItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4063341578C6CD00596B61 /* MoreItemsViewController.m */; };
@@ -80,7 +80,7 @@
 		C76594A02C5E871100B93A2A /* cellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E9192809B70024FEFA /* cellViewIPad.xib */; };
 		C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */; };
 		C76594A22C5E871600B93A2A /* cellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* cellView.xib */; };
-		C76594A42C5E871C00B93A2A /* jsonDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB16163151F156A001BA2D4 /* jsonDataCell.xib */; };
+		C76594A42C5E871C00B93A2A /* JsonDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB16163151F156A001BA2D4 /* JsonDataCell.xib */; };
 		C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D41527A9DF00D5958F /* playlistCellView.xib */; };
 		C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F487B5915399716004530C1 /* serverListCellView.xib */; };
 		C76594A72C5E872400B93A2A /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A6742E8168479FC00E8D5AF /* MasterViewController.xib */; };
@@ -134,8 +134,8 @@
 		0F31DAE51C577426009CD268 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		0F31DAE61C577426009CD268 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		0F32092F16FE193400636BA2 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		0F370052151F6A9E00A3D42C /* jsonDataCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsonDataCell.h; sourceTree = "<group>"; };
-		0F370053151F6A9E00A3D42C /* jsonDataCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jsonDataCell.m; sourceTree = "<group>"; };
+		0F370052151F6A9E00A3D42C /* JsonDataCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonDataCell.h; sourceTree = "<group>"; };
+		0F370053151F6A9E00A3D42C /* JsonDataCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonDataCell.m; sourceTree = "<group>"; };
 		0F4019AE18F3ECEB0064E4DC /* customButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customButton.h; sourceTree = "<group>"; };
 		0F4019AF18F3ECEB0064E4DC /* customButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customButton.m; sourceTree = "<group>"; };
 		0F4019B118F415A50064E4DC /* MessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesView.h; sourceTree = "<group>"; };
@@ -235,7 +235,7 @@
 		0F90904416E53C580021EFA9 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 		0FB133A8165EC1E5003756C1 /* tcpJSONRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcpJSONRPC.h; sourceTree = "<group>"; };
 		0FB133A9165EC1E5003756C1 /* tcpJSONRPC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tcpJSONRPC.m; sourceTree = "<group>"; };
-		0FB16163151F156A001BA2D4 /* jsonDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = jsonDataCell.xib; sourceTree = "<group>"; };
+		0FB16163151F156A001BA2D4 /* JsonDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JsonDataCell.xib; sourceTree = "<group>"; };
 		0FB4044C1928C33200346300 /* HostManagementViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HostManagementViewController.xib; sourceTree = "<group>"; };
 		0FB4044E1928D0D300346300 /* HostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HostViewController.xib; sourceTree = "<group>"; };
 		0FB40450192922E100346300 /* ShowInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowInfoViewController.xib; sourceTree = "<group>"; };
@@ -407,8 +407,8 @@
 				0F089AA418EC4E3300F32430 /* SettingsValuesViewController.m */,
 				0FEE08141704819A00EC9BC7 /* FloatingHeaderFlowLayout.h */,
 				0FEE08151704819A00EC9BC7 /* FloatingHeaderFlowLayout.m */,
-				0F370052151F6A9E00A3D42C /* jsonDataCell.h */,
-				0F370053151F6A9E00A3D42C /* jsonDataCell.m */,
+				0F370052151F6A9E00A3D42C /* JsonDataCell.h */,
+				0F370053151F6A9E00A3D42C /* JsonDataCell.m */,
 				0F4883E21522418C00883243 /* ShowInfoViewController.h */,
 				0F4883E31522418C00883243 /* ShowInfoViewController.m */,
 				0F74772B151DD77400EF78AD /* NowPlaying.h */,
@@ -451,7 +451,7 @@
 			isa = PBXGroup;
 			children = (
 				0F6234E7192808120024FEFA /* cellView.xib */,
-				0FB16163151F156A001BA2D4 /* jsonDataCell.xib */,
+				0FB16163151F156A001BA2D4 /* JsonDataCell.xib */,
 				0F44E2D41527A9DF00D5958F /* playlistCellView.xib */,
 				0F487B5915399716004530C1 /* serverListCellView.xib */,
 				1A6742E8168479FC00E8D5AF /* MasterViewController.xib */,
@@ -859,7 +859,7 @@
 				C76594A02C5E871100B93A2A /* cellViewIPad.xib in Resources */,
 				C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */,
 				C76594A22C5E871600B93A2A /* cellView.xib in Resources */,
-				C76594A42C5E871C00B93A2A /* jsonDataCell.xib in Resources */,
+				C76594A42C5E871C00B93A2A /* JsonDataCell.xib in Resources */,
 				C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */,
 				C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */,
 				C76594A72C5E872400B93A2A /* MasterViewController.xib in Resources */,
@@ -909,7 +909,7 @@
 				0F74776F151E5E8600EF78AD /* DSJSONRPC.m in Sources */,
 				0F747770151E5E8600EF78AD /* DSJSONRPCError.m in Sources */,
 				C7106D792D33C25400A96C93 /* BroadcastProgressView.m in Sources */,
-				0F370054151F6A9E00A3D42C /* jsonDataCell.m in Sources */,
+				0F370054151F6A9E00A3D42C /* JsonDataCell.m in Sources */,
 				0F4883C41521B3D400883243 /* GlobalData.m in Sources */,
 				C76451D229C51221000AE949 /* SDWebImageDownloader.m in Sources */,
 				0F4883D21521CC7300883243 /* VolumeSliderView.m in Sources */,
