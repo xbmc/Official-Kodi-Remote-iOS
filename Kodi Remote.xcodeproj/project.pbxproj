@@ -16,7 +16,7 @@
 		0F284A5216F63C9A00AFC1EF /* PosterLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F284A5116F63C9A00AFC1EF /* PosterLabel.m */; };
 		0F284A5516F6419700AFC1EF /* PosterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F284A5416F6419700AFC1EF /* PosterCell.m */; };
 		0F370054151F6A9E00A3D42C /* JsonDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F370053151F6A9E00A3D42C /* JsonDataCell.m */; };
-		0F4019B018F3ECEB0064E4DC /* customButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4019AF18F3ECEB0064E4DC /* customButton.m */; };
+		0F4019B018F3ECEB0064E4DC /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4019AF18F3ECEB0064E4DC /* CustomButton.m */; };
 		0F4019B318F415A50064E4DC /* MessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4019B218F415A50064E4DC /* MessagesView.m */; };
 		0F4063351578C6CD00596B61 /* MoreItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4063341578C6CD00596B61 /* MoreItemsViewController.m */; };
 		0F40F5A7164D5FA000AF9DE9 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F40F5A5164D5FA000AF9DE9 /* RightMenuViewController.m */; };
@@ -136,8 +136,8 @@
 		0F32092F16FE193400636BA2 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		0F370052151F6A9E00A3D42C /* JsonDataCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonDataCell.h; sourceTree = "<group>"; };
 		0F370053151F6A9E00A3D42C /* JsonDataCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonDataCell.m; sourceTree = "<group>"; };
-		0F4019AE18F3ECEB0064E4DC /* customButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customButton.h; sourceTree = "<group>"; };
-		0F4019AF18F3ECEB0064E4DC /* customButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customButton.m; sourceTree = "<group>"; };
+		0F4019AE18F3ECEB0064E4DC /* CustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
+		0F4019AF18F3ECEB0064E4DC /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
 		0F4019B118F415A50064E4DC /* MessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesView.h; sourceTree = "<group>"; };
 		0F4019B218F415A50064E4DC /* MessagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesView.m; sourceTree = "<group>"; };
 		0F4063331578C6CD00596B61 /* MoreItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreItemsViewController.h; sourceTree = "<group>"; };
@@ -580,8 +580,8 @@
 				C78C30F428F877870055CD95 /* VersionCheck.m */,
 				0F90904316E53C580021EFA9 /* Utilities.h */,
 				0F90904416E53C580021EFA9 /* Utilities.m */,
-				0F4019AE18F3ECEB0064E4DC /* customButton.h */,
-				0F4019AF18F3ECEB0064E4DC /* customButton.m */,
+				0F4019AE18F3ECEB0064E4DC /* CustomButton.h */,
+				0F4019AF18F3ECEB0064E4DC /* CustomButton.m */,
 				0F4019B118F415A50064E4DC /* MessagesView.h */,
 				0F4019B218F415A50064E4DC /* MessagesView.m */,
 				0F4AB8181903DDCE005DEC5C /* RemoteControllerGestureZoneView.h */,
@@ -958,7 +958,7 @@
 				0F7B951A1708975500880F33 /* UIImage+Resize.m in Sources */,
 				0F4205D217099AE500EA533C /* RecentlyAddedCell.m in Sources */,
 				0F05FB69170D79D400BBA833 /* NSString+MD5.m in Sources */,
-				0F4019B018F3ECEB0064E4DC /* customButton.m in Sources */,
+				0F4019B018F3ECEB0064E4DC /* CustomButton.m in Sources */,
 				0FDC891A170DCAEA00419F58 /* UIScrollView+SVPullToRefresh.m in Sources */,
 				C76451DA29C51221000AE949 /* SDWebImageDownloaderOperation.m in Sources */,
 				0F680CB917103DB60092298A /* ClearCacheView.m in Sources */,
