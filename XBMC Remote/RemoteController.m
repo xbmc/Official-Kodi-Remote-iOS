@@ -989,6 +989,11 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         self.slidingViewController.anchorLeftRevealAmount = 0;
         self.slidingViewController.panGesture.delegate = self;
         
+        // Turn off unintended swipe in iOS26
+        if (@available(iOS 26.0, *)) {
+            self.navigationController.interactiveContentPopGestureRecognizer.enabled = NO;
+        }
+        
         // Create custom button view and attach it to underRight view
         RightMenuViewController *rightMenuViewController = [[RightMenuViewController alloc] initWithNibName:@"RightMenuViewController" bundle:nil];
         self.slidingViewController.underRightViewController = rightMenuViewController;
