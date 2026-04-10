@@ -2145,7 +2145,7 @@
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"playlistCellIdentifier"];
     if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"playlistCellView" owner:self options:nil];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"PlaylistCellView" owner:self options:nil];
         cell = nib[0];
         UILabel *mainLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_MAINTITLE];
         UILabel *subLabel = (UILabel*)[cell viewWithTag:XIB_PLAYLIST_CELL_SUBTITLE];
