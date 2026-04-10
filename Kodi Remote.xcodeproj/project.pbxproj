@@ -77,9 +77,9 @@
 		C76451DC29C51221000AE949 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451CB29C51221000AE949 /* UIButton+WebCache.m */; };
 		C76451DD29C51221000AE949 /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = C76451CD29C51221000AE949 /* UIImage+MultiFormat.m */; };
 		C765949F2C5E86F400B93A2A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7478BF8257258E700161C1E /* Launch Screen.storyboard */; };
-		C76594A02C5E871100B93A2A /* cellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E9192809B70024FEFA /* cellViewIPad.xib */; };
+		C76594A02C5E871100B93A2A /* CellViewIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E9192809B70024FEFA /* CellViewIPad.xib */; };
 		C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */; };
-		C76594A22C5E871600B93A2A /* cellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* cellView.xib */; };
+		C76594A22C5E871600B93A2A /* CellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* CellView.xib */; };
 		C76594A42C5E871C00B93A2A /* JsonDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB16163151F156A001BA2D4 /* JsonDataCell.xib */; };
 		C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D41527A9DF00D5958F /* playlistCellView.xib */; };
 		C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F487B5915399716004530C1 /* serverListCellView.xib */; };
@@ -196,8 +196,8 @@
 		0F5A504A155FA8630062FD6E /* HostManagementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostManagementViewController.m; sourceTree = "<group>"; };
 		0F61E197153C828300A89BB1 /* AppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppInfoViewController.h; sourceTree = "<group>"; };
 		0F61E198153C828300A89BB1 /* AppInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppInfoViewController.m; sourceTree = "<group>"; };
-		0F6234E7192808120024FEFA /* cellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cellView.xib; sourceTree = "<group>"; };
-		0F6234E9192809B70024FEFA /* cellViewIPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cellViewIPad.xib; sourceTree = "<group>"; };
+		0F6234E7192808120024FEFA /* CellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CellView.xib; sourceTree = "<group>"; };
+		0F6234E9192809B70024FEFA /* CellViewIPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CellViewIPad.xib; sourceTree = "<group>"; };
 		0F6234ED19280D9B0024FEFA /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		0F6234EF192811150024FEFA /* NowPlaying.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NowPlaying.xib; sourceTree = "<group>"; };
 		0F680CB717103DB60092298A /* ClearCacheView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClearCacheView.h; sourceTree = "<group>"; };
@@ -450,7 +450,7 @@
 		0F175F14154D45C200C1C61F /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
-				0F6234E7192808120024FEFA /* cellView.xib */,
+				0F6234E7192808120024FEFA /* CellView.xib */,
 				0FB16163151F156A001BA2D4 /* JsonDataCell.xib */,
 				0F44E2D41527A9DF00D5958F /* playlistCellView.xib */,
 				0F487B5915399716004530C1 /* serverListCellView.xib */,
@@ -472,7 +472,7 @@
 		0F175F1D154D5B9B00C1C61F /* iPad */ = {
 			isa = PBXGroup;
 			children = (
-				0F6234E9192809B70024FEFA /* cellViewIPad.xib */,
+				0F6234E9192809B70024FEFA /* CellViewIPad.xib */,
 				0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */,
 			);
 			name = iPad;
@@ -856,9 +856,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C765949F2C5E86F400B93A2A /* Launch Screen.storyboard in Resources */,
-				C76594A02C5E871100B93A2A /* cellViewIPad.xib in Resources */,
+				C76594A02C5E871100B93A2A /* CellViewIPad.xib in Resources */,
 				C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */,
-				C76594A22C5E871600B93A2A /* cellView.xib in Resources */,
+				C76594A22C5E871600B93A2A /* CellView.xib in Resources */,
 				C76594A42C5E871C00B93A2A /* JsonDataCell.xib in Resources */,
 				C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */,
 				C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */,
