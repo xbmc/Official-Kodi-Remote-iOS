@@ -8,7 +8,7 @@
 
 #import "BaseMasterViewController.h"
 #import "DSJSONRPC.h"
-#import "tcpJSONRPC.h"
+#import "TcpJSONRPC.h"
 #import "MessagesView.h"
 #import "VolumeSliderView.h"
 

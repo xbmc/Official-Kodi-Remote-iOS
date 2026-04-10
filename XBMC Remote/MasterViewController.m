@@ -18,7 +18,7 @@
 #import "HostManagementViewController.h"
 #import "InitialSlidingViewController.h"
 #import "AppInfoViewController.h"
-#import "tcpJSONRPC.h"
+#import "TcpJSONRPC.h"
 #import "Utilities.h"
 #import "UIBarButtonItem+Extensions.h"
 

@@ -1,5 +1,5 @@
 //
-//  tcpJSONRPC.h
+//  TcpJSONRPC.h
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 22/11/12.
@@ -10,7 +10,7 @@
 
 @import Foundation;
 
-@interface tcpJSONRPC : NSObject <NSStreamDelegate> {
+@interface TcpJSONRPC : NSObject <NSStreamDelegate> {
     BOOL inCheck;
     NSTimer *heartbeatTimer;
     NSString *infoTitle;
