@@ -35,7 +35,7 @@
 		0F55490B151D1187007E633F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55490A151D1187007E633F /* AppDelegate.m */; };
 		0F55490E151D1187007E633F /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55490D151D1187007E633F /* MasterViewController.m */; };
 		0F554911151D1187007E633F /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554910151D1187007E633F /* DetailViewController.m */; };
-		0F554C20151D14DA007E633F /* mainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554C1F151D14DA007E633F /* mainMenu.m */; };
+		0F554C20151D14DA007E633F /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F554C1F151D14DA007E633F /* MainMenu.m */; };
 		0F5A504C155FA8640062FD6E /* HostManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5A504A155FA8630062FD6E /* HostManagementViewController.m */; };
 		0F61E19A153C828300A89BB1 /* AppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F61E198153C828300A89BB1 /* AppInfoViewController.m */; };
 		0F680CB917103DB60092298A /* ClearCacheView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F680CB817103DB60092298A /* ClearCacheView.m */; };
@@ -188,8 +188,8 @@
 		0F55490D151D1187007E633F /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		0F55490F151D1187007E633F /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		0F554910151D1187007E633F /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		0F554C1E151D14DA007E633F /* mainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainMenu.h; sourceTree = "<group>"; };
-		0F554C1F151D14DA007E633F /* mainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainMenu.m; sourceTree = "<group>"; };
+		0F554C1E151D14DA007E633F /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
+		0F554C1F151D14DA007E633F /* MainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenu.m; sourceTree = "<group>"; };
 		0F59E26315646FB800184AE8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		0F59E2661564796B00184AE8 /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		0F5A5049155FA8630062FD6E /* HostManagementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostManagementViewController.h; sourceTree = "<group>"; };
@@ -568,8 +568,8 @@
 				0F55490A151D1187007E633F /* AppDelegate.m */,
 				C79B0EA62DF0CF8C00046334 /* BaseMasterViewController.h */,
 				C79B0EA42DF0CF6900046334 /* BaseMasterViewController.m */,
-				0F554C1E151D14DA007E633F /* mainMenu.h */,
-				0F554C1F151D14DA007E633F /* mainMenu.m */,
+				0F554C1E151D14DA007E633F /* MainMenu.h */,
+				0F554C1F151D14DA007E633F /* MainMenu.m */,
 				0F4883C21521B3D400883243 /* GlobalData.h */,
 				0F4883C31521B3D400883243 /* GlobalData.m */,
 				0FB133A8165EC1E5003756C1 /* TcpJSONRPC.h */,
@@ -899,7 +899,7 @@
 				C76451D129C51221000AE949 /* NSData+ImageContentType.m in Sources */,
 				0F554911151D1187007E633F /* DetailViewController.m in Sources */,
 				C7106D842D33FBCE00A96C93 /* PlaylistProgressView.m in Sources */,
-				0F554C20151D14DA007E633F /* mainMenu.m in Sources */,
+				0F554C20151D14DA007E633F /* MainMenu.m in Sources */,
 				0F74772E151DD77400EF78AD /* NowPlaying.m in Sources */,
 				0F4AB81A1903DDCE005DEC5C /* RemoteControllerGestureZoneView.m in Sources */,
 				0F747734151DD91D00EF78AD /* RemoteController.m in Sources */,

@@ -7,7 +7,7 @@
 //
 
 #import "GlobalData.h"
-#import "mainMenu.h"
+#import "MainMenu.h"
 #import "ECSlidingViewController.h"
 #import "CustomNavigationController.h"
 
@@ -95,12 +95,12 @@
 @property (strong, nonatomic) NSString *libraryCachePath;
 @property (strong, nonatomic) NSString *epgCachePath;
 @property (nonatomic, strong) NSMutableArray *arrayServerList;
-@property (nonatomic, strong) mainMenu *customButtonEntry;
-@property (nonatomic, strong) mainMenu *playlistArtistAlbums;
-@property (nonatomic, strong) mainMenu *playlistMovies;
-@property (nonatomic, strong) mainMenu *playlistMusicVideos;
-@property (nonatomic, strong) mainMenu *playlistTvShows;
-@property (nonatomic, strong) mainMenu *playlistPVR;
+@property (nonatomic, strong) MainMenu *customButtonEntry;
+@property (nonatomic, strong) MainMenu *playlistArtistAlbums;
+@property (nonatomic, strong) MainMenu *playlistMovies;
+@property (nonatomic, strong) MainMenu *playlistMusicVideos;
+@property (nonatomic, strong) MainMenu *playlistTvShows;
+@property (nonatomic, strong) MainMenu *playlistPVR;
 @property (nonatomic, strong) MainMenuGlobalSearchLookup *globalSearchLookup;
 @property (nonatomic, assign) BOOL serverOnLine;
 @property (nonatomic, assign) BOOL serverTCPConnectionOpen;
