@@ -1,5 +1,5 @@
 //
-//  customButton.h
+//  CustomButton.h
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 8/4/14.
@@ -8,7 +8,7 @@
 
 @import Foundation;
 
-@interface customButton : NSObject
+@interface CustomButton : NSObject
 
 @property (nonatomic, strong) NSMutableArray *buttons;
 
