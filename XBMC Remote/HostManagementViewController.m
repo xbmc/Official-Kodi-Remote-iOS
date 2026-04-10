@@ -105,7 +105,7 @@
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"serverListCellIdentifier"];
     if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"serverListCellView" owner:self options:nil];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ServerListCellView" owner:self options:nil];
         cell = nib[0];
         UILabel *cellLabel = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_LABEL];
         UILabel *cellIP = (UILabel*)[cell viewWithTag:XIB_HOST_MGMT_CELL_IP];
