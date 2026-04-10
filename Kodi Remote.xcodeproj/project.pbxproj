@@ -81,7 +81,7 @@
 		C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F175F23154D5C3600C1C61F /* ViewControllerIPad.xib */; };
 		C76594A22C5E871600B93A2A /* CellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* CellView.xib */; };
 		C76594A42C5E871C00B93A2A /* JsonDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB16163151F156A001BA2D4 /* JsonDataCell.xib */; };
-		C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D41527A9DF00D5958F /* playlistCellView.xib */; };
+		C76594A52C5E872000B93A2A /* PlaylistCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D41527A9DF00D5958F /* PlaylistCellView.xib */; };
 		C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F487B5915399716004530C1 /* serverListCellView.xib */; };
 		C76594A72C5E872400B93A2A /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A6742E8168479FC00E8D5AF /* MasterViewController.xib */; };
 		C76594A82C5E872900B93A2A /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234ED19280D9B0024FEFA /* DetailViewController.xib */; };
@@ -149,7 +149,7 @@
 		0F4156441646D810009E6DD4 /* JBKenBurnsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBKenBurnsView.m; sourceTree = "<group>"; };
 		0F4205D017099AE500EA533C /* RecentlyAddedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentlyAddedCell.h; sourceTree = "<group>"; };
 		0F4205D117099AE500EA533C /* RecentlyAddedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentlyAddedCell.m; sourceTree = "<group>"; };
-		0F44E2D41527A9DF00D5958F /* playlistCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = playlistCellView.xib; sourceTree = "<group>"; };
+		0F44E2D41527A9DF00D5958F /* PlaylistCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaylistCellView.xib; sourceTree = "<group>"; };
 		0F487B4915396D4C004530C1 /* HostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostViewController.h; sourceTree = "<group>"; };
 		0F487B4A15396D4C004530C1 /* HostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostViewController.m; sourceTree = "<group>"; };
 		0F487B5915399716004530C1 /* serverListCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = serverListCellView.xib; sourceTree = "<group>"; };
@@ -452,7 +452,7 @@
 			children = (
 				0F6234E7192808120024FEFA /* CellView.xib */,
 				0FB16163151F156A001BA2D4 /* JsonDataCell.xib */,
-				0F44E2D41527A9DF00D5958F /* playlistCellView.xib */,
+				0F44E2D41527A9DF00D5958F /* PlaylistCellView.xib */,
 				0F487B5915399716004530C1 /* serverListCellView.xib */,
 				1A6742E8168479FC00E8D5AF /* MasterViewController.xib */,
 				0F6234ED19280D9B0024FEFA /* DetailViewController.xib */,
@@ -860,7 +860,7 @@
 				C76594A12C5E871400B93A2A /* ViewControllerIPad.xib in Resources */,
 				C76594A22C5E871600B93A2A /* CellView.xib in Resources */,
 				C76594A42C5E871C00B93A2A /* JsonDataCell.xib in Resources */,
-				C76594A52C5E872000B93A2A /* playlistCellView.xib in Resources */,
+				C76594A52C5E872000B93A2A /* PlaylistCellView.xib in Resources */,
 				C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */,
 				C76594A72C5E872400B93A2A /* MasterViewController.xib in Resources */,
 				C76594A82C5E872900B93A2A /* DetailViewController.xib in Resources */,
