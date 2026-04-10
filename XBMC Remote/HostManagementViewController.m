@@ -9,7 +9,7 @@
 #import "HostManagementViewController.h"
 #import "HostViewController.h"
 #import "AppDelegate.h"
-#import "mainMenu.h"
+#import "MainMenu.h"
 #import "AppInfoViewController.h"
 #import "Utilities.h"
 #import "InitialSlidingViewController.h"

@@ -7,7 +7,7 @@
 //
 
 #import "ShowInfoViewController.h"
-#import "mainMenu.h"
+#import "MainMenu.h"
 #import "NowPlaying.h"
 #import "GlobalData.h"
 #import "SDImageCache.h"
@@ -244,8 +244,8 @@
 
 - (void)showContent:(id)sender {
     NSDictionary *item = self.detailItem;
-    mainMenu *menuItem = nil;
-    mainMenu *chosenMenuItem = nil;
+    MainMenu *menuItem = nil;
+    MainMenu *chosenMenuItem = nil;
     int activeTab = 0;
     id movieObj = nil;
     id movieObjKey = nil;

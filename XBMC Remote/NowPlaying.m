@@ -7,7 +7,7 @@
 //
 
 #import "NowPlaying.h"
-#import "mainMenu.h"
+#import "MainMenu.h"
 #import "UIImageView+WebCache.h"
 #import "UIImage+Resize.h"
 #import "GlobalData.h"
@@ -1414,7 +1414,7 @@
     }];
 }
 
-- (void)showInfo:(NSDictionary*)item menuItem:(mainMenu*)menuItem activeTab:(int)activeTab indexPath:(NSIndexPath*)indexPath {
+- (void)showInfo:(NSDictionary*)item menuItem:(MainMenu*)menuItem activeTab:(int)activeTab indexPath:(NSIndexPath*)indexPath {
     NSDictionary *methods = menuItem.mainMethod[activeTab];
     NSDictionary *parameters = menuItem.mainParameters[activeTab];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
@@ -2014,7 +2014,7 @@
         return;
     }
     int activeTab = -1;
-    mainMenu *menuItem = nil;
+    MainMenu *menuItem = nil;
     notificationName = @"";
     if ([item[@"type"] isEqualToString:@"song"]) {
         notificationName = @"MainMenuDeselectSection";

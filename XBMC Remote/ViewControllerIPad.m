@@ -10,7 +10,7 @@
 #import "StackScrollViewController.h"
 #import "MenuViewController.h"
 #import "NowPlaying.h"
-#import "mainMenu.h"
+#import "MainMenu.h"
 #import "GlobalData.h"
 #import "AppDelegate.h"
 #import "HostManagementViewController.h"
