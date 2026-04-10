@@ -82,7 +82,7 @@
 		C76594A22C5E871600B93A2A /* CellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234E7192808120024FEFA /* CellView.xib */; };
 		C76594A42C5E871C00B93A2A /* JsonDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FB16163151F156A001BA2D4 /* JsonDataCell.xib */; };
 		C76594A52C5E872000B93A2A /* PlaylistCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F44E2D41527A9DF00D5958F /* PlaylistCellView.xib */; };
-		C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F487B5915399716004530C1 /* serverListCellView.xib */; };
+		C76594A62C5E872200B93A2A /* ServerListCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F487B5915399716004530C1 /* ServerListCellView.xib */; };
 		C76594A72C5E872400B93A2A /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A6742E8168479FC00E8D5AF /* MasterViewController.xib */; };
 		C76594A82C5E872900B93A2A /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234ED19280D9B0024FEFA /* DetailViewController.xib */; };
 		C76594A92C5E872B00B93A2A /* NowPlaying.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F6234EF192811150024FEFA /* NowPlaying.xib */; };
@@ -152,7 +152,7 @@
 		0F44E2D41527A9DF00D5958F /* PlaylistCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaylistCellView.xib; sourceTree = "<group>"; };
 		0F487B4915396D4C004530C1 /* HostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostViewController.h; sourceTree = "<group>"; };
 		0F487B4A15396D4C004530C1 /* HostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostViewController.m; sourceTree = "<group>"; };
-		0F487B5915399716004530C1 /* serverListCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = serverListCellView.xib; sourceTree = "<group>"; };
+		0F487B5915399716004530C1 /* ServerListCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ServerListCellView.xib; sourceTree = "<group>"; };
 		0F4883C21521B3D400883243 /* GlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalData.h; sourceTree = "<group>"; };
 		0F4883C31521B3D400883243 /* GlobalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalData.m; sourceTree = "<group>"; };
 		0F4883D01521CC7200883243 /* VolumeSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeSliderView.h; sourceTree = "<group>"; };
@@ -453,7 +453,7 @@
 				0F6234E7192808120024FEFA /* CellView.xib */,
 				0FB16163151F156A001BA2D4 /* JsonDataCell.xib */,
 				0F44E2D41527A9DF00D5958F /* PlaylistCellView.xib */,
-				0F487B5915399716004530C1 /* serverListCellView.xib */,
+				0F487B5915399716004530C1 /* ServerListCellView.xib */,
 				1A6742E8168479FC00E8D5AF /* MasterViewController.xib */,
 				0F6234ED19280D9B0024FEFA /* DetailViewController.xib */,
 				0F6234EF192811150024FEFA /* NowPlaying.xib */,
@@ -861,7 +861,7 @@
 				C76594A22C5E871600B93A2A /* CellView.xib in Resources */,
 				C76594A42C5E871C00B93A2A /* JsonDataCell.xib in Resources */,
 				C76594A52C5E872000B93A2A /* PlaylistCellView.xib in Resources */,
-				C76594A62C5E872200B93A2A /* serverListCellView.xib in Resources */,
+				C76594A62C5E872200B93A2A /* ServerListCellView.xib in Resources */,
 				C76594A72C5E872400B93A2A /* MasterViewController.xib in Resources */,
 				C76594A82C5E872900B93A2A /* DetailViewController.xib in Resources */,
 				C76594A92C5E872B00B93A2A /* NowPlaying.xib in Resources */,
