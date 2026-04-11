@@ -1277,6 +1277,10 @@
         if ([season intValue] && [episode intValue]) {
             text = [NSString stringWithFormat:format, [season intValue], [episode intValue]];
         }
+        else if (![season intValue] && [episode intValue]) {
+            // Special episode
+            text = [NSString stringWithFormat:@"S%i", [episode intValue]];
+        }
     }
     return text;
 }
