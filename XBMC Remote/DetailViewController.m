@@ -2681,7 +2681,7 @@
     }
     else if (episodesView) {
         UILabel *trackNumber = (UILabel*)[cell viewWithTag:ALBUM_VIEW_CELL_TRACKNUMBER];
-        trackNumber.text = item[@"episode"];
+        trackNumber.text = item[@"specialEpisode"] ?: item[@"episode"];
     }
     else if (channelGuideView) {
         runtimeyear.hidden = YES;
@@ -4822,6 +4822,25 @@
                                                                                  useBanner:tvshowsView
                                                                                    useIcon:recordingListView];
                              
+                             // Use TV Show episode's "specialsort", if present, to place a copy of a special
+                             // within the common seasons. This is in line with Kodi behaviour.
+                             if ([methodName isEqualToString:@"VideoLibrary.GetEpisodes"]) {
+                                 // Flag specials for sorting reasons and provide track number in "Sx" scheme.
+                                 BOOL isTVShowSpecial = [newDict[@"season"] integerValue] == 0;
+                                 newDict[@"isTVShowSpecial"] = @(isTVShowSpecial);
+                                 if (isTVShowSpecial) {
+                                     newDict[@"specialEpisode"] = [NSString stringWithFormat:@"S%i", [item[@"episode"] intValue]];
+                                 }
+                                 
+                                 // In case "specialsort" is valid, add an item copy with according season/episode.
+                                 if ([item[@"specialsortseason"] intValue] > 0 && [item[@"specialsortepisode"] intValue] > 0) {
+                                     NSMutableDictionary *specialSortedDict = [newDict mutableCopy];
+                                     specialSortedDict[@"season"] = [Utilities getStringFromItem:item[@"specialsortseason"]];
+                                     specialSortedDict[@"episode"] = [Utilities getStringFromItem:item[@"specialsortepisode"]];
+                                     [resultStoreArray addObject:specialSortedDict];
+                                 }
+                             }
+                             
                              // JSON API does not return the expected "filetype" when retrieving list of "sources".
                              // The correct "filetype" is "directory". But we also need to be aware this is a source
                              // and not a directory yet.
@@ -5106,7 +5125,20 @@
     }
     
     if (episodesView) {
-        for (NSDictionary *item in self.richResults) {
+        // First run will ensure the specials are in correct order
+        SEL selector = [self buildSelectorForSortMethod:@"specialEpisode" inArray:copyRichResults];
+        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"specialEpisode" ascending:YES selector:selector];
+        
+        // Second run will ensure the specials are on top of the list
+        selector = [self buildSelectorForSortMethod:@"isTVShowSpecial" inArray:copyRichResults];
+        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"isTVShowSpecial" ascending:NO selector:selector];
+        
+        // Third run will sort by order of episodes
+        selector = [self buildSelectorForSortMethod:@"episode" inArray:copyRichResults];
+        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"episode" ascending:YES selector:selector];
+        
+        // Now pick the episodes top-down from the list into sections defined by seasons
+        for (NSDictionary *item in copyRichResults) {
             NSString *c = [NSString stringWithFormat:@"%@", item[@"season"]];
             BOOL found = [[self.sections allKeys] containsObject:c];
             if (!found) {

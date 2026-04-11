@@ -4053,6 +4053,12 @@
                     @"title",
                 ],
             },
+            @"kodiExtrasPropertiesMinimumVersion": @{
+                @"12": @[
+                    @"specialsortseason",
+                    @"specialsortepisode",
+                ],
+            },
             @"extra_info_parameters": @{
                 @"properties": @[
                     @"episode",
@@ -4387,6 +4393,12 @@
                     @"runtime",
                     @"file",
                     @"title",
+                ],
+            },
+            @"kodiExtrasPropertiesMinimumVersion": @{
+                @"12": @[
+                    @"specialsortseason",
+                    @"specialsortepisode",
                 ],
             },
             @"extra_info_parameters": @{
