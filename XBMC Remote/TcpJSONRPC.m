@@ -1,12 +1,12 @@
 //
-//  tcpJSONRPC.m
+//  TcpJSONRPC.m
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 22/11/12.
 //  Copyright (c) 2012 joethefox inc. All rights reserved.
 //
 
-#import "tcpJSONRPC.h"
+#import "TcpJSONRPC.h"
 #import "AppDelegate.h"
 #import "Utilities.h"
 #import "VersionCheck.h"
@@ -17,7 +17,7 @@
 
 NSInputStream *inStream;
 
-@implementation tcpJSONRPC
+@implementation TcpJSONRPC
 
 - (id)init {
     if (self = [super init]) {

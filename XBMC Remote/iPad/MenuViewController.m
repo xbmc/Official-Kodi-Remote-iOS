@@ -41,7 +41,7 @@
 #import "AppDelegate.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
-#import "mainMenu.h"
+#import "MainMenu.h"
 #import "DetailViewController.h"
 #import "RemoteController.h"
 
@@ -132,7 +132,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    mainMenu *menuItem = mainMenuItems[indexPath.row];
+    MainMenu *menuItem = mainMenuItems[indexPath.row];
     [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine menuType:menuItem.type];
     cell.backgroundColor = UIColor.clearColor;
 }
@@ -141,7 +141,7 @@
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCellIdentifier"];
     if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"cellViewIPad" owner:self options:nil];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CellViewIPad" owner:self options:nil];
         cell = nib[0];
         
         // Set background view
@@ -149,7 +149,7 @@
         backgroundView.backgroundColor = MAINMENU_SELECTED_COLOR;
         cell.selectedBackgroundView = backgroundView;
     }
-    mainMenu *item = mainMenuItems[indexPath.row];
+    MainMenu *item = mainMenuItems[indexPath.row];
     UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
     NSString *iconName = item.icon;
@@ -171,7 +171,7 @@
     // Mark the active menu as selected
     [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
     
-    mainMenu *item = mainMenuItems[indexPath.row];
+    MainMenu *item = mainMenuItems[indexPath.row];
     if (item.family == FamilyNowPlaying) {
         [AppDelegate.instance.windowController.stackScrollViewController offView];
     }

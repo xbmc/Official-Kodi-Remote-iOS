@@ -7,7 +7,7 @@
 //
 
 #import "MessagesView.h"
-#import "mainMenu.h"
+#import "MainMenu.h"
 #import "DSJSONRPC.h"
 
 @import Foundation;

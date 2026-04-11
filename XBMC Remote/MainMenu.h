@@ -1,5 +1,5 @@
 //
-//  mainMenu.h
+//  MainMenu.h
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 23/3/12.
@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
     ViewModeSongArtists,
 };
 
-@interface mainMenu : NSObject
+@interface MainMenu : NSObject
 
 @property (nonatomic, copy) NSString *mainLabel;
 @property (nonatomic) MenuItemFamily family;
@@ -59,7 +59,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 @property (nonatomic, copy) NSArray *mainButtons;
 @property (nonatomic, copy) NSArray *mainFields;
 @property (nonatomic, strong) NSMutableArray *mainParameters;
-@property (nonatomic, strong) mainMenu *subItem;
+@property (nonatomic, strong) MainMenu *subItem;
 @property (nonatomic, copy) NSArray *sheetActions;
 @property (nonatomic) int rowHeight;
 @property (nonatomic) int thumbWidth;
@@ -80,9 +80,9 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 
 @interface LookupItem : NSObject
 
-- (instancetype)initWithPath:(mainMenu*)path label:(NSString*)label icon:(NSString*)icon itemId:(NSString*)itemId;
+- (instancetype)initWithPath:(MainMenu*)path label:(NSString*)label icon:(NSString*)icon itemId:(NSString*)itemId;
 
-@property (nonatomic, copy) mainMenu *menuPath;
+@property (nonatomic, copy) MainMenu *menuPath;
 @property (nonatomic, assign) NSInteger menuTab;
 @property (nonatomic, copy) NSString *menuLabel;
 @property (nonatomic, copy) NSString *menuIcon;
@@ -99,9 +99,9 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 - (NSUInteger)getLookupIndexForItemId:(NSString*)itemid;
 - (NSString*)getThumbForItem:(NSDictionary*)item;
 - (LookupItem*)getLookupForItem:(id)item;
-- (mainMenu*)getMenuForItem:(id)item;
+- (MainMenu*)getMenuForItem:(id)item;
 - (NSInteger)getTabForItem:(id)item;
-- (mainMenu*)getMenuForIndex:(int)index;
+- (MainMenu*)getMenuForIndex:(int)index;
 - (NSInteger)getTabForIndex:(int)index;
 - (NSString*)getLongNameForIndex:(int)index;
 

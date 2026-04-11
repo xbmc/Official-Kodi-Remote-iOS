@@ -1101,7 +1101,7 @@
 
 + (void)setStyleOfMenuItems:(UITableView*)tableView active:(BOOL)active menu:(NSArray*)menuList {
     for (NSIndexPath *indexPath in tableView.indexPathsForVisibleRows) {
-        mainMenu *menuItem = menuList[indexPath.row];
+        MainMenu *menuItem = menuList[indexPath.row];
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [UIView animateWithDuration:0.3
                          animations:^{
@@ -1136,7 +1136,7 @@
     MenuItemType startMenuType = [defaultMenus[startId] intValue];
     
     // Search for the index path of the desired controller
-    NSUInteger index = [menuItems indexOfObjectPassingTest:^BOOL(mainMenu *item, NSUInteger idx, BOOL *stop) {
+    NSUInteger index = [menuItems indexOfObjectPassingTest:^BOOL(MainMenu *item, NSUInteger idx, BOOL *stop) {
       return item.type == startMenuType;
     }];
     return index != NSNotFound ? [NSIndexPath indexPathForRow:index inSection:0] : nil;
