@@ -130,7 +130,7 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>FooterText</key>
-			<string>Filemode and Theme changes need app restart.</string>
+			<string>Filemode and Theme changes need app restart</string>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
