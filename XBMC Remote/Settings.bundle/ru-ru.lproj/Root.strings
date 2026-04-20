@@ -13,7 +13,6 @@
 "Light" = "небольшой";
 "Transparent" = "Прозрачный";
 "Remote Control" = "Удалённое управление";
-"Vibrate remote control" = "Пульт дистанционного управления с вибрацией";
 "Clear cache on next start" = "Очистить кэш при следующем запуске";
 "Enable contents cache" = "Включить кэширование содержимого";
 "Override Lockscreen" = "Переопределить экран блокировки";
