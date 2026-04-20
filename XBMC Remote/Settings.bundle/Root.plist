@@ -76,7 +76,7 @@
 			<key>Key</key>
 			<string>vibrate_preference</string>
 			<key>Title</key>
-			<string>Vibrate remote control</string>
+			<string>Haptic feedback for remote</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
