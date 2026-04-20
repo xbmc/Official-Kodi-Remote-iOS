@@ -4830,7 +4830,7 @@
                                  BOOL isTVShowSpecial = [newDict[@"season"] integerValue] == 0;
                                  newDict[@"isTVShowSpecial"] = @(isTVShowSpecial);
                                  if (isTVShowSpecial) {
-                                     newDict[@"specialEpisode"] = [NSString stringWithFormat:@"S%i", [item[@"episode"] intValue]];
+                                     newDict[@"specialEpisode"] = [Utilities formatTVShowStringForSpecialEpisode:item[@"episode"]];
                                  }
                                  
                                  // In case "specialsort" is valid, add an item copy with according season/episode.
