@@ -199,7 +199,7 @@
     CGPoint locationPoint = [touch locationInView:leftMenuView];
     if ([leftMenuView pointInside:locationPoint withEvent:event]) {
         // Change the left menu layout
-        CGFloat separatorPosition = MIN(locationPoint.y, CGRectGetHeight(leftMenuView.frame) - PLAYLIST_HEADER_HEIGHT);
+        CGFloat separatorPosition = MIN(locationPoint.y, CGRectGetHeight(leftMenuView.frame) - PLAYLIST_HEADER_HEIGHT - PLAYLIST_ACTION_HEIGHT);
         [self changeLeftMenu:separatorPosition];
     }
 }
@@ -215,7 +215,7 @@
         
         // Finalize the left menu layout. Snap back to last menu item with separator above playlist toolbar
         NSUInteger maxMenuItems = round(CGRectGetMinY(playlistHeader.frame) / PAD_MENU_HEIGHT);
-        if (maxMenuItems * PAD_MENU_HEIGHT > CGRectGetHeight(leftMenuView.frame) - PLAYLIST_HEADER_HEIGHT) {
+        if (maxMenuItems * PAD_MENU_HEIGHT > CGRectGetHeight(leftMenuView.frame) - PLAYLIST_HEADER_HEIGHT - PLAYLIST_ACTION_HEIGHT) {
             maxMenuItems -= 1;
         }
         [self changeLeftMenu:maxMenuItems * PAD_MENU_HEIGHT];
@@ -264,7 +264,7 @@
     tableHeight = MIN(self.mainMenuTable.count * PAD_MENU_HEIGHT, tableHeight);
     
     // Keep separator above playlist toolbar
-    if (tableHeight > CGRectGetHeight(leftMenuView.frame) - PLAYLIST_HEADER_HEIGHT) {
+    if (tableHeight > CGRectGetHeight(leftMenuView.frame) - PLAYLIST_HEADER_HEIGHT - PLAYLIST_ACTION_HEIGHT) {
         tableHeight -= PAD_MENU_HEIGHT;
     }
     
@@ -288,7 +288,7 @@
     NSInteger tableHeight = MIN(self.mainMenuTable.count, maxMenuItems) * PAD_MENU_HEIGHT;
     
     // Create left menu
-    leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PAD_MENU_TABLE_WIDTH, self.view.frame.size.height - [Utilities getTopPadding] - [Utilities getBottomPadding] - TOOLBAR_HEIGHT - PLAYLIST_ACTION_HEIGHT)];
+    leftMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PAD_MENU_TABLE_WIDTH, self.view.frame.size.height - [Utilities getTopPadding] - [Utilities getBottomPadding] - TOOLBAR_HEIGHT)];
     leftMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     
     // Main menu
