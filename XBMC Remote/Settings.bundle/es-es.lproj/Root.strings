@@ -6,14 +6,13 @@
 "Shake to clear playlist" = "Agitar para limpiar lista";
 "Show jewel cases" = "Mostrar cajas";
 "Hide labels in wall view" = "Ocultar etiquetas en vista pared";
-"Prefer posters for TV shows" = "Preferir carteles para series de TV";
+"Prefer posters for TV shows" = "Preferir carteles para programas de TV";
 "Use rounded corner images" = "Usar imágenes con las esquinas redondeadas";
 "TV logo background" = "Fondo del logo de TV";
 "Dark" = "Oscuro";
 "Light" = "Claro";
 "Transparent" = "Transparente";
 "Remote Control" = "Control Remoto";
-"Vibrate remote control" = "Vibrar control remoto";
 "Clear cache on next start" = "Limpiar caché en el siguiente inicio";
 "Enable contents cache" = "Activar caché de contenidos";
 "Override Lockscreen" = "Ignorar Pantalla de bloqueo";
@@ -23,7 +22,7 @@
 "Music" = "Música";
 "Movies" = "Películas";
 "Videos" = "Vídeos";
-"TV Shows" = "Series de TV";
+"TV Shows" = "Programas de TV";
 "Pictures" = "Fotos";
 "Live TV" = "TV en Directo";
 "Radio" = "Radio";

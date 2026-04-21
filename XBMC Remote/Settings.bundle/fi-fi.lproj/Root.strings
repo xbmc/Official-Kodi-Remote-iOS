@@ -13,7 +13,6 @@
 "Light" = "Vaalea";
 "Transparent" = "Läpinäkyvä";
 "Remote Control" = "Kaukosäädin";
-"Vibrate remote control" = "Kaukosäätimen värinä";
 "Clear cache on next start" = "Tyhjennä välimuisti seuraavalla käynnistyskerralla";
 "Enable contents cache" = "Käytä sisältövälimuistia";
 "Override Lockscreen" = "Korvaa lukitusnäyttö";
