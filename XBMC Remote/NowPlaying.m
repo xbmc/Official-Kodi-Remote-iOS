@@ -2793,6 +2793,7 @@
         self.slidingViewController.underRightViewController = remoteController;
         self.slidingViewController.anchorLeftPeekAmount = ANCHOR_RIGHT_PEEK;
     }
+    playlistTableView.scrollsToTop = YES;
 }
 
 - (void)startFlipDemo {
