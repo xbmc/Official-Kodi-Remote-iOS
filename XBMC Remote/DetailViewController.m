@@ -5408,15 +5408,6 @@
     }
 }
 
-- (void)disableScrollsToTopPropertyOnAllSubviewsOf:(UIView*)view {
-    for (UIView *subview in view.subviews) {
-        if ([subview isKindOfClass:[UIScrollView class]]) {
-            ((UIScrollView*)subview).scrollsToTop = NO;
-        }
-        [self disableScrollsToTopPropertyOnAllSubviewsOf:subview];
-    }
-}
-
 - (BOOL)collectionViewCanBeEnabled {
     mainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];

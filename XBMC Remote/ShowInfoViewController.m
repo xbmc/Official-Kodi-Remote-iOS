@@ -1745,15 +1745,6 @@
     }
 }
 
-- (void)disableScrollsToTopPropertyOnAllSubviewsOf:(UIView*)view {
-    for (UIView *subview in view.subviews) {
-        if ([subview isKindOfClass:[UIScrollView class]]) {
-            ((UIScrollView*)subview).scrollsToTop = NO;
-        }
-        [self disableScrollsToTopPropertyOnAllSubviewsOf:subview];
-    }
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     fanartView.tag = FANART_FULLSCREEN_DISABLE;

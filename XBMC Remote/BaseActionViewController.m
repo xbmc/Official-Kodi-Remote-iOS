@@ -23,6 +23,15 @@
     xbmcDateFormatter.locale = [NSLocale systemLocale]; // Needed to work with 12h system setting in combination with "UTC"
 }
 
+- (void)disableScrollsToTopPropertyOnAllSubviewsOf:(UIView*)view {
+    for (UIView *subview in view.subviews) {
+        if ([subview isKindOfClass:[UIScrollView class]]) {
+            ((UIScrollView*)subview).scrollsToTop = NO;
+        }
+        [self disableScrollsToTopPropertyOnAllSubviewsOf:subview];
+    }
+}
+
 - (void)showRemote {
     RemoteController *remote = [[RemoteController alloc] initWithNibName:@"RemoteController" bundle:nil];
     [self.navigationController pushViewController:remote animated:YES];
