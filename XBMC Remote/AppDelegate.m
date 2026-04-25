@@ -225,7 +225,7 @@
 }
 
 - (void)sendWOL:(NSString*)MAC withPort:(NSInteger)WOLport {
-    CFSocketRef     WOLsocket;
+    CFSocketRef WOLsocket;
     WOLsocket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_DGRAM, IPPROTO_UDP, 0, NULL, NULL);
     if (WOLsocket) {
         int desc = -1;
@@ -238,9 +238,7 @@
         
         unsigned char ether_addr[6];
         
-        int idx;
-        
-        for (idx = 0; idx + 2 <= MAC.length; idx += 3) {
+        for (int idx = 0; idx + 2 <= MAC.length; idx += 3) {
             NSRange range = NSMakeRange(idx, 2);
             NSString *hexStr = [MAC substringWithRange:range];
             

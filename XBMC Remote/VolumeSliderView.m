@@ -63,7 +63,7 @@
             // Center is volume label
             frame_tmp = volumeLabel.frame;
             frame_tmp.origin.x = (CGRectGetWidth(self.frame) - CGRectGetWidth(volumeLabel.frame)) / 2;
-            volumeLabel.frame= frame_tmp;
+            volumeLabel.frame = frame_tmp;
             
             // Left of center is minus button
             frame_tmp = minusButton.frame;
@@ -362,11 +362,11 @@
             break;
         case VOLUME_SLIDER_INC: // Volume increase using absolute value
             volumeSlider.value = (int)MIN(volumeSlider.value + 1, 100);
-            volumeCommand =  @((int)volumeSlider.value);
+            volumeCommand = @((int)volumeSlider.value);
             break;
         case VOLUME_SLIDER_DEC: // Volume decrease using absolute value
             volumeSlider.value = (int)MAX(volumeSlider.value - 1, 0);
-            volumeCommand =  @((int)volumeSlider.value);
+            volumeCommand = @((int)volumeSlider.value);
             break;
         case VOLUME_SLIDER_SET: // Volume slider with 1% step resolution
             volumeCommand = @((int)volumeSlider.value);
