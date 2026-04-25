@@ -15,6 +15,7 @@
     NSDateFormatter *xbmcDateFormatter;
 }
 
+- (void)disableScrollsToTopPropertyOnAllSubviewsOf:(UIView*)view;
 - (void)showRemote;
 - (void)showNowPlaying;
 - (void)simpleAction:(NSString*)action params:(NSDictionary*)params success:(NSString*)successMessage failure:(NSString*)failureMessage;
