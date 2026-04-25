@@ -155,15 +155,15 @@
     UIImage *image = self.imagesArray[[num intValue]];
     UIImageView *imageView;
     
-    CGFloat resizeRatio   = -1;
-    CGFloat originX       = -1;
-    CGFloat originY       = -1;
-    CGFloat zoomInX       = -1;
-    CGFloat zoomInY       = -1;
-    CGFloat moveX         = -1;
-    CGFloat moveY         = -1;
-    CGFloat frameWidth    = isLandscape ? self.frame.size.width : self.frame.size.height;
-    CGFloat frameHeight   = isLandscape ? self.frame.size.height : self.frame.size.width;
+    CGFloat resizeRatio = -1;
+    CGFloat originX     = -1;
+    CGFloat originY     = -1;
+    CGFloat zoomInX     = -1;
+    CGFloat zoomInY     = -1;
+    CGFloat moveX       = -1;
+    CGFloat moveY       = -1;
+    CGFloat frameWidth  = isLandscape ? self.frame.size.width : self.frame.size.height;
+    CGFloat frameHeight = isLandscape ? self.frame.size.height : self.frame.size.width;
     
     // Calculate scale factor to fill screen
     CGFloat scaleX = frameWidth / image.size.width;

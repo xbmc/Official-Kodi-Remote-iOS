@@ -225,7 +225,7 @@
 }
 
 - (void)sendWOL:(NSString*)MAC withPort:(NSInteger)WOLport {
-    CFSocketRef     WOLsocket;
+    CFSocketRef WOLsocket;
     WOLsocket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_DGRAM, IPPROTO_UDP, 0, NULL, NULL);
     if (WOLsocket) {
         int desc = -1;

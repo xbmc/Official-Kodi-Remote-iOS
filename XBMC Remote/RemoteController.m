@@ -342,7 +342,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 
 # pragma mark - JSON
 
-- (NSArray*)buildActionSheetForArray:(NSArray*)languageArray currentLanguage:(NSDictionary*)currentActiveLanguage featureEnabled:(BOOL)featureEnabled  {
+- (NSArray*)buildActionSheetForArray:(NSArray*)languageArray currentLanguage:(NSDictionary*)currentActiveLanguage featureEnabled:(BOOL)featureEnabled {
     NSUInteger numItems = languageArray.count;
     NSMutableArray *actionSheetTitles = [NSMutableArray arrayWithCapacity:numItems];
     [languageArray enumerateObjectsUsingBlock:^(NSDictionary *itemDict, NSUInteger idx, BOOL *stop) {
