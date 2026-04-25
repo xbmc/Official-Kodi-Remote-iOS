@@ -279,7 +279,7 @@ static char UIScrollViewPullToRefreshView;
 
 - (void)scrollViewDidScroll:(CGPoint)contentOffset {
     if (self.state != SVPullToRefreshStateLoading) {
-        CGFloat scrollOffsetThreshold = self.frame.origin.y-self.originalTopInset;
+        CGFloat scrollOffsetThreshold = self.frame.origin.y - self.originalTopInset;
         
         if (!self.scrollView.isDragging && self.state == SVPullToRefreshStateTriggered) {
             self.state = SVPullToRefreshStateLoading;

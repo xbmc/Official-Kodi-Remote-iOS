@@ -63,7 +63,7 @@
             // Center is volume label
             frame_tmp = volumeLabel.frame;
             frame_tmp.origin.x = (CGRectGetWidth(self.frame) - CGRectGetWidth(volumeLabel.frame)) / 2;
-            volumeLabel.frame= frame_tmp;
+            volumeLabel.frame = frame_tmp;
             
             // Left of center is minus button
             frame_tmp = minusButton.frame;

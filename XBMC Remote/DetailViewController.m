@@ -4911,7 +4911,7 @@
                  }
                  // Single Movie Sets are handled seperately
                  if (ignoreSingleMovieSets) {
-                     if (!itemDict){
+                     if (!itemDict) {
                          [self showNoResultsFound:resultStoreArray refresh:forceRefresh];
                      }
                      return;
