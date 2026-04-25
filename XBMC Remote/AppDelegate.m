@@ -238,9 +238,7 @@
         
         unsigned char ether_addr[6];
         
-        int idx;
-        
-        for (idx = 0; idx + 2 <= MAC.length; idx += 3) {
+        for (int idx = 0; idx + 2 <= MAC.length; idx += 3) {
             NSRange range = NSMakeRange(idx, 2);
             NSString *hexStr = [MAC substringWithRange:range];
             
