@@ -88,6 +88,22 @@
     }
 }
 
+- (void)selectRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (indexPath && indexPath.row < AppDelegate.instance.arrayServerList.count) {
+        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [serverListTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    }
+}
+
+- (void)deselectRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (indexPath && indexPath.row < AppDelegate.instance.arrayServerList.count) {
+        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+}
+
 #pragma mark - Table view methods & data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
@@ -146,6 +162,8 @@
 }
 
 - (void)selectServerAtIndexPath:(NSIndexPath*)indexPath {
+    [self deselectRowAtIndexPath:storeServerSelection];
+    [self selectRowAtIndexPath:indexPath];
     NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
     AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
     AppDelegate.instance.obj.serverUser = item[@"serverUser"];
@@ -160,6 +178,7 @@
 - (void)deselectServer {
     // Permanently disconnect the server. This will unselect the server from the server list and will
     // not reconnect after wakeup or restart.
+    [self deselectRowAtIndexPath:storeServerSelection];
     [connectingActivityIndicator stopAnimating];
     storeServerSelection = nil;
     [Utilities resetKodiServerParameters];
@@ -185,7 +204,7 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     if (AppDelegate.instance.arrayServerList.count == 0) {
-        [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self deselectRowAtIndexPath:indexPath];
     }
     else {
         NSIndexPath *selectedPath = storeServerSelection;
