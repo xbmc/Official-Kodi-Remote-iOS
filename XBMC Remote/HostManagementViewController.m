@@ -164,6 +164,7 @@
 - (void)selectServerAtIndexPath:(NSIndexPath*)indexPath {
     [self deselectRowAtIndexPath:storeServerSelection];
     [self selectRowAtIndexPath:indexPath];
+    [connectingActivityIndicator startAnimating];
     NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
     AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
     AppDelegate.instance.obj.serverUser = item[@"serverUser"];
@@ -173,6 +174,8 @@
     AppDelegate.instance.obj.serverPort = [Utilities getServerPort:item[@"serverPort"]];
     AppDelegate.instance.obj.serverHWAddr = item[@"serverMacAddress"];
     AppDelegate.instance.obj.tcpPort = [Utilities getTcpPort:item[@"tcpPort"]];
+    storeServerSelection = indexPath;
+    [Utilities saveLastServerIndex:indexPath];
 }
 
 - (void)deselectServer {
@@ -194,10 +197,7 @@
     else {
         NSInteger index = [notification.userInfo[@"index"] integerValue];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-        [connectingActivityIndicator startAnimating];
         [self selectServerAtIndexPath:indexPath];
-        storeServerSelection = indexPath;
-        [Utilities saveLastServerIndex:indexPath];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
 }
@@ -212,10 +212,7 @@
             [self deselectServer];
         }
         else {
-            [connectingActivityIndicator startAnimating];
             [self selectServerAtIndexPath:indexPath];
-            storeServerSelection = indexPath;
-            [Utilities saveLastServerIndex:indexPath];
         }
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
