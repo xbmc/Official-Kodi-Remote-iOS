@@ -2,7 +2,7 @@
 "Automatic" = "自动";
 "Show connection notice" = "显示连接通知";
 "Direct Play mode" = "直接播放模式";
-"Ken Burns effect" = "Ken Burns特效";
+"Ken Burns effect" = "Ken Burns 特效";
 "Shake to clear playlist" = "晃动清除播放列表";
 "Show jewel cases" = "显示碟片盒";
 "Hide labels in wall view" = "隐藏壁上观标签";
@@ -47,3 +47,4 @@
 "Volume control" = "音量控制";
 "CEC support via volume buttons" = "通过音量按键实现 CEC 控制支持";
 "The app controls volume via buttons and a slider. The slider will always change the Kodi internal volume level. The buttons allow to control AV equipment's volume level via CEC, if this mode is enabled and Kodi identified a compatible device. The CEC functionality is embedded within Kodi itself." = "本应用可通过按键和音量滑块控制音量。音量滑块始终用于调节 Kodi 的内部音量大小。若已启用该模式且 Kodi 已识别到兼容设备，按键可通过 CEC 协议控制影音设备的音量大小。CEC 功能直接内嵌于 Kodi 系统本身。";
+"Haptic feedback for remote" = "遥控器震动反馈";
