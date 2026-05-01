@@ -1837,6 +1837,7 @@
                                            clearlogoButton.frame.size.height);
         self.view.superview.backgroundColor = UIColor.clearColor;
     }
+    scrollView.scrollsToTop = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
