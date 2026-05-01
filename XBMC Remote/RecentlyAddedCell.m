@@ -110,7 +110,7 @@
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
     CALayer *layer = self.contentView.layer;
-    layer.borderColor = [Utilities getSystemBlue].CGColor;
+    layer.borderColor = [UIColor getSystemBlue].CGColor;
     layer.borderWidth = selected ? 1.0 / UIScreen.mainScreen.scale : 0;
 }
 

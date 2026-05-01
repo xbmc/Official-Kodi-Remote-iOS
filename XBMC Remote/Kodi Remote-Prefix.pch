@@ -1,4 +1,13 @@
 #import "ConvenienceMacros.h"
+#import "UIView+Extensions.h"
+#import "UIImageView+Extensions.h"
+#import "UIColor+Extensions.h"
+#import "UIImage+Extensions.h"
+#import "NSString+Extensions.h"
+#import "UIBarButtonItem+Extensions.h"
+#import "UILabel+Extensions.h"
+#import "UIViewController+Extensions.h"
+#import "UIImageView+WebCache.h"
 
 @import UIKit;
 @import Foundation;

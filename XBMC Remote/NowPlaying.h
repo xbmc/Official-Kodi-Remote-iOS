@@ -7,7 +7,6 @@
 //
 
 #import "DSJSONRPC.h"
-#import "UIImageView+WebCache.h"
 #import "OBSlider.h"
 
 @import UIKit;
