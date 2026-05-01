@@ -85,6 +85,22 @@
     }
 }
 
+- (void)selectRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (indexPath && indexPath.row < AppDelegate.instance.arrayServerList.count) {
+        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [serverListTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    }
+}
+
+- (void)deselectRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (indexPath && indexPath.row < AppDelegate.instance.arrayServerList.count) {
+        UITableViewCell *cell = [serverListTableView cellForRowAtIndexPath:indexPath];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+}
+
 #pragma mark - Table view methods & data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
@@ -143,6 +159,9 @@
 }
 
 - (void)selectServerAtIndexPath:(NSIndexPath*)indexPath {
+    [self deselectRowAtIndexPath:storeServerSelection];
+    [self selectRowAtIndexPath:indexPath];
+    [connectingActivityIndicator startAnimating];
     NSDictionary *item = AppDelegate.instance.arrayServerList[indexPath.row];
     AppDelegate.instance.obj.serverDescription = item[@"serverDescription"];
     AppDelegate.instance.obj.serverUser = item[@"serverUser"];
@@ -152,11 +171,14 @@
     AppDelegate.instance.obj.serverPort = [Utilities getServerPort:item[@"serverPort"]];
     AppDelegate.instance.obj.serverHWAddr = item[@"serverMacAddress"];
     AppDelegate.instance.obj.tcpPort = [Utilities getTcpPort:item[@"tcpPort"]];
+    storeServerSelection = indexPath;
+    [Utilities saveLastServerIndex:indexPath];
 }
 
 - (void)deselectServer {
     // Permanently disconnect the server. This will unselect the server from the server list and will
     // not reconnect after wakeup or restart.
+    [self deselectRowAtIndexPath:storeServerSelection];
     [connectingActivityIndicator stopAnimating];
     storeServerSelection = nil;
     [Utilities resetKodiServerParameters];
@@ -172,17 +194,14 @@
     else {
         NSInteger index = [notification.userInfo[@"index"] integerValue];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-        [connectingActivityIndicator startAnimating];
         [self selectServerAtIndexPath:indexPath];
-        storeServerSelection = indexPath;
-        [Utilities saveLastServerIndex:indexPath];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     if (AppDelegate.instance.arrayServerList.count == 0) {
-        [serverListTableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self deselectRowAtIndexPath:indexPath];
     }
     else {
         NSIndexPath *selectedPath = storeServerSelection;
@@ -190,10 +209,7 @@
             [self deselectServer];
         }
         else {
-            [connectingActivityIndicator startAnimating];
             [self selectServerAtIndexPath:indexPath];
-            storeServerSelection = indexPath;
-            [Utilities saveLastServerIndex:indexPath];
         }
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
