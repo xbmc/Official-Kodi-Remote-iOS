@@ -111,6 +111,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (void)imageView:(UIImageView*)view AnimDuration:(NSTimeInterval)seconds Image:(UIImage*)image;
 + (float)getPercentElapsed:(NSDate*)startDate EndDate:(NSDate*)endDate;
 + (void)createTransparentToolbar:(UIToolbar*)toolbar;
++ (NSString*)formatTVShowStringForSpecialEpisode:(id)episode;
 + (NSString*)formatTVShowStringForSeasonTrailing:(id)season episode:(id)episode title:(NSString*)title;
 + (NSString*)formatTVShowStringForSeasonLeading:(id)season episode:(id)episode title:(NSString*)title;
 + (NSString*)formatTVShowStringForSeason:(id)season episode:(id)episode;

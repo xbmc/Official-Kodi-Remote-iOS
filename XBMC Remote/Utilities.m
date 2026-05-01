@@ -1257,6 +1257,10 @@
          forToolbarPosition:UIBarPositionAny];
 }
 
++ (NSString*)formatTVShowStringForSpecialEpisode:(id)episode {
+    return [NSString stringWithFormat:@"S%i", [episode intValue]];
+}
+
 + (NSString*)formatTVShowStringForSeasonLeading:(id)season episode:(id)episode title:(NSString*)title {
     NSString *seasonAndEpisode = [Utilities formatTVShowStringForSeason:season episode:episode];
     NSString *text = [NSString stringWithFormat:@"%@%@%@", seasonAndEpisode, seasonAndEpisode.length ? @" " : @"", title];
@@ -1276,6 +1280,9 @@
     if ([season respondsToSelector:@selector(intValue)] && [episode respondsToSelector:@selector(intValue)]) {
         if ([season intValue] && [episode intValue]) {
             text = [NSString stringWithFormat:format, [season intValue], [episode intValue]];
+        }
+        else if (![season intValue] && [episode intValue]) {
+            text = [self formatTVShowStringForSpecialEpisode:episode];
         }
     }
     return text;
