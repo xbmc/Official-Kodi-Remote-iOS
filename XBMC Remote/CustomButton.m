@@ -1,18 +1,18 @@
 //
-//  customButton.m
+//  CustomButton.m
 //  XBMC Remote
 //
 //  Created by Giovanni Messina on 8/4/14.
 //  Copyright (c) 2014 joethefox inc. All rights reserved.
 //
 
-#import "customButton.h"
+#import "CustomButton.h"
 #import "NSString+MD5.h"
 #import "GlobalData.h"
 #import "AppDelegate.h"
 #import "Utilities.h"
 
-@implementation customButton
+@implementation CustomButton
 
 @synthesize buttons;
 

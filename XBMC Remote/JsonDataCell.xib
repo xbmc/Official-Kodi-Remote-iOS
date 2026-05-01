@@ -13,7 +13,7 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="center" selectionStyle="blue" indentationWidth="10" reuseIdentifier="jsonDataCellIdentifier" rowHeight="76" id="3" customClass="jsonDataCell">
+        <tableViewCell clipsSubviews="YES" contentMode="center" selectionStyle="blue" indentationWidth="10" reuseIdentifier="jsonDataCellIdentifier" rowHeight="76" id="3" customClass="JsonDataCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3" id="KRo-N8-bQY">

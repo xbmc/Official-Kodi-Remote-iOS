@@ -6,7 +6,7 @@
 //  Copyright © 2025 Team Kodi. All rights reserved.
 //
 
-#import "tcpJSONRPC.h"
+#import "TcpJSONRPC.h"
 #import "ClearCacheView.h"
 
 @import UIKit;
@@ -19,6 +19,6 @@
 - (void)enterAppSettings;
 - (void)startClearAppDiskCache:(ClearCacheView*)clearView;
 
-@property (strong, nonatomic) tcpJSONRPC *tcpJSONRPCconnection;
+@property (strong, nonatomic) TcpJSONRPC *tcpJSONRPCconnection;
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "MasterViewController.h"
-#import "mainMenu.h"
+#import "MainMenu.h"
 #import "DetailViewController.h"
 #import "NowPlaying.h"
 #import "RemoteController.h"
@@ -18,7 +18,7 @@
 #import "HostManagementViewController.h"
 #import "InitialSlidingViewController.h"
 #import "AppInfoViewController.h"
-#import "tcpJSONRPC.h"
+#import "TcpJSONRPC.h"
 #import "Utilities.h"
 #import "UIBarButtonItem+Extensions.h"
 
@@ -51,14 +51,14 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    mainMenu *menuItem = self.mainMenuTable[indexPath.row];
+    MainMenu *menuItem = self.mainMenuTable[indexPath.row];
     [Utilities setStyleOfMenuItemCell:cell active:AppDelegate.instance.serverOnLine menuType:menuItem.type];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mainMenuCellIdentifier"];
     if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"cellView" owner:self options:nil];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CellView" owner:self options:nil];
         cell = nib[0];
         
         // Set background view
@@ -66,7 +66,7 @@
         backgroundView.backgroundColor = MAINMENU_SELECTED_COLOR;
         cell.selectedBackgroundView = backgroundView;
     }
-    mainMenu *item = self.mainMenuTable[indexPath.row];
+    MainMenu *item = self.mainMenuTable[indexPath.row];
     NSString *iconName = item.icon;
     UIImageView *icon = (UIImageView*)[cell viewWithTag:XIB_MAIN_MENU_CELL_ICON];
     UILabel *title = (UILabel*)[cell viewWithTag:XIB_MAIN_MENU_CELL_TITLE];
@@ -97,7 +97,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    mainMenu *item = self.mainMenuTable[indexPath.row];
+    MainMenu *item = self.mainMenuTable[indexPath.row];
     if (item.family == FamilyAppSettings) {
         [self enterAppSettings];
         

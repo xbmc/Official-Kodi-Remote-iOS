@@ -10,7 +10,7 @@
 #import "DSJSONRPC.h"
 #import "AppDelegate.h"
 #import "OBSlider.h"
-#import "customButton.h"
+#import "CustomButton.h"
 #import "ViewControllerIPad.h"
 #import "StackScrollViewController.h"
 #import "Utilities.h"
@@ -307,7 +307,7 @@
 #pragma mark - Custom button
 
 - (void)saveCustomButton:(NSDictionary*)button {
-    customButton *arrayButtons = [customButton new];
+    CustomButton *arrayButtons = [CustomButton new];
     [arrayButtons.buttons addObject:button];
     [arrayButtons saveData];
     [Utilities showMessage:LOCALIZED_STR(@"Button added") color:SUCCESS_MESSAGE_COLOR];
