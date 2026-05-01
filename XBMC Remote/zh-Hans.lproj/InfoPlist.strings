@@ -1,1 +1,1 @@
-NSLocalNetworkUsageDescription="Kodi Remote App使用本地网络查找网络中的Kodi实例并与之通信。";
+NSLocalNetworkUsageDescription = "Kodi Remote App使用本地网络查找网络中的 Kodi 实例并与之通信。";
