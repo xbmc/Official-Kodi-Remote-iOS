@@ -45,7 +45,7 @@
     // As per Apple documentation
     // https://developer.apple.com/documentation/uikit/menus_and_shortcuts/add_home_screen_quick_actions
     if (launchShortcutItem) {
-        [self windowScene:(UIWindowScene*)scene performActionForShortcutItem:launchShortcutItem completionHandler:nil];
+        [self windowScene:(UIWindowScene*)scene performActionForShortcutItem:launchShortcutItem completionHandler:^(BOOL finished) {}];
         launchShortcutItem = nil;
     }
     if (launchURLContexts) {
