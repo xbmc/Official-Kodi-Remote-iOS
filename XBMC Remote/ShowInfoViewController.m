@@ -1546,33 +1546,40 @@
 - (void)addQueueAfterCurrent:(BOOL)afterCurrent {
     NSDictionary *item = self.detailItem;
     int playlistid = [item[@"playlistid"] intValue];
-    NSString *key = item[@"family"];
-    id value = item[key];
-    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
-    if (![VersionCheck hasRecordingIdPlaylistSupport] && [item[@"family"] isEqualToString:@"recordingid"]) {
-        key = @"file";
-        value = item[@"file"];
-    }
-    if (!value || !key) {
+    id playlistItems = [self buildPlaylistItems:item key:item[@"family"]];
+    if (!playlistItems) {
         [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
-    [self playlistQueue:playlistid items:@{key: value} afterCurrent:afterCurrent indicator:activityIndicatorView];
+    [self playlistQueue:playlistid items:playlistItems afterCurrent:afterCurrent indicator:activityIndicatorView];
 }
 
 - (void)startPlayback:(BOOL)resume {
     NSDictionary *item = self.detailItem;
-    NSString *key = item[@"family"];
-    id value = item[key];
-    if ([key isEqualToString:@"broadcastid"]) {
-        key = @"channelid";
-        value = item[@"pvrExtraInfo"][@"channelid"];
-    }
-    if (!value || !key) {
+    id playlistItems = [self buildPlaylistItems:item key:item[@"family"]];
+    if (!playlistItems) {
         [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
-    [self startPlaybackItems:@{key: value} using:nil shuffle:NO resume:resume indicator:activityIndicatorView];
+    [self startPlaybackItems:playlistItems using:nil shuffle:NO resume:resume indicator:activityIndicatorView];
+}
+
+- (id)buildPlaylistItems:(NSDictionary*)item key:(id)key {
+    id value = item[key];
+    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
+    if (![VersionCheck hasRecordingIdPlaylistSupport] && [key isEqualToString:@"recordingid"]) {
+        key = @"file";
+        value = item[@"file"];
+    }
+    else if ([key isEqualToString:@"channelid"] ||
+             [key isEqualToString:@"broadcastid"]) {
+        key = @"channelid";
+        value = item[@"pvrExtraInfo"][@"channelid"] ?: item[@"channelid"];
+    }
+    if (!value || !key) {
+        return nil;
+    }
+    return @{key: value};
 }
 
 - (void)playerOpen:(NSDictionary*)params {
