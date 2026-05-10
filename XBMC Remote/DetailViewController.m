@@ -1060,6 +1060,7 @@
         moreItemsViewController = [[MoreItemsViewController alloc] initWithFrame:CGRectMake(dataList.bounds.size.width, 0, dataList.bounds.size.width, dataList.bounds.size.height) mainMenu:moreMenu];
         moreItemsViewController.view.backgroundColor = UIColor.clearColor;
         moreItemsViewController.tableView.contentInset = activeLayoutView.contentInset;
+        moreItemsViewController.tableView.scrollIndicatorInsets = activeLayoutView.contentInset;
         [self setViewInset:moreItemsViewController.tableView bottom:buttonsViewBgToolbar.frame.size.height];
         [moreItemsViewController.tableView setContentOffset:CGPointMake(0, -moreItemsViewController.tableView.contentInset.top) animated:NO];
         [maskView insertSubview:moreItemsViewController.view aboveSubview:dataList];
