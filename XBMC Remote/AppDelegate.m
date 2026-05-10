@@ -112,7 +112,6 @@
     // Make navigation bar transparent
     if (@available(iOS 13, *)) {
         UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
-        [appearance configureWithOpaqueBackground];
         [appearance configureWithTransparentBackground];
         appearance.backgroundEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
         appearance.titleTextAttributes = @{NSForegroundColorAttributeName : UIColor.whiteColor};
