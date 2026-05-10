@@ -6126,6 +6126,7 @@
         NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setBool:![userDefaults boolForKey:viewKey] forKey:viewKey];
+        [self setGridListButtonImage:!enableCollectionView];
         [UIView animateWithDuration:0.2
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseIn
