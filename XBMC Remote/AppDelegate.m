@@ -270,6 +270,9 @@
 
 + (UIWindowScene*)scene {
     NSArray *scenes= UIApplication.sharedApplication.connectedScenes.allObjects;
+    if (scenes.count == 0) {
+        return nil;
+    }
     UIWindowScene *scene = scenes[0];
     return scene;
 }
