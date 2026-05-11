@@ -68,7 +68,7 @@
         self.buttonLabel = title;
         
         // Activity indicator is placed on top of onoff switch
-        UIActivityIndicatorView *busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        UIActivityIndicatorView *busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         busyView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         busyView.hidesWhenStopped = YES;
         busyView.center = onoff.center;
