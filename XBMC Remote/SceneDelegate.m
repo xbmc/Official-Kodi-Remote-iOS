@@ -31,6 +31,7 @@
 }
 
 - (void)sceneWillEnterForeground:(UIScene*)scene {
+    [self setInterfaceStyleFromUserDefaults];
     [Utilities setIdleTimerFromUserDefaults];
 }
 
