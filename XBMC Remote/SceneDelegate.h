@@ -10,7 +10,7 @@
 
 @interface SceneDelegate : UIResponder <UIWindowSceneDelegate> {
     UIApplicationShortcutItem *launchShortcutItem;
-    id launchURLContexts;
+    NSSet<UIOpenURLContext*>* launchURLContexts;
 }
 
 @property (strong, nonatomic) UIWindow *window;
