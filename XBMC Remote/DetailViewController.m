@@ -863,7 +863,7 @@
     UIEdgeInsets viewInsets = scrollView.contentInset;
     viewInsets.bottom = bottomInset;
     scrollView.contentInset = viewInsets;
-    scrollView.scrollIndicatorInsets = viewInsets;
+    scrollView.verticalScrollIndicatorInsets = viewInsets;
 }
 
 - (void)hideButtonList:(BOOL)hide {
@@ -1064,7 +1064,7 @@
         UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
         tableViewInsets.bottom = buttonsViewBgToolbar.frame.size.height;
         moreItemsViewController.tableView.contentInset = tableViewInsets;
-        moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
+        moreItemsViewController.tableView.verticalScrollIndicatorInsets = tableViewInsets;
         [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
         [maskView insertSubview:moreItemsViewController.view aboveSubview:dataList];
     }
@@ -1628,7 +1628,7 @@
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         collectionView = [[UICollectionView alloc] initWithFrame:dataList.frame collectionViewLayout:flowLayout];
         collectionView.contentInset = dataList.contentInset;
-        collectionView.scrollIndicatorInsets = dataList.scrollIndicatorInsets;
+        collectionView.verticalScrollIndicatorInsets = dataList.verticalScrollIndicatorInsets;
         collectionView.backgroundColor = UIColor.clearColor;
         collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         collectionView.delegate = self;
