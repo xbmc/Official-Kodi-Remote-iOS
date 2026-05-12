@@ -444,10 +444,6 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     [[Utilities getJsonRPC] callMethod:action
                         withParameters:params
                           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        // Backwards compatibility for Kodi "Eden" which supports xbmchttp but not JSON API for some commands
-        if ((methodError != nil || error != nil) && command != nil && AppDelegate.instance.serverVersion == 11) {
-            [Utilities sendXbmcHttp:command];
-        }
     }];
 }
 
@@ -581,48 +577,46 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 }
 
 - (void)playerActionVideo:(NSInteger)videoButton actionMusic:(NSInteger)musicButton {
-    if (AppDelegate.instance.serverVersion > 11) {
-        [[Utilities getJsonRPC]
-         callMethod:@"GUI.GetProperties"
-         withParameters:@{@"properties": @[@"currentwindow",
-                                           @"fullscreen"]}
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-             if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-                 long winID = 0;
-                 BOOL isFullscreen = NO;
-                 if (methodResult[@"fullscreen"] != [NSNull null]) {
-                     isFullscreen = [methodResult[@"fullscreen"] boolValue];
-                 }
-                 if (methodResult[@"currentwindow"] != [NSNull null]) {
-                     winID = [methodResult[@"currentwindow"][@"id"] longLongValue];
-                 }
-                 if (isFullscreen && (winID == WINDOW_FULLSCREEN_VIDEO || winID == WINDOW_VISUALISATION)) {
-                     [[Utilities getJsonRPC]
-                      callMethod:@"XBMC.GetInfoBooleans"
-                      withParameters:@{@"booleans": @[@"VideoPlayer.HasMenu",
-                                                      @"Pvr.IsPlayingTv"]}
-                      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                          if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-                              BOOL videoPlayerHasMenu = NO;
-                              BOOL pvrIsPlayingTv = NO;
-                              if (methodResult[@"VideoPlayer.HasMenu"] != [NSNull null]) {
-                                  videoPlayerHasMenu = [methodResult[@"VideoPlayer.HasMenu"] boolValue];
-                              }
-                              if (methodResult[@"Pvr.IsPlayingTv"] != [NSNull null]) {
-                                  pvrIsPlayingTv = [methodResult[@"Pvr.IsPlayingTv"] boolValue];
-                              }
-                              if (winID == WINDOW_FULLSCREEN_VIDEO && !pvrIsPlayingTv && !videoPlayerHasMenu) {
-                                  [self processButtonPress:videoButton];
-                              }
-                              else if (winID == WINDOW_VISUALISATION) {
-                                  [self processButtonPress:musicButton];
-                              }
-                          }
-                      }];
-                 }
-             }
-         }];
-    }
+    [[Utilities getJsonRPC]
+     callMethod:@"GUI.GetProperties"
+     withParameters:@{@"properties": @[@"currentwindow",
+                                       @"fullscreen"]}
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+            long winID = 0;
+            BOOL isFullscreen = NO;
+            if (methodResult[@"fullscreen"] != [NSNull null]) {
+                isFullscreen = [methodResult[@"fullscreen"] boolValue];
+            }
+            if (methodResult[@"currentwindow"] != [NSNull null]) {
+                winID = [methodResult[@"currentwindow"][@"id"] longLongValue];
+            }
+            if (isFullscreen && (winID == WINDOW_FULLSCREEN_VIDEO || winID == WINDOW_VISUALISATION)) {
+                [[Utilities getJsonRPC]
+                 callMethod:@"XBMC.GetInfoBooleans"
+                 withParameters:@{@"booleans": @[@"VideoPlayer.HasMenu",
+                                                 @"Pvr.IsPlayingTv"]}
+                 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+                    if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
+                        BOOL videoPlayerHasMenu = NO;
+                        BOOL pvrIsPlayingTv = NO;
+                        if (methodResult[@"VideoPlayer.HasMenu"] != [NSNull null]) {
+                            videoPlayerHasMenu = [methodResult[@"VideoPlayer.HasMenu"] boolValue];
+                        }
+                        if (methodResult[@"Pvr.IsPlayingTv"] != [NSNull null]) {
+                            pvrIsPlayingTv = [methodResult[@"Pvr.IsPlayingTv"] boolValue];
+                        }
+                        if (winID == WINDOW_FULLSCREEN_VIDEO && !pvrIsPlayingTv && !videoPlayerHasMenu) {
+                            [self processButtonPress:videoButton];
+                        }
+                        else if (winID == WINDOW_VISUALISATION) {
+                            [self processButtonPress:musicButton];
+                        }
+                    }
+                }];
+            }
+        }
+    }];
 }
 
 - (void)processButtonPress:(NSInteger)buttonTag {
@@ -713,16 +707,9 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             break;
             
         case TAG_BUTTON_PREVIOUS:
-            if (AppDelegate.instance.serverVersion > 11) {
-                action = @"Player.GoTo";
-                params = @{@"to": @"previous"};
-                [self playerAction:action params:params];
-            }
-            else {
-                action = @"Player.GoPrevious";
-                params = nil;
-                [self playerAction:action params:nil];
-            }
+            action = @"Player.GoTo";
+            params = @{@"to": @"previous"};
+            [self playerAction:action params:params];
             break;
             
         case TAG_BUTTON_STOP:
@@ -732,16 +719,9 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             break;
             
         case TAG_BUTTON_NEXT:
-            if (AppDelegate.instance.serverVersion > 11) {
-                action = @"Player.GoTo";
-                params = @{@"to": @"next"};
-                [self playerAction:action params:params];
-            }
-            else {
-                action = @"Player.GoNext";
-                params = nil;
-                [self playerAction:action params:nil];
-            }
+            action = @"Player.GoTo";
+            params = @{@"to": @"next"};
+            [self playerAction:action params:params];
             break;
         
         case TAG_BUTTON_HOME: // HOME

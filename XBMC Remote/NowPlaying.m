@@ -239,31 +239,24 @@
 }
 
 - (IBAction)togglePartyMode:(id)sender {
-    if (AppDelegate.instance.serverVersion == 11) {
-        storedItemID = SELECTED_NONE;
-        PartyModeButton.selected = YES;
-        [Utilities sendXbmcHttp:@"ExecBuiltIn&parameter=PlayerControl(Partymode('music'))"];
+    if (musicPartyMode) {
+        PartyModeButton.selected = NO;
+        [[Utilities getJsonRPC]
+         callMethod:@"Player.SetPartymode"
+         withParameters:@{@"playerid": @(0), @"partymode": @"toggle"}
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+            PartyModeButton.selected = NO;
+        }];
     }
     else {
-        if (musicPartyMode) {
-            PartyModeButton.selected = NO;
-            [[Utilities getJsonRPC]
-             callMethod:@"Player.SetPartymode"
-             withParameters:@{@"playerid": @(0), @"partymode": @"toggle"}
-             onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                 PartyModeButton.selected = NO;
-             }];
-        }
-        else {
+        PartyModeButton.selected = YES;
+        [[Utilities getJsonRPC]
+         callMethod:@"Player.Open"
+         withParameters:@{@"item": @{@"partymode": @"music"}}
+         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             PartyModeButton.selected = YES;
-            [[Utilities getJsonRPC]
-             callMethod:@"Player.Open"
-             withParameters:@{@"item": @{@"partymode": @"music"}}
-             onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                 PartyModeButton.selected = YES;
-                 storedItemID = SELECTED_NONE;
-             }];
-        }
+            storedItemID = SELECTED_NONE;
+        }];
     }
 }
 
@@ -710,24 +703,22 @@
 }
 
 - (void)getPlayerItems {
-    NSMutableArray *properties = [@[@"album",
-                                    @"artist",
-                                    @"title",
-                                    @"thumbnail",
-                                    @"track",
-                                    @"studio",
-                                    @"showtitle",
-                                    @"episode",
-                                    @"season",
-                                    @"fanart",
-                                    @"channel",
-                                    @"description",
-                                    @"year",
-                                    @"director",
-                                    @"plot"] mutableCopy];
-    if (AppDelegate.instance.serverVersion > 11) {
-        [properties addObject:@"art"];
-    }
+    NSArray *properties = @[@"album",
+                            @"artist",
+                            @"title",
+                            @"thumbnail",
+                            @"track",
+                            @"studio",
+                            @"showtitle",
+                            @"episode",
+                            @"season",
+                            @"fanart",
+                            @"channel",
+                            @"description",
+                            @"year",
+                            @"director",
+                            @"art",
+                            @"plot"];
     [[Utilities getJsonRPC]
      callMethod:@"Player.GetItem"
      withParameters:@{@"playerid": @(currentPlayerID),
@@ -1166,29 +1157,7 @@
         [self serverIsDisconnected];
         return;
     }
-    if (AppDelegate.instance.serverVersion == 11) {
-        [[Utilities getJsonRPC]
-         callMethod:@"XBMC.GetInfoBooleans" 
-         withParameters:@{@"booleans": @[@"Window.IsActive(virtualkeyboard)", @"Window.IsActive(selectdialog)"]}
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-             
-             if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-                 if (methodResult[@"Window.IsActive(virtualkeyboard)"] != [NSNull null] && methodResult[@"Window.IsActive(selectdialog)"] != [NSNull null]) {
-                     NSNumber *virtualKeyboardActive = methodResult[@"Window.IsActive(virtualkeyboard)"];
-                     NSNumber *selectDialogActive = methodResult[@"Window.IsActive(selectdialog)"];
-                     if ([virtualKeyboardActive intValue] == 1 || [selectDialogActive intValue] == 1) {
-                         return;
-                     }
-                     else {
-                         [self getActivePlayers];
-                     }
-                 }
-             }
-         }];
-    }
-    else {
-        [self getActivePlayers];
-    }
+    [self getActivePlayers];
 }
 
 - (void)clearPlaylist:(int)playlistID {
@@ -1395,7 +1364,7 @@
     NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
     NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
     
-    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
+    if ([parameters[@"FrodoExtraArt"] boolValue]) {
         [mutableProperties addObject:@"art"];
         mutableParameters[@"properties"] = mutableProperties;
     }
@@ -1426,7 +1395,7 @@
 - (void)retrieveExtraInfoData:(NSString*)methodToCall parameters:(NSDictionary*)parameters mainFields:(NSDictionary*)mainFields index:(NSIndexPath*)indexPath item:(NSDictionary*)item {
     NSString *itemid = mainFields[@"row6"] ?: @"";
     id object = [Utilities getNumberFromItem:item[itemid]];
-    if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {
+    if ([methodToCall isEqualToString:@"AudioLibrary.GetArtistDetails"]) {
         // WORKAROUND due to the lack of the artistid with Playlist.GetItems
         methodToCall = @"AudioLibrary.GetArtists";
         object = @{@"songid": [Utilities getNumberFromItem:item[@"idItem"]]};
@@ -1451,7 +1420,7 @@
          if (error == nil && methodError == nil) {
              if ([methodResult isKindOfClass:[NSDictionary class]]) {
                  NSDictionary *itemExtraDict;
-                 if (AppDelegate.instance.serverVersion > 11 && [methodToCall isEqualToString:@"AudioLibrary.GetArtists"]) {
+                 if ([methodToCall isEqualToString:@"AudioLibrary.GetArtists"]) {
                      // WORKAROUND due to the lack of the artistid with Playlist.GetItems
                      NSString *itemid_extra_info = @"artists";
                      if ([methodResult[itemid_extra_info] count]) {
@@ -1597,16 +1566,9 @@
     NSDictionary *params;
     switch ([sender tag]) {
         case TAG_ID_PREVIOUS:
-            if (AppDelegate.instance.serverVersion > 11) {
-                action = @"Player.GoTo";
-                params = @{@"to": @"previous"};
-                [self playerAction:action params:params];
-            }
-            else {
-                action = @"Player.GoPrevious";
-                params = nil;
-                [self playerAction:action params:nil];
-            }
+            action = @"Player.GoTo";
+            params = @{@"to": @"previous"};
+            [self playerAction:action params:params];
             ProgressSlider.value = 0;
             break;
             
@@ -1624,16 +1586,9 @@
             break;
             
         case TAG_ID_NEXT:
-            if (AppDelegate.instance.serverVersion > 11) {
-                action = @"Player.GoTo";
-                params = @{@"to": @"next"};
-                [self playerAction:action params:params];
-            }
-            else {
-                action = @"Player.GoNext";
-                params = nil;
-                [self playerAction:action params:nil];
-            }
+            action = @"Player.GoTo";
+            params = @{@"to": @"next"};
+            [self playerAction:action params:params];
             break;
             
         case TAG_ID_TOGGLE:
@@ -1701,25 +1656,13 @@
     BOOL newShuffleStatus = !shuffled;
     
     // Send the command to Kodi
-    if (AppDelegate.instance.serverVersion > 11) {
-        [[Utilities getJsonRPC] callMethod:@"Player.SetShuffle"
-                            withParameters:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"}
-                              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            if (error == nil && methodError == nil) {
-                [self createPlaylistAnimated:YES];
-            }
-        }];
-    }
-    else {
-        NSString *shuffleCommand = newShuffleStatus ? @"Player.Shuffle" : @"Player.UnShuffle";
-        [[Utilities getJsonRPC] callMethod:shuffleCommand
-                            withParameters:@{@"playerid": @(currentPlayerID)}
-                              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            if (error == nil && methodError == nil) {
-                [self createPlaylistAnimated:YES];
-            }
-        }];
-    }
+    [[Utilities getJsonRPC] callMethod:@"Player.SetShuffle"
+                        withParameters:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"}
+                          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        if (error == nil && methodError == nil) {
+            [self createPlaylistAnimated:YES];
+        }
+    }];
     
     // Update the button status
     [self updateShuffleButton:newShuffleStatus];
@@ -1742,12 +1685,7 @@
     }
     
     // Send the command to Kodi
-    if (AppDelegate.instance.serverVersion > 11) {
-        [self playerAction:@"Player.SetRepeat" params:@{@"playerid": @(currentPlayerID), @"repeat": @"cycle"}];
-    }
-    else {
-        [self playerAction:@"Player.Repeat" params:@{@"playerid": @(currentPlayerID), @"state": newRepeatStatus}];
-    }
+    [self playerAction:@"Player.SetRepeat" params:@{@"playerid": @(currentPlayerID), @"repeat": @"cycle"}];
     
     // Update the button status
     [self updateRepeatButton:newRepeatStatus];
@@ -1844,7 +1782,7 @@
             if ([item[@"albumid"] longLongValue] > 0) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Album Details"), LOCALIZED_STR(@"Album Tracks")]];
             }
-            if ([item[@"artistid"] longLongValue] > 0 || ([item[@"type"] isEqualToString:@"song"] && AppDelegate.instance.serverVersion > 11)) {
+            if ([item[@"artistid"] longLongValue] > 0 || [item[@"type"] isEqualToString:@"song"]) {
                 [sheetActions addObjectsFromArray:@[LOCALIZED_STR(@"Artist Details"), LOCALIZED_STR(@"Artist Albums")]];
             }
             if ([item[@"movieid"] longLongValue] > 0) {
@@ -2056,7 +1994,7 @@
         }
         id objKey = mainFields[@"row6"];
         id obj = [Utilities getNumberFromItem:item[objKey]];
-        if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
+        if (![parameters[@"disableFilterParameter"] boolValue]) {
             if ([objKey isEqualToString:@"artistid"]) {
                 // WORKAROUND due to the lack of the artistid with Playlist.GetItems
                 NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item[@"artist"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
