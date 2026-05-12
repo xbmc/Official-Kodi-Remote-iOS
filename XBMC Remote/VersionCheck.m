@@ -61,11 +61,6 @@
     return AppDelegate.instance.serverVersion >= 21;
 }
 
-+ (BOOL)hasPlayerOpenOptions {
-    // "options" for Player.Open were introduced with Kodi 12. This is required to support resume.
-    return YES;
-}
-
 + (BOOL)hasProfilesSupport {
     // Profiles methods are supported from API 8 on
     return AppDelegate.instance.APImajorVersion >= 8;

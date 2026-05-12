@@ -74,7 +74,7 @@
         if (resumePointDict && [resumePointDict isKindOfClass:[NSDictionary class]]) {
             float position = [Utilities getFloatValueFromItem:resumePointDict[@"position"]];
             float total = [Utilities getFloatValueFromItem:resumePointDict[@"total"]];
-            if (position > 0 && total > 0 && [VersionCheck hasPlayerOpenOptions]) {
+            if (position > 0 && total > 0) {
                 [sheetActions addObject:LOCALIZED_STR_ARGS(@"Resume from %@", [Utilities convertTimeFromSeconds:@(position)])];
             }
         }
