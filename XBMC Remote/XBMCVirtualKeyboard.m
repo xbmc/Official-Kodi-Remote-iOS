@@ -121,9 +121,6 @@
 }
 
 - (void)showKeyboard:(NSNotification*)note {
-    if (AppDelegate.instance.serverVersion == 11) {
-        backgroundTextField.text = @" ";
-    }
     NSDictionary *params;
     if (note != nil) {
         NSDictionary *theData = note.userInfo;
@@ -178,40 +175,21 @@
 }
 
 - (BOOL)textField:(UITextField*)theTextField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {
-    if (AppDelegate.instance.serverVersion == 11) {
-        if (range.location == 0) { //BACKSPACE
-            [Utilities sendXbmcHttp:@"SendKey(0xf108)"];
+    BOOL inputFinished = NO;
+    NSString *stringToSend = [theTextField.text stringByReplacingCharactersInRange:range withString:string];
+    if (string.length != 0) {
+        unichar x = [string characterAtIndex:0];
+        if (x == '\n') {
+            stringToSend = [stringToSend substringToIndex:stringToSend.length - 1];
+            [backgroundTextField resignFirstResponder];
+            [xbmcVirtualKeyboard resignFirstResponder];
+            theTextField.text = @"";
+            inputFinished = YES;
         }
-        else { // CHARACTER
-            unichar x = [string characterAtIndex:0];
-            if (x == '\n') {
-                [self simpleAction:@"Input.Select" params:@{}];
-                [backgroundTextField resignFirstResponder];
-                [xbmcVirtualKeyboard resignFirstResponder];
-            }
-            else if (x < 1000) {
-                [Utilities sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
-            }
-        }
-        return NO;
     }
-    else {
-        BOOL inputFinished = NO;
-        NSString *stringToSend = [theTextField.text stringByReplacingCharactersInRange:range withString:string];
-        if (string.length != 0) {
-            unichar x = [string characterAtIndex:0];
-            if (x == '\n') {
-                stringToSend = [stringToSend substringToIndex:stringToSend.length - 1];
-                [backgroundTextField resignFirstResponder];
-                [xbmcVirtualKeyboard resignFirstResponder];
-                theTextField.text = @"";
-                inputFinished = YES;
-            }
-        }
-        stringToSend = stringToSend ?: @"";
-        [self simpleAction:@"Input.SendText" params:@{@"text": stringToSend, @"done": @(inputFinished)}];
-        return YES;
-    }
+    stringToSend = stringToSend ?: @"";
+    [self simpleAction:@"Input.SendText" params:@{@"text": stringToSend, @"done": @(inputFinished)}];
+    return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField*)textField {

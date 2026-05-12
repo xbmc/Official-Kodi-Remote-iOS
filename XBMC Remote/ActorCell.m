@@ -27,10 +27,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = UIColor.clearColor;
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (AppDelegate.instance.serverVersion > 11) {
-            self.selectionStyle = UITableViewCellSelectionStyleGray;
-        }
+        self.selectionStyle = UITableViewCellSelectionStyleGray;
         
         UIView *actorContainer = [[UIView alloc] initWithFrame:CGRectMake(THUMB_PADDING, VERTICAL_PADDING, castWidth, castHeight)];
         actorContainer.clipsToBounds = NO;

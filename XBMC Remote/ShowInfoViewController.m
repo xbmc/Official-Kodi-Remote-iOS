@@ -261,7 +261,7 @@
         chosenMenuItem = menuItem.subItem;
         chosenMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
     }
-    else if ([item[@"family"] isEqualToString:@"movieid"] && AppDelegate.instance.serverVersion > 11) {
+    else if ([item[@"family"] isEqualToString:@"movieid"]) {
         if ([sender isKindOfClass:[NSString class]]) {
             NSString *actorName = (NSString*)sender;
             activeTab = 2;
@@ -272,7 +272,7 @@
             chosenMenuItem.mainLabel = actorName;
         }
     }
-    else if (([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"tvshowid"]) && AppDelegate.instance.serverVersion > 11) {
+    else if (([item[@"family"] isEqualToString:@"episodeid"] || [item[@"family"] isEqualToString:@"tvshowid"])) {
         if ([sender isKindOfClass:[NSString class]]) {
             NSString *actorName = (NSString*)sender;
             activeTab = 0;
@@ -304,7 +304,7 @@
             obj = movieObj;
             objKey = movieObjKey;
         }
-        else if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
+        else if (![parameters[@"disableFilterParameter"] boolValue]) {
             obj = [NSDictionary dictionaryWithObjectsAndKeys:obj, objKey, nil];
             objKey = @"filter";
         }
@@ -1498,7 +1498,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (AppDelegate.instance.serverVersion > 11 && ![self isModal]) {
+    if (![self isModal]) {
         UIImage *image = [[UIImage imageNamed:@"table_arrow_right"] colorizeWithColor:ICON_TINT_COLOR];
         cell.accessoryView = [[UIImageView alloc] initWithImage:image];
         cell.accessoryView.alpha = ARROW_ALPHA;
@@ -1509,7 +1509,7 @@
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    if (AppDelegate.instance.serverVersion > 11 && ![self isModal] && castList.count > indexPath.row) {
+    if (![self isModal] && castList.count > indexPath.row) {
         [self showContent:castList[indexPath.row][@"name"]];
     }
 }
