@@ -223,6 +223,16 @@ NSInputStream *inStream;
                     if ([realServerName isEqualToString:@"MrMC"]) {
                         AppDelegate.instance.serverVersion += MRMC_TIMEWARP;
                     }
+                    if (AppDelegate.instance.serverVersion < MIN_SUPPORTED_SERVER_VERSION) {
+                        NSString *message = LOCALIZED_STR(@"Kodi version %d not supported.");
+                        message = [NSString stringWithFormat:message, AppDelegate.instance.serverVersion];
+                        [Utilities showMessage:message color:ERROR_MESSAGE_COLOR];
+                        if (AppDelegate.instance.serverOnLine) {
+                            [self jsonConnectionNotifications:NO];
+                        }
+                        [self showSetupNotifications:YES];
+                        return;
+                    }
                     infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
                                  AppDelegate.instance.obj.serverDescription,
                                  serverInfo[@"major"],
