@@ -477,12 +477,13 @@
     }
 }
 
-- (NSDictionary*)addExtraProperties:(NSArray*)properties params:(NSDictionary*)parameters mainParams:(NSDictionary*)mainParameters {
+- (NSDictionary*)addExtraProperties:(NSDictionary*)mainParameters {
+    NSMutableDictionary *newParameters = [mainParameters[@"parameters"] mutableCopy];
+    NSArray *properties = mainParameters[@"parameters"][@"properties"];
     NSMutableArray *newProperties = [[Utilities addExtraProperties:properties parameters:mainParameters] mutableCopy];
     if ([mainParameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
         [newProperties addObject:@"art"];
     }
-    NSMutableDictionary *newParameters = [parameters mutableCopy];
     if (newProperties != nil) {
         newParameters[@"properties"] = newProperties;
     }
@@ -1187,10 +1188,6 @@
     [self stopPullToRefreshViewAnimation];
     
     MainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = nil;
-    NSDictionary *parameters = nil;
-    NSDictionary *currentParameters = nil;
-    NSArray *currentProperties = nil;
     BOOL refresh = NO;
     
     // Read new tab index
@@ -1205,11 +1202,6 @@
     
     // Handle modes (pressing same tab) or changed tabs
     if (newChoosedTab == chosenTab && !fromMoreItems) {
-        // Read relevant data from configuration
-        methods = menuItem.mainMethod[chosenTab];
-        parameters = menuItem.mainParameters[chosenTab];
-        currentParameters = parameters[@"parameters"];
-        currentProperties = parameters[@"parameters"][@"properties"];
         
         NSInteger num_modes = [menuItem.filterModes[chosenTab][@"modes"] count];
         if (!num_modes) {
@@ -1243,11 +1235,6 @@
         if (chosenTab < buttonsIB.count) {
             [buttonsIB[chosenTab] setSelected:YES];
         }
-        // Read relevant data from configuration (important: new value for chosenTab)
-        methods = menuItem.mainMethod[chosenTab];
-        parameters = menuItem.mainParameters[chosenTab];
-        currentParameters = parameters[@"parameters"];
-        currentProperties = parameters[@"parameters"][@"properties"];
     }
     self.indexView.indexTitles = nil;
     self.indexView.hidden = YES;
@@ -1260,6 +1247,10 @@
     [moreItemsViewController.view animateX:viewWidth alpha:1.0 duration:0.3];
     
     [activityIndicatorView startAnimating];
+    
+    // Read relevant data from configuration (important: new value for chosenTab)
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
 
     if ([parameters[@"numberOfStars"] intValue] > 0) {
         numberOfStars = [parameters[@"numberOfStars"] intValue];
@@ -1275,7 +1266,7 @@
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     activeLayoutView.contentOffset = activeLayoutView.contentOffset;
     [self checkFullscreenButton:NO];
-    NSDictionary *newParameters = [self addExtraProperties:currentProperties params:currentParameters mainParams:parameters];
+    NSDictionary *newParameters = [self addExtraProperties:parameters];
     if (!tvshowsView || [Utilities getPreferTvPosterMode]) {
         [self setSearchBar:self.searchController.searchBar toDark:NO];
     }
@@ -4497,9 +4488,7 @@
     }
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
-    NSDictionary *currentParameters = parameters[@"parameters"];
-    NSArray *currentProperties = parameters[@"parameters"][@"properties"];
-    NSDictionary *newParameters = [self addExtraProperties:currentProperties params:currentParameters mainParams:parameters];
+    NSDictionary *newParameters = [self addExtraProperties:parameters];
     NSString *methodToCall = methods[@"method"];
     if (parameters[@"exploreCommand"] != nil) {
         methodToCall = parameters[@"exploreCommand"];
@@ -4557,9 +4546,7 @@
     NSDictionary *parameters = menuItem.mainParameters[activeTab];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
     NSString *methodToCall = methods[@"method"];
-    NSDictionary *currentParameters = parameters[@"parameters"];
-    NSArray *currentProperties = parameters[@"parameters"][@"properties"];
-    NSDictionary *newParameters = [self addExtraProperties:currentProperties params:currentParameters mainParams:parameters];
+    NSDictionary *newParameters = [self addExtraProperties:parameters];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
