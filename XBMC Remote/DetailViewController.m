@@ -1339,10 +1339,7 @@
             pvrExtraInfo[@"channelid"] = item[@"channelid"];
         }
         
-        NSMutableDictionary *kodiExtrasPropertiesMinimumVersion = [NSMutableDictionary dictionary];
-        if (parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
-            kodiExtrasPropertiesMinimumVersion = parameters[@"kodiExtrasPropertiesMinimumVersion"];
-        }
+        NSDictionary *kodiExtrasPropertiesMinimumVersion = parameters[@"kodiExtrasPropertiesMinimumVersion"] ?: @{};
         NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                               [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                obj, objKey,
