@@ -477,23 +477,16 @@
     }
 }
 
-- (void)addExtraProperties:(NSMutableArray*)mutableProperties newParams:(NSMutableDictionary*)mutableParameters params:(NSDictionary*)parameters {
-    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-        [mutableProperties addObject:@"art"];
+- (NSDictionary*)addExtraProperties:(NSArray*)properties params:(NSDictionary*)parameters mainParams:(NSDictionary*)mainParameters {
+    NSMutableArray *newProperties = [[Utilities addExtraProperties:properties parameters:mainParameters] mutableCopy];
+    if ([mainParameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
+        [newProperties addObject:@"art"];
     }
-    if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
-        for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
-            if (AppDelegate.instance.serverVersion >= [key integerValue]) {
-                id arrayProperties = parameters[@"kodiExtrasPropertiesMinimumVersion"][key];
-                for (id value in arrayProperties) {
-                    [mutableProperties addObject:value];
-                }
-            }
-        }
+    NSMutableDictionary *newParameters = [parameters mutableCopy];
+    if (newProperties != nil) {
+        newParameters[@"properties"] = newProperties;
     }
-    if (mutableProperties != nil) {
-        mutableParameters[@"properties"] = mutableProperties;
-    }
+    return [newParameters copy];
 }
 
 - (void)setFilternameLabel:(NSString*)labelText {
@@ -1196,8 +1189,8 @@
     MainMenu *menuItem = self.detailItem;
     NSDictionary *methods = nil;
     NSDictionary *parameters = nil;
-    NSMutableDictionary *mutableParameters = nil;
-    NSMutableArray *mutableProperties = nil;
+    NSDictionary *currentParameters = nil;
+    NSArray *currentProperties = nil;
     BOOL refresh = NO;
     
     // Read new tab index
@@ -1215,8 +1208,8 @@
         // Read relevant data from configuration
         methods = menuItem.mainMethod[chosenTab];
         parameters = menuItem.mainParameters[chosenTab];
-        mutableParameters = [parameters[@"parameters"] mutableCopy];
-        mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
+        currentParameters = parameters[@"parameters"];
+        currentProperties = parameters[@"parameters"][@"properties"];
         
         NSInteger num_modes = [menuItem.filterModes[chosenTab][@"modes"] count];
         if (!num_modes) {
@@ -1253,8 +1246,8 @@
         // Read relevant data from configuration (important: new value for chosenTab)
         methods = menuItem.mainMethod[chosenTab];
         parameters = menuItem.mainParameters[chosenTab];
-        mutableParameters = [parameters[@"parameters"] mutableCopy];
-        mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
+        currentParameters = parameters[@"parameters"];
+        currentProperties = parameters[@"parameters"][@"properties"];
     }
     self.indexView.indexTitles = nil;
     self.indexView.hidden = YES;
@@ -1282,12 +1275,12 @@
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     activeLayoutView.contentOffset = activeLayoutView.contentOffset;
     [self checkFullscreenButton:NO];
-    [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
+    NSDictionary *newParameters = [self addExtraProperties:currentProperties params:currentParameters mainParams:parameters];
     if (!tvshowsView || [Utilities getPreferTvPosterMode]) {
         [self setSearchBar:self.searchController.searchBar toDark:NO];
     }
     if (methods[@"method"] != nil) {
-        [self retrieveData:methods[@"method"] parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:refresh];
+        [self retrieveData:methods[@"method"] parameters:newParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:refresh];
     }
     else {
         [activityIndicatorView stopAnimating];
@@ -4460,17 +4453,7 @@
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
     
-    NSMutableArray *newProperties = [parameters[@"properties"] mutableCopy];
-    if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
-        for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
-            if (AppDelegate.instance.serverVersion >= [key integerValue]) {
-                id arrayProperties = parameters[@"kodiExtrasPropertiesMinimumVersion"][key];
-                for (id value in arrayProperties) {
-                    [newProperties addObject:value];
-                }
-            }
-        }
-    }
+    NSArray *newProperties = [Utilities addExtraProperties:parameters[@"properties"] parameters:parameters];
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                           newProperties, @"properties",
                                           object, itemid,
@@ -4514,15 +4497,15 @@
     }
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
-    NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
-    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-    [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
+    NSDictionary *currentParameters = parameters[@"parameters"];
+    NSArray *currentProperties = parameters[@"parameters"][@"properties"];
+    NSDictionary *newParameters = [self addExtraProperties:currentProperties params:currentParameters mainParams:parameters];
     NSString *methodToCall = methods[@"method"];
     if (parameters[@"exploreCommand"] != nil) {
         methodToCall = parameters[@"exploreCommand"];
     }
     if (methodToCall != nil) {
-        [self retrieveData:methodToCall parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:forceRefresh];
+        [self retrieveData:methodToCall parameters:newParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:forceRefresh];
     }
     else if (globalSearchView) {
         [self retrieveGlobalData:forceRefresh];
@@ -4574,12 +4557,12 @@
     NSDictionary *parameters = menuItem.mainParameters[activeTab];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
     NSString *methodToCall = methods[@"method"];
-    NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
-    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-    [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
+    NSDictionary *currentParameters = parameters[@"parameters"];
+    NSArray *currentProperties = parameters[@"parameters"][@"properties"];
+    NSDictionary *newParameters = [self addExtraProperties:currentProperties params:currentParameters mainParams:parameters];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
-     withParameters:mutableParameters
+     withParameters:newParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [activeLayoutView reloadData];
