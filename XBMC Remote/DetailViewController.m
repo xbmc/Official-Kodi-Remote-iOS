@@ -535,7 +535,7 @@
     id row7 = item[mainFields[@"row7"]] ?: @0;
     NSString *row7key = mainFields[@"row7"] ?: @"";
 
-    NSDictionary *newItem = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+    NSDictionary *newItem = [NSDictionary dictionaryWithObjectsAndKeys:
                              @(albumView), @"fromAlbumView",
                              @(episodesView), @"fromEpisodesView",
                              clearlogo, @"clearlogo",
@@ -1307,9 +1307,9 @@
                    nil];
             objKey = @"filter";
         }
-        NSMutableDictionary *newSectionParameters = [NSMutableDictionary dictionary];
+        NSDictionary *newSectionParameters = @{};
         if (parameters[@"extra_section_parameters"] != nil) {
-            newSectionParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            newSectionParameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                     obj, objKey,
                                     parameters[@"extra_section_parameters"][@"properties"], @"properties",
                                     parameters[@"extra_section_parameters"][@"sort"], @"sort",
@@ -3506,7 +3506,7 @@
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                 item[@"addonid"], @"addonid",
                                 nil];
-        NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+        NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
                                    item[@"label"], @"label",
                                    @"xbmc-exec-addon", @"type",
                                    item[@"thumbnail"], @"icon",
@@ -3521,7 +3521,7 @@
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                 item[@"label"], @"action",
                                 nil];
-        NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+        NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
                                    item[@"label"], @"label",
                                    @"string", @"type",
                                    @"", @"icon",
@@ -3536,7 +3536,7 @@
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                 item[@"label"], @"window",
                                 nil];
-        NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+        NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
                                    item[@"label"], @"label",
                                    @"string", @"type",
                                    @"", @"icon",
@@ -4445,10 +4445,10 @@
     [cellActivityIndicator startAnimating];
     
     NSArray *newProperties = [Utilities addExtraProperties:parameters[@"properties"] parameters:parameters];
-    NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          newProperties, @"properties",
-                                          object, itemid,
-                                          nil];
+    NSDictionary *newParameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   newProperties, @"properties",
+                                   object, itemid,
+                                   nil];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
