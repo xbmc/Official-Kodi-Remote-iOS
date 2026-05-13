@@ -1518,34 +1518,33 @@
                  }
                  id row11 = itemExtraDict[mainFields[@"row11"]] ?: @0;
                  
-                 NSDictionary *newItem =
-                 [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                  clearlogo, @"clearlogo",
-                  clearart, @"clearart",
-                  label, @"label",
-                  genre, @"genre",
-                  stringURL, @"thumbnail",
-                  fanartURL, @"fanart",
-                  runtime, @"runtime",
-                  itemExtraDict[mainFields[@"row6"]], mainFields[@"row6"],
-                  itemExtraDict[mainFields[@"row8"]], mainFields[@"row8"],
-                  year, @"year",
-                  rating, @"rating",
-                  mainFields[@"playlistid"], @"playlistid",
-                  mainFields[@"row8"], @"family",
-                  [Utilities getNumberFromItem:itemExtraDict[mainFields[@"row9"]]], mainFields[@"row9"],
-                  itemExtraDict[mainFields[@"row10"]], mainFields[@"row10"],
-                  row11, mainFields[@"row11"],
-                  itemExtraDict[mainFields[@"row12"]], mainFields[@"row12"],
-                  itemExtraDict[mainFields[@"row13"]], mainFields[@"row13"],
-                  itemExtraDict[mainFields[@"row14"]], mainFields[@"row14"],
-                  itemExtraDict[mainFields[@"row15"]], mainFields[@"row15"],
-                  itemExtraDict[mainFields[@"row16"]], mainFields[@"row16"],
-                  itemExtraDict[mainFields[@"row17"]], mainFields[@"row17"],
-                  itemExtraDict[mainFields[@"row18"]], mainFields[@"row18"],
-                  itemExtraDict[mainFields[@"row19"]], mainFields[@"row19"],
-                  itemExtraDict[mainFields[@"row20"]], mainFields[@"row20"],
-                  nil];
+                 NSDictionary *newItem = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                          clearlogo, @"clearlogo",
+                                          clearart, @"clearart",
+                                          label, @"label",
+                                          genre, @"genre",
+                                          stringURL, @"thumbnail",
+                                          fanartURL, @"fanart",
+                                          runtime, @"runtime",
+                                          itemExtraDict[mainFields[@"row6"]], mainFields[@"row6"],
+                                          itemExtraDict[mainFields[@"row8"]], mainFields[@"row8"],
+                                          year, @"year",
+                                          rating, @"rating",
+                                          mainFields[@"playlistid"], @"playlistid",
+                                          mainFields[@"row8"], @"family",
+                                          [Utilities getNumberFromItem:itemExtraDict[mainFields[@"row9"]]], mainFields[@"row9"],
+                                          itemExtraDict[mainFields[@"row10"]], mainFields[@"row10"],
+                                          row11, mainFields[@"row11"],
+                                          itemExtraDict[mainFields[@"row12"]], mainFields[@"row12"],
+                                          itemExtraDict[mainFields[@"row13"]], mainFields[@"row13"],
+                                          itemExtraDict[mainFields[@"row14"]], mainFields[@"row14"],
+                                          itemExtraDict[mainFields[@"row15"]], mainFields[@"row15"],
+                                          itemExtraDict[mainFields[@"row16"]], mainFields[@"row16"],
+                                          itemExtraDict[mainFields[@"row17"]], mainFields[@"row17"],
+                                          itemExtraDict[mainFields[@"row18"]], mainFields[@"row18"],
+                                          itemExtraDict[mainFields[@"row19"]], mainFields[@"row19"],
+                                          itemExtraDict[mainFields[@"row20"]], mainFields[@"row20"],
+                                          nil];
                  [self displayInfoView:newItem];
              }
          }
