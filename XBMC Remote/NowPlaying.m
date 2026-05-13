@@ -1461,17 +1461,7 @@
         return; // something goes wrong
     }
     [activityIndicator startAnimating];
-    NSMutableArray *newProperties = [parameters[@"properties"] mutableCopy];
-    if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
-        for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
-            if (AppDelegate.instance.serverVersion >= [key integerValue]) {
-                id arrayProperties = parameters[@"kodiExtrasPropertiesMinimumVersion"][key];
-                for (id value in arrayProperties) {
-                    [newProperties addObject:value];
-                }
-            }
-        }
-    }
+    NSArray *newProperties = [Utilities addExtraProperties:parameters[@"properties"] parameters:parameters];
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                           newProperties, @"properties",
                                           object, itemid,
