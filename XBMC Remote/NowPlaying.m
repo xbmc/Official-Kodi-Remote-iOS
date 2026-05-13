@@ -1296,7 +1296,7 @@
                            NSString *thumbnailPath = [self getNowPlayingThumbnailPath:item];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                            NSString *file = [Utilities getStringFromItem:item[@"file"]];
-                           [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                           [playlistData addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
                                                     file, @"file",
                                                     label, @"label",
@@ -1462,10 +1462,10 @@
     }
     [activityIndicator startAnimating];
     NSArray *newProperties = [Utilities addExtraProperties:parameters[@"properties"] parameters:parameters];
-    NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          newProperties, @"properties",
-                                          object, itemid,
-                                          nil];
+    NSDictionary *newParameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   newProperties, @"properties",
+                                   object, itemid,
+                                   nil];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
@@ -1508,7 +1508,7 @@
                  }
                  id row11 = itemExtraDict[mainFields[@"row11"]] ?: @0;
                  
-                 NSDictionary *newItem = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                 NSDictionary *newItem = [NSDictionary dictionaryWithObjectsAndKeys:
                                           clearlogo, @"clearlogo",
                                           clearart, @"clearart",
                                           label, @"label",
