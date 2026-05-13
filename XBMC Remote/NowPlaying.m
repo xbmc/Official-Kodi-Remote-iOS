@@ -1516,10 +1516,8 @@
                  if (!stringURL.length) {
                      stringURL = [Utilities getItemIconFromDictionary:itemExtraDict];
                  }
-                 NSObject *row11 = itemExtraDict[mainFields[@"row11"]];
-                 if (row11 == nil) {
-                     row11 = @(0);
-                 }
+                 id row11 = itemExtraDict[mainFields[@"row11"]] ?: @0;
+                 
                  NSDictionary *newItem =
                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
                   clearlogo, @"clearlogo",
