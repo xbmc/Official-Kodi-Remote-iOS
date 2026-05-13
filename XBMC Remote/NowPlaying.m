@@ -1360,17 +1360,9 @@
     NSDictionary *methods = menuItem.mainMethod[activeTab];
     NSDictionary *parameters = menuItem.mainParameters[activeTab];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
-    
-    NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
-    NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
-    
-    if ([parameters[@"FrodoExtraArt"] boolValue]) {
-        [mutableProperties addObject:@"art"];
-        mutableParameters[@"properties"] = mutableProperties;
-    }
 
     if (parameters[@"extra_info_parameters"] != nil && methods[@"extra_info_method"] != nil) {
-        [self retrieveExtraInfoData:methods[@"extra_info_method"] parameters:mutableParameters mainFields:mainFields index:indexPath item:item];
+        [self retrieveExtraInfoData:methods[@"extra_info_method"] parameters:parameters[@"extra_info_parameters"] mainFields:mainFields index:indexPath item:item];
     }
     else {
         [self displayInfoView:item];

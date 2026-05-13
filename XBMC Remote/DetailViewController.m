@@ -486,9 +486,6 @@
     NSMutableDictionary *newParameters = [mainParameters[@"parameters"] mutableCopy];
     NSArray *properties = mainParameters[@"parameters"][@"properties"];
     NSMutableArray *newProperties = [[Utilities addExtraProperties:properties parameters:mainParameters] mutableCopy];
-    if ([mainParameters[@"FrodoExtraArt"] boolValue]) {
-        [newProperties addObject:@"art"];
-    }
     if (newProperties != nil) {
         newParameters[@"properties"] = newProperties;
     }
@@ -1341,7 +1338,6 @@
                                               libraryThumbWidth, @"thumbWidth",
                                               parameters[@"label"], @"label",
                                               parameters[@"itemSizes"], @"itemSizes",
-                                              @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
                                               @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                               @([parameters[@"forcePlayback"] boolValue]), @"forcePlayback",
@@ -3335,11 +3331,6 @@
     int activeTab = [self getActiveTab:item];
     NSDictionary *parameters = menuItem.mainParameters[activeTab];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
-    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-    if ([parameters[@"FrodoExtraArt"] boolValue]) {
-        [mutableProperties addObject:@"art"];
-        mutableParameters[@"properties"] = mutableProperties;
-    }
     [self addFileProperties:mutableParameters];
     [self saveData:mutableParameters];
 }
@@ -3884,16 +3875,12 @@
     NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
     NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
     NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
-    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"file_properties"] mutableCopy];
-    if ([parameters[@"FrodoExtraArt"] boolValue]) {
-        [mutableProperties addObject:@"art"];
-    }
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            item[mainFields[@"row6"]], @"directory",
                                            parameters[@"parameters"][@"media"], @"media",
                                            parameters[@"parameters"][@"sort"], @"sort",
-                                           mutableProperties, @"file_properties",
+                                           parameters[@"parameters"][@"file_properties"], @"file_properties",
                                            nil], @"parameters",
                                           libraryRowHeight, @"rowHeight",
                                           libraryThumbWidth, @"thumbWidth",
@@ -4206,15 +4193,8 @@
     NSDictionary *methods = menuItem.mainMethod[tabToShow];
     NSDictionary *parameters = menuItem.mainParameters[tabToShow];
     
-    NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
-    NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
-    
-    if ([parameters[@"FrodoExtraArt"] boolValue]) {
-        [mutableProperties addObject:@"art"];
-        mutableParameters[@"properties"] = mutableProperties;
-    }
     if (parameters[@"extra_info_parameters"] != nil && methods[@"extra_info_method"] != nil) {
-        [self retrieveExtraInfoData:methods[@"extra_info_method"] parameters:mutableParameters index:indexPath item:item menuItem:menuItem tabToShow:tabToShow];
+        [self retrieveExtraInfoData:methods[@"extra_info_method"] parameters:parameters[@"extra_info_parameters"] index:indexPath item:item menuItem:menuItem tabToShow:tabToShow];
     }
     else {
         [self displayInfoView:item];

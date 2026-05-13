@@ -328,7 +328,6 @@
                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                               parameters[@"itemSizes"], @"itemSizes",
                                               parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                              @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
                                               @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
                                               @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
                                               newSectionParameters, @"extra_section_parameters",
