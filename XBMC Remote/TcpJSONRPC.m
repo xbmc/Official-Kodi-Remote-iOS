@@ -180,15 +180,19 @@ NSInputStream *inStream;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
 }
 
+- (void)signalConnectionProblem {
+    if (AppDelegate.instance.serverOnLine) {
+        [self jsonConnectionNotifications:NO];
+    }
+    [self showSetupNotifications:YES];
+}
+
 - (void)checkServer {
     if (inCheck) {
         return;
     }
     if (AppDelegate.instance.obj.serverIP.length == 0) {
-        [self showSetupNotifications:YES];
-        if (AppDelegate.instance.serverOnLine) {
-            [self jsonConnectionNotifications:NO];
-        }
+        [self signalConnectionProblem];
         return;
     }
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"wol_preference"] &&
@@ -227,10 +231,7 @@ NSInputStream *inStream;
                         NSString *message = LOCALIZED_STR(@"Kodi version %d not supported.");
                         message = [NSString stringWithFormat:message, AppDelegate.instance.serverVersion];
                         [Utilities showMessage:message color:ERROR_MESSAGE_COLOR];
-                        if (AppDelegate.instance.serverOnLine) {
-                            [self jsonConnectionNotifications:NO];
-                        }
-                        [self showSetupNotifications:YES];
+                        [self signalConnectionProblem];
                         return;
                     }
                     infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
@@ -242,10 +243,7 @@ NSInputStream *inStream;
                     [self showSetupNotifications:NO];
                 }
                 else {
-                    if (AppDelegate.instance.serverOnLine) {
-                        [self jsonConnectionNotifications:NO];
-                    }
-                    [self showSetupNotifications:YES];
+                    [self signalConnectionProblem];
                 }
             }
         }
@@ -253,10 +251,7 @@ NSInputStream *inStream;
             if (error != nil) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionError" object:nil userInfo:@{@"error_message": [error localizedDescription]}];
             }
-            if (AppDelegate.instance.serverOnLine) {
-                [self jsonConnectionNotifications:NO];
-            }
-            [self showSetupNotifications:YES];
+            [self signalConnectionProblem];
         }
     }];
 }
