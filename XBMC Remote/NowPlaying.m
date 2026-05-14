@@ -29,7 +29,6 @@
 @implementation NowPlaying
 
 @synthesize detailItem = _detailItem;
-@synthesize remoteController;
 @synthesize jewelView;
 @synthesize shuffleButton;
 @synthesize repeatButton;
