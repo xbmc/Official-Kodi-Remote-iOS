@@ -63,11 +63,11 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 @synthesize holdKeyTimer;
 
 - (void)setupGestureView {
-    NSArray *GestureDirections = @[@(UISwipeGestureRecognizerDirectionLeft),
+    NSArray *gestureDirections = @[@(UISwipeGestureRecognizerDirectionLeft),
                                    @(UISwipeGestureRecognizerDirectionRight),
                                    @(UISwipeGestureRecognizerDirectionUp),
                                    @(UISwipeGestureRecognizerDirectionDown)];
-    for (NSNumber *direction in GestureDirections) {
+    for (NSNumber *direction in gestureDirections) {
         UISwipeGestureRecognizer *gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
         gesture.numberOfTouchesRequired = 1;
         gesture.cancelsTouchesInView = NO;
@@ -615,15 +615,15 @@ static void *TorchRemoteContext = &TorchRemoteContext;
                                                       @"Pvr.IsPlayingTv"]}
                       onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
                           if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-                              BOOL VideoPlayerHasMenu = NO;
-                              BOOL PvrIsPlayingTv = NO;
+                              BOOL videoPlayerHasMenu = NO;
+                              BOOL pvrIsPlayingTv = NO;
                               if (methodResult[@"VideoPlayer.HasMenu"] != [NSNull null]) {
-                                  VideoPlayerHasMenu = [methodResult[@"VideoPlayer.HasMenu"] boolValue];
+                                  videoPlayerHasMenu = [methodResult[@"VideoPlayer.HasMenu"] boolValue];
                               }
                               if (methodResult[@"Pvr.IsPlayingTv"] != [NSNull null]) {
-                                  PvrIsPlayingTv = [methodResult[@"Pvr.IsPlayingTv"] boolValue];
+                                  pvrIsPlayingTv = [methodResult[@"Pvr.IsPlayingTv"] boolValue];
                               }
-                              if (winID == WINDOW_FULLSCREEN_VIDEO && !PvrIsPlayingTv && !VideoPlayerHasMenu) {
+                              if (winID == WINDOW_FULLSCREEN_VIDEO && !pvrIsPlayingTv && !videoPlayerHasMenu) {
                                   [self processButtonPress:videoButton];
                               }
                               else if (winID == WINDOW_VISUALISATION) {
