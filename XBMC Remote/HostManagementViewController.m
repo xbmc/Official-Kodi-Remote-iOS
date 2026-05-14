@@ -546,7 +546,9 @@
     editTableButton.titleLabel.numberOfLines = 1;
     editTableButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     editTableButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
-    supportedVersionLabel.text = LOCALIZED_STR(@"Supported XBMC version is Eden (11) or higher");
+    
+    NSString *minVersion = [NSString stringWithFormat:@"%d (%@)", MIN_SUPPORTED_SERVER_VERSION, MIN_SUPPORTED_SERVER_VERSION_NAME];
+    supportedVersionLabel.text = LOCALIZED_STR_ARGS(@"Supports Kodi version %@ or higher", minVersion);
     
     editTableButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [editTableButton setTextStyle];

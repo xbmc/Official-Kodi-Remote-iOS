@@ -10,6 +10,12 @@
 #define ConvenienceMacros_h
 
 /*
+ * Minimum supported Kodi version
+ */
+#define MIN_SUPPORTED_SERVER_VERSION 11
+#define MIN_SUPPORTED_SERVER_VERSION_NAME @"Eden"
+
+/*
  * Device and orientation checks
  */
 #define IS_IPHONE (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone)
