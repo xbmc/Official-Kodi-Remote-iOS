@@ -43,11 +43,6 @@
     return (AppDelegate.instance.APImajorVersion == 12 && AppDelegate.instance.APIminorVersion >= 1) || AppDelegate.instance.APImajorVersion > 12;
 }
 
-+ (BOOL)hasAlbumArtistOnlySupport {
-    // "albumartistonly" parameter is supported from API 4.0.0 on
-    return AppDelegate.instance.APImajorVersion >= 4;
-}
-
 + (BOOL)hasInputButtonEventSupport {
     // Input.ButtonEvent is supported from API 12 on
     return AppDelegate.instance.APImajorVersion >= 12;
