@@ -4428,26 +4428,24 @@
     if (filterModeType == ViewModeAlbumArtists ||
         filterModeType == ViewModeSongArtists ||
         filterModeType == ViewModeDefaultArtists) {
-        if ([VersionCheck hasAlbumArtistOnlySupport]) {
-            switch (filterModeType) {
-                case ViewModeAlbumArtists:
-                    mutableParameters[@"albumartistsonly"] = @YES;
-                    forceRefresh = YES;
-                    break;
-                    
-                case ViewModeSongArtists:
-                    mutableParameters[@"albumartistsonly"] = @NO;
-                    forceRefresh = YES;
-                    break;
-                    
-                case ViewModeDefaultArtists:
-                    [mutableParameters removeObjectForKey:@"albumartistsonly"];
-                    break;
-                    
-                default:
-                    NSAssert(NO, @"retrieveData: unexpected mode %ld", filterModeType);
-                    break;
-            }
+        switch (filterModeType) {
+            case ViewModeAlbumArtists:
+                mutableParameters[@"albumartistsonly"] = @YES;
+                forceRefresh = YES;
+                break;
+                
+            case ViewModeSongArtists:
+                mutableParameters[@"albumartistsonly"] = @NO;
+                forceRefresh = YES;
+                break;
+                
+            case ViewModeDefaultArtists:
+                [mutableParameters removeObjectForKey:@"albumartistsonly"];
+                break;
+                
+            default:
+                NSAssert(NO, @"retrieveData: unexpected mode %ld", filterModeType);
+                break;
         }
     }
     
