@@ -604,8 +604,6 @@
         <image name="remote_button_left_up" width="424" height="424"/>
         <image name="remote_button_right_down" width="424" height="424"/>
         <image name="remote_button_right_up" width="424" height="424"/>
-        <image name="remote_button_tv_down" width="130.33332824707031" height="69.666664123535156"/>
-        <image name="remote_button_tv_up" width="130.33332824707031" height="69.666664123535156"/>
         <image name="remote_button_up_down" width="424" height="424"/>
         <image name="remote_button_up_up" width="424" height="424"/>
         <image name="remote_button_xbmc_select_down" width="424" height="424"/>
