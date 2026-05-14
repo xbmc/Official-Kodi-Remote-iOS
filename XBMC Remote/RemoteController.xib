@@ -25,7 +25,6 @@
                 <outlet property="buttonZoneView" destination="173" id="177"/>
                 <outlet property="gestureZoneImageView" destination="175" id="191"/>
                 <outlet property="gestureZoneView" destination="174" id="176"/>
-                <outlet property="panFallbackImageView" destination="117" id="181"/>
                 <outlet property="quickHelpImageView" destination="168" id="172"/>
                 <outlet property="quickHelpMainLabel" destination="2TM-YH-uLa" id="mrb-EG-ORr"/>
                 <outlet property="quickHelpSubLabel" destination="Cnv-Gh-EaD" id="mjN-ph-iNk"/>
