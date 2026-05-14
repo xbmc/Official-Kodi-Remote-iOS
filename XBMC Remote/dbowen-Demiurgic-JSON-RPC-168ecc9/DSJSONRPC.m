@@ -49,7 +49,7 @@
 
 @implementation DSJSONRPC
 
-- (id)initWithServiceEndpoint:(NSURL*)serviceEndpoint; {
+- (id)initWithServiceEndpoint:(NSURL*)serviceEndpoint {
     return [self initWithServiceEndpoint:serviceEndpoint andHTTPHeaders:nil];
 }
 
