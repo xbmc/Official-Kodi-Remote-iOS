@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, SettingValueType) {
     UIActivityIndicatorView *activityIndicator;
     NSIndexPath *selectedSetting;
     NSIndexPath *longPressRow;
-    CGFloat storeSliderValue;
+    float storeSliderValue;
     UIView *scrubbingView;
     UILabel *scrubbingMessage;
     UILabel *scrubbingRate;
