@@ -63,8 +63,8 @@
         }
         
         // Set the image in-memory cache to 25% of physical memory (but max to 512 MB). maxCost reflects the amount of pixels.
-        NSInteger memorySize = [[NSProcessInfo processInfo] physicalMemory];
-        NSInteger maxCost = MIN(memorySize / 4, 512 * 1024 * 1024) / BYTES_PER_PIXEL;
+        uint64_t memorySize = [[NSProcessInfo processInfo] physicalMemory];
+        NSUInteger maxCost = MIN(memorySize / 4, 512 * 1024 * 1024) / BYTES_PER_PIXEL;
         [[SDImageCache sharedImageCache] setMaxMemoryCost:maxCost];
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
