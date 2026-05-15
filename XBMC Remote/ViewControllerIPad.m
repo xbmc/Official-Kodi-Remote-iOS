@@ -317,7 +317,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    int deltaY = [Utilities getTopPadding];
+    CGFloat deltaY = [Utilities getTopPadding];
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
     AppDelegate.instance.obj = [GlobalData getInstance];
