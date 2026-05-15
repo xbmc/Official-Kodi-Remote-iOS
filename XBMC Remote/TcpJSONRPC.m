@@ -110,9 +110,9 @@ NSInputStream *inStream;
         case NSStreamEventHasBytesAvailable:
             if (theStream == inStream) {
                 uint8_t buffer[1024];
-                int len;
+                NSInteger len;
                 while ([inStream hasBytesAvailable]) {
-                    len = (int)[inStream read:buffer maxLength:sizeof(buffer)];
+                    len = [inStream read:buffer maxLength:sizeof(buffer)];
                     if (len > 0) {
                         NSData *output = [[NSData alloc] initWithBytes:buffer length:len];
                         if (nil != output) {
