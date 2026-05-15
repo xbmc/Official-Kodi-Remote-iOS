@@ -2519,10 +2519,7 @@
         }
         if (channelListView) {
             runtime.hidden = NO;
-            CGRect frame = genre.frame;
-            frame.size.width = title.frame.size.width;
-            frame.size.height = GENRE_HEIGHT;
-            genre.frame = frame;
+            [genre setSize:CGSizeMake(title.frame.size.width, GENRE_HEIGHT)];
             genre.textColor = [UIColor get1stLabelColor];
             genre.font = [UIFont boldSystemFontOfSize:14];
             progressView.hidden = YES;
@@ -2614,10 +2611,7 @@
                 genre.text = [NSString stringWithFormat:@"%@ - %@", item[@"channel"], item[@"plot"]];
                 genre.numberOfLines = 3;
             }
-            CGRect frame = genre.frame;
-            frame.size.width = title.frame.size.width;
-            frame.size.height = cellHeight - frame.origin.y - SMALL_PADDING;
-            genre.frame = frame;
+            [genre setSize:CGSizeMake(title.frame.size.width, cellHeight - genre.frame.origin.y - SMALL_PADDING)];
             [title setY:0];
             genre.font = [genre.font fontWithSize:12];
             genre.minimumScaleFactor = FONT_SCALING_DEFAULT;
@@ -2627,15 +2621,11 @@
                  [item[@"family"] isEqualToString:@"categoryid"] ||
                  [item[@"family"] isEqualToString:@"id"] ||
                  [item[@"family"] isEqualToString:@"addonid"]) {
-            CGRect frame;
             cell.urlImageView.contentMode = UIViewContentModeScaleAspectFit;
             runtimeyear.hidden = YES;
             runtime.hidden = YES;
             rating.hidden = YES;
-            frame = genre.frame;
-            frame.size.width = title.frame.size.width;
-            frame.size.height = cellHeight - frame.origin.y - SMALL_PADDING;
-            genre.frame = frame;
+            [genre setSize:CGSizeMake(title.frame.size.width, cellHeight - genre.frame.origin.y - SMALL_PADDING)];
             genre.numberOfLines = 2;
             genre.font = [genre.font fontWithSize:11];
             genre.minimumScaleFactor = FONT_SCALING_DEFAULT;
@@ -2664,10 +2654,7 @@
         runtimeyear.hidden = YES;
         runtime.hidden = YES;
         rating.hidden = YES;
-        CGRect frame = genre.frame;
-        frame.size.width = title.frame.size.width;
-        frame.size.height = cellHeight - frame.origin.y - SMALL_PADDING;
-        genre.frame = frame;
+        [genre setSize:CGSizeMake(title.frame.size.width, cellHeight - genre.frame.origin.y - SMALL_PADDING)];
         genre.numberOfLines = 3;
         genre.font = [genre.font fontWithSize:12];
         genre.minimumScaleFactor = FONT_SCALING_DEFAULT;
