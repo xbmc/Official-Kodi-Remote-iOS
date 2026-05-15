@@ -169,7 +169,7 @@ typedef NS_ENUM(NSInteger, ECResetStrategy) {
  
  @param side The side for the top view to slide towards.
  @param animations Perform changes to properties that will be animated while top view is moved off screen. Can be nil.
- @param onComplete Executed after the animation is completed. Can be nil.
+ @param complete Executed after the animation is completed. Can be nil.
  */
 - (void)anchorTopViewTo:(ECSide)side animations:(void(^)(void))animations onComplete:(void(^)(void))complete;
 
@@ -183,7 +183,7 @@ typedef NS_ENUM(NSInteger, ECResetStrategy) {
  
  @param side The side for the top view to slide off the screen towards.
  @param animations Perform changes to properties that will be animated while top view is moved off screen. Can be nil.
- @param onComplete Executed after the animation is completed. Can be nil.
+ @param complete Executed after the animation is completed. Can be nil.
  */
 - (void)anchorTopViewOffScreenTo:(ECSide)side animations:(void(^)(void))animations onComplete:(void(^)(void))complete;
 
@@ -193,7 +193,7 @@ typedef NS_ENUM(NSInteger, ECResetStrategy) {
 /** Slides the top view back to the center.
 
  @param animations Perform changes to properties that will be animated while top view is moved back to the center of the screen. Can be nil.
- @param onComplete Executed after the animation is completed. Can be nil.
+ @param complete Executed after the animation is completed. Can be nil.
  */
 - (void)resetTopViewWithAnimations:(void(^)(void))animations onComplete:(void(^)(void))complete;
 
