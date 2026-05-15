@@ -59,7 +59,7 @@
     NSString *currentType;
     BOOL nothingIsPlaying;
     IBOutlet UIButton *toggleButton;
-    int animationOptionTransition;
+    UIViewAnimationOptions animationOptionTransition;
     BOOL startFlipDemo;
     IBOutlet OBSlider *ProgressSlider;
     NSIndexPath *selectedIndexPath;
