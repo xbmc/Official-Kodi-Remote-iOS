@@ -245,7 +245,7 @@
             unsigned int intValue;
             [scanner scanHexInt:&intValue];
             
-            ether_addr[idx / 3] = intValue;
+            ether_addr[idx / 3] = (unsigned char)(intValue & 0xff);
         }
         
         /* Build the message to send - 6 x 0xff then 16 x MAC address */
