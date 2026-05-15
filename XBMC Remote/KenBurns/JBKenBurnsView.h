@@ -27,7 +27,7 @@
 
 @class KenBurnsView;
 
-#pragma - KenBurnsViewDelegate
+#pragma mark - KenBurnsViewDelegate
 @protocol KenBurnsViewDelegate <NSObject>
 @optional
 - (void)didShowImageAtIndex:(NSUInteger)index;
