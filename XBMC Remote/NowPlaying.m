@@ -554,6 +554,15 @@
 }
 
 - (void)updateControlsAndPlaylist:(NSDictionary*)item {
+    // Early return, if selectors are not supported. Avoids (reported) potential app crashes.
+    if (![item[@"partymode"] respondsToSelector:@selector(boolValue)] ||
+        ![item[@"canrepeat"] respondsToSelector:@selector(boolValue)] ||
+        ![item[@"canshuffle"] respondsToSelector:@selector(boolValue)] ||
+        ![item[@"canseek"] respondsToSelector:@selector(boolValue)] ||
+        ![item[@"position"] respondsToSelector:@selector(longLongValue)]) {
+        return;
+    }
+    
     // Read percentage of playback progress and set progress slider
     float percentage = [Utilities getFloatValueFromItem:item[@"percentage"]];
     if (updateProgressBar) {
