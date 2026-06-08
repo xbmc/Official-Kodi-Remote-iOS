@@ -24,11 +24,11 @@
 "Videos" = "Видео";
 "TV Shows" = "Сериалы";
 "Pictures" = "Изображения";
-"Live TV" = "ТВ";
+"Live TV" = "Прямой эфир";
 "Radio" = "Радио";
-"Favourites" = "Избранные";
+"Favourites" = "Избранное";
 "Now Playing" = "Сейчас воспроизводится";
-"Global Search" = "общий поиск";
+"Global Search" = "Общий поиск";
 "Main Menu changes needs app restart" = "Изменения в главном меню требуют перезапуска приложения";
 "Main Menu Items" = "Пункты главного меню";
 "Cache Settings" = "Настройки кэша";
@@ -41,3 +41,10 @@
 "Colorize UI automatically" = "Автоматическое изменение цвета интерфейса";
 "Show local network notice" = "Показать уведомление локальной сети";
 "Blurred cover effect" = "Эффект размытой обложки";
+"Haptic feedback for remote" = "Тактильная обратная связь для удалённого управления";
+"Files" = "Файлы";
+"Add-ons" = "Дополнения";
+"Kodi Settings" = "Настройки Kodi";
+"Volume control" = "Регулятор громкости";
+"CEC support via volume buttons" = "Поддержка CEC через кнопки регулировки громкости";
+"The app controls volume via buttons and a slider. The slider will always change the Kodi internal volume level. The buttons allow to control AV equipment's volume level via CEC, if this mode is enabled and Kodi identified a compatible device. The CEC functionality is embedded within Kodi itself." = "Приложение управляет громкостью с помощью кнопок и ползунка. Ползунок всегда будет изменять уровень внутренней громкости Kodi. Кнопки позволяют управлять уровнем громкости аудио-видео оборудования с помощью CEC, если этот режим включён и Kodi определил совместимое устройство. Функциональность CEC встроена в сам Kodi.";
