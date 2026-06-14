@@ -2859,8 +2859,7 @@
     if (bottomPadding > 0) {
         [playlistToolbarView offsetYBy:-bottomPadding];
         [nowPlayingView setHeight:CGRectGetHeight(nowPlayingView.frame) - bottomPadding];
-        [playlistTableView setHeight:CGRectGetHeight(playlistTableView.frame) - bottomPadding];
-        playlistView.frame = playlistTableView.frame;
+        [playlistView setHeight:CGRectGetHeight(playlistView.frame) - bottomPadding];
     }
     playlistTableView.contentInset = UIEdgeInsetsMake(0, 0, CGRectGetHeight(playlistActionView.frame), 0);
     self.edgesForExtendedLayout = UIRectEdgeNone;
