@@ -980,8 +980,8 @@
     // Check if the arrow needs to be displayed (only if content is > visible area)
     int height_content = scrollView.contentSize.height;
     int height_bounds = scrollView.bounds.size.height;
-    int height_navbar = self.navigationController.navigationBar.frame.size.height;
-    arrow_continue_down.alpha = (height_content <= height_bounds - height_navbar) ? 0 : ARROW_ALPHA;
+    int height_topbar = toolbar.frame.size.height;
+    arrow_continue_down.alpha = (height_content <= height_bounds - height_topbar) ? 0 : ARROW_ALPHA;
     
     // Initially "up" arrow is not shown
     arrow_back_up.alpha = 0;
