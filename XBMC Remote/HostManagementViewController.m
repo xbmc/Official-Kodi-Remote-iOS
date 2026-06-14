@@ -58,9 +58,7 @@
 - (void)modifyHost:(NSIndexPath*)item {
     NSIndexPath *selectedPath = storeServerSelection;
     if (selectedPath && item.row == selectedPath.row) {
-        [Utilities resetKodiServerParameters];
-        [Utilities saveLastServerIndex:nil];
-        [connectingActivityIndicator stopAnimating];
+        [self deselectServer];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
     }
     HostViewController *hostController = [[HostViewController alloc] initWithNibName:@"HostViewController" bundle:nil];
