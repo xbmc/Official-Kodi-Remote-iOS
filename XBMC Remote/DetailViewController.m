@@ -477,23 +477,17 @@
     }
 }
 
-- (void)addExtraProperties:(NSMutableArray*)mutableProperties newParams:(NSMutableDictionary*)mutableParameters params:(NSDictionary*)parameters {
-    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-        [mutableProperties addObject:@"art"];
+- (NSDictionary*)addExtraProperties:(NSDictionary*)mainParameters {
+    NSMutableDictionary *newParameters = [mainParameters[@"parameters"] mutableCopy];
+    NSArray *properties = mainParameters[@"parameters"][@"properties"];
+    NSMutableArray *newProperties = [[Utilities addExtraProperties:properties parameters:mainParameters] mutableCopy];
+    if ([mainParameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
+        [newProperties addObject:@"art"];
     }
-    if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
-        for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
-            if (AppDelegate.instance.serverVersion >= [key integerValue]) {
-                id arrayProperties = parameters[@"kodiExtrasPropertiesMinimumVersion"][key];
-                for (id value in arrayProperties) {
-                    [mutableProperties addObject:value];
-                }
-            }
-        }
+    if (newProperties != nil) {
+        newParameters[@"properties"] = newProperties;
     }
-    if (mutableProperties != nil) {
-        mutableParameters[@"properties"] = mutableProperties;
-    }
+    return [newParameters copy];
 }
 
 - (void)setFilternameLabel:(NSString*)labelText {
@@ -541,7 +535,7 @@
     id row7 = item[mainFields[@"row7"]] ?: @0;
     NSString *row7key = mainFields[@"row7"] ?: @"";
 
-    NSDictionary *newItem = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+    NSDictionary *newItem = [NSDictionary dictionaryWithObjectsAndKeys:
                              @(albumView), @"fromAlbumView",
                              @(episodesView), @"fromEpisodesView",
                              clearlogo, @"clearlogo",
@@ -1196,10 +1190,6 @@
     [self stopPullToRefreshViewAnimation];
     
     MainMenu *menuItem = self.detailItem;
-    NSDictionary *methods = nil;
-    NSDictionary *parameters = nil;
-    NSMutableDictionary *mutableParameters = nil;
-    NSMutableArray *mutableProperties = nil;
     BOOL refresh = NO;
     
     // Read new tab index
@@ -1214,11 +1204,6 @@
     
     // Handle modes (pressing same tab) or changed tabs
     if (newChoosedTab == chosenTab && !fromMoreItems) {
-        // Read relevant data from configuration
-        methods = menuItem.mainMethod[chosenTab];
-        parameters = menuItem.mainParameters[chosenTab];
-        mutableParameters = [parameters[@"parameters"] mutableCopy];
-        mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
         
         NSInteger num_modes = [menuItem.filterModes[chosenTab][@"modes"] count];
         if (!num_modes) {
@@ -1252,11 +1237,6 @@
         if (chosenTab < buttonsIB.count) {
             [buttonsIB[chosenTab] setSelected:YES];
         }
-        // Read relevant data from configuration (important: new value for chosenTab)
-        methods = menuItem.mainMethod[chosenTab];
-        parameters = menuItem.mainParameters[chosenTab];
-        mutableParameters = [parameters[@"parameters"] mutableCopy];
-        mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
     }
     self.indexView.indexTitles = nil;
     self.indexView.hidden = YES;
@@ -1269,6 +1249,10 @@
     [moreItemsViewController.view animateX:viewWidth alpha:1.0 duration:0.3];
     
     [activityIndicatorView startAnimating];
+    
+    // Read relevant data from configuration (important: new value for chosenTab)
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
+    NSDictionary *parameters = menuItem.mainParameters[chosenTab];
 
     if ([parameters[@"numberOfStars"] intValue] > 0) {
         numberOfStars = [parameters[@"numberOfStars"] intValue];
@@ -1284,12 +1268,12 @@
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     activeLayoutView.contentOffset = activeLayoutView.contentOffset;
     [self checkFullscreenButton:NO];
-    [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
+    NSDictionary *newParameters = [self addExtraProperties:parameters];
     if (!tvshowsView || [Utilities getPreferTvPosterMode]) {
         [self setSearchBar:self.searchController.searchBar toDark:NO];
     }
     if (methods[@"method"] != nil) {
-        [self retrieveData:methods[@"method"] parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:refresh];
+        [self retrieveData:methods[@"method"] parameters:newParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:refresh];
     }
     else {
         [activityIndicatorView stopAnimating];
@@ -1325,9 +1309,9 @@
                    nil];
             objKey = @"filter";
         }
-        NSMutableDictionary *newSectionParameters = [NSMutableDictionary dictionary];
+        NSDictionary *newSectionParameters = @{};
         if (parameters[@"extra_section_parameters"] != nil) {
-            newSectionParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            newSectionParameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                     obj, objKey,
                                     parameters[@"extra_section_parameters"][@"properties"], @"properties",
                                     parameters[@"extra_section_parameters"][@"sort"], @"sort",
@@ -1341,10 +1325,7 @@
             pvrExtraInfo[@"channelid"] = item[@"channelid"];
         }
         
-        NSMutableDictionary *kodiExtrasPropertiesMinimumVersion = [NSMutableDictionary dictionary];
-        if (parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
-            kodiExtrasPropertiesMinimumVersion = parameters[@"kodiExtrasPropertiesMinimumVersion"];
-        }
+        NSDictionary *kodiExtrasPropertiesMinimumVersion = parameters[@"kodiExtrasPropertiesMinimumVersion"] ?: @{};
         NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                               [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                obj, objKey,
@@ -3528,7 +3509,7 @@
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                 item[@"addonid"], @"addonid",
                                 nil];
-        NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+        NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
                                    item[@"label"], @"label",
                                    @"xbmc-exec-addon", @"type",
                                    item[@"thumbnail"], @"icon",
@@ -3543,7 +3524,7 @@
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                 item[@"label"], @"action",
                                 nil];
-        NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+        NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
                                    item[@"label"], @"label",
                                    @"string", @"type",
                                    @"", @"icon",
@@ -3558,7 +3539,7 @@
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                 item[@"label"], @"window",
                                 nil];
-        NSDictionary *newButton = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+        NSDictionary *newButton = [NSDictionary dictionaryWithObjectsAndKeys:
                                    item[@"label"], @"label",
                                    @"string", @"type",
                                    @"", @"icon",
@@ -4466,21 +4447,11 @@
     UIActivityIndicatorView *cellActivityIndicator = [self getCellActivityIndicator:indexPath];
     [cellActivityIndicator startAnimating];
     
-    NSMutableArray *newProperties = [parameters[@"properties"] mutableCopy];
-    if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
-        for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
-            if (AppDelegate.instance.serverVersion >= [key integerValue]) {
-                id arrayProperties = parameters[@"kodiExtrasPropertiesMinimumVersion"][key];
-                for (id value in arrayProperties) {
-                    [newProperties addObject:value];
-                }
-            }
-        }
-    }
-    NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          newProperties, @"properties",
-                                          object, itemid,
-                                          nil];
+    NSArray *newProperties = [Utilities addExtraProperties:parameters[@"properties"] parameters:parameters];
+    NSDictionary *newParameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   newProperties, @"properties",
+                                   object, itemid,
+                                   nil];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
@@ -4520,15 +4491,13 @@
     }
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
-    NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
-    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-    [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
+    NSDictionary *newParameters = [self addExtraProperties:parameters];
     NSString *methodToCall = methods[@"method"];
     if (parameters[@"exploreCommand"] != nil) {
         methodToCall = parameters[@"exploreCommand"];
     }
     if (methodToCall != nil) {
-        [self retrieveData:methodToCall parameters:mutableParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:forceRefresh];
+        [self retrieveData:methodToCall parameters:newParameters sectionMethod:methods[@"extra_section_method"] sectionParameters:parameters[@"extra_section_parameters"] resultStore:self.richResults extraSectionCall:NO refresh:forceRefresh];
     }
     else if (globalSearchView) {
         [self retrieveGlobalData:forceRefresh];
@@ -4580,12 +4549,10 @@
     NSDictionary *parameters = menuItem.mainParameters[activeTab];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
     NSString *methodToCall = methods[@"method"];
-    NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
-    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-    [self addExtraProperties:mutableProperties newParams:mutableParameters params:parameters];
+    NSDictionary *newParameters = [self addExtraProperties:parameters];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
-     withParameters:mutableParameters
+     withParameters:newParameters
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         if (error == nil && methodError == nil) {
             [activeLayoutView reloadData];

@@ -108,10 +108,10 @@
 }
 
 - (void)changeServerStatus:(BOOL)status infoText:(NSString*)infoText icon:(NSString*)iconName {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   infoText, @"message",
-                                   iconName, @"icon_connection",
-                                   nil];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            infoText, @"message",
+                            iconName, @"icon_connection",
+                            nil];
     AppDelegate.instance.serverOnLine = status;
     AppDelegate.instance.serverName = infoText;
     NSString *notificationName;

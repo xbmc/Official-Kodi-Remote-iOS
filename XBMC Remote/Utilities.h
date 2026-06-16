@@ -68,6 +68,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (int)getSec2Min:(BOOL)convert;
 + (NSString*)getImageServerURL;
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
++ (NSArray*)addExtraProperties:(NSArray*)properties parameters:(NSDictionary*)parameters;
 + (CGFloat)getBottomPadding;
 + (CGFloat)getTopPadding;
 + (CGFloat)getTopPaddingWithNavBar:(UINavigationController*)navCtrl;
