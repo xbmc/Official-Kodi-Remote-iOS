@@ -63,7 +63,6 @@
         [self.view addSubview:imageBackground];
         
         activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        activityIndicator.color = UIColor.grayColor;
         activityIndicator.center = CGPointMake(frame.size.width / 2, frame.size.height / 2);
         activityIndicator.hidesWhenStopped = YES;
         [self.view addSubview:activityIndicator];

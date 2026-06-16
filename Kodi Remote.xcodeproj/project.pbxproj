@@ -109,6 +109,7 @@
 		C7B7D02A2F71B37F00689B5A /* UIViewController+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B7D0292F71B37F00689B5A /* UIViewController+Extensions.m */; };
 		C7B7D02D2F732AED00689B5A /* UIBarButtonItem+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B7D0262F71B18300689B5A /* UIBarButtonItem+Extensions.m */; };
 		C7B7D03A2F76D36E00689B5A /* UILabel+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B7D0392F76D36E00689B5A /* UILabel+Extensions.m */; };
+		C7BBD0AD2FAA680500133407 /* UIButton+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BBD0AC2FAA680500133407 /* UIButton+Extensions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -358,6 +359,8 @@
 		C7B7D02B2F71B39D00689B5A /* UIViewController+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extensions.h"; sourceTree = "<group>"; };
 		C7B7D0392F76D36E00689B5A /* UILabel+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Extensions.m"; sourceTree = "<group>"; };
 		C7B7D03D2F76D38A00689B5A /* UILabel+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+Extensions.h"; sourceTree = "<group>"; };
+		C7BBD0AC2FAA680500133407 /* UIButton+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extensions.m"; sourceTree = "<group>"; };
+		C7BBD0AE2FAA682800133407 /* UIButton+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+Extensions.h"; sourceTree = "<group>"; };
 		C7D95E212DC0963100153267 /* id-ID */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "id-ID"; path = "id-ID.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		C7D95E222DC0963100153267 /* id-ID */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "id-ID"; path = "id-ID.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C7F28D4826961FE50004B112 /* ConvenienceMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConvenienceMacros.h; sourceTree = "<group>"; };
@@ -758,6 +761,8 @@
 				C752A3BE2F827E23008154C8 /* NSString+Extensions.m */,
 				C7B7D0282F71B1C100689B5A /* UIBarButtonItem+Extensions.h */,
 				C7B7D0262F71B18300689B5A /* UIBarButtonItem+Extensions.m */,
+				C7BBD0AE2FAA682800133407 /* UIButton+Extensions.h */,
+				C7BBD0AC2FAA680500133407 /* UIButton+Extensions.m */,
 				C7B7D02B2F71B39D00689B5A /* UIViewController+Extensions.h */,
 				C7B7D0292F71B37F00689B5A /* UIViewController+Extensions.m */,
 				C7B7D03D2F76D38A00689B5A /* UILabel+Extensions.h */,
@@ -945,6 +950,7 @@
 				0F00207816EE247A003822B5 /* OBSlider.m in Sources */,
 				0F284A5216F63C9A00AFC1EF /* PosterLabel.m in Sources */,
 				0F284A5516F6419700AFC1EF /* PosterCell.m in Sources */,
+				C7BBD0AD2FAA680500133407 /* UIButton+Extensions.m in Sources */,
 				0F8E308816FA536C009DEE72 /* PosterHeaderView.m in Sources */,
 				C78C30F528F877870055CD95 /* VersionCheck.m in Sources */,
 				C76451D629C51221000AE949 /* UIView+WebCacheOperation.m in Sources */,
