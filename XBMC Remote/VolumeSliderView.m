@@ -298,6 +298,7 @@
     [self startTimer];
     isChangingVolume = NO;
 }
+
 - (void)longpressVolume:(id)timer {
     // Volume up/down was longpressed
     id sender = [timer userInfo];
