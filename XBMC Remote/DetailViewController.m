@@ -157,23 +157,15 @@
     NSIndexPath *indexPath = parameters[@"indexPath"];
     NSMutableDictionary *item = parameters[@"item"];
     if ([channelid longValue] > 0) {
-        NSMutableArray *retrievedEPG = [self loadEPGFromMemory:channelid];
-        NSMutableDictionary *channelEPG = [self parseEpgData:retrievedEPG];
-        NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   channelEPG, @"channelEPG",
-                                   indexPath, @"indexPath",
-                                   item, @"item",
-                                   nil];
-        [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
+        NSMutableArray *retrievedEPG_RAM = [self loadEPGFromMemory:channelid];
+        NSMutableDictionary *channelEPG = [self parseEpgData:retrievedEPG_RAM];
+        
+        // If no channel EPG available from RAM, try to read from disk
         if ([channelEPG[@"refresh_data"] boolValue]) {
-            retrievedEPG = [self loadEPGFromDisk:channelid parameters:parameters];
-            channelEPG = [self parseEpgData:retrievedEPG];
-            NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                       channelEPG, @"channelEPG",
-                                       indexPath, @"indexPath",
-                                       item, @"item",
-                                       nil];
-            [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
+            NSMutableArray *retrievedEPG_Disk = [self loadEPGFromDisk:channelid parameters:parameters];
+            channelEPG = [self parseEpgData:retrievedEPG_Disk];
+            
+            // If no channel EPG available from disk as well, request update via JSON API
             dispatch_sync(epglockqueue, ^{
                 if ([channelEPG[@"refresh_data"] boolValue] && ![epgDownloadQueue containsObject:channelid]) {
                     [epgDownloadQueue addObject:channelid];
@@ -181,6 +173,14 @@
                 }
             });
         }
+        
+        // Trigger update of the channel list view
+        NSDictionary *epgparams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   channelEPG, @"channelEPG",
+                                   indexPath, @"indexPath",
+                                   item, @"item",
+                                   nil];
+        [self performSelectorOnMainThread:@selector(updateEpgTableInfo:) withObject:epgparams waitUntilDone:NO];
     }
 }
 
