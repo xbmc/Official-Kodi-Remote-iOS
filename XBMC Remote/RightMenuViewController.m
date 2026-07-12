@@ -130,15 +130,12 @@
     [newView addSubview:effectView];
     
     // plus button
-    UIImage *image = [UIImage imageNamed:@"icon_plus"];
-    image = [image colorizeWithColor:UIColor.lightGrayColor];
     CGFloat originX = IS_IPHONE ? (ANCHOR_RIGHT_PEEK + PANEL_SHADOW_SIZE) : 0 + BUTTON_SPACING;
     moreButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, TOOLBAR_HEIGHT, TOOLBAR_HEIGHT)];
     moreButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     moreButton.enabled = AppDelegate.instance.serverOnLine;
-    [moreButton setImage:image forState:UIControlStateNormal];
-    [moreButton setImage:image forState:UIControlStateHighlighted];
+    [moreButton setIconStyle:[UIImage imageNamed:@"icon_plus"]];
     [moreButton addTarget:self action:@selector(addButtonToList:) forControlEvents:UIControlEventTouchUpInside];
     [newView addSubview:moreButton];
     
@@ -147,9 +144,7 @@
     editTableButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, 0, BUTTON_WIDTH, TOOLBAR_HEIGHT)];
     editTableButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     editTableButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-    [editTableButton setTitleColor:UIColor.darkGrayColor forState:UIControlStateDisabled];
-    [editTableButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateNormal];
-    [editTableButton setTitleColor:UIColor.lightGrayColor forState:UIControlStateSelected];
+    [editTableButton setTextStyle];
     [editTableButton setTitle:LOCALIZED_STR(@"Edit") forState:UIControlStateNormal];
     [editTableButton setTitle:LOCALIZED_STR(@"Done") forState:UIControlStateSelected];
     [editTableButton addTarget:self action:@selector(editTable:) forControlEvents:UIControlEventTouchUpInside];
@@ -229,6 +224,20 @@
         
         [tableData addObject:itemDict];
     }
+}
+
+- (void)highlightCustomButton:(NSIndexPath*)indexPath {
+    // Short animation to highlight the button selection
+    CustomButtonCell *cell = [menuTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+    [UIView animateWithDuration:0.1
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        cell.alpha = 0.1;
+    }
+                     completion:^(BOOL finished) {
+        cell.alpha = 1.0;
+    }];
 }
 
 #pragma mark - UISwitch
@@ -346,6 +355,7 @@
             NSDictionary *parameters = tableData[indexPath.row][@"action"][@"params"] ?: @{};
             [self xbmcAction:command params:parameters uiControl:nil];
         }
+        [self highlightCustomButton:indexPath];
     }
 }
 
