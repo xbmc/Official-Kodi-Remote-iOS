@@ -766,6 +766,21 @@
     return urlString;
 }
 
++ (NSArray*)addExtraProperties:(NSArray*)properties parameters:(NSDictionary*)parameters {
+    NSMutableArray *newProperties = [properties mutableCopy];
+    if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
+        for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
+            if (AppDelegate.instance.serverVersion >= [key integerValue]) {
+                id arrayProperties = parameters[@"kodiExtrasPropertiesMinimumVersion"][key];
+                for (id value in arrayProperties) {
+                    [newProperties addObject:value];
+                }
+            }
+        }
+    }
+    return [newProperties copy];
+}
+
 + (CGFloat)getBottomPadding {
     CGFloat bottomPadding = UIApplication.sharedApplication.keyWindow.safeAreaInsets.bottom;
     return bottomPadding;

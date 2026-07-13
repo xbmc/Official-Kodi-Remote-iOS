@@ -1298,7 +1298,7 @@
                            NSString *thumbnailPath = [self getNowPlayingThumbnailPath:item];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                            NSString *file = [Utilities getStringFromItem:item[@"file"]];
-                           [playlistData addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                           [playlistData addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     idItem, @"idItem",
                                                     file, @"file",
                                                     label, @"label",
@@ -1463,21 +1463,11 @@
         return; // something goes wrong
     }
     [activityIndicator startAnimating];
-    NSMutableArray *newProperties = [parameters[@"properties"] mutableCopy];
-    if (parameters[@"kodiExtrasPropertiesMinimumVersion"] != nil) {
-        for (id key in parameters[@"kodiExtrasPropertiesMinimumVersion"]) {
-            if (AppDelegate.instance.serverVersion >= [key integerValue]) {
-                id arrayProperties = parameters[@"kodiExtrasPropertiesMinimumVersion"][key];
-                for (id value in arrayProperties) {
-                    [newProperties addObject:value];
-                }
-            }
-        }
-    }
-    NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          newProperties, @"properties",
-                                          object, itemid,
-                                          nil];
+    NSArray *newProperties = [Utilities addExtraProperties:parameters[@"properties"] parameters:parameters];
+    NSDictionary *newParameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   newProperties, @"properties",
+                                   object, itemid,
+                                   nil];
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:newParameters
@@ -1518,38 +1508,35 @@
                  if (!stringURL.length) {
                      stringURL = [Utilities getItemIconFromDictionary:itemExtraDict];
                  }
-                 NSObject *row11 = itemExtraDict[mainFields[@"row11"]];
-                 if (row11 == nil) {
-                     row11 = @(0);
-                 }
-                 NSDictionary *newItem =
-                 [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                  clearlogo, @"clearlogo",
-                  clearart, @"clearart",
-                  label, @"label",
-                  genre, @"genre",
-                  stringURL, @"thumbnail",
-                  fanartURL, @"fanart",
-                  runtime, @"runtime",
-                  itemExtraDict[mainFields[@"row6"]], mainFields[@"row6"],
-                  itemExtraDict[mainFields[@"row8"]], mainFields[@"row8"],
-                  year, @"year",
-                  rating, @"rating",
-                  mainFields[@"playlistid"], @"playlistid",
-                  mainFields[@"row8"], @"family",
-                  [Utilities getNumberFromItem:itemExtraDict[mainFields[@"row9"]]], mainFields[@"row9"],
-                  itemExtraDict[mainFields[@"row10"]], mainFields[@"row10"],
-                  row11, mainFields[@"row11"],
-                  itemExtraDict[mainFields[@"row12"]], mainFields[@"row12"],
-                  itemExtraDict[mainFields[@"row13"]], mainFields[@"row13"],
-                  itemExtraDict[mainFields[@"row14"]], mainFields[@"row14"],
-                  itemExtraDict[mainFields[@"row15"]], mainFields[@"row15"],
-                  itemExtraDict[mainFields[@"row16"]], mainFields[@"row16"],
-                  itemExtraDict[mainFields[@"row17"]], mainFields[@"row17"],
-                  itemExtraDict[mainFields[@"row18"]], mainFields[@"row18"],
-                  itemExtraDict[mainFields[@"row19"]], mainFields[@"row19"],
-                  itemExtraDict[mainFields[@"row20"]], mainFields[@"row20"],
-                  nil];
+                 id row11 = itemExtraDict[mainFields[@"row11"]] ?: @0;
+                 
+                 NSDictionary *newItem = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          clearlogo, @"clearlogo",
+                                          clearart, @"clearart",
+                                          label, @"label",
+                                          genre, @"genre",
+                                          stringURL, @"thumbnail",
+                                          fanartURL, @"fanart",
+                                          runtime, @"runtime",
+                                          itemExtraDict[mainFields[@"row6"]], mainFields[@"row6"],
+                                          itemExtraDict[mainFields[@"row8"]], mainFields[@"row8"],
+                                          year, @"year",
+                                          rating, @"rating",
+                                          mainFields[@"playlistid"], @"playlistid",
+                                          mainFields[@"row8"], @"family",
+                                          [Utilities getNumberFromItem:itemExtraDict[mainFields[@"row9"]]], mainFields[@"row9"],
+                                          itemExtraDict[mainFields[@"row10"]], mainFields[@"row10"],
+                                          row11, mainFields[@"row11"],
+                                          itemExtraDict[mainFields[@"row12"]], mainFields[@"row12"],
+                                          itemExtraDict[mainFields[@"row13"]], mainFields[@"row13"],
+                                          itemExtraDict[mainFields[@"row14"]], mainFields[@"row14"],
+                                          itemExtraDict[mainFields[@"row15"]], mainFields[@"row15"],
+                                          itemExtraDict[mainFields[@"row16"]], mainFields[@"row16"],
+                                          itemExtraDict[mainFields[@"row17"]], mainFields[@"row17"],
+                                          itemExtraDict[mainFields[@"row18"]], mainFields[@"row18"],
+                                          itemExtraDict[mainFields[@"row19"]], mainFields[@"row19"],
+                                          itemExtraDict[mainFields[@"row20"]], mainFields[@"row20"],
+                                          nil];
                  [self displayInfoView:newItem];
              }
          }
