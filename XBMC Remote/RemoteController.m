@@ -865,8 +865,8 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             }
             else {
                 [self simpleAction:@"Addons.ExecuteAddon"
-                         params:@{@"addonid": @"script.xbmc.subtitles"}
-                xbmcHttp:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
+                            params:@{@"addonid": @"script.xbmc.subtitles"}
+                          xbmcHttp:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
             }
             break;
             
