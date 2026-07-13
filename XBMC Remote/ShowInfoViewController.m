@@ -326,7 +326,7 @@
                                               parameters[@"label"], @"label",
                                               @YES, @"fromShowInfo",
                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                              [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                              parameters[@"itemSizes"], @"itemSizes",
                                               parameters[@"extra_info_parameters"], @"extra_info_parameters",
                                               @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
                                               @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
