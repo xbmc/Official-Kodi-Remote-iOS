@@ -25,7 +25,6 @@ typedef NS_ENUM(NSInteger, RemotePositionType) {
     IBOutlet UILabel *quickHelpSubLabel;
     IBOutlet UIView *gestureZoneView;
     IBOutlet UIView *buttonZoneView;
-    IBOutlet UIImageView *panFallbackImageView;
     IBOutlet UIButton *buttonSeekBackward;
     IBOutlet UIButton *buttonPlayPause;
     IBOutlet UIButton *buttonSeekForward;
