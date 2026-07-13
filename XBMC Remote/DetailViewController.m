@@ -4585,7 +4585,7 @@
     }];
 }
 
-- (void)retrieveData:(NSString*)methodToCall parameters:(NSDictionary*)parameters sectionMethod:(NSString*)SectionMethodToCall sectionParameters:(NSDictionary*)sectionParameters resultStore:(NSMutableArray*)resultStoreArray extraSectionCall:(BOOL) extraSectionCallBool refresh:(BOOL)forceRefresh {
+- (void)retrieveData:(NSString*)methodToCall parameters:(NSDictionary*)parameters sectionMethod:(NSString*)SectionMethodToCall sectionParameters:(NSDictionary*)sectionParameters resultStore:(NSMutableArray*)resultStoreArray extraSectionCall:(BOOL)extraSectionCallBool refresh:(BOOL)forceRefresh {
     MainMenu *menuItem = self.detailItem;
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
     [self addFileProperties:mutableParameters];

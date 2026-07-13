@@ -69,7 +69,6 @@
     UIImageView *clearLogoImageView;
     int clearLogoWidth;
     int clearLogoHeight;
-    int clearlogoScrollViewY;
     NSArray *castList;
     int castWidth;
     int castHeight;
