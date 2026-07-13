@@ -19,8 +19,6 @@
 - (void)showRemote;
 - (void)showNowPlaying;
 - (void)simpleAction:(NSString*)action params:(NSDictionary*)params success:(NSString*)successMessage failure:(NSString*)failureMessage;
-- (void)simpleAction:(NSString*)action params:(NSDictionary*)params completion:(DSJSONRPCCompletionHandler)handler;
-- (void)simpleAction:(NSString*)action params:(NSDictionary*)params;
 - (void)playerAction:(NSString*)action params:(NSDictionary*)params playerid:(int)playerid;
 - (void)playerAction:(NSString*)action params:(NSDictionary*)params;
 - (void)playerOpen:(NSDictionary*)params indicator:(UIActivityIndicatorView*)cellActivityIndicator;

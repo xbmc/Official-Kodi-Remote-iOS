@@ -441,7 +441,9 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 }
 
 - (void)simpleAction:(NSString*)action params:(NSDictionary*)params xbmcHttp:(NSString*)command {
-    [self simpleAction:action params:params completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+    [[Utilities getJsonRPC] callMethod:action
+                        withParameters:params
+                          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         // Backwards compatibility for Kodi "Eden" which supports xbmchttp but not JSON API for some commands
         if ((methodError != nil || error != nil) && command != nil && AppDelegate.instance.serverVersion == 11) {
             [Utilities sendXbmcHttp:command];
@@ -629,46 +631,50 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     switch (buttonTag) {
         case TAG_BUTTON_ARROW_UP:
             if ([VersionCheck hasInputButtonEventSupport]) {
-                [self simpleAction:@"Input.ButtonEvent" params:@{@"button": @"up", @"keymap": @"KB"}];
+                [[Utilities getJsonRPC] callMethod:@"Input.ButtonEvent"
+                                    withParameters:@{@"button": @"up", @"keymap": @"KB"}];
             }
             else {
-                [self simpleAction:@"Input.Up" params:@{}];
+                [[Utilities getJsonRPC] callMethod:@"Input.Up" withParameters:@{}];
                 [self playerActionVideo:TAG_BUTTON_SEEK_FORWARD_BIG actionMusic:TAG_BUTTON_NEXT];
             }
             break;
             
         case TAG_BUTTON_ARROW_LEFT:
             if ([VersionCheck hasInputButtonEventSupport]) {
-                [self simpleAction:@"Input.ButtonEvent" params:@{@"button": @"left", @"keymap": @"KB"}];
+                [[Utilities getJsonRPC] callMethod:@"Input.ButtonEvent"
+                                    withParameters:@{@"button": @"left", @"keymap": @"KB"}];
             }
             else {
-                [self simpleAction:@"Input.Left" params:@{}];
+                [[Utilities getJsonRPC] callMethod:@"Input.Left" withParameters:@{}];
                 [self playerActionVideo:TAG_BUTTON_SEEK_BACKWARD actionMusic:TAG_BUTTON_SEEK_BACKWARD];
             }
             break;
             
         case TAG_BUTTON_ARROW_RIGHT:
             if ([VersionCheck hasInputButtonEventSupport]) {
-                [self simpleAction:@"Input.ButtonEvent" params:@{@"button": @"right", @"keymap": @"KB"}];
+                [[Utilities getJsonRPC] callMethod:@"Input.ButtonEvent"
+                                    withParameters:@{@"button": @"right", @"keymap": @"KB"}];
             }
             else {
-                [self simpleAction:@"Input.Right" params:@{}];
+                [[Utilities getJsonRPC] callMethod:@"Input.Right" withParameters:@{}];
                 [self playerActionVideo:TAG_BUTTON_SEEK_FORWARD actionMusic:TAG_BUTTON_SEEK_FORWARD];
             }
             break;
             
         case TAG_BUTTON_ARROW_DOWN:
             if ([VersionCheck hasInputButtonEventSupport]) {
-                [self simpleAction:@"Input.ButtonEvent" params:@{@"button": @"down", @"keymap": @"KB"}];
+                [[Utilities getJsonRPC] callMethod:@"Input.ButtonEvent"
+                                    withParameters:@{@"button": @"down", @"keymap": @"KB"}];
             }
             else {
-                [self simpleAction:@"Input.Down" params:@{}];
+                [[Utilities getJsonRPC] callMethod:@"Input.Down" withParameters:@{}];
                 [self playerActionVideo:TAG_BUTTON_SEEK_BACKWARD_BIG actionMusic:TAG_BUTTON_PREVIOUS];
             }
             break;
             
         case TAG_BUTTON_BACK:
-            [self simpleAction:@"Input.Back" params:@{}];
+            [[Utilities getJsonRPC] callMethod:@"Input.Back" withParameters:@{}];
             break;
             
         case TAG_BUTTON_FULLSCREEN:
@@ -740,7 +746,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         
         case TAG_BUTTON_HOME: // HOME
             action = @"Input.Home";
-            [self simpleAction:action params:@{}];
+            [[Utilities getJsonRPC] callMethod:action withParameters:@{}];
             break;
             
         case TAG_BUTTON_INFO: // INFO
@@ -750,7 +756,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             
         case TAG_BUTTON_SELECT:
             action = @"Input.Select";
-            [self simpleAction:action params:@{}];
+            [[Utilities getJsonRPC] callMethod:action withParameters:@{}];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputFinished" object:nil userInfo:nil];
             break;
             
@@ -840,7 +846,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             
         case TAG_BUTTON_INFO: // CODEC INFO
             if (AppDelegate.instance.serverVersion > 16) {
-                [self simpleAction:@"Input.ExecuteAction" params:@{@"action": @"playerdebug"}];
+                [[Utilities getJsonRPC] callMethod:@"Input.ExecuteAction" withParameters:@{@"action": @"playerdebug"}];
             }
             else {
                 [self simpleAction:@"Input.ShowCodec" params:@{} xbmcHttp:@"SendKey(0xF04F)"];
@@ -854,9 +860,8 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 
         case TAG_BUTTON_SUBTITLES: // SUBTITLES BUTTON
             if (AppDelegate.instance.serverVersion > 12) {
-                [self simpleAction:@"GUI.ActivateWindow"
-                         params:@{@"window": @"subtitlesearch"}
-               ];
+                [[Utilities getJsonRPC] callMethod:@"GUI.ActivateWindow"
+                                    withParameters:@{@"window": @"subtitlesearch"}];
             }
             else {
                 [self simpleAction:@"Addons.ExecuteAddon"
@@ -866,22 +871,19 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             break;
             
         case TAG_BUTTON_MOVIES:
-            [self simpleAction:@"GUI.ActivateWindow"
-                     params:@{@"window": @"pvr",
-                              @"parameters": @[@"31", @"0", @"10", @"0"]}
-           ];
+            [[Utilities getJsonRPC] callMethod:@"GUI.ActivateWindow"
+                                withParameters:@{@"window": @"pvr",
+                                                 @"parameters": @[@"31", @"0", @"10", @"0"]}];
             break;
             
         case TAG_BUTTON_TVSHOWS:
-            [self simpleAction:@"GUI.ActivateWindow"
-                     params:@{@"window": @"pvrosdguide"}
-           ];
+            [[Utilities getJsonRPC] callMethod:@"GUI.ActivateWindow"
+                                withParameters:@{@"window": @"pvrosdguide"}];
             break;
             
         case TAG_BUTTON_PICTURES:
-            [self simpleAction:@"GUI.ActivateWindow"
-                     params:@{@"window": @"pvrosdchannels"}
-           ];
+            [[Utilities getJsonRPC] callMethod:@"GUI.ActivateWindow"
+                                withParameters:@{@"window": @"pvrosdchannels"}];
             break;
 
         default:

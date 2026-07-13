@@ -1706,7 +1706,9 @@
     
     // Send the command to Kodi
     if (AppDelegate.instance.serverVersion > 11) {
-        [self simpleAction:@"Player.SetShuffle" params:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"} completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        [[Utilities getJsonRPC] callMethod:@"Player.SetShuffle"
+                            withParameters:@{@"playerid": @(currentPlayerID), @"shuffle": @"toggle"}
+                              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
                 [self createPlaylistAnimated:YES];
             }
@@ -1714,7 +1716,9 @@
     }
     else {
         NSString *shuffleCommand = newShuffleStatus ? @"Player.Shuffle" : @"Player.UnShuffle";
-        [self simpleAction:shuffleCommand params:@{@"playerid": @(currentPlayerID)} completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+        [[Utilities getJsonRPC] callMethod:shuffleCommand
+                            withParameters:@{@"playerid": @(currentPlayerID)}
+                              onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
             if (error == nil && methodError == nil) {
                 [self createPlaylistAnimated:YES];
             }
@@ -1927,7 +1931,9 @@
 }
 
 - (IBAction)startUpdateProgressBar:(id)sender {
-    [self simpleAction:@"Player.Seek" params:[Utilities buildPlayerSeekPercentageParams:currentPlayerID percentage:ProgressSlider.value] completion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+    [[Utilities getJsonRPC] callMethod:@"Player.Seek"
+                        withParameters:[Utilities buildPlayerSeekPercentageParams:currentPlayerID percentage:ProgressSlider.value]
+                          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         updateProgressBar = YES;
     }];
     [scrabbingView animateAlpha:0.0 duration:0.3];

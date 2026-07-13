@@ -54,14 +54,6 @@
     }];
 }
 
-- (void)simpleAction:(NSString*)action params:(NSDictionary*)params completion:(DSJSONRPCCompletionHandler)handler {
-    [[Utilities getJsonRPC] callMethod:action withParameters:params onCompletion:handler];
-}
-
-- (void)simpleAction:(NSString*)action params:(NSDictionary*)params {
-    [[Utilities getJsonRPC] callMethod:action withParameters:params];
-}
-
 - (void)playerAction:(NSString*)action params:(NSDictionary*)params playerid:(int)playerid {
     NSMutableDictionary *mutableParams = [NSMutableDictionary dictionaryWithDictionary:params];
     mutableParams[@"playerid"] = @(playerid);
