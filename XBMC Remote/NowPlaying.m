@@ -2522,7 +2522,6 @@
 }
 
 - (void)setIphoneInterface {
-    [playlistActionView setY:CGRectGetMinY(playlistToolbarView.frame) - CGRectGetHeight(playlistActionView.frame)];
     playlistActionView.alpha = 0.0;
 }
 
@@ -2532,7 +2531,6 @@
     nowPlayingView.hidden = NO;
     playlistView.hidden = NO;
     
-    [playlistActionView setY:CGRectGetHeight(playlistTableView.frame) - CGRectGetHeight(playlistActionView.frame)];
     playlistActionView.alpha = 1.0;
     
     // Prepare iPad fullscreen toggle button
