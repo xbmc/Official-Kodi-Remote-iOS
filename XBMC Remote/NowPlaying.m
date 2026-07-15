@@ -1558,14 +1558,12 @@
 }
 
 - (void)animViews {
-    __block CGFloat playtoolbarAlpha = 1.0;
     if (!nowPlayingView.hidden) {
         transitionFromView = nowPlayingView;
         transitionToView = playlistView;
         self.navigationItem.title = [self getPlaylistHeaderLabel];
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionCrossDissolve;
-        playtoolbarAlpha = 1.0;
     }
     else {
         transitionFromView = playlistView;
@@ -1573,7 +1571,6 @@
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionCrossDissolve;
-        playtoolbarAlpha = 0.0;
     }
     
     [UIView transitionWithView:transitionView
@@ -1584,7 +1581,6 @@
         self.slidingViewController.underLeftViewController.view.hidden = YES;
         transitionFromView.hidden = YES;
         transitionToView.hidden = NO;
-        playlistActionView.alpha = playtoolbarAlpha;
         self.navigationItem.titleView.hidden = NO;
                      }
                      completion:^(BOOL finished) {
@@ -2456,7 +2452,7 @@
     [toolbarBackground setWidth:viewSize.width];
     
     backgroundImageView.frame = nowPlayingView.frame;
-    playlistActionView.alpha = playlistView.alpha = isFullscreen ? 0 : 1;
+    playlistView.alpha = isFullscreen ? 0 : 1;
     
     // Adapt fullscreen toggle button icon to current screen mode
     NSString *imageName = isFullscreen ? @"button_exit_fullscreen" : @"button_fullscreen";
@@ -2519,22 +2515,6 @@
     [self setAVCodecFont:songSampleRate size:floor(14 * scale)];
     [self setAVCodecFont:songNumChannels size:floor(14 * scale)];
     descriptionFontSize = floor(12 * scale);
-}
-
-- (void)setIphoneInterface {
-    playlistActionView.alpha = 0.0;
-}
-
-- (void)setIpadInterface {
-    playlistToolbarView.alpha = 1.0;
-    
-    nowPlayingView.hidden = NO;
-    playlistView.hidden = NO;
-    
-    playlistActionView.alpha = 1.0;
-    
-    // Prepare iPad fullscreen toggle button
-    fullscreenToggleButton = [self.view viewWithTag:TAG_ID_TOGGLE];
 }
 
 - (BOOL)enableJewelCases {
@@ -2857,11 +2837,9 @@
     lastSelected = SELECTED_NONE;
     storedItemID = SELECTED_NONE;
     storeSelection = nil;
-    if (IS_IPHONE) {
-        [self setIphoneInterface];
-    }
-    else {
-        [self setIpadInterface];
+    if (IS_IPAD) {
+        // Prepare iPad fullscreen toggle button
+        fullscreenToggleButton = [self.view viewWithTag:TAG_ID_TOGGLE];
     }
     nowPlayingView.hidden = NO;
     playlistView.hidden = IS_IPHONE;
