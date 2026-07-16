@@ -58,7 +58,7 @@
     IBOutlet UIView *playlistActionView;
     NSString *currentType;
     BOOL nothingIsPlaying;
-    IBOutlet UIButton *playlistButton;
+    IBOutlet UIButton *toggleButton;
     int animationOptionTransition;
     BOOL startFlipDemo;
     IBOutlet OBSlider *ProgressSlider;
@@ -68,7 +68,6 @@
     IBOutlet UIButton *shuffleButton;
     IBOutlet UIButton *repeatButton;
     IBOutlet UIButton *closeButton;
-    UIButton *fullscreenToggleButton;
     BOOL shuffled;
     NSString *repeatStatus;
     BOOL updateProgressBar;

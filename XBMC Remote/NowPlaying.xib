@@ -28,7 +28,6 @@
                 <outlet property="noFoundLabel" destination="134" id="cWH-OB-YZ6"/>
                 <outlet property="nowPlayingView" destination="92" id="95"/>
                 <outlet property="playlistActionView" destination="128" id="149"/>
-                <outlet property="playlistButton" destination="Z3l-yA-EDD" id="k08-dq-wTJ"/>
                 <outlet property="playlistTableView" destination="100" id="103"/>
                 <outlet property="playlistToolbarView" destination="h1i-BK-QLr" id="Kxz-AK-SDs"/>
                 <outlet property="playlistView" destination="93" id="96"/>
@@ -48,6 +47,7 @@
                 <outlet property="songSampleRate" destination="112" id="115"/>
                 <outlet property="songSampleRateImage" destination="b3u-Km-zml" id="mcn-U2-3U2"/>
                 <outlet property="thumbnailView" destination="52" id="53"/>
+                <outlet property="toggleButton" destination="Z3l-yA-EDD" id="9KT-Cz-mTm"/>
                 <outlet property="transitionView" destination="98" id="Hxy-bA-FyS"/>
                 <outlet property="upnp" destination="0M5-Mc-Eeb" id="oX5-s4-i6s"/>
                 <outlet property="view" destination="1" id="3"/>

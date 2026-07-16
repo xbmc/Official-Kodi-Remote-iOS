@@ -109,8 +109,8 @@
 # pragma mark - toolbar management
 
 - (UIImage*)resizeToolbarThumb:(UIImage*)img {
-    CGSize thumbSize = CGSizeMake(CGRectGetWidth(playlistButton.frame) * UIScreen.mainScreen.scale,
-                                  CGRectGetHeight(playlistButton.frame) * UIScreen.mainScreen.scale);
+    CGSize thumbSize = CGSizeMake(CGRectGetWidth(toggleButton.frame) * UIScreen.mainScreen.scale,
+                                  CGRectGetHeight(toggleButton.frame) * UIScreen.mainScreen.scale);
     return [img resizedImageSize:thumbSize aspectMode:UIViewContentModeScaleAspectFit];
 }
 
@@ -424,7 +424,7 @@
 
 - (void)setButtonImageAndStartDemo:(UIImage*)buttonImage {
     if (nowPlayingView.hidden || startFlipDemo) {
-        [playlistButton setImage:buttonImage forState:UIControlStateNormal];
+        [toggleButton setImage:buttonImage forState:UIControlStateNormal];
         if (startFlipDemo) {
             [NSTimer scheduledTimerWithTimeInterval:FLIP_DEMO_DELAY target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
             startFlipDemo = NO;
@@ -1587,7 +1587,7 @@
         self.slidingViewController.underRightViewController.view.hidden = NO;
         self.slidingViewController.underLeftViewController.view.hidden = NO;
     }];
-    [self flipAnimButton:playlistButton demo:NO];
+    [self flipAnimButton:toggleButton demo:NO];
 }
 
 #pragma mark - Bottom toolbar
@@ -2457,7 +2457,7 @@
     // Adapt fullscreen toggle button icon to current screen mode
     NSString *imageName = isFullscreen ? @"button_exit_fullscreen" : @"button_fullscreen";
     UIImage *image = [UIImage imageNamed:imageName];
-    [fullscreenToggleButton setImage:image forState:UIControlStateNormal];
+    [toggleButton setImage:image forState:UIControlStateNormal];
     
     [self setCoverSize:currentType];
 }
@@ -2732,7 +2732,7 @@
 }
 
 - (void)startFlipDemo {
-    [self flipAnimButton:playlistButton demo:YES];
+    [self flipAnimButton:toggleButton demo:YES];
 }
      
 - (void)startNowPlayingUpdates {
@@ -2837,10 +2837,6 @@
     lastSelected = SELECTED_NONE;
     storedItemID = SELECTED_NONE;
     storeSelection = nil;
-    if (IS_IPAD) {
-        // Prepare iPad fullscreen toggle button
-        fullscreenToggleButton = [self.view viewWithTag:TAG_ID_TOGGLE];
-    }
     nowPlayingView.hidden = NO;
     playlistView.hidden = IS_IPHONE;
     self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
