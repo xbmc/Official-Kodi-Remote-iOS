@@ -326,7 +326,7 @@
                                               parameters[@"label"], @"label",
                                               @YES, @"fromShowInfo",
                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                              [NSDictionary dictionaryWithDictionary:parameters[@"itemSizes"]], @"itemSizes",
+                                              parameters[@"itemSizes"], @"itemSizes",
                                               parameters[@"extra_info_parameters"], @"extra_info_parameters",
                                               @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
                                               @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
@@ -401,7 +401,9 @@
     }
     else if ([actiontitle isEqualToString:LOCALIZED_STR(@"Record")] ||
              [actiontitle isEqualToString:LOCALIZED_STR(@"Stop Recording")]) {
-        [self recordChannel];
+        [self recordChannel:self.detailItem indicator:activityIndicatorView onSuccess:^{
+            [self animateRecordAction];
+        }];
     }
     else if ([actiontitle rangeOfString:resumeKey].location != NSNotFound) {
         [self startPlayback:YES];
@@ -410,7 +412,7 @@
         NSDictionary *itemParams = @{
             @"item": [NSDictionary dictionaryWithObjectsAndKeys:self.detailItem[@"trailer"], @"file", nil],
         };
-        [self openFile:itemParams];
+        [self playerOpen:itemParams];
     }
 }
 
@@ -437,66 +439,6 @@
                      completion:nil];
 }
 
-- (void)recordChannel {
-    NSDictionary *item = self.detailItem;
-    NSNumber *channelid = [Utilities getNumberFromItem:item[@"pvrExtraInfo"][@"channelid"]];
-    if ([channelid longValue] == 0) {
-        return;
-    }
-    NSString *methodToCall = @"PVR.Record";
-    NSString *parameterName = @"channel";
-    NSNumber *itemid = [Utilities getNumberFromItem:item[@"channelid"]];
-    NSNumber *storeChannelid = itemid;
-    NSNumber *storeBroadcastid = [Utilities getNumberFromItem:item[@"broadcastid"]];
-    if ([itemid longValue] == 0) {
-        itemid = [Utilities getNumberFromItem:item[@"pvrExtraInfo"][@"channelid"]];
-        if ([itemid longValue] == 0) {
-            return;
-        }
-        storeChannelid = itemid;
-        NSDate *starttime = [xbmcDateFormatter dateFromString:item[@"starttime"]];
-        NSDate *endtime = [xbmcDateFormatter dateFromString:item[@"endtime"]];
-        float percent_elapsed = [Utilities getPercentElapsed:starttime EndDate:endtime];
-        if (percent_elapsed < 0) {
-            itemid = [Utilities getNumberFromItem:item[@"broadcastid"]];
-            storeBroadcastid = itemid;
-            storeChannelid = @(0);
-            methodToCall = @"PVR.ToggleTimer";
-            parameterName = @"broadcastid";
-        }
-    }
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    [activityIndicatorView startAnimating];
-    NSDictionary *parameters = @{parameterName: itemid};
-    [[Utilities getJsonRPC] callMethod:methodToCall
-         withParameters:parameters
-           onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-               [activityIndicatorView stopAnimating];
-               self.navigationItem.rightBarButtonItem.enabled = YES;
-               if (error == nil && methodError == nil) {
-                   [self animateRecordAction];
-                   NSNumber *status = @(![item[@"isrecording"] boolValue]);
-                   if ([item[@"broadcastid"] longLongValue] > 0) {
-                       status = @(![item[@"hastimer"] boolValue]);
-                   }
-                   NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           storeChannelid, @"channelid",
-                                           storeBroadcastid, @"broadcastid",
-                                           status, @"status",
-                                           nil];
-                   [[NSNotificationCenter defaultCenter] postNotificationName:@"KodiServerRecordTimerStatusChange" object:nil userInfo:params];
-               }
-               else {
-                   NSString *message = [Utilities formatClipboardMessage:methodToCall
-                                                              parameters:parameters
-                                                                   error:error
-                                                             methodError:methodError];
-                   UIAlertController *alertCtrl = [Utilities createAlertCopyClipboard:LOCALIZED_STR(@"ERROR") message:message];
-                   [self presentViewController:alertCtrl animated:YES completion:nil];
-               }
-           }];
-}
-
 - (IBAction)scrollUp:(id)sender {
     CGPoint bottomOffset = CGPointMake(0, -scrollView.contentInset.top);
     [scrollView setContentOffset:bottomOffset animated:YES];
@@ -508,13 +450,6 @@
     int bottom_scroll = MAX(height_content - height_bounds, -scrollView.contentInset.top);
     CGPoint bottomOffset = CGPointMake(0, bottom_scroll);
     [scrollView setContentOffset:bottomOffset animated:YES];
-}
-
-- (void)showNowPlaying {
-    NowPlaying *nowPlaying = [[NowPlaying alloc] initWithNibName:@"NowPlaying" bundle:nil];
-    nowPlaying.detailItem = self.detailItem;
-    [self.navigationController pushViewController:nowPlaying animated:YES];
-    self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 - (BOOL)enableJewelCases {
@@ -1343,6 +1278,7 @@
                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                         __auto_type strongSelf = weakSelf;
                         if (!strongSelf) {
+                            [activityIndicatorView stopAnimating];
                             return;
                         }
                         if (image != nil) {
@@ -1608,133 +1544,46 @@
 # pragma mark - JSON Data
 
 - (void)addQueueAfterCurrent:(BOOL)afterCurrent {
-    self.navigationItem.rightBarButtonItem.enabled = NO;
     NSDictionary *item = self.detailItem;
     int playlistid = [item[@"playlistid"] intValue];
-    NSString *param = item[@"family"];
-    id value = item[item[@"family"]];
-    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
-    if (![VersionCheck hasRecordingIdPlaylistSupport] && [item[@"family"] isEqualToString:@"recordingid"]) {
-        param = @"file";
-        value = item[@"file"];
-    }
-    if (!value || !param) {
-        [activityIndicatorView stopAnimating];
+    id playlistItems = [self buildPlaylistItems:item key:item[@"family"]];
+    if (!playlistItems) {
         [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
         return;
     }
-    if (afterCurrent) {
-        NSDictionary *params = @{
-            @"playerid": @(playlistid),
-            @"properties": @[@"percentage", @"time", @"totaltime", @"partymode", @"position"],
-        };
-        [activityIndicatorView startAnimating];
-        [[Utilities getJsonRPC]
-         callMethod:@"Player.GetProperties"
-         withParameters:params
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-             if (error == nil && methodError == nil) {
-                 if ([methodResult isKindOfClass:[NSDictionary class]]) {
-                     if ([methodResult count]) {
-                         [activityIndicatorView stopAnimating];
-                         int newPos = [methodResult[@"position"] intValue] + 1;
-                         NSString *action2 = @"Playlist.Insert";
-                         NSDictionary *params2 = @{
-                             @"playlistid": @(playlistid),
-                             @"item": @{param: value},
-                             @"position": @(newPos),
-                         };
-                         [[Utilities getJsonRPC] callMethod:action2 withParameters:params2 onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-                             if (error == nil && methodError == nil) {
-                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-                             }
-                             
-                         }];
-                         self.navigationItem.rightBarButtonItem.enabled = YES;
-                     }
-                     else {
-                         [self addQueueAfterCurrent:NO];
-                     }
-                 }
-                 else {
-                     [self addQueueAfterCurrent:NO];
-                 }
-             }
-             else {
-                 [self addQueueAfterCurrent:NO];
-             }
-         }];
-    }
-    else {
-        [activityIndicatorView startAnimating];
-        NSDictionary *params = @{
-            @"playlistid": @(playlistid),
-            @"item": @{param: value},
-        };
-        [[Utilities getJsonRPC] callMethod:@"Playlist.Add" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            [activityIndicatorView stopAnimating];
-            if (error == nil && methodError == nil) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-            }
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }];
-    }
+    [self playlistQueue:playlistid items:playlistItems afterCurrent:afterCurrent indicator:activityIndicatorView];
 }
 
 - (void)startPlayback:(BOOL)resume {
     NSDictionary *item = self.detailItem;
-    if ([item[@"family"] isEqualToString:@"broadcastid"]) {
-        NSDictionary *itemParams = @{
-            @"item": [NSDictionary dictionaryWithObjectsAndKeys:item[@"pvrExtraInfo"][@"channelid"], @"channelid", nil],
-        };
-        [self openFile:itemParams];
+    id playlistItems = [self buildPlaylistItems:item key:item[@"family"]];
+    if (!playlistItems) {
+        [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
+        return;
     }
-    else {
-        self.navigationItem.rightBarButtonItem.enabled = NO;
-        [activityIndicatorView startAnimating];
-        NSString *key = item[@"family"];
-        id value = item[key];
-        if (!value || !key) {
-            [activityIndicatorView stopAnimating];
-            [Utilities showMessage:LOCALIZED_STR(@"Cannot do that") color:ERROR_MESSAGE_COLOR];
-            return;
-        }
-        NSDictionary *params = @{
-            @"item": @{
-                key: value,
-            },
-            @"options": @{
-                @"resume": @(resume),
-            },
-        };
-        [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            if (error == nil && methodError == nil) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-                [activityIndicatorView stopAnimating];
-                [self showNowPlaying];
-                [Utilities checkForReviewRequest];
-            }
-            else {
-                [activityIndicatorView stopAnimating];
-            }
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }];
-    }
+    [self startPlaybackItems:playlistItems using:nil shuffle:NO resume:resume indicator:activityIndicatorView];
 }
 
-- (void)openFile:(NSDictionary*)params {
-    [activityIndicatorView startAnimating];
-    [[Utilities getJsonRPC] callMethod:@"Player.Open" withParameters:params onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-        [activityIndicatorView stopAnimating];
-        if (error == nil && methodError == nil) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCPlaylistHasChanged" object:nil];
-            [self showNowPlaying];
-        }
-    }];
+- (id)buildPlaylistItems:(NSDictionary*)item key:(id)key {
+    id value = item[key];
+    // If Playlist.Insert and Playlist.Add for recordingid is not supported, use file path.
+    if (![VersionCheck hasRecordingIdPlaylistSupport] && [key isEqualToString:@"recordingid"]) {
+        key = @"file";
+        value = item[@"file"];
+    }
+    else if ([key isEqualToString:@"channelid"] ||
+             [key isEqualToString:@"broadcastid"]) {
+        key = @"channelid";
+        value = item[@"pvrExtraInfo"][@"channelid"] ?: item[@"channelid"];
+    }
+    if (!value || !key) {
+        return nil;
+    }
+    return @{key: value};
 }
 
-- (void)SimpleAction:(NSString*)action params:(NSDictionary*)parameters {
-    [[Utilities getJsonRPC] callMethod:action withParameters:parameters];
+- (void)playerOpen:(NSDictionary*)params {
+    [self playerOpen:params indicator:activityIndicatorView];
 }
 
 # pragma mark - Utility
@@ -1858,15 +1707,6 @@
     }
 }
 
-- (void)disableScrollsToTopPropertyOnAllSubviewsOf:(UIView*)view {
-    for (UIView *subview in view.subviews) {
-        if ([subview isKindOfClass:[UIScrollView class]]) {
-            ((UIScrollView*)subview).scrollsToTop = NO;
-        }
-        [self disableScrollsToTopPropertyOnAllSubviewsOf:subview];
-    }
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     fanartView.tag = FANART_FULLSCREEN_DISABLE;
@@ -1890,11 +1730,6 @@
     coverView.layer.magnificationFilter = kCAFilterTrilinear;
     fanartView.layer.minificationFilter = kCAFilterTrilinear;
     fanartView.layer.magnificationFilter = kCAFilterTrilinear;
-    
-    xbmcDateFormatter = [NSDateFormatter new];
-    xbmcDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    xbmcDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"]; // all times in Kodi PVR are UTC
-    xbmcDateFormatter.locale = [NSLocale systemLocale]; // Needed to work with 12h system setting in combination with "UTC"
     
     localStartDateFormatter = [NSDateFormatter new];
     localStartDateFormatter.timeZone = [NSTimeZone systemTimeZone];

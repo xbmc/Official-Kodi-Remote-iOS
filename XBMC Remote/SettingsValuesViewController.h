@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 joethefox inc. All rights reserved.
 //
 
+#import "BaseActionViewController.h"
+
 @import UIKit;
 
 typedef NS_ENUM(NSInteger, SettingType) {
@@ -32,7 +34,7 @@ typedef NS_ENUM(NSInteger, SettingValueType) {
     SettingValueTypeUnknown,
 };
 
-@interface SettingsValuesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate> {
+@interface SettingsValuesViewController : BaseActionViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate> {
     CGFloat cellHeight;
     NSMutableArray *settingOptions;
     NSDictionary *itemControls;
@@ -54,6 +56,5 @@ typedef NS_ENUM(NSInteger, SettingValueType) {
 - (id)initWithFrame:(CGRect)frame withItem:(id)item;
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (strong, nonatomic) id detailItem;
 
 @end
