@@ -105,7 +105,7 @@
              if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                  if (methodResult[@"currentwindow"] != [NSNull null]) {
                      if ([methodResult[@"currentwindow"][@"id"] longLongValue] == WINDOW_VIRTUAL_KEYBOARD) {
-                         [self simpleAction:@"Input.Back" params:@{}];
+                         [[Utilities getJsonRPC] callMethod:@"Input.Back" withParameters:@{}];
                      }
                  }
              }
@@ -188,7 +188,8 @@
         }
     }
     stringToSend = stringToSend ?: @"";
-    [self simpleAction:@"Input.SendText" params:@{@"text": stringToSend, @"done": @(inputFinished)}];
+    [[Utilities getJsonRPC] callMethod:@"Input.SendText"
+                        withParameters:@{@"text": stringToSend, @"done": @(inputFinished)}];
     return YES;
 }
 
@@ -196,12 +197,6 @@
     if (textField.tag == VIRTUAL_KEYBOARD_TEXTFIELD) {
         [self performSelectorOnMainThread:@selector(hideKeyboard) withObject:nil waitUntilDone:NO];
     }
-}
-
-#pragma mark - JSON commands
-
-- (void)simpleAction:(NSString*)action params:(NSDictionary*)params {
-    [[Utilities getJsonRPC] callMethod:action withParameters:params];
 }
 
 @end
