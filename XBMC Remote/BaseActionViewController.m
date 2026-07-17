@@ -197,7 +197,7 @@
     svc.delegate = self;
     if (IS_IPAD) {
         // On iPad presenting from the active ViewController results in blank screen
-        ctrl = UIApplication.sharedApplication.keyWindow.rootViewController;
+        ctrl = AppDelegate.keyWindow.rootViewController;
     }
     if (![svc isBeingPresented]) {
         if (ctrl.presentedViewController) {
