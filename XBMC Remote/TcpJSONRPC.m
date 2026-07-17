@@ -104,7 +104,7 @@ NSInputStream *inStream;
 
         case NSStreamEventOpenCompleted:
             AppDelegate.instance.serverTCPConnectionOpen = YES;
-            [self tcpConnectionNotifications:YES];
+            [self notifyJsonConnected:YES];
             break;
             
         case NSStreamEventHasBytesAvailable:
@@ -147,14 +147,14 @@ NSInputStream *inStream;
             [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
             theStream.delegate = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionClosed" object:nil userInfo:nil];
-            [self tcpConnectionNotifications:NO];
+            [self notifyJsonConnected:NO];
             break;
         default:
             break;
     }
 }
 
-- (void)tcpConnectionNotifications:(BOOL)hasTcpConnection {
+- (void)notifyJsonConnected:(BOOL)hasTcpConnection {
     NSString *connectionIcon = hasTcpConnection ? @"connection_on" : @"connection_on_notcp";
     NSString *connectionName = infoTitle ?: @"";
     NSDictionary *params = @{
@@ -164,7 +164,7 @@ NSInputStream *inStream;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionSuccess" object:nil userInfo:params];
 }
 
-- (void)jsonConnectionNotifications:(BOOL)hasJsonConnection {
+- (void)notifyTcpConnected:(BOOL)hasJsonConnection {
     NSString *connectionIcon = hasJsonConnection ? @"connection_on_notcp" : @"connection_off";
     NSString *connectionName = hasJsonConnection ? (infoTitle ?: @"") : LOCALIZED_STR(@"No connection");
     NSDictionary *params = @{
@@ -175,9 +175,16 @@ NSInputStream *inStream;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCChangeServerStatus" object:nil userInfo:params];
 }
 
-- (void)showSetupNotifications:(BOOL)showSetup {
+- (void)notifyShowSetupMenu:(BOOL)showSetup {
     NSDictionary *params = @{@"showSetup": @(showSetup)};
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TcpJSONRPCShowSetup" object:nil userInfo:params];
+}
+
+- (void)notifyConnectionProblem {
+    if (AppDelegate.instance.serverOnLine) {
+        [self notifyTcpConnected:NO];
+    }
+    [self notifyShowSetupMenu:YES];
 }
 
 - (void)checkServer {
@@ -185,10 +192,7 @@ NSInputStream *inStream;
         return;
     }
     if (AppDelegate.instance.obj.serverIP.length == 0) {
-        [self showSetupNotifications:YES];
-        if (AppDelegate.instance.serverOnLine) {
-            [self jsonConnectionNotifications:NO];
-        }
+        [self notifyConnectionProblem];
         return;
     }
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"wol_preference"] &&
@@ -223,19 +227,22 @@ NSInputStream *inStream;
                     if ([realServerName isEqualToString:@"MrMC"]) {
                         AppDelegate.instance.serverVersion += MRMC_TIMEWARP;
                     }
+                    if (AppDelegate.instance.serverVersion < MIN_SUPPORTED_SERVER_VERSION) {
+                        NSString *message = LOCALIZED_STR_ARGS(@"Kodi version %d not supported.", AppDelegate.instance.serverVersion);
+                        [Utilities showMessage:message color:ERROR_MESSAGE_COLOR];
+                        [self notifyConnectionProblem];
+                        return;
+                    }
                     infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
                                  AppDelegate.instance.obj.serverDescription,
                                  serverInfo[@"major"],
                                  serverInfo[@"minor"],
                                  serverInfo[@"tag"]];
-                    [self jsonConnectionNotifications:YES];
-                    [self showSetupNotifications:NO];
+                    [self notifyTcpConnected:YES];
+                    [self notifyShowSetupMenu:NO];
                 }
                 else {
-                    if (AppDelegate.instance.serverOnLine) {
-                        [self jsonConnectionNotifications:NO];
-                    }
-                    [self showSetupNotifications:YES];
+                    [self notifyConnectionProblem];
                 }
             }
         }
@@ -243,10 +250,7 @@ NSInputStream *inStream;
             if (error != nil) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerConnectionError" object:nil userInfo:@{@"error_message": [error localizedDescription]}];
             }
-            if (AppDelegate.instance.serverOnLine) {
-                [self jsonConnectionNotifications:NO];
-            }
-            [self showSetupNotifications:YES];
+            [self notifyConnectionProblem];
         }
     }];
 }
