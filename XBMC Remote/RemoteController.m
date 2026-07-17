@@ -440,13 +440,6 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     }];
 }
 
-- (void)simpleAction:(NSString*)action params:(NSDictionary*)params xbmcHttp:(NSString*)command {
-    [[Utilities getJsonRPC] callMethod:action
-                        withParameters:params
-                          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-    }];
-}
-
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
     if (IS_IPAD) {
         // Disable gestures to move the modal remote as this would conflict with the gesture zone
@@ -673,7 +666,8 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             
         case TAG_BUTTON_FULLSCREEN:
             action = @"GUI.SetFullscreen";
-            [self simpleAction:action params:@{@"fullscreen": @"toggle"} xbmcHttp:@"SendKey(0xf009)"];
+            [[Utilities getJsonRPC] callMethod:action
+                                withParameters:@{@"fullscreen": @"toggle"}];
             break;
             
         case TAG_BUTTON_SEEK_BACKWARD:
@@ -731,7 +725,8 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             
         case TAG_BUTTON_INFO: // INFO
             action = @"Input.Info";
-            [self simpleAction:action params:@{} xbmcHttp:@"SendKey(0xF049)"];
+            [[Utilities getJsonRPC] callMethod:action
+                                withParameters:@{}];
             break;
             
         case TAG_BUTTON_SELECT:
@@ -742,7 +737,8 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             
         case TAG_BUTTON_MENU: // MENU OSD
             action = @"Input.ShowOSD";
-            [self simpleAction:action params:@{} xbmcHttp:@"SendKey(0xF04D)"];
+            [[Utilities getJsonRPC] callMethod:action
+                                withParameters:@{}];
             break;
         
         case TAG_BUTTON_SUBTITLES:
@@ -756,27 +752,31 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         case TAG_BUTTON_MUSIC:
             action = @"GUI.ActivateWindow";
             params = @{@"window": @"music"};
-            [self simpleAction:action params:params xbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Music)"];
+            [[Utilities getJsonRPC] callMethod:action
+                                withParameters:params];
             break;
             
         case TAG_BUTTON_MOVIES:
             action = @"GUI.ActivateWindow";
             params = @{@"window": @"videos",
                        @"parameters": @[@"MovieTitles"]};
-            [self simpleAction:action params:params xbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Videos,MovieTitles)"];
+            [[Utilities getJsonRPC] callMethod:action
+                                withParameters:params];
             break;
         
         case TAG_BUTTON_TVSHOWS:
             action = @"GUI.ActivateWindow";
             params = @{@"window": @"videos",
                        @"parameters": @[@"tvshowtitles"]};
-            [self simpleAction:action params:params xbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Videos,tvshowtitles)"];
+            [[Utilities getJsonRPC] callMethod:action
+                                withParameters:params];
             break;
         
         case TAG_BUTTON_PICTURES:
             action = @"GUI.ActivateWindow";
             params = @{@"window": @"pictures"};
-            [self simpleAction:action params:params xbmcHttp:@"ExecBuiltIn&parameter=ActivateWindow(Pictures)"];
+            [[Utilities getJsonRPC] callMethod:action
+                                withParameters:params];
             break;
             
         default:
@@ -813,7 +813,8 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             break;
             
         case TAG_BUTTON_FULLSCREEN:
-            [self simpleAction:@"Input.ExecuteAction" params:@{@"action": @"togglefullscreen"} xbmcHttp:@"Action(199)"];
+            [[Utilities getJsonRPC] callMethod:@"Input.ExecuteAction"
+                                withParameters:@{@"action": @"togglefullscreen"}];
             break;
             
         case TAG_BUTTON_SEEK_BACKWARD: // DECREASE PLAYBACK SPEED
@@ -829,13 +830,15 @@ static void *TorchRemoteContext = &TorchRemoteContext;
                 [[Utilities getJsonRPC] callMethod:@"Input.ExecuteAction" withParameters:@{@"action": @"playerdebug"}];
             }
             else {
-                [self simpleAction:@"Input.ShowCodec" params:@{} xbmcHttp:@"SendKey(0xF04F)"];
+                [[Utilities getJsonRPC] callMethod:@"Input.ShowCodec"
+                                    withParameters:@{}];
             }
             break;
 
         case TAG_BUTTON_SELECT: // CONTEXT MENU
         case TAG_BUTTON_MENU:
-            [self simpleAction:@"Input.ContextMenu" params:@{} xbmcHttp:@"SendKey(0xF043)"];
+            [[Utilities getJsonRPC] callMethod:@"Addons.ExecuteAddon"
+                                withParameters:@{}];
             break;
 
         case TAG_BUTTON_SUBTITLES: // SUBTITLES BUTTON
@@ -844,9 +847,8 @@ static void *TorchRemoteContext = &TorchRemoteContext;
                                     withParameters:@{@"window": @"subtitlesearch"}];
             }
             else {
-                [self simpleAction:@"Addons.ExecuteAddon"
-                            params:@{@"addonid": @"script.xbmc.subtitles"}
-                          xbmcHttp:@"ExecBuiltIn&parameter=RunScript(script.xbmc.subtitles)"];
+                [[Utilities getJsonRPC] callMethod:@"Addons.ExecuteAddon"
+                                    withParameters:@{@"addonid": @"script.xbmc.subtitles"}];
             }
             break;
             
