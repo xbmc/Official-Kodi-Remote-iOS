@@ -109,8 +109,8 @@
 # pragma mark - toolbar management
 
 - (UIImage*)resizeToolbarThumb:(UIImage*)img {
-    CGSize thumbSize = CGSizeMake(CGRectGetWidth(playlistButton.frame) * UIScreen.mainScreen.scale,
-                                  CGRectGetHeight(playlistButton.frame) * UIScreen.mainScreen.scale);
+    CGSize thumbSize = CGSizeMake(CGRectGetWidth(toggleButton.frame) * UIScreen.mainScreen.scale,
+                                  CGRectGetHeight(toggleButton.frame) * UIScreen.mainScreen.scale);
     return [img resizedImageSize:thumbSize aspectMode:UIViewContentModeScaleAspectFit];
 }
 
@@ -424,7 +424,7 @@
 
 - (void)setButtonImageAndStartDemo:(UIImage*)buttonImage {
     if (nowPlayingView.hidden || startFlipDemo) {
-        [playlistButton setImage:buttonImage forState:UIControlStateNormal];
+        [toggleButton setImage:buttonImage forState:UIControlStateNormal];
         if (startFlipDemo) {
             [NSTimer scheduledTimerWithTimeInterval:FLIP_DEMO_DELAY target:self selector:@selector(startFlipDemo) userInfo:nil repeats:NO];
             startFlipDemo = NO;
@@ -1558,14 +1558,12 @@
 }
 
 - (void)animViews {
-    __block CGFloat playtoolbarAlpha = 1.0;
     if (!nowPlayingView.hidden) {
         transitionFromView = nowPlayingView;
         transitionToView = playlistView;
         self.navigationItem.title = [self getPlaylistHeaderLabel];
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionCrossDissolve;
-        playtoolbarAlpha = 1.0;
     }
     else {
         transitionFromView = playlistView;
@@ -1573,7 +1571,6 @@
         self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
         self.navigationItem.titleView.hidden = YES;
         animationOptionTransition = UIViewAnimationOptionTransitionCrossDissolve;
-        playtoolbarAlpha = 0.0;
     }
     
     [UIView transitionWithView:transitionView
@@ -1584,14 +1581,13 @@
         self.slidingViewController.underLeftViewController.view.hidden = YES;
         transitionFromView.hidden = YES;
         transitionToView.hidden = NO;
-        playlistActionView.alpha = playtoolbarAlpha;
         self.navigationItem.titleView.hidden = NO;
                      }
                      completion:^(BOOL finished) {
         self.slidingViewController.underRightViewController.view.hidden = NO;
         self.slidingViewController.underLeftViewController.view.hidden = NO;
     }];
-    [self flipAnimButton:playlistButton demo:NO];
+    [self flipAnimButton:toggleButton demo:NO];
 }
 
 #pragma mark - Bottom toolbar
@@ -2456,12 +2452,12 @@
     [toolbarBackground setWidth:viewSize.width];
     
     backgroundImageView.frame = nowPlayingView.frame;
-    playlistActionView.alpha = playlistView.alpha = isFullscreen ? 0 : 1;
+    playlistView.alpha = isFullscreen ? 0 : 1;
     
     // Adapt fullscreen toggle button icon to current screen mode
     NSString *imageName = isFullscreen ? @"button_exit_fullscreen" : @"button_fullscreen";
     UIImage *image = [UIImage imageNamed:imageName];
-    [fullscreenToggleButton setImage:image forState:UIControlStateNormal];
+    [toggleButton setImage:image forState:UIControlStateNormal];
     
     [self setCoverSize:currentType];
 }
@@ -2519,24 +2515,6 @@
     [self setAVCodecFont:songSampleRate size:floor(14 * scale)];
     [self setAVCodecFont:songNumChannels size:floor(14 * scale)];
     descriptionFontSize = floor(12 * scale);
-}
-
-- (void)setIphoneInterface {
-    [playlistActionView setY:CGRectGetMinY(playlistToolbarView.frame) - CGRectGetHeight(playlistActionView.frame)];
-    playlistActionView.alpha = 0.0;
-}
-
-- (void)setIpadInterface {
-    playlistToolbarView.alpha = 1.0;
-    
-    nowPlayingView.hidden = NO;
-    playlistView.hidden = NO;
-    
-    [playlistActionView setY:CGRectGetHeight(playlistTableView.frame) - CGRectGetHeight(playlistActionView.frame)];
-    playlistActionView.alpha = 1.0;
-    
-    // Prepare iPad fullscreen toggle button
-    fullscreenToggleButton = [self.view viewWithTag:TAG_ID_TOGGLE];
 }
 
 - (BOOL)enableJewelCases {
@@ -2754,7 +2732,7 @@
 }
 
 - (void)startFlipDemo {
-    [self flipAnimButton:playlistButton demo:YES];
+    [self flipAnimButton:toggleButton demo:YES];
 }
      
 - (void)startNowPlayingUpdates {
@@ -2859,12 +2837,6 @@
     lastSelected = SELECTED_NONE;
     storedItemID = SELECTED_NONE;
     storeSelection = nil;
-    if (IS_IPHONE) {
-        [self setIphoneInterface];
-    }
-    else {
-        [self setIpadInterface];
-    }
     nowPlayingView.hidden = NO;
     playlistView.hidden = IS_IPHONE;
     self.navigationItem.title = LOCALIZED_STR(@"Now Playing");
