@@ -12,8 +12,8 @@
 /*
  * Minimum supported Kodi version
  */
-#define MIN_SUPPORTED_SERVER_VERSION 11
-#define MIN_SUPPORTED_SERVER_VERSION_NAME @"Eden"
+#define MIN_SUPPORTED_SERVER_VERSION 12
+#define MIN_SUPPORTED_SERVER_VERSION_NAME @"Frodo"
 
 /*
  * Device and orientation checks
