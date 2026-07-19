@@ -479,11 +479,6 @@
     if (dict[@"file_properties"] != nil) {
         dict[@"properties"] = [dict[@"file_properties"] mutableCopy];
         [dict removeObjectForKey:@"file_properties"];
-        
-        // Kodi 11 does not support art for file properties
-        if (AppDelegate.instance.serverVersion <= 11) {
-            [dict[@"properties"] removeObject:@"art"];
-        }
     }
 }
 
@@ -491,9 +486,6 @@
     NSMutableDictionary *newParameters = [mainParameters[@"parameters"] mutableCopy];
     NSArray *properties = mainParameters[@"parameters"][@"properties"];
     NSMutableArray *newProperties = [[Utilities addExtraProperties:properties parameters:mainParameters] mutableCopy];
-    if ([mainParameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-        [newProperties addObject:@"art"];
-    }
     if (newProperties != nil) {
         newParameters[@"properties"] = newProperties;
     }
@@ -1309,7 +1301,7 @@
         }
         id objKey = mainFields[@"row6"];
         id obj = item[objKey];
-        if (AppDelegate.instance.serverVersion > 11 && ![parameters[@"disableFilterParameter"] boolValue]) {
+        if (![parameters[@"disableFilterParameter"] boolValue]) {
             NSDictionary *currentParams = menuItem.mainParameters[activeTab];
             obj = [NSDictionary dictionaryWithObjectsAndKeys:
                    obj, objKey,
@@ -1346,7 +1338,6 @@
                                               libraryThumbWidth, @"thumbWidth",
                                               parameters[@"label"], @"label",
                                               parameters[@"itemSizes"], @"itemSizes",
-                                              @([parameters[@"FrodoExtraArt"] boolValue]), @"FrodoExtraArt",
                                               @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                               @([parameters[@"forcePlayback"] boolValue]), @"forcePlayback",
@@ -1568,7 +1559,7 @@
     if ([parameters[@"isMusicPlaylist"] boolValue] ||
         [parameters[@"isVideoPlaylist"] boolValue]) { // NOTE: sheetActions objects must be moved outside from there
         if ([sheetActions isKindOfClass:[NSMutableArray class]]) {
-            if (![[item[@"file"] pathExtension] isEqualToString:@"xsp"] || AppDelegate.instance.serverVersion <= 11) {
+            if (![[item[@"file"] pathExtension] isEqualToString:@"xsp"]) {
                 [sheetActions removeObject:LOCALIZED_STR(@"Play in party mode")];
             }
         }
@@ -3340,11 +3331,6 @@
     int activeTab = [self getActiveTab:item];
     NSDictionary *parameters = menuItem.mainParameters[activeTab];
     NSMutableDictionary *mutableParameters = [parameters[@"parameters"] mutableCopy];
-    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"properties"] mutableCopy];
-    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-        [mutableProperties addObject:@"art"];
-        mutableParameters[@"properties"] = mutableProperties;
-    }
     [self addFileProperties:mutableParameters];
     [self saveData:mutableParameters];
 }
@@ -3889,16 +3875,12 @@
     NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
     NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
     NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
-    NSMutableArray *mutableProperties = [parameters[@"parameters"][@"file_properties"] mutableCopy];
-    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-        [mutableProperties addObject:@"art"];
-    }
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                           [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            item[mainFields[@"row6"]], @"directory",
                                            parameters[@"parameters"][@"media"], @"media",
                                            parameters[@"parameters"][@"sort"], @"sort",
-                                           mutableProperties, @"file_properties",
+                                           parameters[@"parameters"][@"file_properties"], @"file_properties",
                                            nil], @"parameters",
                                           libraryRowHeight, @"rowHeight",
                                           libraryThumbWidth, @"thumbWidth",
@@ -4211,15 +4193,8 @@
     NSDictionary *methods = menuItem.mainMethod[tabToShow];
     NSDictionary *parameters = menuItem.mainParameters[tabToShow];
     
-    NSMutableDictionary *mutableParameters = [parameters[@"extra_info_parameters"] mutableCopy];
-    NSMutableArray *mutableProperties = [parameters[@"extra_info_parameters"][@"properties"] mutableCopy];
-    
-    if ([parameters[@"FrodoExtraArt"] boolValue] && AppDelegate.instance.serverVersion > 11) {
-        [mutableProperties addObject:@"art"];
-        mutableParameters[@"properties"] = mutableProperties;
-    }
     if (parameters[@"extra_info_parameters"] != nil && methods[@"extra_info_method"] != nil) {
-        [self retrieveExtraInfoData:methods[@"extra_info_method"] parameters:mutableParameters index:indexPath item:item menuItem:menuItem tabToShow:tabToShow];
+        [self retrieveExtraInfoData:methods[@"extra_info_method"] parameters:parameters[@"extra_info_parameters"] index:indexPath item:item menuItem:menuItem tabToShow:tabToShow];
     }
     else {
         [self displayInfoView:item];
@@ -4433,26 +4408,24 @@
     if (filterModeType == ViewModeAlbumArtists ||
         filterModeType == ViewModeSongArtists ||
         filterModeType == ViewModeDefaultArtists) {
-        if ([VersionCheck hasAlbumArtistOnlySupport]) {
-            switch (filterModeType) {
-                case ViewModeAlbumArtists:
-                    mutableParameters[@"albumartistsonly"] = @YES;
-                    forceRefresh = YES;
-                    break;
-                    
-                case ViewModeSongArtists:
-                    mutableParameters[@"albumartistsonly"] = @NO;
-                    forceRefresh = YES;
-                    break;
-                    
-                case ViewModeDefaultArtists:
-                    [mutableParameters removeObjectForKey:@"albumartistsonly"];
-                    break;
-                    
-                default:
-                    NSAssert(NO, @"retrieveData: unexpected mode %ld", filterModeType);
-                    break;
-            }
+        switch (filterModeType) {
+            case ViewModeAlbumArtists:
+                mutableParameters[@"albumartistsonly"] = @YES;
+                forceRefresh = YES;
+                break;
+                
+            case ViewModeSongArtists:
+                mutableParameters[@"albumartistsonly"] = @NO;
+                forceRefresh = YES;
+                break;
+                
+            case ViewModeDefaultArtists:
+                [mutableParameters removeObjectForKey:@"albumartistsonly"];
+                break;
+                
+            default:
+                NSAssert(NO, @"retrieveData: unexpected mode %ld", filterModeType);
+                break;
         }
     }
     
@@ -4468,11 +4441,6 @@
             [mutableParameters removeObjectForKey:@"sort"];
         }
         else if ([mutableParameters[@"channelgroupid"] intValue] == -1) {
-            [self animateNoResultsFound];
-            return;
-        }
-        // PVR functions not supported with xbmc 11
-        if (AppDelegate.instance.serverVersion == 11) {
             [self animateNoResultsFound];
             return;
         }
@@ -5359,32 +5327,9 @@
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
-    if (AppDelegate.instance.serverVersion > 11) {
-        if (tempDict[@"filter"] != nil) {
-            [tempDict removeObjectForKey:@"filter"];
-            tempDict[@"filtered"] = @"YES";
-        }
-    }
-    else {
-        if (tempDict.count > 2) {
-            [tempDict removeAllObjects];
-            NSArray *arr_properties = parameters[@"parameters"][@"properties"];
-            if (arr_properties == nil) {
-                arr_properties = parameters[@"parameters"][@"file_properties"];
-            }
-            
-            if (arr_properties == nil) {
-                arr_properties = @[];
-            }
-            
-            NSArray *arr_sort = parameters[@"parameters"][@"sort"];
-            if (arr_sort == nil) {
-                arr_sort = @[];
-            }
-            tempDict[@"properties"] = arr_properties;
-            tempDict[@"sort"] = arr_sort;
-            tempDict[@"filtered"] = @"YES";
-        }
+    if (tempDict[@"filter"] != nil) {
+        [tempDict removeObjectForKey:@"filter"];
+        tempDict[@"filtered"] = @"YES";
     }
     NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
     return ([parameters[@"enableCollectionView"] boolValue] && [userDefaults boolForKey:viewKey]);
@@ -5653,7 +5598,7 @@
         episodesView = YES;
     }
     else if ([methods[@"tvshowsView"] boolValue]) {
-        tvshowsView = AppDelegate.instance.serverVersion > 11 && ![Utilities getPreferTvPosterMode];
+        tvshowsView = ![Utilities getPreferTvPosterMode];
         [self setTVshowThumbSize];
     }
     else if ([methods[@"channelGuideView"] boolValue]) {
@@ -5902,19 +5847,9 @@
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     if ([self collectionViewCanBeEnabled] && self.view.superview != nil && ![methods[@"method"] isEqualToString:@""]) {
         NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
-        if (AppDelegate.instance.serverVersion > 11) {
-            if (tempDict[@"filter"] != nil) {
-                [tempDict removeObjectForKey:@"filter"];
-                tempDict[@"filtered"] = @"YES";
-            }
-        }
-        else {
-            if (tempDict.count > 2) {
-                [tempDict removeAllObjects];
-                tempDict[@"properties"] = parameters[@"parameters"][@"properties"];
-                tempDict[@"sort"] = parameters[@"parameters"][@"sort"];
-                tempDict[@"filtered"] = @"YES";
-            }
+        if (tempDict[@"filter"] != nil) {
+            [tempDict removeObjectForKey:@"filter"];
+            tempDict[@"filtered"] = @"YES";
         }
         NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

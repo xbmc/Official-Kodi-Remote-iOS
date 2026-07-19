@@ -43,11 +43,6 @@
     return (AppDelegate.instance.APImajorVersion == 12 && AppDelegate.instance.APIminorVersion >= 1) || AppDelegate.instance.APImajorVersion > 12;
 }
 
-+ (BOOL)hasAlbumArtistOnlySupport {
-    // "albumartistonly" parameter is supported from API 4.0.0 on
-    return AppDelegate.instance.APImajorVersion >= 4;
-}
-
 + (BOOL)hasInputButtonEventSupport {
     // Input.ButtonEvent is supported from API 12 on
     return AppDelegate.instance.APImajorVersion >= 12;
@@ -59,11 +54,6 @@
     // "Player.GetActivePlayers" supports "playertype" from API 9.6.0 on
     // But only with Kodi 21 "Player.GetActivePlayers" returns active external players.
     return AppDelegate.instance.serverVersion >= 21;
-}
-
-+ (BOOL)hasPlayerOpenOptions {
-    // "options" for Player.Open were introduced with Kodi 12. This is required to support resume.
-    return AppDelegate.instance.serverVersion > 11;
 }
 
 + (BOOL)hasProfilesSupport {

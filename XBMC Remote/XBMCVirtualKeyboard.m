@@ -105,7 +105,7 @@
              if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
                  if (methodResult[@"currentwindow"] != [NSNull null]) {
                      if ([methodResult[@"currentwindow"][@"id"] longLongValue] == WINDOW_VIRTUAL_KEYBOARD) {
-                         [self simpleAction:@"Input.Back" params:@{}];
+                         [[Utilities getJsonRPC] callMethod:@"Input.Back" withParameters:@{}];
                      }
                  }
              }
@@ -121,9 +121,6 @@
 }
 
 - (void)showKeyboard:(NSNotification*)note {
-    if (AppDelegate.instance.serverVersion == 11) {
-        backgroundTextField.text = @" ";
-    }
     NSDictionary *params;
     if (note != nil) {
         NSDictionary *theData = note.userInfo;
@@ -178,52 +175,28 @@
 }
 
 - (BOOL)textField:(UITextField*)theTextField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string {
-    if (AppDelegate.instance.serverVersion == 11) {
-        if (range.location == 0) { //BACKSPACE
-            [Utilities sendXbmcHttp:@"SendKey(0xf108)"];
+    BOOL inputFinished = NO;
+    NSString *stringToSend = [theTextField.text stringByReplacingCharactersInRange:range withString:string];
+    if (string.length != 0) {
+        unichar x = [string characterAtIndex:0];
+        if (x == '\n') {
+            stringToSend = [stringToSend substringToIndex:stringToSend.length - 1];
+            [backgroundTextField resignFirstResponder];
+            [xbmcVirtualKeyboard resignFirstResponder];
+            theTextField.text = @"";
+            inputFinished = YES;
         }
-        else { // CHARACTER
-            unichar x = [string characterAtIndex:0];
-            if (x == '\n') {
-                [self simpleAction:@"Input.Select" params:@{}];
-                [backgroundTextField resignFirstResponder];
-                [xbmcVirtualKeyboard resignFirstResponder];
-            }
-            else if (x < 1000) {
-                [Utilities sendXbmcHttp:[NSString stringWithFormat:@"SendKey(0xf1%x)", x]];
-            }
-        }
-        return NO;
     }
-    else {
-        BOOL inputFinished = NO;
-        NSString *stringToSend = [theTextField.text stringByReplacingCharactersInRange:range withString:string];
-        if (string.length != 0) {
-            unichar x = [string characterAtIndex:0];
-            if (x == '\n') {
-                stringToSend = [stringToSend substringToIndex:stringToSend.length - 1];
-                [backgroundTextField resignFirstResponder];
-                [xbmcVirtualKeyboard resignFirstResponder];
-                theTextField.text = @"";
-                inputFinished = YES;
-            }
-        }
-        stringToSend = stringToSend ?: @"";
-        [self simpleAction:@"Input.SendText" params:@{@"text": stringToSend, @"done": @(inputFinished)}];
-        return YES;
-    }
+    stringToSend = stringToSend ?: @"";
+    [[Utilities getJsonRPC] callMethod:@"Input.SendText"
+                        withParameters:@{@"text": stringToSend, @"done": @(inputFinished)}];
+    return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField*)textField {
     if (textField.tag == VIRTUAL_KEYBOARD_TEXTFIELD) {
         [self performSelectorOnMainThread:@selector(hideKeyboard) withObject:nil waitUntilDone:NO];
     }
-}
-
-#pragma mark - JSON commands
-
-- (void)simpleAction:(NSString*)action params:(NSDictionary*)params {
-    [[Utilities getJsonRPC] callMethod:action withParameters:params];
 }
 
 @end

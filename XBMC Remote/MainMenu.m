@@ -2096,6 +2096,7 @@
                     @"director",
                     @"file",
                     @"dateadded",
+                    @"art",
                 ],
             },
             @"extra_info_parameters": @{
@@ -2118,6 +2119,7 @@
                     @"trailer",
                     @"dateadded",
                     @"tagline",
+                    @"art",
                 ],
             },
             @"available_sort_methods": @{
@@ -2142,7 +2144,6 @@
             },
             @"label": LOCALIZED_STR(@"Movies"),
             @"defaultThumb": @"nocover_movies",
-            @"FrodoExtraArt": @YES,
             @"enableCollectionView": @YES,
             @"enableLibraryCache": @YES,
             @"enableLibraryFullScreen": @YES,
@@ -2172,6 +2173,7 @@
                     @"plot",
                     @"fanart",
                     @"playcount",
+                    @"art",
                 ],
             },
             @"extra_info_parameters": @{
@@ -2180,6 +2182,7 @@
                     @"plot",
                     @"fanart",
                     @"playcount",
+                    @"art",
                 ],
             },
             @"available_sort_methods": @{
@@ -2192,7 +2195,6 @@
                     @"playcount",
                 ],
             },
-            @"FrodoExtraArt": @YES,
             @"enableCollectionView": @YES,
             @"enableLibraryCache": @YES,
             @"defaultThumb": @"nocover_movie_sets",
@@ -2213,6 +2215,7 @@
                     @"trailer",
                     @"fanart",
                     @"file",
+                    @"art",
                 ],
             },
             @"label": LOCALIZED_STR(@"Added Movies"),
@@ -2237,9 +2240,9 @@
                     @"trailer",
                     @"dateadded",
                     @"tagline",
+                    @"art",
                 ],
             },
-            @"FrodoExtraArt": @YES,
             @"enableCollectionView": @YES,
             @"collectionViewRecentlyAdded": @YES,
             @"enableLibraryFullScreen": @YES,
@@ -2527,6 +2530,7 @@
                     @"trailer",
                     @"file",
                     @"dateadded",
+                    @"art",
                 ],
             },
             @"extra_info_parameters": @{
@@ -2549,6 +2553,7 @@
                     @"trailer",
                     @"dateadded",
                     @"tagline",
+                    @"art",
                 ],
             },
             @"available_sort_methods": @{
@@ -2571,7 +2576,6 @@
             },
             @"label": LOCALIZED_STR(@"Movies"),
             @"defaultThumb": @"nocover_movies",
-            @"FrodoExtraArt": @YES,
             @"enableCollectionView": @YES,
             @"enableLibraryCache": @YES,
             @"itemSizes": [self itemSizes_Movie],
@@ -2590,6 +2594,7 @@
                     @"trailer",
                     @"file",
                     @"dateadded",
+                    @"art",
                 ],
             },
             @"extra_info_parameters": @{
@@ -2612,6 +2617,7 @@
                     @"trailer",
                     @"dateadded",
                     @"tagline",
+                    @"art",
                 ],
             },
             @"available_sort_methods": @{
@@ -2634,7 +2640,6 @@
             },
             @"label": LOCALIZED_STR(@"Movies"),
             @"defaultThumb": @"nocover_movies",
-            @"FrodoExtraArt": @YES,
             @"enableCollectionView": @YES,
             @"itemSizes": [self itemSizes_Movie],
         },
@@ -2654,6 +2659,7 @@
                     @"trailer",
                     @"file",
                     @"dateadded",
+                    @"art",
                 ],
             },
             @"extra_info_parameters": @{
@@ -2676,6 +2682,7 @@
                     @"trailer",
                     @"dateadded",
                     @"tagline",
+                    @"art",
                 ],
             },
             @"available_sort_methods": @{
@@ -2698,7 +2705,6 @@
             },
             @"label": LOCALIZED_STR(@"Movies"),
             @"defaultThumb": @"nocover_movies",
-            @"FrodoExtraArt": @YES,
             @"enableCollectionView": @YES,
             @"enableLibraryCache": @YES,
             @"itemSizes": [self itemSizes_Movie],
@@ -2759,6 +2765,7 @@
                     @"fanart",
                     @"resume",
                     @"tagline",
+                    @"art",
                 ],
                 @"media": @"video",
             },
@@ -2766,8 +2773,6 @@
             @"defaultThumb": @"nocover_filemode",
             @"rowHeight": @PORTRAIT_ROW_HEIGHT,
             @"thumbWidth": @DEFAULT_THUMB_WIDTH,
-            @"enableCollectionView": @YES,
-            @"FrodoExtraArt": @YES,
             @"itemSizes": [self itemSizes_Movie],
         },
     ] mutableCopy];
@@ -3517,6 +3522,7 @@
                     @"cast",
                     @"fanart",
                     @"resume",
+                    @"art",
                 ],
                 @"media": @"video",
             },
@@ -3525,7 +3531,6 @@
             @"rowHeight": @PORTRAIT_ROW_HEIGHT,
             @"thumbWidth": @DEFAULT_THUMB_WIDTH,
             @"enableCollectionView": @YES,
-            @"FrodoExtraArt": @YES,
             @"itemSizes": [self itemSizes_Movie],
         },
     ] mutableCopy];
@@ -3734,6 +3739,7 @@
                     @"genre",
                     @"studio",
                     @"episode",
+                    @"art",
                 ],
             },
             @"extra_info_parameters": @{
@@ -3751,6 +3757,7 @@
                     @"premiered",
                     @"episode",
                     @"fanart",
+                    @"art",
                 ],
             },
             @"available_sort_methods": @{
@@ -3769,7 +3776,6 @@
             },
             @"label": LOCALIZED_STR(@"TV Shows"),
             @"defaultThumb": @"nocover_tvshows",
-            @"FrodoExtraArt": @YES,
             @"enableLibraryCache": @YES,
             @"enableCollectionView": @YES,
             @"enableLibraryFullScreen": @YES,
@@ -3788,6 +3794,7 @@
                     @"file",
                     @"title",
                     @"season",
+                    @"art",
                 ],
             },
             @"extra_info_parameters": @{
@@ -3808,13 +3815,13 @@
                     @"fanart",
                     @"playcount",
                     @"resume",
+                    @"art",
                 ],
             },
             @"label": LOCALIZED_STR(@"Added Episodes"),
             @"rowHeight": @DEFAULT_ROW_HEIGHT,
             @"thumbWidth": @EPISODE_THUMB_WIDTH,
             @"defaultThumb": @"nocover_tvshows_episode",
-            @"FrodoExtraArt": @YES,
             @"itemSizes": [self itemSizes_TVShowsfullscreen],
         },
         
@@ -4051,6 +4058,7 @@
                     @"runtime",
                     @"file",
                     @"title",
+                    @"art",
                 ],
             },
             @"kodiExtrasPropertiesMinimumVersion": @{
@@ -4077,6 +4085,7 @@
                     @"resume",
                     @"playcount",
                     @"file",
+                    @"art",
                 ],
             },
             @"extra_section_parameters": @{
@@ -4093,7 +4102,6 @@
             @"label": LOCALIZED_STR(@"Episodes"),
             @"defaultThumb": @"nocover_tvshows_episode",
             @"disableFilterParameter": @YES,
-            @"FrodoExtraArt": @YES,
         },
         
         @{},
@@ -4109,6 +4117,7 @@
                     @"genre",
                     @"studio",
                     @"episode",
+                    @"art",
                 ],
             },
             @"extra_info_parameters": @{
@@ -4126,6 +4135,7 @@
                     @"premiered",
                     @"episode",
                     @"fanart",
+                    @"art",
                 ],
             },
             @"available_sort_methods": @{
@@ -4143,7 +4153,6 @@
                 ],
             },
             @"label": LOCALIZED_STR(@"TV Shows"),
-            @"FrodoExtraArt": @YES,
             @"enableCollectionView": @YES,
             @"rowHeight": @PHONE_TV_SHOWS_POSTER_HEIGHT,
             @"thumbWidth": @PHONE_TV_SHOWS_POSTER_WIDTH,
@@ -4204,6 +4213,7 @@
                     @"cast",
                     @"fanart",
                     @"resume",
+                    @"art",
                 ],
                 @"media": @"video",
             },
@@ -4212,7 +4222,6 @@
             @"rowHeight": @PORTRAIT_ROW_HEIGHT,
             @"thumbWidth": @DEFAULT_THUMB_WIDTH,
             @"enableCollectionView": @YES,
-            @"FrodoExtraArt": @YES,
             @"itemSizes": [self itemSizes_Movie],
         },
     ] mutableCopy];
@@ -4393,6 +4402,7 @@
                     @"runtime",
                     @"file",
                     @"title",
+                    @"art",
                 ],
             },
             @"kodiExtrasPropertiesMinimumVersion": @{
@@ -4419,6 +4429,7 @@
                     @"resume",
                     @"playcount",
                     @"file",
+                    @"art",
                 ],
             },
             @"extra_section_parameters": @{
@@ -4434,7 +4445,6 @@
             },
             @"label": LOCALIZED_STR(@"Episodes"),
             @"disableFilterParameter": @YES,
-            @"FrodoExtraArt": @YES,
         },
         
         @{},
