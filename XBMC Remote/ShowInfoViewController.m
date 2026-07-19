@@ -1600,10 +1600,7 @@
     self.kenView.delegate = self;
     self.kenView.alpha = 0;
     self.kenView.tag = FANART_FULLSCREEN_DISABLE;
-    NSArray *backgroundImages = [NSArray arrayWithObjects:
-                                 image,
-                                 nil];
-    [self.kenView animateWithImages:backgroundImages
+    [self.kenView animateWithImages:@[image]
                  transitionDuration:45
                                loop:YES
                         isLandscape:YES];
