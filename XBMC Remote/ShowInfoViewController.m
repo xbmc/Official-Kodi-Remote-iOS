@@ -1614,6 +1614,20 @@
     [self.view insertSubview:self.kenView atIndex:1];
 }
 
+- (void)relaunchKenBurnsAnimation {
+    if (self.kenView != nil && ![self isModal]) {
+        CGFloat alphaValue = closeButton.alpha == 1 ? 1.0 : 0.2;
+        [UIView animateWithDuration:0.1
+                         animations:^{
+            self.kenView.alpha = 0;
+        }
+                         completion:^(BOOL finished) {
+            [self elabKenBurns:fanartView.image];
+            [self.kenView animateAlpha:alphaValue duration:0.2];
+        }];
+    }
+}
+
 - (void)leaveFullscreen {
     if (isFullscreenFanArt) {
         [self showBackgroundForTag:FANART_FULLSCREEN_DISABLE];
@@ -1743,6 +1757,11 @@
                                              selector:@selector(leaveFullscreen)
                                                  name:@"LeaveFullscreen"
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleEnterForeground)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
 }
 
 - (BOOL)shouldAutorotate {
@@ -1754,22 +1773,12 @@
     
     [coordinator animateAlongsideTransition:nil
                                  completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        if (self.kenView != nil && ![self isModal]) {
-            CGFloat alphaValue = 0.2;
-            if (closeButton.alpha == 1) {
-                alphaValue = 1;
-            }
-            [UIView animateWithDuration:0.1
-                             animations:^{
-                                 self.kenView.alpha = 0;
-                             }
-                             completion:^(BOOL finished) {
-                                 [self elabKenBurns:fanartView.image];
-                                 [self.kenView animateAlpha:alphaValue duration:0.2];
-                             }
-             ];
-        }
+        [self relaunchKenBurnsAnimation];
     }];
+}
+
+- (void)handleEnterForeground {
+    [self relaunchKenBurnsAnimation];
 }
 
 @end
