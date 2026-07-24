@@ -178,7 +178,6 @@
 "No items found." = "Nema pronađenih stavki.";
 "Party" = "Party";
 "Search" = "Pretraži";
-"Supported XBMC version is Eden (11) or higher" = "Podržana Kodi inačica je Eden (11) ili novija";
 "Add Host" = "Dodaj računalo";
 "Kodi connection notice" = "Obavijest Kodi povezivanja";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Izgleda da se TCP povezivanje s Kodijem ne može uspostaviti. To će spriječiti aplikaciju da osluškuje Kodi. Na primjer, aplikacija unosa tipkovnice se neće prikazati kada Kodi zatraži unos tipkovnice.";

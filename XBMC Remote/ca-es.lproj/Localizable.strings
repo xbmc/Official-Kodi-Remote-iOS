@@ -178,7 +178,6 @@
 "No items found." = "No s'han trobat elements.";
 "Party" = "Festa";
 "Search" = "Cerca";
-"Supported XBMC version is Eden (11) or higher" = "La versió de Kodi compatible és Eden (11) o superior";
 "Add Host" = "Afegeix amfitrió";
 "Kodi connection notice" = "Avís de connexió de Kodi";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Sembla que no es pot establir la connexió TCP amb Kodi. Això evitarà que l'aplicació escolti Kodi. Per exemple, l'entrada del teclat a l'aplicació no es mostrarà quan Kodi sol·liciti l'entrada del teclat.";

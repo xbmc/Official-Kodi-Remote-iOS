@@ -165,7 +165,6 @@
 "No items found." = "Inga objekt hittades.";
 "Party" = "Party";
 "Search" = "Sök";
-"Supported XBMC version is Eden (11) or higher" = "Kodi version Eden (11) eller högre krävs";
 "Add Host" = "Lägg till värd";
 "Kodi connection notice" = "Kodi-anslutningsinformation";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Det verkar som att TCP-anslutningen med Kodi inte kan upprättas. Detta kommer att förhindra att appen lyssnar på Kodi. Till exempel kommer tangentbordsinmatningen i appen inte att visas när Kodi begär tangentbordsinmatning.";

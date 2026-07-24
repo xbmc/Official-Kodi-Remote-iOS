@@ -216,7 +216,6 @@
 "Execute video add-on" = "Executar o add-on de vídeo";
 "Execute audio add-on" = "Executar o add-on de áudio";
 "Party" = "Festa";
-"Supported XBMC version is Eden (11) or higher" = "A versão do Kodi compatível é a Eden (11) ou superior";
 "Add Host" = "Adicionar host";
 "Kodi connection notice" = "Aviso de conexão do Kodi";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Parece que a conexão TCP com o Kodi não pode ser estabelecida. Isso impedirá que o aplicativo escute o Kodi. Por exemplo, a entrada do teclado no aplicativo não será exibida quando o Kodi solicitar a entrada do teclado.";

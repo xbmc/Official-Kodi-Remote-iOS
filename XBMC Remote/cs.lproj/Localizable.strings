@@ -166,7 +166,6 @@
 "No items found." = "Nebyly nalezeny žádné položky.";
 "Party" = "Párty";
 "Search" = "Hledat";
-"Supported XBMC version is Eden (11) or higher" = "Podporovaná verze Kodi je Eden (11) nebo novější";
 "Add Host" = "Přidat hostitele";
 "Kodi connection notice" = "Upozornění na připojení ke Kodi";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Zdá se, že se nedaří navázat TCP připojení ke Kodi. Aplikace proto nebude moct přijímat události z Kodi. Například vstup z klávesnice v aplikaci se nezobrazí, když Kodi požádá o zadání textu.";
@@ -296,3 +295,5 @@
 "Kodi \"Krypton\" version 17 or later is required to access user profiles." = "Pro přístup k uživatelským profilům je vyžadována verze Kodi 17 „Krypton“ nebo novější.";
 "bit" = "bit";
 "Resolution" = "Rozlišení";
+"Supports Kodi version %@ or higher" = "Podporuje Kodi ve verzi %@ nebo novější";
+"Kodi version %d not supported." = "Verze Kodi %d není podporována.";

@@ -178,7 +178,6 @@
 "No items found." = "Kohteita ei löytynyt.";
 "Party" = "Jukeboksi";
 "Search" = "Haku";
-"Supported XBMC version is Eden (11) or higher" = "Tuetaan Kodin Eden (v11) -versiota ja sitä uudempia";
 "Add Host" = "Lisää palvelin";
 "Kodi connection notice" = "Kodin yhteysilmoitus";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Näyttää siltä, ettei Kodiin voida muodostaa TCP-yhteyttä. Tämä estää sovellusta kuuntelemasta Kodia, jolloin esimerkiksi tekstinsyöttö sovelluksessa ei avaudu, kun Kodi vaatii tekstinsyöttöä.";
