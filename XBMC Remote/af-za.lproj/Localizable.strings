@@ -178,7 +178,6 @@
 "No items found." = "Geen items gevind nie.";
 "Party" = "Partytjie";
 "Search" = "Soek";
-"Supported XBMC version is Eden (11) or higher" = "Ondersteunde Kodi weergawe is Eden (11) of hoër";
 "Add Host" = "Voeg Gasheer by";
 "Kodi connection notice" = "Kodi konneksie kennisgewing";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Dit lyk of die TCP konneksie met Kodi nie gevestig kan word nie. Dit sal die toepassing verhoed om na Kodi te luister. Byvoorbeeld, die sleutelbord toevoer binne die toepassing sal nie wys wanneer Kodi sleutelbord toevoer aanvra nie.";
