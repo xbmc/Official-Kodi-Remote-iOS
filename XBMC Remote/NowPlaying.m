@@ -2075,7 +2075,7 @@
                                                item[mainFields[@"row15"]], key,
                                                nil], @"parameters", parameters[@"label"], @"label",
                                               parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                              parameters[@"itemSizes"], @"itemSizes",
+                                              parameters[@"itemSizes"] ?: @{}, @"itemSizes",
                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                               nil];
         menuItem.subItem.mainParameters[activeTab] = newParameters;
