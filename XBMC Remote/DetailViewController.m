@@ -475,6 +475,15 @@
     }
 }
 
+- (NSMutableDictionary*)rebuildParameters:(NSDictionary*)dict newKey:(id)key newValue:(id)value {
+    return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            value, key,
+            dict[@"media"], @"media",
+            dict[@"sort"], @"sort",
+            dict[@"file_properties"], @"file_properties",
+            nil];
+}
+
 - (void)addFileProperties:(NSMutableDictionary*)dict {
     if (dict[@"file_properties"] != nil) {
         dict[@"properties"] = [dict[@"file_properties"] mutableCopy];
@@ -1368,12 +1377,9 @@
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
                 parameters = menuItem.mainParameters[activeTab];
                 NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                      [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                       item[mainFields[@"row6"]], @"directory",
-                                                       parameters[@"parameters"][@"media"], @"media",
-                                                       parameters[@"parameters"][@"sort"], @"sort",
-                                                       parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                                       nil], @"parameters",
+                                                      [self rebuildParameters:parameters[@"parameters"]
+                                                                       newKey:@"directory"
+                                                                     newValue:item[mainFields[@"row6"]]], @"parameters",
                                                       parameters[@"label"], @"label",
                                                       @"nocover_filemode", @"defaultThumb",
                                                       filemodeRowHeight, @"rowHeight",
@@ -1438,12 +1444,9 @@
                 objValue = [@"plugin://" stringByAppendingString: objValue];
             }
             NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                  [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                   objValue, fileModeKey,
-                                                   parameters[@"parameters"][@"media"], @"media",
-                                                   parameters[@"parameters"][@"sort"], @"sort",
-                                                   parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                                   nil], @"parameters",
+                                                  [self rebuildParameters:parameters[@"parameters"]
+                                                                   newKey:fileModeKey
+                                                                 newValue:objValue], @"parameters",
                                                   parameters[@"label"], @"label",
                                                   @"nocover_filemode", @"defaultThumb",
                                                   filemodeRowHeight, @"rowHeight",
@@ -3861,12 +3864,9 @@
     NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
     NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
     NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           item[mainFields[@"row6"]], @"directory",
-                                           parameters[@"parameters"][@"media"], @"media",
-                                           parameters[@"parameters"][@"sort"], @"sort",
-                                           parameters[@"parameters"][@"file_properties"], @"file_properties",
-                                           nil], @"parameters",
+                                          [self rebuildParameters:parameters[@"parameters"]
+                                                           newKey:@"directory"
+                                                         newValue:item[mainFields[@"row6"]]], @"parameters",
                                           parameters[@"label"], @"label",
                                           @"nocover_filemode", @"defaultThumb",
                                           filemodeRowHeight, @"rowHeight",
