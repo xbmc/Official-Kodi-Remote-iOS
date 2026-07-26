@@ -69,7 +69,7 @@
                                                  bitsPerComponent, 
                                                  bytesPerRow, 
                                                  colorSpace,
-                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+                                                 (int)kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGColorSpaceRelease(colorSpace);
     CGContextSetBlendMode(context, kCGBlendModeCopy);
 

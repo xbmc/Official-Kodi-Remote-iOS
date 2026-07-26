@@ -67,7 +67,7 @@
                                                      bitsPerComponent,
                                                      0,
                                                      colorspaceRef,
-                                                     kCGBitmapByteOrderDefault|kCGImageAlphaNoneSkipLast);
+                                                     kCGBitmapByteOrderDefault | (int)kCGImageAlphaNoneSkipLast);
         
         // Draw the image into the context and retrieve the new bitmap image without alpha
         CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);

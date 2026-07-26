@@ -330,7 +330,7 @@ didReceiveResponse:(NSURLResponse *)response
             if (partialImageRef) {
                 const size_t partialHeight = CGImageGetHeight(partialImageRef);
                 CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-                CGContextRef bmContext = CGBitmapContextCreate(NULL, width, height, 8, width * 4, colorSpace, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
+                CGContextRef bmContext = CGBitmapContextCreate(NULL, width, height, 8, width * 4, colorSpace, kCGBitmapByteOrderDefault | (int)kCGImageAlphaPremultipliedFirst);
                 CGColorSpaceRelease(colorSpace);
                 if (bmContext) {
                     CGContextDrawImage(bmContext, (CGRect){.origin.x = 0.0f, .origin.y = 0.0f, .size.width = width, .size.height = partialHeight}, partialImageRef);
