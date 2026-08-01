@@ -132,7 +132,6 @@
 "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you." = "-- WARNING --\nThis kind of setting cannot be configured remotely. Use the Kodi GUI for changing this setting.\nThank you.";
 "No items found." = "No items found.";
 "Party" = "Party";
-"Supported XBMC version is Eden (11) or higher" = "Supported Kodi version is Eden (11) or higher";
 "Add Host" = "Add Host";
 "Kodi connection notice" = "Kodi connection notice";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input.";

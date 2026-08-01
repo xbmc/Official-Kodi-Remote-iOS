@@ -178,7 +178,6 @@
 "No items found." = "항목을 찾을 수 없음.";
 "Party" = "파티";
 "Search" = "찾기";
-"Supported XBMC version is Eden (11) or higher" = "지원되는 Kodi 버전은 Eden(11) 이상";
 "Add Host" = "호스트 추가";
 "Kodi connection notice" = "Kodi 연결 알림";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Kodi와 TCP 연결을 설정할 수 없습니다. 따라서 앱이 Kodi를 수신하지 못합니다. 예를 들어, 앱의 키보드 입력은 Kodi가 입력을 요청할 때 표시되지 않습니다.";

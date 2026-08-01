@@ -178,7 +178,6 @@
 "No items found." = "Nu a fost găsit niciun articol.";
 "Party" = "Petrecere";
 "Search" = "Căutare";
-"Supported XBMC version is Eden (11) or higher" = "Versiunea sprijinită (compatibilă) a programului Kodi este Eden (11) sau mai recentă";
 "Add Host" = "Adăugare gazdă";
 "Kodi connection notice" = "Notificare conexiune Kodi";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Se pare că conexiunea prin TCP la Kodi nu poate fi realizată. Această problemă va împiedica aplicația să asculte mesajele dinspre Kodi. De exemplu, intrarea de tip tastatură din aplicație nu va apărea automat când programul Kodi cere introducerea datelor de la tastatură.";

@@ -166,7 +166,6 @@
 "No items found." = "Nessun elemento trovato.";
 "Party" = "Party";
 "Search" = "Ricerca";
-"Supported XBMC version is Eden (11) or higher" = "La versione Kodi supportata è Eden (11) o successiva";
 "Add Host" = "Aggiungi host";
 "Kodi connection notice" = "Avviso di connessione Kodi";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "Sembra che non sia possibile stabilire la connessione TCP con Kodi. Questo impedirà all'app di ascoltare Kodi. Ad esempio, l'input da tastiera all'interno dell'app non verrà visualizzato quando Kodi richiede l'input da tastiera.";
@@ -296,3 +295,5 @@
 "bit" = "bit";
 "kHz" = "kHz";
 "kbit/s" = "kbit/s";
+"Supports Kodi version %@ or higher" = "Supporta la versione di Kodi %@ o superiore";
+"Kodi version %d not supported." = "La versione %d di Kodi non è supportata.";

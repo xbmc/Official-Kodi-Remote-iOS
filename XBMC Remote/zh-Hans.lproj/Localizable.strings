@@ -166,7 +166,6 @@
 "No items found." = "未找到项目。";
 "Party" = "舞会";
 "Search" = "搜索";
-"Supported XBMC version is Eden (11) or higher" = "支持Eden (11)或更高版本的Kodi";
 "Add Host" = "添加站点";
 "Kodi connection notice" = "Kodi连接通知";
 "It seems that the TCP connection with Kodi cannot be established. This will prevent the app from listening to Kodi. For example, the keyboard input within the app will not show when Kodi requests keyboard input." = "似乎无法建立与Kodi的TCP连接。这将阻止应用程序监听Kodi。例如，当Kodi请求键盘输入时，应用程序中的键盘输入将不显示。";
@@ -296,3 +295,5 @@
 "kHz" = "kHz";
 "kbit/s" = "kbit/s";
 "Music Video Tags" = "音乐视频标签";
+"Supports Kodi version %@ or higher" = "支持 Kodi %@ 及以上版本";
+"Kodi version %d not supported." = "不支持 Kodi %d 版本。";
