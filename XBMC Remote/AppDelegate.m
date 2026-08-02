@@ -297,6 +297,16 @@
                 NSLog(@"CFSocketSendData error: %li", CFSocketSendData_error);
             }
         }
+        
+        // Clean up memory
+        if (message_data) {
+            CFRelease(message_data);
+        }
+        if (destinationAddressData) {
+            CFRelease(destinationAddressData);
+        }
+        CFSocketInvalidate(WOLsocket);
+        CFRelease(WOLsocket);
     }
 }
 
