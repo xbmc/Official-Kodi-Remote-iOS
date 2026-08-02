@@ -501,7 +501,7 @@
         return;
     }
     // NEED TO BE OPTIMIZED. IT WORKS BUT THERE ARE TOO MANY IFS!
-    NSMutableDictionary *item = self.detailItem;
+    NSMutableDictionary *item = [self.detailItem mutableCopy];
     NSString *placeHolderImage = @"coverbox_back";
     isPvrDetail = item[@"recordingid"] != nil || item[@"broadcastid"] != nil;
     JewelType jeweltype = JewelTypeUnknown;
