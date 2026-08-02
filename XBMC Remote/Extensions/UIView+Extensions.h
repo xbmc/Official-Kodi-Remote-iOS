@@ -14,6 +14,7 @@
 - (void)setX:(CGFloat)x;
 - (void)setY:(CGFloat)y;
 - (void)setOrigin:(CGPoint)origin;
+- (void)setSize:(CGSize)size;
 - (void)setHeight:(CGFloat)height;
 - (void)setWidth:(CGFloat)width;
 - (void)offsetYBy:(CGFloat)offset;
