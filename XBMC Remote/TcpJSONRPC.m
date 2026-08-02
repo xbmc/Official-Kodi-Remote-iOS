@@ -89,8 +89,7 @@ NSInputStream *inStream;
 
 - (void)stopNetworkCommunication {
     AppDelegate.instance.serverTCPConnectionOpen = NO;
-    NSStreamStatus current_status = [inStream streamStatus];
-    if (current_status == NSStreamStatusOpen) {
+    if (inStream) {
         [inStream close];
         [inStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         inStream.delegate = nil;
