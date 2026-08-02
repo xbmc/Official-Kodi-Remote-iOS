@@ -237,7 +237,7 @@
         
         unsigned char ether_addr[6];
         
-        for (int idx = 0; idx + 2 <= MAC.length; idx += 3) {
+        for (int idx = 0, addr_idx = 0; idx + 2 <= MAC.length; idx += 3, addr_idx++) {
             NSRange range = NSMakeRange(idx, 2);
             NSString *hexStr = [MAC substringWithRange:range];
             
@@ -245,7 +245,7 @@
             unsigned int intValue;
             [scanner scanHexInt:&intValue];
             
-            ether_addr[idx / 3] = (unsigned char)(intValue & 0xff);
+            ether_addr[addr_idx] = (unsigned char)(intValue & 0xff);
         }
         
         /* Build the message to send - 6 x 0xff then 16 x MAC address */
