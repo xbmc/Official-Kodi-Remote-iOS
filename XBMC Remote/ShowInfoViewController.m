@@ -65,7 +65,7 @@
 
 - (void)configureView {
     if (self.detailItem) {
-        NSMutableDictionary *item = self.detailItem;
+        NSDictionary *item = self.detailItem;
         sheetActions = [@[LOCALIZED_STR(@"Queue after current"),
                           LOCALIZED_STR(@"Queue"),
                           LOCALIZED_STR(@"Play"),
