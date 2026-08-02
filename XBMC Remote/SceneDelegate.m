@@ -72,7 +72,7 @@
 
 - (void)windowScene:(UIWindowScene*)windowScene performActionForShortcutItem:(UIApplicationShortcutItem*)shortcutItem completionHandler:(void(^)(BOOL))completionHandler {
     // Use shortcut title (= server description) to map to server list and connect the server.
-    [self connectToServerFromList:shortcutItem.localizedTitle];
+    completionHandler([self connectToServerFromList:shortcutItem.localizedTitle]);
 }
 
 - (void)scene:(UIScene*)scene openURLContexts:(NSSet<UIOpenURLContext*>*)URLContexts {
