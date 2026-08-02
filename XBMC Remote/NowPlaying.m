@@ -242,10 +242,7 @@
         PartyModeButton.selected = NO;
         [[Utilities getJsonRPC]
          callMethod:@"Player.SetPartymode"
-         withParameters:@{@"playerid": @(0), @"partymode": @"toggle"}
-         onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            PartyModeButton.selected = NO;
-        }];
+         withParameters:@{@"playerid": @(0), @"partymode": @"toggle"}];
     }
     else {
         PartyModeButton.selected = YES;
@@ -253,7 +250,6 @@
          callMethod:@"Player.Open"
          withParameters:@{@"item": @{@"partymode": @"music"}}
          onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
-            PartyModeButton.selected = YES;
             storedItemID = SELECTED_NONE;
         }];
     }
