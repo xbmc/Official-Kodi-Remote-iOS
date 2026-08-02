@@ -3885,8 +3885,6 @@
     int activeTab = [self getActiveTab:item];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
     NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
-    NSNumber *libraryRowHeight = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
-    NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
     NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
     NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
     NSMutableArray *mutableProperties = [parameters[@"parameters"][@"file_properties"] mutableCopy];
@@ -3900,8 +3898,6 @@
                                            parameters[@"parameters"][@"sort"], @"sort",
                                            mutableProperties, @"file_properties",
                                            nil], @"parameters",
-                                          libraryRowHeight, @"rowHeight",
-                                          libraryThumbWidth, @"thumbWidth",
                                           parameters[@"label"], @"label",
                                           @"nocover_filemode", @"defaultThumb",
                                           filemodeRowHeight, @"rowHeight",
