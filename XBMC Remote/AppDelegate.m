@@ -303,7 +303,7 @@
 
 - (void)application:(UIApplication*)application performActionForShortcutItem:(UIApplicationShortcutItem*)shortcutItem completionHandler:(void(^)(BOOL))completionHandler {
     // Use shortcut title (= server description) to map to server list and connect the server.
-    [self connectToServerFromList:shortcutItem.localizedTitle];
+    completionHandler([self connectToServerFromList:shortcutItem.localizedTitle]);
 }
 
 - (void)applicationDidEnterBackground:(UIApplication*)application {
