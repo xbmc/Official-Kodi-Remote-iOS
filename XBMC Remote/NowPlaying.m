@@ -29,7 +29,6 @@
 @implementation NowPlaying
 
 @synthesize detailItem = _detailItem;
-@synthesize remoteController;
 @synthesize jewelView;
 @synthesize shuffleButton;
 @synthesize repeatButton;
@@ -1141,18 +1140,17 @@
     if (!text.length) {
         text = @"-";
     }
-    int fontSize = descriptionFontSize;
     // Bold and gray for label
     name = [NSString stringWithFormat:@"%@: ", name];
     NSDictionary *boldFontAttrib = @{
-        NSFontAttributeName: [UIFont boldSystemFontOfSize:fontSize],
+        NSFontAttributeName: [UIFont boldSystemFontOfSize:descriptionFontSize],
         NSForegroundColorAttributeName: UIColor.lightGrayColor,
     };
     // Normal and white for the text
     NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:name attributes:boldFontAttrib];
     text = [NSString stringWithFormat:@"%@\n", text];
     NSDictionary *normalFontAttrib = @{
-        NSFontAttributeName: [UIFont systemFontOfSize:fontSize],
+        NSFontAttributeName: [UIFont systemFontOfSize:descriptionFontSize],
         NSForegroundColorAttributeName: UIColor.whiteColor,
     };
     NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:text attributes:normalFontAttrib];

@@ -317,7 +317,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    int deltaY = [Utilities getTopPadding];
+    CGFloat deltaY = [Utilities getTopPadding];
     [self setNeedsStatusBarAppearanceUpdate];
     self.view.tintColor = APP_TINT_COLOR;
     AppDelegate.instance.obj = [GlobalData getInstance];
@@ -440,7 +440,7 @@
     [self.view insertSubview:self.nowPlayingController.BottomView aboveSubview:self.nowPlayingController.songDetailsView];
     [self.view insertSubview:self.nowPlayingController.playlistToolbarView belowSubview:self.nowPlayingController.BottomView];
 
-    int bottomPadding = [Utilities getBottomPadding];
+    CGFloat bottomPadding = [Utilities getBottomPadding];
     if (bottomPadding > 0) {
         [volumeSliderView offsetYBy:-bottomPadding];
         [powerButton offsetYBy:-bottomPadding];

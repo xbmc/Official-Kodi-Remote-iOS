@@ -59,7 +59,7 @@
     NSString *currentType;
     BOOL nothingIsPlaying;
     IBOutlet UIButton *toggleButton;
-    int animationOptionTransition;
+    UIViewAnimationOptions animationOptionTransition;
     BOOL startFlipDemo;
     IBOutlet OBSlider *ProgressSlider;
     NSIndexPath *selectedIndexPath;
@@ -103,7 +103,6 @@
 - (IBAction)changeShuffle:(id)sender;
 - (IBAction)changeRepeat:(id)sender;
 
-@property (strong, nonatomic) RemoteController *remoteController;
 @property (strong, nonatomic) UIImageView *jewelView;
 @property (strong, nonatomic) IBOutlet UIImageView *itemLogoImage;
 @property (strong, nonatomic) UIButton *shuffleButton;

@@ -13,7 +13,7 @@
 
 #define SERVER_CHECK_TIMER 5.0
 #define SERVER_JSON_TIMEOUT (SERVER_CHECK_TIMER - 1.0) // ensure result comes before next heartbeat check
-#define MRMC_TIMEWARP 14.0
+#define MRMC_TIMEWARP 14
 
 NSInputStream *inStream;
 
@@ -110,9 +110,9 @@ NSInputStream *inStream;
         case NSStreamEventHasBytesAvailable:
             if (theStream == inStream) {
                 uint8_t buffer[1024];
-                int len;
+                NSInteger len;
                 while ([inStream hasBytesAvailable]) {
-                    len = (int)[inStream read:buffer maxLength:sizeof(buffer)];
+                    len = [inStream read:buffer maxLength:sizeof(buffer)];
                     if (len > 0) {
                         NSData *output = [[NSData alloc] initWithBytes:buffer length:len];
                         if (nil != output) {
