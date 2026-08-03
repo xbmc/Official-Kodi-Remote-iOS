@@ -52,7 +52,7 @@
                                                  8 /* 8 bits per components */,
                                                  size.width * 4 /* 4 components for ARGB */,
                                                  colorSpace,
-                                                 alphaInfo & kCGBitmapAlphaInfoMask);
+                                                 (int)alphaInfo & kCGBitmapAlphaInfoMask);
     CGColorSpaceRelease(colorSpace);
     if (context == NULL) {
         return NULL;
