@@ -429,6 +429,18 @@
 
 #pragma mark - Utility
 
+- (NSString*)getViewPreferenceKey:(NSString*)template method:(NSString*)method parameters:(NSDictionary*)params {
+    // View's preference shall be independent of the active filter (e.g. Genre > Pop). So remove the filter specifics.
+    NSMutableDictionary *tmpJsonParams = [params mutableCopy];
+    NSMutableDictionary *tmpParameters = [params[@"parameters"] mutableCopy];
+    if (tmpParameters[@"filter"] != nil) {
+        [tmpParameters removeObjectForKey:@"filter"];
+        tmpJsonParams[@"parameters"] = tmpParameters;
+    }
+    NSString *key = [NSString stringWithFormat:template, [self getCacheKey:method parameters:tmpJsonParams]];
+    return key;
+}
+
 - (void)updateTimerIcon:(NSDictionary*)item {
     id cell = [self getCell:selectedIndexPath];
     NSNumber *status = @(![item[@"isrecording"] boolValue]);
@@ -3328,7 +3340,9 @@
 - (void)saveSortMethod:(NSString*)sortMethod parameters:(NSDictionary*)parameters {
     MainMenu *menuItem = self.detailItem;
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
-    NSString *sortKey = [NSString stringWithFormat:@"%@_sort_method", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
+    NSString *sortKey = [self getViewPreferenceKey:@"%@_sort_method"
+                                            method:methods[@"method"]
+                                        parameters:parameters];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:sortMethod forKey:sortKey];
 }
@@ -3336,7 +3350,9 @@
 - (void)saveSortAscDesc:(NSString*)sortAscDescSave parameters:(NSDictionary*)parameters {
     MainMenu *menuItem = self.detailItem;
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
-    NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
+    NSString *sortKey = [self getViewPreferenceKey:@"%@_sort_ascdesc"
+                                            method:methods[@"method"]
+                                        parameters:parameters];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:sortAscDescSave forKey:sortKey];
 }
@@ -5309,18 +5325,17 @@
     MainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
-    NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
-    if (tempDict[@"filter"] != nil) {
-        [tempDict removeObjectForKey:@"filter"];
-        tempDict[@"filtered"] = @"YES";
-    }
-    NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
+    NSString *viewKey = [self getViewPreferenceKey:@"%@_grid_preference"
+                                            method:methods[@"method"]
+                                        parameters:parameters];
     return ([parameters[@"enableCollectionView"] boolValue] && [userDefaults boolForKey:viewKey]);
 }
 
 - (NSString*)getCurrentSortMethod:(NSDictionary*)methods withParameters:(NSDictionary*)parameters {
     NSString *sortMethod = parameters[@"parameters"][@"sort"][@"method"];
-    NSString *sortKey = [NSString stringWithFormat:@"%@_sort_method", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
+    NSString *sortKey = [self getViewPreferenceKey:@"%@_sort_method"
+                                            method:methods[@"method"]
+                                        parameters:parameters];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if ([userDefaults objectForKey:sortKey] != nil) {
         sortMethod = [userDefaults objectForKey:sortKey];
@@ -5488,7 +5503,9 @@
 
 - (NSString*)getCurrentSortAscDesc:(NSDictionary*)methods withParameters:(NSDictionary*)parameters {
     NSString *sortAscDescSaved = parameters[@"parameters"][@"sort"][@"order"];
-    NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
+    NSString *sortKey = [self getViewPreferenceKey:@"%@_sort_ascdesc"
+                                            method:methods[@"method"]
+                                        parameters:parameters];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if ([userDefaults objectForKey:sortKey] != nil) {
         sortAscDescSaved = [userDefaults objectForKey:sortKey];
@@ -5829,12 +5846,9 @@
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     if ([self collectionViewCanBeEnabled] && self.view.superview != nil && ![methods[@"method"] isEqualToString:@""]) {
-        NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
-        if (tempDict[@"filter"] != nil) {
-            [tempDict removeObjectForKey:@"filter"];
-            tempDict[@"filtered"] = @"YES";
-        }
-        NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
+        NSString *viewKey = [self getViewPreferenceKey:@"%@_grid_preference"
+                                                method:methods[@"method"]
+                                            parameters:parameters];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setBool:![userDefaults boolForKey:viewKey] forKey:viewKey];
         [self setGridListButtonImage:!enableCollectionView];
