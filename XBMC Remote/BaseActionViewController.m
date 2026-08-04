@@ -149,21 +149,17 @@
 
 - (void)startPlaybackItems:(NSDictionary*)playbackItems using:(NSString*)playername shuffle:(BOOL)shuffled resume:(BOOL)resume indicator:(UIActivityIndicatorView*)cellActivityIndicator {
     [cellActivityIndicator startAnimating];
-    NSString *optionsKey;
-    NSDictionary *optionsValue;
-    if (AppDelegate.instance.serverVersion > 11) {
-        optionsKey = @"options";
-        optionsValue = [NSDictionary dictionaryWithObjectsAndKeys:
-                        @(resume), @"resume",
-                        @(shuffled), @"shuffled",
-                        playername, @"playername",
-                        nil];
-    }
+    NSString *optionsKey = @"options";
+    NSDictionary *optionsValue = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  @(resume), @"resume",
+                                  @(shuffled), @"shuffled",
+                                  playername, @"playername",
+                                  nil];
     NSDictionary *playbackParams = [NSDictionary dictionaryWithObjectsAndKeys:
                                     playbackItems, @"item",
                                     optionsValue, optionsKey,
                                     nil];
-    if (shuffled && AppDelegate.instance.serverVersion > 11) {
+    if (shuffled) {
         [[Utilities getJsonRPC]
          callMethod:@"Player.SetPartymode"
          withParameters:@{@"playerid": @0, @"partymode": @NO}
