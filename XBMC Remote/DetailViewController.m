@@ -325,7 +325,7 @@
 
 #pragma mark - Library disk cache management
 
-- (NSString*)getCacheKey:(NSString*)method parameters:(NSMutableDictionary*)params {
+- (NSString*)getCacheKey:(NSString*)method parameters:(NSDictionary*)params {
     // Which server are we connected to?
     GlobalData *obj = [GlobalData getInstance];
     NSString *serverInfo = [NSString stringWithFormat:@"%@ %@ %@", obj.serverIP, obj.serverPort, obj.serverDescription];
@@ -344,14 +344,14 @@
     return [text SHA256String];
 }
 
-- (void)saveData:(NSMutableDictionary*)mutableParameters {
+- (void)saveData:(NSDictionary*)parameters {
     if (!enableDiskCache) {
         return;
     }
-    if (mutableParameters != nil) {
+    if (parameters != nil) {
         MainMenu *menuItem = self.detailItem;
         NSDictionary *methods = menuItem.mainMethod[chosenTab];
-        NSString *viewKey = [self getCacheKey:methods[@"method"] parameters:mutableParameters];
+        NSString *viewKey = [self getCacheKey:methods[@"method"] parameters:parameters];
         
         NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
         [Utilities archivePath:libraryCachePath file:filename data:self.richResults];
@@ -371,7 +371,7 @@
     self.extraSectionRichResults = nil;
     self.sections = [NSMutableDictionary new];
     
-    NSString *viewKey = [self getCacheKey:params[@"methodToCall"] parameters:params[@"mutableParameters"]];
+    NSString *viewKey = [self getCacheKey:params[@"methodToCall"] parameters:params[@"parametersToCall"]];
     NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
     NSMutableArray *tempArray = [Utilities unarchivePath:libraryCachePath file:filename];
     self.richResults = tempArray;
@@ -384,20 +384,20 @@
     [self performSelectorOnMainThread:@selector(indexAndDisplayData) withObject:nil waitUntilDone:YES];
 }
 
-- (BOOL)loadedDataFromDisk:(NSString*)methodToCall parameters:(NSMutableDictionary*)mutableParameters refresh:(BOOL)forceRefresh {
+- (BOOL)loadedDataFromDisk:(NSString*)methodToCall parameters:(NSDictionary*)parameters refresh:(BOOL)forceRefresh {
     if (forceRefresh) {
         return NO;
     }
     if (!enableDiskCache) {
         return NO;
     }
-    NSString *viewKey = [self getCacheKey:methodToCall parameters:mutableParameters];
+    NSString *viewKey = [self getCacheKey:methodToCall parameters:parameters];
     NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
     NSString *path = [libraryCachePath stringByAppendingPathComponent:filename];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:path]) {
         NSDictionary *extraParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     mutableParameters, @"mutableParameters",
+                                     parameters, @"parametersToCall",
                                      methodToCall, @"methodToCall",
                                      nil];
         [self updateSyncDate:path];
@@ -4350,7 +4350,7 @@
         
         // Save and display
         MainMenu *menuItem = self.detailItem;
-        NSMutableDictionary *parameters = [menuItem.mainParameters[chosenTab] mutableCopy];
+        NSMutableDictionary *parameters = menuItem.mainParameters[chosenTab];
         [self saveData:parameters];
         [self indexAndDisplayData];
         return;
@@ -4696,7 +4696,7 @@
      }];
 }
 
-- (void)saveAndShowResultsRefresh:(BOOL)forceRefresh params:(NSMutableDictionary*)mutableParameters {
+- (void)saveAndShowResultsRefresh:(BOOL)forceRefresh params:(NSDictionary*)parameters {
     if (forceRefresh) {
         [self stopPullToRefreshViewAnimation];
     }
@@ -4705,12 +4705,12 @@
         filterModeType == ViewModeListened ||
         filterModeType == ViewModeNotListened) {
         if (forceRefresh) {
-            [self saveData:mutableParameters];
+            [self saveData:parameters];
         }
         [self changeViewMode:filterModeType forceRefresh:forceRefresh];
     }
     else {
-        [self saveData:mutableParameters];
+        [self saveData:parameters];
         [self indexAndDisplayData];
     }
 }
