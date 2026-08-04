@@ -325,7 +325,7 @@
 
 #pragma mark - Library disk cache management
 
-- (NSString*)getCacheKey:(NSString*)fieldA parameters:(NSMutableDictionary*)fieldB {
+- (NSString*)getCacheKey:(NSString*)method parameters:(NSMutableDictionary*)params {
     // Which server are we connected to?
     GlobalData *obj = [GlobalData getInstance];
     NSString *serverInfo = [NSString stringWithFormat:@"%@ %@ %@", obj.serverIP, obj.serverPort, obj.serverDescription];
@@ -337,7 +337,7 @@
     NSString *appVersion = [Utilities getAppVersionString];
     
     // Which JSON request's results do we cache??
-    NSString *jsonRequest = [NSString stringWithFormat:@"%@ %@", fieldA, fieldB];
+    NSString *jsonRequest = [NSString stringWithFormat:@"%@ %@", method, params];
     
     // Get SHA256 hash for the combination given above
     NSString *text = [NSString stringWithFormat:@"%@%@%@%@", serverInfo, serverVersion, appVersion, jsonRequest];
