@@ -70,7 +70,7 @@
         
         [self setPosterCellLayout:frame];
 
-        _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
         _busyView.hidesWhenStopped = YES;
         _busyView.center = _posterThumbnail.center;
         _busyView.tag = POSTER_CELL_ACTIVTYINDICATOR;
