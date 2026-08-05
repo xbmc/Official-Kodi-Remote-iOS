@@ -288,11 +288,22 @@
         CFDataRef message_data = CFDataCreate(NULL, (unsigned char*)&message, sizeof(message));
         CFDataRef destinationAddressData = CFDataCreate(NULL, (const UInt8*)&addr, sizeof(addr));
         
-        CFSocketError CFSocketSendData_error = CFSocketSendData(WOLsocket, destinationAddressData, message_data, 30);
-        
-        if (CFSocketSendData_error) {
-            NSLog(@"CFSocketSendData error: %li", CFSocketSendData_error);
+        if (message_data) {
+            CFSocketError CFSocketSendData_error = CFSocketSendData(WOLsocket, destinationAddressData, message_data, 30);
+            if (CFSocketSendData_error) {
+                NSLog(@"CFSocketSendData error: %li", CFSocketSendData_error);
+            }
         }
+        
+        // Clean up memory
+        if (message_data) {
+            CFRelease(message_data);
+        }
+        if (destinationAddressData) {
+            CFRelease(destinationAddressData);
+        }
+        CFSocketInvalidate(WOLsocket);
+        CFRelease(WOLsocket);
     }
 }
 
