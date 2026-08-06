@@ -185,6 +185,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     [self processButtonPress:buttonID];
     
     NSDictionary *params = @{@"buttontag": @(buttonID)};
+    [self.holdKeyTimer invalidate];
     self.holdKeyTimer = [NSTimer scheduledTimerWithTimeInterval:KEY_HOLD_TIMEOUT
                                                          target:self
                                                        selector:@selector(longpressKey:)
