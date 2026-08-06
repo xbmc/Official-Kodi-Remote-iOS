@@ -364,6 +364,7 @@
 # pragma mark - resolveIPAddress Methods
 
 - (void)resolveIPAddress:(NSNetService*)service {
+    [remoteService stop];
     remoteService = service;
     remoteService.delegate = self;
     [remoteService resolveWithTimeout:0];
@@ -562,13 +563,17 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     services = [NSMutableArray new];
+    [netServiceBrowser stop];
     netServiceBrowser = [NSNetServiceBrowser new];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [discoveryTimeoutTimer invalidate];
+    [netServiceBrowser stop];
     netServiceBrowser = nil;
+    [remoteService stop];
+    remoteService = nil;
     services = nil;
     [discoveredInstancesView setX:self.view.frame.size.width alpha:1.0];
     for (UITextField *textfield in [self getAllEntryMaskLabels]) {
