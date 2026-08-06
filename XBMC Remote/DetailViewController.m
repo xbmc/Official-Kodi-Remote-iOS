@@ -365,23 +365,23 @@
 }
 
 - (void)loadDataFromDisk:(NSDictionary*)params {
-    self.richResults = nil;
-    self.sectionArray = nil;
-    self.sectionArrayOpen = nil;
-    self.extraSectionRichResults = nil;
-    self.sections = [NSMutableDictionary new];
-    
     NSString *viewKey = [self getCacheKey:params[@"methodToCall"] parameters:params[@"mutableParameters"]];
     NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
-    NSMutableArray *tempArray = [Utilities unarchivePath:libraryCachePath file:filename];
-    self.richResults = tempArray;
+    NSMutableArray *tempRichResults = [Utilities unarchivePath:libraryCachePath file:filename];
     
     filename = [NSString stringWithFormat:@"%@.extraSectionRichResults.dat", viewKey];
-    tempArray = [Utilities unarchivePath:libraryCachePath file:filename];
-    self.extraSectionRichResults = tempArray;
+    NSMutableArray *tempExtraSectionRichResults = [Utilities unarchivePath:libraryCachePath file:filename];
     
-    storeRichResults = [self.richResults mutableCopy];
-    [self performSelectorOnMainThread:@selector(indexAndDisplayData) withObject:nil waitUntilDone:YES];
+    // Ensure an atomic update of the main library data
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.sectionArray = nil;
+        self.sectionArrayOpen = nil;
+        self.sections = [NSMutableDictionary new];
+        self.richResults = tempRichResults;
+        self.extraSectionRichResults = tempExtraSectionRichResults;
+        storeRichResults = [self.richResults mutableCopy];
+        [self indexAndDisplayData];
+    });
 }
 
 - (BOOL)loadedDataFromDisk:(NSString*)methodToCall parameters:(NSMutableDictionary*)mutableParameters refresh:(BOOL)forceRefresh {
