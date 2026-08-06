@@ -6,6 +6,7 @@
  * file that was distributed with this source code.
  */
 
+#import "Utilities.h"
 #import "SDWebImageDownloader.h"
 #import "SDWebImageDownloaderOperation.h"
 #import "SDWebImageManager.h"
@@ -141,6 +142,17 @@ static NSString *const kCompletedCallbackKey = @"completed";
         NSTimeInterval timeoutInterval = wself.downloadTimeout;
         if (timeoutInterval == 0.0) {
             timeoutInterval = 15.0;
+        }
+        
+        // Add credentials only, if needed and known for the server from the url
+        NSString* credentials = [Utilities getServerAuthorizationForURL:url];
+        if (credentials) {
+            wself.HTTPHeaders[@"Authorization"] = credentials;
+            NSLog(@"img from Kodi server -> credentials shared\n");
+        }
+        else {
+            [wself.HTTPHeaders removeObjectForKey:@"Authorization"];
+            NSLog(@"img from other server or no credentials available -> no credentials\n");
         }
 
         // In order to prevent from potential duplicate caching (NSURLCache + SDImageCache) we disable the cache for image requests if told otherwise
