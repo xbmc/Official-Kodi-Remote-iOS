@@ -146,11 +146,12 @@ static NSString *const kCompletedCallbackKey = @"completed";
         
         // Add credentials only, if needed and known for the server from the url
         NSString* credentials = [Utilities getServerAuthorizationForURL:url];
+        NSMutableDictionary *headers = [wself.HTTPHeaders mutableCopy];
         if (credentials) {
-            wself.HTTPHeaders[@"Authorization"] = credentials;
+            headers[@"Authorization"] = credentials;
         }
         else {
-            [wself.HTTPHeaders removeObjectForKey:@"Authorization"];
+            [headers removeObjectForKey:@"Authorization"];
         }
 
         // In order to prevent from potential duplicate caching (NSURLCache + SDImageCache) we disable the cache for image requests if told otherwise
@@ -158,10 +159,10 @@ static NSString *const kCompletedCallbackKey = @"completed";
         request.HTTPShouldHandleCookies = (options & SDWebImageDownloaderHandleCookies);
         request.HTTPShouldUsePipelining = YES;
         if (wself.headersFilter) {
-            request.allHTTPHeaderFields = wself.headersFilter(url, [wself.HTTPHeaders copy]);
+            request.allHTTPHeaderFields = wself.headersFilter(url, [headers copy]);
         }
         else {
-            request.allHTTPHeaderFields = wself.HTTPHeaders;
+            request.allHTTPHeaderFields = [headers copy];
         }
         operation = [[wself.operationClass alloc] initWithRequest:request
                                                         inSession:self.session
