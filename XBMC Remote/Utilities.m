@@ -532,16 +532,6 @@
     return jsonRPC;
 }
 
-+ (void)setWebImageAuthorizationOnSuccessNotification:(NSNotification*)note {
-    if ([note.name isEqualToString:@"XBMCServerConnectionSuccess"]) {
-        SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-        NSDictionary *httpHeaders = AppDelegate.instance.getServerHTTPHeaders;
-        if (httpHeaders[@"Authorization"] != nil) {
-            [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
-        }
-    }
-}
-
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds {
     NSString *result = @"";
     if (![seconds respondsToSelector:@selector(intValue)]) {
@@ -714,6 +704,41 @@
 
 + (int)getSec2Min:(BOOL)convert {
     return convert ? 60 : 1;
+}
+
++ (NSString*)stripIPv6BracketsFromHost:(NSString*)host {
+    // Strip off leading and trailing brackets, if present
+    if ([host hasPrefix:@"["] && [host hasSuffix:@"]"]) {
+        return [host substringWithRange:NSMakeRange(1, host.length - 2)];
+    }
+    return host;
+}
+
++ (NSString*)getServerAuthorizationForURL:(NSURL*)url {
+    if (!url) {
+        return nil;
+    }
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+    
+    // Compare host from URL to active Kodi server
+    NSString *appHost = [self stripIPv6BracketsFromHost:[AppDelegate.instance.obj.serverIP lowercaseString]];
+    NSString *urlHost = [self stripIPv6BracketsFromHost:[urlComponents.host lowercaseString]];
+    BOOL sameHost = [urlHost isEqualToString:appHost];
+    
+    // Compare port from URL to active Kodi server, taking into account defaults for http/https
+    NSInteger appPort = [AppDelegate.instance.obj.serverPort intValue];
+    NSInteger urlPort;
+    if (url.port) {
+        urlPort = [url.port intValue];
+    }
+    else {
+        urlPort = [url.scheme isEqualToString:@"https"] ? 443 : 80;
+    }
+    BOOL samePort = urlPort == appPort;
+    
+    // Return authorization (Kodi user + password), only if url points to active Kodi server
+    NSString *credentials = sameHost && samePort ? AppDelegate.instance.getServerHTTPHeaders[@"Authorization"] : nil;
+    return credentials;
 }
 
 + (NSString*)getImageServerURL {

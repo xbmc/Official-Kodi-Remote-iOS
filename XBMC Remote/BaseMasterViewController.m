@@ -145,8 +145,6 @@
 }
 
 - (void)connectionStatus:(NSNotification*)note {
-    // We are connected to server, we now need to share credentials with SDWebImageManager
-    [Utilities setWebImageAuthorizationOnSuccessNotification:note];
 }
 
 - (void)enterAppSettings {
