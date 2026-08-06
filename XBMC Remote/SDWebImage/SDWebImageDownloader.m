@@ -148,9 +148,11 @@ static NSString *const kCompletedCallbackKey = @"completed";
         NSString* credentials = [Utilities getServerAuthorizationForURL:url];
         if (credentials) {
             wself.HTTPHeaders[@"Authorization"] = credentials;
+            NSLog(@"img from Kodi server -> credentials shared\n");
         }
         else {
             [wself.HTTPHeaders removeObjectForKey:@"Authorization"];
+            NSLog(@"img from other server or no credentials available -> no credentials\n");
         }
 
         // In order to prevent from potential duplicate caching (NSURLCache + SDImageCache) we disable the cache for image requests if told otherwise
