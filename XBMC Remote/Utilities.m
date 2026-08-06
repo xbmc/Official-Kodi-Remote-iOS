@@ -532,16 +532,6 @@
     return jsonRPC;
 }
 
-+ (void)setWebImageAuthorizationOnSuccessNotification:(NSNotification*)note {
-    if ([note.name isEqualToString:@"XBMCServerConnectionSuccess"]) {
-        SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-        NSDictionary *httpHeaders = AppDelegate.instance.getServerHTTPHeaders;
-        if (httpHeaders[@"Authorization"] != nil) {
-            [manager setValue:httpHeaders[@"Authorization"] forHTTPHeaderField:@"Authorization"];
-        }
-    }
-}
-
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds {
     NSString *result = @"";
     if (![seconds respondsToSelector:@selector(intValue)]) {
@@ -714,6 +704,16 @@
 
 + (int)getSec2Min:(BOOL)convert {
     return convert ? 60 : 1;
+}
+
++ (NSString*)getServerAuthorizationForURL:(NSURL*)url {
+    // Return authorization (Kodi user + password), only if url points to active Kodi server
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:YES];
+    BOOL sameHost = [urlComponents.host isEqualToString:AppDelegate.instance.obj.serverIP];
+    BOOL samePort = [url.port intValue] == [AppDelegate.instance.obj.serverPort intValue];
+    
+    NSString *credentials = sameHost && samePort ? AppDelegate.instance.getServerHTTPHeaders[@"Authorization"] : nil;
+    return credentials;
 }
 
 + (NSString*)getImageServerURL {
