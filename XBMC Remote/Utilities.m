@@ -525,6 +525,7 @@
     
     // Create JSONRPC object if not yet created or new configuration is required
     if (jsonRPC == nil || ![checkRPC isEqualToString:checksum]) {
+        [jsonRPC invalidate];
         jsonRPC = [[DSJSONRPC alloc] initWithServiceEndpoint:AppDelegate.instance.getServerJSONEndPoint
                                               andHTTPHeaders:AppDelegate.instance.getServerHTTPHeaders];
         checkRPC = checksum;

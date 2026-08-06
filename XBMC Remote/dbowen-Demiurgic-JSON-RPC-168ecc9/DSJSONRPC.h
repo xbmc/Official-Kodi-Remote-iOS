@@ -69,6 +69,7 @@ typedef void (^DSJSONRPCCompletionHandler)(NSString *methodName, NSInteger callI
 
 - (id)initWithServiceEndpoint:(NSURL*)serviceEndpoint;
 - (id)initWithServiceEndpoint:(NSURL*)serviceEndpoint andHTTPHeaders:(NSDictionary*)httpHeaders;
+- (void)invalidate;
 
 #pragma mark - Web Service Invocation Methods
 - (NSInteger)callMethod:(NSString*)methodName;
