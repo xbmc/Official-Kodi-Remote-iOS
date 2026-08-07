@@ -5127,7 +5127,6 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [channelListUpdateTimer invalidate];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
