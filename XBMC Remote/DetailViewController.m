@@ -5106,6 +5106,9 @@
     [self setNavigationBarTint:ICON_TINT_COLOR];
     [channelListUpdateTimer invalidate];
     [countExecutionTime invalidate];
+    
+    // Invalidate potentially long-running library JSON requests when leaving the view
+    [[Utilities getJsonRPC] invalidate];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
