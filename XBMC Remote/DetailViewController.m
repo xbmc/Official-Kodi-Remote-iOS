@@ -3968,8 +3968,8 @@
                 UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
                 activityController.excludedActivityTypes = excludeActivities;
                 
-                // Origin of popover is the selected item
-                UIView *itemCell = [self getCell:indexPath];
+                // Origin of popover is the selected item, falls back to self.view on nil
+                UIView *itemCell = [self getCell:indexPath] ?: self.view;
                 
                 // Position the source of the popover
                 UIPopoverPresentationController *popPresenter = [activityController popoverPresentationController];
