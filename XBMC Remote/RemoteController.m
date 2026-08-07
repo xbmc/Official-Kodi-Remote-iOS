@@ -1079,12 +1079,12 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 }
 
 - (void)toggleTorch {
-    torchIsOn = !torchIsOn;
-    
     AVCaptureDevice *device = self.avCaptureDevice;
-    [device lockForConfiguration:nil];
-    device.torchMode = torchIsOn ? AVCaptureTorchModeOn : AVCaptureTorchModeOff;
-    [device unlockForConfiguration];
+    if ([device lockForConfiguration:nil]) {
+        torchIsOn = !torchIsOn;
+        device.torchMode = torchIsOn ? AVCaptureTorchModeOn : AVCaptureTorchModeOff;
+        [device unlockForConfiguration];
+    }
 }
 
 - (void)setTorchIcon:(BOOL)torchActive {
