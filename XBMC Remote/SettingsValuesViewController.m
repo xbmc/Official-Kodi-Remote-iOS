@@ -232,8 +232,9 @@
                 textField.placeholder = @"";
                 textField.text = [self getActionButtonTitle];
             }];
+            __weak UIAlertController *weakAlertCtrl = alertCtrl;
             UIAlertAction *addButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Add button") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    [self addActionButton:alertCtrl];
+                    [self addActionButton:weakAlertCtrl];
                 }];
             UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
             [alertCtrl addAction:addButton];
