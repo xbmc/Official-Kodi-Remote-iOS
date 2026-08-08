@@ -395,7 +395,7 @@
     }];
 }
 
-+ (UIAlertController*)createPowerControl {
++ (UIAlertController*)createPowerControlFromView:(UIView*)sourceView {
     NSString *title = [NSString stringWithFormat:@"%@\n%@", AppDelegate.instance.obj.serverDescription, AppDelegate.instance.obj.serverIP];
     UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
@@ -469,7 +469,13 @@
     
     UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Cancel") style:UIAlertActionStyleCancel handler:nil];
     [alertCtrl addAction:cancelButton];
+    
     alertCtrl.modalPresentationStyle = UIModalPresentationPopover;
+    UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
+    if (popPresenter != nil) {
+        popPresenter.sourceView = sourceView;
+        popPresenter.sourceRect = sourceView.bounds;
+    }
     
     return alertCtrl;
 }
