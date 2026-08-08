@@ -471,6 +471,11 @@
                                              selector:@selector(reloadCustomButtonTable:)
                                                  name:@"XBMCServerHasChanged"
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadCustomButtonTable:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
 }
 
 - (void)reloadCustomButtonTable:(NSNotification*)note {
