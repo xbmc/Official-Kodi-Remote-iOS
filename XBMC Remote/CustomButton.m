@@ -32,13 +32,11 @@
     NSString *filename = [NSString stringWithFormat:@"customButtons_%@.dat", [self getServerKey]];
     NSMutableArray *tempArray = [Utilities unarchivePath:paths[0] file:filename];
     
-    // Make sure the objects in the button array are mutable. The user might edit them.
-    NSMutableArray *buttonArray = [[NSMutableArray alloc] initWithCapacity:tempArray.count];
-    for (id object in tempArray) {
-        id mutableObject = [object mutableCopy];
-        [buttonArray addObject:mutableObject];
-    }
-    buttons = buttonArray;
+    // Use deep mutable copy to ensure all the objects in the button array are mutable as elements could
+    // be edited by user or overwritten to reflect a UISwitch's state.
+    buttons = (NSMutableArray*)CFBridgingRelease(CFPropertyListCreateDeepCopy(kCFAllocatorDefault,
+                                                                              (CFArrayRef)tempArray,
+                                                                              kCFPropertyListMutableContainers));
 }
 
 - (void)saveData {
