@@ -467,8 +467,8 @@
                                                  name:@"UIInterfaceCustomButtonAdded"
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:menuTableView
-                                             selector:@selector(reloadData)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadCustomButtonTable:)
                                                  name:@"XBMCServerHasChanged"
                                                object:nil];
 }
