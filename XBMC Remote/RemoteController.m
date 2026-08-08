@@ -1221,7 +1221,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     if (AppDelegate.instance.obj.serverIP.length == 0) {
         return;
     }
-    UIAlertController *alertCtrl = [Utilities createPowerControl];
+    UIAlertController *alertCtrl = [Utilities createPowerControlFromView:self.navigationController.navigationBar];
     [self presentViewController:alertCtrl animated:YES completion:nil];
 }
 
