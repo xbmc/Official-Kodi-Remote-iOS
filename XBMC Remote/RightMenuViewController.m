@@ -317,8 +317,9 @@
         textField.placeholder = @"";
         textField.text = tableData[indexPath.row][@"label"];
     }];
+    __weak UIAlertController *weakAlertCtrl = alertCtrl;
     UIAlertAction *updateButton = [UIAlertAction actionWithTitle:LOCALIZED_STR(@"Update label") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        NSString *newLabel = alertCtrl.textFields[0].text;
+        NSString *newLabel = weakAlertCtrl.textFields[0].text;
         
         CustomButton *arrayButtons = [CustomButton new];
         if (indexPath.row >= tableData.count ||
