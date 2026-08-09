@@ -367,7 +367,12 @@
     [remoteService stop];
     remoteService = service;
     remoteService.delegate = self;
-    [remoteService resolveWithTimeout:0];
+    [remoteService resolveWithTimeout:10];
+}
+
+- (void)netService:(NSNetService*)service didNotResolve:(NSDictionary<NSString*,NSNumber*>*)errorDict {
+    [activityIndicatorView stopAnimating];
+    [Utilities showMessage:LOCALIZED_STR(@"Cannot resolve IP address") color:ERROR_MESSAGE_COLOR];
 }
 
 - (void)netServiceDidResolveAddress:(NSNetService*)service {
