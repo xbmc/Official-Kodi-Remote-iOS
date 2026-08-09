@@ -85,7 +85,6 @@
 "TV Show Details" = "TV Show Details";
 "Music Video Details" = "Music Video Details";
 "Recording Details" = "Recording Details";
-"Details" = "Details";
 "Play Trailer" = "Play Trailer";
 "Share" = "Share";
 
@@ -108,7 +107,6 @@
 "Clear Playlist" = "Clear Playlist";
 "No server MAC address defined" = "No server MAC address defined";
 "Command executed" = "Command executed";
-"Warning" = "Warning";
 "Cannot do that" = "Cannot do that";
 "Send Wake-On-LAN" = "Send Wake-On-LAN";
 "No saved hosts found" = "No saved hosts found";
@@ -132,7 +130,6 @@
 "WRITER" = "WRITER";
 "FIRST AIRED" = "FIRST AIRED";
 "SUMMARY" = "SUMMARY";
-"PLOT OUTLINE" = "PLOT OUTLINE";
 "ARTIST" = "ARTIST";
 "YEAR" = "YEAR";
 "ALBUM LABEL" = "ALBUM LABEL";
@@ -146,8 +143,6 @@
 "Audiostream not available" = "Audio stream not available";
 "Audiostreams not available" = "Audio streams not available";
 
-"Yes" = "Yes";
-"No" = "No";
 "Authentication Failed" = "Authentication Failed";
 "Incorrect Username or Password.\nCheck your settings." = "Incorrect Username or Password.\nCheck your settings.";
 
@@ -187,7 +182,6 @@
 
 "ERROR" = "ERROR";
 "Subtitles disabled" = "Subtitles disabled";
-"Subtitle" = "Subtitle";
 "Mark as watched" = "Mark as watched";
 "Mark as unwatched" = "Mark as unwatched";
 
