@@ -402,7 +402,9 @@
                 [self fillAddressPort:serverAddresses port:ntohs(addr6->sin6_port) addr:addr name:service.hostName ip:@"ipv6"];
             }
         }
+#if DEBUG
         NSLog(@"Resolved address/port for service '%@' by '%@': %@", type, service.name, serverAddresses);
+#endif
         
 #if (RESOLVE_MAC_ADDRESS)
         if (serverAddresses[@"ipv4"]) {
@@ -441,7 +443,9 @@
                 [self fillTcpPort:serverAddresses port:ntohs(addr6->sin6_port) ip:@"ipv6"];
             }
         }
+#if DEBUG
         NSLog(@"TCP port for '%@': %@", service.name, serverAddresses[@"hostname"][@"tcpport"]);
+#endif
         
         [discoveryTimeoutTimer invalidate];
     }
