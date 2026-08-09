@@ -1494,8 +1494,7 @@
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if (![self isModal]) {
-        UIImage *image = [[UIImage imageNamed:@"table_arrow_right"] colorizeWithColor:ICON_TINT_COLOR];
-        cell.accessoryView = [[UIImageView alloc] initWithImage:image];
+        cell.accessoryView = [[UIImageView alloc] initWithImage:table_arrow_right_colored];
         cell.accessoryView.alpha = ARROW_ALPHA;
     }
     else {
@@ -1742,6 +1741,8 @@
     logoBackgroundMode = [Utilities getLogoBackgroundMode];
     foundTintColor = ICON_TINT_COLOR;
     [self configureView];
+    
+    table_arrow_right_colored = [[UIImage imageNamed:@"table_arrow_right"] colorizeWithColor:ICON_TINT_COLOR];
     
     coverView.layer.minificationFilter = kCAFilterTrilinear;
     coverView.layer.magnificationFilter = kCAFilterTrilinear;
