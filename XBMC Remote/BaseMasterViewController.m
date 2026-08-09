@@ -157,10 +157,9 @@
 #pragma mark - App clear disk cache methods
 
 - (void)startClearAppDiskCache:(ClearCacheView*)clearView {
-    [AppDelegate.instance clearAppDiskCache];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, CLEARCACHE_TIMEOUT * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    [AppDelegate.instance clearAppDiskCache:^{
         [self clearAppDiskCacheFinished:clearView];
-    });
+    }];
 }
 
 - (void)clearAppDiskCacheFinished:(ClearCacheView*)clearView {
