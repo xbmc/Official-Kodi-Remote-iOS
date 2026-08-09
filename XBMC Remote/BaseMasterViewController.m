@@ -163,16 +163,17 @@
 }
 
 - (void)clearAppDiskCacheFinished:(ClearCacheView*)clearView {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:@"clearcache_preference"];
+    
+    // Stop indicator animation, fade out and then remove view.
     [UIView animateWithDuration:0.3
                      animations:^{
         [clearView stopActivityIndicator];
         clearView.alpha = 0;
     }
                      completion:^(BOOL finished) {
-        [clearView stopActivityIndicator];
         [clearView removeFromSuperview];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults removeObjectForKey:@"clearcache_preference"];
     }];
 }
 
