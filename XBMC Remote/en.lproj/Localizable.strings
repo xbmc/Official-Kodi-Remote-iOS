@@ -343,6 +343,7 @@
 "kbit/s" = "kbit/s";
 
 "Received unexpected JSON object." = "Received unexpected JSON object.";
+"No Kodi server configured" = "No Kodi server configured";
 
 "QUICK HELP" = "QUICK HELP";
 "Gestures" = "Gestures";
