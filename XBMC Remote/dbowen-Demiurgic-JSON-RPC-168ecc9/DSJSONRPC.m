@@ -186,10 +186,11 @@
             // Pass the error to completion handler
             if (completionHandler) {
                 NSError *aError = [NSError errorWithDomain:RPC_DOMAIN code:DSJSONRPCParseError userInfo:@{NSLocalizedDescriptionKey: LOCALIZED_STR(@"Received unexpected JSON object.")}];
+                NSString *body = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] ?: [data description];
                 NSDictionary *jsonErrorDict = @{
                     @"code": @(JSONRPCInvalidObject),
                     @"message": LOCALIZED_STR(@"Received unexpected JSON object."),
-                    @"data": [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding],
+                    @"data": body,
                 };
                 DSJSONRPCError *jsonRPCError = [DSJSONRPCError errorWithData:jsonErrorDict];
                 completionHandler(methodName, aID, nil, jsonRPCError, aError);
