@@ -167,8 +167,8 @@
     NSData *data = dataTaskProp[@"dataBuffer"];
     long aID = [dataTaskProp[@"requestID"] longValue];
     
-    // No error, process the received data
-    if (error == nil) {
+    // If no error and data != nil, process the received data
+    if (error == nil && data) {
         // Attempt to deserialize result
         NSError *jsonError = nil;
         NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
