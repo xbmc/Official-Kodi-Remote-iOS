@@ -765,13 +765,6 @@
     return topPadding;
 }
 
-+ (void)sendXbmcHttp:(NSString*)command {
-    GlobalData *obj = [GlobalData getInstance];
-    NSString *userPassword = obj.serverPass.length ? [NSString stringWithFormat:@":%@", obj.serverPass] : @"";
-    NSString *serverHTTP = [NSString stringWithFormat:@"http://%@%@@%@:%@/xbmcCmds/xbmcHttp?command=%@", obj.serverUser, userPassword, obj.serverIP, obj.serverPort, command];
-    [[NSURLSession.sharedSession dataTaskWithURL:[NSURL URLWithString:serverHTTP]] resume];
-}
-
 + (void)giveHapticFeedback {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL feedbackEnabled = [userDefaults boolForKey:@"vibrate_preference"];

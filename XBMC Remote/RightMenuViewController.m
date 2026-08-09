@@ -468,18 +468,6 @@
     [menuTableView reloadData];
 }
 
-- (NSIndexPath*)getIndexPathForKey:(NSString*)key withValue:(NSString*)value inArray:(NSMutableArray*)array {
-    NSIndexPath *foundIndex = nil;
-    NSUInteger index = [array indexOfObjectPassingTest:
-                        ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
-                            return [dict[key] isEqual:value];
-                        }];
-    if (index != NSNotFound) {
-        foundIndex = [NSIndexPath indexPathForRow:index inSection:0];
-    }
-    return foundIndex;
-}
-
 - (void)connectionSuccess:(NSNotification*)note {
     [menuTableView reloadData];
     moreButton.enabled = YES;

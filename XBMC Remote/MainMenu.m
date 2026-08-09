@@ -326,14 +326,6 @@
     };
 }
 
-+ (NSDictionary*)setColorRed:(double)r Green:(double)g Blue:(double)b {
-    return @{
-        @"red": @(r),
-        @"green": @(g),
-        @"blue": @(b),
-    };
-}
-
 + (NSDictionary*)sortmethod:(NSString*)method order:(NSString*)order ignorearticle:(BOOL)ignore {
     return @{
         @"order": order,

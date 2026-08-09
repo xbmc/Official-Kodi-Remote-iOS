@@ -83,10 +83,6 @@ NSInputStream *inStream;
     CFRelease((__bridge CFTypeRef)server);
 }
 
-- (NSStreamStatus)currentSocketInStatus {
-    return [inStream streamStatus];
-}
-
 - (void)stopNetworkCommunication {
     AppDelegate.instance.serverTCPConnectionOpen = NO;
     NSStreamStatus current_status = [inStream streamStatus];
