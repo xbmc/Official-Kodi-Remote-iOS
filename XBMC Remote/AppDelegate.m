@@ -353,10 +353,7 @@
                                                     error:NULL];
 }
 
-- (void)clearAppDiskCache {
-    // Clear SDWebImage image cache
-    [[SDImageCache sharedImageCache] clearDisk];
-    
+- (void)clearAppDiskCache:(void(^)(void))completionHandler {
     // Clear library cache
     [self clearDiskCacheAtPath:self.libraryCachePath];
     
@@ -365,6 +362,13 @@
     
     // Clear network cache
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    
+    // Clear SDWebImage image cache
+    [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
+        if (completionHandler) {
+            completionHandler();
+        }
+    }];
 }
 
 @end
