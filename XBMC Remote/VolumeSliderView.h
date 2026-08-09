@@ -20,6 +20,10 @@
     BOOL isMuted;
     BOOL isChangingVolume;
     int serverVolume;
+    UIImage *imageVolumeSlashMuted;
+    UIImage *imageVolumeSlashUnmuted;
+    UIImage *imageProgressbarThumbMuted;
+    UIImage *imageProgressbarThumbUnmuted;
 }
 
 - (id)initWithFrame:(CGRect)frame leftAnchor:(CGFloat)leftAnchor isSliderType:(BOOL)isSliderType;
