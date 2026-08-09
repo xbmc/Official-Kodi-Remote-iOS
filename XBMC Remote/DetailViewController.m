@@ -11,7 +11,6 @@
 #import "DSJSONRPC.h"
 #import "GlobalData.h"
 #import "ShowInfoViewController.h"
-#import "DetailViewController.h"
 #import "NowPlaying.h"
 #import "SDImageCache.h"
 #import "AppDelegate.h"
