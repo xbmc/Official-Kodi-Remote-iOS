@@ -195,10 +195,12 @@
         // On iPad presenting from the active ViewController results in blank screen
         ctrl = UIApplication.sharedApplication.keyWindow.rootViewController;
     }
-    if (![svc isBeingPresented]) {
-        if (ctrl.presentedViewController) {
-            [ctrl dismissViewControllerAnimated:YES completion:nil];
-        }
+    if (ctrl.presentedViewController) {
+        [ctrl dismissViewControllerAnimated:YES completion:^{
+            [ctrl presentViewController:svc animated:YES completion:nil];
+        }];
+    }
+    else {
         [ctrl presentViewController:svc animated:YES completion:nil];
     }
 }
