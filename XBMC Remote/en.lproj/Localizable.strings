@@ -34,6 +34,7 @@
 "TV Show Tags" = "TV Show Tags";
 
 "Type" = "Type";
+"Album" = "Album";
 "Albums" = "Albums";
 "Artists" = "Artists";
 "Genres" = "Genres";
@@ -53,6 +54,8 @@
 "Video Playlists" = "Video Playlists";
 "Music Roles" = "Music Roles";
 
+"Genre" = "Genre";
+"Episodes" = "Episodes";
 "Added Episodes" = "Added Episodes";
 
 "Pictures Add-ons" = "Pictures Add-ons";
@@ -197,6 +200,8 @@
 "Programs" = "Programs";
 "XBMC Settings" = "Kodi Settings";
 "App Settings" = "App Settings";
+"Kodi actions" = "Kodi actions";
+"Kodi windows" = "Kodi windows";
 
 "Custom button" = "Custom button";
 "Modify label:" = "Modify label:";
