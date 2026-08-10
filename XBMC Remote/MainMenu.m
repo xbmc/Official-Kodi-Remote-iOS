@@ -6746,7 +6746,7 @@
     
     menu_Settings.subItem.mainParameters = [@[
         @{
-            @"label": LOCALIZED_STR(@"Settings"),
+            @"label": LOCALIZED_STR(@"Kodi Settings"),
             @"defaultThumb": @"nocover_filemode",
             @"rowHeight": @SETTINGS_ROW_HEIGHT,
             @"thumbWidth": @0,
@@ -6786,7 +6786,7 @@
     
     menu_Settings.subItem.subItem.mainParameters = [@[
         @{
-            @"label": LOCALIZED_STR(@"Settings"),
+            @"label": LOCALIZED_STR(@"Kodi Settings"),
             @"defaultThumb": @"nocover_filemode",
             @"rowHeight": @SETTINGS_ROW_HEIGHT,
             @"thumbWidth": @0,
@@ -7089,7 +7089,7 @@
     
     customButtonEntry.subItem.mainParameters = [@[
         @{
-            @"label": LOCALIZED_STR(@"Settings"),
+            @"label": LOCALIZED_STR(@"Kodi Settings"),
             @"defaultThumb": @"nocover_filemode",
             @"rowHeight": @SETTINGS_ROW_HEIGHT,
             @"thumbWidth": @0,
@@ -7134,7 +7134,7 @@
     
     customButtonEntry.subItem.subItem.mainParameters = [@[
         @{
-            @"label": LOCALIZED_STR(@"Settings"),
+            @"label": LOCALIZED_STR(@"Kodi Settings"),
             @"defaultThumb": @"nocover_filemode",
             @"rowHeight": @SETTINGS_ROW_HEIGHT,
             @"thumbWidth": @0,
