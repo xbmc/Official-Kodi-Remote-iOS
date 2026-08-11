@@ -4428,7 +4428,7 @@
             return;
         }
         // PVR.GetRecordings and PVR.GetTimers are not supported with xbmc 12
-        else if (AppDelegate.instance.serverVersion == 12 && ([methodToCall isEqualToString:@"PVR.GetRecordings"] || [methodToCall isEqualToString:@"PVR.GetTimers"])) {
+        if (AppDelegate.instance.serverVersion == 12 && ([methodToCall isEqualToString:@"PVR.GetRecordings"] || [methodToCall isEqualToString:@"PVR.GetTimers"])) {
             [self animateNoResultsFound];
             return;
         }
