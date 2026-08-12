@@ -260,6 +260,7 @@
 "e.g. 192.168.0.8" = "e.g. 192.168.0.8";
 "Username" = "Username";
 "Password" = "Password";
+"Cannot resolve IP address" = "Cannot resolve IP address";
 
 "Sort by" = "Sort by";
 "tap the selection\nto reverse the sort order" = "tap the selection\nto reverse the sort order";
