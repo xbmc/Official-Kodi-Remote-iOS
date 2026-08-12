@@ -662,7 +662,7 @@
         alertCtrl = [Utilities createAlertOK:LOCALIZED_STR(@"No connection") message:nil];
     }
     else {
-        alertCtrl = [Utilities createPowerControl];
+        alertCtrl = [Utilities createPowerControlFromView:self.navigationController.navigationBar];
     }
     [self presentViewController:alertCtrl animated:YES completion:nil];
 }

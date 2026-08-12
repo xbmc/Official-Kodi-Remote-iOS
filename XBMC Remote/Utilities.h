@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (CGRect)createCoverInsideJewel:(UIImageView*)jewelView jewelType:(JewelType)type;
 + (UIAlertController*)createAlertOK:(NSString*)title message:(NSString*)msg;
 + (UIAlertController*)createAlertCopyClipboard:(NSString*)title message:(NSString*)msg;
-+ (UIAlertController*)createPowerControl;
++ (UIAlertController*)createPowerControlFromView:(UIView*)sourceView;
 + (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor;
 + (void)showLocalNetworkAccessError:(UIViewController*)viewCtrl;
 + (DSJSONRPC*)getJsonRPC;
