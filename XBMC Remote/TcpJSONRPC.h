@@ -18,6 +18,5 @@
 
 - (void)startNetworkCommunicationWithServer:(NSString*)server serverPort:(int)port;
 - (void)stopNetworkCommunication;
-- (NSStreamStatus)currentSocketInStatus;
 
 @end

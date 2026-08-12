@@ -15,7 +15,6 @@
 #define VOLUMEICON_PADDING_NOSLIDER 15 /* space left of volume icons */
 #define VOLUMELABEL_PADDING_NOSLIDER 15 /* space left/right of volume label */
 #define VOLUMEICON_PADDING 10 /* space left/right from volume icons */
-#define VOLUMELABEL_PADDING 5 /* space left/right from volume label */
 #define VOLUMESLIDER_HEIGHT 44
 #define VOLUME_HOLD_TIMEOUT 0.2
 #define VOLUME_REPEAT_TIMEOUT 0.03
