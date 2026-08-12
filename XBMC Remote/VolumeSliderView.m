@@ -35,12 +35,18 @@
     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"VolumeSliderView" owner:nil options:nil];
     self = nib[0];
     if (self) {
-        UIImage *img = [UIImage imageNamed:@"pgbar_thumb"];
-        img = [img colorizeWithColor:KODI_BLUE_COLOR];
-        volumeSlider.minimumTrackTintColor = KODI_BLUE_COLOR;
+        UIImage *img = [UIImage imageNamed:@"volume_slash"];
+        volume_slash_muted = [img colorizeWithColor:[self getButtonColorMuted:YES]];
+        volume_slash_unmuted = [img colorizeWithColor:[self getButtonColorMuted:NO]];
+        
+        img = [UIImage imageNamed:@"pgbar_thumb"];
+        pgbar_thumb_muted = [img colorizeWithColor:[self getSliderColorMuted:YES]];
+        pgbar_thumb_unmuted = [img colorizeWithColor:[self getSliderColorMuted:NO]];
+        
+        volumeSlider.minimumTrackTintColor = [self getSliderColorMuted:NO];
         volumeSlider.maximumTrackTintColor = UIColor.darkGrayColor;
-        [volumeSlider setThumbImage:img forState:UIControlStateNormal];
-        [volumeSlider setThumbImage:img forState:UIControlStateHighlighted];
+        [volumeSlider setThumbImage:pgbar_thumb_unmuted forState:UIControlStateNormal];
+        [volumeSlider setThumbImage:pgbar_thumb_unmuted forState:UIControlStateHighlighted];
         [volumeSlider addTarget:self action:@selector(handleSliderValueChanged:) forControlEvents:UIControlEventValueChanged];
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpInside];
         [volumeSlider addTarget:self action:@selector(stopVolume:) forControlEvents:UIControlEventTouchUpOutside];
@@ -91,9 +97,7 @@
             subView.center = CGPointMake(subView.center.x, center_y);
         }
         
-        img = [UIImage imageNamed:@"volume_slash"];
-        img = [img colorizeWithColor:UIColor.grayColor];
-        [muteButton setImage:img forState:UIControlStateNormal];
+        [muteButton setImage:volume_slash_unmuted forState:UIControlStateNormal];
         
         [minusButton setIconStyle:[UIImage imageNamed:@"volume_1"]];
         
@@ -151,6 +155,15 @@
     [self startTimer];
     [self setVolumeButtonMode];
 }
+
+- (UIColor*)getButtonColorMuted:(BOOL)muted {
+    return muted ? UIColor.systemRedColor : UIColor.grayColor;
+}
+
+- (UIColor*)getSliderColorMuted:(BOOL)muted {
+    return muted ? UIColor.darkGrayColor : KODI_BLUE_COLOR;
+}
+
 
 - (void)setVolumeButtonMode {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -238,17 +251,9 @@
 }
 
 - (void)showServerMute {
-    UIColor *buttonColor = isMuted ? UIColor.systemRedColor : UIColor.grayColor;
-    UIColor *sliderColor = isMuted ? UIColor.darkGrayColor : KODI_BLUE_COLOR;
-
-    UIImage *img = [UIImage imageNamed:@"volume_slash"];
-    img = [img colorizeWithColor:buttonColor];
-    [muteButton setImage:img forState:UIControlStateNormal];
-    
-    img = [UIImage imageNamed:@"pgbar_thumb"];
-    img = [img colorizeWithColor:sliderColor];
-    [volumeSlider setThumbImage:img forState:UIControlStateNormal];
-    volumeSlider.minimumTrackTintColor = sliderColor;
+    [muteButton setImage:isMuted ? volume_slash_muted : volume_slash_unmuted forState:UIControlStateNormal];
+    [volumeSlider setThumbImage:isMuted ? pgbar_thumb_muted : pgbar_thumb_unmuted forState:UIControlStateNormal];
+    volumeSlider.minimumTrackTintColor = [self getSliderColorMuted:isMuted];
     volumeSlider.userInteractionEnabled = !isMuted;
 }
 
