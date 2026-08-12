@@ -122,7 +122,8 @@
     // Create the JSON-RPC request
     if (!self.serviceEndpoint) {
         if (completionHandler) {
-            NSError *aError = [NSError errorWithDomain:RPC_DOMAIN code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[error localizedDescription], NSLocalizedDescriptionKey, nil]];
+            NSString *errorText = LOCALIZED_STR(@"No Kodi server configured");
+            NSError *aError = [NSError errorWithDomain:RPC_DOMAIN code:DSJSONRPCNetworkError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:errorText, NSLocalizedDescriptionKey, nil]];
             completionHandler(methodName, aID, nil, nil, aError);
         }
         return aID;
