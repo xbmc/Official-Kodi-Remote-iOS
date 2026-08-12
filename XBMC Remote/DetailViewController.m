@@ -325,7 +325,7 @@
 
 #pragma mark - Library disk cache management
 
-- (NSString*)getCacheKey:(NSString*)fieldA parameters:(NSMutableDictionary*)fieldB {
+- (NSString*)getCacheKey:(NSString*)method parameters:(NSDictionary*)params {
     // Which server are we connected to?
     GlobalData *obj = [GlobalData getInstance];
     NSString *serverInfo = [NSString stringWithFormat:@"%@ %@ %@", obj.serverIP, obj.serverPort, obj.serverDescription];
@@ -337,21 +337,21 @@
     NSString *appVersion = [Utilities getAppVersionString];
     
     // Which JSON request's results do we cache??
-    NSString *jsonRequest = [NSString stringWithFormat:@"%@ %@", fieldA, fieldB];
+    NSString *jsonRequest = [NSString stringWithFormat:@"%@ %@", method, params];
     
     // Get SHA256 hash for the combination given above
     NSString *text = [NSString stringWithFormat:@"%@%@%@%@", serverInfo, serverVersion, appVersion, jsonRequest];
     return [text SHA256String];
 }
 
-- (void)saveData:(NSMutableDictionary*)mutableParameters {
+- (void)saveData:(NSDictionary*)parameters {
     if (!enableDiskCache) {
         return;
     }
-    if (mutableParameters != nil) {
+    if (parameters != nil) {
         MainMenu *menuItem = self.detailItem;
         NSDictionary *methods = menuItem.mainMethod[chosenTab];
-        NSString *viewKey = [self getCacheKey:methods[@"method"] parameters:mutableParameters];
+        NSString *viewKey = [self getCacheKey:methods[@"method"] parameters:parameters];
         
         NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
         [Utilities archivePath:libraryCachePath file:filename data:self.richResults];
@@ -371,7 +371,7 @@
     self.extraSectionRichResults = nil;
     self.sections = [NSMutableDictionary new];
     
-    NSString *viewKey = [self getCacheKey:params[@"methodToCall"] parameters:params[@"mutableParameters"]];
+    NSString *viewKey = [self getCacheKey:params[@"methodToCall"] parameters:params[@"parametersToCall"]];
     NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
     NSMutableArray *tempArray = [Utilities unarchivePath:libraryCachePath file:filename];
     self.richResults = tempArray;
@@ -384,20 +384,20 @@
     [self performSelectorOnMainThread:@selector(indexAndDisplayData) withObject:nil waitUntilDone:YES];
 }
 
-- (BOOL)loadedDataFromDisk:(NSString*)methodToCall parameters:(NSMutableDictionary*)mutableParameters refresh:(BOOL)forceRefresh {
+- (BOOL)loadedDataFromDisk:(NSString*)methodToCall parameters:(NSDictionary*)parameters refresh:(BOOL)forceRefresh {
     if (forceRefresh) {
         return NO;
     }
     if (!enableDiskCache) {
         return NO;
     }
-    NSString *viewKey = [self getCacheKey:methodToCall parameters:mutableParameters];
+    NSString *viewKey = [self getCacheKey:methodToCall parameters:parameters];
     NSString *filename = [NSString stringWithFormat:@"%@.richResults.dat", viewKey];
     NSString *path = [libraryCachePath stringByAppendingPathComponent:filename];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:path]) {
         NSDictionary *extraParams = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     mutableParameters, @"mutableParameters",
+                                     parameters, @"parametersToCall",
                                      methodToCall, @"methodToCall",
                                      nil];
         [self updateSyncDate:path];
@@ -428,6 +428,18 @@
 }
 
 #pragma mark - Utility
+
+- (NSString*)getViewPreferenceKey:(NSString*)template method:(NSString*)method parameters:(NSDictionary*)params {
+    // View's preference shall be independent of the active filter (e.g. Genre > Pop). So remove the filter specifics.
+    NSMutableDictionary *tmpJsonParams = [params mutableCopy];
+    NSMutableDictionary *tmpParameters = [params[@"parameters"] mutableCopy];
+    if (tmpParameters[@"filter"] != nil) {
+        [tmpParameters removeObjectForKey:@"filter"];
+        tmpJsonParams[@"parameters"] = tmpParameters;
+    }
+    NSString *key = [NSString stringWithFormat:template, [self getCacheKey:method parameters:tmpJsonParams]];
+    return key;
+}
 
 - (void)updateTimerIcon:(NSDictionary*)item {
     id cell = [self getCell:selectedIndexPath];
@@ -3328,7 +3340,9 @@
 - (void)saveSortMethod:(NSString*)sortMethod parameters:(NSDictionary*)parameters {
     MainMenu *menuItem = self.detailItem;
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
-    NSString *sortKey = [NSString stringWithFormat:@"%@_sort_method", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
+    NSString *sortKey = [self getViewPreferenceKey:@"%@_sort_method"
+                                            method:methods[@"method"]
+                                        parameters:parameters];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:sortMethod forKey:sortKey];
 }
@@ -3336,7 +3350,9 @@
 - (void)saveSortAscDesc:(NSString*)sortAscDescSave parameters:(NSDictionary*)parameters {
     MainMenu *menuItem = self.detailItem;
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
-    NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
+    NSString *sortKey = [self getViewPreferenceKey:@"%@_sort_ascdesc"
+                                            method:methods[@"method"]
+                                        parameters:parameters];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:sortAscDescSave forKey:sortKey];
 }
@@ -4334,7 +4350,7 @@
         
         // Save and display
         MainMenu *menuItem = self.detailItem;
-        NSMutableDictionary *parameters = [menuItem.mainParameters[chosenTab] mutableCopy];
+        NSMutableDictionary *parameters = menuItem.mainParameters[chosenTab];
         [self saveData:parameters];
         [self indexAndDisplayData];
         return;
@@ -4680,7 +4696,7 @@
      }];
 }
 
-- (void)saveAndShowResultsRefresh:(BOOL)forceRefresh params:(NSMutableDictionary*)mutableParameters {
+- (void)saveAndShowResultsRefresh:(BOOL)forceRefresh params:(NSDictionary*)parameters {
     if (forceRefresh) {
         [self stopPullToRefreshViewAnimation];
     }
@@ -4689,12 +4705,12 @@
         filterModeType == ViewModeListened ||
         filterModeType == ViewModeNotListened) {
         if (forceRefresh) {
-            [self saveData:mutableParameters];
+            [self saveData:parameters];
         }
         [self changeViewMode:filterModeType forceRefresh:forceRefresh];
     }
     else {
-        [self saveData:mutableParameters];
+        [self saveData:parameters];
         [self indexAndDisplayData];
     }
 }
@@ -5309,18 +5325,17 @@
     MainMenu *menuItem = self.detailItem;
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
-    NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
-    if (tempDict[@"filter"] != nil) {
-        [tempDict removeObjectForKey:@"filter"];
-        tempDict[@"filtered"] = @"YES";
-    }
-    NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
+    NSString *viewKey = [self getViewPreferenceKey:@"%@_grid_preference"
+                                            method:methods[@"method"]
+                                        parameters:parameters];
     return ([parameters[@"enableCollectionView"] boolValue] && [userDefaults boolForKey:viewKey]);
 }
 
 - (NSString*)getCurrentSortMethod:(NSDictionary*)methods withParameters:(NSDictionary*)parameters {
     NSString *sortMethod = parameters[@"parameters"][@"sort"][@"method"];
-    NSString *sortKey = [NSString stringWithFormat:@"%@_sort_method", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
+    NSString *sortKey = [self getViewPreferenceKey:@"%@_sort_method"
+                                            method:methods[@"method"]
+                                        parameters:parameters];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if ([userDefaults objectForKey:sortKey] != nil) {
         sortMethod = [userDefaults objectForKey:sortKey];
@@ -5488,7 +5503,9 @@
 
 - (NSString*)getCurrentSortAscDesc:(NSDictionary*)methods withParameters:(NSDictionary*)parameters {
     NSString *sortAscDescSaved = parameters[@"parameters"][@"sort"][@"order"];
-    NSString *sortKey = [NSString stringWithFormat:@"%@_sort_ascdesc", [self getCacheKey:methods[@"method"] parameters:[parameters mutableCopy]]];
+    NSString *sortKey = [self getViewPreferenceKey:@"%@_sort_ascdesc"
+                                            method:methods[@"method"]
+                                        parameters:parameters];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if ([userDefaults objectForKey:sortKey] != nil) {
         sortAscDescSaved = [userDefaults objectForKey:sortKey];
@@ -5829,12 +5846,9 @@
     NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     if ([self collectionViewCanBeEnabled] && self.view.superview != nil && ![methods[@"method"] isEqualToString:@""]) {
-        NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:parameters[@"parameters"]];
-        if (tempDict[@"filter"] != nil) {
-            [tempDict removeObjectForKey:@"filter"];
-            tempDict[@"filtered"] = @"YES";
-        }
-        NSString *viewKey = [NSString stringWithFormat:@"%@_grid_preference", [self getCacheKey:methods[@"method"] parameters:tempDict]];
+        NSString *viewKey = [self getViewPreferenceKey:@"%@_grid_preference"
+                                                method:methods[@"method"]
+                                            parameters:parameters];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setBool:![userDefaults boolForKey:viewKey] forKey:viewKey];
         [self setGridListButtonImage:!enableCollectionView];
