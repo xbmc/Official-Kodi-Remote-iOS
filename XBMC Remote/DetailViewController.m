@@ -1062,11 +1062,10 @@
     if (moreItemsViewController == nil) {
         moreItemsViewController = [[MoreItemsViewController alloc] initWithFrame:CGRectMake(dataList.bounds.size.width, 0, dataList.bounds.size.width, dataList.bounds.size.height) mainMenu:moreMenu];
         moreItemsViewController.view.backgroundColor = UIColor.clearColor;
-        UIEdgeInsets tableViewInsets = UIEdgeInsetsZero;
-        tableViewInsets.bottom = buttonsViewBgToolbar.frame.size.height;
-        moreItemsViewController.tableView.contentInset = tableViewInsets;
-        moreItemsViewController.tableView.scrollIndicatorInsets = tableViewInsets;
-        [moreItemsViewController.tableView setContentOffset:CGPointMake(0, - tableViewInsets.top) animated:NO];
+        moreItemsViewController.tableView.contentInset = activeLayoutView.contentInset;
+        moreItemsViewController.tableView.scrollIndicatorInsets = activeLayoutView.contentInset;
+        [self setViewInset:moreItemsViewController.tableView bottom:buttonsViewBgToolbar.frame.size.height];
+        [moreItemsViewController.tableView setContentOffset:CGPointMake(0, -moreItemsViewController.tableView.contentInset.top) animated:NO];
         [maskView insertSubview:moreItemsViewController.view aboveSubview:dataList];
     }
 
@@ -1890,13 +1889,13 @@
     }
     else if (sender.currentIndex == 0) {
         if (enableCollectionView) {
-            [collectionView setContentOffset:CGPointZero animated:NO];
+            [collectionView setContentOffset:CGPointMake(0, -collectionView.contentInset.top) animated:NO];
             if (sectionNameOverlayView == nil && stackscrollFullscreen) {
                 [self initSectionNameOverlayView];
             }
         }
         else {
-            [dataList setContentOffset:CGPointZero animated:NO];
+            [dataList setContentOffset:CGPointMake(0, -dataList.contentInset.top) animated:NO];
         }
         sectionNameLabel.text = @"🔍";
         return;
@@ -1937,7 +1936,7 @@
         if (index != NSNotFound) {
             NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
             [collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-            collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT);
+            collectionView.contentOffset = CGPointMake(collectionView.contentOffset.x, collectionView.contentOffset.y - GRID_SECTION_HEADER_HEIGHT + [Utilities getTopPadding]);
         }
         return;
     }
@@ -2099,6 +2098,10 @@
 }
 
 #pragma mark - Table Management
+
+- (CGFloat)getTableInsetTop {
+    return IS_IPHONE ? [Utilities getTopPaddingWithNavBar:self.navigationController] : 0;
+}
 
 - (void)setSearchBar:(UISearchBar*)searchBar toDark:(BOOL)isDark {
     if (isDark) {
@@ -5210,7 +5213,7 @@
         case 0:
             // no button, no toolbar
             button1.hidden = button2.hidden = button3.hidden = button4.hidden = button5.hidden = YES;
-            [dataList setHeight:self.view.bounds.size.height];
+            [dataList setHeight:maskView.bounds.size.height];
             break;
         case 1:
             button2.hidden = button3.hidden = button4.hidden = button5.hidden = YES;
@@ -5518,7 +5521,7 @@
     [self initSearchController];
     self.navigationController.view.backgroundColor = UIColor.blackColor;
     self.definesPresentationContext = NO;
-    iOSYDelta = self.searchController.searchBar.frame.size.height;
+    iOSYDelta = self.searchController.searchBar.frame.size.height - [self getTableInsetTop];
     dataList.tableHeaderView = [self createFakeSearchbarInDark:NO];
 
     if (@available(iOS 15.0, *)) {
@@ -5529,9 +5532,17 @@
 
     [button7 addTarget:self action:@selector(handleChangeSortLibrary) forControlEvents:UIControlEventTouchUpInside];
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    UIEdgeInsets viewInsets = dataList.contentInset;
+    viewInsets.top = [self getTableInsetTop];
+    dataList.contentInset = viewInsets;
+    dataList.scrollIndicatorInsets = viewInsets;
     dataList.indicatorStyle = UIScrollViewIndicatorStyleDefault;
     
-    [dataList setHeight:self.view.bounds.size.height];
+    CGRect frame = maskView.frame;
+    frame.origin.y -= [self getTableInsetTop];
+    frame.size.height += [self getTableInsetTop];
+    maskView.frame = frame;
+    
     buttonsViewBgToolbar.hidden = NO;
     
     __weak DetailViewController *weakSelf = self;
