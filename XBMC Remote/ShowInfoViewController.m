@@ -1662,6 +1662,16 @@
         bottomShadow.hidden = YES;
     }
     [self createInfo];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(leaveFullscreen)
+                                                 name:@"LeaveFullscreen"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleEnterForeground)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -1749,16 +1759,6 @@
     localEndDateFormatter = [NSDateFormatter new];
     localEndDateFormatter.timeZone = [NSTimeZone systemTimeZone];
     localEndDateFormatter.dateFormat = @"HH:mm";
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(leaveFullscreen)
-                                                 name:@"LeaveFullscreen"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleEnterForeground)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
 }
 
 - (BOOL)shouldAutorotate {
