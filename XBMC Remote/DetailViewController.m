@@ -5105,11 +5105,11 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputCanceled" object:nil userInfo:nil];
     [self setNavigationBarTint:ICON_TINT_COLOR];
     [channelListUpdateTimer invalidate];
+    [countExecutionTime invalidate];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [channelListUpdateTimer invalidate];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
