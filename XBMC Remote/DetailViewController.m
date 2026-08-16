@@ -79,6 +79,7 @@
 #define INFO_BUTTON_SIZE 30
 #define FULLSCREEN_BUTTON_SIZE 26
 #define LABEL_HEIGHT(font) ceil(font.lineHeight)
+#define SEARCH_DEBOUNCE_TIMEOUT 0.2
 
 #define XIB_JSON_DATA_CELL_TITLE 1
 #define XIB_JSON_DATA_CELL_GENRE 2
@@ -5105,6 +5106,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Input.OnInputCanceled" object:nil userInfo:nil];
     [self setNavigationBarTint:ICON_TINT_COLOR];
     [channelListUpdateTimer invalidate];
+    [debounceSearchTimer invalidate];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -5425,6 +5427,16 @@
 }
 
 - (void)updateSearchResultsForSearchController:(UISearchController*)searchController {
+    [debounceSearchTimer invalidate];
+    debounceSearchTimer = [NSTimer scheduledTimerWithTimeInterval:SEARCH_DEBOUNCE_TIMEOUT
+                                                           target:self
+                                                         selector:@selector(updateSearchResult:)
+                                                         userInfo:searchController
+                                                          repeats:NO];
+}
+
+- (void)updateSearchResult:(NSTimer*)timer {
+    UISearchController *searchController = timer.userInfo;
     NSString *searchString = searchController.searchBar.text;
     [self searchForText:searchString];
     [activeLayoutView reloadData];
