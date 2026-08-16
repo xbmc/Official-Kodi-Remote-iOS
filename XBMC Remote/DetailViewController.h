@@ -51,6 +51,7 @@
     NSTimeInterval startTime;
     NSTimeInterval elapsedTime;
     NSTimer *countExecutionTime;
+    NSTimer *debounceSearchTimer;
     int labelPosition;
     int flagX;
     int flagY;
