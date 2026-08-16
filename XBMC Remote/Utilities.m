@@ -1049,7 +1049,17 @@
 }
 
 + (BOOL)isValidMacAddress:(NSString*)macAddress {
-    return macAddress && macAddress.length && ![macAddress isEqualToString:@":::::"];
+    if (!macAddress) {
+        return NO;
+    }
+    // Check for standard patterns like 00:1A:2B:3C:4D:5E or 00:1a:2b:3c:4d:5e
+    NSString *macAdressPattern = @"^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:macAdressPattern
+                                                                           options:0
+                                                                             error:nil];
+    return [regex firstMatchInString:macAddress
+                             options:0
+                               range:NSMakeRange(0, macAddress.length)] != nil;
 }
 
 + (void)wakeUp:(NSString*)macAddress {
