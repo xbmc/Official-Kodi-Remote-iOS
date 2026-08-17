@@ -168,19 +168,24 @@
 
 #pragma mark - Helper
 
-- (BOOL)connectToServerFromList:(NSString*)host {
+- (NSString*)unifyLocalHost:(NSString*)host {
+    // Make host name use ".local" at the end
+    if ([host hasSuffix:@".local."]) {
+        return [host substringToIndex:host.length - 1];
+    }
+    return host;
+}
+
+- (BOOL)connectToServerFromListForHost:(NSString*)host andName:(NSString*)name {
     if (!host.length) {
         return NO;
     }
     
-    // Host name needs ".local." at the end
-    if ([host hasSuffix:@".local"]) {
-        host = [host stringByAppendingString:@"."];
-    }
-    
-    // Try to map server name or IP address to the list of Kodi servers
+    // Try to map host and (if present) server name to the list of Kodi servers
     NSInteger index = [self.arrayServerList indexOfObjectPassingTest:^BOOL(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
-        return [host isEqualToString:obj[@"serverDescription"]] || [host isEqualToString:obj[@"serverIP"]];
+        BOOL hostMatch = [[self unifyLocalHost:host] isEqualToString:[self unifyLocalHost:obj[@"serverIP"]]];
+        BOOL nameMatch = name.length && [name isEqualToString:obj[@"serverDescription"]];
+        return hostMatch && (!name.length || nameMatch);
     }];
     
     // We want to connect to the desired server only. If this is not present, disconnect from any active server.
@@ -298,12 +303,14 @@
 
 - (BOOL)application:(UIApplication*)app openURL:(NSURL*)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id>*)options {
     // Use URL host to map to server list and connect the server.
-    return [self connectToServerFromList:url.host.stringByRemovingPercentEncoding];
+    return [self connectToServerFromListForHost:url.host.stringByRemovingPercentEncoding
+                                        andName:nil];
 }
 
 - (void)application:(UIApplication*)application performActionForShortcutItem:(UIApplicationShortcutItem*)shortcutItem completionHandler:(void(^)(BOOL))completionHandler {
     // Use shortcut title (= server description) to map to server list and connect the server.
-    completionHandler([self connectToServerFromList:shortcutItem.localizedTitle]);
+    completionHandler([self connectToServerFromListForHost:shortcutItem.localizedSubtitle
+                                                   andName:shortcutItem.localizedTitle]);
 }
 
 - (void)applicationDidEnterBackground:(UIApplication*)application {
