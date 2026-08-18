@@ -145,7 +145,6 @@
         [Utilities archivePath:epgCachePath file:filename data:epgArray];
         dispatch_sync(epglockqueue, ^{
             epgDict[channelid] = epgArray;
-            [epgDownloadQueue removeObject:channelid];
         });
     }
 }
@@ -320,6 +319,10 @@
                        [NSThread detachNewThreadSelector:@selector(parseBroadcasts:) toTarget:self withObject:params];
                    }
                }
+               // Ensure the channelid is removed from the epgDownloadQueue to re-enable a next update attempt
+               dispatch_sync(epglockqueue, ^{
+                   [epgDownloadQueue removeObject:channelid];
+               });
            }];
 }
 
