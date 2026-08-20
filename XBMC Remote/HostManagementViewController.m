@@ -426,7 +426,7 @@
         [self updateServerInfo];
         // Start timer to update the server info view
         // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging
-        serverInfoTimer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(updateServerInfo) userInfo:nil repeats:YES];
+        serverInfoTimer = [NSTimer timerWithTimeInterval:2.0 target:self selector:@selector(updateServerInfo) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:serverInfoTimer forMode:NSRunLoopCommonModes];
     }
 }
