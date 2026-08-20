@@ -1983,7 +1983,7 @@
         if (![parameters[@"disableFilterParameter"] boolValue]) {
             if ([objKey isEqualToString:@"artistid"]) {
                 // WORKAROUND due to the lack of the artistid with Playlist.GetItems
-                NSString *artistFrodoWorkaround = [NSString stringWithFormat:@"%@", [item[@"artist"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+                NSString *artistFrodoWorkaround = [Utilities getStringFromItem:[item[@"artist"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
                 obj = @{@"artist": artistFrodoWorkaround};
             }
             else {

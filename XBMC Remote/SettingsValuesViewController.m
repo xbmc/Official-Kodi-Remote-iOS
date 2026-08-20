@@ -128,7 +128,7 @@
             footerMessage = LOCALIZED_STR(@"-- WARNING --\nThis kind of setting cannot be configured remotely. Use the XBMC GUI for changing this setting.\nThank you.");
         }
         else if (xbmcSetting == SettingTypeList || xbmcSetting == SettingTypeDefault || xbmcSetting == SettingTypeMultiselect) {
-            footerMessage = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"] ?: self.detailItem[@"label"]];
+            footerMessage = [Utilities getStringFromItem:self.detailItem[@"genre"] ?: self.detailItem[@"label"]];
         }
         if (xbmcSetting != SettingTypeUnsupported) {
             footerMessage = [NSString stringWithFormat:@"%@%@ⓘ %@",
@@ -247,7 +247,7 @@
     NSString *subTitle = @"";
     switch (xbmcSetting) {
         case SettingTypeList:
-            subTitle = [NSString stringWithFormat:@"%@", settingOptions[longPressRow.row][@"label"]];
+            subTitle = [Utilities getStringFromItem:settingOptions[longPressRow.row][@"label"]];
             break;
             
         case SettingTypeSlider:
@@ -272,7 +272,7 @@
                 value = @([settingOptions[longPressRow.row][@"value"] intValue]);
             }
             else {
-                value = [NSString stringWithFormat:@"%@", settingOptions[longPressRow.row][@"value"]];
+                value = [Utilities getStringFromItem:settingOptions[longPressRow.row][@"value"]];
             }
             break;
             
@@ -462,7 +462,7 @@
     onoff.hidden = YES;
     textInputField.hidden = YES;
     
-    NSString *descriptionString = [NSString stringWithFormat:@"%@", self.detailItem[@"genre"]];
+    NSString *descriptionString = [Utilities getStringFromItem:self.detailItem[@"genre"]];
     descriptionString = [descriptionString stringByReplacingOccurrencesOfString:@"[CR]" withString:@"\n"];
     descriptionString = [descriptionString stripBBandHTML];
     switch (xbmcSetting) {
@@ -471,7 +471,7 @@
             descriptionLabel.hidden = NO;
             onoff.hidden = NO;
             
-            cellLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
+            cellLabel.text = [Utilities getStringFromItem:self.detailItem[@"label"]];
             cellLabel.numberOfLines = 0;
             cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                          PADDING_VERTICAL,
@@ -497,7 +497,7 @@
             
         case SettingTypeList:
             self.navigationItem.title = self.detailItem[@"label"];
-            cellLabel.text = [NSString stringWithFormat:@"%@", settingOptions[indexPath.row][@"label"]];
+            cellLabel.text = [Utilities getStringFromItem:settingOptions[indexPath.row][@"label"]];
             if ([self.detailItem[@"value"] isKindOfClass:[NSArray class]]) {
                 if ([self.detailItem[@"value"] containsObject:settingOptions[indexPath.row][@"value"]]) {
                     cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -520,7 +520,7 @@
             descriptionLabel.hidden = NO;
             
             cellLabel.textAlignment = NSTextAlignmentCenter;
-            cellLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
+            cellLabel.text = [Utilities getStringFromItem:self.detailItem[@"label"]];
             cellLabel.numberOfLines = 0;
             cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                          PADDING_VERTICAL,
@@ -560,7 +560,7 @@
             textInputField.hidden = NO;
             
             cellLabel.textAlignment = NSTextAlignmentCenter;
-            cellLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"label"]];
+            cellLabel.text = [Utilities getStringFromItem:self.detailItem[@"label"]];
             cellLabel.numberOfLines = 0;
             cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
                                          PADDING_VERTICAL,
@@ -577,7 +577,7 @@
                                                 LABEL_HEIGHT_DEFAULT);
             [self setAutomaticLabelHeight:descriptionLabel];
             
-            textInputField.text = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
+            textInputField.text = [Utilities getStringFromItem:self.detailItem[@"value"]];
             textInputField.frame = CGRectMake(SLIDER_PADDING,
                                               CGRectGetMaxY(descriptionLabel.frame) + PADDING_VERTICAL,
                                               cellWidth - 2 * SLIDER_PADDING,
@@ -640,7 +640,7 @@
             if (self.detailItem[@"value"] != nil) {
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 
-                cellLabel.text = [NSString stringWithFormat:@"%@", self.detailItem[@"value"]];
+                cellLabel.text = [Utilities getStringFromItem:self.detailItem[@"value"]];
                 cellLabel.text = cellLabel.text.length ? cellLabel.text : descriptionString;
                 cellLabel.numberOfLines = 0;
                 cellLabel.frame = CGRectMake(PADDING_HORIZONTAL,
@@ -877,7 +877,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField*)textField {
     [textField resignFirstResponder];
-    [self setSettingValue:[NSString stringWithFormat:@"%@", textField.text] sender:textField];
+    [self setSettingValue:[Utilities getStringFromItem:textField.text] sender:textField];
     return YES;
 }
 
