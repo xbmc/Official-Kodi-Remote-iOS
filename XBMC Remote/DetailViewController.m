@@ -525,7 +525,7 @@
 }
 
 - (NSDictionary*)getNewDictionaryFromExtraInfoItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon {
-    NSString *label = [NSString stringWithFormat:@"%@", item[mainFields[@"row1"]]];
+    NSString *label = [Utilities getStringFromItem:item[mainFields[@"row1"]]];
     NSString *genre = [Utilities getStringFromItem:item[mainFields[@"row2"]]];
     NSString *year = [Utilities getYearFromItem:item[mainFields[@"row3"]]];
     NSString *runtime = [Utilities getTimeFromItem:item[mainFields[@"row4"]] sec2min:sec2min];
@@ -580,7 +580,7 @@
 }
 
 - (NSMutableDictionary*)getNewDictionaryFromItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon {
-    NSString *label = [NSString stringWithFormat:@"%@", item[mainFields[@"row1"]]];
+    NSString *label = [Utilities getStringFromItem:item[mainFields[@"row1"]]];
     NSString *genre = [Utilities getStringFromItem:item[mainFields[@"row2"]]];
     NSString *year = [Utilities getYearFromItem:item[mainFields[@"row3"]]];
     NSString *runtime = [Utilities getTimeFromItem:item[mainFields[@"row4"]] sec2min:sec2min];
@@ -594,10 +594,10 @@
         stringURL = [Utilities getItemIconFromDictionary:item];
     }
     NSString *row7key = mainFields[@"row7"] ?: @"none";
-    NSString *row7obj = mainFields[@"row7"] ? [NSString stringWithFormat:@"%@", item[mainFields[@"row7"]]] : @"";
+    NSString *row7obj = mainFields[@"row7"] ? [Utilities getStringFromItem:item[mainFields[@"row7"]]] : @"";
     
-    NSString *seasonNumber = [NSString stringWithFormat:@"%@", item[mainFields[@"row10"]]];
-    NSString *family = [NSString stringWithFormat:@"%@", mainFields[@"row8"]];
+    NSString *seasonNumber = [Utilities getStringFromItem:item[mainFields[@"row10"]]];
+    NSString *family = [Utilities getStringFromItem:mainFields[@"row8"]];
     
     NSString *row19key = mainFields[@"row19"] ?: @"episode";
     id row19obj = @"";
@@ -608,7 +608,7 @@
         row19obj = [Utilities getStringFromItem:item[@"label"]];
     }
     else {
-        row19obj = [NSString stringWithFormat:@"%@", item[mainFields[@"row19"]]];
+        row19obj = [Utilities getStringFromItem:item[mainFields[@"row19"]]];
     }
     id row13key = mainFields[@"row13"];
     id row13obj = [row13key isEqualToString:@"options"] ? (item[row13key] ?: @"") : item[row13key];
@@ -1055,7 +1055,7 @@
         }
         [moreMenu addObject:
          [NSDictionary dictionaryWithObjectsAndKeys:
-          [NSString stringWithFormat:@"%@", menuItem.mainParameters[i][@"morelabel"]], @"label",
+          [Utilities getStringFromItem:menuItem.mainParameters[i][@"morelabel"]], @"label",
           icon, @"icon",
           nil]];
     }
@@ -1695,7 +1695,7 @@
     NSString *stringURL = item[@"thumbnail"];
     NSString *fanartURL = item[@"fanart"];
     NSString *displayThumb = [NSString stringWithFormat:@"%@_wall", defaultThumb];
-    NSString *playcount = [NSString stringWithFormat:@"%@", item[@"playcount"]];
+    NSString *playcount = [Utilities getStringFromItem:item[@"playcount"]];
     
     CGFloat cellthumbWidth = cellGridWidth;
     CGFloat cellthumbHeight = cellGridHeight;
@@ -4855,7 +4855,7 @@
         
         // Now pick the episodes top-down from the list into sections defined by seasons
         for (NSDictionary *item in copyRichResults) {
-            NSString *c = [NSString stringWithFormat:@"%@", item[@"season"]];
+            NSString *c = [Utilities getStringFromItem:item[@"season"]];
             BOOL found = [[self.sections allKeys] containsObject:c];
             if (!found) {
                 [self.sections setValue:[NSMutableArray new] forKey:c];
@@ -4984,7 +4984,7 @@
 }
 
 - (NSString*)getIndexTableKey:(NSString*)value sortMethod:(NSString*)sortMethod {
-    NSString *currentValue = [NSString stringWithFormat:@"%@", value];
+    NSString *currentValue = [Utilities getStringFromItem:value];
     if ([sortMethod isEqualToString:@"year"]) {
         int year = [currentValue intValue];
         if (year >= 1900 && year <= 2099) {
@@ -5008,7 +5008,7 @@
     else if ([sortMethod isEqualToString:@"playcount"] ||
              [sortMethod isEqualToString:@"itemgroup"] ||
              [sortMethod isEqualToString:@"track"]) {
-        currentValue = [NSString stringWithFormat:@"%@", value];
+        currentValue = [Utilities getStringFromItem:value];
     }
     else if (currentValue.length) {
         NSCharacterSet *set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ"] invertedSet];

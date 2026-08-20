@@ -246,20 +246,20 @@
         notificationName = @"MainMenuDeselectSection";
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
         chosenMenuItem = menuItem.subItem;
-        chosenMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
+        chosenMenuItem.mainLabel = [Utilities getStringFromItem:item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"tvshowid"] && ![sender isKindOfClass:[NSString class]]) {
         notificationName = @"MainMenuDeselectSection";
         menuItem = [AppDelegate.instance.playlistTvShows copy];
         chosenMenuItem = menuItem.subItem;
-        chosenMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
+        chosenMenuItem.mainLabel = [Utilities getStringFromItem:item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"artistid"]) {
         notificationName = @"MainMenuDeselectSection";
         activeTab = 1;
         menuItem = [AppDelegate.instance.playlistArtistAlbums copy];
         chosenMenuItem = menuItem.subItem;
-        chosenMenuItem.mainLabel = [NSString stringWithFormat:@"%@", item[@"label"]];
+        chosenMenuItem.mainLabel = [Utilities getStringFromItem:item[@"label"]];
     }
     else if ([item[@"family"] isEqualToString:@"movieid"]) {
         if ([sender isKindOfClass:[NSString class]]) {
