@@ -353,6 +353,7 @@
                                    @"System.ScreenResolution",
                                    @"System.HddTemperature",
                                    @"System.OSVersionInfo"]}
+     withTimeout:2.0
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         NSMutableAttributedString *infoString = [NSMutableAttributedString new];
         NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
