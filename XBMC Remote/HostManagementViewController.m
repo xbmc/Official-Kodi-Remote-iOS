@@ -414,14 +414,22 @@
     }];
 }
 
+- (void)readImageCacheSize {
+    NSString *cacheSize = [NSString stringWithFormat:@"%lu MB", ([[SDImageCache sharedImageCache] getSize] / 1024 / 1024)];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        appImageCacheSize = cacheSize;
+    });
+}
+
 - (void)showServerInfoView {
     // Toggle visibility of serverInfoViw
     serverInfoView.hidden = !serverInfoView.hidden;
     [serverInfoTimer invalidate];
     if (!serverInfoView.hidden) {
-        // Read the size of image cache only once. Calling this function can become heavy and the cache size is anyway not changing
-        // while showing the info screen.
-        appImageCacheSize = [NSString stringWithFormat:@"%lu MB", ([[SDImageCache sharedImageCache] getSize] / 1024 / 1024)];
+        // Read the size of image cache only once and in a background thread. Calling this function
+        // can become heavy and the cache size is anyway not changing while showing the info screen.
+        appImageCacheSize = @"";
+        [NSThread detachNewThreadSelector:@selector(readImageCacheSize) toTarget:self withObject:nil];
         [self updateServerInfo];
         // Start timer to update the server info view
         // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging
