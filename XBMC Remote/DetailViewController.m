@@ -240,17 +240,23 @@
 }
 
 - (void)updateEpgTableInfo:(NSDictionary*)parameters {
+    // We are back to main thread, so we can now update the item with "current_details". This is
+    // shown when entering an action sheet.
     NSMutableDictionary *channelEPG = parameters[@"channelEPG"];
     NSIndexPath *indexPath = parameters[@"indexPath"];
     NSMutableDictionary *item = parameters[@"item"];
+    if (channelEPG[@"current_details"] != nil) {
+        item[@"genre"] = channelEPG[@"current_details"];
+    }
+        
+    // Get cell for the indexPath which needs an update and set the cell content
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     UILabel *current = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_GENRE];
     UILabel *next = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIME];
     current.text = channelEPG[@"current"];
     next.text = channelEPG[@"next"];
-    if (channelEPG[@"current_details"] != nil) {
-        item[@"genre"] = channelEPG[@"current_details"];
-    }
+    
+    // Update the broadcast's progress view
     BroadcastProgressView *progressView = (BroadcastProgressView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
     if (![current.text isEqualToString:LOCALIZED_STR(@"Not Available")] && [channelEPG[@"starttime"] isKindOfClass:[NSDate class]] && [channelEPG[@"endtime"] isKindOfClass:[NSDate class]]) {
         float percent_elapsed = [Utilities getPercentElapsed:channelEPG[@"starttime"] EndDate:channelEPG[@"endtime"]];
