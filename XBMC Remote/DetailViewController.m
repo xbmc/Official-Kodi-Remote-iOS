@@ -240,11 +240,22 @@
 }
 
 - (void)updateEpgTableInfo:(NSDictionary*)parameters {
+    // Get the item currently represented by the cell and abort, if the item's channel id does
+    // not represent the EPG's channel id anymore. This can happen as EPG data is pulled and
+    // updated from outside the main thread, and in main thread the user might have changed
+    // the item list by entering channel groups.
+    NSIndexPath *indexPath = parameters[@"indexPath"];
+    NSMutableDictionary *item = parameters[@"item"];
+    NSDictionary *cellItem = [self getItemFromIndexPath:indexPath];
+    NSNumber *cellChannelid = [Utilities getNumberFromItem:cellItem[@"channelid"]];
+    NSNumber *epgChannelid = [Utilities getNumberFromItem:item[@"channelid"]];
+    if ([cellChannelid longValue] != [epgChannelid longValue]) {
+        return;
+    }
+    
     // We are back to main thread, so we can now update the item with "current_details". This is
     // shown when entering an action sheet.
     NSMutableDictionary *channelEPG = parameters[@"channelEPG"];
-    NSIndexPath *indexPath = parameters[@"indexPath"];
-    NSMutableDictionary *item = parameters[@"item"];
     if (channelEPG[@"current_details"] != nil) {
         item[@"genre"] = channelEPG[@"current_details"];
     }
