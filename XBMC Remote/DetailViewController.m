@@ -2518,12 +2518,6 @@
             genre.font = [UIFont boldSystemFontOfSize:14];
             progressView.hidden = YES;
             timerView.hidden = ![item[@"isrecording"] boolValue];
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [Utilities getNumberFromItem:item[@"channelid"]], @"channelid",
-                                    indexPath, @"indexPath",
-                                    item, @"item",
-                                    nil];
-            [NSThread detachNewThreadSelector:@selector(getChannelEpgInfo:) toTarget:self withObject:params];
         }
         if (recordingListView) {
             genre.textColor = [UIColor get2ndLabelColor];
@@ -2559,6 +2553,12 @@
         else if ([item[@"family"] isEqualToString:@"channelid"]) {
             runtimeyear.hidden = YES;
             rating.hidden = YES;
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [Utilities getNumberFromItem:item[@"channelid"]], @"channelid",
+                                    indexPath, @"indexPath",
+                                    item, @"item",
+                                    nil];
+            [NSThread detachNewThreadSelector:@selector(getChannelEpgInfo:) toTarget:self withObject:params];
         }
         else if ([item[@"family"] isEqualToString:@"recordingid"] ||
                  [item[@"family"] isEqualToString:@"timerid"]) {
