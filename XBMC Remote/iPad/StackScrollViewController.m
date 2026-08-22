@@ -515,21 +515,21 @@
     if (slideViews.subviews.count > 0) {
         if (slideViews.subviews.count == 1) {
             viewAtLeft = slideViews.subviews[slideViews.subviews.count - 1];
-            controller.view.frame = CGRectMake(animX, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
+            viewAtLeft2 = nil;
+            viewAtRight = nil;
+            viewAtRight2 = nil;
+            [viewAtLeft setX:animX];
             
             [UIView transitionWithView:viewAtLeft
                               duration:SLIDE_TRANSITION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^{
-                controller.view.frame = CGRectMake(viewXPosition, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
+                [viewAtLeft setX:viewXPosition];
             }
                             completion:^(BOOL finished) {
                 [self bounceView:viewAtLeft amount:-BOUNCE_X];
             }
             ];
-            viewAtLeft2 = nil;
-            viewAtRight = nil;
-            viewAtRight2 = nil;
         }
         else if (slideViews.subviews.count == 2) {
             viewAtRight = slideViews.subviews[slideViews.subviews.count - 1];
