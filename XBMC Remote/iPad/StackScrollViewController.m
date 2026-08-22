@@ -436,7 +436,7 @@
 }
 
 - (void)bounceView:(UIView*)view amount:(CGFloat)amount {
-    [view.layer removeAllAnimations];
+    [view.layer removeAnimationForKey:@"bounceAnimation"];
     CABasicAnimation *bounceAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
     bounceAnimation = [self setBounceAnimation:bounceAnimation
                                           from:view.center.x
