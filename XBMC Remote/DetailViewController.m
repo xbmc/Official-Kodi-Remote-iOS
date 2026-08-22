@@ -240,17 +240,34 @@
 }
 
 - (void)updateEpgTableInfo:(NSDictionary*)parameters {
-    NSMutableDictionary *channelEPG = parameters[@"channelEPG"];
+    // Get the item currently represented by the cell and abort, if the item's channel id does
+    // not represent the EPG's channel id anymore. This can happen as EPG data is pulled and
+    // updated from outside the main thread, and in main thread the user might have changed
+    // the item list by entering channel groups.
     NSIndexPath *indexPath = parameters[@"indexPath"];
     NSMutableDictionary *item = parameters[@"item"];
+    NSDictionary *cellItem = [self getItemFromIndexPath:indexPath];
+    NSNumber *cellChannelid = [Utilities getNumberFromItem:cellItem[@"channelid"]];
+    NSNumber *epgChannelid = [Utilities getNumberFromItem:item[@"channelid"]];
+    if ([cellChannelid longValue] != [epgChannelid longValue]) {
+        return;
+    }
+    
+    // We are back to main thread, so we can now update the item with "current_details". This is
+    // shown when entering an action sheet.
+    NSMutableDictionary *channelEPG = parameters[@"channelEPG"];
+    if (channelEPG[@"current_details"] != nil) {
+        item[@"genre"] = channelEPG[@"current_details"];
+    }
+        
+    // Get cell for the indexPath which needs an update and set the cell content
     UITableViewCell *cell = [dataList cellForRowAtIndexPath:indexPath];
     UILabel *current = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_GENRE];
     UILabel *next = (UILabel*)[cell viewWithTag:XIB_JSON_DATA_CELL_RUNTIME];
     current.text = channelEPG[@"current"];
     next.text = channelEPG[@"next"];
-    if (channelEPG[@"current_details"] != nil) {
-        item[@"genre"] = channelEPG[@"current_details"];
-    }
+    
+    // Update the broadcast's progress view
     BroadcastProgressView *progressView = (BroadcastProgressView*)[cell viewWithTag:EPG_VIEW_CELL_PROGRESSVIEW];
     if (![current.text isEqualToString:LOCALIZED_STR(@"Not Available")] && [channelEPG[@"starttime"] isKindOfClass:[NSDate class]] && [channelEPG[@"endtime"] isKindOfClass:[NSDate class]]) {
         float percent_elapsed = [Utilities getPercentElapsed:channelEPG[@"starttime"] EndDate:channelEPG[@"endtime"]];
