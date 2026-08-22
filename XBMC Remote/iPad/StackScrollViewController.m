@@ -423,10 +423,10 @@
     }
 }
 
-- (CABasicAnimation*)setBounceAnimation:(CABasicAnimation*)animation from:(CGFloat)fromPos to:(CGFloat)toPos {
+- (CABasicAnimation*)setBounceAnimation:(CABasicAnimation*)animation amount:(CGFloat)amount {
     animation.duration = 0.2;
-    animation.fromValue = @(fromPos);
-    animation.toValue = @(toPos);
+    animation.fromValue = @0;
+    animation.byValue = @(amount);
     animation.repeatCount = 0;
     animation.autoreverses = YES;
     animation.fillMode = kCAFillModeBackwards;
@@ -439,8 +439,7 @@
     [view.layer removeAnimationForKey:@"bounceAnimation"];
     CABasicAnimation *bounceAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
     bounceAnimation = [self setBounceAnimation:bounceAnimation
-                                          from:0
-                                            to:amount];
+                                        amount:amount];
     [view.layer addAnimation:bounceAnimation forKey:@"bounceAnimation"];
 }
 
