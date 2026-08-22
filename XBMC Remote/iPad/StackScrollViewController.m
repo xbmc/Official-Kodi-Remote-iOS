@@ -96,6 +96,17 @@
     return self;
 }
 
+- (void)clearStackState {
+    viewAtLeft2 = nil;
+    viewAtRight = nil;
+    viewAtLeft = nil;
+    viewAtRight2 = nil;
+    for (UIView *subview in slideViews.subviews) {
+        [subview removeFromSuperview];
+    }
+    [viewControllersStack removeAllObjects];
+}
+
 - (void)handleStackScrollFullScreenEnabled:(NSNotification*)sender {
     UIView *senderView = nil;
     if ([sender.object isKindOfClass:[UIView class]]) {
@@ -210,16 +221,9 @@
                                        viewAtLeft.frame.size.width,
                                        viewAtLeft.frame.size.height);
         }
-        viewAtLeft2 = nil;
-        viewAtRight = nil;
-        viewAtLeft = nil;
-        viewAtRight2 = nil;
     }
                     completion:^(BOOL finished) {
-        for (UIView *subview in slideViews.subviews) {
-            [subview removeFromSuperview];
-        }
-        [viewControllersStack removeAllObjects];
+        [self clearStackState];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOffScreen" object:nil];
     }];
 }
@@ -470,11 +474,7 @@
         slideStartPosition = SLIDE_VIEWS_START_X_POS;
         viewXPosition = slideStartPosition;
         
-        for (UIView *subview in slideViews.subviews) {
-            [subview removeFromSuperview];
-        }
-        
-        [viewControllersStack removeAllObjects];
+        [self clearStackState];
     }
     
     if (viewControllersStack.count > 1) {
@@ -495,10 +495,7 @@
         }
     }
     else if (viewControllersStack.count == 0) {
-        for (UIView *subview in slideViews.subviews) {
-            [subview removeFromSuperview];
-        }		
-        [viewControllersStack removeAllObjects];
+        [self clearStackState];
     }
     
     [viewControllersStack addObject:controller];
