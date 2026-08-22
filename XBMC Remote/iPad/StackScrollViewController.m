@@ -431,7 +431,7 @@
     animation.autoreverses = YES;
     animation.fillMode = kCAFillModeBackwards;
     animation.removedOnCompletion = YES;
-    animation.additive = NO;
+    animation.additive = YES;
     return animation;
 }
 
@@ -439,8 +439,8 @@
     [view.layer removeAnimationForKey:@"bounceAnimation"];
     CABasicAnimation *bounceAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
     bounceAnimation = [self setBounceAnimation:bounceAnimation
-                                          from:view.center.x
-                                            to:view.center.x + amount];
+                                          from:0
+                                            to:amount];
     [view.layer addAnimation:bounceAnimation forKey:@"bounceAnimation"];
 }
 
