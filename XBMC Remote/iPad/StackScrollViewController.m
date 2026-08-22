@@ -459,13 +459,7 @@
 - (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView {
     CGFloat animX = 0;
     if (isStackStartView) {
-        NSInteger numViews = slideViews.subviews.count;
-        if (numViews == 0) {
-            animX = (IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
-        }
-        else {
-            animX = slideViews.subviews[0].frame.origin.x;
-        }
+        animX = (IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
         slideStartPosition = SLIDE_VIEWS_START_X_POS;
         viewXPosition = slideStartPosition;
         
