@@ -203,10 +203,10 @@ NSInputStream *inStream;
      withTimeout:SERVER_JSON_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         inCheck = NO;
+        if (AppDelegate.instance.serverOnLine) {
+            return;
+        }
         if (error == nil && methodError == nil) {
-            if (AppDelegate.instance.serverOnLine) {
-                return;
-            }
             // Read JSON RPC API version
             [self readJSONRPCAPIVersion];
 
