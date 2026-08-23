@@ -62,6 +62,7 @@
     [Utilities checkLocalNetworkAccess];
     
     [heartbeatTimer invalidate];
+    inCheck = NO;
     [self checkServer];
     // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging
     heartbeatTimer = [NSTimer timerWithTimeInterval:SERVER_CHECK_TIMER target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
