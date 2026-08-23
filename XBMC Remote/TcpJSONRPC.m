@@ -218,7 +218,7 @@ NSInputStream *inStream;
                 NSDictionary *serverInfo = methodResult[@"version"];
                 AppDelegate.instance.serverVersion = [serverInfo[@"major"] intValue];
                 AppDelegate.instance.serverMinorVersion = [serverInfo[@"minor"] intValue];
-                NSString *realServerName = methodResult[@"name"];
+                NSString *realServerName = [Utilities getStringFromItem:methodResult[@"name"]];
                 if ([realServerName isEqualToString:@"MrMC"]) {
                     AppDelegate.instance.serverVersion += MRMC_TIMEWARP;
                 }
@@ -230,9 +230,9 @@ NSInputStream *inStream;
                 }
                 infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
                              AppDelegate.instance.obj.serverDescription,
-                             serverInfo[@"major"],
-                             serverInfo[@"minor"],
-                             serverInfo[@"tag"]];
+                             [Utilities getStringFromItem:serverInfo[@"major"]],
+                             [Utilities getStringFromItem:serverInfo[@"minor"]],
+                             [Utilities getStringFromItem:serverInfo[@"tag"]]];
                 [self notifyHttpConnected:YES];
                 [self notifyShowSetupMenu:NO];
             }
