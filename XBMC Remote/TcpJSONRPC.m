@@ -213,32 +213,31 @@ NSInputStream *inStream;
             // Read if ignorearticles is enabled
             [self readIgnoreArticlesEnabled];
 
-            if (!AppDelegate.instance.serverOnLine) {
-                if ([methodResult isKindOfClass:[NSDictionary class]]) {
-                    NSDictionary *serverInfo = methodResult[@"version"];
-                    AppDelegate.instance.serverVersion = [serverInfo[@"major"] intValue];
-                    AppDelegate.instance.serverMinorVersion = [serverInfo[@"minor"] intValue];
-                    NSString *realServerName = methodResult[@"name"];
-                    if ([realServerName isEqualToString:@"MrMC"]) {
-                        AppDelegate.instance.serverVersion += MRMC_TIMEWARP;
-                    }
-                    if (AppDelegate.instance.serverVersion < MIN_SUPPORTED_SERVER_VERSION) {
-                        NSString *message = LOCALIZED_STR_ARGS(@"Kodi version %d not supported.", AppDelegate.instance.serverVersion);
-                        [Utilities showMessage:message color:ERROR_MESSAGE_COLOR];
-                        [self notifyConnectionProblem];
-                        return;
-                    }
-                    infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
-                                 AppDelegate.instance.obj.serverDescription,
-                                 serverInfo[@"major"],
-                                 serverInfo[@"minor"],
-                                 serverInfo[@"tag"]];
-                    [self notifyHttpConnected:YES];
-                    [self notifyShowSetupMenu:NO];
+            // Read server name and Kodi version
+            if ([methodResult isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *serverInfo = methodResult[@"version"];
+                AppDelegate.instance.serverVersion = [serverInfo[@"major"] intValue];
+                AppDelegate.instance.serverMinorVersion = [serverInfo[@"minor"] intValue];
+                NSString *realServerName = methodResult[@"name"];
+                if ([realServerName isEqualToString:@"MrMC"]) {
+                    AppDelegate.instance.serverVersion += MRMC_TIMEWARP;
                 }
-                else {
+                if (AppDelegate.instance.serverVersion < MIN_SUPPORTED_SERVER_VERSION) {
+                    NSString *message = LOCALIZED_STR_ARGS(@"Kodi version %d not supported.", AppDelegate.instance.serverVersion);
+                    [Utilities showMessage:message color:ERROR_MESSAGE_COLOR];
                     [self notifyConnectionProblem];
+                    return;
                 }
+                infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
+                             AppDelegate.instance.obj.serverDescription,
+                             serverInfo[@"major"],
+                             serverInfo[@"minor"],
+                             serverInfo[@"tag"]];
+                [self notifyHttpConnected:YES];
+                [self notifyShowSetupMenu:NO];
+            }
+            else {
+                [self notifyConnectionProblem];
             }
         }
         else {
