@@ -130,13 +130,11 @@
             
         case NSStreamEventErrorOccurred:
             AppDelegate.instance.serverTCPConnectionOpen = NO;
-            inCheck = NO;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionError" object:nil userInfo:nil];
             break;
 
         case NSStreamEventEndEncountered:
             AppDelegate.instance.serverTCPConnectionOpen = NO;
-            inCheck = NO;
             [theStream close];
             [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
             theStream.delegate = nil;
