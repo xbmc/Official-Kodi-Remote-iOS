@@ -49,7 +49,6 @@ typedef NS_ENUM(NSInteger, RemotePositionType) {
     BOOL torchIsOn;
     BOOL isEmbeddedMode;
     BOOL isGestureViewActive;
-    NSDictionary *subsDictionary;
 }
 
 - (IBAction)startVibrate:(id)sender;
