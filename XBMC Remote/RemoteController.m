@@ -412,15 +412,13 @@ static void *TorchRemoteContext = &TorchRemoteContext;
                              if ([methodResult count]) {
                                  NSDictionary *currentAudiostream = methodResult[@"currentaudiostream"];
                                  NSArray *audiostreams = methodResult[@"audiostreams"];
-                                 if (audiostreams.count) {
-                                     audiostreamsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                                       currentAudiostream, @"currentaudiostream",
-                                                       audiostreams, @"audiostreams",
-                                                       nil];
+                                 if ([audiostreams isKindOfClass:[NSArray class]] && audiostreams.count) {
                                      NSArray *actionSheetTitles = [self buildActionSheetForArray:audiostreams
                                                                                  currentLanguage:currentAudiostream
                                                                                   featureEnabled:YES];
-                                     [self showActionAudiostreams:actionSheetTitles];
+                                     [self showActionAudiostreams:actionSheetTitles
+                                                     audiostreams:audiostreams
+                                                          current:currentAudiostream];
                                  }
                                  else {
                                      [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") color:ERROR_MESSAGE_COLOR];
@@ -446,7 +444,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 
 #pragma mark - Action Sheet Method
 
-- (void)showActionAudiostreams:(NSArray*)sheetActions {
+- (void)showActionAudiostreams:(NSArray*)sheetActions audiostreams:(NSArray*)allAudiostreams current:(NSDictionary*)currentAudiostream {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
         UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Audio stream") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -456,10 +454,11 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                if (audiostreamsDictionary[@"audiostreams"]) {
-                    if (audiostreamsDictionary[@"audiostreams"][i]) {
-                        if (![audiostreamsDictionary[@"audiostreams"][i] isEqual:audiostreamsDictionary[@"currentaudiostream"]]) {
-                            id audiostreamIndex = audiostreamsDictionary[@"audiostreams"][i][@"index"];
+                if (allAudiostreams && [allAudiostreams isKindOfClass:[NSArray class]]) {
+                    id selectedAudiostream = allAudiostreams[i];
+                    if (selectedAudiostream && [selectedAudiostream isKindOfClass:[NSDictionary class]]) {
+                        if (![selectedAudiostream isEqual:currentAudiostream]) {
+                            id audiostreamIndex = selectedAudiostream[@"index"];
                             if (audiostreamIndex) {
                                 [self playerAction:@"Player.SetAudioStream" params:@{@"stream": audiostreamIndex}];
                                 [self showSubInfo:actiontitle color:SUCCESS_MESSAGE_COLOR];
