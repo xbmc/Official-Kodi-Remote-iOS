@@ -60,6 +60,7 @@
     BOOL channelGuideView;
     BOOL channelListView;
     BOOL recordingListView;
+    BOOL timerListView;
     BOOL globalSearchView;
     BOOL useSectionInSearchResults;
     int albumViewHeight;
