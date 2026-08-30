@@ -4534,6 +4534,7 @@
         @{
             @"method": @"PVR.GetRecordings",
             @"extra_info_method": @"PVR.GetRecordingDetails",
+            @"recordingListView": @YES,
         },
         @{
             @"method": @"PVR.GetTimers",
@@ -5092,6 +5093,7 @@
         @{
             @"method": @"PVR.GetRecordings",
             @"extra_info_method": @"PVR.GetRecordingDetails",
+            @"recordingListView": @YES,
         },
         @{
             @"method": @"PVR.GetTimers",
