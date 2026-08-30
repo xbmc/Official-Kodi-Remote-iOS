@@ -4501,13 +4501,25 @@
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:mutableParameters
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResultNon, DSJSONRPCError *methodError, NSError *error) {
          startTime = 0;
          [countExecutionTime invalidate];
          if (longTimeout != nil) {
              [longTimeout removeFromSuperview];
              longTimeout = nil;
          }
+        
+        NSMutableDictionary *methodResult = [methodResultNon mutableCopy];
+        methodResult[@"timers"] = @[
+            @{
+                @"label": @"test",
+                @"timerid": @42,
+                @"isradio": @NO,
+                @"istimerrule": @YES,
+            }
+        ];
+        
+        
          // Cannot check for PVR Add-on availability. We show "no results" in case of a
          // methodError "-32100" combined with "PVR." method calls. Other errors are still
          // shown via debug message.
