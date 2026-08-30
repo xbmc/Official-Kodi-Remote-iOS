@@ -1018,7 +1018,7 @@
                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
             // Only set the logo background, if the attempt to load it was successful (image != nil).
             // This avoids a possibly wrong background for a default thumb.
-            if (image && (channelListView || channelGuideView || recordingListView || isOnPVR)) {
+            if (image && (channelListView || channelGuideView || recordingListView || timerListView || isOnPVR)) {
                 [Utilities setLogoBackgroundColor:weakImageView mode:logoBackgroundMode];
             }
             // Special handling for TV Show cells
@@ -1289,6 +1289,8 @@
     
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
+    channelListView = [methods[@"channelListView"] boolValue];
+    timerListView = [methods[@"timerListView"] boolValue];
     activeLayoutView.contentOffset = activeLayoutView.contentOffset;
     [self checkFullscreenButton:NO];
     NSDictionary *newParameters = [self addExtraProperties:parameters];
@@ -2510,7 +2512,7 @@
         // Since recordings must be synced it is required to set recordingListView here.
         recordingListView = [item[@"family"] isEqualToString:@"recordingid"];
         
-        if (channelListView || recordingListView) {
+        if (channelListView || recordingListView || timerListView) {
             CGRect frame;
             frame.origin.x = SMALL_PADDING;
             frame.origin.y = VERTICAL_PADDING;
@@ -5608,6 +5610,9 @@
     }
     else if ([methods[@"channelListView"] boolValue]) {
         channelListView = YES;
+    }
+    else if ([methods[@"timerListView"] boolValue]) {
+        timerListView = YES;
     }
     else if (menuItem.type == TypeGlobalSearch) {
         globalSearchView = YES;
