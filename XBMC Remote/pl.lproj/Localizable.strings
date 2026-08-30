@@ -56,7 +56,6 @@
 "Episode Details" = "Szczegóły odcinka";
 "TV Show Details" = "Szczegóły programu TV";
 "Music Video Details" = "Szczegóły teledysku";
-"Details" = "Szczegóły";
 "Play Trailer" = "Odtwórz zwiastun";
 "Playlist" = "Lista odtwarzania";
 "Details not found" = "Nie odnaleziono szczegółów";
@@ -76,7 +75,6 @@
 "Clear Playlist" = "Wyczyść listę odtwarzania";
 "No server MAC address defined" = "Nie zdefiniowano adresu MAC serwera";
 "Command executed" = "Wykonano polecenie";
-"Warning" = "Ostrzeżenie";
 "Cannot do that" = "Nie można wykonać";
 "Send Wake-On-LAN" = "Wyślij Wake-On-LAN";
 "No saved hosts found" = "Nie znaleziono zapisanych hostów";
@@ -96,7 +94,6 @@
 "WRITER" = "SCENARZYSTA";
 "FIRST AIRED" = "PIERWSZA EMISJA";
 "SUMMARY" = "PODSUMOWANIE";
-"PLOT OUTLINE" = "ZARYS FABUŁY";
 "ARTIST" = "WYKONAWCA";
 "YEAR" = "ROK";
 "ALBUM LABEL" = "ETYKIETA ALBUMU";
@@ -107,8 +104,6 @@
 "Subtitles not available" = "Napisy niedostępne";
 "Audiostream not available" = "Strumień audio niedostępna";
 "Audiostreams not available" = "Strumienie audio niedostępne";
-"Yes" = "Tak";
-"No" = "Nie";
 "Authentication Failed" = "Identyfikacja nie powiodła się";
 "Incorrect Username or Password.\nCheck your settings." = "Nieprawidłowa nazwa użytkownika lub hasło.\nSprawdź ustawienia.";
 "WIKI_LANG" = "pl";
@@ -138,7 +133,6 @@
 "TIME" = "CZAS";
 "ERROR" = "BŁĄD";
 "Subtitles disabled" = "Napisy wyłączone";
-"Subtitle" = "Napisy";
 "Mark as watched" = "Oznacz jako oglądane";
 "Mark as unwatched" = "Oznacz jako nieoglądane";
 "Slide your finger up or down to adjust the scrubbing rate." = "Przesuń palcem, aby ustawić szybkość przewijania.";

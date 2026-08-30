@@ -65,7 +65,6 @@
 "TV Show Details" = "Sarja andmed";
 "Music Video Details" = "Muusikavideo andmed";
 "Recording Details" = "Salvestise andmed";
-"Details" = "Andmed";
 "Play Trailer" = "Esita treiler";
 "Playlist" = "Esitusloend";
 "Details not found" = "Andmeid ei leitud";
@@ -85,7 +84,6 @@
 "Clear Playlist" = "Tühjenda esitusloend";
 "No server MAC address defined" = "Serveri MAC-aadressi pole määratud";
 "Command executed" = "Käsk täidetud";
-"Warning" = "Hoiatus";
 "Cannot do that" = "Seda ei saa teha";
 "No saved hosts found" = "Salvestatud servereid ei leitud";
 "Are you sure you want to clear the playlist?" = "Kas oled kindel, et soovid esitusloendi tühjendada?";
@@ -104,7 +102,6 @@
 "WRITER" = "STSENARIST";
 "FIRST AIRED" = "ESMAEETER";
 "SUMMARY" = "KOKKUVÕTE";
-"PLOT OUTLINE" = "SÜŽEE";
 "ARTIST" = "ESITAJA";
 "YEAR" = "AASTA";
 "ALBUM LABEL" = "ALBUMI NIMI";
@@ -116,8 +113,6 @@
 "Subtitles not available" = "Subtiitrid pole saadaval";
 "Audiostream not available" = "Helivoog pole saadaval";
 "Audiostreams not available" = "Helivood pole saadaval";
-"Yes" = "Jah";
-"No" = "Ei";
 "Authentication Failed" = "Autentimine nurjus";
 "Incorrect Username or Password.\nCheck your settings." = "Vale kasutajanimi või parool.\nKontrolli seadeid.";
 "WIKI_LANG" = "en";
@@ -150,7 +145,6 @@
 "TIME" = "AEG";
 "ERROR" = "VIGA";
 "Subtitles disabled" = "Subtiitrid on keelatud";
-"Subtitle" = "Subtiitrid";
 "Mark as watched" = "Märgi vaadatuks";
 "Mark as unwatched" = "Märgi mittevaadatuks";
 "Slide your finger up or down to adjust the scrubbing rate." = "Libista sõrme üles või alla, et muuta kerimise kiirust.";

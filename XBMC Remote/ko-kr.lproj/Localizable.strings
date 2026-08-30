@@ -65,7 +65,6 @@
 "TV Show Details" = "TV 쇼 세부 정보";
 "Music Video Details" = "뮤직 비디오 세부 정보";
 "Recording Details" = "녹음 세부 사항";
-"Details" = "세부";
 "Play Trailer" = "예고편 재생";
 "Playlist" = "재생목록";
 "Details not found" = "세부정보를 찾을 수 없음";
@@ -85,7 +84,6 @@
 "Clear Playlist" = "재생 목록 지우기";
 "No server MAC address defined" = "서버 MAC 주소 없음";
 "Command executed" = "명령 실행됨";
-"Warning" = "경고";
 "Cannot do that" = "할 수 없음";
 "No saved hosts found" = "저장된 호스트를 찾을 수 없음";
 "Are you sure you want to clear the playlist?" = "재생 목록을 지울까요?";
@@ -104,7 +102,6 @@
 "WRITER" = "작가";
 "FIRST AIRED" = "첫 방송";
 "SUMMARY" = "줄거리";
-"PLOT OUTLINE" = "줄거리 개요";
 "ARTIST" = "아티스트";
 "YEAR" = "연도";
 "ALBUM LABEL" = "앨범 레이블";
@@ -116,8 +113,6 @@
 "Subtitles not available" = "자막 없음";
 "Audiostream not available" = "오디오 스트림을 사용할 수 없음";
 "Audiostreams not available" = "오디오 스트림을 사용할 수 없음";
-"Yes" = "예";
-"No" = "아니오";
 "Authentication Failed" = "인증 실패";
 "Incorrect Username or Password.\nCheck your settings." = "잘못된 사용자 이름 또는 암호.\n설정을 확인하십시오.";
 "WIKI_LANG" = "영어";
@@ -150,7 +145,6 @@
 "TIME" = "시간";
 "ERROR" = "오류";
 "Subtitles disabled" = "자막 사용 안 함";
-"Subtitle" = "자막";
 "Mark as watched" = "시청으로 표시";
 "Mark as unwatched" = "보지 않은 것으로 표시";
 "Slide your finger up or down to adjust the scrubbing rate." = "손가락을 위 또는 아래로 밀어 문지르는 속도를 조정합니다.";

@@ -58,7 +58,6 @@
 "Episode Details" = "Detalhes do episódio";
 "Music Video Details" = "Detalhes do vídeo de música";
 "Recording Details" = "Detalhes da gravação";
-"Details" = "Detalhes";
 "Playlist" = "Lista de reprodução";
 "Details not found" = "Detalhes não encontrados";
 "Error loading page" = "Erro ao carregar a página";
@@ -73,7 +72,6 @@
 "Clear Playlist" = "Limpar lista de reprodução";
 "No server MAC address defined" = "Nenhum MAC address de servidor definido";
 "Command executed" = "Comando executado";
-"Warning" = "Aviso";
 "Cannot do that" = "Não é possível fazer isso";
 "Are you sure you want to clear the video playlist?" = "Tem a certeza de que quer apagar a lista de reprodução do vídeo?";
 "Are you sure you want to clear the picture playlist?" = "Tem a certeza de que pretende apagar a lista de reprodução de imagens?";
@@ -95,8 +93,6 @@
 "TRAILER" = "TRAILER";
 "TV SHOW" = "SÉRIE DE TV";
 "Audiostream not available" = "Pista de áudio não disponível";
-"Yes" = "Sim";
-"No" = "Não";
 "Authentication Failed" = "Falha ao autenticar";
 "vote" = "voto";
 "votes" = "votos";
@@ -115,7 +111,6 @@
 "Broadcast Details" = "Detalhes da emissão";
 "TIME" = "HORA";
 "ERROR" = "ERRO";
-"Subtitle" = "Legenda";
 "Mark as unwatched" = "Marcar como não visto";
 "Programs" = "Programas";
 "Custom button" = "Botão personalizado";
@@ -207,7 +202,6 @@
 "Released %d" = "Lançado %d";
 "No saved hosts found" = "Nenhum servidor guardado encontrado";
 "Are you sure you want to clear the playlist?" = "Tem a certeza de que quer apagar a lista de reprodução?";
-"PLOT OUTLINE" = "SINOPSE";
 "Subtitles not available" = "Legendas não disponíveis";
 "Incorrect Username or Password.\nCheck your settings." = "Utilizador ou palavra-passe incorrectos.\nVerifique as suas definições.";
 "Clearing app disk cache...\n\nPlease wait, since this may take a while" = "A limpar a cache da app...\n\nPor favor aguarde, isto pode demorar um pouco";

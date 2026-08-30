@@ -65,7 +65,6 @@
 "TV Show Details" = "Detaliile filmului serial";
 "Music Video Details" = "Detaliile videoclipului muzical";
 "Recording Details" = "Detaliile înregistrării";
-"Details" = "Detalii";
 "Play Trailer" = "Redă secvențele";
 "Playlist" = "Lista de redare";
 "Details not found" = "Detaliile nu au fost găsite";
@@ -85,7 +84,6 @@
 "Clear Playlist" = "Curăță lista de redare";
 "No server MAC address defined" = "Nu a fost definită nicio adresă MAC a servitorului";
 "Command executed" = "Comanda a fost rulată";
-"Warning" = "Avertizare";
 "Cannot do that" = "Nu se poate face asta";
 "No saved hosts found" = "Niciuna dintre gazdele salvate nu a fost găsită";
 "Are you sure you want to clear the playlist?" = "Sigur doriți să curățați lista de redare?";
@@ -104,7 +102,6 @@
 "WRITER" = "SCENARIST";
 "FIRST AIRED" = "PRIMA DIFUZARE";
 "SUMMARY" = "SUMAR";
-"PLOT OUTLINE" = "REZUMAT INTRIGĂ";
 "ARTIST" = "ARTIST";
 "YEAR" = "AN";
 "ALBUM LABEL" = "ETICHETĂ ALBUM";
@@ -116,8 +113,6 @@
 "Subtitles not available" = "Nu sunt disponibile subtitluri";
 "Audiostream not available" = "Nu este disponibil fluxul audio";
 "Audiostreams not available" = "Nu sunt disponibile fluxurile audio";
-"Yes" = "Da";
-"No" = "Nu";
 "Authentication Failed" = "Autentificarea a eșuat";
 "Incorrect Username or Password.\nCheck your settings." = "Numele de utilizator sau parola nu sunt corecte.\nVerificați ce ați stabilit.";
 "WIKI_LANG" = "en";
@@ -150,7 +145,6 @@
 "TIME" = "TIMPUL";
 "ERROR" = "EROAREA";
 "Subtitles disabled" = "Subtitluri dezactivate";
-"Subtitle" = "Subtitlu";
 "Mark as watched" = "Marchează ca vizionat";
 "Mark as unwatched" = "Marchează ca nevizionat";
 "Slide your finger up or down to adjust the scrubbing rate." = "Glisați cu degetul în sus sau în jos pentru a ajusta rata de curățare.";

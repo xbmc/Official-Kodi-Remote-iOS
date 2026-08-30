@@ -65,7 +65,6 @@
 "TV Show Details" = "Detalji TV emisije";
 "Music Video Details" = "Detalji muzičkog spota";
 "Recording Details" = "Detalji snimanja";
-"Details" = "Detalji";
 "Play Trailer" = "Reproduciraj najavu";
 "Playlist" = "Popis za reprodukciju";
 "Details not found" = "Detalji nisu pronađeni";
@@ -85,7 +84,6 @@
 "Clear Playlist" = "Obriši listu za reprodukciju";
 "No server MAC address defined" = "Nije definirana MAC adresa servera";
 "Command executed" = "Izvršena naredba";
-"Warning" = "Upozorenje";
 "Cannot do that" = "Ne mogu to uraditi";
 "No saved hosts found" = "Nije pronađen nijedan sačuvani host";
 "Are you sure you want to clear the playlist?" = "Jeste li sigurni da želite obrisati listu za reprodukciju?";
@@ -104,7 +102,6 @@
 "WRITER" = "PISAC";
 "FIRST AIRED" = "PRVO EMITOVANO";
 "SUMMARY" = "SAŽETAK";
-"PLOT OUTLINE" = "OPIS ZAPADNJA";
 "ARTIST" = "UMJETNIK";
 "YEAR" = "GODINA";
 "ALBUM LABEL" = "IZDAVAČ ALBUMA";
@@ -116,8 +113,6 @@
 "Subtitles not available" = "Titlovi nisu dostupni";
 "Audiostream not available" = "Audio prijenos nije dostupan";
 "Audiostreams not available" = "Audio prijenosi nisu dostupni";
-"Yes" = "Da";
-"No" = "Ne";
 "Authentication Failed" = "Autentifikacija nije uspjela";
 "Incorrect Username or Password.\nCheck your settings." = "Netačno korisničko ime ili lozinka.\nProvjerite postavke.";
 "WIKI_LANG" = "en";
@@ -150,7 +145,6 @@
 "TIME" = "VRIJEME";
 "ERROR" = "GREŠKA";
 "Subtitles disabled" = "Titlovi onemogućeni";
-"Subtitle" = "Podnaslov";
 "Mark as watched" = "Označi kao gledano";
 "Mark as unwatched" = "Označi kao nepregledano";
 "Slide your finger up or down to adjust the scrubbing rate." = "Pomaknite prst gore ili dolje da biste prilagodili brzinu trljanja.";

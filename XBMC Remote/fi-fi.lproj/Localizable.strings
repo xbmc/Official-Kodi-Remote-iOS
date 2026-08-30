@@ -65,7 +65,6 @@
 "TV Show Details" = "Sarjan tiedot";
 "Music Video Details" = "Musiikkivideon tiedot";
 "Recording Details" = "Tallenteen tiedot";
-"Details" = "Tiedot";
 "Play Trailer" = "Toista traileri";
 "Playlist" = "Toistolista";
 "Details not found" = "Tietoja ei löytynyt";
@@ -85,7 +84,6 @@
 "Clear Playlist" = "Tyhjennä toistolista";
 "No server MAC address defined" = "Palvelimen MAC-osoitetta ei ole määritetty";
 "Command executed" = "Komento suoritettiin";
-"Warning" = "Varoitus";
 "Cannot do that" = "Se ei ole mahdollista";
 "No saved hosts found" = "Tallennettuja palvelimia ei ole";
 "Are you sure you want to clear the playlist?" = "Haluatko varmasti tyhjentää toistolistan?";
@@ -104,7 +102,6 @@
 "WRITER" = "KIRJOITTAJA";
 "FIRST AIRED" = "ENSIESITYS";
 "SUMMARY" = "TIIVISTELMÄ";
-"PLOT OUTLINE" = "JUONIKUVAUS";
 "ARTIST" = "ARTISTI";
 "YEAR" = "VUOSI";
 "ALBUM LABEL" = "ALBUMIN LEVY-YHTIÖ";
@@ -116,8 +113,6 @@
 "Subtitles not available" = "Tekstityksiä ei ole käytettävissä";
 "Audiostream not available" = "Ääniraitaa ei ole käytettävissä";
 "Audiostreams not available" = "Ääniraitoja ei ole käytettävissä";
-"Yes" = "Kyllä";
-"No" = "Ei";
 "Authentication Failed" = "Todennus epäonnistui";
 "Incorrect Username or Password.\nCheck your settings." = "Virheellinen käyttäjätunnus tai salasana.\nTarkista asetuksesi.";
 "WIKI_LANG" = "en";
@@ -150,7 +145,6 @@
 "TIME" = "AIKA";
 "ERROR" = "VIRHE";
 "Subtitles disabled" = "Tekstitys ei ole käytössä";
-"Subtitle" = "Tekstitys";
 "Mark as watched" = "Merkitse katsotuksi";
 "Mark as unwatched" = "Merkitse katsomattomaksi";
 "Slide your finger up or down to adjust the scrubbing rate." = "Säädä siirtonopeutta liu'uttamalla sormeasi ylös tai alas.";

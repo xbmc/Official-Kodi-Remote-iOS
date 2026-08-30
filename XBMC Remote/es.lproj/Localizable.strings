@@ -56,7 +56,6 @@
 "Episode Details" = "Detalles de Episodio";
 "TV Show Details" = "Detalles de Programa de TV";
 "Music Video Details" = "Detalles de Vídeo Musical";
-"Details" = "Detalles";
 "Play Trailer" = "Reproducir Tráiler";
 "Playlist" = "Lista Reproducción";
 "Details not found" = "Detalles no encontrados";
@@ -76,7 +75,6 @@
 "Clear Playlist" = "Limpiar Lista de Reproducción";
 "No server MAC address defined" = "No hay definida dirección mac de servidor";
 "Command executed" = "Comando ejecutado";
-"Warning" = "Aviso";
 "Cannot do that" = "No puedes hacer eso";
 "Send Wake-On-LAN" = "Enviar Wake-On-LAN";
 "No saved hosts found" = "No se encontraron hosts guardados";
@@ -97,7 +95,6 @@
 "FIRST AIRED" = "PRIMERA EMISIÓN";
 "SUMMARY" = "RESUMEN";
 "ARTIST" = "INTÉRPRETE";
-"PLOT OUTLINE" = "ESQUEMA ARGUMENTAL";
 "YEAR" = "AÑO";
 "ALBUM LABEL" = "ETIQUETA DE ÁLBUM";
 "DESCRIPTION" = "DESCRIPCIÓN";
@@ -107,8 +104,6 @@
 "Subtitles not available" = "Subtítulos no disponibles";
 "Audiostream not available" = "Flujo de Audio no disponible";
 "Audiostreams not available" = "Transmisiones de audio no disponibles";
-"Yes" = "Si";
-"No" = "No";
 "Authentication Failed" = "Fallo de Autentificación";
 "Incorrect Username or Password.\nCheck your settings." = "Nombre de usuario o contraseña incorrectos.\nRevisa tus ajustes.";
 "WIKI_LANG" = "es";
@@ -138,7 +133,6 @@
 "TIME" = "TIEMPO";
 "ERROR" = "ERROR";
 "Subtitles disabled" = "Subtítulos desactivados";
-"Subtitle" = "Subtítulo";
 "Mark as watched" = "Marcar como visto";
 "Mark as unwatched" = "Marcar como no visto";
 "Slide your finger up or down to adjust the scrubbing rate." = "Desliza tu dedo arriba o abajo para ajustar para ajustar la velocidad de depuración.";

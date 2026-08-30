@@ -31,7 +31,6 @@
 "Update Audio Library" = "Actualizar biblioteca de audio";
 "Clean Audio Library" = "Limpiar biblioteca de audio";
 "Clean Video Library" = "Limpiar biblioteca de video";
-"Details" = "Detalles";
 "Playlist" = "Lista de reproducción";
 "Recently played songs" = "Canciones reproducidas recientemente";
 "Update Video Library" = "Actualizar biblioteca de video";
@@ -89,7 +88,6 @@
 "Released %d" = "Lanzado %d";
 "Clear Playlist" = "Limpiar lista de reproducción";
 "Command executed" = "Comando ejecutado";
-"Warning" = "Advertencia";
 "Cannot do that" = "No puedo hacer eso";
 "Send Wake-On-LAN" = "Enviar Wake-On-LAN";
 "No saved hosts found" = "No se encontraron servidores guardados";
@@ -107,7 +105,6 @@
 "DIRECTOR" = "DIRECTOR";
 "WRITER" = "ESCRITOR";
 "SUMMARY" = "RESUMEN";
-"PLOT OUTLINE" = "ARGUMENTO";
 "ARTIST" = "ARTISTA";
 "YEAR" = "AÑO";
 "ALBUM LABEL" = "ETIQUETA DE ÁLBUM";
@@ -125,8 +122,6 @@
 "Subtitles not available" = "Subtítulos no disponibles";
 "Audiostream not available" = "Pista de audio no disponible";
 "Audiostreams not available" = "Pistas de audio no disponibles";
-"Yes" = "Sí";
-"No" = "No";
 "Authentication Failed" = "Autenticación fallida";
 "WIKI_LANG" = "es";
 "vote" = "voto";
@@ -157,7 +152,6 @@
 "TIME" = "HORA";
 "ERROR" = "ERROR";
 "Subtitles disabled" = "Subtítulos desactivados";
-"Subtitle" = "Subtítulos";
 "Mark as watched" = "Marcar como visto";
 "Mark as unwatched" = "Marcar como no visto";
 "Programs" = "Programas";

@@ -56,7 +56,6 @@
 "Episode Details" = "Dettagli episodio";
 "TV Show Details" = "Dettagli serie TV";
 "Music Video Details" = "Dettagli video musicale";
-"Details" = "Dettagli";
 "Play Trailer" = "Riproduci trailer";
 "Playlist" = "Playlist";
 "Details not found" = "Dettagli non trovati";
@@ -76,7 +75,6 @@
 "Clear Playlist" = "Cancella playlist";
 "No server MAC address defined" = "Nessun indirizzo MAC del server definito";
 "Command executed" = "Comando eseguito";
-"Warning" = "Avvertimento";
 "Cannot do that" = "Non lo posso fare";
 "Send Wake-On-LAN" = "Invia Wake-On-LAN";
 "No saved hosts found" = "Nessun host salvato trovato";
@@ -96,7 +94,6 @@
 "WRITER" = "SCENEGGIATORE";
 "FIRST AIRED" = "PRIMA VOLTA IN ONDA";
 "SUMMARY" = "TRAMA";
-"PLOT OUTLINE" = "TRAMA IN BREVE";
 "ARTIST" = "ARTISTA";
 "YEAR" = "ANNO";
 "ALBUM LABEL" = "ETICHETTA ALBUM";
@@ -107,8 +104,6 @@
 "Subtitles not available" = "Sottotitoli non disponibili";
 "Audiostream not available" = "Traccia audio non disponibile";
 "Audiostreams not available" = "Tracce audio non disponibili";
-"Yes" = "Sì";
-"No" = "No";
 "Authentication Failed" = "Autenticazione non riuscita";
 "Incorrect Username or Password.\nCheck your settings." = "Nome utente o password errati.\nControlla le impostazioni.";
 "WIKI_LANG" = "it";
@@ -138,7 +133,6 @@
 "TIME" = "DATA";
 "ERROR" = "ERRORE";
 "Subtitles disabled" = "Sottotitoli disabilitati";
-"Subtitle" = "Sottotitolo";
 "Mark as watched" = "Segna come già visto";
 "Mark as unwatched" = "Segna come non visto";
 "Slide your finger up or down to adjust the scrubbing rate." = "Scorri il dito verso l'alto o il basso per regolare la velocità di scrubbing.";
