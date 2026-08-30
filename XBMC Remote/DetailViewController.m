@@ -1290,6 +1290,7 @@
     enableCollectionView = newEnableCollectionView;
     recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     channelListView = [methods[@"channelListView"] boolValue];
+    recordingListView = [methods[@"recordingListView"] boolValue];
     timerListView = [methods[@"timerListView"] boolValue];
     activeLayoutView.contentOffset = activeLayoutView.contentOffset;
     [self checkFullscreenButton:NO];
@@ -2509,9 +2510,6 @@
     genre.hidden = NO;
     runtimeyear.hidden = NO;
     if (!albumView && !episodesView && !channelGuideView) {
-        // Since recordings must be synced it is required to set recordingListView here.
-        recordingListView = [item[@"family"] isEqualToString:@"recordingid"];
-        
         if (channelListView || recordingListView || timerListView) {
             CGRect frame;
             frame.origin.x = SMALL_PADDING;
@@ -4549,7 +4547,6 @@
                      if ([methodName isEqualToString:@"VideoLibrary.GetSeasons"]) {
                          mainFields[@"row1"] = @"label";
                      }
-                     recordingListView = methodResult[@"recordings"] ? YES : NO;
                      NSString *serverURL = [Utilities getImageServerURL];
                      int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
                      dispatch_group_t group = dispatch_group_create();
@@ -5610,6 +5607,9 @@
     }
     else if ([methods[@"channelListView"] boolValue]) {
         channelListView = YES;
+    }
+    else if ([methods[@"recordingListView"] boolValue]) {
+        recordingListView = YES;
     }
     else if ([methods[@"timerListView"] boolValue]) {
         timerListView = YES;
