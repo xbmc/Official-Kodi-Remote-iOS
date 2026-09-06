@@ -68,6 +68,11 @@
     return self;
 }
 
+- (void)invalidate {
+    [self.rpcSession invalidateAndCancel];
+    self.rpcSession = nil;
+}
+
 #pragma mark - Web Service Invocation Methods
 
 - (NSInteger)callMethod:(NSString*)methodName {
