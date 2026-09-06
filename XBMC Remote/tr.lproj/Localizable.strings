@@ -55,7 +55,6 @@
 "Episode Details" = "Bölüm Hakkında";
 "TV Show Details" = "Dizi Hakkında";
 "Music Video Details" = "Klip Hakkında";
-"Details" = "Ayrıntılar";
 "Play Trailer" = "Fragmanı izle";
 "Playlist" = "Oynatma Listesi";
 "Details not found" = "Ayrıntı bulunamadı";
@@ -75,7 +74,6 @@
 "Clear Playlist" = "Oynatma Listesini Temizle";
 "No server MAC address defined" = "Sunucu MAC adresi belirlenmedi";
 "Command executed" = "Komut uygulandı";
-"Warning" = "Uyarı";
 "Cannot do that" = "Yapılamıyor";
 "Send Wake-On-LAN" = "Wake-On-LAN gönder";
 "No saved hosts found" = "Kayıtlı sunucu bulunamadı";
@@ -95,7 +93,6 @@
 "WRITER" = "SENARİST";
 "FIRST AIRED" = "YAYIN TARİHİ";
 "SUMMARY" = "ÖZET";
-"PLOT OUTLINE" = "KONU";
 "ARTIST" = "SANATÇI";
 "YEAR" = "YIL";
 "ALBUM LABEL" = "ALBÜM ETİKETİ";
@@ -106,8 +103,6 @@
 "Subtitles not available" = "Altyazı yok";
 "Audiostream not available" = "Ses akışı yok";
 "Audiostreams not available" = "Ses akışları yok";
-"Yes" = "Evet";
-"No" = "Hayır";
 "Authentication Failed" = "Doğrulama Başarısız";
 "Incorrect Username or Password.\nCheck your settings." = "Kullanıcı adı veya Şifre yanlış.\nAyarları kontrol edin.";
 "WIKI_LANG" = "tr";
@@ -137,7 +132,6 @@
 "TIME" = "ZAMAN";
 "ERROR" = "HATA";
 "Subtitles disabled" = "Altyazılar devre dışı";
-"Subtitle" = "Altyazı";
 "Mark as watched" = "İzlendi olarak işaretle";
 "Mark as unwatched" = "İzlenmedi olarak işaretle";
 "Slide your finger up or down to adjust the scrubbing rate." = "Düzeltme oranını ayarlamak için yukarı/aşağı kaydırın.";

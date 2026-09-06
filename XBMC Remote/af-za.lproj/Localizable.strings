@@ -65,7 +65,6 @@
 "TV Show Details" = "TV Vertoning Besonderhede";
 "Music Video Details" = "Musiek Video Besonderhede";
 "Recording Details" = "Opname Besonderhede";
-"Details" = "Besonderhede";
 "Play Trailer" = "Speel Lokprent";
 "Playlist" = "Speellys";
 "Details not found" = "Besonderhede nie gevind nie";
@@ -85,7 +84,6 @@
 "Clear Playlist" = "Maak Speellys skoon";
 "No server MAC address defined" = "Geen bediener MAC adres gedefinieer";
 "Command executed" = "Bevel uitgevoer";
-"Warning" = "Waarskuwing";
 "Cannot do that" = "Kan dit nie doen nie";
 "No saved hosts found" = "Geen gestoorde gashere gevind";
 "Are you sure you want to clear the playlist?" = "Is jy seker jy wil die speellys skoon maak?";
@@ -104,7 +102,6 @@
 "WRITER" = "SKRYWER";
 "FIRST AIRED" = "EERSTE GELUG";
 "SUMMARY" = "OPSOMMING";
-"PLOT OUTLINE" = "PLOT UITEENSETTING";
 "ARTIST" = "KUNSTENAAR";
 "YEAR" = "JAAR";
 "ALBUM LABEL" = "ALBUM ETIKET";
@@ -116,8 +113,6 @@
 "Subtitles not available" = "Onderskrifte nie beskikbaar nie";
 "Audiostream not available" = "Oudio stroom nie beskikbaar nie";
 "Audiostreams not available" = "Oudio strome nie beskikbaar nie";
-"Yes" = "Ja";
-"No" = "Nee";
 "Authentication Failed" = "Waarmerking het gefaal";
 "Incorrect Username or Password.\nCheck your settings." = "Inkorrekte Gebruikersnaam of Wagwoord.\nGaan jou instellings na.";
 "WIKI_LANG" = "af";
@@ -150,7 +145,6 @@
 "TIME" = "TYD";
 "ERROR" = "FOUT";
 "Subtitles disabled" = "Onderskrifte nie in staat gestel nie";
-"Subtitle" = "Onderskrif";
 "Mark as watched" = "Merk as gekyk";
 "Mark as unwatched" = "Merk as ongekyk";
 "Slide your finger up or down to adjust the scrubbing rate." = "Skuif jou vinger op of af om die skrop tempo aan te pas.";

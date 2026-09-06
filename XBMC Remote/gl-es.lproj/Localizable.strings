@@ -65,7 +65,6 @@
 "TV Show Details" = "Detalles do programa de televisión";
 "Music Video Details" = "Detalles do vídeo musical";
 "Recording Details" = "Detalles da gravación";
-"Details" = "Detalles";
 "Play Trailer" = "Reproducir tráiler";
 "Playlist" = "Lista de reprodución";
 "Details not found" = "Non se atoparon detalles";
@@ -85,7 +84,6 @@
 "Clear Playlist" = "Borrar lista de reprodución";
 "No server MAC address defined" = "Non se definiu ningún enderezo MAC do servidor";
 "Command executed" = "Comando executado";
-"Warning" = "Aviso";
 "Cannot do that" = "Non se pode facer iso";
 "No saved hosts found" = "Non se atoparon hosts gardados";
 "Are you sure you want to clear the playlist?" = "Estás seguro de que queres borrar a lista de reprodución?";
@@ -104,7 +102,6 @@
 "WRITER" = "GUIONISTA";
 "FIRST AIRED" = "PRIMEIRA EMISIÓN";
 "SUMMARY" = "RESUMO";
-"PLOT OUTLINE" = "ESQUEMA DA TRAMA";
 "ARTIST" = "ARTISTA";
 "YEAR" = "ANO";
 "ALBUM LABEL" = "SELLO DO ÁLBUM";
@@ -116,8 +113,6 @@
 "Subtitles not available" = "Subtítulos non dispoñibles";
 "Audiostream not available" = "Transmisión de audio non dispoñible";
 "Audiostreams not available" = "Transmisións de audio non dispoñibles";
-"Yes" = "Si";
-"No" = "Non";
 "Authentication Failed" = "Fallo de autenticación";
 "Incorrect Username or Password.\nCheck your settings." = "Nome de usuario ou contrasinal incorrectos. \nComproba a túa configuración.";
 "WIKI_LANG" = "gl";
@@ -150,7 +145,6 @@
 "TIME" = "TEMPO";
 "ERROR" = "ERRO";
 "Subtitles disabled" = "Subtítulos desactivados";
-"Subtitle" = "Subtítulo";
 "Mark as watched" = "Marcar como visto";
 "Mark as unwatched" = "Marcar como non visto";
 "Slide your finger up or down to adjust the scrubbing rate." = "Desliza o dedo cara arriba ou cara abaixo para axustar a velocidade de deslizamento.";

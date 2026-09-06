@@ -56,7 +56,6 @@
 "Episode Details" = "Information om avsnitt";
 "TV Show Details" = "Information om tv-serie";
 "Music Video Details" = "Information om musikvideo";
-"Details" = "Information";
 "Play Trailer" = "Spela förhandsvisning";
 "Playlist" = "Spellista";
 "Details not found" = "Information hittades inte";
@@ -76,7 +75,6 @@
 "Clear Playlist" = "Töm spellista";
 "No server MAC address defined" = "Ingen hårdvaruadress för server definierad";
 "Command executed" = "Kommandot kördes";
-"Warning" = "Varning";
 "Cannot do that" = "Kan inte göra detta";
 "Send Wake-On-LAN" = "Skicka Wake-On-LAN";
 "No saved hosts found" = "Inga sparade värddatorer hittades";
@@ -96,7 +94,6 @@
 "WRITER" = "FÖRFATTARE";
 "FIRST AIRED" = "SÄNDES FÖRSTA GÅNGEN";
 "SUMMARY" = "SAMMANFATTNING";
-"PLOT OUTLINE" = "KORT HANDLING";
 "ARTIST" = "ARTIST";
 "YEAR" = "ÅR";
 "ALBUM LABEL" = "MUSIKFÖRLAG";
@@ -107,8 +104,6 @@
 "Subtitles not available" = "Undertexter inte tillgängliga";
 "Audiostream not available" = "Ljudström inte tillgänglig";
 "Audiostreams not available" = "Ljudströmmar inte tillgängliga";
-"Yes" = "Ja";
-"No" = "Nej";
 "Authentication Failed" = "Autentisering misslyckades";
 "Incorrect Username or Password.\nCheck your settings." = "Felaktigt användarnamn eller lösenord.\nKontrollera dina inställningar.";
 "WIKI_LANG" = "sv";
@@ -138,7 +133,6 @@
 "TIME" = "TID";
 "ERROR" = "FEL";
 "Subtitles disabled" = "Undertexter inaktiverade";
-"Subtitle" = "Undertext";
 "Mark as watched" = "Markera som sedd";
 "Mark as unwatched" = "Markera som icke-sedd";
 "Slide your finger up or down to adjust the scrubbing rate." = "Dra ditt finger upp eller ner för att justera snabbspolningshastigheten.";

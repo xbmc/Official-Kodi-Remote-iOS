@@ -56,7 +56,6 @@
 "Episode Details" = "集详情";
 "TV Show Details" = "电视剧详情";
 "Music Video Details" = "音乐电视详情";
-"Details" = "详情";
 "Play Trailer" = "播放预告片";
 "Playlist" = "播放列表";
 "Details not found" = "详细资料未找到";
@@ -76,7 +75,6 @@
 "Clear Playlist" = "清除播放列表";
 "No server MAC address defined" = "未定义服务器MAC地址";
 "Command executed" = "命令已执行";
-"Warning" = "注意";
 "Cannot do that" = "无法做到";
 "Send Wake-On-LAN" = "发送局域网唤醒";
 "No saved hosts found" = "未找到保存的主机";
@@ -96,7 +94,6 @@
 "WRITER" = "编剧";
 "FIRST AIRED" = "首播";
 "SUMMARY" = "摘要";
-"PLOT OUTLINE" = "剧情简介";
 "ARTIST" = "艺人";
 "YEAR" = "年份";
 "ALBUM LABEL" = "专辑标签";
@@ -107,8 +104,6 @@
 "Subtitles not available" = "字幕不可用";
 "Audiostream not available" = "音频流不可用";
 "Audiostreams not available" = "音频流不可用";
-"Yes" = "是";
-"No" = "否";
 "Authentication Failed" = "验证失败";
 "Incorrect Username or Password.\nCheck your settings." = "错误用户名或密码。\n请检查你的设置。";
 "WIKI_LANG" = "zh";
@@ -138,7 +133,6 @@
 "TIME" = "时间";
 "ERROR" = "错误";
 "Subtitles disabled" = "字幕已禁用";
-"Subtitle" = "字幕";
 "Mark as watched" = "标记为已观看";
 "Mark as unwatched" = "标记为未观看";
 "Slide your finger up or down to adjust the scrubbing rate." = "上下滑动手指调整拖动速度。";

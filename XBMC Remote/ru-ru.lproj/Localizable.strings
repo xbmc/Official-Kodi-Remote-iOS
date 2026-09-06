@@ -65,7 +65,6 @@
 "TV Show Details" = "Подробности телешоу";
 "Music Video Details" = "Подробности музыкального клипа";
 "Recording Details" = "Подробности записи";
-"Details" = "Подробности";
 "Play Trailer" = "Воспроизвести трейлер";
 "Playlist" = "Список воспроизведения";
 "Details not found" = "Подробности не найдены";
@@ -85,7 +84,6 @@
 "Clear Playlist" = "Очистить плейлист";
 "No server MAC address defined" = "MAC-адрес сервера не определен";
 "Command executed" = "Команда выполнена";
-"Warning" = "Предупреждение";
 "Cannot do that" = "Невозможно выполнить";
 "No saved hosts found" = "Сохранённых хостов не найдено";
 "Are you sure you want to clear the playlist?" = "Уверены, что хотите очистить плейлист?";
@@ -104,7 +102,6 @@
 "WRITER" = "СЦЕНАРИСТ";
 "FIRST AIRED" = "ПЕРВЫЙ ПОКАЗ";
 "SUMMARY" = "КРАТКОЕ ОПИСАНИЕ";
-"PLOT OUTLINE" = "СЮЖЕТ";
 "ARTIST" = "ИСПОЛНИТЕЛЬ";
 "YEAR" = "ГОД";
 "ALBUM LABEL" = "ЛЕЙБЛ АЛЬБОМА";
@@ -116,8 +113,6 @@
 "Subtitles not available" = "Субтитры недоступны";
 "Audiostream not available" = "Аудиопоток недоступен";
 "Audiostreams not available" = "Аудиопотоки недоступны";
-"Yes" = "Да";
-"No" = "Нет";
 "Authentication Failed" = "Ошибка аутентификации";
 "Incorrect Username or Password.\nCheck your settings." = "Неверное имя пользователя или пароль.\nПроверьте настройки.";
 "WIKI_LANG" = "en";
@@ -150,7 +145,6 @@
 "TIME" = "ВРЕМЯ";
 "ERROR" = "ОШИБКА";
 "Subtitles disabled" = "Субтитры отключены";
-"Subtitle" = "Субтитры";
 "Mark as watched" = "Отметить как просмотренное";
 "Mark as unwatched" = "Отметить как непросмотренное";
 "Slide your finger up or down to adjust the scrubbing rate." = "Проведите пальцем вверх или вниз, чтобы настроить скорость прокрутки.";

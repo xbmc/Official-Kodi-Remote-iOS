@@ -56,7 +56,6 @@
 "Episode Details" = "Detaily epizody";
 "TV Show Details" = "Detaily seriálu";
 "Music Video Details" = "Detaily videoklipu";
-"Details" = "Detaily";
 "Play Trailer" = "Přehrát upoutávku";
 "Playlist" = "Seznam stop";
 "Details not found" = "Detaily nebyly nalezeny";
@@ -76,7 +75,6 @@
 "Clear Playlist" = "Vymazat seznam stop";
 "No server MAC address defined" = "Není zadána MAC adresa serveru";
 "Command executed" = "Příkaz byl proveden";
-"Warning" = "Varování";
 "Cannot do that" = "Tuto akci nelze provést";
 "Send Wake-On-LAN" = "Odeslat Wake-On-LAN";
 "No saved hosts found" = "Nebyli nalezeni žádní uložení hostitelé";
@@ -96,7 +94,6 @@
 "WRITER" = "SCÉNÁŘ";
 "FIRST AIRED" = "POPRVÉ VYSÍLÁNO";
 "SUMMARY" = "SHRNUTÍ";
-"PLOT OUTLINE" = "STRUČNÝ DĚJ";
 "ARTIST" = "INTERPRET";
 "YEAR" = "ROK";
 "ALBUM LABEL" = "VYDAVATELSTVÍ ALBA";
@@ -107,8 +104,6 @@
 "Subtitles not available" = "Titulky nejsou dostupné";
 "Audiostream not available" = "Zvuková stopa není dostupná";
 "Audiostreams not available" = "Zvukové stopy nejsou dostupné";
-"Yes" = "Ano";
-"No" = "Ne";
 "Authentication Failed" = "Ověření se nezdařilo";
 "Incorrect Username or Password.\nCheck your settings." = "Chybné uživatelské jméno nebo heslo.\nOvěřte nastavení.";
 "WIKI_LANG" = "cs";
@@ -138,7 +133,6 @@
 "TIME" = "ČAS";
 "ERROR" = "CHYBA";
 "Subtitles disabled" = "Titulky vypnuty";
-"Subtitle" = "Titulek";
 "Mark as watched" = "Označit jako zhlédnuté";
 "Mark as unwatched" = "Označit jako nezhlédnuté";
 "Slide your finger up or down to adjust the scrubbing rate." = "Posunutím prstu nahoru nebo dolů upravíte rychlost převíjení.";

@@ -65,7 +65,6 @@
 "TV Show Details" = "Detail Acara TV";
 "Music Video Details" = "Detail Video Musik";
 "Recording Details" = "Detail Rekaman";
-"Details" = "Detail";
 "Play Trailer" = "Putar Trailer";
 "Playlist" = "Daftarputar";
 "Details not found" = "Detail tidak ditemukan";
@@ -85,7 +84,6 @@
 "Clear Playlist" = "Bersihkan Daftar Putar";
 "No server MAC address defined" = "Tidak ada alamat MAC server yang ditentukan";
 "Command executed" = "Perintah dijalankan";
-"Warning" = "Peringatan";
 "Cannot do that" = "Tidak dapat melakukan itu";
 "No saved hosts found" = "Tidak ada host yang disimpan";
 "Are you sure you want to clear the playlist?" = "Apakah Anda yakin ingin membersihkan daftar putar?";
@@ -104,7 +102,6 @@
 "WRITER" = "PENULIS";
 "FIRST AIRED" = "TAYANG PERDANA";
 "SUMMARY" = "RINGKASAN";
-"PLOT OUTLINE" = "GARIS BESAR PLOT";
 "ARTIST" = "ARTIS";
 "YEAR" = "TAHUN";
 "ALBUM LABEL" = "LABEL ALBUM";
@@ -116,8 +113,6 @@
 "Subtitles not available" = "Subtitel tidak tersedia";
 "Audiostream not available" = "Aliran audio tidak tersedia";
 "Audiostreams not available" = "Aliran audio tidak tersedia";
-"Yes" = "Ya";
-"No" = "Tidak";
 "Authentication Failed" = "Autentikasi Gagal";
 "Incorrect Username or Password.\nCheck your settings." = "Nama Pengguna atau Kata Sandi Salah.\nPeriksa pengaturan Anda.";
 "WIKI_LANG" = "id";
@@ -150,7 +145,6 @@
 "TIME" = "WAKTU";
 "ERROR" = "GALAT";
 "Subtitles disabled" = "Subtitel dinonaktifkan";
-"Subtitle" = "Subtitel";
 "Mark as watched" = "Tandai sebagai sudah ditonton";
 "Mark as unwatched" = "Tandai sebagai belum ditonton";
 "Slide your finger up or down to adjust the scrubbing rate." = "Geser jari Anda ke atas atau ke bawah untuk menyesuaikan kecepatan penggosokan.";

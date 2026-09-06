@@ -26,7 +26,6 @@
 "Clean Audio Library" = "Limpar a biblioteca de áudio";
 "Update Video Library" = "Atualizar a biblioteca de vídeo";
 "Clean Video Library" = "Limpar a biblioteca de vídeo";
-"Details" = "Detalhes";
 "Playlist" = "Lista de reprodução";
 "Remote Control" = "Controle Remoto";
 "Global Search" = "Pesquisa global";
@@ -54,7 +53,6 @@
 "No XBMC instances were found :(" = "Não foram encontradas instâncias do Kodi :(";
 "\"Find XBMC\" requires XBMC server option\n\"Announce these services to other systems via Zeroconf\" enabled" = "\"Localizar Kodi\" requer a opção de servidor Kodi\n\"Anunciar esses serviços a outros sistemas via Zeroconf\" ativado";
 "Settings > Services > Control:\n1. Web Server > Allow remote control via HTTP\n2. Application Control > Allow remote control from applications on other systems" = "Configurações > Serviços > Controle:\n1. Servidor Web > Permitir controle remoto via HTTP\n2. Controle de aplicativos > Permitir controle remoto de aplicativos em outros sistemas";
-"PLOT OUTLINE" = "RESUMO DO ENREDO";
 "ARTIST" = "ARTISTA";
 "YEAR" = "ANO";
 "DESCRIPTION" = "DESCRIÇÃO";
@@ -113,7 +111,6 @@
 "Clear Playlist" = "Limpar lista de reprodução";
 "No server MAC address defined" = "Nenhum endereço MAC de servidor definido";
 "Command executed" = "Comando executado";
-"Warning" = "Aviso";
 "Cannot do that" = "Não é possível fazer isso";
 "Are you sure you want to clear the playlist?" = "Tem certeza de que deseja limpar a lista de reprodução?";
 "Are you sure you want to clear the music playlist?" = "Tem certeza de que deseja limpar a lista de reprodução de músicas?";
@@ -144,7 +141,6 @@
 "TIME" = "TEMPO";
 "ERROR" = "ERRO";
 "Subtitles disabled" = "Legendas desativadas";
-"Subtitle" = "Legenda";
 "Mark as watched" = "Marcar como assistido";
 "Mark as unwatched" = "Marcar como não assistido";
 "Done" = "Pronto";
@@ -200,8 +196,6 @@
 "FIRST AIRED" = "PRIMEIRA VEZ NO AR";
 "Audiostream not available" = "Transmissão de áudio não disponível";
 "Audiostreams not available" = "Transmissões de áudio não disponível";
-"Yes" = "Sim";
-"No" = "Não";
 "Authentication Failed" = "Falha na autenticação";
 "Incorrect Username or Password.\nCheck your settings." = "Nome de usuário ou senha incorretos.\nVerifique suas configurações.";
 "vote" = "voto";

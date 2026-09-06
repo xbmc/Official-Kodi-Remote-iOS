@@ -65,7 +65,6 @@
 "TV Show Details" = "Відомості про серіал";
 "Music Video Details" = "Відомості про музичне відео";
 "Recording Details" = "Відомості про запис";
-"Details" = "Відомості";
 "Play Trailer" = "Відтворити трейлер";
 "Playlist" = "Список відтворення";
 "Details not found" = "Відомості не знайдено";
@@ -85,7 +84,6 @@
 "Clear Playlist" = "Очистити список відтворення";
 "No server MAC address defined" = "Не вказано MAC-адресу сервера";
 "Command executed" = "Команду виконано";
-"Warning" = "Застереження";
 "Cannot do that" = "Неможливо зробити";
 "No saved hosts found" = "Не знайдені збережені хости";
 "Are you sure you want to clear the playlist?" = "Дійсно очистити список відтворення?";
@@ -104,7 +102,6 @@
 "WRITER" = "СЦЕНАРИСТ";
 "FIRST AIRED" = "ПРЕМ'ЄРА";
 "SUMMARY" = "ЗВЕДЕННЯ";
-"PLOT OUTLINE" = "ПЛАН СЮЖЕТУ";
 "ARTIST" = "ВИКОНАВЕЦЬ";
 "YEAR" = "РІК";
 "ALBUM LABEL" = "ВИДАВЕЦЬ АЛЬБОМУ";
@@ -116,8 +113,6 @@
 "Subtitles not available" = "Субтитри недоступні";
 "Audiostream not available" = "Аудіопотік недоступний";
 "Audiostreams not available" = "Аудіопотоки недоступні";
-"Yes" = "Так";
-"No" = "Ні";
 "Authentication Failed" = "Помилка автентифікації";
 "Incorrect Username or Password.\nCheck your settings." = "Неправильне ім’я користувача або пароль.\nПеревірте свої налаштування.";
 "WIKI_LANG" = "англ";
@@ -150,7 +145,6 @@
 "TIME" = "ЧАС";
 "ERROR" = "ПОМИЛКА";
 "Subtitles disabled" = "Субтитри вимкнено";
-"Subtitle" = "Субтитри";
 "Mark as watched" = "Відміт. як переглянуте";
 "Mark as unwatched" = "Відміт. як непереглянуте";
 "Slide your finger up or down to adjust the scrubbing rate." = "Потягніть пальцем вгору або вниз, щоб налаштувати швидкість сканування.";

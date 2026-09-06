@@ -65,7 +65,6 @@
 "TV Show Details" = "Detalls de la sèrie";
 "Music Video Details" = "Detalls del vídeo musical";
 "Recording Details" = "Detalls de l'enregistrament";
-"Details" = "Detalls";
 "Play Trailer" = "Reprodueix el tràiler";
 "Playlist" = "Llista de reproducció";
 "Details not found" = "No s'han trobat els detalls";
@@ -85,7 +84,6 @@
 "Clear Playlist" = "Neteja la llista de reproducció";
 "No server MAC address defined" = "No hi ha definit cap adreça MAC del servidor";
 "Command executed" = "Comanda executada";
-"Warning" = "Avís";
 "Cannot do that" = "No es pot fer això";
 "No saved hosts found" = "No s'ha trobat cap servidor desat";
 "Are you sure you want to clear the playlist?" = "Confirmes que vols esborrar la llista de reproducció?";
@@ -104,7 +102,6 @@
 "WRITER" = "ESCRIPTOR";
 "FIRST AIRED" = "PRIMERA EMISSIÓ";
 "SUMMARY" = "RESUM";
-"PLOT OUTLINE" = "ESQUEMA ARGUMENTAL";
 "ARTIST" = "ARTISTA";
 "YEAR" = "ANY";
 "ALBUM LABEL" = "ETIQUETA DE L'ÀLBUM";
@@ -116,8 +113,6 @@
 "Subtitles not available" = "No hi ha subtítols disponibles";
 "Audiostream not available" = "Transmissió d'àudio no disponible";
 "Audiostreams not available" = "Transmissions d'àudio no disponibles";
-"Yes" = "Sí";
-"No" = "No";
 "Authentication Failed" = "Autenticació fallida";
 "Incorrect Username or Password.\nCheck your settings." = "Nom d'usuari o Contrasenya incorrecta.\nComproveu la configuració.";
 "WIKI_LANG" = "ca";
@@ -150,7 +145,6 @@
 "TIME" = "TEMPS";
 "ERROR" = "ERROR";
 "Subtitles disabled" = "Subtítols desactivats";
-"Subtitle" = "Subtítol";
 "Mark as watched" = "Marca com vist";
 "Mark as unwatched" = "Marca com no vist";
 "Slide your finger up or down to adjust the scrubbing rate." = "Llisca el dit cap amunt o cap avall per ajustar la velocitat de depuració.";

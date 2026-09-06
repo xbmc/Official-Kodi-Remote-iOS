@@ -56,7 +56,6 @@
 "Episode Details" = "Afleveringsdetails";
 "TV Show Details" = "Seriedetails";
 "Music Video Details" = "Muziekvideodetails";
-"Details" = "Details";
 "Play Trailer" = "Trailer afspelen";
 "Playlist" = "Afspeellijst";
 "Details not found" = "Details niet gevonden";
@@ -76,7 +75,6 @@
 "Clear Playlist" = "Afspeellijst leegmaken";
 "No server MAC address defined" = "Geen server-MAC-adres ingesteld";
 "Command executed" = "Commando uitgevoerd";
-"Warning" = "Waarschuwing";
 "Cannot do that" = "Dat is niet mogelijk";
 "Send Wake-On-LAN" = "Wake-On-LAN verzenden";
 "No saved hosts found" = "Geen opgeslagen hosts gevonden";
@@ -96,7 +94,6 @@
 "WRITER" = "Auteur";
 "FIRST AIRED" = "Eerste uitzending";
 "SUMMARY" = "Samenvatting";
-"PLOT OUTLINE" = "Plot";
 "ARTIST" = "Artiest";
 "YEAR" = "Jaar";
 "ALBUM LABEL" = "Albumtitel";
@@ -107,8 +104,6 @@
 "Subtitles not available" = "Ondertitels niet beschikbaar";
 "Audiostream not available" = "Audiospoor niet beschikbaar";
 "Audiostreams not available" = "Geen audiosporen beschikbaar";
-"Yes" = "Ja";
-"No" = "Nee";
 "Authentication Failed" = "Authenticatie mislukt";
 "Incorrect Username or Password.\nCheck your settings." = "Verkeerde gebruikersnaam of wachtwoord.\nControleer je instellingen.";
 "WIKI_LANG" = "nl";
@@ -138,7 +133,6 @@
 "TIME" = "Tijd";
 "ERROR" = "FOUT";
 "Subtitles disabled" = "Ondertitels uitgeschakeld";
-"Subtitle" = "Ondertitel";
 "Mark as watched" = "Markeren als bekeken";
 "Mark as unwatched" = "Markeren als niet bekeken";
 "Slide your finger up or down to adjust the scrubbing rate." = "Vinger omhoog of omlaag schuiven om de scrollsnelheid aan te passen.";
