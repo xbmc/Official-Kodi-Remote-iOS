@@ -661,27 +661,31 @@
 }
 
 + (NSString*)getClearArtFromDictionary:(NSDictionary*)dict type:(NSString*)type {
-    // 1st preference: "albumartist.clearart" to prefer albumartist clearart.
-    NSString *albumArtistClearArtPath = dict[[NSString stringWithFormat:@"albumartist.%@", type]];
-    if (albumArtistClearArtPath) {
-        return albumArtistClearArtPath;
-    }
-    
-    // 2nd preference: "clearart" w/o any prefix to prefer movie over set clearart.
-    NSString *pureClearArtPath = dict[type];
-    if (pureClearArtPath) {
-        return pureClearArtPath;
-    }
-    
-    // Search for any "clearart"
-    NSString *path = @"";
-    for (NSString *key in dict) {
-        if ([key rangeOfString:type].location != NSNotFound) {
-            path = dict[key];
-            break; // We want to leave the loop after we found what we were searching for
+    // Lookup table ordered by preference
+    NSArray *lookup = @[
+        @"albumartist.%@",
+        @"artist.%@",
+        @"movie.%@",
+        @"%@",
+        @"set.%@",
+        @"tvshow.%@",
+        @"season.%@",
+    ];
+    // Iterate through lookup table, add suffix and return NSString when found.
+    for (NSString *lookupItem in lookup) {
+        NSString *key = [NSString stringWithFormat:lookupItem, type];
+        NSString *path = dict[key];
+        if (path && [path isKindOfClass:[NSString class]]) {
+            return path;
         }
     }
-    return path;
+    // Fallback to any key with the desired suffix
+    for (NSString *key in dict) {
+        if ([key hasSuffix:type]) {
+            return dict[key];
+        }
+    }
+    return @"";
 }
 
 + (NSString*)getThumbnailFromDictionary:(NSDictionary*)dict useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon {
