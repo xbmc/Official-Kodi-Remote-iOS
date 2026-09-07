@@ -367,7 +367,12 @@
     [remoteService stop];
     remoteService = service;
     remoteService.delegate = self;
-    [remoteService resolveWithTimeout:0];
+    [remoteService resolveWithTimeout:10];
+}
+
+- (void)netService:(NSNetService*)service didNotResolve:(NSDictionary<NSString*,NSNumber*>*)errorDict {
+    [activityIndicatorView stopAnimating];
+    [Utilities showMessage:LOCALIZED_STR(@"Cannot resolve IP address") color:ERROR_MESSAGE_COLOR];
 }
 
 - (void)netServiceDidResolveAddress:(NSNetService*)service {
@@ -397,7 +402,9 @@
                 [self fillAddressPort:serverAddresses port:ntohs(addr6->sin6_port) addr:addr name:service.hostName ip:@"ipv6"];
             }
         }
+#if DEBUG
         NSLog(@"Resolved address/port for service '%@' by '%@': %@", type, service.name, serverAddresses);
+#endif
         
 #if (RESOLVE_MAC_ADDRESS)
         if (serverAddresses[@"ipv4"]) {
@@ -436,7 +443,9 @@
                 [self fillTcpPort:serverAddresses port:ntohs(addr6->sin6_port) ip:@"ipv6"];
             }
         }
+#if DEBUG
         NSLog(@"TCP port for '%@': %@", service.name, serverAddresses[@"hostname"][@"tcpport"]);
+#endif
         
         [discoveryTimeoutTimer invalidate];
     }
