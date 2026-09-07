@@ -4824,10 +4824,6 @@
     BOOL isFileBrowsing = [methods[@"method"] isEqualToString:@"Files.GetDirectory"];
     self.sectionArray = nil;
     autoScrollTable = nil;
-    if (copyRichResults.count == 0) {
-        albumView = NO;
-        episodesView = NO;
-    }
     BOOL sortAscending = [sortAscDesc isEqualToString:@"descending"] ? NO : YES;
     
     // In case of sorting by playcount and not having any key, we skip sorting (happens for "Top 100")
