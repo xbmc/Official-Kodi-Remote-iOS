@@ -955,7 +955,7 @@
 
 - (void)layoutTVShowCell:(UIView*)cell useDefaultThumb:(BOOL)useFallback {
     // Exception handling for TVShow banner view
-    if (tvshowsView) {
+    if (tvShowsBannerView) {
         // First tab shows the banner
         if (chosenTab == 0) {
             // When not in grid and not in fullscreen view
@@ -1295,7 +1295,7 @@
     activeLayoutView.contentOffset = activeLayoutView.contentOffset;
     [self checkFullscreenButton:NO];
     NSDictionary *newParameters = [self addExtraProperties:parameters];
-    if (!tvshowsView || [Utilities getPreferTvPosterMode]) {
+    if (!tvShowsBannerView) {
         [self setSearchBar:self.searchController.searchBar toDark:NO];
     }
     if (methods[@"method"] != nil) {
@@ -2013,7 +2013,7 @@
 - (void)setTVshowThumbSize {
     MainMenu *Menuitem = self.detailItem;
     // Adapt thumbsize if viewing TV Shows and "preferTVPoster" feature is enabled
-    if (!tvshowsView) {
+    if (!tvShowsBannerView) {
         if (IS_IPAD) {
             Menuitem.thumbWidth = PAD_TV_SHOWS_POSTER_WIDTH;
             Menuitem.rowHeight = PAD_TV_SHOWS_POSTER_HEIGHT;
@@ -2088,7 +2088,7 @@
     dataList.separatorInset = UIEdgeInsetsMake(0, thumbWidth + LABEL_PADDING, 0, 0);
     
     // label position for TVShow banner view needs to be tailored to match the default thumb size
-    if (tvshowsView && chosenTab == 0) {
+    if (tvShowsBannerView && chosenTab == 0) {
         CGFloat targetHeight = IS_IPAD ? PAD_TV_SHOWS_BANNER_HEIGHT : PHONE_TV_SHOWS_BANNER_HEIGHT;
         CGFloat factor = targetHeight / PHONE_TV_SHOWS_POSTER_HEIGHT * [Utilities getTransformX];
         labelPosition = PAD_TV_SHOWS_POSTER_WIDTH * factor + LABEL_PADDING;
@@ -2542,9 +2542,9 @@
             genre.textColor = [UIColor get2ndLabelColor];
             genre.font = [UIFont systemFontOfSize:12];
         }
-        NSString *stringURL = tvshowsView ? item[@"banner"] : item[@"thumbnail"];
+        NSString *stringURL = tvShowsBannerView ? item[@"banner"] : item[@"thumbnail"];
         NSString *displayThumb = globalSearchView ? [self getGlobalSearchThumb:item] : defaultThumb;
-        if (tvshowsView && chosenTab == 0) {
+        if (tvShowsBannerView && chosenTab == 0) {
             displayThumb = defaultThumb = @"nocover_tvshows_banner";
         }
         if ([item[@"filetype"] length] != 0 ||
@@ -4555,7 +4555,7 @@
                                                                                 mainFields:mainFields
                                                                                  serverURL:serverURL
                                                                                    sec2min:secondsToMinute
-                                                                                 useBanner:tvshowsView
+                                                                                 useBanner:tvShowsBannerView
                                                                                    useIcon:recordingListView];
                              
                              // Use TV Show episode's "specialsort", if present, to place a copy of a special
@@ -5598,8 +5598,7 @@
         episodesView = YES;
     }
     else if ([methods[@"tvshowsView"] boolValue]) {
-        tvshowsView = ![Utilities getPreferTvPosterMode];
-        [self setTVshowThumbSize];
+        tvshowsView = YES;
     }
     else if ([methods[@"channelGuideView"] boolValue]) {
         channelGuideView = YES;
@@ -5617,7 +5616,11 @@
         globalSearchView = YES;
     }
     
-    if (tvshowsView && ![Utilities getPreferTvPosterMode]) {
+    if (tvshowsView) {
+        tvShowsBannerView = ![Utilities getPreferTvPosterMode];
+        [self setTVshowThumbSize];
+    }
+    if (tvShowsBannerView) {
         dataList.separatorInset = UIEdgeInsetsZero;
     }
     bottomPadding = [Utilities getBottomPadding];
