@@ -431,6 +431,20 @@
 
 #pragma mark - Utility
 
+- (void)readMenuItemContext:(MainMenu*)menuItem {
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
+    albumView = [methods[@"albumView"] boolValue];
+    episodesView = [methods[@"episodesView"] boolValue];
+    tvShowsView = [methods[@"tvShowsView"] boolValue];
+    channelGuideView = [methods[@"channelGuideView"] boolValue];
+    channelListView = [methods[@"channelListView"] boolValue];
+    recordingListView = [methods[@"recordingListView"] boolValue];
+    timerListView = [methods[@"timerListView"] boolValue];
+    recentlyAddedView = [methods[@"collectionViewRecentlyAdded"] boolValue];
+    globalSearchView = menuItem.type == TypeGlobalSearch;
+    tvShowsBannerView = tvShowsView && ![Utilities getPreferTvPosterMode];
+}
+
 - (NSString*)getViewPreferenceKeyFromTemplate:(NSString*)template method:(NSString*)method parameters:(NSDictionary*)params {
     // View's preference shall be independent of the active filter (e.g. Genre > Pop). So remove the filter specifics.
     NSMutableDictionary *tmpJsonParams = [params mutableCopy];
@@ -1288,10 +1302,10 @@
     [activeLayoutView setX:viewWidth alpha:1.0];
     
     enableCollectionView = newEnableCollectionView;
-    recentlyAddedView = [methods[@"collectionViewRecentlyAdded"] boolValue];
-    channelListView = [methods[@"channelListView"] boolValue];
-    recordingListView = [methods[@"recordingListView"] boolValue];
-    timerListView = [methods[@"timerListView"] boolValue];
+    
+    // Update view's context from the menu structure after the tab change
+    [self readMenuItemContext:menuItem];
+    
     [self checkFullscreenButton:NO];
     NSDictionary *newParameters = [self addExtraProperties:parameters];
     if (!tvShowsBannerView) {
@@ -5570,7 +5584,6 @@
         chosenTab = 0;
     }
     filterModeType = ViewModeDefault;
-    NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     watchedListenedStrings = parameters[@"watchedListenedStrings"];
     [self checkDiskCache];
@@ -5590,16 +5603,8 @@
         buttonsViewBgToolbar.backgroundColor = UIColor.clearColor;
     }
     
-    albumView = [methods[@"albumView"] boolValue];
-    episodesView = [methods[@"episodesView"] boolValue];
-    tvShowsView = [methods[@"tvShowsView"] boolValue];
-    channelGuideView = [methods[@"channelGuideView"] boolValue];
-    channelListView = [methods[@"channelListView"] boolValue];
-    recordingListView = [methods[@"recordingListView"] boolValue];
-    timerListView = [methods[@"timerListView"] boolValue];
-    recentlyAddedView = [methods[@"collectionViewRecentlyAdded"] boolValue];
-    globalSearchView = menuItem.type == TypeGlobalSearch;
-    tvShowsBannerView = tvShowsView && ![Utilities getPreferTvPosterMode];
+    // Read view's context from the menu structure
+    [self readMenuItemContext:menuItem];
     
     if (tvShowsView) {
         [self setTVshowThumbSize];
