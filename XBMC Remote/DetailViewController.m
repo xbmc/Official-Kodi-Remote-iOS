@@ -968,10 +968,11 @@
 }
 
 - (void)layoutTVShowCell:(UIView*)cell useDefaultThumb:(BOOL)useFallback {
-    // Exception handling for TVShow banner view
-    if (tvShowsBannerView) {
+    MainMenu *menuItem = self.detailItem;
+    // Exception handling for TVShow menu
+    if (menuItem.type == TypeTvShows) {
         // First tab shows the banner
-        if (chosenTab == 0) {
+        if (tvShowsBannerView) {
             // When not in grid and not in fullscreen view
             if (!enableCollectionView && !stackscrollFullscreen) {
                 // If loaded, we use a dark background
@@ -2101,7 +2102,7 @@
     dataList.separatorInset = UIEdgeInsetsMake(0, thumbWidth + LABEL_PADDING, 0, 0);
     
     // label position for TVShow banner view needs to be tailored to match the default thumb size
-    if (tvShowsBannerView && chosenTab == 0) {
+    if (tvShowsBannerView) {
         CGFloat targetHeight = IS_IPAD ? PAD_TV_SHOWS_BANNER_HEIGHT : PHONE_TV_SHOWS_BANNER_HEIGHT;
         CGFloat factor = targetHeight / PHONE_TV_SHOWS_POSTER_HEIGHT * [Utilities getTransformX];
         labelPosition = PAD_TV_SHOWS_POSTER_WIDTH * factor + LABEL_PADDING;
@@ -2557,7 +2558,7 @@
         }
         NSString *stringURL = tvShowsBannerView ? item[@"banner"] : item[@"thumbnail"];
         NSString *displayThumb = globalSearchView ? [self getGlobalSearchThumb:item] : defaultThumb;
-        if (tvShowsBannerView && chosenTab == 0) {
+        if (tvShowsBannerView) {
             displayThumb = defaultThumb = @"nocover_tvshows_banner";
         }
         if ([item[@"filetype"] length] != 0 ||
