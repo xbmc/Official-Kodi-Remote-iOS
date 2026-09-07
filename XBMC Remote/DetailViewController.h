@@ -57,6 +57,7 @@
     BOOL albumView;
     BOOL episodesView;
     BOOL tvshowsView;
+    BOOL tvShowsBannerView;
     BOOL channelGuideView;
     BOOL channelListView;
     BOOL recordingListView;
