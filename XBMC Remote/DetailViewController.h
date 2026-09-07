@@ -56,7 +56,7 @@
     int flagY;
     BOOL albumView;
     BOOL episodesView;
-    BOOL tvshowsView;
+    BOOL tvShowsView;
     BOOL tvShowsBannerView;
     BOOL channelGuideView;
     BOOL channelListView;
