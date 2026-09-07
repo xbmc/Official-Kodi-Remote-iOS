@@ -64,6 +64,7 @@ NSInputStream *inStream;
     [Utilities checkLocalNetworkAccess];
     
     [heartbeatTimer invalidate];
+    inCheck = NO;
     [self checkServer];
     // Add timer to RunLoopCommonModes to decouple the timer from touch events like dragging
     heartbeatTimer = [NSTimer timerWithTimeInterval:SERVER_CHECK_TIMER target:self selector:@selector(checkServer) userInfo:nil repeats:YES];
@@ -132,13 +133,11 @@ NSInputStream *inStream;
             
         case NSStreamEventErrorOccurred:
             AppDelegate.instance.serverTCPConnectionOpen = NO;
-            inCheck = NO;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"tcpJSONRPCConnectionError" object:nil userInfo:nil];
             break;
 
         case NSStreamEventEndEncountered:
             AppDelegate.instance.serverTCPConnectionOpen = NO;
-            inCheck = NO;
             [theStream close];
             [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
             theStream.delegate = nil;
@@ -204,42 +203,41 @@ NSInputStream *inStream;
      withTimeout:SERVER_JSON_TIMEOUT
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         inCheck = NO;
+        if (AppDelegate.instance.serverOnLine) {
+            return;
+        }
         if (error == nil && methodError == nil) {
-            if (AppDelegate.instance.serverOnLine) {
-                return;
-            }
             // Read JSON RPC API version
             [self readJSONRPCAPIVersion];
 
             // Read if ignorearticles is enabled
             [self readIgnoreArticlesEnabled];
 
-            if (!AppDelegate.instance.serverOnLine) {
-                if ([methodResult isKindOfClass:[NSDictionary class]]) {
-                    NSDictionary *serverInfo = methodResult[@"version"];
-                    AppDelegate.instance.serverVersion = [serverInfo[@"major"] intValue];
-                    AppDelegate.instance.serverMinorVersion = [serverInfo[@"minor"] intValue];
-                    NSString *realServerName = methodResult[@"name"];
-                    if ([realServerName isEqualToString:@"MrMC"]) {
-                        AppDelegate.instance.serverVersion += MRMC_TIMEWARP;
-                    }
-                    if (AppDelegate.instance.serverVersion < MIN_SUPPORTED_SERVER_VERSION) {
-                        NSString *message = LOCALIZED_STR_ARGS(@"Kodi version %d not supported.", AppDelegate.instance.serverVersion);
-                        [Utilities showMessage:message color:ERROR_MESSAGE_COLOR];
-                        [self notifyConnectionProblem];
-                        return;
-                    }
-                    infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
-                                 AppDelegate.instance.obj.serverDescription,
-                                 serverInfo[@"major"],
-                                 serverInfo[@"minor"],
-                                 serverInfo[@"tag"]];
-                    [self notifyHttpConnected:YES];
-                    [self notifyShowSetupMenu:NO];
+            // Read server name and Kodi version
+            if ([methodResult isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *serverInfo = methodResult[@"version"];
+                AppDelegate.instance.serverVersion = [serverInfo[@"major"] intValue];
+                AppDelegate.instance.serverMinorVersion = [serverInfo[@"minor"] intValue];
+                NSString *realServerName = [Utilities getStringFromItem:methodResult[@"name"]];
+                if ([realServerName isEqualToString:@"MrMC"]) {
+                    AppDelegate.instance.serverVersion += MRMC_TIMEWARP;
                 }
-                else {
+                if (AppDelegate.instance.serverVersion < MIN_SUPPORTED_SERVER_VERSION) {
+                    NSString *message = LOCALIZED_STR_ARGS(@"Kodi version %d not supported.", AppDelegate.instance.serverVersion);
+                    [Utilities showMessage:message color:ERROR_MESSAGE_COLOR];
                     [self notifyConnectionProblem];
+                    return;
                 }
+                infoTitle = [NSString stringWithFormat:@"%@ v%@.%@ %@",
+                             AppDelegate.instance.obj.serverDescription,
+                             [Utilities getStringFromItem:serverInfo[@"major"]],
+                             [Utilities getStringFromItem:serverInfo[@"minor"]],
+                             [Utilities getStringFromItem:serverInfo[@"tag"]]];
+                [self notifyHttpConnected:YES];
+                [self notifyShowSetupMenu:NO];
+            }
+            else {
+                [self notifyConnectionProblem];
             }
         }
         else {
