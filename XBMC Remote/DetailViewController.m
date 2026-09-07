@@ -5591,33 +5591,18 @@
         buttonsViewBgToolbar.backgroundColor = UIColor.clearColor;
     }
     
-    if ([methods[@"albumView"] boolValue]) {
-        albumView = YES;
-    }
-    else if ([methods[@"episodesView"] boolValue]) {
-        episodesView = YES;
-    }
-    else if ([methods[@"tvShowsView"] boolValue]) {
-        tvShowsView = YES;
-    }
-    else if ([methods[@"channelGuideView"] boolValue]) {
-        channelGuideView = YES;
-    }
-    else if ([methods[@"channelListView"] boolValue]) {
-        channelListView = YES;
-    }
-    else if ([methods[@"recordingListView"] boolValue]) {
-        recordingListView = YES;
-    }
-    else if ([methods[@"timerListView"] boolValue]) {
-        timerListView = YES;
-    }
-    else if (menuItem.type == TypeGlobalSearch) {
-        globalSearchView = YES;
-    }
+    albumView = [methods[@"albumView"] boolValue];
+    episodesView = [methods[@"episodesView"] boolValue];
+    tvShowsView = [methods[@"tvShowsView"] boolValue];
+    channelGuideView = [methods[@"channelGuideView"] boolValue];
+    channelListView = [methods[@"channelListView"] boolValue];
+    recordingListView = [methods[@"recordingListView"] boolValue];
+    timerListView = [methods[@"timerListView"] boolValue];
+    recentlyAddedView = [methods[@"collectionViewRecentlyAdded"] boolValue];
+    globalSearchView = menuItem.type == TypeGlobalSearch;
+    tvShowsBannerView = tvShowsView && ![Utilities getPreferTvPosterMode];
     
     if (tvShowsView) {
-        tvShowsBannerView = ![Utilities getPreferTvPosterMode];
         [self setTVshowThumbSize];
     }
     if (tvShowsBannerView) {
@@ -5655,7 +5640,6 @@
     // As default both list and grid views animate from right to left.
     [dataList setX:viewWidth];
     
-    recentlyAddedView = [methods[@"collectionViewRecentlyAdded"] boolValue];
     enableCollectionView = [self collectionViewIsEnabled];
     activeLayoutView = dataList;
     self.sections = [NSMutableDictionary new];
