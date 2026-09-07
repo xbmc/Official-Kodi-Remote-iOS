@@ -325,7 +325,6 @@
                                               parameters[@"itemSizes"] ?: @{}, @"itemSizes",
                                               parameters[@"extra_info_parameters"], @"extra_info_parameters",
                                               @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
-                                              @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
                                               newSectionParameters, @"extra_section_parameters",
                                               nil];
         chosenMenuItem.mainParameters[activeTab] = newParameters;

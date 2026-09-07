@@ -2058,6 +2058,7 @@
         @{
             @"method": @"VideoLibrary.GetRecentlyAddedMovies",
             @"extra_info_method": @"VideoLibrary.GetMovieDetails",
+            @"collectionViewRecentlyAdded": @YES,
         },
         @{
             @"method": @"VideoLibrary.GetTags",
@@ -2236,7 +2237,6 @@
                 ],
             },
             @"enableCollectionView": @YES,
-            @"collectionViewRecentlyAdded": @YES,
             @"enableLibraryFullScreen": @YES,
             @"itemSizes": [self itemSizes_MovieRecentlyfullscreen],
         },
@@ -3028,6 +3028,7 @@
         @{
             @"method": @"VideoLibrary.GetRecentlyAddedMusicVideos",
             @"extra_info_method": @"VideoLibrary.GetMusicVideoDetails",
+            @"collectionViewRecentlyAdded": @YES,
         },
         @{
             @"method": @"VideoLibrary.GetTags",
@@ -3162,7 +3163,6 @@
             @"label": LOCALIZED_STR(@"Added Music Videos"),
             @"defaultThumb": @"nocover_musicvideos",
             @"enableCollectionView": @YES,
-            @"collectionViewRecentlyAdded": @YES,
             @"enableLibraryFullScreen": @YES,
             @"itemSizes": [self itemSizes_MovieRecentlyfullscreen],
         },
