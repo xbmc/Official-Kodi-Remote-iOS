@@ -4025,7 +4025,6 @@
         @{
             @"method": @"VideoLibrary.GetTVShows",
             @"extra_info_method": @"VideoLibrary.GetTVShowDetails",
-            @"tvshowsView": @NO,
         },
         @{
             @"method": @"Files.GetDirectory",
