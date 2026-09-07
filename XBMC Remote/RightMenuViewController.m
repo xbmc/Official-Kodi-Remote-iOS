@@ -186,6 +186,10 @@
 
 - (void)deleteCustomButton:(NSUInteger)idx {
     CustomButton *arrayButtons = [CustomButton new];
+    if (idx >= arrayButtons.buttons.count) {
+        return;
+    }
+    
     [arrayButtons.buttons removeObjectAtIndex:idx];
     [arrayButtons saveData];
     if (arrayButtons.buttons.count == 0) {
@@ -284,11 +288,17 @@
 }
 
 - (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath*)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
+    CustomButton *arrayButtons = [CustomButton new];
+    if (sourceIndexPath.row >= arrayButtons.buttons.count ||
+        sourceIndexPath.row >= tableData.count ||
+        sourceIndexPath.row == destinationIndexPath.row) {
+        return;
+    }
+    
     id objectMove = tableData[sourceIndexPath.row];
     [tableData removeObjectAtIndex:sourceIndexPath.row];
     [tableData insertObject:objectMove atIndex:destinationIndexPath.row];
     
-    CustomButton *arrayButtons = [CustomButton new];
     objectMove = arrayButtons.buttons[sourceIndexPath.row];
     [arrayButtons.buttons removeObjectAtIndex:sourceIndexPath.row];
     [arrayButtons.buttons insertObject:objectMove atIndex:destinationIndexPath.row];
@@ -457,9 +467,14 @@
                                                  name:@"UIInterfaceCustomButtonAdded"
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:menuTableView
-                                             selector:@selector(reloadData)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadCustomButtonTable:)
                                                  name:@"XBMCServerHasChanged"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadCustomButtonTable:)
+                                                 name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
 }
 
