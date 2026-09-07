@@ -1288,7 +1288,7 @@
     [activeLayoutView setX:viewWidth alpha:1.0];
     
     enableCollectionView = newEnableCollectionView;
-    recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
+    recentlyAddedView = [methods[@"collectionViewRecentlyAdded"] boolValue];
     channelListView = [methods[@"channelListView"] boolValue];
     recordingListView = [methods[@"recordingListView"] boolValue];
     timerListView = [methods[@"timerListView"] boolValue];
@@ -1368,7 +1368,6 @@
                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                               @([parameters[@"forcePlayback"] boolValue]), @"forcePlayback",
                                               @([parameters[@"forceActionSheet"] boolValue]), @"forceActionSheet",
-                                              @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
                                               pvrExtraInfo, @"pvrExtraInfo",
                                               kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
                                               parameters[@"defaultThumb"] ?: @"", @"defaultThumb",
@@ -5653,7 +5652,7 @@
     // As default both list and grid views animate from right to left.
     [dataList setX:viewWidth];
     
-    recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
+    recentlyAddedView = [methods[@"collectionViewRecentlyAdded"] boolValue];
     enableCollectionView = [self collectionViewIsEnabled];
     activeLayoutView = dataList;
     self.sections = [NSMutableDictionary new];
@@ -5867,7 +5866,7 @@
                          }
                          completion:^(BOOL finished) {
                              activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
-                             recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
+                             recentlyAddedView = [methods[@"collectionViewRecentlyAdded"] boolValue];
                              enableCollectionView = [self collectionViewIsEnabled];
                              [self configureLibraryView];
                              [activeLayoutView animateX:0 alpha:1.0 duration:0.3];
