@@ -5858,7 +5858,6 @@
                          }
                          completion:^(BOOL finished) {
                              activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
-                             recentlyAddedView = [methods[@"collectionViewRecentlyAdded"] boolValue];
                              enableCollectionView = [self collectionViewIsEnabled];
                              [self configureLibraryView];
                              [activeLayoutView animateX:0 alpha:1.0 duration:0.3];
