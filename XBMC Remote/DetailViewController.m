@@ -1292,7 +1292,6 @@
     channelListView = [methods[@"channelListView"] boolValue];
     recordingListView = [methods[@"recordingListView"] boolValue];
     timerListView = [methods[@"timerListView"] boolValue];
-    activeLayoutView.contentOffset = activeLayoutView.contentOffset;
     [self checkFullscreenButton:NO];
     NSDictionary *newParameters = [self addExtraProperties:parameters];
     if (!tvShowsBannerView) {
