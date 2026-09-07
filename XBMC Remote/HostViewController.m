@@ -103,13 +103,13 @@
         @"serverMacAddress": macAddress,
         @"tcpPort": tcpPortUI.text,
     };
-    if (self.detailItem == nil) {
-        [AppDelegate.instance.arrayServerList addObject:serverParameters];
-    }
-    else {
-        NSIndexPath *idx = self.detailItem;
+    NSIndexPath *idx = self.detailItem;
+    if (idx && idx.row < AppDelegate.instance.arrayServerList.count) {
         [AppDelegate.instance.arrayServerList removeObjectAtIndex:idx.row];
         [AppDelegate.instance.arrayServerList insertObject:serverParameters atIndex:idx.row];
+    }
+    else {
+        [AppDelegate.instance.arrayServerList addObject:serverParameters];
     }
     [AppDelegate.instance saveServerList];
     [self.navigationController popViewControllerAnimated:YES];
