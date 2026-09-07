@@ -1148,7 +1148,7 @@
     menu_Music.subItem.mainMethod = @[
         @{
             @"method": @"AudioLibrary.GetSongs",
-            @"albumView": @YES,
+            @"menuContext": @(ContextAlbum),
         },
         @{
             @"method": @"AudioLibrary.GetAlbums",
@@ -1163,17 +1163,17 @@
         },
         @{
             @"method": @"AudioLibrary.GetSongs",
-            @"albumView": @YES,
+            @"menuContext": @(ContextAlbum),
         },
         @{},
         @{
             @"method": @"AudioLibrary.GetSongs",
-            @"albumView": @YES,
+            @"menuContext": @(ContextAlbum),
         },
         @{},
         @{
             @"method": @"AudioLibrary.GetSongs",
-            @"albumView": @YES,
+            @"menuContext": @(ContextAlbum),
         },
         @{},
         @{},
@@ -1671,11 +1671,11 @@
         @{},
         @{
             @"method": @"AudioLibrary.GetSongs",
-            @"albumView": @YES,
+            @"menuContext": @(ContextAlbum),
         },
         @{
             @"method": @"AudioLibrary.GetSongs",
-            @"albumView": @YES,
+            @"menuContext": @(ContextAlbum),
         },
         @{
             @"method": @"Files.GetDirectory",
@@ -1916,7 +1916,7 @@
         @{},
         @{
             @"method": @"AudioLibrary.GetSongs",
-            @"albumView": @YES,
+            @"menuContext": @(ContextAlbum),
         },
     ];
     
@@ -2058,7 +2058,7 @@
         @{
             @"method": @"VideoLibrary.GetRecentlyAddedMovies",
             @"extra_info_method": @"VideoLibrary.GetMovieDetails",
-            @"collectionViewRecentlyAdded": @YES,
+            @"menuContext": @(ContextRecentlyAdded),
         },
         @{
             @"method": @"VideoLibrary.GetTags",
@@ -3028,7 +3028,7 @@
         @{
             @"method": @"VideoLibrary.GetRecentlyAddedMusicVideos",
             @"extra_info_method": @"VideoLibrary.GetMusicVideoDetails",
-            @"collectionViewRecentlyAdded": @YES,
+            @"menuContext": @(ContextRecentlyAdded),
         },
         @{
             @"method": @"VideoLibrary.GetTags",
@@ -3700,7 +3700,7 @@
         @{
             @"method": @"VideoLibrary.GetTVShows",
             @"extra_info_method": @"VideoLibrary.GetTVShowDetails",
-            @"tvShowsView": @YES,
+            @"menuContext": @(ContextTvShows),
         },
         @{
             @"method": @"VideoLibrary.GetRecentlyAddedEpisodes",
@@ -4018,7 +4018,7 @@
         @{
             @"method": @"VideoLibrary.GetEpisodes",
             @"extra_info_method": @"VideoLibrary.GetEpisodeDetails",
-            @"episodesView": @YES,
+            @"menuContext": @(ContextEpisodes),
             @"extra_section_method": @"VideoLibrary.GetSeasons",
         },
         @{},
@@ -4364,7 +4364,7 @@
         @{
             @"method": @"VideoLibrary.GetEpisodes",
             @"extra_info_method": @"VideoLibrary.GetEpisodeDetails",
-            @"episodesView": @YES,
+            @"menuContext": @(ContextEpisodes),
             @"extra_section_method": @"VideoLibrary.GetSeasons",
         },
         @{
@@ -4525,7 +4525,7 @@
     menu_LiveTV.mainMethod = [@[
         @{
             @"method": @"PVR.GetChannels",
-            @"channelListView": @YES,
+            @"menuContext": @(ContextChannelList),
         },
         @{
             @"method": @"PVR.GetChannelGroups",
@@ -4533,15 +4533,15 @@
         @{
             @"method": @"PVR.GetRecordings",
             @"extra_info_method": @"PVR.GetRecordingDetails",
-            @"recordingListView": @YES,
+            @"menuContext": @(ContextRecordingList),
         },
         @{
             @"method": @"PVR.GetTimers",
-            @"timerListView": @YES,
+            @"menuContext": @(ContextTimerList),
         },
         @{
             @"method": @"PVR.GetTimers",
-            @"timerListView": @YES,
+            @"menuContext": @(ContextTimerList),
         },
     ] mutableCopy];
     
@@ -4861,11 +4861,11 @@
     menu_LiveTV.subItem.mainMethod = [@[
         @{
             @"method": @"PVR.GetBroadcasts",
-            @"channelGuideView": @YES,
+            @"menuContext": @(ContextChannelGuide),
         },
         @{
             @"method": @"PVR.GetChannels",
-            @"channelListView": @YES,
+            @"menuContext": @(ContextChannelList),
         },
         @{},
         @{},
@@ -4990,7 +4990,7 @@
         @{},
         @{
             @"method": @"PVR.GetBroadcasts",
-            @"channelGuideView": @YES,
+            @"menuContext": @(ContextChannelGuide),
         },
         @{},
         @{},
@@ -5084,7 +5084,7 @@
     menu_Radio.mainMethod = [@[
         @{
             @"method": @"PVR.GetChannels",
-            @"channelListView": @YES,
+            @"menuContext": @(ContextChannelList),
         },
         @{
             @"method": @"PVR.GetChannelGroups",
@@ -5092,15 +5092,15 @@
         @{
             @"method": @"PVR.GetRecordings",
             @"extra_info_method": @"PVR.GetRecordingDetails",
-            @"recordingListView": @YES,
+            @"menuContext": @(ContextRecordingList),
         },
         @{
             @"method": @"PVR.GetTimers",
-            @"timerListView": @YES,
+            @"menuContext": @(ContextTimerList),
         },
         @{
             @"method": @"PVR.GetTimers",
-            @"timerListView": @YES,
+            @"menuContext": @(ContextTimerList),
         },
     ] mutableCopy];
     
@@ -5418,11 +5418,11 @@
     menu_Radio.subItem.mainMethod = [@[
         @{
             @"method": @"PVR.GetBroadcasts",
-            @"channelGuideView": @YES,
+            @"menuContext": @(ContextChannelGuide),
         },
         @{
             @"method": @"PVR.GetChannels",
-            @"channelListView": @YES,
+            @"menuContext": @(ContextChannelList),
         },
         @{},
         @{},
@@ -5547,7 +5547,7 @@
         @{},
         @{
             @"method": @"PVR.GetBroadcasts",
-            @"channelGuideView": @YES,
+            @"menuContext": @(ContextChannelGuide),
         },
         @{},
         @{},
