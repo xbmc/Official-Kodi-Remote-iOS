@@ -738,8 +738,8 @@
 }
 
 - (void)updatePlaycount {
-    if (tvshowsView) {
-        // In tvshowsview we need to sync the TV Shows to retrieve playcount and to update the watched overlays.
+    if (tvShowsView) {
+        // In tvShowsView we need to sync the TV Shows to retrieve playcount and to update the watched overlays.
         [self startRetrieveDataWithRefresh:YES];
     }
     else if (episodesView) {
@@ -3303,7 +3303,7 @@
          if (error == nil && methodError == nil) {
              // Important: First call updateCellAndSaveRichData to set the updated playcount. Then send the trigger to update the views.
              [self updateCellAndSaveRichData:indexPath watched:watched item:item];
-             if (episodesView || tvshowsView) {
+             if (episodesView || tvShowsView) {
                   [[NSNotificationCenter defaultCenter] postNotificationName:@"PlaycountChanged" object:nil];
              }
          }
@@ -5597,8 +5597,8 @@
     else if ([methods[@"episodesView"] boolValue]) {
         episodesView = YES;
     }
-    else if ([methods[@"tvshowsView"] boolValue]) {
-        tvshowsView = YES;
+    else if ([methods[@"tvShowsView"] boolValue]) {
+        tvShowsView = YES;
     }
     else if ([methods[@"channelGuideView"] boolValue]) {
         channelGuideView = YES;
@@ -5616,7 +5616,7 @@
         globalSearchView = YES;
     }
     
-    if (tvshowsView) {
+    if (tvShowsView) {
         tvShowsBannerView = ![Utilities getPreferTvPosterMode];
         [self setTVshowThumbSize];
     }
