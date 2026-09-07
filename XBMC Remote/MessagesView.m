@@ -45,16 +45,9 @@
 # pragma mark - view Effects
 
 - (void)showMessage:(NSString*)message timeout:(NSTimeInterval)timeout color:(UIColor*)color {
-    // first slide out
-    CGRect frame = self.frame;
-    [UIView animateWithDuration:0.1
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-        self.frame = CGRectMake(frame.origin.x, messageOrigin - slideHeight, frame.size.width, frame.size.height);
-        self.alpha = 0.0;
-                     }
-                     completion:nil];
+    // first set start position out of visible area
+    [self setY:messageOrigin - slideHeight];
+    self.alpha = 0.0;
     viewMessage.text = message;
     self.backgroundColor = color;
     // then slide in
@@ -62,7 +55,7 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-        self.frame = CGRectMake(frame.origin.x, messageOrigin, frame.size.width, frame.size.height);
+        [self setY:messageOrigin];
         self.alpha = 1.0;
                      }
                      completion:nil];
