@@ -423,24 +423,23 @@
     }
 }
 
-- (CABasicAnimation*)setBounceAnimation:(CABasicAnimation*)animation from:(CGFloat)fromPos to:(CGFloat)toPos {
+- (CABasicAnimation*)setBounceAnimation:(CABasicAnimation*)animation amount:(CGFloat)amount {
     animation.duration = 0.2;
-    animation.fromValue = @(fromPos);
-    animation.toValue = @(toPos);
+    animation.fromValue = @0;
+    animation.byValue = @(amount);
     animation.repeatCount = 0;
     animation.autoreverses = YES;
     animation.fillMode = kCAFillModeBackwards;
     animation.removedOnCompletion = YES;
-    animation.additive = NO;
+    animation.additive = YES;
     return animation;
 }
 
 - (void)bounceView:(UIView*)view amount:(CGFloat)amount {
-    [view.layer removeAllAnimations];
+    [view.layer removeAnimationForKey:@"bounceAnimation"];
     CABasicAnimation *bounceAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
     bounceAnimation = [self setBounceAnimation:bounceAnimation
-                                          from:view.center.x
-                                            to:view.center.x + amount];
+                                        amount:amount];
     [view.layer addAnimation:bounceAnimation forKey:@"bounceAnimation"];
 }
 
@@ -460,13 +459,7 @@
 - (void)addViewInSlider:(UIViewController*)controller invokeByController:(UIViewController*)invokeByController isStackStartView:(BOOL)isStackStartView {
     CGFloat animX = 0;
     if (isStackStartView) {
-        NSInteger numViews = slideViews.subviews.count;
-        if (numViews == 0) {
-            animX = (IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
-        }
-        else {
-            animX = slideViews.subviews[0].frame.origin.x;
-        }
+        animX = (IS_PORTRAIT ? GET_MAINSCREEN_WIDTH : GET_MAINSCREEN_HEIGHT) - PAD_MENU_TABLE_WIDTH;
         slideStartPosition = SLIDE_VIEWS_START_X_POS;
         viewXPosition = slideStartPosition;
         
