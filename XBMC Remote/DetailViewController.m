@@ -432,16 +432,19 @@
 #pragma mark - Utility
 
 - (void)readMenuItemContext:(MainMenu*)menuItem {
-    NSDictionary *methods = menuItem.mainMethod[chosenTab];
-    albumView = [methods[@"albumView"] boolValue];
-    episodesView = [methods[@"episodesView"] boolValue];
-    tvShowsView = [methods[@"tvShowsView"] boolValue];
-    channelGuideView = [methods[@"channelGuideView"] boolValue];
-    channelListView = [methods[@"channelListView"] boolValue];
-    recordingListView = [methods[@"recordingListView"] boolValue];
-    timerListView = [methods[@"timerListView"] boolValue];
-    recentlyAddedView = [methods[@"collectionViewRecentlyAdded"] boolValue];
-    globalSearchView = menuItem.type == TypeGlobalSearch;
+    // mainContext is only defined for a few menu structures that hold non-default values.
+    // In case it is not defined, context is nil which lets itemContext fall back to ContextDefault.
+    NSNumber *context = menuItem.mainContext[chosenTab];
+    MenuItemContext itemContext = (MenuItemContext)[context intValue];
+    albumView = itemContext == ContextAlbum;
+    episodesView = itemContext == ContextEpisodes;
+    tvShowsView = itemContext == ContextTvShows;
+    channelGuideView = itemContext == ContextChannelGuide;
+    channelListView = itemContext == ContextChannelList;
+    recordingListView = itemContext == ContextRecordingList;
+    timerListView = itemContext == ContextTimerList;
+    recentlyAddedView = itemContext == ContextRecentlyAdded;
+    globalSearchView = itemContext == ContextGlobalSearch;
     tvShowsBannerView = tvShowsView && ![Utilities getPreferTvPosterMode];
 }
 

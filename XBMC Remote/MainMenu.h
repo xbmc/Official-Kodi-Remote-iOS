@@ -37,6 +37,19 @@ typedef NS_ENUM(NSInteger, MenuItemType) {
     TypeAppSettings,
 };
 
+typedef NS_ENUM(NSInteger, MenuItemContext) {
+    ContextDefault,
+    ContextAlbum,
+    ContextEpisodes,
+    ContextTvShows,
+    ContextChannelGuide,
+    ContextChannelList,
+    ContextRecordingList,
+    ContextTimerList,
+    ContextRecentlyAdded,
+    ContextGlobalSearch,
+};
+
 typedef NS_ENUM(NSInteger, ViewModes) {
     ViewModeDefault,
     ViewModeUnwatched,
@@ -56,6 +69,7 @@ typedef NS_ENUM(NSInteger, ViewModes) {
 @property (nonatomic) BOOL enableSection;
 @property (nonatomic, copy) NSString *icon;
 @property (nonatomic, copy) NSArray *mainMethod;
+@property (nonatomic, copy) NSArray *mainContext;
 @property (nonatomic, copy) NSArray *mainButtons;
 @property (nonatomic, copy) NSArray *mainFields;
 @property (nonatomic, strong) NSMutableArray *mainParameters;
