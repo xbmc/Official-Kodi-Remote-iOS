@@ -37,6 +37,19 @@ typedef NS_ENUM(NSInteger, MenuItemType) {
     TypeAppSettings,
 };
 
+typedef NS_ENUM(NSInteger, MenuItemContext) {
+    ContextDefault,
+    ContextAlbum,
+    ContextEpisodes,
+    ContextTvShows,
+    ContextChannelGuide,
+    ContextChannelList,
+    ContextRecordingList,
+    ContextTimerList,
+    ContextRecentlyAdded,
+    ContextGlobalSearch,
+};
+
 typedef NS_ENUM(NSInteger, ViewModes) {
     ViewModeDefault,
     ViewModeUnwatched,

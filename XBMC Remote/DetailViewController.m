@@ -431,6 +431,23 @@
 
 #pragma mark - Utility
 
+- (void)readMenuItemContext:(MainMenu*)menuItem {
+    // "menuContext" is only defined for a few menu structures that hold non-default values.
+    // In case it is not defined itemContext falls back to ContextDefault.
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
+    MenuItemContext itemContext = (MenuItemContext)[methods[@"menuContext"] intValue];
+    albumView = itemContext == ContextAlbum;
+    episodesView = itemContext == ContextEpisodes;
+    tvShowsView = itemContext == ContextTvShows;
+    channelGuideView = itemContext == ContextChannelGuide;
+    channelListView = itemContext == ContextChannelList;
+    recordingListView = itemContext == ContextRecordingList;
+    timerListView = itemContext == ContextTimerList;
+    recentlyAddedView = itemContext == ContextRecentlyAdded;
+    globalSearchView = menuItem.type == TypeGlobalSearch;
+    tvShowsBannerView = tvShowsView && ![Utilities getPreferTvPosterMode];
+}
+
 - (NSString*)getViewPreferenceKeyFromTemplate:(NSString*)template method:(NSString*)method parameters:(NSDictionary*)params {
     // View's preference shall be independent of the active filter (e.g. Genre > Pop). So remove the filter specifics.
     NSMutableDictionary *tmpJsonParams = [params mutableCopy];
@@ -738,8 +755,8 @@
 }
 
 - (void)updatePlaycount {
-    if (tvshowsView) {
-        // In tvshowsview we need to sync the TV Shows to retrieve playcount and to update the watched overlays.
+    if (tvShowsView) {
+        // In tvShowsView we need to sync the TV Shows to retrieve playcount and to update the watched overlays.
         [self startRetrieveDataWithRefresh:YES];
     }
     else if (episodesView) {
@@ -954,10 +971,11 @@
 }
 
 - (void)layoutTVShowCell:(UIView*)cell useDefaultThumb:(BOOL)useFallback {
-    // Exception handling for TVShow banner view
-    if (tvshowsView) {
+    MainMenu *menuItem = self.detailItem;
+    // Exception handling for TVShow menu
+    if (menuItem.type == TypeTvShows) {
         // First tab shows the banner
-        if (chosenTab == 0) {
+        if (tvShowsBannerView) {
             // When not in grid and not in fullscreen view
             if (!enableCollectionView && !stackscrollFullscreen) {
                 // If loaded, we use a dark background
@@ -1018,7 +1036,7 @@
                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
             // Only set the logo background, if the attempt to load it was successful (image != nil).
             // This avoids a possibly wrong background for a default thumb.
-            if (image && (channelListView || channelGuideView || recordingListView || isOnPVR)) {
+            if (image && (channelListView || channelGuideView || recordingListView || timerListView || isOnPVR)) {
                 [Utilities setLogoBackgroundColor:weakImageView mode:logoBackgroundMode];
             }
             // Special handling for TV Show cells
@@ -1288,11 +1306,13 @@
     [activeLayoutView setX:viewWidth alpha:1.0];
     
     enableCollectionView = newEnableCollectionView;
-    recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
-    activeLayoutView.contentOffset = activeLayoutView.contentOffset;
+    
+    // Update view's context from the menu structure after the tab change
+    [self readMenuItemContext:menuItem];
+    
     [self checkFullscreenButton:NO];
     NSDictionary *newParameters = [self addExtraProperties:parameters];
-    if (!tvshowsView || [Utilities getPreferTvPosterMode]) {
+    if (!tvShowsBannerView) {
         [self setSearchBar:self.searchController.searchBar toDark:NO];
     }
     if (methods[@"method"] != nil) {
@@ -1365,7 +1385,6 @@
                                               @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
                                               @([parameters[@"forcePlayback"] boolValue]), @"forcePlayback",
                                               @([parameters[@"forceActionSheet"] boolValue]), @"forceActionSheet",
-                                              @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
                                               pvrExtraInfo, @"pvrExtraInfo",
                                               kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
                                               parameters[@"defaultThumb"] ?: @"", @"defaultThumb",
@@ -2011,7 +2030,7 @@
 - (void)setTVshowThumbSize {
     MainMenu *Menuitem = self.detailItem;
     // Adapt thumbsize if viewing TV Shows and "preferTVPoster" feature is enabled
-    if (!tvshowsView) {
+    if (!tvShowsBannerView) {
         if (IS_IPAD) {
             Menuitem.thumbWidth = PAD_TV_SHOWS_POSTER_WIDTH;
             Menuitem.rowHeight = PAD_TV_SHOWS_POSTER_HEIGHT;
@@ -2086,7 +2105,7 @@
     dataList.separatorInset = UIEdgeInsetsMake(0, thumbWidth + LABEL_PADDING, 0, 0);
     
     // label position for TVShow banner view needs to be tailored to match the default thumb size
-    if (tvshowsView && chosenTab == 0) {
+    if (tvShowsBannerView) {
         CGFloat targetHeight = IS_IPAD ? PAD_TV_SHOWS_BANNER_HEIGHT : PHONE_TV_SHOWS_BANNER_HEIGHT;
         CGFloat factor = targetHeight / PHONE_TV_SHOWS_POSTER_HEIGHT * [Utilities getTransformX];
         labelPosition = PAD_TV_SHOWS_POSTER_WIDTH * factor + LABEL_PADDING;
@@ -2507,10 +2526,7 @@
     genre.hidden = NO;
     runtimeyear.hidden = NO;
     if (!albumView && !episodesView && !channelGuideView) {
-        // Since recordings must be synced it is required to set recordingListView here.
-        recordingListView = [item[@"family"] isEqualToString:@"recordingid"];
-        
-        if (channelListView || recordingListView) {
+        if (channelListView || recordingListView || timerListView) {
             CGRect frame;
             frame.origin.x = SMALL_PADDING;
             frame.origin.y = VERTICAL_PADDING;
@@ -2543,9 +2559,9 @@
             genre.textColor = [UIColor get2ndLabelColor];
             genre.font = [UIFont systemFontOfSize:12];
         }
-        NSString *stringURL = tvshowsView ? item[@"banner"] : item[@"thumbnail"];
+        NSString *stringURL = tvShowsBannerView ? item[@"banner"] : item[@"thumbnail"];
         NSString *displayThumb = globalSearchView ? [self getGlobalSearchThumb:item] : defaultThumb;
-        if (tvshowsView && chosenTab == 0) {
+        if (tvShowsBannerView) {
             displayThumb = defaultThumb = @"nocover_tvshows_banner";
         }
         if ([item[@"filetype"] length] != 0 ||
@@ -3304,7 +3320,7 @@
          if (error == nil && methodError == nil) {
              // Important: First call updateCellAndSaveRichData to set the updated playcount. Then send the trigger to update the views.
              [self updateCellAndSaveRichData:indexPath watched:watched item:item];
-             if (episodesView || tvshowsView) {
+             if (episodesView || tvShowsView) {
                   [[NSNotificationCenter defaultCenter] postNotificationName:@"PlaycountChanged" object:nil];
              }
          }
@@ -4485,13 +4501,25 @@
     [[Utilities getJsonRPC]
      callMethod:methodToCall
      withParameters:mutableParameters
-     onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
+     onCompletion:^(NSString *methodName, NSInteger callId, id methodResultNon, DSJSONRPCError *methodError, NSError *error) {
          startTime = 0;
          [countExecutionTime invalidate];
          if (longTimeout != nil) {
              [longTimeout removeFromSuperview];
              longTimeout = nil;
          }
+        
+        NSMutableDictionary *methodResult = [methodResultNon mutableCopy];
+        methodResult[@"timers"] = @[
+            @{
+                @"label": @"test",
+                @"timerid": @42,
+                @"isradio": @NO,
+                @"istimerrule": @YES,
+            }
+        ];
+        
+        
          // Cannot check for PVR Add-on availability. We show "no results" in case of a
          // methodError "-32100" combined with "PVR." method calls. Other errors are still
          // shown via debug message.
@@ -4547,7 +4575,6 @@
                      if ([methodName isEqualToString:@"VideoLibrary.GetSeasons"]) {
                          mainFields[@"row1"] = @"label";
                      }
-                     recordingListView = methodResult[@"recordings"] ? YES : NO;
                      NSString *serverURL = [Utilities getImageServerURL];
                      int secondsToMinute = [Utilities getSec2Min:menuItem.noConvertTime];
                      dispatch_group_t group = dispatch_group_create();
@@ -4557,7 +4584,7 @@
                                                                                 mainFields:mainFields
                                                                                  serverURL:serverURL
                                                                                    sec2min:secondsToMinute
-                                                                                 useBanner:tvshowsView
+                                                                                 useBanner:tvShowsBannerView
                                                                                    useIcon:recordingListView];
                              
                              // Use TV Show episode's "specialsort", if present, to place a copy of a special
@@ -4812,10 +4839,6 @@
     BOOL isFileBrowsing = [methods[@"method"] isEqualToString:@"Files.GetDirectory"];
     self.sectionArray = nil;
     autoScrollTable = nil;
-    if (copyRichResults.count == 0) {
-        albumView = NO;
-        episodesView = NO;
-    }
     BOOL sortAscending = [sortAscDesc isEqualToString:@"descending"] ? NO : YES;
     
     // In case of sorting by playcount and not having any key, we skip sorting (happens for "Top 100")
@@ -5573,7 +5596,6 @@
         chosenTab = 0;
     }
     filterModeType = ViewModeDefault;
-    NSDictionary *methods = menuItem.mainMethod[chosenTab];
     NSDictionary *parameters = menuItem.mainParameters[chosenTab];
     watchedListenedStrings = parameters[@"watchedListenedStrings"];
     [self checkDiskCache];
@@ -5593,27 +5615,13 @@
         buttonsViewBgToolbar.backgroundColor = UIColor.clearColor;
     }
     
-    if ([methods[@"albumView"] boolValue]) {
-        albumView = YES;
-    }
-    else if ([methods[@"episodesView"] boolValue]) {
-        episodesView = YES;
-    }
-    else if ([methods[@"tvshowsView"] boolValue]) {
-        tvshowsView = ![Utilities getPreferTvPosterMode];
+    // Read view's context from the menu structure
+    [self readMenuItemContext:menuItem];
+    
+    if (tvShowsView) {
         [self setTVshowThumbSize];
     }
-    else if ([methods[@"channelGuideView"] boolValue]) {
-        channelGuideView = YES;
-    }
-    else if ([methods[@"channelListView"] boolValue]) {
-        channelListView = YES;
-    }
-    else if (menuItem.type == TypeGlobalSearch) {
-        globalSearchView = YES;
-    }
-    
-    if (tvshowsView && ![Utilities getPreferTvPosterMode]) {
+    if (tvShowsBannerView) {
         dataList.separatorInset = UIEdgeInsetsZero;
     }
     bottomPadding = [Utilities getBottomPadding];
@@ -5648,7 +5656,6 @@
     // As default both list and grid views animate from right to left.
     [dataList setX:viewWidth];
     
-    recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
     enableCollectionView = [self collectionViewIsEnabled];
     activeLayoutView = dataList;
     self.sections = [NSMutableDictionary new];
@@ -5862,7 +5869,6 @@
                          }
                          completion:^(BOOL finished) {
                              activeLayoutView.contentOffset = CGPointMake(0, iOSYDelta);
-                             recentlyAddedView = [parameters[@"collectionViewRecentlyAdded"] boolValue];
                              enableCollectionView = [self collectionViewIsEnabled];
                              [self configureLibraryView];
                              [activeLayoutView animateX:0 alpha:1.0 duration:0.3];
