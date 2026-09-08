@@ -432,10 +432,10 @@
 #pragma mark - Utility
 
 - (void)readMenuItemContext:(MainMenu*)menuItem {
-    // mainContext is only defined for a few menu structures that hold non-default values.
-    // In case it is not defined, context is nil which lets itemContext fall back to ContextDefault.
-    NSNumber *context = menuItem.mainContext[chosenTab];
-    MenuItemContext itemContext = (MenuItemContext)[context intValue];
+    // "menuContext" is only defined for a few menu structures that hold non-default values.
+    // In case it is not defined itemContext falls back to ContextDefault.
+    NSDictionary *methods = menuItem.mainMethod[chosenTab];
+    MenuItemContext itemContext = (MenuItemContext)[methods[@"menuContext"] intValue];
     albumView = itemContext == ContextAlbum;
     episodesView = itemContext == ContextEpisodes;
     tvShowsView = itemContext == ContextTvShows;
@@ -444,7 +444,7 @@
     recordingListView = itemContext == ContextRecordingList;
     timerListView = itemContext == ContextTimerList;
     recentlyAddedView = itemContext == ContextRecentlyAdded;
-    globalSearchView = itemContext == ContextGlobalSearch;
+    globalSearchView = menuItem.type == TypeGlobalSearch;
     tvShowsBannerView = tvShowsView && ![Utilities getPreferTvPosterMode];
 }
 
