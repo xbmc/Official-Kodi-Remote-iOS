@@ -1436,22 +1436,17 @@
             else if ([item[@"family"] isEqualToString:@"addonid"]) {
                 objValue = [@"plugin://" stringByAppendingString: objValue];
             }
-            NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                  [self rebuildParameters:parameters[@"parameters"]
-                                                                   newKey:fileModeKey
-                                                                 newValue:objValue], @"parameters",
-                                                  parameters[@"label"], @"label",
-                                                  @"nocover_filemode", @"defaultThumb",
-                                                  filemodeRowHeight, @"rowHeight",
-                                                  filemodeThumbWidth, @"thumbWidth",
-                                                  parameters[@"itemSizes"] ?: @{}, @"itemSizes",
-                                                  @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                                  @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                                  nil];
+            NSMutableDictionary *newMainParameters = [parameters mutableCopy];
+            newMainParameters[@"parameters"] = [self rebuildParameters:parameters[@"parameters"]
+                                                                newKey:fileModeKey
+                                                              newValue:objValue];
+            newMainParameters[@"defaultThumb"] = @"nocover_filemode";
+            newMainParameters[@"rowHeight"] = filemodeRowHeight;
+            newMainParameters[@"thumbWidth"] = filemodeThumbWidth;
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
-                newParameters[@"parameters"][@"level"] = @"expert";
+                newMainParameters[@"parameters"][@"level"] = @"expert";
             }
-            [self enterSubmenuForItem:item params:newParameters];
+            [self enterSubmenuForItem:item params:newMainParameters];
         }
     }
 }
