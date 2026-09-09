@@ -1987,18 +1987,15 @@
             }
             objKey = @"filter";
         }
-        NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                               obj, objKey,
-                                               parameters[@"parameters"][@"properties"], @"properties",
-                                               parameters[@"parameters"][@"sort"], @"sort",
-                                               item[mainFields[@"row15"]], key,
-                                               nil], @"parameters", parameters[@"label"], @"label",
-                                              parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                              parameters[@"itemSizes"] ?: @{}, @"itemSizes",
-                                              @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                              nil];
-        menuItem.subItem.mainParameters[activeTab] = newParameters;
+        NSMutableDictionary *newMainParameters = [parameters mutableCopy];
+        newMainParameters[@"parameters"] = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                            obj, objKey,
+                                            parameters[@"parameters"][@"properties"], @"properties",
+                                            parameters[@"parameters"][@"sort"], @"sort",
+                                            item[mainFields[@"row15"]], key,
+                                            nil];
+        
+        menuItem.subItem.mainParameters[activeTab] = newMainParameters;
         menuItem.subItem.chooseTab = activeTab;
         fromItself = YES;
         if (IS_IPHONE) {
