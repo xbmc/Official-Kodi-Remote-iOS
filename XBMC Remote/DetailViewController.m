@@ -3855,20 +3855,16 @@
     NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
     NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
     NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
-    NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          [self rebuildParameters:parameters[@"parameters"]
-                                                           newKey:@"directory"
-                                                         newValue:item[mainFields[@"row6"]]], @"parameters",
-                                          parameters[@"label"], @"label",
-                                          @"nocover_filemode", @"defaultThumb",
-                                          filemodeRowHeight, @"rowHeight",
-                                          filemodeThumbWidth, @"thumbWidth",
-                                          parameters[@"itemSizes"] ?: @{}, @"itemSizes",
-                                          @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                          @"Files.GetDirectory", @"exploreCommand",
-                                          @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                          nil];
-    [self enterSubmenuForItem:item params:newParameters];
+    
+    NSMutableDictionary *newMainParameters = [parameters mutableCopy];
+    newMainParameters[@"parameters"] = [self rebuildParameters:parameters[@"parameters"]
+                                                        newKey:@"directory"
+                                                      newValue:item[mainFields[@"row6"]]];
+    newMainParameters[@"defaultThumb"] = @"nocover_filemode";
+    newMainParameters[@"rowHeight"] = filemodeRowHeight;
+    newMainParameters[@"thumbWidth"] = filemodeThumbWidth;
+    
+    [self enterSubmenuForItem:item params:newMainParameters];
 }
 
 - (void)deleteTimer:(NSDictionary*)item indexPath:(NSIndexPath*)indexPath {
