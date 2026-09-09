@@ -1373,21 +1373,17 @@
         if ([item[@"filetype"] length] != 0 && ![item[@"isSources"] boolValue]) { // WE ARE ALREADY IN BROWSING FILES MODE
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
                 parameters = menuItem.mainParameters[activeTab];
-                NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                      [self rebuildParameters:parameters[@"parameters"]
-                                                                       newKey:@"directory"
-                                                                     newValue:item[mainFields[@"row6"]]], @"parameters",
-                                                      parameters[@"label"], @"label",
-                                                      @"nocover_filemode", @"defaultThumb",
-                                                      filemodeRowHeight, @"rowHeight",
-                                                      filemodeThumbWidth, @"thumbWidth",
-                                                      parameters[@"itemSizes"] ?: @{}, @"itemSizes",
-                                                      @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                                      @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                                      nil];
+                NSMutableDictionary *newMainParameters = [parameters mutableCopy];
+                newMainParameters[@"parameters"] = [self rebuildParameters:parameters[@"parameters"]
+                                                                    newKey:@"directory"
+                                                                  newValue:item[mainFields[@"row6"]]];
+                newMainParameters[@"defaultThumb"] = @"nocover_filemode";
+                newMainParameters[@"rowHeight"] = filemodeRowHeight;
+                newMainParameters[@"thumbWidth"] = filemodeThumbWidth;
+                
                 menuItem.mainLabel = item[@"label"];
                 MainMenu *newMenuItem = [menuItem copy];
-                newMenuItem.mainParameters[activeTab] = newParameters;
+                newMenuItem.mainParameters[activeTab] = newMainParameters;
                 newMenuItem.chooseTab = activeTab;
                 if (IS_IPHONE) {
                     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
