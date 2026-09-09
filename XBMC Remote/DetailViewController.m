@@ -1318,10 +1318,6 @@
     NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
     
     if (parameters[@"parameters"][@"properties"] != nil) { // CHILD IS LIBRARY MODE
-        NSString *key = @"null";
-        if (item[mainFields[@"row15"]] != nil) {
-            key = mainFields[@"row15"];
-        }
         id objKey = mainFields[@"row6"];
         id obj = item[objKey];
         if (![parameters[@"disableFilterParameter"] boolValue]) {
@@ -1338,7 +1334,6 @@
                                     obj, objKey,
                                     parameters[@"extra_section_parameters"][@"properties"], @"properties",
                                     parameters[@"extra_section_parameters"][@"sort"], @"sort",
-                                    item[mainFields[@"row15"]], key,
                                     nil];
         }
         NSMutableDictionary *pvrExtraInfo = nil;
@@ -1353,7 +1348,6 @@
                                           obj, objKey,
                                           parameters[@"parameters"][@"properties"], @"properties",
                                           parameters[@"parameters"][@"sort"], @"sort",
-                                          item[mainFields[@"row15"]], key,
                                           nil];
         if (parameters[@"parameters"][@"albumartistsonly"]) {
             newParams[@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
