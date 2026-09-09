@@ -1970,10 +1970,6 @@
     if (methods[@"method"] != nil) { // THERE IS A CHILD
         NSDictionary *mainFields = menuItem.mainFields[activeTab];
         NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
-        NSString *key = @"null";
-        if (item[mainFields[@"row15"]] != nil) {
-            key = mainFields[@"row15"];
-        }
         id objKey = mainFields[@"row6"];
         id obj = [Utilities getNumberFromItem:item[objKey]];
         if (![parameters[@"disableFilterParameter"] boolValue]) {
@@ -1992,7 +1988,6 @@
                                             obj, objKey,
                                             parameters[@"parameters"][@"properties"], @"properties",
                                             parameters[@"parameters"][@"sort"], @"sort",
-                                            item[mainFields[@"row15"]], key,
                                             nil];
         
         menuItem.subItem.mainParameters[activeTab] = newMainParameters;
