@@ -313,22 +313,16 @@
                                     item[mainFields[@"row6"]], mainFields[@"row6"],
                                     nil];
         }
-        NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                               obj, objKey,
-                                               parameters[@"parameters"][@"properties"], @"properties",
-                                               parameters[@"parameters"][@"sort"], @"sort",
-                                               nil], @"parameters",
-                                              parameters[@"label"], @"label",
-                                              @YES, @"fromShowInfo",
-                                              @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                              parameters[@"itemSizes"] ?: @{}, @"itemSizes",
-                                              parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                              @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
-                                              @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
-                                              newSectionParameters, @"extra_section_parameters",
-                                              nil];
-        chosenMenuItem.mainParameters[activeTab] = newParameters;
+        NSMutableDictionary *newMainParameters = [parameters mutableCopy];
+        newMainParameters[@"parameters"] = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                            obj, objKey,
+                                            parameters[@"parameters"][@"properties"], @"properties",
+                                            parameters[@"parameters"][@"sort"], @"sort",
+                                            nil];
+        newMainParameters[@"fromShowInfo"] = @YES;
+        newMainParameters[@"extra_section_parameters"] = newSectionParameters;
+        
+        chosenMenuItem.mainParameters[activeTab] = newMainParameters;
         chosenMenuItem.chooseTab = activeTab;
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
