@@ -1348,41 +1348,24 @@
             pvrExtraInfo[@"channelid"] = item[@"channelid"];
         }
         
-        NSDictionary *kodiExtrasPropertiesMinimumVersion = parameters[@"kodiExtrasPropertiesMinimumVersion"] ?: @{};
-        NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                               obj, objKey,
-                                               parameters[@"parameters"][@"properties"], @"properties",
-                                               parameters[@"parameters"][@"sort"], @"sort",
-                                               item[mainFields[@"row15"]], key,
-                                               nil], @"parameters",
-                                              @([parameters[@"disableFilterParameter"] boolValue]), @"disableFilterParameter",
-                                              libraryRowHeight, @"rowHeight",
-                                              libraryThumbWidth, @"thumbWidth",
-                                              parameters[@"label"], @"label",
-                                              parameters[@"itemSizes"] ?: @{}, @"itemSizes",
-                                              @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
-                                              @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                              @([parameters[@"forcePlayback"] boolValue]), @"forcePlayback",
-                                              @([parameters[@"forceActionSheet"] boolValue]), @"forceActionSheet",
-                                              @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
-                                              pvrExtraInfo, @"pvrExtraInfo",
-                                              kodiExtrasPropertiesMinimumVersion, @"kodiExtrasPropertiesMinimumVersion",
-                                              parameters[@"defaultThumb"] ?: @"", @"defaultThumb",
-                                              parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                              newSectionParameters, @"extra_section_parameters",
-                                              parameters[@"watchedListenedStrings"], @"watchedListenedStrings",
-                                              nil];
-        if (parameters[@"available_sort_methods"] != nil) {
-            newParameters[@"available_sort_methods"] = parameters[@"available_sort_methods"];
-        }
-        if (parameters[@"combinedFilter"]) {
-            newParameters[@"combinedFilter"] = parameters[@"combinedFilter"];
-        }
+        NSMutableDictionary *newParams = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                          obj, objKey,
+                                          parameters[@"parameters"][@"properties"], @"properties",
+                                          parameters[@"parameters"][@"sort"], @"sort",
+                                          item[mainFields[@"row15"]], key,
+                                          nil];
         if (parameters[@"parameters"][@"albumartistsonly"]) {
-            newParameters[@"parameters"][@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
+            newParams[@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
         }
-        [self enterSubmenuForItem:item params:newParameters];
+        
+        NSMutableDictionary *newMainParameters = [parameters mutableCopy];
+        newMainParameters[@"parameters"] = newParams;
+        newMainParameters[@"rowHeight"] = libraryRowHeight;
+        newMainParameters[@"thumbWidth"] = libraryThumbWidth;
+        newMainParameters[@"pvrExtraInfo"] = pvrExtraInfo;
+        newMainParameters[@"extra_section_parameters"] = newSectionParameters;
+        
+        [self enterSubmenuForItem:item params:newMainParameters];
     }
     else { // CHILD IS FILEMODE
         NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
