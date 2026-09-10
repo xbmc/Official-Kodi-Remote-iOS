@@ -1332,7 +1332,7 @@
                    nil];
             objKey = @"filter";
         }
-        NSDictionary *newSectionParameters = @{};
+        NSDictionary *newSectionParameters = nil;
         if (parameters[@"extra_section_parameters"] != nil) {
             newSectionParameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                     obj, objKey,
@@ -1341,8 +1341,9 @@
                                     item[mainFields[@"row15"]], key,
                                     nil];
         }
-        NSMutableDictionary *pvrExtraInfo = [NSMutableDictionary dictionary];
+        NSMutableDictionary *pvrExtraInfo = nil;
         if ([item[@"family"] isEqualToString:@"channelid"]) {
+            pvrExtraInfo = [NSMutableDictionary new];
             pvrExtraInfo[@"channel_name"] = item[@"label"];
             pvrExtraInfo[@"channel_icon"] = item[@"thumbnail"];
             pvrExtraInfo[@"channelid"] = item[@"channelid"];
