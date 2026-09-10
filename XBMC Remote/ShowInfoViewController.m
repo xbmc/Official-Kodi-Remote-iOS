@@ -310,7 +310,6 @@
                                     obj, objKey,
                                     parameters[@"extra_section_parameters"][@"properties"], @"properties",
                                     parameters[@"extra_section_parameters"][@"sort"], @"sort",
-                                    item[mainFields[@"row6"]], mainFields[@"row6"],
                                     nil];
         }
         NSMutableDictionary *newMainParameters = [parameters mutableCopy];
