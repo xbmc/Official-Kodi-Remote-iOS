@@ -489,15 +489,6 @@
     }
 }
 
-- (NSMutableDictionary*)rebuildParameters:(NSDictionary*)dict newKey:(id)key newValue:(id)value {
-    return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            value, key,
-            dict[@"media"], @"media",
-            dict[@"sort"], @"sort",
-            dict[@"file_properties"], @"file_properties",
-            nil];
-}
-
 - (void)addFileProperties:(NSMutableDictionary*)dict {
     if (dict[@"file_properties"] != nil) {
         dict[@"properties"] = [dict[@"file_properties"] mutableCopy];
@@ -1369,9 +1360,9 @@
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
                 parameters = menuItem.mainParameters[activeTab];
                 NSMutableDictionary *newMainParameters = [parameters mutableCopy];
-                newMainParameters[@"parameters"] = [self rebuildParameters:parameters[@"parameters"]
-                                                                    newKey:@"directory"
-                                                                  newValue:item[mainFields[@"row6"]]];
+                newMainParameters[@"parameters"] = [self rebuildFileModeParameters:parameters[@"parameters"]
+                                                                            newKey:@"directory"
+                                                                          newValue:item[mainFields[@"row6"]]];
                 newMainParameters[@"defaultThumb"] = @"nocover_filemode";
                 newMainParameters[@"rowHeight"] = filemodeRowHeight;
                 newMainParameters[@"thumbWidth"] = filemodeThumbWidth;
@@ -1432,9 +1423,9 @@
                 objValue = [@"plugin://" stringByAppendingString: objValue];
             }
             NSMutableDictionary *newMainParameters = [parameters mutableCopy];
-            newMainParameters[@"parameters"] = [self rebuildParameters:parameters[@"parameters"]
-                                                                newKey:fileModeKey
-                                                              newValue:objValue];
+            newMainParameters[@"parameters"] = [self rebuildFileModeParameters:parameters[@"parameters"]
+                                                                        newKey:fileModeKey
+                                                                      newValue:objValue];
             newMainParameters[@"defaultThumb"] = @"nocover_filemode";
             newMainParameters[@"rowHeight"] = filemodeRowHeight;
             newMainParameters[@"thumbWidth"] = filemodeThumbWidth;
@@ -3852,9 +3843,9 @@
     NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
     
     NSMutableDictionary *newMainParameters = [parameters mutableCopy];
-    newMainParameters[@"parameters"] = [self rebuildParameters:parameters[@"parameters"]
-                                                        newKey:@"directory"
-                                                      newValue:item[mainFields[@"row6"]]];
+    newMainParameters[@"parameters"] = [self rebuildFileModeParameters:parameters[@"parameters"]
+                                                                newKey:@"directory"
+                                                              newValue:item[mainFields[@"row6"]]];
     newMainParameters[@"defaultThumb"] = @"nocover_filemode";
     newMainParameters[@"rowHeight"] = filemodeRowHeight;
     newMainParameters[@"thumbWidth"] = filemodeThumbWidth;
