@@ -306,18 +306,14 @@
         }
         NSMutableDictionary *newSectionParameters = nil;
         if (parameters[@"extra_section_parameters"] != nil) {
-            newSectionParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    obj, objKey,
-                                    parameters[@"extra_section_parameters"][@"properties"], @"properties",
-                                    parameters[@"extra_section_parameters"][@"sort"], @"sort",
-                                    nil];
+            newSectionParameters = [self rebuildLibraryModeParameters:parameters[@"extra_section_parameters"]
+                                                               newKey:objKey
+                                                             newValue:obj];
         }
         NSMutableDictionary *newMainParameters = [parameters mutableCopy];
-        newMainParameters[@"parameters"] = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            obj, objKey,
-                                            parameters[@"parameters"][@"properties"], @"properties",
-                                            parameters[@"parameters"][@"sort"], @"sort",
-                                            nil];
+        newMainParameters[@"parameters"] = [self rebuildLibraryModeParameters:parameters[@"parameters"]
+                                                                       newKey:objKey
+                                                                     newValue:obj];
         newMainParameters[@"fromShowInfo"] = @YES;
         newMainParameters[@"extra_section_parameters"] = newSectionParameters;
         

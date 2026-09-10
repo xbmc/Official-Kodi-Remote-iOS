@@ -269,4 +269,12 @@
             nil];
 }
 
+- (NSMutableDictionary*)rebuildLibraryModeParameters:(NSDictionary*)dict newKey:(id)key newValue:(id)value {
+    return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            value, key,
+            dict[@"properties"], @"properties",
+            dict[@"sort"], @"sort",
+            nil];
+}
+
 @end
