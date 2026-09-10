@@ -260,4 +260,13 @@
     }];
 }
 
+- (NSMutableDictionary*)rebuildFileModeParameters:(NSDictionary*)dict newKey:(id)key newValue:(id)value {
+    return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            value, key,
+            dict[@"media"], @"media",
+            dict[@"sort"], @"sort",
+            dict[@"file_properties"], @"file_properties",
+            nil];
+}
+
 @end

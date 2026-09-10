@@ -28,6 +28,7 @@
 - (void)startPlaybackItems:(NSDictionary*)playlistItems using:(NSString*)playername shuffle:(BOOL)shuffled resume:(BOOL)resume indicator:(UIActivityIndicatorView*)cellActivityIndicator;
 - (void)openURL:(NSString*)url;
 - (void)recordChannel:(NSDictionary*)item indicator:(UIActivityIndicatorView*)cellActivityIndicator onSuccess:(void (^)(void))onSuccess;
+- (NSMutableDictionary*)rebuildFileModeParameters:(NSDictionary*)dict newKey:(id)key newValue:(id)value;
 
 @property (strong, nonatomic) id detailItem;
 
