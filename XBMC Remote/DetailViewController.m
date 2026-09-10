@@ -1321,11 +1321,9 @@
         }
         NSDictionary *newSectionParameters = nil;
         if (parameters[@"extra_section_parameters"] != nil) {
-            newSectionParameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    obj, objKey,
-                                    parameters[@"extra_section_parameters"][@"properties"], @"properties",
-                                    parameters[@"extra_section_parameters"][@"sort"], @"sort",
-                                    nil];
+            newSectionParameters = [self rebuildLibraryModeParameters:parameters[@"extra_section_parameters"]
+                                                               newKey:objKey
+                                                             newValue:obj];
         }
         NSMutableDictionary *pvrExtraInfo = nil;
         if ([item[@"family"] isEqualToString:@"channelid"]) {
@@ -1335,11 +1333,9 @@
             pvrExtraInfo[@"channelid"] = item[@"channelid"];
         }
         
-        NSMutableDictionary *newParams = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          obj, objKey,
-                                          parameters[@"parameters"][@"properties"], @"properties",
-                                          parameters[@"parameters"][@"sort"], @"sort",
-                                          nil];
+        NSMutableDictionary *newParams = [self rebuildLibraryModeParameters:parameters[@"parameters"]
+                                                                     newKey:objKey
+                                                                   newValue:obj];
         if (parameters[@"parameters"][@"albumartistsonly"]) {
             newParams[@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
         }

@@ -1984,11 +1984,9 @@
             objKey = @"filter";
         }
         NSMutableDictionary *newMainParameters = [parameters mutableCopy];
-        newMainParameters[@"parameters"] = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            obj, objKey,
-                                            parameters[@"parameters"][@"properties"], @"properties",
-                                            parameters[@"parameters"][@"sort"], @"sort",
-                                            nil];
+        newMainParameters[@"parameters"] = [self rebuildLibraryModeParameters:parameters[@"parameters"]
+                                                                       newKey:objKey
+                                                                     newValue:obj];
         
         menuItem.subItem.mainParameters[activeTab] = newMainParameters;
         menuItem.subItem.chooseTab = activeTab;
