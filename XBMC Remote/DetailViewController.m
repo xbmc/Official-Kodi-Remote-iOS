@@ -1354,9 +1354,9 @@
         NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
         if ([item[@"filetype"] length] != 0 && ![item[@"isSources"] boolValue]) { // WE ARE ALREADY IN BROWSING FILES MODE
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
-                parameters = menuItem.mainParameters[activeTab];
-                NSMutableDictionary *newMainParameters = [parameters mutableCopy];
-                newMainParameters[@"parameters"] = [self rebuildFileModeParameters:parameters[@"parameters"]
+                NSDictionary *currentParams = menuItem.mainParameters[activeTab];
+                NSMutableDictionary *newMainParameters = [currentParams mutableCopy];
+                newMainParameters[@"parameters"] = [self rebuildFileModeParameters:currentParams[@"parameters"]
                                                                             newKey:@"directory"
                                                                           newValue:item[mainFields[@"row6"]]];
                 newMainParameters[@"defaultThumb"] = @"nocover_filemode";
