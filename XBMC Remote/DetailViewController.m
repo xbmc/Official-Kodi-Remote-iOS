@@ -599,8 +599,8 @@
     NSString *year = [Utilities getYearFromItem:item[mainFields[@"row3"]]];
     NSString *runtime = [Utilities getTimeFromItem:item[mainFields[@"row4"]] sec2min:sec2min];
     NSString *rating = [Utilities getRatingFromItem:item[mainFields[@"row5"]]];
-    NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:recordingListView];
-    NSString *bannerPath = [Utilities getThumbnailFromDictionary:item useBanner:YES useIcon:recordingListView];
+    NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:useIcon];
+    NSString *bannerPath = [Utilities getThumbnailFromDictionary:item useBanner:YES useIcon:useIcon];
     NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
     NSString *bannerURL = [Utilities formatStringURL:bannerPath serverURL:serverURL];
     NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
