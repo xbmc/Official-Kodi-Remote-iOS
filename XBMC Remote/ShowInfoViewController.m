@@ -74,14 +74,8 @@
                 [sheetActions addObject:LOCALIZED_STR_ARGS(@"Resume from %@", [Utilities convertTimeFromSeconds:@(position)])];
             }
         }
-        BOOL fromAlbumView = NO;
-        if (item[@"fromAlbumView"] != [NSNull null]) {
-            fromAlbumView = [item[@"fromAlbumView"] boolValue];
-        }
-        BOOL fromEpisodesView = NO;
-        if (item[@"fromEpisodesView"] != [NSNull null]) {
-            fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
-        }
+        BOOL fromAlbumView = [item[@"fromAlbumView"] boolValue];
+        BOOL fromEpisodesView = [item[@"fromEpisodesView"] boolValue];
         
         actionSheetButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(showActionSheet)];
         extraButton = nil;
