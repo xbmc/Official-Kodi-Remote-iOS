@@ -1305,9 +1305,6 @@
     NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
     
-    NSNumber *libraryRowHeight = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
-    NSNumber *libraryThumbWidth = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
-    
     if (parameters[@"parameters"][@"properties"] != nil) { // CHILD IS LIBRARY MODE
         id objKey = mainFields[@"row6"];
         id obj = item[objKey];
@@ -1319,12 +1316,11 @@
                    nil];
             objKey = @"filter";
         }
-        NSDictionary *newSectionParameters = nil;
-        if (parameters[@"extra_section_parameters"] != nil) {
-            newSectionParameters = [self rebuildLibraryModeParameters:parameters[@"extra_section_parameters"]
-                                                               newKey:objKey
-                                                             newValue:obj];
-        }
+        
+        NSMutableDictionary *newMainParameters = [self buildLibraryModeMainParameters:parameters
+                                                                                  key:objKey
+                                                                                value:obj];
+        
         NSMutableDictionary *pvrExtraInfo = nil;
         if ([item[@"family"] isEqualToString:@"channelid"]) {
             pvrExtraInfo = [NSMutableDictionary new];
@@ -1333,16 +1329,9 @@
             pvrExtraInfo[@"channelid"] = item[@"channelid"];
         }
         
-        NSMutableDictionary *newParams = [self rebuildLibraryModeParameters:parameters[@"parameters"]
-                                                                     newKey:objKey
-                                                                   newValue:obj];
-        
-        NSMutableDictionary *newMainParameters = [parameters mutableCopy];
-        newMainParameters[@"parameters"] = newParams;
-        newMainParameters[@"rowHeight"] = libraryRowHeight;
-        newMainParameters[@"thumbWidth"] = libraryThumbWidth;
+        newMainParameters[@"rowHeight"] = parameters[@"rowHeight"] ?: @(menuItem.subItem.rowHeight);
+        newMainParameters[@"thumbWidth"] = parameters[@"thumbWidth"] ?: @(menuItem.subItem.thumbWidth);
         newMainParameters[@"pvrExtraInfo"] = pvrExtraInfo;
-        newMainParameters[@"extra_section_parameters"] = newSectionParameters;
         
         [self enterSubmenuForItem:item params:newMainParameters];
     }
