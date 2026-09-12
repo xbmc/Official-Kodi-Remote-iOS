@@ -270,6 +270,9 @@
 }
 
 - (NSMutableDictionary*)rebuildLibraryModeParameters:(NSDictionary*)dict newKey:(id)key newValue:(id)value {
+    if (!key || !value || !dict) {
+        return nil;
+    }
     return [NSMutableDictionary dictionaryWithObjectsAndKeys:
             value, key,
             dict[@"properties"], @"properties",
@@ -286,6 +289,17 @@
     newMainParams[@"defaultThumb"] = @"nocover_filemode";
     newMainParams[@"rowHeight"] = sizeParams[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
     newMainParams[@"thumbWidth"] = sizeParams[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
+    return newMainParams;
+}
+
+- (NSMutableDictionary*)buildLibraryModeMainParameters:(NSDictionary*)parameters key:(id)key value:(id)value {
+    NSMutableDictionary *newMainParams = [parameters mutableCopy];
+    newMainParams[@"parameters"] = [self rebuildLibraryModeParameters:parameters[@"parameters"]
+                                                               newKey:key
+                                                             newValue:value];
+    newMainParams[@"extra_section_parameters"] = [self rebuildLibraryModeParameters:parameters[@"extra_section_parameters"]
+                                                                             newKey:key
+                                                                           newValue:value];;
     return newMainParams;
 }
 
