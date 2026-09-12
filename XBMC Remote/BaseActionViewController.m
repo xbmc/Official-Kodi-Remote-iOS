@@ -12,6 +12,17 @@
 #import "RemoteController.h"
 #import "NowPlaying.h"
 
+@implementation NSMutableDictionary (Extensions)
+
+- (void)key:(id)key value:(id)value {
+    // Do not attempt to write empty keys/objects. Do not overwrite any existing key.
+    if (key && value && !self[key]) {
+        self[key] = value;
+    }
+}
+
+@end
+
 @implementation BaseActionViewController
 
 - (void)viewDidLoad {
@@ -259,5 +270,68 @@
         }
     }];
 }
+
+- (NSMutableDictionary*)getNewDictionaryFromItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useIcon:(BOOL)useIcon {
+    NSString *label = [Utilities getStringFromItem:item[mainFields[@"row1"]]];
+    NSString *genre = [Utilities getStringFromItem:item[mainFields[@"row2"]]];
+    NSString *year = [Utilities getYearFromItem:item[mainFields[@"row3"]]];
+    NSString *runtime = [Utilities getTimeFromItem:item[mainFields[@"row4"]] sec2min:sec2min];
+    NSString *rating = [Utilities getRatingFromItem:item[mainFields[@"row5"]]];
+    NSString *family = [Utilities getStringFromItem:mainFields[@"row8"]];
+    NSString *seasonNumber = [Utilities getStringFromItem:item[mainFields[@"row10"]]];
+    NSString *clearlogo = [Utilities getClearArtFromDictionary:item[@"art"] type:@"clearlogo"];
+    NSString *clearart = [Utilities getClearArtFromDictionary:item[@"art"] type:@"clearart"];
+    NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:useIcon];
+    NSString *bannerPath = [Utilities getThumbnailFromDictionary:item useBanner:YES useIcon:useIcon];
+    NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
+    NSString *bannerURL = [Utilities formatStringURL:bannerPath serverURL:serverURL];
+    NSString *fanartURL = [Utilities formatStringURL:item[@"fanart"] serverURL:serverURL];
+    if (!stringURL.length) {
+        stringURL = [Utilities getItemIconFromDictionary:item];
+    }
+    // row7 and row19 objects are used for sorting and must use NSString
+    NSString *row7object = [Utilities getStringFromItem:item[mainFields[@"row7"]]];
+    NSString *row19itemKey = [mainFields[@"row19"] isEqualToString:@"tag"] ? @"label" : mainFields[@"row19"];
+    id row19object = nil;
+    if ([item[row19itemKey] isKindOfClass:[NSDictionary class]]) {
+        row19object = [item[row19itemKey] mutableCopy];
+    }
+    else {
+        row19object = [Utilities getStringFromItem:item[row19itemKey]];
+    }
+    
+    NSMutableDictionary *newDict = [NSMutableDictionary new];
+    newDict[@"label"] = label;
+    newDict[@"genre"] = genre;
+    newDict[@"thumbnail"] = stringURL;
+    newDict[@"fanart"] = fanartURL;
+    newDict[@"banner"] = bannerURL;
+    newDict[@"clearlogo"] = clearlogo;
+    newDict[@"clearart"] = clearart;
+    newDict[@"runtime"] = runtime;
+    newDict[@"season"] = seasonNumber;
+    newDict[@"family"] = family;
+    newDict[@"year"] = year;
+    newDict[@"rating"] = rating;
+    newDict[@"playlistid"] = mainFields[@"playlistid"];
+    [newDict key:mainFields[@"row6"] value:item[mainFields[@"row6"]]];
+    [newDict key:mainFields[@"row7"] value:row7object];
+    [newDict key:mainFields[@"row8"] value:item[mainFields[@"row8"]]];
+    [newDict key:mainFields[@"row9"] value:item[mainFields[@"row9"]]];
+    [newDict key:mainFields[@"row10"] value:item[mainFields[@"row10"]]];
+    [newDict key:mainFields[@"row11"] value:item[mainFields[@"row11"]]];
+    [newDict key:mainFields[@"row12"] value:item[mainFields[@"row12"]]];
+    [newDict key:mainFields[@"row13"] value:item[mainFields[@"row13"]]];
+    [newDict key:mainFields[@"row14"] value:item[mainFields[@"row14"]]];
+    [newDict key:mainFields[@"row15"] value:item[mainFields[@"row15"]]];
+    [newDict key:mainFields[@"row16"] value:item[mainFields[@"row16"]]];
+    [newDict key:mainFields[@"row17"] value:item[mainFields[@"row17"]]];
+    [newDict key:mainFields[@"row18"] value:item[mainFields[@"row18"]]];
+    [newDict key:mainFields[@"row19"] value:row19object];
+    [newDict key:mainFields[@"row20"] value:item[mainFields[@"row20"]]];
+    
+    return newDict;
+}
+
 
 @end
