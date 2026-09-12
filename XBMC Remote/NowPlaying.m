@@ -1250,27 +1250,28 @@
                            NSString *thumbnailPath = [self getNowPlayingThumbnailPath:item];
                            NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
                            NSString *file = [Utilities getStringFromItem:item[@"file"]];
-                           [playlistData addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    idItem, @"idItem",
-                                                    file, @"file",
-                                                    label, @"label",
-                                                    title, @"title",
-                                                    type, @"type",
-                                                    artist, @"artist",
-                                                    album, @"album",
-                                                    durationTime, @"duration",
-                                                    artistid, @"artistid",
-                                                    albumid, @"albumid",
-                                                    genre, @"genre",
-                                                    idItem, idType,
-                                                    channel, @"channel",
-                                                    stringURL, @"thumbnail",
-                                                    runtime, @"runtime",
-                                                    showtitle, @"showtitle",
-                                                    season, @"season",
-                                                    episode, @"episode",
-                                                    tvshowid, @"tvshowid",
-                                                    nil]];
+                           NSDictionary *newItem = @{
+                               @"idItem": idItem,
+                               @"file": file,
+                               @"label": label,
+                               @"title": title,
+                               @"type": type,
+                               @"artist": artist,
+                               @"album": album,
+                               @"duration": durationTime,
+                               @"artistid": artistid,
+                               @"albumid": albumid,
+                               @"genre": genre,
+                               idType: idItem,
+                               @"channel": channel,
+                               @"thumbnail": stringURL,
+                               @"runtime": runtime,
+                               @"showtitle": showtitle,
+                               @"season": season,
+                               @"episode": episode,
+                               @"tvshowid": tvshowid,
+                           };
+                           [playlistData addObject:newItem];
                        }
                        [self showPlaylistTableAnimated:animTable];
                    }
