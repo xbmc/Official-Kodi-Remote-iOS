@@ -292,13 +292,7 @@
     // row7 and row19 objects are used for sorting and must use NSString
     NSString *row7object = [Utilities getStringFromItem:item[mainFields[@"row7"]]];
     NSString *row19itemKey = [mainFields[@"row19"] isEqualToString:@"tag"] ? @"label" : mainFields[@"row19"];
-    id row19object = nil;
-    if ([item[row19itemKey] isKindOfClass:[NSDictionary class]]) {
-        row19object = [item[row19itemKey] mutableCopy];
-    }
-    else {
-        row19object = [Utilities getStringFromItem:item[row19itemKey]];
-    }
+    NSString *row19object = [Utilities getStringFromItem:item[row19itemKey]];
     
     NSMutableDictionary *newDict = [NSMutableDictionary new];
     newDict[@"label"] = label;
