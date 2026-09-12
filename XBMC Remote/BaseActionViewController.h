@@ -31,6 +31,7 @@
 - (NSMutableDictionary*)rebuildFileModeParameters:(NSDictionary*)dict newKey:(id)key newValue:(id)value;
 - (NSMutableDictionary*)rebuildLibraryModeParameters:(NSDictionary*)dict newKey:(id)key newValue:(id)value;
 - (NSMutableDictionary*)buildFileModeMainParameters:(NSDictionary*)parameters sizeParameters:(NSDictionary*)sizeParams key:(id)key value:(id)value;
+- (NSMutableDictionary*)buildLibraryModeMainParameters:(NSDictionary*)parameters key:(id)key value:(id)value;
 
 @property (strong, nonatomic) id detailItem;
 
