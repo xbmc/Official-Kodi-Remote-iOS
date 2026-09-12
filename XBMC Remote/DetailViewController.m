@@ -2621,10 +2621,10 @@
     [self didSelectItemAtIndexPath:indexPath item:item displayPoint:CGPointMake(rectOriginX, rectOriginY)];
 }
 
-- (NSUInteger)indexOfObjectWithSeason:(NSString*)seasonNumber inArray:(NSArray*)array {
+- (NSUInteger)indexOfObjectWithSeason:(NSInteger)seasonNumber inArray:(NSArray*)array {
     return [array indexOfObjectPassingTest:
-            ^(id dictionary, NSUInteger idx, BOOL *stop) {
-                return ([dictionary[@"season"] isEqualToString:seasonNumber]);
+            ^BOOL(id dictionary, NSUInteger idx, BOOL *stop) {
+                return [dictionary[@"season"] intValue] == seasonNumber;
             }];
 }
 
@@ -2697,7 +2697,7 @@
             return nil;
         }
         
-        NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d", [item[@"season"] intValue]] inArray:self.extraSectionRichResults];
+        NSInteger seasonIdx = [self indexOfObjectWithSeason:[item[@"season"] intValue] inArray:self.extraSectionRichResults];
         NSInteger firstListedSeason = [self getFirstListedSeason:self.extraSectionRichResults];
         
         if (seasonIdx != NSNotFound && self.extraSectionRichResults.count > seasonIdx) {
@@ -3016,7 +3016,7 @@
         [item removeObjectForKey:@"file"]; // A season is not a file, avoids adding "Share" option.
         
         processAllItemsInSection = @(section);
-        NSInteger seasonIdx = [self indexOfObjectWithSeason:[NSString stringWithFormat:@"%d", [item[@"season"] intValue]] inArray:self.extraSectionRichResults];
+        NSInteger seasonIdx = [self indexOfObjectWithSeason:[item[@"season"] intValue] inArray:self.extraSectionRichResults];
         
         if (seasonIdx != NSNotFound) {
             NSArray *sheetActions = @[

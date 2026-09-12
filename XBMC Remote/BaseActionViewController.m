@@ -278,7 +278,6 @@
     NSString *runtime = [Utilities getTimeFromItem:item[mainFields[@"row4"]] sec2min:sec2min];
     NSString *rating = [Utilities getRatingFromItem:item[mainFields[@"row5"]]];
     NSString *family = [Utilities getStringFromItem:mainFields[@"row8"]];
-    NSString *seasonNumber = [Utilities getStringFromItem:item[mainFields[@"row10"]]];
     NSString *clearlogo = [Utilities getClearArtFromDictionary:item[@"art"] type:@"clearlogo"];
     NSString *clearart = [Utilities getClearArtFromDictionary:item[@"art"] type:@"clearart"];
     NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:useIcon];
@@ -303,7 +302,6 @@
     newDict[@"clearlogo"] = clearlogo;
     newDict[@"clearart"] = clearart;
     newDict[@"runtime"] = runtime;
-    newDict[@"season"] = seasonNumber;
     newDict[@"family"] = family;
     newDict[@"year"] = year;
     newDict[@"rating"] = rating;
