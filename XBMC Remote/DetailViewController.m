@@ -1336,9 +1336,6 @@
         NSMutableDictionary *newParams = [self rebuildLibraryModeParameters:parameters[@"parameters"]
                                                                      newKey:objKey
                                                                    newValue:obj];
-        if (parameters[@"parameters"][@"albumartistsonly"]) {
-            newParams[@"albumartistsonly"] = parameters[@"parameters"][@"albumartistsonly"];
-        }
         
         NSMutableDictionary *newMainParameters = [parameters mutableCopy];
         newMainParameters[@"parameters"] = newParams;

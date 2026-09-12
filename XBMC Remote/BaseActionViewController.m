@@ -274,6 +274,7 @@
             value, key,
             dict[@"properties"], @"properties",
             dict[@"sort"], @"sort",
+            dict[@"albumartistsonly"], @"albumartistsonly",
             nil];
 }
 
