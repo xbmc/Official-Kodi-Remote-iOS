@@ -28,6 +28,7 @@
 - (void)startPlaybackItems:(NSDictionary*)playlistItems using:(NSString*)playername shuffle:(BOOL)shuffled resume:(BOOL)resume indicator:(UIActivityIndicatorView*)cellActivityIndicator;
 - (void)openURL:(NSString*)url;
 - (void)recordChannel:(NSDictionary*)item indicator:(UIActivityIndicatorView*)cellActivityIndicator onSuccess:(void (^)(void))onSuccess;
+- (NSMutableDictionary*)getNewDictionaryFromItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useIcon:(BOOL)useIcon;
 
 @property (strong, nonatomic) id detailItem;
 

@@ -1419,50 +1419,11 @@
                  }
                  NSString *serverURL = [Utilities getImageServerURL];
                  int runtimeInMinute = [Utilities getSec2Min:YES];
-
-                 NSString *label = [Utilities getStringFromItem:itemExtraDict[mainFields[@"row1"]]];
-                 NSString *genre = [Utilities getStringFromItem:itemExtraDict[mainFields[@"row2"]]];
-                 NSString *year = [Utilities getYearFromItem:itemExtraDict[mainFields[@"row3"]]];
-                 NSString *runtime = [Utilities getTimeFromItem:itemExtraDict[mainFields[@"row4"]] sec2min:runtimeInMinute];
-                 NSString *rating = [Utilities getRatingFromItem:itemExtraDict[mainFields[@"row5"]]];
-                 NSString *thumbnailPath = [self getNowPlayingThumbnailPath:itemExtraDict];
-                 NSDictionary *art = itemExtraDict[@"art"];
-                 NSString *clearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
-                 NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
-                 NSString *stringURL = [Utilities formatStringURL:thumbnailPath serverURL:serverURL];
-                 NSString *fanartURL = [Utilities formatStringURL:itemExtraDict[@"fanart"] serverURL:serverURL];
-                 if (!stringURL.length) {
-                     stringURL = [Utilities getItemIconFromDictionary:itemExtraDict];
-                 }
-                 id row11 = itemExtraDict[mainFields[@"row11"]] ?: @0;
-                 
-                 NSDictionary *newItem = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          clearlogo, @"clearlogo",
-                                          clearart, @"clearart",
-                                          label, @"label",
-                                          genre, @"genre",
-                                          stringURL, @"thumbnail",
-                                          fanartURL, @"fanart",
-                                          runtime, @"runtime",
-                                          itemExtraDict[mainFields[@"row6"]], mainFields[@"row6"],
-                                          itemExtraDict[mainFields[@"row8"]], mainFields[@"row8"],
-                                          year, @"year",
-                                          rating, @"rating",
-                                          mainFields[@"playlistid"], @"playlistid",
-                                          mainFields[@"row8"], @"family",
-                                          [Utilities getNumberFromItem:itemExtraDict[mainFields[@"row9"]]], mainFields[@"row9"],
-                                          itemExtraDict[mainFields[@"row10"]], mainFields[@"row10"],
-                                          row11, mainFields[@"row11"],
-                                          itemExtraDict[mainFields[@"row12"]], mainFields[@"row12"],
-                                          itemExtraDict[mainFields[@"row13"]], mainFields[@"row13"],
-                                          itemExtraDict[mainFields[@"row14"]], mainFields[@"row14"],
-                                          itemExtraDict[mainFields[@"row15"]], mainFields[@"row15"],
-                                          itemExtraDict[mainFields[@"row16"]], mainFields[@"row16"],
-                                          itemExtraDict[mainFields[@"row17"]], mainFields[@"row17"],
-                                          itemExtraDict[mainFields[@"row18"]], mainFields[@"row18"],
-                                          itemExtraDict[mainFields[@"row19"]], mainFields[@"row19"],
-                                          itemExtraDict[mainFields[@"row20"]], mainFields[@"row20"],
-                                          nil];
+                 NSMutableDictionary *newItem = [self getNewDictionaryFromItem:itemExtraDict
+                                                                    mainFields:mainFields
+                                                                     serverURL:serverURL
+                                                                       sec2min:runtimeInMinute
+                                                                       useIcon:NO];
                  [self displayInfoView:newItem];
              }
          }
