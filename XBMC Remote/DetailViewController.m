@@ -469,22 +469,56 @@
     MainMenu *newMenuItem = [menuItem.subItem copy];
     newMenuItem.mainParameters[activeTab] = parameters;
     newMenuItem.chooseTab = activeTab;
+    [self pushDetailViewControllerWithItem:newMenuItem];
+}
+
+- (void)enterMenuForItem:(id)item params:(NSDictionary*)parameters {
+    MainMenu *menuItem = [self getMainMenu:item];
+    int activeTab = [self getActiveTab:item];
+    menuItem.mainLabel = item[@"label"];
+    MainMenu *newMenuItem = [menuItem copy];
+    newMenuItem.mainParameters[activeTab] = parameters;
+    newMenuItem.chooseTab = activeTab;
+    [self pushDetailViewControllerWithItem:newMenuItem];
+}
+
+- (void)pushDetailViewControllerWithItem:(MainMenu*)menuItem {
     if (IS_IPHONE) {
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-        detailViewController.detailItem = newMenuItem;
+        detailViewController.detailItem = menuItem;
         [self.navigationController pushViewController:detailViewController animated:YES];
     }
     else {
         if (stackscrollFullscreen) {
             [self toggleFullscreen];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+                DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:menuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
                 [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
             });
         }
         else {
-            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
+            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:menuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
             [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
+        }
+    }
+}
+
+- (void)pushSettingsValuesControllerWithItem:(id)item {
+    if (IS_IPHONE) {
+        SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:item];
+        [self.navigationController pushViewController:settingsViewController animated:YES];
+    }
+    else {
+        if (stackscrollFullscreen) {
+            [self toggleFullscreen];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.bounds.size.height) withItem:item];
+                [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:NO];
+            });
+        }
+        else {
+            SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.bounds.size.height) withItem:item];
+            [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:NO];
         }
     }
 }
@@ -1343,28 +1377,7 @@
                                                                             sizeParameters:parameters
                                                                                        key:@"directory"
                                                                                      value:item[mainFields[@"row6"]]];
-                menuItem.mainLabel = item[@"label"];
-                MainMenu *newMenuItem = [menuItem copy];
-                newMenuItem.mainParameters[activeTab] = newMainParameters;
-                newMenuItem.chooseTab = activeTab;
-                if (IS_IPHONE) {
-                    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-                    detailViewController.detailItem = newMenuItem;
-                    [self.navigationController pushViewController:detailViewController animated:YES];
-                }
-                else {
-                    if (stackscrollFullscreen) {
-                        [self toggleFullscreen];
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                            DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                            [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-                        });
-                    }
-                    else {
-                        DetailViewController *iPadDetailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" withItem:newMenuItem withFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.frame.size.height) bundle:nil];
-                        [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadDetailViewController invokeByController:self isStackStartView:NO];
-                    }
-                }
+                [self enterMenuForItem:item params:newMainParameters];
             }
             else if ([item[@"genre"] isEqualToString:@"file"] ||
                      [item[@"filetype"] isEqualToString:@"file"]) {
@@ -1418,23 +1431,7 @@
     NSMutableArray *sheetActions = [menuItem.sheetActions[activeTab] mutableCopy];
     NSMutableDictionary *parameters = menuItem.mainParameters[activeTab];
     if ([item[@"family"] isEqualToString:@"id"]) {
-        if (IS_IPHONE) {
-            SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:item];
-            [self.navigationController pushViewController:settingsViewController animated:YES];
-        }
-        else {
-            if (stackscrollFullscreen) {
-                [self toggleFullscreen];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.6f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.bounds.size.height) withItem:item];
-                    [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:NO];
-                });
-            }
-            else {
-                SettingsValuesViewController *iPadSettingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, STACKSCROLL_WIDTH, self.view.bounds.size.height) withItem:item];
-                [AppDelegate.instance.windowController.stackScrollViewController addViewInSlider:iPadSettingsViewController invokeByController:self isStackStartView:NO];
-            }
-        }
+        [self pushSettingsValuesControllerWithItem:item];
     }
     else if ([item[@"family"] isEqualToString:@"type"]) {
         // Selected favourite item is a window type -> activate it
