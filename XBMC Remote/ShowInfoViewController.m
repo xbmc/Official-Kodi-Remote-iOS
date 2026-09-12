@@ -304,18 +304,10 @@
             obj = [NSDictionary dictionaryWithObjectsAndKeys:obj, objKey, nil];
             objKey = @"filter";
         }
-        NSMutableDictionary *newSectionParameters = nil;
-        if (parameters[@"extra_section_parameters"] != nil) {
-            newSectionParameters = [self rebuildLibraryModeParameters:parameters[@"extra_section_parameters"]
-                                                               newKey:objKey
-                                                             newValue:obj];
-        }
-        NSMutableDictionary *newMainParameters = [parameters mutableCopy];
-        newMainParameters[@"parameters"] = [self rebuildLibraryModeParameters:parameters[@"parameters"]
-                                                                       newKey:objKey
-                                                                     newValue:obj];
+        NSMutableDictionary *newMainParameters = [self buildLibraryModeMainParameters:parameters
+                                                                                  key:objKey
+                                                                                value:obj];
         newMainParameters[@"fromShowInfo"] = @YES;
-        newMainParameters[@"extra_section_parameters"] = newSectionParameters;
         
         chosenMenuItem.mainParameters[activeTab] = newMainParameters;
         chosenMenuItem.chooseTab = activeTab;
