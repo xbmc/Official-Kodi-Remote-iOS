@@ -593,7 +593,7 @@
     return newItem;
 }
 
-- (NSMutableDictionary*)getNewDictionaryFromItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon {
+- (NSMutableDictionary*)getNewDictionaryFromItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useIcon:(BOOL)useIcon {
     NSString *label = [NSString stringWithFormat:@"%@", item[mainFields[@"row1"]]];
     NSString *genre = [Utilities getStringFromItem:item[mainFields[@"row2"]]];
     NSString *year = [Utilities getYearFromItem:item[mainFields[@"row3"]]];
@@ -4379,7 +4379,6 @@
                                                                                mainFields:mainFields
                                                                                 serverURL:serverURL
                                                                                   sec2min:secondsToMinute
-                                                                                useBanner:NO
                                                                                   useIcon:NO];
                             // Convert from array to string to allow searching globally
                             if (newDict[@"artist"]) {
@@ -4556,7 +4555,6 @@
                                                                                 mainFields:mainFields
                                                                                  serverURL:serverURL
                                                                                    sec2min:secondsToMinute
-                                                                                 useBanner:tvshowsView
                                                                                    useIcon:recordingListView];
                              
                              // Use TV Show episode's "specialsort", if present, to place a copy of a special
