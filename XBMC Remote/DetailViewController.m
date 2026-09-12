@@ -538,13 +538,13 @@
     }];
 }
 
-- (NSDictionary*)getNewDictionaryFromExtraInfoItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon {
+- (NSDictionary*)getNewDictionaryFromExtraInfoItem:(NSDictionary*)item mainFields:(NSDictionary*)mainFields serverURL:(NSString*)serverURL sec2min:(int)sec2min useIcon:(BOOL)useIcon {
     NSString *label = [NSString stringWithFormat:@"%@", item[mainFields[@"row1"]]];
     NSString *genre = [Utilities getStringFromItem:item[mainFields[@"row2"]]];
     NSString *year = [Utilities getYearFromItem:item[mainFields[@"row3"]]];
     NSString *runtime = [Utilities getTimeFromItem:item[mainFields[@"row4"]] sec2min:sec2min];
     NSString *rating = [Utilities getRatingFromItem:item[mainFields[@"row5"]]];
-    NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:item useBanner:useBanner useIcon:useIcon];
+    NSString *thumbnailPath = [Utilities getThumbnailFromDictionary:item useBanner:NO useIcon:useIcon];
     NSDictionary *art = item[@"art"];
     NSString *clearlogo = [Utilities getClearArtFromDictionary:art type:@"clearlogo"];
     NSString *clearart = [Utilities getClearArtFromDictionary:art type:@"clearart"];
@@ -4280,7 +4280,6 @@
                                                                           mainFields:mainFields
                                                                            serverURL:serverURL
                                                                              sec2min:secondsToMinute
-                                                                           useBanner:NO
                                                                              useIcon:methodResult[@"recordingdetails"] != nil];
                      [self displayInfoView:newItem];
                  }
