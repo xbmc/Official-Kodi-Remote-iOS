@@ -989,8 +989,12 @@
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         __block NSString *audiocodec, *videocodec, *aspect, *res;
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-            audiocodec = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"codec"]];
-            videocodec = [Utilities getStringFromItem:methodResult[@"currentvideostream"][@"codec"]];
+            if ([methodResult[@"currentaudiostream"] isKindOfClass:[NSDictionary class]]) {
+                audiocodec = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"codec"]];
+            }
+            if ([methodResult[@"currentvideostream"] isKindOfClass:[NSDictionary class]]) {
+                videocodec = [Utilities getStringFromItem:methodResult[@"currentvideostream"][@"codec"]];
+            }
         }
         
         // Use XBMC.GetInfoLabels to gather aspect ratio and resolution. Same for codecs, if empty yet.
