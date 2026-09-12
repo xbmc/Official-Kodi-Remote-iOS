@@ -1350,19 +1350,13 @@
         [self enterSubmenuForItem:item params:newMainParameters];
     }
     else { // CHILD IS FILEMODE
-        NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
-        NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
         if ([item[@"filetype"] length] != 0 && ![item[@"isSources"] boolValue]) { // WE ARE ALREADY IN BROWSING FILES MODE
             if ([item[@"filetype"] isEqualToString:@"directory"]) {
                 NSDictionary *currentParams = menuItem.mainParameters[activeTab];
-                NSMutableDictionary *newMainParameters = [currentParams mutableCopy];
-                newMainParameters[@"parameters"] = [self rebuildFileModeParameters:currentParams[@"parameters"]
-                                                                            newKey:@"directory"
-                                                                          newValue:item[mainFields[@"row6"]]];
-                newMainParameters[@"defaultThumb"] = @"nocover_filemode";
-                newMainParameters[@"rowHeight"] = filemodeRowHeight;
-                newMainParameters[@"thumbWidth"] = filemodeThumbWidth;
-                
+                NSMutableDictionary *newMainParameters = [self buildFileModeMainParameters:currentParams
+                                                                            sizeParameters:parameters
+                                                                                       key:@"directory"
+                                                                                     value:item[mainFields[@"row6"]]];
                 menuItem.mainLabel = item[@"label"];
                 MainMenu *newMenuItem = [menuItem copy];
                 newMenuItem.mainParameters[activeTab] = newMainParameters;
@@ -1418,13 +1412,10 @@
             else if ([item[@"family"] isEqualToString:@"addonid"]) {
                 objValue = [@"plugin://" stringByAppendingString: objValue];
             }
-            NSMutableDictionary *newMainParameters = [parameters mutableCopy];
-            newMainParameters[@"parameters"] = [self rebuildFileModeParameters:parameters[@"parameters"]
-                                                                        newKey:fileModeKey
-                                                                      newValue:objValue];
-            newMainParameters[@"defaultThumb"] = @"nocover_filemode";
-            newMainParameters[@"rowHeight"] = filemodeRowHeight;
-            newMainParameters[@"thumbWidth"] = filemodeThumbWidth;
+            NSMutableDictionary *newMainParameters = [self buildFileModeMainParameters:parameters
+                                                                        sizeParameters:parameters
+                                                                                   key:fileModeKey
+                                                                                 value:objValue];
             if ([item[@"family"] isEqualToString:@"sectionid"] || [item[@"family"] isEqualToString:@"categoryid"]) {
                 newMainParameters[@"parameters"][@"level"] = @"expert";
             }
@@ -3835,17 +3826,10 @@
     int activeTab = [self getActiveTab:item];
     NSDictionary *mainFields = menuItem.mainFields[activeTab];
     NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
-    NSNumber *filemodeRowHeight = parameters[@"rowHeight"] ?: @FILEMODE_ROW_HEIGHT;
-    NSNumber *filemodeThumbWidth = parameters[@"thumbWidth"] ?: @FILEMODE_THUMB_WIDTH;
-    
-    NSMutableDictionary *newMainParameters = [parameters mutableCopy];
-    newMainParameters[@"parameters"] = [self rebuildFileModeParameters:parameters[@"parameters"]
-                                                                newKey:@"directory"
-                                                              newValue:item[mainFields[@"row6"]]];
-    newMainParameters[@"defaultThumb"] = @"nocover_filemode";
-    newMainParameters[@"rowHeight"] = filemodeRowHeight;
-    newMainParameters[@"thumbWidth"] = filemodeThumbWidth;
-    
+    NSMutableDictionary *newMainParameters = [self buildFileModeMainParameters:parameters
+                                                                sizeParameters:parameters
+                                                                           key:@"directory"
+                                                                         value:item[mainFields[@"row6"]]];
     [self enterSubmenuForItem:item params:newMainParameters];
 }
 
