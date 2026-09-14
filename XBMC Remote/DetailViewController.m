@@ -191,39 +191,39 @@
     channelEPG[@"starttime"] = @"";
     channelEPG[@"endtime"] = @"";
     if (epgData != nil) {
-        NSDictionary *objectToSearch;
         NSDate *nowDate = [NSDate date];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"starttime <= %@ AND endtime >= %@", nowDate, nowDate];
         NSArray *filteredArray = [epgData filteredArrayUsingPredicate:predicate];
         if (filteredArray.count > 0 && [filteredArray[0] isKindOfClass:[NSDictionary class]]) {
-            objectToSearch = filteredArray[0];
-            channelEPG[@"starttime"] = objectToSearch[@"starttime"];
-            channelEPG[@"endtime"] = objectToSearch[@"endtime"];
+            NSDictionary *epgItem = filteredArray[0];
+            channelEPG[@"starttime"] = epgItem[@"starttime"];
+            channelEPG[@"endtime"] = epgItem[@"endtime"];
             channelEPG[@"current"] = [NSString stringWithFormat:@"%@ %@",
-                                      [localHourMinuteFormatter stringFromDate:objectToSearch[@"starttime"]],
-                                      objectToSearch[@"title"]
+                                      [localHourMinuteFormatter stringFromDate:epgItem[@"starttime"]],
+                                      epgItem[@"title"]
                                       ];
             NSCalendar *gregorian = [[NSCalendar alloc]
                                      initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
             NSUInteger unitFlags = NSCalendarUnitMinute;
             NSDateComponents *components = [gregorian components:unitFlags
-                                                        fromDate:objectToSearch[@"starttime"]
-                                                          toDate:objectToSearch[@"endtime"] options:0];
+                                                        fromDate:epgItem[@"starttime"]
+                                                          toDate:epgItem[@"endtime"]
+                                                         options:0];
             NSInteger minutes = [components minute];
-            NSString *plotoutline = objectToSearch[@"plotoutline"];
-            if (!plotoutline || [plotoutline isKindOfClass:[NSNull class]] || [objectToSearch[@"plot"] isEqualToString:plotoutline]) {
+            NSString *plotoutline = epgItem[@"plotoutline"];
+            if (!plotoutline || [plotoutline isKindOfClass:[NSNull class]] || [epgItem[@"plot"] isEqualToString:plotoutline]) {
                 plotoutline = @"";
             }
             channelEPG[@"current_details"] = [NSString stringWithFormat:@"\n%@\n%@\n%@\n\n%@ - %@ (%ld %@)",
-                                              objectToSearch[@"title"],
+                                              epgItem[@"title"],
                                               plotoutline.length > 0 ? [NSString stringWithFormat:@"%@\n", plotoutline] : @"",
-                                              objectToSearch[@"plot"],
-                                              [localHourMinuteFormatter stringFromDate:objectToSearch[@"starttime"]],
-                                              [localHourMinuteFormatter stringFromDate:objectToSearch[@"endtime"]],
+                                              epgItem[@"plot"],
+                                              [localHourMinuteFormatter stringFromDate:epgItem[@"starttime"]],
+                                              [localHourMinuteFormatter stringFromDate:epgItem[@"endtime"]],
                                               (long)minutes,
                                               (long)minutes > 1 ? LOCALIZED_STR(@"Mins.") : LOCALIZED_STR(@"Min")
                                               ];
-            predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", objectToSearch[@"endtime"]];
+            predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", epgItem[@"endtime"]];
             NSArray *nextFilteredArray = [epgData filteredArrayUsingPredicate:predicate];
             if (nextFilteredArray.count > 0 && [nextFilteredArray[0] isKindOfClass:[NSDictionary class]]) {
                 channelEPG[@"next"] = [NSString stringWithFormat:@"%@ %@",
