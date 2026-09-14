@@ -200,7 +200,7 @@
             channelEPG[@"endtime"] = epgItem[@"endtime"];
             channelEPG[@"current"] = [NSString stringWithFormat:@"%@ %@",
                                       [localHourMinuteFormatter stringFromDate:epgItem[@"starttime"]],
-                                      epgItem[@"title"]
+                                      [Utilities getStringFromItem:epgItem[@"title"]]
                                       ];
             NSCalendar *gregorian = [[NSCalendar alloc]
                                      initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -210,14 +210,19 @@
                                                           toDate:epgItem[@"endtime"]
                                                          options:0];
             NSInteger minutes = [components minute];
-            NSString *plotoutline = epgItem[@"plotoutline"];
-            if (!plotoutline || [plotoutline isKindOfClass:[NSNull class]] || [epgItem[@"plot"] isEqualToString:plotoutline]) {
+            NSString *title = [Utilities getStringFromItem:epgItem[@"title"]];
+            NSString *plot = [Utilities getStringFromItem:epgItem[@"plot"]];
+            NSString *plotoutline = [Utilities getStringFromItem:epgItem[@"plotoutline"]];
+            if ([plot isEqualToString:plotoutline]) {
                 plotoutline = @"";
             }
-            channelEPG[@"current_details"] = [NSString stringWithFormat:@"\n%@\n%@\n%@\n\n%@ - %@ (%ld %@)",
-                                              epgItem[@"title"],
-                                              plotoutline.length > 0 ? [NSString stringWithFormat:@"%@\n", plotoutline] : @"",
-                                              epgItem[@"plot"],
+            channelEPG[@"current_details"] = [NSString stringWithFormat:@"\n%@%@%@%@%@%@%@ - %@ (%ld %@)",
+                                              title,
+                                              title.length ? @"\n\n" : @"",
+                                              plotoutline,
+                                              plotoutline.length ? @"\n\n" : @"",
+                                              plot,
+                                              plot.length ? @"\n\n" : @"",
                                               [localHourMinuteFormatter stringFromDate:epgItem[@"starttime"]],
                                               [localHourMinuteFormatter stringFromDate:epgItem[@"endtime"]],
                                               (long)minutes,
@@ -229,7 +234,7 @@
                 NSDictionary *nextEpgItem = nextFilteredArray[0];
                 channelEPG[@"next"] = [NSString stringWithFormat:@"%@ %@",
                                        [localHourMinuteFormatter stringFromDate:nextEpgItem[@"starttime"]],
-                                       nextEpgItem[@"title"]
+                                       [Utilities getStringFromItem:nextEpgItem[@"title"]]
                                        ];
                 channelEPG[@"refresh_data"] = @NO;
             }
