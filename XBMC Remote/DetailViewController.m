@@ -195,7 +195,7 @@
         NSDate *nowDate = [NSDate date];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"starttime <= %@ AND endtime >= %@", nowDate, nowDate];
         NSArray *filteredArray = [epgData filteredArrayUsingPredicate:predicate];
-        if (filteredArray.count > 0) {
+        if (filteredArray.count > 0 && [filteredArray[0] isKindOfClass:[NSDictionary class]]) {
             objectToSearch = filteredArray[0];
             channelEPG[@"starttime"] = objectToSearch[@"starttime"];
             channelEPG[@"endtime"] = objectToSearch[@"endtime"];
@@ -225,7 +225,7 @@
                                               ];
             predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", objectToSearch[@"endtime"]];
             NSArray *nextFilteredArray = [epgData filteredArrayUsingPredicate:predicate];
-            if (nextFilteredArray.count > 0) {
+            if (nextFilteredArray.count > 0 && [nextFilteredArray[0] isKindOfClass:[NSDictionary class]]) {
                 channelEPG[@"next"] = [NSString stringWithFormat:@"%@ %@",
                                        [localHourMinuteFormatter stringFromDate:nextFilteredArray[0][@"starttime"]],
                                        nextFilteredArray[0][@"title"]
