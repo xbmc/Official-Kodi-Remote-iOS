@@ -226,9 +226,10 @@
             predicate = [NSPredicate predicateWithFormat:@"starttime >= %@", epgItem[@"endtime"]];
             NSArray *nextFilteredArray = [epgData filteredArrayUsingPredicate:predicate];
             if (nextFilteredArray.count > 0 && [nextFilteredArray[0] isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *nextEpgItem = nextFilteredArray[0];
                 channelEPG[@"next"] = [NSString stringWithFormat:@"%@ %@",
-                                       [localHourMinuteFormatter stringFromDate:nextFilteredArray[0][@"starttime"]],
-                                       nextFilteredArray[0][@"title"]
+                                       [localHourMinuteFormatter stringFromDate:nextEpgItem[@"starttime"]],
+                                       nextEpgItem[@"title"]
                                        ];
                 channelEPG[@"refresh_data"] = @NO;
             }
