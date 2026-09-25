@@ -304,31 +304,12 @@
             obj = [NSDictionary dictionaryWithObjectsAndKeys:obj, objKey, nil];
             objKey = @"filter";
         }
-        NSMutableDictionary *newSectionParameters = nil;
-        if (parameters[@"extra_section_parameters"] != nil) {
-            newSectionParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    obj, objKey,
-                                    parameters[@"extra_section_parameters"][@"properties"], @"properties",
-                                    parameters[@"extra_section_parameters"][@"sort"], @"sort",
-                                    item[mainFields[@"row6"]], mainFields[@"row6"],
-                                    nil];
-        }
-        NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                               obj, objKey,
-                                               parameters[@"parameters"][@"properties"], @"properties",
-                                               parameters[@"parameters"][@"sort"], @"sort",
-                                               nil], @"parameters",
-                                              parameters[@"label"], @"label",
-                                              @YES, @"fromShowInfo",
-                                              @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                              parameters[@"itemSizes"] ?: @{}, @"itemSizes",
-                                              parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                              @([parameters[@"enableLibraryCache"] boolValue]), @"enableLibraryCache",
-                                              @([parameters[@"collectionViewRecentlyAdded"] boolValue]), @"collectionViewRecentlyAdded",
-                                              newSectionParameters, @"extra_section_parameters",
-                                              nil];
-        chosenMenuItem.mainParameters[activeTab] = newParameters;
+        NSMutableDictionary *newMainParameters = [self buildLibraryModeMainParameters:parameters
+                                                                                  key:objKey
+                                                                                value:obj];
+        newMainParameters[@"fromShowInfo"] = @YES;
+        
+        chosenMenuItem.mainParameters[activeTab] = newMainParameters;
         chosenMenuItem.chooseTab = activeTab;
         if (IS_IPHONE) {
             DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
