@@ -10,16 +10,17 @@
 
 @import UIKit;
 
-/* Implementation taken from stackoverflow
+/* Implementation inspired by stackoverflow
  * https://stackoverflow.com/questions/67058134/objective-c-ios-14-how-to-do-network-privacy-permission-check
  */
+
+#define DISCOVERY_TIMEOUT 5.0
 
 @interface LocalNetworkAccess () <NSNetServiceDelegate>
 
 @property (nonatomic) NSNetService *service;
 @property (nonatomic) void (^completion)(BOOL);
 @property (nonatomic) NSTimer *timer;
-@property (nonatomic) BOOL publishing;
 
 @end
 
@@ -39,29 +40,29 @@
 - (void)checkAccessState:(void (^)(BOOL))completion {
     self.completion = completion;
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 repeats:YES block:^(NSTimer * _Nonnull timer) {
+    self.service.delegate = self;
+    [self.service publish];
+    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:DISCOVERY_TIMEOUT repeats:NO block:^(NSTimer * _Nonnull timer) {
         if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
             return;
         }
         
-        if (self.publishing) {
-            [self.timer invalidate];
-            self.completion(NO);
-        }
-        else {
-            self.publishing = YES;
-            self.service.delegate = self;
-            [self.service publish];
-        }
+        // Discovery timed out, report failure.
+        [self endDiscoveryWithSuccess:NO];
     }];
 }
 
+- (void)endDiscoveryWithSuccess:(BOOL)success {
+    [self.timer invalidate];
+    [self.service stop];
+    self.completion(success);
+}
 
 #pragma mark - NSNetServiceDelegate
 
 - (void)netServiceDidPublish:(NSNetService *)sender {
-    [self.timer invalidate];
-    self.completion(YES);
+    [self endDiscoveryWithSuccess:YES];
 }
 
 @end
