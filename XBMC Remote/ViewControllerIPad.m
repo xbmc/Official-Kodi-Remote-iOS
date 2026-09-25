@@ -168,12 +168,7 @@
         [self toggleSetup];
         return;
     }
-    UIAlertController *alertCtrl = [Utilities createPowerControl];
-    UIPopoverPresentationController *popPresenter = [alertCtrl popoverPresentationController];
-    if (popPresenter != nil) {
-        popPresenter.sourceView = powerButton;
-        popPresenter.sourceRect = powerButton.bounds;
-    }
+    UIAlertController *alertCtrl = [Utilities createPowerControlFromView:powerButton];
     [self presentViewController:alertCtrl animated:YES completion:nil];
 }
 
