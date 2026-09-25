@@ -225,7 +225,8 @@
 }
 
 - (void)handlePanFrom:(UIPanGestureRecognizer*)recognizer {
-    if (stackScrollIsFullscreen) {
+    if (stackScrollIsFullscreen || !slideViews.subviews.count) {
+        [self resetDragging];
         return;
     }
     CGPoint translatedPoint = [recognizer translationInView:self.view];
@@ -393,11 +394,14 @@
                 [self bounceView:viewAtLeft amount:bounce];
             }];
         }
-        
-        // Reset variables for next dragging event
-        lastTouchPoint = -1;
-        dragDirection = StackDraggedNone;
+        [self resetDragging];
     }
+}
+
+- (void)resetDragging {
+    // Reset variables for next dragging event
+    lastTouchPoint = -1;
+    dragDirection = StackDraggedNone;
 }
 
 - (void)moveStack {
