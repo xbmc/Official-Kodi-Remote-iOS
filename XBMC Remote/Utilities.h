@@ -51,7 +51,6 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (void)showMessage:(NSString*)messageText color:(UIColor*)messageColor;
 + (void)showLocalNetworkAccessError:(UIViewController*)viewCtrl;
 + (DSJSONRPC*)getJsonRPC;
-+ (void)setWebImageAuthorizationOnSuccessNotification:(NSNotification*)note;
 + (NSString*)convertTimeFromSeconds:(NSNumber*)seconds;
 + (NSString*)getItemIconFromDictionary:(NSDictionary*)dict;
 + (NSString*)getStringFromItem:(id)item;
@@ -64,6 +63,7 @@ typedef NS_ENUM(NSInteger, LogoBackgroundType) {
 + (NSString*)getThumbnailFromDictionary:(NSDictionary*)dict useBanner:(BOOL)useBanner useIcon:(BOOL)useIcon;
 + (NSString*)getDateFromItem:(id)item dateStyle:(NSDateFormatterStyle)dateStyle;
 + (int)getSec2Min:(BOOL)convert;
++ (NSString*)getServerAuthorizationForURL:(NSURL*)url;
 + (NSString*)getImageServerURL;
 + (NSString*)formatStringURL:(NSString*)path serverURL:(NSString*)serverURL;
 + (NSArray*)addExtraProperties:(NSArray*)properties parameters:(NSDictionary*)parameters;
