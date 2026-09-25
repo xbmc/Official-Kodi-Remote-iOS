@@ -778,8 +778,10 @@
             
         case SettingTypeMultiselect:
             if ([self.detailItem[@"definition"] isKindOfClass:[NSDictionary class]]) {
-                self.detailItem[@"definition"][@"value"] = self.detailItem[@"value"];
-                self.detailItem[@"definition"][@"id"] = self.detailItem[@"id"];
+                NSMutableDictionary *definition = [self.detailItem[@"definition"] mutableCopy];
+                definition[@"value"] = self.detailItem[@"value"];
+                definition[@"id"] = self.detailItem[@"id"];
+                self.detailItem[@"definition"] = definition;
                 SettingsValuesViewController *settingsViewController = [[SettingsValuesViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) withItem:self.detailItem[@"definition"]];
                 if (IS_IPHONE) {
                     [self.navigationController pushViewController:settingsViewController animated:YES];
