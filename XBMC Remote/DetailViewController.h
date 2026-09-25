@@ -56,10 +56,12 @@
     int flagY;
     BOOL albumView;
     BOOL episodesView;
-    BOOL tvshowsView;
+    BOOL tvShowsView;
+    BOOL tvShowsBannerView;
     BOOL channelGuideView;
     BOOL channelListView;
     BOOL recordingListView;
+    BOOL timerListView;
     BOOL globalSearchView;
     BOOL useSectionInSearchResults;
     int albumViewHeight;
