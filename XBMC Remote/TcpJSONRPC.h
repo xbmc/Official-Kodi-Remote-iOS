@@ -11,6 +11,7 @@
 @import Foundation;
 
 @interface TcpJSONRPC : NSObject <NSStreamDelegate> {
+    NSInputStream *inStream;
     BOOL inCheck;
     NSTimer *heartbeatTimer;
     NSString *infoTitle;
