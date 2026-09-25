@@ -75,6 +75,7 @@
     int lineSpacing;
     int thumbWidth;
     int tvshowHeight;
+    UIImage *table_arrow_right_colored;
     UITableView *actorsTable;
     NSURL *embedVideoURL;
     UIColor *foundTintColor;
