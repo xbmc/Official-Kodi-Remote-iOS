@@ -42,20 +42,22 @@
 - (UIView*)hitTest:(CGPoint)pt withEvent:(UIEvent*)event {
 	UIView *viewToReturn = nil;
 	CGPoint pointToReturn;
-	UIView *uiRightView = (UIView*)(self.subviews[1]);
-	if (uiRightView.subviews[0]) {
-		UIView *uiStackScrollView = uiRightView.subviews[0];
-		if (uiStackScrollView.subviews[0]) {
-			UIView *uiSlideView = uiStackScrollView.subviews[0];
-			for (UIView *subView in uiSlideView.subviews) {
-				CGPoint point = [subView convertPoint:pt fromView:self];
-				if ([subView pointInside:point withEvent:event]) {
-					viewToReturn = subView;
-					pointToReturn = point;
-				}
-			}
-		}
-	}
+    if (self.subviews.count > 1) {
+        UIView *uiRightView = (UIView*)(self.subviews[1]);
+        if (uiRightView.subviews.count > 0) {
+            UIView *uiStackScrollView = uiRightView.subviews[0];
+            if (uiStackScrollView.subviews.count > 0) {
+                UIView *uiSlideView = uiStackScrollView.subviews[0];
+                for (UIView *subView in uiSlideView.subviews) {
+                    CGPoint point = [subView convertPoint:pt fromView:self];
+                    if ([subView pointInside:point withEvent:event]) {
+                        viewToReturn = subView;
+                        pointToReturn = point;
+                    }
+                }
+            }
+        }
+    }
 	
 	if (viewToReturn != nil) {
 		return [viewToReturn hitTest:pointToReturn withEvent:event];		
