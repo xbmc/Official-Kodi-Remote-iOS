@@ -4959,12 +4959,16 @@
 
 - (SEL)buildSelectorForSortMethod:(NSString*)sortByMethod inArray:(NSArray*)itemList {
     // Use localizedStandardCompare for all NSString items to be sorted (provides correct order for multi-digit
-    // numbers). But do not use for any other types as this crashes.
-    SEL selector = nil;
-    if (itemList.count > 0 && [itemList[0][sortByMethod] isKindOfClass:[NSString class]]) {
-        selector = @selector(localizedStandardCompare:);
+    // numbers). But do not use for any other types as this crashes. Check for all items in the list.
+    if (!itemList.count) {
+        return nil;
     }
-    return selector;
+    for (id item in itemList) {
+        if (![item[sortByMethod] isKindOfClass:[NSString class]]) {
+            return nil;
+        }
+    }
+    return @selector(localizedStandardCompare:);
 }
 
 - (void)buildSectionsForList:(NSArray*)itemList sortMethod:(NSString*)sortByMethod {
