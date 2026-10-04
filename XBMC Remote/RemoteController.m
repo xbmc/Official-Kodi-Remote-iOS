@@ -368,16 +368,14 @@ static void *TorchRemoteContext = &TorchRemoteContext;
                                  NSDictionary *currentSubtitle = methodResult[@"currentsubtitle"];
                                  BOOL subtitleEnabled = [methodResult[@"subtitleenabled"] boolValue];
                                  NSArray *subtitles = methodResult[@"subtitles"];
-                                 if (subtitles.count) {
-                                     subsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                                       currentSubtitle, @"currentsubtitle",
-                                                       @(subtitleEnabled), @"subtitleenabled",
-                                                       subtitles, @"subtitles",
-                                                       nil];
+                                 if ([subtitles isKindOfClass:[NSArray class]] && subtitles.count) {
                                      NSArray *actionSheetTitles = [self buildActionSheetForArray:subtitles
                                                                                  currentLanguage:currentSubtitle
                                                                                   featureEnabled:subtitleEnabled];
-                                     [self showActionSubtitles:actionSheetTitles];
+                                     [self showActionSubtitles:actionSheetTitles
+                                                     subtitles:subtitles
+                                                       current:currentSubtitle
+                                                       enabled:subtitleEnabled];
                                  }
                                  else {
                                      [self showSubInfo:LOCALIZED_STR(@"Subtitles not available") color:ERROR_MESSAGE_COLOR];
@@ -412,15 +410,13 @@ static void *TorchRemoteContext = &TorchRemoteContext;
                              if ([methodResult count]) {
                                  NSDictionary *currentAudiostream = methodResult[@"currentaudiostream"];
                                  NSArray *audiostreams = methodResult[@"audiostreams"];
-                                 if (audiostreams.count) {
-                                     audiostreamsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                                       currentAudiostream, @"currentaudiostream",
-                                                       audiostreams, @"audiostreams",
-                                                       nil];
+                                 if ([audiostreams isKindOfClass:[NSArray class]] && audiostreams.count) {
                                      NSArray *actionSheetTitles = [self buildActionSheetForArray:audiostreams
                                                                                  currentLanguage:currentAudiostream
                                                                                   featureEnabled:YES];
-                                     [self showActionAudiostreams:actionSheetTitles];
+                                     [self showActionAudiostreams:actionSheetTitles
+                                                     audiostreams:audiostreams
+                                                          current:currentAudiostream];
                                  }
                                  else {
                                      [self showSubInfo:LOCALIZED_STR(@"Audiostreams not available") color:ERROR_MESSAGE_COLOR];
@@ -446,7 +442,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
 
 #pragma mark - Action Sheet Method
 
-- (void)showActionAudiostreams:(NSArray*)sheetActions {
+- (void)showActionAudiostreams:(NSArray*)sheetActions audiostreams:(NSArray*)allAudiostreams current:(NSDictionary*)currentAudiostream {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
         UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Audio stream") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -456,10 +452,11 @@ static void *TorchRemoteContext = &TorchRemoteContext;
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                if (audiostreamsDictionary[@"audiostreams"]) {
-                    if (audiostreamsDictionary[@"audiostreams"][i]) {
-                        if (![audiostreamsDictionary[@"audiostreams"][i] isEqual:audiostreamsDictionary[@"currentaudiostream"]]) {
-                            id audiostreamIndex = audiostreamsDictionary[@"audiostreams"][i][@"index"];
+                if (allAudiostreams && [allAudiostreams isKindOfClass:[NSArray class]]) {
+                    id selectedAudiostream = allAudiostreams[i];
+                    if (selectedAudiostream && [selectedAudiostream isKindOfClass:[NSDictionary class]]) {
+                        if (![selectedAudiostream isEqual:currentAudiostream]) {
+                            id audiostreamIndex = selectedAudiostream[@"index"];
                             if (audiostreamIndex) {
                                 [self playerAction:@"Player.SetAudioStream" params:@{@"stream": audiostreamIndex}];
                                 [self showSubInfo:actiontitle color:SUCCESS_MESSAGE_COLOR];
@@ -482,7 +479,7 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     }
 }
 
-- (void)showActionSubtitles:(NSArray*)sheetActions {
+- (void)showActionSubtitles:(NSArray*)sheetActions subtitles:(NSArray*)allSubtitles current:(NSDictionary*)currentSubtitle enabled:(BOOL)subtitlesEnabled {
     NSInteger numActions = sheetActions.count;
     if (numActions) {
         UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:LOCALIZED_STR(@"Subtitles") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -493,18 +490,18 @@ static void *TorchRemoteContext = &TorchRemoteContext;
             [self showSubInfo:LOCALIZED_STR(@"Subtitles disabled") color:SUCCESS_MESSAGE_COLOR];
             [self playerAction:@"Player.SetSubtitle" params:@{@"subtitle": @"off"}];
         }];
-        if ([subsDictionary[@"subtitleenabled"] boolValue]) {
+        if (subtitlesEnabled) {
             [alertCtrl addAction:action_disable];
         }
         
         for (int i = 0; i < numActions; i++) {
             NSString *actiontitle = sheetActions[i];
             UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                if (subsDictionary[@"subtitles"]) {
-                    if (subsDictionary[@"subtitles"][i]) {
-                        if (![subsDictionary[@"subtitles"][i] isEqual:subsDictionary[@"currentsubtitle"]] ||
-                            ![subsDictionary[@"subtitleenabled"] boolValue]) {
-                            id subsIndex = subsDictionary[@"subtitles"][i][@"index"];
+                if (allSubtitles && [allSubtitles isKindOfClass:[NSArray class]]) {
+                    id selectedSubtitle = allSubtitles[i];
+                    if (selectedSubtitle && [selectedSubtitle isKindOfClass:[NSDictionary class]]) {
+                        if (![selectedSubtitle isEqual:currentSubtitle] || !subtitlesEnabled) {
+                            id subsIndex = selectedSubtitle[@"index"];
                             if (subsIndex) {
                                 [self playerAction:@"Player.SetSubtitle" params:@{@"subtitle": subsIndex}];
                                 [self playerAction:@"Player.SetSubtitle" params:@{@"subtitle": @"on"}];
