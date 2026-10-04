@@ -180,13 +180,12 @@
     @try {
         svc = [[SFSafariViewController alloc] initWithURL:nsurl];
     } @catch (NSException *exception) {
-        if ([UIApplication.sharedApplication canOpenURL:nsurl]) {
-            [UIApplication.sharedApplication openURL:nsurl options:@{} completionHandler:nil];
-        }
-        else {
-            UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Error loading page") message:exception.reason];
-            [self presentViewController:alertView animated:YES completion:nil];
-        }
+        [UIApplication.sharedApplication openURL:nsurl options:@{} completionHandler:^(BOOL success) {
+            if (!success) {
+                UIAlertController *alertView = [Utilities createAlertOK:LOCALIZED_STR(@"Error loading page") message:exception.reason];
+                [self presentViewController:alertView animated:YES completion:nil];
+            }
+        }];
         return;
     }
     UIViewController *ctrl = self;
