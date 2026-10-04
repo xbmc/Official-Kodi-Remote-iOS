@@ -1107,7 +1107,6 @@
         [self modes_icons_empty],
         [self modes_icons_empty],
         [self modes_icons_empty],
-        [self modes_icons_empty],
     ];
     
     menu_Music.sheetActions = @[
