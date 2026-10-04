@@ -811,7 +811,7 @@
             return;
         }
         if (error == nil && methodError == nil) {
-            if ([methodResult isKindOfClass:[NSArray class]] && [methodResult count] > 0) {
+            if ([methodResult isKindOfClass:[NSArray class]] && [methodResult count] > 0 && [methodResult[0] isKindOfClass:[NSDictionary class]]) {
                 isRemotePlayer = [methodResult[0][@"playertype"] isEqualToString:@"remote"];
                 upnp.hidden = !isRemotePlayer;
                 nothingIsPlaying = NO;
