@@ -128,18 +128,14 @@
     }
     keyboardTitle.text = @"";
     backgroundTextField.keyboardType = UIKeyboardTypeDefault;
-    if (params != nil) {
-        if (params[@"data"] != [NSNull null]) {
-            if (params[@"data"][@"title"] != [NSNull null]) {
-                keyboardTitle.text = params[@"data"][@"title"];
-            }
-            if (params[@"data"][@"value"] != [NSNull null]) {
-                if (![params[@"data"][@"value"] isEqualToString:@""]) {
-                    backgroundTextField.text = params[@"data"][@"value"];
-                }
-            }
-            if (params[@"data"][@"type"] != [NSNull null]) {
-                if ([params[@"data"][@"type"] isEqualToString:@"number"]) {
+    if (params != nil && [params isKindOfClass:[NSDictionary class]]) {
+        id data = params[@"data"];
+        if (data != nil && [data isKindOfClass:[NSDictionary class]]) {
+            keyboardTitle.text = [Utilities getStringFromItem:data[@"title"]];
+            backgroundTextField.text = [Utilities getStringFromItem:data[@"value"]];
+            id type = data[@"type"];
+            if (type != nil && [type isKindOfClass:[NSString class]]) {
+                if ([type isEqualToString:@"number"]) {
                     backgroundTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
                 }
             }
