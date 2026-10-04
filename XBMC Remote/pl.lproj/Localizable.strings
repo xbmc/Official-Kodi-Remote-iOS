@@ -291,3 +291,8 @@
 "kbit/s" = "kbit/s";
 "Supports Kodi version %@ or higher" = "Obsługuje wersję Kodi %@ lub nowszą";
 "Kodi version %d not supported." = "Wersja Kodi %d nie jest obsługiwana.";
+"Genre" = "Gatunek";
+"Episodes" = "Odcinki";
+"Album" = "Album";
+"Kodi actions" = "Działania Kodi";
+"Kodi windows" = "Okna Kodi";

@@ -291,3 +291,8 @@
 "Resolution" = "Rozlišení";
 "Supports Kodi version %@ or higher" = "Podporuje Kodi ve verzi %@ nebo novější";
 "Kodi version %d not supported." = "Verze Kodi %d není podporována.";
+"Episodes" = "Epizody";
+"Album" = "Album";
+"Genre" = "Žánr";
+"Kodi actions" = "Akce Kodi";
+"Kodi windows" = "Okna Kodi";
