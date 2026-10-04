@@ -291,3 +291,5 @@
 "Music Video Tags" = "音乐视频标签";
 "Supports Kodi version %@ or higher" = "支持 Kodi %@ 及以上版本";
 "Kodi version %d not supported." = "不支持 Kodi %d 版本。";
+"Album" = "专辑";
+"Genre" = "类型";
