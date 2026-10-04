@@ -938,18 +938,20 @@
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         __block NSString *codec, *channels, *bps, *kHz, *bitrate;
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-            codec = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"codec"]];
-            channels = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"channels"]];
-            
-            // Convert from bit per second to kbit per second.
-            NSNumber *brate = [Utilities getNumberFromItem:methodResult[@"currentaudiostream"][@"bitrate"]];
-            bitrate = [NSString stringWithFormat:@"%ld", lroundf([brate floatValue] / 1000)];
-            
-            // Convert from Hz to kHz. Show 1/10th fraction, if not zero
-            NSNumber *srate = [Utilities getNumberFromItem:methodResult[@"currentaudiostream"][@"samplerate"]];
-            BOOL needsFraction = [srate integerValue] / 100 - ([srate integerValue] / 1000) * 10 > 0;
-            NSString *formatString = needsFraction ? @"%.1f" : @"%.0f";
-            kHz = [NSString stringWithFormat:formatString, [srate floatValue] / 1000];
+            if ([methodResult[@"currentaudiostream"] isKindOfClass:[NSDictionary class]]) {
+                codec = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"codec"]];
+                channels = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"channels"]];
+                
+                // Convert from bit per second to kbit per second.
+                NSNumber *brate = [Utilities getNumberFromItem:methodResult[@"currentaudiostream"][@"bitrate"]];
+                bitrate = [NSString stringWithFormat:@"%ld", lroundf([brate floatValue] / 1000)];
+                
+                // Convert from Hz to kHz. Show 1/10th fraction, if not zero
+                NSNumber *srate = [Utilities getNumberFromItem:methodResult[@"currentaudiostream"][@"samplerate"]];
+                BOOL needsFraction = [srate integerValue] / 100 - ([srate integerValue] / 1000) * 10 > 0;
+                NSString *formatString = needsFraction ? @"%.1f" : @"%.0f";
+                kHz = [NSString stringWithFormat:formatString, [srate floatValue] / 1000];
+            }
         }
             
         // Use XBMC.GetInfoLabels to bits-per-sample. Same for other values, if empty yet.
@@ -989,8 +991,12 @@
      onCompletion:^(NSString *methodName, NSInteger callId, id methodResult, DSJSONRPCError *methodError, NSError *error) {
         __block NSString *audiocodec, *videocodec, *aspect, *res;
         if (error == nil && methodError == nil && [methodResult isKindOfClass:[NSDictionary class]]) {
-            audiocodec = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"codec"]];
-            videocodec = [Utilities getStringFromItem:methodResult[@"currentvideostream"][@"codec"]];
+            if ([methodResult[@"currentaudiostream"] isKindOfClass:[NSDictionary class]]) {
+                audiocodec = [Utilities getStringFromItem:methodResult[@"currentaudiostream"][@"codec"]];
+            }
+            if ([methodResult[@"currentvideostream"] isKindOfClass:[NSDictionary class]]) {
+                videocodec = [Utilities getStringFromItem:methodResult[@"currentvideostream"][@"codec"]];
+            }
         }
         
         // Use XBMC.GetInfoLabels to gather aspect ratio and resolution. Same for codecs, if empty yet.
