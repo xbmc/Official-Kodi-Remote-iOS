@@ -159,6 +159,9 @@
 }
 
 - (NSDictionary*)getServerHTTPHeaders {
+    if (![obj.serverUser length] && ![obj.serverPass length]) {
+        return nil;
+    }
     NSData *authCredential = [[NSString stringWithFormat:@"%@:%@", obj.serverUser, obj.serverPass] dataUsingEncoding:NSUTF8StringEncoding];
     NSString *base64AuthCredentials = [authCredential base64EncodedStringWithOptions:(NSDataBase64EncodingOptions)0];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", base64AuthCredentials];
