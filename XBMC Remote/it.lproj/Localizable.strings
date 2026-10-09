@@ -291,3 +291,9 @@
 "kbit/s" = "kbit/s";
 "Supports Kodi version %@ or higher" = "Supporta la versione di Kodi %@ o superiore";
 "Kodi version %d not supported." = "La versione %d di Kodi non è supportata.";
+"Album" = "Album";
+"Genre" = "Genere";
+"Kodi actions" = "Azioni di Kodi";
+"Kodi windows" = "Finestre di Kodi";
+"Cannot resolve IP address" = "Impossibile risolvere l'indirizzo IP";
+"Episodes" = "Episodi";

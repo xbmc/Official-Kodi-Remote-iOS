@@ -291,3 +291,9 @@
 "The local network access can be enabled in the iOS network or in the app settings. You might need to reset your network settings, restart your iOS device or even remove/re-install the app to let this take effect." = "Доступ к локальной сети можно включить в сети iOS или в настройках приложения. Возможно, вам потребуется сбросить настройки сети, перезагрузить устройство iOS или даже удалить/переустановить приложение для вступления в силу.";
 "Supports Kodi version %@ or higher" = "Поддерживается Kodi версии %@ или выше";
 "Kodi version %d not supported." = "Версия Kodi %d не поддерживается.";
+"Album" = "Альбом";
+"Genre" = "Жанр";
+"Episodes" = "Серии";
+"Kodi actions" = "Действия Kodi";
+"Kodi windows" = "Окна Kodi";
+"Cannot resolve IP address" = "Не удаётся разрешить IP-адрес";
