@@ -137,7 +137,7 @@
 "Mark as unwatched" = "标记为未观看";
 "Slide your finger up or down to adjust the scrubbing rate." = "上下滑动手指调整拖动速度。";
 "Programs" = "程序";
-"XBMC Settings" = "Kodi设置";
+"XBMC Settings" = "Kodi 设置";
 "Custom button" = "自定义按钮";
 "Modify label:" = "修改标签：";
 "Update label" = "更新标签";
@@ -293,3 +293,7 @@
 "Kodi version %d not supported." = "不支持 Kodi %d 版本。";
 "Album" = "专辑";
 "Genre" = "类型";
+"Episodes" = "剧集";
+"Kodi actions" = "Kodi 操作";
+"Kodi windows" = "Kodi 窗口";
+"Cannot resolve IP address" = "无法解析 IP 地址";
