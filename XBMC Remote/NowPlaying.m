@@ -2815,13 +2815,15 @@
 
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
     NSDictionary *theData = sender.userInfo;
+    
+    // Only share playlistid, if it is non-nil
+    NSDictionary *params;
     if ([theData isKindOfClass:[NSDictionary class]]) {
-        currentPlaylistID = [theData[@"params"][@"data"][@"playlistid"] intValue];
+        id playlistID = theData[@"params"][@"data"][@"playlistid"];
+        if (playlistID) {
+            params = @{@"playlistID": playlistID};
+        }
     }
-    lastSelected = SELECTED_NONE;
-    storedItemID = SELECTED_NONE;
-    storeSelection = nil;
-    lastThumbnail = @"";
     
     // Only clear and reload the playlist after debouncing timeout. This reduces load and flickering, if multiple update notifications
     // arrive in a short time frame -- like for picture slideshows.
@@ -2829,12 +2831,23 @@
     [debounceTimer invalidate];
     debounceTimer = [NSTimer scheduledTimerWithTimeInterval:debounceInterval
                                                      target:self
-                                                   selector:@selector(clearAndReloadPlaylist)
-                                                   userInfo:nil
+                                                   selector:@selector(clearAndReloadPlaylist:)
+                                                   userInfo:params
                                                     repeats:NO];
 }
 
-- (void)clearAndReloadPlaylist {
+- (void)clearAndReloadPlaylist:(NSTimer*)timer {
+    // Only set currentPlaylistID, if userInfo exists. Avoids switching to default
+    // PLAYERID_MUSIC on playlist updates w/o defined playistid.
+    NSDictionary *params = timer.userInfo;
+    if (params) {
+        currentPlaylistID = [params[@"playlistID"] intValue];
+    }
+    lastSelected = SELECTED_NONE;
+    storedItemID = SELECTED_NONE;
+    storeSelection = nil;
+    lastThumbnail = @"";
+    
     // While in Party Mode only reload playlist via updatePartyModePlaylist. This does not animate the playlist
     // to avoid flickering and it blocks moving the focus to music playlist.
     if (musicPartyMode) {
