@@ -2482,6 +2482,9 @@
 }
 
 - (void)segmentValueChanged:(UISegmentedControl*)segment {
+    // Stop playlist update debouncing timer. User selection of playlist has higher priority.
+    [debounceTimer invalidate];
+    
     [self editTable:nil forceClose:YES];
     switch (segment.selectedSegmentIndex) {
         case PLAYERID_MUSIC:
