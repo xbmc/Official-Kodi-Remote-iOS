@@ -2828,8 +2828,8 @@
         }
     }
     
-    // Only clear and reload the playlist after debouncing timeout. This reduces load and flickering, if multiple update notifications
-    // arrive in a short time frame -- like for picture slideshows.
+    // Only clear and reload the playlist after debouncing timeout. This reduces load and flickering,
+    // if multiple update notifications arrive in a short time frame -- like for picture slideshows.
     NSTimeInterval debounceInterval = currentPlaylistID != PLAYERID_PICTURES ? PLAYLIST_DEBOUNCE_TIMEOUT : PLAYLIST_DEBOUNCE_TIMEOUT_MAX;
     [debounceTimer invalidate];
     debounceTimer = [NSTimer scheduledTimerWithTimeInterval:debounceInterval
