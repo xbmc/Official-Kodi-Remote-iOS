@@ -291,3 +291,9 @@
 "kbit/s" = "kbit/s";
 "Supports Kodi version %@ or higher" = "Unterstützt Kodi-Version %@ und höher";
 "Kodi version %d not supported." = "Kodi-Version %d nicht unterstützt.";
+"Kodi actions" = "Kodi-Aktionen";
+"Kodi windows" = "Kodi-Fenster";
+"Album" = "Album";
+"Genre" = "Genre";
+"Episodes" = "Episoden";
+"Cannot resolve IP address" = "IP-Adresse kann nicht aufgelöst werden";
