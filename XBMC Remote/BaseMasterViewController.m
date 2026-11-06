@@ -154,12 +154,6 @@
 
 #pragma mark - App clear disk cache methods
 
-- (void)startClearAppDiskCache:(ClearCacheView*)clearView {
-    [AppDelegate.instance clearAppDiskCache:^{
-        [self clearAppDiskCacheFinished:clearView];
-    }];
-}
-
 - (void)clearAppDiskCacheFinished:(ClearCacheView*)clearView {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults removeObjectForKey:@"clearcache_preference"];
@@ -183,7 +177,9 @@
         ClearCacheView *clearView = [[ClearCacheView alloc] initWithFrame:view.bounds];
         [clearView startActivityIndicator];
         [view addSubview:clearView];
-        [NSThread detachNewThreadSelector:@selector(startClearAppDiskCache:) toTarget:self withObject:clearView];
+        [AppDelegate.instance clearAppDiskCache:^{
+            [self clearAppDiskCacheFinished:clearView];
+        }];
     }
 }
 
