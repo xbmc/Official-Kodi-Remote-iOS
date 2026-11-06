@@ -82,7 +82,7 @@
 + (AppDelegate*)instance;
 
 - (void)saveServerList;
-- (void)clearAppDiskCache;
+- (void)clearAppDiskCache:(void(^)(void))completionHandler;
 - (void)sendWOL:(NSString*)MAC withPort:(NSInteger)WOLport;
 - (NSURL*)getServerJSONEndPoint;
 - (NSDictionary*)getServerHTTPHeaders;

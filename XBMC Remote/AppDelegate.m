@@ -353,18 +353,21 @@
                                                     error:NULL];
 }
 
-- (void)clearAppDiskCache {
-    // Clear SDWebImage image cache
-    [[SDImageCache sharedImageCache] clearDisk];
-    
-    // Clear library cache
-    [self clearDiskCacheAtPath:self.libraryCachePath];
-    
-    // Clear EPG cache
-    [self clearDiskCacheAtPath:self.epgCachePath];
-    
-    // Clear network cache
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+- (void)clearAppDiskCache:(void(^)(void))completionHandler {
+    // Run the clean up in the background
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+        // Clear library cache
+        [self clearDiskCacheAtPath:self.libraryCachePath];
+        
+        // Clear EPG cache
+        [self clearDiskCacheAtPath:self.epgCachePath];
+        
+        // Clear network cache
+        [[NSURLCache sharedURLCache] removeAllCachedResponses];
+        
+        // Clear SDWebImage image cache
+        [[SDImageCache sharedImageCache] clearDiskOnCompletion:completionHandler];
+    });
 }
 
 @end
