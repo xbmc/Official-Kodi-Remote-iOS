@@ -289,3 +289,11 @@
 "bit" = "bit";
 "kHz" = "kHz";
 "kbit/s" = "kbit/s";
+"Supports Kodi version %@ or higher" = "Stöder Kodi-version %@ eller senare";
+"Kodi version %d not supported." = "Kodi-version %d stöds inte.";
+"Album" = "Album";
+"Genre" = "Genre";
+"Episodes" = "Avsnitt";
+"Kodi actions" = "Kodi-åtgärder";
+"Kodi windows" = "Kodi-fönster";
+"Cannot resolve IP address" = "Kan inte slå upp IP-adressen";
