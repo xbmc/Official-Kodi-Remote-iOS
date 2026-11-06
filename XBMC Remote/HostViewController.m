@@ -373,7 +373,7 @@
 
 - (void)netService:(NSNetService*)service didNotResolve:(NSDictionary<NSString*,NSNumber*>*)errorDict {
     [activityIndicatorView stopAnimating];
-    [Utilities showMessage:LOCALIZED_STR(@"Cannot resolve IP address") color:ERROR_MESSAGE_COLOR];
+    [Utilities showMessage:LOCALIZED_STR(@"Cannot resolve host name/address") color:ERROR_MESSAGE_COLOR];
 }
 
 - (void)netServiceDidResolveAddress:(NSNetService*)service {
