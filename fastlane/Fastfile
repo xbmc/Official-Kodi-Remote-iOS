@@ -43,7 +43,10 @@ end
 
 desc 'Build & upload to Testflight'
 lane :tf do |options|
-  buildApp(["IPHONEOS_DEPLOYMENT_TARGET=13.0"])
+  buildApp([],
+    skip_package_ipa: true,
+  )
+  xcArchivePath = lane_context[SharedValues::XCODEBUILD_ARCHIVE]
 
   # ignore commit messages that contain '[not app]'
   changelogLines = []
@@ -58,20 +61,51 @@ lane :tf do |options|
   Actions.lane_context[SharedValues::FL_CHANGELOG] = changelogLines.join("\n")
   Actions.lane_context[SharedValues::FL_CHANGELOG].prepend "#{options[:changelogTitle]}\n\n" if options[:changelogTitle]
 
-  testflight(
-    distribute_external: true,
-    groups: ['external testers'],
-    notify_external_testers: options[:notify] != '0',
-  )
-
-  # create prerelease on Github
-  next unless ENV['GITHUB_API_TOKEN']
-
-  xcArchivePath = lane_context[SharedValues::XCODEBUILD_ARCHIVE]
   appProperties = get_info_plist_value(
     key: 'ApplicationProperties',
     path: "#{xcArchivePath}/Info.plist",
   )
+  appPath = "#{xcArchivePath}/Products/#{appProperties['ApplicationPath']}"
+
+  # set higher deployment target as required by AppStoreConnect
+  Dir.mktmpdir { |tempDir|
+    newDeploymentTarget = '13.0'
+
+    # backup original files first
+    infoPlist = "#{appPath}/Info.plist"
+    # get_info_plist_value doesn't work with binary plist
+    binaryName = sh('/usr/libexec/PlistBuddy', infoPlist, '-c', 'Print :CFBundleExecutable',
+      step_name: 'get executable name',
+    ).strip
+    binaryPath = "#{appPath}/#{binaryName}"
+    FileUtils.cp([infoPlist, binaryPath], tempDir)
+
+    # change deployment target
+    sh('python3 -m pip install macholib')
+    sh('./macho_set_minos.py', newDeploymentTarget, binaryPath,
+      step_name: 'change deployment target in executable',
+    )
+    sh('/usr/libexec/PlistBuddy', infoPlist, '-c', "Set :MinimumOSVersion #{newDeploymentTarget}",
+      step_name: 'change deployment target in Info.plist',
+    )
+
+    # upload ipa from an already built archive
+    buildApp([],
+      archive_path: xcArchivePath,
+      skip_build_archive: true,
+    )
+    testflight(
+      distribute_external: true,
+      groups: ['external testers'],
+      notify_external_testers: options[:notify] != '0',
+    )
+
+    # restore original files
+    FileUtils.move(Dir.glob("#{tempDir}/*", sort: false), appPath)
+  }
+
+  # create prerelease on Github
+  next unless ENV['GITHUB_API_TOKEN']
 
   betaSuffix = '-b'
   if (betaIndex = lastTag.rindex(betaSuffix))
@@ -84,13 +118,12 @@ lane :tf do |options|
   newTag = appProperties['CFBundleShortVersionString'] + betaSuffix + betaVersion.to_s
 
   # delete codesigning-related stuff
-  appPath = "#{xcArchivePath}/Products/#{appProperties['ApplicationPath']}"
   system "find '#{appPath}' \\( -name embedded.mobileprovision -or -name _CodeSignature \\) -exec rm -rf {} +"
 
   # pack ipa
   Dir.mktmpdir { |tempDir|
     ipaPath = "#{tempDir}/#{$scheme} #{newTag} #{sh('git rev-parse --short HEAD').strip}.ipa"
-    FileUtils.cd(tempDir) {      
+    FileUtils.cd(tempDir) {
       payloadDir = 'Payload'
       Dir.mkdir payloadDir
       FileUtils.move appPath, payloadDir

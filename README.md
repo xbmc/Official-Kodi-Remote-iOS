@@ -38,6 +38,8 @@ Use [fastlane](https://fastlane.tools/) to manage everything related to AppStore
 1. `cd` to project's directory in terminal
 2. Install or update Ruby dependencies: `bundle install` or `bundle update`
 3. Grab AppStoreConnect API key (p8 file) from 1Password and place it in the project's directory
+4. Install [Xcodes app](https://github.com/XcodesOrg/xcodes) and ensure it's in `PATH`, for example: `brew install xcodes`
+5. Ensure you have Python 3 installed, it's in `PATH` and `pip` can install libraries (e.g. you're inside a virtual environment)
 
 ### Build and submit to Testflight
 
