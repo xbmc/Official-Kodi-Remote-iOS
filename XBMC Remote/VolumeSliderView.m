@@ -297,9 +297,9 @@
     isChangingVolume = NO;
 }
 
-- (void)longpressVolume:(id)timer {
+- (void)longpressVolume:(NSTimer*)timer {
     // Volume up/down was longpressed
-    id sender = [timer userInfo];
+    id sender = timer.userInfo;
     [self.holdVolumeTimer invalidate];
     self.holdVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:VOLUME_REPEAT_TIMEOUT
                                                             target:self
@@ -308,9 +308,9 @@
                                                            repeats:YES];
 }
 
-- (void)autoChangeVolume:(id)timer {
+- (void)autoChangeVolume:(NSTimer*)timer {
     // Volume up/down is automatically changed until holdVolumeTimer is stopped when button is untouched again
-    id sender = [timer userInfo];
+    id sender = timer.userInfo;
     [self changeVolume:[sender tag]];
 }
 

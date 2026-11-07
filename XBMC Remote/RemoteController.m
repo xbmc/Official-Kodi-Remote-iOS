@@ -548,9 +548,9 @@ static void *TorchRemoteContext = &TorchRemoteContext;
     [self.holdKeyTimer invalidate];
 }
 
-- (void)longpressKey:(id)timer {
+- (void)longpressKey:(NSTimer*)timer {
     // Repeatable key was longpressed
-    id sender = [timer userInfo];
+    id sender = timer.userInfo;
     [self.holdKeyTimer invalidate];
     self.holdKeyTimer = [NSTimer scheduledTimerWithTimeInterval:KEY_REPEAT_TIMEOUT
                                                          target:self
@@ -559,9 +559,9 @@ static void *TorchRemoteContext = &TorchRemoteContext;
                                                         repeats:YES];
 }
 
-- (void)autoPressKey:(id)timer {
+- (void)autoPressKey:(NSTimer*)timer {
     // Auto repeated button press
-    NSDictionary *params = [timer userInfo];
+    NSDictionary *params = timer.userInfo;
     NSInteger buttonTag = [params[@"buttontag"] intValue];
     [self processButtonPress:buttonTag];
 }
