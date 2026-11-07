@@ -5445,11 +5445,12 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController*)searchController {
     [debounceSearchTimer invalidate];
-    debounceSearchTimer = [NSTimer scheduledTimerWithTimeInterval:SEARCH_DEBOUNCE_TIMEOUT
-                                                           target:self
-                                                         selector:@selector(updateSearchResult:)
-                                                         userInfo:searchController
-                                                          repeats:NO];
+    debounceSearchTimer = [NSTimer timerWithTimeInterval:SEARCH_DEBOUNCE_TIMEOUT
+                                                  target:self
+                                                selector:@selector(updateSearchResult:)
+                                                userInfo:searchController
+                                                 repeats:NO];
+    [[NSRunLoop currentRunLoop] addTimer:debounceSearchTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)updateSearchResult:(NSTimer*)timer {
