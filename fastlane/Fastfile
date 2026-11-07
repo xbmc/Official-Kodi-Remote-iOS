@@ -43,7 +43,7 @@ end
 
 desc 'Build & upload to Testflight'
 lane :tf do |options|
-  buildApp
+  buildApp(["IPHONEOS_DEPLOYMENT_TARGET=13.0"])
 
   # ignore commit messages that contain '[not app]'
   changelogLines = []
