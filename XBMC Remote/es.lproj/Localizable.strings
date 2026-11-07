@@ -296,4 +296,4 @@
 "Episodes" = "Episodios";
 "Kodi actions" = "Acciones de Kodi";
 "Kodi windows" = "Ventanas de Kodi";
-"Cannot resolve IP address" = "No se puede resolver la dirección IP";
+"No Kodi server configured" = "No hay ningún servidor Kodi configurado";
