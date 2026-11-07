@@ -2482,6 +2482,9 @@
 }
 
 - (void)segmentValueChanged:(UISegmentedControl*)segment {
+    // Stop playlist update debouncing timer. User selection of playlist has higher priority.
+    [debounceTimer invalidate];
+    
     [self editTable:nil forceClose:YES];
     switch (segment.selectedSegmentIndex) {
         case PLAYERID_MUSIC:
@@ -2815,26 +2818,39 @@
 
 - (void)handleXBMCPlaylistHasChanged:(NSNotification*)sender {
     NSDictionary *theData = sender.userInfo;
+    
+    // Only share playlistid, if it is non-nil
+    NSDictionary *params;
     if ([theData isKindOfClass:[NSDictionary class]]) {
-        currentPlaylistID = [theData[@"params"][@"data"][@"playlistid"] intValue];
+        id playlistID = theData[@"params"][@"data"][@"playlistid"];
+        if (playlistID) {
+            params = @{@"playlistID": playlistID};
+        }
+    }
+    
+    // Only clear and reload the playlist after debouncing timeout. This reduces load and flickering,
+    // if multiple update notifications arrive in a short time frame -- like for picture slideshows.
+    NSTimeInterval debounceInterval = currentPlaylistID != PLAYERID_PICTURES ? PLAYLIST_DEBOUNCE_TIMEOUT : PLAYLIST_DEBOUNCE_TIMEOUT_MAX;
+    [debounceTimer invalidate];
+    debounceTimer = [NSTimer scheduledTimerWithTimeInterval:debounceInterval
+                                                     target:self
+                                                   selector:@selector(clearAndReloadPlaylist:)
+                                                   userInfo:params
+                                                    repeats:NO];
+}
+
+- (void)clearAndReloadPlaylist:(NSTimer*)timer {
+    // Only set currentPlaylistID, if userInfo exists. Avoids switching to default
+    // PLAYERID_MUSIC on playlist updates w/o defined playistid.
+    NSDictionary *params = timer.userInfo;
+    if (params) {
+        currentPlaylistID = [params[@"playlistID"] intValue];
     }
     lastSelected = SELECTED_NONE;
     storedItemID = SELECTED_NONE;
     storeSelection = nil;
     lastThumbnail = @"";
     
-    // Only clear and reload the playlist after debouncing timeout. This reduces load and flickering, if multiple update notifications
-    // arrive in a short time frame -- like for picture slideshows.
-    NSTimeInterval debounceInterval = currentPlaylistID != PLAYERID_PICTURES ? PLAYLIST_DEBOUNCE_TIMEOUT : PLAYLIST_DEBOUNCE_TIMEOUT_MAX;
-    [debounceTimer invalidate];
-    debounceTimer = [NSTimer scheduledTimerWithTimeInterval:debounceInterval
-                                                     target:self
-                                                   selector:@selector(clearAndReloadPlaylist)
-                                                   userInfo:nil
-                                                    repeats:NO];
-}
-
-- (void)clearAndReloadPlaylist {
     // While in Party Mode only reload playlist via updatePartyModePlaylist. This does not animate the playlist
     // to avoid flickering and it blocks moving the focus to music playlist.
     if (musicPartyMode) {
