@@ -33,7 +33,7 @@
         label.font = [UIFont boldSystemFontOfSize:26];
         label.textColor = UIColor.whiteColor;
         label.backgroundColor = UIColor.clearColor;
-        busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
         busyView.hidesWhenStopped = YES;
         busyView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         busyView.frame = CGRectMake(self.frame.size.width / 2 - busyView.frame.size.width / 2 - borderWidth / 2, label.frame.size.height + label.frame.origin.y, busyView.frame.size.width, busyView.frame.size.height);
