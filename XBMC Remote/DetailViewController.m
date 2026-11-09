@@ -32,6 +32,25 @@
 
 @import QuartzCore;
 
+// Add appStandardCompare for NSString based on localizedStandardCompare which provides correct
+// order for multi-digit numbers.
+@implementation NSString (StandardCompare)
+
+- (NSComparisonResult)appStandardCompare:(NSString*)string {
+    return [self localizedStandardCompare:string];
+}
+
+@end
+
+// Add appStandardCompare for NSNumber based on compare to support sign (+/-).
+@implementation NSNumber (StandardCompare)
+
+- (NSComparisonResult)appStandardCompare:(NSNumber*)number {
+    return [self compare:number];
+}
+
+@end
+
 @interface DetailViewController ()
 - (void)configureView;
 @end
@@ -4798,9 +4817,20 @@
     return isDifferent;
 }
 
-- (NSArray*)applySortByMethod:(NSArray*)incomingRichArray sortmethod:(NSString*)sortmethod ascending:(BOOL)isAscending selector:(SEL)selector {
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortmethod ascending:isAscending selector:selector];
-    return [incomingRichArray sortedArrayUsingDescriptors:@[sortDescriptor]];
+- (NSArray*)applySortByMethod:(NSArray*)incomingRichArray sortmethod:(NSString*)sortmethod ascending:(BOOL)isAscending {
+    // The selector appStandardCompare supports either NSNumber or NSString. Mixed or other classes are unexpected
+    // and sortedArrayUsingDescriptors crashes. In this case, the try-catch block returns the unsorted incoming array.
+    NSArray *array;
+    @try {
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortmethod
+                                                                       ascending:isAscending
+                                                                        selector:@selector(appStandardCompare:)];
+        array = [incomingRichArray sortedArrayUsingDescriptors:@[sortDescriptor]];
+    }
+    @catch (NSException *exception) {
+        array = incomingRichArray;
+    }
+    return array;
 }
 
 - (void)indexAndDisplayData {
@@ -4853,23 +4883,19 @@
         }
         // Only sort if the sort method is different to what Kodi server provides or if sort token must be applied
         if ([self isSortDifferentToDefault] || [self isEligibleForSorttokenSort]) {
-            SEL selector = [self buildSelectorForSortMethod:sortbymethod inArray:copyRichResults];
-            copyRichResults = [self applySortByMethod:copyRichResults sortmethod:sortbymethod ascending:sortAscending selector:selector];
+            copyRichResults = [self applySortByMethod:copyRichResults sortmethod:sortbymethod ascending:sortAscending];
         }
     }
     
     if (episodesView) {
         // First run will ensure the specials are in correct order
-        SEL selector = [self buildSelectorForSortMethod:@"specialEpisode" inArray:copyRichResults];
-        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"specialEpisode" ascending:YES selector:selector];
+        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"specialEpisode" ascending:YES];
         
         // Second run will ensure the specials are on top of the list
-        selector = [self buildSelectorForSortMethod:@"isTVShowSpecial" inArray:copyRichResults];
-        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"isTVShowSpecial" ascending:NO selector:selector];
+        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"isTVShowSpecial" ascending:NO];
         
         // Third run will sort by order of episodes
-        selector = [self buildSelectorForSortMethod:@"episode" inArray:copyRichResults];
-        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"episode" ascending:YES selector:selector];
+        copyRichResults = [self applySortByMethod:copyRichResults sortmethod:@"episode" ascending:YES];
         
         // Now pick the episodes top-down from the list into sections defined by seasons
         for (NSDictionary *item in copyRichResults) {
@@ -4957,16 +4983,6 @@
     [self displayData];
 }
 
-- (SEL)buildSelectorForSortMethod:(NSString*)sortByMethod inArray:(NSArray*)itemList {
-    // Use localizedStandardCompare for all NSString items to be sorted (provides correct order for multi-digit
-    // numbers). But do not use for any other types as this crashes.
-    SEL selector = nil;
-    if (itemList.count > 0 && [itemList[0][sortByMethod] isKindOfClass:[NSString class]]) {
-        selector = @selector(localizedStandardCompare:);
-    }
-    return selector;
-}
-
 - (void)buildSectionsForList:(NSArray*)itemList sortMethod:(NSString*)sortByMethod {
     for (NSDictionary *item in itemList) {
         NSString *searchKey = @"";
@@ -4987,7 +5003,7 @@
 
 - (void)buildSectionsArraySortedAscending:(BOOL)sortAscending withIndexSearch:(BOOL)addUITableViewIndexSearch {
     // first sort the index table ...
-    NSMutableArray<NSString*> *sectionKeys = [[self applySortByMethod:[self.sections.allKeys copy] sortmethod:nil ascending:sortAscending selector:@selector(localizedStandardCompare:)] mutableCopy];
+    NSMutableArray<NSString*> *sectionKeys = [[self applySortByMethod:[self.sections.allKeys copy] sortmethod:nil ascending:sortAscending] mutableCopy];
     // ... then add the search item on top of the sorted list when needed
     if (addUITableViewIndexSearch) {
         [sectionKeys insertObject:UITableViewIndexSearch atIndex:0];
@@ -5498,8 +5514,7 @@
 - (NSMutableArray*)sortfilteredList:(NSArray*)resultsList {
     // Always sort search list by ascending label
     NSString *sortByMethod = @"label";
-    SEL selector = [self buildSelectorForSortMethod:sortByMethod inArray:resultsList];
-    resultsList = [self applySortByMethod:resultsList sortmethod:sortByMethod ascending:YES selector:selector];
+    resultsList = [self applySortByMethod:resultsList sortmethod:sortByMethod ascending:YES];
     return [resultsList mutableCopy];
 }
 
