@@ -296,3 +296,5 @@
 "Kodi actions" = "Azioni di Kodi";
 "Kodi windows" = "Finestre di Kodi";
 "Episodes" = "Episodi";
+"Cannot resolve host name/address" = "Impossibile risolvere nome host/indirizzo";
+"No Kodi server configured" = "Nessun server Kodi configurato";
