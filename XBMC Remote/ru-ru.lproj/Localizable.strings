@@ -296,3 +296,5 @@
 "Episodes" = "Серии";
 "Kodi actions" = "Действия Kodi";
 "Kodi windows" = "Окна Kodi";
+"Cannot resolve host name/address" = "Не удаётся разрешить имя хоста или адрес";
+"No Kodi server configured" = "Сервер Kodi не настроен";

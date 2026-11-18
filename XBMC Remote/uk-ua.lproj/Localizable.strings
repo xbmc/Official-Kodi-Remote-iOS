@@ -296,3 +296,5 @@
 "Genre" = "Жанр";
 "Kodi actions" = "Дії Kodi";
 "Kodi windows" = "Вікна Kodi";
+"No Kodi server configured" = "Сервер Kodi не налаштовано";
+"Cannot resolve host name/address" = "Не вдається розпізнати ім’я/адресу сервера";
