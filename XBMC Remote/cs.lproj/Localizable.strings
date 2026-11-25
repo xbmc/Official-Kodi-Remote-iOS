@@ -296,3 +296,5 @@
 "Genre" = "Žánr";
 "Kodi actions" = "Akce Kodi";
 "Kodi windows" = "Okna Kodi";
+"Cannot resolve host name/address" = "Nelze zjistit název nebo adresu hostitele";
+"No Kodi server configured" = "Není nastaven žádný server Kodi";

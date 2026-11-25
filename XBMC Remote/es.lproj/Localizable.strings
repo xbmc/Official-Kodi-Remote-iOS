@@ -297,3 +297,4 @@
 "Kodi actions" = "Acciones de Kodi";
 "Kodi windows" = "Ventanas de Kodi";
 "No Kodi server configured" = "No hay ningún servidor Kodi configurado";
+"Cannot resolve host name/address" = "No puedo resolver el nombre/dirección del equipo";

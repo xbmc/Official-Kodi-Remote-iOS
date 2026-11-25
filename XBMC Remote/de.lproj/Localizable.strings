@@ -296,3 +296,5 @@
 "Album" = "Album";
 "Genre" = "Genre";
 "Episodes" = "Episoden";
+"Cannot resolve host name/address" = "Hostname/-adresse kann nicht aufgelöst werden";
+"No Kodi server configured" = "Kein Kodi-Server konfiguriert";
