@@ -43,7 +43,7 @@
 	UIView *viewToReturn = nil;
 	CGPoint pointToReturn;
     if (self.subviews.count > 1) {
-        UIView *uiRightView = (UIView*)(self.subviews[1]);
+        UIView *uiRightView = self.subviews[1];
         if (uiRightView.subviews.count > 0) {
             UIView *uiStackScrollView = uiRightView.subviews[0];
             if (uiStackScrollView.subviews.count > 0) {
