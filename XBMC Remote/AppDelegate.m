@@ -171,8 +171,8 @@
 
 #pragma mark - Helper
 
-- (NSString*)unifyLocalHost:(NSString*)host {
-    // Make host name use ".local" at the end
+- (NSString*)unifyLocalhostSuffix:(NSString*)host {
+    // Make localhost name always use ".local" suffix
     if ([host hasSuffix:@".local."]) {
         return [host substringToIndex:host.length - 1];
     }
@@ -186,7 +186,7 @@
     
     // Try to map host and (if present) server name to the list of Kodi servers
     NSInteger index = [self.arrayServerList indexOfObjectPassingTest:^BOOL(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
-        BOOL hostMatch = [[self unifyLocalHost:host] isEqualToString:[self unifyLocalHost:obj[@"serverIP"]]];
+        BOOL hostMatch = [[self unifyLocalhostSuffix:host] isEqualToString:[self unifyLocalhostSuffix:obj[@"serverIP"]]];
         BOOL nameMatch = name.length && [name isEqualToString:obj[@"serverDescription"]];
         return hostMatch && (!name.length || nameMatch);
     }];
