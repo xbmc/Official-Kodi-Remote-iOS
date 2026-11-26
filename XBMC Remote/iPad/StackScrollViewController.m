@@ -96,6 +96,17 @@
     return self;
 }
 
+- (void)clearStackState {
+    viewAtLeft2 = nil;
+    viewAtRight = nil;
+    viewAtLeft = nil;
+    viewAtRight2 = nil;
+    for (UIView *subview in slideViews.subviews) {
+        [subview removeFromSuperview];
+    }
+    [viewControllersStack removeAllObjects];
+}
+
 - (void)handleStackScrollFullScreenEnabled:(NSNotification*)sender {
     UIView *senderView = nil;
     if ([sender.object isKindOfClass:[UIView class]]) {
@@ -210,16 +221,9 @@
                                        viewAtLeft.frame.size.width,
                                        viewAtLeft.frame.size.height);
         }
-        viewAtLeft2 = nil;
-        viewAtRight = nil;
-        viewAtLeft = nil;
-        viewAtRight2 = nil;
     }
                     completion:^(BOOL finished) {
-        for (UIView *subview in slideViews.subviews) {
-            [subview removeFromSuperview];
-        }
-        [viewControllersStack removeAllObjects];
+        [self clearStackState];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"StackScrollOffScreen" object:nil];
     }];
 }
@@ -470,11 +474,7 @@
         slideStartPosition = SLIDE_VIEWS_START_X_POS;
         viewXPosition = slideStartPosition;
         
-        for (UIView *subview in slideViews.subviews) {
-            [subview removeFromSuperview];
-        }
-        
-        [viewControllersStack removeAllObjects];
+        [self clearStackState];
     }
     
     if (viewControllersStack.count > 1) {
@@ -495,10 +495,7 @@
         }
     }
     else if (viewControllersStack.count == 0) {
-        for (UIView *subview in slideViews.subviews) {
-            [subview removeFromSuperview];
-        }		
-        [viewControllersStack removeAllObjects];
+        [self clearStackState];
     }
     
     [viewControllersStack addObject:controller];
@@ -518,21 +515,21 @@
     if (slideViews.subviews.count > 0) {
         if (slideViews.subviews.count == 1) {
             viewAtLeft = slideViews.subviews[slideViews.subviews.count - 1];
-            controller.view.frame = CGRectMake(animX, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
+            viewAtLeft2 = nil;
+            viewAtRight = nil;
+            viewAtRight2 = nil;
+            [viewAtLeft setX:animX];
             
             [UIView transitionWithView:viewAtLeft
                               duration:SLIDE_TRANSITION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^{
-                controller.view.frame = CGRectMake(viewXPosition, 0, controller.view.frame.size.width, self.view.frame.size.height - bottomPadding);
+                [viewAtLeft setX:viewXPosition];
             }
                             completion:^(BOOL finished) {
                 [self bounceView:viewAtLeft amount:-BOUNCE_X];
             }
             ];
-            viewAtLeft2 = nil;
-            viewAtRight = nil;
-            viewAtRight2 = nil;
         }
         else if (slideViews.subviews.count == 2) {
             viewAtRight = slideViews.subviews[slideViews.subviews.count - 1];
