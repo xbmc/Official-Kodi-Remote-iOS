@@ -74,7 +74,7 @@
     }
     CFReadStreamRef readStream;
     CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)CFBridgingRetain(server), port, &readStream, NULL);
-    inStream = (__bridge NSInputStream*)readStream;
+    inStream = CFBridgingRelease(readStream);
     inStream.delegate = self;
     [inStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inStream open];
@@ -83,8 +83,7 @@
 
 - (void)stopNetworkCommunication {
     AppDelegate.instance.serverTCPConnectionOpen = NO;
-    NSStreamStatus current_status = [inStream streamStatus];
-    if (current_status == NSStreamStatusOpen) {
+    if (inStream) {
         [inStream close];
         [inStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         inStream.delegate = nil;
