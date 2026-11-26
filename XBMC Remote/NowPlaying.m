@@ -1970,10 +1970,6 @@
     if (methods[@"method"] != nil) { // THERE IS A CHILD
         NSDictionary *mainFields = menuItem.mainFields[activeTab];
         NSMutableDictionary *parameters = menuItem.subItem.mainParameters[activeTab];
-        NSString *key = @"null";
-        if (item[mainFields[@"row15"]] != nil) {
-            key = mainFields[@"row15"];
-        }
         id objKey = mainFields[@"row6"];
         id obj = [Utilities getNumberFromItem:item[objKey]];
         if (![parameters[@"disableFilterParameter"] boolValue]) {
@@ -1987,18 +1983,11 @@
             }
             objKey = @"filter";
         }
-        NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                              [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                               obj, objKey,
-                                               parameters[@"parameters"][@"properties"], @"properties",
-                                               parameters[@"parameters"][@"sort"], @"sort",
-                                               item[mainFields[@"row15"]], key,
-                                               nil], @"parameters", parameters[@"label"], @"label",
-                                              parameters[@"extra_info_parameters"], @"extra_info_parameters",
-                                              parameters[@"itemSizes"] ?: @{}, @"itemSizes",
-                                              @([parameters[@"enableCollectionView"] boolValue]), @"enableCollectionView",
-                                              nil];
-        menuItem.subItem.mainParameters[activeTab] = newParameters;
+        NSMutableDictionary *newMainParameters = [self buildLibraryModeMainParameters:parameters
+                                                                                  key:objKey
+                                                                                value:obj];
+        
+        menuItem.subItem.mainParameters[activeTab] = newMainParameters;
         menuItem.subItem.chooseTab = activeTab;
         fromItself = YES;
         if (IS_IPHONE) {
