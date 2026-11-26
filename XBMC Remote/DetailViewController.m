@@ -1663,7 +1663,7 @@
         return (self.filteredListContent.count > 0) ? 1 : 0;
     }
     else {
-        return [self.sections allKeys].count;
+        return self.sections.allKeys.count;
     }
 }
 
@@ -2172,7 +2172,7 @@
         return (self.filteredListContent.count > 0) ? 1 : 0;
     }
 	else {
-        return [self.sections allKeys].count;
+        return self.sections.allKeys.count;
     }
 }
 
@@ -4874,7 +4874,7 @@
         // Now pick the episodes top-down from the list into sections defined by seasons
         for (NSDictionary *item in copyRichResults) {
             NSString *c = [NSString stringWithFormat:@"%@", item[@"season"]];
-            BOOL found = [[self.sections allKeys] containsObject:c];
+            BOOL found = [self.sections.allKeys containsObject:c];
             if (!found) {
                 [self.sections setValue:[NSMutableArray new] forKey:c];
             }
@@ -4910,7 +4910,7 @@
                 if (!c || [c isKindOfClass:[NSNull class]]) {
                     c = @"";
                 }
-                BOOL found = [[self.sections allKeys] containsObject:c];
+                BOOL found = [self.sections.allKeys containsObject:c];
                 if (!found) {
                     [self.sections setValue:[NSMutableArray new] forKey:c];
                     countRow = 0;
@@ -4977,7 +4977,7 @@
             searchKey = item[sortByMethod];
         }
         NSString *key = [self getIndexTableKey:searchKey sortMethod:sortMethodName];
-        BOOL found = [[self.sections allKeys] containsObject:key];
+        BOOL found = [self.sections.allKeys containsObject:key];
         if (!found) {
             [self.sections setValue:[NSMutableArray new] forKey:key];
         }
@@ -5729,7 +5729,7 @@
 
 - (void)handleRecordTimerStatusChange:(NSNotification*)note {
     NSDictionary *theData = note.userInfo;
-    NSArray *keys = [self.sections allKeys];
+    NSArray *keys = self.sections.allKeys;
     for (NSString *keysV in keys) {
         [self checkUpdateRecordingState:self.sections[keysV] dataInfo:theData];
     }
