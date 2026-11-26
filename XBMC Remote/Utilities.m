@@ -786,17 +786,17 @@
 }
 
 + (CGFloat)getBottomPadding {
-    CGFloat bottomPadding = UIApplication.sharedApplication.keyWindow.safeAreaInsets.bottom;
+    CGFloat bottomPadding = AppDelegate.keyWindow.safeAreaInsets.bottom;
     return bottomPadding;
 }
 
 + (CGFloat)getTopPadding {
-    CGFloat topPadding = UIApplication.sharedApplication.keyWindow.safeAreaInsets.top;
+    CGFloat topPadding = AppDelegate.keyWindow.safeAreaInsets.top;
     return topPadding;
 }
 
 + (CGFloat)getTopPaddingWithNavBar:(UINavigationController*)navCtrl {
-    CGFloat topPadding = UIApplication.sharedApplication.statusBarFrame.size.height + navCtrl.navigationBar.frame.size.height;
+    CGFloat topPadding = AppDelegate.statusBarManager.statusBarFrame.size.height + navCtrl.navigationBar.frame.size.height;
     return topPadding;
 }
 
@@ -1131,7 +1131,7 @@
 }
 
 + (UIViewController*)topMostControllerIgnoringClass:(Class)ignoredClass {
-    UIViewController *topController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIViewController *topController = AppDelegate.keyWindow.rootViewController;
     while (topController.presentedViewController) {
         if ([topController.presentedViewController isKindOfClass:ignoredClass]) {
             // We want to ignore any ignoredClass being the top most controller.
@@ -1206,6 +1206,10 @@
     
     // Send XBMCServerHasChanged notification to let main menu deactivate the menu items
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XBMCServerHasChanged" object:nil];
+}
+
++ (void)setIdleTimerFromUserDefaults {
+    UIApplication.sharedApplication.idleTimerDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"lockscreen_preference"];
 }
 
 @end

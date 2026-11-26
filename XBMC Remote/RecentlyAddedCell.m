@@ -80,7 +80,7 @@
         
         [self setRecentlyAddedCellLayout:frame];
 
-        _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _busyView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
         _busyView.hidesWhenStopped = YES;
         _busyView.center = _posterThumbnail.center;
         _busyView.tag = RECENTLY_ADDED_CELL_ACTIVTYINDICATOR;
